@@ -397,9 +397,12 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="30dp"
                 android:gravity="right"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
                 android:text="@string/subtitle_opensource_lib"
                 android:textColor="@color/blue_list_item"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

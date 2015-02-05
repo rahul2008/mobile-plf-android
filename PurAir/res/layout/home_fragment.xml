@@ -45,10 +45,9 @@
                 android:id="@+id/home_fragment_info_img_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/tv_healthy_air_always"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="16dp"
-                android:background="@android:color/transparent"
+                android:background="@drawable/image_btn_bg"
                 android:contentDescription="@string/img_description"
                 android:layout_marginTop="12dp"
                 android:src="@drawable/info" />

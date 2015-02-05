@@ -41,7 +41,7 @@
             android:id="@+id/manage_purifier_info_img_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
+            android:background="@drawable/image_btn_bg"
             android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

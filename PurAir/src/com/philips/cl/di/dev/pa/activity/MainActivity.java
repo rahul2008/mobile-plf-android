@@ -59,7 +59,6 @@ import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
-import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
@@ -67,7 +66,6 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
-import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
@@ -82,8 +80,6 @@ import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
-import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
@@ -240,7 +236,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		DrawerAdapter.getInstance().addDrawerListener(this);
 
-		removeFirmwareUpdateUI();
+//		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 
@@ -254,7 +250,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setActivity(this);
 
 		// Enable for release build
-    	checkForCrashesHockeyApp();
+//    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -467,7 +463,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		dialog.show();
 	}
 
-	private void showFirstFragment() {
+	public void showFirstFragment() {
 		boolean firstUse = Utils.getAppFirstUse();
 
 		if (PurAirApplication.isDemoModeEnable() || !firstUse) {
@@ -648,18 +644,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		leftMenuItems.add(new ListViewItem(R.string.list_item_home,
 				R.drawable.icon_1_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained,
-				R.drawable.icon_2_2x));
+		/*leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained,
+				R.drawable.icon_2_2x));*/
 		/*leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
 				R.drawable.icon_3_2x));*/
 		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications,
 				R.drawable.icon_4_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc,
-				R.drawable.icon_5_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
-				R.drawable.icon_6_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
-				R.drawable.icon_8_2x));		
+		/*leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc,
+				R.drawable.icon_5_2x));*/
+		/*leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
+				R.drawable.icon_6_2x));*/
+		/*leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
+				R.drawable.icon_8_2x));	*/	
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_9_2x));
 		return leftMenuItems;
@@ -786,12 +782,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
-			leftMenuItems.add(new AirQualityFragment());
+//			leftMenuItems.add(new AirQualityFragment());
 //			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
-			leftMenuItems.add(new HelpAndDocFragment());
-			leftMenuItems.add(new SettingsFragment());
-			leftMenuItems.add(new CreateAccountFragment());
+//			leftMenuItems.add(new HelpAndDocFragment());
+//			leftMenuItems.add(new SettingsFragment());
+//			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
 
@@ -806,10 +802,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			if(leftMenuItemName.equals(getString(R.string.list_item_home))){
 				showFirstFragment();
 				setTitle(getString(R.string.dashboard_title));
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_air_quality_explained))){
+			}/*else if(leftMenuItemName.equals(getString(R.string.list_item_air_quality_explained))){
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_air_quality_explained));
-			}/*else if(leftMenuItemName.equals(getString(R.string.list_item_outdoor_loc))){
+			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_outdoor_loc))){
 				// Outdoor locations
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
@@ -817,19 +813,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				// Notifications
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_notifications));
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_help_and_doc))){
+			}/*else if(leftMenuItemName.equals(getString(R.string.list_item_help_and_doc))){
 				// Help and documentation
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_help_and_doc));
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_settings))){
+			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_settings))){
 				// Settings
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
-			} else if(leftMenuItemName.equals(getString(R.string.list_item_user_reg))){
+			}*/ /*else if(leftMenuItemName.equals(getString(R.string.list_item_user_reg))){
 				// User registration
 				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
 				startActivity(userRegistrationIntent);
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_buy_online))){
+			}*/else if(leftMenuItemName.equals(getString(R.string.list_item_buy_online))){
 				// Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
@@ -837,9 +833,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}
 
-	private void removeFirmwareUpdateUI() {
+	/*private void removeFirmwareUpdateUI() {
 		setFirmwareSuperScript(0, false);
-	}
+	}*/
 
 	private static void setScreenWidth(int width) {
 		screenWidth = width;
@@ -1005,7 +1001,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		return mVisits;
 	}
 
-	private void setFirmwareSuperScript(int superscriptNumber, boolean isUpdateAvailable) {
+	/*private void setFirmwareSuperScript(int superscriptNumber, boolean isUpdateAvailable) {
 		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
 		ListViewItem item = adapter.getItem(6);
 		adapter.remove(item);
@@ -1017,7 +1013,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		adapter.insert(item, 6);
 		adapter.notifyDataSetChanged();
 		ALog.i(ALog.FIRMWARE, "LeftMenuList$firmwareItem " + item.getTextId());
-	}
+	}*/
 
 	@Override
 	public void signonStatus(boolean signon) {		

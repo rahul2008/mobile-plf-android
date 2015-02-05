@@ -4,40 +4,12 @@
     android:layout_height="match_parent"
     android:background="@drawable/about_screen_bg"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/about_heading_rl"
+     <include
+         android:id="@+id/about_heading_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@drawable/ews_nav_bar_2x"
-        android:minHeight="40dp" >
-
-        <com.philips.cl.di.dev.pa.view.FontTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/about_heading_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/about"
-            android:textColor="@color/blue_title"
-            android:textSize="21sp"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-        <ImageButton
-            android:id="@+id/about_close_img_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/img_description"
-            android:padding="8dp"
-            android:src="@drawable/cross_close"
-            android:visibility="visible" />
-    </RelativeLayout>
+        layout="@layout/heading" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

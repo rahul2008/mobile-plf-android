@@ -1,16 +1,16 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dev.pa.view.FontTextView;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AboutFragment extends BaseFragment implements OnClickListener {
 	
@@ -31,6 +31,10 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 	}
 	
 	private void initView() {
+		ImageButton closeButton = (ImageButton) getView().findViewById(R.id.heading_close_imgbtn);
+		closeButton.setVisibility(View.VISIBLE);
+		FontTextView heading=(FontTextView) getView().findViewById(R.id.heading_name_tv);
+		heading.setText(getString(R.string.about));
 		appNameTV = (FontTextView) getView().findViewById(R.id.about_app_name_tv);
 		appVersionTV = (FontTextView) getView().findViewById(R.id.about_app_version_tv);
 		FontTextView settingTV = (FontTextView) getView().findViewById(R.id.about_setting_tv);
@@ -38,8 +42,6 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		
 		settingTV.setText(getString(R.string.list_item_settings) + " ->");
 		helpTV.setText(getString(R.string.help) + " ->");
-		
-		ImageButton closeButton = (ImageButton) getView().findViewById(R.id.about_close_img_btn);
 		
 		settingTV.setOnClickListener(this);
 		helpTV.setOnClickListener(this);
@@ -55,24 +57,21 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View view) {
 		MainActivity mainActivity = (MainActivity) getActivity();
+		if (mainActivity == null) return;
 		switch (view.getId()) {
 		case R.id.about_setting_tv:
-			if (mainActivity != null) {
-				mainActivity.showFragment(new SettingsFragment());
-			}
+			mainActivity.showFragment(new SettingsFragment());
 			break;
 		case R.id.about_help_tv:
-			if (mainActivity != null) {
-				mainActivity.showFragment(new HelpAndDocFragment());
-			}
+			mainActivity.showFragment(new HelpAndDocFragment());
 			break;
-		case R.id.about_close_img_btn:
-			
+		case R.id.heading_close_imgbtn:
+			mainActivity.showFirstFragment();
 			break;
 		default:
 			break;
 		}
-		
+
 	}
 
 }

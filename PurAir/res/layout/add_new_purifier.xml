@@ -40,7 +40,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
+            android:background="@drawable/image_btn_bg"
             android:contentDescription="@string/img_description"
             android:src="@drawable/info" />
     </RelativeLayout>

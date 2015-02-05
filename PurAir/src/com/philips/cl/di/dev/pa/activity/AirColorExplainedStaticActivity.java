@@ -7,7 +7,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AirColorExplainedStaticActivity extends BaseActivity {
@@ -21,13 +20,13 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 		Intent in = getIntent();
 		activity = in.getIntExtra("AIR_QUALITY_ACTIVITY", -1);
 
-		if (activity == AirQualityFragment.INDOOR_POLLUTANT_SCREEN) {
+		if (activity == AirQualityActivity.INDOOR_POLLUTANT_SCREEN) {
 			setContentView(R.layout.indoor_pollutants_screen);
 			initView(R.string.indoor_pollutants);
-		} else if (activity == AirQualityFragment.VITASHIELD_SCREEN) {
+		} else if (activity == AirQualityActivity.VITASHIELD_SCREEN) {
 			setContentView(R.layout.vita_shield_technology_screen);
 			initView(R.string.vistashield_ips_system);
-		} else if (activity == AirQualityFragment.GUARD_EVNVIRONMENT_SCREEN) {
+		} else if (activity == AirQualityActivity.GUARD_EVNVIRONMENT_SCREEN) {
 			setContentView(R.layout.guards_environment_screen);
 			initView(R.string.guards_environment);
 		}

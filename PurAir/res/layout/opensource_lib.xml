@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:background="@android:color/transparent"
+                android:background="@drawable/image_btn_bg"
                 android:contentDescription="@string/img_description"
                 android:padding="16dp"
                 android:src="@drawable/cross_close" />
