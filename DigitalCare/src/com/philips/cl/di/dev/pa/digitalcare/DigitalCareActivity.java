@@ -1,7 +1,9 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.facebook.Session;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.SupportHomeFragment;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
@@ -28,7 +30,16 @@ public class DigitalCareActivity extends BaseActivity {
 		showFragment(new SupportHomeFragment());
 		enableActionBarHome();
 	}
-
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+//		ContactUsFragment contact = new ContactUsFragment();
+//		contact.onActivityResult(requestCode, resultCode, data);
+		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+//		new Session.OpenRequest(this);
+	}
+	
 	@Override
 	protected void onResume() {
 		super.onResume();

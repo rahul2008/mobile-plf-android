@@ -3,6 +3,7 @@
 
     <string name="app_name">DigitalCare</string>
     <string name="img_description">description</string>
+    <string name="app_id">1537018913230025</string>
 
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
@@ -48,28 +49,31 @@
     <string name="no_thanks">No, thanks</string>
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
 
-     <!-- View Product Details -->
+    <!-- View Product Details -->
     <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant">s9721/84</string>
-	
-	<string name="product_open_manual">Open interactive manual</string>
+    <string name="product_open_manual">Open interactive manual</string>
     <string name="product_download_manual">Download Product  manual</string>
     <string name="product_information">Products information(on philips.com)</string>
-    
-    <!-- Application Rate & Review  -->
+
+    <!-- Application Rate & Review -->
     <string name="rate_playstore_headertext">How would you rate this app?</string>
     <string name="rate_playstore_buttontext">Write an app-review</string>
     <string name="rate_philips_headertext">Submit a product review</string>
     <string name="rate_philips_description">Write a review and help other people make the right choice for them</string>
     <string name="rate_philips_buttontext">Sign into My Philips</string>
 
-    <!--  ContactUS - Twitter  Login-->
+    <!-- ContactUS - Twitter  Login -->
     <string name="twitter_login_header">Log in to Twitter</string>
-    <string  name="twitter_login_button">Log in</string>
+    <string name="twitter_login_button">Log in</string>
     <string name="twitter_login_forgotPassword">I forgot my password</string>
     <string name="twitter_login_createAccount">Create Account</string>
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
-    
+
+    <!-- Social Login -->
+    <string name="social_login_cancel">Cancel</string>
+    <string name="social_login_post">Post</string>
+	<string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
 </resources>
