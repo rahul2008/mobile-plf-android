@@ -250,7 +250,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setActivity(this);
 
 		// Enable for release build
-    	checkForCrashesHockeyApp();
+//    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -943,7 +943,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 				rightMenuClickListener.toggleControlPanel(false, null);
-				rightMenuClickListener.disableScheduler() ;
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
 				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);

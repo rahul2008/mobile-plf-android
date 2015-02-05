@@ -33,7 +33,7 @@ public class PurifierControlPanel implements OnClickListener {
 
 	private RelativeLayout fanSpeedLayout, timerLayout;
 
-	private Button fanSpeed, timer, schedule;
+	private Button fanSpeed, timer;
 	private ToggleButton power, childLock, indicatorLight;
 
 	private boolean isPowerOn, isChildLockOn, isIndicatorLightOn;
@@ -58,7 +58,8 @@ public class PurifierControlPanel implements OnClickListener {
 		isTimerMenuVisible = false;
 
 		power = (ToggleButton) activity.findViewById(R.id.btn_rm_power);
-		schedule = (Button) activity.findViewById(R.id.btn_rm_scheduler);
+		FontTextView schedule = (FontTextView) activity.findViewById(R.id.tv_rm_scheduler);
+		schedule.setOnClickListener(this);
 		childLock = (ToggleButton) activity.findViewById(R.id.btn_rm_child_lock);
 		indicatorLight = (ToggleButton) activity.findViewById(R.id.btn_rm_indicator_light);
 
@@ -377,7 +378,7 @@ public class PurifierControlPanel implements OnClickListener {
 			controlDevice(ParserConstants.DEVICE_TIMER, "8");
 			MetricsTracker.trackActionTimerAdded("8hr");
 			break;
-		case R.id.btn_rm_scheduler:
+		case R.id.tv_rm_scheduler:
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
 			Intent intent = new Intent(mainActivity, SchedulerActivity.class);
@@ -457,8 +458,6 @@ public class PurifierControlPanel implements OnClickListener {
 			timer.setClickable(true);
 			timer.setBackgroundResource(R.drawable.button_blue_bg_2x);
 
-			schedule.setClickable(true);
-			schedule.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			childLock.setChecked(getOnOffStatus(airPurifierEventDto
 					.getChildLock()));
 			setFanSpeed(airPurifierEventDto);
@@ -469,7 +468,6 @@ public class PurifierControlPanel implements OnClickListener {
 			indicatorLight.setClickable(false);
 			childLock.setClickable(false);
 			timer.setClickable(false);
-			schedule.setClickable(false);
 		}
 	}
 
@@ -521,11 +519,6 @@ public class PurifierControlPanel implements OnClickListener {
 		}
 	}
 
-	public void disableScheduler() {
-		schedule.setClickable(false);
-		schedule.setBackgroundResource(R.drawable.button_bg_2x);
-	}
-
 	public void toggleControlPanel(boolean connected,
 			AirPortInfo airPurifierEventDto) {
 		if (!connected) {
@@ -543,9 +536,6 @@ public class PurifierControlPanel implements OnClickListener {
 				power.setChecked(getPowerButtonState(airPurifierEventDto));
 				if (isPowerOn) {
 					enableButtonsOnPowerOn(airPurifierEventDto);
-				} else {
-					schedule.setClickable(true);
-					schedule.setBackgroundResource(R.drawable.button_blue_bg_2x);
 				}
 			} else {
 				disableControlPanelButtonsOnPowerOff();
