@@ -251,7 +251,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setActivity(this);
 
 		// Enable for release build
-//    	checkForCrashesHockeyApp();
+    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
