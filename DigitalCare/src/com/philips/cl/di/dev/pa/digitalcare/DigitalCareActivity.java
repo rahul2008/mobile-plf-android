@@ -36,11 +36,11 @@ public class DigitalCareActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		ContactUsFragment contactUsFrag = new ContactUsFragment();
-		contactUsFrag.onActivityResultFragment(requestCode, resultCode, data);
-		
 		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-//		new Session.OpenRequest(this);
+		new Session.OpenRequest(this);
+		
+		ContactUsFragment contactUsFrag = new ContactUsFragment();
+		contactUsFrag.onActivityResultFragment(this, requestCode, resultCode, data);
 	}
 	
 	@Override

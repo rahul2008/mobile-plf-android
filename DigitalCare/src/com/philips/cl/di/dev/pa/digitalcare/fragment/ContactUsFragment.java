@@ -69,8 +69,8 @@ public class ContactUsFragment extends BaseFragment {
 	private final String HOMETOWN = "user_hometown";
 	private final String LOCATION = "user_location";
 	private final String PENDING_ACTION_BUNDLE_KEY = "com.facebook.samples.hellofacebook:PendingAction";
-	private Uri imageFileUri = null;
-	private Uri selectedImageUri = null;
+	private static Uri imageFileUri = null;
+	private static Uri selectedImageUri = null;
 	private final String IMAGE_DIRECTORY_NAME = "DigitalCare";
 	private PendingAction pendingAction = PendingAction.NONE;
 	private final int RESULT_OK = -1;
@@ -85,6 +85,7 @@ public class ContactUsFragment extends BaseFragment {
 	private ImageView popShareImage;
 	private Button popShare;
 	private boolean canPresentShareDialog = false;
+	private boolean canPresentShareDialogWithPhotos = false;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
@@ -126,34 +127,30 @@ public class ContactUsFragment extends BaseFragment {
 		setViewParams(config);
 	}
 
-	// public void onActivityResult(int requestCode, int resultCode, Intent
-	// data) {
-	// /** For opening FB session */
-	// ALog.i("testing", "onActivityResult resultCode : " + resultCode);
-	// // new Session.OpenRequest(getActivity());
-	// }
-
-	public void onActivityResultFragment(int requestCode, int resultCode,
-			Intent data) {
+	public void onActivityResultFragment(Activity activity, int requestCode,
+			int resultCode, Intent data) {
+		ALog.i("testing","onActivityResultFragment activity :  " + activity);
 		if (resultCode == RESULT_OK) {
 			if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-				previewCapturedImage();
+				previewCapturedImage(activity);
 			} else if (requestCode == SELECT_FILE && data != null) {
 				selectedImageUri = data.getData();
-				String filePath = getFilePath(selectedImageUri);
+				String filePath = getFilePath(activity, selectedImageUri);
 				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
 				showShareAlert(
-						BitmapFactory.decodeFile(filePath, btmapOptions), true);
+						BitmapFactory.decodeFile(filePath, btmapOptions), true,
+						activity);
 
 			}
 		}
 	}
 
-	private void previewCapturedImage() {
+	private void previewCapturedImage(Activity activity) {
 		try {
+			ALog.i("testing","previewCapturedImage activity :  " + activity);
 			Bitmap cameraImage = BitmapFactory.decodeFile(imageFileUri
 					.getPath());
-			showShareAlert(cameraImage, true);
+			showShareAlert(cameraImage, true, activity);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -185,6 +182,7 @@ public class ContactUsFragment extends BaseFragment {
 					Intent.ACTION_PICK,
 					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 			intent.setType("image/*");
+			ALog.i("testing", "pickImage getActivity() : " + getActivity());
 			getActivity().startActivityForResult(
 					Intent.createChooser(intent, "Select File"), SELECT_FILE);
 		}
@@ -239,10 +237,12 @@ public class ContactUsFragment extends BaseFragment {
 		return mediaFile;
 	}
 
-	public String getFilePath(Uri uri) {
+	public String getFilePath(Activity activity, Uri uri) {
 		String[] projection = { MediaColumns.DATA };
-		Cursor cursor = getActivity().getContentResolver().query(uri,
-				projection, null, null, null);
+		ALog.i("testing", "activity : " + activity);
+		Cursor cursor = activity.getContentResolver().query(uri, projection,
+				null, null, null);
+		ALog.i("testing", "cursor : " + cursor);
 		int column_index = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
 		cursor.moveToFirst();
 		String returnString = cursor.getString(column_index);
@@ -269,8 +269,9 @@ public class ContactUsFragment extends BaseFragment {
 				Session s = openActiveSession(getActivity(), true,
 						Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION),
 						null);
-//				showShareAlert(null, mAllowNoSession);
-				pickImage(false);
+				// showShareAlert(null, mAllowNoSession); // post only text on FB
+				pickImage(false); // take pick from SD card and post on FB
+//				pickImage(true); // take pic from camera and post to FB
 			}
 		}
 	};
@@ -284,13 +285,13 @@ public class ContactUsFragment extends BaseFragment {
 	 *            true is Imageview is available.
 	 */
 	public void showShareAlert(final Bitmap bitmap,
-			final boolean isImageAvialable) {
+			final boolean isImageAvialable, Activity activity) {
 
 		AlertDialog.Builder myBuilder;
-		myBuilder = new AlertDialog.Builder(getActivity());
+		myBuilder = new AlertDialog.Builder(activity);
 		myBuilder.setInverseBackgroundForced(true);
 		myBuilder.setCancelable(true);
-		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
+		LayoutInflater myLayoutInflater = activity.getLayoutInflater();
 		View myView = myLayoutInflater.inflate(R.layout.share_action_layout,
 				null);
 
@@ -299,7 +300,7 @@ public class ContactUsFragment extends BaseFragment {
 		popShareImage.setImageBitmap(bitmap);
 		popShare = (Button) myView.findViewById(R.id.btn_post);
 		Button popCancel = (Button) myView.findViewById(R.id.btn_cancel);
-		editStatus.setText(getActivity().getResources().getString(
+		editStatus.setText(activity.getResources().getString(
 				R.string.SocialSharingPostTemplateText));
 
 		editStatus.addTextChangedListener(new TextWatcher() {
@@ -330,13 +331,13 @@ public class ContactUsFragment extends BaseFragment {
 
 			@Override
 			public void onClick(View v) {
-				// if (isImageAvialable) {
-				// performPublish(PendingAction.POST_PHOTO,
-				// canPresentShareDialogWithPhotos);
-				// } else {
-				performPublish(PendingAction.POST_STATUS_UPDATE,
-						canPresentShareDialog);
-				// }
+				if (isImageAvialable) {
+					performPublish(PendingAction.POST_PHOTO,
+							canPresentShareDialogWithPhotos);
+				} else {
+					performPublish(PendingAction.POST_STATUS_UPDATE,
+							canPresentShareDialog);
+				}
 			}
 		});
 
