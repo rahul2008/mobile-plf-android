@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <!-- This xml file will hold app level configuration settings -->
+ 
+ 	<!-- Suppport page contains which all fetaures -->
+    <integer-array name="options_available">
+        <item>1</item>  <!-- "CONTACT_US" -->
+        <item>2</item>  <!-- "VIEW_PRODUCT_DETAILS" -->
+        <item>3</item>  <!-- "FAQ" -->
+        <item>4</item>  <!-- "FIND_PHILIPS_NEARBY" -->
+        <item>5</item>  <!-- "TELL_US_YOUR_THINKING" -->
+        <item>6</item>  <!-- "REGISTER_MY_PRODUCT" -->
+    </integer-array>
+    
+     <declare-styleable name="FontTextView">
+        <attr name="fontAssetName" format="string" />
+    </declare-styleable>
+    
+    <!-- URL -->
+    <string name="url_chat">http://www.support.philips.com/support/contact/contact_page.jsp?userLanguage=en\u0026userCountry=gb</string>
+    <string name="url_locate_near_you">http://www.philips.co.in/c/retail-store-locator/page/</string>
+</resources>
