@@ -17,7 +17,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
  * 
  * Author : Ritesh.jha@philips.com
  * 
- * Creation Date : 19 Jan 2014
+ * Creation Date : 19 Jan 2015
  */
 public class ChatFragment extends BaseFragment {
 //	private LinearLayout mChatNowParent = null;

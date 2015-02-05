@@ -8,7 +8,7 @@ import android.util.Log;
  * 
  * Author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2014
+ * Creation Date : 5 Dec 2015
  */
 public class ALog {
 

@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.digitalcare;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.facebook.Session;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ContactUsFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.SupportHomeFragment;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
@@ -13,7 +12,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
  * 
  * Author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2014
+ * Creation Date : 5 Dec 2015
  */
 public class DigitalCareActivity extends BaseActivity {
 	private static final String TAG = "DigitalCareActivity";
@@ -36,9 +35,10 @@ public class DigitalCareActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
-		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-		new Session.OpenRequest(this);
-		
+		ALog.i("testing", "DigitalCareActivity onActivityResult");
+//		Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+//		new Session.OpenRequest(this);
+//		
 		ContactUsFragment contactUsFrag = new ContactUsFragment();
 		contactUsFrag.onActivityResultFragment(this, requestCode, resultCode, data);
 	}
