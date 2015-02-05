@@ -1,15 +1,25 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -49,8 +59,6 @@ public class ContactUsFragment extends BaseFragment {
 	private FontButton mFacebook = null;
 	private FontButton mChat = null;
 	private FontButton mCallPhilips = null;
-	
-	private ContactUsFragment contactUsFragment;
 
 	private static final String TAG = "ContactUsFragment";
 
@@ -61,8 +69,22 @@ public class ContactUsFragment extends BaseFragment {
 	private final String HOMETOWN = "user_hometown";
 	private final String LOCATION = "user_location";
 	private final String PENDING_ACTION_BUNDLE_KEY = "com.facebook.samples.hellofacebook:PendingAction";
+	private Uri imageFileUri = null;
+	private Uri selectedImageUri = null;
+	private final String IMAGE_DIRECTORY_NAME = "DigitalCare";
 	private PendingAction pendingAction = PendingAction.NONE;
+	private final int RESULT_OK = -1;
+	private final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+	private final int MEDIA_TYPE_IMAGE = 7;
+	private final int SELECT_FILE = 2;
+
 	private UiLifecycleHelper mFbUiHelper;
+
+	private AlertDialog shareDialog;
+	private EditText editStatus;
+	private ImageView popShareImage;
+	private Button popShare;
+	private boolean canPresentShareDialog = false;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
@@ -78,67 +100,11 @@ public class ContactUsFragment extends BaseFragment {
 					.getString(PENDING_ACTION_BUNDLE_KEY);
 			pendingAction = PendingAction.valueOf(name);
 		}
-		
-		contactUsFragment = new ContactUsFragment();
 
 		View view = inflater.inflate(R.layout.fragment_contact_us, container,
 				false);
 		return view;
 	}
-
-	/**
-	 * onPause of fragment.
-	 */
-	public void onPause() {
-		super.onPause();
-		mFbUiHelper.onPause();
-	}
-
-	/**
-	 * onResume of fragment.
-	 */
-	public void onDestroy() {
-		super.onDestroy();
-		mFbUiHelper.onDestroy();
-	}
-
-	/**
-	 * onSaveInstanceState fragment.
-	 * 
-	 * @param outState
-	 *            Bundle Object
-	 */
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		Session session = Session.getActiveSession();
-		Session.saveSession(session, outState);
-		mFbUiHelper.onSaveInstanceState(outState);
-		outState.putString(PENDING_ACTION_BUNDLE_KEY, pendingAction.name());
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		ALog.i(TAG,
-				"onResume contactUsFragment   Session.getActiveSession() : "
-						+ Session.getActiveSession());
-		mFbUiHelper.onResume();
-	}
-
-	private Session.StatusCallback sessionCalback = new Session.StatusCallback() {
-
-		@Override
-		public void call(Session session, SessionState state,
-				Exception exception) {
-			if (pendingAction != PendingAction.NONE
-					&& (exception instanceof FacebookOperationCanceledException || exception instanceof FacebookAuthorizationException)) {
-				ALog.i(TAG, "Facebook session failure");
-				pendingAction = PendingAction.NONE;
-			} else if (state == SessionState.OPENED_TOKEN_UPDATED) {
-				handlePendingAction();
-			}
-		}
-	};
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -159,12 +125,131 @@ public class ContactUsFragment extends BaseFragment {
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 	}
-	
-//	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//		/** For opening FB session */
-//		ALog.i("testing", "onActivityResult resultCode : " + resultCode);
-////		new Session.OpenRequest(getActivity());
-//	}
+
+	// public void onActivityResult(int requestCode, int resultCode, Intent
+	// data) {
+	// /** For opening FB session */
+	// ALog.i("testing", "onActivityResult resultCode : " + resultCode);
+	// // new Session.OpenRequest(getActivity());
+	// }
+
+	public void onActivityResultFragment(int requestCode, int resultCode,
+			Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+				previewCapturedImage();
+			} else if (requestCode == SELECT_FILE && data != null) {
+				selectedImageUri = data.getData();
+				String filePath = getFilePath(selectedImageUri);
+				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
+				showShareAlert(
+						BitmapFactory.decodeFile(filePath, btmapOptions), true);
+
+			}
+		}
+	}
+
+	private void previewCapturedImage() {
+		try {
+			Bitmap cameraImage = BitmapFactory.decodeFile(imageFileUri
+					.getPath());
+			showShareAlert(cameraImage, true);
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Capturing Camera Image will lauch camera app requrest image capture
+	 */
+	private void captureImage() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		imageFileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		/** Start the image capture Intent */
+		getActivity().startActivityForResult(intent,
+				CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+	}
+
+	/**
+	 * Take Pic from camera or gallery.
+	 * 
+	 * @param isCapturePic
+	 *            true if want take pic.
+	 */
+	private void pickImage(boolean isCapturePic) {
+		if (isCapturePic) {
+			captureImage();
+		} else {
+			Intent intent = new Intent(
+					Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			intent.setType("image/*");
+			getActivity().startActivityForResult(
+					Intent.createChooser(intent, "Select File"), SELECT_FILE);
+		}
+	}
+
+	/**
+	 * Creating file uri to store image/video
+	 * 
+	 * @param type
+	 *            Type
+	 * @return URI
+	 */
+	public Uri getOutputMediaFileUri(int type) {
+		return Uri.fromFile(getOutputMediaFile(type));
+	}
+
+	/**
+	 * Get recorded image or file.
+	 * 
+	 * @param type
+	 *            file type
+	 * @return image / video
+	 */
+	private File getOutputMediaFile(int type) {
+
+		/** External sdcard location */
+		File mediaStorageDir = new File(
+				Environment
+						.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+				IMAGE_DIRECTORY_NAME);
+
+		/** Create the storage directory if it does not exist */
+		if (!mediaStorageDir.exists()) {
+			if (!mediaStorageDir.mkdirs()) {
+				ALog.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+						+ IMAGE_DIRECTORY_NAME + " directory");
+				return null;
+			}
+		}
+
+		/** Create a media file name */
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
+				Locale.getDefault()).format(new Date());
+		File mediaFile;
+		if (type == MEDIA_TYPE_IMAGE) {
+			mediaFile = new File(mediaStorageDir.getPath() + File.separator
+					+ "IMG_" + timeStamp + ".jpg");
+		} else {
+			return null;
+		}
+
+		return mediaFile;
+	}
+
+	public String getFilePath(Uri uri) {
+		String[] projection = { MediaColumns.DATA };
+		Cursor cursor = getActivity().getContentResolver().query(uri,
+				projection, null, null, null);
+		int column_index = cursor.getColumnIndexOrThrow(MediaColumns.DATA);
+		cursor.moveToFirst();
+		String returnString = cursor.getString(column_index);
+		cursor.close();
+
+		return returnString;
+	}
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
@@ -184,18 +269,11 @@ public class ContactUsFragment extends BaseFragment {
 				Session s = openActiveSession(getActivity(), true,
 						Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION),
 						null);
-				showShareAlert(null, mAllowNoSession);
+//				showShareAlert(null, mAllowNoSession);
+				pickImage(false);
 			}
 		}
 	};
-
-	private AlertDialog shareDialog;
-	private EditText editStatus;
-	private ImageView popShareImage;
-	private Button popShare;
-	private boolean canPresentShareDialog = false;
-
-	// private boolean canPresentShareDialogWithPhotos = false;
 
 	/**
 	 * Alert Dialog for FB post with image and text.
@@ -322,6 +400,26 @@ public class ContactUsFragment extends BaseFragment {
 		}
 	}
 
+	private void shareImage() {
+
+		shareDialog.dismiss();
+		Request request = Request.newUploadPhotoRequest(
+				Session.getActiveSession(),
+				((BitmapDrawable) popShareImage.getDrawable()).getBitmap(),
+				new Request.Callback() {
+
+					@Override
+					public void onCompleted(Response response) {
+						ALog.d(TAG, "Shared Image Successful to Facebook");
+					}
+				});
+
+		Bundle params = request.getParameters();
+		params.putString("message", editStatus.getText().toString());
+		request.setParameters(params);
+		request.executeAsync();
+	}
+
 	/**
 	 * Handle pending action.
 	 */
@@ -331,7 +429,7 @@ public class ContactUsFragment extends BaseFragment {
 
 		switch (previouslyPendingAction) {
 		case POST_PHOTO:
-			// shareImage();
+			shareImage();
 			break;
 		case POST_STATUS_UPDATE:
 			shareStatusUpdate();
@@ -388,8 +486,61 @@ public class ContactUsFragment extends BaseFragment {
 		params.putString("message", editStatus.getText().toString());
 		request.setParameters(params);
 		request.executeAsync();
-
 	}
+
+	/**
+	 * onPause of fragment.
+	 */
+	public void onPause() {
+		super.onPause();
+		mFbUiHelper.onPause();
+	}
+
+	/**
+	 * onResume of fragment.
+	 */
+	public void onDestroy() {
+		super.onDestroy();
+		mFbUiHelper.onDestroy();
+	}
+
+	/**
+	 * onSaveInstanceState fragment.
+	 * 
+	 * @param outState
+	 *            Bundle Object
+	 */
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		Session session = Session.getActiveSession();
+		Session.saveSession(session, outState);
+		mFbUiHelper.onSaveInstanceState(outState);
+		outState.putString(PENDING_ACTION_BUNDLE_KEY, pendingAction.name());
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		ALog.i(TAG,
+				"onResume contactUsFragment   Session.getActiveSession() : "
+						+ Session.getActiveSession());
+		mFbUiHelper.onResume();
+	}
+
+	private Session.StatusCallback sessionCalback = new Session.StatusCallback() {
+
+		@Override
+		public void call(Session session, SessionState state,
+				Exception exception) {
+			if (pendingAction != PendingAction.NONE
+					&& (exception instanceof FacebookOperationCanceledException || exception instanceof FacebookAuthorizationException)) {
+				ALog.i(TAG, "Facebook session failure");
+				pendingAction = PendingAction.NONE;
+			} else if (state == SessionState.OPENED_TOKEN_UPDATED) {
+				handlePendingAction();
+			}
+		}
+	};
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
