@@ -70,22 +70,19 @@ public class FacebookUtility {
 
 	private UiLifecycleHelper mFbUiHelper;
 
-	// private AlertDialog shareDialog;
 	private EditText editStatus;
 	private ImageView popShareImage;
 	private FontButton popSharePort;
 	private FontButton popShareLand;
-//	private FontButton popCancelPort;
-//	private FontButton popCancelLand;
 	private boolean canPresentShareDialog = false;
 	private boolean canPresentShareDialogWithPhotos = false;
 	private ImageView mCamera = null;
+	private View myView = null;
+	private static boolean mAllowNoSession = false;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
 	}
-
-	private View myView = null;
 
 	public FacebookUtility(Activity activity, Bundle savedInstanceState,
 			View view) {
@@ -242,26 +239,22 @@ public class FacebookUtility {
 				// pickImage(true); // take pic from camera and post to FB
 			} else if (id == R.id.fb_post_camera) {
 				choosePic();
-			} 
+			}
 		}
 	};
 
-	private void choosePic() {
-		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-		photoPickerIntent.setType("image/*");
-		mActivity.startActivityForResult(photoPickerIntent, 1);
-		// Intent pickIntent = new Intent();
-		// pickIntent.setType("image/*");
-		// pickIntent.setAction(Intent.ACTION_GET_CONTENT);
-		// Intent takePhotoIntent = new Intent(
-		// MediaStore.ACTION_IMAGE_CAPTURE);
-		// String pickTitle = "Select or take a new Picture"; // Or get
-		// Intent chooserIntent = Intent.createChooser(pickIntent,
-		// pickTitle);
-		// chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-		// new Intent[] { takePhotoIntent });
-		// startActivityForResult(chooserIntent, SELECT_PICTURE);
+	private static final int SELECT_PICTURE = 11;
 
+	private void choosePic() {
+		Intent pickIntent = new Intent();
+		pickIntent.setType("image/*");
+		pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+		Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		String pickTitle = "Select or take a new Picture";
+		Intent chooserIntent = Intent.createChooser(pickIntent, pickTitle);
+		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+				new Intent[] { takePhotoIntent });
+		mActivity.startActivityForResult(chooserIntent, SELECT_PICTURE);
 	}
 
 	/**
@@ -275,23 +268,11 @@ public class FacebookUtility {
 	public void showShareAlert(final Bitmap bitmap,
 			final boolean isImageAvialable) {
 
-		// AlertDialog.Builder myBuilder;
-		// myBuilder = new AlertDialog.Builder(activity);
-		// myBuilder.setInverseBackgroundForced(true);
-		// myBuilder.setCancelable(true);
-		// LayoutInflater myLayoutInflater = activity.getLayoutInflater();
-		// View myView = myLayoutInflater.inflate(R.layout.share_action_layout,
-		// null);
-
 		popShareImage = (ImageView) myView.findViewById(R.id.share_image);
 		editStatus = (EditText) myView.findViewById(R.id.share_text);
 		popShareImage.setImageBitmap(bitmap);
 		popSharePort = (FontButton) myView.findViewById(R.id.facebookSendPort);
 		popShareLand = (FontButton) myView.findViewById(R.id.facebookSendLand);
-//		popCancelPort = (FontButton) myView
-//				.findViewById(R.id.facebookCancelPort);
-//		popCancelLand = (FontButton) myView
-//				.findViewById(R.id.facebookCancelLand);
 
 		mCamera = (ImageView) myView.findViewById(R.id.fb_post_camera);
 		mCamera.setOnClickListener(clickListener);
@@ -320,7 +301,7 @@ public class FacebookUtility {
 				// if (s.length() == 0 && bitmap == null) {
 				// popShare.setEnabled(false);
 				// } else {
-//				popSharePort.setEnabled(true);
+				// popSharePort.setEnabled(true);
 				// }
 			}
 		});
@@ -338,19 +319,6 @@ public class FacebookUtility {
 				}
 			}
 		});
-
-		// popCancel.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		//
-		// shareDialog.dismiss();
-		// }
-		// });
-
-		// shareDialog = myBuilder.create();
-		// shareDialog.setView(myView, 0, 0, 0, 0);
-		// shareDialog.show();
 	}
 
 	@SuppressWarnings("static-method")
@@ -359,8 +327,6 @@ public class FacebookUtility {
 		return session != null
 				&& session.getPermissions().contains("publish_actions");
 	}
-
-	private static boolean mAllowNoSession = false;
 
 	/**
 	 * perform publish action of facebook sharing.
