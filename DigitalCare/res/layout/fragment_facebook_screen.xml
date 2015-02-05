@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg" >
+
+    <LinearLayout
+        android:id="@+id/fbPostContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/fb_Post_HeaderLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/fb_Post_ToHeaderText"
+                    style="@style/fbMainHeader"
+                    android:text="Send a message to @PhilipsCare" />
+
+                <TextView
+                    android:id="@+id/fb_Post_FromHeaderText"
+                    style="@style/fbFromMainHeader" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTopButton"
+                    android:src="@drawable/social_twitter_icon" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/fb_Post_CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                style="@style/fboptouttext"
+                android:text="@string/facebook_login_header" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <EditText
+                android:id="@+id/share_text"
+                style="@style/prodRegEditTextg"
+                android:layout_height="fill_parent"
+                android:hint="@string/facebook" />
+
+            <ImageView
+                android:id="@+id/fb_post_camera"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/social_photo_default" />
+
+            <ImageView
+                android:id="@+id/share_image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/img_description"
+                android:visibility="gone" />
+            <!--
+            <ImageView
+                android:id="@+id/fb_Post_camera_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/marginTopButton"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/social_close" />
+            -->
+            <!--
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/fb_Post_TestComposingEditer"
+                android:text="**" />
+            -->
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/facebookParentPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="2" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/facebookSendPort"
+                style="@style/fontButton"
+                android:layout_weight="1"
+                android:text="@string/send"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <RelativeLayout
+                android:id="@+id/facebookCancelParentPort"
+                style="@style/fontButton"
+                android:layout_weight="1"
+                android:padding="2dp" >
+
+                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                    android:id="@+id/facebookCancelPort"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/social_login_cancel"
+                    android:textColor="@color/button_bg"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/facebookParentLand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:weightSum="2" >
+
+            <RelativeLayout
+                android:id="@+id/facebookCancelParentLand"
+                style="@style/fontButton"
+                android:layout_weight="1"
+                android:padding="2dp" >
+
+                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                    android:id="@+id/facebookCancelLand"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/social_login_cancel"
+                    android:textColor="@color/button_bg"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
+            </RelativeLayout>
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/facebookSendLand"
+                style="@style/fontButton"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:text="@string/send"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

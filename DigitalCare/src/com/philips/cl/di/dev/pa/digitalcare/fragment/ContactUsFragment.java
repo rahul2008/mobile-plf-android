@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -14,7 +13,6 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
-import com.philips.cl.di.dev.pa.digitalcare.util.FacebookUtility;
 
 /*
  *	ContactUsFragment will help to provide options to contact Philips.
@@ -32,13 +30,13 @@ public class ContactUsFragment extends BaseFragment {
 
 	private static final String TAG = "ContactUsFragment";
 
-	private static FacebookUtility mFacebookUtility = null;
-	private static Bundle mSaveInstanceState = null;
+//	private static FacebookUtility mFacebookUtility = null;
+//	private static Bundle mSaveInstanceState = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		mSaveInstanceState = savedInstanceState;
+//		mSaveInstanceState = savedInstanceState;
 		View view = inflater.inflate(R.layout.fragment_contact_us, container,
 				false);
 		return view;
@@ -64,13 +62,13 @@ public class ContactUsFragment extends BaseFragment {
 		setViewParams(config);
 	}
 
-	public void onActivityResultFragment(Activity activity, int requestCode,
-			int resultCode, Intent data) {
-		if (mFacebookUtility != null) {
-			mFacebookUtility.onActivityResultFragment(activity, requestCode,
-					resultCode, data);
-		}
-	}
+//	public void onActivityResultFragment(Activity activity, int requestCode,
+//			int resultCode, Intent data) {
+//		if (mFacebookUtility != null) {
+//			mFacebookUtility.onActivityResultFragment(activity, requestCode,
+//					resultCode, data);
+//		}
+//	}
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
@@ -87,53 +85,54 @@ public class ContactUsFragment extends BaseFragment {
 			} else if (id == R.id.contactUsCall) {
 				callPhilips();
 			} else if (id == R.id.socialLoginFacebookBtn) {
-				mFacebookUtility = new FacebookUtility(getActivity(),
-						mSaveInstanceState);
+				showFragment(new FacebookScreenFragment());
+//				 mFacebookUtility = new FacebookUtility(getActivity(),
+//				 mSaveInstanceState);
 			}
 		}
 	};
 
-	/**
-	 * onPause of fragment.
-	 */
-	public void onPause() {
-		super.onPause();
-		if (mFacebookUtility != null) {
-			mFacebookUtility.onPause();
-		}
-	}
-
-	/**
-	 * onResume of fragment.
-	 */
-	public void onDestroy() {
-		super.onDestroy();
-		if (mFacebookUtility != null) {
-			mFacebookUtility.onDestroy();
-		}
-	}
-
-	/**
-	 * onSaveInstanceState fragment.
-	 * 
-	 * @param outState
-	 *            Bundle Object
-	 */
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		if (mFacebookUtility != null) {
-			mFacebookUtility.onSaveInstanceState(outState);
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (mFacebookUtility != null) {
-			mFacebookUtility.onResume();
-		}
-	}
+//	/**
+//	 * onPause of fragment.
+//	 */
+//	public void onPause() {
+//		super.onPause();
+//		if (mFacebookUtility != null) {
+//			mFacebookUtility.onPause();
+//		}
+//	}
+//
+//	/**
+//	 * onResume of fragment.
+//	 */
+//	public void onDestroy() {
+//		super.onDestroy();
+//		if (mFacebookUtility != null) {
+//			mFacebookUtility.onDestroy();
+//		}
+//	}
+//
+//	/**
+//	 * onSaveInstanceState fragment.
+//	 * 
+//	 * @param outState
+//	 *            Bundle Object
+//	 */
+//	public void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//
+//		if (mFacebookUtility != null) {
+//			mFacebookUtility.onSaveInstanceState(outState);
+//		}
+//	}
+//
+//	@Override
+//	public void onResume() {
+//		super.onResume();
+//		if (mFacebookUtility != null) {
+//			mFacebookUtility.onResume();
+//		}
+//	}
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);

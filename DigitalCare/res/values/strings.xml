@@ -75,5 +75,7 @@
     <!-- Social Login -->
     <string name="social_login_cancel">Cancel</string>
     <string name="social_login_post">Post</string>
+    <string name="send">Send</string>
+    <string name="facebook_login_header">Log in to Facebook</string>
 	<string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
 </resources>

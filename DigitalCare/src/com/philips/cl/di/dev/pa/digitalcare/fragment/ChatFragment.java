@@ -20,10 +20,14 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
  * Creation Date : 19 Jan 2015
  */
 public class ChatFragment extends BaseFragment {
-//	private LinearLayout mChatNowParent = null;
+	// private LinearLayout mChatNowParent = null;
 	private FontButton mChatNow = null;
 	private FontButton mChatNowLand = null;
-//	private ImageView mImageView = null;
+
+	private FontButton mChatNoThanks = null;
+	private FontButton mChatNoThanksLand = null;
+
+	// private ImageView mImageView = null;
 	private LinearLayout.LayoutParams mChatNowParentBottom = null;
 
 	private LinearLayout mChatNowParentPort = null;
@@ -50,9 +54,17 @@ public class ChatFragment extends BaseFragment {
 
 		mChatNowLand = (FontButton) getActivity()
 				.findViewById(R.id.chatNowLand);
-		mChatNowLand.setOnClickListener(actionBarClickListener);
 
-//		mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
+		mChatNoThanks = (FontButton) getActivity().findViewById(
+				R.id.chatNoThanks);
+		mChatNoThanksLand = (FontButton) getActivity().findViewById(
+				R.id.chatNoThanksLand);
+
+		mChatNowLand.setOnClickListener(actionBarClickListener);
+		mChatNoThanks.setOnClickListener(actionBarClickListener);
+		mChatNoThanksLand.setOnClickListener(actionBarClickListener);
+
+		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
 		mChatNowParentPort = (LinearLayout) getActivity().findViewById(
 				R.id.chatNowParentPort);
 		mChatNowParentLand = (LinearLayout) getActivity().findViewById(
@@ -91,6 +103,8 @@ public class ChatFragment extends BaseFragment {
 			int id = view.getId();
 			if (id == R.id.chatNow || id == R.id.chatNowLand) {
 				showFragment(new ChatNowFragment());
+			} else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
+				backstackFragment();
 			}
 		};
 	};

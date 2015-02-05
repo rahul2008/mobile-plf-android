@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -167,6 +168,33 @@ public abstract class BaseFragment extends Fragment {
 			imm.hideSoftInputFromWindow(mFragmentActivityContext.getWindow()
 					.getCurrentFocus().getWindowToken(), 0);
 		}
+	}
+
+	private FragmentManager fragmentManager = getFragmentManager();
+
+	protected boolean backstackFragment() {
+		fragmentManager = getFragmentManager();
+		if (fragmentManager.getBackStackEntryCount() == 2) {
+			fragmentManager.popBackStack();
+			removeCurrentFragment();
+		} else {
+			fragmentManager.popBackStack();
+			removeCurrentFragment();
+		}
+		return false;
+	}
+
+	private void removeCurrentFragment() {
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+		android.app.Fragment currentFrag = fragmentManager
+				.findFragmentById(R.id.mainContainer);
+
+		if (currentFrag != null) {
+			transaction.remove(currentFrag);
+		}
+
+		transaction.commit();
 	}
 
 	// protected void startVideo() {

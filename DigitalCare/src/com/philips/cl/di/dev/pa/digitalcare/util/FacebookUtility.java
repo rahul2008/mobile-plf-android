@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -21,10 +20,8 @@ import android.provider.MediaStore;
 import android.provider.MediaStore.MediaColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -40,6 +37,7 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.philips.cl.di.dev.pa.digitalcare.R;
+import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 
 /*
  *	FacebookUtility will help to provide options to for facebook utility.
@@ -50,7 +48,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
  */
 
 public class FacebookUtility {
-	private Activity mActivity = null;
+	private static Activity mActivity = null;
 
 	private static final String TAG = "ContactUsFragment";
 
@@ -72,20 +70,27 @@ public class FacebookUtility {
 
 	private UiLifecycleHelper mFbUiHelper;
 
-	private AlertDialog shareDialog;
+	// private AlertDialog shareDialog;
 	private EditText editStatus;
 	private ImageView popShareImage;
-	private Button popShare;
+	private FontButton popSharePort;
+	private FontButton popShareLand;
+//	private FontButton popCancelPort;
+//	private FontButton popCancelLand;
 	private boolean canPresentShareDialog = false;
 	private boolean canPresentShareDialogWithPhotos = false;
+	private ImageView mCamera = null;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
 	}
 
-	public FacebookUtility(Activity activity, Bundle savedInstanceState) {
-		mActivity = activity;
+	private View myView = null;
 
+	public FacebookUtility(Activity activity, Bundle savedInstanceState,
+			View view) {
+		mActivity = activity;
+		myView = view;
 		mFbUiHelper = new UiLifecycleHelper(mActivity, sessionCalback);
 		mFbUiHelper.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
@@ -94,18 +99,18 @@ public class FacebookUtility {
 			pendingAction = PendingAction.valueOf(name);
 		}
 
-		Session s = openActiveSession(true,
-				Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
-		// showShareAlert(null, mAllowNoSession); // post only text on FB
-		pickImage(false); // take pick from SD card and post on FB
-		// pickImage(true); // take pic from camera and post to FB
+		// Session s = openActiveSession(true,
+		// Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
+		showShareAlert(null, mAllowNoSession); // post only text on FB
+		// pickImage(false); // take pick from SD card and post on FB
+		// // pickImage(true); // take pic from camera and post to FB
 	}
 
 	private void previewCapturedImage() {
 		try {
 			Bitmap cameraImage = BitmapFactory.decodeFile(imageFileUri
 					.getPath());
-			showShareAlert(cameraImage, true, mActivity);
+			showShareAlert(cameraImage, true);
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
@@ -219,11 +224,44 @@ public class FacebookUtility {
 				String filePath = getFilePath(activity, selectedImageUri);
 				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
 				showShareAlert(
-						BitmapFactory.decodeFile(filePath, btmapOptions), true,
-						activity);
-
+						BitmapFactory.decodeFile(filePath, btmapOptions), true);
 			}
 		}
+	}
+
+	private OnClickListener clickListener = new OnClickListener() {
+
+		public void onClick(View view) {
+			int id = view.getId();
+			if ((id == R.id.facebookSendPort) || (id == R.id.facebookSendLand)) {
+				Session s = openActiveSession(true,
+						Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION),
+						null);
+				showShareAlert(null, mAllowNoSession); // post only text on FB
+				// pickImage(false); // take pick from SD card and post on FB
+				// pickImage(true); // take pic from camera and post to FB
+			} else if (id == R.id.fb_post_camera) {
+				choosePic();
+			} 
+		}
+	};
+
+	private void choosePic() {
+		Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+		photoPickerIntent.setType("image/*");
+		mActivity.startActivityForResult(photoPickerIntent, 1);
+		// Intent pickIntent = new Intent();
+		// pickIntent.setType("image/*");
+		// pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+		// Intent takePhotoIntent = new Intent(
+		// MediaStore.ACTION_IMAGE_CAPTURE);
+		// String pickTitle = "Select or take a new Picture"; // Or get
+		// Intent chooserIntent = Intent.createChooser(pickIntent,
+		// pickTitle);
+		// chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+		// new Intent[] { takePhotoIntent });
+		// startActivityForResult(chooserIntent, SELECT_PICTURE);
+
 	}
 
 	/**
@@ -235,22 +273,32 @@ public class FacebookUtility {
 	 *            true is Imageview is available.
 	 */
 	public void showShareAlert(final Bitmap bitmap,
-			final boolean isImageAvialable, Activity activity) {
+			final boolean isImageAvialable) {
 
-		AlertDialog.Builder myBuilder;
-		myBuilder = new AlertDialog.Builder(activity);
-		myBuilder.setInverseBackgroundForced(true);
-		myBuilder.setCancelable(true);
-		LayoutInflater myLayoutInflater = activity.getLayoutInflater();
-		View myView = myLayoutInflater.inflate(R.layout.share_action_layout,
-				null);
+		// AlertDialog.Builder myBuilder;
+		// myBuilder = new AlertDialog.Builder(activity);
+		// myBuilder.setInverseBackgroundForced(true);
+		// myBuilder.setCancelable(true);
+		// LayoutInflater myLayoutInflater = activity.getLayoutInflater();
+		// View myView = myLayoutInflater.inflate(R.layout.share_action_layout,
+		// null);
 
 		popShareImage = (ImageView) myView.findViewById(R.id.share_image);
 		editStatus = (EditText) myView.findViewById(R.id.share_text);
 		popShareImage.setImageBitmap(bitmap);
-		popShare = (Button) myView.findViewById(R.id.btn_post);
-		Button popCancel = (Button) myView.findViewById(R.id.btn_cancel);
-		editStatus.setText(activity.getResources().getString(
+		popSharePort = (FontButton) myView.findViewById(R.id.facebookSendPort);
+		popShareLand = (FontButton) myView.findViewById(R.id.facebookSendLand);
+//		popCancelPort = (FontButton) myView
+//				.findViewById(R.id.facebookCancelPort);
+//		popCancelLand = (FontButton) myView
+//				.findViewById(R.id.facebookCancelLand);
+
+		mCamera = (ImageView) myView.findViewById(R.id.fb_post_camera);
+		mCamera.setOnClickListener(clickListener);
+		popSharePort.setOnClickListener(clickListener);
+		popShareLand.setOnClickListener(clickListener);
+
+		editStatus.setText(mActivity.getResources().getString(
 				R.string.SocialSharingPostTemplateText));
 
 		editStatus.addTextChangedListener(new TextWatcher() {
@@ -272,12 +320,12 @@ public class FacebookUtility {
 				// if (s.length() == 0 && bitmap == null) {
 				// popShare.setEnabled(false);
 				// } else {
-				popShare.setEnabled(true);
+//				popSharePort.setEnabled(true);
 				// }
 			}
 		});
 
-		popShare.setOnClickListener(new OnClickListener() {
+		popSharePort.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -291,18 +339,18 @@ public class FacebookUtility {
 			}
 		});
 
-		popCancel.setOnClickListener(new OnClickListener() {
+		// popCancel.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		//
+		// shareDialog.dismiss();
+		// }
+		// });
 
-			@Override
-			public void onClick(View v) {
-
-				shareDialog.dismiss();
-			}
-		});
-
-		shareDialog = myBuilder.create();
-		shareDialog.setView(myView, 0, 0, 0, 0);
-		shareDialog.show();
+		// shareDialog = myBuilder.create();
+		// shareDialog.setView(myView, 0, 0, 0, 0);
+		// shareDialog.show();
 	}
 
 	@SuppressWarnings("static-method")
@@ -353,7 +401,7 @@ public class FacebookUtility {
 
 	private void shareImage() {
 
-		shareDialog.dismiss();
+		// shareDialog.dismiss();
 		Request request = Request.newUploadPhotoRequest(
 				Session.getActiveSession(),
 				((BitmapDrawable) popShareImage.getDrawable()).getBitmap(),
@@ -363,7 +411,8 @@ public class FacebookUtility {
 					public void onCompleted(Response response) {
 						String posted = "Shared Image Successful to Facebook";
 						ALog.d(TAG, posted);
-						Toast.makeText(mActivity, posted, Toast.LENGTH_LONG).show();
+						Toast.makeText(mActivity, posted, Toast.LENGTH_LONG)
+								.show();
 					}
 				});
 
@@ -422,7 +471,7 @@ public class FacebookUtility {
 	 */
 	private void shareStatusUpdate() {
 
-		shareDialog.dismiss();
+		// shareDialog.dismiss();
 		Request request = Request.newStatusUpdateRequest(
 				Session.getActiveSession(), "Session", new Request.Callback() {
 
@@ -487,5 +536,4 @@ public class FacebookUtility {
 			}
 		}
 	};
-
 }
