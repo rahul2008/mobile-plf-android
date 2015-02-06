@@ -14,7 +14,7 @@ public class WebViewActivity extends Activity {
 	
 	private WebView webView;
 	
-	public static String EXTRA_URL = "extra_url";
+	public final static String EXTRA_URL = "extra_url";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

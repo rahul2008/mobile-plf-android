@@ -34,7 +34,7 @@ public class FacebookScreenFragment extends BaseFragment {
 	// private ImageView mCamera = null;
 
 	private static FacebookUtility mFacebookUtility = null;
-	private static Bundle mSaveInstanceState = null;
+	private Bundle mSaveInstanceState = null;
 	private View view = null;
 
 	@Override
