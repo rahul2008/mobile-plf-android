@@ -15,6 +15,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -250,7 +251,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setActivity(this);
 
     	checkForCrashesHockeyApp();
-
 	}
 
 	public void startDemoMode() {
@@ -930,7 +930,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 
-		ALog.i(ALog.PAIRING, "In updatePurifierUIFields(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
 		pairToPurifierIfNecessary();
 	}
 
@@ -1034,8 +1033,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}
 	
+	private Handler handler = new Handler();
+	
 	private void checkInternetConnection() {
-		new InternetConnectionHandler(this).checkInternetConnection() ;
+		new InternetConnectionHandler(this, handler).checkInternetConnection() ;
 	}
 	
 	private void showInternetAlertDialog(){
@@ -1082,7 +1083,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 					@Override
 					public void run() {
-						((NotificationsFragment) fragment).disableNotificationLayout() ;
+						((NotificationsFragment) fragment).disableNotificationScreen() ;
 					}
 				});
 

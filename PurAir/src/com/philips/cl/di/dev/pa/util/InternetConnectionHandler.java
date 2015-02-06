@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
 import android.os.Handler;
+import android.os.Looper;
 
 public class InternetConnectionHandler implements AsyncTaskCompleteListenere {
 
@@ -8,13 +9,14 @@ public class InternetConnectionHandler implements AsyncTaskCompleteListenere {
 	private boolean internetAlreadyChecked ;
 	private int responseCount ;
 	private UrlConnectionRunnable urlConnectionRunnable ;
-	private Handler handler = new Handler() ;
+	private Handler handler;
 	private InternetConnectionHandler myInstance ;
 	private InternetConnectionListener listener;
 	
-	public InternetConnectionHandler(InternetConnectionListener listener) {
+	public InternetConnectionHandler(InternetConnectionListener listener, Handler handler) {
 		myInstance = this;
 		this.listener = listener ;
+		this.handler = handler;
 	}
 
 	// Send 5 requests with a gap interval of 2secs
