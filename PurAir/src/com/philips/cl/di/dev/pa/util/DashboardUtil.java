@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
@@ -44,5 +46,11 @@ public class DashboardUtil {
 		Random random = new Random();
 		num = random.nextInt(max - min) + 1 + min;
 		return num;
+	}
+	
+	@SuppressLint("SimpleDateFormat")
+	public static String getCurrentTime24HrFormat() {
+		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
+		return formatTime.format(new Date());
 	}
 }

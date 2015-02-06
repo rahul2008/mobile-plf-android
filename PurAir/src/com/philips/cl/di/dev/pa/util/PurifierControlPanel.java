@@ -17,6 +17,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
@@ -58,8 +59,11 @@ public class PurifierControlPanel implements OnClickListener {
 		isTimerMenuVisible = false;
 
 		power = (ToggleButton) activity.findViewById(R.id.btn_rm_power);
-		FontTextView schedule = (FontTextView) activity.findViewById(R.id.tv_rm_scheduler);
-		schedule.setOnClickListener(this);
+		FontTextView scheduleTV = (FontTextView) activity.findViewById(R.id.tv_rm_scheduler);
+		scheduleTV.setOnClickListener(this);
+		FontTextView notificationTV = (FontTextView) activity.findViewById(R.id.tv_rm_notification);
+		notificationTV.setOnClickListener(this);
+		
 		childLock = (ToggleButton) activity.findViewById(R.id.btn_rm_child_lock);
 		indicatorLight = (ToggleButton) activity.findViewById(R.id.btn_rm_indicator_light);
 
@@ -384,6 +388,12 @@ public class PurifierControlPanel implements OnClickListener {
 			Intent intent = new Intent(mainActivity, SchedulerActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			mainActivity.startActivity(intent);
+			break;
+		case R.id.tv_rm_notification:
+			collapseFanSpeedMenu(true);
+			collapseTimerMenu(true);
+			mainActivity.closeRightMenu();
+			mainActivity.showFragment(new NotificationsFragment());
 			break;
 		default:
 			break;

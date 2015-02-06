@@ -5,7 +5,7 @@
     android:background="@drawable/final_layout_border"
     android:paddingBottom="30dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_power"
         android:layout_width="wrap_content"
@@ -16,11 +16,11 @@
         android:layout_marginTop="25dp"
         android:paddingBottom="10dp"
         android:text="@string/power"
-        android:textColor="@color/gray"
+        android:textColor="@color/blue_list_item"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_power_status"
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         android:textColor="@color/red"
         android:textSize="16sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ToggleButton
         android:id="@id/btn_rm_power"
@@ -61,7 +61,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/seperator_line_2x" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_fan_speed"
         android:layout_width="wrap_content"
@@ -72,9 +72,9 @@
         android:layout_marginTop="10dp"
         android:paddingBottom="10dp"
         android:text="@string/fan_speed"
-        android:textColor="@color/gray"
+        android:textColor="@color/blue_list_item"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -89,7 +89,7 @@
         android:text=""
         android:textColor="#ffffff"
         android:textSize="10sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/divider_2"
@@ -112,7 +112,7 @@
         android:paddingBottom="15dp"
         android:visibility="gone" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView 
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tv_fan_speed_auto"
             android:layout_width="wrap_content"
@@ -121,9 +121,9 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="22dp"
             android:text="@string/auto"
-            android:textColor="@color/gray"
+            android:textColor="@color/blue_list_item"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <ToggleButton
             android:id="@+id/fan_speed_auto"
@@ -159,10 +159,10 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/silent"
-            android:textColor="#6D6D6D"
+            android:textColor="@color/blue_list_item"
             android:textSize="10sp"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -174,10 +174,10 @@
             android:layout_toRightOf="@+id/fan_speed_silent"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/turbo"
-            android:textColor="#6D6D6D"
+            android:textColor="@color/blue_list_item"
             android:textSize="10sp"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -189,7 +189,7 @@
             android:layout_toRightOf="@+id/fan_speed_one"
             android:background="@drawable/fan_speed_two_white"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -201,7 +201,7 @@
             android:layout_toRightOf="@+id/fan_speed_turbo"
             android:background="@drawable/fan_speed_three_white"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -214,12 +214,12 @@
             android:layout_marginTop="4dp"
             android:background="@drawable/fan_speed_one_white"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_set_timer"
+        android:id="@+id/tv_rm_indicator_light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -227,10 +227,112 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:paddingBottom="10dp"
-        android:text="@string/set_timer"
-        android:textColor="@color/gray"
+        android:text="@string/indicator_light"
+        android:textColor="@color/blue_list_item"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ToggleButton
+        android:id="@+id/btn_rm_indicator_light"
+        style="@style/Widget.Button.Toggle"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/tv_rm_indicator_light"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:clickable="false"
+        android:paddingTop="40dp" />
+
+    <ImageView
+        android:id="@+id/divider_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_rm_indicator_light"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/seperator_line_2x" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tv_rm_child_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/divider_4"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="10dp"
+        android:text="@string/child_lock"
+        android:textColor="@color/blue_list_item"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ToggleButton
+        android:id="@+id/btn_rm_child_lock"
+        style="@style/Widget.Button.Toggle"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/tv_rm_child_lock"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:clickable="false"
+        android:paddingTop="40dp" />
+
+    <ImageView
+        android:id="@+id/divider_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_rm_child_lock"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/seperator_line_2x" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tv_rm_scheduler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/divider_5"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="15dp"
+        android:drawableRight="@drawable/right_arrow_list_item"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:text="@string/scheduler"
+        android:textColor="@color/blue_list_item"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ImageView
+        android:id="@+id/divider_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_rm_scheduler"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/seperator_line_2x" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tv_rm_set_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/divider_7"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="10dp"
+        android:text="@string/set_timer"
+        android:textColor="@color/blue_list_item"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -246,13 +348,13 @@
         android:text="@string/off"
         android:textColor="#ffffff"
         android:textSize="10sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/divider_3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_set_timer"
+        android:layout_below="@+id/tv_rm_set_timer"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -279,10 +381,10 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/off"
-            android:textColor="#6D6D6D"
+            android:textColor="@color/blue_list_item"
             android:textSize="10sp"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -295,10 +397,10 @@
             android:layout_toRightOf="@+id/one_hour"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/fourhour"
-            android:textColor="#6D6D6D"
+            android:textColor="@color/blue_list_item"
             android:textSize="10sp"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -311,10 +413,10 @@
             android:layout_toRightOf="@+id/four_hours"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/eighthour"
-            android:textColor="#6D6D6D"
+            android:textColor="@color/blue_list_item"
             android:textSize="10sp"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -327,112 +429,29 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/onehour"
-            android:textColor="#6D6D6D"
+            android:textColor="@color/blue_list_item"
             android:textSize="10sp"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
+    
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_scheduler"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_rm_notification"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/layout_timer"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:paddingBottom="10dp"
-        android:text="@string/scheduler"
-        android:textColor="@color/gray"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/btn_rm_scheduler"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_alignBottom="@+id/tv_rm_scheduler"
-        android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:background="@drawable/button_bg_2x"
-        android:clickable="false"
-        android:text="@string/scheduler"
-        android:textColor="#ffffff"
-        android:textSize="8sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <ImageView
-        android:id="@+id/divider_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_scheduler"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView 
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_child_lock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_4"
-        android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
+        android:drawableRight="@drawable/right_arrow_list_item"
+        android:gravity="center_vertical"
         android:paddingBottom="10dp"
-        android:text="@string/child_lock"
-        android:textColor="@color/gray"
+        android:text="@string/list_item_notifications"
+        android:textColor="@color/blue_list_item"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <ToggleButton
-        android:id="@+id/btn_rm_child_lock"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/tv_rm_child_lock"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:clickable="false"
-        android:paddingTop="40dp" />
-
-    <ImageView
-        android:id="@+id/divider_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_child_lock"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView 
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_indicator_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_5"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:paddingBottom="10dp"
-        android:text="@string/indicator_light"
-        android:textColor="@color/gray"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <ToggleButton
-        android:id="@+id/btn_rm_indicator_light"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/tv_rm_indicator_light"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:clickable="false"
-        android:paddingTop="40dp" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

@@ -642,6 +642,7 @@
     <string name="app_update_notif_title">Smart Air update</string>
     <string name="app_update_failed">Smart Air App update failed</string>
     <string name="external_storage_unavailable">External storage not available</string>
+    <string name="last_connection">Last connection:</string>
     
     <string name="us_embassy">US Consulate</string>
     <string name="my_purifiers">My Purifiers</string>

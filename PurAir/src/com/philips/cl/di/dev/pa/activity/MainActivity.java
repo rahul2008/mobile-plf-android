@@ -476,14 +476,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private void showVirginFlowFragment() {
 		if(!LocationUtils.getDashboardWithoutPurifierState()) {
 			showFragment(new StartFlowVirginFragment()) ;
+			setTitle(getString(R.string.welcome));
 		} else {
 			Bundle bundle = new Bundle();
 			bundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
 			HomeFragment homeFragment = new HomeFragment();
 			homeFragment.setArguments(bundle);
 			showFragment(homeFragment);
+			setTitle(getString(R.string.dashboard_title));
 		}
-		setTitle(getString(R.string.dashboard_title));
+		
 	}
 
 	private void showDashboardFragment() {
@@ -649,8 +651,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				R.drawable.icon_2_2x));*/
 		/*leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
 				R.drawable.icon_3_2x));*/
-		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications,
-				R.drawable.icon_4_2x));
+//		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications,
+//				R.drawable.icon_4_2x));
 		/*leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc,
 				R.drawable.icon_5_2x));*/
 		/*leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
@@ -785,7 +787,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			leftMenuItems.add(getDashboard());
 //			leftMenuItems.add(new AirQualityFragment());
 //			leftMenuItems.add(new OutdoorLocationsFragment());
-			leftMenuItems.add(new NotificationsFragment());
+//			leftMenuItems.add(new NotificationsFragment());
 //			leftMenuItems.add(new HelpAndDocFragment());
 //			leftMenuItems.add(new SettingsFragment());
 //			leftMenuItems.add(new CreateAccountFragment());
@@ -810,11 +812,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				// Outdoor locations
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
-			}*/else if(leftMenuItemName.equals(getString(R.string.list_item_notifications))){
+			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_notifications))){
 				// Notifications
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_notifications));
-			}/*else if(leftMenuItemName.equals(getString(R.string.list_item_help_and_doc))){
+			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_help_and_doc))){
 				// Help and documentation
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_help_and_doc));
@@ -1196,6 +1198,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		default:
 			break;
 		}
+	}
+	
+	public void closeRightMenu() {
+		if (mDrawerLayout != null && mListViewLeft != null) mDrawerLayout.closeDrawer(mScrollViewRight);
 	}
 
 	private void checkForCrashesHockeyApp() {
