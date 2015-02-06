@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -22,6 +24,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -96,11 +99,67 @@ public class FacebookUtility {
 			pendingAction = PendingAction.valueOf(name);
 		}
 
+		initViews();
+		
 		// Session s = openActiveSession(true,
 		// Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
 		showShareAlert(null, mAllowNoSession); // post only text on FB
 		// pickImage(false); // take pick from SD card and post on FB
 		// // pickImage(true); // take pic from camera and post to FB
+	}
+	
+	private void initViews(){
+		popShareImage = (ImageView) myView.findViewById(R.id.share_image);
+		editStatus = (EditText) myView.findViewById(R.id.share_text);
+//		popShareImage.setImageBitmap(bitmap);
+		popSharePort = (FontButton) myView.findViewById(R.id.facebookSendPort);
+		popShareLand = (FontButton) myView.findViewById(R.id.facebookSendLand);
+
+		mCamera = (ImageView) myView.findViewById(R.id.fb_post_camera);
+		mCamera.setOnClickListener(clickListener);
+		popSharePort.setOnClickListener(clickListener);
+		popShareLand.setOnClickListener(clickListener);
+
+		editStatus.setText(mActivity.getResources().getString(
+				R.string.SocialSharingPostTemplateText));
+
+		editStatus.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence pEnteredText, int start,
+					int before, int count) {
+				/** Do nothing... */
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence pEnteredText, int start,
+					int count, int after) {
+				/** Do nothing... */
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// if (s.length() == 0 && bitmap == null) {
+				// popShare.setEnabled(false);
+				// } else {
+				// popSharePort.setEnabled(true);
+				// }
+			}
+		});
+
+		popSharePort.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (isImageAvialable) {
+					performPublish(PendingAction.POST_PHOTO,
+							canPresentShareDialogWithPhotos);
+				} else {
+					performPublish(PendingAction.POST_STATUS_UPDATE,
+							canPresentShareDialog);
+				}
+			}
+		});
 	}
 
 	private void previewCapturedImage() {
@@ -215,8 +274,10 @@ public class FacebookUtility {
 
 		if (resultCode == RESULT_OK) {
 			if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
+				isImageAvialable = true;
 				previewCapturedImage();
 			} else if (requestCode == SELECT_FILE && data != null) {
+				isImageAvialable = true;
 				selectedImageUri = data.getData();
 				String filePath = getFilePath(activity, selectedImageUri);
 				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
@@ -238,10 +299,65 @@ public class FacebookUtility {
 				// pickImage(false); // take pick from SD card and post on FB
 				// pickImage(true); // take pic from camera and post to FB
 			} else if (id == R.id.fb_post_camera) {
-				choosePic();
+				// choosePic();
+				chooseMediaOptions();
 			}
 		}
 	};
+
+	private static String itemSelected = null;
+
+	private void chooseMediaOptions() {
+		AlertDialog.Builder builderSingle = new AlertDialog.Builder(mActivity);
+		// builderSingle.setIcon(R.drawable.ic_launcher);
+		builderSingle.setTitle("Select One Option:-");
+		final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+				mActivity, android.R.layout.select_dialog_singlechoice);
+		arrayAdapter.add("Camera");
+		arrayAdapter.add("Phone Memory");
+		builderSingle.setNegativeButton("cancel",
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+
+		builderSingle.setAdapter(arrayAdapter,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						itemSelected = arrayAdapter.getItem(which);
+						switch(which){
+						case 0:
+							 pickImage(true);
+							break;
+						case 1:
+							 pickImage(false);
+							break;
+						}
+						
+						// AlertDialog.Builder builderInner = new
+						// AlertDialog.Builder(
+						// mActivity);
+						// builderInner.setMessage(strName);
+						// builderInner.setTitle("Your Selected Item is");
+						// builderInner.setPositiveButton("Ok",
+						// new DialogInterface.OnClickListener() {
+						//
+						// @Override
+						// public void onClick(DialogInterface dialog,
+						// int which) {
+						// dialog.dismiss();
+						// }
+						// });
+						// builderInner.show();
+					}
+				});
+		builderSingle.show();
+	}
 
 	private static final int SELECT_PICTURE = 11;
 
@@ -257,6 +373,7 @@ public class FacebookUtility {
 		mActivity.startActivityForResult(chooserIntent, SELECT_PICTURE);
 	}
 
+	private static boolean isImageAvialable = false;
 	/**
 	 * Alert Dialog for FB post with image and text.
 	 * 
@@ -268,57 +385,60 @@ public class FacebookUtility {
 	public void showShareAlert(final Bitmap bitmap,
 			final boolean isImageAvialable) {
 
-		popShareImage = (ImageView) myView.findViewById(R.id.share_image);
-		editStatus = (EditText) myView.findViewById(R.id.share_text);
-		popShareImage.setImageBitmap(bitmap);
-		popSharePort = (FontButton) myView.findViewById(R.id.facebookSendPort);
-		popShareLand = (FontButton) myView.findViewById(R.id.facebookSendLand);
-
-		mCamera = (ImageView) myView.findViewById(R.id.fb_post_camera);
-		mCamera.setOnClickListener(clickListener);
-		popSharePort.setOnClickListener(clickListener);
-		popShareLand.setOnClickListener(clickListener);
-
-		editStatus.setText(mActivity.getResources().getString(
-				R.string.SocialSharingPostTemplateText));
-
-		editStatus.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence pEnteredText, int start,
-					int before, int count) {
-				/** Do nothing... */
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence pEnteredText, int start,
-					int count, int after) {
-				/** Do nothing... */
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				// if (s.length() == 0 && bitmap == null) {
-				// popShare.setEnabled(false);
-				// } else {
-				// popSharePort.setEnabled(true);
-				// }
-			}
-		});
-
-		popSharePort.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if (isImageAvialable) {
-					performPublish(PendingAction.POST_PHOTO,
-							canPresentShareDialogWithPhotos);
-				} else {
-					performPublish(PendingAction.POST_STATUS_UPDATE,
-							canPresentShareDialog);
-				}
-			}
-		});
+//		popShareImage = (ImageView) myView.findViewById(R.id.share_image);
+//		editStatus = (EditText) myView.findViewById(R.id.share_text);
+		if(bitmap != null){
+			popShareImage.setImageBitmap(bitmap);
+			popShareImage.bringToFront();
+		}
+//		popSharePort = (FontButton) myView.findViewById(R.id.facebookSendPort);
+//		popShareLand = (FontButton) myView.findViewById(R.id.facebookSendLand);
+//
+//		mCamera = (ImageView) myView.findViewById(R.id.fb_post_camera);
+//		mCamera.setOnClickListener(clickListener);
+//		popSharePort.setOnClickListener(clickListener);
+//		popShareLand.setOnClickListener(clickListener);
+//
+//		editStatus.setText(mActivity.getResources().getString(
+//				R.string.SocialSharingPostTemplateText));
+//
+//		editStatus.addTextChangedListener(new TextWatcher() {
+//
+//			@Override
+//			public void onTextChanged(CharSequence pEnteredText, int start,
+//					int before, int count) {
+//				/** Do nothing... */
+//			}
+//
+//			@Override
+//			public void beforeTextChanged(CharSequence pEnteredText, int start,
+//					int count, int after) {
+//				/** Do nothing... */
+//			}
+//
+//			@Override
+//			public void afterTextChanged(Editable s) {
+//				// if (s.length() == 0 && bitmap == null) {
+//				// popShare.setEnabled(false);
+//				// } else {
+//				// popSharePort.setEnabled(true);
+//				// }
+//			}
+//		});
+//
+//		popSharePort.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				if (isImageAvialable) {
+//					performPublish(PendingAction.POST_PHOTO,
+//							canPresentShareDialogWithPhotos);
+//				} else {
+//					performPublish(PendingAction.POST_STATUS_UPDATE,
+//							canPresentShareDialog);
+//				}
+//			}
+//		});
 	}
 
 	@SuppressWarnings("static-method")
