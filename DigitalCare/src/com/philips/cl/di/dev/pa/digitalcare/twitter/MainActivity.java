@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.digitalcare.twitter;
 
+import java.io.File;
 import java.io.InputStream;
 
 import twitter4j.StatusUpdate;
@@ -13,18 +14,27 @@ import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -45,9 +55,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	private static final String PREF_USER_NAME = "twitter_user_name";
 	private static final String PREF_CUSTOMER_SUPPORT = " @PhilipsCare ";
 	private static String PREF_USERNAME;
+	private Activity mActivity = this;
+	private Uri mImageCaptureUri;
 
 	/* Any number for uniquely distinguish your request */
 	public static final int WEBVIEW_REQUEST_CODE = 100;
+	private static final int PICK_FROM_CAMERA = 101;
+	private static final int PICK_FROM_FILE = 102;
 
 	private ProgressDialog pDialog;
 
@@ -58,9 +72,10 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private EditText mShareEditText;
 	private FontButton mSendPort, mCancelPort, mSendLand, mCancelLand;
-	private TextView userName, mDescription;
+	private TextView userName;
 	private ImageView mPhoto;
 	private ImageView mSocialLoginIcon = null;
+	private CheckBox mCheckBox;
 
 	private String consumerKey = null;
 	private String consumerSecret = null;
@@ -99,6 +114,8 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSocialLoginIcon = (ImageView) findViewById(R.id.socialLoginIcon);
 		mSocialLoginIcon.setImageDrawable(getResources().getDrawable(
 				R.drawable.social_twitter_icon));
+		mCheckBox = (CheckBox) findViewById(R.id.fb_Post_CheckBox);
+		mCheckBox.setChecked(true);
 
 		mOptionParent = (LinearLayout) findViewById(R.id.fbPostContainer);
 		mParams = (android.widget.FrameLayout.LayoutParams) mOptionParent
@@ -112,6 +129,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		mSendLand.setOnClickListener(this);
 		mCancelLand.setOnClickListener(this);
 		mPhoto.setOnClickListener(this);
+		mCheckBox.setOnClickListener(this);
 
 		/* Check if required twitter keys are set */
 		if (TextUtils.isEmpty(consumerKey) || TextUtils.isEmpty(consumerSecret)) {
@@ -251,7 +269,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (resultCode == Activity.RESULT_OK) {
+		if (resultCode == Activity.RESULT_OK
+				&& requestCode == WEBVIEW_REQUEST_CODE) {
 			String verifier = data.getExtras().getString(oAuthVerifier);
 			try {
 				AccessToken accessToken = twitter.getOAuthAccessToken(
@@ -263,14 +282,35 @@ public class MainActivity extends Activity implements OnClickListener {
 
 				saveTwitterInfo(accessToken);
 
-				userName.setText(MainActivity.this.getResources().getString(
-						R.string.hello)
-						+ username);
+				if (username != null)
+					userName.setText(MainActivity.this.getResources()
+							.getString(R.string.hello) + username);
 
 			} catch (Exception e) {
 				Log.e("Twitter Login Failed", e.getMessage());
 			}
 		}
+
+		Bitmap bitmap = null;
+		String path = "";
+
+		if (requestCode == PICK_FROM_FILE) {
+			mImageCaptureUri = data.getData();
+			path = getRealPathFromURI(mImageCaptureUri); // from Gallery
+
+			if (path == null)
+				path = mImageCaptureUri.getPath(); // from File Manager
+
+			if (path != null)
+				bitmap = BitmapFactory.decodeFile(path);
+		}
+
+		if (requestCode == PICK_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
+			path = mImageCaptureUri.getPath();
+			bitmap = BitmapFactory.decodeFile(path);
+		}
+
+		mPhoto.setImageBitmap(bitmap);
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
@@ -278,6 +318,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+
+		case R.id.fb_Post_CheckBox:
+			if (!((CheckBox) v).isChecked()) {
+				mShareEditText.setText("");
+			}
+
+			break;
 
 		case R.id.facebookCancelPort:
 			finish();
@@ -288,8 +335,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.fb_post_camera:
-			Toast.makeText(getApplicationContext(), "Select Image",
-					Toast.LENGTH_SHORT).show();
+			chooseImage();
+			dialog.show();
+
 			break;
 
 		case R.id.facebookSendPort:
@@ -321,7 +369,73 @@ public class MainActivity extends Activity implements OnClickListener {
 						.show();
 			}
 			break;
+
 		}
+	}
+
+	AlertDialog dialog;
+
+	private void chooseImage() {
+		final String[] items = new String[] { "From Camera", "From SD Card",
+				"Cancel" };
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.select_dialog_item, items);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+		builder.setTitle("Select Image");
+		builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int item) {
+				if (item == 0) {
+					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					File file = new File(Environment
+							.getExternalStorageDirectory(), "tmp_avatar_"
+							+ String.valueOf(System.currentTimeMillis())
+							+ ".jpg");
+					mImageCaptureUri = Uri.fromFile(file);
+
+					try {
+						intent.putExtra(
+								android.provider.MediaStore.EXTRA_OUTPUT,
+								mImageCaptureUri);
+						intent.putExtra("return-data", true);
+
+						startActivityForResult(intent, PICK_FROM_CAMERA);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					dialog.cancel();
+				} else if (item == 1) {
+					Intent intent = new Intent();
+
+					intent.setType("image/*");
+					intent.setAction(Intent.ACTION_GET_CONTENT);
+
+					startActivityForResult(Intent.createChooser(intent,
+							"Complete action using"), PICK_FROM_FILE);
+				} else {
+					dialog.dismiss();
+				}
+			}
+		});
+
+		dialog = builder.create();
+	}
+
+	// Select Imagepath
+	private String getRealPathFromURI(Uri contentUri) {
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+
+		if (cursor == null)
+			return null;
+
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+		cursor.moveToFirst();
+
+		return cursor.getString(column_index);
 	}
 
 	class updateTwitterStatus extends AsyncTask<String, String, Void> {
@@ -386,4 +500,5 @@ public class MainActivity extends Activity implements OnClickListener {
 		}
 
 	}
+
 }
