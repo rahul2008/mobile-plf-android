@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -46,6 +47,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	/* Any number for uniquely distinguish your request */
 	public static final int WEBVIEW_REQUEST_CODE = 100;
+	public static final int SELECT_PICTURE = 101;
 
 	private ProgressDialog pDialog;
 
@@ -90,6 +92,7 @@ public class MainActivity extends Activity implements OnClickListener {
        mPhoto = (ImageView)findViewById(R.id.fb_post_camera);
        mDescription = (TextView)findViewById(R.id.face_desc);
        mDescription.setText("Include product information");
+       mShareEditText.setHint("");
        
        mSendPort.setOnClickListener(this);
        mCancelPort.setOnClickListener(this);
@@ -250,7 +253,23 @@ public class MainActivity extends Activity implements OnClickListener {
 			break;
 			
 		case R.id.fb_post_camera:
-			 Toast.makeText(getApplicationContext(), "Select Image", Toast.LENGTH_SHORT).show();
+            Intent pickIntent = new Intent();
+            pickIntent.setType("image/*");
+            pickIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+            Intent takePhotoIntent = new Intent(
+                                            MediaStore.ACTION_IMAGE_CAPTURE);
+
+            String pickTitle = "Select or take a new Picture"; // Or get
+                                                                                                                                                                                                                            // from
+                                                                                                                                                                                                                            // strings.xml
+            Intent chooserIntent = Intent.createChooser(pickIntent,
+                                            pickTitle);
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                                            new Intent[] { takePhotoIntent });
+
+            startActivityForResult(chooserIntent, SELECT_PICTURE);
+
 			break;
 	
 		case R.id.facebookSendPort:
