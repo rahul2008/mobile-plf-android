@@ -1083,7 +1083,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 					@Override
 					public void run() {
-						((NotificationsFragment) fragment).disableNotificationScreen() ;
+						((NotificationsFragment) fragment).disableNotificationLayout() ;
 					}
 				});
 
