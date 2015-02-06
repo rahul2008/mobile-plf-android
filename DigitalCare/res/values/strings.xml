@@ -80,7 +80,7 @@
 	<string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
 	
 	 <!-- Twitter -->
-  <string name="hello">Hello, </string>
+  <string name="hello">From @ </string>
     <string name="login_instructions">Login to twiter</string>
     <string name="share_instructions">Enter share message</string>
     <string name="btn_login">Login to Twitter</string>

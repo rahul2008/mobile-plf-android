@@ -25,10 +25,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,8 +55,9 @@ public class MainActivity extends Activity implements OnClickListener {
 	private static SharedPreferences mSharedPreferences;
 
 	private EditText mShareEditText;
-	private FontButton mSendPort, mCancelPort;
-	private TextView userName;
+	private FontButton mSendPort, mCancelPort, mSendLand, mCancelLand;
+    private TextView userName, mDescription;
+    private ImageView mPhoto;
 
 	private String consumerKey = null;
 	private String consumerSecret = null;
@@ -85,10 +84,19 @@ public class MainActivity extends Activity implements OnClickListener {
 		mShareEditText = (EditText)findViewById(R.id.share_text);
        mSendPort = (FontButton)findViewById(R.id.facebookSendPort);
        mCancelPort = (FontButton)findViewById(R.id.facebookCancelPort);
+       mSendLand = (FontButton)findViewById(R.id.facebookSendLand);
+       mCancelLand = (FontButton)findViewById(R.id.facebookCancelLand);
        userName = (TextView)findViewById(R.id.fb_Post_FromHeaderText);
+       mPhoto = (ImageView)findViewById(R.id.fb_post_camera);
+       mDescription = (TextView)findViewById(R.id.face_desc);
+       mDescription.setText("Include product information");
        
        mSendPort.setOnClickListener(this);
        mCancelPort.setOnClickListener(this);
+       
+       mSendLand.setOnClickListener(this);
+       mCancelLand.setOnClickListener(this);
+       mPhoto.setOnClickListener(this);
 		
 
 		/* Check if required twitter keys are set */
@@ -236,6 +244,14 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.facebookCancelPort:
 			finish();
 			break;
+			
+		case R.id.facebookCancelLand:
+			finish();
+			break;
+			
+		case R.id.fb_post_camera:
+			 Toast.makeText(getApplicationContext(), "Select Image", Toast.LENGTH_SHORT).show();
+			break;
 	
 		case R.id.facebookSendPort:
 			final String status = mShareEditText.getText().toString();
@@ -243,6 +259,21 @@ public class MainActivity extends Activity implements OnClickListener {
 			if (status.trim().length() > 0) {
 				{
 					String tweet = PREF_CUSTOMER_SUPPORT + status;
+					new updateTwitterStatus().execute(tweet);
+
+				}
+			} else {
+				Toast.makeText(this, "Message is empty!!", Toast.LENGTH_SHORT)
+						.show();
+			}
+			break;
+			
+		case R.id.facebookSendLand:
+			final String status1 = mShareEditText.getText().toString();
+
+			if (status1.trim().length() > 0) {
+				{
+					String tweet = PREF_CUSTOMER_SUPPORT + status1;
 					new updateTwitterStatus().execute(tweet);
 
 				}
