@@ -91,4 +91,5 @@
     <string name="twitter_consumer_key">vM5RNi5CCodJnL7e5BOA</string>
     <string name="twitter_consumer_secret">FQNS0eBbM8J5DDjDglLCwOvAUUesYhN5uFxdxjKLgk</string>
     <string name="twitter_oauth_verifier">oauth_verifier</string>
+    <string name="include_prod_desc">Include product information</string>
 </resources>

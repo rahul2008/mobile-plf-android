@@ -43,10 +43,12 @@
                 android:layout_weight="1.5" >
 
                 <ImageView
+                    android:id="@+id/socialLoginIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/img_description"
                     android:layout_marginTop="@dimen/marginTopButton"
-                    android:src="@drawable/social_twitter_icon" />
+                    android:src="@drawable/social_fb_icon" />
             </LinearLayout>
         </LinearLayout>
 
@@ -62,7 +64,7 @@
 
             <TextView
                 style="@style/fboptouttext"
-                android:text="@string/facebook_login_header" />
+                android:text="@string/include_prod_desc" />
         </LinearLayout>
 
         <RelativeLayout

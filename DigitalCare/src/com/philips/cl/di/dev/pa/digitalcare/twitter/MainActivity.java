@@ -21,13 +21,14 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,7 +48,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	/* Any number for uniquely distinguish your request */
 	public static final int WEBVIEW_REQUEST_CODE = 100;
-	public static final int SELECT_PICTURE = 101;
 
 	private ProgressDialog pDialog;
 
@@ -58,13 +58,19 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	private EditText mShareEditText;
 	private FontButton mSendPort, mCancelPort, mSendLand, mCancelLand;
-    private TextView userName, mDescription;
-    private ImageView mPhoto;
+	private TextView userName, mDescription;
+	private ImageView mPhoto;
+	private ImageView mSocialLoginIcon = null;
 
 	private String consumerKey = null;
 	private String consumerSecret = null;
 	private String callbackUrl = null;
 	private String oAuthVerifier = null;
+
+	private LinearLayout mOptionParent = null;
+	private FrameLayout.LayoutParams mParams = null;
+	private LinearLayout mFacebookParentPort = null;
+	private LinearLayout mFacebookParentLand = null;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -83,24 +89,29 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		/* Setting activity layout file */
 		setContentView(R.layout.fragment_facebook_screen);
-		mShareEditText = (EditText)findViewById(R.id.share_text);
-       mSendPort = (FontButton)findViewById(R.id.facebookSendPort);
-       mCancelPort = (FontButton)findViewById(R.id.facebookCancelPort);
-       mSendLand = (FontButton)findViewById(R.id.facebookSendLand);
-       mCancelLand = (FontButton)findViewById(R.id.facebookCancelLand);
-       userName = (TextView)findViewById(R.id.fb_Post_FromHeaderText);
-       mPhoto = (ImageView)findViewById(R.id.fb_post_camera);
-       mDescription = (TextView)findViewById(R.id.face_desc);
-       mDescription.setText("Include product information");
-       mShareEditText.setHint("");
-       
-       mSendPort.setOnClickListener(this);
-       mCancelPort.setOnClickListener(this);
-       
-       mSendLand.setOnClickListener(this);
-       mCancelLand.setOnClickListener(this);
-       mPhoto.setOnClickListener(this);
-		
+		mShareEditText = (EditText) findViewById(R.id.share_text);
+		mSendPort = (FontButton) findViewById(R.id.facebookSendPort);
+		mCancelPort = (FontButton) findViewById(R.id.facebookCancelPort);
+		mSendLand = (FontButton) findViewById(R.id.facebookSendLand);
+		mCancelLand = (FontButton) findViewById(R.id.facebookCancelLand);
+		userName = (TextView) findViewById(R.id.fb_Post_FromHeaderText);
+		mPhoto = (ImageView) findViewById(R.id.fb_post_camera);
+		mSocialLoginIcon = (ImageView) findViewById(R.id.socialLoginIcon);
+		mSocialLoginIcon.setImageDrawable(getResources().getDrawable(
+				R.drawable.social_twitter_icon));
+
+		mOptionParent = (LinearLayout) findViewById(R.id.fbPostContainer);
+		mParams = (android.widget.FrameLayout.LayoutParams) mOptionParent
+				.getLayoutParams();
+		mFacebookParentPort = (LinearLayout) findViewById(R.id.facebookParentPort);
+		mFacebookParentLand = (LinearLayout) findViewById(R.id.facebookParentLand);
+
+		mSendPort.setOnClickListener(this);
+		mCancelPort.setOnClickListener(this);
+
+		mSendLand.setOnClickListener(this);
+		mCancelLand.setOnClickListener(this);
+		mPhoto.setOnClickListener(this);
 
 		/* Check if required twitter keys are set */
 		if (TextUtils.isEmpty(consumerKey) || TextUtils.isEmpty(consumerSecret)) {
@@ -117,7 +128,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		/* if already logged in, then hide login layout and show share layout */
 		if (isLoggedIn) {
-			
 
 			String username = mSharedPreferences.getString(PREF_USER_NAME, "");
 			userName.setText(getResources().getString(R.string.hello)
@@ -152,8 +162,34 @@ public class MainActivity extends Activity implements OnClickListener {
 					Log.e("Failed to login Twitter!!", e.getMessage());
 				}
 			}
-
 		}
+		android.content.res.Configuration config = this.getResources()
+				.getConfiguration();
+		setViewParams(config);
+	}
+
+	@Override
+	public void onConfigurationChanged(
+			android.content.res.Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		setViewParams(newConfig);
+	}
+
+	private void setViewParams(android.content.res.Configuration config) {
+		int mLeftRightMarginPort = (int) this.getResources().getDimension(
+				R.dimen.activity_margin_port);
+		int mLeftRightMarginLand = (int) this.getResources().getDimension(
+				R.dimen.activity_margin_land);
+		if (config.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
+			mFacebookParentPort.setVisibility(View.VISIBLE);
+			mFacebookParentLand.setVisibility(View.GONE);
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+		} else {
+			mFacebookParentLand.setVisibility(View.VISIBLE);
+			mFacebookParentPort.setVisibility(View.GONE);
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+		}
+		mOptionParent.setLayoutParams(mParams);
 	}
 
 	private void saveTwitterInfo(AccessToken accessToken) {
@@ -227,7 +263,6 @@ public class MainActivity extends Activity implements OnClickListener {
 
 				saveTwitterInfo(accessToken);
 
-				
 				userName.setText(MainActivity.this.getResources().getString(
 						R.string.hello)
 						+ username);
@@ -243,35 +278,20 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		
+
 		case R.id.facebookCancelPort:
 			finish();
 			break;
-			
+
 		case R.id.facebookCancelLand:
 			finish();
 			break;
-			
+
 		case R.id.fb_post_camera:
-            Intent pickIntent = new Intent();
-            pickIntent.setType("image/*");
-            pickIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-            Intent takePhotoIntent = new Intent(
-                                            MediaStore.ACTION_IMAGE_CAPTURE);
-
-            String pickTitle = "Select or take a new Picture"; // Or get
-                                                                                                                                                                                                                            // from
-                                                                                                                                                                                                                            // strings.xml
-            Intent chooserIntent = Intent.createChooser(pickIntent,
-                                            pickTitle);
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-                                            new Intent[] { takePhotoIntent });
-
-            startActivityForResult(chooserIntent, SELECT_PICTURE);
-
+			Toast.makeText(getApplicationContext(), "Select Image",
+					Toast.LENGTH_SHORT).show();
 			break;
-	
+
 		case R.id.facebookSendPort:
 			final String status = mShareEditText.getText().toString();
 
@@ -286,7 +306,7 @@ public class MainActivity extends Activity implements OnClickListener {
 						.show();
 			}
 			break;
-			
+
 		case R.id.facebookSendLand:
 			final String status1 = mShareEditText.getText().toString();
 
