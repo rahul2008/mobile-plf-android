@@ -54,14 +54,14 @@
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/manual_open"
-                    style="@style/viewProductDetails_Buttons"
+                    style="@style/viewProductDetails_product_buttons"
                     android:contentDescription="@string/product_name"
                     android:text="@string/product_open_manual"
                      />
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/manual_download"
-                    style="@style/viewProductDetails_Buttons"
+                    style="@style/viewProductDetails_product_buttons"
                     android:layout_below="@+id/manual_open"
                     android:contentDescription="@string/product_name"
                     android:text="@string/product_download_manual"
@@ -69,7 +69,7 @@
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/prodinfo_button"
-                    style="@style/viewProductDetails_Buttons"
+                    style="@style/viewProductDetails_product_buttons"
                     android:layout_below="@+id/manual_download"
                     android:contentDescription="@string/product_name"
                     android:text="@string/product_information"

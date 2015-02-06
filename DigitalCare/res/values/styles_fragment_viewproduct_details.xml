@@ -41,9 +41,19 @@
         <item name="android:textColor">@color/text_sub_header_color</item>
     </style>
 
+    <style name="viewProductDetails_product_buttons">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">@dimen/support_btn_height</item>
+        <item name="android:background">@drawable/selector_option_button_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:layout_marginTop">@dimen/marginTopButton</item>
+    </style>
+    
     <style name="viewProductDetails_ManualButtons_Container">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">170dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_below">@+id/toplayout</item>
         <item name="android:paddingLeft">@dimen/activity_margin</item>
@@ -74,6 +84,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">165dp</item>
         <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_below">@+id/prodbuttons</item>
     </style>
 
     <style name="viewProductDetails_Ads_Image">

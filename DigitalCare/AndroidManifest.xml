@@ -48,6 +48,26 @@
             android:name="com.facebook.NativeAppCallContentProvider"
             android:authorities="com.facebook.app.NativeAppCallContentProvider1537018913230025"
             android:exported="false" />
+			
+			  <!--  Twitter Logins -->
+               <activity
+            android:name="com.philips.cl.di.dev.pa.digitalcare.twitter.MainActivity"
+            android:label="@string/app_name" >
+          
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="t4jsample"
+                    android:scheme="oauth" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.digitalcare.twitter.WebViewActivity"
+            android:label="@string/app_name" />
     </application>
 
 </manifest>
