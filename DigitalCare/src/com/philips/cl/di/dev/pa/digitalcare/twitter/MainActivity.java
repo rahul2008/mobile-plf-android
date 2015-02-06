@@ -16,6 +16,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -33,6 +35,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -76,6 +79,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private ImageView mPhoto;
 	private ImageView mSocialLoginIcon = null;
 	private CheckBox mCheckBox;
+	private File mFile;
 
 	private String consumerKey = null;
 	private String consumerSecret = null;
@@ -86,6 +90,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private FrameLayout.LayoutParams mParams = null;
 	private LinearLayout mFacebookParentPort = null;
 	private LinearLayout mFacebookParentLand = null;
+	InputMethodManager imm;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -116,12 +121,15 @@ public class MainActivity extends Activity implements OnClickListener {
 				R.drawable.social_twitter_icon));
 		mCheckBox = (CheckBox) findViewById(R.id.fb_Post_CheckBox);
 		mCheckBox.setChecked(true);
+		mShareEditText.setHint("");
 
 		mOptionParent = (LinearLayout) findViewById(R.id.fbPostContainer);
 		mParams = (android.widget.FrameLayout.LayoutParams) mOptionParent
 				.getLayoutParams();
 		mFacebookParentPort = (LinearLayout) findViewById(R.id.facebookParentPort);
 		mFacebookParentLand = (LinearLayout) findViewById(R.id.facebookParentLand);
+		imm = (InputMethodManager) this
+				.getSystemService(Service.INPUT_METHOD_SERVICE);
 
 		mSendPort.setOnClickListener(this);
 		mCancelPort.setOnClickListener(this);
@@ -301,13 +309,16 @@ public class MainActivity extends Activity implements OnClickListener {
 			if (path == null)
 				path = mImageCaptureUri.getPath(); // from File Manager
 
-			if (path != null)
+			if (path != null){
 				bitmap = BitmapFactory.decodeFile(path);
+			mFile = new File(path);
+			}
 		}
 
 		if (requestCode == PICK_FROM_CAMERA && resultCode == Activity.RESULT_OK) {
 			path = mImageCaptureUri.getPath();
 			bitmap = BitmapFactory.decodeFile(path);
+			mFile = new File(path);
 		}
 
 		mPhoto.setImageBitmap(bitmap);
@@ -322,6 +333,17 @@ public class MainActivity extends Activity implements OnClickListener {
 		case R.id.fb_Post_CheckBox:
 			if (!((CheckBox) v).isChecked()) {
 				mShareEditText.setText("");
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (imm != null) {
+					imm.toggleSoftInput(0,
+							InputMethodManager.HIDE_IMPLICIT_ONLY);
+				}
+
+			} else if (((CheckBox) v).isChecked()) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+				if (imm != null) {
+					imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+				}
 			}
 
 			break;
@@ -376,7 +398,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	AlertDialog dialog;
 
 	private void chooseImage() {
-		final String[] items = new String[] { "From Camera", "From SD Card",
+		final String[] items = new String[] { "Take Photo", "Choose from Library",
 				"Cancel" };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
 				android.R.layout.select_dialog_item, items);
@@ -472,9 +494,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
 				// Update status
 				StatusUpdate statusUpdate = new StatusUpdate(status);
-				InputStream is = getResources().openRawResource(
-						R.drawable.lakeside_view);
-				statusUpdate.setMedia("test.jpg", is);
+				
+		
+				/*InputStream is = getResources().openRawResource(
+						R.drawable.lakeside_view);*/
+				
+				statusUpdate.setMedia(mFile);
 
 				twitter4j.Status response = twitter.updateStatus(statusUpdate);
 
