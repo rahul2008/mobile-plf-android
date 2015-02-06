@@ -24,7 +24,7 @@ import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 public class ContactUsFragment extends BaseFragment {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private FontButton mFacebook = null;
+	private FontButton mFacebook, mTwitter = null;
 	private FontButton mChat = null;
 	private FontButton mCallPhilips = null;
 
@@ -50,12 +50,14 @@ public class ContactUsFragment extends BaseFragment {
 		mChat = (FontButton) getActivity().findViewById(R.id.contactUsChat);
 		mFacebook = (FontButton) getActivity().findViewById(
 				R.id.socialLoginFacebookBtn);
+		mTwitter = (FontButton)getActivity().findViewById(R.id.socialLoginTwitterBtn);
 		mCallPhilips = (FontButton) getActivity().findViewById(
 				R.id.contactUsCall);
 
 		mFacebook.setOnClickListener(actionBarClickListener);
 		mChat.setOnClickListener(actionBarClickListener);
 		mCallPhilips.setOnClickListener(actionBarClickListener);
+		mTwitter.setOnClickListener(actionBarClickListener);
 
 		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
@@ -88,6 +90,11 @@ public class ContactUsFragment extends BaseFragment {
 				showFragment(new FacebookScreenFragment());
 //				 mFacebookUtility = new FacebookUtility(getActivity(),
 //				 mSaveInstanceState);
+			}
+			else if(id == R.id.socialLoginTwitterBtn)
+			{
+				Intent intent = new Intent(getActivity(), com.philips.cl.di.dev.pa.digitalcare.twitter.MainActivity.class);
+				getActivity().startActivity(intent);
 			}
 		}
 	};

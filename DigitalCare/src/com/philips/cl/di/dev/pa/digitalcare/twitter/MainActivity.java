@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -32,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
+import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -55,8 +57,8 @@ public class MainActivity extends Activity implements OnClickListener {
 	private static SharedPreferences mSharedPreferences;
 
 	private EditText mShareEditText;
+	private FontButton mSendPort, mCancelPort;
 	private TextView userName;
-	private View shareLayout;
 
 	private String consumerKey = null;
 	private String consumerSecret = null;
@@ -79,13 +81,15 @@ public class MainActivity extends Activity implements OnClickListener {
 		StrictMode.setThreadPolicy(policy);
 
 		/* Setting activity layout file */
-		setContentView(R.layout.activity_main);
-		shareLayout = (LinearLayout) findViewById(R.id.share_layout);
-		mShareEditText = (EditText) findViewById(R.id.share_text);
-		userName = (TextView) findViewById(R.id.user_name);
-
-		/* register button click listeners */
-		findViewById(R.id.btn_share).setOnClickListener(this);
+		setContentView(R.layout.fragment_facebook_screen);
+		mShareEditText = (EditText)findViewById(R.id.share_text);
+       mSendPort = (FontButton)findViewById(R.id.facebookSendPort);
+       mCancelPort = (FontButton)findViewById(R.id.facebookCancelPort);
+       userName = (TextView)findViewById(R.id.fb_Post_FromHeaderText);
+       
+       mSendPort.setOnClickListener(this);
+       mCancelPort.setOnClickListener(this);
+		
 
 		/* Check if required twitter keys are set */
 		if (TextUtils.isEmpty(consumerKey) || TextUtils.isEmpty(consumerSecret)) {
@@ -102,7 +106,7 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		/* if already logged in, then hide login layout and show share layout */
 		if (isLoggedIn) {
-			shareLayout.setVisibility(View.VISIBLE);
+			
 
 			String username = mSharedPreferences.getString(PREF_USER_NAME, "");
 			userName.setText(getResources().getString(R.string.hello)
@@ -110,7 +114,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			PREF_USERNAME = username;
 
 		} else {
-			shareLayout.setVisibility(View.GONE);
 			loginToTwitter();
 
 			Uri uri = getIntent().getData();
@@ -131,7 +134,6 @@ public class MainActivity extends Activity implements OnClickListener {
 					/* save updated token */
 					saveTwitterInfo(accessToken);
 
-					shareLayout.setVisibility(View.VISIBLE);
 					userName.setText(getString(R.string.hello) + username);
 					PREF_USERNAME = username;
 
@@ -196,7 +198,6 @@ public class MainActivity extends Activity implements OnClickListener {
 			}
 		} else {
 
-			shareLayout.setVisibility(View.VISIBLE);
 		}
 	}
 
@@ -216,7 +217,6 @@ public class MainActivity extends Activity implements OnClickListener {
 				saveTwitterInfo(accessToken);
 
 				
-				shareLayout.setVisibility(View.VISIBLE);
 				userName.setText(MainActivity.this.getResources().getString(
 						R.string.hello)
 						+ username);
@@ -232,8 +232,12 @@ public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		
+		case R.id.facebookCancelPort:
+			finish();
+			break;
 	
-		case R.id.btn_share:
+		case R.id.facebookSendPort:
 			final String status = mShareEditText.getText().toString();
 
 			if (status.trim().length() > 0) {
