@@ -1241,7 +1241,14 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		else {
 			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+			FragmentManager manager = getSupportFragmentManager();
+			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
+			if(fragment instanceof NotificationsFragment) {
+				cancelPairingDialog() ;
+				((NotificationsFragment) fragment).disableNotificationLayout() ;
+			}
 			showInternetAlertDialog();
+
 		}
 	}
 }
