@@ -148,7 +148,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		getWindow().setBackgroundDrawable(null);
+//		getWindow().setBackgroundDrawable(null);
 		
 		CPPController.getInstance(this).setAppUpdateStatus(false);
 		
