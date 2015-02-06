@@ -22,6 +22,7 @@ public class LocalConnection implements DeviceConnection {
 
 	public LocalConnection(PurAirDevice purifier, String dataToSend) {
 		ALog.i("UIUX", "Datatosend: " + dataToSend);
+		ALog.d(ALog.DEVICEHANDLER, "Start request LOCAL");
 		this.url = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
 		this.dataToSend = dataToSend;
 	}
@@ -51,7 +52,7 @@ public class LocalConnection implements DeviceConnection {
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
 			}
-
+			ALog.d(ALog.DEVICEHANDLER, "Stop request LOCAL - responsecode: " + responseCode);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

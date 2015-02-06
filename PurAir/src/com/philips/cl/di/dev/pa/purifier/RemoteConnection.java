@@ -16,36 +16,38 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
 	private PurAirDevice purifier ;
 	private String eventData ;
-	
+
 	private String response ;
 	private int messageId ;
 	private CPPController cppController ;
-	
+
 	public RemoteConnection(PurAirDevice purifier, String eventData) {
+		ALog.d(ALog.DEVICEHANDLER, "Start request REMOTE");
 		this.purifier = purifier ;
 		this.eventData = eventData ;
 		cppController = CPPController.getInstance(PurAirApplication.getAppContext());
 	}
-	
+
 	@Override
 	public String setPurifierDetails() {
-		//TODO - Add publish event listener for handling error cases 
+		//TODO - Add publish event listener for handling error cases
 		cppController.setDCSResponseListener(this) ;
 		cppController.addPublishEventListener(this) ;
-		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, 
+		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS,
 				SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
 		try {
 			ALog.i(ALog.DEVICEHANDLER, "wait for 30 secs") ;
 			synchronized (this) {
 				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
-			}			
+			}
 		} catch (InterruptedException e) {
 			ALog.e(ALog.DEVICEHANDLER, "interupted exception") ;
+			ALog.d(ALog.DEVICEHANDLER, "Stop request REMOTE - timeout");
 		}
-		ALog.i(ALog.DEVICEHANDLER, "Wait over") ;
+		ALog.i(ALog.DEVICEHANDLER, "Wait over");
 		return response ;
 	}
-	
+
 	@Override
 	public void onDCSResponseReceived(String dcsResponse) {
 		//TODO - Check for Air Port Response
@@ -56,6 +58,7 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 		response = dcsResponse ;
 		synchronized (this) {
 			ALog.i(ALog.DEVICEHANDLER, "Notified on DCS Response") ;
+			ALog.d(ALog.DEVICEHANDLER, "Stop request REMOTE - dcsevent");
 			notify() ;
 		}
 	}
@@ -67,6 +70,7 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 			if( status != Errors.SUCCESS) {
 				synchronized (this) {
 					ALog.i(ALog.DEVICEHANDLER, "Notified on Publish Event Response") ;
+					ALog.d(ALog.DEVICEHANDLER, "Stop request REMOTE - response");
 					notify() ;
 				}
 			}
