@@ -28,13 +28,12 @@ public class FacebookScreenFragment extends BaseFragment {
 	private FrameLayout.LayoutParams mParams = null;
 	private LinearLayout mFacebookParentPort = null;
 	private LinearLayout mFacebookParentLand = null;
+	private FontButton popSharePort = null;
+	private FontButton popShareLand = null;
 	private FontButton popCancelPort = null;
 	private FontButton popCancelLand = null;
-
-	// private ImageView mCamera = null;
-
-	private FacebookUtility mFacebookUtility = null;
-	private Bundle mSaveInstanceState = null;
+	private static FacebookUtility mFacebookUtility = null;
+	private static Bundle mSaveInstanceState = null;
 	private View view = null;
 
 	@Override
@@ -73,13 +72,13 @@ public class FacebookScreenFragment extends BaseFragment {
 				R.id.facebookParentLand);
 		popCancelPort = (FontButton) view.findViewById(R.id.facebookCancelPort);
 		popCancelLand = (FontButton) view.findViewById(R.id.facebookCancelLand);
+		popSharePort = (FontButton) view.findViewById(R.id.facebookSendPort);
+		popShareLand = (FontButton) view.findViewById(R.id.facebookSendLand);
+
+		popSharePort.setOnClickListener(clickListner);
+		popShareLand.setOnClickListener(clickListner);
 		popCancelPort.setOnClickListener(clickListner);
 		popCancelLand.setOnClickListener(clickListner);
-
-		// mCamera = (ImageView)
-		// getActivity().findViewById(R.id.fb_post_camera);
-		//
-		// mCamera.setOnClickListener(actionBarClickListener);
 
 		Configuration config = resource.getConfiguration();
 		setViewParams(config);
@@ -127,35 +126,6 @@ public class FacebookScreenFragment extends BaseFragment {
 		}
 	}
 
-	// private OnClickListener actionBarClickListener = new OnClickListener() {
-	//
-	// public void onClick(View view) {
-	// int id = view.getId();
-	//
-	// if (id == R.id.fb_post_camera) {
-	// choosePic();
-	// }
-	// }
-	// };
-
-	// private void choosePic() {
-	// Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-	// photoPickerIntent.setType("image/*");
-	// startActivityForResult(photoPickerIntent, 1);
-	// // Intent pickIntent = new Intent();
-	// // pickIntent.setType("image/*");
-	// // pickIntent.setAction(Intent.ACTION_GET_CONTENT);
-	// // Intent takePhotoIntent = new Intent(
-	// // MediaStore.ACTION_IMAGE_CAPTURE);
-	// // String pickTitle = "Select or take a new Picture"; // Or get
-	// // Intent chooserIntent = Intent.createChooser(pickIntent,
-	// // pickTitle);
-	// // chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
-	// // new Intent[] { takePhotoIntent });
-	// // startActivityForResult(chooserIntent, SELECT_PICTURE);
-	//
-	// }
-
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
@@ -184,6 +154,10 @@ public class FacebookScreenFragment extends BaseFragment {
 			if ((id == R.id.facebookCancelPort)
 					|| id == (R.id.facebookCancelLand)) {
 				backstackFragment();
+			} else if ((id == R.id.facebookSendPort)
+					|| (id == R.id.facebookSendLand)) {
+				mFacebookUtility.performPublishAction();
+//				backstackFragment();
 			}
 		}
 	};
