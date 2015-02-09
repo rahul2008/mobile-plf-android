@@ -577,25 +577,30 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 *            String[]
 	 */
 	public void getPermission(String relationType, String[] permission) {
-		if (!cppController.isSignOn())
-			return;
-		int iMaxPermissons = 5;
-		int iPermIndex = 0;
-		PairingService getPermission = new PairingService(callbackHandler);
-		int retStatus;
-
-		retStatus = getPermission.getPermissionsRequest(null,
-				getPurifierEntity(), relationType, iMaxPermissons, iPermIndex);
-		if (Errors.SUCCESS != retStatus) {
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
-			return;
+		if (!cppController.isSignOn()) {
+			permissionListener.onCallFailed();
 		}
-		getPermission
-		.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
-		retStatus = getPermission.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
-
+		else {
+			int iMaxPermissons = 5;
+			int iPermIndex = 0;
+			PairingService getPermission = new PairingService(callbackHandler);
+			int retStatus;
+	
+			retStatus = getPermission.getPermissionsRequest(null,
+					getPurifierEntity(), relationType, iMaxPermissons, iPermIndex);
+			if (Errors.SUCCESS != retStatus) {
+				ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
+				permissionListener.onCallFailed();
+				return;
+			}
+			getPermission
+			.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
+			retStatus = getPermission.executeCommand();
+			if (Errors.SUCCESS != retStatus) {
+				permissionListener.onCallFailed();
+				ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
+	
+			}
 		}
 	}
 

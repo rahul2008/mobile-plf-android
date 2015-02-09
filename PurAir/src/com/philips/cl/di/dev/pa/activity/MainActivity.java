@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.activity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 import android.annotation.SuppressLint;
@@ -36,6 +37,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import cn.jpush.android.api.JPushInterface;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -79,14 +81,12 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 import com.philips.cl.di.dev.pa.util.InternetConnectionHandler;
 import com.philips.cl.di.dev.pa.util.InternetConnectionListener;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
-import com.philips.cl.di.dev.pa.util.URLExistAsyncTask;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -410,8 +410,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		} else if (fragment instanceof HelpAndDocFragment) {
 			showFragment(new AboutFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
-			manager.popBackStackImmediate(null,
-					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
 		} else {
 			clearFinishCheckGPS();
@@ -1083,7 +1082,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 					@Override
 					public void run() {
-						((NotificationsFragment) fragment).disableNotificationLayout() ;
+						((NotificationsFragment) fragment).disableNotificationScreen() ;
 					}
 				});
 
@@ -1240,15 +1239,17 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 		else {
 			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+			if (purifier != null) {
+				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+			}
+			
 			FragmentManager manager = getSupportFragmentManager();
 			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
 			if(fragment instanceof NotificationsFragment) {
 				cancelPairingDialog() ;
-				((NotificationsFragment) fragment).disableNotificationLayout() ;
+				((NotificationsFragment) fragment).disableNotificationScreen() ;
 			}
 			showInternetAlertDialog();
-
 		}
 	}
 }
