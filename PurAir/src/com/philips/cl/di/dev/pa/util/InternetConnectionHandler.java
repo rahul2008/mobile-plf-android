@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.util;
 
 import android.os.Handler;
-import android.os.Looper;
 
 public class InternetConnectionHandler implements AsyncTaskCompleteListenere {
 
