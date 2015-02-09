@@ -36,6 +36,7 @@ import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
+import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
@@ -643,27 +644,48 @@ public class DataParser {
 		}
 		return usEmbassyCityData;
 	}
-
-	private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {
-		String regex = "[-: ]";
-
-		String city = jsonObject.optString("city");
-		int aqi = jsonObject.optInt("AQI");
-		String quality = jsonObject.optString("quality");
-		String timeStamp = jsonObject.optString("date");
-		timeStamp = getTimeStampWithTime(timeStamp);
-		if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
-
-		System.out.println("quality: " + quality);
-		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
-	}
-
-	private static String getTimeStampWithTime(String timeStamp) {
-		if (!timeStamp.contains(":")) {
-			String time = AppConstants.TIME_FORMAT.format(Utils.getCurrentChineseDate());
-			timeStamp = timeStamp + " " +  time;
+	
+	public static NearbyCitiesData parseNearbyCitiesJson(String data) {
+		if (data == null || data.isEmpty()) {
+			return null;
 		}
-		return timeStamp;
+		Gson gson = new GsonBuilder().create() ;
+		try{
+			NearbyCitiesData nearbyCitiesData = gson.fromJson(data, NearbyCitiesData.class);
+			return nearbyCitiesData;
+		} catch (JsonSyntaxException e) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+			return null;
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+			return null;
+		}
+
 	}
+
+		private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {
+			String regex = "[-: ]";
+
+			String city = jsonObject.optString("city");
+			int aqi = jsonObject.optInt("AQI");
+			String quality = jsonObject.optString("quality");
+			String timeStamp = jsonObject.optString("date");
+			timeStamp = getTimeStampWithTime(timeStamp);
+			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
+
+			System.out.println("quality: " + quality);
+			return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
+		}
+
+		private static String getTimeStampWithTime(String timeStamp) {
+			if (!timeStamp.contains(":")) {
+				String time = AppConstants.TIME_FORMAT.format(Utils.getCurrentChineseDate());
+				timeStamp = timeStamp + " " +  time;
+			}
+			return timeStamp;
+		}
 
 }
