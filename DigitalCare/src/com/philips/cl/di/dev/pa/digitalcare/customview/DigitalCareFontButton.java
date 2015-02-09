@@ -8,23 +8,23 @@ import android.widget.Button;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
 /*
- * FontButton is the custom Button View.
+ * DigitalCareFontButton is the custom Button View.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 5 Dec 2014
  */
-public class FontButton extends Button {
-	public FontButton(Context context) {
+public class DigitalCareFontButton extends Button {
+	public DigitalCareFontButton(Context context) {
 		super(context);
 	}
 
-	public FontButton(Context context, AttributeSet attrs) {
+	public DigitalCareFontButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		applyAttributes(this, context, attrs);
 	}
 
-	public FontButton(Context context, AttributeSet attrs, int defStyle) {
+	public DigitalCareFontButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		applyAttributes(this, context, attrs);
 	}
@@ -34,17 +34,17 @@ public class FontButton extends Button {
 
 		if (attrs != null) {
 			final TypedArray a = context.obtainStyledAttributes(attrs,
-					R.styleable.FontTextView);
+					R.styleable.DigitalCareFontTextView);
 			final String typeface = a
-					.getString(R.styleable.FontTextView_fontAssetName);
+					.getString(R.styleable.DigitalCareFontTextView_fontAssetName);
 			a.recycle();
 
-			// set the font using class FontLoader
-			FontLoader.getInstance().setTypeface(view, typeface);
+			// set the font using class DigitalCareFontLoader
+			DigitalCareFontLoader.getInstance().setTypeface(view, typeface);
 		}
 	}
 
 	public void setTypeface(String typeface) {
-		FontLoader.getInstance().setTypeface(this, typeface);
+		DigitalCareFontLoader.getInstance().setTypeface(this, typeface);
 	}
 }

@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/optionBtnProdDetails"
                 style="@style/fontButton"
                 android:gravity="start|center"
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/optionBtnFaq"
                 style="@style/fontButton"
                 android:gravity="start|center"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/optionBtnContactUs"
                 style="@style/fontButton"
                 android:gravity="start|center"
@@ -90,7 +90,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/optionBtnFindPhilips"
                 style="@style/fontButton"
                 android:gravity="start|center"
@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/optionBtnThinking"
                 style="@style/fontButton"
                 android:gravity="start|center"
@@ -136,7 +136,7 @@
             android:layout_marginTop="40dp"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/optionBtnRegProd"
                 style="@style/fontButton"
                 android:background="@drawable/selector_option_prod_reg_button_bg"

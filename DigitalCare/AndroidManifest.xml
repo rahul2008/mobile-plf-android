@@ -36,6 +36,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <!-- Facebook -->
         <activity
             android:name="com.facebook.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -50,7 +52,7 @@
             android:configChanges="orientation|screenSize"
             android:exported="false" />
 
-        <!-- Twitter Logins -->
+        <!-- Twitter -->
         <activity
             android:name="com.philips.cl.di.dev.pa.digitalcare.twitter.MainActivity"
             android:label="@string/app_name" >

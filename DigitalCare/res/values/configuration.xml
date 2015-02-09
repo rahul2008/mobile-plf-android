@@ -12,7 +12,7 @@
         <item>6</item>  <!-- "REGISTER_MY_PRODUCT" -->
     </integer-array>
     
-     <declare-styleable name="FontTextView">
+     <declare-styleable name="DigitalCareFontTextView">
         <attr name="fontAssetName" format="string" />
     </declare-styleable>
     

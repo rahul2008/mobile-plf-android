@@ -14,21 +14,20 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
  * 
  * Creation Date : 5 Dec 2015
  */
-public class DigitalCareActivity extends BaseActivity {
+public class DigitalCareActivity extends DigitalCareBaseActivity {
 	private static final String TAG = "DigitalCareActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DigitalCareApplication.getDigitalCareInstance(this);
 		setContentView(R.layout.activity_digi_care);
-
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
 			ALog.e(TAG, "Actionbar: " + e.getMessage());
 		}
-		 showFragment(new SupportHomeFragment());
-//		showFragment(new FacebookScreenFragment());
+		showFragment(new SupportHomeFragment());
 		enableActionBarHome();
 	}
 
@@ -37,10 +36,6 @@ public class DigitalCareActivity extends BaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		ALog.i(TAG, "DigitalCareActivity onActivityResult");
-		// Session.getActiveSession().onActivityResult(this, requestCode,
-		// resultCode, data);
-		// new Session.OpenRequest(this);
-		//
 		FacebookScreenFragment fbFrag = new FacebookScreenFragment();
 		fbFrag.onActivityResultFragment(this, requestCode, resultCode, data);
 	}

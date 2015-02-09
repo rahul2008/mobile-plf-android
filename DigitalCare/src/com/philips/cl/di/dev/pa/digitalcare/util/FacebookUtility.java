@@ -319,11 +319,11 @@ public class FacebookUtility {
 	public void performPublishAction() {
 		if (isImageAvialable) {
 			isImageAvialable = false;
-			ALog.i("testing", "FacebookUtility performPublishAction POST_PHOTO");
+			ALog.i(TAG, "FacebookUtility performPublishAction POST_PHOTO");
 			performPublish(PendingAction.POST_PHOTO,
 					canPresentShareDialogWithPhotos);
 		} else {
-			ALog.i("testing",
+			ALog.i(TAG,
 					"FacebookUtility performPublishAction POST_STATUS_UPDATE");
 			showShareAlert(null, mAllowNoSession);
 			performPublish(PendingAction.POST_STATUS_UPDATE,

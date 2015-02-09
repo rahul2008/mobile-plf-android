@@ -8,24 +8,24 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
 /*
- *	FontTextView is the custom Text View.
+ *	DigitalCareFontTextView is the custom Text View.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 5 Dec 2014
  */
-public class FontTextView extends TextView {
+public class DigitalCareFontTextView extends TextView {
 
-	public FontTextView(Context context) {
+	public DigitalCareFontTextView(Context context) {
 		super(context);
 	}
 
-	public FontTextView(Context context, AttributeSet attrs) {
+	public DigitalCareFontTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		applyAttributes(this, context, attrs);
 	}
 
-	public FontTextView(Context context, AttributeSet attrs, int defStyle) {
+	public DigitalCareFontTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		applyAttributes(this, context, attrs);
 	}
@@ -34,18 +34,18 @@ public class FontTextView extends TextView {
 
 		if (attrs != null) {
 			final TypedArray a = context.obtainStyledAttributes(attrs,
-					R.styleable.FontTextView);
+					R.styleable.DigitalCareFontTextView);
 			final String typeface =
-					a.getString(R.styleable.FontTextView_fontAssetName);
+					a.getString(R.styleable.DigitalCareFontTextView_fontAssetName);
 			a.recycle();
 
-			//set the font using class FontLoader
-			FontLoader.getInstance().setTypeface(view, typeface);			
+			//set the font using class DigitalCareFontLoader
+			DigitalCareFontLoader.getInstance().setTypeface(view, typeface);			
 		}
 	}
 
 
 	public void setTypeface(String typeface) {
-		FontLoader.getInstance().setTypeface(this, typeface);
+		DigitalCareFontLoader.getInstance().setTypeface(this, typeface);
 	}
 }

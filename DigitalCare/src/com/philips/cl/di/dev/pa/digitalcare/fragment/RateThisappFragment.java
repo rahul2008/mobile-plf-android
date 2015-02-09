@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 
 public class RateThisappFragment extends BaseFragment {
 
@@ -39,9 +39,9 @@ public class RateThisappFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		RatePlayStore = (FontButton) getActivity().findViewById(
+		RatePlayStore = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
-		RatePhilips = (FontButton) getActivity().findViewById(
+		RatePhilips = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PhilipsReviewButton);
 		mLayoutParent = (LinearLayout) getActivity().findViewById(
 				R.id.parentLayout);

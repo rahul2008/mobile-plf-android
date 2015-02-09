@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 
 /*
@@ -21,11 +21,11 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
  */
 public class ChatFragment extends BaseFragment {
 	// private LinearLayout mChatNowParent = null;
-	private FontButton mChatNow = null;
-	private FontButton mChatNowLand = null;
+	private DigitalCareFontButton mChatNow = null;
+	private DigitalCareFontButton mChatNowLand = null;
 
-	private FontButton mChatNoThanks = null;
-	private FontButton mChatNoThanksLand = null;
+	private DigitalCareFontButton mChatNoThanks = null;
+	private DigitalCareFontButton mChatNoThanksLand = null;
 
 	// private ImageView mImageView = null;
 	private LinearLayout.LayoutParams mChatNowParentBottom = null;
@@ -49,15 +49,15 @@ public class ChatFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		// mChatNowParent = (LinearLayout) getActivity().findViewById(
 		// R.id.chatNowParent);
-		mChatNow = (FontButton) getActivity().findViewById(R.id.chatNow);
+		mChatNow = (DigitalCareFontButton) getActivity().findViewById(R.id.chatNow);
 		mChatNow.setOnClickListener(actionBarClickListener);
 
-		mChatNowLand = (FontButton) getActivity()
+		mChatNowLand = (DigitalCareFontButton) getActivity()
 				.findViewById(R.id.chatNowLand);
 
-		mChatNoThanks = (FontButton) getActivity().findViewById(
+		mChatNoThanks = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.chatNoThanks);
-		mChatNoThanksLand = (FontButton) getActivity().findViewById(
+		mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.chatNoThanksLand);
 
 		mChatNowLand.setOnClickListener(actionBarClickListener);

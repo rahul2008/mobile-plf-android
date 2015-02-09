@@ -18,7 +18,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ContactUsFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.LocateNearYouFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ProductRegistrationFragment;
@@ -29,19 +29,19 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
 
 /*
- *	BaseActivity is the main super class container for Digital Care fragments.
+ *	DigitalCareBaseActivity is the main super class container for Digital Care fragments.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 5 Dec 2015
  */
-public abstract class BaseActivity extends Activity implements
+public abstract class DigitalCareBaseActivity extends Activity implements
 		Observer {
 	private ImageView homeIcon;
 	private ImageView backToHome;
-	private FontTextView actionBarTitle;
+	private DigitalCareFontTextView actionBarTitle;
 
-	private static String TAG = "BaseActivity";
+	private static String TAG = "DigitalCareBaseActivity";
 	private FragmentObserver mFragmentObserver = null;
 
 	@Override
@@ -66,7 +66,7 @@ public abstract class BaseActivity extends Activity implements
 	protected void initActionBar() throws ClassCastException {
 		homeIcon = (ImageView) findViewById(R.id.home_icon);
 		backToHome = (ImageView) findViewById(R.id.back_to_home_img);
-		actionBarTitle = (FontTextView) findViewById(R.id.action_bar_title);
+		actionBarTitle = (DigitalCareFontTextView) findViewById(R.id.action_bar_title);
 
 		homeIcon.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);

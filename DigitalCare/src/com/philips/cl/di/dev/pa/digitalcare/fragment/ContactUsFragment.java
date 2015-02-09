@@ -12,7 +12,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
 /*
  *	ContactUsFragment will help to provide options to contact Philips.
@@ -24,21 +25,18 @@ import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 public class ContactUsFragment extends BaseFragment {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private FontButton mFacebook, mTwitter = null;
-	private FontButton mChat = null;
-	private FontButton mCallPhilips = null;
+	private DigitalCareFontButton mFacebook, mTwitter = null;
+	private DigitalCareFontButton mChat = null;
+	private DigitalCareFontButton mCallPhilips = null;
 
 	private static final String TAG = "ContactUsFragment";
-
-//	private static FacebookUtility mFacebookUtility = null;
-//	private static Bundle mSaveInstanceState = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-//		mSaveInstanceState = savedInstanceState;
 		View view = inflater.inflate(R.layout.fragment_contact_us, container,
 				false);
+		ALog.i(TAG, "onCreateView");
 		return view;
 	}
 
@@ -47,11 +45,13 @@ public class ContactUsFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mConactUsParent = (LinearLayout) getActivity().findViewById(
 				R.id.contactUsParent);
-		mChat = (FontButton) getActivity().findViewById(R.id.contactUsChat);
-		mFacebook = (FontButton) getActivity().findViewById(
+		mChat = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsChat);
+		mFacebook = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.socialLoginFacebookBtn);
-		mTwitter = (FontButton)getActivity().findViewById(R.id.socialLoginTwitterBtn);
-		mCallPhilips = (FontButton) getActivity().findViewById(
+		mTwitter = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.socialLoginTwitterBtn);
+		mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsCall);
 
 		mFacebook.setOnClickListener(actionBarClickListener);
@@ -63,14 +63,6 @@ public class ContactUsFragment extends BaseFragment {
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 	}
-
-//	public void onActivityResultFragment(Activity activity, int requestCode,
-//			int resultCode, Intent data) {
-//		if (mFacebookUtility != null) {
-//			mFacebookUtility.onActivityResultFragment(activity, requestCode,
-//					resultCode, data);
-//		}
-//	}
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
@@ -88,58 +80,14 @@ public class ContactUsFragment extends BaseFragment {
 				callPhilips();
 			} else if (id == R.id.socialLoginFacebookBtn) {
 				showFragment(new FacebookScreenFragment());
-//				 mFacebookUtility = new FacebookUtility(getActivity(),
-//				 mSaveInstanceState);
-			}
-			else if(id == R.id.socialLoginTwitterBtn)
-			{
-				Intent intent = new Intent(getActivity(), com.philips.cl.di.dev.pa.digitalcare.twitter.MainActivity.class);
+			} else if (id == R.id.socialLoginTwitterBtn) {
+				Intent intent = new Intent(
+						getActivity(),
+						com.philips.cl.di.dev.pa.digitalcare.twitter.MainActivity.class);
 				getActivity().startActivity(intent);
 			}
 		}
 	};
-
-//	/**
-//	 * onPause of fragment.
-//	 */
-//	public void onPause() {
-//		super.onPause();
-//		if (mFacebookUtility != null) {
-//			mFacebookUtility.onPause();
-//		}
-//	}
-//
-//	/**
-//	 * onResume of fragment.
-//	 */
-//	public void onDestroy() {
-//		super.onDestroy();
-//		if (mFacebookUtility != null) {
-//			mFacebookUtility.onDestroy();
-//		}
-//	}
-//
-//	/**
-//	 * onSaveInstanceState fragment.
-//	 * 
-//	 * @param outState
-//	 *            Bundle Object
-//	 */
-//	public void onSaveInstanceState(Bundle outState) {
-//		super.onSaveInstanceState(outState);
-//
-//		if (mFacebookUtility != null) {
-//			mFacebookUtility.onSaveInstanceState(outState);
-//		}
-//	}
-//
-//	@Override
-//	public void onResume() {
-//		super.onResume();
-//		if (mFacebookUtility != null) {
-//			mFacebookUtility.onResume();
-//		}
-//	}
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);

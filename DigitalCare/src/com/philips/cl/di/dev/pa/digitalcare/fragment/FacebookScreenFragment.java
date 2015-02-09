@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.util.FacebookUtility;
 
 /*
@@ -28,12 +28,12 @@ public class FacebookScreenFragment extends BaseFragment {
 	private FrameLayout.LayoutParams mParams = null;
 	private LinearLayout mFacebookParentPort = null;
 	private LinearLayout mFacebookParentLand = null;
-	private FontButton popSharePort = null;
-	private FontButton popShareLand = null;
-	private FontButton popCancelPort = null;
-	private FontButton popCancelLand = null;
+	private DigitalCareFontButton popSharePort = null;
+	private DigitalCareFontButton popShareLand = null;
+	private DigitalCareFontButton popCancelPort = null;
+	private DigitalCareFontButton popCancelLand = null;
 	private static FacebookUtility mFacebookUtility = null;
-	private static Bundle mSaveInstanceState = null;
+	private Bundle mSaveInstanceState = null;
 	private View view = null;
 
 	@Override
@@ -43,9 +43,11 @@ public class FacebookScreenFragment extends BaseFragment {
 		view = inflater.inflate(R.layout.fragment_facebook_screen, container,
 				false);
 
-		mSaveInstanceState = savedInstanceState;
-		mFacebookUtility = new FacebookUtility(getActivity(),
-				mSaveInstanceState, view);
+		if (mFacebookUtility == null) {
+			mSaveInstanceState = savedInstanceState;
+			mFacebookUtility = new FacebookUtility(getActivity(),
+					mSaveInstanceState, view);
+		}
 		return view;
 	}
 
@@ -70,10 +72,14 @@ public class FacebookScreenFragment extends BaseFragment {
 				R.id.facebookParentPort);
 		mFacebookParentLand = (LinearLayout) getActivity().findViewById(
 				R.id.facebookParentLand);
-		popCancelPort = (FontButton) view.findViewById(R.id.facebookCancelPort);
-		popCancelLand = (FontButton) view.findViewById(R.id.facebookCancelLand);
-		popSharePort = (FontButton) view.findViewById(R.id.facebookSendPort);
-		popShareLand = (FontButton) view.findViewById(R.id.facebookSendLand);
+		popCancelPort = (DigitalCareFontButton) view
+				.findViewById(R.id.facebookCancelPort);
+		popCancelLand = (DigitalCareFontButton) view
+				.findViewById(R.id.facebookCancelLand);
+		popSharePort = (DigitalCareFontButton) view
+				.findViewById(R.id.facebookSendPort);
+		popShareLand = (DigitalCareFontButton) view
+				.findViewById(R.id.facebookSendLand);
 
 		popSharePort.setOnClickListener(clickListner);
 		popShareLand.setOnClickListener(clickListner);
@@ -154,10 +160,10 @@ public class FacebookScreenFragment extends BaseFragment {
 			if ((id == R.id.facebookCancelPort)
 					|| id == (R.id.facebookCancelLand)) {
 				backstackFragment();
-			} else if ((id == R.id.facebookSendPort)
-					|| (id == R.id.facebookSendLand)) {
+			} else if (((id == R.id.facebookSendPort) || (id == R.id.facebookSendLand))
+					&& mFacebookUtility != null) {
 				mFacebookUtility.performPublishAction();
-//				backstackFragment();
+				// backstackFragment();
 			}
 		}
 	};

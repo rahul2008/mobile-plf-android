@@ -138,7 +138,7 @@ public abstract class BaseFragment extends Fragment {
 				.findViewById(R.id.back_to_home_img);
 		ImageView homeIcon = (ImageView) mFragmentActivityContext
 				.findViewById(R.id.home_icon);
-		// FontTextView actionBarTitle = (FontTextView)
+		// DigitalCareFontTextView actionBarTitle = (DigitalCareFontTextView)
 		// mFragmentActivityContext.findViewById(R.id.action_bar_title);
 		homeIcon.setVisibility(View.GONE);
 		// homeIcon.setVisibility(View.INVISIBLE);

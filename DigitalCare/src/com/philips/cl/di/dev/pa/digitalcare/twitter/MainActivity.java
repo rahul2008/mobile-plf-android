@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.digitalcare.twitter;
 
 import java.io.File;
-import java.io.InputStream;
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -46,7 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 
 public class MainActivity extends Activity implements OnClickListener {
 
@@ -74,7 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	private static SharedPreferences mSharedPreferences;
 
 	private EditText mShareEditText;
-	private FontButton mSendPort, mCancelPort, mSendLand, mCancelLand;
+	private DigitalCareFontButton mSendPort, mCancelPort, mSendLand, mCancelLand;
 	private TextView userName;
 	private ImageView mPhoto;
 	private ImageView mSocialLoginIcon = null;
@@ -110,10 +109,10 @@ public class MainActivity extends Activity implements OnClickListener {
 		/* Setting activity layout file */
 		setContentView(R.layout.fragment_facebook_screen);
 		mShareEditText = (EditText) findViewById(R.id.share_text);
-		mSendPort = (FontButton) findViewById(R.id.facebookSendPort);
-		mCancelPort = (FontButton) findViewById(R.id.facebookCancelPort);
-		mSendLand = (FontButton) findViewById(R.id.facebookSendLand);
-		mCancelLand = (FontButton) findViewById(R.id.facebookCancelLand);
+		mSendPort = (DigitalCareFontButton) findViewById(R.id.facebookSendPort);
+		mCancelPort = (DigitalCareFontButton) findViewById(R.id.facebookCancelPort);
+		mSendLand = (DigitalCareFontButton) findViewById(R.id.facebookSendLand);
+		mCancelLand = (DigitalCareFontButton) findViewById(R.id.facebookCancelLand);
 		userName = (TextView) findViewById(R.id.fb_Post_FromHeaderText);
 		mPhoto = (ImageView) findViewById(R.id.fb_post_camera);
 		mSocialLoginIcon = (ImageView) findViewById(R.id.socialLoginIcon);

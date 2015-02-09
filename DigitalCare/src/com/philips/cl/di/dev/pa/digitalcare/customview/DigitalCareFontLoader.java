@@ -15,18 +15,18 @@ import android.widget.TextView;
  * 
  * Creation Date : 5 Dec 2014
  */
-public class FontLoader {
+public class DigitalCareFontLoader {
 
-	private static FontLoader mInstance;
+	private static DigitalCareFontLoader mInstance;
 	private Map<String, Typeface> mFonts;
 
-	private FontLoader() {
+	private DigitalCareFontLoader() {
 		mFonts = new HashMap<String, Typeface>();
 	}
 
-	public static FontLoader getInstance() {
+	public static DigitalCareFontLoader getInstance() {
 		if (mInstance == null) {
-			mInstance = new FontLoader();
+			mInstance = new DigitalCareFontLoader();
 		}
 
 		return mInstance;

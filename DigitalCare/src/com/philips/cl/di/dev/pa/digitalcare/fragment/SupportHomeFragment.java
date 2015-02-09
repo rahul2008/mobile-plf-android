@@ -11,9 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.dev.pa.digitalcare.ConfigurationManager;
+import com.philips.cl.di.dev.pa.digitalcare.DigitalCareApplication;
 import com.philips.cl.di.dev.pa.digitalcare.R;
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 
@@ -35,12 +35,12 @@ public class SupportHomeFragment extends BaseFragment {
 	private RelativeLayout mWhatYouThink = null;
 	private RelativeLayout mRegisterProduct = null;
 
-	private FontButton mOptionBtnContactUs = null;
-	private FontButton mOptionBtnProdDetails = null;
-	private FontButton mOptionBtnFaq = null;
-	private FontButton mOptionBtnFindPhilips = null;
-	private FontButton mOptionBtnThinking = null;
-	private FontButton mOptionBtnRegisterProduct = null;
+	private DigitalCareFontButton mOptionBtnContactUs = null;
+	private DigitalCareFontButton mOptionBtnProdDetails = null;
+	private DigitalCareFontButton mOptionBtnFaq = null;
+	private DigitalCareFontButton mOptionBtnFindPhilips = null;
+	private DigitalCareFontButton mOptionBtnThinking = null;
+	private DigitalCareFontButton mOptionBtnRegisterProduct = null;
 
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
@@ -60,9 +60,7 @@ public class SupportHomeFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		ConfigurationManager configManagerinstance = ConfigurationManager
-				.getConfigucationInstance(getActivity());
-		for (int btnOption : configManagerinstance.getFeatureListKeys()) {
+		for (int btnOption : DigitalCareApplication.getFeatureListKeys()) {
 			enableOptionButtons(btnOption);
 		}
 		mOptionParent = (LinearLayout) getActivity().findViewById(
@@ -94,7 +92,7 @@ public class SupportHomeFragment extends BaseFragment {
 		case DigiCareContants.OPTION_CONTACT_US:
 			mContactUs = (RelativeLayout) getActivity().findViewById(
 					R.id.optionContactUs);
-			mOptionBtnContactUs = (FontButton) getActivity().findViewById(
+			mOptionBtnContactUs = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.optionBtnContactUs);
 			mContactUs.setVisibility(View.VISIBLE);
 			mOptionBtnContactUs.setOnClickListener(actionBarClickListener);
@@ -102,14 +100,14 @@ public class SupportHomeFragment extends BaseFragment {
 		case DigiCareContants.OPTION_PRODUCS_DETAILS:
 			mProductDetails = (RelativeLayout) getActivity().findViewById(
 					R.id.optionProdDetails);
-			mOptionBtnProdDetails = (FontButton) getActivity().findViewById(
+			mOptionBtnProdDetails = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.optionBtnProdDetails);
 			mProductDetails.setVisibility(View.VISIBLE);
 			mOptionBtnProdDetails.setOnClickListener(actionBarClickListener);
 			break;
 		case DigiCareContants.OPTION_FAQ:
 			mFaq = (RelativeLayout) getActivity().findViewById(R.id.optionFaq);
-			mOptionBtnFaq = (FontButton) getActivity().findViewById(
+			mOptionBtnFaq = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.optionBtnFaq);
 			mFaq.setVisibility(View.VISIBLE);
 			mOptionBtnFaq.setOnClickListener(actionBarClickListener);
@@ -117,7 +115,7 @@ public class SupportHomeFragment extends BaseFragment {
 		case DigiCareContants.OPTION_FIND_PHILIPS_NEARBY:
 			mFindPhilips = (RelativeLayout) getActivity().findViewById(
 					R.id.optionFindPhilips);
-			mOptionBtnFindPhilips = (FontButton) getActivity().findViewById(
+			mOptionBtnFindPhilips = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.optionBtnFindPhilips);
 			mFindPhilips.setVisibility(View.VISIBLE);
 			mOptionBtnFindPhilips.setOnClickListener(actionBarClickListener);
@@ -125,7 +123,7 @@ public class SupportHomeFragment extends BaseFragment {
 		case DigiCareContants.OPTION_WHAT_ARE_YOU_THINKING:
 			mWhatYouThink = (RelativeLayout) getActivity().findViewById(
 					R.id.optionThinking);
-			mOptionBtnThinking = (FontButton) getActivity().findViewById(
+			mOptionBtnThinking = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.optionBtnThinking);
 			mWhatYouThink.setVisibility(View.VISIBLE);
 			mOptionBtnThinking.setOnClickListener(actionBarClickListener);
@@ -133,7 +131,7 @@ public class SupportHomeFragment extends BaseFragment {
 		case DigiCareContants.OPTION_REGISTER_PRODUCT:
 			mRegisterProduct = (RelativeLayout) getActivity().findViewById(
 					R.id.optionRegProd);
-			mOptionBtnRegisterProduct = (FontButton) getActivity()
+			mOptionBtnRegisterProduct = (DigitalCareFontButton) getActivity()
 					.findViewById(R.id.optionBtnRegProd);
 			mRegisterProduct.setVisibility(View.VISIBLE);
 			mOptionBtnRegisterProduct
