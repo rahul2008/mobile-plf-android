@@ -65,6 +65,7 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
+import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
@@ -407,7 +408,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			return;
 		}else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
-		} else if (fragment instanceof HelpAndDocFragment) {
+		} else if (fragment instanceof HelpAndDocFragment || fragment instanceof SettingsFragment) {
 			showFragment(new AboutFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
