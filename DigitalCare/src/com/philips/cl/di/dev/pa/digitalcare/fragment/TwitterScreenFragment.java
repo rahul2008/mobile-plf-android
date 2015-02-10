@@ -22,7 +22,7 @@ import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
-class TwitterScreenFragment extends BaseFragment implements FragmentUtility,
+ public class TwitterScreenFragment extends BaseFragment implements FragmentUtility,
 		OnCheckedChangeListener {
 
 	private static final String TAG = TwitterScreenFragment.class.getSimpleName();
