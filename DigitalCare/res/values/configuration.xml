@@ -6,7 +6,7 @@
     <integer-array name="options_available">
         <item>1</item>  <!-- "CONTACT_US" -->
         <item>2</item>  <!-- "VIEW_PRODUCT_DETAILS" -->
-        <item>3</item>  <!-- "FAQ" -->
+       <!--  <item>3</item>  "FAQ" -->
         <item>4</item>  <!-- "FIND_PHILIPS_NEARBY" -->
         <item>5</item>  <!-- "TELL_US_YOUR_THINKING" -->
         <item>6</item>  <!-- "REGISTER_MY_PRODUCT" -->
