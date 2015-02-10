@@ -12,10 +12,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/white"
+            android:orientation="vertical"
             android:paddingBottom="15dp"
             android:paddingTop="25dp" >
 
@@ -32,78 +33,77 @@
                 android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <ImageView
-                android:id="@+id/purifier_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/intro_lbl"
-                android:layout_marginLeft="5dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/large_purifier" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/purifier_feature_lbl_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/purifier_img"
-                android:layout_marginTop="50dp"
-                android:layout_toLeftOf="@+id/purifier_img"
-                android:lineSpacingExtra="5dp"
-                android:paddingLeft="15dp"
-                android:text="@string/purifier_feature_lbl_1"
-                android:textColor="@color/blue_title"
-                android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/centralesansbook.ttf" />
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/purifier_feature_lbl_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="50dp"
+                    android:layout_toLeftOf="@+id/purifier_img"
+                    android:lineSpacingExtra="5dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/purifier_feature_lbl_1"
+                    android:textColor="@color/blue_title"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesansbook.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/purifier_feature_lbl_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/purifier_feature_lbl_1"
-                android:layout_below="@+id/purifier_feature_lbl_1"
-                android:layout_marginTop="15dp"
-                android:layout_toLeftOf="@+id/purifier_img"
-                android:lineSpacingExtra="5dp"
-                android:paddingLeft="15dp"
-                android:text="@string/purifier_feature_lbl_2"
-                android:textColor="@color/blue_title"
-                android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/centralesansbook.ttf" />
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/purifier_feature_lbl_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/purifier_feature_lbl_1"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toLeftOf="@+id/purifier_img"
+                    android:lineSpacingExtra="5dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/purifier_feature_lbl_2"
+                    android:textColor="@color/blue_title"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesansbook.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/purifier_feature_lbl_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/purifier_feature_lbl_2"
-                android:layout_below="@+id/purifier_feature_lbl_2"
-                android:layout_marginTop="15dp"
-                android:layout_toLeftOf="@+id/purifier_img"
-                android:lineSpacingExtra="5dp"
-                android:paddingLeft="15dp"
-                android:text="@string/purifier_feature_lbl_3"
-                android:textColor="@color/blue_title"
-                android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/centralesansbook.ttf" />
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/purifier_feature_lbl_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/purifier_feature_lbl_2"
+                    android:layout_toLeftOf="@+id/purifier_img"
+                    android:lineSpacingExtra="5dp"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="15dp"
+                    android:text="@string/purifier_feature_lbl_3"
+                    android:textColor="@color/blue_title"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesansbook.ttf" />
+
+                <ImageView
+                    android:id="@+id/purifier_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="5dp"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/large_purifier" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/separator"
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/purifier_img"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="-35dp"
                 android:background="@drawable/seperator_line_2x"
                 android:contentDescription="@string/img_description" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/separator"
-                android:layout_below="@+id/separator"
                 android:orientation="vertical" >
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -115,6 +115,7 @@
                     android:drawableLeft="@drawable/indoor_pollutants"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
+                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -139,6 +140,7 @@
                     android:drawableLeft="@drawable/vistashield"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
+                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -163,6 +165,7 @@
                     android:drawableLeft="@drawable/outdoor_air_quality"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
+                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -186,6 +189,7 @@
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/indoor_air_quality"
                     android:drawableRight="@drawable/right_arrow_list_item"
+                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -210,6 +214,7 @@
                     android:drawableLeft="@drawable/guard_environment"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
+                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -226,7 +231,7 @@
                     android:background="@drawable/seperator_line_2x"
                     android:contentDescription="@string/img_description" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>
