@@ -62,6 +62,7 @@
         android:id="@+id/manage_pur_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
         android:divider="@drawable/seperator_line_2x"
         android:dividerHeight="0dp" >
     </ListView>
