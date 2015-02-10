@@ -13,8 +13,8 @@ import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
@@ -896,4 +896,5 @@ public class DataParserTest extends TestCase {
 		List<OutdoorAQI> aqis = DataParser.parseUSEmbassyHistoricalAQIData(data);
 		assertNotNull(aqis);
 	}
+	
 }

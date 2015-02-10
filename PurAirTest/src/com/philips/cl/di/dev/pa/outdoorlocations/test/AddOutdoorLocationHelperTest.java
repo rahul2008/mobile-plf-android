@@ -13,7 +13,6 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
-import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class AddOutdoorLocationHelperTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	

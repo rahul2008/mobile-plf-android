@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
 import com.philips.cl.di.dev.pa.util.DataParser;
-
-import junit.framework.TestCase;
 
 //Save this file save as UTF-8
 

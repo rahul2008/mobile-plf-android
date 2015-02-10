@@ -2,11 +2,10 @@ package com.philips.cl.di.dev.pa.outdoorlocations.test;
 
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-
 import junit.framework.TestCase;
+
+import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 
 public class OutdoorManagerTest extends TestCase {
 	
