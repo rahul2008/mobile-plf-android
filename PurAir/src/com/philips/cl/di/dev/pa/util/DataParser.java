@@ -22,7 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
@@ -567,7 +566,6 @@ public class DataParser {
 			int so2 = cityData.optInt("SO2");
 			int no2 = cityData.optInt("NO2");
 			String timeStamp = cityData.optString("time");
-			timeStamp = getTimeStampWithTime(timeStamp);
 			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
@@ -666,26 +664,15 @@ public class DataParser {
 
 	}
 
-		private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {
-			String regex = "[-: ]";
+	private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {
 
-			String city = jsonObject.optString("city");
-			int aqi = jsonObject.optInt("AQI");
-			String quality = jsonObject.optString("quality");
-			String timeStamp = jsonObject.optString("date");
-			timeStamp = getTimeStampWithTime(timeStamp);
-			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
+		String city = jsonObject.optString("city");
+		int aqi = jsonObject.optInt("AQI");
+		String quality = jsonObject.optString("quality");
+		String timeStamp = jsonObject.optString("date");
 
-			System.out.println("quality: " + quality);
-			return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
-		}
-
-		private static String getTimeStampWithTime(String timeStamp) {
-			if (!timeStamp.contains(":")) {
-				String time = AppConstants.TIME_FORMAT.format(Utils.getCurrentChineseDate());
-				timeStamp = timeStamp + " " +  time;
-			}
-			return timeStamp;
-		}
+		System.out.println("quality: " + quality);
+		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
+	}
 
 }

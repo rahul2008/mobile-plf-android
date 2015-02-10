@@ -10,6 +10,7 @@ import android.graphics.Color;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 
+@SuppressLint("SimpleDateFormat")
 public class AppConstants {
 	
 	/** CONSTANTS FOR THE ICPCLIENT */
@@ -270,8 +271,7 @@ public class AppConstants {
 	public static final String FACEBOOK_PAKAGE = "com.facebook.android";
 	public static final String TWITTER_PAKAGE = "com.twitter.android";
 	
-	public static final String[] USEMBASSY_CITIES = {"Shanghai", "Beijing", "Guangzhou", "Chongqing"};
-	@SuppressLint("SimpleDateFormat")
-	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+	public static final SimpleDateFormat TIME_FORMAT_HH_MM = new SimpleDateFormat("HH:mm");
+	public static final SimpleDateFormat DATE_FORMAT_YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
 
 }
