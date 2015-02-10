@@ -22,48 +22,39 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
 public class TwitterConnect {
 
-	private static TwitterConnect mTwitterObject = null;
-	private static Activity mContext;
 	private static final String TAG = TwitterConnect.class.getSimpleName();
+	private static TwitterConnect mTwitterObject = null;
+	private static Activity mContext = null;
 	private TwitterAuth mTwitterAuth = null;
+	private String consumerKey = null;
+	private String consumerSecret = null;
+	private String callbackUrl = null;
+	private String oAuthVerifier = null;
+	private Twitter twitter = null;
+	private RequestToken requestToken = null;
+	private SharedPreferences mSharedPreferences = null;
 
-	private TwitterConnect() {
-	}
-
-	/* Shared preference keys */
 	public static final String PREF_NAME = "sample_twitter_pref";
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
 	private static final String PREF_KEY_TWITTER_LOGIN = "is_twitter_loggedin";
 	public static final String PREF_USER_NAME = "twitter_user_name";
 
-	private String consumerKey = null;
-	private String consumerSecret = null;
-	private String callbackUrl = null;
-	private String oAuthVerifier = null;
-
 	public static final int WEBVIEW_REQUEST_CODE = 100;
+
+	private TwitterConnect() {
+	}
 
 	public static TwitterConnect getInstance(Activity activity) {
 		mContext = activity;
-		if (mTwitterObject != null)
-			return mTwitterObject;
-		else {
+		if (mTwitterObject == null)
 			mTwitterObject = new TwitterConnect();
-			return mTwitterObject;
-		}
+		return mTwitterObject;
 	}
 
 	public static TwitterConnect getInstance() {
-		if (mTwitterObject != null)
-			return mTwitterObject;
-		else {
-			mTwitterObject = new TwitterConnect();
-			return mTwitterObject;
-		}
+		return mTwitterObject;
 	}
-
-	private static SharedPreferences mSharedPreferences;
 
 	public void initSDK(TwitterAuth auth) {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -116,9 +107,6 @@ public class TwitterConnect {
 
 	}
 
-	private static Twitter twitter;
-	private static RequestToken requestToken;
-
 	private void saveTwitterInformation(AccessToken accessToken) {
 
 		long userID = accessToken.getUserId();
@@ -144,9 +132,6 @@ public class TwitterConnect {
 		}
 	}
 
-	/**
-	 * Authenticate to Twitter Network.
-	 */
 	private void loginToTwitter() {
 		boolean isLoggedIn = mSharedPreferences.getBoolean(
 				PREF_KEY_TWITTER_LOGIN, false);
