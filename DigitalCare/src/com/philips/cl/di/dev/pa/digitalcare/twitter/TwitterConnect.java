@@ -22,7 +22,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
 public class TwitterConnect {
 
-	private static TwitterConnect mTwitterObject = new TwitterConnect();
+	private static TwitterConnect mTwitterObject = null;
 	private static Activity mContext;
 	private static final String TAG = TwitterConnect.class.getSimpleName();
 	private TwitterAuth mTwitterAuth = null;
@@ -46,11 +46,21 @@ public class TwitterConnect {
 
 	public static TwitterConnect getInstance(Activity activity) {
 		mContext = activity;
-		return mTwitterObject;
+		if (mTwitterObject != null)
+			return mTwitterObject;
+		else {
+			mTwitterObject = new TwitterConnect();
+			return mTwitterObject;
+		}
 	}
 
 	public static TwitterConnect getInstance() {
-		return mTwitterObject;
+		if (mTwitterObject != null)
+			return mTwitterObject;
+		else {
+			mTwitterObject = new TwitterConnect();
+			return mTwitterObject;
+		}
 	}
 
 	private static SharedPreferences mSharedPreferences;
