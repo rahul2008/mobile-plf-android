@@ -15,6 +15,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="5dp"
+        android:autoLink="all"
         android:text=""
         android:textColor="@color/blue_list_item"
         android:textSize="@dimen/text_size_small"
