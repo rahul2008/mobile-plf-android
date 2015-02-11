@@ -212,8 +212,7 @@ public class OutdoorManager implements OutdoorDataListener {
 					localityName = localityInfo.getLocalityCN();
 				} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
 					localityName = localityInfo.getLocalityTW();
-				}
-				else {
+				} else {
 					localityName =  AddOutdoorLocationHelper.getFirstWordCapitalInSentence(localityInfo.getLocalityEN()) ;
 				}
 				return localityName;

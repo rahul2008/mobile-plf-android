@@ -89,7 +89,7 @@ public class OutdoorManagerTest extends InstrumentationTestCase {
 	
 	public void testGetLocalityNameFromAreaId() {
 		String name = outdoorManager.getLocalityNameFromAreaId("101010100", "101010200");
-		assertEquals("haidian", name);
+		assertEquals("Haidian", name);
 	}
 	
 	public void testNearbyLocationDataReceived() {
@@ -126,6 +126,26 @@ public class OutdoorManagerTest extends InstrumentationTestCase {
 		verify(outdoorDetailsListener, times(1)).onOneDayWeatherForecastReceived(weatherdtos);
 		verify(outdoorDetailsListener, never()).onFourDayWeatherForecastReceived(anyList());
 		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList());
+	}
+	
+	public void testGetCityNameFromAreaIdEmpty() {
+		String name = outdoorManager.getCityNameFromAreaId("");
+		assertEquals("", name);
+	}
+	
+	public void testGetCityNameFromAreaIdNull() {
+		String name = outdoorManager.getCityNameFromAreaId(null);
+		assertEquals("", name);
+	}
+	
+	public void testGetCityNameFromAreaIdName() {
+		String name = outdoorManager.getCityNameFromAreaId("beijing");
+		assertEquals("beijing", name);
+	}
+	
+	public void testGetCityNameFromAreaId() {
+		String name = outdoorManager.getCityNameFromAreaId("101050503");
+		assertEquals("anda", name);
 	}
 
 }
