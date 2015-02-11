@@ -3,7 +3,6 @@
 
     <string name="app_name">DigitalCare</string>
     <string name="img_description">description</string>
-    <string name="app_id">1537018913230025</string>
 
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
@@ -71,7 +70,12 @@
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
-
+    
+<!-- Contact US - Social Post -->
+    <string name="social_post_to">Send a message to @PhilipsCare</string>
+    <string name="social_post_desc_text">Include product information</string> 
+    <string name="social_post_from">From</string> 
+    
     <!-- Social Login -->
     <string name="social_login_cancel">Cancel</string>
     <string name="social_login_post">Post</string>
@@ -79,17 +83,6 @@
     <string name="facebook_login_header">Log in to Facebook</string>
 	<string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
 	
-	 <!-- Twitter -->
-  <string name="hello">From @ </string>
-    <string name="login_instructions">Login to twiter</string>
-    <string name="share_instructions">Enter share message</string>
-    <string name="btn_login">Login to Twitter</string>
-    <string name="btn_share">Share</string>
-
-    <!-- Twitter Configurations -->
-    <string name="twitter_callback">http://javatechig.android.app</string>
-    <string name="twitter_consumer_key">vM5RNi5CCodJnL7e5BOA</string>
-    <string name="twitter_consumer_secret">FQNS0eBbM8J5DDjDglLCwOvAUUesYhN5uFxdxjKLgk</string>
-    <string name="twitter_oauth_verifier">oauth_verifier</string>
-    <string name="include_prod_desc">Include product information</string>
+ 
+  
 </resources>

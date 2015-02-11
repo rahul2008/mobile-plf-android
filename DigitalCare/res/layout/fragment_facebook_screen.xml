@@ -30,11 +30,12 @@
                 <TextView
                     android:id="@+id/fb_Post_ToHeaderText"
                     style="@style/fbMainHeader"
-                    android:text="Send a message to @PhilipsCare" />
+                    android:text="@string/social_post_to" />
 
                 <TextView
                     android:id="@+id/fb_Post_FromHeaderText"
-                    style="@style/fbFromMainHeader" />
+                    style="@style/fbFromMainHeader"
+                    android:text="@string/social_post_from" />
             </LinearLayout>
 
             <LinearLayout
@@ -47,8 +48,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|end"
-                    android:contentDescription="@string/img_description"
                     android:layout_marginTop="@dimen/marginTopButton"
+                    android:contentDescription="@string/img_description"
                     android:src="@drawable/social_fb_icon" />
             </LinearLayout>
         </LinearLayout>
@@ -65,7 +66,7 @@
 
             <TextView
                 style="@style/fboptouttext"
-                android:text="@string/include_prod_desc" />
+                android:text="@string/social_post_desc_text" />
         </LinearLayout>
 
         <RelativeLayout
@@ -79,15 +80,6 @@
                 android:hint="@string/facebook" />
 
             <ImageView
-                android:id="@+id/fb_post_camera"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/social_photo_default" />
-
-            <ImageView
                 android:id="@+id/share_image"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
@@ -95,27 +87,32 @@
                 android:layout_alignParentRight="true"
                 android:contentDescription="@string/img_description"
                 android:visibility="gone" />
-            
-            <!--
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@+id/fb_Post_TestComposingEditer"
-                android:text="**" />
-            -->
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true" >
 
-            <ImageView
-                android:id="@+id/fb_Post_camera_close"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignRight="@+id/fb_post_camera"
-                android:layout_alignTop="@+id/fb_post_camera"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/social_close" 
-                android:visibility="gone"/>
+                <ImageView
+                    android:id="@+id/fb_post_camera"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/social_photo_default" />
 
+                <ImageView
+                    android:id="@+id/fb_Post_camera_close"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignRight="@+id/fb_post_camera"
+                    android:layout_alignTop="@+id/fb_post_camera"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/social_close"
+                    android:visibility="visible" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <LinearLayout
