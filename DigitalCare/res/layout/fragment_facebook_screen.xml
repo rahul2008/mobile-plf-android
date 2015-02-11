@@ -46,6 +46,7 @@
                     android:id="@+id/socialLoginIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="right|end"
                     android:contentDescription="@string/img_description"
                     android:layout_marginTop="@dimen/marginTopButton"
                     android:src="@drawable/social_fb_icon" />
@@ -94,17 +95,7 @@
                 android:layout_alignParentRight="true"
                 android:contentDescription="@string/img_description"
                 android:visibility="gone" />
-            <!--
-            <ImageView
-                android:id="@+id/fb_Post_camera_close"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="@dimen/marginTopButton"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/social_close" />
-            -->
+            
             <!--
             <TextView
                 android:id="@+id/textView1"
@@ -114,6 +105,17 @@
                 android:layout_alignTop="@+id/fb_Post_TestComposingEditer"
                 android:text="**" />
             -->
+
+            <ImageView
+                android:id="@+id/fb_Post_camera_close"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignRight="@+id/fb_post_camera"
+                android:layout_alignTop="@+id/fb_post_camera"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/social_close" 
+                android:visibility="gone"/>
+
         </RelativeLayout>
 
         <LinearLayout

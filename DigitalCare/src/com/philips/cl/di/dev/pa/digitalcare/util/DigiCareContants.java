@@ -3,7 +3,7 @@ package com.philips.cl.di.dev.pa.digitalcare.util;
 /*
  * DigiCareContants is app level Constancts class.
  * 
- * Author : Ritesh.jha@philips.com
+ * Author : Ritesh.jha@philips.com, naveen@philips.com
  * 
  * Creation Date : 5 Dec 2015
  */
@@ -15,4 +15,7 @@ public class DigiCareContants {
 	public static final int OPTION_FIND_PHILIPS_NEARBY = 4;
 	public static final int OPTION_WHAT_ARE_YOU_THINKING = 5;
 	public static final int OPTION_REGISTER_PRODUCT = 6;
+	
+	public static final int IMAGE_CAPTURE = 1001;
+	public static final int IMAGE_PICK = 1010;
 }

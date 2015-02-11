@@ -8,16 +8,21 @@ import com.philips.cl.di.dev.pa.digitalcare.fragment.FacebookScreenFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.SupportHomeFragment;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
+import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
+import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
 /*
- *	DigitalCareActivity  is the main container class for Digital Care fragments.
+ *	DigitalCareActivity  is the main container class for Digital Care fragments. 
+ *  Also responsible for fetching Product images, Facebook authentication & also 
+ *  Twitter authentication .
  * 
- * Author : Ritesh.jha@philips.com
+ * Author : Ritesh.jha@philips.com, naveen
  * 
  * Creation Date : 5 Dec 2015
  */
 public class DigitalCareActivity extends DigitalCareBaseActivity {
 	private static final String TAG = "DigitalCareActivity";
+	private ProductImage mImage = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +52,20 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			
 			TwitterConnect mTwitter = TwitterConnect.getInstance();
 			mTwitter.onActivityResult(data);
+		}
+		
+		if (requestCode == DigiCareContants.IMAGE_PICK
+				&& resultCode == Activity.RESULT_OK) {
+             if (mImage == null)
+		 	     mImage = ProductImage.getInstance();
+             
+			mImage.onActivityResult(data, requestCode);
+		}
+
+		if (requestCode == DigiCareContants.IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+			if(mImage == null)
+				mImage = ProductImage.getInstance();
+			mImage.onActivityResult(data, requestCode);
 		}
 	}
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +21,7 @@ import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
 /*
  *	ContactUsFragment will help to provide options to contact Philips.
  * 
- * Author : Ritesh.jha@philips.com
+ * Author : Ritesh.jha@philips.com, naveen@philips.com
  * 
  * Creation Date : 19 Jan 2015
  */
@@ -31,7 +32,7 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 	private DigitalCareFontButton mChat, mCallPhilips = null;
 	private TwitterAuth mTwitterAuth = this;
 
-	private static final String TAG = "ContactUsFragment";
+	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	// private static FacebookUtility mFacebookUtility = null;
 	// private static Bundle mSaveInstanceState = null;
@@ -99,57 +100,15 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 				callPhilips();
 			} else if (id == R.id.socialLoginFacebookBtn) {
 				showFragment(new FacebookScreenFragment());
-				// mFacebookUtility = new FacebookUtility(getActivity(),
-				// mSaveInstanceState);
 			} else if (id == R.id.socialLoginTwitterBtn) {
 				TwitterConnect mTwitter = TwitterConnect
 						.getInstance(getActivity());
 				mTwitter.initSDK(mTwitterAuth);
+				Log.d(TAG, "Twitter Button - Clicked");
 			}
 		}
 	};
 
-	// /**
-	// * onPause of fragment.
-	// */
-	// public void onPause() {
-	// super.onPause();
-	// if (mFacebookUtility != null) {
-	// mFacebookUtility.onPause();
-	// }
-	// }
-	//
-	// /**
-	// * onResume of fragment.
-	// */
-	// public void onDestroy() {
-	// super.onDestroy();
-	// if (mFacebookUtility != null) {
-	// mFacebookUtility.onDestroy();
-	// }
-	// }
-	//
-	// /**
-	// * onSaveInstanceState fragment.
-	// *
-	// * @param outState
-	// * Bundle Object
-	// */
-	// public void onSaveInstanceState(Bundle outState) {
-	// super.onSaveInstanceState(outState);
-	//
-	// if (mFacebookUtility != null) {
-	// mFacebookUtility.onSaveInstanceState(outState);
-	// }
-	// }
-	//
-	// @Override
-	// public void onResume() {
-	// super.onResume();
-	// if (mFacebookUtility != null) {
-	// mFacebookUtility.onResume();
-	// }
-	// }
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);

@@ -20,19 +20,22 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
+
+/**
+ * @description Twitter login authentication helper class.This class uses 
+ * Twitter4j API 
+ * @author naveen@philips.com
+ * @since 11/Feb/2015 
+ */
 public class TwitterConnect {
 
+	private static TwitterConnect mTwitterObject = new TwitterConnect();
+	private static Activity mContext;
 	private static final String TAG = TwitterConnect.class.getSimpleName();
-	private static TwitterConnect mTwitterObject = null;
-	private static Activity mContext = null;
 	private TwitterAuth mTwitterAuth = null;
-	private String consumerKey = null;
-	private String consumerSecret = null;
-	private String callbackUrl = null;
-	private String oAuthVerifier = null;
-	private Twitter twitter = null;
-	private RequestToken requestToken = null;
-	private SharedPreferences mSharedPreferences = null;
+
+	private TwitterConnect() {
+	}
 
 	public static final String PREF_NAME = "sample_twitter_pref";
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
@@ -40,21 +43,23 @@ public class TwitterConnect {
 	private static final String PREF_KEY_TWITTER_LOGIN = "is_twitter_loggedin";
 	public static final String PREF_USER_NAME = "twitter_user_name";
 
-	public static final int WEBVIEW_REQUEST_CODE = 100;
+	private String consumerKey = null;
+	private String consumerSecret = null;
+	private String callbackUrl = null;
+	private String oAuthVerifier = null;
 
-	private TwitterConnect() {
-	}
+	public static final int WEBVIEW_REQUEST_CODE = 100;
 
 	public static TwitterConnect getInstance(Activity activity) {
 		mContext = activity;
-		if (mTwitterObject == null)
-			mTwitterObject = new TwitterConnect();
 		return mTwitterObject;
 	}
 
 	public static TwitterConnect getInstance() {
 		return mTwitterObject;
 	}
+
+	private static SharedPreferences mSharedPreferences;
 
 	public void initSDK(TwitterAuth auth) {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -107,6 +112,9 @@ public class TwitterConnect {
 
 	}
 
+	private static Twitter twitter;
+	private static RequestToken requestToken;
+
 	private void saveTwitterInformation(AccessToken accessToken) {
 
 		long userID = accessToken.getUserId();
@@ -116,8 +124,6 @@ public class TwitterConnect {
 			user = twitter.showUser(userID);
 
 			String username = user.getName();
-
-			/* Storing oAuth tokens to shared preferences */
 			Editor e = mSharedPreferences.edit();
 			e.putString(PREF_KEY_OAUTH_TOKEN, accessToken.getToken());
 			e.putString(PREF_KEY_OAUTH_SECRET, accessToken.getTokenSecret());
@@ -132,6 +138,7 @@ public class TwitterConnect {
 		}
 	}
 
+	
 	private void loginToTwitter() {
 		boolean isLoggedIn = mSharedPreferences.getBoolean(
 				PREF_KEY_TWITTER_LOGIN, false);

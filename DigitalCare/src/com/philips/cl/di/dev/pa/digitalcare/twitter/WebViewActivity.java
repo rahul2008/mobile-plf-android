@@ -11,6 +11,13 @@ import android.webkit.WebViewClient;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
+
+/**
+ * @Description Activity component used for Twitter authentication
+ * @author naveen@philips.com
+ * @since 11/Feb/2015
+ */
+
 public class WebViewActivity extends Activity {
 
 	private WebView webView;
