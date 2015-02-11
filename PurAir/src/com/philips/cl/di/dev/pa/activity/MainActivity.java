@@ -1029,7 +1029,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
-			checkInternetConnection() ;			
+			checkInternetConnection() ;
 		}
 	}
 	
@@ -1242,6 +1242,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
 				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+				// Sets the max pairing attempt for the Purifier to stop checking for internet connection
+				while(PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
+					pm.setPairingAttempts(purifier.getEui64());
+				}
 			}
 			
 			FragmentManager manager = getSupportFragmentManager();
