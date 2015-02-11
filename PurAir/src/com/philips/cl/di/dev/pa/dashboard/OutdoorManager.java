@@ -115,7 +115,6 @@ public class OutdoorManager implements OutdoorDataListener {
 
 	
 	private OutdoorManager() {
-		
 		outdoorJsonReader = new OutdoorJsonReader();
 		dataCommunicatorStrategy = new DataCommunicatorStrategy(this);
 		citiesMap = new HashMap<String, OutdoorCity>();
@@ -190,6 +189,17 @@ public class OutdoorManager implements OutdoorDataListener {
 		return "";
 	}
 	
+	public String getCityNameFromAreaId(String areaId) {
+		OutdoorCity city = citiesMap.get(areaId);
+		if(city != null) {
+			OutdoorCityInfo info = city.getOutdoorCityInfo();
+			if(info != null) {
+				return info.getCityName().toLowerCase();
+			}
+		}
+		return "";
+	}
+	
 	public String getLocalityNameFromAreaId(String areaId, String localityId) {
 		List<LocalityInfo> nearbyLocations = nearbyCitiesData.getNearbyCitiesMap().get(areaId);
 		if(nearbyLocations == null || nearbyLocations.isEmpty()) return null;
@@ -205,17 +215,6 @@ public class OutdoorManager implements OutdoorDataListener {
 			}
 		}
 		return null;
-	}
-	
-	public String getCityNameFromAreaId(String areaId) {
-		OutdoorCity city = citiesMap.get(areaId);
-		if(city != null) {
-			OutdoorCityInfo info = city.getOutdoorCityInfo();
-			if(info != null) {
-				return info.getCityName().toLowerCase();
-			}
-		}
-		return "";
 	}
 	
 	private void insertDataAndGetShortListCities() {
