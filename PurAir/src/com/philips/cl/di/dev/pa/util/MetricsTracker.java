@@ -87,14 +87,14 @@ public class MetricsTracker {
 	private static final String VALUE_PRODUCT_VIEW = "prodView";
 	private static final String VALUE_MODEL_AC4373 = "AC4373";
 	
-	private static boolean trackMetrics;
+	private static boolean trackMetrics = true;
 	
 	public static void enableTagging() {
-		trackMetrics = true;
+//		trackMetrics = true;
 	}
 	
 	public static void disableTagging() {
-		trackMetrics = false;
+//		trackMetrics = false;
 	}
 
 	public static void initContext(Context context) {

@@ -224,6 +224,8 @@
 -keep class com.philips.cl.di.dev.pa.outdoorlocations.CMACityData$* { *; }
 -keep class com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData { *; }
 -keep class com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData$* { *; }
+-keep class com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData {*; }
+-keep class com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData$* {*; }
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
