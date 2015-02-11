@@ -108,6 +108,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
+		OutdoorManager.getInstance().saveNearbyCityData();
+		
 		initializeUI();
 		setClickEvent(false);
 		try {
@@ -118,6 +120,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		setActionBarTitle();
 		detailHelper = new OutdoorDetailHelper(lastDayAQIHistoricArr, last7dayAQIHistoricArr, last4weekAQIHistoricArr);
 		getDataFromDashboard();
+		requestAQIAndWeatherData();
 	}
 	
 	/**
@@ -203,10 +206,15 @@ public class OutdoorDetailsActivity extends BaseActivity
 				showAlertDialog("", getString(R.string.outdoor_download_failed));
 				return;
 			}
-			OutdoorManager.getInstance().startHistoricalAQITask(areaId);
-			OutdoorManager.getInstance().startOneDayWeatherForecastTask(areaId);
-			OutdoorManager.getInstance().startCityFourDayForecastTask(areaId);
 		}
+	}
+
+	private void requestAQIAndWeatherData() {
+		if(areaId == null || areaId.isEmpty()) return;
+		OutdoorManager.getInstance().startHistoricalAQITask(areaId);
+		OutdoorManager.getInstance().startOneDayWeatherForecastTask(areaId);
+		OutdoorManager.getInstance().startCityFourDayForecastTask(areaId);
+		OutdoorManager.getInstance().startNearbyLocalitiesTask(areaId);
 	}
 	
 	private void disableMapZoomImage() {
@@ -616,5 +624,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 		} else {
 			calculateCMAAQIHistoricData();
 		}
+	}
+
+	@Override
+	public void onNearbyLocationsDataReceived(List<OutdoorAQI> nearbyLocationAQIs) {
+		
 	}
 }

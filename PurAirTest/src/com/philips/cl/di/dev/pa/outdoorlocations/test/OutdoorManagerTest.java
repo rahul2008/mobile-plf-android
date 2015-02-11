@@ -14,6 +14,7 @@ public class OutdoorManagerTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		outdoorManager = OutdoorManager.getInstance();
+		outdoorManager.saveNearbyCityData();
 		super.setUp();
 	}
 	
@@ -34,6 +35,11 @@ public class OutdoorManagerTest extends TestCase {
 	
 	public void testUSEmbassyCityListSize() {
 		assertEquals(5, outdoorManager.getUSEmbassyCities().size());
+	}
+	
+	public void testGetLocalityNameFromAreaId() {
+		String name = outdoorManager.getLocalityNameFromAreaId("101010100", "101010200");
+		assertEquals("haidian", name);
 	}
 
 }

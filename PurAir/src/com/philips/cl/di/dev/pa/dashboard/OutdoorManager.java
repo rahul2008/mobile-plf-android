@@ -12,6 +12,8 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
 import com.philips.cl.di.dev.pa.outdoorlocations.DataCommunicatorStrategy;
+import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
+import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData.LocalityInfo;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorJsonReader;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
@@ -29,6 +31,7 @@ public class OutdoorManager implements OutdoorDataListener {
 	private List<String> usEmbassyCities;
 	private List<String> userCitiesList;
 	private List<String> nearbyCities;
+	private NearbyCitiesData nearbyCitiesData;
 	
 	private OutdoorJsonReader outdoorJsonReader;
 	private DataCommunicatorStrategy dataCommunicatorStrategy;
@@ -127,7 +130,23 @@ public class OutdoorManager implements OutdoorDataListener {
 		
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: " + mOutdoorLocationFillAsyncTask);
 	}
-
+	
+	public void saveNearbyCityData() {
+		if(nearbyCitiesData == null) { //TODO : Add check to see if the city is Beijing, Shanghai or Guongdong??
+			nearbyCitiesData = DataParser.parseNearbyCitiesJson(outdoorJsonReader.readNearbyCitiesJsonAsString());
+		}
+	}
+	
+	public void startNearbyLocalitiesTask(String areaId) {
+		List<LocalityInfo> nearbyLocations = nearbyCitiesData.getNearbyCitiesMap().get(areaId);
+		if(nearbyLocations == null) return;
+		List<String> localityAreaIds = new ArrayList<String>();
+		for(LocalityInfo localityInfo : nearbyLocations) {
+			localityAreaIds.add(localityInfo.getAreaID());
+		}
+		dataCommunicatorStrategy.requestNearbyLocationsAQIData(localityAreaIds);
+	}
+	
 	private void saveCMACitiesInMapAndList(String cmaCitiesJsonAsString) {
 		CMACityData cmaCityData = DataParser.parseCMACityData(cmaCitiesJsonAsString);
 		List<CMACityDetail> cmList = cmaCityData.getCmaCitiesData();
@@ -167,6 +186,17 @@ public class OutdoorManager implements OutdoorDataListener {
 			}
 		}
 		return "";
+	}
+	
+	public String getLocalityNameFromAreaId(String areaId, String localityId) {
+		List<LocalityInfo> nearbyLocations = nearbyCitiesData.getNearbyCitiesMap().get(areaId);
+		if(nearbyLocations == null || nearbyLocations.isEmpty()) return null;
+		for(LocalityInfo localityInfo : nearbyLocations) {
+			if(localityInfo.getAreaID().equals(localityId)) {
+				return localityInfo.getLocalityEN();
+			}
+		}
+		return null;
 	}
 	
 	public String getCityNameFromAreaId(String areaId) {
@@ -411,5 +441,12 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	public int getOutdoorViewPagerCurrentPage() {
 		return this.position;
+	}
+
+	@Override
+	public void nearbyLocationsAQIReceived(List<OutdoorAQI> aqis) {
+		if(outdoorDetailsListener != null) {
+			outdoorDetailsListener.onNearbyLocationsDataReceived(aqis);
+		}
 	}
 }

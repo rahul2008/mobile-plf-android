@@ -47,6 +47,13 @@ public class CMACommunicator implements DataCommunicator {
 		requestAQITask.start();
 	}
 
+	public void requestNearbyLocationsAQI(List<String> cities) {
+		String areaIds = cities.toString().replace("[", "").replace("]", "").replace(", ", ",");
+
+		TaskGetHttp requestAQITask = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds, AIR, Utils.getDate(System.currentTimeMillis())), RequestType.NEARBY_LOCATIONS_AQI.getRequestTypeString(), PurAirApplication.getAppContext(), this);
+		requestAQITask.start();
+	}
+
 	@Override
 	public void requestWeatherData(List<String> cities) {
 		String areaIds = cities.toString().replace("[", "").replace("]", "").replace(", ", ",");
@@ -143,6 +150,11 @@ public class CMACommunicator implements DataCommunicator {
 			List<OutdoorAQI> allCitiesAQIs = DataParser.parseLocationAQI(responseData);
 			if(allCitiesAQIs == null || allCitiesAQIs.isEmpty()) return;
 			outdoorDataListener.allOutdoorAQIDataReceived(allCitiesAQIs);
+			break;
+		case NEARBY_LOCATIONS_AQI:
+			List<OutdoorAQI> nearbyLocationAQIs = DataParser.parseLocationAQI(responseData);
+			if(nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty()) return;
+			outdoorDataListener.nearbyLocationsAQIReceived(nearbyLocationAQIs);
 			break;
 		default:
 			break;

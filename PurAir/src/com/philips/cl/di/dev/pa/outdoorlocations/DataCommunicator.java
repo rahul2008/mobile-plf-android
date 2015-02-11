@@ -13,7 +13,8 @@ public interface DataCommunicator extends ServerResponseListener {
 		HISTORIAL_AQI("HISTORIAL_AQI"),
 		FORECAST_ONE_DAY("FORECAST_ONE_DAY"),
 		FORECAST_FOUR_DAYS("FORECAST_FOUR_DAYS"),
-		ALL_CITIES_AQI("ALL_CITIES_AQI");
+		ALL_CITIES_AQI("ALL_CITIES_AQI"),
+		NEARBY_LOCATIONS_AQI("NEARBY_LOCATIONS_AQI");
 		
 		private String type;
 		

@@ -24,6 +24,10 @@ public class DataCommunicatorStrategy {
 		requestUSEmbassyData(getUSEmbassyUserList(userCities), RequestType.CITIES_AQI);
 	}
 	
+	public void requestNearbyLocationsAQIData(List<String> locationAreaIds) {
+		requestCMAData(locationAreaIds, RequestType.NEARBY_LOCATIONS_AQI);
+	}
+	
 	public void requestCityWeatherData(List<String> userCities) {
 		requestCMAData(getCMACitiesFromCityNames(userCities), RequestType.CITIES_WEATHER);
 	}
@@ -78,6 +82,8 @@ public class DataCommunicatorStrategy {
 		case ALL_CITIES_AQI:
 			cmaCommunicator.requestAllCitiesData(userCities);
 			break;
+		case NEARBY_LOCATIONS_AQI:
+			cmaCommunicator.requestNearbyLocationsAQI(userCities);
 		default:
 			new IllegalArgumentException("Outdoor data request type not Found");
 			break;

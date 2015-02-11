@@ -15,14 +15,19 @@ public class NearbyCitiesData {
 		
 		private String localityEN;
         private String localityCN;
+        private String localityTW;
 		private String areaID;
 		private String longitude;
 		private String latitude;
+		
 		public String getLocalityEN() {
 			return localityEN;
 		}
 		public String getLocalityCN() {
 			return localityCN;
+		}
+		public String getLocalityTW() {
+			return localityTW;
 		}
 		public String getAreaID() {
 			return areaID;
