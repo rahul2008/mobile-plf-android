@@ -2,17 +2,20 @@ package com.philips.cl.di.dev.pa.outdoorlocations.test;
 
 import java.util.List;
 
-import junit.framework.TestCase;
+import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 
-public class OutdoorManagerTest extends TestCase {
+public class OutdoorManagerTest extends InstrumentationTestCase {
 	
 	private OutdoorManager outdoorManager;
 	
 	@Override
 	protected void setUp() throws Exception {
+		// Necessary to get Mockito framework working
+		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+
 		outdoorManager = OutdoorManager.getInstance();
 		outdoorManager.saveNearbyCityData();
 		super.setUp();
@@ -35,6 +38,36 @@ public class OutdoorManagerTest extends TestCase {
 	
 	public void testUSEmbassyCityListSize() {
 		assertEquals(5, outdoorManager.getUSEmbassyCities().size());
+	}
+	
+	public void testGetLocalityNameFromAreaIdNullAreaId() {
+		String name = outdoorManager.getLocalityNameFromAreaId(null, "101010200");
+		assertNull(name);
+	}
+	
+	public void testGetLocalityNameFromAreaIdEmptyAreaId() {
+		String name = outdoorManager.getLocalityNameFromAreaId("", "101010200");
+		assertNull(name);
+	}
+	
+	public void testGetLocalityNameFromAreaIdNullLocalityId() {
+		String name = outdoorManager.getLocalityNameFromAreaId("101010100", null);
+		assertNull(name);
+	}
+	
+	public void testGetLocalityNameFromAreaIdEmptyLocalityId() {
+		String name = outdoorManager.getLocalityNameFromAreaId("101010100", "");
+		assertNull(name);
+	}
+	
+	public void testGetLocalityNameFromAreaIdNotExistant_1() {
+		String name = outdoorManager.getLocalityNameFromAreaId("101050503", "101010200");
+		assertNull(name);
+	}
+	
+	public void testGetLocalityNameFromAreaIdNotExistant_2() {
+		String name = outdoorManager.getLocalityNameFromAreaId("101055503", "101010205");
+		assertNull(name);
 	}
 	
 	public void testGetLocalityNameFromAreaId() {
