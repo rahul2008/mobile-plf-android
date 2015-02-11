@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData.USEmbassyCityDetail;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 
@@ -193,7 +195,13 @@ public class OutdoorManager implements OutdoorDataListener {
 		if(nearbyLocations == null || nearbyLocations.isEmpty()) return null;
 		for(LocalityInfo localityInfo : nearbyLocations) {
 			if(localityInfo.getAreaID().equals(localityId)) {
-				return localityInfo.getLocalityEN();
+				String localityName = localityInfo.getLocalityEN();
+				if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+					localityName = localityInfo.getLocalityCN();
+				} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+					localityName = localityInfo.getLocalityTW();
+				}
+				return localityName;
 			}
 		}
 		return null;
