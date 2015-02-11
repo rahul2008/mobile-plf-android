@@ -68,6 +68,7 @@
     <string name="cancel">取消</string>
     <string name="decline">拒絕</string>
     <string name="weather_forecast">天氣預報</string>
+    <string name="neighborhood_aqi_data">周邊城市空氣質量詳情</string>
     <string name="outdoor_download_failed">室外空氣質量歷史數據下載失敗！</string>
     <string name="kmph">公里/小時</string>
     <string name="hiphen">-</string>
@@ -90,6 +91,8 @@
     <string name="cover_open">前面板被開啟</string>
     <string name="error_air_port">錯誤</string>
     <!-- AQI status -->
+    <string name="aqi">AQI</string>
+    <string name="pm2.5">PM2.5</string>
     <string name="good">良好</string>
     <string name="moderate">良</string>
     <string name="unhealthy_for_sensitive_groups">輕微污染</string>

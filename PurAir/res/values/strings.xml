@@ -68,6 +68,7 @@
     <string name="cancel">Cancel</string>
     <string name="decline">Decline</string>
     <string name="weather_forecast">Weather Forecast</string>
+    <string name="neighborhood_aqi_data">Neighborhood Air Quality details</string>
     <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
     <string name="kmph">km/h</string>
     <string name="hiphen">-</string>
@@ -90,6 +91,8 @@
     <string name="cover_open">Cover open</string>
     <string name="error_air_port">Error</string>
     <!-- AQI status -->
+    <string name="aqi">AQI</string>
+    <string name="pm2.5">PM2.5</string>
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>
     <string name="unhealthy_for_sensitive_groups">Unhealthy for sensitive groups</string>

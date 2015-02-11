@@ -28,6 +28,59 @@
             android:layout_margin="16dp"
             layout="@layout/od_caution_layout" />
 
+        <LinearLayout
+            android:id="@+id/neighbourhoodDetailsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/neighborhood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/neighborhood_aqi_data"
+                android:textColor="@color/dodgerblue"
+                android:textSize="@dimen/title_text_size_medium_dp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+            <LinearLayout
+                android:id="@+id/infotabll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="0dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/aqitv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/highlight_text_view_bg"
+                    android:contentDescription="@string/img_description"
+                    android:gravity="center"
+                    android:text="@string/aqi"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/pmtv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/normal_text_view_bg"
+                    android:contentDescription="@string/img_description"
+                    android:gravity="center"
+                    android:text="@string/pm_2.5"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+            
+        </LinearLayout>
+
         <!-- Map layout -->
 
         <RelativeLayout
@@ -64,7 +117,6 @@
                 android:background="@drawable/beijing_map"
                 android:contentDescription="@string/img_description"
                 android:visibility="gone" />
-
         </RelativeLayout>
 
         <!-- <include -->

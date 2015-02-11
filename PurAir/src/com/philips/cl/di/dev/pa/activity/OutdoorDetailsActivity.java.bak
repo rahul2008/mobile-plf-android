@@ -33,7 +33,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.adapter.NeighbourhoodCityBaseAdapter;
+import com.philips.cl.di.dev.pa.adapter.MyBaseAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
@@ -50,7 +50,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
-import com.philips.cl.di.dev.pa.util.ListViewHelper;
+import com.philips.cl.di.dev.pa.util.Helper;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
@@ -81,9 +81,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private static int currentCityDayOfWeek;
 	private TextView aqitv;
 	private TextView pmtv;
-	private LinearLayout neighbourhoodcityll;
-	private ListView nearbycitylv;
-	private NeighbourhoodCityBaseAdapter adapter;
+	LinearLayout aqidata;
+	ListView nearbycitylv;
+	MyBaseAdapter adapter;
 	
 	
 	private ViewGroup mapGaodeLayout;
@@ -140,11 +140,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	private void showNearbyCityInfo(List<OutdoorAQI> nearbyLocationAQIs) {
-		NeighbourhoodCityBaseAdapter adapter = new NeighbourhoodCityBaseAdapter(this, nearbyLocationAQIs, NearbyInfoType.AQI, areaId);
+		MyBaseAdapter adapter = new MyBaseAdapter(this, nearbyLocationAQIs, NearbyInfoType.AQI, areaId);
 		nearbycitylv.setAdapter(adapter);
-		neighbourhoodcityll.setVisibility(View.VISIBLE);
-		neighbourhoodcityll.addView(nearbycitylv);
-		ListViewHelper.getListViewSize(nearbycitylv);
+		aqidata.setVisibility(View.VISIBLE);
+		aqidata.addView(nearbycitylv);
+		Helper.getListViewSize(nearbycitylv);
 		nearbycitylv.setDivider(null);
 		nearbycitylv.setDividerHeight(0);
 
@@ -233,7 +233,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 				return;
 			}
 			
-
+			// Start the Neighbourhood Data task
 			
 		}
 	}
@@ -369,7 +369,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		setupGaodeMap();
 		aqitv = (TextView) findViewById(R.id.aqitv);
 		pmtv = (TextView) findViewById(R.id.pmtv);
-		neighbourhoodcityll = (LinearLayout) findViewById(R.id.neighbourhoodDetailsLayout);
+		aqidata = (LinearLayout) findViewById(R.id.neighbourhoodDetailsLayout);
 		
 		/**
 		 * Set click listener
@@ -477,7 +477,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		if (nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty() ) {
 			return;
 		}
-		adapter = new NeighbourhoodCityBaseAdapter(this,nearbyLocationAQIs, infoType, areaId);
+		adapter = new MyBaseAdapter(this,nearbyLocationAQIs, infoType, areaId);
 		nearbycitylv.setAdapter(adapter);
 	}
 	
@@ -566,6 +566,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 				aqiProgressBar.setVisibility(View.GONE);
 				weatherProgressBar.setVisibility(View.GONE);
 				showAlertDialog("", getString(R.string.outdoor_download_failed));
+			} else if ( msg.what == 3 ) {
+				//TODO
 			}
 		};
 	};

@@ -9,12 +9,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
 import com.philips.cl.di.dev.pa.outdoorlocations.DataCommunicatorStrategy;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData.LocalityInfo;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorJsonReader;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
@@ -205,11 +207,14 @@ public class OutdoorManager implements OutdoorDataListener {
 		if(nearbyLocations == null || nearbyLocations.isEmpty()) return null;
 		for(LocalityInfo localityInfo : nearbyLocations) {
 			if(localityInfo.getAreaID().equals(localityId)) {
-				String localityName = localityInfo.getLocalityEN();
+				String localityName = AppConstants.EMPTY_STRING;
 				if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
 					localityName = localityInfo.getLocalityCN();
 				} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
 					localityName = localityInfo.getLocalityTW();
+				}
+				else {
+					localityName =  AddOutdoorLocationHelper.getFirstWordCapitalInSentence(localityInfo.getLocalityEN()) ;
 				}
 				return localityName;
 			}
