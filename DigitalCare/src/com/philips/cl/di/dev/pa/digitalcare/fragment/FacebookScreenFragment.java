@@ -1,29 +1,44 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView.ScaleType;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
 import com.philips.cl.di.dev.pa.digitalcare.util.FacebookUtility;
+import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
 /*
  *	FacebookScreenFragment will help to post messages on Philips facebook wall.
  * 
- * Author : Ritesh.jha@philips.com
+ * Author : Ritesh.jha@philips.com, naveen@philips.com
  * 
  * Creation Date : 5 Feb 2015
  */
-public class FacebookScreenFragment extends BaseFragment {
+public class FacebookScreenFragment extends BaseFragment implements
+		OnCheckedChangeListener,Callback {
 
+	private static final String TAG = FacebookScreenFragment.class.getSimpleName();
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private LinearLayout mFacebookParentPort = null;
@@ -33,6 +48,12 @@ public class FacebookScreenFragment extends BaseFragment {
 	private DigitalCareFontButton popCancelPort = null;
 	private DigitalCareFontButton popCancelLand = null;
 	private static FacebookUtility mFacebookUtility = null;
+	private ImageView mProductImage = null;
+	private ImageView mProductImageClose = null;
+	private Callback mCallback = this;
+	private File mFile = null;
+	private CheckBox mCheckBox = null;
+	private EditText mEditText = null;
 	private Bundle mSaveInstanceState = null;
 	private View view = null;
 
@@ -80,11 +101,22 @@ public class FacebookScreenFragment extends BaseFragment {
 				.findViewById(R.id.facebookSendPort);
 		popShareLand = (DigitalCareFontButton) view
 				.findViewById(R.id.facebookSendLand);
+		mCheckBox = (CheckBox) getActivity()
+				.findViewById(R.id.fb_Post_CheckBox);
+		mEditText = (EditText) getActivity().findViewById(
+				R.id.share_text);
+		mProductImage = (ImageView) getActivity().findViewById(
+				R.id.fb_post_camera);
+
+		mProductImageClose =(ImageView) getActivity().findViewById(R.id.fb_Post_camera_close);
 
 		popSharePort.setOnClickListener(clickListner);
 		popShareLand.setOnClickListener(clickListner);
 		popCancelPort.setOnClickListener(clickListner);
 		popCancelLand.setOnClickListener(clickListner);
+		mProductImage.setOnClickListener(clickListner);
+		mProductImageClose.setOnClickListener(clickListner);
+		mCheckBox.setOnCheckedChangeListener(this);
 
 		Configuration config = resource.getConfiguration();
 		setViewParams(config);
@@ -164,7 +196,43 @@ public class FacebookScreenFragment extends BaseFragment {
 					&& mFacebookUtility != null) {
 				mFacebookUtility.performPublishAction();
 				// backstackFragment();
+			} else if (id == R.id.fb_post_camera) {
+				ProductImage.getInstance(getActivity(), mCallback).pickImage();
+			} else if (id == R.id.fb_Post_camera_close)
+			{
+				onImageDettach();
 			}
 		}
 	};
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (isChecked) {
+			mEditText.setText("FaceBook Description");
+		} else {
+			mEditText.setText("");
+		}
+
+	}
+
+	@Override
+	public void onImageReceived(Bitmap image, String Uri) {
+		// Log.d(TAG, "Product Image Attached");
+		mFile = new File(Uri);
+		Toast.makeText(getActivity(), "Image Path : "+mFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+		mProductImage.setImageBitmap(image);
+		mProductImage.setScaleType(ScaleType.FIT_XY);
+		mProductImageClose.setVisibility(View.VISIBLE);
+		
+	}
+
+	@Override
+	public void onImageDettach() {
+		mFile = null;
+		Log.d(TAG, "Product Image Dettached");
+		mProductImage.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.social_photo_default));
+		mProductImage.setScaleType(ScaleType.FIT_XY);
+		mProductImageClose.setVisibility(View.GONE);
+		
+	}
 }
