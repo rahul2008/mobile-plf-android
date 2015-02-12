@@ -17,6 +17,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterAuth;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.util.Utils;
 
 /*
  *	ContactUsFragment will help to provide options to contact Philips.
@@ -93,20 +94,22 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 		public void onClick(View view) {
 			int id = view.getId();
 			if (id == R.id.contactUsChat) {
-				showFragment(new ChatFragment());
+				if (Utils.isConnected(getActivity()))
+					showFragment(new ChatFragment());
 			} else if (id == R.id.contactUsCall) {
 				callPhilips();
 			} else if (id == R.id.socialLoginFacebookBtn) {
-				showFragment(new FacebookScreenFragment());
+				if (Utils.isConnected(getActivity()))
+					showFragment(new FacebookScreenFragment());
 			} else if (id == R.id.socialLoginTwitterBtn) {
-				TwitterConnect mTwitter = TwitterConnect
-						.getInstance(getActivity());
-				mTwitter.initSDK(mTwitterAuth);
-				Log.d(TAG, "Twitter Button - Clicked");
+				if (Utils.isConnected(getActivity())) {
+					TwitterConnect mTwitter = TwitterConnect
+							.getInstance(getActivity());
+					mTwitter.initSDK(mTwitterAuth);
+				}
 			}
 		}
 	};
-
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
