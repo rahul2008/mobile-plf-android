@@ -78,8 +78,6 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 
 	@Override
 	public void onTwitterLoginFailed() {
-		Toast.makeText(getActivity(), "Failed To Connect to Twitter",
-				Toast.LENGTH_SHORT).show();
 
 	}
 

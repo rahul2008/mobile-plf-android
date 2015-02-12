@@ -6,11 +6,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
-
 
 /**
  * @Description Activity component used for Twitter authentication
@@ -29,7 +30,7 @@ public class WebViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_webview);
+		setContentView(mgetView());
 
 		setTitle("Login");
 
@@ -38,11 +39,34 @@ public class WebViewActivity extends Activity {
 			Log.e("Twitter", "URL cannot be null");
 			finish();
 		}
-
-		webView = (WebView) findViewById(R.id.webView);
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl(url);
 	}
+	
+	
+	private View mgetView()
+	{
+		RelativeLayout mWebContainer = new RelativeLayout(this);
+		mWebContainer.setLayoutParams(new RelativeLayout.LayoutParams
+				(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		webView = new WebView(this);
+		webView.setLayoutParams(new RelativeLayout.LayoutParams
+				(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		mWebContainer.addView(webView);
+		return mWebContainer; 
+		
+	}
+
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		mDialog.dismiss();
+		mDialog.cancel();
+		mDialog = null;
+	}
+
+
 
 	class MyWebViewClient extends WebViewClient {
 
@@ -61,11 +85,11 @@ public class WebViewActivity extends Activity {
 
 		@Override
 		public void onLoadResource(WebView view, String url) {
-			if (mDialog == null) {
+			if (mDialog == null)
 				mDialog = new ProgressDialog(WebViewActivity.this);
-				mDialog.setMessage("Loading...");
-				mDialog.show();
-			}
+			mDialog.setMessage("Loading...");
+			mDialog.show();
+
 		}
 
 		@Override

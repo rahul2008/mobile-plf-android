@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -78,7 +79,18 @@ public class TwitterConnect {
 
 		} else {
 			ALog.d(TAG, "Logging inti Twitter");
-			loginToTwitter();
+
+			Thread mLoginThread = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					loginToTwitter();
+
+				}
+			});
+			mLoginThread.setName("Twitter Login");
+			mLoginThread.setPriority(Thread.MAX_PRIORITY);
+			mLoginThread.start();
 
 			Uri uri = mContext.getIntent().getData();
 
@@ -105,11 +117,14 @@ public class TwitterConnect {
 
 	private void saveTwitterInformation(AccessToken accessToken) {
 
+		Log.d(TAG, "Save Twitter Information");
 		long userID = accessToken.getUserId();
+		Log.d(TAG, "USer ID : " + userID);
 
 		User user;
 		try {
 			user = twitter.showUser(userID);
+			Log.d(TAG, "User : " + user.toString());
 
 			String username = user.getName();
 
@@ -120,7 +135,14 @@ public class TwitterConnect {
 			e.putBoolean(PREF_KEY_TWITTER_LOGIN, true);
 			e.putString(PREF_USER_NAME, username);
 			e.commit();
-			mTwitterAuth.onTwitterLoginSuccessful();
+			mContext.runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					mTwitterAuth.onTwitterLoginSuccessful();
+
+				}
+			});
 
 		} catch (TwitterException e1) {
 			e1.printStackTrace();
@@ -158,20 +180,33 @@ public class TwitterConnect {
 		}
 	}
 
+	private String verifier = null;
+
 	public void onActivityResult(Intent data) {
 
-		String verifier = null;
+		Log.d(TAG, "Received Twitter session from DigitalCare Activity");
 		if (data != null)
 			verifier = data.getExtras().getString(oAuthVerifier);
+		Log.d(TAG, "Verifier : " + verifier);
 
-		try {
-			AccessToken accessToken = twitter.getOAuthAccessToken(requestToken,
-					verifier);
-			if (accessToken != null)
-				saveTwitterInformation(accessToken);
+		new Thread(new Runnable() {
 
-		} catch (Exception e) {
-			Log.e("Twitter Login Failed", "" +e);
-		}
+			@Override
+			public void run() {
+				AccessToken accessToken;
+				try {
+					accessToken = twitter.getOAuthAccessToken(requestToken,
+							verifier);
+					Log.d(TAG, "AccessToken : " + accessToken);
+					if (accessToken != null)
+						saveTwitterInformation(accessToken);
+				} catch (Exception e) {
+					Log.e("Twitter Login Failed", "" + e);
+					mTwitterAuth.onTwitterLoginFailed();
+				}
+
+			}
+		}).start();
+
 	}
 }
