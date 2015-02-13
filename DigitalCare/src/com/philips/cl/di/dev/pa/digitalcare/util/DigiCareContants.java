@@ -18,4 +18,6 @@ public class DigiCareContants {
 	
 	public static final int IMAGE_CAPTURE = 1001;
 	public static final int IMAGE_PICK = 1010;
+	
+	public static final String PHILIPS_PRODUCT_IMAGE = "Philips_Product.png";
 }
