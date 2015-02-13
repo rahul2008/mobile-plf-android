@@ -3,17 +3,17 @@ package com.philips.cl.di.dev.pa.digitalcare.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
 /**
@@ -23,8 +23,6 @@ import android.widget.Toast;
  *
  */
 public class Utils {
-
-	private static String CAMERA_IMAGE = null;
 
 	public static boolean isConnected(Activity activity) {
 		ConnectivityManager mConnectManager = (ConnectivityManager) activity
@@ -45,7 +43,7 @@ public class Utils {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 
-public static Bitmap readImage(Context context) {
+	public static Bitmap readImage(Context context) {
 		try {
 			File mFile = internalStoragePath(context);
 			return BitmapFactory.decodeStream(new FileInputStream(mFile));
@@ -60,6 +58,38 @@ public static Bitmap readImage(Context context) {
 				Context.MODE_PRIVATE);
 		File mFilePath = new File(mFile, DigiCareContants.PHILIPS_PRODUCT_IMAGE);
 		return mFilePath;
+	}
+
+	public static void sendEmail(Activity activity) {
+		Intent intent = new Intent(Intent.ACTION_SEND);
+		intent.setType("message/rfc822");
+		intent.putExtra(Intent.EXTRA_EMAIL,
+				"PhilipsCustomer@philipsSupport.com");
+		intent.putExtra(Intent.EXTRA_SUBJECT,
+				"My AirFryer HD9220/20 is gone case");
+		intent.putExtra(
+				Intent.EXTRA_TEXT,
+				"Hi Team\n, My Aurfryer is not cooking actually. It is leaving ultimate smoke."
+						+ " Please do let me know how i can correct my favourate Philips Machine ");
+
+		activity.startActivity(Intent.createChooser(intent, "Send Email"));
+	}
+
+	public static boolean  isSimAvailable(Activity mContext) {
+		TelephonyManager mTelephonyService = (TelephonyManager) mContext
+				.getSystemService(Context.TELEPHONY_SERVICE);
+		int state = mTelephonyService.getPhoneType();
+		switch (state) {
+		case TelephonyManager.PHONE_TYPE_GSM:
+			return true;
+		case TelephonyManager.PHONE_TYPE_CDMA:
+			return true;
+		case TelephonyManager.PHONE_TYPE_SIP:
+			return true;
+		case TelephonyManager.PHONE_TYPE_NONE:
+			return false;
+		}
+		return false;
 	}
 
 }

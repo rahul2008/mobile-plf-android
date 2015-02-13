@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -17,6 +16,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterAuth;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
 import com.philips.cl.di.dev.pa.digitalcare.util.Utils;
 
 /*
@@ -26,11 +26,12 @@ import com.philips.cl.di.dev.pa.digitalcare.util.Utils;
  * 
  * Creation Date : 19 Jan 2015
  */
-public class ContactUsFragment extends BaseFragment implements TwitterAuth {
+public class ContactUsFragment extends BaseFragment implements TwitterAuth,
+		FragmentUtility {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private DigitalCareFontButton mFacebook, mTwitter = null;
-	private DigitalCareFontButton mChat, mCallPhilips = null;
+	private DigitalCareFontButton mChat, mEmail, mCallPhilips = null;
 	private TwitterAuth mTwitterAuth = this;
 
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
@@ -60,12 +61,15 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 				R.id.socialLoginTwitterBtn);
 		mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsCall);
+		mEmail = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsEmail);
 
-		mFacebook.setOnClickListener(actionBarClickListener);
-		mChat.setOnClickListener(actionBarClickListener);
-		mCallPhilips.setOnClickListener(actionBarClickListener);
-		mTwitter.setOnClickListener(actionBarClickListener);
+		mFacebook.setOnClickListener(this);
+		mChat.setOnClickListener(this);
 
+		mCallPhilips.setOnClickListener(this);
+		mTwitter.setOnClickListener(this);
+		mEmail.setOnClickListener(this);
 		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
@@ -79,6 +83,7 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 
 	@Override
 	public void onTwitterLoginFailed() {
+		Log.d(TAG, "Twitter Authentication Failed");
 
 	}
 
@@ -89,28 +94,6 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 		showFragment(new TwitterScreenFragment());
 	}
 
-	private OnClickListener actionBarClickListener = new OnClickListener() {
-
-		public void onClick(View view) {
-			int id = view.getId();
-			if (id == R.id.contactUsChat) {
-				if (Utils.isConnected(getActivity()))
-					showFragment(new ChatFragment());
-			} else if (id == R.id.contactUsCall) {
-				callPhilips();
-			} else if (id == R.id.socialLoginFacebookBtn) {
-				if (Utils.isConnected(getActivity()))
-					showFragment(new FacebookScreenFragment());
-			} else if (id == R.id.socialLoginTwitterBtn) {
-				if (Utils.isConnected(getActivity())) {
-					TwitterConnect mTwitter = TwitterConnect
-							.getInstance(getActivity());
-					mTwitter.initSDK(mTwitterAuth);
-				}
-			}
-		}
-	};
-
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
 		myintent.setData(Uri.parse("tel:" + "9986202179"));
@@ -119,13 +102,41 @@ public class ContactUsFragment extends BaseFragment implements TwitterAuth {
 
 	};
 
-	private void setViewParams(Configuration config) {
+	@Override
+	public void onClick(View view) {
+		int id = view.getId();
+		if (id == R.id.contactUsChat) {
+			if (Utils.isConnected(getActivity()))
+				showFragment(new ChatFragment());
+		} else if (id == R.id.contactUsCall) {
+			callPhilips();
+		} else if (id == R.id.socialLoginFacebookBtn) {
+			if (Utils.isConnected(getActivity()))
+				showFragment(new FacebookScreenFragment());
+		} else if (id == R.id.socialLoginTwitterBtn) {
+			if (Utils.isConnected(getActivity())) {
+				TwitterConnect mTwitter = TwitterConnect
+						.getInstance(getActivity());
+				mTwitter.initSDK(mTwitterAuth);
+			}
+		} else if (id == R.id.contactUsEmail) {
+			if (Utils.isConnected(getActivity()))
+				Utils.sendEmail(getActivity());
+		}
+	}
+
+	@Override
+	public void setViewParams(Configuration config) {
+
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
 		mConactUsParent.setLayoutParams(mParams);
-	}
 
+		if (!Utils.isSimAvailable(getActivity()))
+			mCallPhilips.setVisibility(View.GONE);
+
+	}
 }
