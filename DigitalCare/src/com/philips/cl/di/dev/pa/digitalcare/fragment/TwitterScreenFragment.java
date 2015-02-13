@@ -1,9 +1,13 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
+import java.io.File;
+
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,29 +16,42 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.FrameLayout.LayoutParams;
+import android.widget.ImageView.ScaleType;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
+import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
+import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
- public class TwitterScreenFragment extends BaseFragment implements FragmentUtility,
-		OnCheckedChangeListener {
+public class TwitterScreenFragment extends BaseFragment implements
+		FragmentUtility, OnCheckedChangeListener, Callback {
 
-	private static final String TAG = TwitterScreenFragment.class.getSimpleName();
+	private static final String TAG = TwitterScreenFragment.class
+			.getSimpleName();
 	private String mUsername;
 	private View mTwitterView = null;
-	private Bundle mSavedInstanceState = null;
+	private Callback mCallback = this;
+	private File mFile = null;
 	private SharedPreferences mSharedPreferences = null;
 
-	private LinearLayout mContainer, mTwitterPort, mTwitterLand = null;
-	private DigitalCareFontButton mCancelPort, mCancelLand, mSendPort, mSendLand = null;
+	private LinearLayout mContainer = null;
+	private LinearLayout  mTwitterPort = null;
+	private LinearLayout mTwitterLand = null;
+	private DigitalCareFontButton mCancelPort = null;
+	private DigitalCareFontButton mCancelLand = null;
+	private DigitalCareFontButton mSendPort = null;
+	private DigitalCareFontButton mSendLand = null;
 	private CheckBox mCheckBox = null;
 	private EditText mProdInformation = null;
+	private ImageView mProductImage = null;
+	private ImageView mProductCloseButton = null;
 
 	private LayoutParams mContainerParams = null;
 
@@ -53,7 +70,6 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
 				TwitterConnect.PREF_NAME, 0);
 		mUsername = mSharedPreferences.getString(TwitterConnect.PREF_USER_NAME,
 				"");
-		mSavedInstanceState = savedInstanceState;
 		ALog.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
 		return mTwitterView;
 	}
@@ -96,11 +112,18 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
 		mProdInformation = (EditText) getActivity().findViewById(
 				R.id.share_text);
 
+		mProductImage = (ImageView) getActivity().findViewById(
+				R.id.fb_post_camera);
+		mProductCloseButton = (ImageView) getActivity().findViewById(
+				R.id.fb_Post_camera_close);
+
 		mCancelPort.setOnClickListener(this);
 		mCancelLand.setOnClickListener(this);
 		mSendPort.setOnClickListener(this);
 		mSendLand.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
+		mProductImage.setOnClickListener(this);
+		mProductCloseButton.setOnClickListener(this);
 
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
@@ -131,6 +154,12 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
 
 		case R.id.fb_Post_CheckBox:
 
+			break;
+		case R.id.fb_post_camera:
+			ProductImage.getInstance(getActivity(), mCallback).pickImage();
+			break;
+		case R.id.fb_Post_camera_close:
+			onImageDettach();
 			break;
 
 		default:
@@ -173,6 +202,26 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
 		} else {
 			mProdInformation.setText("");
 		}
+	}
+
+	@Override
+	public void onImageReceived(Bitmap image, String Uri) {
+		mFile = new File(Uri);
+		Toast.makeText(getActivity(), "Image Path : "+mFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+		mProductImage.setImageBitmap(image);
+		mProductImage.setScaleType(ScaleType.FIT_XY);
+		mProductCloseButton.setVisibility(View.VISIBLE);
+
+	}
+
+	@Override
+	public void onImageDettach() {
+		mFile = null;
+		Log.d(TAG, "Product Image Dettached");
+		mProductImage.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.social_photo_default));
+		mProductImage.setScaleType(ScaleType.FIT_XY);
+		mProductCloseButton.setVisibility(View.GONE);
+
 	}
 
 }

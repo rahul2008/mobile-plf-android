@@ -88,31 +88,30 @@
                 android:contentDescription="@string/img_description"
                 android:visibility="gone" />
 
-            <RelativeLayout
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true" >
-
                 <ImageView
                     android:id="@+id/fb_post_camera"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="15dp"
                     android:contentDescription="@string/img_description"
                     android:src="@drawable/social_photo_default" />
 
                 <ImageView
                     android:id="@+id/fb_Post_camera_close"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_alignRight="@+id/fb_post_camera"
-                    android:layout_alignTop="@+id/fb_post_camera"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_alignBottom="@+id/fb_post_camera"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="55dp"
+                    android:layout_marginRight="10dp"
                     android:contentDescription="@string/img_description"
                     android:src="@drawable/social_close"
-                    android:visibility="visible" />
-            </RelativeLayout>
+                    android:scaleType="fitXY"
+                    android:visibility="gone" />
+
         </RelativeLayout>
 
         <LinearLayout

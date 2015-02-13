@@ -45,16 +45,7 @@ public class Utils {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 
-	public static void copyImage(Context context, Bitmap bitmap)
-			throws IOException {
-
-		FileOutputStream mFileOutStream = null;
-		mFileOutStream = new FileOutputStream(internalStoragePath(context));
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, mFileOutStream);
-		mFileOutStream.close();
-	}
-
-	public static Bitmap readImage(Context context) {
+public static Bitmap readImage(Context context) {
 		try {
 			File mFile = internalStoragePath(context);
 			return BitmapFactory.decodeStream(new FileInputStream(mFile));
