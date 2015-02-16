@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.digitalcare.twitter;
+package com.philips.cl.di.dev.pa.digitalcare.social;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

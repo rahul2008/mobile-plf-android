@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.philips.cl.di.dev.pa.digitalcare.fragment.FacebookScreenFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.SupportHomeFragment;
-import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;

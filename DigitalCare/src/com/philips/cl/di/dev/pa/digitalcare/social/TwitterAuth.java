@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.digitalcare.twitter;
+package com.philips.cl.di.dev.pa.digitalcare.social;
 
 
 /**

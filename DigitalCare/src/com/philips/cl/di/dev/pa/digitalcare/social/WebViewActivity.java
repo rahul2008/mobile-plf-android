@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.digitalcare.twitter;
+package com.philips.cl.di.dev.pa.digitalcare.social;
 
 import android.app.Activity;
 import android.app.ProgressDialog;

@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.dev.pa.digitalcare.twitter.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
