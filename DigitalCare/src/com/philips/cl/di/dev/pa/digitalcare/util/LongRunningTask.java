@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.digitalcare.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -43,7 +44,7 @@ public class LongRunningTask extends AsyncTask<Void, Void, String> {
 			n = in.read(b);
 
 			if (n > 0)
-				out.append(new String(b, 0, n));
+				out.append(new String(b, 0, n, "UTF-8"));
 		}
 
 		return out.toString().trim();
