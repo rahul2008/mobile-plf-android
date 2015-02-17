@@ -137,6 +137,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 			mOptionBtnRegisterProduct
 					.setOnClickListener(actionBarClickListener);
 			break;
+		default:
+			break;	
 		}
 	}
 

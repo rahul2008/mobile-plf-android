@@ -54,16 +54,16 @@ public class FacebookUtility {
 
 	private static final String TAG = "ContactUsFragment";
 
-	private final String PERMISSION = "publish_actions";
+	private final static String PERMISSION = "publish_actions";
 	// private Uri selectedImageUri = null;
-	private final String EMAIL = "email";
-	private final String BIRTHDAY = "user_birthday";
-	private final String HOMETOWN = "user_hometown";
-	private final String LOCATION = "user_location";
-	private final String PENDING_ACTION_BUNDLE_KEY = "com.facebook.samples.hellofacebook:PendingAction";
+	private final static String EMAIL = "email";
+	private final static String BIRTHDAY = "user_birthday";
+	private final static String HOMETOWN = "user_hometown";
+	private final static String LOCATION = "user_location";
+	private final static String PENDING_ACTION_BUNDLE_KEY = "com.facebook.samples.hellofacebook:PendingAction";
 	private static Uri imageFileUri = null;
 	private static Uri selectedImageUri = null;
-	private final String IMAGE_DIRECTORY_NAME = "DigitalCare";
+	private final static String IMAGE_DIRECTORY_NAME = "DigitalCare";
 	private PendingAction pendingAction = PendingAction.NONE;
 	private static final int RESULT_OK = -1;
 	private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 0;
@@ -288,8 +288,9 @@ public class FacebookUtility {
 						case SELECT_FILE:
 							pickImage(false);
 							break;
+						default:
+							break;
 						}
-
 					}
 				});
 		builderSingle.show();

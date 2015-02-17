@@ -130,8 +130,7 @@ public class ProductImage {
 			photo = BitmapFactory.decodeFile(path, options);
 			Log.d(TAG, "image Path : " + path);
 			mImageCallback.onImageReceived(photo, path);
-			if (cursor != null)
-				cursor.close();
+			cursor.close();
 		}
 	}
 
