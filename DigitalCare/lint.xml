@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <issue id="MissingPrefix" severity="ignore" />
-    <issue id ="RtlHardcoded" severity="ignore" /> 
+<!--     <issue id ="RtlHardcoded" severity="ignore" /> 
     <issue id ="RtlSymmetry" severity="ignore" /> 
     <issue id ="RtlEnabled" severity="ignore" /> 
     <issue id ="UnusedResources" severity="ignore" />
@@ -11,5 +11,5 @@
     <issue id="IconDensities" severity="ignore" />
     <issue id="IconDipSize" severity="ignore" />
     <issue id ="CommitPrefEdits" severity="ignore" /> 
-    <issue id ="ScrollViewSize" severity="ignore" /> 
+    <issue id ="ScrollViewSize" severity="ignore" />  -->
 </lint>
