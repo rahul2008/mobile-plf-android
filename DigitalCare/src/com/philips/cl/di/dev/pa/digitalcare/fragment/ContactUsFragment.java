@@ -8,20 +8,22 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
+import com.philips.cl.di.dev.pa.digitalcare.bean.CdlsBean;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.listners.FragmentUtilityInterface;
 import com.philips.cl.di.dev.pa.digitalcare.listners.LongRunningTaskInterface;
 import com.philips.cl.di.dev.pa.digitalcare.social.TwitterAuth;
 import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.LongRunningTask;
 import com.philips.cl.di.dev.pa.digitalcare.util.ParserController;
 import com.philips.cl.di.dev.pa.digitalcare.util.Utils;
@@ -29,18 +31,24 @@ import com.philips.cl.di.dev.pa.digitalcare.util.Utils;
 /*
  *	ContactUsFragment will help to provide options to contact Philips.
  * 
- * Author : Ritesh.jha@philips.com, naveen@philips.com
+ * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 19 Jan 2015
  */
-public class ContactUsFragment extends DigitalCareBaseFragment implements TwitterAuth,
-		FragmentUtilityInterface {
+public class ContactUsFragment extends DigitalCareBaseFragment implements
+		TwitterAuth, FragmentUtilityInterface {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private DigitalCareFontButton mFacebook, mTwitter = null;
-	private DigitalCareFontButton mChat, mEmail, mCallPhilips = null;
+	private DigitalCareFontButton mFacebook = null;
+	private DigitalCareFontButton mTwitter = null;
+	private DigitalCareFontButton mChat = null;
+	private DigitalCareFontButton mEmail = null;
+	private DigitalCareFontButton mCallPhilips = null;
 	private TwitterAuth mTwitterAuth = this;
-	
+	private CdlsBean cdlsBean = null;
+	private TextView mFirstRowText = null;
+	private TextView mSecondRowText = null;
+
 	// CDLS related
 	private LongRunningTask mLongRunningTask = null;
 	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
@@ -82,6 +90,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Twitte
 				R.id.contactUsCall);
 		mEmail = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsEmail);
+		mFirstRowText = (TextView) getActivity()
+				.findViewById(R.id.firstRowText);
+		mSecondRowText = (TextView) getActivity().findViewById(
+				R.id.secondRowText);
 
 		mFacebook.setOnClickListener(this);
 		mChat.setOnClickListener(this);
@@ -102,7 +114,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Twitte
 
 	@Override
 	public void onTwitterLoginFailed() {
-		Log.d(TAG, "Twitter Authentication Failed");
+		ALog.d(TAG, "Twitter Authentication Failed");
 
 	}
 
@@ -112,12 +124,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Twitte
 				Toast.LENGTH_SHORT).show();
 		showFragment(new TwitterScreenFragment());
 	}
-	
+
 	private LongRunningTaskInterface mLongRunningInterface = new LongRunningTaskInterface() {
 
 		@Override
 		public void responseReceived(String response) {
-			Log.i("testing", "response : " + response);
+			ALog.i(TAG, "response : " + response);
 			if (response != null) {
 				// mEditText.setText(response);
 				JSONObject jsonObject = null;
@@ -125,11 +137,20 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Twitte
 					jsonObject = new JSONObject(response);
 					boolean successValue = jsonObject.optBoolean("success");
 
-					Log.i("testing", "response : " + response);
-					Log.i("testing", "successValue : " + successValue);
+					ALog.i(TAG, "response : " + response);
 
-					/*CdlsBean cdlsBean = */ParserController.extractCdlsValues(
-							successValue, jsonObject);
+					cdlsBean = ParserController.extractCdlsValues(successValue,
+							jsonObject);
+
+					mCallPhilips.setText(getResources()
+							.getString(R.string.call)
+							+ " "
+							+ cdlsBean.getPhone().getPhoneNumber());
+
+					mFirstRowText.setText(cdlsBean.getPhone()
+							.getOpeningHoursWeekdays());
+					mSecondRowText.setText(cdlsBean.getPhone()
+							.getOpeningHoursSaturday());
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -139,7 +160,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Twitte
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
-		myintent.setData(Uri.parse("tel:" + "9986202179"));
+		myintent.setData(Uri.parse("tel:" + cdlsBean.getPhone().getPhoneNumber()));
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(myintent);
 
@@ -180,6 +201,5 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements Twitte
 
 		if (!Utils.isSimAvailable(getActivity()))
 			mCallPhilips.setVisibility(View.GONE);
-
 	}
 }

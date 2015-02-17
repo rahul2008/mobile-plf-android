@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.digitalcare.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,7 +17,7 @@ import com.philips.cl.di.dev.pa.digitalcare.listners.LongRunningTaskInterface;
 
 /*
  * LongRunningTask is AsyncTask. This is generic class. Other classes just need to pass 
- * the linstner context and url in order to run this Async task.
+ * the listener context and URL in order to run this Async task.
  * 
  * Author : Ritesh.jha@philips.com
  * 
