@@ -14,6 +14,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.philips.cl.di.dev.pa.digitalcare.listners.ProductImageInteface;
+
 /**
  * @description This Class will fetch the ProductImage from Camera & Gallery and sends to faceboook & Twitter with 
  * the callback interface. 
@@ -26,14 +28,14 @@ public class ProductImage {
 	private static String TAG = ProductImage.class.getSimpleName();
 	private static ProductImage mObject = null;
 	private AlertDialog dialog = null;
-	private static Callback mImageCallback = null;
+	private static ProductImageInteface mImageCallback = null;
 	private static Activity mActivity = null;
 	private Uri mImageUri = null;
 
 	private ProductImage() {
 	}
 
-	public static ProductImage getInstance(Activity activity, Callback callback) {
+	public static ProductImage getInstance(Activity activity, ProductImageInteface callback) {
 		if (mObject == null)
 			mObject = new ProductImage();
 

@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
-public class ViewProductDetailsFragment extends BaseFragment {
+public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 
 	private static String TAG = ViewProductDetailsFragment.class
 			.getSimpleName();

@@ -22,15 +22,15 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
 
 /*
- *	BaseFragment is super class for all fragments.
+ *	DigitalCareBaseFragment is super class for all fragments.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 5 Dec 2015
  */
-public abstract class BaseFragment extends Fragment {
+public abstract class DigitalCareBaseFragment extends Fragment {
 
-	private static String TAG = "BaseFragment";
+	private static String TAG = "DigitalCareBaseFragment";
 	private static final Field sChildFragmentManagerField;
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;

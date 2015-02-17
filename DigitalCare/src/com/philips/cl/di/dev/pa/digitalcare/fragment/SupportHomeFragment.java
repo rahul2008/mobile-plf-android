@@ -26,7 +26,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
  * 
  * Creation Date : 5 Dec 2015
  */
-public class SupportHomeFragment extends BaseFragment {
+public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	private RelativeLayout mContactUs = null;
 	private RelativeLayout mProductDetails = null;

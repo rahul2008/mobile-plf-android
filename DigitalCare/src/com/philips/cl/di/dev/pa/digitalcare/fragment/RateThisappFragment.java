@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 
-public class RateThisappFragment extends BaseFragment {
+public class RateThisappFragment extends DigitalCareBaseFragment {
 
 	private static String TAG = RateThisappFragment.class.getSimpleName();
 	private Button RatePlayStore, RatePhilips;

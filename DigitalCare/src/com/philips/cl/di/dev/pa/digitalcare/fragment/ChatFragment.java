@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
  * 
  * Creation Date : 19 Jan 2015
  */
-public class ChatFragment extends BaseFragment {
+public class ChatFragment extends DigitalCareBaseFragment {
 	// private LinearLayout mChatNowParent = null;
 	private DigitalCareFontButton mChatNow = null;
 	private DigitalCareFontButton mChatNowLand = null;

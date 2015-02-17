@@ -16,28 +16,28 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.ImageView.ScaleType;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.dev.pa.digitalcare.listners.FragmentUtilityInterface;
+import com.philips.cl.di.dev.pa.digitalcare.listners.ProductImageInteface;
 import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
-import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
-import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
 import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
-public class TwitterScreenFragment extends BaseFragment implements
-		FragmentUtility, OnCheckedChangeListener, Callback {
+public class TwitterScreenFragment extends DigitalCareBaseFragment implements
+		FragmentUtilityInterface, OnCheckedChangeListener, ProductImageInteface {
 
 	private static final String TAG = TwitterScreenFragment.class
 			.getSimpleName();
 	private String mUsername;
 	private View mTwitterView = null;
-	private Callback mCallback = this;
+	private ProductImageInteface mCallback = this;
 	private File mFile = null;
 	private SharedPreferences mSharedPreferences = null;
 

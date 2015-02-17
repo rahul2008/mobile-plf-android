@@ -14,17 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageView.ScaleType;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
+import com.philips.cl.di.dev.pa.digitalcare.listners.ProductImageInteface;
 import com.philips.cl.di.dev.pa.digitalcare.util.FacebookUtility;
 import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
@@ -35,8 +35,8 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
  * 
  * Creation Date : 5 Feb 2015
  */
-public class FacebookScreenFragment extends BaseFragment implements
-		OnCheckedChangeListener,Callback {
+public class FacebookScreenFragment extends DigitalCareBaseFragment implements
+		OnCheckedChangeListener,ProductImageInteface {
 
 	private static final String TAG = FacebookScreenFragment.class.getSimpleName();
 	private LinearLayout mOptionParent = null;
@@ -50,7 +50,7 @@ public class FacebookScreenFragment extends BaseFragment implements
 	private static FacebookUtility mFacebookUtility = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductImageClose = null;
-	private Callback mCallback = this;
+	private ProductImageInteface mCallback = this;
 	private File mFile = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;

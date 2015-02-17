@@ -23,7 +23,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
  * Creation Date : 16 Jan 2015
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class LocateNearYouFragment extends BaseFragment {
+public class LocateNearYouFragment extends DigitalCareBaseFragment {
 	private WebView mWebView = null;
 	private String mUrl = null;
 	private ProgressDialog mDialog = null;

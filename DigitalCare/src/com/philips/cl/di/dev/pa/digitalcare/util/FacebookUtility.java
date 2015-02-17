@@ -42,7 +42,7 @@ import com.facebook.UiLifecycleHelper;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
 /*
- *	FacebookUtility will help to provide options for facebook utility.
+ * FacebookUtility will help to provide options for facebook utility.
  * 
  * Author : Ritesh.jha@philips.com
  * 
@@ -99,7 +99,7 @@ public class FacebookUtility {
 
 		initViews();
 
-		Session s = openActiveSession(true,
+		openActiveSession(true,
 				Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
 		showShareAlert(null, mAllowNoSession); // post only text on FB
 	}

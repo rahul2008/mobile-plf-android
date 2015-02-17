@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.digitalcare.util;
+package com.philips.cl.di.dev.pa.digitalcare.listners;
 
 import android.content.res.Configuration;
 import android.view.View.OnClickListener;
@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
  * @since 11/Feb/2015
  *
  */
-public interface FragmentUtility extends OnClickListener {
+public interface FragmentUtilityInterface extends OnClickListener {
 
 	void setViewParams(Configuration config);
 

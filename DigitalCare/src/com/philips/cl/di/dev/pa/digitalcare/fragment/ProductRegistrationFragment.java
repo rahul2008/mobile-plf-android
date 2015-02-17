@@ -18,7 +18,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
  * 
  * Creation Date : 10 Dec 2015
  */
-public class ProductRegistrationFragment extends BaseFragment {
+public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 	private LinearLayout mProdRegParentFirst = null;
 	private LinearLayout mProdRegParentSecond = null;
 	private LinearLayout.LayoutParams mParams = null;

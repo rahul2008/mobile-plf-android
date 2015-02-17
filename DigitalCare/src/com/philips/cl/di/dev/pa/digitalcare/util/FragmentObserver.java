@@ -4,7 +4,7 @@ import java.util.Observable;
 
 /*
  * FragmentObserver class is observer class for fragments. 
- * Fragments level changes wil be updated to Activities/Fragments.
+ * Fragments level changes will be updated to Activities/Fragments.
  * 
  * Author : Ritesh.jha@philips.com
  * 
