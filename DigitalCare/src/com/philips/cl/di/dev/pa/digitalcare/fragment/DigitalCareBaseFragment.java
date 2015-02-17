@@ -187,7 +187,7 @@ public abstract class DigitalCareBaseFragment extends Fragment {
 	private void removeCurrentFragment() {
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-		android.app.Fragment currentFrag = fragmentManager
+		Fragment currentFrag = fragmentManager
 				.findFragmentById(R.id.mainContainer);
 
 		if (currentFrag != null) {

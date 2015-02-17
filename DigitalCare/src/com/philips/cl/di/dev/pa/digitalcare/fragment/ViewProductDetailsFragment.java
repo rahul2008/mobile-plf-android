@@ -16,18 +16,11 @@ public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 	private static String TAG = ViewProductDetailsFragment.class
 			.getSimpleName();
 
-	// private float WIDTH, HEIGHT;
-
 	/**
 	 * PORTRAIT PHONE
 	 */
 	private RelativeLayout mSubContainer;
 	private LinearLayout.LayoutParams mSubContainerParams = null;
-
-	// mProductButtonsContainer,
-	// mProductVideoAdsContainer;
-	// private ImageView mProductImage;
-	// private TextView mProductName, mProductVariant;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,10 +36,10 @@ public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		mSubContainer = (android.widget.RelativeLayout) getActivity()
+		mSubContainer = (RelativeLayout) getActivity()
 				.findViewById(R.id.container);
 
-		mSubContainerParams = (android.widget.LinearLayout.LayoutParams) mSubContainer
+		mSubContainerParams = (LinearLayout.LayoutParams) mSubContainer
 				.getLayoutParams();
 		// init();
 		Configuration config = getResources().getConfiguration();
@@ -76,17 +69,4 @@ public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 	private boolean isTablet() {
 		return (this.getActivity().getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
-
-	// private void init() {
-	// DisplayMetrics displayMetrics = context.getResources()
-	// .getDisplayMetrics();
-	// int width = displayMetrics.widthPixels;
-	// int height = displayMetrics.heightPixels;
-	// WIDTH = (float) width / 1000;
-	// HEIGHT = (float) height / 1000;
-	// Log.d(TAG, "Width & Height are : " + width + " & Height : " + height);
-	// Log.d(TAG, "WIDTH & HEIGHT are : " + WIDTH + " & Height : " + HEIGHT);
-	//
-	// }
-
 }

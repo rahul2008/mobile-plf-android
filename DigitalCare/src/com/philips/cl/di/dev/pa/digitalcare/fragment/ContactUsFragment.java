@@ -160,32 +160,29 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
-		myintent.setData(Uri.parse("tel:" + cdlsBean.getPhone().getPhoneNumber()));
+		myintent.setData(Uri.parse("tel:"
+				+ cdlsBean.getPhone().getPhoneNumber()));
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(myintent);
-
 	};
 
 	@Override
 	public void onClick(View view) {
 		int id = view.getId();
-		if (id == R.id.contactUsChat) {
-			if (Utils.isConnected(getActivity()))
-				showFragment(new ChatFragment());
+		if (id == R.id.contactUsChat && Utils.isConnected(getActivity())) {
+			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			callPhilips();
-		} else if (id == R.id.socialLoginFacebookBtn) {
-			if (Utils.isConnected(getActivity()))
-				showFragment(new FacebookScreenFragment());
-		} else if (id == R.id.socialLoginTwitterBtn) {
-			if (Utils.isConnected(getActivity())) {
-				TwitterConnect mTwitter = TwitterConnect
-						.getInstance(getActivity());
-				mTwitter.initSDK(mTwitterAuth);
-			}
-		} else if (id == R.id.contactUsEmail) {
-			if (Utils.isConnected(getActivity()))
-				Utils.sendEmail(getActivity());
+		} else if (id == R.id.socialLoginFacebookBtn
+				&& Utils.isConnected(getActivity())) {
+			showFragment(new FacebookScreenFragment());
+		} else if (id == R.id.socialLoginTwitterBtn
+				&& Utils.isConnected(getActivity())) {
+			TwitterConnect mTwitter = TwitterConnect.getInstance(getActivity());
+			mTwitter.initSDK(mTwitterAuth);
+		} else if (id == R.id.contactUsEmail
+				&& Utils.isConnected(getActivity())) {
+			Utils.sendEmail(getActivity());
 		}
 	}
 

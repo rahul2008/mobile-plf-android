@@ -114,7 +114,7 @@ public abstract class DigitalCareBaseActivity extends Activity implements
 	private void removeCurrentFragment() {
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-		android.app.Fragment currentFrag = fragmentManager.findFragmentById(
+		Fragment currentFrag = fragmentManager.findFragmentById(
 				R.id.mainContainer);
 
 		if (currentFrag != null) {

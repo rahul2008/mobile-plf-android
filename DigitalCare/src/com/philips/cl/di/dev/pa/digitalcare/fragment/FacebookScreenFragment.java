@@ -36,9 +36,10 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
  * Creation Date : 5 Feb 2015
  */
 public class FacebookScreenFragment extends DigitalCareBaseFragment implements
-		OnCheckedChangeListener,ProductImageInteface {
+		OnCheckedChangeListener, ProductImageInteface {
 
-	private static final String TAG = FacebookScreenFragment.class.getSimpleName();
+	private static final String TAG = FacebookScreenFragment.class
+			.getSimpleName();
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private LinearLayout mFacebookParentPort = null;
@@ -87,8 +88,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 
 		mOptionParent = (LinearLayout) getActivity().findViewById(
 				R.id.fbPostContainer);
-		mParams = (android.widget.FrameLayout.LayoutParams) mOptionParent
-				.getLayoutParams();
+		mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
 		mFacebookParentPort = (LinearLayout) getActivity().findViewById(
 				R.id.facebookParentPort);
 		mFacebookParentLand = (LinearLayout) getActivity().findViewById(
@@ -103,12 +103,12 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 				.findViewById(R.id.facebookSendLand);
 		mCheckBox = (CheckBox) getActivity()
 				.findViewById(R.id.fb_Post_CheckBox);
-		mEditText = (EditText) getActivity().findViewById(
-				R.id.share_text);
+		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);
 
-		mProductImageClose =(ImageView) getActivity().findViewById(R.id.fb_Post_camera_close);
+		mProductImageClose = (ImageView) getActivity().findViewById(
+				R.id.fb_Post_camera_close);
 
 		popSharePort.setOnClickListener(clickListner);
 		popShareLand.setOnClickListener(clickListner);
@@ -189,17 +189,15 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		@Override
 		public void onClick(View v) {
 			int id = v.getId();
-			if ((id == R.id.facebookCancelPort)
-					|| id == (R.id.facebookCancelLand)) {
+			if (id == R.id.facebookCancelPort || id == R.id.facebookCancelLand) {
 				backstackFragment();
-			} else if (((id == R.id.facebookSendPort) || (id == R.id.facebookSendLand))
+			} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
 					&& mFacebookUtility != null) {
 				mFacebookUtility.performPublishAction();
 				// backstackFragment();
 			} else if (id == R.id.fb_post_camera) {
 				ProductImage.getInstance(getActivity(), mCallback).pickImage();
-			} else if (id == R.id.fb_Post_camera_close)
-			{
+			} else if (id == R.id.fb_Post_camera_close) {
 				onImageDettach();
 			}
 		}
@@ -219,20 +217,23 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	public void onImageReceived(Bitmap image, String Uri) {
 		// Log.d(TAG, "Product Image Attached");
 		mFile = new File(Uri);
-		Toast.makeText(getActivity(), "Image Path : "+mFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(),
+				"Image Path : " + mFile.getAbsolutePath(), Toast.LENGTH_SHORT)
+				.show();
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductImageClose.setVisibility(View.VISIBLE);
-		
+
 	}
 
 	@Override
 	public void onImageDettach() {
 		mFile = null;
 		Log.d(TAG, "Product Image Dettached");
-		mProductImage.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.social_photo_default));
+		mProductImage.setImageDrawable(getActivity().getResources()
+				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductImageClose.setVisibility(View.GONE);
-		
+
 	}
 }

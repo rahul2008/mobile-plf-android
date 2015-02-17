@@ -205,12 +205,10 @@ public class FacebookUtility {
 				IMAGE_DIRECTORY_NAME);
 
 		/** Create the storage directory if it does not exist */
-		if (!mediaStorageDir.exists()) {
-			if (!mediaStorageDir.mkdirs()) {
-				ALog.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
-						+ IMAGE_DIRECTORY_NAME + " directory");
-				return null;
-			}
+		if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+			ALog.d(IMAGE_DIRECTORY_NAME, "Oops! Failed create "
+					+ IMAGE_DIRECTORY_NAME + " directory");
+			return null;
 		}
 
 		/** Create a media file name */

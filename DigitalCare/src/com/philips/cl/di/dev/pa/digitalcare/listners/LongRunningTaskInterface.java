@@ -10,5 +10,5 @@ package com.philips.cl.di.dev.pa.digitalcare.listners;
  */
 
 public interface LongRunningTaskInterface {
-	public void responseReceived(String str);
+	void responseReceived(String str);
 }

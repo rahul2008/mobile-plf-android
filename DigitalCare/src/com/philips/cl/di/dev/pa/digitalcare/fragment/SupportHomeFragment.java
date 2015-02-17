@@ -65,7 +65,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		}
 		mOptionParent = (LinearLayout) getActivity().findViewById(
 				R.id.optionParent);
-		mParams = (android.widget.FrameLayout.LayoutParams) mOptionParent
+		mParams = (FrameLayout.LayoutParams) mOptionParent
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);

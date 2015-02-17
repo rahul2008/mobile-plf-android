@@ -17,8 +17,8 @@ import android.widget.ArrayAdapter;
 import com.philips.cl.di.dev.pa.digitalcare.listners.ProductImageInteface;
 
 /**
- * @description This Class will fetch the ProductImage from Camera & Gallery and sends to faceboook & Twitter with 
- * the callback interface. 
+ * @description This Class will fetch the ProductImage from Camera & Gallery and
+ *              sends to faceboook & Twitter with the callback interface.
  * @author naveen@philips.com
  * @since 11/Feb/2015
  */
@@ -35,7 +35,8 @@ public class ProductImage {
 	private ProductImage() {
 	}
 
-	public static ProductImage getInstance(Activity activity, ProductImageInteface callback) {
+	public static ProductImage getInstance(Activity activity,
+			ProductImageInteface callback) {
 		if (mObject == null)
 			mObject = new ProductImage();
 
@@ -68,7 +69,7 @@ public class ProductImage {
 							.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
 									values);
 					Intent cameraIntent = new Intent(
-							android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+							MediaStore.ACTION_IMAGE_CAPTURE);
 					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
 					mActivity.startActivityForResult(cameraIntent,
 							DigiCareContants.IMAGE_CAPTURE);

@@ -14,7 +14,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
@@ -32,6 +31,7 @@ public class TwitterConnect {
 	private Twitter twitter = null;
 	private RequestToken requestToken = null;
 	private SharedPreferences mSharedPreferences = null;
+	private String verifier = null;
 
 	public static final String PREF_NAME = "sample_twitter_pref";
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
@@ -106,7 +106,7 @@ public class TwitterConnect {
 					mTwitterAuth.onTwitterLoginSuccessful();
 
 				} catch (Exception e) {
-					Log.e("Failed to login Twitter!!", e.getMessage());
+					ALog.e("Failed to login Twitter!!", e.getMessage());
 					mTwitterAuth.onTwitterLoginFailed();
 				}
 			}
@@ -116,14 +116,14 @@ public class TwitterConnect {
 
 	private void saveTwitterInformation(AccessToken accessToken) {
 
-		Log.d(TAG, "Save Twitter Information");
+		ALog.d(TAG, "Save Twitter Information");
 		long userID = accessToken.getUserId();
-		Log.d(TAG, "USer ID : " + userID);
+		ALog.d(TAG, "USer ID : " + userID);
 
 		User user;
 		try {
 			user = twitter.showUser(userID);
-			Log.d(TAG, "User : " + user.toString());
+			ALog.d(TAG, "User : " + user.toString());
 
 			String username = user.getName();
 
@@ -174,19 +174,15 @@ public class TwitterConnect {
 			} catch (TwitterException e) {
 				e.printStackTrace();
 			}
-		} else {
-
 		}
 	}
 
-	private String verifier = null;
-
 	public void onActivityResult(Intent data) {
 
-		Log.d(TAG, "Received Twitter session from DigitalCare Activity");
+		ALog.d(TAG, "Received Twitter session from DigitalCare Activity");
 		if (data != null)
 			verifier = data.getExtras().getString(oAuthVerifier);
-		Log.d(TAG, "Verifier : " + verifier);
+		ALog.d(TAG, "Verifier : " + verifier);
 
 		new Thread(new Runnable() {
 
@@ -196,16 +192,14 @@ public class TwitterConnect {
 				try {
 					accessToken = twitter.getOAuthAccessToken(requestToken,
 							verifier);
-					Log.d(TAG, "AccessToken : " + accessToken);
+					ALog.d(TAG, "AccessToken : " + accessToken);
 					if (accessToken != null)
 						saveTwitterInformation(accessToken);
 				} catch (Exception e) {
-					Log.e("Twitter Login Failed", "" + e);
+					ALog.e("Twitter Login Failed", "" + e);
 					mTwitterAuth.onTwitterLoginFailed();
 				}
-
 			}
 		}).start();
-
 	}
 }

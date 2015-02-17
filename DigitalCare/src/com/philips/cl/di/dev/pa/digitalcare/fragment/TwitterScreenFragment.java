@@ -15,7 +15,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.FrameLayout.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -42,7 +42,7 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	private SharedPreferences mSharedPreferences = null;
 
 	private LinearLayout mContainer = null;
-	private LinearLayout  mTwitterPort = null;
+	private LinearLayout mTwitterPort = null;
 	private LinearLayout mTwitterLand = null;
 	private DigitalCareFontButton mCancelPort = null;
 	private DigitalCareFontButton mCancelLand = null;
@@ -53,7 +53,7 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	private ImageView mProductImage = null;
 	private ImageView mProductCloseButton = null;
 
-	private LayoutParams mContainerParams = null;
+	private FrameLayout.LayoutParams mContainerParams = null;
 
 	// Configurable parameters
 	private TextView mTweetfrom = null;
@@ -81,7 +81,7 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 
 		mContainer = (LinearLayout) getActivity().findViewById(
 				R.id.fbPostContainer);
-		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
+		mContainerParams = (FrameLayout.LayoutParams) mContainer
 				.getLayoutParams();
 
 		mTwitterPort = (LinearLayout) getActivity().findViewById(
@@ -207,7 +207,9 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
-		Toast.makeText(getActivity(), "Image Path : "+mFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(),
+				"Image Path : " + mFile.getAbsolutePath(), Toast.LENGTH_SHORT)
+				.show();
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
@@ -218,7 +220,8 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	public void onImageDettach() {
 		mFile = null;
 		Log.d(TAG, "Product Image Dettached");
-		mProductImage.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.social_photo_default));
+		mProductImage.setImageDrawable(getActivity().getResources()
+				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.GONE);
 

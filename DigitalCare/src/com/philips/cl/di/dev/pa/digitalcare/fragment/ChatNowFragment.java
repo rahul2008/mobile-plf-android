@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,11 +56,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		websettings.setLoadWithOverviewMode(true);
 		websettings.setUseWideViewPort(true);
 		websettings.setBuiltInZoomControls(true);
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
 	}
 
 	private View.OnClickListener clickListner = new View.OnClickListener() {

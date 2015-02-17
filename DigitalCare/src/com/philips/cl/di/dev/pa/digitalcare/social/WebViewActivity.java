@@ -42,33 +42,30 @@ public class WebViewActivity extends Activity {
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl(url);
 	}
-	
-	
-	private View mgetView()
-	{
+
+	private View mgetView() {
 		RelativeLayout mWebContainer = new RelativeLayout(this);
-		mWebContainer.setLayoutParams(new RelativeLayout.LayoutParams
-				(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		mWebContainer.setLayoutParams(new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT));
 		webView = new WebView(this);
-		webView.setLayoutParams(new RelativeLayout.LayoutParams
-				(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		webView.setLayoutParams(new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT));
 		mWebContainer.addView(webView);
-		return mWebContainer; 
-		
+		return mWebContainer;
+
 	}
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
 		mDialog.dismiss();
 		mDialog.cancel();
 		mDialog = null;
+		super.onStop();
 	}
 
-
-
-	class MyWebViewClient extends WebViewClient {
+	private class MyWebViewClient extends WebViewClient {
 
 		@Override
 		public void onPageFinished(WebView view, String url) {

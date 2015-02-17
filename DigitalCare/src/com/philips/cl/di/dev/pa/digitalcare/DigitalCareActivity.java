@@ -68,9 +68,4 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			mImage.onActivityResult(data, requestCode);
 		}
 	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
 }

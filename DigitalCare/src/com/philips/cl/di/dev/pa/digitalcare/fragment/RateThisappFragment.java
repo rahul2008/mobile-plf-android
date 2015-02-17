@@ -48,7 +48,7 @@ public class RateThisappFragment extends DigitalCareBaseFragment {
 		RatePlayStore.setOnClickListener(ClickListener);
 		RatePhilips.setOnClickListener(ClickListener);
 		
-		mLayoutParams = (android.widget.FrameLayout.LayoutParams) mLayoutParent.getLayoutParams();
+		mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 	}
