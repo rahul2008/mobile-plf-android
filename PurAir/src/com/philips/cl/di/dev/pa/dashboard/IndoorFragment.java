@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -47,6 +48,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DashboardUtil;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -60,14 +62,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private float prevRotation = 0.0f;
 	
 	private FontTextView alartMessageTextView ;
-	private FontTextView fanModeTxt ;
-	private FontTextView filterStatusTxt ;
 	private FontTextView aqiStatusTxt ;
 	private FontTextView aqiSummaryTxt ;
 	private FontTextView purifierNameTxt ;
 	private FontTextView purifierEui64Txt;
-	private FontTextView modeTextView;
-	private FontTextView filtersTextView;
+	private Button filters;
+	private Button controls;
 	
 	private ImageView aqiPointer ;
 	private ImageView aqiMeter ;
@@ -130,18 +130,14 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
 		dotContainer = (RelativeLayout) getView().findViewById(R.id.hf_indoor_circle_layt);
-		
-		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
-		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
-		modeTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode_lb);
-		filtersTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_filter_lb);
 		purifierNameTxt.setSelected(true);
 		infoImgBtn = (ImageButton) getView().findViewById(R.id.connecting_info_img_btn);
 		infoImgBtn.setOnClickListener(this);
-		
+		filters = (Button) getView().findViewById(R.id.filters);
+		controls = (Button) getView().findViewById(R.id.controls);
 		alartMessageTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
 		alartMessageTextView.setVisibility(View.GONE);
 		
@@ -230,19 +226,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
 			alartMessageTextView.setVisibility(View.GONE);
 		} else {
-			fanModeTxt.setVisibility(View.VISIBLE);
-			modeTextView.setVisibility(View.VISIBLE);
-			filtersTextView.setVisibility(View.VISIBLE);
+			controls.setVisibility(View.VISIBLE);
+			filters.setVisibility(View.VISIBLE);
 			infoImgBtn.setVisibility(View.GONE);
-			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
-				fanModeTxt.setText(getString(R.string.off));
-			}
-			else {
-				fanModeTxt.setText(getString(airPortInfo.getFanSpeed().getFanSpeedTextResID()));
-			}
-			
 			DashboardAPL apl = IndoorDashboardUtils.getDashboardAPL(indoorAqi);
-			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 			aqiPointer.setImageResource(apl.getPointerBackground());
 			
 			aqiStatusTxt.setTextSize(22.0f);
@@ -312,12 +299,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private void disconnect(String message) {
 		hideIndoorMeter();
-		fanModeTxt.setVisibility(View.GONE);
-		//fanModeTxt.setText(getString(R.string.off));
-		modeTextView.setVisibility(View.INVISIBLE);
-		filtersTextView.setVisibility(View.INVISIBLE);
+		filters.setVisibility(View.INVISIBLE);
+		controls.setVisibility(View.INVISIBLE);
 		infoImgBtn.setVisibility(View.VISIBLE);
-		filterStatusTxt.setText(AppConstants.EMPTY_STRING);
 		aqiStatusTxt.setTextSize(18.0f);
 		aqiPointer.setImageResource(R.drawable.grey_circle_2x);
 		aqiStatusTxt.setText(message);

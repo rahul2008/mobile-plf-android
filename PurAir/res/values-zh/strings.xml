@@ -78,6 +78,7 @@
     <string name="colon_2_zero">:00</string>
     <!-- Dashboard texts -->
     <string name="mode">模式</string>
+    <string name="controls">控制</string>
     <string name="filters">过滤网</string>
     <string name="speed1">速度 1</string>
     <string name="speed2">速度 2</string>

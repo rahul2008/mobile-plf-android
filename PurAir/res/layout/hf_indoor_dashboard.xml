@@ -5,119 +5,91 @@
     android:layout_height="match_parent"
     android:background="@drawable/home_indoor_bg_2x" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_indoor_fan_mode_lb"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/hf_indoor_control_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="4dp"
-        android:drawableLeft="@drawable/fan_icon_white_2x"
-        android:drawablePadding="4dp"
-        android:text="@string/mode"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium_dp"
-        android:visibility="invisible"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:orientation="horizontal" >
 
-    <ImageButton
-        android:id="@+id/connecting_info_img_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/image_btn_bg"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/info"
-        android:visibility="visible" />
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/controls"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/img_description"
+            android:text="@string/controls"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            android:background="@drawable/button_border"
+            android:textSize="@dimen/text_size_medium_dp"
+            custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_indoor_filter_lb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="4dp"
-        android:drawablePadding="4dp"
-        android:drawableRight="@drawable/filter_icon_2x"
-        android:text="@string/filters"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium_dp"
-        android:visibility="invisible"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/hf_indoor_purifier_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="marquee"
+            android:layout_centerHorizontal="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="4dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size_medium_dp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+        
+         <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/hf_indoor_purifier_eui64"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:ellipsize="marquee"
+            android:layout_centerHorizontal="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:padding="4dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/title_text_size_medium_dp"
+            custom:fontAssetName="fonts/gillsanslight.ttf"
+            android:visibility="invisible" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_indoor_purifier_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
-        android:layout_toLeftOf="@+id/hf_indoor_filter_lb"
-        android:layout_toRightOf="@+id/hf_indoor_fan_mode_lb"
-        android:ellipsize="marquee"
-        android:gravity="center"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:padding="4dp"
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/filters"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/img_description"
+            android:textColor="@color/white"
+            android:text="@string/filters"
+            android:visibility="gone"
+            android:background="@drawable/button_border"
+            android:textSize="@dimen/text_size_medium_dp"
+            android:layout_alignParentRight="true" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_indoor_purifier_eui64"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
-        android:layout_toLeftOf="@+id/hf_indoor_filter_lb"
-        android:layout_toRightOf="@+id/hf_indoor_fan_mode_lb"
-        android:ellipsize="marquee"
-        android:gravity="center"
-        android:padding="4dp"
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size_medium_dp"
-        android:visibility="invisible"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_indoor_fan_mode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/hf_indoor_filter_lb"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_indoor_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/hf_indoor_fan_mode_lb"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="2dp"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        <ImageButton
+            android:id="@+id/connecting_info_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/image_btn_bg"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/info"
+            android:visibility="visible"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/hf_indoor_circle_layt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/hf_indoor_purifier_name"
+        android:layout_below="@+id/hf_indoor_control_layout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp" >
 

@@ -45,7 +45,7 @@ public class Fonts {
 
     public static Typeface getCentraleSansMedium(Context context) {
         if(centraleSansMedium == null) {
-            centraleSansMedium = Typeface.createFromAsset(context.getAssets(), "fonts/centralesanslight.ttf");
+            centraleSansMedium = Typeface.createFromAsset(context.getAssets(), "fonts/centralesansmedium.ttf");
         }
         return centraleSansMedium;
     }

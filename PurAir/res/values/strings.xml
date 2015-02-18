@@ -77,6 +77,7 @@
     <!-- Dashboard texts -->
     <string name="mode">Mode</string>
     <string name="filters">Filters</string>
+    <string name="controls">Controls</string>
     <string name="speed1">Speed 1</string>
     <string name="speed2">Speed 2</string>
     <string name="speed3">Speed 3</string>
