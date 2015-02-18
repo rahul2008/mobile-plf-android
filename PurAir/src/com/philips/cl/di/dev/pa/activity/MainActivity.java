@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -12,7 +11,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +19,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +30,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import cn.jpush.android.api.JPushInterface;
@@ -84,7 +80,6 @@ import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.InternetConnectionHandler;
 import com.philips.cl.di.dev.pa.util.InternetConnectionListener;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
@@ -92,7 +87,6 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
@@ -113,16 +107,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ImageView ivConnectedImage;
 	private ImageView ivConnectionError;
 
-	/**
-	 * Action bar
-	 */
-	private ImageView rightMenu;
-	private ImageView leftMenu;
-	private ImageView addLocation;
-	private ImageView backToHome;
-	private FontTextView noOffFirmwareUpdate;
-	private FontTextView actionBarTitle;
-
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
 	activeCarbonFilterView, hepaFilterView;
@@ -141,7 +125,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public boolean isDiagnostics;
 
 	private ProgressDialog progressDialog;
-	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
 	private boolean internetDialogShown;
 
@@ -149,7 +132,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-//		getWindow().setBackgroundDrawable(null);
 		
 		CPPController.getInstance(this).setAppUpdateStatus(false);
 		
@@ -169,12 +151,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		setScreenHeight(displayMetrics.heightPixels);
 
 		OutdoorController.getInstance();
-		//DiscoveryManager.getInstance() ;
-		try {
-			initActionBar();
-		} catch (ClassCastException e) {
-			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
-		}
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
@@ -231,15 +207,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
 			startNormalMode();
 		}
-		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-
-		setActionBar(fragment);
 
 		DrawerAdapter.getInstance().addDrawerListener(this);
-
-//		removeFirmwareUpdateUI();
-		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 
 		//Check if App in demo mode and WI-FI not connected PHILIPS Setup show dialog
@@ -251,7 +220,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		OutdoorController.getInstance().setActivity(this);
 
-    	checkForCrashesHockeyApp();
+//    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -284,30 +253,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
-	}
-
-	public void setActionBar(Fragment fragment) {
-		ALog.i(ALog.MAINACTIVITY, "setActionBar$fragment " + fragment);
-		leftMenu.setVisibility(View.VISIBLE);
-		if(fragment instanceof OutdoorLocationsFragment) {
-			setRightMenuVisibility(View.INVISIBLE);
-			addLocation.setVisibility(View.VISIBLE);
-		} else if(!(fragment instanceof HomeFragment)) {
-			setRightMenuVisibility(View.INVISIBLE);
-			addLocation.setVisibility(View.INVISIBLE);
-			if (fragment instanceof CongratulationFragment) {
-				leftMenu.setVisibility(View.INVISIBLE);
-			}
-		} else {
-			if (Utils.getAppFirstUse() && !PurAirApplication.isDemoModeEnable()) {
-				setRightMenuVisibility(View.INVISIBLE);
-			} 
-			addLocation.setVisibility(View.INVISIBLE);
-		}
-	}
-
-	public void setRightMenuVisibility(int visibility) {
-		rightMenu.setVisibility(visibility);
 	}
 
 	@Override
@@ -377,11 +322,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
-		String title = "";
-		if (actionBarTitle.getText() != null) {
-			title = actionBarTitle.getText().toString();
-		}
-
 		if (fragment instanceof OutdoorLocationsFragment
 				&& android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
 			invalidateOptionsMenu();
@@ -394,19 +334,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			mRightDrawerOpened = false;
 		} else if (fragment instanceof StartFlowVirginFragment) {
 			clearFinishCheckGPS();
-		} else if (fragment instanceof StartFlowChooseFragment
-				&& getString(R.string.welcome).equals(title) ) {
-			manager.popBackStackImmediate(null,
-					FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			Bundle bundle = new Bundle();
-			bundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
-
-			HomeFragment homeFragment = new HomeFragment();
-			homeFragment.setArguments(bundle);
-			showFragment(homeFragment);
-		}else if (fragment instanceof CongratulationFragment) {
+		} else if (fragment instanceof CongratulationFragment) {
 			return;
-		}else if (fragment instanceof ProductRegistrationStepsFragment) {
+		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else if (fragment instanceof HelpAndDocFragment || fragment instanceof SettingsFragment) {
 			showFragment(new AboutFragment());
@@ -476,7 +406,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private void showVirginFlowFragment() {
 		if(!LocationUtils.getDashboardWithoutPurifierState()) {
 			showFragment(new StartFlowVirginFragment()) ;
-			setTitle(getString(R.string.welcome));
 		} else {
 			Bundle bundle = new Bundle();
 			bundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
@@ -490,8 +419,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	private void showDashboardFragment() {
 		showFragment(getDashboard());
-		//		setDashboardActionbarIconVisible();
-		setTitle(getString(R.string.dashboard_title));
 	}
 
 	private void initializeCPPController() {
@@ -527,44 +454,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				((Button) v).setOnClickListener(rightMenuClickListener);
 			}
 		}
-	}
-
-	private void initActionBar() throws ClassCastException {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
-		actionBar.setBackgroundDrawable(d);
-		View viewActionbar = getLayoutInflater().inflate(R.layout.home_action_bar, null);
-		rightMenu = (ImageView) viewActionbar.findViewById(R.id.right_menu_img);
-		leftMenu = (ImageView) viewActionbar.findViewById(R.id.left_menu_img);
-		backToHome = (ImageView) viewActionbar.findViewById(R.id.back_to_home_img);
-		addLocation = (ImageView) viewActionbar.findViewById(R.id.add_location_img);
-		noOffFirmwareUpdate = (FontTextView) viewActionbar.findViewById(R.id.actionbar_firmware_no_off_update);
-		actionBarTitle = (FontTextView) viewActionbar.findViewById(R.id.action_bar_title);
-		//If Chinese language selected set font-type-face normal
-		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			actionBarTitle.setTypeface(Typeface.DEFAULT);
-		}
-
-		rightMenu.setOnClickListener(actionBarClickListener);
-		leftMenu.setOnClickListener(actionBarClickListener);
-		backToHome.setOnClickListener(actionBarClickListener);
-		addLocation.setOnClickListener(actionBarClickListener);
-		airPortTaskProgress = (ProgressBar) viewActionbar.findViewById(R.id.actionbar_progressBar);
-
-		actionBar.setCustomView(viewActionbar);
-	}
-
-	public void setVisibilityAirPortTaskProgress(final int state) {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				airPortTaskProgress.setVisibility(state);
-			}
-		});
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
@@ -647,18 +536,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		leftMenuItems.add(new ListViewItem(R.string.list_item_home,
 				R.drawable.icon_1_2x));
-		/*leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained,
-				R.drawable.icon_2_2x));*/
-		/*leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
-				R.drawable.icon_3_2x));*/
-//		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications,
-//				R.drawable.icon_4_2x));
-		/*leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc,
-				R.drawable.icon_5_2x));*/
-		/*leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
-				R.drawable.icon_6_2x));*/
-		/*leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
-				R.drawable.icon_8_2x));	*/	
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_9_2x));
 		return leftMenuItems;
@@ -711,19 +588,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				case CONNECTED_LOCALLY:
 					tvConnectionStatus.setText(getString(R.string.connected));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
-					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x)); 
 					ALog.d(ALog.MAINACTIVITY, "Updating right menu to connected");
 					break;
 				case CONNECTED_REMOTELY:
 					tvConnectionStatus.setText(getString(R.string.connected_via_philips));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
-					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x));
 					ALog.d(ALog.MAINACTIVITY, "Updating right menu to connected via philips");
 					break;
 				case DISCONNECTED:
 					tvConnectionStatus.setText(getString(R.string.not_connected));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 					rightMenuClickListener.toggleControlPanel(false, null);
 					ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
@@ -762,16 +636,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			ALog.e(ALog.MAINACTIVITY, e.getMessage());
 		}
 
-		setActionBar(fragment);
-
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}		
-	}
-
-	public void setTitle(String title) {
-		actionBarTitle.setText(title);
 	}
 
 	/** Left menu item clickListener */
@@ -785,12 +653,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
-//			leftMenuItems.add(new AirQualityFragment());
-//			leftMenuItems.add(new OutdoorLocationsFragment());
-//			leftMenuItems.add(new NotificationsFragment());
-//			leftMenuItems.add(new HelpAndDocFragment());
-//			leftMenuItems.add(new SettingsFragment());
-//			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
 
@@ -802,43 +664,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 			mDrawerLayout.closeDrawer(mListViewLeft);
 
-			if(leftMenuItemName.equals(getString(R.string.list_item_home))){
+			if (leftMenuItemName.equals(getString(R.string.list_item_home))){
 				showFirstFragment();
 				setTitle(getString(R.string.dashboard_title));
-			}/*else if(leftMenuItemName.equals(getString(R.string.list_item_air_quality_explained))){
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_air_quality_explained));
-			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_outdoor_loc))){
-				// Outdoor locations
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_outdoor_loc));
-			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_notifications))){
-				// Notifications
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_notifications));
-			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_help_and_doc))){
-				// Help and documentation
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_help_and_doc));
-			}*//*else if(leftMenuItemName.equals(getString(R.string.list_item_settings))){
-				// Settings
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_settings));
-			}*/ /*else if(leftMenuItemName.equals(getString(R.string.list_item_user_reg))){
-				// User registration
-				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
-				startActivity(userRegistrationIntent);
-			}*/else if(leftMenuItemName.equals(getString(R.string.list_item_buy_online))){
+			} else if(leftMenuItemName.equals(getString(R.string.list_item_buy_online))){
 				// Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
 			}
 		}
 	}
-
-	/*private void removeFirmwareUpdateUI() {
-		setFirmwareSuperScript(0, false);
-	}*/
 
 	private static void setScreenWidth(int width) {
 		screenWidth = width;
@@ -879,15 +714,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				|| getCurrentPurifier().getConnectionState() == ConnectionState.DISCONNECTED) return;
 
 		if( purifierEvent == PurifierEvent.DEVICE_CONTROL) {
-			setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
+//			setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 			ivConnectionError.setVisibility(View.VISIBLE);
 			tvConnectionStatus.setText(getString(R.string.lost_connection));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_gray_2x));
 		}
-	}
-
-	private void hideFirmwareUpdateHomeIcon() {
-		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
 	}
 
 	private void updatePurifierUIFields() {
@@ -916,7 +747,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 				float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
 				setRightMenuAQIValue(indoorAQIUsableValue);
 				rightMenuClickListener.setSensorValues(info);
@@ -938,11 +768,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 				ivConnectionError.setVisibility(View.GONE);
 				tvConnectionStatus.setText(getString(R.string.not_connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 				rightMenuClickListener.toggleControlPanel(false, null);
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
@@ -1001,20 +829,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public int getVisits() {
 		return mVisits;
 	}
-
-	/*private void setFirmwareSuperScript(int superscriptNumber, boolean isUpdateAvailable) {
-		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
-		ListViewItem item = adapter.getItem(6);
-		adapter.remove(item);
-		if(!isUpdateAvailable) {
-			item.setSuperScriptNumber(0);
-		} else {
-			item.setSuperScriptNumber(superscriptNumber);
-		}
-		adapter.insert(item, 6);
-		adapter.notifyDataSetChanged();
-		ALog.i(ALog.FIRMWARE, "LeftMenuList$firmwareItem " + item.getTextId());
-	}*/
 
 	@Override
 	public void signonStatus(boolean signon) {		
@@ -1116,15 +930,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		// TODO change to field in class
 		return PurifierManager.getInstance().getCurrentPurifier();
 	}
-
-	//Added for checking right menu icon is orange
-	public boolean getRightMenuDisconnectionState() {
-		Drawable rightMenuDrawable = rightMenu.getDrawable();
-		Drawable disconnRightMenuDrawable = getResources().getDrawable(R.drawable.right_bar_icon_orange_2x);
-		if (disconnRightMenuDrawable == null) return false;
-		return disconnRightMenuDrawable.getConstantState().equals(rightMenuDrawable.getConstantState());
-	}
-
 
 	@Override
 	public void onDiscoveredDevicesListChanged() {

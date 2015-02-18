@@ -2,6 +2,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@android:color/white" >
+    
+    <include
+        android:id="@+id/settings_heading_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/heading" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -11,6 +17,7 @@
         android:layout_alignBottom="@+id/settings_demo_mode_toggle"
         android:layout_alignTop="@+id/settings_demo_mode_toggle"
         android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
+        android:layout_below="@+id/settings_heading_rl"
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="@string/shop_demo_mode"
@@ -23,6 +30,7 @@
         style="@style/Widget.Button.Toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_heading_rl"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="4dp"
         android:layout_marginRight="8dp"

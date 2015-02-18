@@ -66,22 +66,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ AppConstants.KEY_LONGITUDE + " TEXT,"
 				+ AppConstants.KEY_AIRPUR_KEY + " TEXT" + ")";
 		
-		String createCityDetailsTableSQL = "CREATE TABLE  IF NOT EXISTS " + AppConstants.TABLE_CITYDETAILS + " ("
-				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-				+ AppConstants.KEY_CITY + " TEXT,"
-				+ AppConstants.KEY_AREA_ID + " NUMERIC UNIQUE,"
-				+ AppConstants.KEY_LONGITUDE + " NUMERIC,"
-				+ AppConstants.KEY_LATITUDE + " NUMERIC,"
-				+ AppConstants.KEY_CITY_CN + " TEXT," 
-				+ AppConstants.KEY_CITY_TW + " TEXT," 
-				+ AppConstants.KEY_SHORTLIST + " NUMERIC" 
-				+ ")";
-		
 		String createCityProviderTableSQL = getUserSelectedCityQuery();
 		
 		db.execSQL(createTableAirPurifierEvent) ;
 		db.execSQL(createDeviceInfo);
-//		db.execSQL(createCityDetailsTableSQL);
 		db.execSQL(createCityProviderTableSQL);
 	}
 	

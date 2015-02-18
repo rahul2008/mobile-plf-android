@@ -2,15 +2,17 @@ package com.philips.cl.di.dev.pa.scheduler;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class RepeatFragment extends BaseFragment implements SchedulerRepeatListener {
 	
@@ -24,13 +26,24 @@ public class RepeatFragment extends BaseFragment implements SchedulerRepeatListe
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method enter");
 		View view = inflater.inflate(R.layout.repeat_scheduler, null);
+		((ImageView) view.findViewById(R.id.scheduler_back_img)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				SchedulerActivity activity = (SchedulerActivity) getActivity();
+				if (activity != null) {
+					activity.onBackPressed();
+				}
+			}
+		});
+		FontTextView headingTV = (FontTextView) view.findViewById(R.id.scheduler_heading_tv);
+		headingTV.setText(getString(R.string.repeat_text));
 		return view;
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.REPEAT);
 		lstDays = (ListView) getView().findViewById(R.id.repeat_scheduler);
 		days = getResources().getStringArray(R.array.weekday_array);
 		String selectedDays = getArguments().getString(SchedulerConstants.DAYS);

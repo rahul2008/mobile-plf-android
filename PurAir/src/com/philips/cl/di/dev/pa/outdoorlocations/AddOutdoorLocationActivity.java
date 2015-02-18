@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -75,7 +74,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
 
         mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
 
-        initActionBar();
+        initHeading();
         initAlphabetViews() ;
         populateOutdoorLocations();
     }
@@ -169,15 +168,9 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
         return cityName;
     }
 
-    private void initActionBar() {
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-        actionBar.setIcon(null);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+    private void initHeading() {
 
-        View view  = getLayoutInflater().inflate(R.layout.search_actionbar, null);
-
-        mActionBarCancelBtn = (Button) view.findViewById(R.id.search_bar_cancel_btn);
+        mActionBarCancelBtn = (Button) findViewById(R.id.search_bar_cancel_btn);
         mActionBarCancelBtn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -186,7 +179,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
             }
         });
 
-        mEnteredCityName = (EditText) view.findViewById(R.id.search_bar_city_name);
+        mEnteredCityName = (EditText) findViewById(R.id.search_bar_city_name);
         mEnteredCityName.setTypeface(Fonts.getGillsansLight(this));
         mEnteredCityName.addTextChangedListener(new TextWatcher() {
 
@@ -201,8 +194,6 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
             @Override
             public void afterTextChanged(Editable s) {}
         });
-
-        actionBar.setCustomView(view);
     }
     private void showAlertDialog(String title, String message) {
         try {

@@ -15,7 +15,6 @@ public class OpenSourceLibLicenseActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.opensource_lib);
 		
-		this.getSupportActionBar().hide();
 		ImageButton closePrivacyPolicy= (ImageButton) findViewById(R.id.close_opensource_lib_imgbtn);
 		closePrivacyPolicy.setOnClickListener(new OnClickListener() {
 			@Override

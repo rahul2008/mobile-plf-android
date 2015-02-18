@@ -24,8 +24,6 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_tutorial);
 		
-		this.getSupportActionBar().hide();
-		
 		Resources resources = getResources();
     	float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, resources.getDisplayMetrics());    	
 		

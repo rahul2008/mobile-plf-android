@@ -18,11 +18,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -43,6 +45,7 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowChooseFragment extends BaseFragment implements
 OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
@@ -60,16 +63,18 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.start_flow_choose_fragment, container, false);
-
-		mBtnNewPurifier = (Button) view
-				.findViewById(R.id.start_flow_choose_btn_connect_new);
-		searchingPurifierProgressBar = (ProgressBar) view
-				.findViewById(R.id.start_flow_choose_progressBar);
-		discoveredPurifierListView  = (ListView) view
-				.findViewById(R.id.start_flow_choose_listView);
+		
+		ImageButton backButton = (ImageButton) view.findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		FontTextView heading=(FontTextView) view.findViewById(R.id.heading_name_tv);
+		heading.setText(getString(R.string.add_new_purifier));
+		mBtnNewPurifier = (Button) view.findViewById(R.id.start_flow_choose_btn_connect_new);
+		searchingPurifierProgressBar = (ProgressBar) view.findViewById(R.id.start_flow_choose_progressBar);
+		discoveredPurifierListView  = (ListView) view.findViewById(R.id.start_flow_choose_listView);
 
 		mBtnNewPurifier.setOnClickListener(this);
 		discoveredPurifierListView.setOnItemClickListener(this);
+		backButton.setOnClickListener(this);
 		return view;
 	}
 
@@ -124,6 +129,12 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		switch (v.getId()) {
 		case R.id.start_flow_choose_btn_connect_new:
 			startEWS();
+			break;
+		case R.id.heading_back_imgbtn:
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity != null) {
+				activity.onBackPressed();
+			}
 			break;
 		default:
 			break;
@@ -201,9 +212,13 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 			}
 
 			PurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
+			
+			CongratulationFragment congratulationFragment = new CongratulationFragment();
+			Bundle bundle = new Bundle();
+			bundle.putBoolean(AppConstants.SHOW_HEADING, true);
+			congratulationFragment.setArguments(bundle);
 
-			((MainActivity) getActivity()).setTitle(getString(R.string.congratulations));
-			((MainActivity) getActivity()).showFragment(new CongratulationFragment());
+			((MainActivity) getActivity()).showFragment(congratulationFragment);
 
 			PurifierDatabase purifierDatabase = new PurifierDatabase();
 			purifierDatabase.insertPurAirDevice(selectedPurifier);

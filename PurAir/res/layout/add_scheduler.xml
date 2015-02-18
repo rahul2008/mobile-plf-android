@@ -1,13 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
-    android:paddingRight="16dp" >
+    android:background="@color/white">
+    
+    <include
+        android:id="@+id/add_schedule_heading_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        layout="@layout/schedule_heading" />
 
     <LinearLayout
         android:id="@+id/enable_lyt"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_below="@+id/add_schedule_heading_rl"
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
@@ -38,8 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/enable_lyt"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description"
       	/>
@@ -87,8 +93,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/tvAddSchdeduler"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
 
@@ -141,8 +145,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/repeat"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
 
@@ -195,8 +197,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/fanspeed"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
 

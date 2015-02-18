@@ -9,6 +9,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -27,6 +28,7 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
 
@@ -45,6 +47,11 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	}
 
 	private void initViews(View view) {
+		ImageButton backButton = (ImageButton) view.findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		backButton.setOnClickListener(this);
+		FontTextView heading=(FontTextView) view.findViewById(R.id.heading_name_tv);
+		heading.setText(getString(R.string.list_item_settings));
 		ToggleButton demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
 
 		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());
@@ -62,26 +69,28 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 
 	@Override
 	public void onClick(View v) {
+		MainActivity activity = (MainActivity) getActivity();
+		if (activity == null) return;
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.tv_privacy_policy:
 			intent=new Intent(getActivity(), PrivacyPolicyActivity.class);
 			intent.putExtra(AppConstants.ACTIVITY, AppConstants.PRIVACY_POLICY_SCREEN);
-			getActivity().startActivity(intent);
+			activity.startActivity(intent);
 			break;
-			
 		case R.id.tv_eula:
 			intent=new Intent(getActivity(), PrivacyPolicyActivity.class);
 			intent.putExtra(AppConstants.ACTIVITY, AppConstants.EULA_SCREEN);
-			getActivity().startActivity(intent);
+			activity.startActivity(intent);
 			break;
-			
 		case R.id.tv_terms_and_conditions:
 			intent=new Intent(getActivity(), PrivacyPolicyActivity.class);
 			intent.putExtra(AppConstants.ACTIVITY, AppConstants.TERMS_AND_CONDITIONS_SCREEN);
-			getActivity().startActivity(intent);
+			activity.startActivity(intent);
 			break;
-
+		case R.id.heading_back_imgbtn:
+			activity.onBackPressed();
+			break;
 		default:
 			break;
 		}
@@ -114,7 +123,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				mainActivity.startDemoMode();
 			}
 			PurifierManager.getInstance().removeCurrentPurifier();
-			((MainActivity) getActivity()).setActionBar(new SettingsFragment());
+//			((MainActivity) getActivity()).setActionBar(new SettingsFragment());
 			((MainActivity) getActivity()).onAirPurifierChanged();
 
 		}

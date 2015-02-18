@@ -87,20 +87,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		}
 	}
 	
-	private void showLocationServiceDialog() {
-		try {
-			mBundle.clear();
-			mDialog = new StartFlowDialogFragment();
-			mDialog.setListener(mStartFlowListener);
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES);
-			mDialog.setArguments(mBundle);
-			mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}	
-	}
-	
-	
 	private void showLocationServiceTurnedOffDialog() {
 		try {
 			mBundle.clear();

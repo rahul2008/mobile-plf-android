@@ -3,21 +3,14 @@ package com.philips.cl.di.dev.pa.scheduler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
@@ -31,19 +24,13 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnTimeSetListener, SchedulerListener, DiscoveryEventListener {
 
     private static boolean cancelled;
-	private Button actionBarCancelBtn;
-	private ImageButton actionBarBackBtn;
-	private FontTextView actionbarTitle;
 	private String selectedDays = "";
 	private String selectedTime;
 	private String selectedFanspeed = SchedulerConstants.DEFAULT_FANSPEED_SCHEDULER;
@@ -65,81 +52,12 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scheduler_container);
 		SchedulerMarked4Deletion.clear();
-		initActionBar();
 		showSchedulerOverviewFragment();
 		purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 		if (purAirDevice != null)
 			schedulesList = purAirDevice.getmSchedulerPortInfoList();
 		PurifierManager.getInstance().setSchedulerListener(this);
 
-	}
-
-	private void initActionBar() {
-		ActionBar actionBar;
-		actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-
-		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
-		actionBar.setBackgroundDrawable(d);
-
-		View view = getLayoutInflater().inflate(R.layout.scheduler_actionbar,
-				null);
-		actionbarTitle = (FontTextView) view
-				.findViewById(R.id.scheduler_actionbar_title);
-		actionbarTitle.setText(getString(R.string.scheduler));
-		// If Chinese language selected set font-type-face normal
-		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
-				"ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault())
-						.contains("ZH-HANT")) {
-			actionbarTitle.setTypeface(Typeface.DEFAULT);
-		}
-
-		actionBarCancelBtn = (Button) view
-				.findViewById(R.id.scheduler_actionbar_add_btn);
-		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
-		actionBarCancelBtn.setOnClickListener(onClickListener);
-
-		actionBarBackBtn = (ImageButton) view.findViewById(R.id.larrow);
-		actionBarBackBtn.setOnClickListener(onClickListener);
-
-		actionBar.setCustomView(view);
-	}
-
-	public void setActionBar(SchedulerID id) {
-		event = id;
-		switch (id) {
-		case OVERVIEW_EVENT:
-			setActionBar(R.string.scheduler, View.INVISIBLE, View.VISIBLE);
-			break;
-		case ADD_EVENT:
-			if (scheduleType == SCHEDULE_TYPE.ADD) {
-				setActionBar(R.string.set_schedule, View.VISIBLE, View.VISIBLE);
-			} else {
-				setActionBar(R.string.edit_schedule, View.VISIBLE, View.VISIBLE);
-			}
-			break;
-		case DELETE_EVENT:
-			setActionBar(R.string.set_schedule, View.INVISIBLE, View.VISIBLE);
-			break;
-		case REPEAT:
-			setActionBar(R.string.repeat_text, View.INVISIBLE, View.VISIBLE);
-			break;
-		case FAN_SPEED:
-			setActionBar(R.string.fanspeed, View.INVISIBLE, View.VISIBLE);
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void setActionBar(int textId, int cancelButton, int backButton) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
-		actionbarTitle.setText(textId);
-		actionBarCancelBtn.setVisibility(cancelButton);
-		actionBarBackBtn.setVisibility(backButton);
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method exit");
 	}
 
 	public void setSchedulerType(SCHEDULE_TYPE scheduleType) {
@@ -171,8 +89,7 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 		ALog.i(ALog.SCHEDULER, "createScheduler");
 		String addSchedulerJson = "";
 
-		if (purAirDevice == null)
-			return;
+		if (purAirDevice == null) return;
 		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
 				selectedFanspeed, selectedDays, enabled);
 		PurifierManager.getInstance().sendScheduleDetailsToPurifier(
@@ -190,17 +107,14 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 		scheduleType = SCHEDULE_TYPE.EDIT;
 		String editSchedulerJson = "";
 		if (!selectedDays.equals(schedulesList.get(indexSelected).getDays())
-				|| !selectedFanspeed.equals(schedulesList.get(indexSelected)
-						.getMode())
-				|| !selectedTime.equals(schedulesList.get(indexSelected)
-						.getScheduleTime())
+				|| !selectedFanspeed.equals(schedulesList.get(indexSelected).getMode())
+				|| !selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())
 				|| enabled != schedulesList.get(indexSelected).isEnabled()) {
 			showProgressDialog();
 			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
 					selectedFanspeed, selectedDays, enabled);
 			PurifierManager.getInstance().sendScheduleDetailsToPurifier(
-					editSchedulerJson, purAirDevice, scheduleType,
-					schedulerNumberSelected);
+					editSchedulerJson, purAirDevice, scheduleType, schedulerNumberSelected);
 		} else {
 			showSchedulerOverviewFragment();
 		}
@@ -224,26 +138,10 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 		showProgressDialog();
 	}
 
-	private OnClickListener onClickListener = new OnClickListener() {
-		@Override
-		public void onClick(final View v) {
-			switch (v.getId()) {
-			case R.id.scheduler_actionbar_add_btn:
-				save();
-				break;
-			case R.id.larrow:
-				showPreviousScreenOnBackPressed();
-				break;
-			default:
-				break;
-			}
-		}
-	};
-
 	/**
 	 * This is called from
 	 */
-	private void save() {
+	public void save() {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");
 		if (selectedDays.equals(getString(R.string.onetime)))
 			selectedDays = "";
@@ -346,6 +244,7 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 			bundle.putString(SchedulerConstants.DAYS, selectedDays);
 			bundle.putString(SchedulerConstants.SPEED, selectedFanspeed);
 			bundle.putBoolean(SchedulerConstants.ENABLED, enabled);
+			bundle.putString(SchedulerConstants.HEADING, getString(R.string.set_schedule));
 		}
 
 		try {
@@ -363,15 +262,13 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 	public void onEditScheduler(int position) {
 		scheduleType = SCHEDULE_TYPE.GET_SCHEDULE_DETAILS;
 		// updateFragment ;
-		schedulerNumberSelected = schedulesList.get(position)
-				.getScheduleNumber();
+		schedulerNumberSelected = schedulesList.get(position).getScheduleNumber();
 		indexSelected = position;
 		if (schedulesList.get(position).getMode() == null) {
 			showProgressDialog();
 			String dataToSend = "";
 			PurifierManager.getInstance().sendScheduleDetailsToPurifier(
-					dataToSend, purAirDevice, scheduleType,
-					schedulerNumberSelected);
+					dataToSend, purAirDevice, scheduleType,	schedulerNumberSelected);
 		} else {
 			setFanSpeed(schedulesList.get(position).getMode());
 			setDays(schedulesList.get(position).getDays());
@@ -382,12 +279,11 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 
 	private void showEditFragment(SchedulePortInfo schedulePortInfo) {
 		Bundle bundle = new Bundle();
-		bundle.putString(SchedulerConstants.TIME,
-				schedulePortInfo.getScheduleTime());
+		bundle.putString(SchedulerConstants.TIME, schedulePortInfo.getScheduleTime());
 		bundle.putString(SchedulerConstants.DAYS, schedulePortInfo.getDays());
 		bundle.putString(SchedulerConstants.SPEED, schedulePortInfo.getMode());
-		bundle.putBoolean(SchedulerConstants.ENABLED,
-				schedulePortInfo.isEnabled());
+		bundle.putBoolean(SchedulerConstants.ENABLED, schedulePortInfo.isEnabled());
+		bundle.putString(SchedulerConstants.HEADING, getString(R.string.edit_schedule));
 		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 		fragAddSch.setArguments(bundle);
 		try {
@@ -402,15 +298,13 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 	}
 
 	private void showPreviousScreenOnBackPressed() {
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.ll_scheduler_container);
 
-		if (actionbarTitle.getText().equals(getString(R.string.set_schedule))
-				|| actionbarTitle.getText().equals(
-						getString(R.string.edit_schedule))) {
+
+		if (fragment instanceof AddSchedulerFragment) {
 			showSchedulerOverviewFragment();
-		} else if (actionbarTitle.getText().equals(
-				getString(R.string.repeat_text))
-				|| actionbarTitle.getText()
-						.equals(getString(R.string.fanspeed))) {
+		} else if (fragment instanceof RepeatFragment || fragment instanceof FanspeedFragment) {
 			showAddSchedulerFragment();
 		} else {
 			finish();

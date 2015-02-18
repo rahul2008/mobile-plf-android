@@ -1,53 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:orientation="vertical" >
 
-    <RelativeLayout
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/heading_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" >
+        android:background="@drawable/ews_nav_bar_2x"
+    	android:minHeight="40dp"
+        android:gravity="center"
+        android:text="@string/congratulations"
+        android:textColor="@color/blue_title"
+        android:textSize="@dimen/heading_text_size_dp"
+        android:visibility="gone"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <ImageView
-            android:id="@+id/ews_congratulation_img"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:contentDescription="@string/img_description"
-            android:src="@drawable/large_purifier" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/congratulation_msg"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_congratulation_img"
-            android:text="@string/congratulation_msg"
-            android:textColor="@color/philips_blue"
-            android:textSize="24sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/finish_congratulation_btn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/congratulation_msg"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/blue_button_selector"
-            android:gravity="center"
-            android:text="@string/congratulation_btn_txt"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/ews_congratulation_img"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/large_purifier" />
 
-</ScrollView>
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/congratulation_msg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/ews_congratulation_img"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/congratulation_msg"
+                android:textColor="@color/philips_blue"
+                android:textSize="24sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/finish_congratulation_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/congratulation_msg"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/blue_button_selector"
+                android:gravity="center"
+                android:text="@string/congratulation_btn_txt"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

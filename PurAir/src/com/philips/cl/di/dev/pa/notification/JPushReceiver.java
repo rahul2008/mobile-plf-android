@@ -100,14 +100,4 @@ public class JPushReceiver extends BroadcastReceiver {
 		}
 		return sb.toString();
 	}
-
-	private static boolean isEmpty(String s) {
-		if (null == s)
-			return true;
-		if (s.length() == 0)
-			return true;
-		if (s.trim().length() == 0)
-			return true;
-		return false;
-	}
 }

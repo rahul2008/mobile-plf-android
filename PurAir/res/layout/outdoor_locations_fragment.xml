@@ -1,28 +1,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white"
-    android:paddingTop="8dp" >
-        <com.philips.cl.di.dev.pa.view.AlphabeticalListView
-            android:id="@+id/letterlistview"
-            android:layout_width="35dp"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
-            android:background="@color/dictionary_background_color"
-            android:visibility="gone" />
+    android:background="@android:color/white">
+    
+    <include
+        android:id="@+id/add_location_heading_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="8dp"
+        layout="@layout/search_actionbar" />
 
-        <ListView
-            android:id="@+id/outdoor_locations_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="1dp"
-            android:layout_toLeftOf="@id/letterlistview"
-            android:background="@color/white"
-            android:cacheColorHint="@color/white"
-            android:divider="@drawable/seperator_line_2x"
-        	android:layout_marginLeft="4dp"
-        	android:layout_marginRight="4dp"
-            android:dividerHeight="0dp" >
-        </ListView>
+    <com.philips.cl.di.dev.pa.view.AlphabeticalListView
+        android:id="@+id/letterlistview"
+        android:layout_width="35dp"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/add_location_heading_rl"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:background="@color/dictionary_background_color"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/outdoor_locations_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/add_location_heading_rl"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="1dp"
+        android:layout_toLeftOf="@id/letterlistview"
+        android:background="@color/white"
+        android:cacheColorHint="@color/white"
+        android:divider="@drawable/seperator_line_2x"
+        android:dividerHeight="0dp" >
+    </ListView>
+
 </RelativeLayout>

@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     android:background="@color/philips_blue_new"
     android:orientation="vertical" >
-     <include
-         android:id="@+id/about_heading_rl"
+
+    <include
+        android:id="@+id/about_heading_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -56,9 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/about_copy_right_tv"
         android:orientation="horizontal"
-        android:paddingTop="16dp"
+        android:paddingLeft="8dp"
         android:paddingRight="16dp"
-        android:paddingLeft="8dp" >
+        android:paddingTop="16dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -66,9 +67,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:background="@drawable/list_item_selector"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"
@@ -80,10 +81,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:gravity="right"
             android:background="@drawable/list_item_selector"
+            android:gravity="right"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:text=""
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"

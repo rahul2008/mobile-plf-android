@@ -13,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,7 +21,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.ews.AlertDialogAutoNetworkSwitchOn;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupCancelDialogFragment;
@@ -34,7 +34,7 @@ import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class DemoModeActivity extends BaseActivity implements OnClickListener, DemoModeListener {
+public class DemoModeActivity extends ActionBarActivity implements OnClickListener, DemoModeListener {
 	
 	/**
 	 * Action bar variable
@@ -205,6 +205,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	/**
 	 * Set the static ipAddress for the 2.3 version and below
 	 */
+	@SuppressWarnings("deprecation")
 	private void setStaticIpAddress() {
 		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ) {
 			android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_USE_STATIC_IP, "1");        

@@ -10,20 +10,19 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -48,10 +47,9 @@ import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
-import com.philips.cl.di.dev.pa.util.ListViewHelper;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.ListViewHelper;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
@@ -68,7 +66,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private FontTextView aqiValue, summaryTitle, summary, tvOutdoorProvider;
-	private TextView heading;
+	private FontTextView headingTV;
 	private ImageView circleImg, backgroundImage, gaodeMapZoom ;
 	private ImageView avoidImg, openWindowImg, maskImg;
 	private ImageView dummyMapImage;
@@ -124,11 +122,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		initializeUI();
 		setClickEvent(false);
-		try {
-			initActionBar();
-		} catch (ClassCastException e) {
-			ALog.e(ALog.OUTDOOR_DETAILS, "Actionbar: " + "Error: " + e.getMessage());
-		}
 		setActionBarTitle();
 		detailHelper = new OutdoorDetailHelper(lastDayAQIHistoricArr, last7dayAQIHistoricArr, last4weekAQIHistoricArr);
 		getDataFromDashboard();
@@ -335,6 +328,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 	 * Initialize UI widget
 	 * */
 	private void initializeUI() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		backButton.setOnClickListener(this);
+		headingTV=(FontTextView) findViewById(R.id.heading_name_tv);
 		graphLayout = (LinearLayout) findViewById(R.id.detailsOutdoorlayoutGraph);
 		wetherScrollView = (HorizontalScrollView) findViewById(R.id.odTodayWetherReportHSV);
 		wetherForcastLayout = (LinearLayout) findViewById(R.id.odWetherForcastLL);
@@ -389,37 +386,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 		gaodeMapZoom.setOnClickListener(this);
 	}
 	
-	/**
-	 * InitActionBar
-	 */
-	private void initActionBar() throws ClassCastException {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
-		actionBar.setBackgroundDrawable(d);
-		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
-		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
-		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
-		ImageView backToHome = ((ImageView)view.findViewById(R.id.back_to_home_img));
-		backToHome.setVisibility(View.VISIBLE);
-		backToHome.setOnClickListener(this);
-		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
-		actionBar.setCustomView(view);
-	}
-	
 	/*Sets Action bar title */
-	public void setActionBarTitle() {    	
-		heading = (TextView) findViewById(R.id.action_bar_title);
+	private void setActionBarTitle() {    	
 		//If Chinese language selected set font-type-face normal
 		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
 				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			heading.setTypeface(Typeface.DEFAULT);
-		} else {
-			heading.setTypeface(Fonts.getGillsansLight(this));
+			headingTV.setTypeface(Typeface.DEFAULT);
 		}
-//		heading.setTextSize(24);
-		heading.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
+		headingTV.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
 	}
 	
 	@Override
@@ -455,7 +429,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 				MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS + "LastFourWeeks");
 				setViewlast4WeeksAQIReadings();
 				break;
-			case R.id.back_to_home_img: 
+			case R.id.heading_back_imgbtn: 
 				finish();
 				break;
 			case R.id.aqitv: 

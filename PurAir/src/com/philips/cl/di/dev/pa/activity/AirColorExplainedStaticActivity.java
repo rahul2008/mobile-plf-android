@@ -16,7 +16,6 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.getSupportActionBar().hide();
 		Intent in = getIntent();
 		activity = in.getIntExtra("AIR_QUALITY_ACTIVITY", -1);
 

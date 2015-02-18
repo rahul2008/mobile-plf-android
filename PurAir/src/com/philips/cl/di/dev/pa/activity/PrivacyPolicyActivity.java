@@ -19,8 +19,6 @@ public class PrivacyPolicyActivity extends BaseActivity {
 		int activity=getIntent().getIntExtra(AppConstants.ACTIVITY, 0);
 		setContentView(R.layout.privacy_policy);
 		
-		this.getSupportActionBar().hide();
-		
 		TextView policyText= (TextView) findViewById(R.id.tv_privacy_policy_full);
 		if(activity== AppConstants.PRIVACY_POLICY_SCREEN){
 			policyText.setText(R.string.privacy_policy_text);

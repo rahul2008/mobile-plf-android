@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -20,6 +21,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class CongratulationFragment extends BaseFragment {
 	
@@ -51,5 +53,17 @@ public class CongratulationFragment extends BaseFragment {
 				PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 			}
 		});
+		
+		//This call from activity does not have action bar, adding view as action bar.
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			boolean showHeading = bundle.getBoolean(AppConstants.SHOW_HEADING, false);
+			FontTextView headingTV = (FontTextView) getView().findViewById(R.id.heading_name_tv);
+			if (showHeading) {
+				headingTV.setVisibility(View.VISIBLE);
+			} else {
+				headingTV.setVisibility(View.GONE);
+			}
+		}
 	}
 }

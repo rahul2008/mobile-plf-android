@@ -7,10 +7,10 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBarActivity;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.cpp.AppUpdateNotificationListener;
@@ -25,7 +25,7 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
  * functionalities.
  */
 @SuppressLint("Registered")
-public class BaseActivity extends ActionBarActivity implements AppUpdateNotificationListener {
+public class BaseActivity extends FragmentActivity implements AppUpdateNotificationListener {
 	
 	private NotificationManager notificationMan;
 	private final int NOTIFICATION_ID=45;

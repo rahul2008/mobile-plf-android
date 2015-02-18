@@ -73,17 +73,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		
-		((MainActivity) getActivity()).setActionBar(this);
-		if (indoorViewPager != null) {
-			int currentPage = indoorViewPager.getCurrentItem();
-			
-			if (PurAirApplication.isDemoModeEnable()) {
-				setRightMenuIconVisibilityDemoMode(currentPage);
-			}
-			else {
-				setRightMenuIconVisibilityNormalMode(currentPage);
-			}
-		}
+//		((MainActivity) getActivity()).setActionBar(this);
+//		if (indoorViewPager != null) {
+//			int currentPage = indoorViewPager.getCurrentItem();
+//			
+////			if (PurAirApplication.isDemoModeEnable()) {
+////				setRightMenuIconVisibilityDemoMode(currentPage);
+////			}
+////			else {
+////				setRightMenuIconVisibilityNormalMode(currentPage);
+////			}
+//		}
 		notifyOutdoorPager();
 	}
 
@@ -155,7 +155,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         boolean noPurifierMode = getNoPurifierMode();
 
         if(noPurifierMode) {
-            ((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
+//            ((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
             MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_NO_PURIFIER);
             noPurifierFlowLayout.setVisibility(View.VISIBLE);
             indoorViewPager.setVisibility(View.INVISIBLE);
@@ -351,28 +351,28 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		OutdoorManager.getInstance().startCitiesTask();
 	}
 	
-	private void setRightMenuIconVisibility(int visibility) {
-		if (getActivity() == null) return;
-		((MainActivity)getActivity()).setRightMenuVisibility(visibility);
-		
-	}
+//	private void setRightMenuIconVisibility(int visibility) {
+//		if (getActivity() == null) return;
+//		((MainActivity)getActivity()).setRightMenuVisibility(visibility);
+//		
+//	}
 	
-	private void setRightMenuIconVisibilityDemoMode(int position) {
-		//For demo mode
-		if (position == 1) {
-			setRightMenuIconVisibility(View.INVISIBLE);
-		} else {
-			setRightMenuIconVisibility(View.VISIBLE);
-		}
-	}
+//	private void setRightMenuIconVisibilityDemoMode(int position) {
+//		//For demo mode
+//		if (position == 1) {
+//			setRightMenuIconVisibility(View.INVISIBLE);
+//		} else {
+//			setRightMenuIconVisibility(View.VISIBLE);
+//		}
+//	}
 	
-	private void setRightMenuIconVisibilityNormalMode(int position) {
-		if (position >= DiscoveryManager.getInstance().getStoreDevices().size()) {
-			setRightMenuIconVisibility(View.INVISIBLE);
-		} else {
-			setRightMenuIconVisibility(View.VISIBLE);
-		}
-	}
+//	private void setRightMenuIconVisibilityNormalMode(int position) {
+//		if (position >= DiscoveryManager.getInstance().getStoreDevices().size()) {
+//			setRightMenuIconVisibility(View.INVISIBLE);
+//		} else {
+//			setRightMenuIconVisibility(View.VISIBLE);
+//		}
+//	}
 
 	@Override
 	public void onDisconnected() {/**NOP*/}
@@ -389,11 +389,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		public void onPageSelected(int position) {
 			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
 			if (PurAirApplication.isDemoModeEnable()) {
-				setRightMenuIconVisibilityDemoMode(position);
+//				setRightMenuIconVisibilityDemoMode(position);
 				return;
 			}
 			
-			setRightMenuIconVisibilityNormalMode(position);
+//			setRightMenuIconVisibilityNormalMode(position);
 			
 			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
 				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);

@@ -7,17 +7,16 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -46,7 +45,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -64,7 +62,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private TextView heading;
+	private FontTextView headingTV;
 	private ImageView circleImg;
 	private ImageView backgroundImage;
 	private FontTextView msgFirst, msgSecond;
@@ -117,12 +115,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					currentPurifier.getLatitude(), currentPurifier.getLongitude());
 		}
 
-		try {
-			initActionBar();
-		} catch (ClassCastException e) {
-			ALog.e(ALog.INDOOR_DETAILS, "Actionbar: " + "Error: " + e.getMessage());
-		}
-
 		getRDCPValue();
 
 		if (currentPurifier == null) return;
@@ -157,6 +149,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private void init() {
 		initList();
 
+		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		backButton.setOnClickListener(this);
+		headingTV = (FontTextView) findViewById(R.id.heading_name_tv);
 		graphLayout = (LinearLayout) findViewById(R.id.trendsOutdoorlayoutGraph);
 
 		lastDayBtn = (TextView) findViewById(R.id.detailsOutdoorLastDayLabel);
@@ -198,40 +194,17 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		lastFourWeekBtn.setOnClickListener(this);
 	}
 
-	/**
-	 * InitActionBar
-	 */
-	private void initActionBar() throws ClassCastException {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
-		actionBar.setBackgroundDrawable(d);
-		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
-		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
-		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
-		ImageView backToHome = ((ImageView)view.findViewById(R.id.back_to_home_img));
-		backToHome.setVisibility(View.VISIBLE);
-		backToHome.setOnClickListener(this);
-		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
-		actionBar.setCustomView(view);
-	}
-
-
 	/*Sets Action bar title */
-	public void setActionBarTitle(String name) {    	
-		heading = (TextView) findViewById(R.id.action_bar_title);
+	private void setActionBarTitle(String name) {    	
 		//If Chinese language selected set font-type-face normal
 		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
 				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			heading.setTypeface(Typeface.DEFAULT);
-		} else {
-			heading.setTypeface(Fonts.getGillsansLight(this));
+			headingTV.setTypeface(Typeface.DEFAULT);
 		}
 		if (name == null || name.trim().length() == 0) {
-			heading.setText("");
+			headingTV.setText("");
 		} else {
-			heading.setText(name);
+			headingTV.setText(name);
 		}
 	}
 
@@ -310,7 +283,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			callGraphViewOnClickEvent(2, last4weeksRDCPValues);
 			break;
 		}
-		case R.id.back_to_home_img: {
+		case R.id.heading_back_imgbtn: {
 			finish();
 			break;
 		}

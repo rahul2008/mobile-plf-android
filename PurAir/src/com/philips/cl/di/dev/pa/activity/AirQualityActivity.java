@@ -20,7 +20,6 @@ public class AirQualityActivity extends BaseActivity implements OnClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.getSupportActionBar().hide();
 		MetricsTracker.trackPage(TrackPageConstants.AIR_QUALITY_EXPLAINED);
 		setContentView(R.layout.air_quality_fragment);
 		initializeView();

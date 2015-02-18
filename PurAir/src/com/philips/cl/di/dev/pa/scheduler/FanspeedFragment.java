@@ -3,16 +3,18 @@ package com.philips.cl.di.dev.pa.scheduler;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedListener {
 	private ListView listView;
@@ -32,7 +34,6 @@ public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedL
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE_FAN_SPEED);
-		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.FAN_SPEED);
 		
 		String fanSpeedTemp = getArguments().getString(SchedulerConstants.SPEED);
 		
@@ -47,6 +48,18 @@ public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedL
 	private void initViews(View view) {
 		listView = (ListView) view.findViewById(R.id.repeat_scheduler);
 		selectItemPosition = 0;
+		((ImageView) view.findViewById(R.id.scheduler_back_img)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				SchedulerActivity activity = (SchedulerActivity) getActivity();
+				if (activity != null) {
+					activity.onBackPressed();
+				}
+			}
+		});
+		FontTextView headingTV = (FontTextView) view.findViewById(R.id.scheduler_heading_tv);
+		headingTV.setText(getString(R.string.fanspeed));
 	}
 	
 	private String getFanspeed(int position) {

@@ -66,16 +66,16 @@ public class CreateAccountFragment extends BaseFragment implements
 	}
 
 	private void initViews(View view) {
+		ImageView backImageView = (ImageView) view.findViewById(R.id.user_reg_back_img);
+		backImageView.setOnClickListener(this);
 		mEditTextName = (EditText) view.findViewById(R.id.etName);
 		mEditTextEmail = (EditText) view.findViewById(R.id.etEmailAddress);
 		mEditTextPassword = (EditText) view.findViewById(R.id.etPassword);
 
-		mCheckBoxReceivInfo = (CheckBox) view
-				.findViewById(R.id.rbReceiveInformation);
+		mCheckBoxReceivInfo = (CheckBox) view.findViewById(R.id.rbReceiveInformation);
 		mCheckBoxReceivInfo.setOnClickListener(this);
 
-		mButtonCreateAccount = (Button) view
-				.findViewById(R.id.btnCreateAccount);
+		mButtonCreateAccount = (Button) view.findViewById(R.id.btnCreateAccount);
 		mButtonCreateAccount.setOnClickListener(this);
 
 		mButtonSigninPhilips = (Button) view.findViewById(R.id.btnMyPhilips);
@@ -86,8 +86,7 @@ public class CreateAccountFragment extends BaseFragment implements
 
 		((ImageView) mLayoutMyPhilips.findViewById(R.id.logo))
 				.setImageResource(R.drawable.indoor_pollutants);
-		((FontTextView) mLayoutMyPhilips.findViewById(R.id.title))
-				.setText(R.string.my_philips);
+		((FontTextView) mLayoutMyPhilips.findViewById(R.id.title)).setText(R.string.my_philips);
 		mLayoutPhilips.setOnClickListener(this);
 	}
 
@@ -127,7 +126,12 @@ public class CreateAccountFragment extends BaseFragment implements
 	// TODO : Refactor
 	@Override
 	public void onClick(View v) {
+		UserRegistrationActivity activity = (UserRegistrationActivity) getActivity();
+		if (activity == null) return;
 		switch (v.getId()) {
+		case R.id.user_reg_back_img:
+			activity.onBackPressed();
+			break;
 		case R.id.rbReceiveInformation:
 			break;
 		case R.id.btnCreateAccount:
@@ -143,9 +147,8 @@ public class CreateAccountFragment extends BaseFragment implements
 				storeUserProfile();
 				
 				try {
-					((UserRegistrationActivity) getActivity()).createAccount();
-					((UserRegistrationActivity) getActivity())
-							.showProgressDialog();
+					activity.createAccount();
+					activity.showProgressDialog();
 				} catch (Exception e) {
 					ALog.e(ALog.USER_REGISTRATION, "Create account error " + "Error: " + e.getMessage());
                     MetricsTracker.trackPageTechnicalError("UserRegistration", "Error : Unable to process");

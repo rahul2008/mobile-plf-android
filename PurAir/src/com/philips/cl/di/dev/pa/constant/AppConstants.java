@@ -230,6 +230,7 @@ public class AppConstants {
 	public static final int INDEX_2 = 2;
 	public static final int INDEX_3 = 3;
 	
+	public static final String SHOW_HEADING = "show_heading";
 	public static final String NO_OF_VISIT_PREF = "AIRPUR_PREFS";
 	public static final String NO_OF_VISIT_PREF_KEY = "NoOfVisit";
 	public static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";

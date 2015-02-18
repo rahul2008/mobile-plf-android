@@ -65,7 +65,6 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_quality_indication);
-		this.getSupportActionBar().hide();
 		TextView indoorColorExplained=(TextView) findViewById(R.id.color_explained_intro);
 		indoorColorExplained.setText(R.string.indoor_color_explained_intro);
 		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);

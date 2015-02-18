@@ -431,7 +431,7 @@ public class PurifierControlPanel implements OnClickListener {
 	}
 
 	private void controlDevice(String key, String value) {
-		mainActivity.setVisibilityAirPortTaskProgress(View.VISIBLE);
+//		mainActivity.setVisibilityAirPortTaskProgress(View.VISIBLE);
 		PurifierManager.getInstance().setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
 	}
 

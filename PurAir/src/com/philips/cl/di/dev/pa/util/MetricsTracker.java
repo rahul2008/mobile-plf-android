@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
@@ -82,7 +83,7 @@ public class MetricsTracker {
 	private static final String VALUE_SCHEDULE_ADDED = "schedule added";
 	private static final String VALUE_SUCCESS_USER_REGISTRATION = "successUserRegistration";
 	private static final String VALUE_START_USER_REGISTRATION = "startUserRegistration";
-	private static final String VALUE_MY_PHILIPS = "myPhilips";
+//	private static final String VALUE_MY_PHILIPS = "myPhilips";
 	private static final String VALUE_SUCCESS_LOGIN = "successLogin";
 	private static final String VALUE_PRODUCT_VIEW = "prodView";
 	private static final String VALUE_MODEL_AC4373 = "AC4373";
@@ -503,7 +504,8 @@ public class MetricsTracker {
 		return currencyCode;
 	}
 
-    private static String getTimestamp(long timeMillis) {
+    @SuppressLint("SimpleDateFormat")
+	private static String getTimestamp(long timeMillis) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date = dateFormat.format(new Date(timeMillis));
         return date;

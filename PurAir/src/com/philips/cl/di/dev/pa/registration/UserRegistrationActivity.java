@@ -1,34 +1,25 @@
 package com.philips.cl.di.dev.pa.registration;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.Error;
@@ -38,10 +29,6 @@ import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 public class UserRegistrationActivity extends BaseActivity implements
 		OnClickListener, TraditionalRegistrationHandler {
 
-	private Button mActionBarCancelBtn;
-	private Button mDeclineBtn;
-	private ImageView mActionBarBackBtn;
-	private FontTextView mActionbarTitle;
 	public DIUserProfile mDIUserProfile;
 	private User mUser;
 	private ProgressDialog mProgressDialog;
@@ -52,49 +39,11 @@ public class UserRegistrationActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.simple_fragment_container);
 
-		initUsageAgreementActionBar();
-
 		if (UserRegistrationController.getInstance().isUserLoggedIn()) {
 			showFragment(new SignedInFragment());
 		} else {
 			showFragment(new UsageAgreementFragment());
 		}
-	}
-	
-	private void initUsageAgreementActionBar() {
-		ActionBar actionBar;
-		actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
-		actionBar.setBackgroundDrawable(d);
-		View view = getLayoutInflater().inflate(R.layout.user_registration_actionbar, null);
-
-		mActionbarTitle = (FontTextView) view
-				.findViewById(R.id.user_reg_actionbar_title);
-		mActionbarTitle.setText(getString(R.string.create_account));
-		// If Chinese language selected set font-type-face normal
-		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			mActionbarTitle.setTypeface(Typeface.DEFAULT);
-		}
-
-		mActionBarCancelBtn = (Button) view.findViewById(R.id.user_reg_actionbar_cancel_btn);
-		mActionBarCancelBtn.setText(R.string.i_accept);
-		mActionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
-		mActionBarCancelBtn.setOnClickListener(this);
-		mActionBarCancelBtn.setVisibility(View.GONE);
-
-		mDeclineBtn = (Button) view.findViewById(R.id.user_reg_actionbar_decline_btn);
-		mDeclineBtn.setText(R.string.decline);
-		mDeclineBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
-		mDeclineBtn.setOnClickListener(this);
-		mDeclineBtn.setVisibility(View.GONE);
-
-		mActionBarBackBtn = (ImageView) view.findViewById(R.id.user_reg_actionbar_back_img);
-		mActionBarBackBtn.setOnClickListener(this);
-		mActionBarBackBtn.setVisibility(View.GONE);
-		actionBar.setCustomView(view);
 	}
 
 	public void createAccount() {
@@ -116,29 +65,10 @@ public class UserRegistrationActivity extends BaseActivity implements
 			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 
-		setActionBar(fragment);
-
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}		
-	}
-	
-	private void setActionBar(Fragment fragment) {
-		if(fragment instanceof UsageAgreementFragment) {
-			setActionBar(R.string.usage_agreement, View.VISIBLE, View.GONE);
-		} else if (fragment instanceof CreateAccountFragment) {
-			setActionBar(R.string.create_account, View.GONE, View.VISIBLE);
-		} else if (fragment instanceof SignedInFragment) {
-			setActionBar(R.string.create_account, View.GONE, View.GONE);
-		}
-	}
-
-	private void setActionBar(int textId, int cancelButtonVisibility, int backButtonVisibility) {
-		mActionbarTitle.setText(textId);
-		mActionBarCancelBtn.setVisibility(cancelButtonVisibility);
-		mDeclineBtn.setVisibility(cancelButtonVisibility);
-		mActionBarBackBtn.setVisibility(backButtonVisibility);
 	}
 
 	@Override
@@ -160,7 +90,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 		}
 	}
 
-	private void showErrorDialog(Error type) {
+	public void showErrorDialog(Error type) {
 		try {
 			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment
 					.newInstance(type);
@@ -237,7 +167,6 @@ public class UserRegistrationActivity extends BaseActivity implements
 		Fragment fragment = manager.findFragmentById(R.id.fl_simple_fragment_container);
 
 		if (fragment instanceof CreateAccountFragment) {
-			setActionBar(R.string.usage_agreement, View.VISIBLE, View.GONE);
 			manager.popBackStack();
 		} else if (fragment instanceof UsageAgreementFragment) {
 			finish();

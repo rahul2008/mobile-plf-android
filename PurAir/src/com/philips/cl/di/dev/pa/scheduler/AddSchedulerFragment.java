@@ -9,14 +9,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AddSchedulerFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
@@ -36,16 +37,29 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.ADD_SCHEDULE);
-		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
 		initViews(getView());
 	}
 
 	private void initViews(View view) {
 		if (getActivity() == null) return;
+		
+		ImageView backImageView = (ImageView) getView().findViewById(R.id.scheduler_back_img);
+		backImageView.setOnClickListener(this);
+		FontButton saveBtn = (FontButton) getView().findViewById(R.id.scheduler_save_btn);
+		saveBtn.setVisibility(View.VISIBLE);
+		saveBtn.setOnClickListener(this);
+		
+		FontTextView headingTV = (FontTextView) getView().findViewById(R.id.scheduler_heading_tv);
+		
 		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
 		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
 		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
 		enabled = getArguments().getBoolean(SchedulerConstants.ENABLED) ;
+		String heading = getArguments().getString(SchedulerConstants.HEADING);
+		
+		if (heading == null) {
+			headingTV.setText(heading);
+		}
 		
 		if (sSelectedDays == null || sSelectedDays.isEmpty() ) {
 			((SchedulerActivity)getActivity()).setDays(SchedulerConstants.ONE_TIME);
@@ -136,6 +150,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 
 	@Override
 	public void onClick(View v) {
+		SchedulerActivity activity = (SchedulerActivity) getActivity();
 		Bundle bundle = new Bundle();
 		switch(v.getId()) {
 			case R.id.tvAddTime:
@@ -158,6 +173,16 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 				FanspeedFragment fragFanSpeed = new FanspeedFragment();
 				fragFanSpeed.setArguments(bundle);
 				showFragment(fragFanSpeed, SchedulerConstants.FANSPEED_FRAGMENT_TAG);
+				break;
+			case R.id.scheduler_back_img:
+				if (activity != null) {
+					activity.onBackPressed();
+				}
+				break;
+			case R.id.scheduler_save_btn:
+				if (activity != null) {
+					activity.save();
+				}
 				break;
 			default:
 				break;

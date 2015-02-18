@@ -16,7 +16,6 @@ import android.widget.ListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
@@ -42,7 +41,6 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::onCreateView() method enter");
-		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.OVERVIEW_EVENT);
 		View view = inflater.inflate(R.layout.scheduler_overview, null);
 		initViews(view);
 		return view;
@@ -65,6 +63,9 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 	}
 	
 	private void initViews(View view) {
+		((ImageView) view.findViewById(R.id.scheduler_back_img)).setOnClickListener(this);
+		FontTextView headingTV = (FontTextView) view.findViewById(R.id.scheduler_heading_tv);
+		headingTV.setText(getString(R.string.scheduler));
 		editTxt = (FontTextView) view.findViewById(R.id.sch_edit);
 		editTxt.setOnClickListener(this);
 		add = (ImageView) view.findViewById(R.id.sch_add);
@@ -91,6 +92,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 
 	@Override
 	public void onClick(View v) {
+		SchedulerActivity activity = (SchedulerActivity)getActivity();
+		if (activity == null) return;
 		switch(v.getId())
 		{
 			case R.id.sch_edit:
@@ -103,11 +106,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 				}
 				if (schOverviewAdapter == null) return;
 				setListData();
-//				schOverviewAdapter.notifyDataSetChanged();
 				break;
 			case R.id.sch_add:
-				((SchedulerActivity)getActivity()).setSchedulerType(SCHEDULE_TYPE.ADD);
-				((SchedulerActivity)getActivity()).initializeDayAndFanspeed();
+				activity.setSchedulerType(SCHEDULE_TYPE.ADD);
+				activity.initializeDayAndFanspeed();
 				try {
 					DialogFragment newFragment = new TimePickerFragment();
 					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
@@ -115,6 +117,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 					e.printStackTrace();
 				}	
 				break;
+			case R.id.scheduler_back_img:
+				activity.finish();
 			default:
 				break;
 		}

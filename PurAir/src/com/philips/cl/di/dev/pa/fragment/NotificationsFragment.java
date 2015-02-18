@@ -93,11 +93,11 @@ AlertDialogBtnInterface, OnClickListener {
 		if (parent == null)	return;
 
 		MetricsTracker.trackPage(TrackPageConstants.PUSH_NOTIFICATION);
-		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "
-				+ ((MainActivity) parent).getRightMenuDisconnectionState());
+//		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "
+//				+ ((MainActivity) parent).getRightMenuDisconnectionState());
 		if (mPurifier == null
 				|| mPurifier.getConnectionState() == ConnectionState.DISCONNECTED
-				|| ((MainActivity) parent).getRightMenuDisconnectionState()) {
+				/*|| ((MainActivity) parent).getRightMenuDisconnectionState()*/) {
 
 			try {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
