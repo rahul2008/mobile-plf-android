@@ -16,18 +16,15 @@ public class CdlsBean {
 	private CdlsPhone mPhone = null;
 	private CdlsError mError = null;
 
-	public CdlsBean(boolean success, CdlsPhone phone, CdlsChat chat, CdlsEmail email) {
+	public CdlsBean(boolean success, CdlsPhone phone, CdlsChat chat,
+			CdlsEmail email, CdlsError error) {
 		mSuccess = success;
 		mPhone = phone;
 		mChat = chat;
 		mEmail = email;
-	}
-
-	public CdlsBean(boolean success, CdlsError error) {
-		mSuccess = success;
 		mError = error;
 	}
-	
+
 	public boolean getSuccess() {
 		return mSuccess;
 	}

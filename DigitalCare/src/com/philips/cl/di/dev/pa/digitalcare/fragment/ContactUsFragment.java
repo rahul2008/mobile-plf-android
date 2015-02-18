@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -45,6 +42,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mEmail = null;
 	private DigitalCareFontButton mCallPhilips = null;
 	private TwitterAuth mTwitterAuth = this;
+	private ParserController mParserController = null;
 	private CdlsBean cdlsBean = null;
 	private TextView mFirstRowText = null;
 	private TextView mSecondRowText = null;
@@ -131,29 +129,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		public void responseReceived(String response) {
 			ALog.i(TAG, "response : " + response);
 			if (response != null) {
-				// mEditText.setText(response);
-				JSONObject jsonObject = null;
-				try {
-					jsonObject = new JSONObject(response);
-					boolean successValue = jsonObject.optBoolean("success");
-
-					ALog.i(TAG, "response : " + response);
-
-					cdlsBean = ParserController.extractCdlsValues(successValue,
-							jsonObject);
-
-					mCallPhilips.setText(getResources()
-							.getString(R.string.call)
-							+ " "
-							+ cdlsBean.getPhone().getPhoneNumber());
-
-					mFirstRowText.setText(cdlsBean.getPhone()
-							.getOpeningHoursWeekdays());
-					mSecondRowText.setText(cdlsBean.getPhone()
-							.getOpeningHoursSaturday());
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				mParserController = ParserController
+						.getParserControllInstance(getActivity());
+				mParserController.extractCdlsValues(response);
+				cdlsBean = mParserController.getCdlsBean();
+				mCallPhilips.setText(getResources().getString(R.string.call)
+						+ " " + cdlsBean.getPhone().getPhoneNumber());
+				mFirstRowText.setText(cdlsBean.getPhone()
+						.getOpeningHoursWeekdays());
+				mSecondRowText.setText(cdlsBean.getPhone()
+						.getOpeningHoursSaturday());
 			}
 		}
 	};

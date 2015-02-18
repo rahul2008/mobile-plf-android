@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
+import java.net.URL;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
@@ -13,6 +15,8 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
+import com.philips.cl.di.dev.pa.digitalcare.bean.CdlsBean;
+import com.philips.cl.di.dev.pa.digitalcare.util.ParserController;
 
 /*
  *	ChatNowFragment will help to inflate chat webpage on the screen.
@@ -32,7 +36,10 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.common_webview, container, false);
-		mUrl = getActivity().getResources().getString(R.string.url_chat);
+		ParserController parserController = ParserController
+				.getParserControllInstance(getActivity());
+		CdlsBean cdlsBean = parserController.getCdlsBean();
+		mUrl = cdlsBean.getChat().getContent();
 		return view;
 	}
 
@@ -49,7 +56,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		mDialog.setCancelable(true);
 
 		mWebView = (WebView) getActivity().findViewById(R.id.webView);
-		mWebView.loadUrl(mUrl);
+		mWebView.loadUrl("javascript:" + mUrl);
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings websettings = mWebView.getSettings();
 		websettings.setJavaScriptEnabled(true);

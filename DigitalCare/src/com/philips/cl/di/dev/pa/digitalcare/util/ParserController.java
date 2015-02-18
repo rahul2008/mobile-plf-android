@@ -1,9 +1,10 @@
 package com.philips.cl.di.dev.pa.digitalcare.util;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.philips.cl.di.dev.pa.digitalcare.bean.CdlsBean;
 import com.philips.cl.di.dev.pa.digitalcare.bean.CdlsChat;
@@ -19,60 +20,96 @@ import com.philips.cl.di.dev.pa.digitalcare.bean.CdlsPhone;
  * Creation Date : 16 Dec 2015
  */
 public class ParserController {
+	private static final String TAG = ParserController.class.getSimpleName();
+	private Context mContext = null;
+	private static ParserController mParserController = null;
+	private CdlsBean cdlsBean = null;
 	private static final int FIRST_INDEX_VALUE = 0;
+
+	private ParserController(Context context) {
+		mContext = context;
+		ALog.i(TAG, "ParserController constructor : " + mContext.toString());
+	}
+
+	public static ParserController getParserControllInstance(Context context) {
+		if (mParserController == null) {
+			mParserController = new ParserController(context);
+		}
+		return mParserController;
+	}
+
+	/*
+	 * Returning CDLS BEAN instance
+	 */
+	public CdlsBean getCdlsBean() {
+		return cdlsBean;
+	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
-	public static CdlsBean extractCdlsValues(boolean success,
-			JSONObject jsonObject) {
-		Log.i("testing", "jsonObject : " + jsonObject);
-		CdlsBean cdlsBean = null;
+	public void extractCdlsValues(String response) {
+		ALog.i(TAG, "response : " + response);
+		JSONObject jsonObject = null;
+		try {
+			jsonObject = new JSONObject(response);
+			boolean success = jsonObject.optBoolean("success");
 
-		if (success) {
-			JSONObject jsonObjectData = jsonObject.optJSONObject("data");
+			ALog.i(TAG, "response : " + response);
+			CdlsPhone cdlsPhone = null;
+			CdlsEmail cdlsEmail = null;
+			CdlsChat cdlsChat = null;
+			CdlsError cdlsError = null;
 
-			JSONArray jsonArrayDataPhone = jsonObjectData.optJSONArray("phone");
-			JSONArray jsonArrayDataChat = jsonObjectData.optJSONArray("chat");
-			JSONArray jsonArrayDataEmail = jsonObjectData.optJSONArray("email");
+			if (success) {
+				JSONObject jsonObjectData = jsonObject.optJSONObject("data");
 
-			JSONObject jsonObjectDataPhone = (JSONObject) jsonArrayDataPhone
-					.opt(FIRST_INDEX_VALUE);
-			JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
-					.opt(FIRST_INDEX_VALUE);
-			JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
-					.opt(FIRST_INDEX_VALUE);
+				JSONArray jsonArrayDataPhone = jsonObjectData
+						.optJSONArray("phone");
+				JSONArray jsonArrayDataChat = jsonObjectData
+						.optJSONArray("chat");
+				JSONArray jsonArrayDataEmail = jsonObjectData
+						.optJSONArray("email");
 
-			CdlsPhone cdlsPhone = new CdlsPhone();
+				JSONObject jsonObjectDataPhone = (JSONObject) jsonArrayDataPhone
+						.opt(FIRST_INDEX_VALUE);
+				JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
+						.opt(FIRST_INDEX_VALUE);
+				JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
+						.opt(FIRST_INDEX_VALUE);
 
-			cdlsPhone.setPhoneNumber(jsonObjectDataPhone
-					.optString("phoneNumber"));
-			cdlsPhone.setOpeningHoursWeekdays(jsonObjectDataPhone
-					.optString("openingHoursWeekdays"));
-			cdlsPhone.setOpeningHoursSaturday(jsonObjectDataPhone
-					.optString("openingHoursSaturday"));
+				cdlsPhone = new CdlsPhone();
 
-			CdlsChat cdlsChat = new CdlsChat();
-			cdlsChat.setContent(jsonObjectDataChat.optString("content"));
-			cdlsChat.setOpeningHoursWeekdays(jsonObjectDataChat
-					.optString("openingHoursWeekdays"));
-			cdlsChat.setOpeningHoursSaturday(jsonObjectDataChat
-					.optString("openingHoursSaturday"));
+				cdlsPhone.setPhoneNumber(jsonObjectDataPhone
+						.optString("phoneNumber"));
+				cdlsPhone.setOpeningHoursWeekdays(jsonObjectDataPhone
+						.optString("openingHoursWeekdays"));
+				cdlsPhone.setOpeningHoursSaturday(jsonObjectDataPhone
+						.optString("openingHoursSaturday"));
 
-			CdlsEmail cdlsEmail = new CdlsEmail();
-			cdlsEmail.setLabel(jsonObjectDataEmail.optString("label"));
-			cdlsEmail.setContentPath(jsonObjectDataEmail
-					.optString("contentPath"));
+				cdlsChat = new CdlsChat();
+				cdlsChat.setContent(jsonObjectDataChat.optString("content"));
+				cdlsChat.setOpeningHoursWeekdays(jsonObjectDataChat
+						.optString("openingHoursWeekdays"));
+				cdlsChat.setOpeningHoursSaturday(jsonObjectDataChat
+						.optString("openingHoursSaturday"));
 
-			cdlsBean = new CdlsBean(success, cdlsPhone, cdlsChat, cdlsEmail);
-		} else {
-			CdlsError cdlsError = new CdlsError();
-			JSONObject jsonObjectData = jsonObject.optJSONObject("error");
-			cdlsError.setErrorCode(jsonObjectData.optString("errorCode"));
-			cdlsError.setErrorMessage(jsonObjectData.optString("errorMessage"));
-			cdlsBean = new CdlsBean(success, cdlsError);
+				cdlsEmail = new CdlsEmail();
+				cdlsEmail.setLabel(jsonObjectDataEmail.optString("label"));
+				cdlsEmail.setContentPath(jsonObjectDataEmail
+						.optString("contentPath"));
+			} else {
+				cdlsError = new CdlsError();
+				JSONObject jsonObjectData = jsonObject.optJSONObject("error");
+				cdlsError.setErrorCode(jsonObjectData.optString("errorCode"));
+				cdlsError.setErrorMessage(jsonObjectData
+						.optString("errorMessage"));
+			}
+			// creating CDLS instance.
+			cdlsBean = new CdlsBean(success, cdlsPhone, cdlsChat, cdlsEmail,
+					cdlsError);
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
-
-		return cdlsBean;
 	}
 }

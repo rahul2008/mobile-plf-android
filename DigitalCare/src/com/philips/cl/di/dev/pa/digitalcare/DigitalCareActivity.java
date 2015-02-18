@@ -16,7 +16,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
  *  Also responsible for fetching Product images, Facebook authentication & also 
  *  Twitter authentication .
  * 
- * Author : Ritesh.jha@philips.com, naveen
+ * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 5 Dec 2015
  */
