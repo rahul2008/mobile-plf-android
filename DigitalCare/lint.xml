@@ -10,6 +10,9 @@
     <issue id ="InflateParams" severity="ignore" /> 
     <issue id="IconDensities" severity="ignore" />
     <issue id="IconDipSize" severity="ignore" />
+    <issue id="InvalidPackage" severity="ignore" />
+    <issue id="MergeRootFrame" severity="ignore" />
+    <issue id="IconLocation" severity="ignore" />
     <issue id ="CommitPrefEdits" severity="ignore" /> 
     <issue id ="ScrollViewSize" severity="ignore" /> 
 </lint>
