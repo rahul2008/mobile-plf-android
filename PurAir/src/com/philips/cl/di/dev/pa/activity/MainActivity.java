@@ -220,7 +220,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		OutdoorController.getInstance().setActivity(this);
 
-//    	checkForCrashesHockeyApp();
+    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
