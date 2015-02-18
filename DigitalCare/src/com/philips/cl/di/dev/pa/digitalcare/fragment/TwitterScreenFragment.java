@@ -24,11 +24,11 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.dev.pa.digitalcare.social.ProductImage;
 import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
-import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
 public class TwitterScreenFragment extends BaseFragment implements
 		FragmentUtility, OnCheckedChangeListener, Callback {

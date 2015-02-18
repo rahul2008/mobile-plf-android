@@ -14,19 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ImageView.ScaleType;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.dev.pa.digitalcare.social.FacebookUtility;
+import com.philips.cl.di.dev.pa.digitalcare.social.ProductImage;
 import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
-import com.philips.cl.di.dev.pa.digitalcare.util.FacebookUtility;
-import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
 /*
  *	FacebookScreenFragment will help to post messages on Philips facebook wall.
@@ -54,7 +54,7 @@ public class FacebookScreenFragment extends BaseFragment implements
 	private File mFile = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;
-	private Bundle mSaveInstanceState = null;
+	 private Bundle mSaveInstanceState = null;
 	private View view = null;
 
 	@Override
@@ -66,8 +66,8 @@ public class FacebookScreenFragment extends BaseFragment implements
 
 		if (mFacebookUtility == null) {
 			mSaveInstanceState = savedInstanceState;
-			mFacebookUtility = new FacebookUtility(getActivity(),
-					mSaveInstanceState, view);
+			/*mFacebookUtility = new FacebookUtility(getActivity(),
+					mSaveInstanceState, view);*/
 		}
 		return view;
 	}
