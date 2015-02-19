@@ -29,4 +29,6 @@
     <!-- Facebook APPID -->
     <string name="app_id">1537018913230025</string>
     
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
 </resources>

@@ -3,6 +3,7 @@
 
     <string name="app_name">DigitalCare</string>
     <string name="img_description">description</string>
+    <string name="no_internet">Please connect to internet</string>
 
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
@@ -70,19 +71,17 @@
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
-    
-<!-- Contact US - Social Post -->
+
+    <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
-    <string name="social_post_desc_text">Include product information</string> 
-    <string name="social_post_from">From</string> 
-    
+    <string name="social_post_desc_text">Include product information</string>
+    <string name="social_post_from">From</string>
+
     <!-- Social Login -->
     <string name="social_login_cancel">Cancel</string>
     <string name="social_login_post">Post</string>
     <string name="send">Send</string>
     <string name="facebook_login_header">Log in to Facebook</string>
-	<string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
-	
- 
-  
+    <string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
+
 </resources>

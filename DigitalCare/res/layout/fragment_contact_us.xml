@@ -7,10 +7,10 @@
         android:id="@+id/contactUsParent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/activity_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin" 
-        android:background="@color/activity_bg">
+        android:paddingRight="@dimen/activity_margin" >
 
         <TextView
             android:id="@+id/leaveMsgTitle"
@@ -48,7 +48,7 @@
         <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsCall"
             style="@style/fontButton"
-            android:layout_marginBottom="10dp" 
+            android:layout_marginBottom="10dp"
             android:text="@string/call"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
@@ -57,12 +57,14 @@
             style="@style/contactUsHelpText"
             android:layout_marginBottom="0dp"
             android:text="@string/opening_hours"
+            android:visibility="gone"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
         <TextView
             android:id="@+id/firstRowText"
             style="@style/contactUsBottomText"
             android:text="@string/opening_hours_first_row"
+            android:visibility="gone"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
         <TextView
@@ -70,6 +72,7 @@
             style="@style/contactUsBottomText"
             android:layout_marginBottom="10dp"
             android:text="@string/opening_hours_second_row"
+            android:visibility="gone"
             custom:fontAssetName="fonts/centralesans-book.otf" />
     </LinearLayout>
 

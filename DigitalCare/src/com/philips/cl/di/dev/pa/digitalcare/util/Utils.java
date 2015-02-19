@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import com.philips.cl.di.dev.pa.digitalcare.R;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -34,8 +36,9 @@ public class Utils {
 					return true;
 			}
 		}
-		Toast.makeText(activity, "No internet connection", Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(activity,
+				activity.getResources().getString(R.string.no_internet),
+				Toast.LENGTH_SHORT).show();
 		return false;
 	}
 

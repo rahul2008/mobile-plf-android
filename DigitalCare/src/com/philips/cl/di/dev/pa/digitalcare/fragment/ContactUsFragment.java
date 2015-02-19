@@ -55,13 +55,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
-	// private static FacebookUtility mFacebookUtility = null;
-	// private static Bundle mSaveInstanceState = null;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// mSaveInstanceState = savedInstanceState;
+		if (!Utils.isConnected(getActivity())) {
+			return null;
+		}
 		/*
 		 * CDLS execution
 		 */
@@ -78,6 +77,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if (!Utils.isConnected(getActivity())) {
+			return;
+		}
 		mConactUsParent = (LinearLayout) getActivity().findViewById(
 				R.id.contactUsParent);
 		mChat = (DigitalCareFontButton) getActivity().findViewById(
@@ -96,8 +98,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				.findViewById(R.id.firstRowText);
 		mSecondRowText = (TextView) getActivity().findViewById(
 				R.id.secondRowText);
-
 		mFacebook.setOnClickListener(this);
+
+		/*
+		 * Live chat is configurable parameter. Developer can enable/disable it.
+		 */
+		if (!getResources().getBoolean(R.bool.live_chat_required)) {
+			mChat.setVisibility(View.GONE);
+		}
 		mChat.setOnClickListener(this);
 
 		mCallPhilips.setOnClickListener(this);
@@ -140,6 +148,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				cdlsBean = mParserController.getCdlsBean();
 				if (cdlsBean != null) {
 					if (cdlsBean.getSuccess()) {
+						enableBottomText();
 						mCallPhilips.setText(getResources().getString(
 								R.string.call)
 								+ " " + cdlsBean.getPhone().getPhoneNumber());
@@ -148,18 +157,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						mSecondRowText.setText(cdlsBean.getPhone()
 								.getOpeningHoursSaturday());
 					} else {
-						disableBottomText();
+						fadeoutButtons();
 					}
-					/*
-					 * else { Toast.makeText(getActivity(),
-					 * cdlsBean.getError().getErrorMessage(),
-					 * Toast.LENGTH_SHORT).show(); }
-					 */
 				} else {
-					disableBottomText();
+					fadeoutButtons();
 				}
 			} else {
-				disableBottomText();
+				fadeoutButtons();
 			}
 		}
 	};
@@ -193,7 +197,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						Toast.LENGTH_SHORT).show();
 				return;
 			} else if (cdlsBean != null && !cdlsBean.getSuccess()) {
-				// disableBottomText();
 				Toast.makeText(getActivity(),
 						cdlsBean.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
@@ -211,16 +214,29 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				&& Utils.isConnected(getActivity())) {
 			TwitterConnect mTwitter = TwitterConnect.getInstance(getActivity());
 			mTwitter.initSDK(mTwitterAuth);
-		} else if (id == R.id.contactUsEmail
-				&& Utils.isConnected(getActivity())) {
+		} else if (id == R.id.contactUsEmail) {
 			Utils.sendEmail(getActivity());
 		}
 	}
 
-	private void disableBottomText() {
-		mContactUsOpeningHours.setVisibility(View.GONE);
-		mFirstRowText.setVisibility(View.GONE);
-		mSecondRowText.setVisibility(View.GONE);
+	/*
+	 * If CDLS response received then enable to bottom text.
+	 */
+	private void enableBottomText() {
+		mContactUsOpeningHours.setVisibility(View.VISIBLE);
+		mFirstRowText.setVisibility(View.VISIBLE);
+		mSecondRowText.setVisibility(View.VISIBLE);
+	}
+
+	/*
+	 * If feature is not available then fade it out.
+	 */
+	private void fadeoutButtons() {
+		mCallPhilips
+				.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+		mCallPhilips.setEnabled(false);
+		mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+		mChat.setEnabled(false);
 	}
 
 	@Override
