@@ -14,5 +14,6 @@
     <issue id="MergeRootFrame" severity="ignore" />
     <issue id="IconLocation" severity="ignore" />
     <issue id ="CommitPrefEdits" severity="ignore" /> 
-    <issue id ="ScrollViewSize" severity="ignore" /> 
+    <issue id ="ScrollViewSize" severity="ignore" />
+    <issue id ="WebViewLayout" severity="ignore" />  
 </lint>
