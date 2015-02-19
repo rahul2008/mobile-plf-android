@@ -24,9 +24,15 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
+<<<<<<< HEAD
 import com.philips.cl.di.dev.pa.digitalcare.listners.ProductImageInteface;
 import com.philips.cl.di.dev.pa.digitalcare.util.FacebookUtility;
 import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
+=======
+import com.philips.cl.di.dev.pa.digitalcare.social.FacebookUtility;
+import com.philips.cl.di.dev.pa.digitalcare.social.ProductImage;
+import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
+>>>>>>> 6d07ff46305162add796c5120e119b2ce506cc87
 
 /*
  *	FacebookScreenFragment will help to post messages on Philips facebook wall.
@@ -55,7 +61,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private File mFile = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;
-	private Bundle mSaveInstanceState = null;
+	 private Bundle mSaveInstanceState = null;
 	private View view = null;
 
 	@Override
@@ -67,8 +73,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 
 		if (mFacebookUtility == null) {
 			mSaveInstanceState = savedInstanceState;
-			mFacebookUtility = new FacebookUtility(getActivity(),
-					mSaveInstanceState, view);
+			/*mFacebookUtility = new FacebookUtility(getActivity(),
+					mSaveInstanceState, view);*/
 		}
 		return view;
 	}

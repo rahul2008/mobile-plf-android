@@ -1,4 +1,8 @@
-package com.philips.cl.di.dev.pa.digitalcare.util;
+package com.philips.cl.di.dev.pa.digitalcare.social;
+
+import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
+import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
+import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
