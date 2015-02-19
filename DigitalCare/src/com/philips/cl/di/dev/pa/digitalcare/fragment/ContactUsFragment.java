@@ -51,7 +51,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	// CDLS related
 	private LongRunningTask mLongRunningTask = null;
-	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
+//	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
+	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_US/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
 
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
@@ -156,6 +157,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 								.getOpeningHoursWeekdays());
 						mSecondRowText.setText(cdlsBean.getPhone()
 								.getOpeningHoursSaturday());
+						
+						if (emptyChat(cdlsBean)) {
+							mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+							mChat.setEnabled(false);
+						}
+
 					} else {
 						fadeoutButtons();
 					}
@@ -165,6 +172,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			} else {
 				fadeoutButtons();
 			}
+		}
+
+		private boolean emptyChat(CdlsBean cdlsBean) {
+			return cdlsBean.getChat() == null
+					|| cdlsBean.getChat().getContent() == null
+					|| cdlsBean.getChat().getContent()
+							.equalsIgnoreCase("");
 		}
 	};
 
