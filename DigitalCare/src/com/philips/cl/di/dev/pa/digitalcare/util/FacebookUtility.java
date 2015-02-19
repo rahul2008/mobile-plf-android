@@ -1,12 +1,30 @@
-package com.philips.cl.di.dev.pa.digitalcare.social;
+package com.philips.cl.di.dev.pa.digitalcare.util;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.provider.MediaStore.MediaColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -21,7 +39,7 @@ import com.facebook.Session.StatusCallback;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
-import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
+import com.philips.cl.di.dev.pa.digitalcare.R;
 
 /*
  * FacebookUtility will help to provide options for facebook utility.
@@ -38,7 +56,6 @@ public class FacebookUtility {
 
 	private final static String PERMISSION = "publish_actions";
 	// private Uri selectedImageUri = null;
-<<<<<<< HEAD:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/util/FacebookUtility.java
 	private final static String EMAIL = "email";
 	private final static String BIRTHDAY = "user_birthday";
 	private final static String HOMETOWN = "user_hometown";
@@ -47,14 +64,11 @@ public class FacebookUtility {
 	private static Uri imageFileUri = null;
 	private static Uri selectedImageUri = null;
 	private final static String IMAGE_DIRECTORY_NAME = "DigitalCare";
-=======
-	private final String EMAIL = "email";
-	private final String BIRTHDAY = "user_birthday";
-	private final String HOMETOWN = "user_hometown";
-	private final String LOCATION = "user_location";
-	private final String PENDING_ACTION_BUNDLE_KEY = "com.facebook.samples.hellofacebook:PendingAction";
->>>>>>> 6d07ff46305162add796c5120e119b2ce506cc87:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/social/FacebookUtility.java
 	private PendingAction pendingAction = PendingAction.NONE;
+	private static final int RESULT_OK = -1;
+	private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 0;
+	private static final int MEDIA_TYPE_IMAGE = 7;
+	private static final int SELECT_FILE = 1;
 
 	private UiLifecycleHelper mFbUiHelper;
 
@@ -62,24 +76,19 @@ public class FacebookUtility {
 	private ImageView popShareImage;
 	private boolean canPresentShareDialog = false;
 	private boolean canPresentShareDialogWithPhotos = false;
+	private ImageView mCamera = null;
+	private View myView = null;
+	private static boolean mAllowNoSession = false;
 	private static boolean isImageAvialable = false;
-	private static FacebookUtility mFacebook = null;
 
-	private static enum PendingAction {
+	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
 	}
 
-	public static FacebookUtility getSingleInstance(Activity activity,
-			Bundle savedInstanceState) {
-		if (mFacebook == null) {
-			mFacebook = new FacebookUtility(activity, savedInstanceState);
-			return mFacebook;
-		}
-		return mFacebook;
-	}
-
-	private FacebookUtility(Activity activity, Bundle savedInstanceState) {
+	public FacebookUtility(Activity activity, Bundle savedInstanceState,
+			View view) {
 		mActivity = activity;
+		myView = view;
 		mFbUiHelper = new UiLifecycleHelper(mActivity, sessionCalback);
 		mFbUiHelper.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
@@ -87,7 +96,6 @@ public class FacebookUtility {
 					.getString(PENDING_ACTION_BUNDLE_KEY);
 			pendingAction = PendingAction.valueOf(name);
 		}
-<<<<<<< HEAD:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/util/FacebookUtility.java
 
 		initViews();
 
@@ -137,20 +145,57 @@ public class FacebookUtility {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-=======
->>>>>>> 6d07ff46305162add796c5120e119b2ce506cc87:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/social/FacebookUtility.java
-	}
-
-	public Session Authenticate() {
-
-		return openActiveSession(true,
-				Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
 	}
 
 	/**
-	 * Facebook Session
+	 * Capturing Camera Image will lauch camera app requrest image capture
 	 */
-<<<<<<< HEAD:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/util/FacebookUtility.java
+	private void captureImage() {
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		imageFileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+		/** Start the image capture Intent */
+		mActivity.startActivityForResult(intent,
+				CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
+	}
+
+	/**
+	 * Take Pic from camera or gallery.
+	 * 
+	 * @param isCapturePic
+	 *            true if want take pic.
+	 */
+	private void pickImage(boolean isCapturePic) {
+		if (isCapturePic) {
+			captureImage();
+		} else {
+			Intent intent = new Intent(
+					Intent.ACTION_PICK,
+					android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			intent.setType("image/*");
+			mActivity.startActivityForResult(
+					Intent.createChooser(intent, "Select File"), SELECT_FILE);
+		}
+	}
+
+	/**
+	 * Creating file uri to store image/video
+	 * 
+	 * @param type
+	 *            Type
+	 * @return URI
+	 */
+	public Uri getOutputMediaFileUri(int type) {
+		return Uri.fromFile(getOutputMediaFile(type));
+	}
+
+	/**
+	 * Get recorded image or file.
+	 * 
+	 * @param type
+	 *            file type
+	 * @return image / video
+	 */
 	private File getOutputMediaFile(int type) {
 
 		/** External sdcard location */
@@ -192,8 +237,6 @@ public class FacebookUtility {
 
 		return returnString;
 	}
-=======
->>>>>>> 6d07ff46305162add796c5120e119b2ce506cc87:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/social/FacebookUtility.java
 
 	public void onActivityResultFragment(Activity activity, int requestCode,
 			int resultCode, Intent data) {
@@ -201,7 +244,6 @@ public class FacebookUtility {
 		Session.getActiveSession().onActivityResult(activity, requestCode,
 				resultCode, data);
 		new Session.OpenRequest(activity);
-<<<<<<< HEAD:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/util/FacebookUtility.java
 
 		if (resultCode == RESULT_OK) {
 			if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
@@ -271,8 +313,6 @@ public class FacebookUtility {
 
 			mCamera.setVisibility(View.GONE);
 		}
-=======
->>>>>>> 6d07ff46305162add796c5120e119b2ce506cc87:DigitalCare/src/com/philips/cl/di/dev/pa/digitalcare/social/FacebookUtility.java
 	}
 
 	public void performPublishAction() {
@@ -284,10 +324,21 @@ public class FacebookUtility {
 		} else {
 			ALog.i(TAG,
 					"FacebookUtility performPublishAction POST_STATUS_UPDATE");
+			showShareAlert(null, mAllowNoSession);
 			performPublish(PendingAction.POST_STATUS_UPDATE,
 					canPresentShareDialog);
 		}
 	}
+
+	private OnClickListener clickListener = new OnClickListener() {
+
+		public void onClick(View view) {
+			int id = view.getId();
+			if (id == R.id.fb_post_camera) {
+				chooseMediaOptions();
+			}
+		}
+	};
 
 	@SuppressWarnings("static-method")
 	private boolean hasPublishPermission() {
@@ -383,12 +434,12 @@ public class FacebookUtility {
 	 * @param callback
 	 * @return Session object.
 	 */
-	private Session openActiveSession(boolean allowLoginUI,
+	public Session openActiveSession(boolean allowLoginUI,
 			List<String> permissions, StatusCallback callback) {
 		OpenRequest openRequest = new OpenRequest(mActivity)
 				.setPermissions(permissions).setCallback(callback)
 				.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
-		session = new Session.Builder(mActivity).build();
+		Session session = new Session.Builder(mActivity).build();
 		if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState())
 				|| allowLoginUI) {
 			Session.setActiveSession(session);
@@ -396,12 +447,6 @@ public class FacebookUtility {
 			return session;
 		}
 		return null;
-	}
-
-	Session session = null;
-
-	public Session isSessionAvailable() {
-		return session;
 	}
 
 	/**
