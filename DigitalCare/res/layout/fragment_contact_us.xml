@@ -53,7 +53,7 @@
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <TextView
-            android:id="@+id/contactUsForgotPwd"
+            android:id="@+id/contactUsOpeningHours"
             style="@style/contactUsHelpText"
             android:layout_marginBottom="0dp"
             android:text="@string/opening_hours"

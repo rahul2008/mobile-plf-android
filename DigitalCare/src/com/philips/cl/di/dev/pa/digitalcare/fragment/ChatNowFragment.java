@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
-import java.net.URL;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
@@ -56,7 +54,11 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		mDialog.setCancelable(true);
 
 		mWebView = (WebView) getActivity().findViewById(R.id.webView);
-		mWebView.loadUrl("javascript:" + mUrl);
+		//Log.i("testing", "url : " + mUrl);
+	//	mUrl = TextUtils.htmlEncode(mUrl);
+//		String url = "<html><body>"+mUrl+"</body></html>";
+	//	mWebView.loadData(Html.fromHtml(url).toString(), "text/html", "UTF-8");
+		mWebView.loadUrl(mUrl);
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings websettings = mWebView.getSettings();
 		websettings.setJavaScriptEnabled(true);
@@ -79,9 +81,9 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			view.loadUrl(url);
+//			view.loadUrl(url);
 			mDialog.show();
-			return true;
+			return false;
 		}
 
 		@Override

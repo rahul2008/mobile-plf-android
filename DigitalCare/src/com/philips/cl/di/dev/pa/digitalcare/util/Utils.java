@@ -20,7 +20,7 @@ import android.widget.Toast;
  * @Description This class contains common utility methods required across
  *              framework under different scenario's.
  * @author naveen@philips.com
- *
+ * 
  */
 public class Utils {
 
@@ -75,21 +75,29 @@ public class Utils {
 		activity.startActivity(Intent.createChooser(intent, "Send Email"));
 	}
 
-	public static boolean  isSimAvailable(Activity mContext) {
+	public static boolean isSimAvailable(Activity mContext) {
 		TelephonyManager mTelephonyService = (TelephonyManager) mContext
 				.getSystemService(Context.TELEPHONY_SERVICE);
-		int state = mTelephonyService.getPhoneType();
-		switch (state) {
-		case TelephonyManager.PHONE_TYPE_GSM:
-			return true;
-		case TelephonyManager.PHONE_TYPE_CDMA:
-			return true;
-		case TelephonyManager.PHONE_TYPE_SIP:
-			return true;
-		case TelephonyManager.PHONE_TYPE_NONE:
-			return false;
-		}
-		return false;
-	}
+		// int state = mTelephonyService.getPhoneType();
+		// switch (state) {
+		// case TelephonyManager.PHONE_TYPE_GSM:
+		// return true;
+		// case TelephonyManager.PHONE_TYPE_CDMA:
+		// return true;
+		// case TelephonyManager.PHONE_TYPE_SIP:
+		// return true;
+		// case TelephonyManager.PHONE_TYPE_NONE:
+		// return false;
+		// }
+		// return false;
 
+		int simState = mTelephonyService.getSimState();
+		switch (simState) {
+		case TelephonyManager.SIM_STATE_ABSENT:
+		case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
+			return false;
+		default:
+			return true;
+		}
+	}
 }

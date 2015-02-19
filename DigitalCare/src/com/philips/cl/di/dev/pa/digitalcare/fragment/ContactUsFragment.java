@@ -46,6 +46,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private CdlsBean cdlsBean = null;
 	private TextView mFirstRowText = null;
 	private TextView mSecondRowText = null;
+	private TextView mContactUsOpeningHours = null;
+	private String mCdlsResponse = null;
 
 	// CDLS related
 	private LongRunningTask mLongRunningTask = null;
@@ -88,6 +90,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				R.id.contactUsCall);
 		mEmail = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsEmail);
+		mContactUsOpeningHours = (TextView) getActivity().findViewById(
+				R.id.contactUsOpeningHours);
 		mFirstRowText = (TextView) getActivity()
 				.findViewById(R.id.firstRowText);
 		mSecondRowText = (TextView) getActivity().findViewById(
@@ -129,16 +133,33 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		public void responseReceived(String response) {
 			ALog.i(TAG, "response : " + response);
 			if (response != null) {
+				mCdlsResponse = response;
 				mParserController = ParserController
 						.getParserControllInstance(getActivity());
 				mParserController.extractCdlsValues(response);
 				cdlsBean = mParserController.getCdlsBean();
-				mCallPhilips.setText(getResources().getString(R.string.call)
-						+ " " + cdlsBean.getPhone().getPhoneNumber());
-				mFirstRowText.setText(cdlsBean.getPhone()
-						.getOpeningHoursWeekdays());
-				mSecondRowText.setText(cdlsBean.getPhone()
-						.getOpeningHoursSaturday());
+				if (cdlsBean != null) {
+					if (cdlsBean.getSuccess()) {
+						mCallPhilips.setText(getResources().getString(
+								R.string.call)
+								+ " " + cdlsBean.getPhone().getPhoneNumber());
+						mFirstRowText.setText(cdlsBean.getPhone()
+								.getOpeningHoursWeekdays());
+						mSecondRowText.setText(cdlsBean.getPhone()
+								.getOpeningHoursSaturday());
+					} else {
+						disableBottomText();
+					}
+					/*
+					 * else { Toast.makeText(getActivity(),
+					 * cdlsBean.getError().getErrorMessage(),
+					 * Toast.LENGTH_SHORT).show(); }
+					 */
+				} else {
+					disableBottomText();
+				}
+			} else {
+				disableBottomText();
 			}
 		}
 	};
@@ -155,9 +176,34 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onClick(View view) {
 		int id = view.getId();
 		if (id == R.id.contactUsChat && Utils.isConnected(getActivity())) {
+			if (mCdlsResponse == null) {
+				Toast.makeText(getActivity(), "No server response",
+						Toast.LENGTH_SHORT).show();
+				return;
+			} else if (cdlsBean != null && !cdlsBean.getSuccess()) {
+				Toast.makeText(getActivity(),
+						cdlsBean.getError().getErrorMessage(),
+						Toast.LENGTH_SHORT).show();
+				return;
+			}
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
-			callPhilips();
+			if (mCdlsResponse == null) {
+				Toast.makeText(getActivity(), "No server response",
+						Toast.LENGTH_SHORT).show();
+				return;
+			} else if (cdlsBean != null && !cdlsBean.getSuccess()) {
+				// disableBottomText();
+				Toast.makeText(getActivity(),
+						cdlsBean.getError().getErrorMessage(),
+						Toast.LENGTH_SHORT).show();
+				return;
+			} else if (Utils.isSimAvailable(getActivity())) {
+				callPhilips();
+			} else if (!Utils.isSimAvailable(getActivity())) {
+				Toast.makeText(getActivity(), "Check the SIM",
+						Toast.LENGTH_SHORT).show();
+			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isConnected(getActivity())) {
 			showFragment(new FacebookScreenFragment());
@@ -171,6 +217,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
+	private void disableBottomText() {
+		mContactUsOpeningHours.setVisibility(View.GONE);
+		mFirstRowText.setVisibility(View.GONE);
+		mSecondRowText.setVisibility(View.GONE);
+	}
+
 	@Override
 	public void setViewParams(Configuration config) {
 
@@ -180,8 +232,5 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
 		mConactUsParent.setLayoutParams(mParams);
-
-		if (!Utils.isSimAvailable(getActivity()))
-			mCallPhilips.setVisibility(View.GONE);
 	}
 }
