@@ -8,7 +8,6 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -18,7 +17,8 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
 /**
- * @description Background Task for posting Twitter tweets along with Product Image.
+ * @description Background Task for posting Twitter tweets along with Product
+ *              Image.
  * @author 310190678
  * @since 11/feb/2015
  *
@@ -26,7 +26,6 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 public class TwitterPost extends AsyncTask<String, String, Void> {
 
 	private String TAG = TwitterPost.class.getSimpleName();
-	private ProgressDialog mDialog = null;
 	private Context mContext = null;
 	private String consumerKey = null;
 	private String consumerSecret = null;
@@ -44,12 +43,6 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-
-		mDialog = new ProgressDialog(mContext);
-		mDialog.setMessage("Posting to PhilipsCare...");
-		mDialog.setIndeterminate(false);
-		mDialog.setCancelable(false);
-		mDialog.show();
 	}
 
 	protected Void doInBackground(String... args) {
@@ -80,10 +73,10 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 
 			twitter4j.Status response = twitter.updateStatus(statusUpdate);
 
-			Log.d(TAG, "Twitter Response" +response.getText());
+			Log.d(TAG, "Twitter Response" + response.getText());
 
 		} catch (TwitterException e) {
-			Log.d(TAG, "Failed to post : "+ e);
+			Log.d(TAG, "Failed to post : " + e);
 		}
 		return null;
 	}
@@ -92,7 +85,6 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	protected void onPostExecute(Void result) {
 
 		ALog.d(TAG, "Posted to Twitter");
-		mDialog.dismiss();
 		mFile = null;
 
 	}

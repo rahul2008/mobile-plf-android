@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
@@ -29,7 +31,9 @@ public class WebViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(mgetView());
 
 		setTitle("Login");
@@ -59,13 +63,14 @@ public class WebViewActivity extends Activity {
 
 	@Override
 	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
 		mDialog.dismiss();
 		mDialog.cancel();
 		mDialog = null;
-		super.onStop();
 	}
 
-	private class MyWebViewClient extends WebViewClient {
+	class MyWebViewClient extends WebViewClient {
 
 		@Override
 		public void onPageFinished(WebView view, String url) {

@@ -52,7 +52,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	// CDLS related
 	private LongRunningTask mLongRunningTask = null;
 //	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
-	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_US/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
+	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
 
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
@@ -223,7 +223,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isConnected(getActivity())) {
-			showFragment(new FacebookScreenFragment());
+			//showFragment(new FacebookScreenFragment());
+			showFragment(new FacebookWeb());
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isConnected(getActivity())) {
 			TwitterConnect mTwitter = TwitterConnect.getInstance(getActivity());

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.listners.FragmentUtilityInterface;
 import com.philips.cl.di.dev.pa.digitalcare.listners.ProductImageInteface;
 import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.social.TwitterPost;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.ProductImage;
 
@@ -53,7 +55,7 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	private ImageView mProductImage = null;
 	private ImageView mProductCloseButton = null;
 
-	private FrameLayout.LayoutParams mContainerParams = null;
+	private LayoutParams mContainerParams = null;
 
 	// Configurable parameters
 	private TextView mTweetfrom = null;
@@ -81,7 +83,7 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 
 		mContainer = (LinearLayout) getActivity().findViewById(
 				R.id.fbPostContainer);
-		mContainerParams = (FrameLayout.LayoutParams) mContainer
+		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
 				.getLayoutParams();
 
 		mTwitterPort = (LinearLayout) getActivity().findViewById(
@@ -141,15 +143,21 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.facebookCancelPort:
+			backstackFragment();
 			break;
 		case R.id.facebookCancelLand:
-
+			backstackFragment();
 			break;
 
 		case R.id.facebookSendLand:
+			new TwitterPost(getActivity(), mFile).execute(mProdInformation
+					.getText().toString());
+			backstackFragment();
 			break;
 		case R.id.facebookSendPort:
-
+			new TwitterPost(getActivity(), mFile).execute(mProdInformation
+					.getText().toString());
+			backstackFragment();
 			break;
 
 		case R.id.fb_Post_CheckBox:
@@ -199,8 +207,17 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 
 		if (isChecked) {
 			mProdInformation.setText(DESCRIPTION);
+			mProdInformation.setInputType(InputType.TYPE_CLASS_TEXT
+					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+			mProdInformation.setEnabled(true);
+			mProdInformation.setFocusable(true);
+
 		} else {
 			mProdInformation.setText("");
+			mProdInformation.setInputType(InputType.TYPE_NULL);
+			mProdInformation.setEnabled(false);
+			mProdInformation.setFocusable(false);
+
 		}
 	}
 
