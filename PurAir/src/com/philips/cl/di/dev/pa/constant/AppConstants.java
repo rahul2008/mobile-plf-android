@@ -195,6 +195,7 @@ public class AppConstants {
 	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
 	public static final String PAIRING_DI_COMM_RELATIONSHIP="DI-COMM";
 	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
+	public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "DATAACCESS";
 	public static final String PAIRING_APP_REFERENCETYPE="AC4373APP";
 	
 	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));

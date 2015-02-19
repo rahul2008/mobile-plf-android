@@ -44,7 +44,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
 
 	private enum ENTITY {
-		PURIFIER, APP
+		PURIFIER, APP, DATAACCESS
 	};
 
 	private ENTITY entity_state;
@@ -209,14 +209,12 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		PairingService removeRelationship = new PairingService(callbackHandler);
 		int retStatus;
 
-		retStatus = removeRelationship.removeRelationshipRequest(trustor,
-				trustee, relationType);
+		retStatus = removeRelationship.removeRelationshipRequest(trustor, trustee, relationType);
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 			return;
 		}
-		removeRelationship
-		.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
+		removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
 		retStatus = removeRelationship.executeCommand();
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -409,7 +407,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 				} else if (entity_state == ENTITY.APP) {
 					ALog.i(ALog.PAIRING, "DI-COMM Relationship removed successfully");
-					entity_state = ENTITY.PURIFIER;
+					entity_state = ENTITY.DATAACCESS;
 					currentRelationshipType = AppConstants.PAIRING_NOTIFY_RELATIONSHIP;
 					new Thread(new Runnable() {
 						@Override
@@ -418,23 +416,25 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 						}
 					}).start();
 				}
-			} else {
-				if (entity_state == ENTITY.PURIFIER) {
-					ALog.i(ALog.PAIRING, "Outgoing notify relationship (one removed) - Need to remove the other");
-					entity_state = ENTITY.APP;
+			} 
+			else if(currentRelationshipType.equals(AppConstants.PAIRING_NOTIFY_RELATIONSHIP)) { 
+				if(entity_state == ENTITY.DATAACCESS) {
+					ALog.i(ALog.PAIRING, "Notify Relationship removed successfully");
+					entity_state = ENTITY.PURIFIER;
+					currentRelationshipType = AppConstants.PAIRING_DATA_ACCESS_RELATIONSHIP;
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							removeRelationship(getPurifierEntity(),	getAppEntity(), currentRelationshipType);
+							removeRelationship(null, getPurifierEntity(), currentRelationshipType);
 						}
 					}).start();
-
-				} else if (entity_state == ENTITY.APP) {
-					ALog.i(ALog.PAIRING, "NOTIFY Relationship removed successfully - Pairing removed successfully");
+				}
+			}
+			// This will indicate all relations have been removed
+			else if(currentRelationshipType.equals(AppConstants.PAIRING_DATA_ACCESS_RELATIONSHIP)) {
+				if (entity_state == ENTITY.PURIFIER) {
+					ALog.i(ALog.PAIRING, "DATAACCESS Relationship removed successfully - Pairing removed successfully");
 					notifyListenerSuccess();
-					ALog.i(ALog.PAIRING, "Paring status set to UNPAIRED");
-					purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-					purifierDatabase.updatePairingStatus(purifier, PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 				}
 			}
 		}
