@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
@@ -29,7 +31,9 @@ public class WebViewActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(mgetView());
 
 		setTitle("Login");
@@ -42,19 +46,19 @@ public class WebViewActivity extends Activity {
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl(url);
 	}
-	
-	
-	private View mgetView()
-	{
+
+	private View mgetView() {
 		RelativeLayout mWebContainer = new RelativeLayout(this);
-		mWebContainer.setLayoutParams(new RelativeLayout.LayoutParams
-				(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		mWebContainer.setLayoutParams(new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT));
 		webView = new WebView(this);
-		webView.setLayoutParams(new RelativeLayout.LayoutParams
-				(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
+		webView.setLayoutParams(new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.MATCH_PARENT,
+				RelativeLayout.LayoutParams.MATCH_PARENT));
 		mWebContainer.addView(webView);
-		return mWebContainer; 
-		
+		return mWebContainer;
+
 	}
 
 	@Override
@@ -65,8 +69,6 @@ public class WebViewActivity extends Activity {
 		mDialog.cancel();
 		mDialog = null;
 	}
-
-
 
 	class MyWebViewClient extends WebViewClient {
 

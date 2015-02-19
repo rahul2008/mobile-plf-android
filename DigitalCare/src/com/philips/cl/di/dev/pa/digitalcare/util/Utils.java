@@ -69,10 +69,11 @@ public class Utils {
 				"My AirFryer HD9220/20 is gone case");
 		intent.putExtra(
 				Intent.EXTRA_TEXT,
-				"Hi Team\n, My Aurfryer is not cooking actually. It is leaving ultimate smoke."
-						+ " Please do let me know how i can correct my favourate Philips Machine ");
+				"Hi Team\n My Airfryer is not at all cooking actually. It is leaving ultimate smoke."
+						+ " Please do let me know how i can correct my favourate Philips Machine!! ");
 
-		activity.startActivity(Intent.createChooser(intent, "Send Email"));
+		intent.setPackage("com.google.android.gm");
+		activity.startActivity(intent);
 	}
 
 	public static boolean  isSimAvailable(Activity mContext) {

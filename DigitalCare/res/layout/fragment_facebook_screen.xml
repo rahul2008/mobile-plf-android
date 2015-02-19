@@ -88,30 +88,29 @@
                 android:contentDescription="@string/img_description"
                 android:visibility="gone" />
 
-                <ImageView
-                    android:id="@+id/fb_post_camera"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:contentDescription="@string/img_description"
-                    android:src="@drawable/social_photo_default" />
+            <ImageView
+                android:id="@+id/fb_post_camera"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/social_photo_default" />
 
-                <ImageView
-                    android:id="@+id/fb_Post_camera_close"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:layout_alignBottom="@+id/fb_post_camera"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginBottom="55dp"
-                    android:layout_marginRight="10dp"
-                    android:contentDescription="@string/img_description"
-                    android:src="@drawable/social_close"
-                    android:scaleType="fitXY"
-                    android:visibility="gone" />
-
+            <ImageView
+                android:id="@+id/fb_Post_camera_close"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_alignBottom="@+id/fb_post_camera"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="55dp"
+                android:layout_marginRight="10dp"
+                android:contentDescription="@string/img_description"
+                android:scaleType="fitXY"
+                android:src="@drawable/social_close"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <LinearLayout
@@ -171,7 +170,7 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/facebookSendLand"
                 style="@style/fontButton"
-                android:layout_marginLeft="6dp"
+                android:layout_marginLeft="@dimen/marginTopButton"
                 android:layout_weight="1"
                 android:text="@string/send"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />

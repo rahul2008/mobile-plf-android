@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.pa.digitalcare.social.ProductImage;
 import com.philips.cl.di.dev.pa.digitalcare.social.TwitterConnect;
+import com.philips.cl.di.dev.pa.digitalcare.social.TwitterPost;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.Callback;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentUtility;
@@ -42,7 +44,7 @@ public class TwitterScreenFragment extends BaseFragment implements
 	private SharedPreferences mSharedPreferences = null;
 
 	private LinearLayout mContainer = null;
-	private LinearLayout  mTwitterPort = null;
+	private LinearLayout mTwitterPort = null;
 	private LinearLayout mTwitterLand = null;
 	private DigitalCareFontButton mCancelPort = null;
 	private DigitalCareFontButton mCancelLand = null;
@@ -141,15 +143,21 @@ public class TwitterScreenFragment extends BaseFragment implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.facebookCancelPort:
+			backstackFragment();
 			break;
 		case R.id.facebookCancelLand:
-
+			backstackFragment();
 			break;
 
 		case R.id.facebookSendLand:
+			new TwitterPost(getActivity(), mFile).execute(mProdInformation
+					.getText().toString());
+			backstackFragment();
 			break;
 		case R.id.facebookSendPort:
-
+			new TwitterPost(getActivity(), mFile).execute(mProdInformation
+					.getText().toString());
+			backstackFragment();
 			break;
 
 		case R.id.fb_Post_CheckBox:
@@ -199,15 +207,26 @@ public class TwitterScreenFragment extends BaseFragment implements
 
 		if (isChecked) {
 			mProdInformation.setText(DESCRIPTION);
+			mProdInformation.setInputType(InputType.TYPE_CLASS_TEXT
+					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+			mProdInformation.setEnabled(true);
+			mProdInformation.setFocusable(true);
+
 		} else {
 			mProdInformation.setText("");
+			mProdInformation.setInputType(InputType.TYPE_NULL);
+			mProdInformation.setEnabled(false);
+			mProdInformation.setFocusable(false);
+
 		}
 	}
 
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
-		Toast.makeText(getActivity(), "Image Path : "+mFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(),
+				"Image Path : " + mFile.getAbsolutePath(), Toast.LENGTH_SHORT)
+				.show();
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
@@ -218,7 +237,8 @@ public class TwitterScreenFragment extends BaseFragment implements
 	public void onImageDettach() {
 		mFile = null;
 		Log.d(TAG, "Product Image Dettached");
-		mProductImage.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.social_photo_default));
+		mProductImage.setImageDrawable(getActivity().getResources()
+				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.GONE);
 
