@@ -7,8 +7,8 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 
 public interface OutdoorDetailsListener {
-	public void onOneDayWeatherForecastReceived(List<Weatherdto> weatherList);
-	public void onFourDayWeatherForecastReceived(List<ForecastWeatherDto> weatherList);
-	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory);
-	public void onNearbyLocationsDataReceived(List<OutdoorAQI> nearbyLocationAQIs);
+	void onOneDayWeatherForecastReceived(List<Weatherdto> weatherList);
+	void onFourDayWeatherForecastReceived(List<ForecastWeatherDto> weatherList);
+	void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory);
+	void onNearbyLocationsDataReceived(List<OutdoorAQI> nearbyLocationAQIs);
 }

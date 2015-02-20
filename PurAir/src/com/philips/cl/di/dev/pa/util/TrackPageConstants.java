@@ -49,9 +49,9 @@ public interface TrackPageConstants {
 	String SCHEDULE_FAN_SPEED = "Schedule:FanSpeed";
 	String SCHEDULE_DAYS = "Schedule:Days";
 	
-	public static final String BOOT_STRAP_KEY_2 = "N2NmMmQ0" ;
-	public static final String CMA_PRIVATE_KEY_2 = "Vfd2V";
-	public static final String CMA_APP_ID_4 = "MjdmZDg=" ;
+	String BOOT_STRAP_KEY_2 = "N2NmMmQ0" ;
+	String CMA_PRIVATE_KEY_2 = "Vfd2V";
+	String CMA_APP_ID_4 = "MjdmZDg=" ;
 
     String SCHEDULE = "Schedule";
     String SCHEDULE_OVERVIEW = "Schedule:Overview";
