@@ -2,10 +2,10 @@ package com.philips.cl.di.dev.pa.cpp;
 
 public interface CppDiscoverEventListener {
 
-	public void onSignedOnViaCpp();
+	void onSignedOnViaCpp();
 
-	public void onSignedOffViaCpp();
+	void onSignedOffViaCpp();
 
-	public void onDiscoverEventReceived(String data, boolean isResponseToRequest);
+	void onDiscoverEventReceived(String data, boolean isResponseToRequest);
 
 }
