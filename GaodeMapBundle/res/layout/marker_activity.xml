@@ -19,8 +19,8 @@
         android:layout_marginTop="16dp"
         android:clickable="true"
         android:contentDescription="@string/img_description"
-        android:padding="8dp"
-        android:src="@drawable/close_icon_blue"
+        android:padding="12dp"
+        android:src="@drawable/cross_close"
         android:visibility="gone" />
 
     <include layout="@layout/map_details_drawer" />
