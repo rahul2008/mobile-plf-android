@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -36,9 +37,11 @@ public class Utils {
 					return true;
 			}
 		}
-		Toast.makeText(activity,
-				activity.getResources().getString(R.string.no_internet),
-				Toast.LENGTH_SHORT).show();
+
+		Toast toast = Toast.makeText(activity, "No internet connection",
+				Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
 		return false;
 	}
 
