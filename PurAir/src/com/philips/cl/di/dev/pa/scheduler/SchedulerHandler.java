@@ -34,12 +34,10 @@ public class SchedulerHandler implements ServerResponseListener {
 		this.purifier = purifier;
 		switch (purifier.getConnectionState()) {
 		case CONNECTED_LOCALLY:
-			sendScheduleDetailsLocally(dataToSend, scheduleType, purifier,
-					scheduleNumber);
+			sendScheduleDetailsLocally(dataToSend, scheduleType, purifier,	scheduleNumber);
 			break;
 		case CONNECTED_REMOTELY:
-			sendScheduleDetailsViaCPP(dataToSend, scheduleType,
-					purifier.getEui64(), scheduleNumber);
+			sendScheduleDetailsViaCPP(dataToSend, scheduleType,	purifier.getEui64(), scheduleNumber);
 			break;
 		case DISCONNECTED:
 			break;
@@ -67,15 +65,13 @@ public class SchedulerHandler implements ServerResponseListener {
 			break;
 		case EDIT:
 			requestType = AppConstants.REQUEST_METHOD_PUT;
-			url = Utils.getScheduleDetailsUrl(purifier.getIpAddress(),
-					scheduleNumber);
+			url = Utils.getScheduleDetailsUrl(purifier.getIpAddress(), scheduleNumber);
 			break;
 		default:
 			break;
 		}
 		TaskPutDeviceDetails addSchedulerTask = new TaskPutDeviceDetails(
-				new DISecurity(null).encryptData(dataToSend, purifier), url,
-				this, requestType);
+				new DISecurity(null).encryptData(dataToSend, purifier), url, this, requestType);
 		Thread addSchedulerThread = new Thread(addSchedulerTask);
 		addSchedulerThread.start();
 	}
@@ -151,13 +147,11 @@ public class SchedulerHandler implements ServerResponseListener {
 
 	private void notifyListener(int responseCode, String data, String fromIp) {
 		ALog.i(ALog.DEVICEHANDLER, "Response Code: " + responseCode);
-		if (mListener == null)
-			return;
+		if (mListener == null)	return;
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			mListener.onLocalEventReceived(data, fromIp);
 		} else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-			String encryptedData = new DISecurity(null).encryptData(data,
-					purifier);
+			String encryptedData = new DISecurity(null).encryptData(data, purifier);
 			mListener.onLocalEventReceived(encryptedData, fromIp);
 		} else {
 			mListener.onLocalEventLost(PurifierEvent.SCHEDULER);

@@ -40,7 +40,7 @@ public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedL
 		fanModes = getResources().getStringArray(R.array.fanspeed_array);
 		selectItemPosition = SchedulerUtil.getFanspeedItemPosition(fanSpeedTemp);
 		fanSpeedAdapter = new FanSpeedAdapter(getActivity(), 
-				R.layout.fanspeed_scheduler, fanModes, selectItemPosition, this);
+				R.layout.repeat_scheduler_item, fanModes, selectItemPosition, this);
 		listView.setAdapter(fanSpeedAdapter);
 		((SchedulerActivity)getActivity()).setFanSpeed(getFanspeed(selectItemPosition));
 	}

@@ -5,13 +5,11 @@ import java.util.Collections;
 import java.util.List;
 
 import android.app.ProgressDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
@@ -28,7 +26,7 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
-public class SchedulerActivity extends BaseActivity implements OnTimeSetListener, SchedulerListener, DiscoveryEventListener {
+public class SchedulerActivity extends BaseActivity implements SchedulerListener, DiscoveryEventListener {
 
     private static boolean cancelled;
 	private String selectedDays = "";
@@ -143,9 +141,8 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 	 */
 	public void save() {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");
-		if (selectedDays.equals(getString(R.string.onetime)))
-			selectedDays = "";
-
+		if (selectedDays.equals(getString(R.string.onetime))) selectedDays = "";
+			
 		if (scheduleType == SCHEDULE_TYPE.ADD) {
 			addScheduler();
 		} else if (scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
@@ -157,17 +154,8 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 		return SchedulerMarked4Deletion;
 	}
 
-	@Override
-	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		String time;
-		time = String.format("%2d:%02d", hourOfDay, minute);
-		// String time = hourOfDay + ":" + minute;
-
-		selectedTime = time;
-		ALog.i(ALog.SCHEDULER,
-				"SchedulerActivity::onTimeSet() method - SelectedTime is "
-						+ selectedTime);
-		showAddSchedulerFragment();
+	public void setTime(int hourOfDay, int minute) {
+		selectedTime = String.format("%2d:%02d", hourOfDay, minute);;
 	}
 
 	private void showProgressDialog() {
@@ -207,22 +195,6 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 				purAirDevice, scheduleType, -1);
 	}
 
-	/**
-	 * 
-	 * @param time
-	 * @param date
-	 * @param speed
-	 * @param markedDelete
-	 */
-	// private void setDetails(List<Integer> markedDelete) {
-	// if (markedDelete != null) {
-	// SchedulerMarked4Deletion = markedDelete;
-	// }
-	// ALog.d(ALog.DISCOVERY,
-	// "SchedulerMarked4Deletion in updateCRUDOperationData: " +
-	// SchedulerMarked4Deletion.toString());
-	// }
-
 	private void showSchedulerOverviewFragment() {
 		try {
 			schFragment = new SchedulerOverviewFragment();
@@ -235,7 +207,7 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 		}
 	}
 
-	private void showAddSchedulerFragment() {
+	public void showAddSchedulerFragment() {
 		Bundle bundle = new Bundle();
 		if (scheduleType == SCHEDULE_TYPE.ADD
 				|| scheduleType == SCHEDULE_TYPE.EDIT
@@ -312,7 +284,8 @@ public class SchedulerActivity extends BaseActivity implements OnTimeSetListener
 	}
 
 	// Add new schedule
-	public void initializeDayAndFanspeed() {
+	public void initializeDayAndFanspeedTime() {
+		selectedTime = "";
 		selectedDays = "";
 		selectedFanspeed = "";
 	}

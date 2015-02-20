@@ -48,7 +48,7 @@
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:padding="4dp"
-        android:src="@drawable/about_air_quality_goto"
+        android:src="@drawable/right_arrow_list_item"
         android:textColor="@color/white"
         android:visibility="invisible" />
 

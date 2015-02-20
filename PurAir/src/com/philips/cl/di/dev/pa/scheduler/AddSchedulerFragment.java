@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
-import android.graphics.Typeface;
+import java.util.Calendar;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
@@ -20,12 +22,14 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class AddSchedulerFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
+public class AddSchedulerFragment extends BaseFragment implements OnClickListener, 
+	OnCheckedChangeListener {
 
 	private String sSelectedTime = "";
 	private String sSelectedDays = "";
 	private String sSelectedFanspeed = "";
 	private boolean enabled ;
+	private TimePicker timePicker;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +43,12 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		MetricsTracker.trackPage(TrackPageConstants.ADD_SCHEDULE);
 		initViews(getView());
 	}
+	
+	@Override
+	public void onResume() {
+		setTimePickerTime();
+		super.onResume();
+	}
 
 	private void initViews(View view) {
 		if (getActivity() == null) return;
@@ -50,6 +60,8 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		saveBtn.setOnClickListener(this);
 		
 		FontTextView headingTV = (FontTextView) getView().findViewById(R.id.scheduler_heading_tv);
+		timePicker = (TimePicker) view.findViewById(R.id.scheduler_timePicker);
+		timePicker.setIs24HourView(true);
 		
 		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
 		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
@@ -57,7 +69,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		enabled = getArguments().getBoolean(SchedulerConstants.ENABLED) ;
 		String heading = getArguments().getString(SchedulerConstants.HEADING);
 		
-		if (heading == null) {
+		if (heading != null) {
 			headingTV.setText(heading);
 		}
 		
@@ -71,18 +83,10 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		sSelectedDays = setWeekDays(sSelectedDays);
 		
-		FontTextView tvAddTime = (FontTextView) view.findViewById(R.id.tvAddTime);
-		tvAddTime.setOnClickListener(this);
-		tvAddTime.setTypeface(null, Typeface.BOLD);
-		FontTextView txtView = (FontTextView) view.findViewById(R.id.tvAddSchdeduler);
-		txtView.setText(sSelectedTime);
-		
 		FontTextView tvRepeat = (FontTextView) view.findViewById(R.id.repeat);
 		tvRepeat.setOnClickListener(this);
-		tvRepeat.setTypeface(null, Typeface.BOLD);
 		FontTextView tvFanSpeed = (FontTextView) view.findViewById(R.id.fanspeed);
 		tvFanSpeed.setOnClickListener(this);
-		tvFanSpeed.setTypeface(null, Typeface.BOLD);
 		
 		FontTextView repeat_text = (FontTextView) view.findViewById(R.id.repeattext);
 		if(sSelectedDays != null && !sSelectedDays.isEmpty()) {
@@ -93,10 +97,31 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		if(sSelectedFanspeed != null && !sSelectedFanspeed.isEmpty()) {
 			fanspeed_text.setText(SchedulerUtil.getFanspeedName(sSelectedFanspeed));
 		}
-		((FontTextView) view.findViewById(R.id.tvEnableSchedule)).setTypeface(null, Typeface.BOLD);
 		ToggleButton enableDisableBtn = (ToggleButton) view.findViewById(R.id.enable_schedule_toggle);
 		enableDisableBtn.setChecked(enabled);
 		enableDisableBtn.setOnCheckedChangeListener(this);
+	}
+	
+	private void setTimePickerTime() {
+		int hour = 0;
+		int min = 0;
+		if (sSelectedTime == null || sSelectedTime.isEmpty() ) {
+			Calendar calendar = Calendar.getInstance();
+			hour = calendar.get(Calendar.HOUR_OF_DAY);
+			min = calendar.get(Calendar.MINUTE);
+		} else {
+			String[] times = sSelectedTime.split(":"); // HH:mm
+			if (times.length == 2) {
+				try {
+					hour = Integer.parseInt(times[0]);
+					min = Integer.parseInt(times[1]);
+				} catch (NumberFormatException e) {
+					ALog.e(ALog.ERROR, "NumberFormatException");
+				}
+			}
+		}
+		timePicker.setCurrentHour(hour);
+		timePicker.setCurrentMinute(min);
 	}
 	
 	public void setTime(String time) {
@@ -153,15 +178,6 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		SchedulerActivity activity = (SchedulerActivity) getActivity();
 		Bundle bundle = new Bundle();
 		switch(v.getId()) {
-			case R.id.tvAddTime:
-			try {
-				android.support.v4.app.DialogFragment newFragment = new TimePickerFragment();
-				((TimePickerFragment) newFragment).setTime(sSelectedTime);
-				newFragment.show(getActivity().getSupportFragmentManager(), SchedulerConstants.TIMER_FRAGMENT_TAG);
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			}
-			break;
 			case R.id.repeat:
 				bundle.putString(SchedulerConstants.DAYS, sSelectedDays);
 				RepeatFragment fragRepeat = new RepeatFragment();
@@ -181,6 +197,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 				break;
 			case R.id.scheduler_save_btn:
 				if (activity != null) {
+					activity.setTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 					activity.save();
 				}
 				break;
@@ -207,5 +224,4 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		}
 		
 	}
-
 }

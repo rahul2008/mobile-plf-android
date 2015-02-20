@@ -117,7 +117,8 @@ public class ManagePurifierFragment extends BaseFragment implements
         PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection
 		arrayAdapter = new ManagePurifierArrayAdapter(getActivity(),
-				R.layout.simple_list_item, purifiers, listView, editTV.getText().toString(), selectedItems, this);
+				R.layout.simple_list_item, purifiers, editTV.getText().toString(), selectedItems, this);
+		listView.setOnItemClickListener(arrayAdapter.managePurifierItemClickListener);
 		listView.setAdapter(arrayAdapter);
 
 		if (purifiers.isEmpty()) {
@@ -231,14 +232,10 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
 	@Override
-	public void onPairingSuccess(PurAirDevice purifier) {
-	// TODO
-	}
+	public void onPairingSuccess(PurAirDevice purifier) {/**NOP*/}
 
 	@Override
-	public void onPairingFailed(PurAirDevice purifier) {
-		// TODO
-	}
+	public void onPairingFailed(PurAirDevice purifier) {/**NOP*/}
 
 	@Override
 	public void onItemClickGoToAddPurifier() {

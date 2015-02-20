@@ -1,34 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rs_main_lyt"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
-    android:padding="16dp" >
+    android:padding="16dp"
+    android:background="@drawable/list_item_selector"
+    android:orientation="horizontal"
+    android:gravity="center_vertical" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/rs_daytxt"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/rs_dayimg"
+        android:layout_weight="1"
         android:text="@string/sunday"
-        android:textColor="@color/title_gray"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:textColor="@color/blue_list_item"
+        android:textSize="20sp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
-        android:id="@+id/rs_dayimg"
+        android:id="@+id/rs_day_tick_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
         android:contentDescription="@string/img_description"
-        android:enabled="false"
+        android:visibility="gone"
         android:src="@drawable/tick" />
-
-</RelativeLayout>
+</LinearLayout>

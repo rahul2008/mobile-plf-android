@@ -2,8 +2,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/white" >
-    
-     <include
+
+    <include
         android:id="@+id/schedule_heading_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -11,39 +11,32 @@
         android:layout_alignParentTop="true"
         layout="@layout/schedule_heading" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/sch_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:id="@+id/schedule_add_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/schedule_heading_rl"
-        android:layout_margin="16dp"
-        android:background="@drawable/save"
-        android:gravity="center"
-        android:text="@string/edit"
-        android:textColor="@color/white"
+        android:drawableLeft="@drawable/add_blue"
+        android:background="@drawable/list_item_selector"
+        android:clickable="true"
+        android:drawablePadding="8dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/add_schedule"
+        android:textColor="@color/blue_list_item"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <ImageView
-        android:id="@+id/sch_add"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/schedule_heading_rl"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/img_description"
-        android:scaleType="centerCrop"
-        android:src="@drawable/plus_blue"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+        custom:fontAssetName="fonts/centralesanslight.ttf"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/event_scheduler_listview_top_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/sch_edit"
+        android:layout_below="@+id/schedule_add_tv"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
 

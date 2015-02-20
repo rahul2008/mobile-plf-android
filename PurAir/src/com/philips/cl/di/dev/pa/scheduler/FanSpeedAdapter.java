@@ -1,17 +1,16 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FanSpeedAdapter extends ArrayAdapter<String> {
@@ -33,14 +32,16 @@ public class FanSpeedAdapter extends ArrayAdapter<String> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.fanspeed_scheduler, null);
-		final FontTextView fanSpeed = (FontTextView) view.findViewById(R.id.fanspeed_item);
-		final RelativeLayout fanSpeedLayout = (RelativeLayout) view.findViewById(R.id.fanspeed_lyt);
+		View view = inflater.inflate(R.layout.repeat_scheduler_item, null);
+		final FontTextView fanSpeed = (FontTextView) view.findViewById(R.id.rs_daytxt);
+		final LinearLayout fanSpeedLayout = (LinearLayout) view.findViewById(R.id.rs_main_lyt);
+		final ImageView tickImageView = (ImageView) view.findViewById(R.id.rs_day_tick_iv);
+		tickImageView.setVisibility(View.GONE);
+		
 		final int tempPosition = position;
 		fanSpeed.setText(fanModes[tempPosition]);
 		if (tempPosition == selectedItemPosition) {
-			fanSpeedLayout.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
-			fanSpeed.setTextColor(Color.WHITE);
+			tickImageView.setVisibility(View.VISIBLE);
 		}
 		
 		fanSpeedLayout.setOnClickListener(new OnClickListener() {

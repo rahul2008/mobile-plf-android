@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -29,7 +28,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
     private String edit;
 
 	public ManagePurifierArrayAdapter(Context context, int resource,
-			List<PurAirDevice> purifiers, ListView listView, String edit,
+			List<PurAirDevice> purifiers, String edit,
 			HashMap<String, Boolean> selectedItems, DashboardUpdateListener listener) {
 		super(context, resource, purifiers);
 		this.purifiers = purifiers;
@@ -38,7 +37,6 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 		this.selectedItems = selectedItems;
         this.edit = edit;
 		this.listener = listener;
-		listView.setOnItemClickListener(managePurifierItemClickListener);
 	}
 
 	@Override
@@ -104,7 +102,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
         }
     }
 
-	private OnItemClickListener managePurifierItemClickListener = new OnItemClickListener() {
+	public OnItemClickListener managePurifierItemClickListener = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
