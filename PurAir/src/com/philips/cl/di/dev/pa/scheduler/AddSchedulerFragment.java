@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
@@ -83,9 +84,9 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		sSelectedDays = setWeekDays(sSelectedDays);
 		
-		FontTextView tvRepeat = (FontTextView) view.findViewById(R.id.repeat);
+		ViewGroup tvRepeat = (RelativeLayout) view.findViewById(R.id.repeat_rl);
 		tvRepeat.setOnClickListener(this);
-		FontTextView tvFanSpeed = (FontTextView) view.findViewById(R.id.fanspeed);
+		ViewGroup tvFanSpeed = (RelativeLayout) view.findViewById(R.id.fanspeed_rl);
 		tvFanSpeed.setOnClickListener(this);
 		
 		FontTextView repeat_text = (FontTextView) view.findViewById(R.id.repeattext);
@@ -178,13 +179,13 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		SchedulerActivity activity = (SchedulerActivity) getActivity();
 		Bundle bundle = new Bundle();
 		switch(v.getId()) {
-			case R.id.repeat:
+			case R.id.repeat_rl:
 				bundle.putString(SchedulerConstants.DAYS, sSelectedDays);
 				RepeatFragment fragRepeat = new RepeatFragment();
 				fragRepeat.setArguments(bundle);
 				showFragment(fragRepeat, SchedulerConstants.REPEAT_FRAGMENT_TAG);
 				break;
-			case R.id.fanspeed:
+			case R.id.fanspeed_rl:
 				bundle.putString(SchedulerConstants.SPEED, sSelectedFanspeed);
 				FanspeedFragment fragFanSpeed = new FanspeedFragment();
 				fragFanSpeed.setArguments(bundle);
