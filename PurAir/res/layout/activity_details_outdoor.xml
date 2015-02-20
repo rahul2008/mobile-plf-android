@@ -240,7 +240,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="25dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
+                android:background="@drawable/blue_button_selector"
                 android:onClick="aqiAnalysisClick"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"

@@ -22,6 +22,7 @@
             android:textColor="@color/blue_title"
             android:textSize="@dimen/text_size_medium"
             android:layout_marginLeft="16dp"
+            android:background="@drawable/list_item_selector"
             android:text="@string/edit"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 

@@ -35,7 +35,7 @@
                 android:layout_gravity="right"
                 android:background="@drawable/image_btn_bg"
                 android:contentDescription="@string/img_description"
-                android:padding="16dp"
+				android:padding="12dp"
                 android:src="@drawable/cross_close" />
         </LinearLayout>
 

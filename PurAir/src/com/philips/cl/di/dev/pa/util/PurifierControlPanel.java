@@ -139,12 +139,12 @@ public class PurifierControlPanel implements OnClickListener {
 		switch (fan) {
 		case SILENT:
 			fanSpeed.setText(mainActivity.getString(R.string.silent));
-			buttonImage = R.drawable.button_blue_bg_2x;
+			buttonImage = R.drawable.philips_blue_btn;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 			break;
 		case AUTO:
 			fanSpeed.setText(mainActivity.getString(R.string.auto));
-			buttonImage = R.drawable.button_blue_bg_2x;
+			buttonImage = R.drawable.philips_blue_btn;
 			fanSpeedAuto.setChecked(true);
 			isFanSpeedAuto = true;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
@@ -157,7 +157,7 @@ public class PurifierControlPanel implements OnClickListener {
 			break;
 		case TURBO:
 			fanSpeed.setText(mainActivity.getString(R.string.turbo));
-			buttonImage = R.drawable.button_blue_bg_2x;
+			buttonImage = R.drawable.philips_blue_btn;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 			break;
 		case ONE:
@@ -283,7 +283,7 @@ public class PurifierControlPanel implements OnClickListener {
 			break;
 		case R.id.fan_speed_silent:
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundResource(R.drawable.button_blue_bg_2x);
+			fanSpeed.setBackgroundResource(R.drawable.philips_blue_btn);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -311,7 +311,7 @@ public class PurifierControlPanel implements OnClickListener {
 			break;
 		case R.id.fan_speed_turbo:
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundResource(R.drawable.button_blue_bg_2x);
+			fanSpeed.setBackgroundResource(R.drawable.philips_blue_btn);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -407,11 +407,11 @@ public class PurifierControlPanel implements OnClickListener {
 						: R.drawable.fan_speed_two_white);
 		fanSpeedThree.setBackgroundResource((id == fanSpeedThree.getId()) ? R.drawable.fan_speed_three
 						: R.drawable.fan_speed_three_white);
-		fanSpeedSilent.setBackgroundResource((id == fanSpeedSilent.getId()) ? R.drawable.button_blue_bg_2x
+		fanSpeedSilent.setBackgroundResource((id == fanSpeedSilent.getId()) ? R.drawable.philips_blue_btn
 						: R.drawable.button_bg_normal_2x);
 		fanSpeedSilent.setTextColor((id == fanSpeedSilent.getId()) ? Color.WHITE
 						: Color.rgb(109, 109, 109));
-		fanSpeedTurbo.setBackgroundResource((id == fanSpeedTurbo.getId()) ? R.drawable.button_blue_bg_2x
+		fanSpeedTurbo.setBackgroundResource((id == fanSpeedTurbo.getId()) ? R.drawable.philips_blue_btn
 						: R.drawable.button_bg_normal_2x);
 		fanSpeedTurbo.setTextColor((id == fanSpeedTurbo.getId()) ? Color.WHITE
 				: Color.rgb(109, 109, 109));
@@ -420,7 +420,7 @@ public class PurifierControlPanel implements OnClickListener {
 	private void toggleTimerButtonBackground(int id) {
 		for (int i = 0; i < timerButtons.length; i++) {
 			if (id == timerButtons[i].getId()) {
-				timerButtons[i].setBackgroundResource(R.drawable.button_blue_bg_2x);
+				timerButtons[i].setBackgroundResource(R.drawable.philips_blue_btn);
 				timerButtons[i].setTextColor(Color.WHITE);
 
 			} else {
@@ -466,7 +466,7 @@ public class PurifierControlPanel implements OnClickListener {
 			indicatorLight.setClickable(true);
 			childLock.setClickable(true);
 			timer.setClickable(true);
-			timer.setBackgroundResource(R.drawable.button_blue_bg_2x);
+			timer.setBackgroundResource(R.drawable.philips_blue_btn);
 
 			childLock.setChecked(getOnOffStatus(airPurifierEventDto
 					.getChildLock()));

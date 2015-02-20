@@ -58,6 +58,6 @@
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:padding="12dp"
-        android:src="@drawable/lef_arrow_blue_2x" />
+        android:src="@drawable/back_arrow" />
 
 </RelativeLayout>

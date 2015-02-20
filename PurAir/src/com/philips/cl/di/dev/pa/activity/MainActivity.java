@@ -73,7 +73,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
-import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
@@ -462,32 +461,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		public void onClick(View view) {
 			Intent intent;
 			switch (view.getId()) {
-			case R.id.right_menu_img:
-
-				if(Utils.getAppFirstUse() && !PurAirApplication.isDemoModeEnable()) return;
-
-				if (mRightDrawerOpened) {
-					mDrawerLayout.closeDrawer(mScrollViewRight);
-				} else {
-					mDrawerLayout.closeDrawer(mListViewLeft);
-					mDrawerLayout.openDrawer(mScrollViewRight);
-				}
-				break;
-			case R.id.left_menu_img:
-				if (mLeftDrawerOpened) {
-					mDrawerLayout.closeDrawer(mListViewLeft);
-				} else {
-					mDrawerLayout.closeDrawer(mScrollViewRight);
-					mDrawerLayout.openDrawer(mListViewLeft);
-				}
-				break;
-			case R.id.add_location_img:
-				intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.back_to_home_img:
-				//TODO
-				break;
 			case R.id.clean_filter_link:
 				intent = new Intent(Intent.ACTION_VIEW);
 				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_clean.mp4"), "video/mp4");

@@ -16,10 +16,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/img_description"
-            android:paddingBottom="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:src="@drawable/help_close" />
+            android:background="@drawable/clickable_image_bg_selector"
+			android:padding="12dp"
+            android:src="@drawable/cross_close" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

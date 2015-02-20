@@ -23,7 +23,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/iv_goto_support"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/help_close" />
+        android:background="@drawable/clickable_image_bg_selector"
+		android:padding="12dp"
+        android:src="@drawable/cross_close" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

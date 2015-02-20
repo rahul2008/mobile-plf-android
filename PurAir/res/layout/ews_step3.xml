@@ -162,7 +162,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/help_close"
+                android:background="@drawable/clickable_image_bg_selector"
+                android:src="@drawable/cross_close"
                 android:contentDescription="@string/img_description" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
