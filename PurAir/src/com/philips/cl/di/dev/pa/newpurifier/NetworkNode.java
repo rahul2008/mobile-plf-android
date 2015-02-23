@@ -1,7 +1,10 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class NetworkNode {
+
+public class NetworkNode implements Parcelable {
 	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
 	private String mIpAddress;
@@ -112,4 +115,51 @@ public class NetworkNode {
 	}
 
 	
+
+    protected NetworkNode(Parcel in) {
+        mIpAddress = in.readString();
+        mCppId = in.readString();
+        mConnectionState = ConnectionState.values()[in.readInt()];
+        mName = in.readString();
+        mModelName = in.readString();
+        mHomeSsid = in.readString();
+        mBootId = in.readLong();
+        mEncryptionKey = in.readString();
+        mIsOnlineViaCpp = in.readByte() != 0x00;
+        mPairedState = PAIRED_STATUS.values()[in.readInt()];
+        mLastPairedTime = in.readLong();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mIpAddress);
+        dest.writeString(mCppId);
+        dest.writeInt(mConnectionState.ordinal());
+        dest.writeString(mName);
+        dest.writeString(mModelName);
+        dest.writeString(mHomeSsid);
+        dest.writeLong(mBootId);
+        dest.writeString(mEncryptionKey);
+        dest.writeByte((byte) (mIsOnlineViaCpp ? 0x01 : 0x00));
+        dest.writeInt(mPairedState.ordinal());
+        dest.writeLong(mLastPairedTime);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
+        @Override
+        public NetworkNode createFromParcel(Parcel in) {
+            return new NetworkNode(in);
+        }
+
+        @Override
+        public NetworkNode[] newArray(int size) {
+            return new NetworkNode[size];
+        }
+    };
 }
