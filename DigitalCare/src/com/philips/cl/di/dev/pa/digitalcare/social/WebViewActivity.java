@@ -1,8 +1,10 @@
 package com.philips.cl.di.dev.pa.digitalcare.social;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ public class WebViewActivity extends Activity {
 	public final static String EXTRA_URL = "extra_url";
 	private ProgressDialog mDialog = null;
 
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class WebViewActivity extends Activity {
 			Log.e("Twitter", "URL cannot be null");
 			finish();
 		}
+		webView.getSettings().setJavaScriptEnabled(true);
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.loadUrl(url);
 	}
@@ -65,9 +69,11 @@ public class WebViewActivity extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		if (mDialog != null) {
 		mDialog.dismiss();
 		mDialog.cancel();
 		mDialog = null;
+		}
 	}
 
 	class MyWebViewClient extends WebViewClient {
@@ -83,6 +89,13 @@ public class WebViewActivity extends Activity {
 			} catch (Exception exception) {
 				exception.printStackTrace();
 			}
+		}
+		@Override
+		public void onPageStarted(WebView view, String url, Bitmap favicon) {
+			super.onPageStarted(view, url, favicon);
+			if (mDialog == null)
+				mDialog = new ProgressDialog(WebViewActivity.this);
+			mDialog.setMessage("Loading...");
 		}
 
 		@Override
