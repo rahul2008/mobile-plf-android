@@ -60,7 +60,7 @@
                     android:layout_marginTop="60dp"
                     android:text="@string/pre_filter"
                     android:textColor="@color/blue_list_item"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_large"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -110,7 +110,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/multicarefilter"
                     android:textColor="@color/blue_list_item"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/text_size_large"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
