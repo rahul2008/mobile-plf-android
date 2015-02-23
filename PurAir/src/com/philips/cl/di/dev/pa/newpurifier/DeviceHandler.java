@@ -19,7 +19,7 @@ public class DeviceHandler implements ServerResponseListener {
 	private SubscriptionEventListener mListener;
 	private PurifierEvent mPurifierEvent ;
 	private Thread statusUpdateTaskThread ;
-	private PurAirDevice purifier ;
+	private NetworkNode mNetworkNode ;
 	
 	private Hashtable<String, String> deviceDetailsTable ;
 	private boolean stop;
@@ -39,19 +39,19 @@ public class DeviceHandler implements ServerResponseListener {
 		mPurifierEvent = purifierEvent ;
 	}
 
-	public synchronized void setPurifierDetails(String key, String value, PurAirDevice purifier) {
-		if (purifier == null) return;
-		this.purifier = purifier;
+	public synchronized void setPurifierDetails(String key, String value, NetworkNode networkNode) {
+		if (networkNode == null) return;
+		this.mNetworkNode = networkNode;
 		stop = false;
 		deviceDetailsTable.put(key, value) ;
-		ALog.i(ALog.DEVICEHANDLER, "Setting \"" + key + "\" to " + value + " for purifier: " + purifier.getName());
+		ALog.i(ALog.DEVICEHANDLER, "Setting \"" + key + "\" to " + value + " for appliance: " + networkNode.getName());
 		
 		if( statusUpdateTaskThread == null || !statusUpdateTaskThread.isAlive()) {
-			startUpdateTask(purifier) ;
+			startUpdateTask(networkNode) ;
 		}		
 	}
 	
-	private void startUpdateTask(PurAirDevice purifier) {
+	private void startUpdateTask(NetworkNode networkNode) {
 		ALog.i(ALog.DEVICEHANDLER, "Start update task") ;
 		StatusUpdateThread status = new StatusUpdateThread() ;
 		statusUpdateTaskThread = new Thread(status) ;
@@ -100,7 +100,7 @@ public class DeviceHandler implements ServerResponseListener {
 			while(deviceDetailsTable.size() != 0 && !stop) {	
 				this.airPortDetailsTable.putAll(deviceDetailsTable) ;
 				deviceDetailsTable.clear() ;
-				connection = RoutingStrategy.getConnection(purifier.getNetworkNode(), this.airPortDetailsTable) ;
+				connection = RoutingStrategy.getConnection(mNetworkNode, this.airPortDetailsTable) ;
 				if( connection != null) {
 					response = connection.setPurifierDetails() ;
 				}
@@ -112,11 +112,11 @@ public class DeviceHandler implements ServerResponseListener {
 	private void notifyListener() {
 		if( stop == true ) return ;
 		if( response != null && !response.isEmpty() ) {
-			if( purifier.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-				mListener.onLocalEventReceived(response, purifier.getIpAddress()) ;
+			if( mNetworkNode.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+				mListener.onLocalEventReceived(response, mNetworkNode.getIpAddress()) ;
 			}
-			else if( purifier.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
-				mListener.onRemoteEventReceived(response, purifier.getEui64()) ;
+			else if( mNetworkNode.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
+				mListener.onRemoteEventReceived(response, mNetworkNode.getCppId()) ;
 			}
 		}
 		else {

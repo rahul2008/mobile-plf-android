@@ -155,7 +155,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
-		mDeviceHandler.setPurifierDetails(key, value, getCurrentPurifier());
+		if(getCurrentPurifier()!=null)
+			mDeviceHandler.setPurifierDetails(key, value, getCurrentPurifier().getNetworkNode());
 	}
 	
 	@Override
