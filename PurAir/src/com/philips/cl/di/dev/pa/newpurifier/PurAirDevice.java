@@ -29,8 +29,6 @@ public class PurAirDevice extends Observable {
 		this.mNetworkNode.setLastPairedTime(mLastPairedTime);
 	}
 
-	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING};
-	
 	private AirPortInfo 		   mAirPortInfo;
 	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
@@ -129,31 +127,31 @@ public class PurAirDevice extends Observable {
 		notifyObservers();
 	}
 
-	public synchronized PAIRED_STATUS getPairedStatus() {
+	public synchronized NetworkNode.PAIRED_STATUS getPairedStatus() {
 		return mNetworkNode.getPairedState();
 	}
 
-	public synchronized void setPairing(PAIRED_STATUS status) {
+	public synchronized void setPairing(NetworkNode.PAIRED_STATUS status) {
 		this.mNetworkNode.setPairedState(status);
 	}
 	
-	public static PAIRED_STATUS getPairedStatusKey(int status){
-		PAIRED_STATUS state = null;
+	public static NetworkNode.PAIRED_STATUS getPairedStatusKey(int status){
+		NetworkNode.PAIRED_STATUS state = null;
 		switch(status){
 		case 0:
-			state= PAIRED_STATUS.PAIRED;
+			state= NetworkNode.PAIRED_STATUS.PAIRED;
 			break;
 		case 1:
-			state= PAIRED_STATUS.NOT_PAIRED;
+			state= NetworkNode.PAIRED_STATUS.NOT_PAIRED;
 			break;
 		case 2:
-			state= PAIRED_STATUS.UNPAIRED;
+			state= NetworkNode.PAIRED_STATUS.UNPAIRED;
 			break;
 		case 3:
-			state= PAIRED_STATUS.PAIRING;
+			state= NetworkNode.PAIRED_STATUS.PAIRING;
 			break;
 		default:
-			state= PAIRED_STATUS.NOT_PAIRED;
+			state= NetworkNode.PAIRED_STATUS.NOT_PAIRED;
 			break;
 		}
 		return state;

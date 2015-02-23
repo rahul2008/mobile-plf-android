@@ -30,7 +30,7 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -150,7 +150,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDevicesMap.remove(eui64);
 	}
 	
-	public void updatePairingStatus(String eui64, PAIRED_STATUS state) {
+	public void updatePairingStatus(String eui64, NetworkNode.PAIRED_STATUS state) {
 		if (eui64 == null || eui64.isEmpty()) return;
 		if (mDevicesMap.containsKey(eui64)) {
 			mDevicesMap.get(eui64).setPairing(state);
@@ -173,7 +173,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if(addToNewDeviceList) {
 				//Add connected device only, ignore disconnected
 				if (device.getConnectionState() != ConnectionState.DISCONNECTED) {
-					device.setPairing(PAIRED_STATUS.NOT_PAIRED);
+					device.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 					newDevices.add(device) ;
 				}
 			}
@@ -349,7 +349,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			existingPurifier.setBootId(newPurifier.getBootId());
 			startKeyExchange(existingPurifier);
 			notifyListeners = false; // only sent events when we have new key
-			existingPurifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+			existingPurifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
 
@@ -401,7 +401,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (device.getLastKnownNetworkSsid() != null && device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
-			if (device.getPairedStatus() != PurAirDevice.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not paired or not online
+			if (device.getPairedStatus() != NetworkNode.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not paired or not online
 
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
@@ -417,7 +417,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getPairedStatus() != PurAirDevice.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not online via cpp
+			if (device.getPairedStatus() != NetworkNode.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not online via cpp
 
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
@@ -431,7 +431,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
 		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED && device.isOnlineViaCpp()) {
+			if (device.getPairedStatus()==NetworkNode.PAIRED_STATUS.PAIRED && device.isOnlineViaCpp()) {
 				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 				statusUpdated = true;
 				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + device.getName());
@@ -522,7 +522,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	private boolean updateConnectedStateOnlineViaCpp(PurAirDevice purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOnlineViaCpp: "+purifier) ;
-		if (purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED) return false;
+		if (purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) return false;
 		if (purifier.getConnectionState() != ConnectionState.DISCONNECTED) return false;
 		if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
 

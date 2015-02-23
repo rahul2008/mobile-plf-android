@@ -23,8 +23,9 @@ import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -181,9 +182,9 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 		if (purifier == null)	return;
 
-		if (purifier.getPairedStatus() == PAIRED_STATUS.PAIRED) {
+		if (purifier.getPairedStatus() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			// Remove pairing
-			PairingHandler pairingHandler = new PairingHandler(this, purifier);
+			PairingHandler pairingHandler = new PairingHandler(this, purifier.getNetworkNode());
 			pairingHandler.initializeRelationshipRemoval();
 		}
 
@@ -219,7 +220,7 @@ public class ManagePurifierFragment extends BaseFragment implements
             DiscoveryManager.getInstance().removeFromDiscoveredList(purifier.getEui64());
         } else {
             DiscoveryManager.getInstance().updatePairingStatus(
-                    purifier.getEui64(), PAIRED_STATUS.NOT_PAIRED);
+                    purifier.getEui64(), NetworkNode.PAIRED_STATUS.NOT_PAIRED);
         }
     }
 
@@ -232,10 +233,10 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
 	@Override
-	public void onPairingSuccess(PurAirDevice purifier) {/**NOP*/}
+	public void onPairingSuccess(NetworkNode networkNode) {/**NOP*/}
 
 	@Override
-	public void onPairingFailed(PurAirDevice purifier) {/**NOP*/}
+	public void onPairingFailed(NetworkNode networkNode) {/**NOP*/}
 
 	@Override
 	public void onItemClickGoToAddPurifier() {

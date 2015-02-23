@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.cpp;
 
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 
 
 public interface PairingListener {	
-	void onPairingSuccess(PurAirDevice purifier);
-	void onPairingFailed(PurAirDevice purifier);
+	void onPairingSuccess(NetworkNode networkNode);
+	void onPairingFailed(NetworkNode networkNode);
 }

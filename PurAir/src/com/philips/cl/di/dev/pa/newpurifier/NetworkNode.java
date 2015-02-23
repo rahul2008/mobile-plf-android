@@ -1,8 +1,9 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 
 public class NetworkNode {
+	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
+
 	private String mIpAddress;
 	private String mCppId;
 	private ConnectionState mConnectionState;
@@ -94,11 +95,11 @@ public class NetworkNode {
 		this.mIsOnlineViaCpp = isOnlineViaCpp;
 	}
 
-	public PAIRED_STATUS getPairedState() {
+	public NetworkNode.PAIRED_STATUS getPairedState() {
 		return mPairedState;
 	}
 
-	public void setPairedState(PAIRED_STATUS pairedState) {
+	public void setPairedState(NetworkNode.PAIRED_STATUS pairedState) {
 		this.mPairedState = pairedState;
 	}
 

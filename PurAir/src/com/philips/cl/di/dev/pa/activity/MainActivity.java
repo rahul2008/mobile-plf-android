@@ -67,6 +67,7 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
@@ -718,7 +719,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public void pairToPurifierIfNecessary() {
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
+			purifier.setPairing(NetworkNode.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			checkInternetConnection() ;
 		}
@@ -739,10 +740,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	@Override
-	public void onPairingSuccess(PurAirDevice purifier) {	
+	public void onPairingSuccess(NetworkNode networkNode) {	
 		if(getCurrentPurifier()==null) return;
 
-		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
+		if(networkNode.getCppId()==getCurrentPurifier().getNetworkNode().getCppId()){
 			cancelPairingDialog();
 
 			FragmentManager manager = getSupportFragmentManager();
@@ -762,10 +763,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	@Override
-	public void onPairingFailed(PurAirDevice purifier) {
+	public void onPairingFailed(NetworkNode networkNode) {
 		if(getCurrentPurifier()==null) return;
 
-		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
+		if(networkNode.getCppId()==getCurrentPurifier().getEui64()){
 			cancelPairingDialog();
 			FragmentManager manager = getSupportFragmentManager();
 			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
@@ -782,8 +783,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 		//If pairing failed show alert
 		String title = "";
-		if (purifier != null) title = purifier.getName();
-		MetricsTracker.trackActionTechnicalError("Error : Pairing failed Purifier ID " + purifier.getEui64());
+		if (networkNode != null) title = networkNode.getName();
+		MetricsTracker.trackActionTechnicalError("Error : Pairing failed Purifier ID " + networkNode.getCppId());
 		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed), "pairing_failed");
 	}
 
@@ -906,7 +907,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 					public void signonStatus(boolean signon) {
 						if( signon ) {
 							ALog.i(ALog.PAIRING, "Start pairing process" ) ;
-							PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+							PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
 							pm.setPairingAttempts(purifier.getEui64());
 							pm.startPairing();
 						}
@@ -915,7 +916,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 			else {
 				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
-				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
 				pm.setPairingAttempts(purifier.getEui64());
 				pm.startPairing();
 			}
@@ -923,8 +924,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		else {
 			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
-				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+				purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
 				// Sets the max pairing attempt for the Purifier to stop checking for internet connection
 				while(PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
 					pm.setPairingAttempts(purifier.getEui64());

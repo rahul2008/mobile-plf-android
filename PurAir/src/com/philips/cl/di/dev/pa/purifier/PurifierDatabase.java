@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
@@ -34,8 +35,8 @@ public class PurifierDatabase {
 		long rowId = -1L;
 		if (purifier == null) return rowId;
 
-		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		if(purifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 		
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + purifier.getUsn()
@@ -139,8 +140,8 @@ public class PurifierDatabase {
 		if(purifier==null) return newRowId;
 		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
 		
-		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		if(purifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 		
 		try {
@@ -154,7 +155,7 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
 			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
-			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
+			if(purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.UNPAIRED)
 			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
@@ -175,11 +176,11 @@ public class PurifierDatabase {
 		
 		if (purifier == null || purifier.getUsn() == null) return newRowId;
 
-		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		if(purifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 
-		purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		try {
 			db = dbHelper.getWritableDatabase();
 
@@ -191,7 +192,7 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
 			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
-			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
+			if(purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.UNPAIRED)
 			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
@@ -253,7 +254,7 @@ public class PurifierDatabase {
 	 * @param lastPaired long
 	 * @return long
 	 */
-	public long updatePairingStatus(PurAirDevice purifier, PurAirDevice.PAIRED_STATUS status) {
+	public long updatePairingStatus(PurAirDevice purifier, NetworkNode.PAIRED_STATUS status) {
 		ALog.i(ALog.DATABASE, "Updating pairing status: " + purifier);
 		long newRowId = -1;
 		try {
@@ -261,7 +262,7 @@ public class PurifierDatabase {
 
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, status.ordinal());
-			if(status==PurAirDevice.PAIRED_STATUS.PAIRED){
+			if(status==NetworkNode.PAIRED_STATUS.PAIRED){
 			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getLastPairedTime());
 			}
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 

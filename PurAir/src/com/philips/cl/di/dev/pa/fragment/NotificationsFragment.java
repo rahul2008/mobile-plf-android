@@ -32,6 +32,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
@@ -74,7 +75,7 @@ AlertDialogBtnInterface, OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mPurifier = PurifierManager.getInstance().getCurrentPurifier();
-		pairingHandler = new PairingHandler(null, mPurifier);
+		pairingHandler = new PairingHandler(null, mPurifier.getNetworkNode());
 		super.onCreate(savedInstanceState);
 	}
 
@@ -118,14 +119,14 @@ AlertDialogBtnInterface, OnClickListener {
 
 		if (mPurifier == null || PurAirApplication.isDemoModeEnable()) {
 			disableNotificationScreen();
-		} else if (mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
+		} else if (mPurifier.getPairedStatus() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			getNotificationPermission();
 			showNotificationsLayout();
 		} else {
-			if(mPurifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
+			if(mPurifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
 				showPairingProgressDialog();
 			}
-			if(mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED){
+			if(mPurifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED){
 				pairingHandler.resetPairingAttempts(mPurifier.getEui64());
 				((MainActivity)getActivity()).pairToPurifierIfNecessary();
 			}
@@ -275,7 +276,7 @@ AlertDialogBtnInterface, OnClickListener {
 	private void getNotificationPermission() {
 		NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 
-		if (mPurifier != null && mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
+		if (mPurifier != null && mPurifier.getPairedStatus() == NetworkNode.PAIRED_STATUS.PAIRED) {
 
 			showGetRelationProgressDialog(R.string.notification_permission_check_msg);
 
@@ -545,7 +546,7 @@ AlertDialogBtnInterface, OnClickListener {
 				if (ConnectionState.DISCONNECTED == mPurifier.getConnectionState()) {
 					showLastConnectionAlert();
 					disableNotificationScreen();
-				} else if (PurAirDevice.PAIRED_STATUS.PAIRED == mPurifier.getPairedStatus()){
+				} else if (NetworkNode.PAIRED_STATUS.PAIRED == mPurifier.getPairedStatus()){
 					lastConnectionLL.setVisibility(View.GONE);
 					getNotificationPermission();
 				}

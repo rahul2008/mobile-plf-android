@@ -32,6 +32,7 @@ import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListen
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
@@ -329,7 +330,7 @@ public class EWSActivity extends ActionBarActivity implements
 		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
 		if (current != null) {
 			ALog.i(ALog.PAIRING, "EWS-setting paring to false");
-			current.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED) ;
+			current.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED) ;
 			//Save current location latitude and longitude
 			if (location != null) {
 				ALog.i(ALog.INDOOR_DETAILS, 

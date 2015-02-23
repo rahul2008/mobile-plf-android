@@ -18,6 +18,7 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
@@ -279,8 +280,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -299,8 +300,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedDisconnectedMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -319,8 +320,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedDisconnectedNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -339,8 +340,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedLocallyWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -359,8 +360,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedLocallyMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -379,8 +380,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedLocallyNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -399,8 +400,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedRemoteWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -419,8 +420,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedRemoteMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -439,8 +440,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppConnectPairedRemoteNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -567,8 +568,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -587,8 +588,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedDisconnectedMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -607,8 +608,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedDisconnectedNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -627,8 +628,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedLocallyWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -647,8 +648,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedLocallyMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -667,8 +668,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedLocallyNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -687,8 +688,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedRemoteWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -707,8 +708,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedRemoteMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -727,8 +728,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppDisconnectPairedRemoteNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -747,8 +748,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSingleConnectPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -767,8 +768,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSingleConnectPairedDisconnectedWifi2() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -787,8 +788,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSingleDisconnectPairedRemoteWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -807,8 +808,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppInvalidEventReceived() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -827,8 +828,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppEventReceivedDifferentPurifier() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -955,8 +956,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -975,8 +976,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedDisconnectedMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -995,8 +996,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedDisconnectedNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1015,8 +1016,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedLocallyWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1035,8 +1036,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedLocallyMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1055,8 +1056,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedLocallyNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1075,8 +1076,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedRemoteWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1095,8 +1096,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedRemoteMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1115,8 +1116,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqConnectPairedRemoteNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1243,8 +1244,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1263,8 +1264,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedDisconnectedMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1283,8 +1284,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedDisconnectedNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1303,8 +1304,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedLocallyWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1323,8 +1324,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedLocallyMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1343,8 +1344,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedLocallyNone() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1363,8 +1364,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedRemoteWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1383,8 +1384,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqDisconnectPairedRemoteMobile() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1403,8 +1404,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppAllConnectPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1423,8 +1424,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppAllDisconnectPairedRemoteWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1443,8 +1444,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqInvalidEventReceived() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1463,8 +1464,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppReqEventReceivedDifferentPurifier() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1483,8 +1484,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSignonEventReceivedDisconnected() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1501,8 +1502,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSignonEventReceivedRemoteLocal() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1520,8 +1521,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSignoffEventReceivedRemote() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1538,8 +1539,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testCppSignoffEventReceivedDisconnectedLocal() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1588,8 +1589,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testLostBackgroundNoDevicesFoundPaired() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1606,8 +1607,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testLostBackgroundNoDevicesFoundPairedOnline() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1638,8 +1639,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testLostBackgroundOneDeviceFoundPaired() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(false);
 		purifier2.setOnlineViaCpp(false);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1656,8 +1657,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testLostBackgroundOneDeviceFoundPairedOnline() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1674,8 +1675,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testLostBackgroundOneDeviceFoundOffline() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
@@ -1692,8 +1693,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	public void testLostBackgroundOneDeviceFoundRemote() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		purifier1.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
-		purifier2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
+		purifier1.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
+		purifier2.setPairing(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.setOnlineViaCpp(true);
 		purifier2.setOnlineViaCpp(true);
 		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
