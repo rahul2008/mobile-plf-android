@@ -373,7 +373,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 	
 	public void sendScheduleDetailsToPurifier(String data, PurAirDevice purAirDevice, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
-		schedulerHandler.setScheduleDetails(data, purAirDevice, scheduleType, scheduleNumber) ;
+		schedulerHandler.setScheduleDetails(data, purAirDevice.getNetworkNode(), scheduleType, scheduleNumber) ;
 	}
 
 	@Override

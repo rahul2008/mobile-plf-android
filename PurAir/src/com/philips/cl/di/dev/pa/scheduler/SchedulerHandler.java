@@ -7,6 +7,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
@@ -23,21 +24,21 @@ public class SchedulerHandler implements ServerResponseListener {
 	public static final int MAX_SCHEDULES_REACHED = 1;
 
 	private SubscriptionEventListener mListener;
-	private PurAirDevice purifier;
+	private NetworkNode mNetworkNode;
 
 	public SchedulerHandler(SubscriptionEventListener listener) {
 		mListener = listener;
 	}
 
-	public void setScheduleDetails(String dataToSend, PurAirDevice purifier,
+	public void setScheduleDetails(String dataToSend, NetworkNode networkNode,
 			SCHEDULE_TYPE scheduleType, int scheduleNumber) {
-		this.purifier = purifier;
-		switch (purifier.getConnectionState()) {
+		this.mNetworkNode = networkNode;
+		switch (networkNode.getConnectionState()) {
 		case CONNECTED_LOCALLY:
-			sendScheduleDetailsLocally(dataToSend, scheduleType, purifier,	scheduleNumber);
+			sendScheduleDetailsLocally(dataToSend, scheduleType, networkNode,	scheduleNumber);
 			break;
 		case CONNECTED_REMOTELY:
-			sendScheduleDetailsViaCPP(dataToSend, scheduleType,	purifier.getEui64(), scheduleNumber);
+			sendScheduleDetailsViaCPP(dataToSend, scheduleType,	networkNode.getCppId(), scheduleNumber);
 			break;
 		case DISCONNECTED:
 			break;
@@ -46,32 +47,32 @@ public class SchedulerHandler implements ServerResponseListener {
 	}
 
 	private void sendScheduleDetailsLocally(String dataToSend,
-			SCHEDULE_TYPE scheduleType, PurAirDevice purifier,
+			SCHEDULE_TYPE scheduleType, NetworkNode networkNode,
 			int scheduleNumber) {
 		String requestType = AppConstants.REQUEST_METHOD_GET;
-		String url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress());
+		String url = Utils.getPortUrl(Port.SCHEDULES, networkNode.getIpAddress());
 		switch (scheduleType) {
 		case ADD:
 			requestType = AppConstants.REQUEST_METHOD_POST;
 			break;
 		case DELETE:
 			requestType = AppConstants.REQUEST_METHOD_DELETE;
-			url = Utils.getScheduleDetailsUrl(purifier.getIpAddress(),
+			url = Utils.getScheduleDetailsUrl(networkNode.getIpAddress(),
 					scheduleNumber);
 			break;
 		case GET_SCHEDULE_DETAILS:
-			url = Utils.getScheduleDetailsUrl(purifier.getIpAddress(),
+			url = Utils.getScheduleDetailsUrl(networkNode.getIpAddress(),
 					scheduleNumber);
 			break;
 		case EDIT:
 			requestType = AppConstants.REQUEST_METHOD_PUT;
-			url = Utils.getScheduleDetailsUrl(purifier.getIpAddress(), scheduleNumber);
+			url = Utils.getScheduleDetailsUrl(networkNode.getIpAddress(), scheduleNumber);
 			break;
 		default:
 			break;
 		}
 		TaskPutDeviceDetails addSchedulerTask = new TaskPutDeviceDetails(
-				new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode()), url, this, requestType);
+				new DISecurity(null).encryptData(dataToSend, networkNode), url, this, requestType);
 		Thread addSchedulerThread = new Thread(addSchedulerTask);
 		addSchedulerThread.start();
 	}
@@ -151,7 +152,7 @@ public class SchedulerHandler implements ServerResponseListener {
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			mListener.onLocalEventReceived(data, fromIp);
 		} else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-			String encryptedData = new DISecurity(null).encryptData(data, purifier.getNetworkNode());
+			String encryptedData = new DISecurity(null).encryptData(data, mNetworkNode);
 			mListener.onLocalEventReceived(encryptedData, fromIp);
 		} else {
 			mListener.onLocalEventLost(PurifierEvent.SCHEDULER);
