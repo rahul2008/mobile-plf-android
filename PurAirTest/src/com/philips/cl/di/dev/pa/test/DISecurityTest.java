@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.Util;
@@ -64,7 +65,7 @@ public class DISecurityTest extends TestCase {
 		
 		DISecurity security = new DISecurity(null);
 		
-		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
+		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, ConnectionState.DISCONNECTED);
 		helperDevice.getNetworkNode().setEncryptionKey(KEY);
 		
 		String encryptedData = security.encryptData(data, helperDevice.getNetworkNode());
@@ -76,7 +77,7 @@ public class DISecurityTest extends TestCase {
 	public void testDecryptNullData() {
 		DISecurity security = new DISecurity(null);
 
-		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
+		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, ConnectionState.DISCONNECTED);
 		helperDevice.getNetworkNode().setEncryptionKey(KEY);
 		
 		String nullData = null;

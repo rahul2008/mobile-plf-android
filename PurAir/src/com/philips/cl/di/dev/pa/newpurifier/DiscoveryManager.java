@@ -298,7 +298,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 				if(purifier.getFirmwarePortInfo() != null && FirmwareState.IDLE != purifier.getFirmwarePortInfo().getState()) {
 					return false;
 				}
-				purifier.setConnectionState(ConnectionState.DISCONNECTED);
+				purifier.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 				//Clear indoor AQI historic data
 				SessionDto.getInstance().setIndoorTrendDto(purifier.getNetworkNode().getCppId(), null);
 				notifyDiscoveryListener();
@@ -323,7 +323,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		}
 
 		if (existingPurifier.getNetworkNode().getConnectionState() != newPurifier.getNetworkNode().getConnectionState()) {
-			existingPurifier.setConnectionState(newPurifier.getNetworkNode().getConnectionState());
+			existingPurifier.getNetworkNode().setConnectionState(newPurifier.getNetworkNode().getConnectionState());
 			notifyListeners = true;
 		}
 
@@ -382,7 +382,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (onlineCppIds.contains(device.getNetworkNode().getCppId())) continue; // State is correct
 
 			// Losing a device in the background means it is offline
-			device.setConnectionState(ConnectionState.DISCONNECTED);
+			device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 			ALog.v(ALog.DISCOVERY, "Marked non discovered DISCONNECTED: " + device.getNetworkNode().getName());
 
 			statusUpdated = true;
@@ -403,7 +403,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (device.getNetworkNode().getHomeSsid() != null && device.getNetworkNode().getHomeSsid().equals(ssid)) continue; // will appear local on this network
 			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not paired or not online
 
-			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
 			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getNetworkNode().getName());
 		}
@@ -419,7 +419,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
 
-			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
 			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getNetworkNode().getName());
 		}
@@ -432,11 +432,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && device.getNetworkNode().isOnlineViaCpp()) {
-				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+				device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 				statusUpdated = true;
 				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + device.getNetworkNode().getName());
 			} else {
-				device.setConnectionState(ConnectionState.DISCONNECTED);
+				device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 				statusUpdated = true;
 				ALog.v(ALog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + device.getNetworkNode().getName());
 			}
@@ -451,7 +451,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
 
-			device.setConnectionState(ConnectionState.DISCONNECTED);
+			device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 			statusUpdated = true;
 			ALog.v(ALog.DISCOVERY, "Marked OFFLINE: " + device.getNetworkNode().getName());
 		}
@@ -526,7 +526,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) return false;
 		if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
 
-		purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 		purifier.getNetworkNode().setOnlineViaCpp(true);
 		ALog.v(ALog.DISCOVERY, "Marked Cpp online REMOTE: " + purifier.getNetworkNode().getName());
 		return true;
@@ -536,7 +536,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOfflineViaCpp: "+purifier) ;
 		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
 
-		purifier.setConnectionState(ConnectionState.DISCONNECTED);
+		purifier.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 		purifier.getNetworkNode().setOnlineViaCpp(false);
 		ALog.v(ALog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + purifier.getNetworkNode().getName());
 		return true;

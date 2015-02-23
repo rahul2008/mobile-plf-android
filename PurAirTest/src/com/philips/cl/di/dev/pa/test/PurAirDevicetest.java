@@ -38,35 +38,35 @@ public class PurAirDevicetest extends InstrumentationTestCase {
 	}
 	
 	public void testNotifyObserverNoChange() {
-		purifier.addObserver(observer);
-		assertEquals(1,  purifier.countObservers());
-		verify(observer, never()).update(eq(purifier), anyObject());
+		purifier.getNetworkNode().addObserver(observer);
+		assertEquals(1,  purifier.getNetworkNode().countObservers());
+		verify(observer, never()).update(eq(purifier.getNetworkNode()), anyObject());
 	}
 	
 	public void testNotifyObserverChangeConnectionState() {
-		purifier.addObserver(observer);
-		purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		verify(observer).update(eq(purifier), anyObject());
+		purifier.getNetworkNode().addObserver(observer);
+		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		verify(observer).update(eq(purifier.getNetworkNode()), anyObject());
 	}
 
 	public void testNotifyObserverSameConnectionState() {
-		purifier.addObserver(observer);
-		purifier.setConnectionState(purifier.getNetworkNode().getConnectionState());
-		verify(observer, never()).update(eq(purifier), anyObject());
+		purifier.getNetworkNode().addObserver(observer);
+		purifier.getNetworkNode().setConnectionState(purifier.getNetworkNode().getConnectionState());
+		verify(observer, never()).update(eq(purifier.getNetworkNode()), anyObject());
 	}
 	
 	public void testNotifyObserverRemoveObserver() {
-		purifier.addObserver(observer);
-		purifier.deleteObserver(observer);
-		purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		verify(observer, never()).update(eq(purifier), anyObject());
+		purifier.getNetworkNode().addObserver(observer);
+		purifier.getNetworkNode().deleteObserver(observer);
+		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		verify(observer, never()).update(eq(purifier.getNetworkNode()), anyObject());
 	}
 
 	public void testNotifyObserverDoubleObserver() {
-		purifier.addObserver(observer);
-		purifier.addObserver(observer);
-		purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		verify(observer).update(eq(purifier), anyObject());
+		purifier.getNetworkNode().addObserver(observer);
+		purifier.getNetworkNode().addObserver(observer);
+		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		verify(observer).update(eq(purifier.getNetworkNode()), anyObject());
 	}
 	
 

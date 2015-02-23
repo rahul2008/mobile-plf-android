@@ -572,7 +572,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.addAirPurifierEventListener(listener);
 		
 		setMockSubscriptionManager();
-		device.setConnectionState(ConnectionState.DISCONNECTED);
+		device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 		
 		verify(mSubscriptionMan).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
@@ -596,7 +596,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.addAirPurifierEventListener(listener);
 		
 		setMockSubscriptionManager();
-		device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 		
 		verify(mSubscriptionMan).disableLocalSubscription();
 		verify(mSubscriptionMan).enableRemoteSubscription(PurAirApplication.getAppContext());
@@ -619,7 +619,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.addAirPurifierEventListener(listener);
 		
 		setMockSubscriptionManager();
-		device.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+		device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
@@ -643,7 +643,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.addAirPurifierEventListener(listener);
 		
 		setMockSubscriptionManager();
-		device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan).enableRemoteSubscription(PurAirApplication.getAppContext());
@@ -666,7 +666,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.addAirPurifierEventListener(listener);
 		
 		setMockSubscriptionManager();
-		device.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+		device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
@@ -690,7 +690,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.addAirPurifierEventListener(listener);
 		
 		setMockSubscriptionManager();
-		device.setConnectionState(ConnectionState.DISCONNECTED);
+		device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
@@ -1031,7 +1031,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		mPurifierMan.setCurrentPurifier(device);
 		
-		device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 	}
 	
 }

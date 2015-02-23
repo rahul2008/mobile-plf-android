@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.List;
-import java.util.Observable;
+import java.util.Observer;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
@@ -13,7 +13,7 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurAirDevice extends Observable {
+public class PurAirDevice{
 
 	private final String mUsn;
 	private String latitude;
@@ -73,13 +73,7 @@ public class PurAirDevice extends Observable {
 	}
 
 	public void setConnectionState(ConnectionState connectionState) {
-		synchronized(this) { // notifyObservers called from same Thread
-			if (connectionState.equals(mNetworkNode.getConnectionState())) return;
-			MetricsTracker.trackActionConnectionType(connectionState);
-			this.mNetworkNode.setConnectionState(connectionState);
-		}
-		setChanged();
-		notifyObservers();
+		mNetworkNode.setConnectionState(connectionState);
 	}
 
 			

@@ -1,10 +1,14 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import java.util.Observable;
+
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class NetworkNode implements Parcelable {
+public class NetworkNode extends Observable implements Parcelable {
 	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
 
 	private String mIpAddress;
@@ -45,7 +49,17 @@ public class NetworkNode implements Parcelable {
 	}
 	
 	public synchronized void setConnectionState(ConnectionState connectionState) {
-		this.mConnectionState = connectionState;
+		// TODO remove vertical specific code (MetricsTracker)
+		if (!connectionState.equals(mConnectionState)) {
+			MetricsTracker.trackActionConnectionType(connectionState);
+		}
+		
+		synchronized(this) { // notifyObservers called from same Thread
+			if (connectionState.equals(mConnectionState)) return;
+			this.mConnectionState = connectionState;
+		}
+		setChanged();
+		notifyObservers();
 	}
 
 	public synchronized String getName() {

@@ -87,11 +87,11 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
 			mDeviceHandler.stopDeviceThread() ;
-			mCurrentPurifier.deleteObserver(this);
+			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
 		//stopCurrentSubscription();
 		mCurrentPurifier = purifier;
-		mCurrentPurifier.addObserver(this);
+		mCurrentPurifier.getNetworkNode().addObserver(this);
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
 		startSubscription();
@@ -109,7 +109,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
-			mCurrentPurifier.deleteObserver(this);
+			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
 		stopCurrentSubscription();
 		
