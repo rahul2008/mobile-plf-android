@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class JSONBuilder {
@@ -18,18 +18,18 @@ public class JSONBuilder {
 	public static final int INDICATOR_LIGHT = 4;
 
 	public static String getDICommBuilder(String key, String value,
-			PurAirDevice purifier) {
+			NetworkNode networkNode) {
 		StringBuilder builder = new StringBuilder("{");
 		builder.append("\"").append(key).append("\"").append(":").append("\"")
 				.append(value).append("\"");
 		builder.append("}");
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
+		dataToSend = new DISecurity(null).encryptData(dataToSend, networkNode);
 		return dataToSend;
 	}
 
-	public static String getAirPortDICommBuilder(
-			Hashtable<String, String> hashtable, PurAirDevice purifier) {
+	public static String getAirporDICommBuilder(
+			Hashtable<String, String> hashtable, NetworkNode networkNode) {
 		if (hashtable == null || hashtable.size() <= 0)
 			return null;
 		StringBuilder builder = new StringBuilder("{");
@@ -45,7 +45,7 @@ public class JSONBuilder {
 		}
 		builder.append("}");
 		ALog.i(ALog.DEVICEHANDLER, builder.toString());
-		return new DISecurity(null).encryptData(builder.toString(), purifier.getNetworkNode());
+		return new DISecurity(null).encryptData(builder.toString(), networkNode);
 	}
 
 	public static String getAirPortPublishEventBuilder(
@@ -70,7 +70,7 @@ public class JSONBuilder {
 	}
 
 	public static String getDICommBuilderForSubscribe(String subscriberId,
-			int ttl, PurAirDevice purifier) {
+			int ttl, NetworkNode networkNode) {
 		StringBuilder builder = new StringBuilder("{");
 		builder.append("\"").append("subscriber").append("\"").append(":")
 				.append("\"").append(subscriberId).append("\",");
@@ -78,19 +78,19 @@ public class JSONBuilder {
 		builder.append("}");
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SUBSCRIPTION, "Subscription Data " + dataToSend);
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
+		dataToSend = new DISecurity(null).encryptData(dataToSend, networkNode);
 		return dataToSend;
 	}
 
 	public static String getDICommBuilderForUnSubscribe(String subscriberId,
-			PurAirDevice purifier) {
+			NetworkNode networkNode) {
 		StringBuilder builder = new StringBuilder("{");
 		builder.append("\"").append("subscriber").append("\"").append(":")
 				.append("\"").append(subscriberId).append("\"");
 		builder.append("}");
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SUBSCRIPTION, "UnSubscription Data  " + dataToSend);
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
+		dataToSend = new DISecurity(null).encryptData(dataToSend, networkNode);
 		return dataToSend;
 	}
 
@@ -204,7 +204,7 @@ public class JSONBuilder {
 		return dataToSend;
 	}
 
-	public static String getDICommUIBuilder(PurAirDevice purifier) {
+	public static String getDICommUIBuilder(NetworkNode networkNode) {
 		StringBuilder builder = new StringBuilder("{");
 		builder.append("\"").append("setup").append("\"").append(":")
 				.append("\"").append("inactive").append("\",");
@@ -212,11 +212,11 @@ public class JSONBuilder {
 				.append("\"").append("disconnected").append("\"");
 		builder.append("}");
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
+		dataToSend = new DISecurity(null).encryptData(dataToSend, networkNode);
 		return dataToSend;
 	}
 	
-	public static String getWifiPortJson(String ssid, String password, PurAirDevice purifier) {
+	public static String getWifiPortJson(String ssid, String password, NetworkNode networkNode) {
 		ALog.i(ALog.EWS, "getWifiPortJson");
 		JSONObject holder = new JSONObject();
 		try {
@@ -227,13 +227,14 @@ public class JSONBuilder {
 		}
 		String js = holder.toString();
 		ALog.i(ALog.EWS, "getWifiPortJson js: " + js);
-		String encryptedData = new DISecurity(null).encryptData(js, purifier.getNetworkNode());
+		String encryptedData = new DISecurity(null).encryptData(js, networkNode);
 
 		return encryptedData ;
 	}
 	
-	public static String getWifiPortWithAdvConfigJson(String ssid, String password,
-			String ipAdd, String subnetMask, String gateWay, PurAirDevice purifier) {
+	public static String getWifiPortWithAdvConfigJson(String ssid,
+			String password, String ipAdd, String subnetMask, String gateWay,
+			NetworkNode networkNode) {
 		ALog.i(ALog.EWS, "getWifiPortJson");
 		JSONObject holder = new JSONObject();
 		try {
@@ -248,7 +249,7 @@ public class JSONBuilder {
 		}
 		String js = holder.toString();
 		ALog.i(ALog.EWS, "getWifiPortWithAdvConfigJson js: " + js);
-		String encryptedData = new DISecurity(null).encryptData(js, purifier.getNetworkNode());
+		String encryptedData = new DISecurity(null).encryptData(js, networkNode);
 
 		return encryptedData ;
 	}

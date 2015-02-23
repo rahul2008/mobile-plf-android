@@ -12,7 +12,7 @@ public class RoutingStrategy {
 		ALog.i("UIUX","State: "+purifier.getConnectionState()) ;
 		String dataToSend = "" ;
 		if( purifier.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-			dataToSend = JSONBuilder.getAirPortDICommBuilder(airPortDetailsTable, purifier) ;
+			dataToSend = JSONBuilder.getAirporDICommBuilder(airPortDetailsTable, purifier.getNetworkNode()) ;
 			return new LocalConnection(purifier, dataToSend) ;
 		}
 		else if( purifier.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {

@@ -151,7 +151,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		if (isLocal) {
 			String dataToUpload = JSONBuilder
 					.getDICommBuilderForSubscribe(subscriberId,
-							AppConstants.LOCAL_SUBSCRIPTIONTIME, purifier);
+							AppConstants.LOCAL_SUBSCRIPTIONTIME, purifier.getNetworkNode());
 			if (dataToUpload == null)
 				return;
 

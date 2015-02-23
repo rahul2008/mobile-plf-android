@@ -196,14 +196,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		if (ipAdd.equals(SessionDto.getInstance().getDeviceWifiDto().getIpaddress())
 				&& subnetMask.equals(SessionDto.getInstance().getDeviceWifiDto().getNetmask())
 				&& gateWay.equals(SessionDto.getInstance().getDeviceWifiDto().getGateway())) {
-			encryptedData = JSONBuilder.getWifiPortJson(homeSSID, password, tempEWSPurifier);
+			encryptedData = JSONBuilder.getWifiPortJson(homeSSID, password, tempEWSPurifier.getNetworkNode());
 			MetricsTracker.trackActionAdvanceNetworkConfig(false);
 		} else {
 			if (ipAdd.isEmpty()) ipAdd = SessionDto.getInstance().getDeviceWifiDto().getIpaddress();
 			if (subnetMask.isEmpty()) subnetMask = SessionDto.getInstance().getDeviceWifiDto().getNetmask();
 			if (gateWay.isEmpty()) gateWay = SessionDto.getInstance().getDeviceWifiDto().getGateway();
-			encryptedData = JSONBuilder.getWifiPortWithAdvConfigJson(
-					homeSSID, password, ipAdd, subnetMask, gateWay, tempEWSPurifier);
+			encryptedData = JSONBuilder.getWifiPortWithAdvConfigJson(homeSSID, password, ipAdd, subnetMask,
+			gateWay, tempEWSPurifier.getNetworkNode());
 			MetricsTracker.trackActionAdvanceNetworkConfig(true);
 		}
 		return encryptedData ;

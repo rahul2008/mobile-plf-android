@@ -111,7 +111,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				}
 				PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 				if (purAirDevice != null && purAirDevice.isDemoPurifier()) {
-					String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);
+					String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice.getNetworkNode());
 					DemoModeTask task = new DemoModeTask(
 							null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 					task.start();
