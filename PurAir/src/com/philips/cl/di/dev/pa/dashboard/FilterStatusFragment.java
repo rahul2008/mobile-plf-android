@@ -22,11 +22,12 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener {
+public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 	
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
@@ -35,6 +36,10 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 	// Filter status texts
 	private TextView preFilterText, multiCareFilterText,
 	activeCarbonFilterText, hepaFilterText;
+	
+	//Buy online
+	private FontTextView buyOnlineMulticare,buyOnlineActineCarbon,
+	buyOnlineHepa;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +109,18 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		multiCareFilterText = (TextView) getView().findViewById(R.id.tv_rm_multi_care_filter_status);
 		activeCarbonFilterText = (TextView) getView().findViewById(R.id.tv_rm_active_carbon_filter_status);
 		hepaFilterText = (TextView) getView().findViewById(R.id.tv_rm_hepa_filter_status);
+		
+		buyOnlineMulticare = (FontTextView) getView().findViewById(R.id.buyonline_multicare);
+		buyOnlineMulticare.setOnClickListener(this);
+		buyOnlineMulticare.setText(getString(R.string.list_item_buy_online) + " >");
+		
+		buyOnlineActineCarbon = (FontTextView) getView().findViewById(R.id.buyonline_active_carbon);
+		buyOnlineActineCarbon.setOnClickListener(this);
+		buyOnlineActineCarbon.setText(getString(R.string.list_item_buy_online) + " >");
+		
+		buyOnlineHepa = (FontTextView) getView().findViewById(R.id.buyonline_hepa);
+		buyOnlineHepa.setOnClickListener(this);
+		buyOnlineHepa.setText(getString(R.string.list_item_buy_online) + " >");
 
 		ImageView linkFilterClean=(ImageView) getView().findViewById(R.id.clean_filter_link);
 		linkFilterClean.setOnClickListener(filterClickListener);
@@ -112,16 +129,8 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		linkFilterReplace.setOnClickListener(filterClickListener);
 		
 		ImageButton backButton = (ImageButton) getView().findViewById(R.id.heading_back_imgbtn);
+		backButton.setOnClickListener(this);
 		backButton.setVisibility(View.VISIBLE);
-		backButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				MainActivity mainActivity = (MainActivity) getActivity();
-				mainActivity.showFirstFragment();
-				
-			}
-		});
 		FontTextView heading=(FontTextView) getView().findViewById(R.id.heading_name_tv);
 		heading.setText(getString(R.string.filters));
 	}
@@ -220,7 +229,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		public void onClick(View view) {
 			Intent intent;
 			switch (view.getId()) {
-						case R.id.clean_filter_link:
+			case R.id.clean_filter_link:
 				intent = new Intent(Intent.ACTION_VIEW);
 				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_clean.mp4"), "video/mp4");
 				startActivity(Intent.createChooser(intent,""));  
@@ -236,6 +245,36 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 				break;
 			}
 		}
-	}; 
+	};
+
+	@Override
+	public void onClick(View v) {
+		
+		String uri="";
+		switch (v.getId()) {
+		case R.id.buyonline_multicare:
+			uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072&origin=15_global_en_purifier-app_purifier-app";
+			MetricsTracker.trackActionBuyButton();
+			break;
+		case R.id.buyonline_active_carbon:
+			uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.zulDHJ&id=39911620022&origin=15_global_en_purifier-app_purifier-app";
+			MetricsTracker.trackActionBuyButton();
+			break;
+		case R.id.buyonline_hepa:
+			uri="http://detail.tmall.com/item.htm?id=39899461374&origin=15_global_en_purifier-app_purifier-app";
+			MetricsTracker.trackActionBuyButton();
+			break;
+		case R.id.heading_back_imgbtn:
+			MainActivity mainActivity = (MainActivity) getActivity();
+			mainActivity.showFirstFragment();
+			break;
+		default:
+			break;
+		}
+		
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+		startActivity(Intent.createChooser(intent,""));
+
+	} 
 	
 }

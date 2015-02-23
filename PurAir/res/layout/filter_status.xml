@@ -84,9 +84,22 @@
                     android:layout_width="fill_parent"
                     android:layout_height="12dp"
                     android:layout_below="@id/iv_pre_filter"
-                    android:layout_marginBottom="60dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/process_light_black_bar" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/buyonline_multicare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:text="@string/list_item_buy_online"
+                    android:layout_below="@id/iv_multi_care_filter"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_small"
+                    android:padding="2dp"
+                    android:textColor="@color/blue_list_item"
+                    android:background="@drawable/list_item_selector" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -120,10 +133,22 @@
                     android:id="@+id/iv_active_carbon_filter"
                     android:layout_width="fill_parent"
                     android:layout_height="12dp"
-                    android:layout_below="@id/iv_multi_care_filter"
-                    android:layout_marginBottom="60dp"
+                    android:layout_below="@id/buyonline_multicare"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/process_light_black_bar" />
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/buyonline_active_carbon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:text="@string/list_item_buy_online"
+                    android:layout_below="@id/iv_active_carbon_filter"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_small"
+                    android:padding="2dp"
+                    android:textColor="@color/blue_list_item"
+                    android:background="@drawable/list_item_selector" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -157,10 +182,23 @@
                     android:id="@+id/iv_hepa_filter"
                     android:layout_width="fill_parent"
                     android:layout_height="12dp"
-                    android:layout_below="@id/iv_active_carbon_filter"
-                    android:layout_marginBottom="60dp"
+                    android:layout_below="@id/buyonline_active_carbon"
+                    
                     android:layout_marginTop="4dp"
                     android:background="@drawable/process_light_black_bar" />
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/buyonline_hepa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:text="@string/list_item_buy_online"
+                    android:layout_below="@id/iv_hepa_filter"
+                    android:layout_alignParentRight="true"
+                    android:textSize="@dimen/text_size_small"
+                    android:padding="2dp"
+                    android:textColor="@color/blue_list_item"
+                    android:background="@drawable/list_item_selector" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -193,10 +231,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:padding="24dp"
                 android:background="@color/lighter_gray"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:padding="24dp" >
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
