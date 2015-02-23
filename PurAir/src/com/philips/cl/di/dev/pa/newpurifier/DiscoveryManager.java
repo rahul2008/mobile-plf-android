@@ -136,7 +136,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public List<PurAirDevice> getStoreDevices() {
 		List<PurAirDevice> purifiers = new ArrayList<PurAirDevice>();
 		for (PurAirDevice purAirDevice : storedDevices) {
-			purifiers.add(mDevicesMap.get(purAirDevice.getEui64()));
+			purifiers.add(mDevicesMap.get(purAirDevice.getNetworkNode().getCppId()));
 		}
 		return purifiers; 
 	}
@@ -153,7 +153,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public void updatePairingStatus(String eui64, NetworkNode.PAIRED_STATUS state) {
 		if (eui64 == null || eui64.isEmpty()) return;
 		if (mDevicesMap.containsKey(eui64)) {
-			mDevicesMap.get(eui64).setPairing(state);
+			mDevicesMap.get(eui64).getNetworkNode().setPairedState(state);
 		}
 	}
 	
@@ -165,15 +165,15 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		
 		for(PurAirDevice device: discoveredDevices) {
 			for( PurAirDevice deviceInDB: devicesInDataBase) {
-				if( device.getEui64().equals(deviceInDB.getEui64())) {
+				if( device.getNetworkNode().getCppId().equals(deviceInDB.getNetworkNode().getCppId())) {
 					addToNewDeviceList = false;
 					break;
 				}
 			}
 			if(addToNewDeviceList) {
 				//Add connected device only, ignore disconnected
-				if (device.getConnectionState() != ConnectionState.DISCONNECTED) {
-					device.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+				if (device.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
+					device.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 					newDevices.add(device) ;
 				}
 			}
@@ -277,8 +277,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		
 		PurAirDevice purifier = getPurAirDevice(deviceModel);
 		if (purifier == null) return false;
-		ALog.i(ALog.SSDP, "Discovered device name: " + purifier.getName());
-		if (mDevicesMap.containsKey(purifier.getEui64())) {
+		ALog.i(ALog.SSDP, "Discovered device name: " + purifier.getNetworkNode().getName());
+		if (mDevicesMap.containsKey(purifier.getNetworkNode().getCppId())) {
 			updateExistingDevice(purifier);
 		} else {
 			addNewDevice(purifier);
@@ -300,7 +300,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 				}
 				purifier.setConnectionState(ConnectionState.DISCONNECTED);
 				//Clear indoor AQI historic data
-				SessionDto.getInstance().setIndoorTrendDto(purifier.getEui64(), null);
+				SessionDto.getInstance().setIndoorTrendDto(purifier.getNetworkNode().getCppId(), null);
 				notifyDiscoveryListener();
 				return true;
 			}
@@ -309,26 +309,26 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 
 	private void updateExistingDevice(PurAirDevice newPurifier) {
-		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getEui64());
+		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getNetworkNode().getCppId());
 		boolean notifyListeners = true;
 		
-		if (newPurifier.getLastKnownNetworkSsid() != null &&
-				!newPurifier.getLastKnownNetworkSsid().equals(existingPurifier.getLastKnownNetworkSsid())) {
-			existingPurifier.setLastKnownNetworkSsid(newPurifier.getLastKnownNetworkSsid());
+		if (newPurifier.getNetworkNode().getHomeSsid() != null &&
+				!newPurifier.getNetworkNode().getHomeSsid().equals(existingPurifier.getNetworkNode().getHomeSsid())) {
+			existingPurifier.getNetworkNode().setHomeSsid(newPurifier.getNetworkNode().getHomeSsid());
 			mDatabase.updatePurifierUsingUsn(existingPurifier);
 		}
 
-		if (!newPurifier.getIpAddress().equals(existingPurifier.getIpAddress())) {
-			existingPurifier.setIpAddress(newPurifier.getIpAddress());
+		if (!newPurifier.getNetworkNode().getIpAddress().equals(existingPurifier.getNetworkNode().getIpAddress())) {
+			existingPurifier.getNetworkNode().setIpAddress(newPurifier.getNetworkNode().getIpAddress());
 		}
 
-		if (existingPurifier.getConnectionState() != newPurifier.getConnectionState()) {
-			existingPurifier.setConnectionState(newPurifier.getConnectionState());
+		if (existingPurifier.getNetworkNode().getConnectionState() != newPurifier.getNetworkNode().getConnectionState()) {
+			existingPurifier.setConnectionState(newPurifier.getNetworkNode().getConnectionState());
 			notifyListeners = true;
 		}
 
-		if (!existingPurifier.getName().equals(newPurifier.getName())) {
-			existingPurifier.setName(newPurifier.getName());
+		if (!existingPurifier.getNetworkNode().getName().equals(newPurifier.getNetworkNode().getName())) {
+			existingPurifier.getNetworkNode().setName(newPurifier.getNetworkNode().getName());
 			mDatabase.updatePurifierUsingUsn(existingPurifier);
 			notifyListeners = true;
 		}
@@ -344,12 +344,12 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			}
 		}
 
-		if (existingPurifier.getBootId() != newPurifier.getBootId() || existingPurifier.getEncryptionKey() == null) {
-			existingPurifier.setEncryptionKey(null);
-			existingPurifier.setBootId(newPurifier.getBootId());
+		if (existingPurifier.getNetworkNode().getBootId() != newPurifier.getNetworkNode().getBootId() || existingPurifier.getNetworkNode().getEncryptionKey() == null) {
+			existingPurifier.getNetworkNode().setEncryptionKey(null);
+			existingPurifier.getNetworkNode().setBootId(newPurifier.getNetworkNode().getBootId());
 			startKeyExchange(existingPurifier);
 			notifyListeners = false; // only sent events when we have new key
-			existingPurifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+			existingPurifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
 
@@ -363,7 +363,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	 * Completely new device - never seen before
 	 */
 	private void addNewDevice(PurAirDevice purifier) {
-		mDevicesMap.put(purifier.getEui64(), purifier);
+		mDevicesMap.put(purifier.getNetworkNode().getCppId(), purifier);
 		startKeyExchange(purifier);
 
 		// Listener notified when key is exchanged
@@ -377,13 +377,13 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesEui64();
 
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
-			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
-			if (onlineCppIds.contains(device.getEui64())) continue; // State is correct
+			if (device.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
+			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
+			if (onlineCppIds.contains(device.getNetworkNode().getCppId())) continue; // State is correct
 
 			// Losing a device in the background means it is offline
 			device.setConnectionState(ConnectionState.DISCONNECTED);
-			ALog.v(ALog.DISCOVERY, "Marked non discovered DISCONNECTED: " + device.getName());
+			ALog.v(ALog.DISCOVERY, "Marked non discovered DISCONNECTED: " + device.getNetworkNode().getName());
 
 			statusUpdated = true;
 		}
@@ -398,14 +398,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
 		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getLastKnownNetworkSsid() != null && device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
-			if (device.getPairedStatus() != NetworkNode.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not paired or not online
+			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
+			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
+			if (device.getNetworkNode().getHomeSsid() != null && device.getNetworkNode().getHomeSsid().equals(ssid)) continue; // will appear local on this network
+			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not paired or not online
 
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getName());
+			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getNetworkNode().getName());
 		}
 		if (!statusUpdated) return;
 		notifyDiscoveryListener();
@@ -415,13 +415,13 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.d(ALog.DISCOVERY, "Marking paired devices that where not discovered locally REMOTE");
 		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getPairedStatus() != NetworkNode.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not online via cpp
+			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
+			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
+			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
 
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getName());
+			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getNetworkNode().getName());
 		}
 		if (!statusUpdated) return;
 		notifyDiscoveryListener();
@@ -431,14 +431,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
 		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getPairedStatus()==NetworkNode.PAIRED_STATUS.PAIRED && device.isOnlineViaCpp()) {
+			if (device.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && device.getNetworkNode().isOnlineViaCpp()) {
 				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 				statusUpdated = true;
-				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + device.getName());
+				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + device.getNetworkNode().getName());
 			} else {
 				device.setConnectionState(ConnectionState.DISCONNECTED);
 				statusUpdated = true;
-				ALog.v(ALog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + device.getName());
+				ALog.v(ALog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + device.getNetworkNode().getName());
 			}
 		}
 		if (!statusUpdated) return;
@@ -449,11 +449,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.d(ALog.DISCOVERY, "Marking all devices OFFLINE");
 		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
+			if (device.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
 
 			device.setConnectionState(ConnectionState.DISCONNECTED);
 			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked OFFLINE: " + device.getName());
+			ALog.v(ALog.DISCOVERY, "Marked OFFLINE: " + device.getNetworkNode().getName());
 		}
 		if (!statusUpdated) return;
 		notifyDiscoveryListener();
@@ -478,7 +478,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 				notifyListeners = updateConnectedStateOfflineViaCpp(current);
 				continue ;
 			}
-			if (!eui64s.contains(current.getEui64())) {
+			if (!eui64s.contains(current.getNetworkNode().getCppId())) {
 				currentOnlineViaCpp = !connected;
 			}
 
@@ -522,23 +522,23 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	private boolean updateConnectedStateOnlineViaCpp(PurAirDevice purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOnlineViaCpp: "+purifier) ;
-		if (purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) return false;
-		if (purifier.getConnectionState() != ConnectionState.DISCONNECTED) return false;
+		if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) return false;
+		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) return false;
 		if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
 
 		purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		purifier.setOnlineViaCpp(true) ;
-		ALog.v(ALog.DISCOVERY, "Marked Cpp online REMOTE: " + purifier.getName());
+		purifier.getNetworkNode().setOnlineViaCpp(true);
+		ALog.v(ALog.DISCOVERY, "Marked Cpp online REMOTE: " + purifier.getNetworkNode().getName());
 		return true;
 	}
 
 	private boolean updateConnectedStateOfflineViaCpp(PurAirDevice purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOfflineViaCpp: "+purifier) ;
-		if (purifier.getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
+		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
 
 		purifier.setConnectionState(ConnectionState.DISCONNECTED);
-		purifier.setOnlineViaCpp(false);
-		ALog.v(ALog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + purifier.getName());
+		purifier.getNetworkNode().setOnlineViaCpp(false);
+		ALog.v(ALog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + purifier.getNetworkNode().getName());
 		return true;
 	}
 
@@ -600,14 +600,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		}
 
 		PurAirDevice purifier = new PurAirDevice(eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
-		purifier.setLastKnownNetworkSsid(networkSsid);
+		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 
 		return purifier;
 	}
 
 	private boolean isValidPurifier(PurAirDevice purifier) {
-		if (purifier.getEui64() == null || purifier.getEui64().isEmpty()) {
+		if (purifier.getNetworkNode().getCppId() == null || purifier.getNetworkNode().getCppId().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - eui64 is null");
 			return false;
 		}
@@ -615,11 +615,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - usn is null");
 			return false;
 		}
-		if (purifier.getIpAddress() == null || purifier.getIpAddress().isEmpty()) {
+		if (purifier.getNetworkNode().getIpAddress() == null || purifier.getNetworkNode().getIpAddress().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - ipAddress is null");
 			return false;
 		}
-		if (purifier.getName() == null || purifier.getName().isEmpty()) {
+		if (purifier.getNetworkNode().getName() == null || purifier.getNetworkNode().getName().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - name is null");
 			return false;
 		}
@@ -645,7 +645,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 		
 		for (PurAirDevice device : storedDevices) {
-			mDevicesMap.put(device.getEui64(), device);
+			mDevicesMap.put(device.getNetworkNode().getCppId(), device);
 		}
 	}
 
@@ -667,8 +667,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private void startKeyExchange(PurAirDevice purifier) {
 		ALog.d(ALog.DISCOVERY, "Starting key exchange: " + purifier);
 
-		mSecurity.initializeExchangeKeyCounter(purifier.getEui64());
-		mSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()), purifier.getEui64());
+		mSecurity.initializeExchangeKeyCounter(purifier.getNetworkNode().getCppId());
+		mSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getNetworkNode().getIpAddress()), purifier.getNetworkNode().getCppId());
 	}
 
 	@Override
@@ -678,8 +678,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		if (device == null || key == null) return;
 
 		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
-		device.setEncryptionKey(key);
-		device.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
+		device.getNetworkNode().setEncryptionKey(key);
+		device.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfConnectedNetwork());
 		/*
 		//add geo co-ordinate if null
 		if (device.getLatitude() == null && device.getLongitude() == null) {
@@ -691,7 +691,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		}
 		*/
 		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
-			if(PurifierManager.getInstance().getCurrentPurifier().getEui64().equals(deviceEui64)) {
+			if(PurifierManager.getInstance().getCurrentPurifier().getNetworkNode().getCppId().equals(deviceEui64)) {
 				PurifierManager.getInstance().setCurrentPurifier(device) ;
 			}
 		}
@@ -713,10 +713,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		String local = "Local devices %d: ";
 		String cpp = "Cpp devices %d: ";
 		for (PurAirDevice device : mDevicesMap.values()) {
-			switch (device.getConnectionState()) {
-			case DISCONNECTED: offline += device.getName() + ", "; break;
-			case CONNECTED_LOCALLY: local += device.getName() + ", "; break;
-			case CONNECTED_REMOTELY: cpp += device.getName() + ", "; break;
+			switch (device.getNetworkNode().getConnectionState()) {
+			case DISCONNECTED: offline += device.getNetworkNode().getName() + ", "; break;
+			case CONNECTED_LOCALLY: local += device.getNetworkNode().getName() + ", "; break;
+			case CONNECTED_REMOTELY: cpp += device.getNetworkNode().getName() + ", "; break;
 			}
 		}
 		ALog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));

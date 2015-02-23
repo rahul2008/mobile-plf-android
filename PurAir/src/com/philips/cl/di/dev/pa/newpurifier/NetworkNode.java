@@ -24,93 +24,94 @@ public class NetworkNode implements Parcelable {
 	public NetworkNode() {
 	}
 	
-	public String getIpAddress() {
+	public synchronized String getIpAddress() {
 		return mIpAddress;
 	}
 	
-	public void setIpAddress(String ipAddress) {
+	public synchronized void setIpAddress(String ipAddress) {
 		this.mIpAddress = ipAddress;
 	}
 
-	public String getCppId() {
+	public synchronized String getCppId() {
 		return mCppId;
 	}
 
-	public void setCppId(String cppId) {
+	public synchronized void setCppId(String cppId) {
 		this.mCppId = cppId;
 	}
 
-	public ConnectionState getConnectionState() {
+	public synchronized ConnectionState getConnectionState() {
 		return mConnectionState;
 	}
 	
-	public void setConnectionState(ConnectionState connectionState) {
+	public synchronized void setConnectionState(ConnectionState connectionState) {
 		this.mConnectionState = connectionState;
 	}
 
-	public String getName() {
+	public synchronized String getName() {
 		return mName;
 	}
 
-	public void setName(String name) {
+	public synchronized void setName(String name) {
 		this.mName = name;
 	}
 	
 	//TODO: to implement
-	public String getModelName() {
+	public synchronized String getModelName() {
 		throw new UnsupportedOperationException();
 		//return mModelName;
 	}
 
-	public void setModelName(String modelName) {
+	public synchronized void setModelName(String modelName) {
 		this.mModelName = modelName;
 	}
 
-	public String getHomeSsid() {
+	public synchronized String getHomeSsid() {
 		return mHomeSsid;
 	}
 
-	public void setHomeSsid(String homeSsid) {
+	public synchronized void setHomeSsid(String homeSsid) {
+		if (mHomeSsid == null || mHomeSsid.isEmpty()) return;
 		this.mHomeSsid = homeSsid;
 	}
 
-	public long getBootId() {
+	public synchronized long getBootId() {
 		return mBootId;
 	}
 
-	public void setBootId(long bootId) {
+	public synchronized void setBootId(long bootId) {
 		this.mBootId = bootId;
 	}
 	
-	public String getEncryptionKey() {
+	public synchronized String getEncryptionKey() {
 		return mEncryptionKey;
 	}
 
-	public void setEncryptionKey(String encryptionKey) {
+	public synchronized void setEncryptionKey(String encryptionKey) {
 		this.mEncryptionKey = encryptionKey;
 	}
 	
-	public boolean isOnlineViaCpp() {
+	public synchronized boolean isOnlineViaCpp() {
 		return mIsOnlineViaCpp;
 	}
 
-	public void setOnlineViaCpp(boolean isOnlineViaCpp) {
+	public synchronized void setOnlineViaCpp(boolean isOnlineViaCpp) {
 		this.mIsOnlineViaCpp = isOnlineViaCpp;
 	}
 
-	public NetworkNode.PAIRED_STATUS getPairedState() {
+	public synchronized NetworkNode.PAIRED_STATUS getPairedState() {
 		return mPairedState;
 	}
 
-	public void setPairedState(NetworkNode.PAIRED_STATUS pairedState) {
+	public synchronized void setPairedState(NetworkNode.PAIRED_STATUS pairedState) {
 		this.mPairedState = pairedState;
 	}
 
-	public long getLastPairedTime() {
+	public synchronized long getLastPairedTime() {
 		return mLastPairedTime;
 	}
 
-	public void setLastPairedTime(long lastPairedTime) {
+	public synchronized void setLastPairedTime(long lastPairedTime) {
 		this.mLastPairedTime = lastPairedTime;
 	}
 
@@ -162,4 +163,11 @@ public class NetworkNode implements Parcelable {
             return new NetworkNode[size];
         }
     };
+
+    public static NetworkNode.PAIRED_STATUS getPairedStatusKey(int status){
+		if (status>= 0 && status < NetworkNode.PAIRED_STATUS.values().length) {
+		return NetworkNode.PAIRED_STATUS.values()[status];
+		}
+		return NetworkNode.PAIRED_STATUS.NOT_PAIRED;
+	}
 }

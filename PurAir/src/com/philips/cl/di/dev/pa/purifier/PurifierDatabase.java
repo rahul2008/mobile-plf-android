@@ -35,15 +35,15 @@ public class PurifierDatabase {
 		long rowId = -1L;
 		if (purifier == null) return rowId;
 
-		if(purifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
-			purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+		if(purifier.getNetworkNode().getPairedState()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 		
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + purifier.getUsn()
-				+ ", CppId: " + purifier.getEui64()
-				+ ", BootId: " + purifier.getBootId()
-				+ ", Name: " + purifier.getName()
-				+ ", Key: " + purifier.getEncryptionKey());
+				+ ", CppId: " + purifier.getNetworkNode().getCppId()
+				+ ", BootId: " + purifier.getNetworkNode().getBootId()
+				+ ", Name: " + purifier.getNetworkNode().getName()
+				+ ", Key: " + purifier.getNetworkNode().getEncryptionKey());
 
 		
 		rowId = getRowIdOfPurifier(purifier);
@@ -54,16 +54,16 @@ public class PurifierDatabase {
 
 				ContentValues values = new ContentValues();
 				values.put(AppConstants.KEY_AIRPUR_USN, purifier.getUsn());
-				values.put(AppConstants.KEY_AIRPUR_CPP_ID, purifier.getEui64());
-				values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getName());
-				values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
-				values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
-				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+				values.put(AppConstants.KEY_AIRPUR_CPP_ID, purifier.getNetworkNode().getCppId());
+				values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getNetworkNode().getName());
+				values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getNetworkNode().getBootId());
+				values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getNetworkNode().getHomeSsid());
+				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
 				values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
 				values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 				
-				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getPairedStatus() +"is: "+ purifier.getPairedStatus().ordinal());
-				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal()); 
+				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getNetworkNode().getPairedState() +"is: "+ purifier.getNetworkNode().getPairedState().ordinal());
+				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getNetworkNode().getPairedState().ordinal()); 
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
@@ -103,11 +103,11 @@ public class PurifierDatabase {
 					String longitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 
 					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
-					purifier.setLastKnownNetworkSsid(lastKnownNetwork);
-					purifier.setEncryptionKey(encryptionKey);
-					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ PurAirDevice.getPairedStatusKey(pairedStatus));
-					purifier.setPairing(PurAirDevice.getPairedStatusKey(pairedStatus));
-					purifier.setLastPairedTime(lastPairedTime) ;
+					purifier.getNetworkNode().setHomeSsid(lastKnownNetwork);
+					purifier.getNetworkNode().setEncryptionKey(encryptionKey);
+					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ NetworkNode.getPairedStatusKey(pairedStatus));
+					purifier.getNetworkNode().setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
+					purifier.getNetworkNode().setLastPairedTime(lastPairedTime);
 					purifier.setLatitude(latitude);
 					purifier.setLongitude(longitude);
 
@@ -140,22 +140,22 @@ public class PurifierDatabase {
 		if(purifier==null) return newRowId;
 		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
 		
-		if(purifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
-			purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+		if(purifier.getNetworkNode().getPairedState()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 		
 		try {
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getName());
-			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
-			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
-			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getNetworkNode().getName());
+			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getNetworkNode().getBootId());
+			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getNetworkNode().getHomeSsid());
+			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
 			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
 			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
-			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
-			if(purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.UNPAIRED)
+			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getNetworkNode().getPairedState().ordinal());
+			if(purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.UNPAIRED)
 			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
@@ -176,23 +176,23 @@ public class PurifierDatabase {
 		
 		if (purifier == null || purifier.getUsn() == null) return newRowId;
 
-		if(purifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
-			purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+		if(purifier.getNetworkNode().getPairedState()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 
-		purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+		purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		try {
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getName());
-			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
-			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
-			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getNetworkNode().getName());
+			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getNetworkNode().getBootId());
+			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getNetworkNode().getHomeSsid());
+			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
 			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
 			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
-			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
-			if(purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.UNPAIRED)
+			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getNetworkNode().getPairedState().ordinal());
+			if(purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.UNPAIRED)
 			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
@@ -263,10 +263,10 @@ public class PurifierDatabase {
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, status.ordinal());
 			if(status==NetworkNode.PAIRED_STATUS.PAIRED){
-			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getLastPairedTime());
+			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getNetworkNode().getLastPairedTime());
 			}
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
-					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getEui64())});
+					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getNetworkNode().getCppId())});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
@@ -290,7 +290,7 @@ public class PurifierDatabase {
 			db = dbHelper.getReadableDatabase();
 			cursor = db.query(AppConstants.TABLE_AIRPUR_INFO, 
 					new String[] {AppConstants.KEY_AIRPUR_LAST_PAIRED}, 
-					AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[]{purifier.getEui64()}, null, null, null);
+					AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[]{purifier.getNetworkNode().getCppId()}, null, null, null);
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToNext();
 				lastPaired = cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_LAST_PAIRED));

@@ -638,28 +638,27 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 	}
 
-	public static boolean pairPurifierIfNecessary(PurAirDevice purifier) {
-
+	public static boolean pairApplianceIfNecessary(NetworkNode networkNode) {
 		if(PurAirApplication.isDemoModeEnable()){
 			return false;
 		}
 
-		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+		if (networkNode == null || networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
 			return false;
 		}	
 		
 
-		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
+		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ networkNode.getPairedState());
 		
 		// First time pairing or on EWS 
-		if( purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED ) {
+		if( networkNode.getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED ) {
 			return true;			
 		}
 		//Everyday check for pairing
-		long lastPairingCheckTime = purifier.getLastPairedTime();		
+		long lastPairingCheckTime = networkNode.getLastPairedTime();		
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
 		
-		if(purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.PAIRED && diffInDays != 0){
+		if(networkNode.getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && diffInDays != 0){
 			return true;
 		}
 		return false;

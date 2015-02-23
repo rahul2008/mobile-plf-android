@@ -379,7 +379,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
 
-		if (ConnectionState.DISCONNECTED == currentPurifier.getConnectionState()) {
+		if (ConnectionState.DISCONNECTED == currentPurifier.getNetworkNode().getConnectionState()) {
 			disconnect(getString(R.string.not_connected));
 			//set image background
 			backgroundImage.setImageResource(R.drawable.home_indoor_bg_2x);
@@ -482,10 +482,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void onDataDownload(int status, String downloadedData) {
 		ALog.i(ALog.INDOOR_DETAILS, "onDataDownload status: " + status);
-		String eui64 = currentPurifier.getEui64();
+		String eui64 = currentPurifier.getNetworkNode().getCppId();
 		if( status == Errors.SUCCESS ) {
 			if (downloadedData != null && !downloadedData.isEmpty()) {
-				Utils.getIndoorAqiValues(downloadedData, currentPurifier.getEui64()) ;
+				Utils.getIndoorAqiValues(downloadedData, currentPurifier.getNetworkNode().getCppId()) ;
 				
 				IndoorTrendDto inDto = SessionDto.getInstance().getIndoorTrendDto(eui64);
 				
@@ -493,7 +493,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					hrlyAqiValues = inDto.getHourlyList() ;
 					dailyAqiValues = inDto.getDailyList() ;
 					addGoodAQIIntoList(inDto);
-					addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
+					addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getNetworkNode().getCppId()));
 				}
 				handlerDownload.sendEmptyMessage(3);
 
@@ -566,7 +566,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			public void run() {
 				if (currentPurifier == null) return;
 				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
-						.getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
+						.getPurifierCurrentCityGoodAQ(currentPurifier.getNetworkNode().getCppId()));
 				showOutdoorBarChart();
 				ALog.i(ALog.INDOOR_DETAILS, "Updated purifier current city good air: " + currentCityGoodAirInfos);
 			}

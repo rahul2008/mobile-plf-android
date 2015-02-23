@@ -262,7 +262,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			data.append(lineSeparator);
 			data.append(getString(R.string.purifier_name)).append(purifiers.get(i).getName());
 			data.append(lineSeparator);
-			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getEui64());
+			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getNetworkNode().getCppId());
 			data.append(lineSeparator);
 			if(purifiers.get(i).getFirmwarePortInfo()!=null){
 			data.append(getString(R.string.purifier_firmware_version)).append(purifiers.get(i).getFirmwarePortInfo().getVersion());

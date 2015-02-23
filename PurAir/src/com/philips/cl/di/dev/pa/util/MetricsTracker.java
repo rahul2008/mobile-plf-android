@@ -482,7 +482,7 @@ public class MetricsTracker {
 	private static String getDeviceEui64() {
 		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier != null) {
-			String eui64 = currentPurifier.getEui64();
+			String eui64 = currentPurifier.getNetworkNode().getCppId();
 			return eui64;
 		}
 		return "Not found";

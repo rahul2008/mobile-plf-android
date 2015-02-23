@@ -70,7 +70,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			return;
 
 		final String portUrl = Utils.getPortUrl(Port.AIR,
-				purifier.getIpAddress());
+				purifier.getNetworkNode().getIpAddress());
 		subscribe(portUrl, purifier.getNetworkNode());
 	}
 
@@ -81,7 +81,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 				"Unsubscribing to Purifier events for purifier: " + purifier);
 		if (purifier == null)
 			return;
-		String portUrl = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
+		String portUrl = Utils.getPortUrl(Port.AIR, purifier.getNetworkNode().getIpAddress());
 		unSubscribe(portUrl, purifier.getNetworkNode());
 	}
 
@@ -91,13 +91,13 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		if (purifier == null || PurAirApplication.isDemoModeEnable())
 			return;
 
-		boolean isLocalSubscription = purifier.getConnectionState().equals(
+		boolean isLocalSubscription = purifier.getNetworkNode().getConnectionState().equals(
 				ConnectionState.CONNECTED_LOCALLY);
 		if (isLocalSubscription) {
 			ALog.d(ALog.SUBSCRIPTION,
 					"Subscribing to Firmware events for purifier: " + purifier);
 			final String portUrl = Utils.getPortUrl(Port.FIRMWARE,
-					purifier.getIpAddress());
+					purifier.getNetworkNode().getIpAddress());
 			subscribe(portUrl, purifier.getNetworkNode());
 		}
 	}
@@ -110,7 +110,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ALog.d(ALog.SUBSCRIPTION,
 				"Unsubscribing from Firmware events appEui64: " + purifier);
 		String portUrl = Utils.getPortUrl(Port.FIRMWARE,
-				purifier.getIpAddress());
+				purifier.getNetworkNode().getIpAddress());
 		unSubscribe(portUrl, purifier.getNetworkNode());
 	}
 
@@ -318,7 +318,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.SUBSCRIBE, subscriberId, "", 20,
 							AppConstants.CPP_SUBSCRIPTIONTIME,
-							PurifierManager.getInstance().getCurrentPurifier().getEui64());
+							PurifierManager.getInstance().getCurrentPurifier().getNetworkNode().getCppId());
 		}
 	}
 }

@@ -112,14 +112,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	}
 
 	public void setDeviceName(String deviceName) {
-		tempEWSPurifier.setName(deviceName);
+		tempEWSPurifier.getNetworkNode().setName(deviceName);
 	}
 
 	public void initializeKey() {
 		ALog.i(ALog.EWS, "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
-		di.initializeExchangeKeyCounter(tempEWSPurifier.getEui64());
-		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getEui64()) ;
+		di.initializeExchangeKeyCounter(tempEWSPurifier.getNetworkNode().getCppId());
+		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getNetworkNode().getCppId()) ;
 	}
 
 	public void putWifiDetails(String ipAdd, String subnetMask, String gateWay) {
@@ -213,7 +213,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		ALog.i(ALog.EWS, "getDevicePortJson");
 		JSONObject holder = new JSONObject();
 		try {
-			holder.put("name", tempEWSPurifier.getName());
+			holder.put("name", tempEWSPurifier.getNetworkNode().getName());
 		} catch (JSONException e) {
 			ALog.e(ALog.EWS, "Error: " + e.getMessage());
 		}
@@ -245,17 +245,17 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	}
 
 	private void updateTempDevice(String eui64) {
-		String encryptionKey = tempEWSPurifier.getEncryptionKey();
-		String purifierName = tempEWSPurifier.getName();
+		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
+		String purifierName = tempEWSPurifier.getNetworkNode().getName();
 		tempEWSPurifier = new PurAirDevice(eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,	ConnectionState.CONNECTED_LOCALLY);
-		tempEWSPurifier.setEncryptionKey(encryptionKey);
+		tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}
 
 	@Override
 	public void keyDecrypt(String key, String deviceId) {
 		ALog.i(ALog.EWS, "Key: "+key) ;
-		tempEWSPurifier.setEncryptionKey(key);
+		tempEWSPurifier.getNetworkNode().setEncryptionKey(key);
 
 		if ( key != null ) {
 			setDevKey(key);
@@ -326,7 +326,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					if (deviceDto == null) return;
-					tempEWSPurifier.setName(deviceDto.getName());
+					tempEWSPurifier.getNetworkNode().setName(deviceDto.getName());
 					getWifiDetails() ;
 				}				
 			}

@@ -114,7 +114,7 @@ public class BuyOnlineFragment extends BaseFragment {
 			txtFilterStatus = (TextView) view
 					.findViewById(R.id.txt_filter_status);
 			
-			if(current == null || current.getConnectionState() == ConnectionState.DISCONNECTED)
+			if(current == null || current.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			{
 				filterVisibility=View.GONE;
 			}
@@ -216,9 +216,9 @@ public class BuyOnlineFragment extends BaseFragment {
 			
 			@Override
 			public void run() {
-				if(filterVisibility==View.VISIBLE && current!=null && current.getConnectionState() != ConnectionState.DISCONNECTED) return;
+				if(filterVisibility==View.VISIBLE && current!=null && current.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) return;
 				
-				if(filterVisibility==View.GONE && current!=null && current.getConnectionState() == ConnectionState.DISCONNECTED) return;
+				if(filterVisibility==View.GONE && current!=null && current.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) return;
 				
 				mList.setAdapter(null);
 				mList.setAdapter(mAdapter);				

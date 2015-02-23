@@ -21,14 +21,6 @@ public class PurAirDevice extends Observable {
 	
 	private final NetworkNode mNetworkNode = new NetworkNode();
 	
-	public long getLastPairedTime() {
-		return mNetworkNode.getLastPairedTime();
-	}
-
-	public void setLastPairedTime(long mLastPairedTime) {
-		this.mNetworkNode.setLastPairedTime(mLastPairedTime);
-	}
-
 	private AirPortInfo 		   mAirPortInfo;
 	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
@@ -72,49 +64,12 @@ public class PurAirDevice extends Observable {
 		this.longitude = longitude;
 	}
 
-	public String getEui64() {
-		return mNetworkNode.getCppId();
-	}
-
 	public String getUsn() {
 		return mUsn;
 	}
 	
-	public synchronized String getIpAddress() {
-		return mNetworkNode.getIpAddress();
-	}
-
-	public synchronized void setIpAddress(String ipAddress) {
-		this.mNetworkNode.setIpAddress(ipAddress);
-	}
-
 	public synchronized String getName() {
-		return mNetworkNode.getName();
-	}
-
-	public synchronized void setName(String name) {
-		this.mNetworkNode.setName(name);
-	}
-
-	public synchronized long getBootId() {
-		return mNetworkNode.getBootId();
-	}
-
-	public synchronized void setBootId(long bootId) {
-		this.mNetworkNode.setBootId(bootId);
-	}
-	
-	public synchronized String getLastKnownNetworkSsid() {
-		return mNetworkNode.getHomeSsid();
-	}
-
-	public synchronized void setLastKnownNetworkSsid(String lastKnownNetworkSsid) {
-		if (lastKnownNetworkSsid == null || lastKnownNetworkSsid.isEmpty()) return;
-		this.mNetworkNode.setHomeSsid(lastKnownNetworkSsid);
-	}
-
-	public synchronized ConnectionState getConnectionState() {
-		return mNetworkNode.getConnectionState();
+		return getNetworkNode().getName();
 	}
 
 	public void setConnectionState(ConnectionState connectionState) {
@@ -127,52 +82,7 @@ public class PurAirDevice extends Observable {
 		notifyObservers();
 	}
 
-	public synchronized NetworkNode.PAIRED_STATUS getPairedStatus() {
-		return mNetworkNode.getPairedState();
-	}
-
-	public synchronized void setPairing(NetworkNode.PAIRED_STATUS status) {
-		this.mNetworkNode.setPairedState(status);
-	}
-	
-	public static NetworkNode.PAIRED_STATUS getPairedStatusKey(int status){
-		NetworkNode.PAIRED_STATUS state = null;
-		switch(status){
-		case 0:
-			state= NetworkNode.PAIRED_STATUS.PAIRED;
-			break;
-		case 1:
-			state= NetworkNode.PAIRED_STATUS.NOT_PAIRED;
-			break;
-		case 2:
-			state= NetworkNode.PAIRED_STATUS.UNPAIRED;
-			break;
-		case 3:
-			state= NetworkNode.PAIRED_STATUS.PAIRING;
-			break;
-		default:
-			state= NetworkNode.PAIRED_STATUS.NOT_PAIRED;
-			break;
-		}
-		return state;
-	}
 			
-	public synchronized boolean isOnlineViaCpp() {
-		return mNetworkNode.isOnlineViaCpp();
-	}
-	
-	public synchronized void setOnlineViaCpp(boolean onlineViaCpp) {
-		this.mNetworkNode.setOnlineViaCpp(onlineViaCpp);
-	}
-
-	public synchronized String getEncryptionKey() {
-		return mNetworkNode.getEncryptionKey();
-	}
-
-	public synchronized void setEncryptionKey(String encryptionKey) {
-		this.mNetworkNode.setEncryptionKey(encryptionKey);
-	}
-	
 	public AirPortInfo getAirPortInfo() {
 		return mAirPortInfo;
 	}
@@ -195,13 +105,13 @@ public class PurAirDevice extends Observable {
 
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("name: ").append(getName()).append("   ip: ").append(getIpAddress())
-				.append("   eui64: ").append(getEui64()).append("   bootId: ").append(getBootId())
-				.append("   usn: ").append(getUsn()).append("   paired: ").append(getPairedStatus())
+		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
+				.append("   eui64: ").append(getNetworkNode().getCppId()).append("   bootId: ").append(getNetworkNode().getBootId())
+				.append("   usn: ").append(getUsn()).append("   paired: ").append(getNetworkNode().getPairedState())
 				.append("   airportInfo: ").append(getAirPortInfo()).append("   firmwareInfo: ").append(getFirmwarePortInfo())
-				.append("   connectedState: ").append(getConnectionState()).append("   lastKnownssid: ")
+				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ")
 				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
-				.append(getLastKnownNetworkSsid());
+				.append(getNetworkNode().getHomeSsid());
 		return builder.toString();
 	}
 }

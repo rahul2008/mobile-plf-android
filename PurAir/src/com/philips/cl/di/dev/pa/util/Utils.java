@@ -333,7 +333,7 @@ public class Utils {
 
 		String qryPart2 = "startDate=" + startDate + "T" + startTime + ".1508314Z;";
 
-		String eui64 = (purifier == null ? "" : purifier.getEui64());
+		String eui64 = (purifier == null ? "" : purifier.getNetworkNode().getCppId());
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP, eui64) + qryPart2 + qryPart3;
 
 		ALog.i(ALog.INDOOR_RDCP, "rdcp qry:   "+qry);

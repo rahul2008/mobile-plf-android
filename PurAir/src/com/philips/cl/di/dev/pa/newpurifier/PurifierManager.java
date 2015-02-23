@@ -165,14 +165,14 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if( mDeviceHandler.isDeviceThreadRunning()) return ;
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || purifier.getIpAddress() == null || !purifier.getIpAddress().equals(purifierIp)) {
+		if (purifier == null || purifier.getNetworkNode().getIpAddress() == null || !purifier.getNetworkNode().getIpAddress().equals(purifierIp)) {
 			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier (" + (purifierIp == null? "null" : purifierIp) + ")");
 			return;
 		}
 		
 		String decryptedData = mSecurity.decryptData(encryptedData, purifier.getNetworkNode()) ;
 		if (decryptedData == null ) {
-			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getIpAddress());
+			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getNetworkNode().getIpAddress());
 			return;
 		}
 		notifySubscriptionListeners(decryptedData) ;
@@ -183,7 +183,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if( mDeviceHandler.isDeviceThreadRunning()) return ;
 		ALog.d(ALog.PURIFIER_MANAGER, "Remote event received");
 		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || !purifier.getEui64().equals(purifierEui64)) {
+		if (purifier == null || !purifier.getNetworkNode().getCppId().equals(purifierEui64)) {
 			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier");
 			return;
 		}
@@ -295,7 +295,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public synchronized void startSubscription() {
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier != null) {
-			mCurrentSubscriptionState = purifier.getConnectionState();
+			mCurrentSubscriptionState = purifier.getNetworkNode().getConnectionState();
 		}
 		
 		ALog.i(ALog.PURIFIER_MANAGER, "Start Subscription: " + mCurrentSubscriptionState);
@@ -318,7 +318,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void startLocalConnection() {
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
-		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getName() + " (" + purifier.getEui64() + ")");
+		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		
 		//Start the subscription every time it discovers the Purifier
 		subscribeToAllEvents(purifier);
@@ -338,12 +338,12 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		
-		if (purifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
+		if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
 			ALog.i(ALog.PURIFIER_MANAGER, "Can't start remote connection - not paired to purifier");
 			return;
 		}
 		
-		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getName() + " (" + purifier.getEui64() + ")");
+		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		subscribeToAllEvents(purifier);
 		SubscriptionHandler.getInstance().enableRemoteSubscription(PurAirApplication.getAppContext());
 	}
@@ -364,9 +364,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if (purifier == null) return;
 		if (key == null) return;
 		
-		if (deviceEui64.equals(purifier.getEui64())) {
+		if (deviceEui64.equals(purifier.getNetworkNode().getCppId())) {
 			ALog.e(ALog.PURIFIER_MANAGER, "Updated current purifier encryption key");
-			purifier.setEncryptionKey(key);
+			purifier.getNetworkNode().setEncryptionKey(key);
 			
 			new PurifierDatabase().updatePurifierUsingUsn(mCurrentPurifier);
 		}
@@ -404,7 +404,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	@Override
 	public void update(Observable observable, Object data) {
 		if(mCurrentPurifier == null) return;
-		switch (mCurrentPurifier.getConnectionState()) {
+		switch (mCurrentPurifier.getNetworkNode().getConnectionState()) {
 		case DISCONNECTED:
 			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier went offline");
 			stopCurrentSubscription();

@@ -330,7 +330,7 @@ public class EWSActivity extends ActionBarActivity implements
 		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
 		if (current != null) {
 			ALog.i(ALog.PAIRING, "EWS-setting paring to false");
-			current.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED) ;
+			current.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			//Save current location latitude and longitude
 			if (location != null) {
 				ALog.i(ALog.INDOOR_DETAILS, 
@@ -679,7 +679,7 @@ public class EWSActivity extends ActionBarActivity implements
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
 		PurAirDevice ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
 		if (ewsPurifier == null) return;
-		if (ewsPurifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+		if (ewsPurifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
 		PurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
 		deviceDiscoveryCompleted();

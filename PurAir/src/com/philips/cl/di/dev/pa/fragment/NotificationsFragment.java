@@ -97,7 +97,7 @@ AlertDialogBtnInterface, OnClickListener {
 //		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "
 //				+ ((MainActivity) parent).getRightMenuDisconnectionState());
 		if (mPurifier == null
-				|| mPurifier.getConnectionState() == ConnectionState.DISCONNECTED
+				|| mPurifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED
 				/*|| ((MainActivity) parent).getRightMenuDisconnectionState()*/) {
 
 			try {
@@ -119,15 +119,15 @@ AlertDialogBtnInterface, OnClickListener {
 
 		if (mPurifier == null || PurAirApplication.isDemoModeEnable()) {
 			disableNotificationScreen();
-		} else if (mPurifier.getPairedStatus() == NetworkNode.PAIRED_STATUS.PAIRED) {
+		} else if (mPurifier.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			getNotificationPermission();
 			showNotificationsLayout();
 		} else {
-			if(mPurifier.getPairedStatus()!=NetworkNode.PAIRED_STATUS.PAIRED){
+			if(mPurifier.getNetworkNode().getPairedState()!=NetworkNode.PAIRED_STATUS.PAIRED){
 				showPairingProgressDialog();
 			}
-			if(mPurifier.getPairedStatus()==NetworkNode.PAIRED_STATUS.NOT_PAIRED){
-				pairingHandler.resetPairingAttempts(mPurifier.getEui64());
+			if(mPurifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED){
+				pairingHandler.resetPairingAttempts(mPurifier.getNetworkNode().getCppId());
 				((MainActivity)getActivity()).pairToPurifierIfNecessary();
 			}
 		}
@@ -276,7 +276,7 @@ AlertDialogBtnInterface, OnClickListener {
 	private void getNotificationPermission() {
 		NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 
-		if (mPurifier != null && mPurifier.getPairedStatus() == NetworkNode.PAIRED_STATUS.PAIRED) {
+		if (mPurifier != null && mPurifier.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED) {
 
 			showGetRelationProgressDialog(R.string.notification_permission_check_msg);
 
@@ -291,7 +291,7 @@ AlertDialogBtnInterface, OnClickListener {
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		System.out.println("manzer Toggle checked");
-		if (mPurifier != null && ConnectionState.DISCONNECTED == mPurifier.getConnectionState()) {
+		if (mPurifier != null && ConnectionState.DISCONNECTED == mPurifier.getNetworkNode().getConnectionState()) {
 			return;
 		}
 		switch (button.getId()) {
@@ -453,7 +453,7 @@ AlertDialogBtnInterface, OnClickListener {
 
 			@Override
 			public void run() {
-				if (mPurifier != null && ConnectionState.DISCONNECTED != mPurifier.getConnectionState()) {
+				if (mPurifier != null && ConnectionState.DISCONNECTED != mPurifier.getNetworkNode().getConnectionState()) {
 					lastConnectionLL.setVisibility(View.GONE);
 				}
 				if (aqiThresholdProgressDialog != null)	aqiThresholdProgressDialog.dismiss();
@@ -543,10 +543,10 @@ AlertDialogBtnInterface, OnClickListener {
 			@Override
 			public void run() {
 				if (mPurifier == null) return;
-				if (ConnectionState.DISCONNECTED == mPurifier.getConnectionState()) {
+				if (ConnectionState.DISCONNECTED == mPurifier.getNetworkNode().getConnectionState()) {
 					showLastConnectionAlert();
 					disableNotificationScreen();
-				} else if (NetworkNode.PAIRED_STATUS.PAIRED == mPurifier.getPairedStatus()){
+				} else if (NetworkNode.PAIRED_STATUS.PAIRED == mPurifier.getNetworkNode().getPairedState()){
 					lastConnectionLL.setVisibility(View.GONE);
 					getNotificationPermission();
 				}

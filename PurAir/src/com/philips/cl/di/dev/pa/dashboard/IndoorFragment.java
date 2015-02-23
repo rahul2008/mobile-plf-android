@@ -122,7 +122,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
 			if (purifier == null) return;
 			
-			eui64 = purifier.getEui64() ;
+			eui64 = purifier.getNetworkNode().getCppId() ;
 		}
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
@@ -199,7 +199,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		//For demo mode
 		if (PurAirApplication.isDemoModeEnable()) {
 			purifierNameTxt.setText(DemoModeConstant.DEMO);
-		} else if (purifier == null || !purifier.getEui64().equals(tempEui64)) {
+		} else if (purifier == null || !purifier.getNetworkNode().getCppId().equals(tempEui64)) {
 			purifier = DiscoveryManager.getInstance().getDeviceByEui64(tempEui64);
 		}
 		
@@ -216,7 +216,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (airPortInfo == null) return;
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
-		if (ConnectionState.DISCONNECTED == purifier.getConnectionState()) {
+		if (ConnectionState.DISCONNECTED == purifier.getNetworkNode().getConnectionState()) {
 			hideFirmwareUpdatePopup();
 			disconnect(getString(R.string.not_connected));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
@@ -327,8 +327,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
 		if (current == null) return;
 		
-		ALog.i(ALog.DASHBOARD, "Purifier connection state " + current.getConnectionState());
-		switch (current.getConnectionState()) {
+		ALog.i(ALog.DASHBOARD, "Purifier connection state " + current.getNetworkNode().getConnectionState());
+		switch (current.getNetworkNode().getConnectionState()) {
 		case CONNECTED_LOCALLY:
 		case CONNECTED_REMOTELY:
 			getActivity().runOnUiThread(new Runnable() {
@@ -356,7 +356,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$onAirPurifierEventReceived");
 		
 		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
-		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			ALog.i(ALog.DASHBOARD, "onAirPurifierEventReceived ");
 			return ;
 		}
@@ -380,7 +380,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
 		if(firmwarePortInfo == null) return;
 
-		updateFirmwareUI(purifier.getEui64(), firmwarePortInfo);
+		updateFirmwareUI(purifier.getNetworkNode().getCppId(), firmwarePortInfo);
 	}
 	
 	private String status = "";

@@ -199,7 +199,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 
-		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			disableRightMenuControls();
 			return ;
 		}

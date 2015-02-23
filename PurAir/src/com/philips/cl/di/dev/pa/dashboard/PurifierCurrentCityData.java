@@ -174,7 +174,7 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 		PurAirDevice currentPuriufier = PurifierManager.getInstance().getCurrentPurifier();
 		
 		if (currentPuriufier != null) {
-			purifierCurrentCityGoodAQMap.put(currentPuriufier.getEui64(), currentCityGoodAQList) ;
+			purifierCurrentCityGoodAQMap.put(currentPuriufier.getNetworkNode().getCppId(), currentCityGoodAQList) ;
 		}
 		
 		if (listener != null) {

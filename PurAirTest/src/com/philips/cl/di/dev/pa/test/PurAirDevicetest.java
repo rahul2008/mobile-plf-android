@@ -31,7 +31,7 @@ public class PurAirDevicetest extends InstrumentationTestCase {
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		
 		purifier = new PurAirDevice(PURIFIER_EUI64, PURIFIER_USN, PURIFIER_IP, PURIFIER_NAME, PURIFIER_BOOTID, ConnectionState.CONNECTED_LOCALLY);
-		purifier.setEncryptionKey(PURIFIER_KEY);
+		purifier.getNetworkNode().setEncryptionKey(PURIFIER_KEY);
 		observer = mock(Observer.class);
 		
 		super.setUp();
@@ -51,7 +51,7 @@ public class PurAirDevicetest extends InstrumentationTestCase {
 
 	public void testNotifyObserverSameConnectionState() {
 		purifier.addObserver(observer);
-		purifier.setConnectionState(purifier.getConnectionState());
+		purifier.setConnectionState(purifier.getNetworkNode().getConnectionState());
 		verify(observer, never()).update(eq(purifier), anyObject());
 	}
 	

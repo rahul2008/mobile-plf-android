@@ -182,7 +182,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 		if (purifier == null)	return;
 
-		if (purifier.getPairedStatus() == NetworkNode.PAIRED_STATUS.PAIRED) {
+		if (purifier.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			// Remove pairing
 			PairingHandler pairingHandler = new PairingHandler(this, purifier.getNetworkNode());
 			pairingHandler.initializeRelationshipRemoval();
@@ -216,18 +216,18 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
     private void removePurifierFromDiscoveredList(PurAirDevice purifier) {
-        if (purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
-            DiscoveryManager.getInstance().removeFromDiscoveredList(purifier.getEui64());
+        if (purifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+            DiscoveryManager.getInstance().removeFromDiscoveredList(purifier.getNetworkNode().getCppId());
         } else {
             DiscoveryManager.getInstance().updatePairingStatus(
-                    purifier.getEui64(), NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+                    purifier.getNetworkNode().getCppId(), NetworkNode.PAIRED_STATUS.NOT_PAIRED);
         }
     }
 
     private void removeCurrentPurifier(PurAirDevice purifier){
         PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
         if (currentPurifier == null) return;
-        if (currentPurifier.getEui64().equals(purifier.getEui64())) {
+        if (currentPurifier.getNetworkNode().getCppId().equals(purifier.getNetworkNode().getCppId())) {
             PurifierManager.getInstance().removeCurrentPurifier();
         }
     }

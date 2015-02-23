@@ -426,14 +426,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
-
 		final PurAirDevice purifier = getCurrentPurifier();
-
-		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+		
+		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			return ;
 		}
-
-		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
+		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getNetworkNode().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) {
 			return;
@@ -460,8 +458,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	public void pairToPurifierIfNecessary() {
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
-		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
-			purifier.setPairing(NetworkNode.PAIRED_STATUS.PAIRING);
+		if( PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
+			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			checkInternetConnection() ;
 		}
@@ -508,7 +506,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	public void onPairingFailed(NetworkNode networkNode) {
 		if(getCurrentPurifier()==null) return;
 
-		if(networkNode.getCppId()==getCurrentPurifier().getEui64()){
+		if(networkNode.getCppId()==getCurrentPurifier().getNetworkNode().getCppId()){
 			cancelPairingDialog();
 			FragmentManager manager = getSupportFragmentManager();
 			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
@@ -617,27 +615,27 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 						if( signon ) {
 							ALog.i(ALog.PAIRING, "Start pairing process" ) ;
 							PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
-							pm.setPairingAttempts(purifier.getEui64());
+							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
 						}
 					}
 				});
 			}
 			else {
-				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
+				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getNetworkNode().getPairedState()+ " "+ purifier.getName());
 				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
-				pm.setPairingAttempts(purifier.getEui64());
+				pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 				pm.startPairing();
 			}
 		}
 		else {
 			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
-				purifier.setPairing(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
 				// Sets the max pairing attempt for the Purifier to stop checking for internet connection
-				while(PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
-					pm.setPairingAttempts(purifier.getEui64());
+				while(PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
+					pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 				}
 			}
 			

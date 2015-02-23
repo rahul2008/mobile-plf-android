@@ -114,10 +114,9 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		if (keyInitializeState == KeyInitializeState.NONE) {
 			keyInitializeState = KeyInitializeState.START;
 			DISecurity di = new DISecurity(this);
-			di.initializeExchangeKeyCounter(tempDemoModePurifier.getEui64());
+			di.initializeExchangeKeyCounter(tempDemoModePurifier.getNetworkNode().getCppId());
 			di.exchangeKey(Utils.getPortUrl(Port.SECURITY,
-					EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier
-					.getEui64());
+					EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getNetworkNode().getCppId());
 		}
 	}
 
@@ -177,12 +176,12 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	private void updateTempDevice(String eui64) {
 		if (tempDemoModePurifier == null)
 			return;
-		String encryptionKey = tempDemoModePurifier.getEncryptionKey();
+		String encryptionKey = tempDemoModePurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = DemoModeConstant.DEMO;
 		tempDemoModePurifier = new PurAirDevice(eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,
 				ConnectionState.CONNECTED_LOCALLY);
-		tempDemoModePurifier.setEncryptionKey(encryptionKey);
+		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 		PurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
 		PurAirApplication.setDemoModePurifier(eui64);
 	}
@@ -208,7 +207,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		ALog.i(ALog.DEMO_MODE, "Key: " + key);
 		if (tempDemoModePurifier == null)
 			return;
-		tempDemoModePurifier.setEncryptionKey(key);
+		tempDemoModePurifier.getNetworkNode().setEncryptionKey(key);
 
 		if (key != null) {
 			getDeviceDetails();
@@ -233,7 +232,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 					SessionDto.getInstance().setDeviceDto(deviceDto);
 					if (deviceDto == null)
 						return;
-					tempDemoModePurifier.setName(DemoModeConstant.DEMO);
+					tempDemoModePurifier.getNetworkNode().setName(DemoModeConstant.DEMO);
 					getWifiDetails();
 				}
 			} else if (taskType == DemoModeConstant.DEMO_MODE_TASK_WIFI_GET) {

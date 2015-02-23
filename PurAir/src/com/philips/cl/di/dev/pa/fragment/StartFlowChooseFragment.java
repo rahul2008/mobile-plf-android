@@ -193,7 +193,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		if (selectedPurifier == null) return;
 		connectTimer.start();
 		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
-				selectedPurifier.getIpAddress()), "", "GET");
+				selectedPurifier.getNetworkNode().getIpAddress()), "", "GET");
 		connectTask.start();
 	}
 
@@ -203,7 +203,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		if (selectedPurifier != null) {
 			clearDiscoveredPurifierObject();//Clear adapter object
 			selectedPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork());
+			selectedPurifier.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfConnectedNetwork());
 			if (location != null) {
 				ALog.i(ALog.MANAGE_PUR, 
 						"Add purifier: Purifier Current city lat: " + location.getLatitude() + "; long:" + location.getLongitude());

@@ -99,7 +99,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 				.getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
 			if (current != null
-					&& current.getConnectionState() == ConnectionState.CONNECTED_LOCALLY)
+					&& current.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY)
 				return;
 			if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 				initializeKeyExchange();
@@ -120,7 +120,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 		PurAirDevice demoModePurifier = new PurAirDevice(deviceEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
-		demoModePurifier.setEncryptionKey(key);
+		demoModePurifier.getNetworkNode().setEncryptionKey(key);
 		PurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
 	}
 

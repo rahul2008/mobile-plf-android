@@ -24,7 +24,7 @@ public class EWSServiceTest extends AndroidTestCase {
 		super.setUp();
 		ewsService = new EWSBroadcastReceiver(ewsListener, "WHF2012TEST");
 		puriDevice = new PurAirDevice("fffgggcc05", "usn", "192.168.1.1", "name", 1, ConnectionState.CONNECTED_LOCALLY);
-		puriDevice.setEncryptionKey(KEY);
+		puriDevice.getNetworkNode().setEncryptionKey(KEY);
 	}
 	
 	public void testGetWifiPortJson() {

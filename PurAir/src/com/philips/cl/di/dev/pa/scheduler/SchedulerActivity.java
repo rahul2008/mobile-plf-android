@@ -129,7 +129,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		schedulerNumberSelected = schedulesList.get(index).getScheduleNumber();
 		indexSelected = index;
 		if (purAirDevice == null
-				|| purAirDevice.getConnectionState() == ConnectionState.DISCONNECTED)
+				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			return;
 		PurifierManager.getInstance().sendScheduleDetailsToPurifier("",
 				purAirDevice, scheduleType, schedulerNumberSelected);
@@ -188,7 +188,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		scheduleType = SCHEDULE_TYPE.GET;
 		showProgressDialog();
 		if (purAirDevice == null
-				|| purAirDevice.getConnectionState() == ConnectionState.DISCONNECTED)
+				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			return;
 		String dataToSend = "";
 		PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend,
