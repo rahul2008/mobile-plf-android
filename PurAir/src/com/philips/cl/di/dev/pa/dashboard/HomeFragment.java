@@ -25,8 +25,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -48,7 +46,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener,
-		AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener {
+		AlertDialogBtnInterface, NetworkStateListener {
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
@@ -70,27 +68,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	public void onResume() {
 		super.onResume();
 		
-		DrawerAdapter.getInstance().addDrawerListener(this);
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
-		
-//		((MainActivity) getActivity()).setActionBar(this);
-//		if (indoorViewPager != null) {
-//			int currentPage = indoorViewPager.getCurrentItem();
-//			
-////			if (PurAirApplication.isDemoModeEnable()) {
-////				setRightMenuIconVisibilityDemoMode(currentPage);
-////			}
-////			else {
-////				setRightMenuIconVisibilityNormalMode(currentPage);
-////			}
-//		}
 		notifyOutdoorPager();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		DrawerAdapter.getInstance().removeDrawerListener(this);
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
 	
@@ -332,48 +316,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	public void onNegativeButtonClicked() {/**NOP*/}
 	
 	@Override
-	public void onDrawerEvent(DrawerEvent event, View drawerView) {
-		switch (event) {
-		case DRAWER_CLOSED:
-			break;
-		case DRAWER_OPENED:
-			hideTakeATourPopup();
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
 	public void onConnected(String ssid) {
 		ALog.i(ALog.DASHBOARD, "HomeFragment$onConnected");
 		OutdoorManager.getInstance().resetUpdatedTime();
 		OutdoorManager.getInstance().startCitiesTask();
 	}
 	
-//	private void setRightMenuIconVisibility(int visibility) {
-//		if (getActivity() == null) return;
-//		((MainActivity)getActivity()).setRightMenuVisibility(visibility);
-//		
-//	}
-	
-//	private void setRightMenuIconVisibilityDemoMode(int position) {
-//		//For demo mode
-//		if (position == 1) {
-//			setRightMenuIconVisibility(View.INVISIBLE);
-//		} else {
-//			setRightMenuIconVisibility(View.VISIBLE);
-//		}
-//	}
-	
-//	private void setRightMenuIconVisibilityNormalMode(int position) {
-//		if (position >= DiscoveryManager.getInstance().getStoreDevices().size()) {
-//			setRightMenuIconVisibility(View.INVISIBLE);
-//		} else {
-//			setRightMenuIconVisibility(View.VISIBLE);
-//		}
-//	}
-
 	@Override
 	public void onDisconnected() {/**NOP*/}
 
@@ -389,11 +337,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		public void onPageSelected(int position) {
 			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
 			if (PurAirApplication.isDemoModeEnable()) {
-//				setRightMenuIconVisibilityDemoMode(position);
 				return;
 			}
-			
-//			setRightMenuIconVisibilityNormalMode(position);
 			
 			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
 				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);

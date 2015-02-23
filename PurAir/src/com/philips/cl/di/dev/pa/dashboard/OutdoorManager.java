@@ -11,12 +11,12 @@ import java.util.Set;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
 import com.philips.cl.di.dev.pa.outdoorlocations.DataCommunicatorStrategy;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData.LocalityInfo;
-import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorJsonReader;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;

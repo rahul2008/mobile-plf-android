@@ -50,7 +50,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.right_menu_control_panel, null);
+		View view = inflater.inflate(R.layout.device_control_panel, null);
 		return view;
 	}
 	
@@ -296,7 +296,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		case R.id.tv_rm_notification:
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
-			mainActivity.closeRightMenu();
 			mainActivity.showFragment(new NotificationsFragment());
 			break;
 		case R.id.heading_back_imgbtn: 

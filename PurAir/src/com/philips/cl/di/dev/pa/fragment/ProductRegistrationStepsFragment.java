@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class ProductRegistrationStepsFragment extends BaseFragment {
@@ -25,13 +24,7 @@ public class ProductRegistrationStepsFragment extends BaseFragment {
 		View view = inflater.inflate(R.layout.product_registration_step_1,
 				container, false);
 		initializeView(view);
-		initMenu();
 		return view;
-	}
-
-	private void initMenu() {
-		MainActivity activity = (MainActivity) getActivity();
-		activity.setRightMenuVisibility(false);
 	}
 
 	private void initializeView(View view) {

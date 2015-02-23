@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.activity;
 import java.util.ArrayList;
-import java.util.List;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -10,40 +9,22 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -53,7 +34,6 @@ import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
-import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -81,31 +61,15 @@ import com.philips.cl.di.dev.pa.util.InternetConnectionHandler;
 import com.philips.cl.di.dev.pa.util.InternetConnectionListener;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
-import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
-import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
-PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener, InternetConnectionListener {
+PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectionListener {
 
 	private static int screenWidth, screenHeight;
 
-	private DrawerLayout mDrawerLayout;
-	private ListView mListViewLeft;
-	private ScrollView mScrollViewRight;
-	private PurifierControlPanel rightMenuClickListener;
-
-	/** Right off canvas elements */
-	private TextView tvAirStatusAqiValue;
-	private TextView tvConnectionStatus;
-	private TextView tvAirStatusMessage;
-	private ImageView ivAirStatusBackground;
-	private ImageView ivConnectedImage;
-	private ImageView ivConnectionError;
-	private boolean mRightDrawerOpened, mLeftDrawerOpened;
-	private MenuItem rightMenuItem;
 	private int mVisits;
 
 	public boolean isTutorialPromptShown = false;
@@ -140,33 +104,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		OutdoorController.getInstance();
 
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
-		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
-		mDrawerLayout.setFocusableInTouchMode(false);
-
-		mDrawerLayout.setDrawerListener(DrawerAdapter.getInstance());
-
-		/** Initialise left menu items and click listener */
-		mListViewLeft = (ListView) findViewById(R.id.left_menu_listView);
-		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
-		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
-
-		/** Initiazlise right menu items and click listener */
-		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu_scrollView);
-		rightMenuClickListener = new PurifierControlPanel(this);
-
-		ViewGroup group = (ViewGroup) findViewById(R.id.right_menu_layout);
-		setAllButtonListener(group);
-
-		tvAirStatusAqiValue = (TextView) findViewById(R.id.tv_rm_air_status_aqi_value);
-		tvConnectionStatus = (TextView) findViewById(R.id.tv_connection_status);
-		tvAirStatusMessage = (TextView) findViewById(R.id.tv_rm_air_status_message);
-		ivAirStatusBackground = (ImageView) findViewById(R.id.iv_rm_air_status_background);
-		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
-		ivConnectionError =  (ImageView) findViewById(R.id.iv_connection_error);
-
 		showFirstFragment();
 		initializeCPPController();
 		selectPurifier();
@@ -186,8 +123,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);
-		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
-		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 
 		if (PurAirApplication.isDemoModeEnable()) {
 			startDemoMode();
@@ -195,7 +130,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			startNormalMode();
 		}
 
-		DrawerAdapter.getInstance().addDrawerListener(this);
 		updatePurifierUIFields() ;
 
 		//Check if App in demo mode and WI-FI not connected PHILIPS Setup show dialog
@@ -283,7 +217,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			progressDialog.cancel();
 		}
 
-		DrawerAdapter.getInstance().removeDrawerListener(this);
 		super.onStop();
 	}
 
@@ -314,12 +247,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			invalidateOptionsMenu();
 		}
 
-		if (mLeftDrawerOpened || mRightDrawerOpened) {
-			mDrawerLayout.closeDrawer(mListViewLeft);
-			mDrawerLayout.closeDrawer(mScrollViewRight);
-			mLeftDrawerOpened = false;
-			mRightDrawerOpened = false;
-		} else if (fragment instanceof StartFlowVirginFragment) {
+		if (fragment instanceof StartFlowVirginFragment) {
 			clearFinishCheckGPS();
 		} else if (fragment instanceof CongratulationFragment) {
 			return;
@@ -414,33 +342,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		
 	}
 
-	public DrawerLayout getDrawerLayout() {
-		return mDrawerLayout;
-	}
-
-	public ScrollView getScrollViewRight() {
-		return mScrollViewRight;
-	}
 
 	public HomeFragment getDashboard() {
 		return new HomeFragment();
-	}
-
-	/**
-	 * @param viewGroup
-	 *            loops through the entire view group and adds an
-	 *            onClickListerner to the buttons.
-	 */
-	public void setAllButtonListener(ViewGroup viewGroup) {
-		View v;
-		for (int i = 0; i < viewGroup.getChildCount(); i++) {
-			v = viewGroup.getChildAt(i);
-			if (v instanceof ViewGroup) {
-				setAllButtonListener((ViewGroup) v);
-			} else if (v instanceof Button) {
-				((Button) v).setOnClickListener(rightMenuClickListener);
-			}
-		}
 	}
 
 	public void showAlertDialogPairingFailed(final String title, final String message, final String fragTag) {
@@ -467,83 +371,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		});
 	}
 
-	/** Create the left menu items. */
-	private List<ListViewItem> getLeftMenuItems() {
-		List<ListViewItem> leftMenuItems = new ArrayList<ListViewItem>();
-
-		leftMenuItems.add(new ListViewItem(R.string.list_item_home,
-				R.drawable.icon_1_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
-				R.drawable.icon_9_2x));
-		return leftMenuItems;
-	}
-
-	private void setRightMenuAQIValue(float indoorAQI) {
-		tvAirStatusAqiValue.setTextSize(18.0f);
-		if (indoorAQI <= 1.4f) {
-			tvAirStatusAqiValue.setText(getString(R.string.good_indoor));
-		} else if (indoorAQI > 1.4f && indoorAQI <= 2.3f) {
-			tvAirStatusAqiValue.setText(getString(R.string.moderate_indoor));
-		} else if (indoorAQI > 2.3f && indoorAQI <= 3.5f) {
-			tvAirStatusAqiValue.setText(getString(R.string.unhealthy_indoor));
-		} else if (indoorAQI > 3.5f) {
-			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy_split_indoor));
-		}
-	}
-
-	private void setRightMenuAirStatusMessage(String message) {
-		tvAirStatusMessage.setText(message);
-	}
-
-	private void setRightMenuAirStatusBackground(float indoorAQI) {
-		Drawable imageDrawable = null;
-
-		if (indoorAQI <= 1.4f) {
-			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
-		} else if (indoorAQI > 1.4f && indoorAQI <= 2.3f) {
-			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_100_150_2x);
-		} else if (indoorAQI > 2.3f && indoorAQI <= 3.5f) {
-			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_200_300_2x);
-		} else if (indoorAQI > 3.5f) {
-			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_300_500_2x);
-		}
-		ivAirStatusBackground.setImageDrawable(imageDrawable);
-	}
-
-	private void updateRightMenuConnectedStatus() {
-		PurAirDevice purifier = this.getCurrentPurifier();
-		ConnectionState purifierState = ConnectionState.DISCONNECTED;
-		if (purifier != null) purifierState = purifier.getConnectionState();
-
-		final ConnectionState newState = purifierState;
-		ALog.i(ALog.MAINACTIVITY, "Connection status: " + purifierState);
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ivConnectionError.setVisibility(View.GONE);
-				switch (newState) {
-				case CONNECTED_LOCALLY:
-					tvConnectionStatus.setText(getString(R.string.connected));
-					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
-					ALog.d(ALog.MAINACTIVITY, "Updating right menu to connected");
-					break;
-				case CONNECTED_REMOTELY:
-					tvConnectionStatus.setText(getString(R.string.connected_via_philips));
-					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
-					ALog.d(ALog.MAINACTIVITY, "Updating right menu to connected via philips");
-					break;
-				case DISCONNECTED:
-					tvConnectionStatus.setText(getString(R.string.not_connected));
-					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-					rightMenuClickListener.toggleControlPanel(false, null);
-					ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
-					break;
-				}
-			}
-		});
-	}
-
 	public void showFragment(Fragment fragment) {
 		try {
 			getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -559,39 +386,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}		
-	}
-
-	/** Left menu item clickListener */
-	private class MenuItemClickListener implements OnItemClickListener {
-
-		private List<Fragment> leftMenuItems = new ArrayList<Fragment>();
-
-		public MenuItemClickListener() {
-			initLeftMenu();
-		}
-
-		private void initLeftMenu() {
-			leftMenuItems.add(getDashboard());
-			leftMenuItems.add(new BuyOnlineFragment());
-		}
-
-		@Override
-		public void onItemClick(AdapterView<?> listView, View listItem,
-				int position, long id) {
-			//			setDashboardActionbarIconVisible();
-			String leftMenuItemName= listItem.getTag().toString();
-
-			mDrawerLayout.closeDrawer(mListViewLeft);
-
-			if (leftMenuItemName.equals(getString(R.string.list_item_home))){
-				showFirstFragment();
-				setTitle(getString(R.string.dashboard_title));
-			} else if(leftMenuItemName.equals(getString(R.string.list_item_buy_online))){
-				// Buy Online
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_buy_online));
-			}
-		}
 	}
 
 	private static void setScreenWidth(int width) {
@@ -628,80 +422,28 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) {
-		if (getCurrentPurifier() == null 
-				|| getCurrentPurifier().getConnectionState() == ConnectionState.DISCONNECTED) return;
-
-		if( purifierEvent == PurifierEvent.DEVICE_CONTROL) {
-//			setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
-			ivConnectionError.setVisibility(View.VISIBLE);
-			tvConnectionStatus.setText(getString(R.string.lost_connection));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_gray_2x));
-		}
-	}
+	public void onErrorOccurred(PurifierEvent purifierEvent) { /**NOP*/ }
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
 
 		final PurAirDevice purifier = getCurrentPurifier();
 
-		Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.llContainer);
-		if(fragment instanceof BuyOnlineFragment){
-			((BuyOnlineFragment)fragment).updateFilterStatus(purifier); 
-		}
-
 		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
-			disableRightMenuControls();
 			return ;
 		}
 
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) {
-			disableRightMenuControls();
 			return;
 		}
-
-		updateRightMenuConnectedStatus();
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
-				setRightMenuAQIValue(indoorAQIUsableValue);
-				rightMenuClickListener.setSensorValues(info);
-				setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue),	getString(R.string.philips_home)));
-				setRightMenuAirStatusBackground(indoorAQIUsableValue);
-				rightMenuClickListener.toggleControlPanel(true,info);
-			}
-		});
-
 		pairToPurifierIfNecessary();
-	}
-
-	private void disableRightMenuControls() {
-
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				ivConnectionError.setVisibility(View.GONE);
-				tvConnectionStatus.setText(getString(R.string.not_connected));
-				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-				rightMenuClickListener.toggleControlPanel(false, null);
-				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
-				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
-				tvAirStatusAqiValue.setText(getString(R.string.not_connected));
-			}
-		});
 	}
 
 	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {
 		if (purifier == null) return null;
 		return purifier.getAirPortInfo();
-	}
-
-	public void setRightMenuVisibility(boolean visible) {
-		rightMenuItem.setVisible(visible);
 	}
 
 	public int getVisits() {
@@ -853,39 +595,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (purifier != null) purifier.setConnectionState(ConnectionState.DISCONNECTED);
 		updatePurifierUIFields();
-	}
-
-	@Override
-	public void onDrawerEvent(DrawerEvent event, View drawerView) {
-		switch (event) {
-		case DRAWER_CLOSED:
-			if (drawerView.getId() == R.id.right_menu_scrollView) {
-				ALog.i(ALog.MAINACTIVITY, "Right drawer close");
-				mRightDrawerOpened = false;
-			} else if (drawerView.getId() == R.id.left_menu_listView) {
-				ALog.i(ALog.MAINACTIVITY, "Left drawer close");
-				mLeftDrawerOpened = false;
-			}
-			break;
-		case DRAWER_OPENED:
-			if (drawerView.getId() == R.id.right_menu_scrollView) {
-				mRightDrawerOpened = true;
-				ALog.i(ALog.MAINACTIVITY, "Right drawer open");
-			} else if (drawerView.getId() == R.id.left_menu_listView) {
-				mLeftDrawerOpened = true;
-				ALog.i(ALog.MAINACTIVITY, "Left drawer open");
-			}
-			break;
-		case DRAWER_SLIDE_END:
-			// NOP : Can be removed
-			break;
-		default:
-			break;
-		}
-	}
-	
-	public void closeRightMenu() {
-		if (mDrawerLayout != null && mListViewLeft != null) mDrawerLayout.closeDrawer(mScrollViewRight);
 	}
 
 	private void checkForCrashesHockeyApp() {
