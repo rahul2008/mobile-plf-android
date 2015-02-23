@@ -33,11 +33,11 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/list_item_delete"
         android:gravity="center_vertical"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:paddingLeft="8dp"
         android:textSize="@dimen/text_size_large"
         android:textColor="@color/blue_list_item"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/list_item_right_arrow"
@@ -65,6 +65,6 @@
         android:text="@string/delete_text"
         android:textColor="@color/white"
         android:visibility="gone"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

@@ -45,20 +45,20 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
 		TextView tvHeader = (TextView) getView().findViewById(
 				R.id.tv_cancel_wifi_setup_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		tvHeader.setText(getString(R.string.app_update)) ;
 		TextView tvMessage = (TextView) getView().findViewById(
 				R.id.tv_cancel_wifi_setup_message);
 		
-		tvMessage.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		tvMessage.setText(getString(R.string.app_update_msg));
 		Button updateButton = (Button) getView().findViewById(
 				R.id.btn_cancel_wifi_yes);
-		updateButton.setTypeface(Fonts.getGillsansLight(getActivity()));
+		updateButton.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		updateButton.setText(getString(R.string.update)) ;
 		Button cancelButton = (Button) getView().findViewById(
 				R.id.btn_cancel_wifi_no);
-		cancelButton.setTypeface(Fonts.getGillsansLight(getActivity()));
+		cancelButton.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		cancelButton.setText(getString(R.string.cancel));
 		updateButton.setOnClickListener(new OnClickListener() {
 

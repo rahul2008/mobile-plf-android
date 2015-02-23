@@ -13,7 +13,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/delete_circle" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/title"
         android:layout_width="wrap_content"
@@ -22,6 +22,6 @@
         android:text="@string/philips_home"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </LinearLayout>

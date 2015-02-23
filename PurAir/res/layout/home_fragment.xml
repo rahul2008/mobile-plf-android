@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:text="@string/healthy_air_always"
@@ -70,7 +70,7 @@
                     android:text="@string/connect_your_purifier"
                     android:textColor="@color/white"
                     android:textSize="14sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <ImageView
                     android:id="@+id/hf_indoor_dashboard_btn_play"
@@ -121,7 +121,7 @@
                 android:layout_weight="1"
                 android:background="@color/philips_blue"
                 android:gravity="center"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/prompt_take_tour"
                 android:textColor="#FFF"
                 android:textSize="18sp" />

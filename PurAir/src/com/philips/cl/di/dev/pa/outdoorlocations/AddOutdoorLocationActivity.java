@@ -180,7 +180,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
         });
 
         mEnteredCityName = (EditText) findViewById(R.id.search_bar_city_name);
-        mEnteredCityName.setTypeface(Fonts.getGillsansLight(this));
+        mEnteredCityName.setTypeface(Fonts.getCentraleSansLight(this));
         mEnteredCityName.addTextChangedListener(new TextWatcher() {
 
             @Override

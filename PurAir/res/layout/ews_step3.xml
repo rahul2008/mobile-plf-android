@@ -12,7 +12,7 @@
         android:focusableInTouchMode="true"
         android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_title"
             android:layout_width="match_parent"
@@ -22,9 +22,9 @@
             android:text="@string/step3_off_3"
             android:textColor="@color/title_gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_instruction"
             android:layout_width="match_parent"
@@ -34,9 +34,9 @@
             android:text="@string/step3_instruction"
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_password_lb"
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:text="@string/step3_msg1"
             android:textColor="@color/title_gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <EditText
             android:id="@+id/ews_step3_password"
@@ -84,7 +84,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_password_on_2x" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_password_enable_label"
                 android:layout_width="match_parent"
@@ -94,10 +94,10 @@
                 android:text="@string/show_password_label"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_message2"
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
             android:text="@string/step3_msg2"
             android:textColor="@color/title_gray"
             android:textSize="14sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -123,7 +123,7 @@
             android:text="@string/edit"
             android:textColor="@color/white"
             android:textSize="14sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <EditText
             android:id="@+id/ews_step3_place_name_edittxt"
@@ -177,7 +177,7 @@
                 android:text="@string/ip"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <EditText
                 android:id="@+id/ews_step3_ip_edittxt"
@@ -209,7 +209,7 @@
                 android:text="@string/subnet"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <EditText
                 android:id="@+id/ews_step3_subnet_edittxt"
@@ -240,7 +240,7 @@
                 android:text="@string/router"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <EditText
                 android:id="@+id/ews_step3_router_edittxt"
@@ -271,9 +271,9 @@
                 android:text="@string/wifi_addr"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add"
                 android:layout_width="wrap_content"
@@ -284,7 +284,7 @@
                 android:text=""
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </RelativeLayout>
 
         <com.philips.cl.di.dev.pa.view.FontButton
@@ -302,7 +302,7 @@
             android:text="@string/next"
             android:textColor="@color/white"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
             android:id="@+id/ews_adv_config_layout"
@@ -334,7 +334,7 @@
                 android:text="@string/adv_confiq"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
     </RelativeLayout>
 

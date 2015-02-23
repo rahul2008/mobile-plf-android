@@ -7,7 +7,7 @@
     android:paddingRight="16dp"
     android:paddingTop="24dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_header"
         android:layout_width="wrap_content"
@@ -17,9 +17,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_message"
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:text="@string/cancel_wifi_setup_message"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:text="@string/no"
             android:textColor="@color/white"
             android:textSize="14sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -61,7 +61,7 @@
             android:text="@string/yes"
             android:textColor="@color/white"
             android:textSize="14sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

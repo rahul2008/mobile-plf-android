@@ -19,7 +19,7 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/air_tutorial_screen_one" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/dashboard_instruction_4"
             android:layout_width="wrap_content"
@@ -31,9 +31,9 @@
             android:text="@string/dashboard_instruction_4"
             android:textSize="12sp"
             android:visibility="gone"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/dashboard_instruction_3"
             android:layout_width="wrap_content"
@@ -46,9 +46,9 @@
             android:text="@string/dashboard_instruction_3"
             android:textSize="12sp"
             android:visibility="gone"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/dashboard_instruction_2"
             android:layout_width="wrap_content"
@@ -61,9 +61,9 @@
             android:text="@string/dashboard_instruction_2"
             android:textSize="12sp"
             android:visibility="gone"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/dashboard_instruction_1"
             android:layout_width="wrap_content"
@@ -76,10 +76,10 @@
             android:text="@string/dashboard_instruction_1"
             android:textSize="12sp"
             android:visibility="gone"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tutorial_desc"
         android:layout_width="fill_parent"
@@ -89,9 +89,9 @@
         android:text="@string/tutorial_dashboard_desc"
         android:textColor="@color/lighter_philips_blue"
         android:textSize="@dimen/text_size_large"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_instruction"
         android:layout_width="fill_parent"
@@ -101,6 +101,6 @@
         android:gravity="left"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </LinearLayout>

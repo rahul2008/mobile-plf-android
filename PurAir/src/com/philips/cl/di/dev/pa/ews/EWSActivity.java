@@ -113,7 +113,7 @@ public class EWSActivity extends ActionBarActivity implements
 		}
 		actionbarTitle.setText(getString(R.string.wifi_setup));
 		actionbarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
-		actionbarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
+		actionbarCancelBtn.setTypeface(Fonts.getCentraleSansLight(this));
 		actionbarCancelBtn.setVisibility(View.INVISIBLE);
 		actionbarBackImg = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
 		actionbarBackImg.setOnClickListener(this);

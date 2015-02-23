@@ -27,7 +27,7 @@
 		android:padding="12dp"
         android:src="@drawable/cross_close" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/wifi_enable_dialog_title"
         android:layout_width="match_parent"
@@ -38,9 +38,9 @@
         android:text="@string/wifi_enable_title_txt"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/wifi_enable_dialog_msg"
         android:layout_width="match_parent"
@@ -51,7 +51,7 @@
         android:text="@string/wifi_enable_msg_txt"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/wifi_enable_dialog_img"
@@ -75,6 +75,6 @@
         android:text="@string/wifi_enable_button_txt"
         android:textColor="@color/white"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

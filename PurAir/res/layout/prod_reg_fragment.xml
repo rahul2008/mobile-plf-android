@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:layout_gravity="bottom" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/prod_reg_title"
         android:layout_width="wrap_content"
@@ -14,7 +14,7 @@
         android:padding="0dp"
         android:text="@string/registration_instruction"
         android:textColor="@color/dimgray"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <View
         android:id="@+id/view1"
@@ -38,9 +38,9 @@
         android:text="@string/lbl_register"
         android:textColor="#FFF"
         android:textSize="13sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_kitchen"
         android:layout_width="fill_parent"
@@ -53,7 +53,7 @@
         android:text="@string/lbl_kitchen"
         android:textColor="@color/dimgray"
         android:textSize="18sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <View
         android:id="@+id/view2"
@@ -77,9 +77,9 @@
         android:text="@string/lbl_register"
         android:textColor="#FFF"
         android:textSize="13sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_living_room"
         android:layout_width="fill_parent"
@@ -91,7 +91,7 @@
         android:text="@string/lbl_living_room"
         android:textColor="@color/dimgray"
         android:textSize="18sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <View
         android:id="@+id/view3"
@@ -115,9 +115,9 @@
         android:text="@string/lbl_connected_purifiers"
         android:textColor="#FFF"
         android:textSize="13sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_purifier_ques"
         android:layout_width="fill_parent"
@@ -128,6 +128,6 @@
         android:layout_toLeftOf="@id/btn_connected_purifier"
         android:text="@string/registration_ques"
         android:textColor="@color/dimgray"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

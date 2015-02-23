@@ -11,7 +11,7 @@
         android:padding="16dp" 
         android:background="@android:color/white">
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/contact_philips_support_message1"
             android:layout_width="match_parent"
@@ -20,16 +20,16 @@
             android:text="@string/contact_philips_support_msg1"
             android:textColor="@color/title_gray"
             android:textSize="19sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/contact_philips_support_msg2"
             android:textColor="@color/philips_blue"
             android:textSize="24sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <View
             android:layout_width="wrap_content"
@@ -64,14 +64,14 @@
                 android:text="@string/contact_philips_support_msg3"
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:layout_below="@+id/contact_support_phone_lanbel"
                 android:layout_toRightOf="@+id/contact_support_phone_img"
                 android:drawablePadding="16dp"
@@ -79,19 +79,19 @@
                 android:text="@string/contact_philips_support_phone_num"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_phone_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:layout_toRightOf="@+id/contact_support_phone"
                 android:layout_below="@+id/contact_support_phone_lanbel"
                 android:text="@string/contact_philips_support_phone_num_2"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </RelativeLayout>
 
         <View
@@ -127,7 +127,7 @@
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
                 android:drawablePadding="16dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -139,7 +139,7 @@
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
                 android:drawablePadding="16dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </RelativeLayout>
 
         <View
@@ -176,21 +176,21 @@
                 android:text="@string/diagnostics"
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:layout_below="@+id/contact_support_email_lanbel"
                 android:layout_toRightOf="@+id/contact_support_email_img"
                 android:drawablePadding="16dp"
                 android:text="@string/contact_philips_support_email"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </RelativeLayout>
 
         <View
@@ -226,21 +226,21 @@
                 android:text="@string/contact_philips_support_msg5"
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_website"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:layout_below="@+id/contact_support_website_lanbel"
                 android:layout_toRightOf="@+id/contact_support_website_img"
                 android:drawablePadding="16dp"
                 android:text="@string/contact_philips_support_website"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </RelativeLayout>
 
         <View

@@ -4,7 +4,7 @@
     android:background="@color/white"
     android:padding="16dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_check_signal_header"
         android:layout_width="wrap_content"
@@ -14,9 +14,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_check_signal_message"
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:text="@string/checking_signal_strength_message"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/iv_check_signal_connected_icon"

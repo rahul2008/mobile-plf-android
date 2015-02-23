@@ -5,7 +5,7 @@
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odDayWeatherForcast"
         android:layout_width="0dp"
@@ -15,7 +15,7 @@
         android:gravity="left"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/odWeatherForcastImg"
@@ -24,7 +24,7 @@
         android:layout_weight="1"
         android:contentDescription="@string/img_description" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMaxTemp"
         android:layout_width="0dp"
@@ -36,9 +36,9 @@
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small_dp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMinTemp"
         android:layout_width="0dp"
@@ -49,9 +49,9 @@
         android:textColor="@color/lightgrey"
         android:textSize="@dimen/text_size_small_dp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastWind"
         android:layout_width="0dp"
@@ -61,7 +61,7 @@
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small_dp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/odWeatherForcastWindImg"

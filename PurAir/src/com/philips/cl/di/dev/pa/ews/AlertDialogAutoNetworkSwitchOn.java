@@ -32,7 +32,7 @@ public class AlertDialogAutoNetworkSwitchOn extends DialogFragment {
 		super.onActivityCreated(saveInstanceState);
 		
 		Button cancelBtn = (Button) getView().findViewById(R.id.setup_alert_ans_cancel_btn);
-		cancelBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		cancelBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		cancelBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override

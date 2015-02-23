@@ -38,7 +38,7 @@
             android:text="@string/indoor_db"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_very_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -74,7 +74,7 @@
             android:text="@string/outdoor_db"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_very_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
 </LinearLayout>

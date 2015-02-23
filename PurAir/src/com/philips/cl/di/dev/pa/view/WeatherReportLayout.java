@@ -74,7 +74,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			
 			FontTextView timeTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTime);
 			TextView tempTxt = (TextView) v.findViewById(R.id.odTodyWeatherTemp);
-			tempTxt.setTypeface(Fonts.getGillsansLight(context));
+			tempTxt.setTypeface(Fonts.getCentraleSansLight(context));
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
 			timeTxt.setText(time);
@@ -98,9 +98,9 @@ public class WeatherReportLayout extends  LinearLayout {
 			
 			FontTextView dayTxt = (FontTextView) v.findViewById(R.id.odDayWeatherForcast);
 			TextView dayTemp = (TextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
-			dayTemp.setTypeface(Fonts.getGillsansLight(context));
+			dayTemp.setTypeface(Fonts.getCentraleSansLight(context));
 			TextView nightTemp = (TextView) v.findViewById(R.id.odWeatherForcastMinTemp);
-			nightTemp.setTypeface(Fonts.getGillsansLight(context));
+			nightTemp.setTypeface(Fonts.getCentraleSansLight(context));
 			FontTextView windSpeedTxt = (FontTextView) v.findViewById(R.id.odWeatherForcastWind);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odWeatherForcastImg);
 			ImageView windDirImg = (ImageView) v.findViewById(R.id.odWeatherForcastWindImg);

@@ -40,7 +40,7 @@ public class DemoModeFinalFragment extends Fragment {
 		startControlPurifierBtn
 				.setText(getString(R.string.demo_mode_final_step_btn_txt));
 		startControlPurifierBtn.setTypeface(Fonts
-				.getGillsansLight(getActivity()));
+				.getCentraleSansLight(getActivity()));
 		startControlPurifierBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

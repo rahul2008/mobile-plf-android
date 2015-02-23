@@ -89,7 +89,7 @@ public class DemoModeActivity extends ActionBarActivity implements OnClickListen
 		}
 		actionbarTitle.setText(getString(R.string.demo_mode_title));
 		actionbarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
-		actionbarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
+		actionbarCancelBtn.setTypeface(Fonts.getCentraleSansLight(this));
 		actionbarCancelBtn.setVisibility(View.VISIBLE);
 		actionbarBackImg = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
 		actionbarBackImg.setVisibility(View.INVISIBLE);

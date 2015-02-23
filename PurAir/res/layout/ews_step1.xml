@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_title"
             android:layout_width="match_parent"
@@ -19,9 +19,9 @@
             android:text="@string/step1_off_3"
             android:textColor="@color/title_gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_instruction"
             android:layout_width="match_parent"
@@ -31,9 +31,9 @@
             android:text="@string/step1_instruction"
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_message"
             android:layout_width="match_parent"
@@ -44,9 +44,9 @@
             android:text="@string/step1_msg1"
             android:textColor="@color/contain_gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_wifi_network"
             android:layout_width="match_parent"
@@ -57,9 +57,9 @@
             android:text="@string/no_network"
             android:textColor="@color/philips_blue"
             android:textSize="19sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_alert_msg"
             android:layout_width="match_parent"
@@ -71,7 +71,7 @@
             android:text="@string/step1_alert_msg"
             android:textColor="@color/contain_gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                 android:text="@string/no"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontButton
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -106,7 +106,7 @@
                 android:text="@string/yes"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
     </RelativeLayout>
 

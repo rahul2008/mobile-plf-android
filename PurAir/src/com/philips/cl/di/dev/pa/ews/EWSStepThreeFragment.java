@@ -177,13 +177,13 @@ public class EWSStepThreeFragment extends Fragment {
 	}
 
 	private void setFontStyle() {
-		passwordStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
-		deviceNameStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
-		ipAddStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
-		subnetMaskStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
-		routerAddStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
-		nextBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
-		editSavePlaceNameBtnStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
+		passwordStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		deviceNameStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		ipAddStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		subnetMaskStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		routerAddStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		nextBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		editSavePlaceNameBtnStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 	}
 
 	private void initializeListener() {

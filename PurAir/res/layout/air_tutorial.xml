@@ -15,11 +15,11 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/tutorial_bubble_1_selector"
         android:gravity="left"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:text="@string/dashboard_instruction_1"
         android:textColor="@color/lighter_philips_blue"
         android:textSize="@dimen/text_size_large"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -30,11 +30,11 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/tutorial_bubble_2_selector"
         android:gravity="right"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:text="@string/dashboard_instruction_2"
         android:textColor="@color/lighter_philips_blue"
         android:textSize="@dimen/text_size_large"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -52,7 +52,7 @@
         android:text="@string/finish_tutorial"
         android:textColor="#FFF"
         android:textSize="18sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -64,11 +64,11 @@
         android:layout_marginBottom="28dp"
         android:background="@drawable/tutorial_bubble_4_selector"
         android:gravity="left"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:text="@string/dashboard_instruction_4"
         android:textColor="@color/lighter_philips_blue"
         android:textSize="@dimen/text_size_large"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -79,9 +79,9 @@
         android:gravity="left"
         android:maxWidth="150dp"
         android:text="@string/dashboard_instruction_3"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:textColor="@color/lighter_philips_blue"
         android:textSize="@dimen/text_size_large"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

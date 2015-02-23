@@ -35,7 +35,7 @@ public class EWSErrorPurifierDiscoverFragment extends Fragment {
 				.findViewById(R.id.ews_purifier_not_dect_network);
 		Button tryAgainBtn = (Button) getView().findViewById(
 				R.id.ews_purifier_not_dect_btn);
-		tryAgainBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tryAgainBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		tryAgainBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

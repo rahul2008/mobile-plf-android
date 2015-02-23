@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/avoidOutdoorTxt"
             android:layout_width="match_parent"
@@ -49,9 +49,9 @@
             android:text="@string/advice_od_msg2"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/openWindowTxt"
             android:layout_width="match_parent"
@@ -61,9 +61,9 @@
             android:text="@string/openwindow_od_msg2"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/maskTxt"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:text="@string/mask_od_msg2"
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </LinearLayout>

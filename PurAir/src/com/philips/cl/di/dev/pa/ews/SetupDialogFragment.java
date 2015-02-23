@@ -58,16 +58,16 @@ public class SetupDialogFragment extends DialogFragment {
 		String btnTxt = getArguments().getString(EXTRA_BTNTXT);
 
 		Button button = (Button) getView().findViewById(R.id.btn_error_popup);
-		button.setTypeface(Fonts.getGillsansLight(getActivity()));
+		button.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		button.setText(btnTxt);
 
 		TextView tvHeader = (TextView) getView().findViewById(
 				R.id.tv_error_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		tvHeader.setText(title);
 		TextView tvMessage = (TextView) getView().findViewById(
 				R.id.tv_error_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		tvMessage.setText(msg);
 		ImageView ivGotoSupport = (ImageView) getView().findViewById(
 				R.id.iv_goto_support);

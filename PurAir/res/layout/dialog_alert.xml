@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:padding="15dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/alert_title"
         android:layout_width="fill_parent"
@@ -16,9 +16,9 @@
         android:text="@string/alert_take_tour"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/alert_message"
         android:layout_width="fill_parent"
@@ -28,7 +28,7 @@
         android:text="@string/alert_taketour_text"
         android:textColor="@color/gray"
         android:textSize="18sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <!-- Dual button layout -->
 
@@ -52,7 +52,7 @@
             android:text="@string/close"
             android:textColor="#FFF"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -67,7 +67,7 @@
             android:text="@string/alert_take_tour"
             android:textColor="#FFF"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

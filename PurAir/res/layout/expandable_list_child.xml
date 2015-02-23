@@ -14,7 +14,7 @@
         android:id="@+id/expandable_list_child_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:autoLink="all"
         android:text=""
         android:textColor="@color/blue_list_item"

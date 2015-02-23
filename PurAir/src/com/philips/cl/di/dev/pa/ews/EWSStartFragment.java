@@ -30,7 +30,7 @@ public class EWSStartFragment extends Fragment {
 
 		Button startEwsBtn = (Button) getView().findViewById(
 				R.id.setup_get_start_btn);
-		startEwsBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		startEwsBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		startEwsBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

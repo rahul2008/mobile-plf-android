@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/subtitle_opensource_lib"
                 android:textColor="@color/blue_title"
                 android:textSize="@dimen/title_text_size_small"
@@ -35,7 +35,7 @@
                 android:layout_gravity="right"
                 android:background="@drawable/image_btn_bg"
                 android:contentDescription="@string/img_description"
-				android:padding="12dp"
+                android:padding="12dp"
                 android:src="@drawable/cross_close" />
         </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:layout_height="2dp"
             android:background="@drawable/seperator_line_2x"
             android:contentDescription="@string/img_description" />
-        
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tv_opensource_lib_licens"
@@ -52,12 +52,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:autoLink="web"
-    	    android:linksClickable="true"
-            android:lineSpacingExtra="7dp"
+            android:lineSpacingExtra="2dp"
+            android:linksClickable="true"
             android:text="@string/opensource_licens"
             android:textColor="@color/gray_message"
-                android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/centralesanslight.ttf" />
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>

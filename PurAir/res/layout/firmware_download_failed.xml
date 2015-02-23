@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:padding="16dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/firmware_update"
         android:layout_width="wrap_content"
@@ -13,9 +13,9 @@
         android:text="@string/firmware_download_failed"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/firmware_update_msg"
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:text="@string/firmware_failed_msg"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,13 +36,13 @@
         android:orientation="horizontal"
         android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontButton xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
+        <com.philips.cl.di.dev.pa.view.FontButton xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"
             android:id="@+id/btn_try_again_firmware_failed"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
             android:background="@drawable/blue_button_selector"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="2dp"
             android:text="@string/try_again"
             android:textColor="@color/white"
             android:textSize="14sp" />

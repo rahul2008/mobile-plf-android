@@ -53,11 +53,11 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:gravity="center_horizontal"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/neighborhood_aqi_data"
                     android:textColor="@color/dodgerblue"
                     android:textSize="@dimen/title_text_size_medium_dp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <LinearLayout
                     android:id="@+id/infotabll"
@@ -145,11 +145,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center_horizontal"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/weather_forecast"
                 android:textColor="@color/dodgerblue"
                 android:textSize="@dimen/title_text_size_medium_dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <HorizontalScrollView
                 android:id="@+id/odTodayWetherReportHSV"
@@ -205,11 +205,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/detail_aiq_message_last_day"
                 android:textColor="@color/dodgerblue"
                 android:textSize="@dimen/title_text_size_medium_dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -247,7 +247,7 @@
                 android:text="@string/outdoor_aiq_analysis_head1"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium_dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
     </ScrollView>
 

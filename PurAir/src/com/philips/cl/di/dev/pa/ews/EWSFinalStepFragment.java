@@ -28,7 +28,7 @@ public class EWSFinalStepFragment extends Fragment {
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_FINAL);
 
 		Button startControlPurifierBtn = (Button) getView().findViewById(R.id.finish_congratulation_btn);
-		startControlPurifierBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		startControlPurifierBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		startControlPurifierBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

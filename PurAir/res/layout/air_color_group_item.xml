@@ -30,7 +30,7 @@
         android:layout_marginRight="4dp"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:textColor="@color/blue_list_item"
         android:textSize="@dimen/text_size_small"
         custom:fontAssetName="fonts/centralesanslight.ttf" />

@@ -40,13 +40,12 @@ public class ProductRegistrationStepsFragment extends BaseFragment {
 		final Button btnNextStep = (Button) view
 				.findViewById(R.id.btn_next_step);
 
-		registrationTitleStep.setTypeface(Fonts.getGillsans(getActivity()));
-		registrationEmailAddressSubtitle.setTypeface(Fonts
-				.getGillsans(getActivity()));
-		registrationEmailQues.setTypeface(Fonts.getGillsans(getActivity()));
-		emailText.setTypeface(Fonts.getGillsans(getActivity()));
-		promotionsCheck.setTypeface(Fonts.getGillsans(getActivity()));
-		btnNextStep.setTypeface(Fonts.getGillsans(getActivity()));
+		registrationTitleStep.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		registrationEmailAddressSubtitle.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		registrationEmailQues.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		emailText.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		promotionsCheck.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		btnNextStep.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 		emailText.addTextChangedListener(new TextWatcher() {
 

@@ -102,7 +102,7 @@
                     android:layout_below="@+id/repeat"
                     android:paddingLeft="16dp"
                     android:paddingRight="32dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/onetime"
                     android:textColor="@color/blue_list_item"
                     android:textSize="16sp"

@@ -38,11 +38,11 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		Button btnOutdoorAIQReadings=(Button) findViewById(R.id.btn_outdoor_aqi_readings);
 		Button btnFinish=(Button) findViewById(R.id.btn_finish_tour);
 		
-		btnAppNavigation.setTypeface(Fonts.getGillsans(this));
-		btnAirPurifierControls.setTypeface(Fonts.getGillsans(this));
-		btnOutdoorAIQReadings.setTypeface(Fonts.getGillsans(this));
-		btnIndoorAIQReadings.setTypeface(Fonts.getGillsans(this));
-		btnFinish.setTypeface(Fonts.getGillsans(this));
+		btnAppNavigation.setTypeface(Fonts.getCentraleSansLight(this));
+		btnAirPurifierControls.setTypeface(Fonts.getCentraleSansLight(this));
+		btnOutdoorAIQReadings.setTypeface(Fonts.getCentraleSansLight(this));
+		btnIndoorAIQReadings.setTypeface(Fonts.getCentraleSansLight(this));
+		btnFinish.setTypeface(Fonts.getCentraleSansLight(this));
 		
 		btnAppNavigation.setOnClickListener(this);
 		btnAirPurifierControls.setOnClickListener(this);

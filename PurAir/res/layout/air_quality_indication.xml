@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="24dp"
         android:autoLink="web"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="2dp"
         android:linksClickable="true"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"

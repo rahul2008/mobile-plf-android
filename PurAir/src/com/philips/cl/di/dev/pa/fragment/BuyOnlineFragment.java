@@ -160,7 +160,7 @@ public class BuyOnlineFragment extends BaseFragment {
 				setFilterVisibility(View.GONE);
 			}
 
-			buyOnline.setTypeface(Fonts.getGillsans(getActivity()));
+			buyOnline.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 			productName.setText(getActivity().getString(item.getProductName()));
 			productPrice.setText(item.getProductPrice());

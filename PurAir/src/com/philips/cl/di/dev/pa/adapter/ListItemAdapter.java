@@ -43,7 +43,7 @@ public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 		 Context context = iv.getContext();
 		 TextView tv = (TextView) view.findViewById(R.id.list_text);
 		 tv.setTextColor(Color.parseColor("#B6B6B6"));
-		 tv.setTypeface(Fonts.getGillsans(context));
+		 tv.setTypeface(Fonts.getCentraleSansLight(context));
 		 tv.setText(item.getTextId());
 		 TextView superscriptTv = (TextView) view.findViewById(R.id.list_superscript);
 		 int superscript = item.getSuperScriptValue();

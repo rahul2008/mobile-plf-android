@@ -18,7 +18,7 @@
         android:singleLine="true"
         android:textColor="@color/philips_blue"
         android:textSize="@dimen/title_text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -32,7 +32,7 @@
         android:text="@string/cancel"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -46,7 +46,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small_dp"
         android:visibility="gone"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/user_reg_actionbar_back_img"

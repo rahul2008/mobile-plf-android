@@ -44,20 +44,20 @@ public class SetupCancelDialogFragment extends DialogFragment {
         MetricsTracker.trackActionInAppNotification(getString(R.string.cancel_demo_setup_title));
 		TextView tvHeader = (TextView) getView().findViewById(
 				R.id.tv_cancel_wifi_setup_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		if (getActivity() instanceof DemoModeActivity) {
 			tvHeader.setText(getString(R.string.cancel_demo_setup_title));
 		}
 		TextView tvMessage = (TextView) getView().findViewById(
 				R.id.tv_cancel_wifi_setup_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(getActivity()));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		Button cancelWifiYes = (Button) getView().findViewById(
 				R.id.btn_cancel_wifi_yes);
-		cancelWifiYes.setTypeface(Fonts.getGillsansLight(getActivity()));
+		cancelWifiYes.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 		Button cancelWifiNo = (Button) getView().findViewById(
 				R.id.btn_cancel_wifi_no);
-		cancelWifiNo.setTypeface(Fonts.getGillsansLight(getActivity()));
+		cancelWifiNo.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		cancelWifiYes.setOnClickListener(new OnClickListener() {
 
 			@Override

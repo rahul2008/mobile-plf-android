@@ -37,7 +37,7 @@ public class DemoModeStartFragement extends Fragment {
 		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_INTRO);
 		
 		Button startDemoBtn = (Button) getView().findViewById(R.id.setup_get_start_btn);
-		startDemoBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		startDemoBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		startDemoBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override

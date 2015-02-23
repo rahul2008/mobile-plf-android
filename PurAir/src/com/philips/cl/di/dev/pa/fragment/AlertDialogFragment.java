@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
-import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class AlertDialogFragment extends DialogFragment {
 
@@ -94,11 +93,6 @@ public class AlertDialogFragment extends DialogFragment {
 		message = (TextView) view.findViewById(R.id.alert_message);
 		posBtn = (Button) view.findViewById(R.id.btn_alertdialog_yes);
 		negBtn = (Button) view.findViewById(R.id.btn_alertdialog_no);
-		
-		title.setTypeface(Fonts.getGillsans(getActivity()));
-		message.setTypeface(Fonts.getGillsans(getActivity()));
-		posBtn.setTypeface(Fonts.getGillsans(getActivity()));
-		negBtn.setTypeface(Fonts.getGillsans(getActivity()));
 		
 		int titleTextId = getArguments().getInt(EXTRA_TITLETEXTID);
 		if (titleTextId > 0) {

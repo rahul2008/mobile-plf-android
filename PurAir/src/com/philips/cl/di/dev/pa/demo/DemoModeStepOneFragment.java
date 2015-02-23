@@ -47,9 +47,9 @@ public class DemoModeStepOneFragment extends Fragment {
 
 		Button yesBtn = (Button) getView().findViewById(
 				R.id.setup_step2_yes_btn);
-		yesBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		yesBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		Button noBtn = (Button) getView().findViewById(R.id.setup_step2_no_btn);
-		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		noBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 		yesBtn.setOnClickListener(new OnClickListener() {
 			@Override

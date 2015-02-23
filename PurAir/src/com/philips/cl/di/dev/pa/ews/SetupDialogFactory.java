@@ -107,12 +107,12 @@ public class SetupDialogFactory implements OnClickListener {
 		Button button = (Button) alertLayout.findViewById(R.id.btn_support_button);
 		supportID = id;
 		button.setText(buttonText);
-		button.setTypeface(Fonts.getGillsansLight(context));
+		button.setTypeface(Fonts.getCentraleSansLight(context));
 		button.setOnClickListener(this);
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_support_popup_title);
-		tvHeader.setTypeface(Fonts.getGillsansLight(context));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_support_popup_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(context));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(context));
 		tvMessage.setText(message);
 		ImageView ivLeft = (ImageView) alertLayout.findViewById(R.id.iv_support);
 		ivLeft.setOnClickListener(this);
@@ -132,15 +132,15 @@ public class SetupDialogFactory implements OnClickListener {
 		supportID = id;
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.ts05_confirm_enabled, null);
 		Button confirmWifiEnabledYes = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_yes);
-		confirmWifiEnabledYes.setTypeface(Fonts.getGillsansLight(context));
+		confirmWifiEnabledYes.setTypeface(Fonts.getCentraleSansLight(context));
 		confirmWifiEnabledYes.setOnClickListener(this);
 		Button confirmWifiEnabledNo = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_no);
-		confirmWifiEnabledNo.setTypeface(Fonts.getGillsansLight(context));
+		confirmWifiEnabledNo.setTypeface(Fonts.getCentraleSansLight(context));
 		confirmWifiEnabledNo.setOnClickListener(this);
 		((TextView) alertLayout.findViewById(
-				R.id.tv_ts05_confirm_wifi_mode_enabled_header)).setTypeface(Fonts.getGillsansLight(context));
+				R.id.tv_ts05_confirm_wifi_mode_enabled_header)).setTypeface(Fonts.getCentraleSansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(context));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(context));
 		String msg1 = context.getString(R.string.support_ts05_message) + "<font color=#EF6921>"+context.getString(R.string.orange)+"</font>" + " " + context.getString(R.string.now);
 		tvMessage.setText(Html.fromHtml(msg1));
 		ImageView ivGotoSupport = (ImageView) alertLayout.findViewById(R.id.iv_support);
@@ -159,14 +159,14 @@ public class SetupDialogFactory implements OnClickListener {
 		errorID = id;
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.error_alert_layout, null);
 		Button button = (Button) alertLayout.findViewById(R.id.btn_error_popup);
-		button.setTypeface(Fonts.getGillsansLight(context));
+		button.setTypeface(Fonts.getCentraleSansLight(context));
 		button.setText(buttonText);
 		button.setOnClickListener(this);
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_error_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(context));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(context));
 		tvHeader.setText(header);
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_error_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(context));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(context));
 		tvMessage.setText(message);
 		ImageView ivGotoSupport = (ImageView) alertLayout.findViewById(R.id.iv_goto_support);
 		ivGotoSupport.setOnClickListener(this);
@@ -184,9 +184,9 @@ public class SetupDialogFactory implements OnClickListener {
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.checking_signal_strength, null); 
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_check_signal_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(context));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_check_signal_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(context));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(context));
 
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
@@ -201,9 +201,9 @@ public class SetupDialogFactory implements OnClickListener {
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_check_signal_header);
 		ALog.i(ALog.EWS, "getDialog networkName " + networkName);
 		tvHeader.setText(context.getString(R.string.checking_signal_strength_title) + " " + networkName + ".");
-		tvHeader.setTypeface(Fonts.getGillsansLight(context));
+		tvHeader.setTypeface(Fonts.getCentraleSansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_check_signal_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(context));
+		tvMessage.setTypeface(Fonts.getCentraleSansLight(context));
 
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);

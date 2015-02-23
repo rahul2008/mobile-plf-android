@@ -14,7 +14,7 @@
         android:gravity="center_horizontal"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView
         android:id="@+id/odTodyWeatherImg"
@@ -31,6 +31,6 @@
         android:gravity="center_horizontal"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_small_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </LinearLayout>

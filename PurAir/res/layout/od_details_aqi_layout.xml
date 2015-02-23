@@ -25,9 +25,9 @@
         android:layout_below="@id/od_detail_circle_pointer"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/od_detail_aqi_reading"
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
         android:orientation="horizontal"
         android:visibility="gone" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/hf_outdoor_pm_reading"
             android:layout_width="wrap_content"
@@ -58,9 +58,9 @@
             android:text="@string/pm_2.5"
             android:textColor="@color/transparent_white"
             android:textSize="@dimen/text_size_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/hf_outdoor_pm_value"
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_small_dp"
             android:textStyle="bold"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

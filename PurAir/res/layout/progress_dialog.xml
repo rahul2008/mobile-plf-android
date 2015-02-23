@@ -28,6 +28,6 @@
         android:text="@string/please_wait"
         android:textColor="@color/philips_blue"
         android:textSize="18sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

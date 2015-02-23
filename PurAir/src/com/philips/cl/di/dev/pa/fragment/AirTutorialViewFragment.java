@@ -49,8 +49,8 @@ public class AirTutorialViewFragment extends BaseFragment {
 		TextView tutorialDesc = (TextView) view.findViewById(R.id.tutorial_desc);
 		TextView tutorialInstruction = (TextView) view.findViewById(R.id.lbl_instruction);
 
-		tutorialDesc.setTypeface(Fonts.getGillsans(getActivity()));
-		tutorialInstruction.setTypeface(Fonts.getGillsans(getActivity()));
+		tutorialDesc.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		tutorialInstruction.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 		tutorialDesc.setText(getActivity().getText(mTutorialDesc));
 		tutorialImg.setImageResource(mTutorialImage);

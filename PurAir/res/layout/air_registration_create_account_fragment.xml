@@ -51,11 +51,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/registration_statement"
                 android:textColor="@color/gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -65,11 +65,11 @@
                 android:layout_below="@id/tvRegistrationStatement"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/your_name"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <EditText
                 android:id="@+id/etName"
@@ -98,11 +98,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/email_address"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <EditText
                 android:id="@+id/etEmailAddress"
@@ -131,11 +131,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="8dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/password"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -180,17 +180,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/receive_information"
                     android:textColor="@color/title_gray"
                     android:textSize="14sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontButton
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/btnCreateAccount"
-                android:layout_width="160dp"
+                android:minWidth="160dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/llPassword"
                 android:layout_centerHorizontal="true"
@@ -202,7 +203,7 @@
                 android:text="@string/create_your_account"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -213,16 +214,17 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="20dp"
-                android:lineSpacingExtra="5dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/sign_in_with"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontButton
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/btnMyPhilips"
-                android:layout_width="160dp"
+                android:minWidth="160dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvSignInWith"
                 android:layout_centerHorizontal="true"
@@ -235,7 +237,7 @@
                 android:text="@string/my_philips"
                 android:textColor="@color/white"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <View
                 android:id="@+id/vLayoutDivider"

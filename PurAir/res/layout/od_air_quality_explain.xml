@@ -29,11 +29,11 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="8dp"
             android:layout_toLeftOf="@+id/aqiAnalysisClose"
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_aiq_analysis_head5"
             android:textColor="@color/cornflowerblue"
             android:textSize="24sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
             android:id="@+id/aqiAnalysisLayout8"
@@ -63,11 +63,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/outdoor_aiq_analysis_title1"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -75,12 +75,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="4dp"
                     android:text="@string/outdoor_hazardous"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
 
@@ -121,11 +121,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/outdoor_aiq_analysis_title2"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -133,12 +133,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="4dp"
                     android:text="@string/outdoor_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
 
@@ -179,11 +179,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/outdoor_aiq_analysis_title3"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -191,12 +191,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="4dp"
                     android:text="@string/outdoor_moderately_polluted"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
 
@@ -238,11 +238,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/outdoor_aiq_analysis_title4"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -250,12 +250,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="4dp"
                     android:text="@string/outdoor_slightly_polluted"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
 
@@ -296,11 +296,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/outdoor_aiq_analysis_title5"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -308,12 +308,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="4dp"
                     android:text="@string/outdoor_moderate"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
 
@@ -353,11 +353,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:text="@string/outdoor_aiq_analysis_title6"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -365,12 +365,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:lineSpacingExtra="5dp"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="4dp"
                     android:text="@string/outdoor_good"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

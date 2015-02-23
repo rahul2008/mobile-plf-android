@@ -26,7 +26,7 @@
             android:text="@string/edit"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
         <com.philips.cl.di.dev.pa.view.FontTextView
-            android:lineSpacingExtra="5dp"
+            android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/manage_purifier_title_tv"
             android:layout_width="match_parent"

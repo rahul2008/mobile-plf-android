@@ -48,11 +48,11 @@ public class EWSPurifierSwitchOnFragment extends Fragment {
 
 		Button yesBtn = (Button) getView().findViewById(
 				R.id.setup_step2_yes_btn);
-		yesBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		yesBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		yesBtn.setText(getString(R.string.yes));
 
 		Button noBtn = (Button) getView().findViewById(R.id.setup_step2_no_btn);
-		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		noBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		noBtn.setText(getString(R.string.no));
 
 		yesBtn.setOnClickListener(new OnClickListener() {

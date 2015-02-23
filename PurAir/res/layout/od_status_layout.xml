@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odStatusTitle"
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
         android:textSize="@dimen/text_size_large_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odStatusDescr"
         android:layout_width="match_parent"
@@ -31,6 +31,6 @@
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
         android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
    
 </LinearLayout>

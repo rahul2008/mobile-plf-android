@@ -31,7 +31,7 @@ public class EWSStepOneFragment extends Fragment {
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_ONE);
 		
 		Button noBtn = (Button) getView().findViewById(R.id.ews_step1_no_btn);
-		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		noBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		noBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -41,7 +41,7 @@ public class EWSStepOneFragment extends Fragment {
 		});
 		
 		Button yesBtn = (Button) getView().findViewById(R.id.ews_step1_yes_btn);
-		yesBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		yesBtn.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		yesBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override

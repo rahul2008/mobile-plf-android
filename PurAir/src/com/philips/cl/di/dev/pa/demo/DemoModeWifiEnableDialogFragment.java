@@ -49,7 +49,7 @@ public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements
 		close.setOnClickListener(wifiClickListener);
 		
 		Button gotoSetting = (Button) getView().findViewById(R.id.wifi_enable_go_2_setting);
-		gotoSetting.setTypeface(Fonts.getGillsansLight(getActivity()));
+		gotoSetting.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		gotoSetting.setOnClickListener(wifiClickListener); 
 		
 		setCancelable(false);
