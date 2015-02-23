@@ -129,7 +129,14 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		linkFilterReplace.setOnClickListener(filterClickListener);
 		
 		ImageButton backButton = (ImageButton) getView().findViewById(R.id.heading_back_imgbtn);
-		backButton.setOnClickListener(this);
+		backButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				MainActivity mainActivity = (MainActivity) getActivity();
+				mainActivity.showFirstFragment();				
+			}
+		});
 		backButton.setVisibility(View.VISIBLE);
 		FontTextView heading=(FontTextView) getView().findViewById(R.id.heading_name_tv);
 		heading.setText(getString(R.string.filters));
@@ -249,31 +256,25 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	@Override
 	public void onClick(View v) {
-		
+		if (getActivity() == null) return;
 		String uri="";
+		MetricsTracker.trackActionBuyButton();
 		switch (v.getId()) {
 		case R.id.buyonline_multicare:
 			uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072&origin=15_global_en_purifier-app_purifier-app";
-			MetricsTracker.trackActionBuyButton();
 			break;
 		case R.id.buyonline_active_carbon:
 			uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.zulDHJ&id=39911620022&origin=15_global_en_purifier-app_purifier-app";
-			MetricsTracker.trackActionBuyButton();
 			break;
 		case R.id.buyonline_hepa:
 			uri="http://detail.tmall.com/item.htm?id=39899461374&origin=15_global_en_purifier-app_purifier-app";
-			MetricsTracker.trackActionBuyButton();
-			break;
-		case R.id.heading_back_imgbtn:
-			MainActivity mainActivity = (MainActivity) getActivity();
-			mainActivity.showFirstFragment();
 			break;
 		default:
 			break;
 		}
-		
+
 		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-		startActivity(Intent.createChooser(intent,""));
+		getActivity().startActivity(Intent.createChooser(intent,""));
 
 	} 
 	
