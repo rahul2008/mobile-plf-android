@@ -43,10 +43,10 @@
     <string name="cover_missing">Cover missing</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">Filter Status</string>
-    <string name="pre_filter">1 Pre-filter</string>
-    <string name="multicarefilter">2 Multi-care filter</string>
-    <string name="activecarbonfilter">3 Active carbon filter</string>
-    <string name="hepa_filter">4 HEPA filter</string>
+    <string name="pre_filter"><b>1</b> Pre-filter</string>
+    <string name="multicarefilter"><b>2</b> Multi-care filter</string>
+    <string name="activecarbonfilter"><b>3</b> Active carbon filter</string>
+    <string name="hepa_filter"><b>4</b> HEPA filter</string>
     <string name="change_soon">Replace in %s days.</string>
     <string name="change_now">Replace immediately.</string>
     <string name="onehour">1 hours</string>
@@ -58,7 +58,7 @@
     <string name="clean_today">Clean Soon</string>
     <string name="clean_now">Clean Now</string>
     <string name="filter_tip">Remember to clean the Philips Smart Air Purifier\'s sensor every 2 months.</string>
-    <string name="replace_filter_text">Multi-Care Filter, Active Carbon Filter and HEPA Filter</string>
+    <string name="replace_filter_text">Multi-Care Filter,\n Active Carbon Filter and HEPA Filter</string>
     <string name="replace_filter_title">How to Replace Filters</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">Indoor Air Level Status</string>

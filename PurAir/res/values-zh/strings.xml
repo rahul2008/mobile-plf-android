@@ -45,10 +45,10 @@
     <string name="cover_missing">未找到前面板</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">过滤网使用状态</string>
-    <string name="pre_filter">1 预过滤网</string>
-    <string name="multicarefilter">2 多重防护过滤网 </string>
-    <string name="activecarbonfilter">3 活性炭过滤网</string>
-    <string name="hepa_filter">4 HEPA 过滤网</string>
+    <string name="pre_filter"><b>1</b> 预过滤网</string>
+    <string name="multicarefilter"><b>2</b> 多重防护过滤网 </string>
+    <string name="activecarbonfilter"><b>3</b> 活性炭过滤网</string>
+    <string name="hepa_filter"><b>4</b> HEPA 过滤网</string>
     <string name="change_soon">%s 天后更换</string>
     <string name="change_now">立即更换</string>
     <string name="onehour">1 小时</string>
@@ -60,7 +60,7 @@
     <string name="clean_today">即将清洁</string>
     <string name="clean_now">即刻清洁</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智控净化器的传感器</string>
-    <string name="replace_filter_text">多重防护过滤网，活性炭过滤网和HEPA过滤网</string>
+    <string name="replace_filter_text">多重防护过滤网，\n活性炭过滤网和HEPA过滤网</string>
     <string name="replace_filter_title">如何更换过滤网</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空气水平状态</string>

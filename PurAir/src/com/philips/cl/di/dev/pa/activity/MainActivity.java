@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -85,7 +84,6 @@ import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
-import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
@@ -105,17 +103,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
 	private ImageView ivConnectionError;
-
-	/** Filter status bars */
-	private FilterStatusView preFilterView, multiCareFilterView,
-	activeCarbonFilterView, hepaFilterView;
-
-	// Filter status texts
-	private TextView preFilterText, multiCareFilterText,
-	activeCarbonFilterText, hepaFilterText;
-
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
-
 	private MenuItem rightMenuItem;
 	private int mVisits;
 
@@ -177,7 +165,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		ivAirStatusBackground = (ImageView) findViewById(R.id.iv_rm_air_status_background);
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		ivConnectionError =  (ImageView) findViewById(R.id.iv_connection_error);
-		initFilterStatusViews();
 
 		showFirstFragment();
 		initializeCPPController();
@@ -455,30 +442,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}
 
-	private OnClickListener actionBarClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View view) {
-			Intent intent;
-			switch (view.getId()) {
-			case R.id.clean_filter_link:
-				intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_clean.mp4"), "video/mp4");
-				startActivity(Intent.createChooser(intent,""));  
-				break;
-
-			case R.id.replace_filter_link:
-				intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_replace.mp4"), "video/mp4");
-				view.getContext().startActivity(Intent.createChooser(intent,""));  
-				break;
-
-			default:
-				break;
-			}
-		}
-	}; 
-
 	public void showAlertDialogPairingFailed(final String title, final String message, final String fragTag) {
 		runOnUiThread(new Runnable() {
 
@@ -578,24 +541,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				}
 			}
 		});
-	}
-
-	private void initFilterStatusViews() {
-		preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
-		multiCareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
-		activeCarbonFilterView = (FilterStatusView) findViewById(R.id.iv_active_carbon_filter);
-		hepaFilterView = (FilterStatusView) findViewById(R.id.iv_hepa_filter);
-
-		preFilterText = (TextView) findViewById(R.id.tv_rm_pre_filter_status);
-		multiCareFilterText = (TextView) findViewById(R.id.tv_rm_multi_care_filter_status);
-		activeCarbonFilterText = (TextView) findViewById(R.id.tv_rm_active_carbon_filter_status);
-		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
-
-		TextView linkFilterClean=(TextView) findViewById(R.id.clean_filter_link);
-		linkFilterClean.setOnClickListener(actionBarClickListener);
-
-		TextView linkFilterReplace=(TextView) findViewById(R.id.replace_filter_link);
-		linkFilterReplace.setOnClickListener(actionBarClickListener);
 	}
 
 	public void showFragment(Fragment fragment) {
@@ -723,10 +668,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
 				setRightMenuAQIValue(indoorAQIUsableValue);
 				rightMenuClickListener.setSensorValues(info);
-				updateFilterStatus(info.getPreFilterStatus(),
-						info.getMulticareFilterStatus(),
-						info.getActiveFilterStatus(),
-						info.getHepaFilterStatus());
 				setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue),	getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
@@ -748,46 +689,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				rightMenuClickListener.toggleControlPanel(false, null);
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
-				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
-				tvAirStatusAqiValue.setTextSize(14.0f);
 				tvAirStatusAqiValue.setText(getString(R.string.not_connected));
-				disableFilterStatus(); // Update filter status if purifier disconnected
 			}
 		});
-	}
-
-	private void disableFilterStatus() {
-		/** Update filter bars */
-		preFilterView.setColorAndLength(Color.LTGRAY, 0);
-		multiCareFilterView.setColorAndLength(Color.LTGRAY, 0);
-		activeCarbonFilterView.setColorAndLength(Color.LTGRAY, 0);
-		hepaFilterView.setColorAndLength(Color.LTGRAY, 0);
-
-		/** Update filter texts */
-		preFilterText.setText(AppConstants.EMPTY_STRING);
-		multiCareFilterText.setText(AppConstants.EMPTY_STRING);
-		activeCarbonFilterText.setText(AppConstants.EMPTY_STRING);
-		hepaFilterText.setText(AppConstants.EMPTY_STRING);
-	}
-
-	private void updateFilterStatus(int preFilterStatus,
-			int multiCareFilterStatus, int activeCarbonFilterStatus,
-			int hepaFilterStatus) {
-		/** Update filter bars */
-		preFilterView.setPrefilterValue(preFilterStatus);
-		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
-		activeCarbonFilterView
-		.setActiveCarbonFilterValue(activeCarbonFilterStatus);
-		hepaFilterView.setHEPAfilterValue(hepaFilterStatus);
-
-		/** Update filter texts */
-		preFilterText.setText(Utils.getPreFilterStatusText(preFilterStatus));
-		multiCareFilterText.setText(Utils
-				.getMultiCareFilterStatusText(multiCareFilterStatus));
-		activeCarbonFilterText.setText(Utils
-				.getActiveCarbonFilterStatusText(activeCarbonFilterStatus));
-		hepaFilterText.setText(Utils
-				.getHEPAFilterFilterStatusText(hepaFilterStatus));
 	}
 
 	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {

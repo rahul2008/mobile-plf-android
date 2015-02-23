@@ -43,10 +43,10 @@
     <string name="cover_missing">未找到前面板</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">濾網使用狀態</string>
-    <string name="pre_filter">1 預過濾網</string>
-    <string name="multicarefilter">2 多重防護過濾網</string>
-    <string name="activecarbonfilter">3 活性碳隔濾網</string>
-    <string name="hepa_filter">4 HEPA 濾網</string>
+    <string name="pre_filter"><b>1</b> 預過濾網</string>
+    <string name="multicarefilter"><b>2</b> 多重防護過濾網</string>
+    <string name="activecarbonfilter"><b>3</b> 活性碳隔濾網</string>
+    <string name="hepa_filter"><b>4</b> HEPA 濾網</string>
     <string name="change_soon">在 %s 天後更換。</string>
     <string name="change_now">立即更換。</string>
     <string name="onehour">1 小時</string>
@@ -58,7 +58,7 @@
     <string name="clean_today">馬上清洗</string>
     <string name="clean_now">此刻清洗</string>
     <string name="filter_tip">請記得每兩個月清洗一次智能空氣清新機的感應器。</string>
-    <string name="replace_filter_text">多重防護過濾網，活性炭過濾網和HEPA過濾網</string>
+    <string name="replace_filter_text">多重防護過濾網，\n活性炭過濾網和HEPA過濾網</string>
     <string name="replace_filter_title">如何更換過濾網</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空氣水平狀態</string>
