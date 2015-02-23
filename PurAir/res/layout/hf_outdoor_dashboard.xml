@@ -24,7 +24,7 @@
             android:layout_weight="3"
             android:text="@string/updated"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_small_dp"
+            android:textSize="@dimen/text_size_very_small_dp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
