@@ -224,7 +224,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		case HttpURLConnection.HTTP_OK:
 			if (taskType == DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET) {
 				String decryptedResponse = new DISecurity(null).decryptData(
-						responseData, tempDemoModePurifier);
+						responseData, tempDemoModePurifier.getNetworkNode());
 				if (decryptedResponse != null) {
 					ALog.i(ALog.DEMO_MODE, decryptedResponse);
 					DeviceDto deviceDto = DataParser
@@ -238,7 +238,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 				}
 			} else if (taskType == DemoModeConstant.DEMO_MODE_TASK_WIFI_GET) {
 				String decryptedResponse = new DISecurity(null).decryptData(
-						responseData, tempDemoModePurifier);
+						responseData, tempDemoModePurifier.getNetworkNode());
 				if (decryptedResponse != null) {
 					ALog.i(ALog.DEMO_MODE, decryptedResponse);
 					DeviceWifiDto deviceWifiDto = DataParser

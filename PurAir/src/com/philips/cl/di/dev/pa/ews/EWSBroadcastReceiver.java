@@ -219,7 +219,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		}
 
 		String js = holder.toString();
-		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier);
+		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier.getNetworkNode());
 
 		return encryptedData ;
 	}
@@ -319,7 +319,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceDto deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
@@ -331,7 +331,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}				
 			}
 			else if(taskType == WIFI_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(decryptedResponse);
@@ -347,7 +347,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}	
 			}
 			else if(taskType == DEVICE_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					DeviceDto deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
@@ -356,7 +356,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}	
 			}
 			else if(taskType == WIFI_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
 				ALog.i(ALog.EWS, "taskType == WIFI_PUT: "+decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					EWSWifiManager.connectToHomeNetwork(homeSSID);

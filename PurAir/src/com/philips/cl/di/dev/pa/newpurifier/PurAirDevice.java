@@ -19,6 +19,8 @@ public class PurAirDevice extends Observable {
 	private String latitude;
 	private String longitude;
 	
+	private final NetworkNode mNetworkNode = new NetworkNode();
+	
 	public long getLastPairedTime() {
 		return mNetworkNode.getLastPairedTime();
 	}
@@ -28,7 +30,7 @@ public class PurAirDevice extends Observable {
 	}
 
 	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING};
-	private NetworkNode mNetworkNode = new NetworkNode();
+	
 	private AirPortInfo 		   mAirPortInfo;
 	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
@@ -44,13 +46,16 @@ public class PurAirDevice extends Observable {
 
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			long bootId, ConnectionState connectionState) {
-		mNetworkNode = new NetworkNode();
 		mNetworkNode.setBootId(bootId);
 		mNetworkNode.setCppId(eui64);
 		mUsn = usn;
 		mNetworkNode.setIpAddress(ipAddress);
 		mNetworkNode.setName(name);
 		mNetworkNode.setConnectionState(connectionState);
+	}
+
+	public NetworkNode getNetworkNode() {
+		return mNetworkNode;
 	}
 
 	public String getLatitude() {

@@ -245,7 +245,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	public void receiveServerResponse(int responseCode, String responseData,
 			final String fromIp) {
 
-		final String decryptedResponse = new DISecurity(null).decryptData(responseData, selectedPurifier);
+		final String decryptedResponse = new DISecurity(null).decryptData(responseData, selectedPurifier.getNetworkNode());
 
 		if (getActivity() != null) {
 			getActivity().runOnUiThread(new Runnable() {

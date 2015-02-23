@@ -67,8 +67,8 @@ public class DISecurityTest extends TestCase {
 		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
 		helperDevice.setEncryptionKey(KEY);
 		
-		String encryptedData = security.encryptData(data, helperDevice);
-		String decrytedData = security.decryptData(encryptedData, helperDevice);
+		String encryptedData = security.encryptData(data, helperDevice.getNetworkNode());
+		String decrytedData = security.decryptData(encryptedData, helperDevice.getNetworkNode());
 		assertEquals(data, decrytedData);
 		
 	}
@@ -80,7 +80,7 @@ public class DISecurityTest extends TestCase {
 		helperDevice.setEncryptionKey(KEY);
 		
 		String nullData = null;
-		String decrytedData = security.decryptData(nullData, helperDevice);
+		String decrytedData = security.decryptData(nullData, helperDevice.getNetworkNode());
 		
 		assertNull(decrytedData);
 	}
@@ -198,8 +198,8 @@ public class DISecurityTest extends TestCase {
 				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.setEncryptionKey(key);
 			
-		String encryptedData1 = security.encryptData(data, purAirDevice);
-		String encryptedData2 = security.encryptData(data, purAirDevice);
+		String encryptedData1 = security.encryptData(data, purAirDevice.getNetworkNode());
+		String encryptedData2 = security.encryptData(data, purAirDevice.getNetworkNode());
 		assertFalse(encryptedData1.equals(encryptedData2));
 	}
 	
@@ -214,7 +214,7 @@ public class DISecurityTest extends TestCase {
 		purAirDevice = new PurAirDevice(
 				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.setEncryptionKey(null);
-		String encryptedData1 = security.encryptData(data, purAirDevice);
+		String encryptedData1 = security.encryptData(data, purAirDevice.getNetworkNode());
 		assertNull(encryptedData1);
 	}
 	
@@ -223,7 +223,7 @@ public class DISecurityTest extends TestCase {
 		purAirDevice = new PurAirDevice(
 				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.setEncryptionKey("");
-		String encryptedData1 = security.encryptData(data, purAirDevice);
+		String encryptedData1 = security.encryptData(data, purAirDevice.getNetworkNode());
 		assertNull(encryptedData1);
 	}
 		
@@ -234,7 +234,7 @@ public class DISecurityTest extends TestCase {
 				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.setEncryptionKey(key);
 		
-		String decryptData = security.decryptData("", purAirDevice);
+		String decryptData = security.decryptData("", purAirDevice.getNetworkNode());
 		
 		assertNull(decryptData);
 	}
@@ -246,11 +246,11 @@ public class DISecurityTest extends TestCase {
 				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.setEncryptionKey(key);
 		
-		String encryptedData = security.encryptData(data, purAirDevice);
+		String encryptedData = security.encryptData(data, purAirDevice.getNetworkNode());
 		
 		purAirDevice.setEncryptionKey(null);
 		
-		String decryptData = security.decryptData(encryptedData, purAirDevice);
+		String decryptData = security.decryptData(encryptedData, purAirDevice.getNetworkNode());
 		
 		assertNull(decryptData);
 	}
@@ -262,11 +262,11 @@ public class DISecurityTest extends TestCase {
 				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.setEncryptionKey(key);
 		
-		String encryptedData = security.encryptData(data, purAirDevice);
+		String encryptedData = security.encryptData(data, purAirDevice.getNetworkNode());
 		
 		purAirDevice.setEncryptionKey("");
 		
-		String decryptData = security.decryptData(encryptedData, purAirDevice);
+		String decryptData = security.decryptData(encryptedData, purAirDevice.getNetworkNode());
 		
 		assertNull(decryptData);
 	}

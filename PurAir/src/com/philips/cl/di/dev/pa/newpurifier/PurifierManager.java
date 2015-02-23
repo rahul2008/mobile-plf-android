@@ -169,7 +169,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			return;
 		}
 		
-		String decryptedData = mSecurity.decryptData(encryptedData, purifier) ;
+		String decryptedData = mSecurity.decryptData(encryptedData, purifier.getNetworkNode()) ;
 		if (decryptedData == null ) {
 			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getIpAddress());
 			return;

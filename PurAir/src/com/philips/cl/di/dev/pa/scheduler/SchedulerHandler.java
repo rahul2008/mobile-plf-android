@@ -71,7 +71,7 @@ public class SchedulerHandler implements ServerResponseListener {
 			break;
 		}
 		TaskPutDeviceDetails addSchedulerTask = new TaskPutDeviceDetails(
-				new DISecurity(null).encryptData(dataToSend, purifier), url, this, requestType);
+				new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode()), url, this, requestType);
 		Thread addSchedulerThread = new Thread(addSchedulerTask);
 		addSchedulerThread.start();
 	}
@@ -151,7 +151,7 @@ public class SchedulerHandler implements ServerResponseListener {
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			mListener.onLocalEventReceived(data, fromIp);
 		} else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-			String encryptedData = new DISecurity(null).encryptData(data, purifier);
+			String encryptedData = new DISecurity(null).encryptData(data, purifier.getNetworkNode());
 			mListener.onLocalEventReceived(encryptedData, fromIp);
 		} else {
 			mListener.onLocalEventLost(PurifierEvent.SCHEDULER);

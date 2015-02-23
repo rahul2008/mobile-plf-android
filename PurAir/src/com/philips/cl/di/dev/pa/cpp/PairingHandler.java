@@ -145,7 +145,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			String pairing_url = Utils.getPortUrl(Port.PAIRING,	purifier.getIpAddress());
 			String appEui64 = SessionDto.getInstance().getAppEui64();
 			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
-			dataToUpload = new DISecurity(null).encryptData(dataToUpload, purifier);
+			dataToUpload = new DISecurity(null).encryptData(dataToUpload, purifier.getNetworkNode());
 			TaskPutDeviceDetails pairingRunnable = new TaskPutDeviceDetails(dataToUpload, pairing_url, this);
 			Thread pairingThread = new Thread(pairingRunnable);
 			pairingThread.start();

@@ -24,7 +24,7 @@ public class JSONBuilder {
 				.append(value).append("\"");
 		builder.append("}");
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier);
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
 		return dataToSend;
 	}
 
@@ -45,7 +45,7 @@ public class JSONBuilder {
 		}
 		builder.append("}");
 		ALog.i(ALog.DEVICEHANDLER, builder.toString());
-		return new DISecurity(null).encryptData(builder.toString(), purifier);
+		return new DISecurity(null).encryptData(builder.toString(), purifier.getNetworkNode());
 	}
 
 	public static String getAirPortPublishEventBuilder(
@@ -78,7 +78,7 @@ public class JSONBuilder {
 		builder.append("}");
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SUBSCRIPTION, "Subscription Data " + dataToSend);
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier);
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
 		return dataToSend;
 	}
 
@@ -90,7 +90,7 @@ public class JSONBuilder {
 		builder.append("}");
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SUBSCRIPTION, "UnSubscription Data  " + dataToSend);
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier);
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
 		return dataToSend;
 	}
 
@@ -212,7 +212,7 @@ public class JSONBuilder {
 				.append("\"").append("disconnected").append("\"");
 		builder.append("}");
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier);
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier.getNetworkNode());
 		return dataToSend;
 	}
 	
@@ -227,7 +227,7 @@ public class JSONBuilder {
 		}
 		String js = holder.toString();
 		ALog.i(ALog.EWS, "getWifiPortJson js: " + js);
-		String encryptedData = new DISecurity(null).encryptData(js, purifier);
+		String encryptedData = new DISecurity(null).encryptData(js, purifier.getNetworkNode());
 
 		return encryptedData ;
 	}
@@ -248,7 +248,7 @@ public class JSONBuilder {
 		}
 		String js = holder.toString();
 		ALog.i(ALog.EWS, "getWifiPortWithAdvConfigJson js: " + js);
-		String encryptedData = new DISecurity(null).encryptData(js, purifier);
+		String encryptedData = new DISecurity(null).encryptData(js, purifier.getNetworkNode());
 
 		return encryptedData ;
 	}

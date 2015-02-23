@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -92,13 +92,13 @@ public class DISecurity implements ServerResponseListener {
 	 * @param deviceEui64
 	 * @return
 	 */
-	public String encryptData(String data, PurAirDevice purifier) {
-		if (purifier == null) {
-			ALog.i(ALog.SECURITY, "Did not encrypt data - Purifier is null");
+	public String encryptData(String data, NetworkNode networkNode) {
+		if (networkNode == null) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - NetworkNode is null");
 			return null;
 		}
 		
-		String key = purifier.getEncryptionKey();
+		String key = networkNode.getEncryptionKey();
 		if (key == null || key.isEmpty()) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null or Empty");
 			return null; // TODO return unencrypted data?
@@ -126,15 +126,15 @@ public class DISecurity implements ServerResponseListener {
 	 * @param deviceEui64
 	 * @return
 	 */
-	public String decryptData(String data, PurAirDevice purifier) {
+	public String decryptData(String data, NetworkNode networkNode) {
 		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
 
 
-		if (purifier == null) {
-			ALog.i(ALog.SECURITY, "Did not encrypt data - Purifier is null");
+		if (networkNode == null) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - NetworkNode is null");
 			return null;
 		}
-		String key = purifier.getEncryptionKey();
+		String key = networkNode.getEncryptionKey();
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
@@ -147,8 +147,8 @@ public class DISecurity implements ServerResponseListener {
 			ALog.i(ALog.SECURITY, "Did not decrypt data - key is null");
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
 			
-			String portUrl = Utils.getPortUrl(Port.SECURITY, purifier.getIpAddress());
-			exchangeKey(portUrl, purifier.getEui64());
+			String portUrl = Utils.getPortUrl(Port.SECURITY, networkNode.getIpAddress());
+			exchangeKey(portUrl, networkNode.getCppId());
 			return null;
 		}
 		
@@ -163,13 +163,13 @@ public class DISecurity implements ServerResponseListener {
 			decryptData = new String(bytesDecData1, Charset.defaultCharset());
 			
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
-			exchangeKeyCounterTable.put(purifier.getEui64(), 0);
+			exchangeKeyCounterTable.put(networkNode.getCppId(), 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
 			
-			String portUrl = Utils.getPortUrl(Port.SECURITY, purifier.getIpAddress());
-			exchangeKey(portUrl, purifier.getEui64());
+			String portUrl = Utils.getPortUrl(Port.SECURITY, networkNode.getIpAddress());
+			exchangeKey(portUrl, networkNode.getCppId());
 		}
 
 		return decryptData;
