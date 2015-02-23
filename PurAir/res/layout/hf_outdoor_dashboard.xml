@@ -25,7 +25,7 @@
             android:text="@string/updated"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -56,7 +56,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/title_text_size_medium_dp"
                 android:text="@string/dash_dash"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
 
         <LinearLayout
@@ -81,7 +81,7 @@
                 android:text="@string/dash_dash"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_medium_dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
     </LinearLayout>
 
@@ -96,7 +96,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/title_text_size_large_dp"
         android:visibility="invisible"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -173,7 +173,7 @@
             android:text="@string/no_data"
             android:textColor="@color/white"
             android:textSize="@dimen/title_text_size_small_dp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
             android:id="@+id/pm_layout"
@@ -232,7 +232,7 @@
         android:paddingRight="8dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -248,6 +248,6 @@
         android:paddingRight="8dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </RelativeLayout>

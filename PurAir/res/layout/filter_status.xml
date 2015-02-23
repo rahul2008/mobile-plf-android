@@ -193,7 +193,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginTop="20dp"
                 android:padding="24dp"
                 android:background="@color/lighter_gray"
                 android:gravity="center_horizontal"
