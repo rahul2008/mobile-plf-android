@@ -15,31 +15,20 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
  */
 public class PurAirDevice extends Observable {
 
-	private final String mEui64;
 	private final String mUsn;
 	private String latitude;
 	private String longitude;
 	
-	private String mIpAddress;
-	private String mName;
-	private long mBootId;
-	private String mLastKnownNetworkSsid;
-	
-	private ConnectionState mConnectionState;
 	public long getLastPairedTime() {
-		return mLastPairedTime;
+		return mNetworkNode.getLastPairedTime();
 	}
 
 	public void setLastPairedTime(long mLastPairedTime) {
-		this.mLastPairedTime = mLastPairedTime;
+		this.mNetworkNode.setLastPairedTime(mLastPairedTime);
 	}
 
 	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING};
-	private PAIRED_STATUS pairedState = PAIRED_STATUS.NOT_PAIRED ;
-	private long 			mLastPairedTime;
-	private boolean			isOnlineViaCpp 	= false;
-	private String 			mEncryptionKey;
-
+	private NetworkNode mNetworkNode = new NetworkNode();
 	private AirPortInfo 		   mAirPortInfo;
 	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
@@ -55,12 +44,13 @@ public class PurAirDevice extends Observable {
 
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			long bootId, ConnectionState connectionState) {
-		mBootId = bootId;
-		mEui64 = eui64;
+		mNetworkNode = new NetworkNode();
+		mNetworkNode.setBootId(bootId);
+		mNetworkNode.setCppId(eui64);
 		mUsn = usn;
-		mIpAddress = ipAddress;
-		mName = name;
-		mConnectionState = connectionState;
+		mNetworkNode.setIpAddress(ipAddress);
+		mNetworkNode.setName(name);
+		mNetworkNode.setConnectionState(connectionState);
 	}
 
 	public String getLatitude() {
@@ -80,7 +70,7 @@ public class PurAirDevice extends Observable {
 	}
 
 	public String getEui64() {
-		return mEui64;
+		return mNetworkNode.getCppId();
 	}
 
 	public String getUsn() {
@@ -88,58 +78,58 @@ public class PurAirDevice extends Observable {
 	}
 	
 	public synchronized String getIpAddress() {
-		return mIpAddress;
+		return mNetworkNode.getIpAddress();
 	}
 
 	public synchronized void setIpAddress(String ipAddress) {
-		this.mIpAddress = ipAddress;
+		this.mNetworkNode.setIpAddress(ipAddress);
 	}
 
 	public synchronized String getName() {
-		return mName;
+		return mNetworkNode.getName();
 	}
 
 	public synchronized void setName(String name) {
-		this.mName = name;
+		this.mNetworkNode.setName(name);
 	}
 
 	public synchronized long getBootId() {
-		return mBootId;
+		return mNetworkNode.getBootId();
 	}
 
 	public synchronized void setBootId(long bootId) {
-		this.mBootId = bootId;
+		this.mNetworkNode.setBootId(bootId);
 	}
 	
 	public synchronized String getLastKnownNetworkSsid() {
-		return mLastKnownNetworkSsid;
+		return mNetworkNode.getHomeSsid();
 	}
 
 	public synchronized void setLastKnownNetworkSsid(String lastKnownNetworkSsid) {
 		if (lastKnownNetworkSsid == null || lastKnownNetworkSsid.isEmpty()) return;
-		this.mLastKnownNetworkSsid = lastKnownNetworkSsid;
+		this.mNetworkNode.setHomeSsid(lastKnownNetworkSsid);
 	}
 
 	public synchronized ConnectionState getConnectionState() {
-		return mConnectionState;
+		return mNetworkNode.getConnectionState();
 	}
 
 	public void setConnectionState(ConnectionState connectionState) {
 		synchronized(this) { // notifyObservers called from same Thread
-			if (connectionState.equals(mConnectionState)) return;
+			if (connectionState.equals(mNetworkNode.getConnectionState())) return;
 			MetricsTracker.trackActionConnectionType(connectionState);
-			this.mConnectionState = connectionState;
+			this.mNetworkNode.setConnectionState(connectionState);
 		}
 		setChanged();
 		notifyObservers();
 	}
 
 	public synchronized PAIRED_STATUS getPairedStatus() {
-		return pairedState;
+		return mNetworkNode.getPairedState();
 	}
 
 	public synchronized void setPairing(PAIRED_STATUS status) {
-		this.pairedState = status;
+		this.mNetworkNode.setPairedState(status);
 	}
 	
 	public static PAIRED_STATUS getPairedStatusKey(int status){
@@ -165,19 +155,19 @@ public class PurAirDevice extends Observable {
 	}
 			
 	public synchronized boolean isOnlineViaCpp() {
-		return isOnlineViaCpp;
+		return mNetworkNode.isOnlineViaCpp();
 	}
 	
 	public synchronized void setOnlineViaCpp(boolean onlineViaCpp) {
-		this.isOnlineViaCpp = onlineViaCpp;
+		this.mNetworkNode.setOnlineViaCpp(onlineViaCpp);
 	}
 
 	public synchronized String getEncryptionKey() {
-		return mEncryptionKey;
+		return mNetworkNode.getEncryptionKey();
 	}
 
 	public synchronized void setEncryptionKey(String encryptionKey) {
-		this.mEncryptionKey = encryptionKey;
+		this.mNetworkNode.setEncryptionKey(encryptionKey);
 	}
 	
 	public AirPortInfo getAirPortInfo() {
@@ -197,7 +187,7 @@ public class PurAirDevice extends Observable {
 	}
 	
 	public boolean isDemoPurifier() {
-		return (EWSConstant.PURIFIER_ADHOCIP.equals(mIpAddress));
+		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
 	}
 
 	public String toString() {
