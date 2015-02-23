@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
@@ -44,6 +45,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	
 	private int [] timerButtonViewIds = {R.id.timer_off,R.id.one_hour,R.id.four_hours, R.id.eight_hours};
 	private FontButton[] timerButtons = new FontButton[timerButtonViewIds.length];
+	
+	private ProgressBar controlProgress;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -95,6 +98,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		childLock.setOnClickListener(this);
 		timer.setOnClickListener(this);
 		
+		controlProgress = (ProgressBar) view.findViewById(R.id.heading_progressbar);
+
 		FontTextView scheduleTV = (FontTextView) view.findViewById(R.id.tv_rm_scheduler);
 		scheduleTV.setOnClickListener(this);
 		FontTextView notificationTV = (FontTextView) view.findViewById(R.id.tv_rm_notification);
@@ -304,6 +309,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	
 	private void controlDevice(String key, String value) {
 		// Start the progress dialog
+		controlProgress.setVisibility(View.VISIBLE);
 		PurifierManager.getInstance().setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
 	}
 
@@ -319,6 +325,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			@Override
 			public void run() {
 				// Dismiss the progress dialog
+				controlProgress.setVisibility(View.INVISIBLE);
 				updateButtonState(airPortInfo);
 				
 			}
@@ -345,7 +352,9 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	public void onFirmwareEventReceived() { /**NOP*/ }
 
 	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) { /**NOP*/ }
+	public void onErrorOccurred(PurifierEvent purifierEvent) { 
+		controlProgress.setVisibility(View.INVISIBLE);
+	}
 	
 	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
 
