@@ -8,7 +8,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -20,10 +20,10 @@ public class LocalConnection implements DeviceConnection {
 	private int responseCode;
 	private String dataToSend;
 
-	public LocalConnection(PurAirDevice purifier, String dataToSend) {
+	public LocalConnection(NetworkNode networkNode, String dataToSend) {
 		ALog.i("UIUX", "Datatosend: " + dataToSend);
 		ALog.d(ALog.DEVICEHANDLER, "Start request LOCAL");
-		this.url = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
+		this.url = Utils.getPortUrl(Port.AIR, networkNode.getIpAddress());
 		this.dataToSend = dataToSend;
 	}
 

@@ -100,7 +100,7 @@ public class DeviceHandler implements ServerResponseListener {
 			while(deviceDetailsTable.size() != 0 && !stop) {	
 				this.airPortDetailsTable.putAll(deviceDetailsTable) ;
 				deviceDetailsTable.clear() ;
-				connection = RoutingStrategy.getConnection(purifier, this.airPortDetailsTable) ;
+				connection = RoutingStrategy.getConnection(purifier.getNetworkNode(), this.airPortDetailsTable) ;
 				if( connection != null) {
 					response = connection.setPurifierDetails() ;
 				}

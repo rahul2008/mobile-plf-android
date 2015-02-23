@@ -7,23 +7,24 @@ import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteConnection implements DeviceConnection, DCSResponseListener, PublishEventListener {
 	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
-	private PurAirDevice purifier ;
 	private String eventData ;
 
 	private String response ;
 	private int messageId ;
 	private CPPController cppController ;
+	
+	private String mCppId;
 
-	public RemoteConnection(PurAirDevice purifier, String eventData) {
+	public RemoteConnection(NetworkNode networkNode, String eventData) {
 		ALog.d(ALog.DEVICEHANDLER, "Start request REMOTE");
-		this.purifier = purifier ;
+		this.mCppId = networkNode.getCppId() ;
 		this.eventData = eventData ;
 		cppController = CPPController.getInstance(PurAirApplication.getAppContext());
 	}
@@ -34,7 +35,7 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 		cppController.setDCSResponseListener(this) ;
 		cppController.addPublishEventListener(this) ;
 		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS,
-				SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
+				SessionDto.getInstance().getAppEui64(), "", 20, 120, mCppId) ;
 		try {
 			ALog.i(ALog.DEVICEHANDLER, "wait for 30 secs") ;
 			synchronized (this) {
