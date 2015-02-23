@@ -110,7 +110,7 @@
         android:text="@string/dash_dash"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesansbold.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -122,7 +122,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_very_small_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesansbold.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -136,7 +136,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         android:text="@string/dash_dash"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesansbold.ttf" />
 
     <RelativeLayout
         android:id="@+id/hf_outdoor_circle_layt"
@@ -192,7 +192,7 @@
                 android:text="@string/pm_2.5"
                 android:textColor="@color/transparent_white"
                 android:textSize="@dimen/text_size_very_small_dp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -202,8 +202,7 @@
                 android:paddingLeft="2dp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_very_small_dp"
-                android:textStyle="bold"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -217,7 +216,7 @@
         android:gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="@dimen/title_text_size_large_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesansbold.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

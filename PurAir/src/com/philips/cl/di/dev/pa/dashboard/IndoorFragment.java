@@ -48,7 +48,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DashboardUtil;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -232,7 +231,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			DashboardAPL apl = IndoorDashboardUtils.getDashboardAPL(indoorAqi);
 			aqiPointer.setImageResource(apl.getPointerBackground());
 			
-			aqiStatusTxt.setTextSize(22.0f);
+			aqiStatusTxt.setTextSize(20.0f);
 			aqiStatusTxt.setText(getString(apl.getTitle()));
 			aqiSummaryTxt.setText(getString(apl.getSummary()));
 			
@@ -302,7 +301,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		filters.setVisibility(View.INVISIBLE);
 		controls.setVisibility(View.INVISIBLE);
 		infoImgBtn.setVisibility(View.VISIBLE);
-		aqiStatusTxt.setTextSize(18.0f);
+		aqiStatusTxt.setTextSize(16.0f);
 		aqiPointer.setImageResource(R.drawable.grey_circle_2x);
 		aqiStatusTxt.setText(message);
 		prevRotation = 0.0f;

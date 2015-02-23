@@ -56,6 +56,20 @@ public class Fonts {
         }
         return centraleSansBook;
     }
+    
+    public static Typeface getCentraleSansBold(Context context) {
+        if(centraleSansBold == null) {
+        	centraleSansBold = Typeface.createFromAsset(context.getAssets(), "fonts/centralesansbold.ttf");
+        }
+        return centraleSansBold;
+    }
+    
+    public static Typeface getCentraleSansXBold(Context context) {
+        if(centraleSansXBold == null) {
+        	centraleSansXBold = Typeface.createFromAsset(context.getAssets(), "fonts/centralesansxbold.ttf");
+        }
+        return centraleSansXBold;
+    }
 	
 	private static Typeface gillsans;
 	private static Typeface gillsansLight;
@@ -65,4 +79,6 @@ public class Fonts {
     private static Typeface centraleSansLight;
     private static Typeface centraleSansMedium;
     private static Typeface centraleSansBook;
+    private static Typeface centraleSansBold;
+    private static Typeface centraleSansXBold;
 }
