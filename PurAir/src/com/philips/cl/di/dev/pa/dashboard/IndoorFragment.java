@@ -138,6 +138,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		filters = (Button) getView().findViewById(R.id.filters);
 		filters.setOnClickListener(this);
 		controls = (Button) getView().findViewById(R.id.controls);
+		controls.setOnClickListener(this);
 		alartMessageTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
 		alartMessageTextView.setVisibility(View.GONE);
 		
@@ -500,6 +501,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onClick(View v) {
 		MainActivity activity = (MainActivity) getActivity();
 		switch (v.getId()) {
+		case R.id.controls:
+			MainActivity mainActivity = (MainActivity) getActivity();
+			mainActivity.showFragment(new DeviceControlFragment());
+			break;
 		case R.id.firmware_update_available:
 			hideFirmwareUpdatePopup();
 			break;

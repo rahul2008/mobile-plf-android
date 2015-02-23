@@ -1,461 +1,479 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/right_menu_control_panel"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/final_layout_border"
-    android:paddingBottom="30dp" >
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_power"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"
-        android:paddingBottom="10dp"
-        android:text="@string/power"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_power_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"
-        android:layout_toLeftOf="@+id/btn_rm_power"
-        android:layout_toRightOf="@id/tv_rm_power"
-        android:ellipsize="marquee"
-        android:gravity="center"
-        android:paddingBottom="10dp"
-        android:singleLine="true"
-        android:text=""
-        android:textColor="@color/red"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ToggleButton
-        android:id="@id/btn_rm_power"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/tv_rm_power"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:clickable="false"
-        android:paddingTop="40dp" />
-
-    <ImageView
-        android:id="@+id/divider_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_power"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_fan_speed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_1"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:paddingBottom="10dp"
-        android:text="@string/fan_speed"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/btn_rm_fan_speed"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_alignBottom="@+id/tv_rm_fan_speed"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/button_bg_2x"
-        android:clickable="false"
-        android:text=""
-        android:textColor="#ffffff"
-        android:textSize="10sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ImageView
-        android:id="@+id/divider_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_fan_speed"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <RelativeLayout
-        android:id="@+id/layout_fan_speed"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider_2"
-        android:background="#CFD1DD"
-        android:paddingBottom="15dp"
-        android:visibility="gone" >
-
-        <com.philips.cl.di.dev.pa.view.FontTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/tv_fan_speed_auto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="22dp"
-            android:text="@string/auto"
-            android:textColor="@color/blue_list_item"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-        <ToggleButton
-            android:id="@+id/fan_speed_auto"
-            style="@style/Widget.Button.Toggle"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/auto"
-            android:visibility="visible" />
-
-        <ImageView
-            android:id="@+id/divider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/fan_speed_auto"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:contentDescription="@string/img_description"
-            android:src="@drawable/seperator_line_2x" />
-
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/fan_speed_silent"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/divider"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/button_bg_normal_2x"
-            android:text="@string/silent"
-            android:textColor="@color/blue_list_item"
-            android:textSize="10sp"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/fan_speed_turbo"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_below="@id/divider"
-            android:layout_margin="8dp"
-            android:layout_toRightOf="@+id/fan_speed_silent"
-            android:background="@drawable/button_bg_normal_2x"
-            android:text="@string/turbo"
-            android:textColor="@color/blue_list_item"
-            android:textSize="10sp"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/fan_speed_two"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignTop="@+id/fan_speed_one"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/fan_speed_one"
-            android:background="@drawable/fan_speed_two_white"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/fan_speed_three"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignTop="@+id/fan_speed_two"
-            android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/fan_speed_turbo"
-            android:background="@drawable/fan_speed_three_white"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/fan_speed_one"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignLeft="@+id/fan_speed_silent"
-            android:layout_below="@+id/fan_speed_silent"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/fan_speed_one_white"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-    </RelativeLayout>
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_indicator_light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/layout_fan_speed"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:paddingBottom="10dp"
-        android:text="@string/indicator_light"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ToggleButton
-        android:id="@+id/btn_rm_indicator_light"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/tv_rm_indicator_light"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:clickable="false"
-        android:paddingTop="40dp" />
-
-    <ImageView
-        android:id="@+id/divider_4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_indicator_light"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_child_lock"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_4"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:paddingBottom="10dp"
-        android:text="@string/child_lock"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ToggleButton
-        android:id="@+id/btn_rm_child_lock"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/tv_rm_child_lock"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:clickable="false"
-        android:paddingTop="40dp" />
-
-    <ImageView
-        android:id="@+id/divider_5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_child_lock"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_scheduler"
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_5"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="30dp"
-        android:paddingTop="10dp"
-        android:background="@drawable/list_item_selector"
-        android:drawableRight="@drawable/right_arrow_list_item"
-        android:gravity="center_vertical"
-        android:paddingBottom="10dp"
-        android:text="@string/scheduler"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
+        layout="@layout/heading" />
 
-    <ImageView
-        android:id="@+id/divider_7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_rm_scheduler"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_set_timer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_7"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:paddingBottom="10dp"
-        android:text="@string/set_timer"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/btn_rm_set_timer"
-        android:layout_width="80dp"
-        android:layout_height="35dp"
-        android:layout_alignBottom="@+id/tv_rm_set_timer"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:alpha="2"
-        android:background="@drawable/button_bg_2x"
-        android:clickable="false"
-        android:text="@string/off"
-        android:textColor="#ffffff"
-        android:textSize="10sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ImageView
-        android:id="@+id/divider_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_rm_set_timer"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <RelativeLayout
-        android:id="@+id/layout_timer"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/divider_3"
-        android:background="#CFD1DD"
-        android:paddingBottom="15dp"
-        android:visibility="gone" >
+        android:layout_height="fill_parent" >
 
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/timer_off"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/button_bg_normal_2x"
-            android:text="@string/off"
-            android:textColor="@color/blue_list_item"
-            android:textSize="10sp"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
+        <RelativeLayout
+            android:id="@+id/right_menu_control_panel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="30dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/four_hours"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignBaseline="@+id/one_hour"
-            android:layout_alignBottom="@+id/one_hour"
-            android:layout_margin="8dp"
-            android:layout_toRightOf="@+id/one_hour"
-            android:background="@drawable/button_bg_normal_2x"
-            android:text="@string/fourhour"
-            android:textColor="@color/blue_list_item"
-            android:textSize="10sp"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_power"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:paddingBottom="10dp"
+                android:text="@string/power"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/eight_hours"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignBaseline="@+id/four_hours"
-            android:layout_alignBottom="@+id/four_hours"
-            android:layout_margin="8dp"
-            android:layout_toRightOf="@+id/four_hours"
-            android:background="@drawable/button_bg_normal_2x"
-            android:text="@string/eighthour"
-            android:textColor="@color/blue_list_item"
-            android:textSize="10sp"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_power_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="25dp"
+                android:layout_toLeftOf="@+id/btn_rm_power"
+                android:layout_toRightOf="@id/tv_rm_power"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:singleLine="true"
+                android:text=""
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/one_hour"
-            android:layout_width="65dp"
-            android:layout_height="30dp"
-            android:layout_alignLeft="@+id/timer_off"
-            android:layout_below="@+id/timer_off"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/button_bg_normal_2x"
-            android:text="@string/onehour"
-            android:textColor="@color/blue_list_item"
-            android:textSize="10sp"
-            android:visibility="visible"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
-    </RelativeLayout>
-    
+            <ToggleButton
+                android:id="@id/btn_rm_power"
+                style="@style/Widget.Button.Toggle"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/tv_rm_power"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:clickable="false"
+                android:paddingTop="40dp" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_notification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/layout_timer"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:background="@drawable/list_item_selector"
-        android:drawableRight="@drawable/right_arrow_list_item"
-        android:gravity="center_vertical"
-        android:text="@string/list_item_notifications"
-        android:textColor="@color/blue_list_item"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
+            <ImageView
+                android:id="@+id/divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_rm_power"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
 
-</RelativeLayout>
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_fan_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/divider_1"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/fan_speed"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/btn_rm_fan_speed"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/tv_rm_fan_speed"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/button_bg_2x"
+                android:clickable="false"
+                android:text=""
+                android:textColor="#ffffff"
+                android:textSize="10sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ImageView
+                android:id="@+id/divider_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_rm_fan_speed"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
+
+            <RelativeLayout
+                android:id="@+id/layout_fan_speed"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider_2"
+                android:background="#CFD1DD"
+                android:paddingBottom="15dp"
+                android:visibility="gone" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_fan_speed_auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="22dp"
+                    android:text="@string/auto"
+                    android:textColor="@color/blue_list_item"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ToggleButton
+                    android:id="@+id/fan_speed_auto"
+                    style="@style/Widget.Button.Toggle"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/auto"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fan_speed_auto"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="10dp"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/seperator_line_2x" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fan_speed_silent"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/divider"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/button_bg_normal_2x"
+                    android:text="@string/silent"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fan_speed_turbo"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_below="@id/divider"
+                    android:layout_margin="8dp"
+                    android:layout_toRightOf="@+id/fan_speed_silent"
+                    android:background="@drawable/button_bg_normal_2x"
+                    android:text="@string/turbo"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fan_speed_two"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignTop="@+id/fan_speed_one"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/fan_speed_one"
+                    android:background="@drawable/fan_speed_two_white"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fan_speed_three"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignTop="@+id/fan_speed_two"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@+id/fan_speed_turbo"
+                    android:background="@drawable/fan_speed_three_white"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fan_speed_one"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/fan_speed_silent"
+                    android:layout_below="@+id/fan_speed_silent"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/fan_speed_one_white"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+            </RelativeLayout>
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_indicator_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/layout_fan_speed"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:paddingBottom="10dp"
+                android:text="@string/indicator_light"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ToggleButton
+                android:id="@+id/btn_rm_indicator_light"
+                style="@style/Widget.Button.Toggle"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/tv_rm_indicator_light"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:clickable="false"
+                android:paddingTop="40dp" />
+
+            <ImageView
+                android:id="@+id/divider_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_rm_indicator_light"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_child_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/divider_4"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:paddingBottom="10dp"
+                android:text="@string/child_lock"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ToggleButton
+                android:id="@+id/btn_rm_child_lock"
+                style="@style/Widget.Button.Toggle"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_alignBottom="@+id/tv_rm_child_lock"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:clickable="false"
+                android:paddingTop="40dp" />
+
+            <ImageView
+                android:id="@+id/divider_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btn_rm_child_lock"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_scheduler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/divider_5"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/list_item_selector"
+                android:drawableRight="@drawable/right_arrow_list_item"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/scheduler"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ImageView
+                android:id="@+id/divider_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_rm_scheduler"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_set_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/divider_7"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:paddingBottom="10dp"
+                android:text="@string/set_timer"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ToggleButton
+                android:id="@+id/btn_rm_set_timer"
+                style="@style/Widget.Button.Toggle"
+                android:layout_width="80dp"
+                android:layout_height="35dp"
+                android:layout_alignBottom="@+id/tv_rm_set_timer"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:clickable="false" />
+
+            <ImageView
+                android:id="@+id/divider_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_rm_set_timer"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
+
+            <RelativeLayout
+                android:id="@+id/layout_timer"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider_3"
+                android:background="#CFD1DD"
+                android:paddingBottom="15dp"
+                android:visibility="gone" >
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/timer_off"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/button_bg_normal_2x"
+                    android:text="@string/off"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/four_hours"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBaseline="@+id/one_hour"
+                    android:layout_alignBottom="@+id/one_hour"
+                    android:layout_margin="8dp"
+                    android:layout_toRightOf="@+id/one_hour"
+                    android:background="@drawable/button_bg_normal_2x"
+                    android:text="@string/fourhour"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/eight_hours"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignBaseline="@+id/four_hours"
+                    android:layout_alignBottom="@+id/four_hours"
+                    android:layout_margin="8dp"
+                    android:layout_toRightOf="@+id/four_hours"
+                    android:background="@drawable/button_bg_normal_2x"
+                    android:text="@string/eighthour"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/one_hour"
+                    android:layout_width="65dp"
+                    android:layout_height="30dp"
+                    android:layout_alignLeft="@+id/timer_off"
+                    android:layout_below="@+id/timer_off"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/button_bg_normal_2x"
+                    android:text="@string/onehour"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="10sp"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+            </RelativeLayout>
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_rm_notification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/layout_timer"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/list_item_selector"
+                android:drawableRight="@drawable/right_arrow_list_item"
+                android:gravity="center_vertical"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="@string/list_item_notifications"
+                android:textColor="@color/blue_list_item"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <ImageView
+                android:id="@+id/divider_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_rm_notification"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/seperator_line_2x" />
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

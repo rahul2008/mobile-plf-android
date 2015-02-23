@@ -502,9 +502,6 @@ public class PurifierControlPanel implements OnClickListener {
 		}
 	}
 
-	/**
-	 * @param if true, collapse the list else expand it.
-	 */
 	private void collapseFanSpeedMenu(boolean collapse) {
 		if (!collapse) {
 			isFanSpeedMenuVisible = !collapse;
