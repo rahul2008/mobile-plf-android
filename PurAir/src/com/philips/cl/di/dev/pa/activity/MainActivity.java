@@ -25,6 +25,8 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
+import com.philips.cl.di.dev.pa.dashboard.DeviceControlFragment;
+import com.philips.cl.di.dev.pa.dashboard.FilterStatusFragment;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -141,7 +143,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		OutdoorController.getInstance().setActivity(this);
 
-    	checkForCrashesHockeyApp();
+    	//checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -255,7 +257,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			manager.popBackStack();
 		} else if (fragment instanceof HelpAndDocFragment || fragment instanceof SettingsFragment) {
 			showFragment(new AboutFragment());
-		} else if (!(fragment instanceof HomeFragment)) {
+		}else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
 		} else {
@@ -374,6 +376,23 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	public void showFragment(Fragment fragment) {
 		try {
 			getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+			fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
+			fragmentTransaction.addToBackStack(fragment.getTag()) ;
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.MAINACTIVITY, e.getMessage());
+		}
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		}		
+	}
+	
+	
+	public void showControlFragment(Fragment fragment) {
+		try {
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag()) ;
