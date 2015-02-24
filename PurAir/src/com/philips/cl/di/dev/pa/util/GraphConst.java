@@ -2,6 +2,9 @@ package com.philips.cl.di.dev.pa.util;
 
 import android.graphics.Color;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
+
 public class GraphConst {
 	public static final String CMA_PRIVATE_KEY_4 = "2RhdGE=";
 	public static final String CMA_BASEURL_4 = "mNuL2RhdGEv" ;
@@ -9,13 +12,13 @@ public class GraphConst {
 	/** The Graph constants.*/
  	
 	public static final int COLOR_TITLE_GRAY = Color.rgb(93,101,119);
-	public static final int COLOR_PHILIPS_BLUE = Color.rgb(50,133,255);
 	public static final int COLOR_ROYAL_BLUE = Color.rgb(59, 108, 180);
 	public static final int COLOR_INDIGO = Color.rgb(84, 72, 157);
 	public static final int COLOR_PURPLE = Color.rgb(130, 51, 146);
 	public static final int COLOR_DEEP_PINK = Color.rgb(174, 22, 95);
 	public static final int COLOR_RED = Color.rgb(214, 31, 42);
-	public static final int COLOR_DODLE_BLUE = Color.rgb(30, 144, 255);
+	public static final int COLOR_PHILIPS_BLUE = 
+			PurAirApplication.getAppContext().getResources().getColor(R.color.philips_blue);
 	public static final int COLOR_STATE_BLUE = Color.rgb(45, 175, 228);
 	
 	

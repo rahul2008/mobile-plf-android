@@ -61,7 +61,7 @@
         android:lineSpacingExtra="2dp"
         android:padding="16dp"
         android:text="@string/continue_registration"
-        android:textColor="@color/gray_message"
+        android:textColor="@color/contain_gray"
         android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 

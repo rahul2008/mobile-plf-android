@@ -30,7 +30,7 @@
             android:layout_toLeftOf="@+id/aqiAnalysisClose"
             android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_aiq_analysis_head1"
-            android:textColor="@color/dodgerblue"
+            android:textColor="@color/philips_blue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -58,7 +58,7 @@
             android:layout_marginTop="6dp"
             android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_analysis_detail1_head1"
-            android:textColor="@color/dodgerblue"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -86,7 +86,7 @@
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_aiq_analysis_head2"
-            android:textColor="@color/dodgerblue"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -114,7 +114,7 @@
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_aiq_analysis_head3"
-            android:textColor="@color/dodgerblue"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -142,7 +142,7 @@
             android:layout_marginTop="12dp"
             android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_aiq_analysis_head4"
-            android:textColor="@color/dodgerblue"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 

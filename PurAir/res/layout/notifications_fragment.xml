@@ -23,7 +23,7 @@
                 android:id="@+id/notifications_last_connection_ll"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/new_philips_blue_bg"
+                android:background="@color/philips_blue"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="16dp"
@@ -142,7 +142,7 @@
                     android:enabled="false"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/notifications_indoor_AQI_desc"
-                    android:textColor="@color/gray_message"
+                    android:textColor="@color/contain_gray"
                     android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -274,7 +274,7 @@
                     android:enabled="false"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/notifications_filters_desc"
-                    android:textColor="@color/gray_message"
+                    android:textColor="@color/contain_gray"
                     android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -313,7 +313,7 @@
                     android:enabled="false"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/notification_front_panel_desc"
-                    android:textColor="@color/gray_message"
+                    android:textColor="@color/contain_gray"
                     android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>

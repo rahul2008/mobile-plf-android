@@ -7,7 +7,7 @@
         android:left="1dp"
         android:right="1dp"
         android:top="1dp" />
-	<solid android:color="@color/new_philips_blue_bg" />
+	<solid android:color="@color/philips_blue" />
     
     <corners android:radius="5dp" />
 

@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/guards_environment_intro"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -68,7 +68,7 @@
                     android:layout_toRightOf="@+id/vistashield_filter_imgView"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/guards_environment_filter"
-                    android:textColor="@color/gray_message"
+                    android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
                 
@@ -99,7 +99,7 @@
                     android:layout_toRightOf="@+id/monitoring_sensor_imgView"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/guards_environment_monitoring_sensor"
-                    android:textColor="@color/gray_message"
+                    android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
             </RelativeLayout>
@@ -129,7 +129,7 @@
                     android:layout_toRightOf="@+id/ozone_emission_imgView"
                     android:lineSpacingExtra="2dp"
                     android:text="@string/guards_environment_ozone_emmission"
-                    android:textColor="@color/gray_message"
+                    android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
             </RelativeLayout>
@@ -153,7 +153,7 @@
                 android:layout_marginBottom="25dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/new_home_syndrome_intro_part1"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -179,7 +179,7 @@
                 android:layout_marginTop="25dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/new_home_syndrome_intro_part2"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -198,7 +198,7 @@
                 android:layout_marginTop="25dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_features"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -221,7 +221,7 @@
                 android:layout_marginBottom="25dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/airborne_disease_desc"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>

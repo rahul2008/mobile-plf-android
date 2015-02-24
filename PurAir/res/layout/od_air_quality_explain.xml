@@ -31,7 +31,7 @@
             android:layout_toLeftOf="@+id/aqiAnalysisClose"
             android:lineSpacingExtra="2dp"
             android:text="@string/outdoor_aiq_analysis_head5"
-            android:textColor="@color/cornflowerblue"
+            android:textColor="@color/philips_blue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 

@@ -27,7 +27,7 @@
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_ips_system_intro"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -67,7 +67,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_1"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -95,7 +95,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_2"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -123,7 +123,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_3"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -151,7 +151,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_4"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -192,7 +192,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_performance_intro"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>

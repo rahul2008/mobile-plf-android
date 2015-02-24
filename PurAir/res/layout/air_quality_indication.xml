@@ -24,7 +24,7 @@
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:text="@string/outdoor_color_explained_intro"
-        android:textColor="@color/gray_message"
+        android:textColor="@color/contain_gray"
         android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 

@@ -460,7 +460,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		if (lastDayAQIHistoricArr != null && lastDayAQIHistoricArr.length > 0) {
 			graphLayout.addView(new GraphView(this, lastDayAQIHistoricArr, coordinates));
 		}
-		lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+		lastDayBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 		lastWeekBtn.setTextColor(Color.LTGRAY);
 		lastFourWeekBtn.setTextColor(Color.LTGRAY);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
@@ -472,7 +472,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			graphLayout.addView(new GraphView(this, last7dayAQIHistoricArr, coordinates));
 		}
 		lastDayBtn.setTextColor(Color.LTGRAY);
-		lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+		lastWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 		lastFourWeekBtn.setTextColor(Color.LTGRAY);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
 	}
@@ -484,7 +484,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 		lastDayBtn.setTextColor(Color.LTGRAY);
 		lastWeekBtn.setTextColor(Color.LTGRAY);
-		lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+		lastFourWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 	}
 	

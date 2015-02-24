@@ -55,7 +55,7 @@
             android:lineSpacingExtra="2dp"
             android:linksClickable="true"
             android:text="@string/opensource_licens"
-            android:textColor="@color/gray_message"
+            android:textColor="@color/contain_gray"
             android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>

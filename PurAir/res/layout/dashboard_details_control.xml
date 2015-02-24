@@ -15,7 +15,7 @@
         android:paddingBottom="2dp"
         android:paddingTop="8dp"
         android:text="@string/lastday"
-        android:textColor="@color/dodgerblue"
+        android:textColor="@color/philips_blue"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 

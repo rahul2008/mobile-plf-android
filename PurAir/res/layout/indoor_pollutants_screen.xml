@@ -27,7 +27,7 @@
                 android:layout_marginTop="10dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/indoor_pollutants_intro"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -67,7 +67,7 @@
                 android:layout_marginBottom="24dp"
                 android:lineSpacingExtra="2dp"
                 android:text="@string/pollutant_intro_1"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -95,7 +95,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_2"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -123,7 +123,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_3"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -151,7 +151,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_4"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -179,7 +179,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_5"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -207,7 +207,7 @@
                 android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_6"
-                android:textColor="@color/gray_message"
+                android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>

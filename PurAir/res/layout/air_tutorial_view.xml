@@ -87,7 +87,7 @@
         android:layout_marginBottom="5dp"
         android:gravity="left"
         android:text="@string/tutorial_dashboard_desc"
-        android:textColor="@color/lighter_philips_blue"
+        android:textColor="@color/philips_blue"
         android:textSize="@dimen/text_size_large"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 

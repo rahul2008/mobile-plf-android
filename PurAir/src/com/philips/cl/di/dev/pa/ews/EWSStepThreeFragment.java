@@ -96,7 +96,7 @@ public class EWSStepThreeFragment extends Fragment {
 	private void setPurifierDetils() {
 		ssid = ((EWSActivity) getActivity()).getNetworkSSID();
 		String passwordLabel = getString(R.string.step3_msg1)
-				+ " <font color=#3285FF>" + ssid + "</font>";
+				+ " <font color=#0065A0>" + ssid + "</font>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		if (SessionDto.getInstance().getDeviceDto() != null) {
 			String name = SessionDto.getInstance().getDeviceDto().getName();
