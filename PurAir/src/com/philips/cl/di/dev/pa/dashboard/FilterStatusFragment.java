@@ -167,16 +167,17 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		});
 	}
 
-
+  
 	private void updateFilterStatus(int preFilterStatus,
 			int multiCareFilterStatus, int activeCarbonFilterStatus,
 			int hepaFilterStatus) {
+		
+		ALog.d(ALog.FILTER_STATUS_FRAGMENT, "Update filter status");
 		/** Update filter bars */
-		preFilterView.setPrefilterValue(preFilterStatus);
-		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
-		activeCarbonFilterView
-		.setActiveCarbonFilterValue(activeCarbonFilterStatus);
-		hepaFilterView.setHEPAfilterValue(hepaFilterStatus);
+		preFilterView.setFilterValue(preFilterStatus, FilterStatusView.PRE_FILTER);
+		multiCareFilterView.setFilterValue(multiCareFilterStatus, FilterStatusView.MUL_CARE_FILTER);
+		activeCarbonFilterView.setFilterValue(activeCarbonFilterStatus, FilterStatusView.ACT_CARBON_FILTER);
+		hepaFilterView.setFilterValue(hepaFilterStatus, FilterStatusView.HEPA_FILTER);
 
 		/** Update filter texts */
 		preFilterText.setText(Utils.getPreFilterStatusText(preFilterStatus));
