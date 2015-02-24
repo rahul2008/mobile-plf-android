@@ -31,6 +31,7 @@ public class ALog {
 	public static final String SSDP = "Ssdp";
 	public static final String KPS = "KPS";
 	public static final String MAINACTIVITY = "MainActivityAir" ;
+	public static final String FILTER_STATUS_FRAGMENT = "FilterStatusFragment" ;
 	public static final String DATABASE = "DatabaseAir" ;
 	public static final String CPPCONTROLLER="CppController";
 	public static final String INDOOR_DETAILS = "IndoorDetails";

@@ -28,7 +28,7 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
-	
+
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
 	activeCarbonFilterView, hepaFilterView;
@@ -36,70 +36,76 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 	// Filter status texts
 	private TextView preFilterText, multiCareFilterText,
 	activeCarbonFilterText, hepaFilterText;
-	
+
 	//Buy online
 	private FontTextView buyOnlineMulticare,buyOnlineActineCarbon,
 	buyOnlineHepa;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.filter_status, container, false);
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		initFilterStatusViews();
-		//updatePurifierUIFields();
 		super.onActivityCreated(savedInstanceState);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
-		updatePurifierUIFields();
+		updateFilterViews();
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);		
 	}
 
 	@Override
 	public void onAirPurifierChanged() {
-		updatePurifierUIFields();
-		
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				updateFilterViews();
+			}
+		});
 	}
 
 	@Override
 	public void onAirPurifierEventReceived() {
-		updatePurifierUIFields();
-		
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				updateFilterViews();
+			}
+		});
+
 	}
 
 	@Override
 	public void onFirmwareEventReceived() {
-		
+
 	}
 
 	@Override
 	public void onErrorOccurred(PurifierEvent purifierEvent) {
-		
+
 	}
-	
-	
+
+
 	private void initFilterStatusViews() {
-		
-		
 		preFilterView = (FilterStatusView) getView().findViewById(R.id.iv_pre_filter);
 		multiCareFilterView = (FilterStatusView) getView().findViewById(R.id.iv_multi_care_filter);
 		activeCarbonFilterView = (FilterStatusView) getView().findViewById(R.id.iv_active_carbon_filter);
@@ -109,15 +115,15 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		multiCareFilterText = (TextView) getView().findViewById(R.id.tv_rm_multi_care_filter_status);
 		activeCarbonFilterText = (TextView) getView().findViewById(R.id.tv_rm_active_carbon_filter_status);
 		hepaFilterText = (TextView) getView().findViewById(R.id.tv_rm_hepa_filter_status);
-		
+
 		buyOnlineMulticare = (FontTextView) getView().findViewById(R.id.buyonline_multicare);
 		buyOnlineMulticare.setOnClickListener(this);
 		buyOnlineMulticare.setText(getString(R.string.list_item_buy_online) + " >");
-		
+
 		buyOnlineActineCarbon = (FontTextView) getView().findViewById(R.id.buyonline_active_carbon);
 		buyOnlineActineCarbon.setOnClickListener(this);
 		buyOnlineActineCarbon.setText(getString(R.string.list_item_buy_online) + " >");
-		
+
 		buyOnlineHepa = (FontTextView) getView().findViewById(R.id.buyonline_hepa);
 		buyOnlineHepa.setOnClickListener(this);
 		buyOnlineHepa.setText(getString(R.string.list_item_buy_online) + " >");
@@ -127,10 +133,10 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 		ImageView linkFilterReplace=(ImageView) getView().findViewById(R.id.replace_filter_link);
 		linkFilterReplace.setOnClickListener(filterClickListener);
-		
+
 		ImageButton backButton = (ImageButton) getView().findViewById(R.id.heading_back_imgbtn);
 		backButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				MainActivity mainActivity = (MainActivity) getActivity();
@@ -141,32 +147,26 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		FontTextView heading=(FontTextView) getView().findViewById(R.id.heading_name_tv);
 		heading.setText(getString(R.string.filters));
 	}
-	
-	private void disableRightMenuControls() {
 
+	private void disableFilterStatus() {
+		/** Update filter bars */
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				disableFilterStatus(); // Update filter status if purifier disconnected
+				preFilterView.setColorAndLength(Color.LTGRAY, 0);
+				multiCareFilterView.setColorAndLength(Color.LTGRAY, 0);
+				activeCarbonFilterView.setColorAndLength(Color.LTGRAY, 0);
+				hepaFilterView.setColorAndLength(Color.LTGRAY, 0);
+
+				/** Update filter texts */
+				preFilterText.setText(AppConstants.EMPTY_STRING);
+				multiCareFilterText.setText(AppConstants.EMPTY_STRING);
+				activeCarbonFilterText.setText(AppConstants.EMPTY_STRING);
+				hepaFilterText.setText(AppConstants.EMPTY_STRING);
 			}
 		});
 	}
-	
-	
-	private void disableFilterStatus() {
-		/** Update filter bars */
-		preFilterView.setColorAndLength(Color.LTGRAY, 0);
-		multiCareFilterView.setColorAndLength(Color.LTGRAY, 0);
-		activeCarbonFilterView.setColorAndLength(Color.LTGRAY, 0);
-		hepaFilterView.setColorAndLength(Color.LTGRAY, 0);
 
-		/** Update filter texts */
-		preFilterText.setText(AppConstants.EMPTY_STRING);
-		multiCareFilterText.setText(AppConstants.EMPTY_STRING);
-		activeCarbonFilterText.setText(AppConstants.EMPTY_STRING);
-		hepaFilterText.setText(AppConstants.EMPTY_STRING);
-	}
-	
 
 	private void updateFilterStatus(int preFilterStatus,
 			int multiCareFilterStatus, int activeCarbonFilterStatus,
@@ -181,55 +181,39 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		/** Update filter texts */
 		preFilterText.setText(Utils.getPreFilterStatusText(preFilterStatus));
 		preFilterText.setTextColor(Utils.getPreFilterStatusColour(preFilterStatus));
-		
+
 		multiCareFilterText.setText(Utils.getMultiCareFilterStatusText(multiCareFilterStatus));
 		multiCareFilterText.setTextColor(Utils.getMultiCareFilterStatusColour(multiCareFilterStatus));
-		
+
 		activeCarbonFilterText.setText(Utils.getActiveCarbonFilterStatusText(activeCarbonFilterStatus));
 		activeCarbonFilterText.setTextColor(Utils.getActiveCarbonFilterStatusColour(activeCarbonFilterStatus));
-		
+
 		hepaFilterText.setText(Utils.getHEPAFilterFilterStatusText(hepaFilterStatus));
 		hepaFilterText.setTextColor(Utils.getHEPAFilterStatusColour(hepaFilterStatus));
-		
-		
-		
-		
-		
+
 	}
-	
+
 	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {
 		if (purifier == null) return null;
 		return purifier.getAirPortInfo();
 	}
-	private void updatePurifierUIFields() {
-		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
 
+	private void updateFilterViews() {
+		ALog.i(ALog.FILTER_STATUS_FRAGMENT, "updateFilterStatus");
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
-
-		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
-			disableRightMenuControls();
+		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED
+				|| purifier.getAirPortInfo() == null) {
+			disableFilterStatus();
 			return ;
 		}
-
 		final AirPortInfo info = getAirPortInfo(purifier);
-		if (info == null) {
-			disableRightMenuControls();
-			return;
-		}
-
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				updateFilterStatus(info.getPreFilterStatus(),
-						info.getMulticareFilterStatus(),
-						info.getActiveFilterStatus(),
-						info.getHepaFilterStatus());
-			}
-		});
-
+		updateFilterStatus(info.getPreFilterStatus(),
+				info.getMulticareFilterStatus(),
+				info.getActiveFilterStatus(),
+				info.getHepaFilterStatus());
 	}
-	
-	
+
+
 	private OnClickListener filterClickListener = new OnClickListener() {
 
 		@Override
@@ -277,5 +261,5 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 		getActivity().startActivity(Intent.createChooser(intent,""));
 
 	} 
-	
+
 }
