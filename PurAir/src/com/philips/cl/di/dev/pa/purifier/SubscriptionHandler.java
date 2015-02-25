@@ -29,7 +29,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	private static SubscriptionHandler mInstance;
 	private SubscriptionEventListener subscriptionEventListener;
-	private CppDiscoverEventListener cppDiscoverEventListener;
 	private UDPReceivingThread udpReceivingThread;
 	
 	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
@@ -54,10 +53,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	public void setSubscriptionListener(
 			SubscriptionEventListener subscriptionEventListener) {
 		this.subscriptionEventListener = subscriptionEventListener;
-	}
-
-	public void setCppDiscoverListener(CppDiscoverEventListener discoverListener) {
-		this.cppDiscoverEventListener = discoverListener;
 	}
 
 	public void subscribeToPurifierEvents() {
@@ -248,19 +243,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	public void onDCSEventReceived(String data, String fromEui64, String action) {
 		if (data == null || data.isEmpty())
 			return;
-
-		if (DataParser.parseDiscoverInfo(data) != null) {
-			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
-			boolean isResponseToRequest = false;
-			if (action != null
-					&& action.toUpperCase().trim().equals(AppConstants.DISCOVER)) {
-				isResponseToRequest = true;
-			}
-			if (cppDiscoverEventListener != null) {
-				cppDiscoverEventListener.onDiscoverEventReceived(data, isResponseToRequest);
-			}
-			return;
-		}
 
 		if (fromEui64 == null || fromEui64.isEmpty())
 			return;

@@ -31,7 +31,6 @@ import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -96,7 +95,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		initializeDevicesMapFromDataBase();
 		mSecurity = new DISecurity(this);
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
-		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), SubscriptionHandler.getInstance(), this);
+		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), this);
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);

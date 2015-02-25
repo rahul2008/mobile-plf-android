@@ -30,6 +30,7 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.ComponentDetails;
@@ -69,6 +70,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private EventSubscription eventSubscription; 
 	private DCSEventListener dcsEventListener;
 	private DCSResponseListener dcsResponseListener ;
+	private CppDiscoverEventListener mCppDiscoverEventListener;
 	private boolean isDCSRunning;
 
 	//DCS client state
@@ -279,6 +281,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		this.dcsEventListener = dcsEventListener;
 	}
 
+	public void setCppDiscoverEventListener(CppDiscoverEventListener mCppDiscoverEventListener) {
+		this.mCppDiscoverEventListener = mCppDiscoverEventListener;
+	}
+
 	public void setDCSResponseListener(DCSResponseListener dcsResponseListener) {
 		this.dcsResponseListener = dcsResponseListener ;
 	}
@@ -369,8 +375,24 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if( action.equalsIgnoreCase("RESPONSE") && dcsResponseListener != null) {
 			dcsResponseListener.onDCSResponseReceived(data) ;
 		}
-		if (data == null || dcsEventListener == null) return;		
-		dcsEventListener.onDCSEventReceived(data, fromEui64, action);
+		if (data == null) return;	
+		
+		if (DataParser.parseDiscoverInfo(data) != null) {
+			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
+			boolean isResponseToRequest = false;
+			if (action != null
+					&& action.toUpperCase().trim().equals(AppConstants.DISCOVER)) {
+				isResponseToRequest = true;
+			}
+			if (mCppDiscoverEventListener != null) {
+				mCppDiscoverEventListener.onDiscoverEventReceived(data, isResponseToRequest);
+			}
+			return;
+		}
+		
+		if (dcsEventListener != null) {
+		    dcsEventListener.onDCSEventReceived(data, fromEui64, action);
+		}
 	}
 
 	/**

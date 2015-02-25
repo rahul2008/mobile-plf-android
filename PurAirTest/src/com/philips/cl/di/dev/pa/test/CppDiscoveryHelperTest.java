@@ -21,7 +21,6 @@ import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 	
 	private CppDiscoveryHelper mHelper;
-	private SubscriptionHandler mSubhandler;
 	private CPPController mCppController;
 	private CppDiscoverEventListener mDiscListener;
 	
@@ -30,10 +29,9 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		// Necessary to get Mockito framework working
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		
-		mSubhandler = mock(SubscriptionHandler.class);
 		mCppController = mock(CPPController.class);
 		mDiscListener = mock(CppDiscoverEventListener.class);
-		mHelper = new CppDiscoveryHelper(mCppController, mSubhandler, mDiscListener);
+		mHelper = new CppDiscoveryHelper(mCppController, mDiscListener);
 		
 		
 		super.setUp();
@@ -42,7 +40,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 	public void testCppDiscoveryConstructor() {
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController).addSignOnListener(mHelper);
-		verify(mSubhandler).setCppDiscoverListener(mDiscListener);
+		verify(mCppController).setCppDiscoverEventListener(mDiscListener);
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
 	}
 	
@@ -50,7 +48,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.startDiscoveryViaCpp();
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
+		verify(mCppController, never()).startDCSService();
 		verify(mDiscListener, never()).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
@@ -62,7 +60,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.startDiscoveryViaCpp();
 
 		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(AppConstants.DISCOVER), anyString(), eq(""), anyInt(), anyInt(), anyString());
-		verify(mSubhandler).enableRemoteSubscription(any(Context.class));
+		verify(mCppController).startDCSService();
 		verify(mDiscListener).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
@@ -73,7 +71,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.stopDiscoveryViaCpp();
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
+		verify(mCppController, never()).startDCSService();
 		verify(mDiscListener, never()).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
@@ -82,9 +80,9 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 	public void testCppDiscoveryOnStartStopNoSignonWaitSignon() {
 		mHelper.startDiscoveryViaCpp();
 		mHelper.signonStatus(true);
-
+		
 		verify(mCppController).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler).enableRemoteSubscription(any(Context.class));
+		verify(mCppController).startDCSService();
 		verify(mDiscListener).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
@@ -95,7 +93,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.signonStatus(false);
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
+		verify(mCppController, never()).startDCSService();
 		verify(mDiscListener, never()).onSignedOnViaCpp();
 		verify(mDiscListener).onSignedOffViaCpp();
 		assertTrue(mHelper.getCppDiscoveryPendingForTesting());

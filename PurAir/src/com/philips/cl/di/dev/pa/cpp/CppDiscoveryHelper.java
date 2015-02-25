@@ -3,26 +3,23 @@ package com.philips.cl.di.dev.pa.cpp;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
 public class CppDiscoveryHelper implements SignonListener, PublishEventListener {
 	
 	private CPPController mCppController;
-	private SubscriptionHandler mSubHandler;
 	private CppDiscoverEventListener mCppDiscListener;
 	private boolean isCppDiscoveryPending = false;
 	private int retrySubscriptionCount ;
 	private static final int MAX_RETRY_FOR_DISCOVER = 2 ;
 	private int discoverEventMessageID ;
 	
-	public CppDiscoveryHelper(CPPController controller, SubscriptionHandler subHandler, CppDiscoverEventListener cppDiscListener) {
+	public CppDiscoveryHelper(CPPController controller, CppDiscoverEventListener cppDiscListener) {
 		mCppController = controller;
-		mSubHandler = subHandler;
 		mCppDiscListener = cppDiscListener;
 		mCppController.addSignOnListener(this);
-		mSubHandler.setCppDiscoverListener(mCppDiscListener);
+		mCppController.setCppDiscoverEventListener(mCppDiscListener);
 	}
 	
 	public void startDiscoveryViaCpp() {
@@ -34,14 +31,16 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener 
 	public void stopDiscoveryViaCpp() {
 		ALog.d(ALog.CPPDISCHELPER, "Stop discovery via CPP - disabling subscription");
 		isCppDiscoveryPending = false;
-		mSubHandler.disableRemoteSubscription(PurAirApplication.getAppContext());
+		ALog.i(ALog.CPPDISCHELPER, "Disabling remote subscription (stop dcs)");
+		mCppController.stopDCSService();
 		mCppController.removePublishEventListener(this) ;
 	}
 	
 	private void startDiscoveryViaCpp(boolean isSignedOnToCpp) {
 		if (isSignedOnToCpp) {
 			mCppDiscListener.onSignedOnViaCpp();
-			mSubHandler.enableRemoteSubscription(PurAirApplication.getAppContext());
+			ALog.i(ALog.CPPDISCHELPER, "Enabling remote subscription (start dcs)");
+			mCppController.startDCSService();
 			mCppController.addPublishEventListener(this) ;
 			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance()
 							.getAppEui64(), "", 20, 120, SessionDto.getInstance().getAppEui64());
