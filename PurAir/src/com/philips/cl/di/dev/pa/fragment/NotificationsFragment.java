@@ -323,9 +323,13 @@ AlertDialogBtnInterface, OnClickListener {
 		if (mPurifier == null) return;
 		aqiThresholdTimer.start();
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
-		PurifierManager.getInstance().setPurifierDetails(
-				ParserConstants.AQI_THRESHOLD, aqiThreshold,
-				PurifierEvent.AQI_THRESHOLD);
+		
+		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier!=null){
+		    currentPurifier.setPurifierDetails(
+					ParserConstants.AQI_THRESHOLD, aqiThreshold,
+					PurifierEvent.AQI_THRESHOLD);
+		}
 	}
 
 	private CountDownTimer aqiThresholdTimer = new CountDownTimer(

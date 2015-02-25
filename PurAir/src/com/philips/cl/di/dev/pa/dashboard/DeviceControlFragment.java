@@ -344,7 +344,11 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	private void controlDevice(String key, String value) {
 		// Start the progress dialog
 		controlProgress.setVisibility(View.VISIBLE);
-		PurifierManager.getInstance().setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
+		
+		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier!=null){
+		    currentPurifier.setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
+		}
 	}
 
 	@Override

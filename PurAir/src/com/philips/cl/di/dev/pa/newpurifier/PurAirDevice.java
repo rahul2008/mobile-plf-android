@@ -25,6 +25,8 @@ public class PurAirDevice implements SubscriptionEventListener{
 	private String longitude;
 	
 	private final NetworkNode mNetworkNode = new NetworkNode();
+	private final DeviceHandler mDeviceHandler;
+	
 	private SubscriptionHandler mSubscriptionHandler;
 	
 	private AirPortInfo 		   mAirPortInfo;
@@ -53,6 +55,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mNetworkNode.setName(name);
 		mNetworkNode.setConnectionState(connectionState);
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
+		mDeviceHandler = new DeviceHandler(this);
 	}
 	
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
@@ -63,6 +66,11 @@ public class PurAirDevice implements SubscriptionEventListener{
 
 	public NetworkNode getNetworkNode() {
 		return mNetworkNode;
+	}
+	
+	// TODO: Remove this method when we inline subscriptioneventlisteners
+	public DeviceHandler getDeviceHandler() {
+		return mDeviceHandler;
 	}
 	
 	public void enableLocalSubscription() {
@@ -187,6 +195,13 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 		mSubscriptionHandler.unSubscribeFromPurifierEvents();
 		mSubscriptionHandler.unSubscribeFromFirmwareEvents();
+	}
+	
+	// TODO refactor into new architecture, rename method
+	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
+		ALog.i(ALog.APPLIANCE, "Set Appliance details: " + key +" = " + value) ;
+		mDeviceHandler.setPurifierEvent(purifierEvent) ;
+		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
 	}
 
 }

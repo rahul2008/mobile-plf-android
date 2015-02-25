@@ -38,7 +38,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private static PurifierManager instance;
 	
 	private DISecurity mSecurity;
-	private DeviceHandler mDeviceHandler;
 	
 	private PurAirDevice mCurrentPurifier = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
@@ -66,7 +65,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		// Enforce Singleton
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
-		mDeviceHandler = new DeviceHandler(this) ;
 		schedulerHandler = new SchedulerHandler(this) ;
 	}
 	
@@ -79,7 +77,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			mCurrentPurifier.unSubscribeFromAllEvents();
-			mDeviceHandler.stopDeviceThread() ;
+			getCurrentPurifier().getDeviceHandler().stopDeviceThread() ;
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
 		//stopCurrentSubscription();
@@ -123,18 +121,16 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	
-	// TODO refactor into new architecture
-	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
-		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
-		mDeviceHandler.setPurifierEvent(purifierEvent) ;
-		if(getCurrentPurifier()!=null)
-			mDeviceHandler.setPurifierDetails(key, value, getCurrentNetworkNode());
-	}
-	
 	@Override
 	public void onLocalEventReceived(String encryptedData, String purifierIp) {
-		ALog.i("UIUX", "Check if the thread is running: "+mDeviceHandler.isDeviceThreadRunning()) ;
-		if( mDeviceHandler.isDeviceThreadRunning()) return ;
+		// TODO: Refactor null check
+		boolean isDeviceThreadRunning = false;
+		if(getCurrentPurifier()!=null && getCurrentPurifier().getDeviceHandler().isDeviceThreadRunning()){
+			isDeviceThreadRunning = true;
+		}
+		ALog.i("UIUX", "Check if the thread is running: " + isDeviceThreadRunning) ;
+		if (isDeviceThreadRunning) return;
+		
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getNetworkNode().getIpAddress() == null || !purifier.getNetworkNode().getIpAddress().equals(purifierIp)) {
@@ -152,7 +148,13 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	@Override
 	public void onRemoteEventReceived(String data, String purifierEui64) {
-		if( mDeviceHandler.isDeviceThreadRunning()) return ;
+		// TODO: Refactor null check
+		boolean isDeviceThreadRunning = false;
+		if(getCurrentPurifier()!=null && getCurrentPurifier().getDeviceHandler().isDeviceThreadRunning()){
+			isDeviceThreadRunning = true;
+		}
+		if (isDeviceThreadRunning) return;
+		
 		ALog.d(ALog.PURIFIER_MANAGER, "Remote event received");
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || !purifier.getNetworkNode().getCppId().equals(purifierEui64)) {
