@@ -497,8 +497,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		MainActivity activity = (MainActivity) getActivity();
 		switch (v.getId()) {
 		case R.id.controls:
-			MainActivity mainActivity = (MainActivity) getActivity();
-			mainActivity.showFragment(new DeviceControlFragment());
+			if (activity != null) {
+				activity.showFragment(new DeviceControlFragment());
+			}
 			break;
 		case R.id.firmware_update_available:
 			hideFirmwareUpdatePopup();
