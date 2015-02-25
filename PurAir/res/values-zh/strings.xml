@@ -483,7 +483,7 @@
     <string name="friday">周五</string>
     <string name="saturday">周六</string>
     <string name="set_schedule">设置日程表</string>
-    <string name="add_schedule">Add schedule</string>
+    <string name="add_schedule">添加计划程序</string>
     <string name="edit_schedule">编辑日程表</string>
     <string name="repeat_text">重复</string>
     <string name="delete_text">删除</string>
