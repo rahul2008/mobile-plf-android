@@ -1,13 +1,11 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.List;
-import java.util.Observer;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 /**
  * @author Jeroen Mols

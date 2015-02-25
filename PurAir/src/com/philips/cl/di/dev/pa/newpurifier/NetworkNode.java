@@ -2,10 +2,10 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.Observable;
 
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
-
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 
 public class NetworkNode extends Observable implements Parcelable {
