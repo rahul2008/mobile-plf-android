@@ -23,7 +23,6 @@ import com.philips.icpinterface.data.Errors;
 public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ServerResponseListener, PublishEventListener {
 
-	private static SubscriptionHandler mInstance;
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private UDPReceivingThread udpReceivingThread;
 	
@@ -33,11 +32,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	private int airPortSubscriptionMessageID ;
 	
 	private NetworkNode mNetworkNode;
-
-	private SubscriptionHandler() {
-		// enforce singleton
-		udpReceivingThread = new UDPReceivingThread(this);		
-	}
 	
 	public SubscriptionHandler(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
 		udpReceivingThread = new UDPReceivingThread(this);
@@ -46,25 +40,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), this);
 	}
 
-	public static SubscriptionHandler getInstance(NetworkNode networkNode) {
-		if (null == mInstance) {
-			mInstance = new SubscriptionHandler();
-		}
-		if(null != networkNode){
-			mInstance.setNetworkNode(networkNode);
-		    CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), mInstance);
-		}
-		return mInstance;
-	}
-	
-	public void setNetworkNode(NetworkNode networkNode){
-		mNetworkNode = networkNode;
-	}
-
-	public void setSubscriptionListener(
-			SubscriptionEventListener subscriptionEventListener) {
-		this.mSubscriptionEventListener = subscriptionEventListener;
-	}
 
 	public void subscribeToPurifierEvents() {
 		retrySubscriptionCount = 1 ;
@@ -278,10 +253,10 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
-	public static void setDummySubscriptionManagerForTesting(
-			SubscriptionHandler dummyManager) {
-		mInstance = dummyManager;
-	}
+//	public static void setDummySubscriptionManagerForTesting(
+//			SubscriptionHandler dummyManager) {
+//		mInstance = dummyManager;
+//	}
 
 	@Override
 	public void onPublishEventReceived(int status, int messageId) {

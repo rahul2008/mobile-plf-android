@@ -2,6 +2,9 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.List;
 
+import android.content.Context;
+import android.os.Handler;
+
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -9,6 +12,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
  * @author Jeroen Mols
@@ -21,11 +25,15 @@ public class PurAirDevice implements SubscriptionEventListener{
 	private String longitude;
 	
 	private final NetworkNode mNetworkNode = new NetworkNode();
-	private final SubscriptionHandler mSubscriptionHandler;
+	private SubscriptionHandler mSubscriptionHandler;
 	
 	private AirPortInfo 		   mAirPortInfo;
 	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
+
+	private final Handler mResubscriptionHandler = new Handler();
+	private Runnable mResubscribeRunnable;	
+	protected static final long RESUBSCRIBING_TIME = 300000;
 	
 	public List<SchedulePortInfo> getmSchedulerPortInfoList() {
 		return mSchedulerPortInfoList;
@@ -46,9 +54,31 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mNetworkNode.setConnectionState(connectionState);
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
 	}
+	
+	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
+			long bootId, ConnectionState connectionState, SubscriptionHandler subscriptionHandler) {
+		this(eui64, usn, ipAddress, name, bootId, connectionState);
+		mSubscriptionHandler = subscriptionHandler;
+	}
 
 	public NetworkNode getNetworkNode() {
 		return mNetworkNode;
+	}
+	
+	public void enableLocalSubscription() {
+		mSubscriptionHandler.enableLocalSubscription();
+	}
+
+	public void disableLocalSubscription() {
+		mSubscriptionHandler.disableLocalSubscription();
+	}
+	
+	public void enableRemoteSubscription(Context context) {
+		mSubscriptionHandler.enableRemoteSubscription(context);
+	}
+
+	public void disableRemoteSubscription(Context context) {
+		mSubscriptionHandler.disableRemoteSubscription(context);
 	}
 
 	public String getLatitude() {
@@ -129,4 +159,34 @@ public class PurAirDevice implements SubscriptionEventListener{
 		// TODO Refactor
 		PurifierManager.getInstance().onLocalEventLost(purifierEvent);		
 	}
+	
+	public void subscribeToAllEvents() {
+		ALog.i(ALog.APPLIANCE, "Subscribe to all events for appliance: " + this) ;
+		mSubscriptionHandler.subscribeToPurifierEvents();
+		mSubscriptionHandler.subscribeToFirmwareEvents();
+		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
+		mResubscriptionHandler.post(mResubscribeRunnable);
+		mResubscribeRunnable = new Runnable() { 
+			@Override 
+			public void run() { 
+				try{					
+					mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
+					mSubscriptionHandler.subscribeToPurifierEvents(); 
+					mSubscriptionHandler.subscribeToFirmwareEvents();
+					mResubscriptionHandler.postDelayed(mResubscribeRunnable, PurAirDevice.RESUBSCRIBING_TIME);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			} 
+		}; 
+	}
+
+	public void unSubscribeFromAllEvents() {
+		ALog.i(ALog.APPLIANCE, "UnSubscribe from all events from appliance: " + this) ;
+		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
+		mSubscriptionHandler.unSubscribeFromPurifierEvents();
+		mSubscriptionHandler.unSubscribeFromFirmwareEvents();
+	}
+
 }

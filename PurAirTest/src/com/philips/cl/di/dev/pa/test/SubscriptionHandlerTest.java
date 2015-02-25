@@ -1,13 +1,12 @@
 package com.philips.cl.di.dev.pa.test;
 
-import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import android.test.InstrumentationTestCase;
 
-import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
@@ -23,21 +22,14 @@ public class SubscriptionHandlerTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		// Necessary to get Mockito framework working
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-		
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
-		mSubscriptionMan = SubscriptionHandler.getInstance(null);
-		
+
 		mSubListener = mock(SubscriptionEventListener.class);
-		mSubscriptionMan.setSubscriptionListener(mSubListener);
+		NetworkNode networkNode = mock(NetworkNode.class);	
+		
+		mSubscriptionMan = new SubscriptionHandler(networkNode, mSubListener);
 		super.setUp();
 	}
 
-	protected void tearDown() throws Exception {
-		// Reset SubscriptionManager after tests
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
-		super.tearDown();
-	}
-	
 	public void testUDPEventReceivedDataNull() {
 		mSubscriptionMan.onUDPEventReceived(null, PURIFIER_IP);
 

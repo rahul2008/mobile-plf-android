@@ -7,7 +7,6 @@ import java.util.Observer;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -16,7 +15,6 @@ import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
@@ -37,8 +35,6 @@ import com.philips.cl.di.dev.pa.util.DataParser;
  */
 public class PurifierManager implements SubscriptionEventListener, KeyDecryptListener, Observer {
 
-	protected static final long RESUBSCRIBING_TIME = 300000;
-
 	private static PurifierManager instance;
 	
 	private DISecurity mSecurity;
@@ -55,8 +51,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
-	private final Handler handler = new Handler();
-	private Runnable subscribeRunnable;
 	
 	private SchedulerHandler schedulerHandler ;
 	private int indoorViewPagerPosition;
@@ -70,7 +64,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	private PurifierManager() {
 		// Enforce Singleton
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).setSubscriptionListener(this);
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
 		mDeviceHandler = new DeviceHandler(this) ;
@@ -85,7 +78,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
 		
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			unSubscribeFromAllEvents(mCurrentPurifier);
+			mCurrentPurifier.unSubscribeFromAllEvents();
 			mDeviceHandler.stopDeviceThread() ;
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
@@ -108,7 +101,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if (mCurrentPurifier == null) return;
 		
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			unSubscribeFromAllEvents(mCurrentPurifier);
+			mCurrentPurifier.unSubscribeFromAllEvents();
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
 		stopCurrentSubscription();
@@ -129,35 +122,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		return null;
 	}
 
-	private void subscribeToAllEvents(final PurAirDevice purifier) {
-		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToPurifierEvents();
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToFirmwareEvents();
-		handler.removeCallbacks(subscribeRunnable);
-		handler.post(subscribeRunnable);
-		subscribeRunnable = new Runnable() { 
-			@Override 
-			public void run() { 
-				try{					
-					handler.removeCallbacks(subscribeRunnable);
-					SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToPurifierEvents(); 
-					SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToFirmwareEvents();
-					handler.postDelayed(subscribeRunnable, RESUBSCRIBING_TIME);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			} 
-		}; 
-	}
-
-	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
-		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
-		handler.removeCallbacks(subscribeRunnable);
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).unSubscribeFromPurifierEvents();
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).unSubscribeFromFirmwareEvents();
-	}
-
+	
 	// TODO refactor into new architecture
 	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
@@ -328,13 +293,13 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		
 		//Start the subscription every time it discovers the Purifier
-		subscribeToAllEvents(purifier);
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).enableLocalSubscription();
+		getCurrentPurifier().subscribeToAllEvents();
+		getCurrentPurifier().enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop LocalConnection") ;
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).disableLocalSubscription();
+		getCurrentPurifier().disableLocalSubscription();
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 
@@ -351,8 +316,10 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		}
 		
 		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
-		subscribeToAllEvents(purifier);
-		SubscriptionHandler.getInstance(getCurrentNetworkNode()).enableRemoteSubscription(PurAirApplication.getAppContext());
+		getCurrentPurifier().subscribeToAllEvents();
+		
+		// TODO improve when/how remote subscription is enabled
+		getCurrentPurifier().enableRemoteSubscription(PurAirApplication.getAppContext());
 	}
 	
 	private void stopRemoteConnection() {

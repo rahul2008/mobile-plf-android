@@ -74,8 +74,6 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 // ***** START TESTS FOR START/STOP METHODS ***** 
 	public void testOnStartNoNetwork() {
-		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
@@ -94,12 +92,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		verify(cppHelper, never()).stopDiscoveryViaCpp();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 	}
 	
 	public void testOnStartMobile() {
-		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
@@ -118,12 +113,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		verify(cppHelper, never()).stopDiscoveryViaCpp();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 	}
 	
 	public void testOnStartWifi() {
-		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
@@ -142,12 +134,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		verify(cppHelper, never()).stopDiscoveryViaCpp();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 	}
 
 	public void testOnStop() {
-		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
@@ -163,7 +152,6 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		verify(cppHelper).stopDiscoveryViaCpp();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 	}
 
 // ***** STOP TESTS FOR START/STOP METHODS ***** 
