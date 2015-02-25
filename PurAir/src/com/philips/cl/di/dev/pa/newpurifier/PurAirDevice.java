@@ -5,19 +5,23 @@ import java.util.List;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
 /**
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurAirDevice{
+public class PurAirDevice implements SubscriptionEventListener{
 
 	private final String mUsn;
 	private String latitude;
 	private String longitude;
 	
 	private final NetworkNode mNetworkNode = new NetworkNode();
+	private final SubscriptionHandler mSubscriptionHandler;
 	
 	private AirPortInfo 		   mAirPortInfo;
 	private FirmwarePortInfo	   mFirmwarePortInfo;
@@ -40,6 +44,7 @@ public class PurAirDevice{
 		mNetworkNode.setIpAddress(ipAddress);
 		mNetworkNode.setName(name);
 		mNetworkNode.setConnectionState(connectionState);
+		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
 	}
 
 	public NetworkNode getNetworkNode() {
@@ -105,5 +110,23 @@ public class PurAirDevice{
 				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
 				.append(getNetworkNode().getHomeSsid());
 		return builder.toString();
+	}
+
+	@Override
+	public void onLocalEventReceived(String encryptedData, String purifierIp) {
+		// TODO Refactor
+		PurifierManager.getInstance().onLocalEventReceived(encryptedData, purifierIp);		
+	}
+
+	@Override
+	public void onRemoteEventReceived(String data, String purifierEui64) {
+		// TODO Refactor
+		PurifierManager.getInstance().onRemoteEventReceived(data, purifierEui64);
+	}
+
+	@Override
+	public void onLocalEventLost(PurifierEvent purifierEvent) {
+		// TODO Refactor
+		PurifierManager.getInstance().onLocalEventLost(purifierEvent);		
 	}
 }

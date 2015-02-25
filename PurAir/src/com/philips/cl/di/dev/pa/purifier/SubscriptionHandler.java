@@ -24,7 +24,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ServerResponseListener, PublishEventListener {
 
 	private static SubscriptionHandler mInstance;
-	private SubscriptionEventListener subscriptionEventListener;
+	private SubscriptionEventListener mSubscriptionEventListener;
 	private UDPReceivingThread udpReceivingThread;
 	
 	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
@@ -37,6 +37,13 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	private SubscriptionHandler() {
 		// enforce singleton
 		udpReceivingThread = new UDPReceivingThread(this);		
+	}
+	
+	public SubscriptionHandler(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
+		udpReceivingThread = new UDPReceivingThread(this);
+		mNetworkNode = networkNode;
+		mSubscriptionEventListener = subscriptionEventListener;	
+		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), this);
 	}
 
 	public static SubscriptionHandler getInstance(NetworkNode networkNode) {
@@ -56,7 +63,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	public void setSubscriptionListener(
 			SubscriptionEventListener subscriptionEventListener) {
-		this.subscriptionEventListener = subscriptionEventListener;
+		this.mSubscriptionEventListener = subscriptionEventListener;
 	}
 
 	public void subscribeToPurifierEvents() {
@@ -230,8 +237,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 		ALog.i(ALog.SUBSCRIPTION, "UDP event received: " + fromIp);
 		ALog.d(ALog.SUBSCRIPTION, data);
-		if (subscriptionEventListener != null) {
-			subscriptionEventListener.onLocalEventReceived(data, fromIp);
+		if (mSubscriptionEventListener != null) {
+			mSubscriptionEventListener.onLocalEventReceived(data, fromIp);
 		}
 	}
 
@@ -244,8 +251,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			return;
 		ALog.i(ALog.SUBSCRIPTION, "DCS event received from " + fromEui64);
 		ALog.i(ALog.SUBSCRIPTION, data);
-		if (subscriptionEventListener != null) {
-			subscriptionEventListener.onRemoteEventReceived(data, fromEui64);
+		if (mSubscriptionEventListener != null) {
+			mSubscriptionEventListener.onRemoteEventReceived(data, fromEui64);
 		}
 	}
 
