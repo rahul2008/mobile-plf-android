@@ -35,7 +35,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	
 	private MainActivity mainActivity;
 	
-	private boolean isPowerOn, isFanSpeedAuto, isChildLockOn, isIndicatorLightOn;
+	private boolean isPowerOn, isFanSpeedAuto, isChildLockOn, isIndicatorLightOn, isTimerOn;
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible;
 	
 	private RelativeLayout fanSpeedLayout, timerLayout;
@@ -43,8 +43,9 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	private FontButton fanSpeed;
 	private FontButton fanSpeedSilent, fanSpeedTurbo, fanSpeedOne, fanSpeedTwo, fanSpeedThree;
 	
-	private int [] timerButtonViewIds = {R.id.timer_off,R.id.one_hour,R.id.four_hours, R.id.eight_hours};
+	private int [] timerButtonViewIds = {R.id.one_hour, R.id.four_hours, R.id.eight_hours};
 	private FontButton[] timerButtons = new FontButton[timerButtonViewIds.length];
+	private FontTextView setTimerText, timerState;
 	
 	private ProgressBar controlProgress;
 
@@ -86,7 +87,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		power = (ToggleButton) view.findViewById(R.id.btn_rm_power);
 		
 		initFanSpeedButtons(view);
-		initTimerButtons(view);
+		initTimerViews(view);
 		
 		indicatorLight = (ToggleButton) view.findViewById(R.id.btn_rm_indicator_light);
 		childLock = (ToggleButton) view.findViewById(R.id.btn_rm_child_lock);
@@ -106,7 +107,10 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		notificationTV.setOnClickListener(this);
 	}
 
-	private void initTimerButtons(View view) {		
+	private void initTimerViews(View view) {
+		setTimerText = (FontTextView) view.findViewById(R.id.tv_rm_set_timer);
+		setTimerText.setOnClickListener(this);
+		timerState = (FontTextView) view.findViewById(R.id.timer_off);
 		for(int i = 0; i < timerButtonViewIds.length; i++) {
 			timerButtons[i] = (FontButton) view.findViewById(timerButtonViewIds[i]);
 			timerButtons[i].setOnClickListener(this);
@@ -254,35 +258,50 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			MetricsTracker.trackActionFanSpeed("3");
 			break;
 
-		case R.id.btn_rm_set_timer:
+		case R.id.tv_rm_set_timer:
+			setTimerStatus();
 			collapseTimerMenu(isTimerMenuVisible);
 			collapseFanSpeedMenu(true);
 			break;
-		case R.id.timer_off:
-			timer.setChecked(false);
-			toggleTimerButtonBackground(R.id.timer_off);
-			collapseTimerMenu(true);
-			controlDevice(ParserConstants.DEVICE_TIMER, "0");
-			MetricsTracker.trackActionTimerAdded("off");
-			break;
+		case R.id.btn_rm_set_timer:
+			PurAirDevice purifier = mainActivity.getCurrentPurifier();
+			AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
+			
+//			if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
+//				isTimerOn = true;
+//			} else {
+//				isTimerOn = false;
+//			}
+			if(!timer.isChecked()) {
+				controlDevice(ParserConstants.DEVICE_TIMER, "0");
+				MetricsTracker.trackActionTimerAdded("off");
+				break;
+			} 
+			
 		case R.id.one_hour:
+			isTimerOn = true;
 			timer.setChecked(true);
+			setTimerStatus();
 			toggleTimerButtonBackground(R.id.one_hour);
-			collapseTimerMenu(true);
+//			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "1");
 			MetricsTracker.trackActionTimerAdded("1hr");
 			break;
 		case R.id.four_hours:
+			isTimerOn = true;
 			timer.setChecked(true);
+			setTimerStatus();
 			toggleTimerButtonBackground(R.id.four_hours);
-			collapseTimerMenu(true);
+//			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "4");
 			MetricsTracker.trackActionTimerAdded("4hr");
 			break;
 		case R.id.eight_hours:
+			isTimerOn = true;
 			timer.setChecked(true);
+			setTimerStatus();
 			toggleTimerButtonBackground(R.id.eight_hours);
-			collapseTimerMenu(true);
+//			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "8");
 			MetricsTracker.trackActionTimerAdded("8hr");
 			break;
@@ -304,6 +323,22 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		default:
 			break;
 		}
+	}
+
+	private void setTimerStatus() {
+		PurAirDevice purifier = mainActivity.getCurrentPurifier();
+		AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
+		if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
+			timerState.setText(getTimeRemaining(airPortInfo.getDtrs()));
+		} else {
+			timerState.setText(getString(R.string.off));
+		}
+	}
+
+	private String getTimeRemaining(int timeRemaining) {
+		int hours = timeRemaining / 3600;
+		int minutes = (timeRemaining % 3600) / 60; 
+		return "" + hours + " : " + minutes;
 	}
 	
 	private void controlDevice(String key, String value) {
@@ -341,6 +376,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			toggleTimerButtonBackground(getButtonToBeHighlighted(getTimerText(airPortInfo)));
 			childLock.setChecked(getOnOffStatus(airPortInfo.getChildLock()));
 			indicatorLight.setChecked(getOnOffStatus(airPortInfo.getAqiL()));
+			setTimerStatus();
 		} else {
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
@@ -526,8 +562,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			return R.id.four_hours;
 		} else if (timer.equals(mainActivity.getString(R.string.eighthour))) {
 			return R.id.eight_hours;
-		} else if (timer.equals(mainActivity.getString(R.string.off))) {
-			return R.id.timer_off;
 		}
 		return 0;
 	}

@@ -336,16 +336,19 @@
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tv_rm_set_timer"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/btn_rm_set_timer"
                 android:layout_below="@id/divider_7"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
+                android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/set_timer"
                 android:textColor="@color/blue_list_item"
                 android:textSize="16sp"
+                android:background="@drawable/list_item_selector"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <ToggleButton
@@ -379,18 +382,17 @@
                 android:paddingBottom="15dp"
                 android:visibility="gone" >
 
-                <com.philips.cl.di.dev.pa.view.FontButton
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/timer_off"
-                    android:layout_width="65dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="45dp"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/button_bg_normal_2x"
                     android:text="@string/off"
-                    android:textColor="@color/blue_list_item"
-                    android:textSize="10sp"
+                    android:textColor="@color/blue_title"
+                    android:textSize="20sp"
                     android:visibility="visible"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -431,8 +433,9 @@
                     android:id="@+id/one_hour"
                     android:layout_width="65dp"
                     android:layout_height="30dp"
-                    android:layout_alignLeft="@+id/timer_off"
+                    android:layout_alignParentLeft="true"
                     android:layout_below="@+id/timer_off"
+                    android:layout_marginLeft="15dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/button_bg_normal_2x"
