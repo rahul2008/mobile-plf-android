@@ -13,8 +13,6 @@ import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -33,6 +31,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	private int retrySubscriptionCount;
 	
 	private int airPortSubscriptionMessageID ;
+	
+	private NetworkNode mNetworkNode;
 
 	private SubscriptionHandler() {
 		// enforce singleton
@@ -44,9 +44,14 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			mInstance = new SubscriptionHandler();
 		}
 		if(null != networkNode){
+			mInstance.setNetworkNode(networkNode);
 		    CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), mInstance);
 		}
 		return mInstance;
+	}
+	
+	public void setNetworkNode(NetworkNode networkNode){
+		mNetworkNode = networkNode;
 	}
 
 	public void setSubscriptionListener(
@@ -56,56 +61,48 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	public void subscribeToPurifierEvents() {
 		retrySubscriptionCount = 1 ;
-		PurAirDevice purifier = PurifierManager.getInstance()
-				.getCurrentPurifier();
 		ALog.d(ALog.SUBSCRIPTION,
-				"Subscribing to Purifier events for purifier: " + purifier);
-		if (purifier == null)
+				"Subscribing to Appliance events for: " + mNetworkNode);
+		if (mNetworkNode == null)
 			return;
 
 		final String portUrl = Utils.getPortUrl(Port.AIR,
-				purifier.getNetworkNode().getIpAddress());
-		subscribe(portUrl, purifier.getNetworkNode());
+				mNetworkNode.getIpAddress());
+		subscribe(portUrl, mNetworkNode);
 	}
 
 	public void unSubscribeFromPurifierEvents() {
-		PurAirDevice purifier = PurifierManager.getInstance()
-				.getCurrentPurifier();
 		ALog.d(ALog.SUBSCRIPTION,
-				"Unsubscribing to Purifier events for purifier: " + purifier);
-		if (purifier == null)
+				"Unsubscribing to Appliance events for : " + mNetworkNode);
+		if (mNetworkNode == null)
 			return;
-		String portUrl = Utils.getPortUrl(Port.AIR, purifier.getNetworkNode().getIpAddress());
-		unSubscribe(portUrl, purifier.getNetworkNode());
+		String portUrl = Utils.getPortUrl(Port.AIR, mNetworkNode.getIpAddress());
+		unSubscribe(portUrl, mNetworkNode);
 	}
 
 	public void subscribeToFirmwareEvents() {
-		PurAirDevice purifier = PurifierManager.getInstance()
-				.getCurrentPurifier();
-		if (purifier == null || PurAirApplication.isDemoModeEnable())
+		if (mNetworkNode == null || PurAirApplication.isDemoModeEnable())
 			return;
 
-		boolean isLocalSubscription = purifier.getNetworkNode().getConnectionState().equals(
+		boolean isLocalSubscription = mNetworkNode.getConnectionState().equals(
 				ConnectionState.CONNECTED_LOCALLY);
 		if (isLocalSubscription) {
 			ALog.d(ALog.SUBSCRIPTION,
-					"Subscribing to Firmware events for purifier: " + purifier);
+					"Subscribing to Firmware events for : " + mNetworkNode);
 			final String portUrl = Utils.getPortUrl(Port.FIRMWARE,
-					purifier.getNetworkNode().getIpAddress());
-			subscribe(portUrl, purifier.getNetworkNode());
+					mNetworkNode.getIpAddress());
+			subscribe(portUrl, mNetworkNode);
 		}
 	}
 
 	public void unSubscribeFromFirmwareEvents() {
-		PurAirDevice purifier = PurifierManager.getInstance()
-				.getCurrentPurifier();
-		if (purifier == null)
+		if (mNetworkNode == null)
 			return;
 		ALog.d(ALog.SUBSCRIPTION,
-				"Unsubscribing from Firmware events appEui64: " + purifier);
+				"Unsubscribing from Firmware events for: " + mNetworkNode);
 		String portUrl = Utils.getPortUrl(Port.FIRMWARE,
-				purifier.getNetworkNode().getIpAddress());
-		unSubscribe(portUrl, purifier.getNetworkNode());
+				mNetworkNode.getIpAddress());
+		unSubscribe(portUrl, mNetworkNode);
 	}
 
 	public void enableLocalSubscription() {
@@ -299,7 +296,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.SUBSCRIBE, subscriberId, "", 20,
 							AppConstants.CPP_SUBSCRIPTIONTIME,
-							PurifierManager.getInstance().getCurrentPurifier().getNetworkNode().getCppId());
+							mNetworkNode.getCppId());
 		}
 	}
 }

@@ -184,4 +184,14 @@ public class NetworkNode extends Observable implements Parcelable {
 		}
 		return NetworkNode.PAIRED_STATUS.NOT_PAIRED;
 	}
+    
+    public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())
+				.append("   cppId: ").append(getCppId()).append("   bootId: ").append(getBootId())
+				.append("   paired: ").append(getPairedState())
+				.append("   connectedState: ").append(getConnectionState()).append("   HomeSsid: ")
+				.append(getHomeSsid());
+		return builder.toString();
+	}
 }
