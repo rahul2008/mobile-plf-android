@@ -390,23 +390,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}		
 	}
-	
-	
-	public void showControlFragment(Fragment fragment) {
-		try {
-			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-			fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
-			fragmentTransaction.addToBackStack(fragment.getTag()) ;
-			fragmentTransaction.commit();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.MAINACTIVITY, e.getMessage());
-		}
-
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
-		}		
-	}
 
 	private static void setScreenWidth(int width) {
 		screenWidth = width;
