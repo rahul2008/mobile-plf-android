@@ -22,8 +22,8 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
@@ -272,7 +272,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		switch (v.getId()) {
 		case R.id.lbl_take_tour:
 			((MainActivity)getActivity()).isTutorialPromptShown = true;
-			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+			Intent intentOd = new Intent(getActivity(), TutorialPagerActivity.class);
 			startActivity(intentOd);
 			hideTakeATourPopup();
 			break;
@@ -308,7 +308,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
 	@Override
 	public void onPositiveButtonClicked() {
-		Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+		Intent intentOd = new Intent(getActivity(), TutorialPagerActivity.class);
 		startActivity(intentOd);
 	}
 

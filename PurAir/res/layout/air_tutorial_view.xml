@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/air_tutorial_screen_one" />
+            android:src="@drawable/tutorial_page1" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -85,6 +85,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginTop="16dp"
         android:gravity="left"
         android:text="@string/tutorial_dashboard_desc"
         android:textColor="@color/philips_blue"
@@ -99,7 +100,7 @@
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
         android:gravity="left"
-        android:textColor="@color/gray"
+        android:textColor="@color/contain_gray"
         android:textSize="@dimen/text_size_small"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 

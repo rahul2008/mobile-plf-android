@@ -18,9 +18,9 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
-import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
+import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -169,7 +169,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			break;
 		case R.id.app_tutorial:
 			MetricsTracker.trackActionServiceRequest("app_tutorial");
-			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+			Intent intentOd = new Intent(getActivity(), TutorialPagerActivity.class);
 			startActivity(intentOd);
 			break;
 		case R.id.app_air_quality_explain:

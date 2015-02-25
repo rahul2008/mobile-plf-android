@@ -114,6 +114,7 @@
     <string name="hazardous_outdoor">Hazardous</string>
 
     <!-- Help and Documentation -->
+    <string name="app_tutorial">Tutorial</string>
     <string name="subtitle_app_tutorial">App tutorial</string>
     <string name="subtitle_FAQ">FAQ</string>
     <string name="subtitle_user_manual">PHILIPS Smart Air Purifier User Manual</string>
@@ -132,7 +133,7 @@
     <string name="faq_link_ac4375">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=AEN</string>
 
     <!-- Air Tutorial -->
-    <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor Air Quality</string>
+    <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor air level and outdoor AQI</string>
     <string name="tutorial_lOC_desc">Left of canvas contains links to different sections of the app.</string>
     <string name="tutorial_rOC_desc">Right of canvas contains controls for your Philips Smart Air Purifier.</string>
     <string name="tutorial_device_status_desc">You will see the status of your Philips Smart Air Purifier on the dashboard.</string>

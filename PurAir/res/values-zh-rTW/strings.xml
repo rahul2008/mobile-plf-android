@@ -114,6 +114,7 @@
     <string name="hazardous_outdoor">重污染 </string>
 
     <!-- Help and Documentation -->
+    <string name="app_tutorial">程式教程</string>
     <string name="subtitle_app_tutorial">應用程式教程</string>
     <string name="subtitle_FAQ">常見問題</string>
     <string name="subtitle_user_manual">Philips 智能空氣清新機用戶手冊</string>

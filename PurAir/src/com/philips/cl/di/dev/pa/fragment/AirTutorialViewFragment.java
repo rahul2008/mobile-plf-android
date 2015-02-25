@@ -20,7 +20,7 @@ public class AirTutorialViewFragment extends BaseFragment {
 	private int mTutorialInstruction;
 
 	public static AirTutorialViewFragment newInstance(int content, int image,
-			int instruction, int[] instructionList) {
+			int instruction) {
 		AirTutorialViewFragment fragment = new AirTutorialViewFragment();
 
 		fragment.mTutorialDesc = content;

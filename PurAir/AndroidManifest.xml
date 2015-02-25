@@ -81,10 +81,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.activity.AirTutorialActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="com.philips.cl.di.dev.pa.activity.AirQualityActivity"
             android:screenOrientation="portrait" >
         </activity>
