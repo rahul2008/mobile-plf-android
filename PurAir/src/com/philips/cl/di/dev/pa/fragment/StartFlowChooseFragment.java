@@ -313,11 +313,12 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	@Override
 	public void onNewPurifierDiscover() {
 
-		if (getActivity() == null || appSelectorAdapter == null || listItemsArrayList == null) return;
+		if (getActivity() == null) return;
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
+				if (appSelectorAdapter == null || listItemsArrayList == null) return;
 				appItems = DiscoveryManager.getInstance().getNewDevicesDiscovered();
 				if (!listItemsArrayList.isEmpty()) {
 					listItemsArrayList.clear();
