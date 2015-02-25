@@ -16,7 +16,6 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -51,7 +50,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
-	private SchedulerHandler schedulerHandler ;
 	private int indoorViewPagerPosition;
 	
 	public static synchronized PurifierManager getInstance() {
@@ -65,7 +63,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		// Enforce Singleton
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
-		schedulerHandler = new SchedulerHandler(this) ;
 	}
 	
 	public void setSchedulerListener(SchedulerListener schedulerListener) {
@@ -232,6 +229,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 				return ;
 			}
 			else if( data.contains(AppConstants.OUT_OF_MEMORY)) {
+				//TODO: DICOMM Refactor: Remove dependency on schedulerhandler
 				scheduleListener.onErrorOccurred(SchedulerHandler.MAX_SCHEDULES_REACHED) ;
 			}
 		}
@@ -348,15 +346,12 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		}
 	}
 	
-	public void sendScheduleDetailsToPurifier(String data, PurAirDevice purAirDevice, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
-		schedulerHandler.setScheduleDetails(data, purAirDevice.getNetworkNode(), scheduleType, scheduleNumber) ;
-	}
-
 	@Override
 	public void onLocalEventLost(PurifierEvent purifierEvent) {
 		switch (purifierEvent) {
 		case SCHEDULER:
 			if( scheduleListener != null ) {
+				//TODO: DICOMM Refactor: Remove dependency on schedulerhandler
 				scheduleListener.onErrorOccurred(SchedulerHandler.DEFAULT_ERROR) ;
 			}
 			break;

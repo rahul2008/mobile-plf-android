@@ -90,8 +90,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		if (purAirDevice == null) return;
 		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
 				selectedFanspeed, selectedDays, enabled);
-		PurifierManager.getInstance().sendScheduleDetailsToPurifier(
-				addSchedulerJson, purAirDevice, scheduleType, -1);
+		purAirDevice.sendScheduleDetailsToPurifier(addSchedulerJson, scheduleType, -1);
 		showProgressDialog();
 		// TODO - Implement Add scheduler Via CPP
 	}
@@ -111,8 +110,9 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 			showProgressDialog();
 			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
 					selectedFanspeed, selectedDays, enabled);
-			PurifierManager.getInstance().sendScheduleDetailsToPurifier(
-					editSchedulerJson, purAirDevice, scheduleType, schedulerNumberSelected);
+			if(null!=purAirDevice){
+			    purAirDevice.sendScheduleDetailsToPurifier(editSchedulerJson,scheduleType, schedulerNumberSelected);
+			}
 		} else {
 			showSchedulerOverviewFragment();
 		}
@@ -131,8 +131,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		if (purAirDevice == null
 				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			return;
-		PurifierManager.getInstance().sendScheduleDetailsToPurifier("",
-				purAirDevice, scheduleType, schedulerNumberSelected);
+		purAirDevice.sendScheduleDetailsToPurifier("",scheduleType, schedulerNumberSelected);
 		showProgressDialog();
 	}
 
@@ -191,8 +190,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			return;
 		String dataToSend = "";
-		PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend,
-				purAirDevice, scheduleType, -1);
+		purAirDevice.sendScheduleDetailsToPurifier(dataToSend,scheduleType, -1);
 	}
 
 	private void showSchedulerOverviewFragment() {
@@ -239,8 +237,9 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		if (schedulesList.get(position).getMode() == null) {
 			showProgressDialog();
 			String dataToSend = "";
-			PurifierManager.getInstance().sendScheduleDetailsToPurifier(
-					dataToSend, purAirDevice, scheduleType,	schedulerNumberSelected);
+			if(null!=purAirDevice){
+			    purAirDevice.sendScheduleDetailsToPurifier(dataToSend,scheduleType,	schedulerNumberSelected);
+			}
 		} else {
 			setFanSpeed(schedulesList.get(position).getMode());
 			setDays(schedulesList.get(position).getDays());

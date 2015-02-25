@@ -12,6 +12,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
@@ -26,6 +28,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 	
 	private final NetworkNode mNetworkNode = new NetworkNode();
 	private final DeviceHandler mDeviceHandler;
+	private final SchedulerHandler mSchedulerHandler;
 	
 	private SubscriptionHandler mSubscriptionHandler;
 	
@@ -56,6 +59,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mNetworkNode.setConnectionState(connectionState);
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
 		mDeviceHandler = new DeviceHandler(this);
+		mSchedulerHandler = new SchedulerHandler(this);
 	}
 	
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
@@ -203,5 +207,10 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
 	}
+	
+	public void sendScheduleDetailsToPurifier(String data, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
+			mSchedulerHandler.setScheduleDetails(data, mNetworkNode, scheduleType, scheduleNumber) ;
+	}
+
 
 }
