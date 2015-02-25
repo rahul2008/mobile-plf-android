@@ -377,6 +377,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		try {
 			getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+			fragmentTransaction.setCustomAnimations(R.anim.fadein, R.anim.fadeout);
 			fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag()) ;
 			fragmentTransaction.commit();
