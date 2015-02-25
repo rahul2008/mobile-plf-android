@@ -25,7 +25,7 @@ public class SubscriptionHandlerTest extends InstrumentationTestCase {
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		
 		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
-		mSubscriptionMan = SubscriptionHandler.getInstance();
+		mSubscriptionMan = SubscriptionHandler.getInstance(null);
 		
 		mSubListener = mock(SubscriptionEventListener.class);
 		mSubscriptionMan.setSubscriptionListener(mSubListener);

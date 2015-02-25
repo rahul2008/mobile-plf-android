@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,7 +69,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private Context context;
 
 	private EventSubscription eventSubscription; 
-	private DCSEventListener dcsEventListener;
+    private HashMap<String,DCSEventListener> mDcsEventListenersMap = new HashMap<String, DCSEventListener>(); 
 	private DCSResponseListener dcsResponseListener ;
 	private CppDiscoverEventListener mCppDiscoverEventListener;
 	private boolean isDCSRunning;
@@ -277,8 +278,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		this.downloadDataListener = downloadDataListener;
 	}
 
-	public void setDCSEventListener(DCSEventListener dcsEventListener) {
-		this.dcsEventListener = dcsEventListener;
+	public void addDCSEventListener(String cppId, DCSEventListener dcsEventListener) {
+		mDcsEventListenersMap.put(cppId, dcsEventListener);
+	}
+	
+	private DCSEventListener getDCSEventListener(String cppId) {
+		return mDcsEventListenersMap.get(cppId);
 	}
 
 	public void setCppDiscoverEventListener(CppDiscoverEventListener mCppDiscoverEventListener) {
@@ -390,8 +395,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			return;
 		}
 		
-		if (dcsEventListener != null) {
-		    dcsEventListener.onDCSEventReceived(data, fromEui64, action);
+		if (getDCSEventListener(fromEui64) != null) {
+			getDCSEventListener(fromEui64).onDCSEventReceived(data, fromEui64, action);
 		}
 	}
 

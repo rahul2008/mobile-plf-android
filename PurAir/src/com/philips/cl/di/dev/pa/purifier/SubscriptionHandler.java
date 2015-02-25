@@ -8,7 +8,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -18,7 +17,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -38,14 +36,15 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	private SubscriptionHandler() {
 		// enforce singleton
-		udpReceivingThread = new UDPReceivingThread(this);
-		CPPController.getInstance(PurAirApplication.getAppContext())
-				.setDCSEventListener(this);
+		udpReceivingThread = new UDPReceivingThread(this);		
 	}
 
-	public static SubscriptionHandler getInstance() {
+	public static SubscriptionHandler getInstance(NetworkNode networkNode) {
 		if (null == mInstance) {
 			mInstance = new SubscriptionHandler();
+		}
+		if(null != networkNode){
+		    CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), mInstance);
 		}
 		return mInstance;
 	}

@@ -70,7 +70,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	private PurifierManager() {
 		// Enforce Singleton
-		SubscriptionHandler.getInstance().setSubscriptionListener(this);
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).setSubscriptionListener(this);
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
 		mDeviceHandler = new DeviceHandler(this) ;
@@ -121,11 +121,18 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public synchronized PurAirDevice getCurrentPurifier() {
 		return mCurrentPurifier;
 	}
+	
+	public synchronized NetworkNode getCurrentNetworkNode() {
+		if(null!=mCurrentPurifier){
+		    return mCurrentPurifier.getNetworkNode();
+		}
+		return null;
+	}
 
 	private void subscribeToAllEvents(final PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
-		SubscriptionHandler.getInstance().subscribeToPurifierEvents();
-		SubscriptionHandler.getInstance().subscribeToFirmwareEvents();
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToPurifierEvents();
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToFirmwareEvents();
 		handler.removeCallbacks(subscribeRunnable);
 		handler.post(subscribeRunnable);
 		subscribeRunnable = new Runnable() { 
@@ -133,8 +140,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			public void run() { 
 				try{					
 					handler.removeCallbacks(subscribeRunnable);
-					SubscriptionHandler.getInstance().subscribeToPurifierEvents(); 
-					SubscriptionHandler.getInstance().subscribeToFirmwareEvents();
+					SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToPurifierEvents(); 
+					SubscriptionHandler.getInstance(getCurrentNetworkNode()).subscribeToFirmwareEvents();
 					handler.postDelayed(subscribeRunnable, RESUBSCRIBING_TIME);
 				}
 				catch (Exception e) {
@@ -147,8 +154,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
 		handler.removeCallbacks(subscribeRunnable);
-		SubscriptionHandler.getInstance().unSubscribeFromPurifierEvents();
-		SubscriptionHandler.getInstance().unSubscribeFromFirmwareEvents();
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).unSubscribeFromPurifierEvents();
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).unSubscribeFromFirmwareEvents();
 	}
 
 	// TODO refactor into new architecture
@@ -156,7 +163,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		if(getCurrentPurifier()!=null)
-			mDeviceHandler.setPurifierDetails(key, value, getCurrentPurifier().getNetworkNode());
+			mDeviceHandler.setPurifierDetails(key, value, getCurrentNetworkNode());
 	}
 	
 	@Override
@@ -322,12 +329,12 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		//Start the subscription every time it discovers the Purifier
 		subscribeToAllEvents(purifier);
-		SubscriptionHandler.getInstance().enableLocalSubscription();
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop LocalConnection") ;
-		SubscriptionHandler.getInstance().disableLocalSubscription();
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).disableLocalSubscription();
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 
@@ -345,7 +352,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		subscribeToAllEvents(purifier);
-		SubscriptionHandler.getInstance().enableRemoteSubscription(PurAirApplication.getAppContext());
+		SubscriptionHandler.getInstance(getCurrentNetworkNode()).enableRemoteSubscription(PurAirApplication.getAppContext());
 	}
 	
 	private void stopRemoteConnection() {
