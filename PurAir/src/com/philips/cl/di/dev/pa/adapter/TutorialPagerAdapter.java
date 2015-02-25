@@ -9,7 +9,7 @@ import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.fragment.AirTutorialViewFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter implements
+public class TutorialPagerAdapter extends FragmentPagerAdapter implements
 		IconPagerAdapter {
 	private static final int[] CONTENT = new int[] {
 			R.string.tutorial_dashboard_desc, R.string.tutorial_lOC_desc,
@@ -18,13 +18,13 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements
 			R.drawable.tutorial_page2, R.drawable.tutorial_page3 };
 	private static final int[] INSTRUCTION = new int[] {
 			R.string.dashboard_instruction,
-			R.string.loc_roc_remote_instruction,
+			R.string.status_instruction,
 			R.string.loc_roc_remote_instruction };
 
 	private int mCount = CONTENT.length;
 	private TutorialPagerActivity activity;
 
-	public ViewPagerAdapter(FragmentManager fm,
+	public TutorialPagerAdapter(FragmentManager fm,
 			TutorialPagerActivity tutorialPagerActivity) {
 		super(fm);
 		activity = tutorialPagerActivity;
@@ -44,7 +44,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		String desc = activity.getString(ViewPagerAdapter.CONTENT[position]);
+		String desc = activity.getString(TutorialPagerAdapter.CONTENT[position]);
 		return desc;
 	}
 

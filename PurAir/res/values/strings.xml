@@ -133,15 +133,15 @@
     <string name="faq_link_ac4375">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=AEN</string>
 
     <!-- Air Tutorial -->
-    <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor air level and outdoor AQI</string>
-    <string name="tutorial_lOC_desc">Left of canvas contains links to different sections of the app.</string>
-    <string name="tutorial_rOC_desc">Right of canvas contains controls for your Philips Smart Air Purifier.</string>
+    <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor air level and outdoor AQI.</string>
+    <string name="tutorial_lOC_desc">Change the settings of your Air purifier on the control panel.</string>
+    <string name="tutorial_rOC_desc">Access filter status of the Air purifier from the dashboard.</string>
     <string name="tutorial_device_status_desc">You will see the status of your Philips Smart Air Purifier on the dashboard.</string>
     <string name="tutorial_indoor_aqi_desc">The indoor detail page shows the air level readings and history from your Philips Smart Air Purifier.</string>
     <string name="tutorial_outdoor_aqi_desc">Outdoor detail page shows the air quality readings, history and weather from your chosen locations.</string>
-    <string name="dashboard_instruction">Tap once to enlarge each category, tap second time to view details.</string>
-    <string name="loc_roc_remote_instruction">Tap to open and close the canvas.</string>
-    <string name="status_instruction">Tap to open and close the canvas.</string>
+    <string name="dashboard_instruction">Tap once to view all details.</string>
+    <string name="loc_roc_remote_instruction">Tap the filter icon and link to flip the dashboard and open the filter control panel.</string>
+    <string name="status_instruction">Tap icon to flip the dashboard and access the control panel.</string>
     <string name="indoor_outdoor_aqi_instruction">Tap the arrow to go back to the dashboard.</string>
     <string name="dashboard_instruction_1">App navigation</string>
     <string name="dashboard_instruction_2">Air purifier controls</string>

@@ -114,7 +114,7 @@
     <string name="hazardous_outdoor">重污染 </string>
 
     <!-- Help and Documentation -->
-    <string name="app_tutorial">程式教程</string>
+    <string name="app_tutorial">教程</string>
     <string name="subtitle_app_tutorial">應用程式教程</string>
     <string name="subtitle_FAQ">常見問題</string>
     <string name="subtitle_user_manual">Philips 智能空氣清新機用戶手冊</string>
@@ -133,15 +133,15 @@
     <string name="faq_link_ac4375">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=ZHS</string>
 
     <!-- Air Tutorial -->
-    <string name="tutorial_dashboard_desc">儀表板顯示室內及室外 AQI	</string>
-    <string name="tutorial_lOC_desc">畫面左邊有連結帶您到應用程式的不同部分。</string>
-    <string name="tutorial_rOC_desc">畫面右邊有控制選項讓您控制 Philips 智能空氣清新機。</string>
+    <string name="tutorial_dashboard_desc">主頁面可顯示室內空氣水平及室外空氣質量指數。</string>
+    <string name="tutorial_lOC_desc">通過控制面板改變空氣清新機工作設置</string>
+    <string name="tutorial_rOC_desc">通過主頁面訪問濾網使用狀態</string>
     <string name="tutorial_device_status_desc">您可以在儀表板看到您的 Philips 智能空氣清新機。</string>
     <string name="tutorial_indoor_aqi_desc">室内詳細資料頁面顯示 Philips 智能空氣清新機錄到的空氣水平數據及歷史記錄。</string>
     <string name="tutorial_outdoor_aqi_desc">室外詳細資料頁面顯示您選擇地點的空氣資料讀數、歷史記錄及天氣狀況。</string>
-    <string name="dashboard_instruction">點按一下以放大每個類別，點按兩下以檢視詳情。</string>
-    <string name="loc_roc_remote_instruction">點選以開啟及關閉畫面。</string>
-    <string name="status_instruction">點選以開啟及關閉畫面。</string>
+    <string name="dashboard_instruction">點擊查看所有詳情</string>
+    <string name="loc_roc_remote_instruction">點擊清新機圖標，主頁面會翻轉至控制操作界面。</string>
+    <string name="status_instruction">點擊清新機左上角，打開清新機控制面板。</string>
     <string name="indoor_outdoor_aqi_instruction">點選箭咀以返回儀表板。</string>
     <string name="dashboard_instruction_1">應用程式導覽</string>
     <string name="dashboard_instruction_2">空氣清新機控制選項</string>

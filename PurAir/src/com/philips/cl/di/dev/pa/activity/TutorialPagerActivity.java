@@ -7,7 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.adapter.ViewPagerAdapter;
+import com.philips.cl.di.dev.pa.adapter.TutorialPagerAdapter;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -15,7 +15,7 @@ import com.viewpagerindicator.CirclePageIndicator;
 
 public class TutorialPagerActivity extends BaseActivity {
 
-	private ViewPagerAdapter mAdapter;
+	private TutorialPagerAdapter mAdapter;
 	private ViewPager mPager;
 
 	
@@ -28,7 +28,7 @@ public class TutorialPagerActivity extends BaseActivity {
 		
 		setContentView(R.layout.tutorial_pager_layout);
 		
-		mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
+		mAdapter = new TutorialPagerAdapter(getSupportFragmentManager(), this);
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setAdapter(mAdapter);
 

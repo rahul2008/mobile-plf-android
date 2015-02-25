@@ -117,7 +117,7 @@
     <string name="hazardous_outdoor">重污染 </string>
 
     <!-- Help and Documentation -->
-    <string name="app_tutorial">程序教程</string>
+    <string name="app_tutorial">教程</string>
     <string name="subtitle_app_tutorial">应用程序教程</string>
     <string name="subtitle_FAQ">常见问题解答</string>
     <string name="subtitle_user_manual">飞利浦智控净化器用户手册</string>
@@ -136,15 +136,15 @@
     <string name="faq_link_ac4375">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=ZHS</string>
 
     <!-- Air Tutorial -->
-    <string name="tutorial_dashboard_desc">主页面显示室内和室外空气质量指数的概览</string>
-    <string name="tutorial_lOC_desc">主页面左上角包含前至应用程序不同部分的链接</string>
-    <string name="tutorial_rOC_desc">主页面右上角包含智控净化器的控制面板</string>
+    <string name="tutorial_dashboard_desc">主页面显示室内空气质量水平及室外空气质量读数</string>
+    <string name="tutorial_lOC_desc">通过控制面板改变空气净化器工作设置</string>
+    <string name="tutorial_rOC_desc">通过主页面访问过滤网使用状态</string>
     <string name="tutorial_device_status_desc">在主页面上可以看到飞利浦智控净化器的状态</string>
     <string name="tutorial_indoor_aqi_desc">室内详情页面显示飞利浦智控净化器所提供的空气水平信息和历史记录</string>
     <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气情况。</string>
-    <string name="dashboard_instruction">点击一次扩大相应类别，继续点击可查看详细信息。</string>
-    <string name="loc_roc_remote_instruction">轻击可打开和关闭控制菜单。</string>
-    <string name="status_instruction">轻击图标可打开和关闭相应面板。</string>
+    <string name="dashboard_instruction">点击查看所有详情</string>
+    <string name="loc_roc_remote_instruction">点击空气净化器图标，打开净化器控制面板。</string>
+    <string name="status_instruction">点击主页面左上角，打开净化器控制面板。</string>
     <string name="indoor_outdoor_aqi_instruction">轻击箭头可返回主页面。</string>
     <string name="dashboard_instruction_1">应用程序导航</string>
     <string name="dashboard_instruction_2">空气净化器控件</string>
