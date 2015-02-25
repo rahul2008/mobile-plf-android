@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -32,9 +33,14 @@ public class TutorialPagerAdapter extends FragmentPagerAdapter implements
 
 	@Override
 	public Fragment getItem(int position) {
-
-		return AirTutorialViewFragment.newInstance(CONTENT[position],
-				IMAGES[position], INSTRUCTION[position]);
+		
+		AirTutorialViewFragment fragment = new AirTutorialViewFragment();
+		Bundle bundle = new Bundle();
+		bundle.putInt(AirTutorialViewFragment.KEY_DESCRIP, CONTENT[position]);
+		bundle.putInt(AirTutorialViewFragment.KEY_IMG, IMAGES[position]);
+		bundle.putInt(AirTutorialViewFragment.KEY_INSTR, INSTRUCTION[position]);
+		fragment.setArguments(bundle);
+		return fragment;
 	}
 
 	@Override

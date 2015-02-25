@@ -15,19 +15,9 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class AirTutorialViewFragment extends BaseFragment {
-	private int mTutorialDesc;
-	private int mTutorialImage;
-	private int mTutorialInstruction;
-
-	public static AirTutorialViewFragment newInstance(int content, int image,
-			int instruction) {
-		AirTutorialViewFragment fragment = new AirTutorialViewFragment();
-
-		fragment.mTutorialDesc = content;
-		fragment.mTutorialImage = image;
-		fragment.mTutorialInstruction = instruction;
-		return fragment;
-	}
+	public static final String KEY_DESCRIP = "descrip"; 
+	public static final String KEY_IMG = "img"; 
+	public static final String KEY_INSTR = "instr"; 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,23 +29,26 @@ public class AirTutorialViewFragment extends BaseFragment {
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.air_tutorial_view, container,	false);
-		initializeView(view);
 		return view;
 	}
-
-	private void initializeView(View view) {
-
-		ImageView tutorialImg = (ImageView) view.findViewById(R.id.tutorial_img);
-		TextView tutorialDesc = (TextView) view.findViewById(R.id.tutorial_desc);
-		TextView tutorialInstruction = (TextView) view.findViewById(R.id.lbl_instruction);
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		ImageView tutorialImg = (ImageView) getView().findViewById(R.id.tutorial_img);
+		TextView tutorialDesc = (TextView) getView().findViewById(R.id.tutorial_desc);
+		TextView tutorialInstruction = (TextView) getView().findViewById(R.id.lbl_instruction);
 
 		tutorialDesc.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		tutorialInstruction.setTypeface(Fonts.getCentraleSansLight(getActivity()));
-
-		tutorialDesc.setText(getActivity().getText(mTutorialDesc));
-		tutorialImg.setImageResource(mTutorialImage);
-		tutorialInstruction.setText(getActivity().getText(mTutorialInstruction));
-
+		
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			tutorialDesc.setText(getString(bundle.getInt(KEY_DESCRIP, R.string.tutorial_dashboard_desc)));
+			tutorialImg.setImageResource(bundle.getInt(KEY_IMG, R.drawable.tutorial_page1));
+			tutorialInstruction.setText(getString(bundle.getInt(KEY_INSTR, R.string.dashboard_instruction)));
+		}
 	}
 
 	public void setMargins(TextView v, int l, int t, int r, int b) {
