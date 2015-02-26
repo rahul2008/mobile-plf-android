@@ -8,12 +8,9 @@ import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -27,104 +24,6 @@ public class DataParserTest extends TestCase {
 	private String allScheduleJsonCpp = "{\"status\":0,\"data\":{\"0\":{\"name\":\"16:14\"},\"1\":{\"name\":\"12:15\"}}}";
 	
 	
-	public void testAirPurifierInvalidData() {
-		String parseData = "invalid data" ;
-		assertNull( DataParser.parseAirPurifierEventData(parseData)) ;
-	}
-	
-	public void testAirPurifierNullData() {
-		String parseData = null ;
-		assertNull(DataParser.parseAirPurifierEventData(parseData)) ;
-	}
-	
-	public void testAirPurifierInvalidJSON() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\"" ;
-		assertNull(DataParser.parseAirPurifierEventData(parseData)) ;
-	}
-	
-	public void testAirPurifierPowerMode() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertEquals("1",DataParser.parseAirPurifierEventData(parseData).getPowerMode()) ;
-	}
-	
-	public void testAirPurifierMachineMode() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getMachineMode().equals("a")) ;
-	}
-	
-	public void testAirPurifierAQILight() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getAqiL() == 1) ;
-	}
-	
-	public void testAirPurifierChildLock() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getChildLock() == 0) ;
-	}
-	
-	public void testAirPurifierAQIValue() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getIndoorAQI() == 1) ;
-	}
-	
-	public void testAirPurifierFanSpeed() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getActualFanSpeed().equals("1")) ;
-	}
-	
-	public void testAirPurifierAQIThreshold() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getAqiThreshold() == 500) ;
-	}
-	
-	public void testAirPurifierPowerModeNotEquals() {
-		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		assertFalse(DataParser.parseAirPurifierEventData(parseData).getPowerMode().equals("0")) ;
-	}
-	
-	public void testAirPurifierFirmwareData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		AirPortInfo result = DataParser.parseAirPurifierEventData(parseData);
-		assertNull(result);
-	}
-	
-	public void testAirPurifierFirmwareData2() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		AirPortInfo result = DataParser.parseAirPurifierEventData(parseData);
-		assertNull(result);
-	}
-	
-	public void testIndoorAQI_DCS_1() {
-		String parseData = 
-				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertNotNull(DataParser.parseAirPurifierEventData(parseData)) ;
-	}
-	
-	public void testIndoorAQI_DCS_2() {
-		String parseData = 
-				"{\"product\":\"1\",\"port\":\"air\",\"no_data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertNull(DataParser.parseAirPurifierEventData(parseData)) ;
-	}
-	
-	public void testIndoorAQI_DCS_3() {
-		String parseData = 
-				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertEquals("a",DataParser.parseAirPurifierEventData(parseData).getMachineMode()) ;
-	}
-	
-	public void testIndoorAQI_DCS_4() {
-		String parseData = 
-				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertTrue(DataParser.parseAirPurifierEventData(parseData).getAqiL() == 1) ;
-	}
-	
-	public void testIndoorAQI_DCS_5() {
-		String parseData = 
-				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertFalse(DataParser.parseAirPurifierEventData(parseData).getChildLock() == 1) ;
-	}
 	
 	public void testIndoorAQIHistory_1() {
 		String parseData = "No data" ;
@@ -224,87 +123,6 @@ public class DataParserTest extends TestCase {
 		assertNull(deviceList.get(0).getFriendlyName());
 	}
 	
-	public void testParseFirmwareEventNullData() {
-		String parseData = null;
-		assertNull(DataParser.parseFirmwareEventData(parseData)) ;
-	}
-	
-	public void testParseFirmwareEventEmptyData() {
-		String parseData = "";
-		assertNull(DataParser.parseFirmwareEventData(parseData)) ;
-	}
-	
-	public void testParseFirmwareEventProperData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		
-		assertNotNull(result);
-		assertEquals(result.getName(), "HCN_DEVGEN");
-		assertEquals(result.getVersion(), "1.1");
-		assertEquals(result.getUpgrade(), "1.2");
-		assertEquals(result.getState(), FirmwareState.IDLE);
-		assertEquals(result.getProgress(), 0);
-		assertEquals(result.getStatusmsg(), "");
-		assertEquals(result.isMandatory(), false);
-	}
-	
-	public void testParseFirmwareEventIncompleteData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgra";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertNull(result);
-	}
-	
-	public void testParseFirmwareEventNoUpgradeData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertEquals(result.getUpgrade(), "");
-	}
-	
-	public void testParseFirmwareEventNoVersionData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"upgrade\":\"1.1\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertEquals(result.getVersion(), "");
-	}
-	
-	public void testParseFirmwareEventValidStateData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertEquals(result.getState(), FirmwareState.READY);
-	}
-	
-	public void testParseFirmwareEventInValidStateData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertNull(result.getState());
-	}
-	
-	public void testParseFirmwareEventTooBigProgressData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":150,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertEquals(result.getProgress(), 100);
-	}
-	
-	public void testParseFirmwareEventNegativeProgressData() {
-		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":-1,\"statusmsg\":\"\",\"mandatory\":false}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertEquals(result.getProgress(), 0);
-	}
-	
-	public void testParseFirmwareEventWithAirportEvent() {
-		String parseData = "{\"aqi\":\"3\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"0\",\"fs1\":\"33\",\"fs2\":\"881\",\"fs3\":\"2801\",\"fs4\":\"2801\",\"dtrs\":\"0\",\"aqit\":\"30\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"30414\",\"psens\":\"1\"}";
-		
-		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
-		assertNull(result);
-	}
-		
 	public void testGetEWSDeviceWifiDetailsNull() {
 		DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(null);
 		assertNull(deviceWifiDto);

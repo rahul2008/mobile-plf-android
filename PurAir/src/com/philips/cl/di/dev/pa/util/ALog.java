@@ -67,6 +67,7 @@ public class ALog {
 	public static final String TAGGING = "Tagging";
 	public static final String APPLIANCE = "Appliance";
 	public static final String AIRPORT = "AirPort";
+	public static final String FIRMWAREPORT = "FirmwarePort";
 	
 	private static boolean isLoggingEnabled = true;
 	

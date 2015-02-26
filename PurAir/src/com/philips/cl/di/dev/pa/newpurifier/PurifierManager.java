@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
@@ -183,14 +181,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		}
 	}
 	
-	private void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
-		PurAirDevice currentPurifier = getCurrentPurifier();
-		if (currentPurifier == null) return;
-		if (firmwarePortInfo == null) return;
-		
-		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
-	}
-	
 	private void notifyPurifierChangedListeners() {
 		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
 		
@@ -232,10 +222,10 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			}
 		}
 		
-		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
-		if( firmwarePortInfo != null ) {
-			notifyFirmwareEventListeners(firmwarePortInfo) ;
-			return ;
+		if(currentPurifier.getFirmwarePort().isResponseForThisPort(data)){
+			currentPurifier.getFirmwarePort().processResponse(data);
+            notifyFirmwareEventListeners();
+			return;
 		}
 		
 	}
@@ -243,18 +233,15 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void notifyAirPurifierEventListeners() {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-					listener.onAirPurifierEventReceived();
+				listener.onAirPurifierEventReceived();
 			}
 		}		
 	}
 	
-	private void notifyFirmwareEventListeners(FirmwarePortInfo firmwarePortInfo) {
+	private void notifyFirmwareEventListeners() {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-			if(firmwarePortInfo != null) {
-				setFirmwarePortInfo(firmwarePortInfo);
 				listener.onFirmwareEventReceived();
-				}
 			}
 		}
 	}

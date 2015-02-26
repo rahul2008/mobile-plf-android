@@ -31,7 +31,6 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
@@ -46,6 +45,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
  */
 public class DataParser {
 
+	// TODO: DIComm refactor, remove this method after refactoring request architecture
 	public static AirPortInfo parseAirPurifierEventData(String dataToParse) {
 		AirPortInfo airPurifierEvent = null ;
 		try {			
@@ -95,32 +95,6 @@ public class DataParser {
 		}
 
 		return airPurifierEvent ;
-	}
-
-	public static FirmwarePortInfo parseFirmwareEventData(String dataToParse) {
-		Gson gson = new GsonBuilder().create();
-
-		try {
-			JSONObject jsonObj = new JSONObject(dataToParse) ;
-			JSONObject firmwareEventJson = jsonObj.optJSONObject("data") ;
-			if( firmwareEventJson != null ) {
-				jsonObj = firmwareEventJson ;
-			}
-			FirmwarePortInfo firmwareEventDto = gson.fromJson(jsonObj.toString(), FirmwarePortInfo.class);
-			if (firmwareEventDto.isValid()) {
-				return firmwareEventDto;
-			}
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null;
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-			return null;
-		}
-		return null;
 	}
 
 	public  static List<IndoorHistoryDto> parseHistoryData(String dataToParse) {

@@ -710,7 +710,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 
 	public void testReceiveIncorrectLocalEventRightPurifier() {
@@ -724,7 +724,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 	
 	public void testReceiveUnencryptedLocalAPEventRightPurifier() {
@@ -738,7 +738,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 
 	public void testReceiveUnencryptedLocalFWEventRightPurifier() {
@@ -752,7 +752,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 	
 	public void testReceiveEncryptedLocalAPEventNoPurifierSet() {
@@ -775,7 +775,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 	
 	public void testReceiveEncryptedLocalAPEventRightWrongKeyPurifier() {
@@ -790,7 +790,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 
 	public void testReceiveEncryptedLocalAPEventRightPurifier() {
@@ -805,7 +805,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNotNull(device.getAirPort().getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 	
 	public void testReceiveEncryptedLocalFWEventRightPurifier() {
@@ -820,7 +820,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener).onFirmwareEventReceived();
 		
 		assertNull(device.getAirPort().getAirPortInfo());
-		assertNotNull(device.getFirmwarePortInfo());
+		assertNotNull(device.getFirmwarePort().getFirmwarePortInfo());
 	}
 	
 	public void testReceiveIncorrectRemoteEventNoPurfierSet() {

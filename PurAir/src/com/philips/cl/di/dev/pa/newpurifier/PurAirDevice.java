@@ -5,17 +5,16 @@ import java.util.List;
 import android.content.Context;
 import android.os.Handler;
 
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.port.FirmwarePort;
 
 /**
  * @author Jeroen Mols
@@ -33,8 +32,8 @@ public class PurAirDevice implements SubscriptionEventListener{
 	private SubscriptionHandler mSubscriptionHandler;
 	
 	private final AirPort mAirPort;
+	private final FirmwarePort mFirmwarePort;
 	
-	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
 
 	private final Handler mResubscriptionHandler = new Handler();
@@ -62,6 +61,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mDeviceHandler = new DeviceHandler(this);
 		mSchedulerHandler = new SchedulerHandler(this);
 		mAirPort = new AirPort(mNetworkNode,mDeviceHandler);
+		mFirmwarePort = new FirmwarePort(mNetworkNode);
 	}
 	
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
@@ -81,6 +81,10 @@ public class PurAirDevice implements SubscriptionEventListener{
 	
 	public AirPort getAirPort() {
 		return mAirPort;
+	}
+
+	public FirmwarePort getFirmwarePort() {
+		return mFirmwarePort;
 	}
 
 	public void enableLocalSubscription() {
@@ -127,14 +131,6 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mNetworkNode.setConnectionState(connectionState);
 	}
 			
-	public FirmwarePortInfo getFirmwarePortInfo() {
-		return mFirmwarePortInfo;
-	}
-
-	public void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
-		this.mFirmwarePortInfo = firmwarePortInfo;
-	}
-	
 	public boolean isDemoPurifier() {
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
 	}
@@ -144,7 +140,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
 				.append("   eui64: ").append(getNetworkNode().getCppId()).append("   bootId: ").append(getNetworkNode().getBootId())
 				.append("   usn: ").append(getUsn()).append("   paired: ").append(getNetworkNode().getPairedState())
-				.append("   airportInfo: ").append(getAirPort().getAirPortInfo()).append("   firmwareInfo: ").append(getFirmwarePortInfo())
+				.append("   airportInfo: ").append(getAirPort().getAirPortInfo()).append("   firmwareInfo: ").append(getFirmwarePort().getFirmwarePortInfo())
 				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ")
 				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
 				.append(getNetworkNode().getHomeSsid());

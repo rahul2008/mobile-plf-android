@@ -205,7 +205,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		if (purifier == null) return;
 		
-		if(purifier.getFirmwarePortInfo() == null || purifier.getFirmwarePortInfo().getState() != FirmwareState.IDLE) {
+		if(purifier.getFirmwarePort().getFirmwarePortInfo() == null || purifier.getFirmwarePort().getFirmwarePortInfo().getState() != FirmwareState.IDLE) {
 			ALog.i(ALog.FIRMWARE, "IndoorFragment$updateDashboardUI hideFirmwareUpdatePopup ");
 			hideFirmwareUpdatePopup();
 		}
@@ -377,7 +377,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		if (purifier == null) return;
-		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
+		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePort().getFirmwarePortInfo();
 		if(firmwarePortInfo == null) return;
 
 		updateFirmwareUI(purifier.getNetworkNode().getCppId(), firmwarePortInfo);
