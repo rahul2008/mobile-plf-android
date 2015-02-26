@@ -709,7 +709,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 
@@ -723,7 +723,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 	
@@ -737,7 +737,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 
@@ -751,7 +751,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 	
@@ -774,7 +774,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 	
@@ -789,7 +789,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 
@@ -804,7 +804,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNotNull(device.getAirPortInfo());
+		assertNotNull(device.getAirPort().getAirPortInfo());
 		assertNull(device.getFirmwarePortInfo());
 	}
 	
@@ -819,7 +819,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 		assertNotNull(device.getFirmwarePortInfo());
 	}
 	
@@ -841,7 +841,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 	}
 
 	public void testReceiveIncorrectRemoteEventRightPurifier() {
@@ -854,7 +854,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 	}
 	
 	public void testReceiveRemoteAirPortEventNoPurfierSet() {
@@ -875,7 +875,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNull(device.getAirPortInfo());
+		assertNull(device.getAirPort().getAirPortInfo());
 	}
 
 	public void testReceiveRemoteAirPortEventRightPurifier() {
@@ -888,7 +888,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener).onAirPurifierEventReceived();
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
-		assertNotNull(device.getAirPortInfo());
+		assertNotNull(device.getAirPort().getAirPortInfo());
 	}
 // ***** END TESTS TO UPDATE PURIFIER WHEN SUBSCRIPTION EVENT RECEIVED ***** 
 

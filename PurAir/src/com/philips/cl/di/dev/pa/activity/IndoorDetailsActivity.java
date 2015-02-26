@@ -118,7 +118,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		getRDCPValue();
 
 		if (currentPurifier == null) return;
-		getDataFromDashboard(currentPurifier.getAirPortInfo());
+		getDataFromDashboard(currentPurifier.getAirPort().getAirPortInfo());
 	}
 
 	private void getRDCPValue() {
@@ -360,7 +360,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (purifier == null) return;
 
-		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
+		final AirPortInfo airPortInfo = purifier.getAirPort().getAirPortInfo();
 		
 		runOnUiThread(new Runnable() {
 

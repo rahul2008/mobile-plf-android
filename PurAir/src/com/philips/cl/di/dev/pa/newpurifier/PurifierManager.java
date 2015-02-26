@@ -183,14 +183,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		}
 	}
 	
-	private void setAirPortInfo(AirPortInfo airPortInfo) {
-		PurAirDevice currentPurifier = getCurrentPurifier();
-		if (currentPurifier == null) return;
-		if (airPortInfo == null) return;
-		
-		currentPurifier.setAirPortInfo(airPortInfo);
-	}
-	
 	private void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
 		PurAirDevice currentPurifier = getCurrentPurifier();
 		if (currentPurifier == null) return;
@@ -211,11 +203,17 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	private void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.SUBSCRIPTION, "Notify subscription listeners - " + data);
-		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(data) ;
-		if( airPortInfo != null) {
-			notifyAirPurifierEventListeners(airPortInfo) ;
-			return ;
+		PurAirDevice currentPurifier = getCurrentPurifier();
+		
+		if(currentPurifier == null){
+			return;
 		}
+		if(currentPurifier.getAirPort().isResponseForThisPort(data)){
+			currentPurifier.getAirPort().processResponse(data);
+			notifyAirPurifierEventListeners();
+			return;
+		}
+		
 		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(data) ;
 		List<SchedulePortInfo> schedulerPortInfoList = DataParser.parseSchedulerDto(data) ;
 		
@@ -242,13 +240,10 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 	}
 	
-	private void notifyAirPurifierEventListeners(AirPortInfo airPortInfo) {
+	private void notifyAirPurifierEventListeners() {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-				if(airPortInfo != null) {
-					setAirPortInfo(airPortInfo);
 					listener.onAirPurifierEventReceived();
-				}
 			}
 		}		
 	}

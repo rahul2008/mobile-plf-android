@@ -15,6 +15,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.port.AirPort;
 
 /**
  * @author Jeroen Mols
@@ -29,10 +30,10 @@ public class PurAirDevice implements SubscriptionEventListener{
 	private final NetworkNode mNetworkNode = new NetworkNode();
 	private final DeviceHandler mDeviceHandler;
 	private final SchedulerHandler mSchedulerHandler;
-	
 	private SubscriptionHandler mSubscriptionHandler;
 	
-	private AirPortInfo 		   mAirPortInfo;
+	private final AirPort mAirPort;
+	
 	private FirmwarePortInfo	   mFirmwarePortInfo;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
 
@@ -60,6 +61,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
 		mDeviceHandler = new DeviceHandler(this);
 		mSchedulerHandler = new SchedulerHandler(this);
+		mAirPort = new AirPort(mNetworkNode,mDeviceHandler);
 	}
 	
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
@@ -77,6 +79,10 @@ public class PurAirDevice implements SubscriptionEventListener{
 		return mDeviceHandler;
 	}
 	
+	public AirPort getAirPort() {
+		return mAirPort;
+	}
+
 	public void enableLocalSubscription() {
 		mSubscriptionHandler.enableLocalSubscription();
 	}
@@ -120,16 +126,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 	public void setConnectionState(ConnectionState connectionState) {
 		mNetworkNode.setConnectionState(connectionState);
 	}
-
 			
-	public AirPortInfo getAirPortInfo() {
-		return mAirPortInfo;
-	}
-
-	public void setAirPortInfo(AirPortInfo airPortInfo) {
-		this.mAirPortInfo = airPortInfo;
-	}
-
 	public FirmwarePortInfo getFirmwarePortInfo() {
 		return mFirmwarePortInfo;
 	}
@@ -147,7 +144,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
 				.append("   eui64: ").append(getNetworkNode().getCppId()).append("   bootId: ").append(getNetworkNode().getBootId())
 				.append("   usn: ").append(getUsn()).append("   paired: ").append(getNetworkNode().getPairedState())
-				.append("   airportInfo: ").append(getAirPortInfo()).append("   firmwareInfo: ").append(getFirmwarePortInfo())
+				.append("   airportInfo: ").append(getAirPort().getAirPortInfo()).append("   firmwareInfo: ").append(getFirmwarePortInfo())
 				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ")
 				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
 				.append(getNetworkNode().getHomeSsid());
@@ -201,12 +198,6 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mSubscriptionHandler.unSubscribeFromFirmwareEvents();
 	}
 	
-	// TODO refactor into new architecture, rename method
-	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
-		ALog.i(ALog.APPLIANCE, "Set Appliance details: " + key +" = " + value) ;
-		mDeviceHandler.setPurifierEvent(purifierEvent) ;
-		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
-	}
 	
 	public void sendScheduleDetailsToPurifier(String data, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
 			mSchedulerHandler.setScheduleDetails(data, mNetworkNode, scheduleType, scheduleNumber) ;

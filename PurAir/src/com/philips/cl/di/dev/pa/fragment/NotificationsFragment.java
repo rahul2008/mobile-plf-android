@@ -326,7 +326,7 @@ AlertDialogBtnInterface, OnClickListener {
 		
 		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.setPurifierDetails(
+		    currentPurifier.getAirPort().setPurifierDetails(
 					ParserConstants.AQI_THRESHOLD, aqiThreshold,
 					PurifierEvent.AQI_THRESHOLD);
 		}
@@ -361,8 +361,8 @@ AlertDialogBtnInterface, OnClickListener {
 					notificationToggleChecked(false);
 					disableDetailedNotificationsLayout();
 				}
-				if (mPurifier != null && mPurifier.getAirPortInfo() != null) {
-					setUIAqiThreshold(mPurifier.getAirPortInfo().getAqiThreshold());
+				if (mPurifier != null && mPurifier.getAirPort().getAirPortInfo() != null) {
+					setUIAqiThreshold(mPurifier.getAirPort().getAirPortInfo().getAqiThreshold());
 				}
 				indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
 			}

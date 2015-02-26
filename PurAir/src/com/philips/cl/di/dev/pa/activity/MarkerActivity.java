@@ -133,8 +133,8 @@ public class MarkerActivity extends MapActivity implements
 		String purifierName = currentPurifier.getName();
 
 		int currentPurifierAQI = 0;
-		if (currentPurifier.getAirPortInfo() != null) {
-			currentPurifierAQI = currentPurifier.getAirPortInfo()
+		if (currentPurifier.getAirPort().getAirPortInfo() != null) {
+			currentPurifierAQI = currentPurifier.getAirPort().getAirPortInfo()
 					.getIndoorAQI();
 			setMarkerAqiValue(currentPurifierAQI);
 		}

@@ -68,7 +68,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	public void onResume() {
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
-		updateButtonState(currentPurifier.getAirPortInfo());
+		updateButtonState(currentPurifier.getAirPort().getAirPortInfo());
 		super.onResume();
 	}
 	
@@ -145,7 +145,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			if (!isPowerOn) {
 				power.setChecked(true);
 				PurAirDevice purifier = mainActivity.getCurrentPurifier();
-				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
+				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getAirPortInfo();
 				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1");
 				MetricsTracker.trackActionTogglePower("Power on");
@@ -208,8 +208,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			} else {
 				String fspd = "1";
 				if (PurifierManager.getInstance().getCurrentPurifier() != null
-						&& PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo() != null) {
-					fspd = PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo().getActualFanSpeed();
+						&& PurifierManager.getInstance().getCurrentPurifier().getAirPort().getAirPortInfo() != null) {
+					fspd = PurifierManager.getInstance().getCurrentPurifier().getAirPort().getAirPortInfo().getActualFanSpeed();
 				}
 				controlDevice(ParserConstants.FAN_SPEED, fspd);
 				MetricsTracker.trackActionFanSpeed("auto_off");
@@ -315,7 +315,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private void setTimerStatus() {
 		PurAirDevice purifier = mainActivity.getCurrentPurifier();
-		AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
+		AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getAirPortInfo();
 		if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
 			timerState.setText(getTimeRemaining(airPortInfo.getDtrs()));
 		} else {
@@ -335,7 +335,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		
 		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
+		    currentPurifier.getAirPort().setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
 		}
 	}
 
@@ -345,7 +345,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	@Override
 	public void onAirPurifierEventReceived() {
 		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
-		final AirPortInfo airPortInfo = currentPurifier.getAirPortInfo();
+		final AirPortInfo airPortInfo = currentPurifier.getAirPort().getAirPortInfo();
 		mainActivity.runOnUiThread(new Runnable() {
 			
 			@Override
