@@ -25,6 +25,7 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
+import com.philips.cl.di.dev.pa.dashboard.DeviceControlFragment;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -255,7 +256,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			manager.popBackStack();
 		} else if (fragment instanceof HelpAndDocFragment || fragment instanceof SettingsFragment) {
 			showFragment(new AboutFragment());
-		}else if (!(fragment instanceof HomeFragment)) {
+		} else if (fragment instanceof NotificationsFragment) {
+			showFragment(new DeviceControlFragment());
+		}
+		else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
 		} else {

@@ -140,7 +140,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 			@Override
 			public void onClick(View v) {
 				MainActivity mainActivity = (MainActivity) getActivity();
-				mainActivity.showFirstFragment();				
+				mainActivity.onBackPressed();				
 			}
 		});
 		backButton.setVisibility(View.VISIBLE);

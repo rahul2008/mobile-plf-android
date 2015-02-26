@@ -35,7 +35,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	
 	private MainActivity mainActivity;
 	
-	private boolean isPowerOn, isFanSpeedAuto, isChildLockOn, isIndicatorLightOn, isTimerOn;
+	private boolean isPowerOn, isFanSpeedAuto, isChildLockOn, isIndicatorLightOn;
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible;
 	
 	private RelativeLayout fanSpeedLayout, timerLayout;
@@ -45,7 +45,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	
 	private int [] timerButtonViewIds = {R.id.one_hour, R.id.four_hours, R.id.eight_hours};
 	private FontButton[] timerButtons = new FontButton[timerButtonViewIds.length];
-	private FontTextView setTimerText, timerState;
+	private FontTextView setTimerText, timerState, powerStatusTextView, scheduleTV,notificationTV;
 	
 	private ProgressBar controlProgress;
 
@@ -93,6 +93,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		childLock = (ToggleButton) view.findViewById(R.id.btn_rm_child_lock);
 		timerLayout= (RelativeLayout) view.findViewById(R.id.layout_timer);
 		timer = (ToggleButton) view.findViewById(R.id.btn_rm_set_timer);
+		powerStatusTextView = (FontTextView) view.findViewById(R.id.tv_rm_power_status) ;
+		powerStatusTextView.setSelected(true);
 
 		power.setOnClickListener(this);
 		indicatorLight.setOnClickListener(this);
@@ -101,9 +103,9 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		
 		controlProgress = (ProgressBar) view.findViewById(R.id.heading_progressbar);
 
-		FontTextView scheduleTV = (FontTextView) view.findViewById(R.id.tv_rm_scheduler);
+		scheduleTV = (FontTextView) view.findViewById(R.id.tv_rm_scheduler);
 		scheduleTV.setOnClickListener(this);
-		FontTextView notificationTV = (FontTextView) view.findViewById(R.id.tv_rm_notification);
+		notificationTV = (FontTextView) view.findViewById(R.id.tv_rm_notification);
 		notificationTV.setOnClickListener(this);
 	}
 
@@ -264,14 +266,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			collapseFanSpeedMenu(true);
 			break;
 		case R.id.btn_rm_set_timer:
-			PurAirDevice purifier = mainActivity.getCurrentPurifier();
-			AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
-			
-//			if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
-//				isTimerOn = true;
-//			} else {
-//				isTimerOn = false;
-//			}
 			if(!timer.isChecked()) {
 				controlDevice(ParserConstants.DEVICE_TIMER, "0");
 				MetricsTracker.trackActionTimerAdded("off");
@@ -279,29 +273,23 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			} 
 			
 		case R.id.one_hour:
-			isTimerOn = true;
 			timer.setChecked(true);
 			setTimerStatus();
 			toggleTimerButtonBackground(R.id.one_hour);
-//			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "1");
 			MetricsTracker.trackActionTimerAdded("1hr");
 			break;
 		case R.id.four_hours:
-			isTimerOn = true;
 			timer.setChecked(true);
 			setTimerStatus();
 			toggleTimerButtonBackground(R.id.four_hours);
-//			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "4");
 			MetricsTracker.trackActionTimerAdded("4hr");
 			break;
 		case R.id.eight_hours:
-			isTimerOn = true;
 			timer.setChecked(true);
 			setTimerStatus();
 			toggleTimerButtonBackground(R.id.eight_hours);
-//			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "8");
 			MetricsTracker.trackActionTimerAdded("8hr");
 			break;
@@ -372,16 +360,33 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private void updateButtonState(AirPortInfo airPortInfo) {
 		if(airPortInfo == null || airPortInfo.getPowerMode() == null) return;
-		
+		notificationTV.setClickable(true) ;
+		scheduleTV.setClickable(true);
+		power.setClickable(true);
 		if(AppConstants.POWER_ON.equals(airPortInfo.getPowerMode())) {
 			power.setChecked(true);
+			powerStatusTextView.setText(AppConstants.EMPTY_STRING) ;
 			setFanSpeed(airPortInfo);
 			timer.setChecked(getTimerStatus(airPortInfo));
 			toggleTimerButtonBackground(getButtonToBeHighlighted(getTimerText(airPortInfo)));
 			childLock.setChecked(getOnOffStatus(airPortInfo.getChildLock()));
 			indicatorLight.setChecked(getOnOffStatus(airPortInfo.getAqiL()));
 			setTimerStatus();
-		} else {
+		} else if(AppConstants.POWER_STATUS_C.equalsIgnoreCase(airPortInfo.getPowerMode())) {
+			power.setChecked(false);
+			power.setClickable(false) ;
+			powerStatusTextView.setText(R.string.cover_missing) ;
+			disableControlPanelButtonsOnPowerOff();
+		}
+		else if(AppConstants.POWER_STATUS_E.equalsIgnoreCase(airPortInfo.getPowerMode())) {
+			power.setChecked(false);
+			power.setClickable(false) ;
+			notificationTV.setClickable(false) ;
+			scheduleTV.setClickable(false);
+			powerStatusTextView.setText(R.string.error) ;
+			disableControlPanelButtonsOnPowerOff();
+		}
+		else {
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
 		}
