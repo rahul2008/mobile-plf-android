@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    package="com.philips.cl.di.dev.pa.digitalcare"
+    package="com.philips.cl.di.dev.digitalcare"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.philips.cl.di.dev.pa.digitalcare.DigitalCareActivity"
+            android:name="com.philips.cl.di.dev.digitalcare.DigitalCareActivity"
             android:configChanges="orientation|screenSize"
             android:exported="true"
             android:label="@string/app_name" >
@@ -55,7 +55,7 @@
 
         <!-- Twitter -->
         <activity
-            android:name="com.philips.cl.di.dev.pa.digitalcare.social.WebViewActivity"
+            android:name="com.philips.cl.di.dev.digitalcare.social.WebViewActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name" />
     </application>

@@ -52,14 +52,14 @@
                 android:id="@+id/prodbuttons"
                 style="@style/viewProductDetails_ManualButtons_Container" >
 
-                <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/manual_open"
                     style="@style/viewProductDetails_product_buttons"
                     android:contentDescription="@string/product_name"
                     android:text="@string/product_open_manual"
                      />
 
-                <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/manual_download"
                     style="@style/viewProductDetails_product_buttons"
                     android:layout_below="@+id/manual_open"
@@ -67,7 +67,7 @@
                     android:text="@string/product_download_manual"
                     custom:fontAssetName="fonts/centralesans-book.otf" />
 
-                <com.philips.cl.di.dev.pa.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/prodinfo_button"
                     style="@style/viewProductDetails_product_buttons"
                     android:layout_below="@+id/manual_download"
