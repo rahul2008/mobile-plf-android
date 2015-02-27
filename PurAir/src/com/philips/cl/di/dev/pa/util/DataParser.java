@@ -36,7 +36,6 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
-import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
 /***
  * This class it used to parse data for AirPurifier event
@@ -326,63 +325,6 @@ public class DataParser {
 		}
 	}
 
-	public static List<SchedulePortInfo> parseSchedulerDto(String dataToParse) {
-		if (dataToParse == null || dataToParse.isEmpty()) return null;
-		ALog.i(ALog.SCHEDULER, dataToParse) ;
-		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
-		JSONObject jsonObject = null ;
-		try {			
-			jsonObject = new JSONObject(dataToParse);
-			JSONObject schedulerJsonFromCPP = jsonObject.optJSONObject("data") ;
-			if( schedulerJsonFromCPP != null ) {
-				jsonObject = schedulerJsonFromCPP ;
-			}
-			@SuppressWarnings("unchecked")
-			Iterator<String> iterator = jsonObject.keys() ;
-			String key = null ;
-			while(iterator.hasNext()) {
-				key = iterator.next() ;
-				SchedulePortInfo schedules = new SchedulePortInfo() ;
-				JSONObject schedule;
-				schedule = jsonObject.getJSONObject(key);
-				schedules.setName((String)schedule.get("name")) ;
-				schedules.setScheduleNumber(Integer.parseInt(key)) ;
-				schedulesList.add(schedules) ;
-			}
-
-		} catch (JSONException e) {
-			schedulesList = null ;
-			ALog.e(ALog.PARSER, "JsonIOException: " + "Error: " + e.getMessage());
-		} catch(Exception e) {
-			schedulesList = null ;
-			ALog.e(ALog.PARSER, "JsonIOException : " + "Error: " + e.getMessage());
-		}
-		return schedulesList ;
-	}
-
-	public static SchedulePortInfo parseScheduleDetails(String dataToParse) {
-		if (dataToParse == null || dataToParse.isEmpty()) return null;
-		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
-		try {
-			JSONObject scheduleJson = new JSONObject(dataToParse) ;
-			JSONObject scheduleJsonViaCPP = scheduleJson.optJSONObject("data") ;
-			if(scheduleJsonViaCPP != null ) {
-				scheduleJson = scheduleJsonViaCPP ;
-			}
-			schedulePortInfo.setName(scheduleJson.getString("name")) ;
-			schedulePortInfo.setEnabled(scheduleJson.getBoolean("enabled")) ;
-			schedulePortInfo.setDays(scheduleJson.getString("days")) ;
-			schedulePortInfo.setMode(scheduleJson.getJSONObject("command").getString("om")) ;
-			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
-		} catch (JSONException e) {
-			schedulePortInfo = null ;
-			ALog.e(ALog.PARSER, "Exception: " + "Error: " + e.getMessage());
-		} catch (Exception e) {
-			schedulePortInfo = null ;
-			ALog.e(ALog.PARSER, "Exception: " + "Error: " + e.getMessage());
-		}
-		return schedulePortInfo ;
-	}
 
 	public static DiscoverInfo parseDiscoverInfo(String dataToParse) {
 		if (dataToParse== null || dataToParse.isEmpty()) return null;

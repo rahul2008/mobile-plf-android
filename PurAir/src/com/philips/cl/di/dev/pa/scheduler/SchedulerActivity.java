@@ -53,7 +53,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		showSchedulerOverviewFragment();
 		purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 		if (purAirDevice != null)
-			schedulesList = purAirDevice.getmSchedulerPortInfoList();
+			schedulesList = purAirDevice.getScheduleListPort().getSchedulePortInfoList();
 		PurifierManager.getInstance().setSchedulerListener(this);
 
 	}

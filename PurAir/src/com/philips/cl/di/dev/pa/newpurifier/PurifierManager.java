@@ -19,7 +19,6 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 
 /**
  * Purifier Manager is the one point contact for all UI layers to communicate
@@ -41,7 +40,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private List<AirPurifierEventListener> airPurifierEventListeners ;
 
-	private SchedulerListener scheduleListener ;
+	private SchedulerListener mScheduleListener ;
 	
 	public static enum PurifierEvent { DEVICE_CONTROL, SCHEDULER, FIRMWARE, AQI_THRESHOLD, PAIRING } ;
 
@@ -64,7 +63,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 	
 	public void setSchedulerListener(SchedulerListener schedulerListener) {
-		this.scheduleListener =  schedulerListener ;
+		this.mScheduleListener =  schedulerListener ;
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
@@ -204,21 +203,22 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			return;
 		}
 		
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(data) ;
-		List<SchedulePortInfo> schedulerPortInfoList = DataParser.parseSchedulerDto(data) ;
-		
-		if( scheduleListener != null) {
+		// TODO: DIComm Refactor use processresponse of schedulelist port class and make parse methods as private
+		if( currentPurifier.getScheduleListPort().isResponseForThisPort(data) ){
+			SchedulePortInfo schedulePortInfo = currentPurifier.getScheduleListPort().parseResponseAsSingleSchedule(data);
 			if( schedulePortInfo != null ) {
-				scheduleListener.onScheduleReceived(schedulePortInfo) ;
+				notifyScheduleListenerForSingleSchedule(schedulePortInfo);
 				return ;
 			}
-			else if(  schedulerPortInfoList != null ) {
-				scheduleListener.onSchedulesReceived(schedulerPortInfoList) ;
+			List<SchedulePortInfo> schedulePortInfoList = currentPurifier.getScheduleListPort().parseResponseAsScheduleList(data);
+			if(  schedulePortInfoList != null ) {
+				notifyScheduleListenerForScheduleList(schedulePortInfoList);
 				return ;
 			}
-			else if( data.contains(AppConstants.OUT_OF_MEMORY)) {
+			
+			if( data.contains(AppConstants.OUT_OF_MEMORY)) {
 				//TODO: DICOMM Refactor: Remove dependency on schedulerhandler
-				scheduleListener.onErrorOccurred(SchedulerHandler.MAX_SCHEDULES_REACHED) ;
+				notifyScheduleListenerForErrorOccured(SchedulerHandler.MAX_SCHEDULES_REACHED);
 			}
 		}
 		
@@ -243,6 +243,24 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
 				listener.onFirmwareEventReceived();
 			}
+		}
+	}
+	
+	private void notifyScheduleListenerForSingleSchedule(SchedulePortInfo schedulePortInfo){
+		if(mScheduleListener!=null){
+			mScheduleListener.onScheduleReceived(schedulePortInfo);
+		}
+	}
+	
+    private void notifyScheduleListenerForScheduleList(List<SchedulePortInfo> schedulePortInfoList){
+    	if(mScheduleListener!=null){
+			mScheduleListener.onSchedulesReceived(schedulePortInfoList);
+		}
+	}
+    
+    private void notifyScheduleListenerForErrorOccured(int errorType){
+    	if(mScheduleListener!=null){
+			mScheduleListener.onErrorOccurred(errorType);
 		}
 	}
 
@@ -332,9 +350,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public void onLocalEventLost(PurifierEvent purifierEvent) {
 		switch (purifierEvent) {
 		case SCHEDULER:
-			if( scheduleListener != null ) {
+			if( mScheduleListener != null ) {
 				//TODO: DICOMM Refactor: Remove dependency on schedulerhandler
-				scheduleListener.onErrorOccurred(SchedulerHandler.DEFAULT_ERROR) ;
+				notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
 			}
 			break;
 		case DEVICE_CONTROL:

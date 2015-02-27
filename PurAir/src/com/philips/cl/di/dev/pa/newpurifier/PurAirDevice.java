@@ -15,6 +15,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
+import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 /**
  * @author Jeroen Mols
@@ -33,22 +34,12 @@ public class PurAirDevice implements SubscriptionEventListener{
 	
 	private final AirPort mAirPort;
 	private final FirmwarePort mFirmwarePort;
-	
-	private List<SchedulePortInfo> mSchedulerPortInfoList;
+	private final ScheduleListPort mScheduleListPort;	
 
 	private final Handler mResubscriptionHandler = new Handler();
 	private Runnable mResubscribeRunnable;	
 	protected static final long RESUBSCRIBING_TIME = 300000;
 	
-	public List<SchedulePortInfo> getmSchedulerPortInfoList() {
-		return mSchedulerPortInfoList;
-	}
-
-	public void setmSchedulerPortInfoList(
-			List<SchedulePortInfo> mSchedulerPortInfoList) {
-		this.mSchedulerPortInfoList = mSchedulerPortInfoList;
-	}
-
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			long bootId, ConnectionState connectionState) {
 		mNetworkNode.setBootId(bootId);
@@ -62,6 +53,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mSchedulerHandler = new SchedulerHandler(this);
 		mAirPort = new AirPort(mNetworkNode,mDeviceHandler);
 		mFirmwarePort = new FirmwarePort(mNetworkNode);
+		mScheduleListPort = new ScheduleListPort(mNetworkNode, mSchedulerHandler);
 	}
 	
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
@@ -85,6 +77,10 @@ public class PurAirDevice implements SubscriptionEventListener{
 
 	public FirmwarePort getFirmwarePort() {
 		return mFirmwarePort;
+	}
+
+	public ScheduleListPort getScheduleListPort() {
+		return mScheduleListPort;
 	}
 
 	public void enableLocalSubscription() {
