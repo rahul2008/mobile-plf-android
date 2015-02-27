@@ -90,7 +90,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		if (purAirDevice == null) return;
 		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
 				selectedFanspeed, selectedDays, enabled);
-		purAirDevice.sendScheduleDetailsToPurifier(addSchedulerJson, scheduleType, -1);
+		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(addSchedulerJson, scheduleType, -1);
 		showProgressDialog();
 		// TODO - Implement Add scheduler Via CPP
 	}
@@ -111,7 +111,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
 					selectedFanspeed, selectedDays, enabled);
 			if(null!=purAirDevice){
-			    purAirDevice.sendScheduleDetailsToPurifier(editSchedulerJson,scheduleType, schedulerNumberSelected);
+			    purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(editSchedulerJson,scheduleType, schedulerNumberSelected);
 			}
 		} else {
 			showSchedulerOverviewFragment();
@@ -131,7 +131,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		if (purAirDevice == null
 				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			return;
-		purAirDevice.sendScheduleDetailsToPurifier("",scheduleType, schedulerNumberSelected);
+		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier("",scheduleType, schedulerNumberSelected);
 		showProgressDialog();
 	}
 
@@ -190,7 +190,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
 			return;
 		String dataToSend = "";
-		purAirDevice.sendScheduleDetailsToPurifier(dataToSend,scheduleType, -1);
+		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(dataToSend,scheduleType, -1);
 	}
 
 	private void showSchedulerOverviewFragment() {
@@ -238,7 +238,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 			showProgressDialog();
 			String dataToSend = "";
 			if(null!=purAirDevice){
-			    purAirDevice.sendScheduleDetailsToPurifier(dataToSend,scheduleType,	schedulerNumberSelected);
+			    purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(dataToSend,scheduleType,	schedulerNumberSelected);
 			}
 		} else {
 			setFanSpeed(schedulesList.get(position).getMode());

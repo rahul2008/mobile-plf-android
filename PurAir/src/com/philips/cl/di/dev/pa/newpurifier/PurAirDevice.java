@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import java.util.List;
-
 import android.content.Context;
 import android.os.Handler;
 
@@ -9,7 +7,6 @@ import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
-import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -191,9 +188,4 @@ public class PurAirDevice implements SubscriptionEventListener{
 	}
 	
 	
-	public void sendScheduleDetailsToPurifier(String data, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
-			mSchedulerHandler.setScheduleDetails(data, mNetworkNode, scheduleType, scheduleNumber) ;
-	}
-
-
 }
