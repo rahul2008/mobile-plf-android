@@ -62,6 +62,7 @@ public class USEmbassyCommunicator implements DataCommunicator {
 	private void notifyListeners(String responseData, RequestType type, String areaId) {
 		if(RequestType.CITIES_AQI.equals(type)) {
 			List<OutdoorAQI> outdoorAQIList = DataParser.parseUSEmbassyLocationAQI(responseData,areaId);
+			if(outdoorAQIList == null) return;
 			for (OutdoorAQI outdoorAQI : outdoorAQIList) {
 				outdoorDataListener.outdoorAQIDataReceived(outdoorAQI, areaId);
 			}
