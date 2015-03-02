@@ -63,7 +63,7 @@ public enum OutdoorImage {
 			resId = resId + 3;
 		} else if (aqi > 150 && aqi <= 200) {
 			resId = resId + 4;
-		} else if (resId > 200 && aqi <= 300) {
+		} else if (aqi > 200 && aqi <= 300) {
 			resId = resId + 5;
 		} else if (aqi > 300) {
 			resId = resId + 6;
