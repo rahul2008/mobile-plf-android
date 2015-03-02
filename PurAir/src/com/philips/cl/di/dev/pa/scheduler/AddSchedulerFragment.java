@@ -42,7 +42,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.ADD_SCHEDULE);
-		initViews(getView());
+		initViews(getView());		
 	}
 	
 	@Override
@@ -177,6 +177,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		SchedulerActivity activity = (SchedulerActivity) getActivity();
+		activity.setTime(timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 		Bundle bundle = new Bundle();
 		switch(v.getId()) {
 			case R.id.repeat_rl:
