@@ -11,13 +11,10 @@ import android.content.SharedPreferences;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
@@ -29,11 +26,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurifierManager implements SubscriptionEventListener, KeyDecryptListener, Observer {
+public class PurifierManager implements SubscriptionEventListener, Observer {
 
 	private static PurifierManager instance;
-	
-	private DISecurity mSecurity;
 	
 	private PurAirDevice mCurrentPurifier = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
@@ -59,7 +54,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private PurifierManager() {
 		// Enforce Singleton
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
-		mSecurity = new DISecurity(this);
 	}
 	
 	public void setSchedulerListener(SchedulerListener schedulerListener) {
@@ -132,7 +126,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			return;
 		}
 		
-		String decryptedData = mSecurity.decryptData(encryptedData, purifier.getNetworkNode()) ;
+		String decryptedData = purifier.getDISecurity().decryptData(encryptedData, purifier.getNetworkNode()) ;
 		if (decryptedData == null ) {
 			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getNetworkNode().getIpAddress());
 			return;
@@ -332,20 +326,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		instance = dummyManager;
 	}
 
-	@Override
-	public void keyDecrypt(String key, String deviceEui64) {
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null) return;
-		if (key == null) return;
-		
-		if (deviceEui64.equals(purifier.getNetworkNode().getCppId())) {
-			ALog.e(ALog.PURIFIER_MANAGER, "Updated current purifier encryption key");
-			purifier.getNetworkNode().setEncryptionKey(key);
-			
-			new PurifierDatabase().updatePurifierUsingUsn(mCurrentPurifier);
-		}
-	}
-	
 	@Override
 	public void onLocalEventLost(PurifierEvent purifierEvent) {
 		switch (purifierEvent) {

@@ -5,10 +5,12 @@ import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
+import com.philips.cl.di.dev.pa.security.DISecurity;
+import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
@@ -18,7 +20,7 @@ import com.philips.cl.di.dicomm.port.ScheduleListPort;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurAirDevice implements SubscriptionEventListener{
+public class PurAirDevice implements SubscriptionEventListener, KeyDecryptListener{
 
 	private final String mUsn;
 	private String latitude;
@@ -32,6 +34,8 @@ public class PurAirDevice implements SubscriptionEventListener{
 	private final AirPort mAirPort;
 	private final FirmwarePort mFirmwarePort;
 	private final ScheduleListPort mScheduleListPort;	
+	
+	private final DISecurity mDISecurity;
 
 	private final Handler mResubscriptionHandler = new Handler();
 	private Runnable mResubscribeRunnable;	
@@ -51,6 +55,7 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mAirPort = new AirPort(mNetworkNode,mDeviceHandler);
 		mFirmwarePort = new FirmwarePort(mNetworkNode);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, mSchedulerHandler);
+		mDISecurity = new DISecurity(this);
 	}
 	
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
@@ -78,6 +83,10 @@ public class PurAirDevice implements SubscriptionEventListener{
 
 	public ScheduleListPort getScheduleListPort() {
 		return mScheduleListPort;
+	}
+
+	public DISecurity getDISecurity() {
+		return mDISecurity;
 	}
 
 	public void enableLocalSubscription() {
@@ -185,6 +194,18 @@ public class PurAirDevice implements SubscriptionEventListener{
 		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 		mSubscriptionHandler.unSubscribeFromPurifierEvents();
 		mSubscriptionHandler.unSubscribeFromFirmwareEvents();
+	}
+
+	@Override
+	public void keyDecrypt(String key, String deviceEui64) {
+		if (key == null) return;
+		
+		if (deviceEui64.equals(mNetworkNode.getCppId())) {
+			ALog.e(ALog.APPLIANCE, "Updated current appliance encryption key");
+			mNetworkNode.setEncryptionKey(key);
+			// TODO: DIComm Refactor, modify purifierDatabase to remove purairdevice
+			new PurifierDatabase().updatePurifierUsingUsn(this);
+		}		
 	}
 	
 	
