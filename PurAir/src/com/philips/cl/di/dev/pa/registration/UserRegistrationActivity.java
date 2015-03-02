@@ -14,8 +14,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -146,7 +146,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 		ALog.i(ALog.APP_START_UP, "UserRegistrationActivity$closeUserRegistration listener " + mListener + " firstUse " + firstUse);
 		if (mListener != null) {
 			mListener.userRegistrationClosed(firstUse);
-			PurifierManager.getInstance().setEwsSate(EWS_STATE.REGISTRATION);
+			AirPurifierManager.getInstance().setEwsSate(EWS_STATE.REGISTRATION);
 		}
 		ALog.i(ALog.USER_REGISTRATION, "Before calling finish");
 		mListener = null;

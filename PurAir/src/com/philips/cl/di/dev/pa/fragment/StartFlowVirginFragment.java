@@ -20,7 +20,7 @@ import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -183,7 +183,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		}
 
 		@Override
-		public void onPurifierSelect(PurAirDevice purifier) {
+		public void onPurifierSelect(AirPurifier purifier) {
 		}
 		
 	};

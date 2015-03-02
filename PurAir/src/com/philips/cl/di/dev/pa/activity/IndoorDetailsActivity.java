@@ -39,9 +39,9 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -58,7 +58,7 @@ import com.philips.icpinterface.data.Errors;
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
 			ICPDownloadListener, AirPurifierEventListener, PurifierCurrentCityPercentListener {
 
-	private PurAirDevice currentPurifier;
+	private AirPurifier currentPurifier;
 
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
@@ -97,7 +97,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (currentPurifier == null) {
 			ALog.d(ALog.INDOOR_DETAILS, "Not starting indoor activity - Current purifier cannot be null");
 			finish();
@@ -133,14 +133,14 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.INDOOR_DETAILS);
 		DiscoveryManager.getInstance().start(null);
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		DiscoveryManager.getInstance().stop();
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	/**
@@ -357,7 +357,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void updatePurifierUIFields() {
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (purifier == null) return;
 
 		final AirPortInfo airPortInfo = purifier.getAirPort().getAirPortInfo();

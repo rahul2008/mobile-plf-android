@@ -11,9 +11,7 @@ import android.content.SharedPreferences;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -26,11 +24,11 @@ import com.philips.cl.di.dev.pa.util.ALog;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurifierManager implements SubscriptionEventListener, Observer {
+public class AirPurifierManager implements Observer, PurifierListener {
 
-	private static PurifierManager instance;
+	private static AirPurifierManager instance;
 	
-	private PurAirDevice mCurrentPurifier = null;
+	private AirPurifier mCurrentPurifier = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
 	private List<AirPurifierEventListener> airPurifierEventListeners ;
@@ -44,14 +42,14 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 	
 	private int indoorViewPagerPosition;
 	
-	public static synchronized PurifierManager getInstance() {
+	public static synchronized AirPurifierManager getInstance() {
 		if (instance == null) {
-			instance = new PurifierManager();
+			instance = new AirPurifierManager();
 		}		
 		return instance;
 	}
 	
-	private PurifierManager() {
+	private AirPurifierManager() {
 		// Enforce Singleton
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 	}
@@ -60,7 +58,7 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		this.mScheduleListener =  schedulerListener ;
 	}
 	
-	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
+	public synchronized void setCurrentPurifier(AirPurifier purifier) {
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
 		
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
@@ -71,6 +69,8 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		//stopCurrentSubscription();
 		mCurrentPurifier = purifier;
 		mCurrentPurifier.getNetworkNode().addObserver(this);
+		mCurrentPurifier.setPurifierListener(this);
+		
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
 		startSubscription();
@@ -97,7 +97,7 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		notifyPurifierChangedListeners();
 	}
 	
-	public synchronized PurAirDevice getCurrentPurifier() {
+	public synchronized AirPurifier getCurrentPurifier() {
 		return mCurrentPurifier;
 	}
 	
@@ -106,51 +106,6 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		    return mCurrentPurifier.getNetworkNode();
 		}
 		return null;
-	}
-
-	
-	@Override
-	public void onLocalEventReceived(String encryptedData, String purifierIp) {
-		// TODO: Refactor null check
-		boolean isDeviceThreadRunning = false;
-		if(getCurrentPurifier()!=null && getCurrentPurifier().getDeviceHandler().isDeviceThreadRunning()){
-			isDeviceThreadRunning = true;
-		}
-		ALog.i("UIUX", "Check if the thread is running: " + isDeviceThreadRunning) ;
-		if (isDeviceThreadRunning) return;
-		
-		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || purifier.getNetworkNode().getIpAddress() == null || !purifier.getNetworkNode().getIpAddress().equals(purifierIp)) {
-			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier (" + (purifierIp == null? "null" : purifierIp) + ")");
-			return;
-		}
-		
-		String decryptedData = purifier.getDISecurity().decryptData(encryptedData, purifier.getNetworkNode()) ;
-		if (decryptedData == null ) {
-			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getNetworkNode().getIpAddress());
-			return;
-		}
-		notifySubscriptionListeners(decryptedData) ;
-	}
-	
-	@Override
-	public void onRemoteEventReceived(String data, String purifierEui64) {
-		// TODO: Refactor null check
-		boolean isDeviceThreadRunning = false;
-		if(getCurrentPurifier()!=null && getCurrentPurifier().getDeviceHandler().isDeviceThreadRunning()){
-			isDeviceThreadRunning = true;
-		}
-		if (isDeviceThreadRunning) return;
-		
-		ALog.d(ALog.PURIFIER_MANAGER, "Remote event received");
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || !purifier.getNetworkNode().getCppId().equals(purifierEui64)) {
-			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier");
-			return;
-		}
-		
-		notifySubscriptionListeners(data);
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
@@ -184,47 +139,11 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		}
 	}
 	
-	private void notifySubscriptionListeners(String data) {
-		ALog.d(ALog.SUBSCRIPTION, "Notify subscription listeners - " + data);
-		PurAirDevice currentPurifier = getCurrentPurifier();
-		
-		if(currentPurifier == null){
-			return;
-		}
-		if(currentPurifier.getAirPort().isResponseForThisPort(data)){
-			currentPurifier.getAirPort().processResponse(data);
-			notifyAirPurifierEventListeners();
-			return;
-		}
-		
-		// TODO: DIComm Refactor use processresponse of schedulelist port class and make parse methods as private
-		if( currentPurifier.getScheduleListPort().isResponseForThisPort(data) ){
-			SchedulePortInfo schedulePortInfo = currentPurifier.getScheduleListPort().parseResponseAsSingleSchedule(data);
-			if( schedulePortInfo != null ) {
-				notifyScheduleListenerForSingleSchedule(schedulePortInfo);
-				return ;
-			}
-			List<SchedulePortInfo> schedulePortInfoList = currentPurifier.getScheduleListPort().parseResponseAsScheduleList(data);
-			if(  schedulePortInfoList != null ) {
-				notifyScheduleListenerForScheduleList(schedulePortInfoList);
-				return ;
-			}
-			
-			if( data.contains(AppConstants.OUT_OF_MEMORY)) {
-				//TODO: DICOMM Refactor: Remove dependency on schedulerhandler
-				notifyScheduleListenerForErrorOccured(SchedulerHandler.MAX_SCHEDULES_REACHED);
-			}
-		}
-		
-		if(currentPurifier.getFirmwarePort().isResponseForThisPort(data)){
-			currentPurifier.getFirmwarePort().processResponse(data);
-            notifyFirmwareEventListeners();
-			return;
-		}
-		
-	}
-	
-	private void notifyAirPurifierEventListeners() {
+	/* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyAirPurifierEventListeners()
+	 */
+	@Override
+	public void notifyAirPurifierEventListeners() {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
 				listener.onAirPurifierEventReceived();
@@ -232,7 +151,11 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		}		
 	}
 	
-	private void notifyFirmwareEventListeners() {
+	/* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyFirmwareEventListeners()
+	 */
+	@Override
+	public void notifyFirmwareEventListeners() {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
 				listener.onFirmwareEventReceived();
@@ -240,26 +163,38 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		}
 	}
 	
-	private void notifyScheduleListenerForSingleSchedule(SchedulePortInfo schedulePortInfo){
+	/* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyScheduleListenerForSingleSchedule(com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo)
+	 */
+	@Override
+	public void notifyScheduleListenerForSingleSchedule(SchedulePortInfo schedulePortInfo){
 		if(mScheduleListener!=null){
 			mScheduleListener.onScheduleReceived(schedulePortInfo);
 		}
 	}
 	
-    private void notifyScheduleListenerForScheduleList(List<SchedulePortInfo> schedulePortInfoList){
+    /* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyScheduleListenerForScheduleList(java.util.List)
+	 */
+    @Override
+	public void notifyScheduleListenerForScheduleList(List<SchedulePortInfo> schedulePortInfoList){
     	if(mScheduleListener!=null){
 			mScheduleListener.onSchedulesReceived(schedulePortInfoList);
 		}
 	}
     
-    private void notifyScheduleListenerForErrorOccured(int errorType){
+    /* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyScheduleListenerForErrorOccured(int)
+	 */
+    @Override
+	public void notifyScheduleListenerForErrorOccured(int errorType){
     	if(mScheduleListener!=null){
 			mScheduleListener.onErrorOccurred(errorType);
 		}
 	}
 
 	public synchronized void startSubscription() {
-		PurAirDevice purifier = getCurrentPurifier();
+		AirPurifier purifier = getCurrentPurifier();
 		if (purifier != null) {
 			mCurrentSubscriptionState = purifier.getNetworkNode().getConnectionState();
 		}
@@ -282,7 +217,7 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 	}
 
 	private void startLocalConnection() {
-		PurAirDevice purifier = getCurrentPurifier();
+		AirPurifier purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		
@@ -301,7 +236,7 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		
 		if (PurAirApplication.isDemoModeEnable()) return;
 		
-		PurAirDevice purifier = getCurrentPurifier();
+		AirPurifier purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		
 		if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
@@ -322,33 +257,20 @@ public class PurifierManager implements SubscriptionEventListener, Observer {
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 	
-	public static void setDummyPurifierManagerForTesting(PurifierManager dummyManager) {
+	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
 		instance = dummyManager;
 	}
 
+	/* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyAirPurifierEventListenersErrorOccurred(com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent)
+	 */
 	@Override
-	public void onLocalEventLost(PurifierEvent purifierEvent) {
-		switch (purifierEvent) {
-		case SCHEDULER:
-			if( mScheduleListener != null ) {
-				//TODO: DICOMM Refactor: Remove dependency on schedulerhandler
-				notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
+	public void notifyAirPurifierEventListenersErrorOccurred(
+			PurifierEvent purifierEvent) {
+		synchronized (airPurifierEventListeners) {
+			for (AirPurifierEventListener listener : airPurifierEventListeners) {
+				listener.onErrorOccurred(purifierEvent);
 			}
-			break;
-		case DEVICE_CONTROL:
-		case AQI_THRESHOLD:
-			synchronized (airPurifierEventListeners) {
-				for (AirPurifierEventListener listener : airPurifierEventListeners) {
-					listener.onErrorOccurred(purifierEvent);
-				}
-			}
-			break;
-		case FIRMWARE:
-			break;
-		case PAIRING:
-			break;
-		default:
-			break;
 		}
 	}
 

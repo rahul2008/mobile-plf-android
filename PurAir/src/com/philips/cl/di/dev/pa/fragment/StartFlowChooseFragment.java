@@ -36,8 +36,8 @@ import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListen
 import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -53,11 +53,11 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
 	private ListView discoveredPurifierListView;
-	private PurAirDevice selectedPurifier;
+	private AirPurifier selectedPurifier;
 	private DemoModeTask connectTask;
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
-	private List<PurAirDevice> appItems;
+	private List<AirPurifier> appItems;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -211,7 +211,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 				selectedPurifier.setLongitude(String.valueOf(location.getLongitude()));
 			}
 
-			PurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
+			AirPurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
 			
 			CongratulationFragment congratulationFragment = new CongratulationFragment();
 			Bundle bundle = new Bundle();
@@ -230,7 +230,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	}
 
 	@Override
-	public void onPurifierSelect(PurAirDevice purifier) {
+	public void onPurifierSelect(AirPurifier purifier) {
 		SetupDialogFactory.getInstance(getActivity()).cleanUp();
 		selectedPurifier = purifier;
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
@@ -336,7 +336,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		PurAirDevice currentPurifier = appItems.get(position);
+		AirPurifier currentPurifier = appItems.get(position);
 		onPurifierSelect(currentPurifier);
 	}
 }

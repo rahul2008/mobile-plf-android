@@ -24,7 +24,7 @@ import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -38,7 +38,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		implements KeyDecryptListener, EWSTaskListener, Runnable {
 
 	private EWSListener listener ;
-	private PurAirDevice tempEWSPurifier;
+	private AirPurifier tempEWSPurifier;
 	private IntentFilter filter = new IntentFilter();
 	private EWSTasks task ;
 
@@ -240,14 +240,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempEWSPurifier = new PurAirDevice(tempEui64, null,
+		tempEWSPurifier = new AirPurifier(tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, null, -1,	ConnectionState.CONNECTED_LOCALLY);
 	}
 
 	private void updateTempDevice(String eui64) {
 		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = tempEWSPurifier.getNetworkNode().getName();
-		tempEWSPurifier = new PurAirDevice(eui64, null,
+		tempEWSPurifier = new AirPurifier(eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,	ConnectionState.CONNECTED_LOCALLY);
 		tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}

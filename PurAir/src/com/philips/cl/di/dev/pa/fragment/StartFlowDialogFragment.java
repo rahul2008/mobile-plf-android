@@ -12,7 +12,7 @@ import android.support.v4.app.DialogFragment;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -220,7 +220,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 
 		void dialogCancelClicked(DialogFragment dialog);
 
-		void onPurifierSelect(PurAirDevice purifier);
+		void onPurifierSelect(AirPurifier purifier);
 	}
 
 }

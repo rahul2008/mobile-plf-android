@@ -25,7 +25,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class AddPurifierFragment extends BaseFragment implements
@@ -63,7 +63,7 @@ public class AddPurifierFragment extends BaseFragment implements
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				((MainActivity) getActivity()).startActivity(intent);
 			} else {
-				List<PurAirDevice> storePurifiers = DiscoveryManager
+				List<AirPurifier> storePurifiers = DiscoveryManager
 						.getInstance().updateStoreDevices();
 				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 					showAlertDialog("",	getString(R.string.max_purifier_reached));

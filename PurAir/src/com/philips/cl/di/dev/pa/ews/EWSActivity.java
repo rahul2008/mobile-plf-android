@@ -33,9 +33,9 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -94,7 +94,7 @@ public class EWSActivity extends ActionBarActivity implements
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		
-		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
+		AirPurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
 	}
 	
 	/*Initialize action bar */
@@ -322,12 +322,12 @@ public class EWSActivity extends ActionBarActivity implements
 	public void showHomeScreen() {
 		mStep = EWSConstant.EWS_START_MAIN;
 		
-		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
+		AirPurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
 		Utils.saveAppFirstUse(false);
 		
 		Location location = OutdoorController.getInstance().getCurrentLocation();
 		
-		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier current = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (current != null) {
 			ALog.i(ALog.PAIRING, "EWS-setting paring to false");
 			current.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
@@ -339,8 +339,8 @@ public class EWSActivity extends ActionBarActivity implements
 				current.setLongitude(String.valueOf(location.getLongitude()));
 			}
 			new PurifierDatabase().insertPurAirDevice(current);
-			List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
-			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
+			List<AirPurifier> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
+			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 		}
 		
 		// STOP move code
@@ -677,11 +677,11 @@ public class EWSActivity extends ActionBarActivity implements
 	@Override
 	public void onDiscoveredDevicesListChanged() {
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
-		PurAirDevice ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
+		AirPurifier ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
 		if (ewsPurifier == null) return;
 		if (ewsPurifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
-		PurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
+		AirPurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
 		deviceDiscoveryCompleted();
 	}
 	
@@ -720,6 +720,6 @@ public class EWSActivity extends ActionBarActivity implements
 	public void dialogCancelClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void onPurifierSelect(PurAirDevice purifier) {/**NOP*/}
+	public void onPurifierSelect(AirPurifier purifier) {/**NOP*/}
 
 }

@@ -19,8 +19,8 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -36,7 +36,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	private int errorCode = DemoModeConstant.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP;
 	private boolean stop = true;
 	private int totalTime = 10 * 1000;
-	private PurAirDevice tempDemoModePurifier;
+	private AirPurifier tempDemoModePurifier;
 	private DemoModeTask task;
 	private int taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 	private IntentFilter filter = new IntentFilter();
@@ -168,7 +168,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
 	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempDemoModePurifier = new PurAirDevice(tempEui64, null,
+		tempDemoModePurifier = new AirPurifier(tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 	}
@@ -178,11 +178,11 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			return;
 		String encryptionKey = tempDemoModePurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = DemoModeConstant.DEMO;
-		tempDemoModePurifier = new PurAirDevice(eui64, null,
+		tempDemoModePurifier = new AirPurifier(eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
-		PurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
+		AirPurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
 		PurAirApplication.setDemoModePurifier(eui64);
 	}
 

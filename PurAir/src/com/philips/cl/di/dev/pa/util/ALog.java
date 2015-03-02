@@ -46,7 +46,7 @@ public class ALog {
 	public static final String CONNECTIVITY = "Connectivity" ;
 	public static final String PARSER = "DataParser" ;
 	public static final String DIAGNOSTICS="Diagnostics";
-	public static final String PURIFIER_MANAGER = "PurifierManager";
+	public static final String PURIFIER_MANAGER = "AirPurifierManager";
 	public static final String DASHBOARD="Dashboard";
 	public static final String OUTDOOR_LOCATION="OutdoorLocation";
 	public static final String TASK_GET="TaskGetHttp";

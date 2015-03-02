@@ -18,8 +18,8 @@ import com.adobe.mobile.Config;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 
 public class MetricsTracker {
 
@@ -465,13 +465,13 @@ public class MetricsTracker {
         contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_FIRMWARE_VERSION, getFirmwareVersion());
 		contextData.put(KEY_MACHINE_ID, getDeviceEui64());
-		contextData.put(KEY_PRODUCT_MODEL, PurifierManager.getInstance().getCurrentPurifier() != null ? VALUE_MODEL_AC4373 : "Not Found");
+		contextData.put(KEY_PRODUCT_MODEL, AirPurifierManager.getInstance().getCurrentPurifier() != null ? VALUE_MODEL_AC4373 : "Not Found");
 		contextData.put(KEY_APP_ID, SessionDto.getInstance().getAppEui64());
 		return contextData;
 	}
 
 	private static String getFirmwareVersion() {
-		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier != null && currentPurifier.getFirmwarePort().getFirmwarePortInfo() != null) {
 			String version = currentPurifier.getFirmwarePort().getFirmwarePortInfo().getVersion();
 			return version;
@@ -480,7 +480,7 @@ public class MetricsTracker {
 	}
 
 	private static String getDeviceEui64() {
-		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier != null) {
 			String eui64 = currentPurifier.getNetworkNode().getCppId();
 			return eui64;

@@ -38,9 +38,9 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
@@ -119,7 +119,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		String eui64 = "";
 		if(getArguments() != null) {
 			position = getArguments().getInt("position");
-			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
+			AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
 			if (purifier == null) return;
 			
 			eui64 = purifier.getNetworkNode().getCppId() ;
@@ -140,8 +140,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		alartMessageTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
 		alartMessageTextView.setVisibility(View.GONE);
 		
-		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
-			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
+		if (AirPurifierManager.getInstance().getCurrentPurifier() != null) {
+			purifierNameTxt.setText(AirPurifierManager.getInstance().getCurrentPurifier().getName());
 		}
 		
 		purifierEui64Txt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_eui64);
@@ -172,7 +172,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onResume() {
 		super.onResume();
 
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		
 		updateDashboardUI();
 		hideFirmwareUpdatePopup();
@@ -186,14 +186,14 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onPause() {
 		super.onPause();
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	private void updateDashboardUI() {
 		Activity parent = this.getActivity();
 		if (parent == null || !(parent instanceof MainActivity)) return;
 		
-		PurAirDevice purifier = ((MainActivity) parent).getCurrentPurifier();
+		AirPurifier purifier = ((MainActivity) parent).getCurrentPurifier();
 		String tempEui64 = purifierEui64Txt.getText().toString();
 		
 		//For demo mode
@@ -324,7 +324,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (getActivity() == null) return;
 		
 		ALog.i(ALog.DASHBOARD, "IndoorDashboard$onDiscoveredDevicesListChanged");
-		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier current = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (current == null) return;
 		
 		ALog.i(ALog.DASHBOARD, "Purifier connection state " + current.getNetworkNode().getConnectionState());
@@ -355,7 +355,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$onAirPurifierEventReceived");
 		
-		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		AirPurifier purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			ALog.i(ALog.DASHBOARD, "onAirPurifierEventReceived ");
 			return ;
@@ -375,7 +375,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$onFirmwareEventReceived");
 
-		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		AirPurifier purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		if (purifier == null) return;
 		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePort().getFirmwarePortInfo();
 		if(firmwarePortInfo == null) return;
@@ -523,7 +523,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			});
 			break;
 		case R.id.hf_indoor_circle_pointer:
-			PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+			AirPurifier purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 			if (getActivity() != null && purifier != null) {
 				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 				startActivity(intent);

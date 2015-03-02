@@ -17,8 +17,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -119,7 +119,7 @@ public class MarkerActivity extends MapActivity implements
 	}
 
 	private void addMarkerCurrentPurifer() {
-		PurAirDevice currentPurifier = PurifierManager.getInstance()
+		AirPurifier currentPurifier = AirPurifierManager.getInstance()
 				.getCurrentPurifier();
 		if (currentPurifier == null || currentPurifier.getLatitude() == null
 				|| currentPurifier.getLongitude() == null

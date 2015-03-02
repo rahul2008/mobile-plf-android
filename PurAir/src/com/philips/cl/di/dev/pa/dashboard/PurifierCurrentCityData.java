@@ -12,8 +12,8 @@ import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.cma.CMAHelper;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -171,7 +171,7 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 		currentCityGoodAQList.add(Utils.getPercentage(weeklyGoodAqi, weeklyTotalAqi));
 		currentCityGoodAQList.add(Utils.getPercentage(monthlyGoodAqi, monthlyTotalAqi));
 		
-		PurAirDevice currentPuriufier = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier currentPuriufier = AirPurifierManager.getInstance().getCurrentPurifier();
 		
 		if (currentPuriufier != null) {
 			purifierCurrentCityGoodAQMap.put(currentPuriufier.getNetworkNode().getCppId(), currentCityGoodAQList) ;

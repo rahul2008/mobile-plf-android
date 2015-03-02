@@ -145,7 +145,7 @@ public class ConnectPurifier implements NetworkStateListener {
 		}
 
 		@Override
-		public void onPurifierSelect(PurAirDevice purifier) {
+		public void onPurifierSelect(AirPurifier purifier) {
 		}
 	};
 

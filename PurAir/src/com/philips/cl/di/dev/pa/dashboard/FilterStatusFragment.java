@@ -17,9 +17,9 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -63,14 +63,14 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 	@Override
 	public void onResume() {
 		super.onResume();
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		updateFilterViews();
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);		
+		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);		
 	}
 
 	@Override
@@ -194,14 +194,14 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	}
 
-	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {
+	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
 		return purifier.getAirPort().getAirPortInfo();
 	}
 
 	private void updateFilterViews() {
 		ALog.i(ALog.FILTER_STATUS_FRAGMENT, "updateFilterStatus");
-		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED
 				|| purifier.getAirPort().getAirPortInfo() == null) {
 			disableFilterStatus();

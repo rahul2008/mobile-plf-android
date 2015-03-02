@@ -17,8 +17,8 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -35,7 +35,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private boolean enabled = true;
 
 	private SCHEDULE_TYPE scheduleType;
-	private PurAirDevice purAirDevice;
+	private AirPurifier purAirDevice;
 	private List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
 	private SchedulerOverviewFragment schFragment;
 
@@ -51,10 +51,10 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		setContentView(R.layout.scheduler_container);
 		SchedulerMarked4Deletion.clear();
 		showSchedulerOverviewFragment();
-		purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
+		purAirDevice = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (purAirDevice != null)
 			schedulesList = purAirDevice.getScheduleListPort().getSchedulePortInfoList();
-		PurifierManager.getInstance().setSchedulerListener(this);
+		AirPurifierManager.getInstance().setSchedulerListener(this);
 
 	}
 

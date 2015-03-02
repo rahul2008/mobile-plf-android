@@ -49,10 +49,10 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -108,12 +108,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		showFirstFragment();
 		initializeCPPController();
 		selectPurifier();
-		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
+		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		internetDialogShown=false;
 	}
 
 	private void selectPurifier() {
-		PurAirDevice current = getCurrentPurifier();
+		AirPurifier current = getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
 			if (current != null) current.setConnectionState(ConnectionState.DISCONNECTED);
 			appInDemoMode.connectPurifier();
@@ -152,7 +152,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		}
 
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
 	}
 
@@ -161,12 +161,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
 		}
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	public void stopNormalMode() {
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
 	}
 
@@ -174,18 +174,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		stopDemoMode();
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 
 	@Override
 	protected void onResumeFragments() {
 		ALog.i(ALog.MAINACTIVITY, "onResumeFragments") ;
 		super.onResumeFragments();
-		if (PurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
-			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
+		if (AirPurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
+			AirPurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
 			showFirstFragment();
-		} else if (PurifierManager.getInstance().getEwsState() == EWS_STATE.REGISTRATION) {
-			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
+		} else if (AirPurifierManager.getInstance().getEwsState() == EWS_STATE.REGISTRATION) {
+			AirPurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
 			showFragment(new StartFlowChooseFragment());
 		}
 	}
@@ -421,7 +421,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	@Override
 	public void onFirmwareEventReceived() {
-		final PurAirDevice purifier = getCurrentPurifier();
+		final AirPurifier purifier = getCurrentPurifier();
 
 		ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived: " + purifier);
 	}
@@ -431,7 +431,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
-		final PurAirDevice purifier = getCurrentPurifier();
+		final AirPurifier purifier = getCurrentPurifier();
 		
 		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			return ;
@@ -444,7 +444,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		pairToPurifierIfNecessary();
 	}
 
-	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {
+	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
 		return purifier.getAirPort().getAirPortInfo();
 	}
@@ -457,12 +457,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	public void signonStatus(boolean signon) {		
 		if (signon) {
 			//should be called only when signOn is successful
-			PurifierManager.getInstance().startSubscription();
+			AirPurifierManager.getInstance().startSubscription();
 		}
 	} 
 
 	public void pairToPurifierIfNecessary() {
-		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
+		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
 			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
@@ -549,9 +549,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		});
 	}
 
-	public PurAirDevice getCurrentPurifier() {
+	public AirPurifier getCurrentPurifier() {
 		// TODO change to field in class
-		return PurifierManager.getInstance().getCurrentPurifier();
+		return AirPurifierManager.getInstance().getCurrentPurifier();
 	}
 
 	@Override
@@ -561,14 +561,14 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 
-		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+		ArrayList<AirPurifier> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 		if (devices.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
 				+ devices.size() + " :: " + devices);
 
-		PurAirDevice current = getCurrentPurifier();
+		AirPurifier current = getCurrentPurifier();
 		if( current != null && current.getAirPort().getAirPortInfo() != null) return ;
-		PurifierManager.getInstance().startSubscription() ;
+		AirPurifierManager.getInstance().startSubscription() ;
 	}
 
 	@Override
@@ -595,7 +595,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	private void updateUIInDemoMode() {
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (purifier != null) purifier.setConnectionState(ConnectionState.DISCONNECTED);
 		updatePurifierUIFields();
 	}
@@ -611,7 +611,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	@Override
 	public void internetStatus(boolean internetAvailable) {
 		if ( internetAvailable ) {
-			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;			
+			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;			
 			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn() || purifier==null) {
 				CPPController.getInstance(PurAirApplication.getAppContext()).signOnWithProvisioning() ;
 				CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(new SignonListener() {
@@ -634,7 +634,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			}
 		}
 		else {
-			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
+			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
 				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());

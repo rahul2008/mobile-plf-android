@@ -26,8 +26,8 @@ import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupCancelDialogFragment;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFragment;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
@@ -196,8 +196,8 @@ public class DemoModeActivity extends ActionBarActivity implements OnClickListen
 	}
 	
 	public void showHomeScreen() {
-		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
-		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
+		AirPurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
+		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		setStaticIpAddress() ;
 		finish();
 	}

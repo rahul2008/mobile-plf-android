@@ -46,7 +46,7 @@ import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
 import com.philips.cl.di.dev.pa.security.Util;
@@ -310,7 +310,7 @@ public class Utils {
 	}
 
 	@SuppressLint("SimpleDateFormat")
-	public static String getCPPQuery(PurAirDevice purifier) {
+	public static String getCPPQuery(AirPurifier purifier) {
 		long dayInMilliSecs = 24 * 60 * 60 * 1000L ;
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatTime = new SimpleDateFormat(":mm:ss");

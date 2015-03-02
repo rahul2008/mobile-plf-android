@@ -30,8 +30,8 @@ import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -165,7 +165,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             indicator.setOnPageChangeListener(indoorPageChangeListener);
             setViewPagerIndicatorSetting(indicator, View.VISIBLE);
 
-            indoorViewPager.setCurrentItem(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
+            indoorViewPager.setCurrentItem(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
         }
     }
     
@@ -182,9 +182,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         } else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
             countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
 
-            PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
+            AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
             if(purifier != null) {
-                PurifierManager.getInstance().setCurrentPurifier(purifier);
+                AirPurifierManager.getInstance().setCurrentPurifier(purifier);
             }
         }
         return countIndoor;
@@ -335,16 +335,16 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 		@Override
 		public void onPageSelected(int position) {
-			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
+			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
 			if (PurAirApplication.isDemoModeEnable()) {
 				return;
 			}
 			
 			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
+				AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
 				if (purifier == null) return;
 		
-				PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+				AirPurifierManager.getInstance().setCurrentPurifier(purifier) ;
 			}
 			
 			if (prevPositionIndoor == indoorPagerAdapter.getCount() - 1 && updateMyPurifiersListener != null) {
@@ -377,7 +377,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
     public void notifyIndoorPager() {
         countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
-        PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(countIndoor);
+        AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(countIndoor);
         indoorPagerAdapter.setCount(countIndoor) ;
         indoorPagerAdapter.notifyDataSetChanged();
         indoorViewPager.setCurrentItem(countIndoor, true);

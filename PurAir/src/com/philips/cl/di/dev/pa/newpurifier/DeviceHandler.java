@@ -6,7 +6,7 @@ import java.util.Hashtable;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
 import com.philips.cl.di.dev.pa.purifier.RoutingStrategy;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;

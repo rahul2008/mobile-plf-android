@@ -11,7 +11,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 
@@ -31,7 +31,7 @@ public class PurifierDatabase {
 	 * @param deviceInfoDto
 	 * @return
 	 */
-	public long insertPurAirDevice(PurAirDevice purifier) {
+	public long insertPurAirDevice(AirPurifier purifier) {
 		long rowId = -1L;
 		if (purifier == null) return rowId;
 
@@ -80,8 +80,8 @@ public class PurifierDatabase {
 	 * 
 	 * @return
 	 */
-	public List<PurAirDevice> getAllPurifiers(ConnectionState state) {
-		List<PurAirDevice> purAirDevicesList = new ArrayList<PurAirDevice>();
+	public List<AirPurifier> getAllPurifiers(ConnectionState state) {
+		List<AirPurifier> purAirDevicesList = new ArrayList<AirPurifier>();
 		ALog.i(ALog.DATABASE, "getAllDeviceInfo()");
 		Cursor cursor = null;
 		try {
@@ -102,7 +102,7 @@ public class PurifierDatabase {
 					String latitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 					String longitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 
-					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
+					AirPurifier purifier = new AirPurifier(eui64, usn, null, name, bootId, state);
 					purifier.getNetworkNode().setHomeSsid(lastKnownNetwork);
 					purifier.getNetworkNode().setEncryptionKey(encryptionKey);
 					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ NetworkNode.getPairedStatusKey(pairedStatus));
@@ -135,7 +135,7 @@ public class PurifierDatabase {
 	 * @param devKey
 	 * @return
 	 */
-	public long updatePurifier(long rowId, PurAirDevice purifier) {
+	public long updatePurifier(long rowId, AirPurifier purifier) {
 		long newRowId = -1;
 		if(purifier==null) return newRowId;
 		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
@@ -170,7 +170,7 @@ public class PurifierDatabase {
 		return newRowId;
 	}
 	
-	public long updatePurifierUsingUsn(PurAirDevice purifier) {
+	public long updatePurifierUsingUsn(AirPurifier purifier) {
 		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
 		long newRowId = -1;
 		
@@ -207,7 +207,7 @@ public class PurifierDatabase {
 		return newRowId;
 	}
 	
-	public long updateGeoLocation(PurAirDevice purifier) {
+	public long updateGeoLocation(AirPurifier purifier) {
 		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
 		long newRowId = -1;
 		
@@ -254,7 +254,7 @@ public class PurifierDatabase {
 	 * @param lastPaired long
 	 * @return long
 	 */
-	public long updatePairingStatus(PurAirDevice purifier, NetworkNode.PAIRED_STATUS status) {
+	public long updatePairingStatus(AirPurifier purifier, NetworkNode.PAIRED_STATUS status) {
 		ALog.i(ALog.DATABASE, "Updating pairing status: " + purifier);
 		long newRowId = -1;
 		try {
@@ -280,7 +280,7 @@ public class PurifierDatabase {
 	 * @param purifierEui64 String
 	 * @return long
 	 */
-	public long getPurifierLastPairedOn(PurAirDevice purifier) {
+	public long getPurifierLastPairedOn(AirPurifier purifier) {
 		ALog.i(ALog.DATABASE, "Getting purifier last Paired on: " + purifier);
 		long lastPaired = -1;
 		if (purifier == null) return -1;
@@ -305,7 +305,7 @@ public class PurifierDatabase {
 		return lastPaired;
 	}
 
-	private long getRowIdOfPurifier(PurAirDevice purifier) {
+	private long getRowIdOfPurifier(AirPurifier purifier) {
 		long id = -1;
 		if (purifier == null) return -1;
 

@@ -9,7 +9,7 @@ import android.test.UiThreadTest;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -74,15 +74,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	@UiThreadTest
 	public void testRegisterSubscriptionInOnResume() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
-			PurifierManager purManager = mock(PurifierManager.class);
-			PurifierManager.setDummyPurifierManagerForTesting(purManager);
+			AirPurifierManager purManager = mock(AirPurifierManager.class);
+			AirPurifierManager.setDummyPurifierManagerForTesting(purManager);
 			
 			instrumentation.callActivityOnResume(activity);
 			
 			verify(purManager).addAirPurifierEventListener(activity);
 //			verify(purManager, never()).removeAirPurifierEventListener(activity);
 			
-			PurifierManager.setDummyPurifierManagerForTesting(null);
+			AirPurifierManager.setDummyPurifierManagerForTesting(null);
 		} else {
 			assertFalse(false);
 		}
@@ -92,15 +92,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	@UiThreadTest
 	public void testUnRegisterSubscriptionInOnPause() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
-			PurifierManager purManager = mock(PurifierManager.class);
-			PurifierManager.setDummyPurifierManagerForTesting(purManager);
+			AirPurifierManager purManager = mock(AirPurifierManager.class);
+			AirPurifierManager.setDummyPurifierManagerForTesting(purManager);
 			
 			instrumentation.callActivityOnPause(activity);
 			
 			verify(purManager, never()).addAirPurifierEventListener(activity);
 			verify(purManager).removeAirPurifierEventListener(activity);
 			
-			PurifierManager.setDummyPurifierManagerForTesting(null);
+			AirPurifierManager.setDummyPurifierManagerForTesting(null);
 		
 		} else {
 			assertFalse(false);

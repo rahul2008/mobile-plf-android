@@ -9,14 +9,14 @@ import junit.framework.TestCase;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.Util;
 
 
 public class DISecurityTest extends TestCase {
 	
-	private PurAirDevice purAirDevice;
+	private AirPurifier purAirDevice;
 	private String key = "173B7E0A9A54CB3E96A70237F6974940";
 	public final static String DEVICE_ID = "deviceId";
 	public final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
@@ -65,7 +65,7 @@ public class DISecurityTest extends TestCase {
 		
 		DISecurity security = new DISecurity(null);
 		
-		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, ConnectionState.DISCONNECTED);
+		AirPurifier helperDevice = new AirPurifier(DEVICE_ID, null, null, null, -1, ConnectionState.DISCONNECTED);
 		helperDevice.getNetworkNode().setEncryptionKey(KEY);
 		
 		String encryptedData = security.encryptData(data, helperDevice.getNetworkNode());
@@ -77,7 +77,7 @@ public class DISecurityTest extends TestCase {
 	public void testDecryptNullData() {
 		DISecurity security = new DISecurity(null);
 
-		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, ConnectionState.DISCONNECTED);
+		AirPurifier helperDevice = new AirPurifier(DEVICE_ID, null, null, null, -1, ConnectionState.DISCONNECTED);
 		helperDevice.getNetworkNode().setEncryptionKey(KEY);
 		
 		String nullData = null;
@@ -195,7 +195,7 @@ public class DISecurityTest extends TestCase {
 	
 	public void testDataEncryptionWithRandomBytes() {
 		DISecurity security = new DISecurity(null);
-		purAirDevice = new PurAirDevice(
+		purAirDevice = new AirPurifier(
 				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.getNetworkNode().setEncryptionKey(key);
 			
@@ -212,7 +212,7 @@ public class DISecurityTest extends TestCase {
 	
 	public void testEncryptDataNullkey() {
 		DISecurity security = new DISecurity(null);
-		purAirDevice = new PurAirDevice(
+		purAirDevice = new AirPurifier(
 				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.getNetworkNode().setEncryptionKey(null);
 		String encryptedData1 = security.encryptData(data, purAirDevice.getNetworkNode());
@@ -221,7 +221,7 @@ public class DISecurityTest extends TestCase {
 	
 	public void testEncryptDataEmptykey() {
 		DISecurity security = new DISecurity(null);
-		purAirDevice = new PurAirDevice(
+		purAirDevice = new AirPurifier(
 				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.getNetworkNode().setEncryptionKey("");
 		String encryptedData1 = security.encryptData(data, purAirDevice.getNetworkNode());
@@ -231,7 +231,7 @@ public class DISecurityTest extends TestCase {
 	public void testDecryptEmptyData() {
 		
 		DISecurity security = new DISecurity(null);
-		purAirDevice = new PurAirDevice(
+		purAirDevice = new AirPurifier(
 				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.getNetworkNode().setEncryptionKey(key);
 		
@@ -243,7 +243,7 @@ public class DISecurityTest extends TestCase {
 	public void testDecryptWithNullKey() {
 		
 		DISecurity security = new DISecurity(null);
-		purAirDevice = new PurAirDevice(
+		purAirDevice = new AirPurifier(
 				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.getNetworkNode().setEncryptionKey(key);
 		
@@ -259,7 +259,7 @@ public class DISecurityTest extends TestCase {
 	public void testDecryptWithEmptyKey() {
 		
 		DISecurity security = new DISecurity(null);
-		purAirDevice = new PurAirDevice(
+		purAirDevice = new AirPurifier(
 				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		purAirDevice.getNetworkNode().setEncryptionKey(key);
 		

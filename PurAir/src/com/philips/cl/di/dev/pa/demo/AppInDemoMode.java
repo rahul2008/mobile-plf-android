@@ -12,8 +12,8 @@ import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -95,7 +95,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 
 	@Override
 	public void onConnected(String ssid) {
-		PurAirDevice current = PurifierManager.getInstance()
+		AirPurifier current = AirPurifierManager.getInstance()
 				.getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
 			if (current != null
@@ -117,11 +117,11 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 	public void keyDecrypt(String key, String deviceEui64) {
 		ALog.i(ALog.MAINACTIVITY, "Key exchange succesfull for shop demo mode");
 		keyInitializeState = KeyInitializeState.NONE;
-		PurAirDevice demoModePurifier = new PurAirDevice(deviceEui64, null,
+		AirPurifier demoModePurifier = new AirPurifier(deviceEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		demoModePurifier.getNetworkNode().setEncryptionKey(key);
-		PurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
+		AirPurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
 	}
 
 }

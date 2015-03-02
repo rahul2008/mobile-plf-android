@@ -33,9 +33,9 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -63,7 +63,7 @@ AlertDialogBtnInterface, OnClickListener {
 	private ProgressDialog aqiThresholdProgressDialog;
 	private ProgressDialog getRelationProgressDialog;
 
-	private PurAirDevice mPurifier;
+	private AirPurifier mPurifier;
 
 	private String aqiThreshold;
 	private static final int AQI_THRESHOLD_TIMEOUT = 120 * 1000;
@@ -74,7 +74,7 @@ AlertDialogBtnInterface, OnClickListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		mPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		pairingHandler = new PairingHandler(null, mPurifier.getNetworkNode());
 		super.onCreate(savedInstanceState);
 	}
@@ -114,7 +114,7 @@ AlertDialogBtnInterface, OnClickListener {
 			}
 			return;
 		}
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		pairingHandler.setPermissionListener(this);
 
 		if (mPurifier == null || PurAirApplication.isDemoModeEnable()) {
@@ -324,7 +324,7 @@ AlertDialogBtnInterface, OnClickListener {
 		aqiThresholdTimer.start();
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
 		
-		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().setPurifierDetails(
 					ParserConstants.AQI_THRESHOLD, aqiThreshold,

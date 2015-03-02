@@ -23,7 +23,7 @@ import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
@@ -241,7 +241,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
 		String appEui64 = getString(R.string.app_eui64) + SessionDto.getInstance().getAppEui64();
 		
-		List<PurAirDevice> purifiers= DiscoveryManager.getInstance().getStoreDevices();
+		List<AirPurifier> purifiers= DiscoveryManager.getInstance().getStoreDevices();
 
 		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
 		data.append(lineSeparator);

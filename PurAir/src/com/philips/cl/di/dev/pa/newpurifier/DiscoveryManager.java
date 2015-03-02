@@ -50,7 +50,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
 public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkChangedCallback, CppDiscoverEventListener {
 
 	private static DiscoveryManager mInstance;
-	private LinkedHashMap<String, PurAirDevice> mDevicesMap;
+	private LinkedHashMap<String, AirPurifier> mDevicesMap;
 	private static final Object mDiscoveryLock = new Object();
 
 	private PurifierDatabase mDatabase;
@@ -60,7 +60,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private CppDiscoveryHelper mCppHelper;
 
 	private DiscoveryEventListener mListener;
-	private List<PurAirDevice> storedDevices;
+	private List<AirPurifier> storedDevices;
 	private AddNewPurifierListener addNewPurifierListener;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
@@ -127,19 +127,19 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		this.addNewPurifierListener = null;
 	}
 
-	public ArrayList<PurAirDevice> getDiscoveredDevices() {
-		return new ArrayList<PurAirDevice>(mDevicesMap.values());
+	public ArrayList<AirPurifier> getDiscoveredDevices() {
+		return new ArrayList<AirPurifier>(mDevicesMap.values());
 	}
 	
-	public List<PurAirDevice> getStoreDevices() {
-		List<PurAirDevice> purifiers = new ArrayList<PurAirDevice>();
-		for (PurAirDevice purAirDevice : storedDevices) {
+	public List<AirPurifier> getStoreDevices() {
+		List<AirPurifier> purifiers = new ArrayList<AirPurifier>();
+		for (AirPurifier purAirDevice : storedDevices) {
 			purifiers.add(mDevicesMap.get(purAirDevice.getNetworkNode().getCppId()));
 		}
 		return purifiers; 
 	}
 	
-	public List<PurAirDevice> updateStoreDevices() {
+	public List<AirPurifier> updateStoreDevices() {
 		return storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED); 
 	}
 	
@@ -155,14 +155,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		}
 	}
 	
-	public List<PurAirDevice> getNewDevicesDiscovered() {
+	public List<AirPurifier> getNewDevicesDiscovered() {
 		boolean addToNewDeviceList = true ;
-		List<PurAirDevice> discoveredDevices = getDiscoveredDevices() ;
-		List<PurAirDevice> devicesInDataBase = getStoreDevices() ;
-		List<PurAirDevice> newDevices = new ArrayList<PurAirDevice>() ;
+		List<AirPurifier> discoveredDevices = getDiscoveredDevices() ;
+		List<AirPurifier> devicesInDataBase = getStoreDevices() ;
+		List<AirPurifier> newDevices = new ArrayList<AirPurifier>() ;
 		
-		for(PurAirDevice device: discoveredDevices) {
-			for( PurAirDevice deviceInDB: devicesInDataBase) {
+		for(AirPurifier device: discoveredDevices) {
+			for( AirPurifier deviceInDB: devicesInDataBase) {
 				if( device.getNetworkNode().getCppId().equals(deviceInDB.getNetworkNode().getCppId())) {
 					addToNewDeviceList = false;
 					break;
@@ -180,7 +180,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return newDevices ;
 	}
 
-	public PurAirDevice getDeviceByEui64(String eui64) {
+	public AirPurifier getDeviceByEui64(String eui64) {
 		if (eui64 == null || eui64.isEmpty()) return null;
 		return mDevicesMap.get(eui64);
 	}
@@ -273,7 +273,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	// ********** START SSDP METHODS ************
 	private boolean onDeviceDiscovered(DeviceModel deviceModel) {
 		
-		PurAirDevice purifier = getPurAirDevice(deviceModel);
+		AirPurifier purifier = getPurAirDevice(deviceModel);
 		if (purifier == null) return false;
 		ALog.i(ALog.SSDP, "Discovered device name: " + purifier.getNetworkNode().getName());
 		if (mDevicesMap.containsKey(purifier.getNetworkNode().getCppId())) {
@@ -289,8 +289,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		String lostDeviceUsn = deviceModel.getId();
 		if (lostDeviceUsn == null || lostDeviceUsn.length() <= 0) return false;
 
-		ArrayList<PurAirDevice> devices = getDiscoveredDevices();
-		for (PurAirDevice purifier : devices) {
+		ArrayList<AirPurifier> devices = getDiscoveredDevices();
+		for (AirPurifier purifier : devices) {
 			if (purifier.getUsn().equals(lostDeviceUsn)) {
 				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
 				if(purifier.getFirmwarePort().getFirmwarePortInfo() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getFirmwarePortInfo().getState()) {
@@ -306,8 +306,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return false;
 	}
 
-	private void updateExistingDevice(PurAirDevice newPurifier) {
-		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getNetworkNode().getCppId());
+	private void updateExistingDevice(AirPurifier newPurifier) {
+		AirPurifier existingPurifier = mDevicesMap.get(newPurifier.getNetworkNode().getCppId());
 		boolean notifyListeners = true;
 		
 		if (newPurifier.getNetworkNode().getHomeSsid() != null &&
@@ -360,7 +360,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	/**
 	 * Completely new device - never seen before
 	 */
-	private void addNewDevice(PurAirDevice purifier) {
+	private void addNewDevice(AirPurifier purifier) {
 		mDevicesMap.put(purifier.getNetworkNode().getCppId(), purifier);
 		startKeyExchange(purifier);
 
@@ -374,7 +374,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 		ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesEui64();
 
-		for (PurAirDevice device : mDevicesMap.values()) {
+		for (AirPurifier device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
 			if (onlineCppIds.contains(device.getNetworkNode().getCppId())) continue; // State is correct
@@ -395,7 +395,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private void markOtherNetworkDevicesRemote(String ssid) {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
 		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
+		for (AirPurifier device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (device.getNetworkNode().getHomeSsid() != null && device.getNetworkNode().getHomeSsid().equals(ssid)) continue; // will appear local on this network
@@ -412,7 +412,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private void markNonDiscoveredDevicesRemote() {
 		ALog.d(ALog.DISCOVERY, "Marking paired devices that where not discovered locally REMOTE");
 		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
+		for (AirPurifier device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
@@ -428,7 +428,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private void markAllDevicesRemote() {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
 		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
+		for (AirPurifier device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && device.getNetworkNode().isOnlineViaCpp()) {
 				device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 				statusUpdated = true;
@@ -446,7 +446,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private void markAllDevicesOffline() {
 		ALog.d(ALog.DISCOVERY, "Marking all devices OFFLINE");
 		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
+		for (AirPurifier device : mDevicesMap.values()) {
 			if (device.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
 
 			device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
@@ -469,7 +469,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 		ALog.i(ALog.DISCOVERY, "List: "+eui64s) ;
 		
-		for (PurAirDevice current : getDiscoveredDevices()) {
+		for (AirPurifier current : getDiscoveredDevices()) {
 			boolean updatedState = false ;
 			boolean currentOnlineViaCpp = connected;
 			if( eui64s.isEmpty() ) {
@@ -500,7 +500,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		boolean notifyListeners = false;
 
 		for (String eui64 : info.getClientIds()) {
-			PurAirDevice current = getDeviceByEui64(eui64);
+			AirPurifier current = getDeviceByEui64(eui64);
 			if (current == null) {
 				ALog.v(ALog.DISCOVERY, "Received discover event for unknown purifier: " + eui64);
 				continue;
@@ -518,7 +518,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return notifyListeners;
 	}
 
-	private boolean updateConnectedStateOnlineViaCpp(PurAirDevice purifier) {
+	private boolean updateConnectedStateOnlineViaCpp(AirPurifier purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOnlineViaCpp: "+purifier) ;
 		if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) return false;
 		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) return false;
@@ -530,7 +530,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return true;
 	}
 
-	private boolean updateConnectedStateOfflineViaCpp(PurAirDevice purifier) {
+	private boolean updateConnectedStateOfflineViaCpp(AirPurifier purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOfflineViaCpp: "+purifier) ;
 		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
 
@@ -575,7 +575,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	// ********** END ASYNC METHODS ************
 
-	private PurAirDevice getPurAirDevice(DeviceModel deviceModel) {
+	private AirPurifier getPurAirDevice(DeviceModel deviceModel) {
 		SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
 		if (ssdpDevice == null) return null;
 
@@ -597,14 +597,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			// NOP
 		}
 
-		PurAirDevice purifier = new PurAirDevice(eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier = new AirPurifier(eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 
 		return purifier;
 	}
 
-	private boolean isValidPurifier(PurAirDevice purifier) {
+	private boolean isValidPurifier(AirPurifier purifier) {
 		if (purifier.getNetworkNode().getCppId() == null || purifier.getNetworkNode().getCppId().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - eui64 is null");
 			return false;
@@ -638,11 +638,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	private void initializeDevicesMapFromDataBase() {
 		ALog.i(ALog.DISCOVERY, "initializeDevicesMap") ;
-		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
+		mDevicesMap = new LinkedHashMap<String, AirPurifier>();
 		// Disconnected by default to allow SSDP to discover first and only after try cpp
 		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 		
-		for (PurAirDevice device : storedDevices) {
+		for (AirPurifier device : storedDevices) {
 			mDevicesMap.put(device.getNetworkNode().getCppId(), device);
 		}
 	}
@@ -662,7 +662,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		}
 	}
 
-	private void startKeyExchange(PurAirDevice purifier) {
+	private void startKeyExchange(AirPurifier purifier) {
 		ALog.d(ALog.DISCOVERY, "Starting key exchange: " + purifier);
 
 		mSecurity.initializeExchangeKeyCounter(purifier.getNetworkNode().getCppId());
@@ -672,7 +672,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	@Override
 	public void keyDecrypt(String key, String deviceEui64) {
 		
-		PurAirDevice device = mDevicesMap.get(deviceEui64);
+		AirPurifier device = mDevicesMap.get(deviceEui64);
 		if (device == null || key == null) return;
 
 		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
@@ -688,9 +688,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			}
 		}
 		*/
-		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
-			if(PurifierManager.getInstance().getCurrentPurifier().getNetworkNode().getCppId().equals(deviceEui64)) {
-				PurifierManager.getInstance().setCurrentPurifier(device) ;
+		if(AirPurifierManager.getInstance().getCurrentPurifier() != null) {
+			if(AirPurifierManager.getInstance().getCurrentPurifier().getNetworkNode().getCppId().equals(deviceEui64)) {
+				AirPurifierManager.getInstance().setCurrentPurifier(device) ;
 			}
 		}
 //		mDatabase.insertPurAirDevice(device);
@@ -710,7 +710,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		String offline = "Offline devices %d: ";
 		String local = "Local devices %d: ";
 		String cpp = "Cpp devices %d: ";
-		for (PurAirDevice device : mDevicesMap.values()) {
+		for (AirPurifier device : mDevicesMap.values()) {
 			switch (device.getNetworkNode().getConnectionState()) {
 			case DISCONNECTED: offline += device.getNetworkNode().getName() + ", "; break;
 			case CONNECTED_LOCALLY: local += device.getNetworkNode().getName() + ", "; break;
@@ -743,7 +743,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mCppHelper = dummyHelper;
 	}
 
-	public void setPurifierListForTesting(LinkedHashMap<String, PurAirDevice> testMap) {
+	public void setPurifierListForTesting(LinkedHashMap<String, AirPurifier> testMap) {
 		mDevicesMap = testMap;
 	}
 

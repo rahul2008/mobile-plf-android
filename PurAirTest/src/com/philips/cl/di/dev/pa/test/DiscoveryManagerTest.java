@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
@@ -59,13 +59,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	// TODO add unit tests for SSDP events
 	// TODO add unit tests for Network events
 	
-	private void setPurifierList(PurAirDevice[] devicesList) {
+	private void setPurifierList(AirPurifier[] devicesList) {
 		if (devicesList == null || devicesList.length == 0) {
 			fail("Performing test with null/empty devicesList");
 		}
 		
-		LinkedHashMap<String, PurAirDevice> devices = new LinkedHashMap<String, PurAirDevice>();
-		for (PurAirDevice device : devicesList) {
+		LinkedHashMap<String, AirPurifier> devices = new LinkedHashMap<String, AirPurifier>();
+		for (AirPurifier device : devicesList) {
 			devices.put(device.getNetworkNode().getCppId(), device);
 		}
 		mDiscMan.setPurifierListForTesting(devices);
@@ -158,11 +158,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 // ***** START TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED ***** 
 	public void testCppConnectNotPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -176,11 +176,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectNotPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -194,11 +194,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectNotPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -212,11 +212,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectNotPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -230,11 +230,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectNotPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -248,11 +248,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectNotPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -266,13 +266,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -286,13 +286,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -306,13 +306,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -326,13 +326,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -346,13 +346,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -366,13 +366,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -386,13 +386,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedRemoteWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -406,13 +406,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedRemoteMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -426,13 +426,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppConnectPairedRemoteNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -446,11 +446,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectNotPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -464,11 +464,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectNotPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -482,11 +482,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectNotPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -500,11 +500,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectNotPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -518,11 +518,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectNotPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -536,11 +536,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectNotPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -554,13 +554,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -574,13 +574,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -594,13 +594,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -614,13 +614,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -634,13 +634,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -654,13 +654,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -674,13 +674,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedRemoteWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -694,13 +694,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedRemoteMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -714,13 +714,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppDisconnectPairedRemoteNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -734,13 +734,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSingleConnectPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\"]}";
@@ -754,13 +754,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSingleConnectPairedDisconnectedWifi2() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\"]}";
@@ -774,13 +774,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSingleDisconnectPairedRemoteWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -794,13 +794,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppInvalidEventReceived() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "I'm an invalid event";
@@ -814,13 +814,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppEventReceivedDifferentPurifier() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + "eui64notexist" + "\"]}";
@@ -834,11 +834,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectNotPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -852,11 +852,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectNotPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -870,11 +870,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReaConnectNotPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -888,11 +888,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectNotPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -906,11 +906,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectNotPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -924,11 +924,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectNotPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -942,13 +942,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -962,13 +962,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -982,13 +982,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1002,13 +1002,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1022,13 +1022,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1042,13 +1042,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1062,13 +1062,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedRemoteWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1082,13 +1082,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedRemoteMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1102,13 +1102,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqConnectPairedRemoteNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1122,11 +1122,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectNotPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1140,11 +1140,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectNotPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1158,11 +1158,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectNotPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1176,11 +1176,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectNotPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1194,11 +1194,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectNotPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1212,11 +1212,11 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectNotPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1230,13 +1230,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1250,13 +1250,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedDisconnectedMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1270,13 +1270,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedDisconnectedNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1290,13 +1290,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedLocallyWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1310,13 +1310,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedLocallyMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1330,13 +1330,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedLocallyNone() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1350,13 +1350,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedRemoteWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1370,13 +1370,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqDisconnectPairedRemoteMobile() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1390,13 +1390,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppAllConnectPairedDisconnectedWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1410,13 +1410,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppAllDisconnectPairedRemoteWifi() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
@@ -1430,13 +1430,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqInvalidEventReceived() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "I'm an invalid event";
@@ -1450,13 +1450,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppReqEventReceivedDifferentPurifier() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + "eui64notexist" + "\"]}";
@@ -1470,13 +1470,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSignonEventReceivedDisconnected() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOnViaCpp();
@@ -1488,13 +1488,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSignonEventReceivedRemoteLocal() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOnViaCpp();
@@ -1507,13 +1507,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSignoffEventReceivedRemote() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOffViaCpp();
@@ -1525,13 +1525,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testCppSignoffEventReceivedDisconnectedLocal() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOffViaCpp();
@@ -1547,9 +1547,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 // ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 	public void testLostBackgroundAllDevicesFound() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_1, PURIFIER_EUI64_2})));
@@ -1561,9 +1561,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundNoDevicesFound() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
@@ -1575,13 +1575,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundNoDevicesFoundPaired() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
@@ -1593,13 +1593,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundNoDevicesFoundPairedOnline() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
@@ -1611,9 +1611,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testLostBackgroundOneDeviceFound() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
@@ -1625,13 +1625,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testLostBackgroundOneDeviceFoundPaired() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
@@ -1643,13 +1643,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testLostBackgroundOneDeviceFoundPairedOnline() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
@@ -1661,13 +1661,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testLostBackgroundOneDeviceFoundOffline() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
@@ -1679,13 +1679,13 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testLostBackgroundOneDeviceFoundRemote() {
-		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = new AirPurifier(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = new AirPurifier(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
-		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 		
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));

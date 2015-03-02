@@ -15,12 +15,12 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
-	private List<PurAirDevice> purifiers;
+public class ManagePurifierArrayAdapter extends ArrayAdapter<AirPurifier> {
+	private List<AirPurifier> purifiers;
 	private Context context;
 	private int resource;
 	private HashMap<String, Boolean> selectedItems;
@@ -28,7 +28,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
     private String edit;
 
 	public ManagePurifierArrayAdapter(Context context, int resource,
-			List<PurAirDevice> purifiers, String edit,
+			List<AirPurifier> purifiers, String edit,
 			HashMap<String, Boolean> selectedItems, DashboardUpdateListener listener) {
 		super(context, resource, purifiers);
 		this.purifiers = purifiers;
@@ -56,7 +56,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 
         setEditableIconVisibility(deleteSign);
 
-		final PurAirDevice purifier = purifiers.get(position);
+		final AirPurifier purifier = purifiers.get(position);
 		final String purifierName = purifiers.get(position).getName();
 		final String usn = purifiers.get(position).getUsn();
 
@@ -123,7 +123,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
                 deleteSign.setFocusable(false);
                 ImageView arrowImg = (ImageView) view.findViewById(R.id.list_item_right_arrow);
                 arrowImg.setVisibility(View.INVISIBLE);
-                PurAirDevice purifier = purifiers.get(position);
+                AirPurifier purifier = purifiers.get(position);
                 final String usn = purifier.getUsn();
                 addToDeleteMap(deleteSign, delete, usn);
             } else {
