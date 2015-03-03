@@ -79,7 +79,7 @@
 
         <!-- Video Ads -->
 
-        <RelativeLayout
+<!--         <RelativeLayout
             android:id="@+id/prodads_layout"
             style="@style/viewProductDetails_Ads_Container" >
 
@@ -107,7 +107,7 @@
                style="@style/viewProductDetails_Ads_PlayButton"
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_video_play" />
-        </RelativeLayout>
+        </RelativeLayout> -->
     </LinearLayout>
 
 </ScrollView>

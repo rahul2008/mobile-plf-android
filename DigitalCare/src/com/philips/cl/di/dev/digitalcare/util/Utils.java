@@ -68,7 +68,7 @@ public class Utils {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("message/rfc822");
 		intent.putExtra(Intent.EXTRA_EMAIL,
-				"PhilipsCustomer@philipsSupport.com");
+				new String[] { "philipscustomer@philipsSupport.com" });
 		intent.putExtra(Intent.EXTRA_SUBJECT,
 				"My AirFryer HD9220/20 is gone case");
 		intent.putExtra(
