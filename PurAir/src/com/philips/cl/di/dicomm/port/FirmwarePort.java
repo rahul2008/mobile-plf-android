@@ -12,7 +12,10 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class FirmwarePort extends DICommPort {
 	
+	private final String FIRMWAREPORT_NAME = "firmware";
+	private final int FIRMWAREPORT_PRODUCTID = 0;	
 	private FirmwarePortInfo mFirmwarePortInfo;
+	
 	
 	public FirmwarePort(NetworkNode networkNode){
 		super(networkNode);
@@ -65,6 +68,16 @@ public class FirmwarePort extends DICommPort {
 			return null;
 		}
 		return null;
+	}
+
+	@Override
+	public String getDICommPortName() {
+		return FIRMWAREPORT_NAME;
+	}
+
+	@Override
+	public int getDICommProductId() {
+		return FIRMWAREPORT_PRODUCTID;
 	}
 	
 
