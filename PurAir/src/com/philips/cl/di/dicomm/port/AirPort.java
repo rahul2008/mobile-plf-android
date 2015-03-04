@@ -14,7 +14,10 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class AirPort extends DICommPort {
 	
+	private final String AIRPORT_NAME = "air";	
+	private final int AIRPORT_PRODUCTID = 1;
 	private final DeviceHandler mDeviceHandler;
+	
 	
 	private AirPortInfo mAirPortInfo;
 	
@@ -102,6 +105,16 @@ public class AirPort extends DICommPort {
 		ALog.i(ALog.AIRPORT, "Set Appliance details: " + key +" = " + value) ;
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
+	}
+
+	@Override
+	public String getDICommPortName() {
+		return AIRPORT_NAME;
+	}
+
+	@Override
+	public int getDICommProductId() {
+		return AIRPORT_PRODUCTID;
 	}
 
 }

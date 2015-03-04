@@ -15,8 +15,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class ScheduleListPort extends DICommPort {
 	
-	private final SchedulerHandler mSchedulerHandler;
-	
+    private final String SCHEDULELISTPORT_NAME = "schedules";	
+	private final int SCHEDULELISTPORT_PRODUCTID = 0;	
+	private final SchedulerHandler mSchedulerHandler;	
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
 	
 	public ScheduleListPort(NetworkNode networkNode, SchedulerHandler schedulerHandler){
@@ -110,5 +111,15 @@ public class ScheduleListPort extends DICommPort {
 	public void sendScheduleDetailsToPurifier(String data, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
 		mSchedulerHandler.setScheduleDetails(data, mNetworkNode, scheduleType, scheduleNumber) ;
     }
+
+	@Override
+	public String getDICommPortName() {
+		return SCHEDULELISTPORT_NAME;
+	}
+
+	@Override
+	public int getDICommProductId() {
+		return SCHEDULELISTPORT_PRODUCTID;
+	}
 	
 }
