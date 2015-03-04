@@ -24,6 +24,8 @@ public class NetworkNode extends Observable implements Parcelable {
 	private boolean mIsOnlineViaCpp = false;
 	private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
 	private long mLastPairedTime;
+	
+	private final int mDICommProtocolVersion = 1;
 
 	public NetworkNode() {
 	}
@@ -129,9 +131,11 @@ public class NetworkNode extends Observable implements Parcelable {
 		this.mLastPairedTime = lastPairedTime;
 	}
 
-	
+    public int getDICommProtocolVersion() {
+		return mDICommProtocolVersion;
+	}
 
-    protected NetworkNode(Parcel in) {
+	protected NetworkNode(Parcel in) {
         mIpAddress = in.readString();
         mCppId = in.readString();
         mConnectionState = ConnectionState.values()[in.readInt()];
