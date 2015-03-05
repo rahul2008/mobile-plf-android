@@ -19,8 +19,10 @@ public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 	/**
 	 * PORTRAIT PHONE
 	 */
-	private RelativeLayout mSubContainer;
-	private LinearLayout.LayoutParams mSubContainerParams = null;
+	private RelativeLayout mFirstContainer;
+	private RelativeLayout mSecondContainer;
+	private LinearLayout.LayoutParams mFirstContainerParams = null;
+	private LinearLayout.LayoutParams mSecondContainerParams = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,10 +38,14 @@ public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		mSubContainer = (RelativeLayout) getActivity()
-				.findViewById(R.id.container);
+		mFirstContainer = (RelativeLayout) getActivity().findViewById(
+				R.id.toplayout);
+		mSecondContainer = (RelativeLayout) getActivity().findViewById(
+				R.id.prodbuttons);
 
-		mSubContainerParams = (LinearLayout.LayoutParams) mSubContainer
+		mFirstContainerParams = (LinearLayout.LayoutParams) mFirstContainer
+				.getLayoutParams();
+		mSecondContainerParams = (LinearLayout.LayoutParams) mSecondContainer
 				.getLayoutParams();
 		// init();
 		Configuration config = getResources().getConfiguration();
@@ -58,12 +64,15 @@ public class ViewProductDetailsFragment extends DigitalCareBaseFragment {
 		if (isTablet()) {
 
 			if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-				mSubContainerParams.leftMargin = mSubContainerParams.rightMargin = mLeftRightMarginLand;
+				mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
+				mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
 			} else {
-				mSubContainerParams.leftMargin = mSubContainerParams.rightMargin = mLeftRightMarginLand;
+				mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
+				mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
 			}
 		}
-		mSubContainer.setLayoutParams(mSubContainerParams);
+		mFirstContainer.setLayoutParams(mFirstContainerParams);
+		mSecondContainer.setLayoutParams(mSecondContainerParams);
 	}
 
 	private boolean isTablet() {

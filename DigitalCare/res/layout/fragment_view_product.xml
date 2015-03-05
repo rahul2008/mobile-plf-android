@@ -1,85 +1,86 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@color/activity_bg">
+    android:layout_height="fill_parent" 
+    android:background="@color/activity_bg" >
 
     <LinearLayout
         android:id="@+id/products_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:id="@+id/toplayout"
+            style="@style/viewProductDetails_TopContainer"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin" >
 
-            <RelativeLayout
-                android:id="@+id/toplayout"
-                style="@style/viewProductDetails_TopContainer" >
+            <ImageView
+                android:id="@+id/productimage"
+                style="@style/viewProductDetails_ProdImage"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_productimage" />
 
-                <ImageView
-                    android:id="@+id/productimage"
-                    style="@style/viewProductDetails_ProdImage"
-                    android:contentDescription="@string/product_name"
-                    android:src="@drawable/viewproduct_productimage" />
+            <TextView
+                android:id="@+id/name"
+                style="@style/viewProductDetails_Product_Header"
+                android:layout_alignTop="@+id/productimage"
+                android:text="@string/product_name"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
-                <TextView
-                    android:id="@+id/name"
-                    style="@style/viewProductDetails_Product_Header"
-                    android:layout_alignTop="@+id/productimage"
-                    android:text="@string/product_name"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+            <TextView
+                android:id="@+id/variant"
+                style="@style/viewProductDetails_Product_Variant"
+                android:text="@string/product_variant"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/variant"
-                    style="@style/viewProductDetails_Product_Variant"
-                    android:text="@string/product_variant"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-            </RelativeLayout>
+        <View
+            android:id="@+id/topline"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" />
 
-            <View
-                android:id="@+id/topline"
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/toplayout"
-                android:background="#cccccc" />
+        <!-- Buttons -->
 
-            <!-- Buttons -->
+        <RelativeLayout
+            android:id="@+id/prodbuttons"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginTop="20dp" >
 
-            <RelativeLayout
-                android:id="@+id/prodbuttons"
-                style="@style/viewProductDetails_ManualButtons_Container" >
+            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/manual_open"
+                style="@style/fontButton"
+                android:contentDescription="@string/product_name"
+                android:text="@string/product_open_manual" />
 
-                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
-                    android:id="@+id/manual_open"
-                    style="@style/viewProductDetails_product_buttons"
-                    android:contentDescription="@string/product_name"
-                    android:text="@string/product_open_manual"
-                     />
+            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/manual_download"
+                style="@style/fontButton"
+                android:layout_below="@+id/manual_open"
+                android:contentDescription="@string/product_name"
+                android:text="@string/product_download_manual"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
-                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
-                    android:id="@+id/manual_download"
-                    style="@style/viewProductDetails_product_buttons"
-                    android:layout_below="@+id/manual_open"
-                    android:contentDescription="@string/product_name"
-                    android:text="@string/product_download_manual"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-
-                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
-                    android:id="@+id/prodinfo_button"
-                    style="@style/viewProductDetails_product_buttons"
-                    android:layout_below="@+id/manual_download"
-                    android:contentDescription="@string/product_name"
-                    android:text="@string/product_information"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-            </RelativeLayout>
+            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/prodinfo_button"
+                style="@style/fontButton"
+                android:layout_below="@+id/manual_download"
+                android:contentDescription="@string/product_name"
+                android:text="@string/product_information"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
         </RelativeLayout>
 
         <!-- Video Ads -->
 
-<!--         <RelativeLayout
+
+        <!--
+             <RelativeLayout
             android:id="@+id/prodads_layout"
             style="@style/viewProductDetails_Ads_Container" >
 
@@ -107,7 +108,7 @@
                style="@style/viewProductDetails_Ads_PlayButton"
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_video_play" />
-        </RelativeLayout> -->
+        </RelativeLayout>        -->
     </LinearLayout>
 
 </ScrollView>
