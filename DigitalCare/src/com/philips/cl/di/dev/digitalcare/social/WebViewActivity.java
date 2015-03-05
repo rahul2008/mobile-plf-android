@@ -69,6 +69,9 @@ public class WebViewActivity extends Activity {
 		mDialog.cancel();
 		mDialog = null;
 	}
+	@Override
+	public void onBackPressed() {
+	}
 
 	class MyWebViewClient extends WebViewClient {
 
