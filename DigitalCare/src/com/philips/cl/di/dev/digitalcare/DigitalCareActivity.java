@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.digitalcare;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.philips.cl.di.dev.digitalcare.fragment.FacebookScreenFragment;
 import com.philips.cl.di.dev.digitalcare.fragment.SupportHomeFragment;
@@ -65,6 +66,8 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		if (requestCode == DigiCareContants.IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
 			if(mImage == null)
 				mImage = ProductImage.getInstance();
+			Log.d(TAG, "Camera Request Code : " + requestCode);
+			Log.d(TAG, "Intent data : " + data);
 			mImage.onActivityResult(data, requestCode);
 		}
 	}

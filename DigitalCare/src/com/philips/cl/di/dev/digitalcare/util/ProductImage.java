@@ -1,13 +1,16 @@
 package com.philips.cl.di.dev.digitalcare.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentValues;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
@@ -29,7 +32,6 @@ public class ProductImage {
 	private AlertDialog dialog = null;
 	private static ProductImageInteface mImageCallback = null;
 	private static Activity mActivity = null;
-	private Uri mImageUri = null;
 
 	private ProductImage() {
 	}
@@ -60,17 +62,10 @@ public class ProductImage {
 		builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int item) {
 				if (item == 0) {
-					String fileName = "Philips Product.jpg";
-					ContentValues values = new ContentValues();
-					values.put(MediaStore.Images.Media.TITLE, fileName);
-					mImageUri = ((ContextWrapper) mActivity)
-							.getContentResolver()
-							.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-									values);
-					Intent cameraIntent = new Intent(
-							MediaStore.ACTION_IMAGE_CAPTURE);
-					cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-					mActivity.startActivityForResult(cameraIntent,
+
+					Intent intent = new Intent(
+							android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+					mActivity.startActivityForResult(intent,
 							DigiCareContants.IMAGE_CAPTURE);
 				} else if (item == 1) {
 					Intent intent = new Intent();
@@ -115,20 +110,27 @@ public class ProductImage {
 
 		if (requestCode == DigiCareContants.IMAGE_CAPTURE) {
 			Log.d(TAG, "Product Image receiving from Camera");
-			Bitmap photo = null;
-			BitmapFactory.Options options = new BitmapFactory.Options();
-			options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-			String[] projection = { MediaStore.Images.Media.DATA };
-			@SuppressWarnings("deprecation")
-			Cursor cursor = mActivity.managedQuery(mImageUri, projection, null,
-					null, null);
-			int column_index_data = cursor
-					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-			cursor.moveToFirst();
-			String path = cursor.getString(column_index_data);
-			photo = BitmapFactory.decodeFile(path, options);
-			mImageCallback.onImageReceived(photo, path);
-			cursor.close();
+
+			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");
+			try {
+				f.createNewFile();
+
+				// Convert bitmap to byte array
+				Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+				ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
+				byte[] bitmapdata = bos.toByteArray();
+
+				FileOutputStream fos = new FileOutputStream(f);
+				fos.write(bitmapdata);
+				fos.flush();
+				fos.close();
+
+				mImageCallback.onImageReceived(bitmap, f.getAbsolutePath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 
