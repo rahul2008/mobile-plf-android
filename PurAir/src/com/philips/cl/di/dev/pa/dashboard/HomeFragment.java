@@ -55,7 +55,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private static final int UPDATE_UI = 1;
 	private static final String OUTDOOR_DEATAIL_FTAG = "outdoor_detail_fragment";
 	private static final String INDOOR_DETAIL_FTAG = "indoor_detail_fragment";
-	private static final String MAP_FTAG = "map_fragment";
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
 	private RelativeLayout noPurifierFlowLayout;
@@ -328,6 +327,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 		@Override
 		public void onPageSelected(int position) {
+			removeIndoorDetails();
 			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
 			if (PurAirApplication.isDemoModeEnable()) {
 				return;
@@ -357,6 +357,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 		@Override
 		public void onPageSelected(int position) {
+			removeOutdoorDetails();
 			OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(position);
 			if (position == 0 && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 				DashboardUtil.startCurrentCityAreaIdTask();
