@@ -25,13 +25,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -50,7 +46,6 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
 import com.philips.cl.di.dev.pa.security.Util;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 
 
 /**
@@ -817,20 +812,6 @@ public class Utils {
 		return preferences.getBoolean("allow_gps", true);
 	}
 
-	public static Toast getCustomToast(String message) {
-		LayoutInflater inflater = (LayoutInflater)PurAirApplication.getAppContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-		View toastView = inflater.inflate(R.layout.toast, null);
-		FontTextView msg = (FontTextView) toastView.findViewById(R.id.tv_toast_msg);
-		msg.setText(message);
-
-		Toast toast = new Toast(PurAirApplication.getAppContext());
-		toast.setView(toastView);
-		toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-		toast.setDuration(Toast.LENGTH_LONG);
-		return toast;
-	}
 	public static String getStaticIpAddress() {
 		return getIPAddress(true) ;
 	}

@@ -7,11 +7,10 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.newpurifier.DeviceHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 
 public class AirPort extends DICommPort {
 	

@@ -9,8 +9,8 @@ import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class ScheduleListPort extends DICommPort {
