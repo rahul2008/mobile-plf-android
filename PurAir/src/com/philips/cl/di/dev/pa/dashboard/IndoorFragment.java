@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.dashboard;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -24,7 +23,6 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
@@ -36,11 +34,11 @@ import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
@@ -525,8 +523,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		case R.id.hf_indoor_circle_pointer:
 			AirPurifier purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 			if (getActivity() != null && purifier != null) {
-				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
-				startActivity(intent);
+				HomeFragment homeFragment = (HomeFragment) getParentFragment();
+				if (homeFragment != null) {
+					homeFragment.toggleIndoorDetailFragment();
+				}
+//				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
+//				startActivity(intent);
 			} else {
 				if (getActivity() != null) {
 					Toast.makeText(getActivity(), 

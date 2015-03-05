@@ -366,9 +366,4 @@ public class Coordinates {
 		}
 		return coordinates;
 	}
-
-	public static void reset() {
-		coordinates = null;
-	}
-
 }

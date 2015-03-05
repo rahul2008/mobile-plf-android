@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <!-- Dashboard Details Controls -->
+
+    <include
+        android:id="@+id/inc_outdoor_filter_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        layout="@layout/dashboard_details_control" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@color/gray" />
+
+    <!-- First Message -->
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/idFirstMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/aqi_message_last_day"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/title_text_size_medium_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/indoor_detail_bar_chart"
+        android:padding="8dp" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/idSecondMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/detail_aiq_message_last_day"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/title_text_size_medium_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <!-- Graph Layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="320dp" >
+
+        <ProgressBar
+            android:id="@+id/rdcpDownloadProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progress_circle" />
+
+        <LinearLayout
+            android:id="@+id/trendsOutdoorlayoutGraph"
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="16dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Bottom Bottom -->
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/indoor_detail_air_quality_explain_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/blue_button_selector"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/outdoor_aiq_analysis_head1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_medium_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+</LinearLayout>

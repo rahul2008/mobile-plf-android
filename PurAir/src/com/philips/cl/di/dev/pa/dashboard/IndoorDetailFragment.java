@@ -1,23 +1,20 @@
-package com.philips.cl.di.dev.pa.activity;
+package com.philips.cl.di.dev.pa.dashboard;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
@@ -26,49 +23,45 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
-import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData;
 import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData.PurifierCurrentCityPercentListener;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
+import com.philips.cl.di.dev.pa.util.DashboardUtil.Detail;
 import com.philips.cl.di.dev.pa.util.GraphConst;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.AirView;
+import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.icpinterface.data.Errors;
 
-public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-			ICPDownloadListener, AirPurifierEventListener, PurifierCurrentCityPercentListener {
-
+public class IndoorDetailFragment extends BaseFragment implements OnClickListener,
+		ICPDownloadListener, PurifierCurrentCityPercentListener {
+	
+	private final static int DOWNLOAD_FAILED = 1;
+	private final static int DOWNLOAD_NA = 2;
+	private final static int DOWNLOAD_COMPLETE = 3;
+	private final static int OUTDOOR_TASK_COMPLETE = 4;
 	private AirPurifier currentPurifier;
-
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private FontTextView headingTV;
-	private ImageView circleImg;
-	private ImageView backgroundImage;
+	private FontButton airQualityExplainFB;
 	private FontTextView msgFirst, msgSecond;
 	private ViewGroup indoorBarChart, outdoorBarChart;
 	private ProgressBar rdcpDownloadProgressBar;
-	private FontTextView mode, filter, aqiStatusTxt, aqiSummary;
-	private List<int[]> powerOnReadingsValues;
 	private List<float[]> lastDayRDCPValues;
 	private List<float[]> last7daysRDCPValues;
 	private List<float[]> last4weeksRDCPValues;
@@ -76,36 +69,29 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private List<Float> dailyAqiValues ;
 	private List<Integer> goodAirInfos;
 	private List<Integer> currentCityGoodAirInfos;
-	private Coordinates coordinates;
 	private int dayIndex = 0;
-
-	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good);
-
-	private int powerOnReadings[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0, 0 };
-
-	public float lastDayRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
-			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
-	public float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
-	public float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
-			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
+	private float lastDayRDCPVal[];
+	private float last7daysRDCPVal[];
+	private float last4weeksRDCPVal[];
+	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good); 
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.indoor_detail_fragment, container, false);
+		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.INDOOR_DETAILS);
+		Coordinates.getInstance(getMainActivity());//Initialize all trend density independent pixel co-ordinate
 		currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		if (currentPurifier == null) {
-			ALog.d(ALog.INDOOR_DETAILS, "Not starting indoor activity - Current purifier cannot be null");
-			finish();
-			return;
-		}
-
-		setContentView(R.layout.activity_trends_indoor);
-		coordinates = Coordinates.getInstance(this);
 		init();
+		lastDayRDCPVal = AppConstants.LAST_DAY_AQIHISTORIC_ARR;
+		last7daysRDCPVal = AppConstants.LAST_WEEK_AQIHISTORIC_ARR;
+		last4weeksRDCPVal = AppConstants.LAST_MONTH_AQIHISTORIC_ARR;
 		
 		//Purifier current city good air quality historic data download
 		PurifierCurrentCityData.getInstance().setListener(this);
@@ -114,32 +100,14 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					currentPurifier.getLatitude(), currentPurifier.getLongitude());
 		}
 
-		getRDCPValue();
-
-		if (currentPurifier == null) return;
-		getDataFromDashboard(currentPurifier.getAirPort().getAirPortInfo());
+		downloadAQIHistoricData();
 	}
-
-	private void getRDCPValue() {
+	
+	private void downloadAQIHistoricData() {
 		if (currentPurifier == null) return;
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
-		CPPController.getInstance(this).setDownloadDataListener(this) ;
-		CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		MetricsTracker.trackPage(TrackPageConstants.INDOOR_DETAILS);
-		DiscoveryManager.getInstance().start(null);
-		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		DiscoveryManager.getInstance().stop();
-		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
+		CPPController.getInstance(getMainActivity()).setDownloadDataListener(this) ;
+		CPPController.getInstance(getMainActivity()).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
 	}
 
 	/**
@@ -147,36 +115,27 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 * */
 	private void init() {
 		initList();
+		
+		View view = getView();
+		graphLayout = (LinearLayout) view.findViewById(R.id.trendsOutdoorlayoutGraph);
 
-		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
-		backButton.setVisibility(View.VISIBLE);
-		backButton.setOnClickListener(this);
-		headingTV = (FontTextView) findViewById(R.id.heading_name_tv);
-		graphLayout = (LinearLayout) findViewById(R.id.trendsOutdoorlayoutGraph);
+		lastDayBtn = (TextView) view.findViewById(R.id.detailsOutdoorLastDayLabel);
+		lastWeekBtn = (TextView) view.findViewById(R.id.detailsOutdoorLastWeekLabel);
+		lastFourWeekBtn = (TextView) view.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 
-		lastDayBtn = (TextView) findViewById(R.id.detailsOutdoorLastDayLabel);
-		lastWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
-		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 
-		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg); 
-		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
+		msgFirst = (FontTextView) view.findViewById(R.id.idFirstMsg);
+		msgSecond = (FontTextView) view.findViewById(R.id.idSecondMsg);
 
-		msgFirst = (FontTextView) findViewById(R.id.idFirstMsg);
-		msgSecond = (FontTextView) findViewById(R.id.idSecondMsg);
-		mode = (FontTextView) findViewById(R.id.inModeType);
-		filter = (FontTextView) findViewById(R.id.inFilterType);
-		aqiStatusTxt = (FontTextView) findViewById(R.id.inDetailsDbStatus);
-		aqiSummary = (FontTextView) findViewById(R.id.inDetailsDbSummary);
-
-		rdcpDownloadProgressBar = (ProgressBar) findViewById(R.id.rdcpDownloadProgressBar);
-		indoorBarChart = (RelativeLayout) findViewById(R.id.indoorDashboardBarPerc);
-		outdoorBarChart = (RelativeLayout) findViewById(R.id.outdoorDashboardBarPerc);
+		rdcpDownloadProgressBar = (ProgressBar) view.findViewById(R.id.rdcpDownloadProgressBar);
+		indoorBarChart = (RelativeLayout) view.findViewById(R.id.indoorDashboardBarPerc);
+		outdoorBarChart = (RelativeLayout) view.findViewById(R.id.outdoorDashboardBarPerc);
+		airQualityExplainFB = (FontButton) view.findViewById(R.id.indoor_detail_air_quality_explain_tv);
 
 		initClickListener();
 	}
 	
 	private void initList() {
-		powerOnReadingsValues = new ArrayList<int[]>();
 		lastDayRDCPValues = new ArrayList<float[]>();
 		last7daysRDCPValues = new ArrayList<float[]>();
 		last4weeksRDCPValues = new ArrayList<float[]>();
@@ -185,28 +144,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 	
 	private void initClickListener() {
-		/**
-		 * Set click listener
-		 * */
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
+		airQualityExplainFB.setOnClickListener(this);
 	}
-
-	/*Sets Action bar title */
-	private void setActionBarTitle(String name) {    	
-		//If Chinese language selected set font-type-face normal
-		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			headingTV.setTypeface(Typeface.DEFAULT);
-		}
-		if (name == null || name.trim().length() == 0) {
-			headingTV.setText("");
-		} else {
-			headingTV.setText(name);
-		}
-	}
-
+	
 	/**
 	 * Parsing reading
 	 * */
@@ -228,7 +171,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 
 		lastDayRDCPValues.add(lastDayRDCPVal);
-		powerOnReadingsValues.add(powerOnReadings);
 	}
 
 	private void addLastMonthAQIIntoList() {
@@ -255,11 +197,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 */
 	private void clearLists() {
 		if (lastDayRDCPValues.size() > 0) lastDayRDCPValues.clear();
-
-		if (powerOnReadingsValues.size() > 0) powerOnReadingsValues.clear();
-
 		if (last7daysRDCPValues.size() > 0) last7daysRDCPValues.clear();
-
 		if (last4weeksRDCPValues.size() > 0) last4weeksRDCPValues.clear();
 	}
 
@@ -282,10 +220,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			callGraphViewOnClickEvent(2, last4weeksRDCPValues);
 			break;
 		}
-		case R.id.heading_back_imgbtn: {
-			finish();
+		case R.id.indoor_detail_air_quality_explain_tv:
+			airQualityExplain();
 			break;
-		}
 		default:
 			break;
 		}
@@ -298,14 +235,14 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		addBarChartView(indoorBarChart, goodAirInfos, index);
 		showOutdoorBarChart();
 		
-//		if (rdcpValues != null && rdcpValues.size() > 0) {
-//			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0));
-//		}	
+		if (getMainActivity() != null && rdcpValues != null && rdcpValues.size() > 0) {
+			graphLayout.addView(new GraphView(getMainActivity(), rdcpValues, 0, Detail.INDOOR));
+		}	
 	}
 	
 	private void addBarChartView(ViewGroup viewGroup, List<Integer> goodAirList, int index) {
-		if (goodAirList != null && goodAirList.size() > 2) {
-			FontTextView percentTxt = new FontTextView(this);
+		if (getMainActivity() != null && goodAirList != null && goodAirList.size() > 2) {
+			FontTextView percentTxt = new FontTextView(getMainActivity());
 			RelativeLayout.LayoutParams percentTxtParams = new RelativeLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			percentTxtParams.addRule(RelativeLayout.CENTER_IN_PARENT);
@@ -315,7 +252,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			if (viewGroup.getChildCount() > 0) {
 				viewGroup.removeAllViews();
 			}
-			viewGroup.addView(new AirView(this, goodAirList.get(index), 60, 80));
+			viewGroup.addView(new AirView(getMainActivity(), goodAirList.get(index), 60, 80));
 			percentTxt.setText(goodAirList.get(index) + "%");
 			viewGroup.addView(percentTxt, percentTxtParams);
 		}
@@ -355,84 +292,18 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 	}
 
-	private void updatePurifierUIFields() {
-		AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		if (purifier == null) return;
-
-		final AirPortInfo airPortInfo = purifier.getAirPort().getAirPortInfo();
-		
-		runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				getDataFromDashboard(airPortInfo);
-			}
-		});
-	}
-
-	private void getDataFromDashboard(AirPortInfo airPortInfo) {
-		if (currentPurifier == null) return;
-		setActionBarTitle(currentPurifier.getName());
-		if (airPortInfo == null) return;
-		/**
-		 * Updating all the details in the screen, which is passed from Dashboard
-		 */
-
-		if (ConnectionState.DISCONNECTED == currentPurifier.getNetworkNode().getConnectionState()) {
-			disconnect(getString(R.string.not_connected));
-			//set image background
-			backgroundImage.setImageResource(R.drawable.home_indoor_bg_2x);
-			aqiSummary.setText(AppConstants.EMPTY_STRING) ;
-		} 
-		else {
-			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
-				mode.setText(getString(R.string.off));
-			}
-			else {
-				mode.setText(getString((airPortInfo.getFanSpeed().getFanSpeedTextResID())));
-			}
-			filter.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
-
-			int indoorAQI = airPortInfo.getIndoorAQI();
-			
-			circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
-
-			String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
-			if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) return ;
-			aqiStatusTxt.setText(aqiStatusAndCommentArray[0]);
-			aqiStatusTxt.setTextSize(22.0f);
-			aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
-			backgroundImage.setImageResource(Utils.getBackgroundResource(indoorAQI));
-			showAlertErrorAirPort(airPortInfo);
-		}
-	}
-	
-	private void showAlertErrorAirPort(AirPortInfo airPortInfo) {
-		String powerMode = airPortInfo.getPowerMode();
-		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
-			disconnect(getString(R.string.cover_open));
-		} else if (AppConstants.POWER_STATUS_E.equalsIgnoreCase(powerMode)) {
-			disconnect(getString(R.string.error_air_port));
-		}
-	}
-	
-	private void disconnect(String message) {
-		mode.setText(getString(R.string.off));
-		filter.setText(AppConstants.EMPTY_STRING);
-		circleImg.setImageResource(R.drawable.grey_circle_2x);
-		aqiStatusTxt.setTextSize(18.0f);
-		aqiStatusTxt.setText(message);
-	}
-
-	public void aqiAnalysisClick(View v) {
+	private void airQualityExplain() {
+		if (getMainActivity() == null) return;
 		try {
-			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-			
-			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("indoor_aqi_analysis");
+			FragmentTransaction fragTransaction = 
+					getMainActivity().getSupportFragmentManager().beginTransaction();
+
+			Fragment prevFrag = getMainActivity()
+					.getSupportFragmentManager().findFragmentByTag("indoor_aqi_analysis");
 			if (prevFrag != null) {
 				fragTransaction.remove(prevFrag);
 			}
-			
+
 			fragTransaction.add(IndoorAQIExplainedDialogFragment.
 					newInstance(outdoorTitle, outdoorTitle), "indoor_aqi_analysis").commit();
 		} catch (IllegalStateException e) {
@@ -444,10 +315,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 * Show alert dialog AQI historic data download failed
 	 */
 	private void showAlertDialogHistoryDoawnload(String title, String message) {
+		if (getMainActivity() == null) return;
 		try {
-			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			FragmentTransaction fragTransaction = getMainActivity().getSupportFragmentManager().beginTransaction();
 			
-			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("alert_aqi_historic_download_failed");
+			Fragment prevFrag = getMainActivity().getSupportFragmentManager()
+					.findFragmentByTag("alert_aqi_historic_download_failed");
 			if (prevFrag != null) {
 				fragTransaction.remove(prevFrag);
 			}
@@ -462,18 +335,39 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@SuppressLint("HandlerLeak")
 	private final Handler handlerDownload = new Handler() {
 		public void handleMessage(Message msg) {
-			rdcpDownloadProgressBar.setVisibility(View.GONE);
-			if ( msg.what == 1 ) {
+			if (getMainActivity() == null) return;
+			
+			switch (msg.what) {
+			case DOWNLOAD_NA:
 				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
 						getString(R.string.aqi_history_not_avialable));
-			} else if ( msg.what == 2 ) {
+				rdcpDownloadProgressBar.setVisibility(View.GONE);
+				break;
+			case DOWNLOAD_FAILED:
 				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
 						getString(R.string.aqi_history_download_failed));
-			} else if ( msg.what == 3 ) {
+				rdcpDownloadProgressBar.setVisibility(View.GONE);
+				break;
+			case DOWNLOAD_COMPLETE:
 				addAqiReading();
+				rdcpDownloadProgressBar.setVisibility(View.GONE);
+				break;
+			case OUTDOOR_TASK_COMPLETE:
+				updateOutdoorBarChart();
+				break;
+			default:
+				break;
 			}
 		};
 	};
+	
+	private void updateOutdoorBarChart() {
+		if (currentPurifier != null) {
+			addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
+					.getPurifierCurrentCityGoodAQ(currentPurifier.getNetworkNode().getCppId()));
+			showOutdoorBarChart();
+		}
+	}
 
 	/**
 	 * rDcp values download
@@ -492,16 +386,16 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					hrlyAqiValues = inDto.getHourlyList() ;
 					dailyAqiValues = inDto.getDailyList() ;
 					addGoodAQIIntoList(inDto);
-					addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getNetworkNode().getCppId()));
+					addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
+							.getPurifierCurrentCityGoodAQ(currentPurifier.getNetworkNode().getCppId()));
 				}
-				handlerDownload.sendEmptyMessage(3);
+				handlerDownload.sendEmptyMessage(DOWNLOAD_COMPLETE);
 
 			} else {
-				handlerDownload.sendEmptyMessage(1);
+				handlerDownload.sendEmptyMessage(DOWNLOAD_NA);
 			}
 		} else {
-			handlerDownload.sendEmptyMessage(2);
-
+			handlerDownload.sendEmptyMessage(DOWNLOAD_FAILED);
 		}
 	}
 
@@ -516,32 +410,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (!currentCityGoodAirInfos.isEmpty())  currentCityGoodAirInfos.clear();
 		currentCityGoodAirInfos.addAll(goodAQ);
 	}
-
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		finish();
-	}
-
-	@Override
-	public void onAirPurifierChanged() {
-		updatePurifierUIFields();
-	}
-
-	@Override
-	public void onAirPurifierEventReceived() {
-		updatePurifierUIFields();
-	}
-
-	@Override
-	public void onFirmwareEventReceived() {
-		//NOP
-	}
-
-	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) {
-		// NOP
-	}
 	
 	private void showOutdoorBarChart() {
 		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
@@ -549,26 +417,25 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 	}
 	
+	private MainActivity getMainActivity() {
+		return (MainActivity) getActivity();
+	}
+	
 	@Override
-	protected void onDestroy() {
+	public void onDestroy() {
 		super.onDestroy();
 		PurifierCurrentCityData.getInstance().removeListener();
+		CPPController.getInstance(getMainActivity()).removeDownloadDataListener();
+		handlerDownload.removeMessages(DOWNLOAD_COMPLETE);
+		handlerDownload.removeMessages(DOWNLOAD_NA);
+		handlerDownload.removeMessages(DOWNLOAD_FAILED);
+		handlerDownload.removeMessages(OUTDOOR_TASK_COMPLETE);
 	}
 
 	//Current city percentage calculation task
 	@Override
 	public void onTaskComplete() {
-		runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				if (currentPurifier == null) return;
-				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
-						.getPurifierCurrentCityGoodAQ(currentPurifier.getNetworkNode().getCppId()));
-				showOutdoorBarChart();
-				ALog.i(ALog.INDOOR_DETAILS, "Updated purifier current city good air: " + currentCityGoodAirInfos);
-			}
-		});
+		handlerDownload.sendEmptyMessage(OUTDOOR_TASK_COMPLETE);
 	}
-}
 
+}

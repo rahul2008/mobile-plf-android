@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity.NearbyInfoType;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailFragment.NearbyInfoType;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 

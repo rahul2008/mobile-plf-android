@@ -14,14 +14,15 @@ import android.view.View;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.DetailsAIQ;
+import com.philips.cl.di.dev.pa.util.DashboardUtil.Detail;
+import com.philips.cl.di.dev.pa.util.DrawTrend;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 
 
 public class GraphView extends View {
 	
 	private DisplayMetrics mDisplayMetrics;
-	private DetailsAIQ mDetailsAIQ;
+	private DrawTrend drawTrend;
 	private Paint paint;
 	private String yaxisIndoorLabel[] = new String[4];
 	private String yaxisOutdoorLabel[] = new String[6];
@@ -40,23 +41,16 @@ public class GraphView extends View {
 	public GraphView(Context context, AttributeSet attr, int defStyle) {
 		super(context, attr, defStyle);
 	}
-	/**
-	 * Outdoor
-	 * @param context
-	 * @param yCoordinate
-	 * @param coordinates
-	 */
-	public GraphView(Context context, float yCoordinate[], Coordinates coordinates) {
+	
+	public GraphView(Context context, float yCoordinate[]) {
 		super(context);
 		
 		this.isOutdoor = true;
-		this.coordinates = coordinates;
+		coordinates = Coordinates.getInstance(context);;
 		
 		/** The Graph width.*/
 		mDisplayMetrics = context.getResources().getDisplayMetrics();
-		if (coordinates != null) {
-			graphWidh = mDisplayMetrics.widthPixels - coordinates.getOdPaddingRight();
-		}
+		graphWidh = mDisplayMetrics.widthPixels - coordinates.getOdPaddingRight();
 		paint = new Paint();
 		
 		/** Outdoor, y axis label.*/
@@ -67,33 +61,20 @@ public class GraphView extends View {
 		yaxisOutdoorLabel[4] = context.getString(R.string.od_yaxis_label5);
 		yaxisOutdoorLabel[5] = context.getString(R.string.od_yaxis_label6);
 		
-		if (coordinates != null && yCoordinate != null) {
-			mDetailsAIQ = new DetailsAIQ(context, graphWidh, 
-					yCoordinate, coordinates);
+		if (yCoordinate != null) {
+			drawTrend = new DrawTrend(context, graphWidh, yCoordinate);
 		}
 	}
 
-	/**
-	 * Indoor
-	 * @param context
-	 * @param yCoordinates
-	 * @param powerOnFlgs
-	 * @param coordinates
-	 * @param position
-	 * @param indexBgImage
-	 */
-	public GraphView(Context context, List<float[]> yCoordinates,
-			int powerOnFlgs[], Coordinates coordinates, int position) {
+	public GraphView(Context context, List<float[]> yCoordinates, int position, Detail detail) {
 		super(context);
 		
 		this.isOutdoor = false;
-		this.coordinates = coordinates;
+		coordinates = Coordinates.getInstance(context);
 		
 		/** The Graph width.*/
 		mDisplayMetrics = context.getResources().getDisplayMetrics();
-		if (coordinates != null) {
-			graphWidh = mDisplayMetrics.widthPixels - coordinates.getIdPaddingRight();
-		}
+		graphWidh = mDisplayMetrics.widthPixels - coordinates.getIdPaddingRight();
 		paint = new Paint();
 		
 		/** Indoor, y axis label.*/
@@ -102,8 +83,8 @@ public class GraphView extends View {
 		yaxisIndoorLabel[2] = context.getString(R.string.id_yaxis_label3);
 		yaxisIndoorLabel[3] = context.getString(R.string.id_yaxis_label4);
 		
-		if (coordinates != null && yCoordinates != null) {
-			mDetailsAIQ = new DetailsAIQ(context, graphWidh, yCoordinates, coordinates, position);
+		if (yCoordinates != null) {
+			drawTrend = new DrawTrend(context, graphWidh, yCoordinates, position);
 		}
 		
 	}
@@ -118,8 +99,8 @@ public class GraphView extends View {
 			drawIndoorYaxisRect(canvas);
 			drawIndoorYLable(canvas);
 		}
-		if (mDetailsAIQ != null && canvas != null && paint != null) {
-			mDetailsAIQ.draw(canvas, paint);
+		if (drawTrend != null && canvas != null && paint != null) {
+			drawTrend.draw(canvas, paint);
 		}
 	}
 	

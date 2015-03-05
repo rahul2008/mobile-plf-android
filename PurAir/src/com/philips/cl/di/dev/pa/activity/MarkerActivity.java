@@ -16,6 +16,7 @@ import com.amap.api.maps2d.model.Marker;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
@@ -79,7 +80,7 @@ public class MarkerActivity extends MapActivity implements
 	}
 	
 	private void populateAllMarkers() {
-		String selectedCityKey = OutdoorDetailsActivity.getSelectedCityCode();
+		String selectedCityKey = OutdoorDetailFragment.getSelectedCityCode();
 		String areaId = OutdoorManager.getInstance().getAreaIdFromCityName(selectedCityKey);
 		
 		for (int i = 0; i < mCitiesListAll.size(); i++) {
@@ -190,7 +191,7 @@ public class MarkerActivity extends MapActivity implements
 		LatLng latLng = new LatLng(latitude, longitude);
 		builder.include(latLng);
 
-		if (OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(cityCode)) {
+		if (OutdoorDetailFragment.getSelectedCityCode().equalsIgnoreCase(cityCode)) {
 			setMarkerIconOval(true);
 			mOutdoorCity = outdoorCity;
 		} else {
@@ -216,7 +217,7 @@ public class MarkerActivity extends MapActivity implements
 	@Override
 	public void onMapLoaded() {
 		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
-				OutdoorDetailsActivity.getSelectedCityCode());
+				OutdoorDetailFragment.getSelectedCityCode());
 
 		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null)
 			return;

@@ -3,14 +3,30 @@ package com.philips.cl.di.dev.pa.util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.graphics.Point;
+import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+
 public class DashboardUtil {
+	
+	public enum Detail {
+		INDOOR, OUTDOOR
+	}
 	
 	public static ArrayList<Point> getCircularBoundary(Point imageCenter, int radius, int numOfPoints) {
 		ArrayList<Point> points = new ArrayList<Point>();
@@ -52,5 +68,65 @@ public class DashboardUtil {
 	public static String getCurrentTime24HrFormat() {
 		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 		return formatTime.format(new Date());
+	}
+	
+	public static boolean isNoPurifierMode(Bundle bundle) {
+		boolean purifierMode = false;
+		GPSLocation.getInstance().requestGPSLocation();
+		if (bundle != null) {
+			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isLocationEnabled()) {
+				//TODO : Show pop-up inviting the user to enable GPS
+			} else {
+				//Add user location to dashboard
+				Location location = GPSLocation.getInstance().getGPSLocation();
+				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+				if(location != null) {
+					OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
+				}
+			}
+			purifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
+		} else {
+			purifierMode = false;
+		}
+		return purifierMode;
+	}
+	
+	public static int getIndoorPageCount() {
+		int countIndoor = 0;
+		//For demo mode
+		if (PurAirApplication.isDemoModeEnable()) {
+			countIndoor = 1;
+		} else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+			countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+
+			AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
+			if(purifier != null) {
+				AirPurifierManager.getInstance().setCurrentPurifier(purifier);
+			}
+		}
+		return countIndoor;
+	}
+	
+	public static int getOutdoorPageCount() {
+    	int count = 0;
+		OutdoorManager.getInstance().processDataBaseInfo();
+		List<String> myCityList = OutdoorManager.getInstance().getUsersCitiesList() ;
+		if( myCityList != null ) {
+			count = myCityList.size() ;
+		}
+		
+		return count;
+    }
+	
+	public static void startCurrentCityAreaIdTask() {
+		String lat = LocationUtils.getCurrentLocationLat();
+		String lon = LocationUtils.getCurrentLocationLon();
+		if (!lat.isEmpty() && !lon.isEmpty()) {
+			try {
+				OutdoorController.getInstance().startGetAreaIDTask(Double.parseDouble(lon), Double.parseDouble(lat));
+			} catch (NumberFormatException e) {
+				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + "Error: " + e.getMessage());
+			}
+		}
 	}
 }

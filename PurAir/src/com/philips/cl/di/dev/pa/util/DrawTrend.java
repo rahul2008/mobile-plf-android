@@ -14,10 +14,10 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailFragment;
 
-public class DetailsAIQ {
+public class DrawTrend {
 
-	private static final String TAG = DetailsAIQ.class.getSimpleName();
-	private GraphPathDraw mPathDraw;
+	private static final String TAG = DrawTrend.class.getSimpleName();
+	private DrawTrendPaths mPathDraw;
 	private float xCoordinates[];
 	private float yCoordinates[];
 	private String xLabels[];
@@ -36,11 +36,10 @@ public class DetailsAIQ {
 	 * @param context
 	 * @param graphWidh
 	 * @param yAxisValues
-	 * @param coordinates
 	 */
-	public DetailsAIQ(Context context, float graphWidh, float[] yAxisValue, Coordinates coordinates) {
+	public DrawTrend(Context context, float graphWidh, float[] yAxisValue) {
 		this.yAxisValue = yAxisValue;
-		this.coordinates = coordinates;
+		this.coordinates = Coordinates.getInstance(context);
 		this.displayWidth = graphWidh;
 		this.isOutdoor = true;
 		if (coordinates != null ) {
@@ -49,7 +48,7 @@ public class DetailsAIQ {
 			xCoordinates = new float[noOffxCoordinate];
 			yCoordinates = new float[noOffxCoordinate];
 
-			mPathDraw = new GraphPathDraw(coordinates, true);
+			mPathDraw = new DrawTrendPaths(coordinates, true);
 
 			addXLabelToArry(noOffxCoordinate, displayWidth, context);
 
@@ -64,14 +63,12 @@ public class DetailsAIQ {
 	 * @param yAxisVal
 	 * @param yAxisValues
 	 * @param powerOnFlgs
-	 * @param coordinates
 	 * @param position
 	 * @param isOutdoor
 	 */
-	public DetailsAIQ(Context context, float displayWidth, List<float[]> yAxisValues,
-			Coordinates coordinates, int position) {
+	public DrawTrend(Context context, float displayWidth, List<float[]> yAxisValues, int position) {
 		this.yAxisValues = yAxisValues;
-		this.coordinates = coordinates;
+		this.coordinates = Coordinates.getInstance(context);
 		this.displayWidth = displayWidth;
 		this.position = position;
 		this.isOutdoor = false;
@@ -86,7 +83,7 @@ public class DetailsAIQ {
 				xCoordinates = new float[noOffxCoordinate];
 				yCoordinates = new float[noOffxCoordinate];
 			} 
-			mPathDraw = new GraphPathDraw(coordinates, false);
+			mPathDraw = new DrawTrendPaths(coordinates, false);
 
 			addXLabelToArry(noOffxCoordinate, displayWidth, context);
 
@@ -419,8 +416,6 @@ public class DetailsAIQ {
 		}
 
 		drawXLineLabel(canvas, paint, rect);
-
-
 	}
 
 

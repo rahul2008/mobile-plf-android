@@ -1,17 +1,20 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 
-import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -19,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -28,18 +32,18 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -48,6 +52,10 @@ import com.viewpagerindicator.CirclePageIndicator;
 public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener,
 		AlertDialogBtnInterface, NetworkStateListener {
 
+	private static final int UPDATE_UI = 1;
+	private static final String OUTDOOR_DEATAIL_FTAG = "outdoor_detail_fragment";
+	private static final String INDOOR_DETAIL_FTAG = "indoor_detail_fragment";
+	private static final String MAP_FTAG = "map_fragment";
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
 	private RelativeLayout noPurifierFlowLayout;
@@ -63,6 +71,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
     private UpdateMyLocationsListener updateMyLocationsListener;
     private int prevPositionOutdoor;
     private int prevPositionIndoor;
+    private ScrollView scrollView;
+    private ViewGroup outdoorDetailContainer;
+    private int screenHeight;// Without status bar height
 	
 	@Override
 	public void onResume() {
@@ -81,9 +92,29 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		ALog.i(ALog.DASHBOARD, "StatusBar Height=  " + MainActivity.getStatusBarHeight());
+
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		
-		ALog.i(ALog.DASHBOARD, "Density " + getResources().getDisplayMetrics().densityDpi);
+		scrollView = (ScrollView)view.findViewById(R.id.home_fragment_scroll_view);
+		scrollView.setSelected(true);
+		
+		outdoorDetailContainer = 
+				(LinearLayout) view.findViewById(R.id.home_fragment_outdoor_detail_container);
+		outdoorDetailContainer.setVisibility(View.GONE);
+		
+		ViewGroup indoorLayout = 
+				(RelativeLayout) view.findViewById(R.id.home_fragment_indoor_viewpager_rl);
+		ViewGroup outdoorLayout = 
+				(RelativeLayout) view.findViewById(R.id.home_fragment_outdoor_viewpager_rl);
+		
+		screenHeight = MainActivity.getScreenHeight() - MainActivity.getStatusBarHeight();
+		LayoutParams params1 = indoorLayout.getLayoutParams();
+		params1.height = screenHeight / 2;
+		
+		LayoutParams params2 = outdoorLayout.getLayoutParams();
+		params2.height = screenHeight / 2;
+		
 		return view;
 	}
 	
@@ -108,27 +139,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		}
 	}
 
-    private boolean getNoPurifierMode() {
-        boolean noPurifierMode = false;
-        Bundle bundle = getArguments();
-        GPSLocation.getInstance().requestGPSLocation();
-        if (bundle != null) {
-            if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isLocationEnabled()) {
-                //TODO : Show pop-up inviting the user to enable GPS
-            } else {
-                //Add user location to dashboard
-                Location location = GPSLocation.getInstance().getGPSLocation();
-                ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
-                if(location != null) {
-                    OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
-                }
-            }
-            noPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
-        } else {
-            noPurifierMode = false;
-        }
-        return noPurifierMode;
-    }
 
     @SuppressWarnings("deprecation")
     private void initIndoorViewPager() {
@@ -136,10 +146,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
         indoorViewPager.setOffscreenPageLimit(0);
 
-        boolean noPurifierMode = getNoPurifierMode();
+        boolean purifierMode = DashboardUtil.isNoPurifierMode(getArguments());
 
-        if(noPurifierMode) {
-//            ((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
+        if(purifierMode) {
             MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_NO_PURIFIER);
             noPurifierFlowLayout.setVisibility(View.VISIBLE);
             indoorViewPager.setVisibility(View.INVISIBLE);
@@ -153,7 +162,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             noPurifierFlowLayout.setBackgroundDrawable(null); //Releases background from memory, this image is not used anymore.
             indoorViewPager.setVisibility(View.VISIBLE);
 
-            countIndoor = getIndoorPageCount();
+            countIndoor = DashboardUtil.getIndoorPageCount();
             setIndoorPagerAdapter(countIndoor);
 
             indicator = (CirclePageIndicator)getView().findViewById(R.id.indicator_indoor);
@@ -174,25 +183,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         indoorViewPager.setAdapter(indoorPagerAdapter);
     }
 
-    private int getIndoorPageCount() {
-        int countIndoor = 0;
-        //For demo mode
-        if (PurAirApplication.isDemoModeEnable()) {
-            countIndoor = 1;
-        } else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
-            countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
-
-            AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
-            if(purifier != null) {
-                AirPurifierManager.getInstance().setCurrentPurifier(purifier);
-            }
-        }
-        return countIndoor;
-    }
-
     private void initOutdoorViewPager() {
         outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
-        int count = outdoorPageCount();
+        int count = DashboardUtil.getOutdoorPageCount();
 		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
 		outdoorViewPager.setAdapter(outdoorPagerAdapter);
 		
@@ -230,17 +223,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		if (getActivity() == null) {
 			return;
 		}
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					notifyOutdoorPager();
-				} catch (IllegalStateException e) {
-					ALog.e(ALog.ACTIVITY, "Error: " + e.getMessage());
-				}
-			}
-		});
+		handler.sendEmptyMessage(UPDATE_UI);
 	}
+	
+	@SuppressLint("HandlerLeak")
+	private final Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			if ( msg.what == UPDATE_UI ) {
+				notifyOutdoorPager();
+			} 
+		};
+	};
 	
 	private void showTakeATourPopup() {
 		if(!((MainActivity)getActivity()).isTutorialPromptShown) {
@@ -366,7 +359,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		public void onPageSelected(int position) {
 			OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(position);
 			if (position == 0 && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
-				startCurrentCityAreaIdTask();
+				DashboardUtil.startCurrentCityAreaIdTask();
 			}
 			if (prevPositionOutdoor == outdoorPagerAdapter.getCount() - 1 && updateMyLocationsListener != null) {
 				updateMyLocationsListener.onUpdate();
@@ -399,34 +392,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
     	}
     }
     
-    private int outdoorPageCount() {
-    	int count = 0;
-		OutdoorManager.getInstance().processDataBaseInfo();
-		List<String> myCityList = OutdoorManager.getInstance().getUsersCitiesList() ;
-		if( myCityList != null ) {
-			count = myCityList.size() ;
-		}
-		
-		return count;
-    }
-    
 	public synchronized void notifyOutdoorPager() {
-		int count = outdoorPageCount();
+		int count = DashboardUtil.getOutdoorPageCount();
 		outdoorPagerAdapter.setCount(count) ;
 		outdoorPagerAdapter.notifyDataSetChanged() ;
 		outdoorViewPager.setCurrentItem(OutdoorManager.getInstance().getOutdoorViewPagerCurrentPage(), true);
-	}
-	
-	private void startCurrentCityAreaIdTask() {
-		String lat = LocationUtils.getCurrentLocationLat();
-		String lon = LocationUtils.getCurrentLocationLon();
-		if (!lat.isEmpty() && !lon.isEmpty()) {
-			try {
-				OutdoorController.getInstance().startGetAreaIDTask(Double.parseDouble(lon), Double.parseDouble(lat));
-			} catch (NumberFormatException e) {
-				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + "Error: " + e.getMessage());
-			}
-		}
 	}
 	
 	public void setUpdateMyLocationsListner(UpdateMyLocationsListener updateMyLocationsListener) {
@@ -435,6 +405,104 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	public void setUpdateMyPurifiersListner(UpdateMyPurifierListener updateMyPurifiersListener) {
 		this.updateMyPurifiersListener = updateMyPurifiersListener;
+	}
+	
+	//Detail
+	private boolean isLoadingOutdoorDetail;
+	public void toggleOutdoorDetailFragment(String cityName, OutdoorAQI outdoorAQI, int provider) {
+		if (isLoadingOutdoorDetail) return;
+		isLoadingOutdoorDetail = true;
+		if (!removeOutdoorDetails()) {
+			OutdoorDetailFragment fragment = new OutdoorDetailFragment();
+			Bundle bundle = new Bundle();
+			bundle.putString(AppConstants.OUTDOOR_CITY_NAME, cityName);
+			bundle.putSerializable(AppConstants.OUTDOOR_AQI, outdoorAQI);
+			bundle.putInt(AppConstants.OUTDOOR_DATAPROVIDER, provider) ;
+			fragment.setArguments(bundle);
+			addFragment(fragment, R.id.home_fragment_outdoor_detail_container, OUTDOOR_DEATAIL_FTAG) ;
+			outdoorDetailContainer.setVisibility(View.VISIBLE);
+			scrollUpOutdoorDetails() ;
+		}
+		isLoadingOutdoorDetail = false;
+	}
+	
+	public void toggleIndoorDetailFragment() {
+		if (!removeIndoorDetails()) {
+			IndoorDetailFragment fragment = new IndoorDetailFragment();
+			addFragment(fragment, R.id.home_fragment_indoor_detail_container, INDOOR_DETAIL_FTAG);
+		}
+	}
+	
+	private void addFragment(Fragment fragment, int containerId, String tag) {
+		MainActivity activity = (MainActivity)getActivity();
+		if (activity == null) return;
+		try{
+			FragmentTransaction fragmentTransaction = 
+					activity.getSupportFragmentManager().beginTransaction();
+			fragmentTransaction.add(containerId, fragment, tag);
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.ERROR, "IllegalStateException: " + e.getMessage());
+		}
+	}
+	
+	public boolean removeOutdoorDetails() {
+		MainActivity activity = (MainActivity)getActivity();
+		if (activity != null)  {
+			try {
+				FragmentTransaction fragmentTransaction = 
+						activity.getSupportFragmentManager().beginTransaction();
+				Fragment prevFragment = activity.getSupportFragmentManager()
+						.findFragmentByTag(HomeFragment.OUTDOOR_DEATAIL_FTAG);
+				Fragment prevFragmentMap = activity.getSupportFragmentManager()
+						.findFragmentById(R.id.outdoor_detail_map_fragment);
+				if (prevFragment != null) {
+					fragmentTransaction.remove(prevFragment);
+					if (prevFragmentMap != null) {
+						fragmentTransaction.remove(prevFragmentMap);
+					}
+					fragmentTransaction.commit();
+					outdoorDetailContainer.setVisibility(View.GONE);
+					return true;
+				}
+			} catch (IllegalStateException e) {
+				ALog.e(ALog.TEMP, e.getMessage());
+			}
+		}
+		return false;
+	}
+	
+	private boolean removeIndoorDetails() {
+		MainActivity activity = (MainActivity)getActivity();
+		if (activity != null) {
+			try {
+				FragmentTransaction fragmentTransaction = 
+						activity.getSupportFragmentManager().beginTransaction();
+				Fragment prevFragment =  activity.getSupportFragmentManager().
+						findFragmentByTag(HomeFragment.INDOOR_DETAIL_FTAG);
+				if (prevFragment != null) {
+					fragmentTransaction.remove(prevFragment);
+					fragmentTransaction.commit();
+					return true;
+				}
+			} catch (IllegalStateException e) {
+				ALog.e(ALog.TEMP, e.getMessage());
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Scroll to outdoor detail, normal case outdoor detail does not added,
+	 *  that why given delay 100 milli sec.
+	 */
+	private void scrollUpOutdoorDetails() {
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollView.scrollBy(0, screenHeight / 2);
+			}
+		}, 100); //100 millisecond to 
 	}
 	
 }

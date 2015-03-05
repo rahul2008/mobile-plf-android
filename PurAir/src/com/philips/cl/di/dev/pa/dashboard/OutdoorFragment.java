@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
@@ -201,11 +199,15 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		case R.id.hf_outdoor_circle_pointer:
 			if (cityId.getText() == null || outdoorAQI == null) return;
 			OutdoorManager.getInstance().startAllCitiesTask();
-			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityNameTV.getText().toString());
-			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
-			intent.putExtra(AppConstants.OUTDOOR_DATAPROVIDER, outdoorDataProvider) ;
-			startActivity(intent);
+			HomeFragment homeFragment = (HomeFragment) getParentFragment();
+			if (homeFragment != null) {
+				homeFragment.toggleOutdoorDetailFragment(cityNameTV.getText().toString(), outdoorAQI, outdoorDataProvider);
+			}
+//			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
+//			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityNameTV.getText().toString());
+//			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
+//			intent.putExtra(AppConstants.OUTDOOR_DATAPROVIDER, outdoorDataProvider) ;
+//			startActivity(intent);
 			break;
 		default:
 			break;	

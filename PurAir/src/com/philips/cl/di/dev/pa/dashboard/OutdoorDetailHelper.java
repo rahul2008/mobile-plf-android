@@ -84,9 +84,7 @@ public class OutdoorDetailHelper {
 		
 		//Clear object
 		allHourlyAqiValueMap.clear();
-		allHourlyAqiValueMap = null;
 		allHourlyAqiValueCounterMap.clear();
-		allHourlyAqiValueCounterMap = null;
 		clearListObject();
 	}
 	
@@ -208,9 +206,7 @@ public class OutdoorDetailHelper {
 	
 	private void clearListObject() {
 		dailyAqiValueMap.clear();
-		dailyAqiValueMap = null;
 		dailyAqiValueCounterMap.clear();
-		dailyAqiValueCounterMap = null;
 	}
 	
 }

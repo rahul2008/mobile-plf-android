@@ -277,6 +277,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
 		this.downloadDataListener = downloadDataListener;
 	}
+	
+	public void removeDownloadDataListener() {
+		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
+		this.downloadDataListener = null;
+	}
 
 	public void addDCSEventListener(String cppId, DCSEventListener dcsEventListener) {
 		mDcsEventListenersMap.put(cppId, dcsEventListener);
@@ -513,7 +518,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void downloadDataFromCPP(String query, int bufferSize) {
 		//If purifier in demo mode, skip download data
 		if (PurAirApplication.isDemoModeEnable()) {
-			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
+			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			return;
 		}
 		ALog.i(ALog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + isSignOn);
@@ -523,16 +528,16 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				downloadData.setDownloadDataDetails(query, 2048, 0, 0);
 				downloadData.executeCommand();
 			} else {
-				downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
+				notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			}
 		} catch (IllegalArgumentException e) {
-			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
+			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
 		} catch (Exception e) {
-			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
+			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
 		} catch (Error e) {
-			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
+			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
 		} 
 	}
@@ -727,11 +732,17 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				if (downloadDataListener != null) {
 					String downloadedData = downloadDataBuilder.toString();
 					downloadDataBuilder.setLength(0);
-					downloadDataListener.onDataDownload(status,	downloadedData);
+					notifyDownloadDataListener(status, downloadedData);
 				}
 			}
 		} else {
-			downloadDataListener.onDataDownload(status, null);
+			notifyDownloadDataListener(status, null);
+		}
+	}
+	
+	private void notifyDownloadDataListener(int status, String downloadedData) {
+		if (downloadDataListener != null) {
+			downloadDataListener.onDataDownload(status, downloadedData);
 		}
 	}
 	

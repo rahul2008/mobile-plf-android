@@ -93,7 +93,7 @@
             <!-- Map layout -->
 
             <RelativeLayout
-                android:id="@+id/gaode_map_layt"
+                android:id="@+id/outdoor_detail_map_rl"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginBottom="16dp"

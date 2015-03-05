@@ -44,15 +44,15 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -69,7 +69,7 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
 PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectionListener {
 
-	private static int screenWidth, screenHeight;
+	private static int screenWidth, screenHeight, statusBarHeight;
 
 	private int mVisits;
 
@@ -110,6 +110,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		selectPurifier();
 		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		internetDialogShown=false;
+		
+		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+		if (resourceId > 0) {
+			setStatusBarHeight(getResources().getDimensionPixelSize(resourceId));
+		}
 	}
 
 	private void selectPurifier() {
@@ -142,7 +147,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		OutdoorController.getInstance().setActivity(this);
 
-    	checkForCrashesHockeyApp();
+//    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -399,12 +404,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	private static void setScreenHeight(int height) {
 		screenHeight = height;
 	}
+	private static void setStatusBarHeight(int height) {
+		statusBarHeight = height;
+	}
 
 	public static int getScreenWidth() {
 		return screenWidth;
 	}
 	public static int getScreenHeight() {
 		return screenHeight;
+	}
+	public static int getStatusBarHeight() {
+		return statusBarHeight;
 	}
 
 	@Override

@@ -30,10 +30,10 @@ import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.dashboard.AllOutdoorDataListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
@@ -96,7 +96,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	};
 	
 	private void fillMapWithMarker(){
-		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(OutdoorDetailsActivity.getSelectedCityCode());
+		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(OutdoorDetailFragment.getSelectedCityCode());
 		
 		addMarker();
 
@@ -138,7 +138,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	}
 
 	private void addMarker() {
-		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
+		String selectedCityCode = OutdoorDetailFragment.getSelectedCityCode();
 		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityData(selectedCityCode);
 		float selectedLatitude = 50f;
 		float selectedLongitude = 50f;
@@ -204,7 +204,7 @@ public class MarkerMapFragment extends BaseFragment implements
 		if (outdoorCity.getOutdoorAQI() != null)
 			aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 
-		String selectedCityAreaId = OutdoorDetailsActivity.getSelectedCityCode();
+		String selectedCityAreaId = OutdoorDetailFragment.getSelectedCityCode();
 		if (selectedCityAreaId != null && selectedCityAreaId.equalsIgnoreCase(cityCode)) {
 			mOutdoorCity = outdoorCity;
 			iconOval = true;

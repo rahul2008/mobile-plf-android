@@ -1,46 +1,37 @@
-package com.philips.cl.di.dev.pa.activity;
+package com.philips.cl.di.dev.pa.dashboard;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.activity.MarkerActivity;
 import com.philips.cl.di.dev.pa.adapter.NeighbourhoodCityBaseAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailHelper;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorImage;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
@@ -48,37 +39,31 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.GraphConst;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.ListViewHelper;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
-@SuppressLint("UseSparseArrays")
-public class OutdoorDetailsActivity extends BaseActivity 
-	implements OnClickListener, OutdoorDetailsListener {
-
+public class OutdoorDetailFragment extends BaseFragment implements OnClickListener, OutdoorDetailsListener {
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private FontTextView aqiValue, summaryTitle, summary, tvOutdoorProvider;
-	private FontTextView headingTV;
-	private ImageView circleImg, backgroundImage, gaodeMapZoom ;
+	private ImageView gaodeMapZoom ;
 	private ImageView avoidImg, openWindowImg, maskImg;
 	private ImageView dummyMapImage;
 	private FontTextView avoidTxt, openWindowTxt, maskTxt;
 	private FontTextView msgSecond;
 	private ProgressBar aqiProgressBar;
 	private ProgressBar weatherProgressBar;
-	private Coordinates coordinates;
 	private static int currentCityHourOfDay;
 	private static int currentCityDayOfWeek;
-	private TextView aqitv;
-	private TextView pmtv;
+	private FontTextView aqitv;
+	private FontTextView pmtv;
 	private LinearLayout neighbourhoodcityll;
 	private ListView nearbycitylv;
 	private NeighbourhoodCityBaseAdapter adapter;
@@ -86,61 +71,55 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private ViewGroup mapGaodeLayout;
 	private String areaId;
-	private FontTextView pmValue;
-	private LinearLayout pmLayout;
 	private List<OutdoorAQI> outdoorAQIs;
-	@SuppressLint("SimpleDateFormat")
-	private SimpleDateFormat formatDate;
 	private Calendar calenderGMTChinese;
 	
-	private float lastDayAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
-			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F };
-
-	private float last7dayAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
-	private float last4weekAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
-			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F };
+	private float lastDayAQIHistoricArr[];
+	private float last7dayAQIHistoricArr[];
+	private float last4weekAQIHistoricArr[];
 	
-	private OutdoorDataProvider outdoorDataProvider = OutdoorDataProvider.CMA;
+	private int outdoorDataProvider = OutdoorDataProvider.CMA.ordinal();
 	private OutdoorDetailHelper detailHelper;
 	public enum NearbyInfoType {AQI,PM_25};
 	
 	private List<OutdoorAQI> nearbyLocationAQIs;
-
-	@SuppressLint("SimpleDateFormat")
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_details_outdoor);
-		formatDate = new SimpleDateFormat("yyyy-MM-dd");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.outdoor_detail_fragment, container, false);
+		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		lastDayAQIHistoricArr = AppConstants.LAST_DAY_AQIHISTORIC_ARR;
+		last7dayAQIHistoricArr = AppConstants.LAST_WEEK_AQIHISTORIC_ARR;
+		last4weekAQIHistoricArr = AppConstants.LAST_MONTH_AQIHISTORIC_ARR;
 		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
-		coordinates = Coordinates.getInstance(this);
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+		Coordinates.getInstance(getMainActivity());
 
 		OutdoorManager.getInstance().saveNearbyCityData();
 		
 		initializeUI();
 		setClickEvent(false);
-		setActionBarTitle();
 		detailHelper = new OutdoorDetailHelper(lastDayAQIHistoricArr, last7dayAQIHistoricArr, last4weekAQIHistoricArr);
 		getDataFromDashboard();
 
-		//addorRemovenearbycity();
-		nearbycitylv = new ListView(this);
-		
 		requestAQIAndWeatherData();
 	}
 	
+	private MainActivity getMainActivity() {
+		return (MainActivity) getActivity();
+	}
+	
 	private void showNearbyCityInfo(List<OutdoorAQI> nearbyLocationAQIs) {
-		NeighbourhoodCityBaseAdapter adapter = new NeighbourhoodCityBaseAdapter(this, nearbyLocationAQIs, NearbyInfoType.AQI, areaId);
+		if (getActivity() == null) return;
+		NeighbourhoodCityBaseAdapter adapter = new NeighbourhoodCityBaseAdapter(getActivity(), nearbyLocationAQIs, NearbyInfoType.AQI, areaId);
 		nearbycitylv.setAdapter(adapter);
 		neighbourhoodcityll.setVisibility(View.VISIBLE);
-		neighbourhoodcityll.addView(nearbycitylv);
 		ListViewHelper.getListViewSize(nearbycitylv);
-		nearbycitylv.setDivider(null);
-		nearbycitylv.setDividerHeight(0);
-
 	}
 	/**
 	 * Reading data from server
@@ -150,7 +129,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
 		setClickEvent(true);
 		
-		if (outdoorAQIs != null && !outdoorAQIs.isEmpty()) {
+		if (outdoorAQIs != null && !outdoorAQIs.isEmpty() && getMainActivity() != null) {
 			detailHelper.calculateCMAAQIHistoricData(outdoorAQIs);
 			updateAQIHistoricData();
 		}
@@ -194,40 +173,24 @@ public class OutdoorDetailsActivity extends BaseActivity
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
-		
-		if(getIntent().getIntExtra(AppConstants.OUTDOOR_DATAPROVIDER, 0) == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-			tvOutdoorProvider.setVisibility(View.VISIBLE) ;
-			outdoorDataProvider = OutdoorDataProvider.US_EMBASSY;
-		}
-		
+		Bundle bundle = getArguments();
+		if (bundle == null) return;
+		OutdoorAQI aqiValue = (OutdoorAQI) bundle.getSerializable(AppConstants.OUTDOOR_AQI) ;
+
+		outdoorDataProvider = bundle.getInt(AppConstants.OUTDOOR_DATAPROVIDER, 0);
+
 		if( aqiValue != null) {
 			setOutdoorCityCode(aqiValue.getAreaID());
 			areaId = aqiValue.getAreaID() ;
 			setAdviceIconTex(aqiValue.getAQI());
-			//set image background corresponding with city and areaId
-			backgroundImage.setImageResource(OutdoorImage.valueOf(areaId, aqiValue.getAQI()));
-			
-			this.aqiValue.setText(""+aqiValue.getAQI()) ;
-			this.circleImg.setImageResource(getImageResId(aqiValue.getAQI())) ;
-			String [] summary = aqiValue.getAqiSummary() ;
-			if( summary != null && summary.length == 2 ) {
-				this.summaryTitle.setText(summary[0]) ;
-				this.summary.setText(summary[1]);
-			}
-			
-			pmLayout.setVisibility(View.VISIBLE);
-			pmValue.setText(""+aqiValue.getPM25());
-			
+
 			if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()){
 				weatherProgressBar.setVisibility(View.GONE);
 				aqiProgressBar.setVisibility(View.GONE);
 				showAlertDialog("", getString(R.string.outdoor_download_failed));
 				return;
 			}
-			
 
-			
 		}
 	}
 
@@ -245,24 +208,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 			dummyMapImage.setVisibility(View.VISIBLE);
 			gaodeMapZoom.setVisibility(View.INVISIBLE);
 		}
-	}
-	
-	private int getImageResId(int p2) {
-		if(p2 >= 0 && p2 <= 50) {
-			return R.drawable.aqi_blue_circle_2x;
-		} else if(p2 > 50 && p2 <= 100) {
-			return R.drawable.aqi_pink_circle_2x;
-		} else if(p2 > 100 && p2 <= 150) {
-			return R.drawable.aqi_light_pink_circle_2x;
-		} else if(p2 > 150 && p2 <= 200) {
-			return R.drawable.aqi_purple_circle_2x;
-		} else if(p2 > 200 && p2 <= 300) {
-			return R.drawable.aqi_fusia_circle_2x;
-		} else if(p2 > 300 && p2 <= 500) {
-			return R.drawable.aqi_red_circle_2x;
-		}
-
-		return R.drawable.blue_circle_with_arrow_small;
 	}
 	
 	/**Set advice icon and text*/ 
@@ -328,45 +273,34 @@ public class OutdoorDetailsActivity extends BaseActivity
 	 * Initialize UI widget
 	 * */
 	private void initializeUI() {
-		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
-		backButton.setVisibility(View.VISIBLE);
-		backButton.setOnClickListener(this);
-		headingTV=(FontTextView) findViewById(R.id.heading_name_tv);
-		graphLayout = (LinearLayout) findViewById(R.id.detailsOutdoorlayoutGraph);
-		wetherScrollView = (HorizontalScrollView) findViewById(R.id.odTodayWetherReportHSV);
-		wetherForcastLayout = (LinearLayout) findViewById(R.id.odWetherForcastLL);
+		View view = getView();
+		graphLayout = (LinearLayout) view.findViewById(R.id.detailsOutdoorlayoutGraph);
+		wetherScrollView = (HorizontalScrollView) view.findViewById(R.id.odTodayWetherReportHSV);
+		wetherForcastLayout = (LinearLayout) view.findViewById(R.id.odWetherForcastLL);
 
-		lastDayBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastDayLabel);
-		lastWeekBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
-		lastFourWeekBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
-		aqiValue = (FontTextView) findViewById(R.id.od_detail_aqi_reading);
-		summaryTitle = (FontTextView) findViewById(R.id.odStatusTitle);
-		summary = (FontTextView) findViewById(R.id.odStatusDescr);
-		tvOutdoorProvider = (FontTextView) findViewById(R.id.dataproviderLabel);
+		lastDayBtn = (FontTextView) view.findViewById(R.id.detailsOutdoorLastDayLabel);
+		lastWeekBtn = (FontTextView) view.findViewById(R.id.detailsOutdoorLastWeekLabel);
+		lastFourWeekBtn = (FontTextView) view.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		
-		pmValue=(FontTextView)findViewById(R.id.hf_outdoor_pm_value);
-		pmLayout=(LinearLayout)findViewById(R.id.pm_layout);
+		avoidImg = (ImageView) view.findViewById(R.id.avoidOutdoorImg);  
+		openWindowImg = (ImageView) view.findViewById(R.id.openWindowImg);  
+		maskImg = (ImageView) view.findViewById(R.id.maskImg); 
+		dummyMapImage = (ImageView) view.findViewById(R.id.dummy_map_img);
 
-		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg);
-		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
-		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
-		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
-		maskImg = (ImageView) findViewById(R.id.maskImg); 
-		dummyMapImage = (ImageView) findViewById(R.id.dummy_map_img);
+		msgSecond = (FontTextView) view.findViewById(R.id.detailsOutdoorSecondMsg);
+		avoidTxt = (FontTextView) view.findViewById(R.id.avoidOutdoorTxt); 
+		openWindowTxt = (FontTextView) view.findViewById(R.id.openWindowTxt); 
+		maskTxt = (FontTextView) view.findViewById(R.id.maskTxt);
 
-		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
-		avoidTxt = (FontTextView) findViewById(R.id.avoidOutdoorTxt); 
-		openWindowTxt = (FontTextView) findViewById(R.id.openWindowTxt); 
-		maskTxt = (FontTextView) findViewById(R.id.maskTxt);
-
-		aqiProgressBar = (ProgressBar) findViewById(R.id.outdoorAqiDownloadProgressBar);
-		weatherProgressBar = (ProgressBar) findViewById(R.id.weatherProgressBar);
+		aqiProgressBar = (ProgressBar) view.findViewById(R.id.outdoorAqiDownloadProgressBar);
+		weatherProgressBar = (ProgressBar) view.findViewById(R.id.weatherProgressBar);
 		
-		mapGaodeLayout = (RelativeLayout) findViewById(R.id.gaode_map_layt);
+		mapGaodeLayout = (RelativeLayout) view.findViewById(R.id.outdoor_detail_map_rl);
 		setupGaodeMap();
-		aqitv = (TextView) findViewById(R.id.aqitv);
-		pmtv = (TextView) findViewById(R.id.pmtv);
-		neighbourhoodcityll = (LinearLayout) findViewById(R.id.neighbourhoodDetailsLayout);
+		aqitv = (FontTextView) view.findViewById(R.id.aqitv);
+		pmtv = (FontTextView) view.findViewById(R.id.pmtv);
+		neighbourhoodcityll = (LinearLayout) view.findViewById(R.id.neighbourhoodDetailsLayout);
+		nearbycitylv = (ListView) view.findViewById(R.id.outdoor_detail_neighborhood_listview);
 		
 		/**
 		 * Set click listener
@@ -377,34 +311,26 @@ public class OutdoorDetailsActivity extends BaseActivity
 		aqitv.setOnClickListener(this);
 		pmtv.setOnClickListener(this);
 		
+		FontButton airQualityAnalysis = (FontButton) view.findViewById(R.id.outdoor_detail_air_quality_analysis_fb);
+		airQualityAnalysis.setOnClickListener(this);
 	}
 	
 	private void setupGaodeMap() {
 		mapGaodeLayout.setVisibility(View.VISIBLE);
 		
-		gaodeMapZoom = (ImageView) findViewById(R.id.gaodeMapZoomImg);
+		gaodeMapZoom = (ImageView) getView().findViewById(R.id.gaodeMapZoomImg);
 		gaodeMapZoom.setOnClickListener(this);
 	}
 	
-	/*Sets Action bar title */
-	private void setActionBarTitle() {    	
-		//If Chinese language selected set font-type-face normal
-		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			headingTV.setTypeface(Typeface.DEFAULT);
-		}
-		headingTV.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
-	}
-	
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS);
 		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
 	}
 	
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
 	}
@@ -414,7 +340,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 		switch (v.getId()) {
 			case R.id.gaodeMapZoomImg:
-				Intent gaodeMapIntent = new Intent(OutdoorDetailsActivity.this, MarkerActivity.class);
+				Intent gaodeMapIntent = new Intent(getMainActivity(), MarkerActivity.class);
 				startActivity(gaodeMapIntent);
 				break;
 			case R.id.detailsOutdoorLastDayLabel:
@@ -429,9 +355,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 				MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS + "LastFourWeeks");
 				setViewlast4WeeksAQIReadings();
 				break;
-			case R.id.heading_back_imgbtn: 
-				finish();
-				break;
 			case R.id.aqitv: 
 				aqitv.setBackgroundResource(R.drawable.highlight_text_view_bg);
 				pmtv.setBackgroundResource(R.drawable.normal_text_view_bg);
@@ -442,23 +365,26 @@ public class OutdoorDetailsActivity extends BaseActivity
 				aqitv.setBackgroundResource(R.drawable.normal_text_view_bg);
 				setNeighbourhoodAdapter(NearbyInfoType.PM_25) ;
 				break;
+			case R.id.outdoor_detail_air_quality_analysis_fb:
+				airQualityAnalysis();
+				break;
 			default:
 				break;
 		}
 	}
 	
 	private void setNeighbourhoodAdapter(NearbyInfoType infoType) {
-		if (nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty() ) {
+		if (nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty() || getActivity() == null) {
 			return;
 		}
-		adapter = new NeighbourhoodCityBaseAdapter(this,nearbyLocationAQIs, infoType, areaId);
+		adapter = new NeighbourhoodCityBaseAdapter(getActivity(),nearbyLocationAQIs, infoType, areaId);
 		nearbycitylv.setAdapter(adapter);
 	}
 	
 	private void setViewlastDayAQIReadings() {
 		removeChildViewFromBar();
-		if (lastDayAQIHistoricArr != null && lastDayAQIHistoricArr.length > 0) {
-			graphLayout.addView(new GraphView(this, lastDayAQIHistoricArr, coordinates));
+		if (lastDayAQIHistoricArr != null && lastDayAQIHistoricArr.length > 0 && getMainActivity() != null) {
+			graphLayout.addView(new GraphView(getMainActivity(), lastDayAQIHistoricArr));
 		}
 		lastDayBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 		lastWeekBtn.setTextColor(Color.LTGRAY);
@@ -468,8 +394,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private void setViewlast7DayAQIReadings() {
 		removeChildViewFromBar();
-		if (last7dayAQIHistoricArr != null && last7dayAQIHistoricArr.length > 0) {
-			graphLayout.addView(new GraphView(this, last7dayAQIHistoricArr, coordinates));
+		if (last7dayAQIHistoricArr != null && last7dayAQIHistoricArr.length > 0 && getMainActivity() != null) {
+			graphLayout.addView(new GraphView(getMainActivity(), last7dayAQIHistoricArr));
 		}
 		lastDayBtn.setTextColor(Color.LTGRAY);
 		lastWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
@@ -479,8 +405,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	private void setViewlast4WeeksAQIReadings() {
 		removeChildViewFromBar();
-		if (last4weekAQIHistoricArr != null && last4weekAQIHistoricArr.length > 0) {
-			graphLayout.addView(new GraphView(this, last4weekAQIHistoricArr, coordinates));
+		if (last4weekAQIHistoricArr != null && last4weekAQIHistoricArr.length > 0 && getMainActivity() != null) {
+			graphLayout.addView(new GraphView(getMainActivity(), last4weekAQIHistoricArr));
 		}
 		lastDayBtn.setTextColor(Color.LTGRAY);
 		lastWeekBtn.setTextColor(Color.LTGRAY);
@@ -507,9 +433,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 	 * 
 	 * @param v
 	 */
-	public void aqiAnalysisClick(View v) {
+	public void airQualityAnalysis() {
+		if (getMainActivity() == null) return;
 		try {
-			FragmentManager fragMan = this.getSupportFragmentManager();
+			FragmentManager fragMan = getMainActivity().getSupportFragmentManager();
 			fragMan.beginTransaction().add(
 					OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
 		} catch (IllegalStateException e) {
@@ -525,14 +452,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 		return currentCityDayOfWeek;
 	}
 
-	@Override
-	public void onBackPressed() {
-		finish();
-	}
-	
 	@SuppressLint("HandlerLeak")
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
+			if (getMainActivity() == null) return;
 			if ( msg.what == 1 ) {
 				aqiProgressBar.setVisibility(View.GONE);
 				setViewlastDayAQIReadings();
@@ -545,13 +468,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 	};
 	
 	private void showAlertDialog(String title, String message) {
+		if (getMainActivity() == null) return;
 		if (PurAirApplication.isDemoModeEnable()) {
 			addDummyDataForDemoMode();
 		} else {
 			try {
-				FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+				FragmentTransaction fragTransaction = getMainActivity().getSupportFragmentManager().beginTransaction();
 
-				Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("outdoor_download_failed");
+				Fragment prevFrag = getMainActivity().getSupportFragmentManager().findFragmentByTag("outdoor_download_failed");
 				if (prevFrag != null) {
 					fragTransaction.remove(prevFrag);
 				}
@@ -571,16 +495,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		last7dayAQIHistoricArr= DummyOutdoor.getInstance().getLastWeekAqis(areaId);
 		last4weekAQIHistoricArr = DummyOutdoor.getInstance().getLastMonthAqis(areaId);
 
-		if (aqiValue.getText() != null) {
-			try {
-				float lastValueOfLastDayAqi = Float.parseFloat(aqiValue.getText().toString());
-				lastDayAQIHistoricArr[lastDayAQIHistoricArr.length - 1] = lastValueOfLastDayAqi;
-			} catch (NumberFormatException e) {
-				Log.e(ALog.ERROR, "Error: " + e.getMessage());
-				e.printStackTrace();
-			}
-		}
-
 		setViewlastDayAQIReadings();
 		setClickEvent(true);
 
@@ -588,31 +502,32 @@ public class OutdoorDetailsActivity extends BaseActivity
 			wetherScrollView.removeAllViews();
 		}
 		wetherScrollView.addView(new WeatherReportLayout(
-				OutdoorDetailsActivity.this, null, DummyOutdoor.getInstance().getTodayWeatherForecast()));
+				getActivity(), null, DummyOutdoor.getInstance().getTodayWeatherForecast()));
 
 		if (weatherReportLayout != null && weatherReportLayout.getChildCount() > 0) {
 			weatherReportLayout.removeAllViews();
 		}
 
 		weatherReportLayout = new WeatherReportLayout(
-				OutdoorDetailsActivity.this, null, 0, DummyOutdoor.getInstance().getFourDayWeatherForecast());
+				getActivity(), null, 0, DummyOutdoor.getInstance().getFourDayWeatherForecast());
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
 	}
 
 	@Override
 	public void onOneDayWeatherForecastReceived(final List<Weatherdto> weatherList) {
-		if( weatherList != null ) {
+		if( weatherList != null && getMainActivity() != null) {
 			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
-			runOnUiThread(new Runnable() {
+			getMainActivity().runOnUiThread(new Runnable() {
 				
 				@Override
 				public void run() {
+					if (getActivity() == null) return;
 					if (wetherScrollView.getChildCount() > 0) {
 						wetherScrollView.removeAllViews();
 					}
 					wetherScrollView.addView(
-							new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
+							new WeatherReportLayout(getActivity(), null, weatherList));
 				}
 			});
 		}
@@ -620,12 +535,13 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	@Override
 	public void onFourDayWeatherForecastReceived(final List<ForecastWeatherDto> weatherList) {
-
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
-		runOnUiThread(new Runnable() {
+		if (getMainActivity() == null) return;
+		getMainActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
+				if (getActivity() == null) return;
 				weatherProgressBar.setVisibility(View.GONE);
 				if( weatherList != null ) {
 					
@@ -634,7 +550,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 					}
 					
 					weatherReportLayout = 
-							new WeatherReportLayout(OutdoorDetailsActivity.this, null, 0, weatherList);
+							new WeatherReportLayout(getActivity(), null, 0, weatherList);
 					weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 					wetherForcastLayout.addView(weatherReportLayout);
 				}
@@ -645,8 +561,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 	//TODO : Show error message when no data is shown. handler.sendEmptyMessage(2);
 	@Override
 	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory) {
+		if (getMainActivity() == null) return;
 		outdoorAQIs = outdoorAQIHistory;
-		if (outdoorDataProvider == OutdoorDataProvider.US_EMBASSY) {
+		if (outdoorDataProvider == OutdoorDataProvider.US_EMBASSY.ordinal()) {
 			calculateUSEmbassyAQIHistoricData();
 		} else {
 			calculateCMAAQIHistoricData();
@@ -655,11 +572,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	@Override
 	public void onNearbyLocationsDataReceived(final List<OutdoorAQI> nearbyLocationAQIs) {
-		if (nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty() ) {
+		if (nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty() || getMainActivity() == null) {
 			return;
 		}
 		this.nearbyLocationAQIs = nearbyLocationAQIs;
-		runOnUiThread(new Runnable() {
+		getMainActivity().runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -667,4 +584,23 @@ public class OutdoorDetailsActivity extends BaseActivity
 			}
 		});
 	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		if (getActivity() == null) return;
+		try {
+			FragmentTransaction fragmentTransaction = 
+					getActivity().getSupportFragmentManager().beginTransaction();
+			Fragment prevFragmentMap = getActivity().getSupportFragmentManager()
+					.findFragmentById(R.id.outdoor_detail_map_fragment);
+			if (prevFragmentMap != null) {
+				fragmentTransaction.remove(prevFragmentMap);
+			}
+			fragmentTransaction.commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.ERROR, "IllegalStateException");
+		}
+	}
+
 }
