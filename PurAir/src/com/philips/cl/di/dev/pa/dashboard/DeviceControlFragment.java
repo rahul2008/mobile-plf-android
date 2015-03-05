@@ -35,7 +35,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	
 	private MainActivity mainActivity;
 	
-	private boolean isPowerOn, isFanSpeedAuto, isChildLockOn, isIndicatorLightOn;
+	private boolean isFanSpeedAuto;
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible;
 	
 	private RelativeLayout fanSpeedLayout, timerLayout;
@@ -142,48 +142,39 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_rm_power:
-			if (!isPowerOn) {
-				power.setChecked(true);
+			if (power.isChecked()) {
 				AirPurifier purifier = mainActivity.getCurrentPurifier();
 				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getAirPortInfo();
 				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1");
 				MetricsTracker.trackActionTogglePower("Power on");
 			} else {
-				power.setChecked(false);
 				disableControlPanelButtonsOnPowerOff();
 				controlDevice(ParserConstants.POWER_MODE, "0");
 				MetricsTracker.trackActionTogglePower("Power off");
 			}
-			isPowerOn = !isPowerOn;
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
 			break;
 		case R.id.btn_rm_child_lock:
-			if (!isChildLockOn) {
-				childLock.setChecked(true);
+			if (childLock.isChecked()) {
 				controlDevice(ParserConstants.CHILD_LOCK, "1");
 				MetricsTracker.trackActionChildLock("Child lock on");
 			} else {
-				childLock.setChecked(false);
 				controlDevice(ParserConstants.CHILD_LOCK, "0");
 				MetricsTracker.trackActionChildLock("Child lock off");
 			}
-			isChildLockOn = !isChildLockOn;
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
 			break;
 		case R.id.btn_rm_indicator_light:
-			if (!isIndicatorLightOn) {
-				indicatorLight.setChecked(true);
+			if (indicatorLight.isChecked()) {
 				controlDevice(ParserConstants.AQI_LIGHT, "1");
 				MetricsTracker.trackActionIndicatorLight("Indicator light on");
 			} else {
-				indicatorLight.setChecked(false);
 				controlDevice(ParserConstants.AQI_LIGHT, "0");
 				MetricsTracker.trackActionIndicatorLight("Indicator light off");
 			}
-			isIndicatorLightOn = !isIndicatorLightOn;
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
 			break;
