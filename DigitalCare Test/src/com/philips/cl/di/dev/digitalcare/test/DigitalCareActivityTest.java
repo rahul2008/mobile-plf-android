@@ -1,10 +1,7 @@
 package com.philips.cl.di.dev.digitalcare.test;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
-import android.app.Fragment;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -16,12 +13,18 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.dev.digitalcare.R;
+import com.philips.cl.di.dev.digitalcare.Call.test.CallFeature;
+import com.philips.cl.di.dev.digitalcare.Utility.test.DeviceType;
 import com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.dev.digitalcare.fragment.ContactUsFragment;
-import com.philips.cl.di.dev.digitalcare.fragment.TwitterScreenFragment;
-import com.philips.cl.di.dev.digitalcare.util.FragmentObserver;
 import com.philips.cl.di.dev.digitalcare.util.Utils;
 
+/**
+ * 
+ * @author naveen@philips.com
+ * @description This contains all the testcases of DigitalCareActivity.
+ * @Since Mar 5, 2015
+ */
 public class DigitalCareActivityTest extends
 		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
@@ -89,25 +92,33 @@ public class DigitalCareActivityTest extends
 
 	@SmallTest
 	public void testDeviceTypeMobileLogic() {
-		boolean isMobile = Utils.isTablet(mActivity.getApplicationContext());
+		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
 
-		// assertEquals("This may be Tablet so failed " , false , isMobile);
-		assertEquals("\n \nThis may be Tablet so failed \n \n", false, isMobile);
+		DeviceType mFeature = new DeviceType(mActivity);
+		expected = mFeature.isMobileDevice();
+
+		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
+				actual);
 	}
 
 	@SmallTest
 	public void testDeviceTypeTableteLogic() {
-		boolean isMobile = Utils.isTablet(mActivity.getApplicationContext());
+		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
+
+		DeviceType mFeature = new DeviceType(mActivity);
+		expected = mFeature.isTabletDevice();
 
 		// assertEquals("This may be Tablet so failed " , false , isMobile);
-		assertEquals(" \n \n This may be Mobile so failed \n \n", true,
-				isMobile);
+		assertEquals(" \n \n This may be Mobile so failed \n \n", expected,
+				actual);
 	}
 
 	@SmallTest
 	public void testSimAvailabilityLogic() {
-		boolean isAvailable = Utils.isSimAvailable(mActivity);
-		assertEquals(" \n \n Please try by inserting SIM \n \n", true,
+		CallFeature mCall = new CallFeature();
+		boolean isAvailable = Utils.isSimAvailable(mActivity), expected = mCall
+				.isSimAvailable(mActivity);
+		assertEquals(" \n \n Please try by inserting SIM \n \n", expected,
 				isAvailable);
 
 	}
@@ -144,29 +155,6 @@ public class DigitalCareActivityTest extends
 	}
 
 	@MediumTest
-	public void testTwitterFunctionality() throws ClassNotFoundException, NoSuchMethodException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		
-		Class cls = Class.forName("com.philips.cl.di.dev.digitalcare.DigitalCareActivity");
-		Object obj = cls.newInstance();
-		
-		
-		Class[] paramString = new Class[1];	
-		paramString[0] = Fragment.class;
-		
-		
-		Method method = cls.getDeclaredMethod("showFragment", paramString);
-		method.setAccessible(true);
-		
-		ContactUsFragment mObject = new ContactUsFragment();
-		 
-		
-		 Object object = method.invoke(obj, mObject);
-		 
-		 assertNotNull("Contact Us Screent Not Found " , object);
-		
-	}
-
-	@MediumTest
 	public void testCDLSLink() throws NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
 		String received = null, expected = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
@@ -177,13 +165,12 @@ public class DigitalCareActivityTest extends
 
 		assertEquals(expected, received);
 	}
-	
-	
+
 	@SmallTest
-	public void testFragmentTitle()
-	{
-		FragmentObserver observer = new FragmentObserver();
-		assertNotNull(observer.getActionbarTitle());
+	public void testFaceBookID() {
+		String expected = "1537018913230025";
+		String actual = mActivity.getString(R.string.app_id);
+		assertEquals(expected, actual);
 	}
 
 }
