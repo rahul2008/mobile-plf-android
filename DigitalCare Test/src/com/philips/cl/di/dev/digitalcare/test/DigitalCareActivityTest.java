@@ -90,16 +90,16 @@ public class DigitalCareActivityTest extends
 		assertEquals("\n \n No Connection \n \n", true, isConnected);
 	}
 
-	@SmallTest
-	public void testDeviceTypeMobileLogic() {
-		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
-
-		DeviceType mFeature = new DeviceType(mActivity);
-		expected = mFeature.isMobileDevice();
-
-		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
-				actual);
-	}
+//	@SmallTest
+//	public void testDeviceTypeMobileLogic() {
+//		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
+//
+//		DeviceType mFeature = new DeviceType(mActivity);
+//		expected = mFeature.isMobileDevice();
+//
+//		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
+//				actual);
+//	}
 
 	@SmallTest
 	public void testDeviceTypeTableteLogic() {
