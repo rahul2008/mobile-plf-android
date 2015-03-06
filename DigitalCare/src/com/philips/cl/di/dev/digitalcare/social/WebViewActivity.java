@@ -64,13 +64,12 @@ public class WebViewActivity extends Activity {
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
-		super.onStop();
+		if (mDialog != null) {
 		mDialog.dismiss();
 		mDialog.cancel();
 		mDialog = null;
 	}
-	@Override
-	public void onBackPressed() {
+		super.onStop();
 	}
 
 	class MyWebViewClient extends WebViewClient {
@@ -79,7 +78,7 @@ public class WebViewActivity extends Activity {
 		public void onPageFinished(WebView view, String url) {
 
 			try {
-				if (mDialog.isShowing()) {
+				if (mDialog != null && mDialog.isShowing()) {
 					mDialog.dismiss();
 					mDialog = null;
 				}

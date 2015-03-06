@@ -47,6 +47,14 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		FacebookScreenFragment fbFrag = new FacebookScreenFragment();
 		fbFrag.onActivityResultFragment(this, requestCode, resultCode, data);
 		
+		Log.d("Twitter ", "request code : " + requestCode);
+		Log.d("Twitter ", "result code : " + resultCode);
+		Log.d("Twitter ", "Intent Data : " + data);
+		if (resultCode == 0
+				&& requestCode == TwitterConnect.WEBVIEW_REQUEST_CODE) {
+			TwitterConnect mTwitter = TwitterConnect.getInstance();
+			mTwitter.onFailedToAuthenticate();
+		}
 		if (resultCode == Activity.RESULT_OK
 				&& requestCode == TwitterConnect.WEBVIEW_REQUEST_CODE) {
 			

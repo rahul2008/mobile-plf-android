@@ -202,4 +202,8 @@ public class TwitterConnect {
 			}
 		}).start();
 	}
+	public void onFailedToAuthenticate()
+	{
+		mTwitterAuth.onTwitterLoginFailed();
+	}
 }

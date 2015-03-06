@@ -126,11 +126,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTwitterLoginFailed() {
 		DLog.d(TAG, "Twitter Authentication Failed");
-
+		mTwitter.setClickable(true);
 	}
 
 	@Override
 	public void onTwitterLoginSuccessful() {
+		mTwitter.setClickable(true);
 		Toast.makeText(getActivity(), "Logged in Successfully",
 				Toast.LENGTH_SHORT).show();
 		showFragment(new TwitterScreenFragment());
@@ -231,6 +232,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isConnected(getActivity())) {
+			mTwitter.setClickable(false);
 			TwitterConnect mTwitter = TwitterConnect.getInstance(getActivity());
 			mTwitter.initSDK(mTwitterAuth);
 		} else if (id == R.id.contactUsEmail) {
