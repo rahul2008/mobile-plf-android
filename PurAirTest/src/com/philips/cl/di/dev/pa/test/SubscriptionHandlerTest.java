@@ -44,13 +44,11 @@ public class SubscriptionHandlerTest extends InstrumentationTestCase {
 
 	public void testUDPEventReceivedDataNull() {
 		mSubscriptionHandler.onUDPEventReceived(null, PURIFIER_IP);
-
 		verify(mResponseHandler, never()).onSuccess(anyString());
 	}
 	
 	public void testUDPEventReceivedDataEmptyString() {
 		mSubscriptionHandler.onUDPEventReceived("", PURIFIER_IP);
-
 		verify(mResponseHandler, never()).onSuccess(anyString());
 	}
 	
