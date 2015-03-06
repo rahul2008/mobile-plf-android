@@ -86,7 +86,7 @@ public class DeviceHandler implements ServerResponseListener {
 			mListener.onLocalEventLost(mPurifierEvent) ; 
 		}
 		else {
-			mListener.onLocalEventReceived(encryptedData, fromIp) ;
+			mListener.onLocalEventReceived(encryptedData) ;
 		}
 	}
 	
@@ -114,10 +114,10 @@ public class DeviceHandler implements ServerResponseListener {
 		if( stop == true ) return ;
 		if( response != null && !response.isEmpty() ) {
 			if( mNetworkNode.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-				mListener.onLocalEventReceived(response, mNetworkNode.getIpAddress()) ;
+				mListener.onLocalEventReceived(response) ;
 			}
 			else if( mNetworkNode.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
-				mListener.onRemoteEventReceived(response, mNetworkNode.getCppId()) ;
+				mListener.onRemoteEventReceived(response) ;
 			}
 		}
 		else {

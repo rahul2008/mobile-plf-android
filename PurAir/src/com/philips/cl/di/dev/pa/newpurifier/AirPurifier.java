@@ -161,15 +161,12 @@ public class AirPurifier implements SubscriptionEventListener, KeyDecryptListene
 	}
 
 	@Override
-	public void onLocalEventReceived(String encryptedData, String applianceIpAddress) {
+	public void onLocalEventReceived(String encryptedData) {
 		ALog.i("UIUX", "Check if the thread is running: " + mDeviceHandler.isDeviceThreadRunning()) ;
 		if(mDeviceHandler.isDeviceThreadRunning()) return;
 				
 		ALog.d(ALog.APPLIANCE, "Local event received");
-		if (mNetworkNode.getIpAddress() == null || !mNetworkNode.getIpAddress().equals(applianceIpAddress)) {
-			ALog.d(ALog.APPLIANCE, "Ignoring event, not from current appliance (" + (applianceIpAddress == null? "null" : applianceIpAddress) + ")");
-			return;
-		}
+		
 		String decryptedData = mDISecurity.decryptData(encryptedData, mNetworkNode) ;
 		if (decryptedData == null ) {
 			ALog.d(ALog.APPLIANCE, "Unable to decrypt data for current appliance: " + mNetworkNode.getIpAddress());
@@ -179,14 +176,10 @@ public class AirPurifier implements SubscriptionEventListener, KeyDecryptListene
 	}
 
 	@Override
-	public void onRemoteEventReceived(String data, String applianceCppId) {
+	public void onRemoteEventReceived(String data) {
 		if(mDeviceHandler.isDeviceThreadRunning()) return;
 				
 		ALog.d(ALog.APPLIANCE, "Remote event received");
-		if (!mNetworkNode.getCppId().equals(applianceCppId)) {
-			ALog.d(ALog.APPLIANCE, "Ignoring event, not from current appliance");
-			return;
-		}
 		notifySubscriptionListeners(data);
 	}
 

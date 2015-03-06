@@ -209,11 +209,16 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			return;
 		if (fromIp == null || fromIp.isEmpty())
 			return;
+		
+		if (mNetworkNode.getIpAddress() == null || !mNetworkNode.getIpAddress().equals(fromIp)) {
+			ALog.d(ALog.SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromIp == null? "null" : fromIp) + ")");
+			return;
+		}
 
-		ALog.i(ALog.SUBSCRIPTION, "UDP event received: " + fromIp);
+		ALog.i(ALog.SUBSCRIPTION, "UDP event received from " + fromIp);
 		ALog.d(ALog.SUBSCRIPTION, data);
 		if (mSubscriptionEventListener != null) {
-			mSubscriptionEventListener.onLocalEventReceived(data, fromIp);
+			mSubscriptionEventListener.onLocalEventReceived(data);
 		}
 	}
 
@@ -224,10 +229,15 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 		if (fromEui64 == null || fromEui64.isEmpty())
 			return;
+		
+		if (!mNetworkNode.getCppId().equals(fromEui64)) {
+			ALog.d(ALog.SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromEui64 == null? "null" : fromEui64) + ")");
+			return;
+		}
 		ALog.i(ALog.SUBSCRIPTION, "DCS event received from " + fromEui64);
 		ALog.i(ALog.SUBSCRIPTION, data);
 		if (mSubscriptionEventListener != null) {
-			mSubscriptionEventListener.onRemoteEventReceived(data, fromEui64);
+			mSubscriptionEventListener.onRemoteEventReceived(data);
 		}
 	}
 

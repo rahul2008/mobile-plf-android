@@ -90,27 +90,15 @@ public class AirPurifierTest extends InstrumentationTestCase {
 	
 		public void testReceiveIncorrectLocalEventNoPurfierSet() {
 			String data = "dfasfas";
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
 		}
 		
-
-		public void testReceiveIncorrectLocalEventWrongPurifier() {
-			String data = "dfasfas";
-			purifier.onLocalEventReceived(data, "0.0.0.0");
-			
-			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
-			
-			assertNull(purifier.getAirPort().getAirPortInfo());
-			assertNull(purifier.getFirmwarePort().getFirmwarePortInfo());
-		}
-
 		public void testReceiveIncorrectLocalEventRightPurifier() {
 			String data = "dfasfas";
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
@@ -121,7 +109,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 		
 		public void testReceiveUnencryptedLocalAPEventRightPurifier() {
 			String data = VALID_LOCALAIRPORTEVENT;
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
@@ -132,18 +120,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 
 		public void testReceiveUnencryptedLocalFWEventRightPurifier() {
 			String data = VALID_LOCALFWEVENT;
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
-			
-			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
-			
-			assertNull(purifier.getAirPort().getAirPortInfo());
-			assertNull(purifier.getFirmwarePort().getFirmwarePortInfo());
-		}
-		
-		public void testReceiveEncryptedLocalAPEventWrongPurifier() {
-			String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-			purifier.onLocalEventReceived(data, "0.0.0.0");
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
@@ -156,7 +133,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 			purifier.getNetworkNode().setEncryptionKey("bjklsdauionse89084jlk");
 			
 			String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
@@ -167,7 +144,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 
 		public void testReceiveEncryptedLocalAPEventRightPurifier() {
 			String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
@@ -178,7 +155,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 		
 		public void testReceiveEncryptedLocalFWEventRightPurifier() {
 			String data = VALID_ENCRYPTED_LOCALFWEVENT;
-			purifier.onLocalEventReceived(data, PURIFIER_IP);
+			purifier.onLocalEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener).notifyFirmwareEventListeners();
@@ -187,29 +164,9 @@ public class AirPurifierTest extends InstrumentationTestCase {
 			assertNotNull(purifier.getFirmwarePort().getFirmwarePortInfo());
 		}
 		
-		public void testReceiveIncorrectRemoteEventWrongPurifier() {
-			String data = "dfasfas";
-			purifier.onRemoteEventReceived(data, "9c5a6bfffe634357");
-			
-			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
-			
-			assertNull(purifier.getAirPort().getAirPortInfo());
-		}
-
 		public void testReceiveIncorrectRemoteEventRightPurifier() {
 			String data = "dfasfas";
-			purifier.onRemoteEventReceived(data, PURIFIER_EUI64);
-			
-			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
-			
-			assertNull(purifier.getAirPort().getAirPortInfo());
-		}
-		
-		public void testReceiveRemoteAirPortEventWrongPurifier() {
-			String data = VALID_REMOTEAIRPORTEVENT;
-			purifier.onRemoteEventReceived(data, "9c5a6bfffe634357");
+			purifier.onRemoteEventReceived(data);
 			
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
@@ -219,7 +176,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 
 		public void testReceiveRemoteAirPortEventRightPurifier() {
 			String data = VALID_REMOTEAIRPORTEVENT;
-			purifier.onRemoteEventReceived(data, PURIFIER_EUI64);
+			purifier.onRemoteEventReceived(data);
 			
 			verify(mPurifierListener).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
