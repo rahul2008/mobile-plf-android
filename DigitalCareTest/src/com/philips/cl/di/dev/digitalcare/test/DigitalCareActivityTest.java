@@ -83,12 +83,12 @@ public class DigitalCareActivityTest extends
 		assertNotNull("Back Icon not available ", mBackbutton);
 	}
 
-	@MediumTest
-	public void testDigitalCareConnectionLogic() {
-		boolean isConnected = Utils.isConnected(mActivity);
-
-		assertEquals("\n \n No Connection \n \n", true, isConnected);
-	}
+	//@MediumTest
+	//public void testDigitalCareConnectionLogic() {
+	//	boolean isConnected = Utils.isConnected(mActivity);
+//
+	//	assertEquals("\n \n No Connection \n \n", true, isConnected);
+	//}
 
 //	@SmallTest
 //	public void testDeviceTypeMobileLogic() {
