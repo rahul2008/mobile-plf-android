@@ -38,7 +38,6 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DashboardUtil.Detail;
-import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -261,23 +260,23 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private void setViewOnClick(int index) {
 		switch (index) {
 		case 0:
-			lastDayBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
-			lastWeekBtn.setTextColor(Color.LTGRAY);
-			lastFourWeekBtn.setTextColor(Color.LTGRAY);
+			lastDayBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
+			lastWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+			lastFourWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			msgFirst.setText(getString(R.string.aqi_message_last_day));
 			msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
 			break;
 		case 1:
-			lastDayBtn.setTextColor(Color.LTGRAY);
-			lastWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
-			lastFourWeekBtn.setTextColor(Color.LTGRAY);
+			lastDayBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+			lastWeekBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
+			lastFourWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			msgFirst.setText(getString(R.string.aqi_message_last7day));
 			msgSecond.setText(getString(R.string.detail_aiq_message_last7day));		
 			break;
 		case 2:
-			lastDayBtn.setTextColor(Color.LTGRAY);
-			lastWeekBtn.setTextColor(Color.LTGRAY);
-			lastFourWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
+			lastDayBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+			lastWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+			lastFourWeekBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
 			msgFirst.setText(getString(R.string.aqi_message_last4week));
 			msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 			break;

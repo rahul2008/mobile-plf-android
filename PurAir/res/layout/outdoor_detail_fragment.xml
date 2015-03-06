@@ -67,49 +67,12 @@
                 android:textColor="@color/white"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
-        <ListView 
+
+        <ListView
             android:id="@+id/outdoor_detail_neighborhood_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
-    <!-- Map layout -->
-
-    <RelativeLayout
-        android:id="@+id/outdoor_detail_map_rl"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginTop="16dp" >
-
-        <fragment
-            android:id="@+id/outdoor_detail_map_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            class="com.philips.cl.di.dev.pa.fragment.MarkerMapFragment" />
-
-        <ImageView
-            android:id="@+id/gaodeMapZoomImg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:clickable="true"
-            android:contentDescription="@string/img_description"
-            android:padding="8dp"
-            android:src="@drawable/zoom_arrow_icon_2x" />
-
-        <ImageView
-            android:id="@+id/dummy_map_img"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/beijing_map"
-            android:contentDescription="@string/img_description"
-            android:visibility="gone" />
-    </RelativeLayout>
 
     <!-- Weather report -->
 
@@ -163,16 +126,7 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         layout="@layout/dashboard_details_control" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@color/gray" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -222,5 +176,42 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <!-- Map layout -->
+
+    <RelativeLayout
+        android:id="@+id/outdoor_detail_map_rl"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="16dp" >
+
+        <fragment
+            android:id="@+id/outdoor_detail_map_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            class="com.philips.cl.di.dev.pa.fragment.MarkerMapFragment" />
+
+        <ImageView
+            android:id="@+id/gaodeMapZoomImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:contentDescription="@string/img_description"
+            android:padding="8dp"
+            android:src="@drawable/zoom_arrow_icon_2x" />
+
+        <ImageView
+            android:id="@+id/dummy_map_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/beijing_map"
+            android:contentDescription="@string/img_description"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </LinearLayout>

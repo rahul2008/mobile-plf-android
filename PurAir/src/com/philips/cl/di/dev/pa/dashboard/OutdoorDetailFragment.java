@@ -386,9 +386,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		if (lastDayAQIHistoricArr != null && lastDayAQIHistoricArr.length > 0 && getMainActivity() != null) {
 			graphLayout.addView(new GraphView(getMainActivity(), lastDayAQIHistoricArr));
 		}
-		lastDayBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
-		lastWeekBtn.setTextColor(Color.LTGRAY);
-		lastFourWeekBtn.setTextColor(Color.LTGRAY);
+		lastDayBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
+		lastWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+		lastFourWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
 	}
 	
@@ -397,9 +397,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		if (last7dayAQIHistoricArr != null && last7dayAQIHistoricArr.length > 0 && getMainActivity() != null) {
 			graphLayout.addView(new GraphView(getMainActivity(), last7dayAQIHistoricArr));
 		}
-		lastDayBtn.setTextColor(Color.LTGRAY);
-		lastWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
-		lastFourWeekBtn.setTextColor(Color.LTGRAY);
+		lastDayBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+		lastWeekBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
+		lastFourWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
 	}
 
@@ -408,9 +408,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		if (last4weekAQIHistoricArr != null && last4weekAQIHistoricArr.length > 0 && getMainActivity() != null) {
 			graphLayout.addView(new GraphView(getMainActivity(), last4weekAQIHistoricArr));
 		}
-		lastDayBtn.setTextColor(Color.LTGRAY);
-		lastWeekBtn.setTextColor(Color.LTGRAY);
-		lastFourWeekBtn.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
+		lastDayBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+		lastWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
+		lastFourWeekBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 	}
 	

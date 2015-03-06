@@ -2,50 +2,60 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:orientation="horizontal" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorLastDayLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="50dp"
         android:layout_weight="1"
         android:clickable="true"
-        android:paddingBottom="2dp"
-        android:paddingTop="8dp"
+        android:background="@drawable/highlight_text_view_bg"
+        android:gravity="center"
         android:text="@string/lastday"
-        android:textColor="@color/philips_blue"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/detail_trend_button_separator"
+        android:contentDescription="@string/img_description"/>
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorLastWeekLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="50dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
+        android:gravity="center"
         android:clickable="true"
-        android:paddingBottom="2dp"
-        android:paddingTop="8dp"
+        android:background="@drawable/normal_text_view_bg"
         android:text="@string/last7day"
-        android:textColor="@color/lightgrey"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
+    <ImageView 
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/detail_trend_button_separator"
+        android:contentDescription="@string/img_description"/>
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorLastFourWeekLabel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="50dp"
         android:layout_weight="1"
         android:clickable="true"
-        android:gravity="right"
-        android:paddingBottom="2dp"
-        android:paddingTop="8dp"
+        android:background="@drawable/normal_text_view_bg"
+        android:gravity="center"
         android:text="@string/last4week"
-        android:textColor="@color/lightgrey"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
