@@ -11,6 +11,7 @@ import android.graphics.Point;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -129,4 +130,5 @@ public class DashboardUtil {
 			}
 		}
 	}
+	
 }

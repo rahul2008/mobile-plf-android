@@ -72,6 +72,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
     private int prevPositionIndoor;
     private ScrollView scrollView;
     private ViewGroup outdoorDetailContainer;
+    private ViewGroup indoorDetailContainer;
+    private ViewGroup titleLayout;
     private int screenHeight;// Without status bar height
 	
 	@Override
@@ -95,8 +97,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		
+		titleLayout = (RelativeLayout) view.findViewById(R.id.home_fragment_title);
+		titleLayout.setVisibility(View.GONE);
+		
+		initTitleView(view);
+		
 		scrollView = (ScrollView)view.findViewById(R.id.home_fragment_scroll_view);
 		scrollView.setSelected(true);
+		
+		indoorDetailContainer = 
+				(LinearLayout) view.findViewById(R.id.home_fragment_indoor_detail_container);
+		indoorDetailContainer.setVisibility(View.GONE);
 		
 		outdoorDetailContainer = 
 				(LinearLayout) view.findViewById(R.id.home_fragment_outdoor_detail_container);
@@ -115,6 +126,20 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		params2.height = screenHeight / 2;
 		
 		return view;
+	}
+	
+	private void initTitleView(View view) {
+		ImageButton collapseBtn = (ImageButton) view.findViewById(R.id.heading_back_imgbtn);
+		collapseBtn.setVisibility(View.VISIBLE);
+		collapseBtn.setOnClickListener(this);
+		
+		ImageButton aboutBtn = (ImageButton) view.findViewById(R.id.heading_close_imgbtn);
+		aboutBtn.setVisibility(View.VISIBLE);
+		aboutBtn.setImageResource(R.drawable.info);
+		aboutBtn.setOnClickListener(this);
+		
+		FontTextView title = (FontTextView) view.findViewById(R.id.heading_name_tv);
+		title.setText(getString(R.string.dashboard_title));
 	}
 	
 	@Override
@@ -261,6 +286,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
 	@Override
 	public void onClick(View v) {
+		MainActivity activity = (MainActivity) getActivity();
+		if (activity == null) return;
 		switch (v.getId()) {
 		case R.id.lbl_take_tour:
 			((MainActivity)getActivity()).isTutorialPromptShown = true;
@@ -268,18 +295,22 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			startActivity(intentOd);
 			hideTakeATourPopup();
 			break;
-			
 		case R.id.btn_close_tour_layout:
-			((MainActivity)getActivity()).isTutorialPromptShown = true;
+			activity.isTutorialPromptShown = true;
 			hideTakeATourPopup();
 			showTutorialDialog();
 			break;
 		case R.id.home_fragment_info_img_btn:
-		    MainActivity activity = (MainActivity) getActivity();
-		    if (activity != null) {
-		    	activity.showFragment(new AboutFragment());
-		    }
-		break;
+			activity.showFragment(new AboutFragment());
+			break;
+		case R.id.heading_back_imgbtn:
+			removeIndoorDetails();
+			removeOutdoorDetails();
+			titleLayout.setVisibility(View.GONE);
+			break;
+		case R.id.heading_close_imgbtn:
+			activity.showFragment(new AboutFragment());
+			break;
 		default:
 			break;
 		}
@@ -422,16 +453,20 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			fragment.setArguments(bundle);
 			addFragment(fragment, R.id.home_fragment_outdoor_detail_container, OUTDOOR_DEATAIL_FTAG) ;
 			outdoorDetailContainer.setVisibility(View.VISIBLE);
-			scrollUpOutdoorDetails() ;
+			scrollScrollView(true) ;
 		}
 		isLoadingOutdoorDetail = false;
+		setTitleBarVisibity();
 	}
 	
 	public void toggleIndoorDetailFragment() {
 		if (!removeIndoorDetails()) {
 			IndoorDetailFragment fragment = new IndoorDetailFragment();
 			addFragment(fragment, R.id.home_fragment_indoor_detail_container, INDOOR_DETAIL_FTAG);
+			indoorDetailContainer.setVisibility(View.VISIBLE);
 		}
+		scrollScrollView(false);
+		setTitleBarVisibity();
 	}
 	
 	private void addFragment(Fragment fragment, int containerId, String tag) {
@@ -484,6 +519,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				if (prevFragment != null) {
 					fragmentTransaction.remove(prevFragment);
 					fragmentTransaction.commit();
+					indoorDetailContainer.setVisibility(View.GONE);
 					return true;
 				}
 			} catch (IllegalStateException e) {
@@ -497,13 +533,31 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	 * Scroll to outdoor detail, normal case outdoor detail does not added,
 	 *  that why given delay 100 milli sec.
 	 */
-	private void scrollUpOutdoorDetails() {
+	private void scrollScrollView(final boolean srcollUp) {
 		scrollView.postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				scrollView.scrollBy(0, screenHeight / 2);
+				int scrollY = 0;
+				
+				if (srcollUp) {
+					int indoorDetailHeight = indoorDetailContainer.getHeight();
+					if (indoorDetailContainer.getVisibility() == View.GONE) {
+						indoorDetailHeight = 0;
+					}
+					scrollY = (screenHeight / 2) + indoorDetailHeight;
+				}
+				scrollView.scrollTo(0, scrollY);
 			}
-		}, 100); //100 millisecond to 
+		}, 100); //100 millisecond
 	}
 	
+	private void setTitleBarVisibity() {
+		if (indoorDetailContainer.getVisibility() == View.GONE  
+				&& outdoorDetailContainer.getVisibility() == View.GONE) {
+			titleLayout.setVisibility(View.GONE);
+		} else {
+			titleLayout.setVisibility(View.VISIBLE);
+		}
+	}
+
 }
