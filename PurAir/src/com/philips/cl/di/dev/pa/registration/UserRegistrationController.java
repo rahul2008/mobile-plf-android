@@ -42,8 +42,7 @@ public class UserRegistrationController implements NetworkStateListener {
 		User user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());
 
-//		return (null != profile);
-		return true;
+		return (null != profile);
 	}
 
 	public Error getErrorEnum(int errorCode) {
