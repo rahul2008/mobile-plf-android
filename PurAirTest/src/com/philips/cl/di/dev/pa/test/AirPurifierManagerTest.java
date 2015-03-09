@@ -3,17 +3,19 @@ package com.philips.cl.di.dev.pa.test;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
@@ -48,11 +50,51 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 	
+	private AirPurifier createMockDisconnectedPurifier() {
+		AirPurifier device = mock(AirPurifier.class);
+		NetworkNode networkNode = mock(NetworkNode.class);
+		when(device.getNetworkNode()).thenReturn(networkNode);
+		when(networkNode.getConnectionState()).thenReturn(ConnectionState.DISCONNECTED);
+		return device;
+	}
+	
 	public void testNoSubscriptionAtStartup() {
 		verifyZeroInteractions(mSubscriptionMan);
 	}
+	
+	public void testAddPurifierListener(){
+		AirPurifier device = createMockDisconnectedPurifier();	
+		
+		mPurifierMan.setCurrentPurifier(device);
+		
+		verify(device,times(1)).setPurifierListener(mPurifierMan);
+	}
+	
+	public void testAddPurifierListenerAfterCurrentPurifierIsAlreadySet(){
+		AirPurifier device1 = createMockDisconnectedPurifier();			
+		mPurifierMan.setCurrentPurifier(device1);		
+		
+		reset(device1);
+		
+		AirPurifier device2 = createMockDisconnectedPurifier();		
+		mPurifierMan.setCurrentPurifier(device2);
+		
+		verify(device1,times(1)).setPurifierListener(null);
+		verify(device2,times(1)).setPurifierListener(mPurifierMan);
+	}
+	
+	public void testRemovePurifierListener(){
+		AirPurifier device1 = createMockDisconnectedPurifier();			
+		mPurifierMan.setCurrentPurifier(device1);		
+		
+		reset(device1);
+		
+		mPurifierMan.removeCurrentPurifier();
+		
+		verify(device1,times(1)).setPurifierListener(null);
+	}
 
-// ***** START TESTS TO TOGGLE SUBSCRIPTION WHEN PURIFIER CHANGES ***** 
+// ***** START TESTS TO TOGGLE SUBSCRIPTION WHEN PURIFIER CHANGES *****
 	public void testSetFirstDisconnectedPurifier() {
 		AirPurifier device = new AirPurifier(null, null, null, null, -1, ConnectionState.DISCONNECTED,mSubscriptionMan);
 		mPurifierMan.setCurrentPurifier(device);

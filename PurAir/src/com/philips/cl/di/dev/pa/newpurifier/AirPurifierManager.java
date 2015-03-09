@@ -66,6 +66,9 @@ public class AirPurifierManager implements Observer, PurifierListener {
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
 		//stopCurrentSubscription();
+		if(mCurrentPurifier!=null){
+			mCurrentPurifier.setPurifierListener(null);
+		}
 		mCurrentPurifier = purifier;
 		mCurrentPurifier.getNetworkNode().addObserver(this);
 		mCurrentPurifier.setPurifierListener(this);
@@ -89,6 +92,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 			mCurrentPurifier.unSubscribeFromAllEvents();
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
+		mCurrentPurifier.setPurifierListener(null);
 		stopCurrentSubscription();
 		
 		mCurrentPurifier = null;
