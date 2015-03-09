@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.cpp;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
@@ -41,8 +40,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener 
 			ALog.i(ALog.CPPDISCHELPER, "Enabling remote subscription (start dcs)");
 			mCppController.startDCSService();
 			mCppController.addPublishEventListener(this) ;
-			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance()
-							.getAppEui64(), "", 20, 120, SessionDto.getInstance().getAppEui64());
+			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, "", 20, 120, mCppController.getAppCppId());
 			isCppDiscoveryPending = false;
 			ALog.i(ALog.CPPDISCHELPER, "Starting discovery via Cpp - IMMEDIATE");
 		} else {
@@ -81,8 +79,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener 
 		}
 		else if(discoverEventMessageID == messageId) {
 			retrySubscriptionCount ++ ;
-			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance()
-					.getAppEui64(), "", 20, 120, SessionDto.getInstance().getAppEui64());
+			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, "", 20, 120, mCppController.getAppCppId());
 		}
 	}
 }

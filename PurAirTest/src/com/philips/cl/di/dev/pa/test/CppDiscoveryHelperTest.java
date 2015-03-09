@@ -35,7 +35,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 	}
 
 	public void testCppDiscoveryConstructor() {
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
+		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController).addSignOnListener(mHelper);
 		verify(mCppController).setCppDiscoverEventListener(mDiscListener);
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
@@ -44,7 +44,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 	public void testCppDiscoveryOnStartNoSignon() {
 		mHelper.startDiscoveryViaCpp();
 
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
+		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController, never()).startDCSService();
 		verify(mDiscListener, never()).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
@@ -56,7 +56,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		
 		mHelper.startDiscoveryViaCpp();
 
-		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(AppConstants.DISCOVER), anyString(), eq(""), anyInt(), anyInt(), anyString());
+		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(AppConstants.DISCOVER), eq(""), anyInt(), anyInt(), anyString());
 		verify(mCppController).startDCSService();
 		verify(mDiscListener).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
@@ -67,7 +67,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.startDiscoveryViaCpp();
 		mHelper.stopDiscoveryViaCpp();
 
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
+		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController, never()).startDCSService();
 		verify(mDiscListener, never()).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
@@ -78,7 +78,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.startDiscoveryViaCpp();
 		mHelper.signonStatus(true);
 		
-		verify(mCppController).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
+		verify(mCppController).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController).startDCSService();
 		verify(mDiscListener).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
@@ -89,7 +89,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		mHelper.startDiscoveryViaCpp();
 		mHelper.signonStatus(false);
 
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
+		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController, never()).startDCSService();
 		verify(mDiscListener, never()).onSignedOnViaCpp();
 		verify(mDiscListener).onSignedOffViaCpp();

@@ -27,7 +27,6 @@ import android.widget.RemoteViews;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -107,6 +106,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private KEY_PROVISION keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 	private boolean appUpdateAlertShown;
+	private String mAppCppId;
 
 	private CPPController(Context context) {
 		this.context = context;
@@ -412,22 +412,21 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param eventData
 	 * @param eventType
 	 * @param actionName
-	 * @param replyTo
 	 * @param conversationId
 	 * @param priority
 	 * @param ttl
 	 */
 	public int publishEvent(String eventData, String eventType,
-			String actionName, String replyTo, String conversationId,
-			int priority, int ttl, String purifierEui64) {
+			String actionName, String conversationId, int priority,
+			int ttl, String purifierEui64) {
 		eventPublisher = new EventPublisher(callbackHandler);
 		int messageID = -1 ;
 		ALog.i(ALog.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
 				+ eventType + " Action Name: " +actionName +
-				" replyTo: " +replyTo +" + isSignOn "+isSignOn);
+				" replyTo: " +mAppCppId +" + isSignOn "+isSignOn);
 		if (isSignOn) {
 			eventPublisher.setEventInformation(eventType, actionName,
-					replyTo, conversationId, priority, ttl);
+					mAppCppId, conversationId, priority, ttl);
 			eventPublisher.setEventData(eventData);
 			if (purifierEui64 != null) {
 				eventPublisher.setTargets(new String[] { purifierEui64 });
@@ -618,7 +617,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			keyProvisioningState = KEY_PROVISION.PROVISIONED ;
 			Provision provision = (Provision) obj;
 			ALog.i(ALog.KPS, "EUI64(APP-KEY): "+provision.getEUI64());
-			SessionDto.getInstance().setAppEui64(provision.getEUI64());
+			mAppCppId = provision.getEUI64();
 			signOn();
 		}
 		else {
@@ -996,5 +995,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	
 	public void setAppUpdateStatus(boolean shown){
 		appUpdateAlertShown=shown;
+	}
+
+	public String getAppCppId() {
+		return mAppCppId;
 	}
 }
