@@ -19,6 +19,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.icpinterface.data.Errors;
 
 public class SubscriptionHandler implements UDPEventListener, DCSEventListener,

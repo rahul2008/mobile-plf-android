@@ -9,7 +9,6 @@ import android.os.Looper;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.purifier.ResponseHandler;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
@@ -20,6 +19,7 @@ import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 /**
