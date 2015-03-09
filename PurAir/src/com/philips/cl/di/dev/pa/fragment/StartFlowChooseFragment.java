@@ -69,7 +69,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		ImageButton backButton = (ImageButton) view.findViewById(R.id.heading_back_imgbtn);
 		backButton.setVisibility(View.VISIBLE);
 		FontTextView heading=(FontTextView) view.findViewById(R.id.heading_name_tv);
-		heading.setText(getString(R.string.add_new_air_purifier));
+		heading.setText(getString(R.string.add_new_purifier));
 		ImageButton closeButton = (ImageButton) view.findViewById(R.id.heading_close_imgbtn);
 		closeButton.setVisibility(View.VISIBLE);
 		closeButton.setOnClickListener(this);

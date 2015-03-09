@@ -626,7 +626,7 @@
     <string name="which_purifier_to_connect">Which Smart Air Purifier would you like to connect?</string>
     <string name="searching">Searching for Smart Air Purifiers</string>
     <string name="are_you_adding">Are you adding a new Air Purifier?</string>
-    <string name="your_new_purifier">Your Purifier is new, if it is not yet connected to your home network.</string>
+    <string name="your_new_purifier">Your Smart Air Purifier is new if it is not connected to your home network.</string>
     <string name="yes_it_is_new">Yes, it is new</string>
     <string name="no_already_connected">Already connected? Choose a Smart Air Purifier below&#8230;</string>
     <string name="how_clean_is_your_air">How clean is your air in your home?</string>

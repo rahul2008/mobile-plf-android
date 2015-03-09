@@ -617,7 +617,7 @@
     <string name="which_purifier_to_connect">请问您想要连接哪一台智控空气净化器呢？</string>
     <string name="searching">正在搜索智控净化器</string>
     <string name="are_you_adding">您需要添加一台从未连接过的空气净化器吗？</string>
-    <string name="your_new_purifier">您的智控净化器是新加入的，还没有连接到您的家庭网络哦。</string>
+    <string name="your_new_purifier">这台新智控净化器可能还未连接至您的家庭网络。</string>
     <string name="yes_it_is_new">是的，还未连接。</string>
     <string name="no_already_connected">已连接？您可以选择以下智控净化器…</string>
     <string name="how_clean_is_your_air">您家中的空气有多洁净？</string>
@@ -631,7 +631,7 @@
     <string name="max_purifier_reached">最多只可添加20台净化器。还想添加新净化器？请删除已有净化器。</string>
     <string name="max_city_reached">最多只可添加20台城市。还想添加新净化器？请删除已有城市。</string>
     <string name="purifier_add_fail_title">净化器未添加</string>
-    <string name="add_new_air_purifier">Add a new air purifier</string>
+    <string name="add_new_air_purifier">新添加一台空气净化器</string>
     <string name="purifier_add_fail_msg">您选中的飞利浦智控净化器无法与您的手机进行通讯</string>
 
     <!-- App update Notification -->

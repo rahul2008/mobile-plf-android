@@ -627,7 +627,7 @@
     <string name="which_purifier_to_connect">您想連接哪部智能空氣清新機？</string>
     <string name="searching">搜尋智能空氣清新機</string>
     <string name="are_you_adding">您想加入新的智能空氣清新機？</string>
-    <string name="your_new_purifier">若您的智能空氣清新機未連接家居網絡，即表示它是新機。</string>
+    <string name="your_new_purifier">這台新智能空氣清新機可能還未連接至您的家庭網絡。</string>
     <string name="yes_it_is_new">是的，它是新機</string>
     <string name="no_already_connected">已連接？您可以選擇以下智能空氣清新機…</string>
     <string name="how_clean_is_your_air">您家中的空氣質量如何？</string>
@@ -641,7 +641,7 @@
     <string name="max_purifier_reached">最多只可添加20臺淨化器。還想添加新淨化器？請刪除已有淨化器。</string>
     <string name="max_city_reached">最多只可添加20臺城市。還想添加新淨化器？請刪除已有城市。</string>
     <string name="purifier_add_fail_title">淨化器未添加</string>
-    <string name="add_new_air_purifier">Add a new air purifier</string>
+    <string name="add_new_air_purifier">新添加一台空氣清新機</string>
     <string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
 
     <!-- App update Notification -->
