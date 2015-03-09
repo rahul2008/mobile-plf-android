@@ -8,11 +8,11 @@ import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
 import com.philips.cl.di.dev.pa.purifier.RoutingStrategy;
-import com.philips.cl.di.dev.pa.purifier.ResponseHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 @SuppressLint("HandlerLeak")
