@@ -7,9 +7,8 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
+import com.philips.cl.di.dev.pa.purifier.ResponseHandler;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -17,15 +16,17 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class SchedulerHandler implements ServerResponseListener {
 	public static final int DEFAULT_ERROR = 999;
 	public static final int MAX_SCHEDULES_REACHED = 1;
 
-	private SubscriptionEventListener mListener;
+	private ResponseHandler mListener;
 	private NetworkNode mNetworkNode;
 
-	public SchedulerHandler(SubscriptionEventListener listener) {
+	public SchedulerHandler(ResponseHandler listener) {
 		mListener = listener;
 	}
 
@@ -148,13 +149,22 @@ public class SchedulerHandler implements ServerResponseListener {
 	private void notifyListener(int responseCode, String data) {
 		ALog.i(ALog.SCHEDULER, "Response Code: " + responseCode);
 		if (mListener == null)	return;
+		
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			mListener.onLocalEventReceived(data);
+			DISecurity diSecurity = new DISecurity(null);
+			String decryptedData = diSecurity.decryptData(data, mNetworkNode) ;
+			if (decryptedData == null ) {
+				ALog.d(ALog.SCHEDULER, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
+				return;
+			}			
+			mListener.onSuccess(decryptedData);
 		} else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-			String encryptedData = new DISecurity(null).encryptData(data, mNetworkNode);
-			mListener.onLocalEventReceived(encryptedData);
+			//String encryptedData = new DISecurity(null).encryptData(data, mNetworkNode);
+			//TODO: DICOMM Refactor, check if decryption is required			
+			mListener.onSuccess(data);
 		} else {
-			mListener.onLocalEventLost(PurifierEvent.SCHEDULER);
+			Error error = new Error(PurifierEvent.SCHEDULER.ordinal(),"");
+			mListener.onError(error) ; 
 		}
 	}
 }

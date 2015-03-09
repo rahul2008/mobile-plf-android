@@ -7,18 +7,20 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
 import com.philips.cl.di.dev.pa.purifier.RoutingStrategy;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
+import com.philips.cl.di.dev.pa.purifier.ResponseHandler;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 @SuppressLint("HandlerLeak")
 public class DeviceHandler implements ServerResponseListener {
 	
-	private SubscriptionEventListener mListener;
-	private PurifierEvent mPurifierEvent ;
+	private ResponseHandler mListener;
+	private Error.PurifierEvent mPurifierEvent ;
 	private Thread statusUpdateTaskThread ;
 	private NetworkNode mNetworkNode ;
 	
@@ -26,17 +28,17 @@ public class DeviceHandler implements ServerResponseListener {
 	private boolean stop;
 	private String response ;
 	
-	public DeviceHandler(SubscriptionEventListener listener) {
+	public DeviceHandler(ResponseHandler listener) {
 		mListener = listener ;
 		deviceDetailsTable = new Hashtable<String, String>() ;
 	}
 	
-	public DeviceHandler(SubscriptionEventListener listener, PurifierEvent purifierEvent) {
+	public DeviceHandler(ResponseHandler listener, Error.PurifierEvent purifierEvent) {
 		this(listener);
 		mPurifierEvent = purifierEvent ;
 	}
 	
-	public void setPurifierEvent(PurifierEvent purifierEvent) {
+	public void setPurifierEvent(Error.PurifierEvent purifierEvent) {
 		mPurifierEvent = purifierEvent ;
 	}
 
@@ -83,10 +85,11 @@ public class DeviceHandler implements ServerResponseListener {
 		ALog.i(ALog.DEVICEHANDLER, "Response Code: "+responseCode) ;
 		if (mListener == null) return;
 		if(responseCode != HttpURLConnection.HTTP_OK) {
-			mListener.onLocalEventLost(mPurifierEvent) ; 
+			Error error = new Error(mPurifierEvent.ordinal(),"");
+			mListener.onError(error) ; 
 		}
 		else {
-			mListener.onLocalEventReceived(encryptedData) ;
+			mListener.onSuccess(encryptedData) ;
 		}
 	}
 	
@@ -113,15 +116,23 @@ public class DeviceHandler implements ServerResponseListener {
 	private void notifyListener() {
 		if( stop == true ) return ;
 		if( response != null && !response.isEmpty() ) {
+			DISecurity diSecurity = new DISecurity(null);
+			
 			if( mNetworkNode.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-				mListener.onLocalEventReceived(response) ;
+				String decryptedData = diSecurity.decryptData(response, mNetworkNode) ;
+				if (decryptedData == null ) {
+					ALog.d(ALog.DEVICEHANDLER, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
+					return;
+				}
+				mListener.onSuccess(decryptedData) ;
 			}
 			else if( mNetworkNode.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
-				mListener.onRemoteEventReceived(response) ;
+				mListener.onSuccess(response) ;
 			}
 		}
 		else {
-			mListener.onLocalEventLost(mPurifierEvent) ;
+			Error error = new Error(mPurifierEvent.ordinal(),"");
+			mListener.onError(error) ;
 		}
 	}
 	

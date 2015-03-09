@@ -14,6 +14,7 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.communication.Error;
 
 /**
  * Purifier Manager is the one point contact for all UI layers to communicate
@@ -35,8 +36,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 
 	private SchedulerListener mScheduleListener ;
 	
-	public static enum PurifierEvent { DEVICE_CONTROL, SCHEDULER, FIRMWARE, AQI_THRESHOLD, PAIRING } ;
-
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
@@ -268,7 +267,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	 */
 	@Override
 	public void notifyAirPurifierEventListenersErrorOccurred(
-			PurifierEvent purifierEvent) {
+			Error.PurifierEvent purifierEvent) {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
 				listener.onErrorOccurred(purifierEvent);
