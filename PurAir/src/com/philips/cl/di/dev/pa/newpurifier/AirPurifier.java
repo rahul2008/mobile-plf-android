@@ -7,9 +7,8 @@ import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
+import com.philips.cl.di.dev.pa.purifier.ResponseHandler;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
@@ -19,12 +18,14 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 /**
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifier implements SubscriptionEventListener, KeyDecryptListener{
+public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 
 	private final String mUsn;
 	private String latitude;
@@ -160,39 +161,16 @@ public class AirPurifier implements SubscriptionEventListener, KeyDecryptListene
 	}
 
 	@Override
-	public void onLocalEventReceived(String encryptedData) {
-		ALog.i("UIUX", "Check if the thread is running: " + mDeviceHandler.isDeviceThreadRunning()) ;
-		if(mDeviceHandler.isDeviceThreadRunning()) return;
-				
-		ALog.d(ALog.APPLIANCE, "Local event received");
-		
-		String decryptedData = mDISecurity.decryptData(encryptedData, mNetworkNode) ;
-		if (decryptedData == null ) {
-			ALog.d(ALog.APPLIANCE, "Unable to decrypt data for current appliance: " + mNetworkNode.getIpAddress());
-			return;
-		}
-		notifySubscriptionListeners(decryptedData) ;
-	}
-
-	@Override
-	public void onRemoteEventReceived(String data) {
-		if(mDeviceHandler.isDeviceThreadRunning()) return;
-				
-		ALog.d(ALog.APPLIANCE, "Remote event received");
-		notifySubscriptionListeners(data);
-	}
-
-	@Override
-	public void onLocalEventLost(PurifierEvent purifierEvent) {
+	public void onError(Error error) {
 		if(mPurifierListener==null) return;
 		
-		switch (purifierEvent) {
+		switch (PurifierEvent.values()[error.getErrorCode()]) {
 		case SCHEDULER:
 			mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
 			break;
 		case DEVICE_CONTROL:
 		case AQI_THRESHOLD:
-			mPurifierListener.notifyAirPurifierEventListenersErrorOccurred(purifierEvent);
+			mPurifierListener.notifyAirPurifierEventListenersErrorOccurred(PurifierEvent.values()[error.getErrorCode()]);
 			break;
 		case FIRMWARE:
 			break;
@@ -283,6 +261,16 @@ public class AirPurifier implements SubscriptionEventListener, KeyDecryptListene
 			// TODO: DIComm Refactor, modify purifierDatabase to remove purairdevice
 			new PurifierDatabase().updatePurifierUsingUsn(this);
 		}		
+	}
+
+	@Override
+	public void onSuccess(String data) {
+		ALog.i("UIUX", "Check if the thread is running: " + mDeviceHandler.isDeviceThreadRunning()) ;
+		if(mDeviceHandler.isDeviceThreadRunning()) return;
+				
+		ALog.d(ALog.APPLIANCE, "Success event received");		
+		
+		notifySubscriptionListeners(data) ;		
 	}
 	
 	
