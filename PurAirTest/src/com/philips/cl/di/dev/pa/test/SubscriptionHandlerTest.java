@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
