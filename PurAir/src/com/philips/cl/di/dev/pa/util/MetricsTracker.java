@@ -16,7 +16,7 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Analytics.TimedActionBlock;
 import com.adobe.mobile.Config;
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
@@ -466,7 +466,7 @@ public class MetricsTracker {
 		contextData.put(KEY_FIRMWARE_VERSION, getFirmwareVersion());
 		contextData.put(KEY_MACHINE_ID, getDeviceEui64());
 		contextData.put(KEY_PRODUCT_MODEL, AirPurifierManager.getInstance().getCurrentPurifier() != null ? VALUE_MODEL_AC4373 : "Not Found");
-		contextData.put(KEY_APP_ID, SessionDto.getInstance().getAppEui64());
+		contextData.put(KEY_APP_ID, CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId());
 		return contextData;
 	}
 
