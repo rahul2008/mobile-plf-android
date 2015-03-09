@@ -6,7 +6,6 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -35,7 +34,7 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 		cppController.setDCSResponseListener(this) ;
 		cppController.addPublishEventListener(this) ;
 		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS,
-				SessionDto.getInstance().getAppEui64(), "", 20, 120, mCppId) ;
+				"", 20, 120, mCppId) ;
 		try {
 			ALog.i(ALog.DEVICEHANDLER, "wait for 30 secs") ;
 			synchronized (this) {

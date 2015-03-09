@@ -142,7 +142,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			if(mNetworkNode==null)return;
 			secretKey = generateRandomSecretKey();
 			String pairing_url = Utils.getPortUrl(Port.PAIRING,	mNetworkNode.getIpAddress());
-			String appEui64 = SessionDto.getInstance().getAppEui64();
+			String appEui64 = cppController.getAppCppId();
 			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
 			dataToUpload = new DISecurity(null).encryptData(dataToUpload, mNetworkNode);
 			TaskPutDeviceDetails pairingRunnable = new TaskPutDeviceDetails(dataToUpload, pairing_url, this);
@@ -271,7 +271,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 */
 	private PairingEntitiyReference getAppEntity() {
 		PairingEntitiyReference pairingTrustor = new PairingEntitiyReference();
-		pairingTrustor.entityRefId = SessionDto.getInstance().getAppEui64();
+		pairingTrustor.entityRefId = cppController.getAppCppId();
 		pairingTrustor.entityRefProvider = AppConstants.PAIRING_REFERENCEPROVIDER;
 		pairingTrustor.entityRefType = AppConstants.PAIRING_APP_REFERENCETYPE;
 		pairingTrustor.entityRefCredentials = null;
