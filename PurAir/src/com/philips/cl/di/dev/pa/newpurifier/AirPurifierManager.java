@@ -91,7 +91,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			mCurrentPurifier.unSubscribeFromAllEvents();			
 		}
-		
 		mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		mCurrentPurifier.setPurifierListener(null);
 		stopCurrentSubscription();
