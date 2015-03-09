@@ -228,7 +228,9 @@ public class AirPurifierManager implements Observer, PurifierListener {
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop LocalConnection") ;
-		getCurrentPurifier().disableLocalSubscription();
+		if(getCurrentPurifier() != null) {
+			getCurrentPurifier().disableLocalSubscription();
+		}
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 
