@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -58,7 +59,8 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
 	private List<AirPurifier> appItems;
-
+	private ImageView seperatorupImgView;
+	private ImageView seperatordownImgView;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -74,6 +76,8 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		mBtnNewPurifier = (Button) view.findViewById(R.id.start_flow_choose_btn_connect_new);
 		searchingPurifierProgressBar = (ProgressBar) view.findViewById(R.id.start_flow_choose_progressBar);
 		discoveredPurifierListView  = (ListView) view.findViewById(R.id.start_flow_choose_listView);
+		seperatorupImgView = (ImageView) view.findViewById(R.id.start_flow_choose_seperator_up);
+		seperatordownImgView = (ImageView) view.findViewById(R.id.start_flow_choose_seperator_down);
 
 		mBtnNewPurifier.setOnClickListener(this);
 		discoveredPurifierListView.setOnItemClickListener(this);
@@ -303,8 +307,12 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	private void showSearchingPurifierProgressBar(ArrayList<String> listItems) {
 		if (listItems.isEmpty()) {
 			searchingPurifierProgressBar.setVisibility(View.VISIBLE);
+			seperatorupImgView.setVisibility(View.GONE);
+			seperatordownImgView.setVisibility(View.GONE);
 		} else {
 			searchingPurifierProgressBar.setVisibility(View.GONE);
+			seperatorupImgView.setVisibility(View.VISIBLE);
+			seperatordownImgView.setVisibility(View.VISIBLE);
 		}
 	}
 

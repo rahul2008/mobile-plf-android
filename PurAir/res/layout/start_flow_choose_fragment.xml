@@ -78,12 +78,14 @@
     </LinearLayout>
     
     <ImageView
+        android:id="@+id/start_flow_choose_seperator_up"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="24dp"
         android:background="@drawable/seperator_line_2x"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:visibility="gone"
         android:contentDescription="@string/img_description" />
 
     <ListView
@@ -96,12 +98,13 @@
         android:layout_marginLeft="16dp" >
     </ListView>
     <ImageView
-        android:id="@+id/manage_pur_separator_bottom"
+        android:id="@+id/start_flow_choose_seperator_down"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/seperator_line_2x"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:visibility="gone"
         android:contentDescription="@string/img_description" />
 
 </LinearLayout>
