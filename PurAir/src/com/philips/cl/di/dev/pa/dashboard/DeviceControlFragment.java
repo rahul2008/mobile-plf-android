@@ -24,12 +24,13 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class DeviceControlFragment extends BaseFragment implements OnClickListener, AirPurifierEventListener{
 	
@@ -326,7 +327,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
+		    currentPurifier.getAirPort().setPurifierDetails(key, value, Error.PurifierEvent.DEVICE_CONTROL);
 		}
 	}
 
@@ -387,7 +388,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	public void onFirmwareEventReceived() { /**NOP*/ }
 
 	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) { 
+	public void onErrorOccurred(Error.PurifierEvent purifierEvent) { 
 		controlProgress.setVisibility(View.INVISIBLE);
 	}
 	

@@ -33,7 +33,6 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
@@ -44,6 +43,7 @@ import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dicomm.communication.Error;
 
 public class NotificationsFragment extends BaseFragment implements
 OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
@@ -328,7 +328,7 @@ AlertDialogBtnInterface, OnClickListener {
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().setPurifierDetails(
 					ParserConstants.AQI_THRESHOLD, aqiThreshold,
-					PurifierEvent.AQI_THRESHOLD);
+					Error.PurifierEvent.AQI_THRESHOLD);
 		}
 	}
 
@@ -430,8 +430,8 @@ AlertDialogBtnInterface, OnClickListener {
 	 * This method is called if the call to set AQI threshold via locally fails
 	 */
 	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) {
-		if (purifierEvent != PurifierEvent.AQI_THRESHOLD) return;
+	public void onErrorOccurred(Error.PurifierEvent purifierEvent) {
+		if (purifierEvent != Error.PurifierEvent.AQI_THRESHOLD) return;
 		if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
 		if (aqiThresholdProgressDialog != null) aqiThresholdProgressDialog.dismiss();
 

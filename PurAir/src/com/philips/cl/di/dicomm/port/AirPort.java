@@ -7,10 +7,11 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.newpurifier.DeviceHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class AirPort extends DICommPort {
 	
@@ -101,7 +102,7 @@ public class AirPort extends DICommPort {
 	}
 	
 	// TODO refactor into new architecture, rename method
-	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
+	public void setPurifierDetails(String key, String value, Error.PurifierEvent purifierEvent) {
 		ALog.i(ALog.AIRPORT, "Set Appliance details: " + key +" = " + value) ;
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
