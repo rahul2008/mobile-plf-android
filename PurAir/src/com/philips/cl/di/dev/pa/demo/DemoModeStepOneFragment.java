@@ -20,7 +20,7 @@ public class DemoModeStepOneFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.setup_step2, null);
+		View view = inflater.inflate(R.layout.ews_steps_2_3, null);
 		return view;
 	}
 

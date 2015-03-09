@@ -58,6 +58,7 @@
             android:layout_marginRight="48dp"
             android:background="@drawable/ews_edit_txt_2_bg"
             android:ems="10"
+            android:hint="@string/password"
             android:inputType="textVisiblePassword"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
@@ -82,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/img_description"
-                android:src="@drawable/ews_password_on_2x" />
+                android:src="@drawable/password_visible" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -92,7 +93,7 @@
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/show_password_label"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
@@ -106,7 +107,7 @@
             android:layout_below="@+id/ews_password_layout"
             android:layout_marginBottom="4dp"
             android:text="@string/step3_msg2"
-            android:textColor="@color/title_gray"
+            android:textColor="@color/philips_blue"
             android:textSize="14sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -119,11 +120,18 @@
             android:layout_below="@+id/ews_step3_message2"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:background="@drawable/blue_button_selector"
+            android:background="@drawable/list_item_selector"
             android:text="@string/edit"
-            android:textColor="@color/white"
+            android:textColor="@color/philips_blue"
             android:textSize="14sp"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
+            custom:fontAssetName="fonts/centralesansmedium.ttf" />
+        <ImageView
+        android:id="@+id/place_name_separator_up"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@id/ews_step3_edit_name_btn"
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
 
         <EditText
             android:id="@+id/ews_step3_place_name_edittxt"
@@ -142,18 +150,26 @@
             android:paddingRight="8dp"
             android:singleLine="true"
             android:text="@string/lbl_living_room"
-            android:textColor="@color/philips_blue"
+            android:textColor="@color/contain_gray"
             android:textSize="14sp" >
         </EditText>
+        
+        <ImageView
+        android:id="@+id/place_name_separator_down"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ews_step3_edit_name_btn"
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
 
         <RelativeLayout
             android:id="@+id/ews_step3_adv_config_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ews_step3_edit_name_btn"
+            android:layout_below="@+id/ews_adv_config_layout"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
-            android:visibility="invisible" >
+            android:visibility="gone" >
 
             <ImageView
                 android:id="@+id/ews_hide_adv_setting"
@@ -175,7 +191,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:text="@string/ip"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -207,7 +223,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ews_step3_ip_edittxt"
                 android:text="@string/subnet"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -238,7 +254,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ews_step3_subnet_edittxt"
                 android:text="@string/router"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -269,7 +285,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ews_step3_router_edittxt"
                 android:text="@string/wifi_addr"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -309,7 +325,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step3_next_btn"
+            android:layout_below="@+id/ews_step3_edit_name_btn"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"
@@ -332,10 +348,12 @@
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/adv_confiq"
-                android:textColor="@color/title_gray"
+                android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
+        
+        
     </RelativeLayout>
 
 </ScrollView>

@@ -22,6 +22,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,7 +57,7 @@ public class EWSActivity extends ActionBarActivity implements
 	 */
 	private FontTextView actionbarTitle;
 	private ImageView actionbarBackImg;
-	private Button actionbarCancelBtn;
+	private ImageButton actionbarCancelBtn;
 
 	private WifiManager wifiManager ;
 	private ConnectivityManager connManager;
@@ -112,8 +113,7 @@ public class EWSActivity extends ActionBarActivity implements
 			actionbarTitle.setTypeface(Typeface.DEFAULT);
 		}
 		actionbarTitle.setText(getString(R.string.wifi_setup));
-		actionbarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
-		actionbarCancelBtn.setTypeface(Fonts.getCentraleSansLight(this));
+		actionbarCancelBtn = (ImageButton) view.findViewById(R.id.setup_actionbar_cancel_btn);
 		actionbarCancelBtn.setVisibility(View.INVISIBLE);
 		actionbarBackImg = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
 		actionbarBackImg.setOnClickListener(this);
@@ -130,8 +130,8 @@ public class EWSActivity extends ActionBarActivity implements
 		case EWSConstant.EWS_STEP_TWO:
 		case EWSConstant.EWS_STEP_THREE:
 			//start, step1, step2 and step3 screen
-			actionbarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarBackImg.setVisibility(View.VISIBLE);
+			actionbarCancelBtn.setVisibility(View.VISIBLE);
+			actionbarBackImg.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.wifi_setup));
 			break;
 		case EWSConstant.EWS_STEP_FINAL:
@@ -251,7 +251,7 @@ public class EWSActivity extends ActionBarActivity implements
 			} else {
 				apModeFailCounter = 0;
 				step2FailCounter = 0;
-				showStepTwo();
+				showStepThree();
 			}
 			return true;
 		case EWSConstant.EWS_STEP_FINAL:
@@ -363,12 +363,12 @@ public class EWSActivity extends ActionBarActivity implements
 		showFragment(new EWSPurifierSwitchOnFragment(), EWSConstant.EWS_STEP_TWO_POWER_ON_FRAGMENT_TAG);
 	}
 	
-	public void showStepTwo() {
+	public void showStepThree() {
 		mStep = EWSConstant.EWS_STEP_TWO ;
 		if( ewsService != null ) {
 			ewsService.setSSID(networkSSID) ;
 		}
-		showFragment(new EWSStepTwoFragment(), EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG);
+		showFragment(new EWSStepThreeFragment(), EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG);
 	}
 	
 	// This method will send the Device name to the AirPurifier when user selects Save
@@ -385,7 +385,7 @@ public class EWSActivity extends ActionBarActivity implements
 	
 	public void airPurifierInSetupMode() {
 		mStep = EWSConstant.EWS_STEP_TWO ;
-		showFragment(new EWSStepTwoFragment(), EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG);
+		showFragment(new EWSStepThreeFragment(), EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG);
  	}
 	
 	public void checkWifiConnectivity() {
@@ -479,7 +479,7 @@ public class EWSActivity extends ActionBarActivity implements
 		if (mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
 			DiscoveryManager.getInstance().start(this);
 			showConnectToPurifierDialog();
-			showStepThreeFragment();
+			showStepFourFragment();
 			searchPurifierTimer.start();
 		}
 	}
@@ -487,22 +487,22 @@ public class EWSActivity extends ActionBarActivity implements
 	@Override
 	public void onHandShakeWithDevice() {
 		SetupDialogFactory.getInstance(EWSActivity.this).dismissSignalStrength();
-		showStepThreeFragment();
+		showStepFourFragment();
 	}
 	
-	private void showStepThreeFragment() {
-		EWSStepThreeFragment stepThreeFragment = new EWSStepThreeFragment();
+	private void showStepFourFragment() {
+		EWSStepFourFragment stepFourFragment = new EWSStepFourFragment();
 		
 		//If mobile failed to connect home network
 		if (mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
 			Bundle bundle = new Bundle();
-			bundle.putString(EWSStepThreeFragment.EXTRA_PASSWORD, password);
-			bundle.putBoolean(EWSStepThreeFragment.EXTRA_ADV_SETTING, advSetting);
-			stepThreeFragment.setArguments(bundle);
+			bundle.putString(EWSStepFourFragment.EXTRA_PASSWORD, password);
+			bundle.putBoolean(EWSStepFourFragment.EXTRA_ADV_SETTING, advSetting);
+			stepFourFragment.setArguments(bundle);
 		}
 		
 		mStep = EWSConstant.EWS_STEP_THREE ;
-		showFragment(stepThreeFragment, EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
+		showFragment(stepFourFragment, EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
 		
 		if (SessionDto.getInstance().getDeviceWifiDto() != null) {
 			cppId = SessionDto.getInstance().getDeviceWifiDto().getCppid(); 

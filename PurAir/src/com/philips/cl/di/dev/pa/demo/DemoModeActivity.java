@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -41,7 +42,7 @@ public class DemoModeActivity extends ActionBarActivity implements OnClickListen
 	 */
 	private FontTextView actionbarTitle;
 	private ImageView actionbarBackImg;
-	private Button actionbarCancelBtn;
+	private ImageButton actionbarCancelBtn;
 	/**
 	 * 
 	 */
@@ -88,8 +89,7 @@ public class DemoModeActivity extends ActionBarActivity implements OnClickListen
 			actionbarTitle.setTypeface(Typeface.DEFAULT);
 		}
 		actionbarTitle.setText(getString(R.string.demo_mode_title));
-		actionbarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
-		actionbarCancelBtn.setTypeface(Fonts.getCentraleSansLight(this));
+		actionbarCancelBtn = (ImageButton) view.findViewById(R.id.setup_actionbar_cancel_btn);
 		actionbarCancelBtn.setVisibility(View.VISIBLE);
 		actionbarBackImg = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
 		actionbarBackImg.setVisibility(View.INVISIBLE);

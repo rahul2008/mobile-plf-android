@@ -641,6 +641,7 @@
     <string name="max_purifier_reached">最多只可添加20臺淨化器。還想添加新淨化器？請刪除已有淨化器。</string>
     <string name="max_city_reached">最多只可添加20臺城市。還想添加新淨化器？請刪除已有城市。</string>
     <string name="purifier_add_fail_title">淨化器未添加</string>
+    <string name="add_new_air_purifier">Add a new air purifier</string>
     <string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
 
     <!-- App update Notification -->

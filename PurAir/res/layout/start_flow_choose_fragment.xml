@@ -9,18 +9,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         layout="@layout/heading" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    
+    <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/start_flow_choose_tv_title"
-        android:layout_width="match_parent"
+        android:id="@+id/start_flow_choose_btn_connect_new"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="16dp"
-        android:lineSpacingExtra="2dp"
-        android:text="@string/are_you_adding"
-        android:textColor="@color/gray"
-        android:textSize="18sp"
+        android:background="@drawable/blue_button_selector"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/add_new_air_purifier"
+        android:textColor="@color/white"
+        android:textSize="14sp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
+
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -29,25 +33,14 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+         android:layout_marginTop="16dp"
         android:lineSpacingExtra="2dp"
         android:text="@string/your_new_purifier"
-        android:textColor="@color/gray"
+        android:textColor="@color/philips_blue"
         android:textSize="14sp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/start_flow_choose_btn_connect_new"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/blue_button_selector"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/yes_it_is_new"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
+    
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,13 +55,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:paddingRight="16dp"
+            android:paddingBottom="4dp"
             android:lineSpacingExtra="2dp"
             android:text="@string/no_already_connected"
-            android:textColor="@color/gray"
-            android:textSize="16sp"
+            android:textColor="@color/philips_blue"
+            android:textSize="14sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <ProgressBar
@@ -76,10 +71,20 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:indeterminateDrawable="@drawable/progress_circle"
             android:visibility="gone"
             android:layout_marginRight="16dp" />
     </LinearLayout>
+    
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/seperator_line_2x"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:contentDescription="@string/img_description" />
 
     <ListView
         android:id="@+id/start_flow_choose_listView"

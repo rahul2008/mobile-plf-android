@@ -29,7 +29,6 @@ public class DemoModeStartFragement extends Fragment {
 		FontTextView msgText = (FontTextView) getView().findViewById(R.id.setup_intro_message1_txt);
 		msgText.setText(R.string.demo_mode_intro_msg);
 		
-		((ImageView) getView().findViewById(R.id.setup_intro_attention_img)).setVisibility(View.INVISIBLE);
 		FontTextView txt = (FontTextView) getView().findViewById(R.id.setup_intro_message2_txt);
 		txt.setText("");
 		txt.setVisibility(View.INVISIBLE);

@@ -67,7 +67,10 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		ImageButton backButton = (ImageButton) view.findViewById(R.id.heading_back_imgbtn);
 		backButton.setVisibility(View.VISIBLE);
 		FontTextView heading=(FontTextView) view.findViewById(R.id.heading_name_tv);
-		heading.setText(getString(R.string.add_new_purifier));
+		heading.setText(getString(R.string.add_new_air_purifier));
+		ImageButton closeButton = (ImageButton) view.findViewById(R.id.heading_close_imgbtn);
+		closeButton.setVisibility(View.VISIBLE);
+		closeButton.setOnClickListener(this);
 		mBtnNewPurifier = (Button) view.findViewById(R.id.start_flow_choose_btn_connect_new);
 		searchingPurifierProgressBar = (ProgressBar) view.findViewById(R.id.start_flow_choose_progressBar);
 		discoveredPurifierListView  = (ListView) view.findViewById(R.id.start_flow_choose_listView);
@@ -131,6 +134,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 			startEWS();
 			break;
 		case R.id.heading_back_imgbtn:
+		case R.id.heading_close_imgbtn:
 			MainActivity activity = (MainActivity) getActivity();
 			if (activity != null) {
 				activity.onBackPressed();

@@ -15,7 +15,7 @@ public class EWSNetworkChangeFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.ews_connect_2_your_network, null);
+		View view = inflater.inflate(R.layout.ews_step1_connect_2_your_network, null);
 		return view;
 	}
 

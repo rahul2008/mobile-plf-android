@@ -20,7 +20,7 @@ public class EWSPurifierSwitchOnFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.setup_step2, container, false);
+		View view = inflater.inflate(R.layout.ews_steps_2_3, container, false);
 		return view;
 	}
 
@@ -58,7 +58,7 @@ public class EWSPurifierSwitchOnFragment extends Fragment {
 		yesBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((EWSActivity) getActivity()).showStepTwo();
+				((EWSActivity) getActivity()).showStepThree();
 			}
 		});
 
