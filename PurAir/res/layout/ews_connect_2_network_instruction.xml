@@ -18,11 +18,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="8dp"
-            android:background="@drawable/ews_small_gray_2x"
+            android:background="@drawable/blue_alpha_a"
             android:gravity="center"
-            android:text="@string/a_capital"
-            android:textColor="@color/white"
-            android:textSize="12sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
@@ -33,7 +30,7 @@
             android:layout_alignBaseline="@+id/ews_connect_2_your_network_message3_index"
             android:layout_toRightOf="@+id/ews_connect_2_your_network_message3_index"
             android:text="@string/connect_2_network_msg3"
-            android:textColor="@color/contain_gray"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
@@ -51,11 +48,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="8dp"
-            android:background="@drawable/ews_small_gray_2x"
+            android:background="@drawable/blue_alpha_b"
             android:gravity="center"
-            android:text="@string/b_capital"
-            android:textColor="@color/white"
-            android:textSize="12sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
@@ -66,7 +60,7 @@
             android:layout_alignBaseline="@+id/ews_connect_2_your_network_message4_index"
             android:layout_toRightOf="@+id/ews_connect_2_your_network_message4_index"
             android:text="@string/connect_2_network_msg4"
-            android:textColor="@color/contain_gray"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
@@ -82,11 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginRight="8dp"
-            android:background="@drawable/ews_small_gray_2x"
+            android:background="@drawable/blue_alpha_c"
             android:gravity="center"
-            android:text="@string/c_capital"
-            android:textColor="@color/white"
-            android:textSize="12sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
@@ -97,7 +88,7 @@
             android:layout_alignBaseline="@+id/ews_connect_2_your_network_message5_index"
             android:layout_toRightOf="@+id/ews_connect_2_your_network_message5_index"
             android:text="@string/connect_2_network_msg5"
-            android:textColor="@color/contain_gray"
+            android:textColor="@color/philips_blue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
