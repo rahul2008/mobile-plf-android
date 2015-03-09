@@ -10,32 +10,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.WeatherIcon;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class WeatherReportLayout extends  LinearLayout {
+public class WeatherForecastLayout extends  LinearLayout {
 	
 	String[] nextFourDays;
 	
-	public WeatherReportLayout(Context context) {
+	public WeatherForecastLayout(Context context) {
 		super(context);
 	}
 	
-	public WeatherReportLayout(Context context, AttributeSet attr) {
+	public WeatherForecastLayout(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
 	
-	public WeatherReportLayout(Context context, AttributeSet attr, int defStyle) {
+	public WeatherForecastLayout(Context context, AttributeSet attr, int defStyle) {
 		super(context, attr);
 	}
 	
-	public WeatherReportLayout(Context context, AttributeSet attrs, int defStyle, 
+	public WeatherForecastLayout(Context context, AttributeSet attrs, int defStyle, 
 			List<ForecastWeatherDto> weatherDetails) {
 		super(context, attrs);
 		if (weatherDetails == null || weatherDetails.size() < 4 ) return;
@@ -50,7 +48,7 @@ public class WeatherReportLayout extends  LinearLayout {
 	 * @param AttributeSet
 	 * @param int number of view to show
 	 * */
-	public WeatherReportLayout(final Context context, AttributeSet attrs, List<Weatherdto> weatherDetails) {
+	public WeatherForecastLayout(final Context context, AttributeSet attrs, List<Weatherdto> weatherDetails) {
 		super(context, attrs);
 		
 		if (weatherDetails == null || weatherDetails.isEmpty()) return;
@@ -73,8 +71,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			v.setPadding(10, 10, 10, 10);
 			
 			FontTextView timeTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTime);
-			TextView tempTxt = (TextView) v.findViewById(R.id.odTodyWeatherTemp);
-			tempTxt.setTypeface(Fonts.getCentraleSansLight(context));
+			FontTextView tempTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTemp);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
 			timeTxt.setText(time);
@@ -97,11 +94,10 @@ public class WeatherReportLayout extends  LinearLayout {
 			v.setPadding(10, 10, 10, 10);
 			
 			FontTextView dayTxt = (FontTextView) v.findViewById(R.id.odDayWeatherForcast);
-			TextView dayTemp = (TextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
-			dayTemp.setTypeface(Fonts.getCentraleSansLight(context));
-			TextView nightTemp = (TextView) v.findViewById(R.id.odWeatherForcastMinTemp);
-			nightTemp.setTypeface(Fonts.getCentraleSansLight(context));
+			FontTextView dayTemp = (FontTextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
+			FontTextView nightTemp = (FontTextView) v.findViewById(R.id.odWeatherForcastMinTemp);
 			FontTextView windSpeedTxt = (FontTextView) v.findViewById(R.id.odWeatherForcastWind);
+			FontTextView windSpeedTxtKm = (FontTextView) v.findViewById(R.id.odWeatherForcastWindKM);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odWeatherForcastImg);
 			ImageView windDirImg = (ImageView) v.findViewById(R.id.odWeatherForcastWindImg);
 			
@@ -125,7 +121,8 @@ public class WeatherReportLayout extends  LinearLayout {
 				nightTemp.setText(Math.round(getTempratureInFloat(nightTemprature)) + "\u00B0");
 			} 
 			
-			windSpeedTxt.setText(windSpeed + context.getString(R.string.kmph));
+			windSpeedTxt.setText(windSpeed +" ");
+			windSpeedTxtKm.setText(context.getString(R.string.kmph));
 			 
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);

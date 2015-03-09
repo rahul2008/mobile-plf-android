@@ -6,7 +6,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class ListViewHelper {
-    public static void getListViewSize(ListView myListView) {
+    public static void setListViewSize(ListView myListView) {
         ListAdapter myListAdapter = myListView.getAdapter();
         if (myListAdapter == null) {
             //do nothing return null

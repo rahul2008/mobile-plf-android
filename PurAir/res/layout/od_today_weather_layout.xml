@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/gray"
+        android:textColor="@color/contain_gray"
         android:textSize="@dimen/text_size_small_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -29,8 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:gravity="center_horizontal"
-        android:textColor="@color/gray"
+        android:textColor="@color/philips_blue"
         android:textSize="@dimen/text_size_small_dp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
+        custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
 </LinearLayout>

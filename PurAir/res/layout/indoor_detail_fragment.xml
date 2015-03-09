@@ -67,7 +67,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
-
+    
     <!-- First Message -->
 
     <com.philips.cl.di.dev.pa.view.FontTextView

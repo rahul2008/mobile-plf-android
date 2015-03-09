@@ -10,8 +10,117 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         layout="@layout/od_caution_layout" />
+
+    <!-- Weather report -->
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/weather_forecast"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/title_text_size_medium_dp"
+        custom:fontAssetName="fonts/centralesansbook.ttf" />
+
+    <HorizontalScrollView
+        android:id="@+id/odTodayWetherReportHSV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fadeScrollbars="false"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarThumbHorizontal="@drawable/scroll_thumb"
+        android:scrollbarTrackHorizontal="@drawable/scrollview_track"
+        android:scrollbarSize="4dp"
+        android:scrollbars="horizontal" >
+    </HorizontalScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" >
+
+        <ProgressBar
+            android:id="@+id/weatherProgressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:indeterminateDrawable="@drawable/progress_circle" />
+
+        <LinearLayout
+            android:id="@+id/odWetherForcastLL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </RelativeLayout>
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/detailsOutdoorSecondMsg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp"
+        android:text="@string/detail_aiq_message_last_day"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/title_text_size_medium_dp"
+        custom:fontAssetName="fonts/centralesansbook.ttf" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        layout="@layout/dashboard_details_control" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="32dp"
+        android:layout_height="320dp" >
+
+        <ProgressBar
+            android:id="@+id/outdoorAqiDownloadProgressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progress_circle" />
+
+        <LinearLayout
+            android:id="@+id/detailsOutdoorlayoutGraph"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_margin="16dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/outdoor_detail_air_quality_analysis_fb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/blue_button_selector"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/outdoor_aiq_analysis_head1"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_medium_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <LinearLayout
         android:id="@+id/neighbourhoodDetailsLayout"
@@ -74,115 +183,12 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <!-- Weather report -->
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/odWeatherHeading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="2dp"
-        android:text="@string/weather_forecast"
-        android:textColor="@color/philips_blue"
-        android:textSize="@dimen/title_text_size_medium_dp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <HorizontalScrollView
-        android:id="@+id/odTodayWetherReportHSV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none" >
-    </HorizontalScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="16dp"
-        android:background="@color/gray" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ProgressBar
-            android:id="@+id/weatherProgressBar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:indeterminateDrawable="@drawable/progress_circle" />
-
-        <LinearLayout
-            android:id="@+id/odWetherForcastLL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </RelativeLayout>
-
-    <include
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/dashboard_details_control" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/detailsOutdoorSecondMsg"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:lineSpacingExtra="2dp"
-        android:text="@string/detail_aiq_message_last_day"
-        android:textColor="@color/philips_blue"
-        android:textSize="@dimen/title_text_size_medium_dp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="320dp" >
-
-        <ProgressBar
-            android:id="@+id/outdoorAqiDownloadProgressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/progress_circle" />
-
-        <LinearLayout
-            android:id="@+id/detailsOutdoorlayoutGraph"
-            android:layout_width="match_parent"
-            android:layout_height="280dp"
-            android:layout_margin="16dp"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </RelativeLayout>
-
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/outdoor_detail_air_quality_analysis_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="25dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/blue_button_selector"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/outdoor_aiq_analysis_head1"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
     <!-- Map layout -->
 
     <RelativeLayout
         android:id="@+id/outdoor_detail_map_rl"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="400dp"
         android:layout_marginTop="16dp" >
 
         <fragment

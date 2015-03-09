@@ -6,7 +6,6 @@ import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -46,11 +45,11 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
-import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
+import com.philips.cl.di.dev.pa.view.WeatherForecastLayout;
 
 public class OutdoorDetailFragment extends BaseFragment implements OnClickListener, OutdoorDetailsListener {
-	private LinearLayout graphLayout, wetherForcastLayout;
-	private WeatherReportLayout weatherReportLayout;
+	private LinearLayout graphLayout, wetherForcastLayout, adviceLayout;
+	private WeatherForecastLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private ImageView gaodeMapZoom ;
@@ -119,7 +118,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		NeighbourhoodCityBaseAdapter adapter = new NeighbourhoodCityBaseAdapter(getActivity(), nearbyLocationAQIs, NearbyInfoType.AQI, areaId);
 		nearbycitylv.setAdapter(adapter);
 		neighbourhoodcityll.setVisibility(View.VISIBLE);
-		ListViewHelper.getListViewSize(nearbycitylv);
+		ListViewHelper.setListViewSize(nearbycitylv);
 	}
 	/**
 	 * Reading data from server
@@ -213,54 +212,60 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	/**Set advice icon and text*/ 
 	private void setAdviceIconTex(int aqiInt) {
 		if(aqiInt >= 0 && aqiInt <= 50) {
-			maskImg.setImageResource(R.drawable.blue_mask_2x); 
-			openWindowImg.setImageResource(R.drawable.blue_win_2x);  
-			avoidImg.setImageResource(R.drawable.blue_run_2x); 
+			adviceLayout.setBackgroundColor(GraphConst.COLOR_STATE_BLUE);
+			maskImg.setImageResource(R.drawable.advice_mask_not_needed); 
+			openWindowImg.setImageResource(R.drawable.advice_window_open);  
+			avoidImg.setImageResource(R.drawable.advice_go_outdoor); 
 
 			maskTxt.setText(getString(R.string.mask_od_msg1));
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg1));
 
 		} else if(aqiInt > 50 && aqiInt <= 100) {
-			maskImg.setImageResource(R.drawable.dark_blue_mask_2x); 
-			openWindowImg.setImageResource(R.drawable.dark_blue_win_2x);  
-			avoidImg.setImageResource(R.drawable.dark_blue_run_2x); 
+			adviceLayout.setBackgroundColor(GraphConst.COLOR_ROYAL_BLUE);
+			maskImg.setImageResource(R.drawable.advice_mask_not_needed); 
+			openWindowImg.setImageResource(R.drawable.advice_window_open);  
+			avoidImg.setImageResource(R.drawable.advice_go_outdoor); 
 
 			maskTxt.setText(getString(R.string.mask_od_msg1));
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg2));
 
 		} else if(aqiInt > 100 && aqiInt <= 150) {
-			maskImg.setImageResource(R.drawable.purple_close_mask_2x); 
-			openWindowImg.setImageResource(R.drawable.purple_win_2x);  
-			avoidImg.setImageResource(R.drawable.purple_close_run_2x); 
+			adviceLayout.setBackgroundColor(GraphConst.COLOR_INDIGO);
+			maskImg.setImageResource(R.drawable.advice_mask_not_needed); 
+			openWindowImg.setImageResource(R.drawable.advice_window_open);  
+			avoidImg.setImageResource(R.drawable.advice_avoid_outdoor); 
 
 			maskTxt.setText(getString(R.string.mask_od_msg1));
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		} else if(aqiInt > 150 && aqiInt <= 200) {
-			maskImg.setImageResource(R.drawable.dark_purple_mask_2x); 
-			openWindowImg.setImageResource(R.drawable.dark_purple_close_win_2x);  
-			avoidImg.setImageResource(R.drawable.dark_purple_run_2x); 
+			adviceLayout.setBackgroundColor(GraphConst.COLOR_PURPLE);
+			maskImg.setImageResource(R.drawable.advice_mask_not_needed); 
+			openWindowImg.setImageResource(R.drawable.advice_window_closed);  
+			avoidImg.setImageResource(R.drawable.advice_avoid_outdoor); 
 
 			maskTxt.setText(getString(R.string.mask_od_msg1));
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		} else if(aqiInt > 200 && aqiInt <= 300) {
-			maskImg.setImageResource(R.drawable.light_red_close_mask_2x); 
-			openWindowImg.setImageResource(R.drawable.light_red_close_win_2x);  
-			avoidImg.setImageResource(R.drawable.light_red_close_run_2x); 
+			adviceLayout.setBackgroundColor(GraphConst.COLOR_DEEP_PINK);
+			maskImg.setImageResource(R.drawable.advice_mask_needed); 
+			openWindowImg.setImageResource(R.drawable.advice_window_closed);  
+			avoidImg.setImageResource(R.drawable.advice_avoid_outdoor); 
 
 			maskTxt.setText(getString(R.string.mask_od_msg2));
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		} else if (aqiInt > 300) {
-			maskImg.setImageResource(R.drawable.red_close_mask_2x); 
-			openWindowImg.setImageResource(R.drawable.red_close_win_2x);  
-			avoidImg.setImageResource(R.drawable.red_close_run_2x); 
+			adviceLayout.setBackgroundColor(GraphConst.COLOR_RED);
+			maskImg.setImageResource(R.drawable.advice_mask_needed); 
+			openWindowImg.setImageResource(R.drawable.advice_window_closed);  
+			avoidImg.setImageResource(R.drawable.advice_avoid_outdoor); 
 
 			maskTxt.setText(getString(R.string.mask_od_msg2));
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
@@ -277,6 +282,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		graphLayout = (LinearLayout) view.findViewById(R.id.detailsOutdoorlayoutGraph);
 		wetherScrollView = (HorizontalScrollView) view.findViewById(R.id.odTodayWetherReportHSV);
 		wetherForcastLayout = (LinearLayout) view.findViewById(R.id.odWetherForcastLL);
+		adviceLayout = (LinearLayout) view.findViewById(R.id.outdoor_advice_ll);
 
 		lastDayBtn = (FontTextView) view.findViewById(R.id.detailsOutdoorLastDayLabel);
 		lastWeekBtn = (FontTextView) view.findViewById(R.id.detailsOutdoorLastWeekLabel);
@@ -501,14 +507,14 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		if (wetherScrollView.getChildCount() > 0) {
 			wetherScrollView.removeAllViews();
 		}
-		wetherScrollView.addView(new WeatherReportLayout(
+		wetherScrollView.addView(new WeatherForecastLayout(
 				getActivity(), null, DummyOutdoor.getInstance().getTodayWeatherForecast()));
 
 		if (weatherReportLayout != null && weatherReportLayout.getChildCount() > 0) {
 			weatherReportLayout.removeAllViews();
 		}
 
-		weatherReportLayout = new WeatherReportLayout(
+		weatherReportLayout = new WeatherForecastLayout(
 				getActivity(), null, 0, DummyOutdoor.getInstance().getFourDayWeatherForecast());
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
@@ -527,7 +533,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 						wetherScrollView.removeAllViews();
 					}
 					wetherScrollView.addView(
-							new WeatherReportLayout(getActivity(), null, weatherList));
+							new WeatherForecastLayout(getActivity(), null, weatherList));
 				}
 			});
 		}
@@ -550,7 +556,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 					}
 					
 					weatherReportLayout = 
-							new WeatherReportLayout(getActivity(), null, 0, weatherList);
+							new WeatherForecastLayout(getActivity(), null, 0, weatherList);
 					weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 					wetherForcastLayout.addView(weatherReportLayout);
 				}

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outdoor_advice_ll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:background="@color/white" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/outdoor_act_2x" />
+            android:src="@drawable/advice_avoid_outdoor" />
 
         <ImageView
             android:id="@+id/openWindowImg"
@@ -23,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/open_windows_2x" />
+            android:src="@drawable/advice_window_closed" />
 
         <ImageView
             android:id="@+id/maskImg"
@@ -31,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/mask_not_needed_2x" />
+            android:src="@drawable/advice_mask_needed" />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +51,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/advice_od_msg2"
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_small_dp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -59,7 +63,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/openwindow_od_msg2"
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_small_dp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -71,7 +75,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/mask_od_msg2"
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_small_dp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>

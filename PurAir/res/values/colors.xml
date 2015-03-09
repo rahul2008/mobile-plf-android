@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <resources xmlns:tools="http://schemas.android.com/tools"
-        tools:ignore="UnusedResources">
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
     <color name="white">#FFFFFF</color>
     <color name="ivory">#FFFFF0</color>
     <color name="lightyellow">#FFFFE0</color>
@@ -142,16 +142,13 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="progressbar_gray">#E0E0E0</color>
-    <color name="progressbar_gray2">#CCE5FF</color>    
-    
+    <color name="progressbar_gray2">#CCE5FF</color>
     <color name="filter_good">#0E5C8D</color>
     <color name="filter_bad">#9A0300</color>
-    
     <color name="aqi_very_good">#00A9E7</color>
-    <color name="aqi_good">#806BAB</color>    
+    <color name="aqi_good">#806BAB</color>
     <color name="aqi_fair">#DF4989</color>
     <color name="aqi_bad">#E73129</color>
-    
     <color name="philips_blue">#0065A0</color>
     <color name="philips_blue_dark">#213A74</color>
     <color name="subtitle_gray">#ABABAB</color>
@@ -163,12 +160,13 @@
     <color name="darker_blue">#27509F</color>
     <color name="dictionary_background_color">#DCDCDC</color>
     <color name="dictionary_overylay_background_color">#553299FE</color>
-    
     <color name="light_sky_blue">#85D3EF</color>
     <color name="transparent_white">#CAFFFFFF</color>
     <color name="blue_list_item">#0E1F4A</color>
     <color name="blue_list_sub_item">#003377</color>
     <color name="blue_title">#0065A0</color>
     <color name="red_delete">#CC1F2C</color>
-   
-    </resources>
+    <color name="philip_light_blue">#B3C8E7</color>
+    <color name="scroll_bar_thumb">#4891BA</color>
+
+</resources>
