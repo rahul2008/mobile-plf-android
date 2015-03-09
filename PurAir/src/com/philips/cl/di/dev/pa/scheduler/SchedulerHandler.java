@@ -8,7 +8,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.purifier.ResponseHandler;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -17,6 +16,7 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class SchedulerHandler implements ServerResponseListener {

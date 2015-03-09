@@ -1,6 +1,5 @@
-package com.philips.cl.di.dev.pa.purifier;
+package com.philips.cl.di.dicomm.communication;
 
-import com.philips.cl.di.dicomm.communication.Error;
 
 public interface ResponseHandler {
 	
