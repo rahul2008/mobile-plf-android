@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.ews.EWSStepThreeFragment;
+import com.philips.cl.di.dev.pa.ews.EWSStepFourFragment;
 
 public class EWSStepThreeFragmentTest extends
 		ActivityInstrumentationTestCase2<EWSActivity> {
@@ -25,7 +25,7 @@ public class EWSStepThreeFragmentTest extends
 	}
 
 	public void testFragmentTag() {
-		EWSStepThreeFragment ewsStepThreeFragment = new EWSStepThreeFragment();
+		EWSStepFourFragment ewsStepThreeFragment = new EWSStepFourFragment();
 		activity.getSupportFragmentManager()
 				.beginTransaction()
 				.add(R.id.setup_fragment_container, ewsStepThreeFragment, EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG)
