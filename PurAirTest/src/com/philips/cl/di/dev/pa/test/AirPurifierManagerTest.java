@@ -73,7 +73,6 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 	public void testAddPurifierListenerAfterCurrentPurifierIsAlreadySet(){
 		AirPurifier device1 = createMockDisconnectedPurifier();			
 		mPurifierMan.setCurrentPurifier(device1);		
-		
 		AirPurifier device2 = createMockDisconnectedPurifier();		
 		mPurifierMan.setCurrentPurifier(device2);
 		
@@ -84,7 +83,6 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 	public void testRemovePurifierListener(){
 		AirPurifier device1 = createMockDisconnectedPurifier();			
 		mPurifierMan.setCurrentPurifier(device1);		
-		
 		mPurifierMan.removeCurrentPurifier();
 		
 		verify(device1,times(1)).setPurifierListener(null);
