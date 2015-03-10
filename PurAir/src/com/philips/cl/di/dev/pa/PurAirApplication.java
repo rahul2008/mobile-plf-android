@@ -1,4 +1,5 @@
 package com.philips.cl.di.dev.pa;
+import java.io.File;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -7,7 +8,10 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Environment;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
@@ -17,6 +21,7 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 public class PurAirApplication extends Application {
 	
 	private static PurAirApplication mInstance = null;
+	public static final String CACHEDIR_IMG = Environment.getExternalStorageDirectory().getPath() + "/philips/air/imgs/";
 	
 	@Override
 	public void onCreate() {
@@ -26,12 +31,22 @@ public class PurAirApplication extends Application {
 		preventOSFromDestroyingAsyncTasks();
 		configureUrlConnectionSocketReuse();
 		toggleLoggingAndTagging();
+		initImageLoader();
 		
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
 		
 	}
 	
+	private void initImageLoader() {
+		ImageLoaderUtils.initImageLoader(getApplicationContext(),
+				ImageLoaderUtils.getDisplayImageOptions(true,
+						-1, -1,
+						-1, -1, -1), new File(CACHEDIR_IMG), new Md5FileNameGenerator(),
+						false);
+
+	}
+
 	public static int getAppVersion() {
 		try {
 			PackageInfo packageInfo = getAppContext().getPackageManager().getPackageInfo(getAppContext().getPackageName(), 0);

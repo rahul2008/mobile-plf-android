@@ -9,16 +9,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -26,6 +22,7 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
@@ -280,8 +277,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			showFragment(new AboutFragment());
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
-		}
-		else if (!(fragment instanceof HomeFragment)) {
+		} else if (fragment instanceof BuyOnlineFragment) {
+			showFragment(new AboutFragment());
+		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
 		} else {

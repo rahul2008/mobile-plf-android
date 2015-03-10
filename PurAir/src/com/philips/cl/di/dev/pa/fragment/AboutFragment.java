@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -47,6 +48,10 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		helpTV.setOnClickListener(this);
 		closeButton.setOnClickListener(this);
 		
+		FontTextView buyOnlineTV = (FontTextView) getView().findViewById(R.id.buy_online_tv);
+		buyOnlineTV.setText(getString(R.string.buy_online_lbl) + " ->");
+		buyOnlineTV.setOnClickListener(this);
+		
 	}
 	
 	private void setAppInformation() {
@@ -67,6 +72,9 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.heading_close_imgbtn:
 			mainActivity.showFirstFragment();
+			break;
+		case R.id.buy_online_tv:
+			mainActivity.showFragment(new BuyOnlineFragment());
 			break;
 		default:
 			break;
