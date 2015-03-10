@@ -63,10 +63,10 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			mCurrentPurifier.unSubscribeFromAllEvents();
 			getCurrentPurifier().getDeviceHandler().stopDeviceThread() ;
-			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		}
 		//stopCurrentSubscription();
 		if(mCurrentPurifier!=null){
+			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 			mCurrentPurifier.setPurifierListener(null);
 		}
 		mCurrentPurifier = purifier;
@@ -89,9 +89,10 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if (mCurrentPurifier == null) return;
 		
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			mCurrentPurifier.unSubscribeFromAllEvents();
-			mCurrentPurifier.getNetworkNode().deleteObserver(this);
+			mCurrentPurifier.unSubscribeFromAllEvents();			
 		}
+		
+		mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		mCurrentPurifier.setPurifierListener(null);
 		stopCurrentSubscription();
 		
