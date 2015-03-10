@@ -67,9 +67,7 @@ public enum OutdoorImage {
 			resId = resId + 5;
 		} else if (aqi > 300) {
 			resId = resId + 6;
-		} else {
-			resId = 0;
-		}
+		} 
 
 		for (OutdoorImage info : OutdoorImage.values()) {
 			if (info.aqi == resId) {

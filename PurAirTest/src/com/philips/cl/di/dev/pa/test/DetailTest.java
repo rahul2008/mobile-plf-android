@@ -11,7 +11,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 
 public class DetailTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
