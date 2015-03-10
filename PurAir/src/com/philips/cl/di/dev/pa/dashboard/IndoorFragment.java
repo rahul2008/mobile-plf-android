@@ -428,7 +428,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			return ;
 			
 		case IDLE:
-//			showFirmwareUI = false;
 			int prevFirmwareVersion = 0, currentFirmwareVersion = 0; 
 			try {
 				prevFirmwareVersion = Integer.parseInt(Utils.getFirmwareVersion(purifierEui64));
@@ -512,18 +511,15 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 		case R.id.hf_indoor_circle_pointer:
 			AirPurifier purifier = ((MainActivity) getActivity()).getCurrentPurifier();
-			if (getActivity() != null && purifier != null) {
+			if (getActivity() == null ) return;
+			if (purifier != null) {
 				HomeFragment homeFragment = (HomeFragment) getParentFragment();
 				if (homeFragment != null) {
 					homeFragment.toggleIndoorDetailFragment();
 				}
-//				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
-//				startActivity(intent);
 			} else {
-				if (getActivity() != null) {
-					Toast.makeText(getActivity(), 
-							getString(R.string.purifier_not_connect_error), Toast.LENGTH_LONG).show();
-				}
+				Toast.makeText(getActivity(), 
+						getString(R.string.purifier_not_connect_error), Toast.LENGTH_LONG).show();
 			}
 			break;
 		case R.id.connecting_info_img_btn:
