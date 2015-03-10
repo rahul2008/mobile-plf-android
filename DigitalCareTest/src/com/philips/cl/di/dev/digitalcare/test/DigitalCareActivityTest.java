@@ -169,7 +169,7 @@ public class DigitalCareActivityTest extends
 	@SmallTest
 	public void testFaceBookID() {
 		String expected = "1537018913230025";
-		String actual = mActivity.getString(R.string.app_id);
+		String actual = mActivity.getString(R.string.facebook_app_id);
 		assertEquals(expected, actual);
 	}
 

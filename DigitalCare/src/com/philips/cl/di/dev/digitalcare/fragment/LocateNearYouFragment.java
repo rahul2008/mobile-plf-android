@@ -24,16 +24,14 @@ import com.philips.cl.di.dev.digitalcare.R;
 @SuppressLint("SetJavaScriptEnabled")
 public class LocateNearYouFragment extends DigitalCareBaseFragment {
 	private WebView mWebView = null;
-	private String mUrl = null;
 	private ProgressDialog mDialog = null;
 	private LinearLayout mLinearLayout = null;
+	private String LOCATEPHILIPS_BASEURL = "http://www.philips.co.in/c/retail-store-locator/page/";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.common_webview, container, false);
-		mUrl = getActivity().getResources().getString(
-				R.string.url_locate_near_you);
 		return view;
 	}
 
@@ -50,7 +48,7 @@ public class LocateNearYouFragment extends DigitalCareBaseFragment {
 		mDialog.setCancelable(true);
 
 		mWebView = (WebView) getActivity().findViewById(R.id.webView);
-		mWebView.loadUrl(mUrl);
+		mWebView.loadUrl(LOCATEPHILIPS_BASEURL);
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings websettings = mWebView.getSettings();
 		websettings.setJavaScriptEnabled(true);

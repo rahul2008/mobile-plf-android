@@ -26,5 +26,35 @@
         <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
     </style>
+	
+	<!-- Suppport page contains which all fetaures -->
+    <integer-array name="options_available">
+        <item>1</item>  <!-- "CONTACT_US" -->
+        <item>2</item>  <!-- "VIEW_PRODUCT_DETAILS" -->
+        <item>3</item>  <!-- "FAQ" -->
+        <item>4</item>  <!-- "FIND_PHILIPS_NEARBY" -->
+        <item>5</item>  <!-- "TELL_US_YOUR_THINKING" -->
+        <item>6</item>  <!-- "REGISTER_MY_PRODUCT" -->
+    </integer-array>
+    
+     <declare-styleable name="DigitalCareFontTextView">
+        <attr name="fontAssetName" format="string" />
+    </declare-styleable>
+    
+      
+    <!-- Twitter APP SDK API KEYS -->
+    <string name="twitter_callback">http://javatechig.android.app</string>
+    <string name="twitter_consumer_key">vM5RNi5CCodJnL7e5BOA</string>
+    <string name="twitter_consumer_secret">FQNS0eBbM8J5DDjDglLCwOvAUUesYhN5uFxdxjKLgk</string>
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
+    
+    <!-- Facebook APPID, replace app id in app authority string -->
+    <string name="facebook_app_id">1537018913230025</string>
+	<string name="facebook_app_authority">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+    
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
+	
+	
 
 </resources>
