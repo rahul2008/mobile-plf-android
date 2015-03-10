@@ -93,8 +93,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ALog.i(ALog.DASHBOARD, "StatusBar Height=  " + MainActivity.getStatusBarHeight());
-
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		
 		titleLayout = (RelativeLayout) view.findViewById(R.id.home_fragment_title);
@@ -118,16 +116,36 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ViewGroup outdoorLayout = 
 				(RelativeLayout) view.findViewById(R.id.home_fragment_outdoor_viewpager_rl);
 		
-		screenHeight = MainActivity.getScreenHeight() - MainActivity.getStatusBarHeight();
+		screenHeight = MainActivity.getScreenHeight();
+		ALog.i(ALog.DASHBOARD, "Before delay screenHeight Height=  " + screenHeight);
 		LayoutParams params1 = indoorLayout.getLayoutParams();
 		params1.height = screenHeight / 2;
 		
 		LayoutParams params2 = outdoorLayout.getLayoutParams();
 		params2.height = screenHeight / 2;
 		
+		reSetViewPagerHeight(view, indoorLayout, outdoorLayout);
+		
 		return view;
 	}
 	
+	private void reSetViewPagerHeight(View view, final ViewGroup indoorLayout,
+			final ViewGroup outdoorLayout) {
+		view.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				screenHeight = MainActivity.getScreenHeight();
+				ALog.i(ALog.DASHBOARD, "After delay screenHeight Height=  " + screenHeight);
+				LayoutParams params1 = indoorLayout.getLayoutParams();
+				params1.height = screenHeight / 2;
+				
+				LayoutParams params2 = outdoorLayout.getLayoutParams();
+				params2.height = screenHeight / 2;
+			}
+		}, 55); // 55 millisecond, View is taking time to load on UI. We given 50 second delay in MainActivity
+	}
+
 	private void initTitleView(View view) {
 		ImageButton collapseBtn = (ImageButton) view.findViewById(R.id.heading_back_imgbtn);
 		collapseBtn.setVisibility(View.VISIBLE);

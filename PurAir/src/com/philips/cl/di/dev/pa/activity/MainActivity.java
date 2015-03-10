@@ -9,13 +9,19 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -85,7 +91,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		
+		getMainContainerHeight();
 		CPPController.getInstance(this).setAppUpdateStatus(false);
 		
 		//Fetch database data
@@ -115,6 +121,17 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (resourceId > 0) {
 			setStatusBarHeight(getResources().getDimensionPixelSize(resourceId));
 		}
+	}
+
+	private void getMainContainerHeight() {
+		final ViewGroup mainContainer = (LinearLayout) findViewById(R.id.llContainer);
+		mainContainer.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				setScreenHeight(mainContainer.getHeight());
+			}
+		}, 50); //50 millisecond, View is taking time to load on UI
 	}
 
 	private void selectPurifier() {
@@ -147,7 +164,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		OutdoorController.getInstance().setActivity(this);
 
-//    	checkForCrashesHockeyApp();
+    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
