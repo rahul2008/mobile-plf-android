@@ -27,6 +27,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -52,19 +53,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState); 
-//		MetricsTracker.trackPage("dashboard:outdoor");
+		MetricsTracker.trackPage("dashboard:outdoor");
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
 		initViews(getView());
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
 	}
 
 	private void initViews(View view) {
@@ -154,7 +145,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
 			if( outdoorAQISummary != null && outdoorAQISummary.length > 1 ) {
-//				aqiSummary1.setText(outdoorAQI.getAqiSummary()[0]);
 				aqiSummary2.setText(outdoorAQI.getAqiSummary()[0]);
 			}
 			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
@@ -203,11 +193,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			if (homeFragment != null) {
 				homeFragment.toggleOutdoorDetailFragment(cityNameTV.getText().toString(), outdoorAQI, outdoorDataProvider);
 			}
-//			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-//			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityNameTV.getText().toString());
-//			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
-//			intent.putExtra(AppConstants.OUTDOOR_DATAPROVIDER, outdoorDataProvider) ;
-//			startActivity(intent);
 			break;
 		default:
 			break;	
