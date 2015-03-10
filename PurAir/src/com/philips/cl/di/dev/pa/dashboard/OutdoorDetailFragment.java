@@ -73,9 +73,11 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	private List<OutdoorAQI> outdoorAQIs;
 	private Calendar calenderGMTChinese;
 	
-	private float lastDayAQIHistoricArr[];
-	private float last7dayAQIHistoricArr[];
-	private float last4weekAQIHistoricArr[];
+	private float lastDayAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last7dayAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last4weekAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 	
 	private int outdoorDataProvider = OutdoorDataProvider.CMA.ordinal();
 	private OutdoorDetailHelper detailHelper;
@@ -93,9 +95,6 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		lastDayAQIHistoricArr = AppConstants.LAST_DAY_AQIHISTORIC_ARR;
-		last7dayAQIHistoricArr = AppConstants.LAST_WEEK_AQIHISTORIC_ARR;
-		last4weekAQIHistoricArr = AppConstants.LAST_MONTH_AQIHISTORIC_ARR;
 		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		Coordinates.getInstance(getMainActivity());
 

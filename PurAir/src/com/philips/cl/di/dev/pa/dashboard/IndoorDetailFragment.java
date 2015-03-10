@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData.PurifierCurrentCityPercentListener;
@@ -69,9 +68,11 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private List<Integer> goodAirInfos;
 	private List<Integer> currentCityGoodAirInfos;
 	private int dayIndex = 0;
-	private float lastDayRDCPVal[];
-	private float last7daysRDCPVal[];
-	private float last4weeksRDCPVal[];
+	private float lastDayRDCPVal[]= { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good); 
 	
 	@Override
@@ -88,10 +89,6 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		Coordinates.getInstance(getMainActivity());//Initialize all trend density independent pixel co-ordinate
 		currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		init();
-		lastDayRDCPVal = AppConstants.LAST_DAY_AQIHISTORIC_ARR;
-		last7daysRDCPVal = AppConstants.LAST_WEEK_AQIHISTORIC_ARR;
-		last4weeksRDCPVal = AppConstants.LAST_MONTH_AQIHISTORIC_ARR;
-		
 		//Purifier current city good air quality historic data download
 		PurifierCurrentCityData.getInstance().setListener(this);
 		if (currentPurifier != null) {

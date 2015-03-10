@@ -275,13 +275,4 @@ public class AppConstants {
 	
 	public static final SimpleDateFormat TIME_FORMAT_HH_MM = new SimpleDateFormat("HH:mm");
 	public static final SimpleDateFormat DATE_FORMAT_YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
-	
-	public static final float LAST_DAY_AQIHISTORIC_ARR[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
-			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
-	public static final float LAST_WEEK_AQIHISTORIC_ARR[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
-	public static final float LAST_MONTH_AQIHISTORIC_ARR[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
-			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-
 }
