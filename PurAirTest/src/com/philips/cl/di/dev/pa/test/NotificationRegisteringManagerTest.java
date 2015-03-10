@@ -10,11 +10,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 public class NotificationRegisteringManagerTest extends TestCase {	
 
 	private Field registrationField;
-	private NotificationRegisteringManager manager;
 	
 	@Override
 	protected void setUp() throws Exception {
-		manager = new NotificationRegisteringManager();
 		try {
 			registrationField= NotificationRegisteringManager.class.getDeclaredField("regid");
 			registrationField.setAccessible(true);

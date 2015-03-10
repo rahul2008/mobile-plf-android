@@ -13,15 +13,14 @@ import android.os.Handler;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class DiscoveryManagerTest extends InstrumentationTestCase {
 	

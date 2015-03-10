@@ -6,10 +6,10 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import android.annotation.SuppressLint;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.Util;
 
@@ -26,6 +26,7 @@ public class DISecurityTest extends TestCase {
 		assertNotSame(Util.generateRandomNum(), Util.generateRandomNum());
 	}
 	
+	@SuppressLint("DefaultLocale")
 	public void testByteToHex() {
 		String testStr = new String("01144add4445aaa839812cccad").toUpperCase();
 		String result = Util.bytesToHex(Util.hexToBytes(testStr));
