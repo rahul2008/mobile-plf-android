@@ -248,7 +248,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				resetWhiteDots();
 				return;
 			}
-			FanSpeed fsd = getFanSpeed(airPortInfo.getActualFanSpeed());
+			FanSpeed fsd = IndoorDashboardUtils.getFanSpeed(airPortInfo.getActualFanSpeed());
+			if (fsd == null) return;
 			int resourceId = fsd.getFanSpeedTextResID();
 			
 			if (prevFanSpeedResId != resourceId ) {
@@ -256,17 +257,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				showWhiteDotsAsPerFanSpeed(resourceId);
 			}
 		}
-	}
-	
-	public FanSpeed getFanSpeed(String actualFanSpeed) {
-		if(actualFanSpeed == null || actualFanSpeed.isEmpty()) return null;
-		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_SILENT)) return FanSpeed.SILENT;
-		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_AUTO)) return FanSpeed.AUTO;
-		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_TURBO)) return FanSpeed.TURBO;
-		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_ONE)) return FanSpeed.ONE;
-		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_TWO)) return FanSpeed.TWO;
-		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_THREE)) return FanSpeed.THREE;
-		return null;
 	}
 	
 	private boolean showAlertErrorAirPort(AirPortInfo airPortInfo, String pName) {

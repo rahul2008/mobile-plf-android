@@ -6,6 +6,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.DashboardAPL;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
+import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
@@ -230,5 +231,50 @@ public class IndoorDashboardUtilsTest extends TestCase {
 		AirPortInfo info = DataParser.parseAirPurifierEventData(parseData);
 		
 		assertEquals(PurAirApplication.getAppContext().getString(R.string.change_now), IndoorDashboardUtils.getFilterStatus(info));
+	}
+	
+	public void testgetFanSpeedSilent() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("s");
+		assertEquals(R.string.silent, fanSpeed.getFanSpeedTextResID());
+	}
+	
+	public void testgetFanSpeedAuto() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("a");
+		assertEquals(R.string.auto, fanSpeed.getFanSpeedTextResID());
+	}
+	
+	public void testgetFanSpeedTurbo() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("t");
+		assertEquals(R.string.turbo, fanSpeed.getFanSpeedTextResID());
+	}
+	
+	public void testgetFanSpeedOne() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("1");
+		assertEquals(R.string.speed1, fanSpeed.getFanSpeedTextResID());
+	}
+	
+	public void testgetFanSpeedTwo() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("2");
+		assertEquals(R.string.speed2, fanSpeed.getFanSpeedTextResID());
+	}
+	
+	public void testgetFanSpeedThree() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("3");
+		assertEquals(R.string.speed3, fanSpeed.getFanSpeedTextResID());
+	}
+	
+	public void testgetFanSpeedNull() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed(null);
+		assertNull(fanSpeed);
+	}
+	
+	public void testgetFanSpeedEmpty() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed(null);
+		assertNull(fanSpeed);
+	}
+	
+	public void testgetFanSpeedUnKnowChar() {
+		FanSpeed fanSpeed = IndoorDashboardUtils.getFanSpeed("v");
+		assertNull(fanSpeed);
 	}
 }
