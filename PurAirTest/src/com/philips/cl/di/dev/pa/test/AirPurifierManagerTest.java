@@ -4,10 +4,10 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
@@ -74,8 +74,6 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 		AirPurifier device1 = createMockDisconnectedPurifier();			
 		mPurifierMan.setCurrentPurifier(device1);		
 		
-		reset(device1);
-		
 		AirPurifier device2 = createMockDisconnectedPurifier();		
 		mPurifierMan.setCurrentPurifier(device2);
 		
@@ -86,8 +84,6 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 	public void testRemovePurifierListener(){
 		AirPurifier device1 = createMockDisconnectedPurifier();			
 		mPurifierMan.setCurrentPurifier(device1);		
-		
-		reset(device1);
 		
 		mPurifierMan.removeCurrentPurifier();
 		
