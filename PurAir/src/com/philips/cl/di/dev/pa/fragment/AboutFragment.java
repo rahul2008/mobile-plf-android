@@ -40,8 +40,8 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		FontTextView settingTV = (FontTextView) getView().findViewById(R.id.about_setting_tv);
 		FontTextView helpTV = (FontTextView) getView().findViewById(R.id.about_help_tv);
 		
-		settingTV.setText(getString(R.string.list_item_settings) + " ->");
-		helpTV.setText(getString(R.string.help) + " ->");
+		settingTV.setText(getString(R.string.list_item_settings) + " >");
+		helpTV.setText(getString(R.string.help) + " >");
 		
 		settingTV.setOnClickListener(this);
 		helpTV.setOnClickListener(this);
