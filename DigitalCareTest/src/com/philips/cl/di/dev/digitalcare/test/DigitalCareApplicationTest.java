@@ -30,6 +30,7 @@ public class DigitalCareApplicationTest extends
 	private DigitalCareApplication mApplication = null;
 	public static int[] mTestValues = { 2, 5, 6 };
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp launched");
