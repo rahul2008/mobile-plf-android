@@ -49,7 +49,7 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		closeButton.setOnClickListener(this);
 		
 		FontTextView buyOnlineTV = (FontTextView) getView().findViewById(R.id.buy_online_tv);
-		buyOnlineTV.setText(getString(R.string.buy_online_lbl) + " ->");
+		buyOnlineTV.setText(getString(R.string.buy_online_lbl) + " >");
 		buyOnlineTV.setOnClickListener(this);
 		
 	}
