@@ -1,11 +1,7 @@
 package com.philips.cl.di.dev.digitalcare.test;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.doReturn;
 
-import org.junit.Before;
-import org.junit.Test;
 
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
@@ -34,7 +30,6 @@ public class DigitalCareApplicationTest extends
 	private DigitalCareApplication mApplication = null;
 	public static int[] mTestValues = { 2, 5, 6 };
 
-	@Before
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp launched");
@@ -43,13 +38,13 @@ public class DigitalCareApplicationTest extends
 		// when(DigitalCareApplication.getFeatureListKeys()).thenReturn(mTestValues);
 	}
 
-	@Test
+	@SmallTest
 	public void testContextOftheDigitalCareApplication() {
 		Log.d(TAG, "testContext");
 		assertNotNull(mContext);
 	}
 
-	@Test
+	@SmallTest
 	public void testIsDigitalCareApplicationMocked() {
 		boolean validate = false;
 		String received = mApplication.getClass().getSimpleName();
