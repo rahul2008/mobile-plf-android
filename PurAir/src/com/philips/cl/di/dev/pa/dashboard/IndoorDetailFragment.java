@@ -57,7 +57,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private FontButton airQualityExplainFB;
-	private FontTextView msgFirst, msgSecond;
+	private FontTextView msgFirst;
 	private ViewGroup indoorBarChart, outdoorBarChart;
 	private ProgressBar rdcpDownloadProgressBar;
 	private List<float[]> lastDayRDCPValues;
@@ -85,6 +85,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		ALog.d(ALog.INDOOR_DETAILS, "onActivityCreated()");
 		MetricsTracker.trackPage(TrackPageConstants.INDOOR_DETAILS);
 		Coordinates.getInstance(getMainActivity());//Initialize all trend density independent pixel co-ordinate
 		currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
@@ -121,7 +122,6 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 
 
 		msgFirst = (FontTextView) view.findViewById(R.id.idFirstMsg);
-		msgSecond = (FontTextView) view.findViewById(R.id.idSecondMsg);
 
 		rdcpDownloadProgressBar = (ProgressBar) view.findViewById(R.id.rdcpDownloadProgressBar);
 		indoorBarChart = (RelativeLayout) view.findViewById(R.id.indoorDashboardBarPerc);
@@ -261,21 +261,18 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 			lastWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			lastFourWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			msgFirst.setText(getString(R.string.aqi_message_last_day));
-			msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
 			break;
 		case 1:
 			lastDayBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			lastWeekBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
 			lastFourWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			msgFirst.setText(getString(R.string.aqi_message_last7day));
-			msgSecond.setText(getString(R.string.detail_aiq_message_last7day));		
 			break;
 		case 2:
 			lastDayBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			lastWeekBtn.setBackgroundResource(R.drawable.normal_text_view_bg);
 			lastFourWeekBtn.setBackgroundResource(R.drawable.highlight_text_view_bg);
 			msgFirst.setText(getString(R.string.aqi_message_last4week));
-			msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 			break;
 		default:
 			break;

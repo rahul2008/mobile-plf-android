@@ -237,9 +237,7 @@
     <string name="last7day">Last 7 days</string>
     <string name="last4week">Last 4 weeks</string>
     <string name="outdoor_aqi_map_purifier_title">Indoor Air Level: </string>
-    <string name="detail_aiq_message_last_day">Detailed air quality for the last day?</string>
-    <string name="detail_aiq_message_last7day">Detailed air quality for the last 7 days?</string>
-    <string name="detail_aiq_message_last4week">Detailed air quality for the last 4 weeks?</string>
+    <string name="detailed_air_quality">Detailed air quality</string>
     <string name="aqi_message_last_day">During the last day, how much good air did you have?</string>
     <string name="aqi_message_last7day">During the last 7 days, how much good air did you have?</string>
     <string name="aqi_message_last4week">During the last 4 weeks, how much good air did you have?</string>

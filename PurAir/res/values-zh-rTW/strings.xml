@@ -237,9 +237,7 @@
     <string name="last7day">過去 7 天</string>
     <string name="last4week">過去 4 星期</string>
     <string name="outdoor_aqi_map_purifier_title">室内空氣水平: </string>
-    <string name="detail_aiq_message_last_day">昨天的詳盡空氣質素？</string>
-    <string name="detail_aiq_message_last7day">過去 7 天的詳盡空氣質素？</string>
-    <string name="detail_aiq_message_last4week">過去 4 星期的詳盡空氣質素？</string>
+    <string name="detailed_air_quality">空氣質量詳情</string>
     <string name="aqi_message_last_day">過去的一天中，您呼吸了多少新鮮空氣？</string>
     <string name="aqi_message_last7day">過去的一周內，您呼吸了多少新鮮空氣？</string>
     <string name="aqi_message_last4week">過去的一月內，您呼吸了多少新鮮空氣？</string>

@@ -73,7 +73,7 @@
         android:layout_marginTop="48dp"
         android:gravity="center"
         android:lineSpacingExtra="2dp"
-        android:text="@string/detail_aiq_message_last_day"
+        android:text="@string/detailed_air_quality"
         android:textColor="@color/philips_blue"
         android:textSize="@dimen/title_text_size_medium_dp"
         custom:fontAssetName="fonts/centralesansbook.ttf" />
