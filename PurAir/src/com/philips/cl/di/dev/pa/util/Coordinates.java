@@ -88,8 +88,7 @@ public class Coordinates {
 		powerRect2 = getPxWithRespectToDip(ctx, GraphConst.POWER_RECT2);
 		powerLabelPadd = getPxWithRespectToDip(ctx, GraphConst.POWER_LABEL_PADD);
 		outerlineDist = getPxWithRespectToDip(ctx, GraphConst.OUTER_LINE_DIST);
-		outerCirclePadd = getPxWithRespectToDip(ctx,
-				GraphConst.OUTER_CIRCLE_PADD);
+		outerCirclePadd = getPxWithRespectToDip(ctx, GraphConst.OUTER_CIRCLE_PADD);
 		outerIndexPadd = getPxWithRespectToDip(ctx, GraphConst.OUTER_INDEX_PADD);
 		strokeWidth = getPxWithRespectToDip(ctx, GraphConst.STROKE_WIDTH);
 
@@ -98,8 +97,7 @@ public class Coordinates {
 		 * */
 		idGraphHeight = getPxWithRespectToDip(ctx, GraphConst.GRAPH_BG_HEGHT);
 		idPaddingRight = getPxWithRespectToDip(ctx, GraphConst.ID_PADDING_RIGHT);
-		idRectMarginLeft = getPxWithRespectToDip(ctx,
-				GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
+		idRectMarginLeft = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
 		idRectWidth = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_WIDTH);
 		idY10Point0 = 0;
 		idX0 = getPxWithRespectToDip(ctx, GraphConst.XAXIS0);
@@ -129,8 +127,7 @@ public class Coordinates {
 		odY50 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS50);
 		odY0 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS0);
 		odX0 = getPxWithRespectToDip(ctx, GraphConst.OD_XAXIS0);
-		odRectMarginLeft = getPxWithRespectToDip(ctx,
-				GraphConst.OD_YAXIS_RECT_MARGIN_LEFT);
+		odRectMarginLeft = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_MARGIN_LEFT);
 		odRectWidth = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_WIDTH);
 		odPaddingRight = getPxWithRespectToDip(ctx, GraphConst.OD_PADDING_RIGHT);
 
