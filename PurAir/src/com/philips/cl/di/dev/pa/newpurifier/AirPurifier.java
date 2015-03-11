@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -43,7 +44,7 @@ public class AirPurifier implements SubscriptionEventListener, KeyDecryptListene
 	
 	private PurifierListener mPurifierListener;
 
-	private final Handler mResubscriptionHandler = new Handler();
+	private final Handler mResubscriptionHandler = new Handler(Looper.getMainLooper());
 	private Runnable mResubscribeRunnable;	
 	protected static final long RESUBSCRIBING_TIME = 300000;
 	

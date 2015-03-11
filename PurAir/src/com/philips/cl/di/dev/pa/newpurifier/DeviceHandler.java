@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.os.Looper;
 
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
@@ -124,7 +125,7 @@ public class DeviceHandler implements ServerResponseListener {
 		}
 	}
 	
-	private Handler messageHandler = new Handler() {
+	private Handler messageHandler = new Handler(Looper.getMainLooper()) {
 		public void handleMessage(android.os.Message msg) {
 			if( msg.what == 0)
 				notifyListener() ;
