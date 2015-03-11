@@ -97,7 +97,7 @@ public class EWSStepFourFragment extends Fragment {
 	private void setPurifierDetils() {
 		ssid = ((EWSActivity) getActivity()).getNetworkSSID();
 		String passwordLabel = getString(R.string.step3_msg1)
-				+ " <font color=#0065A0>" + ssid + "</font>";
+				+ " <b>" + ssid + "</b>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		if (SessionDto.getInstance().getDeviceDto() != null) {
 			String name = SessionDto.getInstance().getDeviceDto().getName();
@@ -295,7 +295,6 @@ public class EWSStepFourFragment extends Fragment {
 				.equals(getResources().getString(R.string.edit))) {
 			deviceNameStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
 			deviceNameStep3.setEnabled(true);
-			deviceNameStep3.setTextColor(GraphConst.COLOR_TITLE_GRAY);
 			Editable editable = deviceNameStep3.getText();
 			Selection.setSelection(editable, deviceNameStep3.length());
 			editSavePlaceNameBtnStep3.setText(getResources().getString(	R.string.save));
@@ -305,7 +304,6 @@ public class EWSStepFourFragment extends Fragment {
 			ALog.i(ALog.EWS, "step3 save name button click");
 			deviceNameStep3.setBackgroundColor(Color.WHITE);
 			deviceNameStep3.setEnabled(false);
-			deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 			editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
 			separtorUp.setVisibility(View.VISIBLE);
 			separtorDown.setVisibility(View.VISIBLE);

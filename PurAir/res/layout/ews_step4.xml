@@ -150,7 +150,7 @@
             android:paddingRight="8dp"
             android:singleLine="true"
             android:text="@string/lbl_living_room"
-            android:textColor="@color/contain_gray"
+            android:textColor="@color/blue_list_item"
             android:textSize="14sp" >
         </EditText>
         
