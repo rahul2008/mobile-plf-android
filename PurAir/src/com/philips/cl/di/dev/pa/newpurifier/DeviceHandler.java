@@ -7,11 +7,12 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
 import com.philips.cl.di.dev.pa.purifier.RoutingStrategy;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+import com.philips.cl.di.dicomm.communication.Request;
+import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.communication.Error;
 
@@ -94,7 +95,7 @@ public class DeviceHandler implements ServerResponseListener {
 	
 	private class StatusUpdateThread implements Runnable {
 		Hashtable<String, String> airPortDetailsTable = new Hashtable<String, String>();
-		private DeviceConnection connection ;
+		private Request connection ;
 		
 		public void run() {
 			sendRequest() ;
@@ -105,7 +106,8 @@ public class DeviceHandler implements ServerResponseListener {
 				deviceDetailsTable.clear() ;
 				connection = RoutingStrategy.getConnection(mNetworkNode, this.airPortDetailsTable) ;
 				if( connection != null) {
-					response = connection.setPurifierDetails() ;
+					Response responseObj = connection.execute();
+					response = responseObj.getResponseMessage() ;
 				}
 			}
 			messageHandler.sendEmptyMessage(0) ;
