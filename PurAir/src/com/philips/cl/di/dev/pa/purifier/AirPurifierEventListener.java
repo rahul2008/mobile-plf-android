@@ -20,5 +20,5 @@ public interface AirPurifierEventListener {
 	
 	void onFirmwareEventReceived();
 
-	void onErrorOccurred(Error.PurifierEvent purifierEvent) ;
+	void onErrorOccurred(Error purifierEventError) ;
 }

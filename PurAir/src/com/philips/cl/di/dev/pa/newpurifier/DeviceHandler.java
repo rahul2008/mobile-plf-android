@@ -20,7 +20,7 @@ import com.philips.cl.di.dicomm.communication.Error;
 public class DeviceHandler implements ServerResponseListener {
 	
 	private ResponseHandler mListener;
-	private Error.PurifierEvent mPurifierEvent ;
+	private Error mPurifierEventError ;
 	private Thread statusUpdateTaskThread ;
 	private NetworkNode mNetworkNode ;
 	
@@ -33,13 +33,13 @@ public class DeviceHandler implements ServerResponseListener {
 		deviceDetailsTable = new Hashtable<String, String>() ;
 	}
 	
-	public DeviceHandler(ResponseHandler listener, Error.PurifierEvent purifierEvent) {
+	public DeviceHandler(ResponseHandler listener, Error purifierEvent) {
 		this(listener);
-		mPurifierEvent = purifierEvent ;
+		mPurifierEventError = purifierEvent ;
 	}
 	
-	public void setPurifierEvent(Error.PurifierEvent purifierEvent) {
-		mPurifierEvent = purifierEvent ;
+	public void setPurifierEvent(Error purifierEvent) {
+		mPurifierEventError = purifierEvent ;
 	}
 
 	public synchronized void setPurifierDetails(String key, String value, NetworkNode networkNode) {
@@ -85,8 +85,7 @@ public class DeviceHandler implements ServerResponseListener {
 		ALog.i(ALog.DEVICEHANDLER, "Response Code: "+responseCode) ;
 		if (mListener == null) return;
 		if(responseCode != HttpURLConnection.HTTP_OK) {
-			Error error = new Error(mPurifierEvent.ordinal(),"");
-			mListener.onError(error) ; 
+			mListener.onError(mPurifierEventError) ; 
 		}
 		else {
 			mListener.onSuccess(encryptedData) ;
@@ -132,8 +131,7 @@ public class DeviceHandler implements ServerResponseListener {
 			}
 		}
 		else {
-			Error error = new Error(mPurifierEvent.ordinal(),"");
-			mListener.onError(error) ;
+			mListener.onError(mPurifierEventError) ;
 		}
 	}
 	

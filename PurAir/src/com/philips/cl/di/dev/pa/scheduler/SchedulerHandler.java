@@ -15,7 +15,6 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
 public class SchedulerHandler implements ServerResponseListener {
@@ -162,8 +161,7 @@ public class SchedulerHandler implements ServerResponseListener {
 			//TODO: DICOMM Refactor, check if decryption is required			
 			mListener.onSuccess(data);
 		} else {
-			Error error = new Error(PurifierEvent.SCHEDULER.ordinal(),"");
-			mListener.onError(error) ; 
+			mListener.onError(Error.SCHEDULER) ; 
 		}
 	}
 }

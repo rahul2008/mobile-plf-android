@@ -101,7 +101,7 @@ public class AirPort extends DICommPort {
 	}
 	
 	// TODO refactor into new architecture, rename method
-	public void setPurifierDetails(String key, String value, Error.PurifierEvent purifierEvent) {
+	public void setPurifierDetails(String key, String value, Error purifierEvent) {
 		ALog.i(ALog.AIRPORT, "Set Appliance details: " + key +" = " + value) ;
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
