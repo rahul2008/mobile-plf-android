@@ -34,6 +34,7 @@ public class DigitalCareApplicationTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp launched");
+		System.setProperty( "dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		mContext = getInstrumentation().getTargetContext();
 		mApplication = mock(DigitalCareApplication.class);
 		// when(DigitalCareApplication.getFeatureListKeys()).thenReturn(mTestValues);
