@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public interface PurifierListener {
 
@@ -21,6 +20,6 @@ public interface PurifierListener {
 	public abstract void notifyScheduleListenerForErrorOccured(int errorType);
 
 	public abstract void notifyAirPurifierEventListenersErrorOccurred(
-			Error.PurifierEvent purifierEvent);
+			Error purifierEventError);
 
 }

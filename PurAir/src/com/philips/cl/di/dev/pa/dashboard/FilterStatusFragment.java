@@ -26,7 +26,6 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 
@@ -101,7 +100,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 	}
 
 	@Override
-	public void onErrorOccurred(Error.PurifierEvent purifierEvent) {
+	public void onErrorOccurred(Error purifierEventError) {
 
 	}
 

@@ -6,16 +6,14 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Set;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
-import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.Request;
 import com.philips.cl.di.dicomm.communication.RequestType;
 import com.philips.cl.di.dicomm.communication.Response;
@@ -23,19 +21,21 @@ import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
 public class LocalRequest implements Request {
 
-	private static final int CONN_TIMEOUT_LOCAL_CONTROL = 10 * 1000; // 10secs
+	private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
 	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%s/%d";
-	private String mUrl;
-	private int mResponseCode;
-	private String mData;
-	private NetworkNode mNetworkNode;
-	private RequestType mRequestType;
+	private final String mUrl;
+	private final String mData;
+	private final NetworkNode mNetworkNode;
+	private final RequestType mRequestType;
+	private final ResponseHandler mResponseHandler;
 
 	public LocalRequest(NetworkNode networkNode, String portName, int productId, RequestType requestType,Map<String,String> dataMap,ResponseHandler responseHandler) {
+		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
+		mData = convertDataToJson(networkNode,dataMap);
+		mRequestType = requestType;
+		mNetworkNode = networkNode;
+		mResponseHandler = responseHandler;
 		ALog.i("UIUX", "Datatosend: " + mData);
-		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL");
-		this.mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
-		this.mData = convertDataToJson(networkNode,dataMap);
 	}
 	
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
@@ -63,37 +63,48 @@ public class LocalRequest implements Request {
 
 	@Override
 	public Response execute() {
-		if (mData == null || mData.isEmpty() || mUrl == null
-				|| mUrl.isEmpty()) {
-			return new Response(null, null, null);
-		}
+		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL");
 		String result = "";
 		InputStream inputStream = null;
 		OutputStreamWriter out = null;
 		HttpURLConnection conn = null;
+		int responseCode;
+		
 		try {
 			URL urlConn = new URL(mUrl);
-			conn = (HttpURLConnection) NetworkUtils.getConnection(urlConn,
-					"PUT", CONN_TIMEOUT_LOCAL_CONTROL);
-			conn.setDoOutput(true);
-			out = new OutputStreamWriter(conn.getOutputStream(),
-					Charset.defaultCharset());
-			out.write(mData);
-			out.flush();
+			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT);
+			if(mRequestType == RequestType.PUT || mRequestType == RequestType.POST) {			
+				if (mData == null || mData.isEmpty()) {
+					return new Response(null, Error.NODATA, mResponseHandler);
+				}
+				conn.setDoOutput(true);
+				out = new OutputStreamWriter(conn.getOutputStream(),Charset.defaultCharset());
+				out.write(mData);
+				out.flush();
+			}
 			conn.connect();
-			mResponseCode = conn.getResponseCode();
-			if (mResponseCode == 200) {
+			responseCode = conn.getResponseCode();
+			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
+			
+			if (responseCode == 200) {
+				//TODO: DICOMM Refactor, add decryption logic here
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
+				return new Response(result, null, mResponseHandler);
 			}
-			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + mResponseCode);
+			else {
+				inputStream = conn.getErrorStream();
+				result = NetworkUtils.convertInputStreamToString(inputStream);
+				ALog.e(ALog.LOCALREQUEST, result);
+				return new Response(null, Error.REQUESTFAILED, mResponseHandler);				
+			}		
 		} catch (IOException e) {
 			e.printStackTrace();
+			ALog.e(ALog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
+			return new Response(null, Error.IOEXCEPTION, mResponseHandler);
 		}
-
 		finally {
 			NetworkUtils.closeAllConnections(inputStream, out, conn);
 		}
-		return new Response(result, null, null);
 	}
 }

@@ -16,7 +16,6 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class SchedulerHandler implements ServerResponseListener {
 	public static final int DEFAULT_ERROR = 999;
@@ -162,8 +161,7 @@ public class SchedulerHandler implements ServerResponseListener {
 			//TODO: DICOMM Refactor, check if decryption is required			
 			mListener.onSuccess(data);
 		} else {
-			Error error = new Error(PurifierEvent.SCHEDULER.ordinal(),"");
-			mListener.onError(error) ; 
+			mListener.onError(Error.SCHEDULER) ; 
 		}
 	}
 }
