@@ -471,10 +471,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			fragment.setArguments(bundle);
 			addFragment(fragment, R.id.home_fragment_outdoor_detail_container, OUTDOOR_DEATAIL_FTAG) ;
 			outdoorDetailContainer.setVisibility(View.VISIBLE);
+			setTitleBarVisibity();
 			scrollScrollView(true) ;
 		}
 		isLoadingOutdoorDetail = false;
-		setTitleBarVisibity();
 	}
 	
 	public void toggleIndoorDetailFragment() {
@@ -482,9 +482,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			IndoorDetailFragment fragment = new IndoorDetailFragment();
 			addFragment(fragment, R.id.home_fragment_indoor_detail_container, INDOOR_DETAIL_FTAG);
 			indoorDetailContainer.setVisibility(View.VISIBLE);
+			setTitleBarVisibity();
 		}
 		scrollScrollView(false);
-		setTitleBarVisibity();
 	}
 	
 	private void addFragment(Fragment fragment, int containerId, String tag) {
@@ -517,6 +517,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 					}
 					fragmentTransaction.commit();
 					outdoorDetailContainer.setVisibility(View.GONE);
+					setTitleBarVisibity();
 					return true;
 				}
 			} catch (IllegalStateException e) {
@@ -538,6 +539,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 					fragmentTransaction.remove(prevFragment);
 					fragmentTransaction.commit();
 					indoorDetailContainer.setVisibility(View.GONE);
+					setTitleBarVisibity();
 					return true;
 				}
 			} catch (IllegalStateException e) {
