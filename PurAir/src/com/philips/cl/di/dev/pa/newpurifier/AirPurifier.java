@@ -14,12 +14,11 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
-import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 /**
  * @author Jeroen Mols
@@ -164,13 +163,13 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	public void onError(Error error) {
 		if(mPurifierListener==null) return;
 		
-		switch (PurifierEvent.values()[error.getErrorCode()]) {
+		switch (error) {
 		case SCHEDULER:
 			mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
 			break;
 		case DEVICE_CONTROL:
 		case AQI_THRESHOLD:
-			mPurifierListener.notifyAirPurifierEventListenersErrorOccurred(PurifierEvent.values()[error.getErrorCode()]);
+			mPurifierListener.notifyAirPurifierEventListenersErrorOccurred(error);
 			break;
 		case FIRMWARE:
 			break;

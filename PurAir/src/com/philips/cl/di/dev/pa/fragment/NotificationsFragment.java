@@ -328,7 +328,7 @@ AlertDialogBtnInterface, OnClickListener {
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().setPurifierDetails(
 					ParserConstants.AQI_THRESHOLD, aqiThreshold,
-					Error.PurifierEvent.AQI_THRESHOLD);
+					Error.AQI_THRESHOLD);
 		}
 	}
 
@@ -430,8 +430,8 @@ AlertDialogBtnInterface, OnClickListener {
 	 * This method is called if the call to set AQI threshold via locally fails
 	 */
 	@Override
-	public void onErrorOccurred(Error.PurifierEvent purifierEvent) {
-		if (purifierEvent != Error.PurifierEvent.AQI_THRESHOLD) return;
+	public void onErrorOccurred(Error purifierEventError) {
+		if (purifierEventError != Error.AQI_THRESHOLD) return;
 		if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
 		if (aqiThresholdProgressDialog != null) aqiThresholdProgressDialog.dismiss();
 
