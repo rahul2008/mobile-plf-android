@@ -509,7 +509,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				Fragment prevFragment = activity.getSupportFragmentManager()
 						.findFragmentByTag(HomeFragment.OUTDOOR_DEATAIL_FTAG);
 				Fragment prevFragmentMap = activity.getSupportFragmentManager()
-						.findFragmentById(R.id.outdoor_detail_map_fragment);
+						.findFragmentById(R.id.outdoor_detail_map_container);
 				if (prevFragment != null) {
 					fragmentTransaction.remove(prevFragment);
 					if (prevFragmentMap != null) {

@@ -32,6 +32,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
+import com.philips.cl.di.dev.pa.fragment.MarkerMapFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
@@ -87,6 +88,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View view = inflater.inflate(R.layout.outdoor_detail_fragment, container, false);
 		return view;
 	}
@@ -105,8 +107,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		getDataFromDashboard();
 
 		requestAQIAndWeatherData();
+		addFragment(new MarkerMapFragment(), R.id.outdoor_detail_map_container, "map_frag");
 	}
-	
+
 	private MainActivity getMainActivity() {
 		return (MainActivity) getActivity();
 	}
@@ -585,15 +588,34 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		});
 	}
 	
+	private void addFragment(Fragment fragment, int containerId, String tag) {
+		MainActivity activity = (MainActivity)getActivity();
+		if (activity == null) return;
+		try{
+			FragmentTransaction fragmentTransaction = 
+					activity.getSupportFragmentManager().beginTransaction();
+			Fragment prevFragmentMap = activity.getSupportFragmentManager()
+					.findFragmentByTag(tag);
+			if (prevFragmentMap != null) {
+				fragmentTransaction.remove(prevFragmentMap);
+			}
+			fragmentTransaction.add(containerId, fragment, tag);
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.ERROR, "IllegalStateException: " + e.getMessage());
+		}
+	}
+	
+	
 	@Override
-	public void onDetach() {
-		super.onDetach();
+	public void onDestroyView() {
+		super.onDestroyView();
 		if (getActivity() == null) return;
 		try {
 			FragmentTransaction fragmentTransaction = 
 					getActivity().getSupportFragmentManager().beginTransaction();
 			Fragment prevFragmentMap = getActivity().getSupportFragmentManager()
-					.findFragmentById(R.id.outdoor_detail_map_fragment);
+					.findFragmentById(R.id.outdoor_detail_map_container);
 			if (prevFragmentMap != null) {
 				fragmentTransaction.remove(prevFragmentMap);
 			}
