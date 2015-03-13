@@ -59,8 +59,7 @@ public class TwitterConnect {
 		this.mTwitterAuth = auth;
 		mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
 		mConsumerSecret = mContext.getString(R.string.twitter_consumer_secret);
-		mCallbackUrl = mContext.getString(R.string.twitter_callback);
-		mAuthVerifier = mContext.getString(R.string.twitter_oauth_verifier);
+		mAuthVerifier = "oauth_verifier";
 
 		if (TextUtils.isEmpty(mConsumerKey)
 				|| TextUtils.isEmpty(mConsumerSecret)) {

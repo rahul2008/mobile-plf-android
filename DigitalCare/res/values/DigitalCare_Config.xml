@@ -53,10 +53,8 @@
     </declare-styleable>
 
     <!-- Twitter APP SDK API KEYS -->
-    <string name="twitter_callback">http://javatechig.android.app</string>
-    <string name="twitter_consumer_key">vM5RNi5CCodJnL7e5BOA</string>
-    <string name="twitter_consumer_secret">FQNS0eBbM8J5DDjDglLCwOvAUUesYhN5uFxdxjKLgk</string>
-    <string name="twitter_oauth_verifier">oauth_verifier</string>
+    <string name="twitter_consumer_key">qgktZw1ffdoreBjbiYfvnIPJe</string>
+    <string name="twitter_consumer_secret">UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3</string>
 
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id">1537018913230025</string>

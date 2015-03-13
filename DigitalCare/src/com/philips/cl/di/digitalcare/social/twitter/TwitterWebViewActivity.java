@@ -13,7 +13,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.digitalcare.R;
 
 /**
  * @Description Activity component used for Twitter authentication
@@ -92,23 +91,18 @@ public class TwitterWebViewActivity extends Activity {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
-			if (url.contains(getResources()
-					.getString(R.string.twitter_callback))) {
 				Uri uri = Uri.parse(url);
 
 				/* Sending results back */
-				String verifier = uri
-						.getQueryParameter(getString(R.string.twitter_oauth_verifier));
+			String verifier = uri.getQueryParameter("oauth_verifier");
 				Intent resultIntent = new Intent();
-				resultIntent.putExtra(
-						getString(R.string.twitter_oauth_verifier), verifier);
+			resultIntent.putExtra("oauth_verifier", verifier);
 				setResult(RESULT_OK, resultIntent);
 
 				/* closing webview */
 				finish();
 				return true;
-			}
-			return false;
+
 		}
 	}
 }
