@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.test;
+package com.philips.cl.di.dev.digitalcare.test;
 
 import java.lang.reflect.Field;
 
@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
+import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.dev.digitalcare.Call.test.CallFeature;
+import com.philips.cl.di.dev.digitalcare.Call.test.DeviceType;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
-import com.philips.cl.di.digitalcare.Call.test.CallFeature;
-import com.philips.cl.di.digitalcare.Utility.test.DeviceType;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -38,7 +38,6 @@ public class DigitalCareActivityTest extends
 
 	public DigitalCareActivityTest() {
 		super(DigitalCareActivity.class);
-
 	}
 
 	protected void setUp() throws Exception {
@@ -82,23 +81,23 @@ public class DigitalCareActivityTest extends
 		assertNotNull("Back Icon not available ", mBackbutton);
 	}
 
-	//@MediumTest
-	//public void testDigitalCareConnectionLogic() {
-	//	boolean isConnected = Utils.isConnected(mActivity);
-//
-	//	assertEquals("\n \n No Connection \n \n", true, isConnected);
-	//}
+	/*
+	 * @MediumTest public void testDigitalCareConnectionLogic() { boolean
+	 * isConnected = Utils.isConnected(mActivity);
+	 * 
+	 * assertEquals("\n \n No Connection \n \n", true, isConnected); }
+	 */
 
-//	@SmallTest
-//	public void testDeviceTypeMobileLogic() {
-//		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
-//
-//		DeviceType mFeature = new DeviceType(mActivity);
-//		expected = mFeature.isMobileDevice();
-//
-//		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
-//				actual);
-//	}
+	@SmallTest
+	public void testDeviceTypeMobileLogic() {
+		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
+
+		DeviceType mFeature = new DeviceType(mActivity);
+		expected = mFeature.isMobileDevice();
+
+		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
+				actual);
+	}
 
 	@SmallTest
 	public void testDeviceTypeTableteLogic() {
@@ -127,30 +126,16 @@ public class DigitalCareActivityTest extends
 	 */
 	@MediumTest
 	public void testTwitterConsumerKey() {
-		String expected = "vM5RNi5CCodJnL7e5BOA";
+		String expected = "qgktZw1ffdoreBjbiYfvnIPJe";
 		String received = mActivity.getString(R.string.twitter_consumer_key);
 		assertEquals("ConsumerKEy is invalid", expected, received);
 	}
 
 	@MediumTest
 	public void testTwitterConsumerSecreatKey() {
-		String expected = "FQNS0eBbM8J5DDjDglLCwOvAUUesYhN5uFxdxjKLgk";
+		String expected = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
 		String received = mActivity.getString(R.string.twitter_consumer_secret);
 		assertEquals("ConsumerSecreat is invalid", expected, received);
-	}
-
-	@MediumTest
-	public void testTwitterCallbackKey() {
-		String expected = "http://javatechig.android.app";
-		String received = mActivity.getString(R.string.twitter_callback);
-		assertEquals("ConsumerCallback is invalid", expected, received);
-	}
-
-	@MediumTest
-	public void testTwitterOauthVerifier() {
-		String expected = "oauth_verifier";
-		String received = mActivity.getString(R.string.twitter_oauth_verifier);
-		assertEquals("oAuth is invalid", expected, received);
 	}
 
 	@MediumTest

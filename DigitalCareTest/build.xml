@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="DigitalCare Test">
+    <property environment="env"/>
+    <property name="DigitalCare.location" value="../../Sprint 4/Unit Testing - 3 March/DigitalCare"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="Android 4.3.1.libraryclasspath">
+        <pathelement location="C:/adt-bundle-windows-x86_64-20140702/sdk/platforms/android-18/android.jar"/>
+    </path>
+    <path id="Android Private Libraries.libraryclasspath">
+        <pathelement location="../../Sprint 4/THursday 19/FacebookSDK/libs/bolts.jar"/>
+        <pathelement location="../../Sprint 4/THursday 19/android-support-v7-appcompat/libs/android-support-v7-appcompat.jar"/>
+        <pathelement location="../../Sprint 4/Unit Testing - 3 March/DigitalCare/libs/twitter4j-core-4.0.2.jar"/>
+        <pathelement location="../../Sprint 4/THursday 19/android-support-v7-appcompat/libs/android-support-v4.jar"/>
+    </path>
+    <path id="Android Dependencies.libraryclasspath">
+        <pathelement location="../../Sprint 4/THursday 19/FacebookSDK/bin/facebooksdk.jar"/>
+        <pathelement location="../../Sprint 4/THursday 19/android-support-v7-appcompat/bin/android-support-v7-appcompat.jar"/>
+    </path>
+    <path id="twitter.userclasspath"/>
+    <path id="DigitalCare.classpath">
+        <path refid="Android 4.3.1.libraryclasspath"/>
+        <path refid="Android Private Libraries.libraryclasspath"/>
+        <path refid="Android Dependencies.libraryclasspath"/>
+        <path refid="twitter.userclasspath"/>
+        <pathelement location="${DigitalCare.location}/bin/classes"/>
+    </path>
+    <path id="DigitalCare Test.classpath">
+        <pathelement location="bin/classes"/>
+        <path refid="DigitalCare.classpath"/>
+        <path refid="Android 4.3.1.libraryclasspath"/>
+        <path refid="Android Private Libraries.libraryclasspath"/>
+        <path refid="Android Dependencies.libraryclasspath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin/classes"/>
+        <copy includeemptydirs="false" todir="bin/classes">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin/classes">
+            <fileset dir="gen">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin/classes"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${DigitalCare.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${DigitalCare.location}" inheritAll="false" target="build-project"/>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="gen"/>
+            <classpath refid="DigitalCare Test.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+</project>

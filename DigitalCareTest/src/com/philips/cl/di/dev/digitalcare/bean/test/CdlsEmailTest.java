@@ -1,5 +1,4 @@
-package com.philips.cl.di.digitalcare.bean.test;
-
+package com.philips.cl.di.dev.digitalcare.bean.test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;

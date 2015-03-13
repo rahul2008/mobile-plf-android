@@ -1,13 +1,14 @@
-package com.philips.cl.di.digitalcare.test;
+package com.philips.cl.di.dev.digitalcare.test;
 
 import static org.mockito.Mockito.mock;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.philips.cl.di.dev.digitalcare.Utility.test.Log;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareApplication;
-import com.philips.cl.di.digitalcare.Utility.test.Log;
+import com.philips.cl.di.digitalcare.R;
 
 /**
  * 
@@ -31,7 +32,8 @@ public class DigitalCareApplicationTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp launched");
-		System.setProperty( "dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
+		System.setProperty("dexmaker.dexcache", getInstrumentation()
+				.getTargetContext().getCacheDir().getPath());
 		mContext = getInstrumentation().getTargetContext();
 		mApplication = mock(DigitalCareApplication.class);
 		// when(DigitalCareApplication.getFeatureListKeys()).thenReturn(mTestValues);
