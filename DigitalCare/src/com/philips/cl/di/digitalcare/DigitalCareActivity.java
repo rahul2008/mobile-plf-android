@@ -8,8 +8,8 @@ import android.util.Log;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterConnect;
-import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /*
  *	DigitalCareActivity  is the main container class for Digital Care fragments. 

@@ -222,13 +222,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isNetworkConnected(getActivity())) {
 			 showFragment(new FacebookScreenFragment());
-//			getActivity().startActivity(
-//					new Intent(Intent.ACTION_VIEW, Uri
-//							.parse("https://m.facebook.com/PhilipsIndia?")));
-
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
-			mTwitter.setClickable(false);
+			mTwitter.setClickable(true);
 			TwitterConnect mTwitter = TwitterConnect.getInstance(getActivity());
 			mTwitter.initSDK(this);
 		} else if (id == R.id.contactUsEmail) {

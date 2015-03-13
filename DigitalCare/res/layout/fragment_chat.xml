@@ -63,7 +63,7 @@
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/selector_no_thanks_button_bg"
-                    android:text="@string/no_thanks"
+                    android:text="@string/social_login_cancel"
                     android:textColor="@color/button_bg"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>

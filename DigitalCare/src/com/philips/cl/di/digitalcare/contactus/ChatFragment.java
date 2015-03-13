@@ -26,9 +26,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	private DigitalCareFontButton mChatCancel = null;
 	// private DigitalCareFontButton mChatNoThanksLand = null;
 	// private ImageView mImageView = null;
-	private LinearLayout.LayoutParams mChatNowParentBottom = null;
-	private LinearLayout mChatNowParentPort = null;
-	private LinearLayout mChatNowParentLand = null;
+//	private LinearLayout.LayoutParams mChatNowParentBottom = null;
+//	private LinearLayout mChatNowParentPort = null;
+//	private LinearLayout mChatNowParentLand = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,8 +58,8 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
 		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
 
-		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
-				.getLayoutParams();
+//		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
+//				.getLayoutParams();
 
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
@@ -88,15 +88,11 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mChatNowParentPort.setVisibility(View.VISIBLE);
-			mChatNowParentLand.setVisibility(View.GONE);
-			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
+//			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
 		} else {
-			mChatNowParentLand.setVisibility(View.VISIBLE);
-			mChatNowParentPort.setVisibility(View.GONE);
-			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
+//			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
 		}
-		mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
+//		mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
 	}
 
 	@Override
