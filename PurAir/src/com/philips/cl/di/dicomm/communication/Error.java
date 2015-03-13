@@ -7,6 +7,8 @@ public enum Error {
 	NODATA("Request cannot be performed with null or empty data"),
 	REQUESTFAILED("Failed to perform request - check log for more info"),
 	IOEXCEPTION("IOException occurred - check log for more info"),
+	BADREQUEST("HTTP BADREQUEST occurred - check log for more info"),
+	BADGATEWAY("HTTP BADGATEWAY occurred "),
 	DEVICE_CONTROL(""),
 	SCHEDULER(""),
 	FIRMWARE(""),

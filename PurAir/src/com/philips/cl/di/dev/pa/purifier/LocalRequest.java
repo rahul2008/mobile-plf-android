@@ -83,21 +83,37 @@ public class LocalRequest implements Request {
 				out.flush();
 			}
 			conn.connect();
-			responseCode = conn.getResponseCode();
-			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			
+			try {
+				responseCode = conn.getResponseCode();
+			} catch (Exception e) {				
+				responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
+				ALog.e(ALog.LOCALREQUEST, "Failed to get responsecode");
+				e.printStackTrace();
+			}
+			
+			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				//TODO: DICOMM Refactor, add decryption logic here
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
 				return new Response(result, null, mResponseHandler);
 			}
-			else {
+			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {			
 				inputStream = conn.getErrorStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
-				ALog.e(ALog.LOCALREQUEST, result);
-				return new Response(null, Error.REQUESTFAILED, mResponseHandler);				
-			}		
+				ALog.e(ALog.LOCALREQUEST, "BAD REQUEST - " +result);
+				return new Response(result, Error.BADREQUEST, mResponseHandler);				
+			}
+			else if(responseCode == HttpURLConnection.HTTP_BAD_GATEWAY){
+				return new Response(null, Error.BADGATEWAY, mResponseHandler);
+			}
+			else{
+				inputStream = conn.getErrorStream();
+				result = NetworkUtils.convertInputStreamToString(inputStream);
+				ALog.e(ALog.LOCALREQUEST, "REQUESTFAILED - " +result);
+				return new Response(result, Error.REQUESTFAILED, mResponseHandler);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			ALog.e(ALog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
