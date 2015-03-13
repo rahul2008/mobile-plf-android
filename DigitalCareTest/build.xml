@@ -3,7 +3,7 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="DigitalCare Test">
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="DigitalCareTest">
     <property environment="env"/>
     <property name="DigitalCare.location" value="../../Sprint 4/Unit Testing - 3 March/DigitalCare"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -30,7 +30,7 @@
         <path refid="twitter.userclasspath"/>
         <pathelement location="${DigitalCare.location}/bin/classes"/>
     </path>
-    <path id="DigitalCare Test.classpath">
+    <path id="DigitalCareTest.classpath">
         <pathelement location="bin/classes"/>
         <path refid="DigitalCare.classpath"/>
         <path refid="Android 4.3.1.libraryclasspath"/>
@@ -67,7 +67,7 @@
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <src path="gen"/>
-            <classpath refid="DigitalCare Test.classpath"/>
+            <classpath refid="DigitalCareTest.classpath"/>
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
