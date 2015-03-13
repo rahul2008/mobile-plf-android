@@ -86,7 +86,7 @@ public class LocalRequest implements Request {
 			responseCode = conn.getResponseCode();
 			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			
-			if (responseCode == 200) {
+			if (responseCode == HttpURLConnection.HTTP_OK) {
 				//TODO: DICOMM Refactor, add decryption logic here
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);

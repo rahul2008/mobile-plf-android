@@ -128,7 +128,6 @@ public class NetworkUtils {
 		if( connectionTimeout != -1) {
 			conn.setConnectTimeout(connectionTimeout) ;
 		}
-		System.setProperty("http.keepAlive", "false");		
 		return conn ;
 	}
 	
