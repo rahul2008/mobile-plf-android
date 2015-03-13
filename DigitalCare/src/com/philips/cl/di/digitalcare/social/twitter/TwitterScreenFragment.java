@@ -38,14 +38,9 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	private View mTwitterView = null;
 	private File mFile = null;
 	private SharedPreferences mSharedPreferences = null;
-
 	private LinearLayout mContainer = null;
-	private LinearLayout mTwitterPort = null;
-	private LinearLayout mTwitterLand = null;
 	private DigitalCareFontButton mCancelPort = null;
-	private DigitalCareFontButton mCancelLand = null;
 	private DigitalCareFontButton mSendPort = null;
-	private DigitalCareFontButton mSendLand = null;
 	private CheckBox mCheckBox = null;
 	private EditText mProdInformation = null;
 	private ImageView mProductImage = null;
@@ -81,51 +76,31 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 				R.id.fbPostContainer);
 		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
 				.getLayoutParams();
-
-		mTwitterPort = (LinearLayout) getActivity().findViewById(
-				R.id.facebookParentPort);
-		mTwitterLand = (LinearLayout) getActivity().findViewById(
-				R.id.facebookParentLand);
-
 		mCancelPort = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.facebookCancelPort);
-		mCancelLand = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.facebookCancelLand);
-
+				R.id.fbButtonCancel);
 		mSendPort = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.facebookSendPort);
-
-		mSendLand = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.facebookSendLand);
-
+				R.id.fbButtonSend);
 		mTweetfrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
-
 		mTwitterIcon = (ImageView) getActivity().findViewById(
 				R.id.socialLoginIcon);
-
 		mCheckBox = (CheckBox) getActivity()
 				.findViewById(R.id.fb_Post_CheckBox);
-
 		mProdInformation = (EditText) getActivity().findViewById(
 				R.id.share_text);
-
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);
 		mProductCloseButton = (ImageView) getActivity().findViewById(
 				R.id.fb_Post_camera_close);
 
 		mCancelPort.setOnClickListener(this);
-		mCancelLand.setOnClickListener(this);
 		mSendPort.setOnClickListener(this);
-		mSendLand.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
 		mProductImage.setOnClickListener(this);
 		mProductCloseButton.setOnClickListener(this);
 
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
-
 	}
 
 	@Override
@@ -138,26 +113,15 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.facebookCancelPort:
+		case R.id.fbButtonCancel:
 			backstackFragment();
 			break;
-		case R.id.facebookCancelLand:
-			backstackFragment();
-			break;
-
-		case R.id.facebookSendLand:
+		case R.id.fbButtonSend:
 			new TwitterPost(getActivity(), mFile).execute(mProdInformation
 					.getText().toString());
 			backstackFragment();
 			break;
-		case R.id.facebookSendPort:
-			new TwitterPost(getActivity(), mFile).execute(mProdInformation
-					.getText().toString());
-			backstackFragment();
-			break;
-
 		case R.id.fb_Post_CheckBox:
-
 			break;
 		case R.id.fb_post_camera:
 			ProductImageHelper.getInstance(getActivity(), this).pickImage();
@@ -176,18 +140,13 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 		configureValues();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			Log.d(TAG, "PORTRAIT Orientation");
-			mTwitterPort.setVisibility(View.VISIBLE);
-			mTwitterLand.setVisibility(View.GONE);
 			mContainerParams.leftMargin = mContainerParams.rightMargin = mLeftRightMarginPort;
 		} else {
 			Log.d(TAG, "Horizontal Orientaton");
-			mTwitterLand.setVisibility(View.VISIBLE);
-			mTwitterPort.setVisibility(View.GONE);
 			mContainerParams.leftMargin = mContainerParams.rightMargin = mLeftRightMarginLand;
 		}
 
 		mContainer.setLayoutParams(mContainerParams);
-
 	}
 
 	private void configureValues() {
@@ -207,13 +166,11 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
 			mProdInformation.setEnabled(true);
 			mProdInformation.setFocusable(true);
-
 		} else {
 			mProdInformation.setText("");
 			mProdInformation.setInputType(InputType.TYPE_NULL);
 			mProdInformation.setEnabled(false);
 			mProdInformation.setFocusable(false);
-
 		}
 	}
 
@@ -226,7 +183,6 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
-
 	}
 
 	@Override
@@ -237,7 +193,5 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.GONE);
-
 	}
-
 }

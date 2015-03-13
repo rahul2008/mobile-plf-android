@@ -22,9 +22,9 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 public class ChatFragment extends DigitalCareBaseFragment {
 	// private LinearLayout mChatNowParent = null;
 	private DigitalCareFontButton mChatNow = null;
-	private DigitalCareFontButton mChatNowLand = null;
-	private DigitalCareFontButton mChatNoThanks = null;
-	private DigitalCareFontButton mChatNoThanksLand = null;
+	// private DigitalCareFontButton mChatNowLand = null;
+	private DigitalCareFontButton mChatCancel = null;
+	// private DigitalCareFontButton mChatNoThanksLand = null;
 	// private ImageView mImageView = null;
 	private LinearLayout.LayoutParams mChatNowParentBottom = null;
 	private LinearLayout mChatNowParentPort = null;
@@ -46,26 +46,17 @@ public class ChatFragment extends DigitalCareBaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		// mChatNowParent = (LinearLayout) getActivity().findViewById(
 		// R.id.chatNowParent);
-		mChatNow = (DigitalCareFontButton) getActivity().findViewById(R.id.chatNow);
+		mChatNow = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.chatNow);
 		mChatNow.setOnClickListener(this);
-
-		mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNowLand);
-
-		mChatNoThanks = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNoThanks);
-		mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNoThanksLand);
-
-		mChatNowLand.setOnClickListener(this);
-		mChatNoThanks.setOnClickListener(this);
-		mChatNoThanksLand.setOnClickListener(this);
+		// mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
+		// R.id.chatNowLand);
+		mChatCancel = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.chatCancel);
+		mChatNow.setOnClickListener(this);
+		mChatCancel.setOnClickListener(this);
 
 		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
-		mChatNowParentPort = (LinearLayout) getActivity().findViewById(
-				R.id.chatNowParentPort);
-		mChatNowParentLand = (LinearLayout) getActivity().findViewById(
-				R.id.chatNowParentLand);
 
 		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
 				.getLayoutParams();
@@ -111,9 +102,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onClick(View view) {
 		int id = view.getId();
-		if (id == R.id.chatNow || id == R.id.chatNowLand) {
+		if (id == R.id.chatNow) {
 			showFragment(new ChatNowFragment());
-		} else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
+		} else if (id == R.id.chatCancel) {
 			backstackFragment();
 		}
 	}

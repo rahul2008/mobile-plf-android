@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuth;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterConnect;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterScreenFragment;
@@ -220,11 +221,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isNetworkConnected(getActivity())) {
-			// showFragment(new FacebookScreenFragment());
-			// showFragment(new FacebookWeb());
-			getActivity().startActivity(
-					new Intent(Intent.ACTION_VIEW, Uri
-							.parse("https://m.facebook.com/PhilipsIndia?")));
+			 showFragment(new FacebookScreenFragment());
+//			getActivity().startActivity(
+//					new Intent(Intent.ACTION_VIEW, Uri
+//							.parse("https://m.facebook.com/PhilipsIndia?")));
 
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
