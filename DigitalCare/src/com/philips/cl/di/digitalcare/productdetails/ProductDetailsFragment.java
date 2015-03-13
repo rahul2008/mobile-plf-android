@@ -14,8 +14,7 @@ import com.philips.cl.di.digitalcare.R;
 
 public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
-	private static String TAG = ProductDetailsFragment.class
-			.getSimpleName();
+	private static String TAG = ProductDetailsFragment.class.getSimpleName();
 
 	/**
 	 * PORTRAIT PHONE
@@ -62,26 +61,27 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void setViewParams(Configuration config) {
-		if (isTablet()) {
-
-			if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-				mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
-				mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
-			} else {
-				mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
-				mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
-			}
+		// if (isTablet()) {
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
+			mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
+		} else {
+			mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginLand;
+			mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginLand;
 		}
+		// }
 		mFirstContainer.setLayoutParams(mFirstContainerParams);
 		mSecondContainer.setLayoutParams(mSecondContainerParams);
 	}
 
-	private boolean isTablet() {
-		return (this.getActivity().getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-	}
+	// private boolean isTablet() {
+	// return (this.getActivity().getResources().getConfiguration().screenLayout
+	// & Configuration.SCREENLAYOUT_SIZE_MASK) >=
+	// Configuration.SCREENLAYOUT_SIZE_LARGE;
+	// }
 
 	@Override
 	public void onClick(View v) {
-		
+
 	}
 }
