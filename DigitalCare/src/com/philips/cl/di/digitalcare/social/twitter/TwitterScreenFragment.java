@@ -85,9 +85,9 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
 				.getLayoutParams();
 		mCancelPort = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.fbButtonCancel);
+				R.id.facebookCancelPort);
 		mSendPort = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.fbButtonSend);
+				R.id.facebookSendPort);
 		mTweetfrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
 		mTwitterIcon = (ImageView) getActivity().findViewById(
@@ -121,10 +121,10 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.fbButtonCancel:
+		case R.id.facebookCancelPort:
 			backstackFragment();
 			break;
-		case R.id.fbButtonSend:
+		case R.id.facebookSendPort:
 			new TwitterPost(getActivity(), mFile, this)
 					.execute(mProdInformation.getText().toString());
 			mPostProgress = new ProgressDialog(getActivity());
