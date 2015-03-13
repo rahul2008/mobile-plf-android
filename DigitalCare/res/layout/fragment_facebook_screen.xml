@@ -114,27 +114,27 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/fbButtonsParent"
+            android:id="@+id/facebookParentPort"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:weightSum="2" >
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/fbButtonSend"
+                android:id="@+id/facebookSendPort"
                 style="@style/fontButton"
                 android:layout_weight="1"
                 android:text="@string/send"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <RelativeLayout
-                android:id="@+id/fbButtonsParentCancel"
+                android:id="@+id/facebookCancelParentPort"
                 style="@style/fontButton"
                 android:layout_weight="1"
                 android:padding="2dp" >
 
                 <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                    android:id="@+id/fbButtonCancel"
+                    android:id="@+id/facebookCancelPort"
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/selector_no_thanks_button_bg"
@@ -142,6 +142,38 @@
                     android:textColor="@color/button_bg"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/facebookParentLand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:weightSum="2" >
+
+            <RelativeLayout
+                android:id="@+id/facebookCancelParentLand"
+                style="@style/fontButton"
+                android:layout_weight="1"
+                android:padding="2dp" >
+
+                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/facebookCancelLand"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/social_login_cancel"
+                    android:textColor="@color/button_bg"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
+            </RelativeLayout>
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/facebookSendLand"
+                style="@style/fontButton"
+                android:layout_marginLeft="6dp"
+                android:layout_weight="1"
+                android:text="@string/send"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
         </LinearLayout>
     </LinearLayout>
 

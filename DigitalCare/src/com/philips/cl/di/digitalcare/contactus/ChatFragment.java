@@ -20,10 +20,17 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
  * Creation Date : 19 Jan 2015
  */
 public class ChatFragment extends DigitalCareBaseFragment {
-	private LinearLayout mChatButtonParent = null;
 	private DigitalCareFontButton mChatNow = null;
-	private DigitalCareFontButton mChatCancel = null;
-	private LinearLayout.LayoutParams mChatButtonParentParams = null;
+	private DigitalCareFontButton mChatNowLand = null;
+
+	private DigitalCareFontButton mChatNoThanks = null;
+	private DigitalCareFontButton mChatNoThanksLand = null;
+
+	// private ImageView mImageView = null;
+	private LinearLayout.LayoutParams mChatNowParentBottom = null;
+
+	private LinearLayout mChatNowParentPort = null;
+	private LinearLayout mChatNowParentLand = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -39,17 +46,29 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mChatButtonParent = (LinearLayout) getActivity().findViewById(
-				R.id.chatButtonsParent);
+		// mChatNowParent = (LinearLayout) getActivity().findViewById(
+		// R.id.chatNowParent);
 		mChatNow = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.chatNow);
-		mChatNow.setOnClickListener(this);
-		mChatCancel = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatCancel);
-		mChatNow.setOnClickListener(this);
-		mChatCancel.setOnClickListener(this);
+		mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.chatNowLand);
 
-		mChatButtonParentParams = (LinearLayout.LayoutParams) mChatButtonParent
+		mChatNoThanks = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.chatNoThanks);
+		mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.chatNoThanksLand);
+		mChatNow.setOnClickListener(this);
+		mChatNowLand.setOnClickListener(this);
+		mChatNoThanks.setOnClickListener(this);
+		mChatNoThanksLand.setOnClickListener(this);
+
+		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
+		mChatNowParentPort = (LinearLayout) getActivity().findViewById(
+				R.id.chatNowParentPort);
+		mChatNowParentLand = (LinearLayout) getActivity().findViewById(
+				R.id.chatNowParentLand);
+
+		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
@@ -78,19 +97,23 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mChatButtonParentParams.leftMargin = mChatButtonParentParams.rightMargin = mLeftRightMarginPort;
+			mChatNowParentPort.setVisibility(View.VISIBLE);
+			mChatNowParentLand.setVisibility(View.GONE);
+			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
 		} else {
-			mChatButtonParentParams.leftMargin = mChatButtonParentParams.rightMargin = mLeftRightMarginLand;
+			mChatNowParentLand.setVisibility(View.VISIBLE);
+			mChatNowParentPort.setVisibility(View.GONE);
+			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
 		}
-		mChatButtonParent.setLayoutParams(mChatButtonParentParams);
+		mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
 	}
 
 	@Override
 	public void onClick(View view) {
 		int id = view.getId();
-		if (id == R.id.chatNow) {
+		if (id == R.id.chatNow || id == R.id.chatNowLand) {
 			showFragment(new ChatNowFragment());
-		} else if (id == R.id.chatCancel) {
+		} else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
 			backstackFragment();
 		}
 	}

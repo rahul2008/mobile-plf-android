@@ -42,13 +42,15 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			.getSimpleName();
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	// private LinearLayout mFacebookParentPort = null;
-	private DigitalCareFontButton mButtonSend = null;
-	private DigitalCareFontButton mButtonCancel = null;
+	private LinearLayout mFacebookParentPort = null;
+	private LinearLayout mFacebookParentLand = null;
+	private DigitalCareFontButton mPopSharePort = null;
+	private DigitalCareFontButton mPopShareLand = null;
+	private DigitalCareFontButton mPopCancelPort = null;
+	private DigitalCareFontButton mPopCancelLand = null;
 	private static FacebookUtility mFacebookUtility = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductImageClose = null;
-	private ProductImageResponseCallback mProductImageResponseCallback = this;
 	private File mFile = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;
@@ -86,10 +88,18 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mOptionParent = (LinearLayout) getActivity().findViewById(
 				R.id.fbPostContainer);
 		mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
-		mButtonCancel = (DigitalCareFontButton) mView
-				.findViewById(R.id.fbButtonCancel);
-		mButtonSend = (DigitalCareFontButton) mView
-				.findViewById(R.id.fbButtonSend);
+		mFacebookParentPort = (LinearLayout) getActivity().findViewById(
+				R.id.facebookParentPort);
+		mFacebookParentLand = (LinearLayout) getActivity().findViewById(
+				R.id.facebookParentLand);
+		mPopCancelPort = (DigitalCareFontButton) mView
+				.findViewById(R.id.facebookCancelPort);
+		mPopCancelLand = (DigitalCareFontButton) mView
+				.findViewById(R.id.facebookCancelLand);
+		mPopSharePort = (DigitalCareFontButton) mView
+				.findViewById(R.id.facebookSendPort);
+		mPopShareLand = (DigitalCareFontButton) mView
+				.findViewById(R.id.facebookSendLand);
 		mCheckBox = (CheckBox) getActivity()
 				.findViewById(R.id.fb_Post_CheckBox);
 		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
@@ -99,8 +109,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mProductImageClose = (ImageView) getActivity().findViewById(
 				R.id.fb_Post_camera_close);
 
-		mButtonSend.setOnClickListener(this);
-		mButtonCancel.setOnClickListener(this);
+		mPopSharePort.setOnClickListener(this);
+		mPopShareLand.setOnClickListener(this);
+		mPopCancelPort.setOnClickListener(this);
+		mPopCancelLand.setOnClickListener(this);
 		mProductImage.setOnClickListener(this);
 		mProductImageClose.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
@@ -160,8 +172,12 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			mFacebookParentPort.setVisibility(View.VISIBLE);
+			mFacebookParentLand.setVisibility(View.GONE);
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
+			mFacebookParentLand.setVisibility(View.VISIBLE);
+			mFacebookParentPort.setVisibility(View.GONE);
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
 		mOptionParent.setLayoutParams(mParams);
@@ -200,14 +216,14 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		if (id == R.id.fbButtonCancel) {
+		if (id == R.id.facebookCancelPort || id == R.id.facebookCancelLand) {
 			backstackFragment();
-		} else if ((id == R.id.fbButtonSend) && mFacebookUtility != null) {
+		} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
+				&& mFacebookUtility != null) {
 			mFacebookUtility.performPublishAction();
 			// backstackFragment();
 		} else if (id == R.id.fb_post_camera) {
-			ProductImageHelper.getInstance(getActivity(),
-					mProductImageResponseCallback).pickImage();
+			ProductImageHelper.getInstance(getActivity(), this).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
 		}
