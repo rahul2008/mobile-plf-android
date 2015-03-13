@@ -35,7 +35,7 @@
                 android:textSize="@dimen/title_text_size_medium"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
-            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/tellus_PlayStoreReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_playstore_buttontext"
@@ -70,7 +70,7 @@
                 android:textSize="@dimen/title_text_size_medium"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
-            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/tellus_PhilipsReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_philips_buttontext"

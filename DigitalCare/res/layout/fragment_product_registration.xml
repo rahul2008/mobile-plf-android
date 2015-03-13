@@ -33,7 +33,7 @@
                 android:layout_marginTop="17dp"
                 android:background="@drawable/prod_reg_social_border_btn" >
 
-                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/prodRegLinkedinBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_linkedin_btn"
@@ -48,7 +48,7 @@
                 android:layout_marginTop="17dp"
                 android:background="@drawable/prod_reg_social_border_btn" >
 
-                <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/prodRegGooglePlusBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_googleplus_btn"
@@ -92,7 +92,7 @@
                 android:hint="@string/password"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
-            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/prodRegSignUpBtn"
                 style="@style/prodRegFontButtonSignUp"
                 android:text="@string/sign_into_my_philips"

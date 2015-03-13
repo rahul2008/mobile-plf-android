@@ -53,13 +53,13 @@
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_marginTop="20dp" >
 
-            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/manual_open"
                 style="@style/fontButton"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_open_manual" />
 
-            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/manual_download"
                 style="@style/fontButton"
                 android:layout_below="@+id/manual_open"
@@ -67,7 +67,7 @@
                 android:text="@string/product_download_manual"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
-            <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/prodinfo_button"
                 style="@style/fontButton"
                 android:layout_below="@+id/manual_download"

@@ -33,19 +33,19 @@
             android:text="@string/contact_us"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
-        <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+        <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsChat"
             style="@style/fontButton"
             android:text="@string/live_chat"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
-        <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+        <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsEmail"
             style="@style/fontButton"
             android:text="@string/send_email"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
-        <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontButton
+        <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsCall"
             style="@style/fontButton"
             android:layout_marginBottom="10dp"

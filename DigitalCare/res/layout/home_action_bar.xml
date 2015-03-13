@@ -17,7 +17,7 @@
         android:contentDescription="@string/img_description"
         />
 
-    <com.philips.cl.di.dev.digitalcare.customview.DigitalCareFontTextView
+    <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
         android:id="@+id/action_bar_title"
         style="@style/actionbarFontTextView"
         custom:fontAssetName="fonts/centralesans-thin.otf" />
