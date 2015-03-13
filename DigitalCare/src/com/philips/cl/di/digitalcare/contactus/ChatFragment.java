@@ -20,15 +20,10 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
  * Creation Date : 19 Jan 2015
  */
 public class ChatFragment extends DigitalCareBaseFragment {
-	// private LinearLayout mChatNowParent = null;
+	private LinearLayout mChatButtonParent = null;
 	private DigitalCareFontButton mChatNow = null;
-	// private DigitalCareFontButton mChatNowLand = null;
 	private DigitalCareFontButton mChatCancel = null;
-	// private DigitalCareFontButton mChatNoThanksLand = null;
-	// private ImageView mImageView = null;
-//	private LinearLayout.LayoutParams mChatNowParentBottom = null;
-//	private LinearLayout mChatNowParentPort = null;
-//	private LinearLayout mChatNowParentLand = null;
+	private LinearLayout.LayoutParams mChatButtonParentParams = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,23 +39,18 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// mChatNowParent = (LinearLayout) getActivity().findViewById(
-		// R.id.chatNowParent);
+		mChatButtonParent = (LinearLayout) getActivity().findViewById(
+				R.id.chatButtonsParent);
 		mChatNow = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.chatNow);
 		mChatNow.setOnClickListener(this);
-		// mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
-		// R.id.chatNowLand);
 		mChatCancel = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.chatCancel);
 		mChatNow.setOnClickListener(this);
 		mChatCancel.setOnClickListener(this);
 
-		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
-
-//		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
-//				.getLayoutParams();
-
+		mChatButtonParentParams = (LinearLayout.LayoutParams) mChatButtonParent
+				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 	}
@@ -88,11 +78,11 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
+			mChatButtonParentParams.leftMargin = mChatButtonParentParams.rightMargin = mLeftRightMarginPort;
 		} else {
-//			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
+			mChatButtonParentParams.leftMargin = mChatButtonParentParams.rightMargin = mLeftRightMarginLand;
 		}
-//		mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
+		mChatButtonParent.setLayoutParams(mChatButtonParentParams);
 	}
 
 	@Override
