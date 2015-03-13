@@ -114,8 +114,8 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 			String[] times = sSelectedTime.split(":"); // HH:mm
 			if (times.length == 2) {
 				try {
-					hour = Integer.parseInt(times[0]);
-					min = Integer.parseInt(times[1]);
+					hour = Integer.parseInt(times[0].trim());
+					min = Integer.parseInt(times[1].trim());
 				} catch (NumberFormatException e) {
 					ALog.e(ALog.ERROR, "NumberFormatException");
 				}
