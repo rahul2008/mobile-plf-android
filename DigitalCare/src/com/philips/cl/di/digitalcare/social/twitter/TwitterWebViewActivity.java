@@ -13,9 +13,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
-
 /**
- * @Description Activity component used for Twitter authentication
+ * @Description Activity component used for Twitter OAuthentication
  * @author naveen@philips.com
  * @since 11/Feb/2015
  */
@@ -52,7 +51,6 @@ public class TwitterWebViewActivity extends Activity {
 				RelativeLayout.LayoutParams.MATCH_PARENT));
 		mWebContainer.addView(mWebView);
 		return mWebContainer;
-
 	}
 
 	@Override
@@ -69,7 +67,6 @@ public class TwitterWebViewActivity extends Activity {
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
-
 			try {
 				if (mDialog != null && mDialog.isShowing()) {
 					mDialog.dismiss();
@@ -90,18 +87,13 @@ public class TwitterWebViewActivity extends Activity {
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
-				Uri uri = Uri.parse(url);
-
-				/* Sending results back */
+			Uri uri = Uri.parse(url);
 			String verifier = uri.getQueryParameter("oauth_verifier");
-				Intent resultIntent = new Intent();
+			Intent resultIntent = new Intent();
 			resultIntent.putExtra("oauth_verifier", verifier);
-				setResult(RESULT_OK, resultIntent);
-
-				/* closing webview */
-				finish();
-				return true;
+			setResult(RESULT_OK, resultIntent);
+			finish();
+			return true;
 
 		}
 	}

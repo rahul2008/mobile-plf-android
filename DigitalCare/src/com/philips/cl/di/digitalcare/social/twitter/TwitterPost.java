@@ -11,14 +11,15 @@ import twitter4j.conf.ConfigurationBuilder;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.social.PostCallback;
+import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
  * @description Background Task for posting Twitter tweets along with Product
  *              Image.
- * @author 310190678
+ * @author naveen@philips.com
  * @since 11/feb/2015
  * 
  */
@@ -29,22 +30,20 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	private String mConsumerKey = null;
 	private String mConsumerSecret = null;
 	private File mFile = null;
-
+	private PostCallback mPostCallback = null;
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
 	public static final String PREF_NAME = "sample_twitter_pref";
 
-	public TwitterPost(Context c, File f) {
+	public TwitterPost(Context c, File f, PostCallback callback) {
 		mContext = c;
 		mFile = f;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
+		mPostCallback = callback;
+		DLog.d(TAG, "TwitterPost Constructor");
 	}
 
 	protected Void doInBackground(String... args) {
+		DLog.d(TAG, "Twitter POst DoIN backGround++");
 		String status = args[0];
 		try {
 			mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
@@ -71,20 +70,16 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 
 			twitter4j.Status response = twitter.updateStatus(statusUpdate);
 
-			Log.d(TAG, "Twitter Response" + response.getText());
+			DLog.d(TAG, "Twitter Response" + response.getText());
+			if (mPostCallback != null)
+				mPostCallback.onTaskCompleted();
 
 		} catch (TwitterException e) {
-			Log.d(TAG, "Failed to post : " + e);
+			mPostCallback.onTaskFailed();
+			DLog.d(TAG, "Failed to post : " + e);
+
 		}
 		return null;
-	}
-
-	@Override
-	protected void onPostExecute(Void result) {
-
-		Log.d(TAG, "Posted to Twitter");
-		mFile = null;
-
 	}
 
 }
