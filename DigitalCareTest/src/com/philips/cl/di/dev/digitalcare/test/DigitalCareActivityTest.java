@@ -99,7 +99,8 @@ public class DigitalCareActivityTest extends
 				actual);
 	}
 
-	@SmallTest
+	
+	/*@SmallTest
 	public void testDeviceTypeTableteLogic() {
 		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
 
@@ -109,7 +110,7 @@ public class DigitalCareActivityTest extends
 		// assertEquals("This may be Tablet so failed " , false , isMobile);
 		assertEquals(" \n \n This may be Mobile so failed \n \n", expected,
 				actual);
-	}
+	}*/
 
 	@SmallTest
 	public void testSimAvailabilityLogic() {
