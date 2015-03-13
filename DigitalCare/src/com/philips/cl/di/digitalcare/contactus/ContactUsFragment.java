@@ -140,7 +140,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		@Override
 		public void onResponseReceived(String response) {
 			DLog.i(TAG, "response : " + response);
-			if (response != null) {
+			if (response != null && isAdded()) {
 				mCdlsResponse = response;
 				mParserController = CdlsResponseParserHelper
 						.getParserControllInstance(getActivity());
