@@ -28,12 +28,11 @@ import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 
-/*
- *	FacebookScreenFragment will help to post messages on Philips facebook wall.
- * 
- * Author : Ritesh.jha@philips.com, naveen@philips.com
- * 
- * Creation Date : 5 Feb 2015
+/**
+ * @description: FacebookScreenFragment will help to post messages on Philips
+ *               facebook wall.
+ * @author: ritesh.jha@philips.com
+ * @since: Feb 5, 2015
  */
 public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback {
@@ -198,6 +197,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		Toast.makeText(getActivity(),
 				"Image Path : " + mFile.getAbsolutePath(), Toast.LENGTH_SHORT)
 				.show();
+		mFacebookUtility.setImageToUpload(image);
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductImageClose.setVisibility(View.VISIBLE);
@@ -207,6 +207,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	public void onImageDettach() {
 		mFile = null;
 		Log.d(TAG, "Product Image Dettached");
+		mFacebookUtility.setImageToUpload(null);
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);

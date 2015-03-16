@@ -42,18 +42,16 @@ import com.facebook.UiLifecycleHelper;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
-/*
- * FacebookUtility will help to provide options for facebook utility.
- * 
- * Author : Ritesh.jha@philips.com
- * 
- * Creation Date : 5 Feb 2015
+/**
+ * @description: FacebookUtility will help to provide options for facebook
+ *               utility.
+ * @author: ritesh.jha@philips.com
+ * @since: Feb 5, 2015
  */
-
 public class FacebookUtility {
 	private static Activity mActivity = null;
 
-	private static final String TAG = "ContactUsFragment";
+	private static final String TAG = FacebookUtility.class.getSimpleName();
 
 	private final static String PERMISSION = "publish_actions";
 	// private Uri selectedImageUri = null;
@@ -80,7 +78,6 @@ public class FacebookUtility {
 	private ImageView mCamera = null;
 	private View myView = null;
 	private static boolean mAllowNoSession = false;
-	private static boolean isImageAvialable = false;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
@@ -146,6 +143,16 @@ public class FacebookUtility {
 		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected void setImageToUpload(Bitmap imageToUpload) {
+		mImageToUpload = imageToUpload;
+	}
+
+	private static Bitmap mImageToUpload = null;
+
+	private Bitmap getImageToUpload() {
+		return mImageToUpload;
 	}
 
 	/**
@@ -248,10 +255,8 @@ public class FacebookUtility {
 
 		if (resultCode == RESULT_OK) {
 			if (requestCode == CAMERA_CAPTURE_IMAGE_REQUEST_CODE) {
-				isImageAvialable = true;
 				previewCapturedImage();
 			} else if (requestCode == SELECT_FILE && data != null) {
-				isImageAvialable = true;
 				selectedImageUri = data.getData();
 				String filePath = getFilePath(activity, selectedImageUri);
 				BitmapFactory.Options btmapOptions = new BitmapFactory.Options();
@@ -317,8 +322,7 @@ public class FacebookUtility {
 	}
 
 	public void performPublishAction() {
-		if (isImageAvialable) {
-			isImageAvialable = false;
+		if (getImageToUpload() != null) {
 			DLog.i(TAG, "FacebookUtility performPublishAction POST_PHOTO");
 			performPublish(PendingAction.POST_PHOTO,
 					canPresentShareDialogWithPhotos);
@@ -386,9 +390,14 @@ public class FacebookUtility {
 	}
 
 	private void shareImage() {
+		DLog.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
 		Request request = Request.newUploadPhotoRequest(
-				Session.getActiveSession(),
-				((BitmapDrawable) popShareImage.getDrawable()).getBitmap(),
+				Session.getActiveSession(), mImageToUpload/*
+														 * ((BitmapDrawable)
+														 * popShareImage
+														 * .getDrawable
+														 * ()).getBitmap()
+														 */,
 				new Request.Callback() {
 
 					@Override

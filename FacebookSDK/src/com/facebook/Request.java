@@ -111,7 +111,7 @@ public class Request {
 	private static final String ME = "me";
 	private static final String MY_FRIENDS = "me/friends";
 //	private static final String MY_PHOTOS = "me/photos";
-	private static final String MY_PHOTOS = "digitalcare/photos";
+	private static final String MY_PHOTOS = "PhilipsIndia/photos";/*"digitalcare/photos";*/
 	private static final String MY_VIDEOS = "me/videos";
 	private static final String VIDEOS_SUFFIX = "/videos";
 	private static final String SEARCH = "search";
