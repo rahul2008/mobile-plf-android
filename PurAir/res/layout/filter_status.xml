@@ -60,7 +60,7 @@
                     android:layout_marginTop="60dp"
                     android:text="@string/pre_filter"
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -75,7 +75,7 @@
                     android:paddingLeft="4dp"
                     android:text=""
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_small"
                     custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FilterStatusView
@@ -110,7 +110,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/multicarefilter"
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -125,7 +125,7 @@
                     android:paddingLeft="4dp"
                     android:text=""
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_small"
                     custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FilterStatusView
@@ -159,7 +159,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/activecarbonfilter"
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -174,7 +174,7 @@
                     android:paddingLeft="4dp"
                     android:text=""
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_small"
                     custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FilterStatusView
@@ -209,7 +209,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="@string/hepa_filter"
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -224,7 +224,7 @@
                     android:paddingLeft="4dp"
                     android:text=""
                     android:textColor="@color/blue_list_item"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_small"
                     custom:fontAssetName="fonts/centralesansmedium.ttf" />
             </RelativeLayout>
 
