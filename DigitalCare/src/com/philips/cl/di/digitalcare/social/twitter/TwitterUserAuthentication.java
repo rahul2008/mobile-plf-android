@@ -1,5 +1,7 @@
 package com.philips.cl.di.digitalcare.social.twitter;
 
+import com.facebook.model.PropertyName;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,6 +25,7 @@ public class TwitterUserAuthentication extends Activity {
 	private WebView mWebView = null;
 	public final static String EXTRA_URL = "extra_url";
 	private ProgressDialog mDialog = null;
+	private Activity mActivity = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class TwitterUserAuthentication extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		mActivity = this;
 		setContentView(mgetView());
 		final String url = this.getIntent().getStringExtra(EXTRA_URL);
 		if (null == url) {
@@ -63,6 +67,21 @@ public class TwitterUserAuthentication extends Activity {
 		super.onStop();
 	}
 
+	@Override
+	protected void onPause() {
+		if (mDialog != null) {
+			mDialog.dismiss();
+			mDialog.cancel();
+			mDialog = null;
+		}
+		super.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		this.onRestart();
+	}
+
 	private class MyWebViewClient extends WebViewClient {
 
 		@Override
@@ -82,7 +101,13 @@ public class TwitterUserAuthentication extends Activity {
 			if (mDialog == null)
 				mDialog = new ProgressDialog(TwitterUserAuthentication.this);
 			mDialog.setMessage("Loading...");
-			mDialog.show();
+
+			if (!(mActivity.isFinishing())) {
+				mDialog.show();
+			} else {
+				mDialog.cancel();
+				mDialog = null;
+			}
 		}
 
 		@Override
