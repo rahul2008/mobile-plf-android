@@ -27,7 +27,8 @@ import com.philips.cl.di.digitalcare.util.FragmentObserver;
  * 
  * Creation Date : 5 Dec 2015
  */
-public abstract class DigitalCareBaseFragment extends Fragment implements OnClickListener{
+public abstract class DigitalCareBaseFragment extends Fragment implements
+		OnClickListener {
 
 	private static String TAG = "DigitalCareBaseFragment";
 	private static final Field sChildFragmentManagerField;
@@ -56,7 +57,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements OnClic
 		TAG = this.getClass().getSimpleName();
 		mAppObserver = DigitalCareApplication.getFragmentObserverInstance();
 		mFragmentActivityContext = getActivity();
-		mAppObserver.addObserver((Observer) mFragmentActivityContext);
+		if (mFragmentActivityContext != null)
+			mAppObserver.addObserver((Observer) mFragmentActivityContext);
 	}
 
 	@Override
