@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterConnect;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
@@ -50,15 +50,15 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		Log.d("Twitter ", "result code : " + resultCode);
 		Log.d("Twitter ", "Intent Data : " + data);
 		if (resultCode == 0
-				&& requestCode == TwitterConnect.WEBVIEW_REQUEST_CODE) {
-			TwitterConnect mTwitter = TwitterConnect.getInstance();
+				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
+			TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
 			mTwitter.onFailedToAuthenticate();
 		}
 		if (resultCode == Activity.RESULT_OK
-				&& requestCode == TwitterConnect.WEBVIEW_REQUEST_CODE) {
+				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
 			
 			
-			TwitterConnect mTwitter = TwitterConnect.getInstance();
+			TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
 			mTwitter.onActivityResult(data);
 		}
 		

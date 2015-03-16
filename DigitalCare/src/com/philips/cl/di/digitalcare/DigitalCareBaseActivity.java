@@ -20,7 +20,7 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
-import com.philips.cl.di.digitalcare.locatenearby.LocateNearYouFragment;
+import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
@@ -146,7 +146,7 @@ public abstract class DigitalCareBaseActivity extends Activity implements Observ
 		case DigitalCareContants.OPTION_FAQ:
 			break;
 		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
-			showFragment(new LocateNearYouFragment());
+			showFragment(new LocatePhilipsFragment());
 			break;
 		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
 			showFragment(new RateThisAppFragment());

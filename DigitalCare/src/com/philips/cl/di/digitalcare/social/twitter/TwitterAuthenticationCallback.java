@@ -7,7 +7,7 @@ package com.philips.cl.di.digitalcare.social.twitter;
  * @since 11/feb/2015
  *
  */
-public interface TwitterAuth {
+public interface TwitterAuthenticationCallback {
 	
 	void onTwitterLoginFailed();
 	

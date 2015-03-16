@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.locatenearby;
+package com.philips.cl.di.digitalcare.locatephilips;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -24,7 +24,7 @@ import com.philips.cl.di.digitalcare.R;
  * Creation Date : 16 Jan 2015
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class LocateNearYouFragment extends DigitalCareBaseFragment {
+public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private WebView mWebView = null;
 	private ProgressDialog mDialog = null;
 	private LinearLayout mLinearLayout = null;

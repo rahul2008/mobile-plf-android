@@ -38,10 +38,10 @@ import com.philips.cl.di.digitalcare.util.DLog;
  *              along with Product image to the Philips Twitter Support page.
  * @Since Feb 10, 2015
  */
-public class TwitterScreenFragment extends DigitalCareBaseFragment implements
+public class TwitterFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback {
 
-	private static final String TAG = TwitterScreenFragment.class
+	private static final String TAG = TwitterFragment.class
 			.getSimpleName();
 	private String mUsername;
 	private View mTwitterView = null;
@@ -68,8 +68,8 @@ public class TwitterScreenFragment extends DigitalCareBaseFragment implements
 		mTwitterView = inflater.inflate(R.layout.fragment_facebook_screen,
 				container, false);
 		mSharedPreferences = getActivity().getSharedPreferences(
-				TwitterConnect.PREF_NAME, 0);
-		mUsername = mSharedPreferences.getString(TwitterConnect.PREF_USER_NAME,
+				TwitterAuthentication.PREF_NAME, 0);
+		mUsername = mSharedPreferences.getString(TwitterAuthentication.PREF_USER_NAME,
 				"");
 		DLog.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
 		return mTwitterView;

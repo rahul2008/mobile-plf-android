@@ -18,9 +18,9 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterAuth;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterConnect;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterScreenFragment;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
@@ -32,7 +32,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
  * Creation Date : 19 Jan 2015
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
-		TwitterAuth, OnClickListener {
+		TwitterAuthenticationCallback, OnClickListener {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private DigitalCareFontButton mFacebook = null;
@@ -132,7 +132,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mTwitter.setClickable(true);
 		Toast.makeText(getActivity(), "Logged in Successfully",
 				Toast.LENGTH_SHORT).show();
-		showFragment(new TwitterScreenFragment());
+		showFragment(new TwitterFragment());
 	}
 
 	private CdlsResponseCallback mCdlsResponseCallback = new CdlsResponseCallback() {
@@ -225,7 +225,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
 			mTwitter.setClickable(true);
-			TwitterConnect mTwitter = TwitterConnect.getInstance(getActivity());
+			TwitterAuthentication mTwitter = TwitterAuthentication.getInstance(getActivity());
 			mTwitter.initSDK(this);
 		} else if (id == R.id.contactUsEmail) {
 			sendEmail();

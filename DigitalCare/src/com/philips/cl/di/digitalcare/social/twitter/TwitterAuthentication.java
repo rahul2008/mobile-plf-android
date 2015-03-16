@@ -18,12 +18,12 @@ import android.text.TextUtils;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
-public class TwitterConnect {
+public class TwitterAuthentication {
 
-	private static final String TAG = TwitterConnect.class.getSimpleName();
-	private static TwitterConnect mTwitterConnect = null;
+	private static final String TAG = TwitterAuthentication.class.getSimpleName();
+	private static TwitterAuthentication mTwitterConnect = null;
 	private static Activity mContext = null;
-	private TwitterAuth mTwitterAuth = null;
+	private TwitterAuthenticationCallback mTwitterAuth = null;
 	private String mConsumerKey = null;
 	private String mConsumerSecret = null;
 	private String mCallbackUrl = null;
@@ -41,21 +41,21 @@ public class TwitterConnect {
 
 	public static final int WEBVIEW_REQUEST_CODE = 100;
 
-	private TwitterConnect() {
+	private TwitterAuthentication() {
 	}
 
-	public static TwitterConnect getInstance(Activity activity) {
+	public static TwitterAuthentication getInstance(Activity activity) {
 		mContext = activity;
 		if (mTwitterConnect == null)
-			mTwitterConnect = new TwitterConnect();
+			mTwitterConnect = new TwitterAuthentication();
 		return mTwitterConnect;
 	}
 
-	public static TwitterConnect getInstance() {
+	public static TwitterAuthentication getInstance() {
 		return mTwitterConnect;
 	}
 
-	public void initSDK(TwitterAuth auth) {
+	public void initSDK(TwitterAuthenticationCallback auth) {
 		this.mTwitterAuth = auth;
 		mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
 		mConsumerSecret = mContext.getString(R.string.twitter_consumer_secret);
@@ -160,8 +160,8 @@ public class TwitterConnect {
 				mRequestToken = mTwitter.getOAuthRequestToken(mCallbackUrl);
 
 				final Intent intent = new Intent(mContext,
-						TwitterWebViewActivity.class);
-				intent.putExtra(TwitterWebViewActivity.EXTRA_URL,
+						TwitterUserAuthentication.class);
+				intent.putExtra(TwitterUserAuthentication.EXTRA_URL,
 						mRequestToken.getAuthenticationURL());
 				mContext.startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
 			} catch (TwitterException e) {
