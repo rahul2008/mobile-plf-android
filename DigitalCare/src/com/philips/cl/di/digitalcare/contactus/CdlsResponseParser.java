@@ -14,23 +14,23 @@ import com.philips.cl.di.digitalcare.util.DLog;
  * @author: ritesh.jha@philips.com
  * @since: Dec 16, 2014
  */
-public class CdlsResponseParserHelper {
-	private static final String TAG = CdlsResponseParserHelper.class
+public class CdlsResponseParser {
+	private static final String TAG = CdlsResponseParser.class
 			.getSimpleName();
 	private Context mContext = null;
-	private static CdlsResponseParserHelper mParserController = null;
-	private CdlsBean mCdlsBean = null;
+	private static CdlsResponseParser mParserController = null;
+	private CdlsParsedResponse mCdlsParsedResponse = null;
 	private static final int FIRST_INDEX_VALUE = 0;
 
-	private CdlsResponseParserHelper(Context context) {
+	private CdlsResponseParser(Context context) {
 		mContext = context;
 		DLog.i(TAG, "ParserController constructor : " + mContext.toString());
 	}
 
-	public static CdlsResponseParserHelper getParserControllInstance(
+	public static CdlsResponseParser getParserControllInstance(
 			Context context) {
 		if (mParserController == null) {
-			mParserController = new CdlsResponseParserHelper(context);
+			mParserController = new CdlsResponseParser(context);
 		}
 		return mParserController;
 	}
@@ -38,14 +38,14 @@ public class CdlsResponseParserHelper {
 	/*
 	 * Returning CDLS BEAN instance
 	 */
-	public CdlsBean getCdlsBean() {
-		return mCdlsBean;
+	public CdlsParsedResponse getCdlsBean() {
+		return mCdlsParsedResponse;
 	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
-	public void extractCdlsValues(String response) {
+	public void processCdlsResponse(String response) {
 		DLog.i(TAG, "response : " + response);
 		JSONObject jsonObject = null;
 		try {
@@ -103,7 +103,7 @@ public class CdlsResponseParserHelper {
 						.optString("errorMessage"));
 			}
 			// creating CDLS instance.
-			mCdlsBean = new CdlsBean(success, cdlsPhone, cdlsChat, cdlsEmail,
+			mCdlsParsedResponse = new CdlsParsedResponse(success, cdlsPhone, cdlsChat, cdlsEmail,
 					cdlsError);
 		} catch (JSONException e) {
 			e.printStackTrace();

@@ -40,15 +40,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mChat = null;
 	private DigitalCareFontButton mEmail = null;
 	private DigitalCareFontButton mCallPhilips = null;
-	private CdlsResponseParserHelper mParserController = null;
-	private CdlsBean mCdlsBean = null;
+	private CdlsResponseParser mCdlsResponseParser = null;
+	private CdlsParsedResponse mCdlsParsedResponse = null;
 	private TextView mFirstRowText = null;
 	private TextView mSecondRowText = null;
 	private TextView mContactUsOpeningHours = null;
-	private String mCdlsResponse = null;
+	private String mCdlsResponseStr = null;
 
 	// CDLS related
-	private CdlsRequestAsyncTask mLongRunningTask = null;
+	private CdlsRequestTask mCdlsRequestTask = null;
 	// private static final String mURL =
 	// "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
 	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
@@ -64,10 +64,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		/*
 		 * CDLS execution
 		 */
-		mLongRunningTask = new CdlsRequestAsyncTask(mURL, mLongRunningInterface);
-		if (!(mLongRunningTask.getStatus() == AsyncTask.Status.RUNNING || mLongRunningTask
+		mCdlsRequestTask = new CdlsRequestTask(mURL, mCdlsResponseCallback);
+		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
 				.getStatus() == AsyncTask.Status.FINISHED)) {
-			mLongRunningTask.execute();
+			mCdlsRequestTask.execute();
 		}
 		View view = inflater.inflate(R.layout.fragment_contact_us, container,
 				false);
@@ -135,29 +135,29 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		showFragment(new TwitterScreenFragment());
 	}
 
-	private CdlsResponseCallback mLongRunningInterface = new CdlsResponseCallback() {
+	private CdlsResponseCallback mCdlsResponseCallback = new CdlsResponseCallback() {
 
 		@Override
-		public void onResponseReceived(String response) {
+		public void onCdlsResponseReceived(String response) {
 			DLog.i(TAG, "response : " + response);
 			if (response != null && isAdded()) {
-				mCdlsResponse = response;
-				mParserController = CdlsResponseParserHelper
+				mCdlsResponseStr = response;
+				mCdlsResponseParser = CdlsResponseParser
 						.getParserControllInstance(getActivity());
-				mParserController.extractCdlsValues(response);
-				mCdlsBean = mParserController.getCdlsBean();
-				if (mCdlsBean != null) {
-					if (mCdlsBean.getSuccess()) {
+				mCdlsResponseParser.processCdlsResponse(response);
+				mCdlsParsedResponse = mCdlsResponseParser.getCdlsBean();
+				if (mCdlsParsedResponse != null) {
+					if (mCdlsParsedResponse.getSuccess()) {
 						enableBottomText();
 						mCallPhilips.setText(getResources().getString(
 								R.string.call)
-								+ " " + mCdlsBean.getPhone().getPhoneNumber());
-						mFirstRowText.setText(mCdlsBean.getPhone()
+								+ " " + mCdlsParsedResponse.getPhone().getPhoneNumber());
+						mFirstRowText.setText(mCdlsParsedResponse.getPhone()
 								.getOpeningHoursWeekdays());
-						mSecondRowText.setText(mCdlsBean.getPhone()
+						mSecondRowText.setText(mCdlsParsedResponse.getPhone()
 								.getOpeningHoursSaturday());
 
-						if (emptyChat(mCdlsBean)) {
+						if (hasEmptyChatContent(mCdlsParsedResponse)) {
 							mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 							mChat.setEnabled(false);
 						}
@@ -173,17 +173,17 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		}
 
-		private boolean emptyChat(CdlsBean cdlsBean) {
-			return cdlsBean.getChat() == null
-					|| cdlsBean.getChat().getContent() == null
-					|| cdlsBean.getChat().getContent().equalsIgnoreCase("");
+		private boolean hasEmptyChatContent(CdlsParsedResponse cdlsParsedResponse) {
+			return cdlsParsedResponse.getChat() == null
+					|| cdlsParsedResponse.getChat().getContent() == null
+					|| cdlsParsedResponse.getChat().getContent().equalsIgnoreCase("");
 		}
 	};
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
 		myintent.setData(Uri.parse("tel:"
-				+ mCdlsBean.getPhone().getPhoneNumber()));
+				+ mCdlsParsedResponse.getPhone().getPhoneNumber()));
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(myintent);
 	};
@@ -192,25 +192,25 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onClick(View view) {
 		int id = view.getId();
 		if (id == R.id.contactUsChat && Utils.isNetworkConnected(getActivity())) {
-			if (mCdlsResponse == null) {
+			if (mCdlsResponseStr == null) {
 				Toast.makeText(getActivity(), "No server response",
 						Toast.LENGTH_SHORT).show();
 				return;
-			} else if (mCdlsBean != null && !mCdlsBean.getSuccess()) {
+			} else if (mCdlsParsedResponse != null && !mCdlsParsedResponse.getSuccess()) {
 				Toast.makeText(getActivity(),
-						mCdlsBean.getError().getErrorMessage(),
+						mCdlsParsedResponse.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
-			if (mCdlsResponse == null) {
+			if (mCdlsResponseStr == null) {
 				Toast.makeText(getActivity(), "No server response",
 						Toast.LENGTH_SHORT).show();
 				return;
-			} else if (mCdlsBean != null && !mCdlsBean.getSuccess()) {
+			} else if (mCdlsParsedResponse != null && !mCdlsParsedResponse.getSuccess()) {
 				Toast.makeText(getActivity(),
-						mCdlsBean.getError().getErrorMessage(),
+						mCdlsParsedResponse.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {

@@ -36,7 +36,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.common_webview, container, false);
-		CdlsResponseParserHelper cdlsResponseParserHelper = CdlsResponseParserHelper
+		CdlsResponseParser cdlsResponseParserHelper = CdlsResponseParser
 				.getParserControllInstance(getActivity());
 		/* CdlsBean cdlsBean = */cdlsResponseParserHelper.getCdlsBean();
 		// mUrl = cdlsBean.getChat().getContent();

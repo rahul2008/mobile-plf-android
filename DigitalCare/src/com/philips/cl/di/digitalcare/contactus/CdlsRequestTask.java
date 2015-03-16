@@ -22,11 +22,11 @@ import android.os.AsyncTask;
  * 
  * Creation Date : 16 Dec 2015
  */
-public class CdlsRequestAsyncTask extends AsyncTask<Void, Void, String> {
+public class CdlsRequestTask extends AsyncTask<Void, Void, String> {
 	private CdlsResponseCallback mCdlsResponseHandler = null;
 	private String mURL = null;
 
-	public CdlsRequestAsyncTask(String url, CdlsResponseCallback context) {
+	public CdlsRequestTask(String url, CdlsResponseCallback context) {
 		mURL = url;
 		mCdlsResponseHandler = context;
 	}
@@ -68,6 +68,6 @@ public class CdlsRequestAsyncTask extends AsyncTask<Void, Void, String> {
 	}
 
 	protected void onPostExecute(String results) {
-		mCdlsResponseHandler.onResponseReceived(results);
+		mCdlsResponseHandler.onCdlsResponseReceived(results);
 	}
 }

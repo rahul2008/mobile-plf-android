@@ -8,14 +8,14 @@ package com.philips.cl.di.digitalcare.contactus;
  * Creation Date : 16 Dec 2015
  */
 
-public class CdlsBean {
+public class CdlsParsedResponse {
 	private Boolean mSuccess = null;
 	private CdlsEmail mEmail = null;
 	private CdlsChat mChat = null;
 	private CdlsPhone mPhone = null;
 	private CdlsError mError = null;
 
-	public CdlsBean(boolean success, CdlsPhone phone, CdlsChat chat,
+	public CdlsParsedResponse(boolean success, CdlsPhone phone, CdlsChat chat,
 			CdlsEmail email, CdlsError error) {
 		mSuccess = success;
 		mPhone = phone;
