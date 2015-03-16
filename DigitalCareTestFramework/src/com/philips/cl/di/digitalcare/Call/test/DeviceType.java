@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.digitalcare.Call.test;
+package com.philips.cl.di.digitalcare.Call.test;
 
 import android.app.Activity;
 import android.content.res.Configuration;

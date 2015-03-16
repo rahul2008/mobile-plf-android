@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.digitalcare.Utility.test;
+package com.philips.cl.di.digitalcare.Utility.test;
 
 public final class Log {
 

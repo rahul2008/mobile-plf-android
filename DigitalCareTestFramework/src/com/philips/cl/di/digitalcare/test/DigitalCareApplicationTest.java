@@ -5,10 +5,10 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.dev.digitalcare.Utility.test.Log;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareApplication;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.Utility.test.Log;
 
 /**
  * 

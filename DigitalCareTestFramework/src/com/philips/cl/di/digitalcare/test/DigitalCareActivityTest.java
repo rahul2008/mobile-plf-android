@@ -10,10 +10,11 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
 import com.philips.cl.di.digitalcare.R;
-import com.philips.cl.di.dev.digitalcare.Call.test.CallFeature;
-import com.philips.cl.di.dev.digitalcare.Call.test.DeviceType;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
+import com.philips.cl.di.digitalcare.Call.test.CallFeature;
+import com.philips.cl.di.digitalcare.Call.test.DeviceType;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.Utils;

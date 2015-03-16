@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.digitalcare.bean.test;
+package com.philips.cl.di.digitalcare.bean.test;
 
 import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;

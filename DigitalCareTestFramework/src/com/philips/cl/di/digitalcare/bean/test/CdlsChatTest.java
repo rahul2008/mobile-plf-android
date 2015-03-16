@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.digitalcare.bean.test;
+package com.philips.cl.di.digitalcare.bean.test;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -8,8 +8,8 @@ import org.junit.Before;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.dev.digitalcare.Utility.test.Log;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
+import com.philips.cl.di.digitalcare.Utility.test.Log;
 import com.philips.cl.di.digitalcare.contactus.CdlsChat;
 
 /**
