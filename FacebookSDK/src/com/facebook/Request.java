@@ -117,7 +117,7 @@ public class Request {
 	private static final String SEARCH = "search";
 	// private static final String MY_FEED = "me/feed";
 	// private static final String MY_FEED = "AppsMavTestDemo/feed";
-	 private static final String MY_FEED = "digitalcare/feed";
+	 private static final String MY_FEED = "PhilipsIndia/feed";/*"digitalcare/feed";*/
 //	private static final String MY_FEED = "PhilipsNederland/feed";
 	private static final String MY_STAGING_RESOURCES = "me/staging_resources";
 	private static final String MY_OBJECTS_FORMAT = "me/objects/%s";
