@@ -88,7 +88,7 @@ public class DigitalCareActivityTest extends
 	 * assertEquals("\n \n No Connection \n \n", true, isConnected); }
 	 */
 
-	@SmallTest
+	/*@SmallTest
 	public void testDeviceTypeMobileLogic() {
 		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
 
@@ -97,7 +97,7 @@ public class DigitalCareActivityTest extends
 
 		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
 				actual);
-	}
+	}*/
 
 	
 	/*@SmallTest
