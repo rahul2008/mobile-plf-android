@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.digitalcare.test;
+package com.philips.cl.di.digitalcare.test;
 
 import java.lang.reflect.Field;
 

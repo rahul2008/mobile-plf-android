@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.digitalcare.test;
+package com.philips.cl.di.digitalcare.test;
 
 import static org.mockito.Mockito.mock;
 import android.content.Context;
