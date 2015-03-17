@@ -10,9 +10,9 @@ import com.philips.cl.di.digitalcare.R;
 /*
  * DigitalCareFontButton is the custom Button View.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2014
+ * @since : 5 Dec 2014
  */
 public class DigitalCareFontButton extends Button {
 	public DigitalCareFontButton(Context context) {

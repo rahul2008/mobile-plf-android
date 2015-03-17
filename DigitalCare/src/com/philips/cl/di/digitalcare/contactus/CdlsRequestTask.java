@@ -13,14 +13,13 @@ import org.apache.http.protocol.HttpContext;
 
 import android.os.AsyncTask;
 
-
 /*
  * CdlsRequestAsyncTask is AsyncTask. This is generic class. Other classes just need to pass 
  * the listener context and URL in order to run this Async task.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 16 Dec 2015
+ * @since: 16 Dec 2014
  */
 public class CdlsRequestTask extends AsyncTask<Void, Void, String> {
 	private CdlsResponseCallback mCdlsResponseHandler = null;

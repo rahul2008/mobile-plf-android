@@ -9,14 +9,14 @@ import android.content.Context;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * @description: CdlsResponseParserHelper will take care of parsing activity at
- *               digital care app module level.
+ * CdlsResponseParserHelper will take care of parsing activity at digital care
+ * app module level.
+ * 
  * @author: ritesh.jha@philips.com
  * @since: Dec 16, 2014
  */
 public class CdlsResponseParser {
-	private static final String TAG = CdlsResponseParser.class
-			.getSimpleName();
+	private static final String TAG = CdlsResponseParser.class.getSimpleName();
 	private Context mContext = null;
 	private static CdlsResponseParser mParserController = null;
 	private CdlsParsedResponse mCdlsParsedResponse = null;
@@ -27,8 +27,7 @@ public class CdlsResponseParser {
 		DLog.i(TAG, "ParserController constructor : " + mContext.toString());
 	}
 
-	public static CdlsResponseParser getParserControllInstance(
-			Context context) {
+	public static CdlsResponseParser getParserControllInstance(Context context) {
 		if (mParserController == null) {
 			mParserController = new CdlsResponseParser(context);
 		}
@@ -103,8 +102,8 @@ public class CdlsResponseParser {
 						.optString("errorMessage"));
 			}
 			// creating CDLS instance.
-			mCdlsParsedResponse = new CdlsParsedResponse(success, cdlsPhone, cdlsChat, cdlsEmail,
-					cdlsError);
+			mCdlsParsedResponse = new CdlsParsedResponse(success, cdlsPhone,
+					cdlsChat, cdlsEmail, cdlsError);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

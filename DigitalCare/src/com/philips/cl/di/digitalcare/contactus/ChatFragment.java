@@ -15,9 +15,9 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 /*
  *	ChatFragment will help to provide options to start Philips chat.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 19 Jan 2015
+ * @since : 19 Jan 2015
  */
 public class ChatFragment extends DigitalCareBaseFragment {
 	private DigitalCareFontButton mChatNow = null;
@@ -116,5 +116,11 @@ public class ChatFragment extends DigitalCareBaseFragment {
 		} else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
 			backstackFragment();
 		}
+	}
+	
+	@Override
+	public String getActionbarTitle() {
+		return (getResources()
+				.getString(R.string.chat_now));
 	}
 }

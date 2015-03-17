@@ -19,9 +19,9 @@ import com.philips.cl.di.digitalcare.R;
 /*
  *	LocateNearYouFragment will help to inflate webpage on the screen.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 16 Jan 2015
+ * @since : 16 Jan 2015
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class LocatePhilipsFragment extends DigitalCareBaseFragment {
@@ -86,5 +86,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	public void setViewParams(Configuration config) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources()
+				.getString(R.string.opt_find_philips_near_you);
 	}
 }

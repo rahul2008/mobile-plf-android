@@ -8,11 +8,11 @@ import android.widget.TextView;
 import com.philips.cl.di.digitalcare.R;
 
 /*
- *	DigitalCareFontTextView is the custom Text View.
+ * DigitalCareFontTextView is the custom Text View.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2014
+ * @since : 5 Dec 2014
  */
 public class DigitalCareFontTextView extends TextView {
 

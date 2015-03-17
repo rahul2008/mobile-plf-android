@@ -32,11 +32,11 @@ import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * 
- * @author naveen@philips.com
  * @description This Screen helps endusers to send the product info/concern
  *              along with Product image to the Philips Twitter Support page.
- * @Since Feb 10, 2015
+ *              
+ * @author naveen@philips.com
+ * @since Feb 10, 2015
  */
 public class TwitterFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback {
@@ -231,5 +231,11 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 	private void closeProgress() {
 		if (mPostProgress.isShowing())
 			mPostProgress.dismiss();
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources()
+				.getString(R.string.social_login_post);
 	}
 }

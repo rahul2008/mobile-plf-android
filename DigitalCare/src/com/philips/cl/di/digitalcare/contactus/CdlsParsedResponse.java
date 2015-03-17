@@ -3,9 +3,9 @@ package com.philips.cl.di.digitalcare.contactus;
 /*
  *	CdlsBean is bean class for all CDLS related objects.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 16 Dec 2015
+ * @since: 16 Dec 2014
  */
 
 public class CdlsParsedResponse {

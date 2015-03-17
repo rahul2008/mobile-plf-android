@@ -1,13 +1,12 @@
 package com.philips.cl.di.digitalcare.util;
 
-/*
- * DigiCareContants is app level Constancts class.
+/**
  * 
- * Author : Ritesh.jha@philips.com, naveen@philips.com
- * 
- * Creation Date : 5 Dec 2015
+ * DigitalCareContants DigiCareContants is app level Constancts class.
+ * @author: ritesh.jha@philips.com	
+ * @since: Dec 5, 2014
  */
-public class DigitalCareContants {
+public interface DigitalCareContants {
 	public static final int OPTION_NOTHING = -1;
 	public static final int OPTION_CONTACT_US = 1;
 	public static final int OPTION_PRODUCS_DETAILS = 2;

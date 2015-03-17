@@ -18,11 +18,11 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 
 /*
- *	ChatNowFragment will help to inflate chat webpage on the screen.
+ * ChatNowFragment will help to inflate chat webpage on the screen.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 16 Jan 2015
+ * @since : 16 Jan 2015
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class ChatNowFragment extends DigitalCareBaseFragment {
@@ -113,5 +113,10 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		if (id == R.id.webViewParent) {
 			mDialog.dismiss();
 		}
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources().getString(R.string.chat_now);
 	}
 }

@@ -12,6 +12,13 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 
+/*
+ *	ProductDetailsFragment will help to show product details
+ * 
+ * @author : Ritesh.jha@philips.com
+ * 
+ * @since : 16 Jan 2015
+ */
 public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
 	private static String TAG = ProductDetailsFragment.class.getSimpleName();
@@ -83,5 +90,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onClick(View v) {
 
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources().getString(R.string.opt_view_product_details);
 	}
 }

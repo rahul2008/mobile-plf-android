@@ -17,15 +17,15 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.FragmentObserver;
 
-/*
- *	DigitalCareBaseFragment is super class for all fragments.
+/**
+ * DigitalCareBaseFragment is super class for all fragments.
  * 
- * Author : Ritesh.jha@philips.com
- * 
- * Creation Date : 5 Dec 2015
+ * @author: ritesh.jha@philips.com
+ * @since: Dec 5, 2014
  */
 public abstract class DigitalCareBaseFragment extends Fragment implements
 		OnClickListener {
@@ -50,6 +50,17 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	public abstract void setViewParams(Configuration config);
 
+	public abstract String getActionbarTitle();
+
+	/**
+	 * Updating action bar title. The text has to be updated at each fragment
+	 * seletion/creation.
+	 */
+	private void setActionbarTitle() {
+		((DigitalCareFontTextView) getActivity().findViewById(
+				R.id.action_bar_title)).setText(getActionbarTitle());
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		DLog.d(DLog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
@@ -68,6 +79,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 				.getDimension(R.dimen.activity_margin_port);
 		mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
 				.getDimension(R.dimen.activity_margin_land);
+		setActionbarTitle();
 	}
 
 	@Override

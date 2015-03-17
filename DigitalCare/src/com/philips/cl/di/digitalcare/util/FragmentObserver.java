@@ -6,20 +6,20 @@ import java.util.Observable;
  * FragmentObserver class is observer class for fragments. 
  * Fragments level changes will be updated to Activities/Fragments.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 8 Dec 2015
+ * @since : 8 Dec 2014
  */
 public class FragmentObserver extends Observable {
-	private String mActionbaTitle = null;
+//	private String mActionbaTitle = null;
 	private int mOptionSelected = -1;
-
-	/**
-	 * @return the value
-	 */
-	public String getActionbarTitle() {
-		return mActionbaTitle;
-	}
+//
+//	/**
+//	 * @return the value
+//	 */
+//	public String getActionbarTitle() {
+//		return mActionbaTitle;
+//	}
 
 	/**
 	 * @return the option selected.
@@ -33,7 +33,7 @@ public class FragmentObserver extends Observable {
 	 *            the value to set
 	 */
 	public void setValue(String name, int optionSelected) {
-		this.mActionbaTitle = name;
+//		this.mActionbaTitle = name;
 		this.mOptionSelected = optionSelected;
 		setChanged();
 		notifyObservers();

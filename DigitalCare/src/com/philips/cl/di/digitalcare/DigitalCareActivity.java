@@ -16,9 +16,9 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
  *  Also responsible for fetching Product images, Facebook authentication & also 
  *  Twitter authentication.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2015
+ * @since : 5 Dec 2014
  */
 public class DigitalCareActivity extends DigitalCareBaseActivity {
 	private static final String TAG = "DigitalCareActivity";

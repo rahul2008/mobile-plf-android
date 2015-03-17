@@ -2,9 +2,9 @@ package com.philips.cl.di.digitalcare.contactus;
 /*
  *	CdlsError is bean class error.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 16 Dec 2015
+ * @since : 16 Dec 2014
  */
 public class CdlsError {
 	private String mErrorCode = null;

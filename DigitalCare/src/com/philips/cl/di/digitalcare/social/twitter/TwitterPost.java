@@ -17,7 +17,7 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * @description Background Task for posting Twitter tweets along with Product
+ * Background Task for posting Twitter tweets along with Product
  *              Image.
  * @author naveen@philips.com
  * @since 11/feb/2015

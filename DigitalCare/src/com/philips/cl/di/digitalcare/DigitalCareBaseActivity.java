@@ -27,18 +27,19 @@ import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.FragmentObserver;
 
-/*
- *	DigitalCareBaseActivity is the main super class container for Digital Care fragments.
+/**
+ * DigitalCareBaseActivity is the main super abstract class container for
+ * DigitalCare Activity.
  * 
- * Author : Ritesh.jha@philips.com
- * 
- * Creation Date : 5 Dec 2015
+ * @author: ritesh.jha@philips.com
+ * @since: Dec 5, 2014
  */
-public abstract class DigitalCareBaseActivity extends Activity implements Observer {
+public abstract class DigitalCareBaseActivity extends Activity implements
+		Observer {
 	private ImageView mActionBarMenuIcon = null;;
 	private ImageView mActionBarArrow = null;
 	private DigitalCareFontTextView mActionBarTitle = null;
-
+	private FragmentManager fragmentManager = null;
 	private static String TAG = "DigitalCareBaseActivity";
 	private FragmentObserver mFragmentObserver = null;
 
@@ -50,16 +51,14 @@ public abstract class DigitalCareBaseActivity extends Activity implements Observ
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(R.anim.slide_in_bottom,
 				R.anim.slide_out_bottom);
-	}
-
-	private void setFragmentDetails(String actionbarTitle) {
-		mActionBarTitle.setText(actionbarTitle);
+		fragmentManager = getFragmentManager();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mFragmentObserver = DigitalCareApplication.getFragmentObserverInstance();
+		mFragmentObserver = DigitalCareApplication
+				.getFragmentObserverInstance();
 	}
 
 	protected void initActionBar() throws ClassCastException {
@@ -88,8 +87,6 @@ public abstract class DigitalCareBaseActivity extends Activity implements Observ
 
 		return super.onKeyDown(keyCode, event);
 	}
-
-	private FragmentManager fragmentManager = getFragmentManager();
 
 	private boolean backstackFragment() {
 
@@ -162,7 +159,7 @@ public abstract class DigitalCareBaseActivity extends Activity implements Observ
 	@Override
 	public void update(Observable observable, Object title) {
 		optionSelected(mFragmentObserver.getOptionSelected());
-		setFragmentDetails(mFragmentObserver.getActionbarTitle());
+		// setFragmentDetails(mFragmentObserver.getActionbarTitle());
 	}
 
 	private void enableActionBarLeftArrow() {

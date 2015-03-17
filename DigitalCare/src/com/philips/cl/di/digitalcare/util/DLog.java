@@ -6,9 +6,9 @@ import android.util.Log;
  * Custom log class: - Defines all log tags - Intercepts logs so more processing
  * is possible
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2015
+ * @since: 5 Dec 2015
  */
 public class DLog {
 

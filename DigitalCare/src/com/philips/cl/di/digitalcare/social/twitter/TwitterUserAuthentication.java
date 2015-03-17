@@ -1,7 +1,5 @@
 package com.philips.cl.di.digitalcare.social.twitter;
 
-import com.facebook.model.PropertyName;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,7 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
 /**
- * @Description Activity component used for Twitter OAuthentication
+ * Activity component used for Twitter OAuthentication
  * @author naveen@philips.com
  * @since 11/Feb/2015
  */

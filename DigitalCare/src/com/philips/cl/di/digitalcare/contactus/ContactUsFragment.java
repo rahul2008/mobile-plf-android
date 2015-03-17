@@ -18,8 +18,8 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -27,9 +27,9 @@ import com.philips.cl.di.digitalcare.util.Utils;
 /*
  *	ContactUsFragment will help to provide options to contact Philips.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 19 Jan 2015
+ * @since : 19 Jan 2015
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
 		TwitterAuthenticationCallback, OnClickListener {
@@ -82,7 +82,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 		mConactUsParent = (LinearLayout) getActivity().findViewById(
 				R.id.contactUsParent);
-		mChat = (DigitalCareFontButton) getActivity().findViewById(R.id.contactUsChat);
+		mChat = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsChat);
 		mFacebook = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.socialLoginFacebookBtn);
 		mTwitter = (DigitalCareFontButton) getActivity().findViewById(
@@ -151,7 +152,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						enableBottomText();
 						mCallPhilips.setText(getResources().getString(
 								R.string.call)
-								+ " " + mCdlsParsedResponse.getPhone().getPhoneNumber());
+								+ " "
+								+ mCdlsParsedResponse.getPhone()
+										.getPhoneNumber());
 						mFirstRowText.setText(mCdlsParsedResponse.getPhone()
 								.getOpeningHoursWeekdays());
 						mSecondRowText.setText(mCdlsParsedResponse.getPhone()
@@ -173,10 +176,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		}
 
-		private boolean hasEmptyChatContent(CdlsParsedResponse cdlsParsedResponse) {
+		private boolean hasEmptyChatContent(
+				CdlsParsedResponse cdlsParsedResponse) {
 			return cdlsParsedResponse.getChat() == null
 					|| cdlsParsedResponse.getChat().getContent() == null
-					|| cdlsParsedResponse.getChat().getContent().equalsIgnoreCase("");
+					|| cdlsParsedResponse.getChat().getContent()
+							.equalsIgnoreCase("");
 		}
 	};
 
@@ -196,7 +201,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				Toast.makeText(getActivity(), "No server response",
 						Toast.LENGTH_SHORT).show();
 				return;
-			} else if (mCdlsParsedResponse != null && !mCdlsParsedResponse.getSuccess()) {
+			} else if (mCdlsParsedResponse != null
+					&& !mCdlsParsedResponse.getSuccess()) {
 				Toast.makeText(getActivity(),
 						mCdlsParsedResponse.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
@@ -208,7 +214,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				Toast.makeText(getActivity(), "No server response",
 						Toast.LENGTH_SHORT).show();
 				return;
-			} else if (mCdlsParsedResponse != null && !mCdlsParsedResponse.getSuccess()) {
+			} else if (mCdlsParsedResponse != null
+					&& !mCdlsParsedResponse.getSuccess()) {
 				Toast.makeText(getActivity(),
 						mCdlsParsedResponse.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
@@ -221,11 +228,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isNetworkConnected(getActivity())) {
-			 showFragment(new FacebookScreenFragment());
+			showFragment(new FacebookScreenFragment());
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
 			mTwitter.setClickable(true);
-			TwitterAuthentication mTwitter = TwitterAuthentication.getInstance(getActivity());
+			TwitterAuthentication mTwitter = TwitterAuthentication
+					.getInstance(getActivity());
 			mTwitter.initSDK(this);
 		} else if (id == R.id.contactUsEmail) {
 			sendEmail();
@@ -277,5 +285,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		intent.setPackage("com.google.android.gm");
 		getActivity().startActivity(intent);
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources().getString(R.string.opt_contact_us);
 	}
 }

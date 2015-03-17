@@ -13,15 +13,16 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-/*
+/**
  *	SupportHomeFragment is the first screen of Support app.
  *	This class will give all the possible options to navigate
  *	within digital support app. 
+ *
+ * @author : Ritesh.jha@philips.com
  * 
- * Author : Ritesh.jha@philips.com
- * 
- * Creation Date : 5 Dec 2015
+ * @creation Date : 5 Dec 2014
  */
+
 public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	private RelativeLayout mContactUs = null;
@@ -87,8 +88,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		case DigitalCareContants.OPTION_CONTACT_US:
 			mContactUs = (RelativeLayout) getActivity().findViewById(
 					R.id.optionContactUs);
-			mOptionBtnContactUs = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.optionBtnContactUs);
+			mOptionBtnContactUs = (DigitalCareFontButton) getActivity()
+					.findViewById(R.id.optionBtnContactUs);
 			mContactUs.setVisibility(View.VISIBLE);
 			mOptionBtnContactUs.setOnClickListener(this);
 			break;
@@ -118,8 +119,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
 			mWhatYouThink = (RelativeLayout) getActivity().findViewById(
 					R.id.optionThinking);
-			mOptionBtnThinking = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.optionBtnThinking);
+			mOptionBtnThinking = (DigitalCareFontButton) getActivity()
+					.findViewById(R.id.optionBtnThinking);
 			mWhatYouThink.setVisibility(View.VISIBLE);
 			mOptionBtnThinking.setOnClickListener(this);
 			break;
@@ -175,6 +176,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					R.string.actionbar_title_support);
 		}
 		// mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
+	}
 
+	@Override
+	public String getActionbarTitle() {
+		return (getResources()
+				.getString(R.string.actionbar_title_support));
 	}
 }

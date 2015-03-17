@@ -229,4 +229,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			onImageDettach();
 		}
 	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources()
+				.getString(R.string.social_login_post);
+	}
 }

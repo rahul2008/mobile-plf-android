@@ -15,9 +15,9 @@ import com.philips.cl.di.digitalcare.R;
  *	ProductRegistrationFragment will help to register the particular 
  *	product based of category.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 10 Dec 2015
+ * @since: 10 Dec 2014
  */
 public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 	private LinearLayout mProdRegParentFirst = null;
@@ -65,5 +65,11 @@ public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources()
+				.getString(R.string.opt_register_my_product);
 	}
 }

@@ -10,9 +10,11 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 /**
- * @Description This class contains common utility methods required across
+ * Utils class contains common utility methods required across
  *              framework under different scenario's.
  * @author naveen@philips.com
+ * 
+ * @since Feb 10, 2015
  * 
  */
 public class Utils {
