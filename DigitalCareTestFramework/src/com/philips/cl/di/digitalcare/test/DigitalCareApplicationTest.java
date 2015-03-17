@@ -73,17 +73,17 @@ public class DigitalCareApplicationTest extends
 		mAvailable = (mOptions.length == 6) ? true : false;
 		assertTrue(mAvailable);
 	}
-
-	@SmallTest
-	public void testgetFeatureListLogic() {
-
-		int expected = 6;
-		DigitalCareApplication mApplication = new DigitalCareApplication(
-				mContext);
-
-		Log.d(TAG, "Spy value : " + DigitalCareApplication.getFeatureListKeys());
-
-		assertEquals(expected,
-				DigitalCareApplication.getFeatureListKeys().length);
-	}
+//
+//	@SmallTest
+//	public void testgetFeatureListLogic() {
+//
+//		int expected = 6;
+//		DigitalCareApplication mApplication = new DigitalCareApplication(
+//				mContext);
+//
+//		Log.d(TAG, "Spy value : " + DigitalCareApplication.getFeatureListKeys());
+//
+//		assertEquals(expected,
+//				DigitalCareApplication.getFeatureListKeys().length);
+//	}
 }
