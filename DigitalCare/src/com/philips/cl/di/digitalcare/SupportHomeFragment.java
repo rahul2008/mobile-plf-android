@@ -148,8 +148,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		int id = view.getId();
 		if (id == R.id.optionBtnContactUs) {
 			showFragment(new ContactUsFragment());
-		} else if (id == R.id.optionBtnFaq) {
-		} else if (id == R.id.optionBtnProdDetails) {
+		} /*else if (id == R.id.optionBtnFaq) {
+		} */else if (id == R.id.optionBtnProdDetails) {
 			showFragment(new ProductDetailsFragment());
 		} else if (id == R.id.optionBtnFindPhilips) {
 			showFragment(new LocatePhilipsFragment());
@@ -162,6 +162,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return (getResources().getString(R.string.actionbar_title_support));
+		return getResources().getString(R.string.actionbar_title_support);
 	}
 }

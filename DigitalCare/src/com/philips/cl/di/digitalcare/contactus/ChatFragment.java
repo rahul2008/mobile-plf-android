@@ -76,11 +76,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	}
 
 	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mChatNowParentPort.setVisibility(View.VISIBLE);
@@ -106,6 +101,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return (getResources().getString(R.string.chat_now));
+		return getResources().getString(R.string.chat_now);
 	}
 }

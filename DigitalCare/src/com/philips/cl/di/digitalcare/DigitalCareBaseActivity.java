@@ -42,11 +42,6 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		fragmentManager = getFragmentManager();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
-
 	protected void initActionBar() throws ClassCastException {
 		mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
 		mActionBarArrow = (ImageView) findViewById(R.id.back_to_home_img);

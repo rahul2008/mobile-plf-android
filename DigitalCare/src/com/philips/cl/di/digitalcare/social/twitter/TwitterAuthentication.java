@@ -20,7 +20,8 @@ import com.philips.cl.di.digitalcare.util.DLog;
 
 public class TwitterAuthentication {
 
-	private static final String TAG = TwitterAuthentication.class.getSimpleName();
+	private static final String TAG = TwitterAuthentication.class
+			.getSimpleName();
 	private static TwitterAuthentication mTwitterConnect = null;
 	private static Activity mContext = null;
 	private TwitterAuthenticationCallback mTwitterAuth = null;
@@ -72,35 +73,27 @@ public class TwitterAuthentication {
 
 		if (isLoggedIn) {
 			DLog.d(TAG, "Already LoggedIn");
-
 			mTwitterAuth.onTwitterLoginSuccessful();
-
 		} else {
 			DLog.d(TAG, "Logging inti Twitter");
-
 			Thread mLoginThread = new Thread(new Runnable() {
-
 				@Override
 				public void run() {
 					loginToTwitter();
 				}
 			});
-//			mLoginThread.setName("Twitter Login");
+			// mLoginThread.setName("Twitter Login");
 			mLoginThread.setPriority(Thread.MAX_PRIORITY);
 			mLoginThread.start();
-
 			Uri uri = mContext.getIntent().getData();
 
 			if (uri != null && uri.toString().startsWith(mCallbackUrl)) {
-
 				String verifier = uri.getQueryParameter(mAuthVerifier);
-
 				try {
 					AccessToken accessToken = mTwitter.getOAuthAccessToken(
 							mRequestToken, verifier);
 					saveTwitterInformation(accessToken);
 					mTwitterAuth.onTwitterLoginSuccessful();
-
 				} catch (Exception e) {
 					DLog.e("Failed to login Twitter!!", e.getMessage());
 					mTwitterAuth.onTwitterLoginFailed();

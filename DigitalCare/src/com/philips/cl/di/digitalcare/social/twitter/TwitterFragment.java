@@ -82,7 +82,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 		mContainer = (LinearLayout) getActivity().findViewById(
 				R.id.fbPostContainer);
-		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
+		mContainerParams = (LayoutParams) mContainer
 				.getLayoutParams();
 		mCancelPort = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.facebookCancelPort);

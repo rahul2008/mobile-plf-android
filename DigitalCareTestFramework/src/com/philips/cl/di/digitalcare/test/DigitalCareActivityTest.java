@@ -11,10 +11,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
+import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.Call.test.CallFeature;
-import com.philips.cl.di.digitalcare.Call.test.DeviceType;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -67,9 +66,9 @@ public class DigitalCareActivityTest extends
 		final ViewGroup.LayoutParams layoutParams = mContainer
 				.getLayoutParams();
 		assertNotNull("Params not found for Fragment Container", layoutParams);
-		assertEquals(layoutParams.width, WindowManager.LayoutParams.FILL_PARENT);
+		assertEquals(layoutParams.width, WindowManager.LayoutParams.MATCH_PARENT);
 		assertEquals("Fragment Height is wrong", layoutParams.height,
-				WindowManager.LayoutParams.FILL_PARENT);
+				WindowManager.LayoutParams.MATCH_PARENT);
 	}
 
 	@MediumTest
@@ -89,29 +88,28 @@ public class DigitalCareActivityTest extends
 	 * assertEquals("\n \n No Connection \n \n", true, isConnected); }
 	 */
 
-	/*@SmallTest
-	public void testDeviceTypeMobileLogic() {
-		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
+	/*
+	 * @SmallTest public void testDeviceTypeMobileLogic() { boolean actual =
+	 * Utils.isTablet(mActivity.getApplicationContext()), expected = false;
+	 * 
+	 * DeviceType mFeature = new DeviceType(mActivity); expected =
+	 * mFeature.isMobileDevice();
+	 * 
+	 * assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
+	 * actual); }
+	 */
 
-		DeviceType mFeature = new DeviceType(mActivity);
-		expected = mFeature.isMobileDevice();
-
-		assertEquals("\n \nThis may be Tablet so failed \n \n", expected,
-				actual);
-	}*/
-
-	
-	/*@SmallTest
-	public void testDeviceTypeTableteLogic() {
-		boolean actual = Utils.isTablet(mActivity.getApplicationContext()), expected = false;
-
-		DeviceType mFeature = new DeviceType(mActivity);
-		expected = mFeature.isTabletDevice();
-
-		// assertEquals("This may be Tablet so failed " , false , isMobile);
-		assertEquals(" \n \n This may be Mobile so failed \n \n", expected,
-				actual);
-	}*/
+	/*
+	 * @SmallTest public void testDeviceTypeTableteLogic() { boolean actual =
+	 * Utils.isTablet(mActivity.getApplicationContext()), expected = false;
+	 * 
+	 * DeviceType mFeature = new DeviceType(mActivity); expected =
+	 * mFeature.isTabletDevice();
+	 * 
+	 * // assertEquals("This may be Tablet so failed " , false , isMobile);
+	 * assertEquals(" \n \n This may be Mobile so failed \n \n", expected,
+	 * actual); }
+	 */
 
 	@SmallTest
 	public void testSimAvailabilityLogic() {

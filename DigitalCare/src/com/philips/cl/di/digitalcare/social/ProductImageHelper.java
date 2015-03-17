@@ -64,8 +64,7 @@ public class ProductImageHelper {
 			public void onClick(DialogInterface dialog, int item) {
 				if (item == 0) {
 
-					Intent intent = new Intent(
-							android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 					mActivity.startActivityForResult(intent,
 							DigitalCareContants.IMAGE_CAPTURE);
 				} else if (item == 1) {
