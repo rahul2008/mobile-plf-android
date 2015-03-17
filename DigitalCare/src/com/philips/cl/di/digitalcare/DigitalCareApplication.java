@@ -13,7 +13,7 @@ import android.content.res.Resources;
  */
 public class DigitalCareApplication {
 
-	private static Resources mResources = null;
+	private Resources mResources = null;
 	private static int[] mFeatureKeys = null;
 	private String[] mFeatureAvailable = null;
 
