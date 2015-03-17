@@ -59,7 +59,7 @@ public class DigitalCareApplicationTest extends
 		int[] mOptions = null;
 		boolean mAvailable = false;
 		mOptions = mContext.getResources().getIntArray(
-				R.array.options_available);
+				R.array.supportedFeatures);
 		mAvailable = (mOptions.length > 0) ? true : false;
 		assertTrue(mAvailable);
 	}
@@ -69,7 +69,7 @@ public class DigitalCareApplicationTest extends
 		int[] mOptions = null;
 		boolean mAvailable = false;
 		mOptions = mContext.getResources().getIntArray(
-				R.array.options_available);
+				R.array.supportedFeatures);
 		mAvailable = (mOptions.length == 6) ? true : false;
 		assertTrue(mAvailable);
 	}
