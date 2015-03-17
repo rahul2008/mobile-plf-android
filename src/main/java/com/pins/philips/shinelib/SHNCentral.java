@@ -65,7 +65,6 @@ public class SHNCentral {
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private SingleThreadEventDispatcher singleThreadEventDispatcher;
-    private Sched
     public SingleThreadEventDispatcher getEventDispatcher() {
         return singleThreadEventDispatcher;
     }
