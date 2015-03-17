@@ -1,7 +1,6 @@
 package com.philips.cl.di.digitalcare;
 
 import java.lang.reflect.Field;
-import java.util.Observer;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,7 +18,6 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.FragmentObserver;
 
 /**
  * DigitalCareBaseFragment is super class for all fragments.
@@ -35,7 +33,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
 	private Activity mFragmentActivityContext = null;
-	protected static FragmentObserver mAppObserver = null;
 
 	static {
 		Field f = null;
@@ -66,10 +63,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		DLog.d(DLog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
-		mAppObserver = DigitalCareApplication.getFragmentObserverInstance();
 		mFragmentActivityContext = getActivity();
-		if (mFragmentActivityContext != null)
-			mAppObserver.addObserver((Observer) mFragmentActivityContext);
 	}
 
 	@Override

@@ -3,8 +3,6 @@ package com.philips.cl.di.digitalcare;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.philips.cl.di.digitalcare.util.FragmentObserver;
-
 /*
  *	DigitalCareApplication is Application class for DigitalCare app. 
  *  Here we can maintain the instances at digital care app level.
@@ -15,21 +13,33 @@ import com.philips.cl.di.digitalcare.util.FragmentObserver;
  */
 public class DigitalCareApplication {
 
-	private static FragmentObserver mFragmentObserver = null;
 	private static Resources mResources = null;
-	private static int[] mFeatureKeys = {};
+	private static int[] mFeatureKeys = null;
+	private String[] mFeatureAvailable = null;
 
 	/*
 	 * Initialize everything required for DigitalCare as singleton.
 	 */
 	public DigitalCareApplication(Context context) {
 
-		if (mFragmentObserver == null) {
-			mFragmentObserver = new FragmentObserver();
-			mResources = context.getResources();
-			mFeatureKeys = mResources.getIntArray(R.array.options_available);
-		}
+		mResources = context.getResources();
+		mFeatureAvailable = mResources
+				.getStringArray(R.array.supportedFeatures);
+		mFeatureKeys = new int[mFeatureAvailable.length];
+		// mFeatureKeys = mResources.getIntArray(R.array.options_available);
+		getFeaturesAvailable();
 		// mDigitalCareInstance = new DigitalCareApplication(context);
+	}
+
+	private void getFeaturesAvailable() {
+
+		for (int i = 0; i < mFeatureAvailable.length; i++) {
+			try {
+				mFeatureKeys[i] = Integer.parseInt(mFeatureAvailable[i]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/*
@@ -37,12 +47,5 @@ public class DigitalCareApplication {
 	 */
 	public static int[] getFeatureListKeys() {
 		return mFeatureKeys;
-	}
-
-	/*
-	 * This will return the FragmentObserver instance.
-	 */
-	public static FragmentObserver getFragmentObserverInstance() {
-		return mFragmentObserver;
 	}
 }

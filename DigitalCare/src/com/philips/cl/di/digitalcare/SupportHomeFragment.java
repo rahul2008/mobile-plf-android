@@ -10,14 +10,18 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
+import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
+import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
+import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
- *	SupportHomeFragment is the first screen of Support app.
- *	This class will give all the possible options to navigate
- *	within digital support app. 
- *
+ * SupportHomeFragment is the first screen of Support app. This class will give
+ * all the possible options to navigate within digital support app.
+ * 
  * @author : Ritesh.jha@philips.com
  * 
  * @creation Date : 5 Dec 2014
@@ -139,48 +143,24 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void onClick(View view) {
-		CharSequence actionbarTitle = null;
-		int optionSelected = -1;
-
 		Log.i(TAG, "onClickListener view : " + view);
 		int id = view.getId();
 		if (id == R.id.optionBtnContactUs) {
-			actionbarTitle = getResources().getText(R.string.opt_contact_us);
-			optionSelected = DigitalCareContants.OPTION_CONTACT_US;
-			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
+			showFragment(new ContactUsFragment());
 		} else if (id == R.id.optionBtnFaq) {
-			actionbarTitle = getResources().getText(R.string.opt_view_faq);
-			optionSelected = DigitalCareContants.OPTION_FAQ;
 		} else if (id == R.id.optionBtnProdDetails) {
-			actionbarTitle = getResources().getText(
-					R.string.opt_view_product_details);
-			optionSelected = DigitalCareContants.OPTION_PRODUCS_DETAILS;
-			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
+			showFragment(new ProductDetailsFragment());
 		} else if (id == R.id.optionBtnFindPhilips) {
-			actionbarTitle = getResources().getText(
-					R.string.opt_find_philips_near_you);
-			optionSelected = DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY;
-			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
+			showFragment(new LocatePhilipsFragment());
 		} else if (id == R.id.optionBtnThinking) {
-			actionbarTitle = getResources()
-					.getText(R.string.opt_what_you_think);
-			optionSelected = DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING;
-			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
+			showFragment(new RateThisAppFragment());
 		} else if (id == R.id.optionBtnRegProd) {
-			actionbarTitle = getResources().getText(
-					R.string.opt_register_my_product);
-			optionSelected = DigitalCareContants.OPTION_REGISTER_PRODUCT;
-			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
-		} else {
-			actionbarTitle = getResources().getText(
-					R.string.actionbar_title_support);
+			showFragment(new ProductRegistrationFragment());
 		}
-		// mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
 	}
 
 	@Override
 	public String getActionbarTitle() {
-		return (getResources()
-				.getString(R.string.actionbar_title_support));
+		return (getResources().getString(R.string.actionbar_title_support));
 	}
 }

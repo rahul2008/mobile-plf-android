@@ -1,8 +1,5 @@
 package com.philips.cl.di.digitalcare;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,14 +15,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
-import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
-import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
-import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
-import com.philips.cl.di.digitalcare.util.DigitalCareContants;
-import com.philips.cl.di.digitalcare.util.FragmentObserver;
 
 /**
  * DigitalCareBaseActivity is the main super abstract class container for
@@ -34,14 +24,12 @@ import com.philips.cl.di.digitalcare.util.FragmentObserver;
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
  */
-public abstract class DigitalCareBaseActivity extends Activity implements
-		Observer {
+public abstract class DigitalCareBaseActivity extends Activity {
 	private ImageView mActionBarMenuIcon = null;;
 	private ImageView mActionBarArrow = null;
 	private DigitalCareFontTextView mActionBarTitle = null;
 	private FragmentManager fragmentManager = null;
 	private static String TAG = "DigitalCareBaseActivity";
-	private FragmentObserver mFragmentObserver = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +45,6 @@ public abstract class DigitalCareBaseActivity extends Activity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mFragmentObserver = DigitalCareApplication
-				.getFragmentObserverInstance();
 	}
 
 	protected void initActionBar() throws ClassCastException {
@@ -131,36 +117,6 @@ public abstract class DigitalCareBaseActivity extends Activity implements
 				backstackFragment();
 		}
 	};
-
-	private void optionSelected(int value) {
-		switch (value) {
-		case DigitalCareContants.OPTION_CONTACT_US:
-			showFragment(new ContactUsFragment());
-			break;
-		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
-			showFragment(new ProductDetailsFragment());
-			break;
-		case DigitalCareContants.OPTION_FAQ:
-			break;
-		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
-			showFragment(new LocatePhilipsFragment());
-			break;
-		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
-			showFragment(new RateThisAppFragment());
-			break;
-		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
-			showFragment(new ProductRegistrationFragment());
-			break;
-		case DigitalCareContants.OPTION_NOTHING:
-			break;
-		}
-	}
-
-	@Override
-	public void update(Observable observable, Object title) {
-		optionSelected(mFragmentObserver.getOptionSelected());
-		// setFragmentDetails(mFragmentObserver.getActionbarTitle());
-	}
 
 	private void enableActionBarLeftArrow() {
 		mActionBarMenuIcon.setVisibility(View.GONE);

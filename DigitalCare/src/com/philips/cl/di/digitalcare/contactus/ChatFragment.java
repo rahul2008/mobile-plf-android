@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /*
  *	ChatFragment will help to provide options to start Philips chat.
@@ -36,10 +35,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_chat, container, false);
-		mAppObserver.setValue(
-				getActivity().getResources().getString(
-						R.string.chat_with_philips),
-				DigitalCareContants.OPTION_NOTHING);
 		return view;
 	}
 
@@ -83,15 +78,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		/*
-		 * Updating previous screen(contact us) from here only because at
-		 * contact_us screen not receiving any call back.
-		 */
-		mAppObserver
-				.setValue(
-						getActivity().getResources().getString(
-								R.string.opt_contact_us),
-						DigitalCareContants.OPTION_NOTHING);
 	}
 
 	@Override
@@ -117,10 +103,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
 			backstackFragment();
 		}
 	}
-	
+
 	@Override
 	public String getActionbarTitle() {
-		return (getResources()
-				.getString(R.string.chat_now));
+		return (getResources().getString(R.string.chat_now));
 	}
 }
