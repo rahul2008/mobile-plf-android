@@ -16,11 +16,12 @@ public class DigitalCareApplication {
 	private Resources mResources = null;
 	private static int[] mFeatureKeys = null;
 	private String[] mFeatureAvailable = null;
+	private static DigitalCareApplication mDigitalCareInstance = null;
 
 	/*
 	 * Initialize everything required for DigitalCare as singleton.
 	 */
-	public DigitalCareApplication(Context context) {
+	private DigitalCareApplication(Context context) {
 
 		mResources = context.getResources();
 		mFeatureAvailable = mResources
@@ -28,7 +29,13 @@ public class DigitalCareApplication {
 		mFeatureKeys = new int[mFeatureAvailable.length];
 		// mFeatureKeys = mResources.getIntArray(R.array.options_available);
 		getFeaturesAvailable();
-		// mDigitalCareInstance = new DigitalCareApplication(context);
+	}
+	
+	public static DigitalCareApplication getInstance(Context context){
+		if(mDigitalCareInstance==null){
+			 mDigitalCareInstance = new DigitalCareApplication(context);
+		}
+		return mDigitalCareInstance;
 	}
 
 	private void getFeaturesAvailable() {
@@ -45,7 +52,7 @@ public class DigitalCareApplication {
 	/*
 	 * This will give list of all buttons(features) on the Support Screen.
 	 */
-	public static int[] getFeatureListKeys() {
+	public int[] getFeatureListKeys() {
 		return mFeatureKeys;
 	}
 }
