@@ -25,7 +25,7 @@ public class DigitalCareApplication {
 
 		mResources = context.getResources();
 		mFeatureAvailable = mResources
-				.getStringArray(R.array.supportedFeatures);
+				.getStringArray(R.array.supported_features);
 		mFeatureKeys = new int[mFeatureAvailable.length];
 		// mFeatureKeys = mResources.getIntArray(R.array.options_available);
 		getFeaturesAvailable();
