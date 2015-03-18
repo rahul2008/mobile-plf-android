@@ -8,6 +8,7 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -31,15 +32,26 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	private String mConsumerSecret = null;
 	private File mFile = null;
 	private PostCallback mPostCallback = null;
+	private ProgressDialog mDialog = null;
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
 	public static final String PREF_NAME = "sample_twitter_pref";
 
+	private String POST_TO_TWITTER = "Posting to Twitter Support Page...";
 	public TwitterPost(Context c, File f, PostCallback callback) {
 		mContext = c;
 		mFile = f;
 		mPostCallback = callback;
 		DLog.d(TAG, "TwitterPost Constructor");
+	}
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		mDialog = new ProgressDialog(mContext);
+		mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mDialog.setMessage(POST_TO_TWITTER);
+		mDialog.setCancelable(false);
+		mDialog.show();
 	}
 
 	protected Void doInBackground(String... args) {
@@ -82,4 +94,12 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 		return null;
 	}
 
+	@Override
+	protected void onPostExecute(Void result) {
+		super.onPostExecute(result);
+		if (mDialog.isShowing()) {
+			mDialog.dismiss();
+			mDialog = null;
+		}
+	}
 }

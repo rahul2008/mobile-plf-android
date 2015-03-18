@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,15 +33,14 @@ import com.philips.cl.di.digitalcare.util.DLog;
 /**
  * @description This Screen helps endusers to send the product info/concern
  *              along with Product image to the Philips Twitter Support page.
- *              
+ * 
  * @author naveen@philips.com
  * @since Feb 10, 2015
  */
 public class TwitterFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback {
 
-	private static final String TAG = TwitterFragment.class
-			.getSimpleName();
+	private static final String TAG = TwitterFragment.class.getSimpleName();
 	private String mUsername;
 	private View mTwitterView = null;
 	private File mFile = null;
@@ -51,7 +49,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mCancelPort = null;
 	private DigitalCareFontButton mSendPort = null;
 	private CheckBox mCheckBox = null;
-	private EditText mProdInformation = null;
+	private EditText mEditText = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductCloseButton = null;
 	private ProgressDialog mPostProgress = null;
@@ -59,7 +57,8 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 	private TextView mTweetfrom = null;
 	private ImageView mTwitterIcon = null;
-	private final String DESCRIPTION = "@PhilipsCare can you help me with my Airfryer HD9220/20 I think it is broken. Nulllaaaaaaaa";
+
+	private final String PRODCUT_INFO = "The Prduct Description from CDLS";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,8 +68,8 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 				container, false);
 		mSharedPreferences = getActivity().getSharedPreferences(
 				TwitterAuthentication.PREF_NAME, 0);
-		mUsername = mSharedPreferences.getString(TwitterAuthentication.PREF_USER_NAME,
-				"");
+		mUsername = mSharedPreferences.getString(
+				TwitterAuthentication.PREF_USER_NAME, "");
 		DLog.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
 		return mTwitterView;
 	}
@@ -82,7 +81,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 		mContainer = (LinearLayout) getActivity().findViewById(
 				R.id.fbPostContainer);
-		mContainerParams = (LayoutParams) mContainer
+		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
 				.getLayoutParams();
 		mCancelPort = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.facebookCancelPort);
@@ -94,8 +93,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 				R.id.socialLoginIcon);
 		mCheckBox = (CheckBox) getActivity()
 				.findViewById(R.id.fb_Post_CheckBox);
-		mProdInformation = (EditText) getActivity().findViewById(
-				R.id.share_text);
+		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);
 		mProductCloseButton = (ImageView) getActivity().findViewById(
@@ -103,9 +101,9 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 		mCancelPort.setOnClickListener(this);
 		mSendPort.setOnClickListener(this);
-		mCheckBox.setOnCheckedChangeListener(this);
 		mProductImage.setOnClickListener(this);
 		mProductCloseButton.setOnClickListener(this);
+		mCheckBox.setOnCheckedChangeListener(this);
 
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
@@ -118,6 +116,27 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 		setViewParams(newConfig);
 	}
 
+	private void sendMessage() {
+		new TwitterPost(getActivity(), mFile, this).execute(getEditorText());
+		mPostProgress = new ProgressDialog(getActivity());
+		mPostProgress.setMessage("Posting to Philips Twitter Support...");
+		mPostProgress.setCancelable(false);
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (isChecked) {
+			DLog.d(TAG, "Checked True");
+			DLog.d(TAG, getEditorText().toString());
+			mEditText.setText(getEditorText());
+
+		} else {
+			DLog.d(TAG, "Checked False");
+			DLog.d(TAG, "" + getEditorText().toString());
+			mEditText.setText(getEditorText());
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -125,12 +144,16 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 			backstackFragment();
 			break;
 		case R.id.facebookSendPort:
-			new TwitterPost(getActivity(), mFile, this)
-					.execute(mProdInformation.getText().toString());
-			mPostProgress = new ProgressDialog(getActivity());
-			mPostProgress.setMessage("Posting to Philips Twitter Support...");
-			mPostProgress.setCancelable(false);
+			sendMessage();
 			break;
+
+		case R.id.facebookCancelLand:
+			backstackFragment();
+			break;
+		case R.id.facebookSendLand:
+			sendMessage();
+			break;
+
 		case R.id.fb_Post_CheckBox:
 			break;
 		case R.id.fb_post_camera:
@@ -142,6 +165,24 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 		default:
 			break;
 		}
+	}
+
+	public String getEditorText() {
+		String mContent = null, mEditorContent = mEditText.getText().toString();
+
+		if (mCheckBox.isChecked()) {
+			mContent = PRODCUT_INFO + " " + mEditorContent;
+		} else {
+			if (mEditorContent.contains(PRODCUT_INFO))
+				mContent = mEditorContent.replace(PRODCUT_INFO, "").trim();
+			else
+				mContent = mEditorContent;
+
+		}
+		if (mContent != null)
+			mContent.trim();
+		DLog.d(TAG, "Text in the Content Description" + mContent);
+		return mContent;
 	}
 
 	@Override
@@ -160,26 +201,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 	private void configureValues() {
 		mTweetfrom.setText("From @" + mUsername);
 		mTwitterIcon.setImageResource(R.drawable.social_twitter_icon);
-		mCheckBox.setChecked(true);
-		mProdInformation.setHint("");
-		mProdInformation.setText(DESCRIPTION);
-	}
 
-	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-		if (isChecked) {
-			mProdInformation.setText(DESCRIPTION);
-			mProdInformation.setInputType(InputType.TYPE_CLASS_TEXT
-					| InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-			mProdInformation.setEnabled(true);
-			mProdInformation.setFocusable(true);
-		} else {
-			mProdInformation.setText("");
-			mProdInformation.setInputType(InputType.TYPE_NULL);
-			mProdInformation.setEnabled(false);
-			mProdInformation.setFocusable(false);
-		}
 	}
 
 	@Override
@@ -235,7 +257,6 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources()
-				.getString(R.string.social_login_post);
+		return getResources().getString(R.string.social_login_post);
 	}
 }
