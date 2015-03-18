@@ -179,8 +179,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 				mContent = mEditorContent;
 
 		}
-		if (mContent != null)
-			mContent.trim();
+
 		DLog.d(TAG, "Text in the Content Description" + mContent);
 		return mContent;
 	}
