@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 21
@@ -34,3 +35,40 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
     androidTestCompile 'junit:junit:4.12'
 }
+
+task jacocoTestReport(type: JacocoReport) {
+    def coverageSourceDirs = [
+            'src/main/java'
+    ]
+
+    group = "Reporting"
+    description = "Generates Jacoco coverage reports"
+    reports {
+        xml {
+            enabled = true
+            destination "${buildDir}/reports/jacoco/jacoco.xml"
+        }
+        csv.enabled = false;
+        html {
+            enabled = true
+            destination "${buildDir}/jacocoHtml"
+        }
+    }
+
+    classDirectories = fileTree(
+            dir: 'build/intermediates/classes',
+            excludes: [ '**/R.class',
+                        '**/R$*.class',
+                        '**/BuildConfig.class',
+                        '**/Manifest*.*',
+                        '**/*Activity*.*',
+                        '**/*Fragment*.*'
+
+            ]
+    )
+
+    sourceDirectories = files(coverageSourceDirs)
+    additionalSourceDirs = files(coverageSourceDirs)
+    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+}
+
