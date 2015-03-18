@@ -71,7 +71,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		if (mFacebookUtility == null) {
 			mSaveInstanceState = savedInstanceState;
 			mFacebookUtility = new FacebookUtility(getActivity(),
-					mSaveInstanceState, mView);
+					mSaveInstanceState, mView, this);
 		}
 		return mView;
 	}
@@ -231,7 +231,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			backstackFragment();
 		} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
 				&& mFacebookUtility != null) {
-			mFacebookUtility.performPublishAction(getEditorText(), this);
+			mFacebookUtility.performPublishAction(getEditorText());
 			// backstackFragment();
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this).pickImage();
@@ -268,6 +268,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		String mName = mPostFrom.getText().toString();
 		mName = mName + " @" + name;
 		mPostFrom.setText(mName);
+		DLog.d(TAG, "Callback received");
 	}
 
 }

@@ -53,8 +53,9 @@ public class FacebookUtility {
 	}
 
 	public FacebookUtility(Activity activity, Bundle savedInstanceState,
-			View view) {
+			View view, FBAccountCallback callback) {
 		mActivity = activity;
+		mFaceBookAccCallback = callback;
 		mFbUiHelper = new UiLifecycleHelper(mActivity, sessionCalback);
 		mFbUiHelper.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
@@ -84,10 +85,8 @@ public class FacebookUtility {
 
 	}
 
-	public void performPublishAction(String description,
-			FBAccountCallback callback) {
+	public void performPublishAction(String description) {
 		this.mContentDescription = description;
-		this.mFaceBookAccCallback = callback;
 		if (getImageToUpload() != null) {
 			DLog.i(TAG, "FacebookUtility performPublishAction POST_PHOTO");
 			performPublish(PendingAction.POST_PHOTO,
@@ -276,12 +275,13 @@ public class FacebookUtility {
 							@Override
 							public void onCompleted(GraphUser user,
 									Response response) {
+								String mName = user.getFirstName();
+								DLog.d(TAG, "User Name is : " + mName);
+								if (mFaceBookAccCallback != null) {
+									mFaceBookAccCallback.setName(mName);
 
-								DLog.d(TAG,
-										"User Name is : " + user.getFirstName());
-								if (user.getFirstName() != null && mFaceBookAccCallback != null) {
-									mFaceBookAccCallback.setName(user
-											.getFirstName());
+									DLog.d(TAG, "User Name After Null Cehck : "
+											+ mName);
 								}
 							}
 						});

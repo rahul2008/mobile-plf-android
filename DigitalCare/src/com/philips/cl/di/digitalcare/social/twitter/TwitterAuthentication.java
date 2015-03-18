@@ -153,8 +153,8 @@ public class TwitterAuthentication {
 				mRequestToken = mTwitter.getOAuthRequestToken(mCallbackUrl);
 
 				final Intent intent = new Intent(mContext,
-						TwitterUserAuthentication.class);
-				intent.putExtra(TwitterUserAuthentication.EXTRA_URL,
+						TwitterAuthenticationActivity.class);
+				intent.putExtra(TwitterAuthenticationActivity.EXTRA_URL,
 						mRequestToken.getAuthenticationURL());
 				mContext.startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
 			} catch (TwitterException e) {

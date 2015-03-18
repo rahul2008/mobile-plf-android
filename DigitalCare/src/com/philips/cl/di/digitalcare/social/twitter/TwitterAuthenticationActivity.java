@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
  * @since 11/Feb/2015
  */
 
-public class TwitterUserAuthentication extends Activity {
+public class TwitterAuthenticationActivity extends Activity {
 	private WebView mWebView = null;
 	public final static String EXTRA_URL = "extra_url";
 	private ProgressDialog mDialog = null;
@@ -97,7 +97,7 @@ public class TwitterUserAuthentication extends Activity {
 		@Override
 		public void onLoadResource(WebView view, String url) {
 			if (mDialog == null)
-				mDialog = new ProgressDialog(TwitterUserAuthentication.this);
+				mDialog = new ProgressDialog(TwitterAuthenticationActivity.this);
 			mDialog.setMessage("Loading...");
 
 			if (!(mActivity.isFinishing())) {
