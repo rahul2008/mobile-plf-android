@@ -151,7 +151,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					if (mCdlsParsedResponse.getSuccess()) {
 						enableBottomText();
 						mCallPhilips.setText(getResources().getString(
-								R.string.call)
+								R.string.call_number)
 								+ " "
 								+ mCdlsParsedResponse.getPhone()
 										.getPhoneNumber());
