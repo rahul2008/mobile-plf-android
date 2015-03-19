@@ -50,6 +50,7 @@
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
 
     <!-- View Product Details -->
+    <string name="product_info">Product Information</string>
     <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant">s9721/84</string>
     <string name="product_open_manual">Open interactive manual</string>

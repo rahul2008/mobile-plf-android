@@ -94,6 +94,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.opt_view_product_details);
+		return getResources().getString(R.string.product_info);
 	}
 }
