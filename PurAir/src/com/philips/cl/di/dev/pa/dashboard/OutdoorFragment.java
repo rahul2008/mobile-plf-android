@@ -22,7 +22,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
-import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
+import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
@@ -205,8 +205,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		if (PurAirApplication.isDemoModeEnable() && outdoorAQI == null) {
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 			String date = dateFormat.format(Utils.getCurrentChineseDate());
-			int aqi = DummyOutdoor.getInstance().getAqi(areaID);
-			int pm2Point5 = DummyOutdoor.getInstance().getPmTwoPointFive(aqi, areaID);
+			int aqi = DummyData.getInstance().getAqi(areaID);
+			int pm2Point5 = DummyData.getInstance().getPmTwoPointFive(aqi, areaID);
 			int pm10 = 35;
 			int so2 = 3;
 			int no2 = 11;
