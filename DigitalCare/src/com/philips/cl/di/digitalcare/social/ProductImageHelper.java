@@ -18,6 +18,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -53,8 +54,11 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-		final String[] items = new String[] { "Take Photo",
-				"Choose from Library", "Cancel" };
+		final String[] items = new String[] {
+				mActivity.getResources().getString(R.string.take_photo),
+				mActivity.getResources()
+						.getString(R.string.choose_from_library),
+				mActivity.getResources().getString(R.string.cancel) };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
 				android.R.layout.select_dialog_item, items);
 		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
