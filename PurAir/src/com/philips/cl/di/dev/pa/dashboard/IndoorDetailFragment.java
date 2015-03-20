@@ -34,6 +34,7 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DashboardUtil.Detail;
@@ -309,20 +310,41 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	 */
 	private void showAlertDialogHistoryDoawnload(String title, String message) {
 		if (getMainActivity() == null) return;
-		try {
-			FragmentTransaction fragTransaction = getMainActivity().getSupportFragmentManager().beginTransaction();
-			
-			Fragment prevFrag = getMainActivity().getSupportFragmentManager()
-					.findFragmentByTag("alert_aqi_historic_download_failed");
-			if (prevFrag != null) {
-				fragTransaction.remove(prevFrag);
+		if (PurAirApplication.isDemoModeEnable()
+				 && OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
+			addDummyDataForDemoMode();
+		} else {
+			try {
+				FragmentTransaction fragTransaction = getMainActivity().getSupportFragmentManager().beginTransaction();
+				
+				Fragment prevFrag = getMainActivity().getSupportFragmentManager()
+						.findFragmentByTag("alert_aqi_historic_download_failed");
+				if (prevFrag != null) {
+					fragTransaction.remove(prevFrag);
+				}
+				
+				fragTransaction.add(DownloadAlerDialogFragement.
+						newInstance(title, message), "alert_aqi_historic_download_failed").commitAllowingStateLoss();
+			} catch (IllegalStateException e) {
+				ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 			}
-			
-			fragTransaction.add(DownloadAlerDialogFragement.
-					newInstance(title, message), "alert_aqi_historic_download_failed").commitAllowingStateLoss();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 		}
+	}
+
+	private void addDummyDataForDemoMode() {
+		clearLists();
+		lastDayRDCPValues.add(DummyData.lastDayIndoorAQIs);
+		last7daysRDCPValues.add(DummyData.lastWeekIndoorAQIs);
+		last4weeksRDCPValues.add(DummyData.lastMonthIndoorAQIs);
+		goodAirInfos.clear();
+		currentCityGoodAirInfos.clear();
+		goodAirInfos.add(95);
+		goodAirInfos.add(100);
+		goodAirInfos.add(100);
+		currentCityGoodAirInfos.add(20);
+		currentCityGoodAirInfos.add(30);
+		currentCityGoodAirInfos.add(42);
+		callGraphViewOnClickEvent(0, lastDayRDCPValues);
 	}
 
 	@SuppressLint("HandlerLeak")

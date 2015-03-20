@@ -34,7 +34,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.MarkerMapFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
-import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
+import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -472,7 +472,8 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	
 	private void showAlertDialog(String title, String message) {
 		if (getMainActivity() == null) return;
-		if (PurAirApplication.isDemoModeEnable()) {
+		if (PurAirApplication.isDemoModeEnable() 
+				&& OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
 			addDummyDataForDemoMode();
 		} else {
 			try {
@@ -494,9 +495,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	private void addDummyDataForDemoMode() {
 		currentCityHourOfDay = calenderGMTChinese.get(Calendar.HOUR_OF_DAY);
 		currentCityDayOfWeek = calenderGMTChinese.get(Calendar.DAY_OF_WEEK);
-		lastDayAQIHistoricArr= DummyOutdoor.getInstance().getLastDayAqis(areaId);
-		last7dayAQIHistoricArr= DummyOutdoor.getInstance().getLastWeekAqis(areaId);
-		last4weekAQIHistoricArr = DummyOutdoor.getInstance().getLastMonthAqis(areaId);
+		lastDayAQIHistoricArr= DummyData.getInstance().getLastDayAqis(areaId);
+		last7dayAQIHistoricArr= DummyData.getInstance().getLastWeekAqis(areaId);
+		last4weekAQIHistoricArr = DummyData.getInstance().getLastMonthAqis(areaId);
 
 		setViewlastDayAQIReadings();
 		setClickEvent(true);
@@ -505,14 +506,14 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 			wetherScrollView.removeAllViews();
 		}
 		wetherScrollView.addView(new WeatherForecastLayout(
-				getActivity(), null, DummyOutdoor.getInstance().getTodayWeatherForecast()));
+				getActivity(), null, DummyData.getInstance().getTodayWeatherForecast()));
 
 		if (weatherReportLayout != null && weatherReportLayout.getChildCount() > 0) {
 			weatherReportLayout.removeAllViews();
 		}
 
 		weatherReportLayout = new WeatherForecastLayout(
-				getActivity(), null, 0, DummyOutdoor.getInstance().getFourDayWeatherForecast());
+				getActivity(), null, 0, DummyData.getInstance().getFourDayWeatherForecast());
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
 	}

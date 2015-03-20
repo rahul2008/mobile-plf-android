@@ -14,9 +14,9 @@ import com.philips.cl.di.dev.pa.util.DataParser;
  * Dummy data for outdoor location, if App in demo mode, there is no Internet. 
  * So have to show dummy data for outdoor locations.
  * */
-public class DummyOutdoor {
+public class DummyData {
 
-	private static DummyOutdoor instance;
+	private static DummyData instance;
 	private HashMap<String, Integer> outdoorAqiMap;
 	private HashMap<String, Integer> outdoorPmMap;
 	private List<Weatherdto> hourlyForecasts;
@@ -32,6 +32,13 @@ public class DummyOutdoor {
 		198.875f, 201.45833f, 104.75f, 329.125f,345.708332f, 107.458336f,
 		123.541664f, 423.958334f, 461.75f, 487.125f, 479.208336f, 487.625f,
 		477.541664f, 448.809525f };
+	
+	public static float lastDayIndoorAQIs[] = { 1f, 1f, 1f, 1.6f, 2f, 1f, .8f, .3f,
+			1f, 1f, 1f, -1f, .7f, .5f, .5f, .4f, -1f, 1f, 1f, 2f, 1.2f, 2f, 1f, 1f };
+	public static float lastWeekIndoorAQIs[] = { .2f, 1.2f,	1f, 1f, .5f, .6f, .4f };
+	public static float lastMonthIndoorAQIs[] = { 1f, .4f, .5f, .4f, .3f, .2f,
+			.2f, 1f, 1f, 1f, .2f, .3f, .8f, .3f, .3f, 1f, 1f, 1f, .6f, .6f,
+			1.1f, .2f, 1.2f, 1f, 1f, .5f, .6f, .4f };
 
 	public static float lastDayOutdoorAQIsBeijing[] = { 202.0f, 226.0f, 226.0f, 202.0f,
 		102.0f, 197.0f, 161.0f, 128.0f, 128.0f, 234.0f, 234.0f, 146.0f, 255.0f,
@@ -92,7 +99,7 @@ public class DummyOutdoor {
 			+ "{\"fa\":\"03\",\"fb\":\"08\",\"fc\":\"30\",\"fd\":\"22\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:20|19:59\"}],"
 			+ "\"f0\":\"201407281100\"}}}}";
 
-	private DummyOutdoor() {
+	private DummyData() {
 		outdoorAqiMap = new HashMap<String, Integer>();
 		outdoorPmMap = new HashMap<String, Integer>();
 		hourlyForecasts = new ArrayList<Weatherdto>();
@@ -186,9 +193,9 @@ public class DummyOutdoor {
 		return hourlyForecasts; 
 	}
 
-	public synchronized static DummyOutdoor getInstance() {
+	public synchronized static DummyData getInstance() {
 		if (instance == null) {
-			instance = new DummyOutdoor();
+			instance = new DummyData();
 		}
 		return instance;
 	}
