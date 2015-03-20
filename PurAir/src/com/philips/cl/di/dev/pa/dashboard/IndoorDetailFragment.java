@@ -338,7 +338,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		last4weeksRDCPValues.add(DummyData.lastMonthIndoorAQIs);
 		goodAirInfos.clear();
 		currentCityGoodAirInfos.clear();
-		goodAirInfos.add(95);
+		goodAirInfos.add(100);
 		goodAirInfos.add(100);
 		goodAirInfos.add(100);
 		currentCityGoodAirInfos.add(20);

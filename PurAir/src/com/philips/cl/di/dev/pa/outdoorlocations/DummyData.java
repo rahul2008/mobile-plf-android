@@ -33,8 +33,8 @@ public class DummyData {
 		123.541664f, 423.958334f, 461.75f, 487.125f, 479.208336f, 487.625f,
 		477.541664f, 448.809525f };
 	
-	public static float lastDayIndoorAQIs[] = { 1f, 1f, 1f, 1.6f, 2f, 1f, .8f, .3f,
-			1f, 1f, 1f, -1f, .7f, .5f, .5f, .4f, -1f, 1f, 1f, 2f, 1.2f, 2f, 1f, 1f };
+	public static float lastDayIndoorAQIs[] = { 1f, 1f, 1f, 1.1f, 1.2f, .9f, .8f, .3f,
+			1f, 1f, 1f, 1f, .7f, .5f, .5f, .4f, 1f, 1f, 1f, 1.2f, 1.2f, .3f, 1f, 1f };
 	public static float lastWeekIndoorAQIs[] = { .2f, 1.2f,	1f, 1f, .5f, .6f, .4f };
 	public static float lastMonthIndoorAQIs[] = { 1f, .4f, .5f, .4f, .3f, .2f,
 			.2f, 1f, 1f, 1f, .2f, .3f, .8f, .3f, .3f, 1f, 1f, 1f, .6f, .6f,
