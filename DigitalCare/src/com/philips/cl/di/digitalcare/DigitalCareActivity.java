@@ -3,7 +3,6 @@ package com.philips.cl.di.digitalcare;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
@@ -27,7 +26,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DigitalCareApplication.getInstance(this);
+		DigitalCareConfigManager.getInstance(this);
 		setContentView(R.layout.activity_digi_care);
 		try {
 			initActionBar();
@@ -41,14 +40,10 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
 		DLog.i(TAG, "DigitalCareActivity onActivityResult");
 		FacebookScreenFragment fbFrag = new FacebookScreenFragment();
 		fbFrag.onActivityResultFragment(this, requestCode, resultCode, data);
-		
-		Log.d("Twitter ", "request code : " + requestCode);
-		Log.d("Twitter ", "result code : " + resultCode);
-		Log.d("Twitter ", "Intent Data : " + data);
+
 		if (resultCode == 0
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
 			TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
@@ -56,8 +51,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		}
 		if (resultCode == Activity.RESULT_OK
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
-			
-			
 			TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
 			mTwitter.onActivityResult(data);
 		}
@@ -73,8 +66,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		if (requestCode == DigitalCareContants.IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
 			if(mImage == null)
 				mImage = ProductImageHelper.getInstance();
-			Log.d(TAG, "Camera Request Code : " + requestCode);
-			Log.d(TAG, "Intent data : " + data);
 			mImage.processProductImage(data, requestCode);
 		}
 	}

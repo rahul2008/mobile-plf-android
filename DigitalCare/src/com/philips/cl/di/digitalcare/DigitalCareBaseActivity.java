@@ -7,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
+import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
  * DigitalCareBaseActivity is the main super abstract class container for
@@ -35,7 +35,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
-		Log.i(TAG, "onCreate");
+		DLog.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(R.anim.slide_in_bottom,
 				R.anim.slide_out_bottom);
@@ -55,7 +55,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		Log.i(TAG, TAG + " : onConfigurationChanged ");
+		DLog.i(TAG, TAG + " : onConfigurationChanged ");
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			Log.e(TAG, e.getMessage());
+			DLog.e(TAG, e.getMessage());
 		}
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

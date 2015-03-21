@@ -2,7 +2,6 @@ package com.philips.cl.di.digitalcare;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
+import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -53,7 +53,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
-		Log.i(TAG, "onCreateView");
+		DLog.i(TAG, "onCreateView");
 		return view;
 	}
 
@@ -61,8 +61,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		for (int btnOption : DigitalCareApplication.getInstance(getActivity())
-				.getFeatureListKeys()) {
+		for (int btnOption : DigitalCareConfigManager
+				.getInstance(getActivity()).getFeatureListKeys()) {
 			enableOptionButtons(btnOption);
 		}
 		mOptionParent = (LinearLayout) getActivity().findViewById(
@@ -144,12 +144,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void onClick(View view) {
-		Log.i(TAG, "onClickListener view : " + view);
 		int id = view.getId();
 		if (id == R.id.optionBtnContactUs) {
 			showFragment(new ContactUsFragment());
-		} /*else if (id == R.id.optionBtnFaq) {
-		} */else if (id == R.id.optionBtnProdDetails) {
+		} /*
+		 * else if (id == R.id.optionBtnFaq) { }
+		 */else if (id == R.id.optionBtnProdDetails) {
 			showFragment(new ProductDetailsFragment());
 		} else if (id == R.id.optionBtnFindPhilips) {
 			showFragment(new LocatePhilipsFragment());

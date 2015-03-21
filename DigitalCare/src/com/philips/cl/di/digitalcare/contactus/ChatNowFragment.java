@@ -61,7 +61,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		mWebView = (WebView) getActivity().findViewById(R.id.webView);
 		/* Configuration config = */getResources().getConfiguration();
 		// setViewParams(config);
-		// Log.i("testing", "url : " + mUrl);
 		// mUrl = TextUtils.htmlEncode(mUrl);
 		// String url = "<html><body>"+mUrl+"</body></html>";
 		// mWebView.loadData(Html.fromHtml(url).toString(), "text/html",

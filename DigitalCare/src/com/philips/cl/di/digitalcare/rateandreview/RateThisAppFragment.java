@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,28 +15,36 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.util.DLog;
 
+/**
+ * RateThisAppFragment class is used to rate the app and review the product.
+ * 
+ * @author: naveen@philips.com
+ * @since: Jan 11, 2015
+ */
 public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	private static String TAG = RateThisAppFragment.class.getSimpleName();
 	private Button RatePlayStore, RatePhilips;
 	private String mWeblink = "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
-	private FrameLayout.LayoutParams mLayoutParams = null;
 	private LinearLayout mLayoutParent = null;
+	private final String APPRATER_PLAYSTORE_BASEURL = "http://play.google.com/store/apps/details?id=";
+	private final String APPRATER_BASEURL = "market://details?id=";
+	private FrameLayout.LayoutParams mLayoutParams = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.d(TAG, "onCreateView");
+		DLog.d(TAG, "onCreateView");
 		View mView = inflater.inflate(R.layout.fragment_tellus, container,
 				false);
-
 		return mView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d(TAG, "onActivityCreated");
+		DLog.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 		RatePlayStore = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
@@ -61,20 +68,20 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		setViewParams(config);
 	}
 
-	private void rateTheAirFryerApplication() {
-		Uri uri = Uri.parse("market://details?id="
+	private void rateThisApp() {
+		Uri uri = Uri.parse(APPRATER_BASEURL
 				+ "com.philips.cl.di.kitchenappliances.airfryer");
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
 			startActivity(goToMarket);
 		} catch (ActivityNotFoundException e) {
 			startActivity(new Intent(Intent.ACTION_VIEW,
-					Uri.parse("http://play.google.com/store/apps/details?id="
+					Uri.parse(APPRATER_PLAYSTORE_BASEURL
 							+ "com.philips.cl.di.kitchenappliances.airfryer")));
 		}
 	}
 
-	private void tempRatePhilipsTrimmer() {
+	private void rateProductReview() {
 		String url = mWeblink;
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
@@ -85,9 +92,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	public void onClick(View view) {
 		int id = view.getId();
 		if (id == R.id.tellus_PhilipsReviewButton) {
-			tempRatePhilipsTrimmer();
+			rateProductReview();
 		} else if (id == R.id.tellus_PlayStoreReviewButton) {
-			rateTheAirFryerApplication();
+			rateThisApp();
 		}
 	};
 
@@ -103,7 +110,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources()
-				.getString(R.string.opt_what_you_think);
+		return getResources().getString(R.string.opt_what_you_think);
 	}
 }

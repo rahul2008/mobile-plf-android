@@ -15,10 +15,10 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -91,10 +91,10 @@ public class ProductImageHelper {
 	}
 
 	public void processProductImage(Intent data, int requestCode) {
-		Log.d(TAG, "onActivity receiving the Intent");
+		DLog.d(TAG, "onActivity receiving the Intent");
 
 		if (requestCode == DigitalCareContants.IMAGE_PICK) {
-			Log.d(TAG, "Prod Image Received from Gallery");
+			DLog.d(TAG, "Prod Image Received from Gallery");
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
 
@@ -104,7 +104,7 @@ public class ProductImageHelper {
 
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 			String picturePath = cursor.getString(columnIndex);
-			Log.d(TAG, "Gallery Image Path : " + picturePath);
+			DLog.d(TAG, "Gallery Image Path : " + picturePath);
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 			Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
@@ -113,7 +113,7 @@ public class ProductImageHelper {
 		}
 
 		if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
-			Log.d(TAG, "Product Image receiving from Camera");
+			DLog.d(TAG, "Product Image receiving from Camera");
 
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");
 			try {

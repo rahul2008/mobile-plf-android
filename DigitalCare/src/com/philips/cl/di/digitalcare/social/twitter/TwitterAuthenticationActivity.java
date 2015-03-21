@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,13 +12,18 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.digitalcare.util.DLog;
+
 /**
  * Activity component used for Twitter OAuthentication
+ * 
  * @author naveen@philips.com
  * @since 11/Feb/2015
  */
 
 public class TwitterAuthenticationActivity extends Activity {
+	private static final String TAG = TwitterAuthenticationActivity.class
+			.getSimpleName();
 	private WebView mWebView = null;
 	public final static String EXTRA_URL = "extra_url";
 	private ProgressDialog mDialog = null;
@@ -35,7 +39,7 @@ public class TwitterAuthenticationActivity extends Activity {
 		setContentView(mgetView());
 		final String url = this.getIntent().getStringExtra(EXTRA_URL);
 		if (null == url) {
-			Log.e("Twitter", "URL cannot be null");
+			DLog.e(TAG, "URL cannot be null");
 			finish();
 		}
 		mWebView.setWebViewClient(new MyWebViewClient());

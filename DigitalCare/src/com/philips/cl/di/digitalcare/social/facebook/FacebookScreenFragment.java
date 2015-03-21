@@ -8,7 +8,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -216,7 +215,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageDettach() {
 		mFile = null;
-		Log.d(TAG, "Product Image Dettached");
+		DLog.d(TAG, "Product Image Dettached");
 		mFacebookUtility.setImageToUpload(null);
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));

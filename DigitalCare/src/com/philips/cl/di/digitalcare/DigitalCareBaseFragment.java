@@ -33,6 +33,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
 	private Activity mFragmentActivityContext = null;
+	private FragmentManager fragmentManager = getFragmentManager();
 
 	static {
 		Field f = null;
@@ -178,8 +179,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 					.getCurrentFocus().getWindowToken(), 0);
 		}
 	}
-
-	private FragmentManager fragmentManager = getFragmentManager();
 
 	protected boolean backstackFragment() {
 		fragmentManager = getFragmentManager();

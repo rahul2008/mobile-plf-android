@@ -6,14 +6,14 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
-import com.philips.cl.di.digitalcare.DigitalCareApplication;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.Utility.test.Log;
 
 /**
  * 
  * @author naveen@philips.com
- * @description Testing the DigitalCareApplication codesnippet testing.
+ * @description Testing the DigitalCareConfigManager codesnippet testing.
  * @Since Mar 10, 2015
  */
 public class DigitalCareApplicationTest extends
@@ -25,7 +25,7 @@ public class DigitalCareApplicationTest extends
 
 	private Context mContext = null;
 	private String TAG = DigitalCareApplicationTest.class.getSimpleName();
-	private DigitalCareApplication mApplication = null;
+	private DigitalCareConfigManager mApplication = null;
 	public static int[] mTestValues = { 2, 5, 6 };
 
 	@Override
@@ -35,8 +35,8 @@ public class DigitalCareApplicationTest extends
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
 		mContext = getInstrumentation().getTargetContext();
-		mApplication = mock(DigitalCareApplication.class);
-		// when(DigitalCareApplication.getFeatureListKeys()).thenReturn(mTestValues);
+		mApplication = mock(DigitalCareConfigManager.class);
+		// when(DigitalCareConfigManager.getFeatureListKeys()).thenReturn(mTestValues);
 	}
 
 	@SmallTest
@@ -78,12 +78,12 @@ public class DigitalCareApplicationTest extends
 //	public void testgetFeatureListLogic() {
 //
 //		int expected = 6;
-//		DigitalCareApplication mApplication = new DigitalCareApplication(
+//		DigitalCareConfigManager mApplication = new DigitalCareConfigManager(
 //				mContext);
 //
-//		Log.d(TAG, "Spy value : " + DigitalCareApplication.getFeatureListKeys());
+//		Log.d(TAG, "Spy value : " + DigitalCareConfigManager.getFeatureListKeys());
 //
 //		assertEquals(expected,
-//				DigitalCareApplication.getFeatureListKeys().length);
+//				DigitalCareConfigManager.getFeatureListKeys().length);
 //	}
 }
