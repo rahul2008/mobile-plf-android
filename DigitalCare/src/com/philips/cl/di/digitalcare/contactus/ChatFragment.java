@@ -11,7 +11,7 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 
-/*
+/**
  *	ChatFragment will help to provide options to start Philips chat.
  * 
  * @author : Ritesh.jha@philips.com

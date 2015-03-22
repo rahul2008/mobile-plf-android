@@ -12,8 +12,8 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
-/*
- *	ProductDetailsFragment will help to show product details
+/**
+ * ProductDetailsFragment will help to show product details.
  * 
  * @author : Ritesh.jha@philips.com
  * 

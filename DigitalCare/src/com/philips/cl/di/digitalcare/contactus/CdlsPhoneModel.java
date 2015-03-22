@@ -1,13 +1,13 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-/*
- *	CdlsPhone is bean class phone.
+/**
+ *	CdlsPhoneModel is bean class for phone.
  * 
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 16 Dec 2014
  */
-public class CdlsPhone {
+public class CdlsPhoneModel {
 	private String mPhoneNumber = null;
 	private String mOpeningHoursWeekdays = null;
 	private String mOpeningHoursSaturday = null;

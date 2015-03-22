@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 
-/*
+/**
  * ChatNowFragment will help to inflate chat webpage on the screen.
  * 
  * @author : Ritesh.jha@philips.com

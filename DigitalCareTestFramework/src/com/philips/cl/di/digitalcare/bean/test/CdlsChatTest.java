@@ -10,7 +10,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.Utility.test.Log;
-import com.philips.cl.di.digitalcare.contactus.CdlsChat;
+import com.philips.cl.di.digitalcare.contactus.CdlsChatModel;
 
 /**
  * 
@@ -26,7 +26,7 @@ public class CdlsChatTest extends
 
 	}
 
-	private CdlsChat mObject = null;
+	private CdlsChatModel mObject = null;
 	private static final String TAG = CdlsChatTest.class.getSimpleName();
 
 	private static final String val1 = "10:30", val2 = "ksjkfjk",
@@ -47,7 +47,7 @@ public class CdlsChatTest extends
 		Log.d(TAG, "SetUp");
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
-		mObject = mock(CdlsChat.class);
+		mObject = mock(CdlsChatModel.class);
 
 		when(mObject.getOpeningHoursWeekdays()).thenReturn(val1);
 		when(mObject.getOpeningHoursSaturday()).thenReturn(val1);

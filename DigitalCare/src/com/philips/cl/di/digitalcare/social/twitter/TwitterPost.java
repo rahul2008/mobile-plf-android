@@ -18,11 +18,10 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * Background Task for posting Twitter tweets along with Product
- *              Image.
+ * Background Task for posting Twitter tweets along with Product Image.
+ * 
  * @author naveen@philips.com
  * @since 11/feb/2015
- * 
  */
 public class TwitterPost extends AsyncTask<String, String, Void> {
 
@@ -35,15 +34,17 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	private ProgressDialog mDialog = null;
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
-	public static final String PREF_NAME = "sample_twitter_pref";
+	public static final String PREF_NAME = "twitter_pref";
 
 	private String POST_TO_TWITTER = "Posting to Twitter Support Page...";
+
 	public TwitterPost(Context c, File f, PostCallback callback) {
 		mContext = c;
 		mFile = f;
 		mPostCallback = callback;
 		DLog.d(TAG, "TwitterPost Constructor");
 	}
+
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();

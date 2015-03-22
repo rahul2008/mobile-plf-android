@@ -31,8 +31,8 @@ import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * @description This Screen helps endusers to send the product info/concern
- *              along with Product image to the Philips Twitter Support page.
+ * This Screen helps endusers to send the product info/concern along with
+ * Product image to the Philips Twitter Support page.
  * 
  * @author naveen@philips.com
  * @since Feb 10, 2015

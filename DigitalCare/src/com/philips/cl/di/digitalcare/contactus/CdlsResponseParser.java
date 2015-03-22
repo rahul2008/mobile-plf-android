@@ -19,7 +19,7 @@ public class CdlsResponseParser {
 	private static final String TAG = CdlsResponseParser.class.getSimpleName();
 	private Context mContext = null;
 	private static CdlsResponseParser mParserController = null;
-	private CdlsParsedResponse mCdlsParsedResponse = null;
+	private CdlsResponseModel mCdlsParsedResponse = null;
 	private static final int FIRST_INDEX_VALUE = 0;
 
 	private CdlsResponseParser(Context context) {
@@ -37,7 +37,7 @@ public class CdlsResponseParser {
 	/*
 	 * Returning CDLS BEAN instance
 	 */
-	public CdlsParsedResponse getCdlsBean() {
+	public CdlsResponseModel getCdlsBean() {
 		return mCdlsParsedResponse;
 	}
 
@@ -52,10 +52,10 @@ public class CdlsResponseParser {
 			boolean success = jsonObject.optBoolean("success");
 
 			DLog.i(TAG, "response : " + response);
-			CdlsPhone cdlsPhone = null;
-			CdlsEmail cdlsEmail = null;
-			CdlsChat cdlsChat = null;
-			CdlsError cdlsError = null;
+			CdlsPhoneModel cdlsPhoneModel = null;
+			CdlsEmailModel cdlsEmailModel = null;
+			CdlsChatModel cdlsChatModel = null;
+			CdlsErrorModel cdlsErrorModel = null;
 
 			if (success) {
 				JSONObject jsonObjectData = jsonObject.optJSONObject("data");
@@ -74,36 +74,36 @@ public class CdlsResponseParser {
 				JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
 						.opt(FIRST_INDEX_VALUE);
 
-				cdlsPhone = new CdlsPhone();
+				cdlsPhoneModel = new CdlsPhoneModel();
 
-				cdlsPhone.setPhoneNumber(jsonObjectDataPhone
+				cdlsPhoneModel.setPhoneNumber(jsonObjectDataPhone
 						.optString("phoneNumber"));
-				cdlsPhone.setOpeningHoursWeekdays(jsonObjectDataPhone
+				cdlsPhoneModel.setOpeningHoursWeekdays(jsonObjectDataPhone
 						.optString("openingHoursWeekdays"));
-				cdlsPhone.setOpeningHoursSaturday(jsonObjectDataPhone
+				cdlsPhoneModel.setOpeningHoursSaturday(jsonObjectDataPhone
 						.optString("openingHoursSaturday"));
 
-				cdlsChat = new CdlsChat();
-				cdlsChat.setContent(jsonObjectDataChat.optString("content"));
-				cdlsChat.setOpeningHoursWeekdays(jsonObjectDataChat
+				cdlsChatModel = new CdlsChatModel();
+				cdlsChatModel.setContent(jsonObjectDataChat.optString("content"));
+				cdlsChatModel.setOpeningHoursWeekdays(jsonObjectDataChat
 						.optString("openingHoursWeekdays"));
-				cdlsChat.setOpeningHoursSaturday(jsonObjectDataChat
+				cdlsChatModel.setOpeningHoursSaturday(jsonObjectDataChat
 						.optString("openingHoursSaturday"));
 
-				cdlsEmail = new CdlsEmail();
-				cdlsEmail.setLabel(jsonObjectDataEmail.optString("label"));
-				cdlsEmail.setContentPath(jsonObjectDataEmail
+				cdlsEmailModel = new CdlsEmailModel();
+				cdlsEmailModel.setLabel(jsonObjectDataEmail.optString("label"));
+				cdlsEmailModel.setContentPath(jsonObjectDataEmail
 						.optString("contentPath"));
 			} else {
-				cdlsError = new CdlsError();
+				cdlsErrorModel = new CdlsErrorModel();
 				JSONObject jsonObjectData = jsonObject.optJSONObject("error");
-				cdlsError.setErrorCode(jsonObjectData.optString("errorCode"));
-				cdlsError.setErrorMessage(jsonObjectData
+				cdlsErrorModel.setErrorCode(jsonObjectData.optString("errorCode"));
+				cdlsErrorModel.setErrorMessage(jsonObjectData
 						.optString("errorMessage"));
 			}
 			// creating CDLS instance.
-			mCdlsParsedResponse = new CdlsParsedResponse(success, cdlsPhone,
-					cdlsChat, cdlsEmail, cdlsError);
+			mCdlsParsedResponse = new CdlsResponseModel(success, cdlsPhoneModel,
+					cdlsChatModel, cdlsEmailModel, cdlsErrorModel);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

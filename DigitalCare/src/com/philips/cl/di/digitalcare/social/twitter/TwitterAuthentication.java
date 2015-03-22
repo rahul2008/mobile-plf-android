@@ -18,6 +18,12 @@ import android.text.TextUtils;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
+/**
+ * TwitterAuthentication.
+ * 
+ * @author naveen@philips.com
+ * @since 11/Feb/2015
+ */
 public class TwitterAuthentication {
 
 	private static final String TAG = TwitterAuthentication.class

@@ -16,7 +16,7 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 
-/*
+/**
  *	LocateNearYouFragment will help to inflate webpage on the screen.
  * 
  * @author : Ritesh.jha@philips.com

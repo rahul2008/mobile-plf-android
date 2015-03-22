@@ -3,11 +3,13 @@ package com.philips.cl.di.digitalcare;
 import android.content.Context;
 import android.content.res.Resources;
 
-/*
- *	DigitalCareConfigManager is Application class for DigitalCare app. 
- *  Here we can maintain the instances at digital care app level. 
- *  We need to pass the parameters from hosting(integrating) apps and 
- *  this class will initialize and maintain for DigitalCareApp level.
+import com.philips.cl.di.digitalcare.util.Utils;
+
+/**
+ * DigitalCareConfigManager is Application class for DigitalCare app. Here we
+ * can maintain the instances at digital care app level. We need to pass the
+ * parameters from hosting(integrating) apps and this class will initialize and
+ * maintain for DigitalCareApp level.
  * 
  * @author : Ritesh.jha@philips.com
  * 
@@ -19,14 +21,19 @@ public class DigitalCareConfigManager {
 	private static int[] mFeatureKeys = null;
 	private static String mCountry = null;
 	private static String mLanguage = null;
-	private static String mAnimationStart = null;
-	private static String mAnimationStop = null;
+	private static int mAnimationStart = 0;
+	private static int mAnimationStop = 0;
 	private static String mTwitterConsumerKey = null;
 	private static String mTwitterConsumerSecret = null;
 	private static DigitalCareConfigManager mDigitalCareInstance = null;
 
+	private static final String DEFAULT_LANGAUGE = "en";
+	private static final String DEFAULT_COUNTRY = "GB";
+	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
+	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
+
 	/*
-	 * Initialize everything required for DigitalCare.
+	 * Initialize everything(resources, variables etc) required for DigitalCare.
 	 */
 	private DigitalCareConfigManager(Context context) {
 		setConfigParametrs(context);
@@ -38,7 +45,7 @@ public class DigitalCareConfigManager {
 	}
 
 	/*
-	 * Singleton.
+	 * Singleton instance.
 	 */
 	public static DigitalCareConfigManager getInstance(Context context) {
 		if (mDigitalCareInstance == null) {
@@ -73,7 +80,7 @@ public class DigitalCareConfigManager {
 	}
 
 	public static String getCountry() {
-		return mCountry;
+		return Utils.isEmpty(mCountry) ? DEFAULT_COUNTRY : mCountry;
 	}
 
 	public static void setCountry(String country) {
@@ -81,7 +88,7 @@ public class DigitalCareConfigManager {
 	}
 
 	public static String getLanguage() {
-		return mLanguage;
+		return Utils.isEmpty(mLanguage) ? DEFAULT_LANGAUGE : mLanguage;
 	}
 
 	public static void setLanguage(String language) {
@@ -92,19 +99,25 @@ public class DigitalCareConfigManager {
 		return getLanguage() + "-" + getCountry();
 	}
 
-	public static String getAnimationStart() {
-		return mAnimationStart;
+	/*
+	 * If no start animation is set then take the default start animation.
+	 */
+	public static int getAnimationStart() {
+		return mAnimationStart == 0 ? DEFAULT_ANIMATION_START : mAnimationStart;
 	}
 
-	public static void setAnimationStart(String animationStart) {
+	public static void setAnimationStart(int animationStart) {
 		mAnimationStart = animationStart;
 	}
 
-	public static String getAnimationStop() {
-		return mAnimationStop;
+	/*
+	 * If no start animation is set then take the default stop animation.
+	 */
+	public static int getAnimationStop() {
+		return mAnimationStop == 0 ? DEFAULT_ANIMATION_STOP : mAnimationStop;
 	}
 
-	public static void setAnimationStop(String animationStop) {
+	public static void setAnimationStop(int animationStop) {
 		mAnimationStop = animationStop;
 	}
 

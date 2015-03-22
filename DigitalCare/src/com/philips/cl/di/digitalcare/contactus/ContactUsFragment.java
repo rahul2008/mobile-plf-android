@@ -24,7 +24,7 @@ import com.philips.cl.di.digitalcare.social.twitter.TwitterFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
-/*
+/**
  *	ContactUsFragment will help to provide options to contact Philips.
  * 
  * @author : Ritesh.jha@philips.com
@@ -41,7 +41,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mEmail = null;
 	private DigitalCareFontButton mCallPhilips = null;
 	private CdlsResponseParser mCdlsResponseParser = null;
-	private CdlsParsedResponse mCdlsParsedResponse = null;
+	private CdlsResponseModel mCdlsParsedResponse = null;
 	private TextView mFirstRowText = null;
 	private TextView mSecondRowText = null;
 	private TextView mContactUsOpeningHours = null;
@@ -177,10 +177,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 
 		private boolean hasEmptyChatContent(
-				CdlsParsedResponse cdlsParsedResponse) {
-			return cdlsParsedResponse.getChat() == null
-					|| cdlsParsedResponse.getChat().getContent() == null
-					|| cdlsParsedResponse.getChat().getContent()
+				CdlsResponseModel cdlsResponseModel) {
+			return cdlsResponseModel.getChat() == null
+					|| cdlsResponseModel.getChat().getContent() == null
+					|| cdlsResponseModel.getChat().getContent()
 							.equalsIgnoreCase("");
 		}
 	};
@@ -271,6 +271,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mConactUsParent.setLayoutParams(mParams);
 	}
 
+	/*
+	 * TODO: Sending message is been implemented through gmail. So this is
+	 * temperory.
+	 * 
+	 * Wouter is working on In-App messaging.
+	 */
 	private void sendEmail() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("message/rfc822");
@@ -282,7 +288,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				Intent.EXTRA_TEXT,
 				"Hi Team\n My Airfryer is not at all cooking actually. It is leaving ultimate smoke."
 						+ " Please do let me know how i can correct my favourate Philips Machine!! ");
-
 		intent.setPackage("com.google.android.gm");
 		getActivity().startActivity(intent);
 	}

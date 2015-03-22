@@ -11,7 +11,7 @@ import android.widget.LinearLayout.LayoutParams;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 
-/*
+/**
  *	ProductRegistrationFragment will help to register the particular 
  *	product based of category.
  * 

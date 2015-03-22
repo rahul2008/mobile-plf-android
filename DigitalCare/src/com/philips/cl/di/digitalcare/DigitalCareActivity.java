@@ -10,7 +10,7 @@ import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-/*
+/**
  *	DigitalCareActivity  is the main container class for Digital Care fragments. 
  *  Also responsible for fetching Product images, Facebook authentication & also 
  *  Twitter authentication.

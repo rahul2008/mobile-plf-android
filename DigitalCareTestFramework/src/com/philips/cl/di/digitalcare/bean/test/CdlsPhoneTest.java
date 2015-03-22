@@ -5,12 +5,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
-import com.philips.cl.di.digitalcare.contactus.CdlsPhone;
+import com.philips.cl.di.digitalcare.contactus.CdlsPhoneModel;
 
 public class CdlsPhoneTest extends
 		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
-//	 private CdlsPhone mObject = null;
+//	 private CdlsPhoneModel mObject = null;
 //	private static final String TIME_ONE = "10:30", TME_TWO = "ksjkfjk",
 //			TIME_THREE = "@%&@.sudh", TIME_SAT_ONE = "10:45",
 //			TIME_SAT_TWO = "@0003ksksks", TIME_SAT_THREE = "5: 90";
@@ -30,7 +30,7 @@ public class CdlsPhoneTest extends
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
 
-		/*mObject =*/ mock(CdlsPhone.class);
+		/*mObject =*/ mock(CdlsPhoneModel.class);
 	}
 
 	@SmallTest

@@ -37,8 +37,8 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		TAG = this.getClass().getSimpleName();
 		DLog.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		overridePendingTransition(R.anim.slide_in_bottom,
-				R.anim.slide_out_bottom);
+		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
+				DigitalCareConfigManager.getAnimationStop());
 		fragmentManager = getFragmentManager();
 	}
 
@@ -73,7 +73,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 
 		if (fragmentManager.getBackStackEntryCount() == 1) {
 			this.finish();
-			overridePendingTransition(R.anim.left_in, R.anim.right_out);
+			// overridePendingTransition(R.anim.left_in, R.anim.right_out);
 		}
 
 		else if (fragmentManager.getBackStackEntryCount() == 2) {
@@ -107,7 +107,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			int _id = view.getId();
 			if (_id == R.id.home_icon) {
 				finish();
-				overridePendingTransition(R.anim.left_in, R.anim.right_out);
+				// overridePendingTransition(R.anim.left_in, R.anim.right_out);
 			} else if (_id == R.id.back_to_home_img)
 				backstackFragment();
 		}
