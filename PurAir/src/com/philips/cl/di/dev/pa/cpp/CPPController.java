@@ -174,7 +174,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
 	
 			rv = prv.executeCommand();
-			if (rv != Errors.SUCCESS) {
+			if (rv != Errors.REQUEST_PENDING) {
 				ALog.i(ALog.KPS, "PROVISION-FAILED");
 				try {
 					Thread.sleep(1000);
@@ -182,7 +182,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					e.printStackTrace();
 				}
 				rv = prv.executeCommand();
-				if(rv != Errors.SUCCESS ) {
+				if(rv != Errors.REQUEST_PENDING ) {
 					keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 				}
 		}
@@ -245,7 +245,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			signon.setIsFirstTime(true);
 			ALog.i(ALog.ICPCLIENT,"Version: "+signon.clientVersion()) ;
 			int rv = signon.executeCommand();
-			if( rv != Errors.SUCCESS ) {
+			if( rv != Errors.REQUEST_PENDING ) {
 				isSignOn = false ;
 			}
 		}
@@ -466,7 +466,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					AppConstants.NOTIFICATION_PROVIDER_JPUSH*/, gcmRegistrationId);
 
 		int retStatus =  thirdParty.executeCommand();
-		if (Errors.SUCCESS != retStatus)	{
+		if (Errors.REQUEST_PENDING != retStatus)	{
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
 			return false;
 		}
@@ -870,7 +870,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		fileDownload.setOffset(cntOffset);
 
 		int rv = fileDownload.executeCommand();
-		if (rv == Errors.SUCCESS) {
+		if (rv == Errors.REQUEST_PENDING) {
 			ALog.i(ALog.ICPCLIENT, "File download parameters are correct");
 		}
 
@@ -959,7 +959,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ComponentDetails componentDetails = new ComponentDetails(callbackHandler, componentInfo);
 
 		int responseCode = componentDetails.executeCommand();
-		if (responseCode == Errors.SUCCESS) {
+		if (responseCode == Errors.REQUEST_PENDING) {
 			ALog.i(ALog.CPPCONTROLLER, "fetchICPComponentDetails success");
 		} else {
 			downloadFailed() ;

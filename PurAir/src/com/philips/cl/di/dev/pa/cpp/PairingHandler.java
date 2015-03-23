@@ -120,7 +120,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			return;
 		}
 		retValue = getRelations.executeCommand();
-		if (Errors.SUCCESS != retValue) {
+		if (Errors.REQUEST_PENDING != retValue) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retValue);
 		}
 	}
@@ -184,7 +184,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 		addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
 		status = addPSRelation.executeCommand();
-		if (Errors.SUCCESS != status) {
+		if (Errors.REQUEST_PENDING != status) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: ");
 		}
 	}
@@ -215,7 +215,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 		removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
 		retStatus = removeRelationship.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
+		if (Errors.REQUEST_PENDING != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 		}
 	}
@@ -560,7 +560,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			return;
 		PairingService addPermission = new PairingService(callbackHandler);
 		int retStatus;
-		retStatus = addPermission.addPermissionsRequest(getDICommApplianceEntity(),
+		retStatus = addPermission.addPermissionsRequest(null, getDICommApplianceEntity(),
 				relationType, permission);
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -569,7 +569,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		addPermission
 		.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
 		retStatus = addPermission.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
+		if (Errors.REQUEST_PENDING != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 		}
 	}
@@ -599,10 +599,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				permissionListener.onCallFailed();
 				return;
 			}
-			getPermission
-			.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
+			getPermission.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
 			retStatus = getPermission.executeCommand();
-			if (Errors.SUCCESS != retStatus) {
+			if (Errors.REQUEST_PENDING != retStatus) {
 				permissionListener.onCallFailed();
 				ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 	
@@ -624,7 +623,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		PairingService removePermissions = new PairingService(callbackHandler);
 		int retStatus;
 
-		retStatus = removePermissions.removePermissionsRequest(
+		retStatus = removePermissions.removePermissionsRequest(null, 
 				getDICommApplianceEntity(), relationType, permission);
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -633,7 +632,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		removePermissions
 		.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
 		retStatus = removePermissions.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
+		if (Errors.REQUEST_PENDING != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 		}
 	}
