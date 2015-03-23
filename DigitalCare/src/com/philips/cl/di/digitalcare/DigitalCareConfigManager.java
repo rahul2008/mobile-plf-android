@@ -20,7 +20,6 @@ import com.philips.cl.di.digitalcare.util.Utils;
  */
 public class DigitalCareConfigManager {
 
-	private Resources mResources = null;
 	private static int[] mFeatureKeys = null;
 	private static String mCountry = null;
 	private static String mLanguage = null;
@@ -60,7 +59,6 @@ public class DigitalCareConfigManager {
 	 * Initializing values at first time.
 	 */
 	private void setConfigParametrs() {
-		mResources = mContext.getResources();
 		initializeFeaturesSupported();
 		initializeAppVersion();
 	}
@@ -70,6 +68,7 @@ public class DigitalCareConfigManager {
 	 * level.
 	 */
 	private void initializeFeaturesSupported() {
+		Resources mResources = mContext.getResources();
 		String[] featuresAvailable = mResources
 				.getStringArray(R.array.supported_features);
 		mFeatureKeys = new int[featuresAvailable.length];
@@ -99,6 +98,13 @@ public class DigitalCareConfigManager {
 
 	public static int getAppVersion() {
 		return mAppVersion;
+	}
+	
+	/*
+	 * App's package name.
+	 */
+	public static String getStorePackageName() {
+		return mContext.getResources().getString(R.string.store_package_name);
 	}
 
 	/*
