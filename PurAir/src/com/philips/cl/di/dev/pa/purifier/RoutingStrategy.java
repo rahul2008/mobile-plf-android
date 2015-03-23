@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.LocalRequestType;
@@ -17,6 +18,7 @@ public class RoutingStrategy {
 		ALog.i("UIUX","State: "+networkNode.getConnectionState()) ;
 		if( networkNode.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
 			// TODO: DICOMM Refactor, generalise to all ports 
+			// TODO: DICOMM Refactor, use DISecurity from AirPurifier
 			return new LocalRequest(networkNode, Port.AIR.urlPart,Port.AIR.port,LocalRequestType.PUT,airPortDetailsTable, new ResponseHandler() {
 				
 				@Override
@@ -30,7 +32,7 @@ public class RoutingStrategy {
 					// TODO DICOMM Refactor, remove using request architecture is added
 					
 				}
-			}) ;
+			}, new DISecurity(null)) ;
 		}
 		else if( networkNode.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
 			return new RemoteRequest(networkNode,Port.AIR.urlPart,Port.AIR.port,RemoteRequestType.PUT_PROPS,airPortDetailsTable, new ResponseHandler() {

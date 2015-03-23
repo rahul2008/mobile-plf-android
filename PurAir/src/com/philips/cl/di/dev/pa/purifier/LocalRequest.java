@@ -13,8 +13,8 @@ import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.Request;
 import com.philips.cl.di.dicomm.communication.LocalRequestType;
+import com.philips.cl.di.dicomm.communication.Request;
 import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
@@ -27,13 +27,16 @@ public class LocalRequest extends Request {
 	private final NetworkNode mNetworkNode;
 	private final LocalRequestType mRequestType;
 	private final ResponseHandler mResponseHandler;
+	private final DISecurity mDISecurity;
 
-	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,String> dataMap,ResponseHandler responseHandler) {
+	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,String> dataMap,
+			ResponseHandler responseHandler, DISecurity diSecurity) {
 		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
 		mData = createDataToSend(networkNode,dataMap);
 		mRequestType = requestType;
 		mNetworkNode = networkNode;
 		mResponseHandler = responseHandler;
+		mDISecurity = diSecurity;
 	}
 	
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
@@ -45,8 +48,12 @@ public class LocalRequest extends Request {
 		
 		String data = convertKeyValuesToJson(dataMap);
 		ALog.i(ALog.LOCALREQUEST, "Data to send: "+ data);
-		// TODO: DICOMM Refactor, allow to send non encrypted data
-		return new DISecurity(null).encryptData(data, networkNode);		
+
+		if (mDISecurity != null) {
+			return mDISecurity.encryptData(data, networkNode);
+		}
+		ALog.i(ALog.LOCALREQUEST, "Not encrypting data");
+		return data;
 	}
 
 	@Override
@@ -82,9 +89,18 @@ public class LocalRequest extends Request {
 			
 			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				//TODO: DICOMM Refactor, add decryption logic here
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
+				
+				if (mDISecurity != null) {
+					result = mDISecurity.decryptData(result, mNetworkNode);
+				}
+				
+				if (result == null) {
+					ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse or failed to decrypt");
+					return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
+				}
+				
 				return new Response(result, null, mResponseHandler);
 			}
 			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {			
