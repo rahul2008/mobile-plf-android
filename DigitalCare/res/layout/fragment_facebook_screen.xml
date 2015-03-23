@@ -76,8 +76,7 @@
             <EditText
                 android:id="@+id/share_text"
                 style="@style/prodRegEditTextg"
-                android:layout_height="fill_parent"
-                android:hint="@string/facebook" />
+                android:layout_height="fill_parent" />
 
             <ImageView
                 android:id="@+id/share_image"
