@@ -49,7 +49,7 @@ public class DigitalCareApplicationTest extends
 	public void testIsDigitalCareApplicationMocked() {
 		boolean validate = false;
 		String received = mApplication.getClass().getSimpleName();
-		if (received.equalsIgnoreCase("DigitalCareApplication_Proxy"))
+		if (received.equalsIgnoreCase("DigitalCareConfigManager_Proxy"))
 			validate = true;
 		assertTrue(validate);
 	}
