@@ -256,6 +256,6 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.social_login_post);
+		return getResources().getString(R.string.post);
 	}
 }
