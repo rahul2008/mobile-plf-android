@@ -51,7 +51,8 @@
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>
     
-	<!-- User Registration -->
+	<!-- Package name for Google app store -->
+	<string name="store_package_name">com.philips.cl.di.kitchenappliances.airfryer</string>
 	
 	<!-- please specify client id depending on the registration type -->
 	<string name="client_id">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>

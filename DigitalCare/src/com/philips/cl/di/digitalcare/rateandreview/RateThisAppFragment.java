@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -26,11 +27,11 @@ import com.philips.cl.di.digitalcare.util.DLog;
 public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	private static String TAG = RateThisAppFragment.class.getSimpleName();
-	private Button RatePlayStore, RatePhilips;
-	private String mWeblink = "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
+	private Button mRatePlayStoreBtn = null;;
+	private Button mRatePhilipsBtn = null;
 	private LinearLayout mLayoutParent = null;
-	private final String APPRATER_PLAYSTORE_BASEURL = "http://play.google.com/store/apps/details?id=";
-	private final String APPRATER_BASEURL = "market://details?id=";
+	private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
+	private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
 	private FrameLayout.LayoutParams mLayoutParams = null;
 
 	@Override
@@ -46,14 +47,14 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		DLog.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		RatePlayStore = (DigitalCareFontButton) getActivity().findViewById(
+		mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
-		RatePhilips = (DigitalCareFontButton) getActivity().findViewById(
+		mRatePhilipsBtn = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PhilipsReviewButton);
 		mLayoutParent = (LinearLayout) getActivity().findViewById(
 				R.id.parentLayout);
-		RatePlayStore.setOnClickListener(this);
-		RatePhilips.setOnClickListener(this);
+		mRatePlayStoreBtn.setOnClickListener(this);
+		mRatePhilipsBtn.setOnClickListener(this);
 
 		mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
 				.getLayoutParams();
@@ -69,20 +70,21 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	}
 
 	private void rateThisApp() {
-		Uri uri = Uri.parse(APPRATER_BASEURL
-				+ "com.philips.cl.di.kitchenappliances.airfryer");
+		Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL
+				+ DigitalCareConfigManager.getStorePackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
 			startActivity(goToMarket);
 		} catch (ActivityNotFoundException e) {
 			startActivity(new Intent(Intent.ACTION_VIEW,
-					Uri.parse(APPRATER_PLAYSTORE_BASEURL
-							+ "com.philips.cl.di.kitchenappliances.airfryer")));
+					Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
+							+ DigitalCareConfigManager.getStorePackageName())));
 		}
 	}
 
 	private void rateProductReview() {
-		String url = mWeblink;
+		// TODO: We need to integrate BazaarVocie SDK. Below implementation is temprory.
+		String url = "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));
 		startActivity(i);
