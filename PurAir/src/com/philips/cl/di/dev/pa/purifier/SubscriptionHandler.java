@@ -267,7 +267,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 //	}
 
 	@Override
-	public void onPublishEventReceived(int status, int messageId) {
+	public void onPublishEventReceived(int status, int messageId, String conversationId) {
 		if( status == Errors.SUCCESS) {
 			return;
 		}

@@ -1,81 +1,115 @@
 package com.philips.cl.di.dev.pa.purifier;
 
+import java.util.Map;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.RemoteRequestType;
 import com.philips.cl.di.dicomm.communication.Request;
 import com.philips.cl.di.dicomm.communication.Response;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.icpinterface.data.Errors;
 
-public class RemoteRequest implements Request, DCSResponseListener, PublishEventListener {
-	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
-	private String eventData ;
-
-	private String response ;
-	private int messageId ;
-	private CPPController cppController ;
+public class RemoteRequest extends Request implements DCSResponseListener, PublishEventListener {
 	
-	private String mCppId;
+	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
+	private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
+	private static final String DICOMM_REQUEST = "DICOMM-REQUEST" ;
+	private static int REQUEST_PRIORITY = 20;
+	private static int REQUEST_TTL = 5;
+	
+	private String mEventData ;
+	private String mResponse ;
+	private int mMessageId ;
+	private String mConversationId;
+	
+	private CPPController mCppController ;
+	private final NetworkNode mNetworkNode;
+	private final RemoteRequestType mRequestType;
+	private final ResponseHandler mResponseHandler;
+	
 
-	public RemoteRequest(NetworkNode networkNode, String eventData) {
-		ALog.d(ALog.DEVICEHANDLER, "Start request REMOTE");
-		this.mCppId = networkNode.getCppId() ;
-		this.eventData = eventData ;
-		cppController = CPPController.getInstance(PurAirApplication.getAppContext());
+	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,String> dataMap,ResponseHandler responseHandler) {
+		mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
+		mEventData = createDataToSend(networkNode,portName,productId,dataMap);
+		mRequestType = requestType;
+		mNetworkNode = networkNode;
+		mResponseHandler = responseHandler;
+	}
+	
+	private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String,String> dataMap){	
+		String data = convertKeyValuesToJson(dataMap);
+		String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
+		
+		ALog.i(ALog.REMOTEREQUEST, "Data to send: "+ dataToSend);
+		return dataToSend;	
 	}
 
 	@Override
 	public Response execute() {
+		ALog.d(ALog.REMOTEREQUEST, "Start request REMOTE");
 		//TODO - Add publish event listener for handling error cases
-		cppController.setDCSResponseListener(this) ;
-		cppController.addPublishEventListener(this) ;
-		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS,
-				"", 20, 120, mCppId) ;
+		mCppController.addDCSResponseListener(this) ;
+		mCppController.addPublishEventListener(this) ;
+		mMessageId = mCppController.publishEvent(mEventData,DICOMM_REQUEST, mRequestType.getMethod(),
+				"", REQUEST_PRIORITY, REQUEST_TTL, mNetworkNode.getCppId()) ;
 		try {
-			ALog.i(ALog.DEVICEHANDLER, "wait for 30 secs") ;
+			ALog.i(ALog.REMOTEREQUEST, "wait for "+ CPP_DEVICE_CONTROL_TIMEOUT/1000 + "seconds") ;
 			synchronized (this) {
 				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
 			}
+			ALog.e(ALog.REMOTEREQUEST, "Timeout occured");
 		} catch (InterruptedException e) {
-			ALog.e(ALog.DEVICEHANDLER, "interupted exception") ;
-			ALog.d(ALog.DEVICEHANDLER, "Stop request REMOTE - timeout");
+			// NOP
 		}
-		ALog.i(ALog.DEVICEHANDLER, "Wait over");
-		return new Response(response, null, null) ;
+		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE");
+		
+		mCppController.removePublishEventListener(this);
+		mCppController.removeDCSResponseListener(this);
+		
+		if (mResponse == null) {
+			ALog.e(ALog.REMOTEREQUEST, "Request failed - null reponse or failed to publish event");
+			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
+		}
+		return new Response(mResponse, null, mResponseHandler) ;
 	}
 
 	@Override
-	public void onDCSResponseReceived(String dcsResponse) {
-		//TODO - Check for Air Port Response
-		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(dcsResponse) ;
-		if( airPortInfo == null ) {
-			return ;
+	public void onDCSResponseReceived(String dcsResponse, String conversationId) {
+		if(mConversationId!=null && mConversationId.equals(conversationId)){
+			ALog.i(ALog.REMOTEREQUEST,"DCSEvent received from the right request");
+			mResponse = dcsResponse ;
+			synchronized (this) {
+				ALog.i(ALog.REMOTEREQUEST, "Notified on DCS Response") ;
+				ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - dcsevent");
+				notify() ;
+			}
+		}else{
+			ALog.i(ALog.REMOTEREQUEST,"DCSEvent received from different request - ignoring");
 		}
-		response = dcsResponse ;
-		synchronized (this) {
-			ALog.i(ALog.DEVICEHANDLER, "Notified on DCS Response") ;
-			ALog.d(ALog.DEVICEHANDLER, "Stop request REMOTE - dcsevent");
-			notify() ;
-		}
+		
+		
 	}
 
 	@Override
-	public void onPublishEventReceived(int status, int messageId) {
-		ALog.i(ALog.DEVICEHANDLER,"Publish event message ID: " +messageId );
-		if( this.messageId == messageId) {
-			if( status != Errors.SUCCESS) {
+	public void onPublishEventReceived(int status, int messageId, String conversationId) {		
+		if( mMessageId == messageId) {
+			ALog.i(ALog.REMOTEREQUEST,"Publish event received from the right request - status: " + status);
+			if ( status == Errors.SUCCESS){
+				mConversationId = conversationId;
+			}else {
 				synchronized (this) {
-					ALog.i(ALog.DEVICEHANDLER, "Notified on Publish Event Response") ;
-					ALog.d(ALog.DEVICEHANDLER, "Stop request REMOTE - response");
+					ALog.e(ALog.REMOTEREQUEST, "Publish Event Failed") ;
 					notify() ;
 				}
-			}
+			} 
+		} else {
+			ALog.i(ALog.REMOTEREQUEST,"Publish event received from different request - ignoring");
 		}
 	}
 

@@ -28,7 +28,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		CPPController controller = createCppControllerWithListeners("dfasfa",discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(null, "dfasfa", "dfasfa");
+		controller.notifyDCSListener(null, "dfasfa", "dfasfa",null);
 		
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
 		verify(discoveryListener, never()).onDiscoverEventReceived(anyString(),anyBoolean());
@@ -43,7 +43,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		CPPController controller = createCppControllerWithListeners(eui64,discoveryListener, dcsListener);
 
-		controller.notifyDCSListener(data, eui64, action);
+		controller.notifyDCSListener(data, eui64, action,null);
 		
 		verify(dcsListener).onDCSEventReceived(data, eui64, action);
 		verify(discoveryListener,never()).onDiscoverEventReceived(anyString(),anyBoolean());
@@ -57,7 +57,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		CPPController controller = createCppControllerWithListeners(null,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, null, action);
+		controller.notifyDCSListener(data, null, action,null);
 		
 		verify(dcsListener).onDCSEventReceived(data, null, action);
 		verify(discoveryListener,never()).onDiscoverEventReceived(anyString(),anyBoolean());
@@ -72,7 +72,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		CPPController controller = createCppControllerWithListeners(eui64,discoveryListener, dcsListener);
 		
 		
-		controller.notifyDCSListener(data, eui64, null);
+		controller.notifyDCSListener(data, eui64, null,null);
 		
 		verify(dcsListener,never()).onDCSEventReceived(anyString(), anyString(), anyString());
 		verify(discoveryListener,never()).onDiscoverEventReceived(anyString(), anyBoolean());
@@ -84,7 +84,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, "CHANGE");
+		controller.notifyDCSListener(data, PURIFIER_EUI64, "CHANGE",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, false);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -96,7 +96,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, "");
+		controller.notifyDCSListener(data, PURIFIER_EUI64, "",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, false);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -108,7 +108,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, null);
+		controller.notifyDCSListener(data, PURIFIER_EUI64, null,null);
 
 		verify(discoveryListener, never()).onDiscoverEventReceived(anyString(), anyBoolean());
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -120,7 +120,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CPPController controller = createCppControllerWithListeners(null,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, null, "DISCOVER");
+		controller.notifyDCSListener(data, null, "DISCOVER",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, true);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -132,7 +132,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		CPPController controller = createCppControllerWithListeners(null,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, null, "CHANGE");
+		controller.notifyDCSListener(data, null, "CHANGE",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, false);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -144,7 +144,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
 		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, "DISCOVER");
+		controller.notifyDCSListener(data, PURIFIER_EUI64, "DISCOVER",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, true);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());

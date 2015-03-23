@@ -70,7 +70,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private EventSubscription eventSubscription; 
     private HashMap<String,DCSEventListener> mDcsEventListenersMap = new HashMap<String, DCSEventListener>(); 
-	private DCSResponseListener dcsResponseListener ;
 	private CppDiscoverEventListener mCppDiscoverEventListener;
 	private boolean isDCSRunning;
 
@@ -87,7 +86,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private DownloadData downloadData;
 	private ICPDownloadListener downloadDataListener;
 	private StringBuilder downloadDataBuilder;
-	private List<PublishEventListener> publishEventListeners ;
+	private List<PublishEventListener> mPublishEventListeners ;
+	private List<DCSResponseListener> mDcsResponseListeners ;
 	private String provider = null;
 	private int cntOffset  = 0;
 	private int fileSize = 0;
@@ -115,7 +115,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		callbackHandler.setHandler(this);
 		
 		signOnListeners = new ArrayList<SignonListener>();
-		publishEventListeners = new ArrayList<PublishEventListener>() ;
+		mPublishEventListeners = new ArrayList<PublishEventListener>() ;
+		mDcsResponseListeners = new ArrayList<DCSResponseListener>() ;
 
 		appUpdateAlertShown=false;
 		mAppCppId = generateTemporaryAppCppId();
@@ -298,22 +299,34 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		this.mCppDiscoverEventListener = mCppDiscoverEventListener;
 	}
 
-	public void setDCSResponseListener(DCSResponseListener dcsResponseListener) {
-		this.dcsResponseListener = dcsResponseListener ;
+	public void addDCSResponseListener(DCSResponseListener dcsResponseListener) {
+		synchronized (mDcsResponseListeners) {
+			if (!mDcsResponseListeners.contains(dcsResponseListener)) {
+				mDcsResponseListeners.add(dcsResponseListener) ;
+			}
+		}
+	}
+	
+	public void removeDCSResponseListener(DCSResponseListener dcsResponseListener) {
+		synchronized (mDcsResponseListeners) {
+			if (mDcsResponseListeners.contains(dcsResponseListener)) {
+				mDcsResponseListeners.remove(dcsResponseListener);
+			}
+		}
 	}
 
 	public void addPublishEventListener(PublishEventListener publishEventListener) {
-		synchronized (publishEventListeners) {
-			if (!publishEventListeners.contains(publishEventListener)) {
-				this.publishEventListeners.add(publishEventListener) ;
+		synchronized (mPublishEventListeners) {
+			if (!mPublishEventListeners.contains(publishEventListener)) {
+				this.mPublishEventListeners.add(publishEventListener) ;
 			}
 		}
 	}
 	
 	public void removePublishEventListener(PublishEventListener publishEventListener) {
-		synchronized (publishEventListeners) {
-			if (publishEventListeners.contains(publishEventListener)) {
-				publishEventListeners.remove(publishEventListener);
+		synchronized (mPublishEventListeners) {
+			if (mPublishEventListeners.contains(publishEventListener)) {
+				mPublishEventListeners.remove(publishEventListener);
 			}
 		}
 	}
@@ -383,10 +396,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 
-	public void notifyDCSListener(String data, String fromEui64, String action) {
+	public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
 		if( action == null ) return ;
-		if( action.equalsIgnoreCase("RESPONSE") && dcsResponseListener != null) {
-			dcsResponseListener.onDCSResponseReceived(data) ;
+		if( action.equalsIgnoreCase("RESPONSE")) {
+			
+			for(DCSResponseListener listener: mDcsResponseListeners) {
+				listener.onDCSResponseReceived(data, conversationId);
+			}
 		}
 		if (data == null) return;	
 		
@@ -578,8 +594,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			break;
 		case Commands.PUBLISH_EVENT:
 			EventPublisher eventPublisher = (EventPublisher) obj;
-			for(PublishEventListener listener: publishEventListeners) {
-				listener.onPublishEventReceived(status, eventPublisher.getMessageId()) ;
+			for(PublishEventListener listener: mPublishEventListeners) {
+				listener.onPublishEventReceived(status, eventPublisher.getMessageId(), eventPublisher.getEventId());
 			}
 			break;
 		case Commands.KEY_PROVISION:
@@ -676,7 +692,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 					ALog.d(ALog.ICPCLIENT, "DCS event received from: " +fromEui64 + "    action: " + action);
 					ALog.d(ALog.ICPCLIENT, "DCS event received: " +dcsEvents);
-					notifyDCSListener(dcsEvents, fromEui64, action);
+					notifyDCSListener(dcsEvents, fromEui64, action, eventSubscription.getConversationId(i));
 				}
 			}
 			else if( eventSubscription.getState() != EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {

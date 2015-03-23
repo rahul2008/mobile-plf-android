@@ -70,7 +70,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener 
 
 	
 	@Override
-	public void onPublishEventReceived(int status, int messageId) {
+	public void onPublishEventReceived(int status, int messageId, String conversationId) {
 		if( status != Errors.SUCCESS) {
 			return;
 		}
