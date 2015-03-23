@@ -26,7 +26,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DigitalCareConfigManager.getInstance(this);
 		setContentView(R.layout.activity_digi_care);
 		try {
 			initActionBar();

@@ -29,6 +29,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	private ImageView mActionBarArrow = null;
 	private DigitalCareFontTextView mActionBarTitle = null;
 	private FragmentManager fragmentManager = null;
+	private DigitalCareConfigManager mDigitalCareConfigManager = null;
 	private static String TAG = "DigitalCareBaseActivity";
 
 	@Override
@@ -39,6 +40,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
 				DigitalCareConfigManager.getAnimationStop());
+		mDigitalCareConfigManager = new DigitalCareConfigManager(this);
 		fragmentManager = getFragmentManager();
 	}
 
@@ -67,6 +69,16 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		}
 
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		
+		if (mDigitalCareConfigManager != null) {
+			mDigitalCareConfigManager = null;
+		}
 	}
 
 	private boolean backstackFragment() {

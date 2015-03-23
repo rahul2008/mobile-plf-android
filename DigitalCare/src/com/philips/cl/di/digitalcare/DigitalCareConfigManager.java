@@ -1,8 +1,11 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 
+import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
@@ -32,33 +35,41 @@ public class DigitalCareConfigManager {
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
 
+	private static Context mContext = null;
+	private static int mAppVersion = 0;
+
 	/*
 	 * Initialize everything(resources, variables etc) required for DigitalCare.
 	 */
-	private DigitalCareConfigManager(Context context) {
-		setConfigParametrs(context);
+	public DigitalCareConfigManager(Context context) {
+		if (mDigitalCareInstance == null) {
+			mContext = context;
+			initializeConfigManager();
+		}
 	}
 
-	private void setConfigParametrs(Context context) {
-		mResources = context.getResources();
-		getFeaturesAvailable();
+	private DigitalCareConfigManager() {
+		setConfigParametrs();
+	}
+
+	private void initializeConfigManager() {
+		mDigitalCareInstance = new DigitalCareConfigManager();
 	}
 
 	/*
-	 * Singleton instance.
+	 * Initializing values at first time.
 	 */
-	public static DigitalCareConfigManager getInstance(Context context) {
-		if (mDigitalCareInstance == null) {
-			mDigitalCareInstance = new DigitalCareConfigManager(context);
-		}
-		return mDigitalCareInstance;
+	private void setConfigParametrs() {
+		mResources = mContext.getResources();
+		initializeFeaturesSupported();
+		initializeAppVersion();
 	}
 
 	/*
 	 * This method will parse, how many features are available at DigitalCare
 	 * level.
 	 */
-	private void getFeaturesAvailable() {
+	private void initializeFeaturesSupported() {
 		String[] featuresAvailable = mResources
 				.getStringArray(R.array.supported_features);
 		mFeatureKeys = new int[featuresAvailable.length];
@@ -72,10 +83,28 @@ public class DigitalCareConfigManager {
 		}
 	}
 
+	private void initializeAppVersion() {
+		try {
+			PackageInfo packageInfo = mContext.getPackageManager()
+					.getPackageInfo(mContext.getPackageName(), 0);
+			DLog.i(DLog.APPLICATION, "Application version: "
+					+ packageInfo.versionName + " (" + packageInfo.versionCode
+					+ ")");
+			mAppVersion = packageInfo.versionCode;
+		} catch (NameNotFoundException e) {
+			// should never happen
+			throw new RuntimeException("Could not get package name: " + e);
+		}
+	}
+
+	public static int getAppVersion() {
+		return mAppVersion;
+	}
+
 	/*
 	 * This will give list of all buttons(features) on the Support Screen.
 	 */
-	public int[] getFeatureListKeys() {
+	public static int[] getFeatureListKeys() {
 		return mFeatureKeys;
 	}
 

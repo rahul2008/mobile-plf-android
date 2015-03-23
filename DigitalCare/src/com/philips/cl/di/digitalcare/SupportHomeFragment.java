@@ -61,8 +61,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		for (int btnOption : DigitalCareConfigManager
-				.getInstance(getActivity()).getFeatureListKeys()) {
+		for (int btnOption : DigitalCareConfigManager.getFeatureListKeys()) {
 			enableOptionButtons(btnOption);
 		}
 		mOptionParent = (LinearLayout) getActivity().findViewById(
