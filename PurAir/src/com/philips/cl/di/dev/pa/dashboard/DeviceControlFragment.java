@@ -308,7 +308,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		AirPurifier purifier = mainActivity.getCurrentPurifier();
 		AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getAirPortInfo();
 		if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
-			timerState.setText(getTimeRemaining(airPortInfo.getDtrs()));
+			timerState.setText(getString(R.string.time) + "  " + getTimeRemaining(airPortInfo.getDtrs()));
 		} else {
 			timerState.setText(getString(R.string.off));
 		}
@@ -317,7 +317,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	private String getTimeRemaining(int timeRemaining) {
 		int hours = timeRemaining / 3600;
 		int minutes = (timeRemaining % 3600) / 60; 
-		return "" + hours + " : " + minutes;
+		return String.format("%02d", hours) + " : " + String.format("%02d", minutes);
+//		return "" + hours + " : " + minutes;
 	}
 	
 	private void controlDevice(String key, String value) {
