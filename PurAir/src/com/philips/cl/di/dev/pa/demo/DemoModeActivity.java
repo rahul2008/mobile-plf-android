@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -30,7 +29,6 @@ import com.philips.cl.di.dev.pa.ews.SetupDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;

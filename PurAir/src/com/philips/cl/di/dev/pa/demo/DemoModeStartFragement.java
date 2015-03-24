@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
