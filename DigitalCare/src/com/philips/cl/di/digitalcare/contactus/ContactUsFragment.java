@@ -1,5 +1,7 @@
 package com.philips.cl.di.digitalcare.contactus;
 
+import java.util.Arrays;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -14,9 +16,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.SessionLoginBehavior;
+import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.customview.DigitalCareFacebookButton;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
@@ -25,7 +32,7 @@ import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
- *	ContactUsFragment will help to provide options to contact Philips.
+ * ContactUsFragment will help to provide options to contact Philips.
  * 
  * @author : Ritesh.jha@philips.com
  * 
@@ -35,7 +42,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		TwitterAuthenticationCallback, OnClickListener {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private DigitalCareFontButton mFacebook = null;
+	private DigitalCareFacebookButton mFacebook = null;
 	private DigitalCareFontButton mTwitter = null;
 	private DigitalCareFontButton mChat = null;
 	private DigitalCareFontButton mEmail = null;
@@ -84,7 +91,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				R.id.contactUsParent);
 		mChat = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsChat);
-		mFacebook = (DigitalCareFontButton) getActivity().findViewById(
+		mFacebook = (DigitalCareFacebookButton) getActivity().findViewById(
 				R.id.socialLoginFacebookBtn);
 		mTwitter = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.socialLoginTwitterBtn);
@@ -99,6 +106,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mSecondRowText = (TextView) getActivity().findViewById(
 				R.id.secondRowText);
 		mFacebook.setOnClickListener(this);
+		mFacebook.setReadPermissions(Arrays.asList("public_profile"));
 
 		/*
 		 * Live chat is configurable parameter. Developer can enable/disable it.
@@ -176,8 +184,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		}
 
-		private boolean hasEmptyChatContent(
-				CdlsResponseModel cdlsResponseModel) {
+		private boolean hasEmptyChatContent(CdlsResponseModel cdlsResponseModel) {
 			return cdlsResponseModel.getChat() == null
 					|| cdlsResponseModel.getChat().getContent() == null
 					|| cdlsResponseModel.getChat().getContent()
@@ -228,7 +235,24 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isNetworkConnected(getActivity())) {
-			showFragment(new FacebookScreenFragment());
+
+			Session mFacebookSession = Session.getActiveSession();
+			if (mFacebookSession != null) {
+				showFragment(new FacebookScreenFragment());
+				LoginButton.builder = null;
+				DLog.d(TAG, "Session is not null");
+			} else {
+				FacebookHelper mHelper = FacebookHelper
+						.getInstance(getActivity());
+				mHelper.openFacebookSession();
+				DLog.d(TAG, "Session is null");
+			}
+			// showFragment(new FacebookScreenFragment());
+			// mFacebook.setLoginBehavior(SessionLoginBehavior.SSO_ONLY);
+			// mFacebook.setReadPermissions(Arrays.asList("email",
+			// "user_birthday", "user_hometown", "user_location"));
+			// FacebookHelper mHelper = new FacebookHelper(getActivity());
+
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
 			mTwitter.setClickable(true);

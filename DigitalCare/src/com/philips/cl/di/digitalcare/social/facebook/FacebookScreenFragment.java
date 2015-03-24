@@ -3,6 +3,7 @@ package com.philips.cl.di.digitalcare.social.facebook;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -37,7 +39,7 @@ import com.philips.cl.di.digitalcare.util.DLog;
  */
 public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback,
-		FBAccountCallback {
+		FBAccountCallback, PostCallback {
 
 	private static final String TAG = FacebookScreenFragment.class
 			.getSimpleName();
@@ -49,7 +51,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mPopShareLand = null;
 	private DigitalCareFontButton mPopCancelPort = null;
 	private DigitalCareFontButton mPopCancelLand = null;
-	private static FacebookUtility mFacebookUtility = null;
+	private FacebookUtility mFacebookUtility = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductImageClose = null;
 	private File mFile = null;
@@ -58,6 +60,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private EditText mEditText = null;
 	private Bundle mSaveInstanceState = null;
 	private View mView = null;
+	private ProgressDialog mPostProgress = null;
 	private final String PRODCUT_INFO = "The Prduct Description from CDLS";
 
 	@Override
@@ -70,14 +73,18 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		if (mFacebookUtility == null) {
 			mSaveInstanceState = savedInstanceState;
 			mFacebookUtility = new FacebookUtility(getActivity(),
-					mSaveInstanceState, mView, this);
+					mSaveInstanceState, mView, this, this);
 		}
+		DLog.d(TAG, "onCreateView");
 		return mView;
 	}
 
-	public void onActivityResultFragment(Activity activity, int requestCode,
+	public void onFaceBookCallback(Activity activity, int requestCode,
 			int resultCode, Intent data) {
+		DLog.d(TAG, "onActivity Result received inside the...");
 		if (mFacebookUtility != null) {
+			DLog.d(TAG,
+					"onActivity Result received when Facebook Utility is not null");
 			mFacebookUtility.onActivityResultFragment(activity, requestCode,
 					resultCode, data);
 		}
@@ -231,6 +238,9 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
 				&& mFacebookUtility != null) {
 			mFacebookUtility.performPublishAction(getEditorText());
+			mPostProgress = new ProgressDialog(getActivity());
+			mPostProgress.setMessage("Posting to Philips Twitter Support...");
+			mPostProgress.setCancelable(false);
 			// backstackFragment();
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this).pickImage();
@@ -269,6 +279,35 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		DLog.d(TAG, "Callback received");
 	}
 
+	@Override
+	public void onTaskCompleted() {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getActivity(), "Posted Successfully!!",
+						Toast.LENGTH_SHORT).show();
+				closeProgress();
+				backstackFragment();
+			}
+		});
+	}
+
+	@Override
+	public void onTaskFailed() {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getActivity(), "Failed to post..",
+						Toast.LENGTH_SHORT).show();
+				closeProgress();
+			}
+		});
+	}
+
+	private void closeProgress() {
+		if (mPostProgress.isShowing())
+			mPostProgress.dismiss();
+	}
 }
 
 interface FBAccountCallback {

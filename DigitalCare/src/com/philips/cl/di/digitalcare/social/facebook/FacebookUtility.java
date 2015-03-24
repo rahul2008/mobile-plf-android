@@ -21,6 +21,7 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
@@ -47,15 +48,18 @@ public class FacebookUtility {
 	private boolean canPresentShareDialog = false;
 	private boolean canPresentShareDialogWithPhotos = false;
 	private FBAccountCallback mFaceBookAccCallback = null;
+	private static PostCallback mPostCallback = null;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
 	}
 
 	public FacebookUtility(Activity activity, Bundle savedInstanceState,
-			View view, FBAccountCallback callback) {
+			View view, FBAccountCallback callback,
+			final PostCallback respCallback) {
 		mActivity = activity;
 		mFaceBookAccCallback = callback;
+		mPostCallback = respCallback;
 		mFbUiHelper = new UiLifecycleHelper(mActivity, sessionCalback);
 		mFbUiHelper.onCreate(savedInstanceState);
 		if (savedInstanceState != null) {
@@ -64,8 +68,10 @@ public class FacebookUtility {
 			pendingAction = PendingAction.valueOf(name);
 		}
 
-		openActiveSession(true,
+		Session mSession = openActiveSession(true,
 				Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
+		DLog.d(TAG, "Session Object : " + mSession);
+
 	}
 
 	protected void setImageToUpload(Bitmap imageToUpload) {
@@ -81,7 +87,7 @@ public class FacebookUtility {
 
 		Session.getActiveSession().onActivityResult(activity, requestCode,
 				resultCode, data);
-		new Session.OpenRequest(activity);
+		/* new Session.OpenRequest(activity); */
 
 	}
 
@@ -219,6 +225,8 @@ public class FacebookUtility {
 						DLog.d(TAG,
 								"Shared Status Successful to Facebook 'response'"
 										+ response);
+						postResponse(response);
+
 					}
 				});
 		Bundle params = request.getParameters();
@@ -261,6 +269,14 @@ public class FacebookUtility {
 		mFbUiHelper.onResume();
 	}
 
+	private void postResponse(Response response) {
+
+		if (response.getError() != null)
+			mPostCallback.onTaskFailed();
+		else
+			mPostCallback.onTaskCompleted();
+	}
+
 	private Session.StatusCallback sessionCalback = new Session.StatusCallback() {
 
 		@Override
@@ -275,13 +291,18 @@ public class FacebookUtility {
 							@Override
 							public void onCompleted(GraphUser user,
 									Response response) {
-								String mName = user.getFirstName();
-								DLog.d(TAG, "User Name is : " + mName);
-								if (mFaceBookAccCallback != null) {
-									mFaceBookAccCallback.setName(mName);
+								if (user != null) {
+									String mName = user.getFirstName();
+									DLog.d(TAG, "User Name is : " + mName);
+									if (mFaceBookAccCallback != null) {
+										mFaceBookAccCallback.setName(mName);
 
-									DLog.d(TAG, "User Name After Null Cehck : "
-											+ mName);
+										DLog.d(TAG,
+												"User Name After Null Check : "
+														+ mName);
+									}
+								} else {
+									DLog.d(TAG, "FaceBook Name is Null");
 								}
 							}
 						});
