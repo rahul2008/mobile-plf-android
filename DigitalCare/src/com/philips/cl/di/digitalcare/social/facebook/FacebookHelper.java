@@ -11,6 +11,7 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
+import com.philips.cl.di.digitalcare.contactus.FacebookAuthenticate;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 public class FacebookHelper {
@@ -18,6 +19,7 @@ public class FacebookHelper {
 	private static Activity mActivity = null;
 	private static FacebookHelper mFacebookHelper = null;
 	private String TAG = FacebookHelper.class.getSimpleName();
+	private FacebookAuthenticate mSuccessCallback = null;
 
 	private FacebookHelper() {
 	};
@@ -57,6 +59,10 @@ public class FacebookHelper {
 		public void call(Session session, SessionState state,
 				Exception exception) {
 			DLog.d(TAG, "Call method called with state " + session.getState());
+
+			if (session.isOpened()) {
+				mSuccessCallback.onSuccess();
+			}
 		}
 	};
 
@@ -73,7 +79,8 @@ public class FacebookHelper {
 				"user_location");
 	}
 
-	public void openFacebookSession() {
+	public void openFacebookSession(FacebookAuthenticate callback) {
+		mSuccessCallback = callback;
 		openSession(true, getPermissions(), mCallback);
 	}
 

@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Session;
-import com.facebook.SessionLoginBehavior;
 import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -237,14 +236,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				&& Utils.isNetworkConnected(getActivity())) {
 
 			Session mFacebookSession = Session.getActiveSession();
-			if (mFacebookSession != null) {
+
+			if (mFacebookSession.isOpened()) {
 				showFragment(new FacebookScreenFragment());
 				LoginButton.builder = null;
 				DLog.d(TAG, "Session is not null");
 			} else {
 				FacebookHelper mHelper = FacebookHelper
 						.getInstance(getActivity());
-				mHelper.openFacebookSession();
+				mHelper.openFacebookSession(new FacebookAuthenticate() {
+
+					@Override
+					public void onSuccess() {
+						showFragment(new FacebookScreenFragment());
+					}
+				});
 				DLog.d(TAG, "Session is null");
 			}
 			// showFragment(new FacebookScreenFragment());
@@ -320,4 +326,5 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.opt_contact_us);
 	}
+
 }
