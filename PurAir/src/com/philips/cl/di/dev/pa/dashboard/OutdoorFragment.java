@@ -116,7 +116,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		return cityName;
 	}
 
-	@SuppressLint("SimpleDateFormat")
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
 		cityNameTV.setText(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(outdoorCityName));
@@ -154,17 +153,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			pmLayout.setVisibility(View.VISIBLE);
 			pmValue.setText(""+outdoorAQI.getPM25());
 			lastUpdated.setVisibility(View.VISIBLE);
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm"); //201411121905
-			SimpleDateFormat requiredDateFormat = new SimpleDateFormat("HH:mm");
-			String date;
-			try {
-				Date dt=dateFormat.parse(outdoorAQI.getTimeStamp());
-				date = requiredDateFormat.format(dt);
-				updated.setText(date);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-			
+			updated.setText(getFormattedDate(outdoorAQI.getTimeStamp(), city.getOutdoorCityInfo().getDataProvider()));			
 		}
 		if(weather != null) {
 			weatherIcon.setImageResource(weather.getWeatherIcon());
@@ -172,6 +161,38 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			temp.setText("" + weather.getTemperature()+AppConstants.UNICODE_DEGREE);
 			lastUpdated.setVisibility(View.VISIBLE);
 		}
+	}
+	
+	@SuppressLint("SimpleDateFormat")
+	private String getFormattedDate(String inputDate, int dataProvider) {
+		
+		SimpleDateFormat cmaDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+		SimpleDateFormat usEmbassyDateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
+		
+		SimpleDateFormat requiredDateFormat = new SimpleDateFormat("HH:mm");
+		String dateString = "";
+		
+		if(OutdoorDataProvider.CMA.ordinal() == dataProvider) {
+			try {
+				Date date = cmaDateFormat.parse(inputDate);
+				dateString = requiredDateFormat.format(date);
+				return dateString;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(OutdoorDataProvider.US_EMBASSY.ordinal() == dataProvider) {
+			try {
+				Date date = usEmbassyDateFormat.parse(inputDate);
+				dateString = requiredDateFormat.format(date);
+				return dateString;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return "";
+		
 	}
 
 	@Override
