@@ -4,9 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+    <uses-sdk android:minSdkVersion="8" />
 
     <!-- Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -32,9 +30,6 @@
             android:label="@string/title_activity_traditional_registration"
             android:screenOrientation="portrait" >
         </activity>
-        
-        
-       
     </application>
 
 </manifest>

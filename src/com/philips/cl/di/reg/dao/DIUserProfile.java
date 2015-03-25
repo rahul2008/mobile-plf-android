@@ -4,6 +4,7 @@ public class DIUserProfile {
 
 	private String mEmail;
 	private String mGivenName;
+	private String mFamilyName;
 	private String mPassword;
 	private String mDisplayName;
 	private boolean mIsOlderThanAgeLimit;
@@ -71,6 +72,14 @@ public class DIUserProfile {
 
 	public void setDisplayName(String displayName) {
 		mDisplayName = displayName;
+	}
+
+	public String getFamilyName() {
+		return mFamilyName;
+	}
+
+	public void setFamilyName(String mFamilyName) {
+		this.mFamilyName = mFamilyName;
 	}
 
 }
