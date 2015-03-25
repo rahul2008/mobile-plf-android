@@ -40,7 +40,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
 				DigitalCareConfigManager.getAnimationStop());
-		mDigitalCareConfigManager = new DigitalCareConfigManager(this);
+		mDigitalCareConfigManager = new DigitalCareConfigManager(getApplicationContext());
 		fragmentManager = getFragmentManager();
 	}
 

@@ -13,7 +13,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
@@ -59,9 +59,9 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 		DLog.d(TAG, "Twitter POst DoIN backGround++");
 		String status = args[0];
 		try {
-			mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
-			mConsumerSecret = mContext
-					.getString(R.string.twitter_consumer_secret);
+			mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
+			mConsumerSecret = DigitalCareConfigManager
+					.getTwitterConsumerSecret();
 			ConfigurationBuilder builder = new ConfigurationBuilder();
 			builder.setOAuthConsumerKey(mConsumerKey);
 			builder.setOAuthConsumerSecret(mConsumerSecret);

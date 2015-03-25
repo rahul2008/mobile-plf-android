@@ -71,14 +71,14 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	private void rateThisApp() {
 		Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL
-				+ DigitalCareConfigManager.getStorePackageName());
+				+ DigitalCareConfigManager.getAppPackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
 			startActivity(goToMarket);
 		} catch (ActivityNotFoundException e) {
 			startActivity(new Intent(Intent.ACTION_VIEW,
 					Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
-							+ DigitalCareConfigManager.getStorePackageName())));
+							+ DigitalCareConfigManager.getAppPackageName())));
 		}
 	}
 

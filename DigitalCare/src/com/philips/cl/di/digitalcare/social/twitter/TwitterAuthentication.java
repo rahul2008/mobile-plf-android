@@ -15,7 +15,7 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
@@ -64,8 +64,8 @@ public class TwitterAuthentication {
 
 	public void initSDK(TwitterAuthenticationCallback auth) {
 		this.mTwitterAuth = auth;
-		mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
-		mConsumerSecret = mContext.getString(R.string.twitter_consumer_secret);
+		mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
+		mConsumerSecret = DigitalCareConfigManager.getTwitterConsumerSecret();
 		mAuthVerifier = "oauth_verifier";
 
 		if (TextUtils.isEmpty(mConsumerKey)

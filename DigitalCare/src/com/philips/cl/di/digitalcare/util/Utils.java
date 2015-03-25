@@ -1,7 +1,5 @@
 package com.philips.cl.di.digitalcare.util;
 
-import com.philips.cl.di.digitalcare.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -10,6 +8,8 @@ import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.view.Gravity;
 import android.widget.Toast;
+
+import com.philips.cl.di.digitalcare.R;
 
 /**
  * Utils class contains common utility methods required across framework under

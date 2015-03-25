@@ -47,10 +47,6 @@
         <item name="REGISTER MY PRODUCT"> 6 </item>
     </string-array>
 
-    <!-- Twitter APP SDK API KEYS -->
-    <string name="twitter_consumer_key">qgktZw1ffdoreBjbiYfvnIPJe</string>
-    <string name="twitter_consumer_secret">UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3</string>
-
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id">1537018913230025</string>
     <string name="facebook_app_authority">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
@@ -58,8 +54,8 @@
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>
 
-    <!-- Package name for Google app store -->
-    <string name="store_package_name">com.philips.cl.di.kitchenappliances.airfryer</string>
+    <!-- Package name for app store -->
+    <string name="app_package_name">com.philips.cl.di.kitchenappliances.airfryer</string>
 
     <!-- please specify client id depending on the registration type -->
     <string name="client_id">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
@@ -70,11 +66,11 @@
     <!-- Product Registration -->
     <string name="catalog">CONSUMER</string>
     <string name="sector">B2C</string>
-    <string name="serial_number"></string>
+    <string name="serial_number">""</string>
     <!-- need to fill up valid serial number -->
-    <string name="model_number"></string>
+    <string name="model_number">""</string>
     <!-- need to fill up valid model number -->
-    <string name="registration_channel"></string>
+    <string name="registration_channel">""</string>
     <!-- need to fill up valid registration channel -->
 
 </resources>

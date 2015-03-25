@@ -9,8 +9,8 @@ import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
- * DigitalCareConfigManager is Application class for DigitalCare app. Here we
- * can maintain the instances at digital care app level. We need to pass the
+ * DigitalCareConfigManager is Config class for DigitalCare app. Here we can
+ * maintain the instances at digital care app level. We need to pass the
  * parameters from hosting(integrating) apps and this class will initialize and
  * maintain for DigitalCareApp level.
  * 
@@ -34,8 +34,11 @@ public class DigitalCareConfigManager {
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
 
+	// Twitter APP SDK API KEYS
+	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
+	private static final String DEFAULT_TWITTER_SECRET_KEY = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
+
 	private static Context mContext = null;
-	private static int mAppVersion = 0;
 
 	/*
 	 * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -60,7 +63,6 @@ public class DigitalCareConfigManager {
 	 */
 	private void setConfigParametrs() {
 		initializeFeaturesSupported();
-		initializeAppVersion();
 	}
 
 	/*
@@ -82,29 +84,27 @@ public class DigitalCareConfigManager {
 		}
 	}
 
-	private void initializeAppVersion() {
+	public static int getAppVersion() {
+		int appVersion = 0;
 		try {
 			PackageInfo packageInfo = mContext.getPackageManager()
 					.getPackageInfo(mContext.getPackageName(), 0);
 			DLog.i(DLog.APPLICATION, "Application version: "
 					+ packageInfo.versionName + " (" + packageInfo.versionCode
 					+ ")");
-			mAppVersion = packageInfo.versionCode;
+			appVersion = packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
 			// should never happen
 			throw new RuntimeException("Could not get package name: " + e);
 		}
+		return appVersion;
 	}
 
-	public static int getAppVersion() {
-		return mAppVersion;
-	}
-	
 	/*
 	 * App's package name.
 	 */
-	public static String getStorePackageName() {
-		return mContext.getResources().getString(R.string.store_package_name);
+	public static String getAppPackageName() {
+		return mContext.getResources().getString(R.string.app_package_name);
 	}
 
 	/*
@@ -135,7 +135,8 @@ public class DigitalCareConfigManager {
 	}
 
 	/*
-	 * If no start animation is set then take the default start animation.
+	 * If no start animation is not set from Hosting(Parent) app then we can use
+	 * the default.
 	 */
 	public static int getAnimationStart() {
 		return mAnimationStart == 0 ? DEFAULT_ANIMATION_START : mAnimationStart;
@@ -146,7 +147,8 @@ public class DigitalCareConfigManager {
 	}
 
 	/*
-	 * If no start animation is set then take the default stop animation.
+	 * If no stop animation is not set from Hosting(Parent) app then we can use
+	 * the default.
 	 */
 	public static int getAnimationStop() {
 		return mAnimationStop == 0 ? DEFAULT_ANIMATION_STOP : mAnimationStop;
@@ -156,16 +158,22 @@ public class DigitalCareConfigManager {
 		mAnimationStop = animationStop;
 	}
 
+	// If the consumer key is not set from Hosting(Parent) app then we can use
+	// the dummy/default.
 	public static String getTwitterConsumerKey() {
-		return mTwitterConsumerKey;
+		return mTwitterConsumerKey == null ? DEFAULT_TWITTER_CONSUMER_KEY
+				: mTwitterConsumerKey;
 	}
 
 	public static void setTwitterConsumerKey(String twitterConsumerKey) {
 		mTwitterConsumerKey = twitterConsumerKey;
 	}
 
+	// If the consumer key is not set from Hosting(Parent) app then we can use
+	// the dummy/default.
 	public static String getTwitterConsumerSecret() {
-		return mTwitterConsumerSecret;
+		return mTwitterConsumerSecret == null ? DEFAULT_TWITTER_SECRET_KEY
+				: mTwitterConsumerSecret;
 	}
 
 	public static void setTwitterConsumerSecret(String twitterConsumerSecret) {
