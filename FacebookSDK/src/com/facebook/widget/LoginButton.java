@@ -936,8 +936,11 @@ public class LoginButton extends Button {
 													.closeAndClearTokenInformation();
 										}
 									}).setNegativeButton(cancel, null);
-					builder.create().show();
+					//builder.create().show();
 					builder = null;
+					
+				
+					
 				} else {
 					openSession.closeAndClearTokenInformation();
 				}
