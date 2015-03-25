@@ -123,12 +123,13 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onMtuChanged(final BluetoothGatt gatt, final int mtu, final int status) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                bluetoothGattCallback.onMtuChanged(gatt, mtu, status);
-            }
-        };
-        executor.execute(runnable);
+// TODO This callback is introduced in v21 so a version test is needed.
+//        Runnable runnable = new Runnable() {
+//            @Override
+//            public void run() {
+//                bluetoothGattCallback.onMtuChanged(gatt, mtu, status);
+//            }
+//        };
+//        executor.execute(runnable);
     }
 }
