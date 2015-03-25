@@ -292,7 +292,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-
+		if (mParams == null || mConactUsParent == null) {
+			mConactUsParent = (LinearLayout) getActivity().findViewById(
+					R.id.contactUsParent);
+			mParams = (FrameLayout.LayoutParams) mConactUsParent
+					.getLayoutParams();
+		}
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
