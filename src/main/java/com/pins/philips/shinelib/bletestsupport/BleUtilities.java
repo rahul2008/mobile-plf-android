@@ -1,6 +1,7 @@
 package com.pins.philips.shinelib.bletestsupport;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
@@ -86,5 +87,14 @@ public class BleUtilities {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         bluetoothAdapter.stopLeScan(leScanCallback);
+    }
+
+    public static BluetoothDevice getRemoteDevice(String macAddress) {
+        return instance._getRemoteDevice(macAddress);
+    }
+    public BluetoothDevice _getRemoteDevice(String macAddress) {
+        BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
+        return bluetoothAdapter.getRemoteDevice(macAddress);
     }
 }

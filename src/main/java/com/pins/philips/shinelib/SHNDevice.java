@@ -17,11 +17,14 @@ import java.util.UUID;
 /**
  * Created by 310188215 on 02/03/15.
  */
-public class SHNDevice implements SingleThreadEventDispatcher.EventHandler {
+public class SHNDevice {
     private static final String TAG = SHNDevice.class.getSimpleName();
 
     enum EventSubType {
         ServicesDiscovered, CharacteristicRead, CharacteristicWrite, CharacteristicChanged, DescriptorRead, DescriptorWrite, ReliableWriteCompleted, ReadRemoteRssi, MtuChanged, ConnectionStateChange
+    }
+    private enum RequestType {
+        Connect, Disconnect
     }
 
     static class BleGattEvent extends SingleThreadEventDispatcher.BaseEvent {
@@ -37,12 +40,21 @@ public class SHNDevice implements SingleThreadEventDispatcher.EventHandler {
             this.eventSubType = eventSubType;
         }
     }
+    static class BleRequestEvent extends SingleThreadEventDispatcher.BaseEvent {
+        public final RequestType requestType;
+
+        public BleRequestEvent(RequestType requestType) {
+            this.requestType = requestType;
+        }
+    }
 
     private final BleDeviceFoundInfo bleDeviceFoundInfo;
     private final Context applicationContext;
     private final SHNCentral shnCentral;
     private BluetoothGatt bluetoothGatt;
     private BluetoothGattCallback bluetoothGattCallback;
+    private SingleThreadEventDispatcher.EventHandler bleGattEventHandler;
+    private SingleThreadEventDispatcher.EventHandler bleGattConnectRequestHandler;
 
     public SHNDeviceState getState() {
         return shnDeviceState;
@@ -59,6 +71,19 @@ public class SHNDevice implements SingleThreadEventDispatcher.EventHandler {
         this.bleDeviceFoundInfo = bleDeviceFoundInfo;
         this.shnCentral = shnCentral;
         this.applicationContext = shnCentral.getApplicationContext();
+        bleGattEventHandler = new SingleThreadEventDispatcher.EventHandler() {
+            @Override
+            public boolean handleEvent(SingleThreadEventDispatcher.BaseEvent event) {
+                return handleEventSub(event);
+            }
+        };
+        bleGattConnectRequestHandler = new SingleThreadEventDispatcher.EventHandler() {
+            @Override
+            public boolean handleEvent(SingleThreadEventDispatcher.BaseEvent event) {
+                return handleEventSub(event);
+            }
+        };
+
         this.bluetoothGattCallback = new BluetoothGattCallback() {
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -138,46 +163,61 @@ public class SHNDevice implements SingleThreadEventDispatcher.EventHandler {
             }
         };
     }
-    @Override
-    public boolean handleEvent(SingleThreadEventDispatcher.BaseEvent event) {
-        BleGattEvent bleGattEvent = (BleGattEvent)event;
-        Log.e(TAG, "handleEvent: " + bleGattEvent.eventSubType.toString());
-        switch(bleGattEvent.eventSubType) {
-            case ConnectionStateChange:
-                handleGattConnectionStateChange(bleGattEvent.status, bleGattEvent.newState);
-                break;
-            case ServicesDiscovered:
-                break;
-            case CharacteristicRead:
-                break;
-            case CharacteristicWrite:
-                break;
-            case CharacteristicChanged:
-                break;
-            case DescriptorRead:
-                break;
-            case DescriptorWrite:
-                break;
-            case ReliableWriteCompleted:
-                break;
-            case ReadRemoteRssi:
-                break;
-            case MtuChanged:
-                break;
+
+    public boolean handleEventSub(SingleThreadEventDispatcher.BaseEvent event) {
+        if (event instanceof BleGattEvent) {
+            BleGattEvent bleGattEvent = (BleGattEvent) event;
+            Log.e(TAG, "handleEvent: " + bleGattEvent.eventSubType.toString());
+            switch (bleGattEvent.eventSubType) {
+                case ConnectionStateChange:
+                    handleGattConnectionStateChange(bleGattEvent.status, bleGattEvent.newState);
+                    break;
+                case ServicesDiscovered:
+                    break;
+                case CharacteristicRead:
+                    break;
+                case CharacteristicWrite:
+                    break;
+                case CharacteristicChanged:
+                    break;
+                case DescriptorRead:
+                    break;
+                case DescriptorWrite:
+                    break;
+                case ReliableWriteCompleted:
+                    break;
+                case ReadRemoteRssi:
+                    break;
+                case MtuChanged:
+                    break;
+            }
+        } else if (event instanceof BleRequestEvent) {
+            switch (((BleRequestEvent)event).requestType) {
+                case Connect:
+                    handleConnect();
+                    break;
+                case Disconnect:
+                    handleDisconnect();
+                    break;
+            }
         }
         return true;
     }
 
     private void handleGattConnectionStateChange(int status, int newState) {
-        Log.e(TAG, "handleGattConnectionStateChange status: " + status + " newState: " + newState);
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                updateShnDeviceState(SHNDeviceState.SHNDeviceStateDisconnected);
+        SHNDeviceState shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            if (bluetoothGatt != null) {
+                bluetoothGatt.close();
+                bluetoothGatt = null;
             }
-            else if (newState == BluetoothProfile.STATE_CONNECTED) {
-                updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnected);
-            }
+            shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
         }
+        else if (newState == BluetoothProfile.STATE_CONNECTED) {
+            shnDeviceState = SHNDeviceState.SHNDeviceStateConnected;
+        }
+        Log.e(TAG, "handleGattConnectionStateChange status: " + status + " newState: " + newState + " [" + shnDeviceState.name() + "]");
+        updateShnDeviceState(shnDeviceState);
     }
 
     private SHNDeviceListener shnDeviceListener;
@@ -196,9 +236,24 @@ public class SHNDevice implements SingleThreadEventDispatcher.EventHandler {
 
 
     public void connect()  {
+        shnCentral.getEventDispatcher().register(bleGattEventHandler, BleGattEvent.class);
+        shnCentral.getEventDispatcher().register(bleGattConnectRequestHandler, BleRequestEvent.class);
+        BleRequestEvent event = new BleRequestEvent(RequestType.Connect);
+        shnCentral.getEventDispatcher().queueEvent(event);
+    }
+
+    private void handleConnect()  {
         updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
-        shnCentral.getEventDispatcher().register(this, BleGattEvent.class);
         bluetoothGatt = bleDeviceFoundInfo.bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
+    }
+
+    public void disconnect() {
+        BleRequestEvent event = new BleRequestEvent(RequestType.Disconnect);
+        shnCentral.getEventDispatcher().queueEvent(event);
+    }
+
+    private void handleDisconnect() {
+        bluetoothGatt.disconnect();
     }
 
     private void updateShnDeviceState(SHNDeviceState newShnDeviceState) {
@@ -217,10 +272,6 @@ public class SHNDevice implements SingleThreadEventDispatcher.EventHandler {
         informListeners();
     }
 
-    public void disconnect() {
-        bluetoothGatt.disconnect();
-    }
-    
     public Set<SHNCapabilityType> getSupportedCapabilityTypes() { throw new UnsupportedOperationException(); }
     public SHNCapability getCapabilityForType(SHNCapabilityType type) { throw new UnsupportedOperationException(); }
 

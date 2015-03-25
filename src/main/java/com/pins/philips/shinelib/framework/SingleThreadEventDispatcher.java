@@ -1,5 +1,7 @@
 package com.pins.philips.shinelib.framework;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -55,6 +57,10 @@ public class SingleThreadEventDispatcher {
                 boolean handled = false;
                 BaseEvent event = eventQueue.take();
                 List<EventHandler> eventHandlers = eventNameToEventHandlersMap.get(event.getClass().getCanonicalName());
+                if (eventHandlers == null) {
+                    Log.e(TAG, "No event handler registered for: " + event.getClass().getCanonicalName());
+                    continue;
+                }
                 for (EventHandler handler: eventHandlers) {
                     handled = handler.handleEvent(event);
                     if (handled) {
