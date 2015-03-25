@@ -26,11 +26,11 @@ import android.os.Looper;
 
 import com.pins.philips.shinelib.bletestsupport.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
-import com.pins.philips.shinelib.framework.SingleThreadEventDispatcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -64,9 +64,10 @@ public class SHNCentral {
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
-    private SingleThreadEventDispatcher singleThreadEventDispatcher;
-    public SingleThreadEventDispatcher getEventDispatcher() {
-        return singleThreadEventDispatcher;
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
+
+    public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {
+        return scheduledThreadPoolExecutor;
     }
 
     public Context getApplicationContext() {
@@ -105,25 +106,17 @@ public class SHNCentral {
         applicationContext.registerReceiver(bluetoothBroadcastReceiver, filter);
 
         registeredDeviceDefinitions = new ArrayList<>();
-        singleThreadEventDispatcher = new SingleThreadEventDispatcher();
-        singleThreadEventDispatcher.start();
         shnDeviceScanner = new SHNDeviceScanner(this);
     }
 
     public void shutdown() {
-        singleThreadEventDispatcher.stop();
+        scheduledThreadPoolExecutor.shutdown();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
         shnDeviceScanner.shutdown();
         shnDeviceScanner = null;
     }
 
-    void reportDeviceFound(final SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener, final SHNDeviceScanner shnDeviceScanner, final SHNDevice shnDevice) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnDeviceScannerListener.deviceFound(shnDeviceScanner, shnDevice);
-            }
-        };
+    void runOnHandlerThread(Runnable runnable) {
         handler.post(runnable);
     }
 

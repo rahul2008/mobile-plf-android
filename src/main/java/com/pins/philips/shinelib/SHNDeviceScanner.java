@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.pins.philips.shinelib.framework.BleDeviceFoundInfo;
 import com.pins.philips.shinelib.framework.LeScanCallbackProxy;
-import com.pins.philips.shinelib.framework.SingleThreadEventDispatcher;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,22 +15,13 @@ import java.util.UUID;
 /**
  * Created by 310188215 on 02/03/15.
  */
-public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback, SingleThreadEventDispatcher.EventHandler {
+public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private static final String TAG = SHNDeviceScanner.class.getSimpleName();
     private static final boolean LOGGING = false;
 
-    private final SingleThreadEventDispatcher eventDispatcher;
     private Set<String> macAddressesOfFoundDevices = new HashSet<>();
     private List<LeScanCallbackProxy> leScanCallbackProxies = new ArrayList<>();
     private SHNDeviceScannerListener shnDeviceScannerListener;
-
-    static class DeviceFoundEvent extends SingleThreadEventDispatcher.BaseEvent {
-        public final BleDeviceFoundInfo bleDeviceFoundInfo;
-
-        public DeviceFoundEvent(BleDeviceFoundInfo bleDeviceFoundInfo) {
-            this.bleDeviceFoundInfo = bleDeviceFoundInfo;
-        }
-    }
 
     public interface SHNDeviceScannerListener {
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDevice shnDevice);
@@ -42,8 +32,6 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback, Sin
 
     public SHNDeviceScanner(SHNCentral shnCentral) {
         this.shnCentral = shnCentral;
-        this.eventDispatcher = this.shnCentral.getEventDispatcher();
-        this.eventDispatcher.register(this, DeviceFoundEvent.class);
     }
 
     public boolean startScanning(SHNDeviceScannerListener shnDeviceScannerListener) {
@@ -67,42 +55,41 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback, Sin
         leScanCallbackProxies.clear();
     }
 
-    void onLeScanSub(BleDeviceFoundInfo bleDeviceFoundInfo) {
-        eventDispatcher.queueEvent(new DeviceFoundEvent(bleDeviceFoundInfo));
+    void queueBleDeviceFoundInfoOnBleThread(final BleDeviceFoundInfo bleDeviceFoundInfo) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                handleDeviceFoundEvent(bleDeviceFoundInfo);
+            }
+        };
+        shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
     }
 
-    boolean handleDeviceFoundEvent(DeviceFoundEvent deviceFoundEvent) {
-        BleDeviceFoundInfo bleDeviceFoundInfo = deviceFoundEvent.bleDeviceFoundInfo;
+    boolean handleDeviceFoundEvent(BleDeviceFoundInfo bleDeviceFoundInfo) {
         if (!macAddressesOfFoundDevices.contains(bleDeviceFoundInfo.getDeviceAddress())) {
             macAddressesOfFoundDevices.add(bleDeviceFoundInfo.getDeviceAddress());
             final SHNDevice shnDevice = new SHNDevice(bleDeviceFoundInfo, shnCentral);
 
-            shnCentral.reportDeviceFound(shnDeviceScannerListener, SHNDeviceScanner.this, shnDevice);
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    shnDeviceScannerListener.deviceFound(SHNDeviceScanner.this, shnDevice);
+                }
+            };
+            shnCentral.runOnHandlerThread(runnable);
         }
 
         return true; // Event handled
     }
 
     public void shutdown() {
-        eventDispatcher.unregister(this);
     }
 
     // SHNDeviceScanner.LeScanCallback
     @Override
     public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord, Object callbackParameter) {
         if (LOGGING) Log.e(TAG, "onLeScan");
-        onLeScanSub(new BleDeviceFoundInfo(device, rssi, scanRecord));
-    }
-
-    // SingleThreadEventDispatcher.EventHandler
-    @Override
-    public boolean handleEvent(SingleThreadEventDispatcher.BaseEvent event) {
-        if (LOGGING) Log.e(TAG, "handleEvent");
-        if (event instanceof DeviceFoundEvent) {
-            DeviceFoundEvent deviceFoundEvent = (DeviceFoundEvent)event;
-            return handleDeviceFoundEvent((DeviceFoundEvent)event);
-        }
-        return false;
+        queueBleDeviceFoundInfoOnBleThread(new BleDeviceFoundInfo(device, rssi, scanRecord, callbackParameter));
     }
 
 //    private String byteArrayToString(byte[] scanRecord) {

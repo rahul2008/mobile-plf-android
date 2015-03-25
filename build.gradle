@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 21
@@ -27,6 +26,10 @@ android {
                     output.outputFile.name.replace(".aar", "-${versionName}.aar"))
         }
     }
+
+    jacoco {
+        version = "0.7.4.201502262128"
+    }
 }
 
 dependencies {
@@ -36,39 +39,39 @@ dependencies {
     androidTestCompile 'junit:junit:4.12'
 }
 
-task jacocoTestReport(type: JacocoReport) {
-    def coverageSourceDirs = [
-            'src/main/java'
-    ]
-
-    group = "Reporting"
-    description = "Generates Jacoco coverage reports"
-    reports {
-        xml {
-            enabled = true
-            destination "${buildDir}/reports/jacoco/jacoco.xml"
-        }
-        csv.enabled = false;
-        html {
-            enabled = true
-            destination "${buildDir}/jacocoHtml"
-        }
-    }
-
-    classDirectories = fileTree(
-            dir: 'build/intermediates/classes',
-            excludes: [ '**/R.class',
-                        '**/R$*.class',
-                        '**/BuildConfig.class',
-                        '**/Manifest*.*',
-                        '**/*Activity*.*',
-                        '**/*Fragment*.*'
-
-            ]
-    )
-
-    sourceDirectories = files(coverageSourceDirs)
-    additionalSourceDirs = files(coverageSourceDirs)
-    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
-}
+//task jacocoTestReport(type: JacocoReport) {
+//    def coverageSourceDirs = [
+//            'src/main/java'
+//    ]
+//
+//    group = "Reporting"
+//    description = "Generates Jacoco coverage reports"
+//    reports {
+//        xml {
+//            enabled = true
+//            destination "${buildDir}/reports/jacoco/jacoco.xml"
+//        }
+//        csv.enabled = false;
+//        html {
+//            enabled = true
+//            destination "${buildDir}/jacocoHtml"
+//        }
+//    }
+//
+//    classDirectories = fileTree(
+//            dir: 'build/intermediates/classes',
+//            excludes: [ '**/R.class',
+//                        '**/R$*.class',
+//                        '**/BuildConfig.class',
+//                        '**/Manifest*.*',
+//                        '**/*Activity*.*',
+//                        '**/*Fragment*.*'
+//
+//            ]
+//    )
+//
+//    sourceDirectories = files(coverageSourceDirs)
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
+//}
 

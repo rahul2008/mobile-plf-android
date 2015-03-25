@@ -9,11 +9,13 @@ public class BleDeviceFoundInfo {
     public final BluetoothDevice bluetoothDevice;
     public final int rssi;
     public final byte[] scanRecord;
+    public final Object callbackParameter;
 
-    public BleDeviceFoundInfo(BluetoothDevice bluetoothDevice, int rssi, byte[] scanRecord) {
+    public BleDeviceFoundInfo(BluetoothDevice bluetoothDevice, int rssi, byte[] scanRecord, Object callbackParameter) {
         this.bluetoothDevice = bluetoothDevice;
         this.rssi = rssi;
         this.scanRecord = scanRecord.clone();
+        this.callbackParameter = callbackParameter;
     }
 
     public String getDeviceAddress() {
