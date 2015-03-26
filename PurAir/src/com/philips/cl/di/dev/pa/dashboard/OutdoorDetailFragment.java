@@ -98,7 +98,8 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		super.onActivityCreated(savedInstanceState);
 		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		Coordinates.getInstance(getMainActivity());
-
+		
+		OutdoorManager.getInstance().resetNeighborhoodCitiesData();
 		OutdoorManager.getInstance().saveNearbyCityData();
 		
 		initializeUI();
@@ -580,6 +581,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 			return;
 		}
 		this.nearbyLocationAQIs = nearbyLocationAQIs;
+		OutdoorManager.getInstance().setNeighborhoodCitiesData(nearbyLocationAQIs);
 		getMainActivity().runOnUiThread(new Runnable() {
 			
 			@Override

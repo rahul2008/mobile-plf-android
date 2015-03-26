@@ -14,17 +14,22 @@ import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
+import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData.LocalityInfo;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.gaode.map.MapActivity;
 
@@ -35,7 +40,7 @@ import com.philips.gaode.map.MapActivity;
  * 
  */
 public class MarkerActivity extends MapActivity implements
-		OnMarkerClickListener, OnMapLoadedListener {
+		OnMarkerClickListener, OnMapLoadedListener, OutdoorDetailsListener {
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
 	private List<String> mCitiesListAll = null;
@@ -62,6 +67,10 @@ public class MarkerActivity extends MapActivity implements
 	class PopulateMarkerThread implements Runnable{
 		@Override
 		public void run() {
+			List<OutdoorAQI> neighborhoodCitiesAQI = OutdoorManager.getInstance().getNeighborhoodCitiesData();
+			if (!neighborhoodCitiesAQI.isEmpty()) {
+				populateAllNeighbourhoodMarkers(neighborhoodCitiesAQI);	
+			}
 			populateAllMarkers();
 		}
 	}
@@ -71,12 +80,14 @@ public class MarkerActivity extends MapActivity implements
 		super.onResume();
 		MetricsTracker.startCollectLifecycleData(this);
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_MAP);
+		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
 		MetricsTracker.stopCollectLifecycleData();
+		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
 	}
 	
 	private void populateAllMarkers() {
@@ -94,6 +105,7 @@ public class MarkerActivity extends MapActivity implements
 		addMarkerToMap(mOutdoorCity);
 		addMarkerCurrentPurifer();	
 	}
+	
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
@@ -233,5 +245,79 @@ public class MarkerActivity extends MapActivity implements
 			ALog.d(ALog.MARKER_ACTIVITY, "IllegalStateException");
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
+	}
+
+	@Override
+	public void onOneDayWeatherForecastReceived(List<Weatherdto> weatherList) {
+	//NOP	
+	}
+
+	@Override
+	public void onFourDayWeatherForecastReceived(
+			List<ForecastWeatherDto> weatherList) {
+		//NOP	
+		
+	}
+
+	@Override
+	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory) {
+		//NOP	
+		
+	}
+
+	@Override
+	public void onNearbyLocationsDataReceived(
+			List<OutdoorAQI> nearbyLocationAQIs) {
+
+		populateAllNeighbourhoodMarkers(nearbyLocationAQIs);
+		addMarkerToMap(mOutdoorCity);
+	}
+	
+	private void populateAllNeighbourhoodMarkers( List<OutdoorAQI> nearbyLocationAQIs) {
+
+		if (nearbyLocationAQIs == null || nearbyLocationAQIs.isEmpty()) {
+			return;
+		}
+
+		for (int i = 0; i < nearbyLocationAQIs.size(); i++) {
+			addNeighbourhoodMarkerToMap(nearbyLocationAQIs.get(i));
+		}
+
+	}
+	
+	private void addNeighbourhoodMarkerToMap(OutdoorAQI outdooraqi) {
+		if (outdooraqi == null) return;
+
+		String parentId = OutdoorDetailFragment.getSelectedCityCode();
+		LocalityInfo locallityinfo = OutdoorManager.getInstance().getLocalityInfoFromAreaId(parentId, outdooraqi.getAreaID());
+		setMarkerAqiValue(outdooraqi.getAQI());
+		
+		float latitude = 0;
+		float longitude = 0;
+		
+		
+		try {
+			latitude = Float.parseFloat(locallityinfo.getLatitude());
+			longitude = Float.parseFloat(locallityinfo.getLongitude());
+		} catch (Exception e) {
+			
+			ALog.d(ALog.MARKER_ACTIVITY, "IllegalStateException addNeighbourhoodMarkerToMap");
+		}
+
+		int pm25 = outdooraqi.getPM25();
+		int pm10 = outdooraqi.getPm10();
+		int so2 = outdooraqi.getSo2();
+		int no2 = outdooraqi.getNo2();
+		String cityName = OutdoorManager.getInstance().getLocalityNameFromAreaId(parentId, outdooraqi.getAreaID());
+
+		LatLng latLng = new LatLng(latitude, longitude);
+		builder.include(latLng);
+		setMarkerIconOval(false);
+		setMarkerSnippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2
+				+ ", NO2: " + no2);
+
+		setMarkerTitle(cityName);
+		setMarkerPositionLatLng(latLng);
+		mArrayListMarker.add(createMarker(DEFAULT_IMAGE_RESOURCE));
 	}
 }

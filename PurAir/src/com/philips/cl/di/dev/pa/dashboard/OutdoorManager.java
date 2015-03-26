@@ -36,6 +36,7 @@ public class OutdoorManager implements OutdoorDataListener {
 	private List<String> userCitiesList;
 	private List<String> nearbyCities;
 	private NearbyCitiesData nearbyCitiesData;
+	private List<OutdoorAQI> mNeighborhoodCitiesData; 
 	
 	private OutdoorJsonReader outdoorJsonReader;
 	private DataCommunicatorStrategy dataCommunicatorStrategy;
@@ -123,6 +124,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		userCitiesList = new ArrayList<String>();
 		cmaCities = new ArrayList<String>();
 		usEmbassyCities = new ArrayList<String>();
+		mNeighborhoodCitiesData = new ArrayList<OutdoorAQI>();
 		saveUSEmbassyCitiesInMapAndList(outdoorJsonReader.readUSEmbassyCityJsonAsString());
 		saveCMACitiesInMapAndList(outdoorJsonReader.readCMACityJsonAsString());
 		insertDataAndGetShortListCities();
@@ -139,6 +141,7 @@ public class OutdoorManager implements OutdoorDataListener {
 			nearbyCitiesData = DataParser.parseNearbyCitiesJson(outdoorJsonReader.readNearbyCitiesJsonAsString());
 		}
 	}
+	
 	
 	public void startNearbyLocalitiesTask(String areaId) {
 		List<LocalityInfo> nearbyLocations = nearbyCitiesData.getNearbyCitiesMap().get(areaId);
@@ -219,6 +222,34 @@ public class OutdoorManager implements OutdoorDataListener {
 			}
 		}
 		return null;
+	}
+	
+	public LocalityInfo getLocalityInfoFromAreaId(String areaId, String localityId) {
+		List<LocalityInfo> nearbyLocations = nearbyCitiesData.getNearbyCitiesMap().get(areaId);
+		if(nearbyLocations == null || nearbyLocations.isEmpty()) return null;
+		for(LocalityInfo localityInfo : nearbyLocations) {
+			if(localityInfo.getAreaID().equals(localityId)) {
+				
+				return localityInfo;
+			}
+		}
+		return null;
+	}
+	
+	public List<OutdoorAQI> getNeighborhoodCitiesData() {
+		return mNeighborhoodCitiesData;
+	}
+	
+	public void setNeighborhoodCitiesData(List<OutdoorAQI> naiboorhoodCitiesData) {
+		resetNeighborhoodCitiesData();
+		mNeighborhoodCitiesData.addAll(naiboorhoodCitiesData); 
+	}
+	
+	public void resetNeighborhoodCitiesData() {
+
+		if ( !mNeighborhoodCitiesData.isEmpty()) {
+			mNeighborhoodCitiesData.clear();
+		}
 	}
 	
 	private void insertDataAndGetShortListCities() {
