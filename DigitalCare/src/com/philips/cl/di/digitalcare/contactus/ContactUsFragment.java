@@ -220,6 +220,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+					AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, "chat");
+
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
@@ -231,8 +235,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				Toast.makeText(getActivity(),
 						mCdlsParsedResponse.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
+				AnalyticsTracker.trackAction(
+						AnalyticsConstants.ACTION_KEY_SET_ERROR,
+						AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+						"CDLS response failure");
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
+				AnalyticsTracker.trackAction(
+						AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+						AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, "call");
+
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				Toast.makeText(getActivity(), "Check the SIM",
@@ -273,6 +285,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
 		} else if (id == R.id.contactUsEmail) {
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+					AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, "email");
 			sendEmail();
 		}
 	}

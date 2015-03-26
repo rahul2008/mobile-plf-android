@@ -36,8 +36,8 @@ public class AnalyticsTracker implements AnalyticsConstants {
 	}
 
 	/**
-	 * Analytics: Initialize with the context. After initialization only TAGGIN'S
-	 * APIs can be used.
+	 * Analytics: Initialize with the context. After initialization only
+	 * TAGGIN'S APIs can be used.
 	 */
 	public static void initContext(Context context) {
 		if (!trackMetrics)
@@ -74,212 +74,32 @@ public class AnalyticsTracker implements AnalyticsConstants {
 		Analytics.trackState(pageName, addAnalyticsDataObject());
 	}
 
-	public static void trackAction(String serviceChannel, String key,
-			String value) {
+	/**
+	 * Tracking action for events.
+	 * 
+	 * @param actionName
+	 *            : Name of the action.
+	 * @param mapKey
+	 *            : Key field in the Map.
+	 * @param mapValue
+	 *            : Value field in the Map.
+	 */
+	public static void trackAction(String actionName, String mapKey,
+			String mapValue) {
 		if (!trackMetrics)
 			return;
-		DLog.i(TAG, "TrackAction : ServiceRequest : " + serviceChannel);
-		// Map<String, Object> contextData = new HashMap<String, Object>();
-		// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-		// contextData.put(ACTION_KEY_USER_ERROR, errorMsg);
-		Analytics.trackAction(ACTION_KEY_SET_ERROR, getContextData(key, value));
+		DLog.i(TAG, "TrackAction : actionName : " + actionName);
+		Analytics.trackAction(ACTION_KEY_SET_ERROR,
+				getContextData(mapKey, mapValue));
 	}
 
-	private static Map<String, Object> getContextData(String key, String value) {
+	private static Map<String, Object> getContextData(String mapKey,
+			String mapValue) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-		contextData.put(key, value);
+		contextData.put(mapKey, mapValue);
 		return contextData;
 	}
-
-	// public static void trackPageTechnicalError(String pageName, String
-	// errorMsg) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackPage : TechnicalError " + errorMsg);
-	// Map<String, Object> contextData = addAnalyticsDataObject();
-	// contextData.put(ACTION_KEY_TECHNICAL_ERROR, errorMsg);
-	// Analytics.trackState(pageName, contextData);
-	// }
-	//
-	// public static void trackPageUserError(String pageName, String errorMsg) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackPage : UserError " + errorMsg);
-	// Map<String, Object> contextData = addAnalyticsDataObject();
-	// contextData.put(ACTION_KEY_USER_ERROR, errorMsg);
-	// Analytics.trackState(pageName, contextData);
-	// }
-	//
-	// // public static void trackPageUserLoginChannel(String loginChannel) {
-	// // if (!trackMetrics)
-	// // return;
-	// // DLog.i(TAG, "TrackPage : loginChannel : " + loginChannel);
-	// // Map<String, Object> contextData = addAnalyticsDataObject();
-	// // contextData.put(ACTION_ACTION_KEY_LOGIN_CHANNEL, loginChannel);
-	// // Analytics.trackState(ACTION_ACTION_KEY_PAGE_USER_LOGIN, contextData);
-	// // }
-	//
-	// public static void trackUserError(String action, String errorMsg) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackUserError : action " + action + " errorMessage "
-	// + errorMsg);
-	// Map<String, Object> contextData = addAnalyticsDataObject();
-	// contextData.put(ACTION_KEY_PAGE_EVENT, ACTION_VALUE_START_CONNECTION);
-	// }
-	//
-	// public static void trackActionServiceRequest(String serviceChannel) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : ServiceRequest : " + serviceChannel);
-	// Map<String, Object> contextData = addAnalyticsDataObject();
-	// contextData.put("serviceChannel", serviceChannel);
-	// Analytics.trackAction("serviceRequest", contextData);
-	// }
-	//
-	// // public static void trackPageStartUserRegistration(String
-	// // registrationChannel) {
-	// // if (!trackMetrics)
-	// // return;
-	// // // @argument: registration channel means facebook, twitter etc.
-	// // DLog.i(TAG, "TrackState : StartUserRegistration : channel "
-	// // + registrationChannel);
-	// // Map<String, Object> contextData = addAnalyticsDataObject();
-	// // contextData.put(ACTION_KEY_PAGE_EVENT, VALUE_START_USER_REGISTRATION);
-	// // contextData.put(ACTION_KEY_REGISTRATION_CHANNEL, registrationChannel);
-	// // Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
-	// // }
-	// //
-	// // public static void trackPageFinishedUserRegistration() {
-	// // if (!trackMetrics)
-	// // return;
-	// // DLog.i(TAG, "TrackPage : user registration successful");
-	// // Map<String, Object> contextData = addAnalyticsDataObject();
-	// // contextData.put(ACTION_KEY_PAGE_EVENT, ACTION_VALUE_SUCCESS_USER_REG);
-	// // Analytics.trackState(ACTION_KEY_USER_REGISTRATION, contextData);
-	// // }
-	//
-	// // public static void trackPageSuccessLoginUser(String pageName) {
-	// // if (!trackMetrics)
-	// // return;
-	// // DLog.i(TAG, "TrackPage : SuccessLogin " + pageName);
-	// // Map<String, Object> contextData = addAnalyticsDataObject();
-	// // contextData.put(ACTION_KEY_PAGE_EVENT, ACTION_VALUE_SUCCESS_LOGIN);
-	// // Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
-	// // : pageName, contextData);
-	// // }
-	//
-	// //
-	// // public static void trackPageProductView(String products) {
-	// // if (!trackMetrics)
-	// // return;
-	// // DLog.i(TAG, "TrackPage : PageProductView " + products);
-	// // Map<String, Object> contextData = addAnalyticsDataObject();
-	// // contextData.put(ACTION_KEY_PAGE_EVENT, ACTION_VALUE_PRODUCT_VIEW);
-	// // Analytics.trackState(products, contextData);
-	// // }
-	//
-	// public static void trackActionUserError(String errorMsg) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : UserError " + errorMsg);
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_USER_ERROR, errorMsg);
-	// Analytics.trackAction(ACTION_KEY_SET_ERROR, contextData);
-	// }
-	//
-	// public static void trackActionTechnicalError(String errorMsg) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : TechnicalError " + errorMsg);
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_TECHNICAL_ERROR, errorMsg);
-	// Analytics.trackAction(ACTION_KEY_SET_ERROR, contextData);
-	// }
-	//
-	// public static void trackActionAppStatus(String appStatus) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : AppStatus " + appStatus);
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_APP_STATUS, appStatus);
-	// Analytics.trackAction(ACTION_KEY_SET_APP_STATUS, contextData);
-	// }
-	//
-	// /*
-	// * When the app is left for a different activity or app. Note that this is
-	// * triggered by a link/button/functionality of the app. Do not use this
-	// when
-	// * the visitor swiches using the home button.
-	// */
-	// public static void trackActionExitLink(String link) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : ExitLink " + link);
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_EXIT_LINK, link);
-	// Analytics.trackAction(ACTION_KEY_EXIT_LINK, contextData);
-	// }
-	//
-	// public static void trackActionBuyButton() {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : BuyButton");
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put("leadinfo", "Philips lead");
-	// Analytics.trackAction("buyButton", contextData);
-	// }
-	//
-	// public static void trackActionInAppNotification(String message) {
-	// DLog.i(TAG, "TrackAction : InAppNotification");
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put("messageValue", message);
-	// Analytics.trackAction("popupMessage", contextData);
-	// }
-	//
-	// public static void trackActionInAppNotificationPositiveResponse(
-	// String message) {
-	// DLog.i(TAG, "TrackAction : InAppNotification");
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put("messageValue", message);
-	// Analytics.trackAction("acceptMessage", contextData);
-	// }
-	//
-	// public static void trackActionDownloaded(String fileName) {
-	// if (!trackMetrics)
-	// return;
-	// DLog.i(TAG, "TrackAction : DownloadFile " + fileName);
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_FILE_NAME, fileName);
-	// Analytics.trackAction(ACTION_KEY_DOWNLOAD, contextData);
-	// }
-	//
-	// public static void trackActionVideoStart(String videoName) {
-	// if (!trackMetrics)
-	// return;
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_VIDEO_NAME, videoName);
-	// Analytics.trackAction(ACTION_KEY_VIDEO_START, contextData);
-	// }
-	//
-	// public static void trackActionVideoEnd(String videoName) {
-	// if (!trackMetrics)
-	// return;
-	// Map<String, Object> contextData = new HashMap<String, Object>();
-	// contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-	// contextData.put(ACTION_KEY_VIDEO_NAME, videoName);
-	// Analytics.trackAction(ACTION_KEY_VIDEO_END, contextData);
-	// }
 
 	/*
 	 * This context data will be called for every page track.

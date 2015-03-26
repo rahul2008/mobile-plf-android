@@ -10,6 +10,8 @@ import android.view.Gravity;
 import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
 /**
  * Utils class contains common utility methods required across framework under
@@ -37,13 +39,18 @@ public class Utils {
 				.getString(R.string.no_internet), Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
+
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
+				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+				"No internet available");
+
 		return false;
 	}
 
 	public static boolean isTablet(Context context) {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
-	
+
 	public static boolean isEmpty(String value) {
 		if (value == null || value.isEmpty()) {
 			return true;

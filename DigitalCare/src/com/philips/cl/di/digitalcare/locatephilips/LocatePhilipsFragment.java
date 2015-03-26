@@ -42,6 +42,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_BY);
+		AnalyticsTracker.trackAction(AnalyticsTracker.ACTION_KEY_EXIT_LINK,
+				AnalyticsTracker.MAP_KEY_EXIT_LINK, LOCATEPHILIPS_BASEURL);
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.webViewParent);
@@ -59,8 +63,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		websettings.setLoadWithOverviewMode(true);
 		websettings.setUseWideViewPort(true);
 		websettings.setBuiltInZoomControls(true);
-		
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_BY);
 	}
 
 	private class MyWebViewClient extends WebViewClient {

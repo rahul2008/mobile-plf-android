@@ -35,6 +35,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
 	private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
 	private FrameLayout.LayoutParams mLayoutParams = null;
+	private Uri mStoreUri = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,6 +43,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		DLog.d(TAG, "onCreateView");
 		View mView = inflater.inflate(R.layout.fragment_tellus, container,
 				false);
+		mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
+				+ DigitalCareConfigManager.getAppPackageName());
 		return mView;
 	}
 
@@ -49,6 +52,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		DLog.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
+
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP);
+		AnalyticsTracker.trackAction(AnalyticsTracker.ACTION_KEY_EXIT_LINK,
+				AnalyticsTracker.MAP_KEY_EXIT_LINK, mStoreUri.toString());
+
 		mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
 		mRatePhilipsBtn = (DigitalCareFontButton) getActivity().findViewById(
@@ -62,8 +70,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
-
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP);
 	}
 
 	@Override
@@ -80,9 +86,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		try {
 			startActivity(goToMarket);
 		} catch (ActivityNotFoundException e) {
-			startActivity(new Intent(Intent.ACTION_VIEW,
-					Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
-							+ DigitalCareConfigManager.getAppPackageName())));
+			startActivity(new Intent(Intent.ACTION_VIEW, mStoreUri));
 		}
 	}
 

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.adobe.mobile.Analytics;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
@@ -21,6 +22,8 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
@@ -150,12 +153,22 @@ public class FacebookUtility {
 
 	private void shareImage() {
 		DLog.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+				AnalyticsConstants.ACTION_KEY_APP_ID,
+				Analytics.getTrackingIdentifier());
+
 		Request request = Request.newUploadPhotoRequest(
 				Session.getActiveSession(), mImageToUpload,
 				new Request.Callback() {
 
 					@Override
 					public void onCompleted(Response response) {
+						AnalyticsTracker.trackAction(
+								AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
+								AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
+								"Facebook");
+
 						String posted = "Shared Image Successful to Facebook";
 						DLog.d(TAG, posted);
 						Toast.makeText(mActivity, posted, Toast.LENGTH_LONG)

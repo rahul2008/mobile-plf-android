@@ -40,12 +40,12 @@ public interface AnalyticsConstants {
 	String ACTION_KEY_USER_ERROR = "userError";
 	String ACTION_KEY_SET_ERROR = "setError";
 	String ACTION_KEY_TECHNICAL_ERROR = "technicalError";
-	String ACTION_KEY_EXIT_LINK = "exitLinkName";
+	String ACTION_KEY_EXIT_LINK = "exit link";
 	String ACTION_KEY_FILE_NAME = "fileName";
 	String ACTION_KEY_DOWNLOAD = "download";
 	String ACTION_KEY_PRODUCT_MODEL = "productModel";
 	String ACTION_KEY_DATE_OF_PURCHASE = "dateOfPurchase";
-	String ACTION_KEY_RECEIPT_PHOTO = "rceiptPhoto";
+	String ACTION_KEY_RECEIPT_PHOTO = "receiptPhoto";
 	String ACTION_KEY_REGISTRATION_CHANNEL = "registrationChennel";
 	String ACTION_KEY_SET_USER_REGISTRATION = "setUserRegistration";
 	String ACTION_KEY_LOGIN_CHANNEL = "loginChannel";
@@ -55,9 +55,13 @@ public interface AnalyticsConstants {
 	String ACTION_KEY_SOCIAL_SHARE = "socialShare";
 	String ACTION_KEY_SOCIAL_TYPE = "socialType";
 	String ACTION_KEY_SERVICE_CHANNEL = "serviceChannel";
+	String ACTION_KEY_SERVICE_REQUEST = "serviceRequest";
 	String ACTION_KEY_SERVICE_SATISFACTION = "serviceSatisfaction";
 	String ACTION_KEY_VIDEO_START = "videoStart";
 	String ACTION_KEY_VIDEO_END = "videoEnd";
+
+	/* ACTION KEY FOR MAP */
+	String MAP_KEY_EXIT_LINK = "exitLinkName";
 
 	/* ACTION VALUE CONSTANTS */
 	String ACTION_VALUE_APPNAME = "DigitalCare";

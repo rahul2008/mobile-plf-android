@@ -243,7 +243,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 				&& mFacebookUtility != null) {
 			mFacebookUtility.performPublishAction(getEditorText());
 			mPostProgress = new ProgressDialog(getActivity());
-			mPostProgress.setMessage("Posting to Philips Twitter Support...");
+			mPostProgress.setMessage("Posting to Philips Facebook Support...");
 			mPostProgress.setCancelable(false);
 			// backstackFragment();
 		} else if (id == R.id.fb_post_camera) {
