@@ -21,8 +21,11 @@ import com.facebook.SessionState;
 import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFacebookButton;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
@@ -59,7 +62,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	// private static final String mURL =
 	// "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
 	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
-
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	@Override
@@ -123,6 +125,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 	}
 
 	@Override
@@ -246,8 +250,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
 				startFacebookSession();
-			}
-			else if ((mFacebookSession != null)
+			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.OPENED)) {
 				DLog.d(TAG,
 						"Session - getSession from Facebook SDK is not NULL  : "

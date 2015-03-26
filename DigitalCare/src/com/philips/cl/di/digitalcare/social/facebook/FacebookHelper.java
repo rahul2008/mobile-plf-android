@@ -11,7 +11,6 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
-import com.philips.cl.di.digitalcare.contactus.FacebookAuthenticate;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 public class FacebookHelper {

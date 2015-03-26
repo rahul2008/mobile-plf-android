@@ -36,21 +36,19 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		showFragment(new SupportHomeFragment());
 		enableActionBarHome();
 	}
-
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		DLog.i(TAG, "DigitalCareActivity onActivityResult");
-		DLog.i(TAG, "DigitalCareActivity Request : " + requestCode);
-		DLog.i(TAG, "DigitalCareActivity response :" + resultCode);
-		DLog.i(TAG, "DigitalCareActivity data : " + data);
 
 		if (requestCode == 64206) {
 			FacebookScreenFragment fbFrag = new FacebookScreenFragment();
 			fbFrag.onFaceBookCallback(this, requestCode, resultCode, data);
 
 			FacebookHelper mFacebookHelper = FacebookHelper.getInstance();
-			mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode, data);
+			mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode,
+					data);
 
 		}
 		if (resultCode == Activity.RESULT_CANCELED

@@ -9,6 +9,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
@@ -69,6 +71,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.util.DLog;
 
@@ -58,6 +59,18 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		DLog.i(TAG, TAG + " : onConfigurationChanged ");
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		AnalyticsTracker.startCollectLifecycleData();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AnalyticsTracker.stopCollectLifecycleData();
 	}
 
 	@Override

@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.DLog;
 
@@ -60,6 +62,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP);
 	}
 
 	@Override
@@ -83,7 +87,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	}
 
 	private void rateProductReview() {
-		// TODO: We need to integrate BazaarVocie SDK. Below implementation is temprory.
+		// TODO: We need to integrate BazaarVocie SDK. Below implementation is
+		// temprory.
 		String url = "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(url));

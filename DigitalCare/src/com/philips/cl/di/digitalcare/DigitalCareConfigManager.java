@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
@@ -47,6 +48,7 @@ public class DigitalCareConfigManager {
 		if (mDigitalCareInstance == null) {
 			mContext = context;
 			initializeConfigManager();
+			initializeTaggin(context);
 		}
 	}
 
@@ -56,6 +58,11 @@ public class DigitalCareConfigManager {
 
 	private void initializeConfigManager() {
 		mDigitalCareInstance = new DigitalCareConfigManager();
+	}
+
+	private static void initializeTaggin(Context context) {
+		AnalyticsTracker.isEnable(true);
+		AnalyticsTracker.initContext(context);
 	}
 
 	/*

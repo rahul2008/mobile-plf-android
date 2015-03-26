@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
@@ -57,6 +59,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 		// init();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS);
 	}
 
 	@Override

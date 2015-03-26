@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
 /**
  * ChatNowFragment will help to inflate chat webpage on the screen.
@@ -72,6 +74,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		websettings.setLoadWithOverviewMode(true);
 		websettings.setUseWideViewPort(true);
 		websettings.setBuiltInZoomControls(true);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
 	}
 
 	@Override

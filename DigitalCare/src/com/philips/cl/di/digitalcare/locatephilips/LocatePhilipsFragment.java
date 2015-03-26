@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
 /**
  *	LocateNearYouFragment will help to inflate webpage on the screen.
@@ -57,6 +59,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		websettings.setLoadWithOverviewMode(true);
 		websettings.setUseWideViewPort(true);
 		websettings.setBuiltInZoomControls(true);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_BY);
 	}
 
 	private class MyWebViewClient extends WebViewClient {

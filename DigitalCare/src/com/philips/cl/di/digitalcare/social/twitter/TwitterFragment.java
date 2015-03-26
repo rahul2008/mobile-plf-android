@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
@@ -107,6 +109,8 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
+
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER);
 	}
 
 	@Override
