@@ -43,11 +43,6 @@ public class doesAndroidHoldonToLeScanListenersTests extends AndroidTestCase {
 
         @Override
         public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-
-        }
-
-        @Override
-        public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord, Object callbackParameter) {
         }
     }
 

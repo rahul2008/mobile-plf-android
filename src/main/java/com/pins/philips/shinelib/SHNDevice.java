@@ -1,5 +1,6 @@
 package com.pins.philips.shinelib;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 public class SHNDevice {
     private static final String TAG = SHNDevice.class.getSimpleName();
+    private final BluetoothDevice bluetoothDevice;
 
     enum EventSubType {
         ServicesDiscovered, CharacteristicRead, CharacteristicWrite, CharacteristicChanged, DescriptorRead, DescriptorWrite, ReliableWriteCompleted, ReadRemoteRssi, MtuChanged, ConnectionStateChange
@@ -28,7 +30,7 @@ public class SHNDevice {
         Connect, Disconnect
     }
 
-    private final BleDeviceFoundInfo bleDeviceFoundInfo;
+    private final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo;
     private final Context applicationContext;
     private final SHNCentral shnCentral;
     private BluetoothGatt bluetoothGatt;
@@ -45,8 +47,9 @@ public class SHNDevice {
         public void onStateUpdated(SHNDevice shnDevice);
     }
 
-    public SHNDevice(BleDeviceFoundInfo bleDeviceFoundInfo, final SHNCentral shnCentral) {
-        this.bleDeviceFoundInfo = bleDeviceFoundInfo;
+    public SHNDevice(BluetoothDevice bluetoothDevice, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, final SHNCentral shnCentral) {
+        this.bluetoothDevice = bluetoothDevice;
+        this.shnDeviceDefinitionInfo = shnDeviceDefinitionInfo;
         this.shnCentral = shnCentral;
         this.applicationContext = shnCentral.getApplicationContext();
 
@@ -124,10 +127,10 @@ public class SHNDevice {
     private int rssiWhenDiscovered; // How is that usefull?
 
     public String getAddress() {
-        return bleDeviceFoundInfo.getDeviceAddress();
+        return bluetoothDevice.getAddress();
     }
     public String getName() {
-        return bleDeviceFoundInfo.bluetoothDevice.getName();
+        return bluetoothDevice.getName();
     }
 
     public void connect()  {
@@ -141,7 +144,7 @@ public class SHNDevice {
     }
     private void handleConnect()  {
         updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
-        bluetoothGatt = bleDeviceFoundInfo.bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
+        bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
     }
 
     public void disconnect() {
@@ -180,6 +183,6 @@ public class SHNDevice {
 
     @Override
     public String toString() {
-        return bleDeviceFoundInfo.bluetoothDevice.getName() + " [" + bleDeviceFoundInfo.bluetoothDevice.getAddress() + "]";
+        return bluetoothDevice.getName() + " [" + bluetoothDevice.getAddress() + "]";
     }
 }

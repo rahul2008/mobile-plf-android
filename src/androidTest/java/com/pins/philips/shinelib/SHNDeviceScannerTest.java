@@ -59,11 +59,9 @@ public class SHNDeviceScannerTest extends AndroidTestCase {
 
         SHNDeviceScanner.SHNDeviceScannerListener mockedShnDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
         assertTrue(shnDeviceScanner.startScanning(mockedShnDeviceScannerListener));
-        verify(mockedShnCentral).getRegisteredDeviceDefinitions();
 
-        ArgumentCaptor<UUID[]> uuidArrayCaptor = ArgumentCaptor.forClass(UUID[].class);
         ArgumentCaptor<LeScanCallbackProxy> leScanCallbackProxyCaptor = ArgumentCaptor.forClass(LeScanCallbackProxy.class);
-        verify(mockedBleUtilitiesBuilder.getBleUtilities(), times(2)).startLeScan(uuidArrayCaptor.capture(), leScanCallbackProxyCaptor.capture());
+        verify(mockedBleUtilitiesBuilder.getBleUtilities()).startLeScan(leScanCallbackProxyCaptor.capture());
     }
 
     public void test03OnLeScan() {
@@ -73,7 +71,7 @@ public class SHNDeviceScannerTest extends AndroidTestCase {
         SHNDeviceScanner shnDeviceScanner = setupDeviceScanner.getShnDeviceScanner();
 
         when(mockedShnCentral.getScheduledThreadPoolExecutor()).thenReturn(mockedScheduledThreadPoolExecutor);
-        BleDeviceFoundInfo bleDeviceFoundInfo = new BleDeviceFoundInfo(null, TEST_RSSI, TEST_SCAN_RECORD, null);
+        BleDeviceFoundInfo bleDeviceFoundInfo = new BleDeviceFoundInfo(null, TEST_RSSI, TEST_SCAN_RECORD);
         shnDeviceScanner.queueBleDeviceFoundInfoOnBleThread(bleDeviceFoundInfo);
         verify(mockedShnCentral).getScheduledThreadPoolExecutor();
         ArgumentCaptor<Runnable> runnableCaptor = ArgumentCaptor.forClass(Runnable.class);
@@ -93,6 +91,8 @@ public class SHNDeviceScannerTest extends AndroidTestCase {
         SetupDeviceScanner setupDeviceScanner = new SetupDeviceScanner().invoke();
         SHNCentral mockedShnCentral = setupDeviceScanner.getMockedShnCentral();
         SHNDeviceScanner shnDeviceScanner = setupDeviceScanner.getShnDeviceScanner();
+        
+//        verify(mockedShnCentral).getRegisteredDeviceDefinitions();
 
 //        // Generate device one found
 //        BleDeviceFoundInfo mockedBleDeviceFoundInfo1 = mock(BleDeviceFoundInfo.class);

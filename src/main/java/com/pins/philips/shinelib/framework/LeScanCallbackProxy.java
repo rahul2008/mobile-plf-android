@@ -17,20 +17,17 @@ import java.util.UUID;
  */
 public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
     public interface LeScanCallback {
-        void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord, Object callbackParameter);
+        void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord);
     }
     private LeScanCallback leScanCallback;
-    private Object callbackParameter;
 
     public boolean startLeScan(LeScanCallback leScanCallback, Object callbackParameter) {
         this.leScanCallback = leScanCallback;
-        this.callbackParameter = callbackParameter;
         return BleUtilities.startLeScan(this);
     }
 
-    public boolean startLeScan(UUID[] serviceUuids, LeScanCallback leScanCallback, Object callbackParameter) {
+    public boolean startLeScan(UUID[] serviceUuids, LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
-        this.callbackParameter = callbackParameter;
         return BleUtilities.startLeScan(serviceUuids, this);
     }
 
@@ -38,14 +35,13 @@ public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
         if (leScanCallback == this.leScanCallback) {
             BleUtilities.stopLeScan(this);
             this.leScanCallback = null;
-            this.callbackParameter = null;
         }
     }
 
     @Override
     public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
         if (leScanCallback != null) {
-            leScanCallback.onLeScan(device, rssi, scanRecord, callbackParameter);
+            leScanCallback.onLeScan(device, rssi, scanRecord);
         }
     }
 
