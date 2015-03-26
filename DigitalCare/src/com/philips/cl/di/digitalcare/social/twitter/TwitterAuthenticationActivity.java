@@ -3,6 +3,7 @@ package com.philips.cl.di.digitalcare.social.twitter;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -43,6 +44,7 @@ public class TwitterAuthenticationActivity extends Activity {
 			finish();
 		}
 		mWebView.setWebViewClient(new MyWebViewClient());
+		// mWebView.setWebChromeClient(new TwitterWebCromeClient());
 		mWebView.loadUrl(url);
 	}
 
@@ -61,28 +63,44 @@ public class TwitterAuthenticationActivity extends Activity {
 
 	@Override
 	protected void onStop() {
-		if (mDialog != null) {
-			mDialog.dismiss();
-			mDialog.cancel();
-			mDialog = null;
-		}
+		cancelProgressDialog();
 		super.onStop();
 	}
 
 	@Override
 	protected void onPause() {
+		cancelProgressDialog();
+		super.onPause();
+	}
+
+	private void cancelProgressDialog() {
 		if (mDialog != null) {
 			mDialog.dismiss();
 			mDialog.cancel();
 			mDialog = null;
 		}
-		super.onPause();
 	}
 
 	@Override
 	protected void onResume() {
 		this.onRestart();
 	}
+
+	/*
+	 * private class TwitterWebCromeClient extends WebChromeClient {
+	 * 
+	 * @Override public void onProgressChanged(WebView view, int newProgress) {
+	 * super.onProgressChanged(view, newProgress); DLog.d(TAG,
+	 * "onProgressChanged : " + newProgress); if (newProgress > 40) { try { if
+	 * (mDialog != null && mDialog.isShowing()) { mDialog.dismiss(); mDialog =
+	 * null; } } catch (Exception exception) { exception.printStackTrace(); } }
+	 * }
+	 * 
+	 * 
+	 * 
+	 * 
+	 * }
+	 */
 
 	private class MyWebViewClient extends WebViewClient {
 
@@ -99,16 +117,27 @@ public class TwitterAuthenticationActivity extends Activity {
 		}
 
 		@Override
-		public void onLoadResource(WebView view, String url) {
+		public void onPageStarted(WebView view, String url, Bitmap favicon) {
+			super.onPageStarted(view, url, favicon);
+			DLog.d(TAG, "onPage Started");
 			if (mDialog == null)
 				mDialog = new ProgressDialog(TwitterAuthenticationActivity.this);
 			mDialog.setMessage("Loading...");
 
 			if (!(mActivity.isFinishing())) {
 				mDialog.show();
-			} else {
-				mDialog.cancel();
-				mDialog = null;
+			}
+		}
+
+		@Override
+		public void onLoadResource(WebView view, String url) {
+
+			DLog.d(TAG, "Loading Resources");
+			DLog.d(TAG, "Resource Loading Progress : " + view.getProgress());
+
+			if(view.getProgress() >= 70)
+			{
+				cancelProgressDialog();
 			}
 		}
 
