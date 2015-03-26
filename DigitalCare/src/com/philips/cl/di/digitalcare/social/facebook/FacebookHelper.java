@@ -60,16 +60,16 @@ public class FacebookHelper {
 				Exception exception) {
 			DLog.d(TAG, "Call method called with state " + session.getState());
 
-			if (session.isOpened()) {
+			if ((session.isOpened()) && (session != null)) {
 				mSuccessCallback.onSuccess();
 			}
 		}
 	};
 
-	public void onFaceBookCallback(int requestCode, int resultCode, Intent data) {
+	public void onFaceBookCallback(Activity activity, int requestCode, int resultCode, Intent data) {
 		DLog.d(TAG, "result code is : .." + resultCode);
 
-		Session.getActiveSession().onActivityResult(mActivity, requestCode,
+		Session.getActiveSession().onActivityResult(activity, requestCode,
 				resultCode, data);
 
 	}

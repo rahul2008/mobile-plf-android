@@ -292,7 +292,7 @@ public class FacebookUtility {
 							public void onCompleted(GraphUser user,
 									Response response) {
 								if (user != null) {
-									String mName = user.getFirstName();
+									String mName = user.getName();
 									DLog.d(TAG, "User Name is : " + mName);
 									if (mFaceBookAccCallback != null) {
 										mFaceBookAccCallback.setName(mName);

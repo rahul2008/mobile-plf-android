@@ -50,7 +50,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			fbFrag.onFaceBookCallback(this, requestCode, resultCode, data);
 
 			FacebookHelper mFacebookHelper = FacebookHelper.getInstance();
-			mFacebookHelper.onFaceBookCallback(requestCode, resultCode, data);
+			mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode, data);
 
 		}
 		if (resultCode == Activity.RESULT_CANCELED

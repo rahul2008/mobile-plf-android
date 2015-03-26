@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Session;
+import com.facebook.SessionState;
 import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -70,7 +71,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		/*
 		 * CDLS execution
 		 */
-		mCdlsRequestTask = new CdlsRequestTask(mURL, mCdlsResponseCallback);
+		mCdlsRequestTask = new CdlsRequestTask(getActivity(), mURL,
+				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
 				.getStatus() == AsyncTask.Status.FINISHED)) {
 			mCdlsRequestTask.execute();
@@ -237,21 +239,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 			Session mFacebookSession = Session.getActiveSession();
 
-			if (mFacebookSession.isOpened()) {
+			DLog.d(TAG, "Session - getSession from Facebook SDK "
+					+ mFacebookSession);
+			if (mFacebookSession == null) {
+				startFacebookSession();
+			} else if ((mFacebookSession != null)
+					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
+				startFacebookSession();
+			}
+			else if ((mFacebookSession != null)
+					&& (mFacebookSession.getState() == SessionState.OPENED)) {
+				DLog.d(TAG,
+						"Session - getSession from Facebook SDK is not NULL  : "
+								+ mFacebookSession);
 				showFragment(new FacebookScreenFragment());
 				LoginButton.builder = null;
 				DLog.d(TAG, "Session is not null");
-			} else {
-				FacebookHelper mHelper = FacebookHelper
-						.getInstance(getActivity());
-				mHelper.openFacebookSession(new FacebookAuthenticate() {
 
-					@Override
-					public void onSuccess() {
-						showFragment(new FacebookScreenFragment());
-					}
-				});
-				DLog.d(TAG, "Session is null");
 			}
 			// showFragment(new FacebookScreenFragment());
 			// mFacebook.setLoginBehavior(SessionLoginBehavior.SSO_ONLY);
@@ -292,12 +296,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-		if (mParams == null || mConactUsParent == null) {
-			mConactUsParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsParent);
-			mParams = (FrameLayout.LayoutParams) mConactUsParent
-					.getLayoutParams();
-		}
+
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
@@ -332,4 +331,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		return getResources().getString(R.string.opt_contact_us);
 	}
 
+	private void startFacebookSession() {
+		FacebookHelper mHelper = FacebookHelper.getInstance(getActivity());
+		mHelper.openFacebookSession(new FacebookAuthenticate() {
+			@Override
+			public void onSuccess() {
+				showFragment(new FacebookScreenFragment());
+			}
+		});
+	}
 }
