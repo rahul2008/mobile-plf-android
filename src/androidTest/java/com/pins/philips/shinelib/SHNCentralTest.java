@@ -111,6 +111,12 @@ public class SHNCentralTest extends AndroidTestCase {
 
         shnDeviceScanner.startScanning(mockedShnDeviceScannerListener);
 
+        try {
+            Thread.sleep(100l);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         shnDeviceScanner.stopScanning(mockedShnDeviceScannerListener);
     }
 }
