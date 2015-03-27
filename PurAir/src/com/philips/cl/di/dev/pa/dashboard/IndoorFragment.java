@@ -211,7 +211,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		purifierNameTxt.setText(purifier.getName());
 		
 		AirPortInfo airPortInfo = purifier.getAirPort().getAirPortInfo();
-		if (airPortInfo == null) return;
+		if (airPortInfo == null) {
+			airPortInfo = DashboardUtil.getDefaultAirPortInfo() ;
+			purifier.getAirPort().setAirPortInfo(airPortInfo);
+		}
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
 		if (ConnectionState.DISCONNECTED == purifier.getNetworkNode().getConnectionState()) {

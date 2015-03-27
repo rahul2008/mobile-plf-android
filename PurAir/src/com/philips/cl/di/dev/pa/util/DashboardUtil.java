@@ -25,6 +25,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -161,5 +162,31 @@ public class DashboardUtil {
 	    	return localBitmap;
 	      
 	    }
+	    
+	    public static AirPortInfo getDefaultAirPortInfo() {
+			AirPortInfo airPortInfo = new AirPortInfo() ;
+			airPortInfo.setActiveFilterStatus(0) ;
+			airPortInfo.setActualFanSpeed("1") ;
+			airPortInfo.setAqiL(0) ;
+			airPortInfo.setAqiThreshold(13) ;
+			airPortInfo.setChildLock(0) ;
+			airPortInfo.setDtrs(0);
+			airPortInfo.setFanSpeed("a") ;
+			airPortInfo.setHepaFilterStatus(1) ;
+			airPortInfo.setIndoorAQI(4) ;
+			airPortInfo.setMachineMode("a") ;
+			airPortInfo.setMulticareFilterStatus(1) ;
+			airPortInfo.setPowerMode("0") ;
+			airPortInfo.setPreFilterStatus(1) ;
+			airPortInfo.setpSensor(1) ;
+			airPortInfo.setReplaceFilter1("n") ;
+			airPortInfo.setReplaceFilter2("n") ;
+			airPortInfo.setReplaceFilter3("n") ;
+			airPortInfo.setReplaceFilter4("n") ;
+			airPortInfo.settFav(1) ;
+			airPortInfo.setValid(true) ;
+			airPortInfo.setTimeStamp(getCurrentTime24HrFormat()) ;
+			return airPortInfo ;
+		}
 	
 }
