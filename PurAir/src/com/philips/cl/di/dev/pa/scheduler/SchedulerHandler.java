@@ -6,7 +6,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
@@ -86,8 +85,8 @@ public class SchedulerHandler implements ServerResponseListener {
 							JSONBuilder.getPublishEventBuilderForScheduler("",
 									"{}"), AppConstants.DI_COMM_REQUEST,
 							AppConstants.GET_PROPS,
-							SessionDto.getInstance().getAppEui64(), "", 20,
-							120, purifierEUI64);
+							"", 20, 120,
+							purifierEUI64);
 			break;
 		case ADD:
 			CPPController
@@ -97,8 +96,8 @@ public class SchedulerHandler implements ServerResponseListener {
 									.getPublishEventBuilderForAddScheduler(dataToSend),
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.ADD_PROPS,
-							SessionDto.getInstance().getAppEui64(), "", 20,
-							120, purifierEUI64);
+							"", 20, 120,
+							purifierEUI64);
 			break;
 		case DELETE:
 			CPPController
@@ -108,8 +107,8 @@ public class SchedulerHandler implements ServerResponseListener {
 									.getPublishEventBuilderForDeleteScheduler(scheduleNumber),
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.DEL_PROPS,
-							SessionDto.getInstance().getAppEui64(), "", 20,
-							120, purifierEUI64);
+							"", 20, 120,
+							purifierEUI64);
 			break;
 		case GET_SCHEDULE_DETAILS:
 			CPPController
@@ -119,8 +118,8 @@ public class SchedulerHandler implements ServerResponseListener {
 									.getPublishEventBuilderForGetSchedulerDetails(scheduleNumber),
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.GET_PROPS,
-							SessionDto.getInstance().getAppEui64(), "", 20,
-							120, purifierEUI64);
+							"", 20, 120,
+							purifierEUI64);
 			break;
 		case EDIT:
 			CPPController.getInstance(PurAirApplication.getAppContext())
@@ -129,8 +128,8 @@ public class SchedulerHandler implements ServerResponseListener {
 									dataToSend, scheduleNumber),
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.PUT_PROPS,
-							SessionDto.getInstance().getAppEui64(), "", 20,
-							120, purifierEUI64);
+							"", 20, 120,
+							purifierEUI64);
 			break;
 		default:
 			break;

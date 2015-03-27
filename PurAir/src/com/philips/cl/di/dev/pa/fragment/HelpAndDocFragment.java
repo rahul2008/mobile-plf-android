@@ -20,7 +20,7 @@ import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
@@ -202,7 +202,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String appVersion= getString(R.string.app_version)+Utils.getVersionNumber();
 		String platform= getString(R.string.mobile_platform) +"Android";
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
-		String appEui64 = getString(R.string.app_eui64) + SessionDto.getInstance().getAppEui64();
+		String appEui64 = getString(R.string.app_eui64) + CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId();
 		
 		List<AirPurifier> purifiers= DiscoveryManager.getInstance().getStoreDevices();
 

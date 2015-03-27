@@ -10,7 +10,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -142,8 +141,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.SUBSCRIBE, subscriberId, "", 20,
-							AppConstants.CPP_SUBSCRIPTIONTIME,
+							AppConstants.SUBSCRIBE, "", 20, AppConstants.CPP_SUBSCRIPTIONTIME,
 							networkNode.getCppId());
 
 			CPPController
@@ -153,8 +151,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.SUBSCRIBE, subscriberId, "", 20,
-							AppConstants.CPP_SUBSCRIPTIONTIME,
+							AppConstants.SUBSCRIBE, "", 20, AppConstants.CPP_SUBSCRIPTIONTIME,
 							networkNode.getCppId());
 		}
 
@@ -176,7 +173,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.UNSUBSCRIBE, subscriberId, "", 20,
+							AppConstants.UNSUBSCRIBE, "", 20,
 							0,
 							networkNode.getCppId());
 
@@ -187,19 +184,20 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.UNSUBSCRIBE, subscriberId, "", 20,
+							AppConstants.UNSUBSCRIBE, "", 20,
 							0,
 							networkNode.getCppId());
 		}
 	}
 
 	private String getSubscriberId(boolean isLocal) {
-		String appEui64 = SessionDto.getInstance().getAppEui64();
+		String appEui64 = CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId();
 		if (appEui64 != null)
 			return appEui64;
 		if (isLocal)
 			return Util.getBootStrapID(); // Fallback for local subscription
 											// when no cpp connection
+		// TODO: DICOMM Refactor, change bootstrap id after discussing.
 		return null;
 	}
 
@@ -295,8 +293,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.SUBSCRIBE, subscriberId, "", 20,
-							AppConstants.CPP_SUBSCRIPTIONTIME,
+							AppConstants.SUBSCRIBE, "", 20, AppConstants.CPP_SUBSCRIPTIONTIME,
 							mNetworkNode.getCppId());
 		}
 	}
