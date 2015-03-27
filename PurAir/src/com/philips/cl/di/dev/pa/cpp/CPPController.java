@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -117,6 +118,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		publishEventListeners = new ArrayList<PublishEventListener>() ;
 
 		appUpdateAlertShown=false;
+		mAppCppId = generateTemporaryAppCppId();
+		
 		init() ;
 	}
 
@@ -999,5 +1002,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	public String getAppCppId() {
 		return mAppCppId;
+	}
+	
+	private String generateTemporaryAppCppId() {
+		return String.format("deadbeef%08x",new Random().nextInt());
 	}
 }
