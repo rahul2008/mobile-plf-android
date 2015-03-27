@@ -34,7 +34,6 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 public class ProductImageHelper {
 	private static String TAG = ProductImageHelper.class.getSimpleName();
 	private static ProductImageHelper mProductImage = null;
-	private AlertDialog mDialog = null;
 	private static ProductImageResponseCallback mImageCallback = null;
 	private static Activity mActivity = null;
 
@@ -57,40 +56,7 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-		final String[] items = new String[] {
-				mActivity.getResources().getString(R.string.take_photo),
-				mActivity.getResources()
-						.getString(R.string.choose_from_library),
-				mActivity.getResources().getString(R.string.cancel) };
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
-				android.R.layout.select_dialog_item, items);
-		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
-
-		builder.setTitle("Select Image");
-		builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item) {
-				if (item == 0) {
-
-					Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-					mActivity.startActivityForResult(intent,
-							DigitalCareContants.IMAGE_CAPTURE);
-				} else if (item == 1) {
-					Intent intent = new Intent();
-
-					intent.setType("image/*");
-					intent.setAction(Intent.ACTION_GET_CONTENT);
-
-					mActivity.startActivityForResult(Intent.createChooser(
-							intent, "Complete action using"),
-							DigitalCareContants.IMAGE_PICK);
-				} else {
-					dialog.dismiss();
-				}
-			}
-		});
-
-		mDialog = builder.create();
-		mDialog.show();
+		new ImagePickerDialog(mActivity).show();
 	}
 
 	public void processProductImage(Intent data, int requestCode) {
