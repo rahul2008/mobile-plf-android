@@ -24,7 +24,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ServerResponseListener, PublishEventListener {
 
 	private SubscriptionEventListener mSubscriptionEventListener;
-	private UDPReceivingThread udpReceivingThread;
 	
 	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
 	private int retrySubscriptionCount;
@@ -34,7 +33,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	private NetworkNode mNetworkNode;
 	
 	public SubscriptionHandler(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
-		udpReceivingThread = new UDPReceivingThread(this);
 		mNetworkNode = networkNode;
 		mSubscriptionEventListener = subscriptionEventListener;	
 		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), this);
@@ -89,19 +87,17 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	public void enableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Enabling local subscription (start udp)");
-		if (udpReceivingThread == null) {
-			udpReceivingThread = new UDPReceivingThread(this);
-		}
-		if (udpReceivingThread != null && !udpReceivingThread.isAlive()) {
-			udpReceivingThread.start();
+		UDPReceivingThread.getInstance().addUDPEventListener(this) ;
+		if (! UDPReceivingThread.getInstance().isAlive()) {
+			UDPReceivingThread.getInstance().start();
 		}
 	}
 
 	public void disableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Disabling local subscription (stop udp)");
-		if (udpReceivingThread != null && udpReceivingThread.isAlive()) {
-			udpReceivingThread.stopUDPListener();
-			udpReceivingThread = null;
+		if (UDPReceivingThread.getInstance().isAlive()) {
+			UDPReceivingThread.getInstance().stopUDPListener();
+			UDPReceivingThread.getInstance().reset() ;
 		}
 	}
 
@@ -177,7 +173,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.UNSUBSCRIBE, subscriberId, "", 20,
-							AppConstants.CPP_SUBSCRIPTIONTIME,
+							0,
 							networkNode.getCppId());
 
 			CPPController
@@ -188,7 +184,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
 							AppConstants.UNSUBSCRIBE, subscriberId, "", 20,
-							AppConstants.CPP_SUBSCRIPTIONTIME,
+							0,
 							networkNode.getCppId());
 		}
 	}

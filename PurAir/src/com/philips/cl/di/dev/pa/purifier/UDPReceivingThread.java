@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
@@ -16,16 +18,40 @@ import com.philips.cl.di.dev.pa.util.ALog;
 public class UDPReceivingThread extends Thread {
 	
 	private static final int UDP_PORT = 8080 ;
-	private UDPEventListener udpEventListener ;
+	private static List<UDPEventListener> udpEventListenerList ;
+	private static UDPReceivingThread udpReceivingThread;
 	
 	private DatagramSocket socket ;
 	private boolean stop ;
 	private MulticastLock multicastLock ;
 	
-	public UDPReceivingThread(UDPEventListener udpEventListener) {
-		this.udpEventListener = udpEventListener ;
+	private UDPReceivingThread() {
+		
 	}
 	
+	public static synchronized UDPReceivingThread getInstance() {
+		if( udpReceivingThread == null ) {
+			udpReceivingThread = new UDPReceivingThread() ;
+			udpEventListenerList = new ArrayList<UDPEventListener>() ;
+		}
+		return udpReceivingThread ;
+	}
+	
+	public void addUDPEventListener(UDPEventListener udpEventListener) {
+		if( udpEventListenerList != null && !udpEventListenerList.contains(udpEventListener)) {
+			udpEventListenerList.add(udpEventListener) ;			
+		}
+	}
+	
+	public void removeUDPEventListener(UDPEventListener udpEventListener) {
+		if( udpEventListenerList != null ) {
+			udpEventListenerList.remove(udpEventListener) ;			
+		}
+	}
+//	public UDPReceivingThread() {
+//		this.udpEventListener = udpEventListener ;
+//	}
+//	
 	@Override
 	public void run() {
 		ALog.i(ALog.UDP, "Started UDP socket") ;
@@ -47,7 +73,7 @@ public class UDPReceivingThread extends Thread {
 				socket.receive(packet) ;
 				
 				String packetReceived = new String(packet.getData(), Charset.defaultCharset()).trim();
-				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListener != null) {
+				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListenerList != null) {
 					String [] packetsReceived = packetReceived.split("\n") ;
 					if(packetsReceived != null && packetsReceived.length > 0 ) {
 						String senderIp = "";
@@ -57,7 +83,8 @@ public class UDPReceivingThread extends Thread {
 						
 						ALog.d(ALog.UDP, "UDP Data Received from: " + senderIp) ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
-						udpEventListener.onUDPEventReceived(lastLine, senderIp) ;
+						notifyUDPEventListeners(lastLine, senderIp) ;
+						
 					} else {
 						ALog.d(ALog.UDP, "Couldn't split receiving packet: " + packetReceived); 
 					}
@@ -74,6 +101,15 @@ public class UDPReceivingThread extends Thread {
 		ALog.i(ALog.UDP, "Stopped UDP Socket") ;
 	}
 	
+	private void notifyUDPEventListeners(String lastLine, String senderIp) {
+		if(udpEventListenerList != null ) {
+			for (UDPEventListener udpEventListener : udpEventListenerList) {
+				udpEventListener.onUDPEventReceived(lastLine, senderIp) ;				
+			}
+		}
+	
+	}
+
 	public void stopUDPListener() {
 		ALog.d(ALog.UDP, "Requested to stop UDP socket") ;
 		stop = true ;
@@ -83,6 +119,11 @@ public class UDPReceivingThread extends Thread {
 		}
 		releaseMulticastLock();
 		
+	}
+	
+	public void reset() {
+		udpReceivingThread = null ;
+		udpEventListenerList = null ;
 	}
 
 	private void acquireMulticastLock() {
