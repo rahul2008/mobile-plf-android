@@ -24,7 +24,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ServerResponseListener, PublishEventListener {
 
 	private ResponseHandler mResponseHandler;
-
 	
 	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
 	private int retrySubscriptionCount;

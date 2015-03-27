@@ -14,7 +14,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 @SuppressLint("HandlerLeak")
 public class DeviceHandler implements ServerResponseListener {
