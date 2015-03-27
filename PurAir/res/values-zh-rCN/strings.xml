@@ -656,7 +656,7 @@
     <!-- About -->
     <string name="about">关于</string>
     <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
-    
+    <string name="promotional_videos">促销活动</string>
     <!-- Share -->
     <string name="share">分享</string>
     <string name="mail">邮件</string>
