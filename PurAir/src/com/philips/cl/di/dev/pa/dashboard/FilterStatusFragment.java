@@ -18,7 +18,6 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -26,6 +25,8 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 
@@ -100,7 +101,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 	}
 
 	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) {
+	public void onErrorOccurred(Error.PurifierEvent purifierEvent) {
 
 	}
 

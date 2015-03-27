@@ -13,6 +13,7 @@ import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -23,18 +24,20 @@ import com.philips.icpinterface.data.Errors;
 public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ServerResponseListener, PublishEventListener {
 
-	private SubscriptionEventListener mSubscriptionEventListener;
+	private ResponseHandler mResponseHandler;
+
 	
 	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
 	private int retrySubscriptionCount;
 	
-	private int airPortSubscriptionMessageID ;
+	private int mSubscriptionMessageId ;
 	
 	private NetworkNode mNetworkNode;
 	
-	public SubscriptionHandler(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
+
+	public SubscriptionHandler(NetworkNode networkNode, ResponseHandler responseHandler) {
 		mNetworkNode = networkNode;
-		mSubscriptionEventListener = subscriptionEventListener;	
+		mResponseHandler = responseHandler;	
 		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), this);
 	}
 
@@ -132,7 +135,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			if (PurAirApplication.isDemoModeEnable())
 				return;
 			CPPController.getInstance(PurAirApplication.getAppContext()).addPublishEventListener(this) ;
-			airPortSubscriptionMessageID = CPPController.getInstance(PurAirApplication.getAppContext())
+			mSubscriptionMessageId = CPPController.getInstance(PurAirApplication.getAppContext())
 					.publishEvent(
 							JSONBuilder.getPublishEventBuilderForSubscribe(
 									AppConstants.EVENTSUBSCRIBER_KEY,
@@ -212,9 +215,18 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		}
 
 		ALog.i(ALog.SUBSCRIPTION, "UDP event received from " + fromIp);
-		ALog.d(ALog.SUBSCRIPTION, data);
-		if (mSubscriptionEventListener != null) {
-			mSubscriptionEventListener.onLocalEventReceived(data);
+		
+		if (mResponseHandler != null) {			
+			DISecurity diSecurity = new DISecurity(null);
+			String decryptedData = diSecurity.decryptData(data, mNetworkNode) ;
+			if (decryptedData == null ) {
+				ALog.d(ALog.SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
+				return;
+			}
+			
+			ALog.d(ALog.SUBSCRIPTION, decryptedData);
+			mResponseHandler.onSuccess(decryptedData);
+			
 		}
 	}
 
@@ -232,8 +244,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		}
 		ALog.i(ALog.SUBSCRIPTION, "DCS event received from " + fromEui64);
 		ALog.i(ALog.SUBSCRIPTION, data);
-		if (mSubscriptionEventListener != null) {
-			mSubscriptionEventListener.onRemoteEventReceived(data);
+		if (mResponseHandler != null) {
+			mResponseHandler.onSuccess(data);
 		}
 	}
 
@@ -274,9 +286,9 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			return ;
 		}
 		String subscriberId = getSubscriberId(false) ;
-		if( airPortSubscriptionMessageID == messageId) {
+		if( mSubscriptionMessageId == messageId) {
 			retrySubscriptionCount ++ ;
-			airPortSubscriptionMessageID = CPPController.getInstance(PurAirApplication.getAppContext())
+			mSubscriptionMessageId = CPPController.getInstance(PurAirApplication.getAppContext())
 					.publishEvent(
 							JSONBuilder.getPublishEventBuilderForSubscribe(
 									AppConstants.EVENTSUBSCRIBER_KEY,

@@ -1,7 +1,8 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.PurifierEvent;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 /**
  * The listener interface for receiving airPurifierEvent events.
@@ -20,5 +21,5 @@ public interface AirPurifierEventListener {
 	
 	void onFirmwareEventReceived();
 
-	void onErrorOccurred(PurifierEvent purifierEvent) ;
+	void onErrorOccurred(Error.PurifierEvent purifierEvent) ;
 }
