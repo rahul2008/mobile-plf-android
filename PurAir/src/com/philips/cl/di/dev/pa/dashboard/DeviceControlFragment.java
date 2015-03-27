@@ -356,6 +356,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		scheduleTV.setClickable(true);
 		power.setClickable(true);
 		if(AppConstants.POWER_ON.equals(airPortInfo.getPowerMode())) {
+			enableButtonsOnPowerOn(airPortInfo) ;
 			power.setChecked(true);
 			powerStatusTextView.setText(AppConstants.EMPTY_STRING) ;
 			setFanSpeed(airPortInfo);
