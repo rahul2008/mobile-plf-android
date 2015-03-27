@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -41,7 +42,8 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
 				DigitalCareConfigManager.getAnimationStop());
-		mDigitalCareConfigManager = new DigitalCareConfigManager(getApplicationContext());
+		mDigitalCareConfigManager = new DigitalCareConfigManager(
+				getApplicationContext());
 		fragmentManager = getFragmentManager();
 	}
 
@@ -60,16 +62,24 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		super.onConfigurationChanged(newConfig);
 		DLog.i(TAG, TAG + " : onConfigurationChanged ");
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		AnalyticsTracker.startCollectLifecycleData();
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_KEY_SET_APP_STATUS,
+				AnalyticsConstants.ACTION_KEY_APP_STATUS,
+				AnalyticsConstants.ACTION_VALUE_FOREGROUND);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_KEY_SET_APP_STATUS,
+				AnalyticsConstants.ACTION_KEY_APP_STATUS,
+				AnalyticsConstants.ACTION_VALUE_BACKGROUND);
 		AnalyticsTracker.stopCollectLifecycleData();
 	}
 
@@ -88,7 +98,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		
+
 		if (mDigitalCareConfigManager != null) {
 			mDigitalCareConfigManager = null;
 		}

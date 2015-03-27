@@ -74,6 +74,7 @@ public interface AnalyticsConstants {
 	String ACTION_VALUE_START_CONNECTION = "startConnection";
 	String ACTION_VALUE_SUCCESS_CONNECTION = "successConnection";
 	String ACTION_VALUE_BACKGROUND = "Background";
+	String ACTION_VALUE_FOREGROUND = "Foreground";
 	String ACTION_VALUE_FAQ = "faq";
 	String ACTION_VALUE_NOT_USEFUL = "not useful";
 }
