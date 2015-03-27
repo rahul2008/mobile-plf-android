@@ -7,10 +7,17 @@ import java.util.List;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -23,6 +30,8 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 
 public class DashboardUtil {
+	
+	public static final long SAVE_FREESPACE_BYTE = 5 * 1024 * 1024;
 	
 	public enum Detail {
 		INDOOR, OUTDOOR
@@ -129,5 +138,28 @@ public class DashboardUtil {
 			}
 		}
 	}
+	
+	
+
+	 public static boolean isHaveSDCard() {
+	        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	    }
+	 
+	 public static long freeSpaceOnSd_BYTE() {
+	        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+	        long sdFreeKB = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
+	        return (long) sdFreeKB;
+	    }
+	    
+	    public static Bitmap captureView(View paramView)
+	    {
+	    	
+	    	Bitmap localBitmap = Bitmap.createBitmap(paramView.getWidth(),paramView.getHeight(),Bitmap.Config.ARGB_8888);
+	    	Canvas canvas = new Canvas(localBitmap);
+	    	canvas.drawColor(Color.WHITE);
+	    	paramView.draw(canvas);
+	    	return localBitmap;
+	      
+	    }
 	
 }

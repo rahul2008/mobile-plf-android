@@ -659,4 +659,8 @@
     <string name="about">About</string>
     <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
     
+    <!-- Share -->
+    <string name="share">Share</string>
+    <string name="mail">Mail</string>
+    
 </resources>
