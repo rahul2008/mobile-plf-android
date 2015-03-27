@@ -390,7 +390,13 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onErrorOccurred(PurifierEvent purifierEvent) { 
-		controlProgress.setVisibility(View.INVISIBLE);
+		if( getActivity() == null ) return ;
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				controlProgress.setVisibility(View.INVISIBLE);				
+			}
+		});
 	}
 	
 	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
