@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Environment;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 
@@ -275,4 +276,11 @@ public class AppConstants {
 	
 	public static final SimpleDateFormat TIME_FORMAT_HH_MM = new SimpleDateFormat("HH:mm");
 	public static final SimpleDateFormat DATE_FORMAT_YYYY_MM_DD = new SimpleDateFormat("yyyy-MM-dd");
+	
+	public static final String CACHEDIR_IMG = Environment
+			.getExternalStorageDirectory().getPath() + "/philips/air/imgs/";
+	
+	public static final String SHARE_DASHBOARD = "PhilipsAir.png";
+	
+	
 }
