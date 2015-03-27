@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -15,10 +13,8 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.ArrayAdapter;
 
 import com.adobe.mobile.Analytics;
-import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -35,6 +31,7 @@ public class ProductImageHelper {
 	private static String TAG = ProductImageHelper.class.getSimpleName();
 	private static ProductImageHelper mProductImage = null;
 	private static ProductImageResponseCallback mImageCallback = null;
+	private ImagePickerDialog mDialog = null;
 	private static Activity mActivity = null;
 
 	private ProductImageHelper() {
@@ -56,7 +53,16 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-		new ImagePickerDialog(mActivity).show();
+		mDialog = new ImagePickerDialog(mActivity);
+		mDialog.show();
+	}
+
+	public void resetDialog() {
+		if (mDialog.isShowing() && !(mActivity.isFinishing())) {
+			DLog.d(TAG, "Dialog is resetted");
+			mDialog.dismiss();
+			pickImage();
+		}
 	}
 
 	public void processProductImage(Intent data, int requestCode) {

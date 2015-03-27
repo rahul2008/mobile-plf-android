@@ -21,6 +21,7 @@ public class ImageSelectorView {
 	private final int TRANSPARENT_BUTTON = 2;
 	private final int LIBRARY_BUTTON = 3;
 	private final int CAMERA_BUTTON = 4;
+	private final int DIVIDER_VIEW = 5;
 
 	public ImageSelectorView(Activity c) {
 		mContext = c;
@@ -44,6 +45,7 @@ public class ImageSelectorView {
 		int mButtonHeight = mCalcHeight * 7;
 		int mTrasparentViewHeight = mCalcHeight * 1;
 		int mButtonTextSize = mCalcHeight * 4;
+		int mDividerHeight = mTrasparentViewHeight / 3;
 
 		RelativeLayout mRelativeLayout = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams mRelativeLayoutParams = new RelativeLayout.LayoutParams(
@@ -95,6 +97,19 @@ public class ImageSelectorView {
 		mLibraryButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		mLibraryButton.setLayoutParams(mLibraryButtonParams);
 
+		RelativeLayout mDivider = new RelativeLayout(mContext);
+		RelativeLayout.LayoutParams mDividerViewParams = new RelativeLayout.LayoutParams(
+				-1, mDividerHeight);
+		mDividerViewParams.setMargins(mTrasparentViewHeight, 0,
+				mTrasparentViewHeight, 0);
+		mDivider.setId(DIVIDER_VIEW);
+		mDivider.setBackgroundColor(Color.WHITE);
+
+		mDividerViewParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		mDividerViewParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		mDividerViewParams.addRule(RelativeLayout.ABOVE, LIBRARY_BUTTON);
+		mDivider.setLayoutParams(mDividerViewParams);
+
 		DigitalCareFontButton mCameraButton = new DigitalCareFontButton(
 				mContext);
 		setTypeFace(mCameraButton);
@@ -107,7 +122,7 @@ public class ImageSelectorView {
 		mCameraButton.setText(mContext.getResources().getString(
 				R.string.take_photo));
 		setTextSize(mCameraButton, mButtonTextSize);
-		mCameraButtonParams.addRule(RelativeLayout.ABOVE, LIBRARY_BUTTON);
+		mCameraButtonParams.addRule(RelativeLayout.ABOVE, DIVIDER_VIEW);
 		mCameraButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		mCameraButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		mCameraButton.setLayoutParams(mCameraButtonParams);
@@ -115,6 +130,7 @@ public class ImageSelectorView {
 		mRelativeLayout.addView(mCancelButton);
 		mRelativeLayout.addView(mTransparentView);
 		mRelativeLayout.addView(mLibraryButton);
+		mRelativeLayout.addView(mDivider);
 		mRelativeLayout.addView(mCameraButton);
 
 		return mRelativeLayout;
@@ -148,9 +164,26 @@ public class ImageSelectorView {
 	private void setBackground(DigitalCareFontButton button, int buttonHeight,
 			int ID) {
 		GradientDrawable mBackground = new GradientDrawable();
-		mBackground.setColor(Color.WHITE);
-		// if (ID == CANCEL_BUTTON)
-		mBackground.setCornerRadius(buttonHeight);
+		mBackground.setColor(mContext.getResources().getColor(
+				R.color.activity_bg));
+
+		switch (ID) {
+		case CANCEL_BUTTON:
+			mBackground.setCornerRadius(buttonHeight);
+
+			break;
+		case CAMERA_BUTTON:
+			mBackground.setCornerRadii(new float[] { buttonHeight,
+					buttonHeight, buttonHeight, buttonHeight, 0, 0, 0, 0 });
+			break;
+		case LIBRARY_BUTTON:
+			mBackground.setCornerRadii(new float[] { 0, 0, 0, 0, buttonHeight,
+					buttonHeight, buttonHeight, buttonHeight });
+			break;
+
+		default:
+			break;
+		}
 
 		button.setBackgroundDrawable(mBackground);
 	}

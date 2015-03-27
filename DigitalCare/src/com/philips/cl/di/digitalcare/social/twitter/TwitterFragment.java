@@ -117,6 +117,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		DLog.d(TAG, "Configuration Changed");
+		ProductImageHelper.getInstance(getActivity(), this).resetDialog();
 		setViewParams(newConfig);
 	}
 
@@ -181,7 +182,6 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 				mContent = mEditorContent.replace(PRODCUT_INFO, "").trim();
 			else
 				mContent = mEditorContent;
-
 		}
 
 		DLog.d(TAG, "Text in the Content Description" + mContent);

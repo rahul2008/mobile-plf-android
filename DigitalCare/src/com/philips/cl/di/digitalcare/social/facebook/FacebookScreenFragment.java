@@ -194,6 +194,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
+		ProductImageHelper.getInstance(getActivity(), this).resetDialog();
 		setViewParams(config);
 	}
 

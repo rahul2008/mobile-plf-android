@@ -71,21 +71,26 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 		case CANCEL_BUTTON:
 			DLog.d("IMAGE", "Cancel Button");
 			dismiss();
+
 			break;
 		case LIBRARY_BUTTON:
 			DLog.d("IMAGE", "LIbrary Button");
+
 			Intent intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			mContext.startActivityForResult(
 					Intent.createChooser(intent, "Complete action using"),
 					DigitalCareContants.IMAGE_PICK);
+			dismiss();
 			break;
 		case CAMERA_BUTTON:
 			DLog.d("IMAGE", "Camera Button");
+
 			Intent mCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			mContext.startActivityForResult(mCameraIntent,
 					DigitalCareContants.IMAGE_CAPTURE);
+			dismiss();
 			break;
 		default:
 			break;
