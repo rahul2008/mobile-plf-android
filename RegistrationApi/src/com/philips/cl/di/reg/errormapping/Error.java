@@ -16,16 +16,15 @@ public enum Error {
 	TWO_STEP_ERROR(12),
 	MERGE_FLOW_ERROR(13),
 	EMAIL_ALREADY_EXIST(14),
-	INCORRECT_PASSWORD(15),
-	ENGAGE_ERROR(16);
+	ENGAGE_ERROR(15);
 	
-	private int errorCode;
+	private int mErrorCode;
     
 	private Error(int code) {
-		errorCode = code;
+		mErrorCode = code;
 	}
 	public int geterrorList() {
-		return errorCode;
+		return mErrorCode;
 	}
 
 }

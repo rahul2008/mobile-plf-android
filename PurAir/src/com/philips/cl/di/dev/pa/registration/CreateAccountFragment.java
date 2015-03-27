@@ -183,7 +183,6 @@ public class CreateAccountFragment extends BaseFragment implements
 		default:
 			break;
 		}
-
 	}
 
 	private void getInput() {

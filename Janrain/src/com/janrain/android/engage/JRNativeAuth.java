@@ -32,9 +32,7 @@
 
 package com.janrain.android.engage;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import org.json.JSONObject;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import com.janrain.android.engage.session.JRProvider;
@@ -42,15 +40,13 @@ import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.engage.types.JRDictionary;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.LogUtils;
-import com.janrain.android.utils.UiUtils;
-import org.json.JSONObject;
 
 public class JRNativeAuth {
     public static final int REQUEST_CODE_TRY_WEBVIEW = 9999;
 
     public static boolean canHandleProvider(JRProvider provider) {
         if (provider.getName().equals("facebook") && NativeFacebook.canHandleAuthentication()) {
-            return true;
+        	return false;
         } else if (provider.getName().equals("googleplus") && NativeGooglePlus.canHandleAuthentication()) {
             return true;
         }

@@ -37,6 +37,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Pair;
 import com.janrain.android.Jump;
+import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
+import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
@@ -62,8 +64,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import static com.janrain.android.capture.Capture.CaptureApiRequestCallback;
-import static com.janrain.android.capture.Capture.InvalidApidChangeException;
 import static com.janrain.android.utils.ApiConnection.FetchJsonCallback;
 import static com.janrain.android.utils.JsonUtils.copyJsonVal;
 import static com.janrain.android.utils.JsonUtils.unsafeJsonObjectToString;
@@ -212,14 +212,18 @@ public class CaptureRecord extends JSONObject {
      * @param callback your callback handler
      * @throws InvalidApidChangeException
      */
-    public void synchronize(final CaptureApiRequestCallback callback) throws InvalidApidChangeException {
-        Set<ApidChange> changeSet = getApidChangeSet();
-        List<ApidChange> changeList = new ArrayList<ApidChange>();
-        changeList.addAll(changeSet);
+    public void synchronize(final CaptureApiRequestCallback callback,
+			JSONObject original) throws InvalidApidChangeException {
+		if (original != null) {
+			Set<ApidChange> changeSet = getApidChangeSet(original);
+			List<ApidChange> changeList = new ArrayList<ApidChange>();
+			changeList.addAll(changeSet);
 
-        if (accessToken == null) throwDebugException(new IllegalStateException());
-        fireNextChange(changeList, callback);
-    }
+			if (accessToken == null)
+				throwDebugException(new IllegalStateException());
+			fireNextChange(changeList, callback);
+		}
+	}
 
     private void fireNextChange(final List<ApidChange> changeList, final CaptureApiRequestCallback callback) {
         if (changeList.size() == 0) {
@@ -317,9 +321,11 @@ public class CaptureRecord extends JSONObject {
         return new ApidUpdate(newVal, parent);
     }
 
-    private Set<ApidChange> getApidChangeSet() throws InvalidApidChangeException {
-        return collapseApidChanges(CaptureJsonUtils.compileChangeSet(original, this));
-    }
+    private Set<ApidChange> getApidChangeSet(JSONObject originalJson)
+			throws InvalidApidChangeException {
+		return collapseApidChanges(CaptureJsonUtils.compileChangeSet(
+				originalJson, this));
+	}
 
     /*package*/ static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
                                                                  Map<String, Object> flow) {

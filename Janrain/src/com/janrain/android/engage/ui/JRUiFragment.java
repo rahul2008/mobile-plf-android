@@ -32,6 +32,13 @@
 
 package com.janrain.android.engage.ui;
 
+import static com.janrain.android.R.string.jr_dialog_ok;
+import static com.janrain.android.utils.AndroidUtils.actionBarSetDisplayHomeAsUpEnabled;
+import static com.janrain.android.utils.AndroidUtils.activityGetActionBar;
+
+import java.io.Serializable;
+import java.util.HashMap;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -55,17 +62,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.janrain.android.R;
 import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.session.JRSession;
 import com.janrain.android.utils.LogUtils;
-
-import java.io.Serializable;
-import java.util.HashMap;
-
-import static com.janrain.android.R.string.jr_dialog_ok;
-import static com.janrain.android.utils.AndroidUtils.actionBarSetDisplayHomeAsUpEnabled;
-import static com.janrain.android.utils.AndroidUtils.activityGetActionBar;
 
 /**
  * @internal
@@ -533,11 +534,15 @@ public abstract class JRUiFragment extends Fragment {
     }
 
     /*package*/ void finishFragment() {
-        if (getActivity() instanceof JRFragmentHostActivity) {
-            if (mFragmentResult != null) ((JRFragmentHostActivity) getActivity())._setResult(mFragmentResult);
-            getActivity().finish();
+    	FragmentActivity activity = getActivity();
+		
+        if (activity instanceof JRFragmentHostActivity) {
+            if (mFragmentResult != null) ((JRFragmentHostActivity) activity)._setResult(mFragmentResult);
+            activity.finish();
         } else {
-            FragmentManager fm = getActivity().getSupportFragmentManager();
+        	if (null == activity)
+				return;
+        	FragmentManager fm = activity.getSupportFragmentManager();
             int bsec = fm.getBackStackEntryCount();
             if (bsec > 0 && fm.getBackStackEntryAt(bsec - 1).getName().equals(getLogTag())) {
                 fm.popBackStack();

@@ -6,21 +6,21 @@ import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.RefreshLoginSessionHandler;
 
 public class RefreshLoginSession implements CaptureApiRequestCallback {
-	private RefreshLoginSessionHandler refreshLoginSessionHandler;
+	private RefreshLoginSessionHandler mRefreshLoginSessionHandler;
 
 	public RefreshLoginSession(
 			RefreshLoginSessionHandler refreshLoginSessionHandler) {
-		this.refreshLoginSessionHandler = refreshLoginSessionHandler;
+		mRefreshLoginSessionHandler = refreshLoginSessionHandler;
 	}
 
 	public void onSuccess() {
-		this.refreshLoginSessionHandler.onRefreshLoginSessionSuccess();
+		mRefreshLoginSessionHandler.onRefreshLoginSessionSuccess();
 	}
 
 	public void onFailure(CaptureApiError error) {
 		FailureErrorMaping errorMapping = new FailureErrorMaping(null, error,
 				null);
 		int getError = errorMapping.checkCaptureApiError();
-		this.refreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(getError);
+		mRefreshLoginSessionHandler.onRefreshLoginSessionFailedWithError(getError);
 	}
 }

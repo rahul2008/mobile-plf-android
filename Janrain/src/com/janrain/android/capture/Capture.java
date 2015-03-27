@@ -32,11 +32,8 @@
 
 package com.janrain.android.capture;
 
-import android.util.Log;
-
 import com.janrain.android.Jump;
 import com.janrain.android.utils.ApiConnection;
-
 import org.json.JSONObject;
 
 import java.security.SecureRandom;
@@ -53,6 +50,10 @@ import static com.janrain.android.utils.LogUtils.throwDebugException;
 public class Capture {
 
     final public static String JR_REFRESH_SECRET = "jr_capture_refresh_secret";
+    
+    public final static String USER_REG_BASEURL = "https://secure.philips.co.uk/myphilips/activateUser.jsp?country=";
+    
+    public final static String USER_REG_RESETPWDURL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp?country=";
 
     private Capture() {}
 
@@ -84,8 +85,8 @@ public class Capture {
         connection.addAllToParams("client_id", getCaptureClientId(),
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
-               // "redirect_uri", Jump.getRedirectUri(),
-                "redirect_uri", "https://secure.philips.co.uk/myphilips/activateUser.jsp?country="+ Jump.getCaptureCountryCode()+"&catalogType=CONSUMER&language=" + Jump.getCaptureLanguageCode(),
+                //"redirect_uri", Jump.getRedirectUri(),
+                "redirect_uri", USER_REG_BASEURL+ Jump.getCaptureCountryCode()+"&catalogType=CONSUMER&language=" + Jump.getCaptureLanguageCode(),
                 "form", Jump.getCaptureTraditionalSignInFormName(),
                 "refresh_secret", refreshSecret,
                 "flow", Jump.getCaptureFlowName(),
@@ -231,8 +232,8 @@ public class Capture {
                 "client_id", Jump.getCaptureClientId(),
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
-               // "redirect_uri", Jump.getRedirectUri(),
-                "redirect_uri", "https://secure.philips.co.uk/myphilips/activateUser.jsp?country=" + Jump.getCaptureCountryCode() + "&catalogType=CONSUMER&language=" + Jump.getCaptureLanguageCode(),
+                //"redirect_uri", Jump.getRedirectUri(),
+                "redirect_uri", USER_REG_BASEURL + Jump.getCaptureCountryCode() + "&catalogType=CONSUMER&language=" + Jump.getCaptureLanguageCode(),
                 "flow", Jump.getCaptureFlowName(),
                 "form", registrationForm,
                 "refresh_secret", refreshSecret
@@ -240,11 +241,8 @@ public class Capture {
 
         c.maybeAddParam("flow_version", CaptureFlowUtils.getFlowVersion(Jump.getCaptureFlow()));
         c.maybeAddParam("token", socialRegistrationToken);
-        
+
         c.fetchResponseAsJson(handler);
-        
-        Log.i("UserRegistration", "Capture$performRegistration " + c);
-        
         return c;
     }
     /**
@@ -258,7 +256,7 @@ public class Capture {
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
                 //"redirect_uri", Jump.getRedirectUri(),
-                "redirect_uri", "https://secure.philips.co.uk/myphilips/resetPassword.jsp?country="+ Jump.getCaptureCountryCode() + "&catalogType=CONSUMER&language=" + Jump.getCaptureLanguageCode(),
+                "redirect_uri", USER_REG_RESETPWDURL+ Jump.getCaptureCountryCode() + "&catalogType=CONSUMER&language=" + Jump.getCaptureLanguageCode(),
                 CaptureFlowUtils.getUserIdFieldName(Jump.getCaptureForgotPasswordFormName(),
                         Jump.getCaptureFlow()),  emailAddress
 

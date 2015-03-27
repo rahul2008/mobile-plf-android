@@ -779,7 +779,7 @@ public class Jump {
         } catch (StreamCorruptedException e) {
             throwDebugException(new RuntimeException(e));
         } catch (IOException e) {
-            throwDebugException(new RuntimeException(e));
+           // throwDebugException(new RuntimeException(e));
         } catch (ClassNotFoundException e) {
             throwDebugException(new RuntimeException(e));
         } finally {
@@ -1157,4 +1157,11 @@ public class Jump {
             handler_.onSuccess(response);
         }
     }
+    
+    public static void reinitialize(Context context, JumpConfig jumpConfig) {
+        state.initCalled = false;
+        init(context, jumpConfig);
+        state.jrEngage.changeEngageAppId(jumpConfig.engageAppId);
+    }
+
 }
