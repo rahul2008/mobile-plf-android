@@ -139,20 +139,20 @@ public class SchedulerHandler implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData,
 			String fromIp) {
-		notifyListener(responseCode, responseData, fromIp);
+		notifyListener(responseCode, responseData);
 	}
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
-	private void notifyListener(int responseCode, String data, String fromIp) {
-		ALog.i(ALog.DEVICEHANDLER, "Response Code: " + responseCode);
+	private void notifyListener(int responseCode, String data) {
+		ALog.i(ALog.SCHEDULER, "Response Code: " + responseCode);
 		if (mListener == null)	return;
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			mListener.onLocalEventReceived(data, fromIp);
+			mListener.onLocalEventReceived(data);
 		} else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
 			String encryptedData = new DISecurity(null).encryptData(data, mNetworkNode);
-			mListener.onLocalEventReceived(encryptedData, fromIp);
+			mListener.onLocalEventReceived(encryptedData);
 		} else {
 			mListener.onLocalEventLost(PurifierEvent.SCHEDULER);
 		}
