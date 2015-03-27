@@ -82,6 +82,8 @@ public class CdlsResponseParser {
 						.optString("openingHoursWeekdays"));
 				cdlsPhoneModel.setOpeningHoursSaturday(jsonObjectDataPhone
 						.optString("openingHoursSaturday"));
+				cdlsPhoneModel.setOpeningHoursSunday(jsonObjectDataPhone
+						.optString("openingHoursSunday"));
 
 				cdlsChatModel = new CdlsChatModel();
 				cdlsChatModel.setContent(jsonObjectDataChat.optString("content"));

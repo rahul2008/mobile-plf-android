@@ -24,6 +24,8 @@
 
     <!-- Color End -->
 
+	<!-- 	email id for philips support  -->	
+	<string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
 
     <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
     <style name="actionbarIconArrowImageViewParent">

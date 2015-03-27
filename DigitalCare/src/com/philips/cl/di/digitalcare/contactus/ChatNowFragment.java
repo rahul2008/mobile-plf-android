@@ -100,9 +100,9 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			// view.loadUrl(url);
+			view.loadUrl(url);
 			mDialog.show();
-			return false;
+			return true;
 		}
 
 		@Override

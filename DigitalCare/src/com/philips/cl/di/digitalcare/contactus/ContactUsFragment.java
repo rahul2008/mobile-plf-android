@@ -170,9 +170,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 										.getPhoneNumber());
 						mFirstRowText.setText(mCdlsParsedResponse.getPhone()
 								.getOpeningHoursWeekdays());
-						mSecondRowText.setText(mCdlsParsedResponse.getPhone()
-								.getOpeningHoursSaturday());
-
+						if (Utils.isEmpty(mCdlsParsedResponse.getPhone()
+								.getOpeningHoursSaturday())) {
+							mSecondRowText.setText(mCdlsParsedResponse
+									.getPhone().getOpeningHoursSunday());
+						} else {
+							mSecondRowText.setText(mCdlsParsedResponse
+									.getPhone().getOpeningHoursSaturday());
+						}
 						if (hasEmptyChatContent(mCdlsParsedResponse)) {
 							mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 							mChat.setEnabled(false);
@@ -332,8 +337,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private void sendEmail() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("message/rfc822");
-		intent.putExtra(Intent.EXTRA_EMAIL,
-				new String[] { "philipscustomer@philipsSupport.com" });
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { getResources()
+				.getString(R.string.support_email_id) });
 		intent.putExtra(Intent.EXTRA_SUBJECT,
 				"My AirFryer HD9220/20 is gone case");
 		intent.putExtra(
