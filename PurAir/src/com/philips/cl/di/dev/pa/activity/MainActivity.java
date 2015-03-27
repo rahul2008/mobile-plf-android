@@ -23,6 +23,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
@@ -161,7 +162,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		OutdoorController.getInstance().setActivity(this);
 
-    	checkForCrashesHockeyApp();
+//    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -278,6 +279,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
 		} else if (fragment instanceof BuyOnlineFragment) {
+			showFragment(new AboutFragment());
+		} else if (fragment instanceof PromotionsFragment) {
 			showFragment(new AboutFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);

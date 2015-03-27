@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -52,6 +53,10 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		buyOnlineTV.setText(getString(R.string.buy_online_lbl) + " >");
 		buyOnlineTV.setOnClickListener(this);
 		
+		FontTextView promotionalVideos = (FontTextView) getView().findViewById(R.id.promotionals);
+		promotionalVideos.setText("Promotional Videos " + " >");
+		promotionalVideos.setOnClickListener(this);
+		
 	}
 	
 	private void setAppInformation() {
@@ -75,6 +80,9 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.buy_online_tv:
 			mainActivity.showFragment(new BuyOnlineFragment());
+			break;
+		case R.id.promotionals:
+			mainActivity.showFragment(new PromotionsFragment());
 			break;
 		default:
 			break;

@@ -133,6 +133,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.philips.cl.di.dev.pa.buyonline.FeedbackActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".activity.MarkerActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity android:name=".activity.ShareActivity"

@@ -137,7 +137,6 @@ public class BuyOnlineFragment extends BaseFragment {
 			}
 			@Override
 			public void error(ResponseState state, String message) {
-				// TODO Auto-generated method stub
 				showErrorDialog();
 			}
 		});
@@ -330,7 +329,7 @@ public class BuyOnlineFragment extends BaseFragment {
 		if (null == bomByte) {
 			return "";
 		}
-		//去掉部分字符串携带UTF-8头标识
+		//åŽ»æŽ‰éƒ¨åˆ†å­—ç¬¦ä¸²æ�ºå¸¦UTF-8å¤´æ ‡è¯†
 		if ("EF".equals(Integer.toHexString(bomByte[0] & 0xFF).toUpperCase()) && "BB".equals(Integer.toHexString(bomByte[1] & 0xFF).toUpperCase()) && "BF".equals(Integer.toHexString(bomByte[2] & 0xFF).toUpperCase())) {
 			srcStr = new String(bomByte, 3, bomByte.length - 3);
 		}

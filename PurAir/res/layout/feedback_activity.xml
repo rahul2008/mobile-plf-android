@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/parent_container"
+    android:orientation="vertical" >
+
+    <include
+        style="@style/titlebar"
+        layout="@layout/titlebar_basic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <EditText
+            android:id="@+id/feedback_content_edt"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/frame_while_solide_grey"
+            android:maxLength="300"
+            android:gravity="left|top"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:padding="5dp" />
+
+        <EditText
+            android:id="@+id/feedback_contact_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/frame_while_solide_grey"
+            android:hint="留下手机号码参与抽奖"
+            android:layout_marginTop="15dp"
+            android:maxLength="30"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            android:paddingLeft="5dp"
+            android:inputType="number"
+            android:paddingRight="5dp"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center_vertical"
+            android:singleLine="true" />
+        
+        <TextView 
+            android:id="@+id/feedback_submit_tv"
+            android:text="提交"
+            style="@style/btn_blue_text"
+            android:layout_marginTop="25dp"/>
+    </LinearLayout>
+
+</LinearLayout>

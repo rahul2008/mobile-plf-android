@@ -88,7 +88,7 @@ public class MetricsTracker {
 	private static final String VALUE_PRODUCT_VIEW = "prodView";
 	private static final String VALUE_MODEL_AC4373 = "AC4373";
 	
-	private static boolean trackMetrics;
+	private static boolean trackMetrics = true;
 	
 	public static void enableTagging() {
 		trackMetrics = true;
@@ -103,13 +103,13 @@ public class MetricsTracker {
 		Config.setContext(context);
 	}
 
-	// This needs to call on onResume() of every activity.
+	// This needs to be called on onResume() of every activity.
 	public static void startCollectLifecycleData(Activity activity) {
 		if(!trackMetrics) return;
 		Config.collectLifecycleData();
 	}
 
-	// This needs to call on onPause() of every activity.
+	// This needs to be called on onPause() of every activity.
 	public static void stopCollectLifecycleData() {
 		if(!trackMetrics) return;
 		Config.pauseCollectingLifecycleData();
@@ -132,9 +132,9 @@ public class MetricsTracker {
 	public static void trackActionEWSStart() {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackTimedAction : EWSStart");
-		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put(KEY_PAGE_EVENT, "startConnection");
-		Analytics.trackTimedActionStart("startConnection", contextData);
+//		Map<String, Object> contextData = addAnalyticsDataObject();
+//		contextData.put(KEY_PAGE_EVENT, "startConnection");
+		Analytics.trackTimedActionStart("connectionTime", null);
 	}
 	
 	public static void trackActionEWSSuccess() {
@@ -142,7 +142,7 @@ public class MetricsTracker {
 		ALog.i(ALog.TAGGING, "TrackTimedAction : EWSSuccess");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, "successConnection");
-		Analytics.trackTimedActionEnd("endConnection", new TimedActionBlock<Boolean>() {
+		Analytics.trackTimedActionEnd("connectionTime", new TimedActionBlock<Boolean>() {
 			@Override
 			public Boolean call(long inAppDuration, long totalDuration, Map<String, Object> contextData) {
 				return true;
