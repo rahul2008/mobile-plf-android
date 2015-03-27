@@ -170,7 +170,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
-			fragmentTransaction.add(R.id.mainContainer, fragment,
+			fragmentTransaction.replace(R.id.mainContainer, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();

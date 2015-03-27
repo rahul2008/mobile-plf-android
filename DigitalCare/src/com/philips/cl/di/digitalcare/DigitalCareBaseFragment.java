@@ -74,7 +74,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 				.getDimension(R.dimen.activity_margin_port);
 		mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
 				.getDimension(R.dimen.activity_margin_land);
-		setActionbarTitle();
 	}
 
 	@Override
@@ -95,6 +94,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	public void onResume() {
 		DLog.d(DLog.FRAGMENT, "OnResume on " + this.getClass().getSimpleName());
 		super.onResume();
+		setActionbarTitle();
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = mFragmentActivityContext
 					.getFragmentManager().beginTransaction();
-			fragmentTransaction.add(R.id.mainContainer, fragment,
+			fragmentTransaction.replace(R.id.mainContainer, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();

@@ -272,7 +272,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.post);
+		return getResources().getString(R.string.opt_contact_us);
 	}
 
 	@Override
