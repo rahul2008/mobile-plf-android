@@ -1,12 +1,12 @@
 package com.philips.cl.di.digitalcare.contactus;
-/*
- *	CdlsChat is bean class chat.
+/**
+ *	CdlsChatModel is bean class for chat.
  * 
  * @author : Ritesh.jha@philips.com
  * 
  * @since: 16 Dec 2014
  */
-public class CdlsChat {
+public class CdlsChatModel {
 	private String mOpeningHoursWeekdays = null;
 	private String mOpeningHoursSaturday = null;
 	private String mContent = null;

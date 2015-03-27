@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.digitalcare.R;
 
-/*
+/**
  * DigitalCareFontTextView is the custom Text View.
  * 
  * @author : Ritesh.jha@philips.com

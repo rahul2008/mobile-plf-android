@@ -7,7 +7,6 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,10 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
+import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
  * DigitalCareBaseActivity is the main super abstract class container for
@@ -29,16 +31,19 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	private ImageView mActionBarArrow = null;
 	private DigitalCareFontTextView mActionBarTitle = null;
 	private FragmentManager fragmentManager = null;
+	private DigitalCareConfigManager mDigitalCareConfigManager = null;
 	private static String TAG = "DigitalCareBaseActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
-		Log.i(TAG, "onCreate");
+		DLog.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		overridePendingTransition(R.anim.slide_in_bottom,
-				R.anim.slide_out_bottom);
+		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
+				DigitalCareConfigManager.getAnimationStop());
+		mDigitalCareConfigManager = new DigitalCareConfigManager(
+				getApplicationContext());
 		fragmentManager = getFragmentManager();
 	}
 
@@ -55,7 +60,27 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		Log.i(TAG, TAG + " : onConfigurationChanged ");
+		DLog.i(TAG, TAG + " : onConfigurationChanged ");
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		AnalyticsTracker.startCollectLifecycleData();
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_KEY_SET_APP_STATUS,
+				AnalyticsConstants.ACTION_KEY_APP_STATUS,
+				AnalyticsConstants.ACTION_VALUE_FOREGROUND);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_KEY_SET_APP_STATUS,
+				AnalyticsConstants.ACTION_KEY_APP_STATUS,
+				AnalyticsConstants.ACTION_VALUE_BACKGROUND);
+		AnalyticsTracker.stopCollectLifecycleData();
 	}
 
 	@Override
@@ -69,11 +94,21 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+
+		if (mDigitalCareConfigManager != null) {
+			mDigitalCareConfigManager = null;
+		}
+	}
+
 	private boolean backstackFragment() {
 
 		if (fragmentManager.getBackStackEntryCount() == 1) {
 			this.finish();
-			overridePendingTransition(R.anim.left_in, R.anim.right_out);
+			// overridePendingTransition(R.anim.left_in, R.anim.right_out);
 		}
 
 		else if (fragmentManager.getBackStackEntryCount() == 2) {
@@ -107,7 +142,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			int _id = view.getId();
 			if (_id == R.id.home_icon) {
 				finish();
-				overridePendingTransition(R.anim.left_in, R.anim.right_out);
+				// overridePendingTransition(R.anim.left_in, R.anim.right_out);
 			} else if (_id == R.id.back_to_home_img)
 				backstackFragment();
 		}
@@ -135,12 +170,12 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
-			fragmentTransaction.add(R.id.mainContainer, fragment,
+			fragmentTransaction.replace(R.id.mainContainer, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			Log.e(TAG, e.getMessage());
+			DLog.e(TAG, e.getMessage());
 		}
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

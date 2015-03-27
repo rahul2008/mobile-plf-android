@@ -6,19 +6,19 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
-import com.philips.cl.di.digitalcare.contactus.CdlsError;
+import com.philips.cl.di.digitalcare.contactus.CdlsErrorModel;
 
 
 /**
  * 
  * @author naveen@philips.com
- * @description Testing CdlsError Bean class using MOCKITO. 
+ * @description Testing CdlsErrorModel Bean class using MOCKITO. 
  * @Since  Mar 12, 2015
  */
 public class CdlsErrorTest extends
 		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
-	private CdlsError mObject = null;
+	private CdlsErrorModel mObject = null;
 	private final String ERROR_MESSAGE1 = "null";
 	private final String ERROR_MESSAGE2 = "print_stractracce";
 	private final String ERROR_CODE1 = "1288383";
@@ -33,7 +33,7 @@ public class CdlsErrorTest extends
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
-		mObject = mock(CdlsError.class);
+		mObject = mock(CdlsErrorModel.class);
 	}
 
 	@SmallTest

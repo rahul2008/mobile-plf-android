@@ -120,23 +120,23 @@ public class DigitalCareActivityTest extends
 				isAvailable);
 
 	}
-
-	/**
-	 * Twitter Testing
-	 */
-	@MediumTest
-	public void testTwitterConsumerKey() {
-		String expected = "qgktZw1ffdoreBjbiYfvnIPJe";
-		String received = mActivity.getString(R.string.twitter_consumer_key);
-		assertEquals("ConsumerKEy is invalid", expected, received);
-	}
-
-	@MediumTest
-	public void testTwitterConsumerSecreatKey() {
-		String expected = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
-		String received = mActivity.getString(R.string.twitter_consumer_secret);
-		assertEquals("ConsumerSecreat is invalid", expected, received);
-	}
+//
+//	/**
+//	 * Twitter Testing
+//	 */
+//	@MediumTest
+//	public void testTwitterConsumerKey() {
+//		String expected = "qgktZw1ffdoreBjbiYfvnIPJe";
+//		String received = mActivity.getString(R.string.twitter_consumer_key);
+//		assertEquals("ConsumerKEy is invalid", expected, received);
+//	}
+//
+//	@MediumTest
+//	public void testTwitterConsumerSecreatKey() {
+//		String expected = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
+//		String received = mActivity.getString(R.string.twitter_consumer_secret);
+//		assertEquals("ConsumerSecreat is invalid", expected, received);
+//	}
 
 	@MediumTest
 	public void testCDLSLink() throws NoSuchFieldException,

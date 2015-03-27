@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ExtraTranslation" severity="ignore" />
     <issue id="MissingPrefix" severity="ignore" />
+    <issue id="MissingTranslation" severity="ignore" />
     <issue id ="RtlHardcoded" severity="ignore" /> 
     <issue id ="RtlSymmetry" severity="ignore" /> 
     <issue id ="RtlEnabled" severity="ignore" /> 

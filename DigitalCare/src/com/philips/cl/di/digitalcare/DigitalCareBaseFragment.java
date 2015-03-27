@@ -33,6 +33,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
 	private Activity mFragmentActivityContext = null;
+	private FragmentManager fragmentManager = getFragmentManager();
 
 	static {
 		Field f = null;
@@ -73,7 +74,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 				.getDimension(R.dimen.activity_margin_port);
 		mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
 				.getDimension(R.dimen.activity_margin_land);
-		setActionbarTitle();
 	}
 
 	@Override
@@ -94,6 +94,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	public void onResume() {
 		DLog.d(DLog.FRAGMENT, "OnResume on " + this.getClass().getSimpleName());
 		super.onResume();
+		setActionbarTitle();
 	}
 
 	@Override
@@ -162,7 +163,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = mFragmentActivityContext
 					.getFragmentManager().beginTransaction();
-			fragmentTransaction.add(R.id.mainContainer, fragment,
+			fragmentTransaction.replace(R.id.mainContainer, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
@@ -178,8 +179,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 					.getCurrentFocus().getWindowToken(), 0);
 		}
 	}
-
-	private FragmentManager fragmentManager = getFragmentManager();
 
 	protected boolean backstackFragment() {
 		fragmentManager = getFragmentManager();

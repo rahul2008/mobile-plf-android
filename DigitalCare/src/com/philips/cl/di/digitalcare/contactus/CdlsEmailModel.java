@@ -1,12 +1,12 @@
 package com.philips.cl.di.digitalcare.contactus;
-/*
- *	CdlsEmail is bean class email.
+/**
+ *	CdlsEmailModel is bean class for email.
  * 
  * @author : Ritesh.jha@philips.com
  * 
  * @since: 16 Dec 2014
  */
-public class CdlsEmail {
+public class CdlsEmailModel {
 	private String mLabel = null;
 	private String mContentPath = null;
 

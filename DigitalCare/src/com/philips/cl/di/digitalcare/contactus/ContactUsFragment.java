@@ -1,5 +1,7 @@
 package com.philips.cl.di.digitalcare.contactus;
 
+import java.util.Arrays;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -14,9 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.customview.DigitalCareFacebookButton;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
@@ -24,8 +34,8 @@ import com.philips.cl.di.digitalcare.social.twitter.TwitterFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
-/*
- *	ContactUsFragment will help to provide options to contact Philips.
+/**
+ * ContactUsFragment will help to provide options to contact Philips.
  * 
  * @author : Ritesh.jha@philips.com
  * 
@@ -35,13 +45,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		TwitterAuthenticationCallback, OnClickListener {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private DigitalCareFontButton mFacebook = null;
+	private DigitalCareFacebookButton mFacebook = null;
 	private DigitalCareFontButton mTwitter = null;
 	private DigitalCareFontButton mChat = null;
 	private DigitalCareFontButton mEmail = null;
 	private DigitalCareFontButton mCallPhilips = null;
 	private CdlsResponseParser mCdlsResponseParser = null;
-	private CdlsParsedResponse mCdlsParsedResponse = null;
+	private CdlsResponseModel mCdlsParsedResponse = null;
 	private TextView mFirstRowText = null;
 	private TextView mSecondRowText = null;
 	private TextView mContactUsOpeningHours = null;
@@ -52,7 +62,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	// private static final String mURL =
 	// "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
 	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
-
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	@Override
@@ -64,7 +73,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		/*
 		 * CDLS execution
 		 */
-		mCdlsRequestTask = new CdlsRequestTask(mURL, mCdlsResponseCallback);
+		mCdlsRequestTask = new CdlsRequestTask(getActivity(), mURL,
+				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
 				.getStatus() == AsyncTask.Status.FINISHED)) {
 			mCdlsRequestTask.execute();
@@ -84,7 +94,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				R.id.contactUsParent);
 		mChat = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsChat);
-		mFacebook = (DigitalCareFontButton) getActivity().findViewById(
+		mFacebook = (DigitalCareFacebookButton) getActivity().findViewById(
 				R.id.socialLoginFacebookBtn);
 		mTwitter = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.socialLoginTwitterBtn);
@@ -99,6 +109,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mSecondRowText = (TextView) getActivity().findViewById(
 				R.id.secondRowText);
 		mFacebook.setOnClickListener(this);
+		mFacebook.setReadPermissions(Arrays.asList("public_profile"));
 
 		/*
 		 * Live chat is configurable parameter. Developer can enable/disable it.
@@ -114,6 +125,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 	}
 
 	@Override
@@ -151,15 +164,20 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					if (mCdlsParsedResponse.getSuccess()) {
 						enableBottomText();
 						mCallPhilips.setText(getResources().getString(
-								R.string.call)
+								R.string.call_number)
 								+ " "
 								+ mCdlsParsedResponse.getPhone()
 										.getPhoneNumber());
 						mFirstRowText.setText(mCdlsParsedResponse.getPhone()
 								.getOpeningHoursWeekdays());
-						mSecondRowText.setText(mCdlsParsedResponse.getPhone()
-								.getOpeningHoursSaturday());
-
+						if (Utils.isEmpty(mCdlsParsedResponse.getPhone()
+								.getOpeningHoursSaturday())) {
+							mSecondRowText.setText(mCdlsParsedResponse
+									.getPhone().getOpeningHoursSunday());
+						} else {
+							mSecondRowText.setText(mCdlsParsedResponse
+									.getPhone().getOpeningHoursSaturday());
+						}
 						if (hasEmptyChatContent(mCdlsParsedResponse)) {
 							mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 							mChat.setEnabled(false);
@@ -176,11 +194,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		}
 
-		private boolean hasEmptyChatContent(
-				CdlsParsedResponse cdlsParsedResponse) {
-			return cdlsParsedResponse.getChat() == null
-					|| cdlsParsedResponse.getChat().getContent() == null
-					|| cdlsParsedResponse.getChat().getContent()
+		private boolean hasEmptyChatContent(CdlsResponseModel cdlsResponseModel) {
+			return cdlsResponseModel.getChat() == null
+					|| cdlsResponseModel.getChat().getContent() == null
+					|| cdlsResponseModel.getChat().getContent()
 							.equalsIgnoreCase("");
 		}
 	};
@@ -208,6 +225,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+					AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, "chat");
+
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
@@ -219,8 +240,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				Toast.makeText(getActivity(),
 						mCdlsParsedResponse.getError().getErrorMessage(),
 						Toast.LENGTH_SHORT).show();
+				AnalyticsTracker.trackAction(
+						AnalyticsConstants.ACTION_KEY_SET_ERROR,
+						AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+						"CDLS response failure");
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
+				AnalyticsTracker.trackAction(
+						AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+						AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, "call");
+
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				Toast.makeText(getActivity(), "Check the SIM",
@@ -228,7 +257,32 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isNetworkConnected(getActivity())) {
-			showFragment(new FacebookScreenFragment());
+
+			Session mFacebookSession = Session.getActiveSession();
+
+			DLog.d(TAG, "Session - getSession from Facebook SDK "
+					+ mFacebookSession);
+			if (mFacebookSession == null) {
+				startFacebookSession();
+			} else if ((mFacebookSession != null)
+					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
+				startFacebookSession();
+			} else if ((mFacebookSession != null)
+					&& (mFacebookSession.getState() == SessionState.OPENED)) {
+				DLog.d(TAG,
+						"Session - getSession from Facebook SDK is not NULL  : "
+								+ mFacebookSession);
+				showFragment(new FacebookScreenFragment());
+				LoginButton.builder = null;
+				DLog.d(TAG, "Session is not null");
+
+			}
+			// showFragment(new FacebookScreenFragment());
+			// mFacebook.setLoginBehavior(SessionLoginBehavior.SSO_ONLY);
+			// mFacebook.setReadPermissions(Arrays.asList("email",
+			// "user_birthday", "user_hometown", "user_location"));
+			// FacebookHelper mHelper = new FacebookHelper(getActivity());
+
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
 			mTwitter.setClickable(true);
@@ -236,6 +290,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
 		} else if (id == R.id.contactUsEmail) {
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+					AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, "email");
 			sendEmail();
 		}
 	}
@@ -271,18 +328,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mConactUsParent.setLayoutParams(mParams);
 	}
 
+	/*
+	 * TODO: Sending message is been implemented through gmail. So this is
+	 * temperory.
+	 * 
+	 * Wouter is working on In-App messaging.
+	 */
 	private void sendEmail() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("message/rfc822");
-		intent.putExtra(Intent.EXTRA_EMAIL,
-				new String[] { "philipscustomer@philipsSupport.com" });
+		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { getResources()
+				.getString(R.string.support_email_id) });
 		intent.putExtra(Intent.EXTRA_SUBJECT,
 				"My AirFryer HD9220/20 is gone case");
 		intent.putExtra(
 				Intent.EXTRA_TEXT,
 				"Hi Team\n My Airfryer is not at all cooking actually. It is leaving ultimate smoke."
 						+ " Please do let me know how i can correct my favourate Philips Machine!! ");
-
 		intent.setPackage("com.google.android.gm");
 		getActivity().startActivity(intent);
 	}
@@ -290,5 +352,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.opt_contact_us);
+	}
+
+	private void startFacebookSession() {
+		FacebookHelper mHelper = FacebookHelper.getInstance(getActivity());
+		mHelper.openFacebookSession(new FacebookAuthenticate() {
+			@Override
+			public void onSuccess() {
+				showFragment(new FacebookScreenFragment());
+			}
+		});
 	}
 }

@@ -3,9 +3,11 @@ package com.philips.cl.di.digitalcare.social;
 import android.graphics.Bitmap;
 
 /**
- * @description ProductImageInteface interface used for attaching and dettaching the product image in contactUs support.
+ * ProductImageInteface interface used for attaching and dettaching the product
+ * image in contactUs support.
+ * 
  * @author 310190678
- *@since 11/feb/2015
+ * @since 11/feb/2015
  */
 public interface ProductImageResponseCallback {
 

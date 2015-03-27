@@ -2,7 +2,6 @@ package com.philips.cl.di.digitalcare.productdetails;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,12 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.util.DLog;
 
-/*
- *	ProductDetailsFragment will help to show product details
+/**
+ * ProductDetailsFragment will help to show product details.
  * 
  * @author : Ritesh.jha@philips.com
  * 
@@ -34,7 +36,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.d(TAG, "onCreateView");
+		DLog.d(TAG, "onCreateView");
 		View mView = inflater.inflate(R.layout.fragment_view_product,
 				container, false);
 
@@ -43,7 +45,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		Log.d(TAG, "onActivityCreated");
+		DLog.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 		mFirstContainer = (RelativeLayout) getActivity().findViewById(
 				R.id.toplayout);
@@ -57,6 +59,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 		// init();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS);
 	}
 
 	@Override
@@ -94,6 +98,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.opt_view_product_details);
+		return getResources().getString(R.string.product_info);
 	}
 }

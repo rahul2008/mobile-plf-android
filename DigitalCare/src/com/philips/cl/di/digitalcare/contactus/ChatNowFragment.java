@@ -16,8 +16,10 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
-/*
+/**
  * ChatNowFragment will help to inflate chat webpage on the screen.
  * 
  * @author : Ritesh.jha@philips.com
@@ -48,6 +50,10 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
+		AnalyticsTracker.trackAction(AnalyticsTracker.ACTION_KEY_EXIT_LINK,
+				AnalyticsTracker.MAP_KEY_EXIT_LINK, mUrl);
+
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.webViewParent);
@@ -61,7 +67,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		mWebView = (WebView) getActivity().findViewById(R.id.webView);
 		/* Configuration config = */getResources().getConfiguration();
 		// setViewParams(config);
-		// Log.i("testing", "url : " + mUrl);
 		// mUrl = TextUtils.htmlEncode(mUrl);
 		// String url = "<html><body>"+mUrl+"</body></html>";
 		// mWebView.loadData(Html.fromHtml(url).toString(), "text/html",
@@ -95,9 +100,9 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	private class MyWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			// view.loadUrl(url);
+			view.loadUrl(url);
 			mDialog.show();
-			return false;
+			return true;
 		}
 
 		@Override
@@ -117,6 +122,6 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.chat_now);
+		return getResources().getString(R.string.chat_with_philips);
 	}
 }

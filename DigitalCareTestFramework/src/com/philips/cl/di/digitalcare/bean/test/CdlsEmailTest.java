@@ -6,12 +6,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
-import com.philips.cl.di.digitalcare.contactus.CdlsEmail;
+import com.philips.cl.di.digitalcare.contactus.CdlsEmailModel;
 
 public class CdlsEmailTest extends
 		ActivityInstrumentationTestCase2<DigitalCareActivity> {
 
-	private CdlsEmail mObject1, mObject2, mObject3 = null;
+	private CdlsEmailModel mObject1, mObject2, mObject3 = null;
 
 	private String Label1 = "jjsuioso@kakss.com", label2 = "@askkjnss85955",
 			label3 = "skkksidndn.com";
@@ -27,9 +27,9 @@ public class CdlsEmailTest extends
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
-		mObject1 = mock(CdlsEmail.class);
-		mObject2 = mock(CdlsEmail.class);
-		mObject3 = mock(CdlsEmail.class);
+		mObject1 = mock(CdlsEmailModel.class);
+		mObject2 = mock(CdlsEmailModel.class);
+		mObject3 = mock(CdlsEmailModel.class);
 
 		when(mObject1.getLabel()).thenReturn(Label1);
 		when(mObject2.getLabel()).thenReturn(label2);

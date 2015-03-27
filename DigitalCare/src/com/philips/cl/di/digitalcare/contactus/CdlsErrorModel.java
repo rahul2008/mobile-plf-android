@@ -1,12 +1,12 @@
 package com.philips.cl.di.digitalcare.contactus;
-/*
- *	CdlsError is bean class error.
+/**
+ *	CdlsErrorModel is bean class for error.
  * 
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 16 Dec 2014
  */
-public class CdlsError {
+public class CdlsErrorModel {
 	private String mErrorCode = null;
 	private String mErrorMessage = null;
 

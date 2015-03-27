@@ -1,23 +1,29 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-/*
- *	CdlsPhone is bean class phone.
+/**
+ * CdlsPhoneModel is bean class for phone.
  * 
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 16 Dec 2014
  */
-public class CdlsPhone {
+public class CdlsPhoneModel {
 	private String mPhoneNumber = null;
 	private String mOpeningHoursWeekdays = null;
 	private String mOpeningHoursSaturday = null;
+	private String mOpeningHoursSunday = null;
 
 	public String getPhoneNumber() {
 		return mPhoneNumber;
 	}
 
 	public void setPhoneNumber(String mPhoneNumber) {
-		this.mPhoneNumber = mPhoneNumber;
+		if (mPhoneNumber.contains("(")) {
+			this.mPhoneNumber = mPhoneNumber.substring(0,
+					mPhoneNumber.indexOf("("));
+		} else {
+			this.mPhoneNumber = mPhoneNumber;
+		}
 	}
 
 	public String getOpeningHoursWeekdays() {
@@ -32,7 +38,15 @@ public class CdlsPhone {
 		return mOpeningHoursSaturday;
 	}
 
-	public void setOpeningHoursSaturday(String mOpeningHoursSaturday) {
-		this.mOpeningHoursSaturday = mOpeningHoursSaturday;
+	public void setOpeningHoursSaturday(String mOpeningHoursSunday) {
+		this.mOpeningHoursSaturday = mOpeningHoursSunday;
+	}
+
+	public String getOpeningHoursSunday() {
+		return mOpeningHoursSunday;
+	}
+
+	public void setOpeningHoursSunday(String mOpeningHoursSunday) {
+		this.mOpeningHoursSunday = mOpeningHoursSunday;
 	}
 }

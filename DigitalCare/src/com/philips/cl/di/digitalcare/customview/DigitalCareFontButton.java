@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import com.philips.cl.di.digitalcare.R;
 
-/*
+/**
  * DigitalCareFontButton is the custom Button View.
  * 
  * @author : Ritesh.jha@philips.com

@@ -3,12 +3,12 @@ package com.philips.cl.di.digitalcare.social.facebook;
 import java.io.File;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +20,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
+import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
  * @description: FacebookScreenFragment will help to post messages on Philips
@@ -35,7 +40,8 @@ import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
  * @since: Feb 5, 2015
  */
 public class FacebookScreenFragment extends DigitalCareBaseFragment implements
-		OnCheckedChangeListener, ProductImageResponseCallback {
+		OnCheckedChangeListener, ProductImageResponseCallback,
+		FBAccountCallback, PostCallback {
 
 	private static final String TAG = FacebookScreenFragment.class
 			.getSimpleName();
@@ -47,14 +53,17 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mPopShareLand = null;
 	private DigitalCareFontButton mPopCancelPort = null;
 	private DigitalCareFontButton mPopCancelLand = null;
-	private static FacebookUtility mFacebookUtility = null;
+	private FacebookUtility mFacebookUtility = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductImageClose = null;
 	private File mFile = null;
+	private TextView mPostFrom = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;
 	private Bundle mSaveInstanceState = null;
 	private View mView = null;
+	private ProgressDialog mPostProgress = null;
+	private final String PRODCUT_INFO = "The Prduct Description from CDLS";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,16 +75,34 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		if (mFacebookUtility == null) {
 			mSaveInstanceState = savedInstanceState;
 			mFacebookUtility = new FacebookUtility(getActivity(),
-					mSaveInstanceState, mView);
+					mSaveInstanceState, mView, this, this);
 		}
+		DLog.d(TAG, "onCreateView");
 		return mView;
 	}
 
-	public void onActivityResultFragment(Activity activity, int requestCode,
+	public void onFaceBookCallback(Activity activity, int requestCode,
 			int resultCode, Intent data) {
+		DLog.d(TAG, "onActivity Result received inside the...");
 		if (mFacebookUtility != null) {
+			DLog.d(TAG,
+					"onActivity Result received when Facebook Utility is not null");
 			mFacebookUtility.onActivityResultFragment(activity, requestCode,
 					resultCode, data);
+		}
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (isChecked) {
+			DLog.d(TAG, "Checked True");
+			DLog.d(TAG, getEditorText().toString());
+			mEditText.setText(getEditorText());
+
+		} else {
+			DLog.d(TAG, "Checked False");
+			DLog.d(TAG, "" + getEditorText().toString());
+			mEditText.setText(getEditorText());
 		}
 	}
 
@@ -104,7 +131,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);
-
+		mPostFrom = (TextView) getActivity().findViewById(
+				R.id.fb_Post_FromHeaderText);
 		mProductImageClose = (ImageView) getActivity().findViewById(
 				R.id.fb_Post_camera_close);
 
@@ -115,9 +143,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mProductImage.setOnClickListener(this);
 		mProductImageClose.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
-
 		Configuration config = resource.getConfiguration();
 		setViewParams(config);
+
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK);
 	}
 
 	/**
@@ -183,15 +212,6 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-			mEditText.setText("FaceBook Description");
-		} else {
-			mEditText.setText("");
-		}
-	}
-
-	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
 		Toast.makeText(getActivity(),
@@ -206,7 +226,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageDettach() {
 		mFile = null;
-		Log.d(TAG, "Product Image Dettached");
+		DLog.d(TAG, "Product Image Dettached");
 		mFacebookUtility.setImageToUpload(null);
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));
@@ -221,7 +241,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			backstackFragment();
 		} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
 				&& mFacebookUtility != null) {
-			mFacebookUtility.performPublishAction();
+			mFacebookUtility.performPublishAction(getEditorText());
+			mPostProgress = new ProgressDialog(getActivity());
+			mPostProgress.setMessage("Posting to Philips Facebook Support...");
+			mPostProgress.setCancelable(false);
 			// backstackFragment();
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this).pickImage();
@@ -230,9 +253,67 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
+	public String getEditorText() {
+		String mContent = null, mEditorContent = mEditText.getText().toString();
+
+		if (mCheckBox.isChecked()) {
+			mContent = PRODCUT_INFO + " " + mEditorContent;
+		} else {
+			if (mEditorContent.contains(PRODCUT_INFO))
+				mContent = mEditorContent.replace(PRODCUT_INFO, "").trim();
+			else
+				mContent = mEditorContent;
+
+		}
+
+		DLog.d(TAG, "Text in the Content Description" + mContent);
+		return mContent;
+	}
+
 	@Override
 	public String getActionbarTitle() {
-		return getResources()
-				.getString(R.string.social_login_post);
+		return getResources().getString(R.string.opt_contact_us);
 	}
+
+	@Override
+	public void setName(String name) {
+		String mName = mPostFrom.getText().toString();
+		mName = mName + " @" + name;
+		mPostFrom.setText(mName);
+		DLog.d(TAG, "Callback received");
+	}
+
+	@Override
+	public void onTaskCompleted() {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getActivity(), "Posted Successfully!!",
+						Toast.LENGTH_SHORT).show();
+				closeProgress();
+				backstackFragment();
+			}
+		});
+	}
+
+	@Override
+	public void onTaskFailed() {
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(getActivity(), "Failed to post..",
+						Toast.LENGTH_SHORT).show();
+				closeProgress();
+			}
+		});
+	}
+
+	private void closeProgress() {
+		if (mPostProgress.isShowing())
+			mPostProgress.dismiss();
+	}
+}
+
+interface FBAccountCallback {
+	void setName(String name);
 }

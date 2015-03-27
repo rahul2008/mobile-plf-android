@@ -8,20 +8,20 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * Background Task for posting Twitter tweets along with Product
- *              Image.
+ * Background Task for posting Twitter tweets along with Product Image.
+ * 
  * @author naveen@philips.com
  * @since 11/feb/2015
- * 
  */
 public class TwitterPost extends AsyncTask<String, String, Void> {
 
@@ -31,9 +31,12 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	private String mConsumerSecret = null;
 	private File mFile = null;
 	private PostCallback mPostCallback = null;
+	private ProgressDialog mDialog = null;
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
-	public static final String PREF_NAME = "sample_twitter_pref";
+	public static final String PREF_NAME = "twitter_pref";
+
+	private String POST_TO_TWITTER = "Posting to Twitter Support Page...";
 
 	public TwitterPost(Context c, File f, PostCallback callback) {
 		mContext = c;
@@ -42,13 +45,23 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 		DLog.d(TAG, "TwitterPost Constructor");
 	}
 
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		mDialog = new ProgressDialog(mContext);
+		mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mDialog.setMessage(POST_TO_TWITTER);
+		mDialog.setCancelable(false);
+		mDialog.show();
+	}
+
 	protected Void doInBackground(String... args) {
 		DLog.d(TAG, "Twitter POst DoIN backGround++");
 		String status = args[0];
 		try {
-			mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
-			mConsumerSecret = mContext
-					.getString(R.string.twitter_consumer_secret);
+			mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
+			mConsumerSecret = DigitalCareConfigManager
+					.getTwitterConsumerSecret();
 			ConfigurationBuilder builder = new ConfigurationBuilder();
 			builder.setOAuthConsumerKey(mConsumerKey);
 			builder.setOAuthConsumerSecret(mConsumerSecret);
@@ -82,4 +95,12 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 		return null;
 	}
 
+	@Override
+	protected void onPostExecute(Void result) {
+		super.onPostExecute(result);
+		if (mDialog.isShowing()) {
+			mDialog.dismiss();
+			mDialog = null;
+		}
+	}
 }

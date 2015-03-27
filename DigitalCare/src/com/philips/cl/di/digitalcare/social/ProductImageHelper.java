@@ -15,9 +15,13 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.adobe.mobile.Analytics;
+import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -53,8 +57,11 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-		final String[] items = new String[] { "Take Photo",
-				"Choose from Library", "Cancel" };
+		final String[] items = new String[] {
+				mActivity.getResources().getString(R.string.take_photo),
+				mActivity.getResources()
+						.getString(R.string.choose_from_library),
+				mActivity.getResources().getString(R.string.cancel) };
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(mActivity,
 				android.R.layout.select_dialog_item, items);
 		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
@@ -87,10 +94,14 @@ public class ProductImageHelper {
 	}
 
 	public void processProductImage(Intent data, int requestCode) {
-		Log.d(TAG, "onActivity receiving the Intent");
+		DLog.d(TAG, "onActivity receiving the Intent");
 
 		if (requestCode == DigitalCareContants.IMAGE_PICK) {
-			Log.d(TAG, "Prod Image Received from Gallery");
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+					AnalyticsConstants.ACTION_KEY_APP_ID,
+					Analytics.getTrackingIdentifier());
+			DLog.d(TAG, "Prod Image Received from Gallery");
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
 
@@ -100,7 +111,7 @@ public class ProductImageHelper {
 
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 			String picturePath = cursor.getString(columnIndex);
-			Log.d(TAG, "Gallery Image Path : " + picturePath);
+			DLog.d(TAG, "Gallery Image Path : " + picturePath);
 			BitmapFactory.Options options = new BitmapFactory.Options();
 			options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 			Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
@@ -109,7 +120,11 @@ public class ProductImageHelper {
 		}
 
 		if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
-			Log.d(TAG, "Product Image receiving from Camera");
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+					AnalyticsConstants.ACTION_KEY_APP_ID,
+					Analytics.getTrackingIdentifier());
+			DLog.d(TAG, "Product Image receiving from Camera");
 
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");
 			try {

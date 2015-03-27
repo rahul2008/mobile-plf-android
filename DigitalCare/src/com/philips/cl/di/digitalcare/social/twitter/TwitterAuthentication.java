@@ -15,9 +15,15 @@ import android.content.SharedPreferences.Editor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.util.DLog;
 
+/**
+ * TwitterAuthentication.
+ * 
+ * @author naveen@philips.com
+ * @since 11/Feb/2015
+ */
 public class TwitterAuthentication {
 
 	private static final String TAG = TwitterAuthentication.class
@@ -58,8 +64,8 @@ public class TwitterAuthentication {
 
 	public void initSDK(TwitterAuthenticationCallback auth) {
 		this.mTwitterAuth = auth;
-		mConsumerKey = mContext.getString(R.string.twitter_consumer_key);
-		mConsumerSecret = mContext.getString(R.string.twitter_consumer_secret);
+		mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
+		mConsumerSecret = DigitalCareConfigManager.getTwitterConsumerSecret();
 		mAuthVerifier = "oauth_verifier";
 
 		if (TextUtils.isEmpty(mConsumerKey)
@@ -153,8 +159,8 @@ public class TwitterAuthentication {
 				mRequestToken = mTwitter.getOAuthRequestToken(mCallbackUrl);
 
 				final Intent intent = new Intent(mContext,
-						TwitterUserAuthentication.class);
-				intent.putExtra(TwitterUserAuthentication.EXTRA_URL,
+						TwitterAuthenticationActivity.class);
+				intent.putExtra(TwitterAuthenticationActivity.EXTRA_URL,
 						mRequestToken.getAuthenticationURL());
 				mContext.startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
 			} catch (TwitterException e) {

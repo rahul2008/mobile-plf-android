@@ -11,9 +11,11 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-/*
+/**
  * CdlsRequestAsyncTask is AsyncTask. This is generic class. Other classes just need to pass 
  * the listener context and URL in order to run this Async task.
  * 
@@ -24,10 +26,27 @@ import android.os.AsyncTask;
 public class CdlsRequestTask extends AsyncTask<Void, Void, String> {
 	private CdlsResponseCallback mCdlsResponseHandler = null;
 	private String mURL = null;
+	private Activity mActivity = null;
+	
+	private ProgressDialog mDialog = null;
 
-	public CdlsRequestTask(String url, CdlsResponseCallback context) {
+	public CdlsRequestTask(Activity activity, String url, CdlsResponseCallback context) {
+		mActivity = activity;
 		mURL = url;
 		mCdlsResponseHandler = context;
+	}
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		if (mDialog == null)
+			mDialog = new ProgressDialog(mActivity);
+		mDialog.setMessage("Loading...");	
+		if (!(mActivity.isFinishing())) {
+			mDialog.show();
+		} else {
+			mDialog.cancel();
+			mDialog = null;
+		}
 	}
 
 	private String getASCIIContentFromEntity(HttpEntity entity)
@@ -67,6 +86,11 @@ public class CdlsRequestTask extends AsyncTask<Void, Void, String> {
 	}
 
 	protected void onPostExecute(String results) {
+		if (mDialog != null) {
+			mDialog.dismiss();
+			mDialog.cancel();
+			mDialog = null;
+		}
 		mCdlsResponseHandler.onCdlsResponseReceived(results);
 	}
 }

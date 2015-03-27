@@ -40,7 +40,7 @@
     <string name="opening_hours_second_row">Saturday: 7:30 AM - 8:00 PM</string>
     <string name="live_chat">Live chat</string>
     <string name="send_email">Send email</string>
-    <string name="call">Call</string>
+    <string name="call_number">Call</string>
     <string name="chat_with_philips">Chat with Philips</string>
 
     <!-- values for Live Chat Screen -->
@@ -50,6 +50,7 @@
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
 
     <!-- View Product Details -->
+    <string name="product_info">Product Information</string>
     <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant">s9721/84</string>
     <string name="product_open_manual">Open interactive manual</string>
@@ -75,11 +76,15 @@
     <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
     <string name="social_post_desc_text">Include product information</string>
+    <string name="cancel">Cancel</string>
     <string name="social_post_from">From</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="choose_from_library">Choose from Library</string>
+    
 
     <!-- Social Login -->
     <string name="social_login_cancel">Cancel</string>
-    <string name="social_login_post">Post</string>
+    <string name="post">Post</string>
     <string name="send">Send</string>
     <string name="facebook_login_header">Log in to Facebook</string>
     <string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>

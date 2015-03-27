@@ -1,0 +1,189 @@
+package com.philips.cl.di.digitalcare;
+
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
+
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.Utils;
+
+/**
+ * DigitalCareConfigManager is Config class for DigitalCare app. Here we can
+ * maintain the instances at digital care app level. We need to pass the
+ * parameters from hosting(integrating) apps and this class will initialize and
+ * maintain for DigitalCareApp level.
+ * 
+ * @author : Ritesh.jha@philips.com
+ * 
+ * @since : 5 Dec 2014
+ */
+public class DigitalCareConfigManager {
+
+	private static int[] mFeatureKeys = null;
+	private static String mCountry = null;
+	private static String mLanguage = null;
+	private static int mAnimationStart = 0;
+	private static int mAnimationStop = 0;
+	private static String mTwitterConsumerKey = null;
+	private static String mTwitterConsumerSecret = null;
+	private static DigitalCareConfigManager mDigitalCareInstance = null;
+
+	private static final String DEFAULT_LANGAUGE = "en";
+	private static final String DEFAULT_COUNTRY = "GB";
+	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
+	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
+
+	// Twitter APP SDK API KEYS
+	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
+	private static final String DEFAULT_TWITTER_SECRET_KEY = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
+
+	private static Context mContext = null;
+
+	/*
+	 * Initialize everything(resources, variables etc) required for DigitalCare.
+	 */
+	public DigitalCareConfigManager(Context context) {
+		if (mDigitalCareInstance == null) {
+			mContext = context;
+			initializeConfigManager();
+			initializeTaggin(context);
+		}
+	}
+
+	private DigitalCareConfigManager() {
+		setConfigParametrs();
+	}
+
+	private void initializeConfigManager() {
+		mDigitalCareInstance = new DigitalCareConfigManager();
+	}
+
+	private static void initializeTaggin(Context context) {
+		AnalyticsTracker.isEnable(true);
+		AnalyticsTracker.initContext(context);
+	}
+
+	/*
+	 * Initializing values at first time.
+	 */
+	private void setConfigParametrs() {
+		initializeFeaturesSupported();
+	}
+
+	/*
+	 * This method will parse, how many features are available at DigitalCare
+	 * level.
+	 */
+	private void initializeFeaturesSupported() {
+		Resources mResources = mContext.getResources();
+		String[] featuresAvailable = mResources
+				.getStringArray(R.array.supported_features);
+		mFeatureKeys = new int[featuresAvailable.length];
+
+		for (int i = 0; i < featuresAvailable.length; i++) {
+			try {
+				mFeatureKeys[i] = Integer.parseInt(featuresAvailable[i]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static int getAppVersion() {
+		int appVersion = 0;
+		try {
+			PackageInfo packageInfo = mContext.getPackageManager()
+					.getPackageInfo(mContext.getPackageName(), 0);
+			DLog.i(DLog.APPLICATION, "Application version: "
+					+ packageInfo.versionName + " (" + packageInfo.versionCode
+					+ ")");
+			appVersion = packageInfo.versionCode;
+		} catch (NameNotFoundException e) {
+			// should never happen
+			throw new RuntimeException("Could not get package name: " + e);
+		}
+		return appVersion;
+	}
+
+	/*
+	 * App's package name.
+	 */
+	public static String getAppPackageName() {
+		return mContext.getResources().getString(R.string.app_package_name);
+	}
+
+	/*
+	 * This will give list of all buttons(features) on the Support Screen.
+	 */
+	public static int[] getFeatureListKeys() {
+		return mFeatureKeys;
+	}
+
+	public static String getCountry() {
+		return Utils.isEmpty(mCountry) ? DEFAULT_COUNTRY : mCountry;
+	}
+
+	public static void setCountry(String country) {
+		mCountry = country;
+	}
+
+	public static String getLanguage() {
+		return Utils.isEmpty(mLanguage) ? DEFAULT_LANGAUGE : mLanguage;
+	}
+
+	public static void setLanguage(String language) {
+		mLanguage = language;
+	}
+
+	public static String getLocale() {
+		return getLanguage() + "-" + getCountry();
+	}
+
+	/*
+	 * If no start animation is not set from Hosting(Parent) app then we can use
+	 * the default.
+	 */
+	public static int getAnimationStart() {
+		return mAnimationStart == 0 ? DEFAULT_ANIMATION_START : mAnimationStart;
+	}
+
+	public static void setAnimationStart(int animationStart) {
+		mAnimationStart = animationStart;
+	}
+
+	/*
+	 * If no stop animation is not set from Hosting(Parent) app then we can use
+	 * the default.
+	 */
+	public static int getAnimationStop() {
+		return mAnimationStop == 0 ? DEFAULT_ANIMATION_STOP : mAnimationStop;
+	}
+
+	public static void setAnimationStop(int animationStop) {
+		mAnimationStop = animationStop;
+	}
+
+	// If the consumer key is not set from Hosting(Parent) app then we can use
+	// the dummy/default.
+	public static String getTwitterConsumerKey() {
+		return mTwitterConsumerKey == null ? DEFAULT_TWITTER_CONSUMER_KEY
+				: mTwitterConsumerKey;
+	}
+
+	public static void setTwitterConsumerKey(String twitterConsumerKey) {
+		mTwitterConsumerKey = twitterConsumerKey;
+	}
+
+	// If the consumer key is not set from Hosting(Parent) app then we can use
+	// the dummy/default.
+	public static String getTwitterConsumerSecret() {
+		return mTwitterConsumerSecret == null ? DEFAULT_TWITTER_SECRET_KEY
+				: mTwitterConsumerSecret;
+	}
+
+	public static void setTwitterConsumerSecret(String twitterConsumerSecret) {
+		mTwitterConsumerSecret = twitterConsumerSecret;
+	}
+}

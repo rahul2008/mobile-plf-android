@@ -9,9 +9,11 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 
-/*
+/**
  *	ChatFragment will help to provide options to start Philips chat.
  * 
  * @author : Ritesh.jha@philips.com
@@ -67,6 +69,8 @@ public class ChatFragment extends DigitalCareBaseFragment {
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT);
 	}
 
 	@Override
@@ -101,6 +105,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.chat_now);
+		return getResources().getString(R.string.chat_with_philips);
 	}
 }

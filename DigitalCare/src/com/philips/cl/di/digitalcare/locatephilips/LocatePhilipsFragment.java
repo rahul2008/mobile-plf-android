@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
-/*
+/**
  *	LocateNearYouFragment will help to inflate webpage on the screen.
  * 
  * @author : Ritesh.jha@philips.com
@@ -40,6 +42,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_BY);
+		AnalyticsTracker.trackAction(AnalyticsTracker.ACTION_KEY_EXIT_LINK,
+				AnalyticsTracker.MAP_KEY_EXIT_LINK, LOCATEPHILIPS_BASEURL);
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.webViewParent);

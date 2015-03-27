@@ -10,8 +10,10 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
-/*
+/**
  *	ProductRegistrationFragment will help to register the particular 
  *	product based of category.
  * 
@@ -43,6 +45,8 @@ public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 		mParams = (LayoutParams) mProdRegParentFirst.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+		
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODUCT_REGISTRATION);
 	}
 
 	@Override

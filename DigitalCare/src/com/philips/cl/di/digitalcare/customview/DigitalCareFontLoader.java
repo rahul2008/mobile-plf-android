@@ -6,7 +6,7 @@ import java.util.Map;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-/*
+/**
  * This class will create only one instance of any typeface. Whenever a typeface is requested, 
  * it will check if the instance of the requested typeface exists. If not it will create an instance and save it to a Map.
  * All typeface can be retrieved using the font name as the key.
