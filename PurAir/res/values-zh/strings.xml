@@ -653,4 +653,8 @@
     <!-- Share -->
     <string name="share">分享</string>
     <string name="mail">邮件</string>
+    
+    <string name="invalid_input">Invalid input</string>
+    <string name="feedback_sent">Thank you for your feedback</string>
+    <string name="feedback_not_sent">We\'re unable to send your feedback at the moment, please try again later. Thank you.</string>
 </resources>
