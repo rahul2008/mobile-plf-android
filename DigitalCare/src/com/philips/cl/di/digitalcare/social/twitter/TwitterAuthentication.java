@@ -88,7 +88,6 @@ public class TwitterAuthentication {
 					loginToTwitter();
 				}
 			});
-			// mLoginThread.setName("Twitter Login");
 			mLoginThread.setPriority(Thread.MAX_PRIORITY);
 			mLoginThread.start();
 			Uri uri = mContext.getIntent().getData();

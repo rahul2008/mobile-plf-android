@@ -118,6 +118,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mChat.setVisibility(View.GONE);
 		}
 		mChat.setOnClickListener(this);
+		if (!(Utils.isNetworkConnected(getActivity())))
+			mFacebook.setClickable(false);
 
 		mCallPhilips.setOnClickListener(this);
 		mTwitter.setOnClickListener(this);

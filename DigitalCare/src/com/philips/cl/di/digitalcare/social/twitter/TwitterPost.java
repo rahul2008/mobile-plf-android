@@ -34,7 +34,7 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 	private ProgressDialog mDialog = null;
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
-	public static final String PREF_NAME = "twitter_pref";
+	public static final String PREF_NAME = "sample_twitter_pref";
 
 	private String POST_TO_TWITTER = "Posting to Twitter Support Page...";
 
@@ -72,9 +72,11 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 					PREF_KEY_OAUTH_TOKEN, "");
 			String access_token_secret = mSharedPreferences.getString(
 					PREF_KEY_OAUTH_SECRET, "");
+			DLog.d(TAG, "Consumer Key in Post Process : " + access_token);
+			DLog.d(TAG, "Consumer Secreat Key in post Process : "
+					+ access_token_secret);
 
-			AccessToken accessToken = new AccessToken(access_token,
-					access_token_secret);
+			AccessToken accessToken = new AccessToken(access_token, access_token_secret);
 			Twitter twitter = new TwitterFactory(builder.build())
 					.getInstance(accessToken);
 			StatusUpdate statusUpdate = new StatusUpdate(status);
