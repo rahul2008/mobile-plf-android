@@ -45,7 +45,7 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 		ImageSelectorView mViewObject = new ImageSelectorView(mContext);
 		View mView = mViewObject.getPortraitView();
 		setContentView(mView);
-		getWindow().setLayout(mWidth, mHeight);
+		getWindow().setLayout(mWidth, (mHeight / 100) * 99);
 		mCameraImagePick = mView.findViewById(mViewObject.getCameraButtonID());
 		mLibraryImagePick = mView
 				.findViewById(mViewObject.getLIbraryButtonID());

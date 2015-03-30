@@ -50,6 +50,10 @@ public class ImageSelectorView {
 		RelativeLayout mRelativeLayout = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams mRelativeLayoutParams = new RelativeLayout.LayoutParams(
 				mWidth, mHeight);
+		mRelativeLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		mRelativeLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+		mRelativeLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		mRelativeLayoutParams.bottomMargin = mCalcHeight * 60;
 		mRelativeLayout.setLayoutParams(mRelativeLayoutParams);
 
 		DigitalCareFontButton mCancelButton = new DigitalCareFontButton(
@@ -57,12 +61,12 @@ public class ImageSelectorView {
 		RelativeLayout.LayoutParams mCancelButtonParams = new RelativeLayout.LayoutParams(
 				-1, mButtonHeight);
 		mCancelButtonParams.setMargins(mTrasparentViewHeight, 0,
-				mTrasparentViewHeight, mTrasparentViewHeight);
+				mTrasparentViewHeight, 0 );
 		mCancelButton.setText(mContext.getResources()
 				.getString(R.string.cancel));
 		mCancelButton.setId(CANCEL_BUTTON);
 		setTypeFace(mCancelButton);
-		setTextSize(mCancelButton, mButtonTextSize);
+		//setTextSize(mCancelButton, mButtonTextSize);
 
 		setBackground(mCancelButton, mCalcHeight, CANCEL_BUTTON);
 		mCancelButtonParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -90,7 +94,7 @@ public class ImageSelectorView {
 		mLibraryButton.setText(mContext.getResources().getString(
 				R.string.choose_from_library));
 		setTypeFace(mLibraryButton);
-		setTextSize(mLibraryButton, mButtonTextSize);
+	//	setTextSize(mLibraryButton, mButtonTextSize);
 		setBackground(mLibraryButton, mCalcHeight, LIBRARY_BUTTON);
 		mLibraryButtonParams.addRule(RelativeLayout.ABOVE, TRANSPARENT_BUTTON);
 		mLibraryButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -121,7 +125,7 @@ public class ImageSelectorView {
 		setBackground(mCameraButton, mCalcHeight, CAMERA_BUTTON);
 		mCameraButton.setText(mContext.getResources().getString(
 				R.string.take_photo));
-		setTextSize(mCameraButton, mButtonTextSize);
+	//	setTextSize(mCameraButton, mButtonTextSize);
 		mCameraButtonParams.addRule(RelativeLayout.ABOVE, DIVIDER_VIEW);
 		mCameraButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		mCameraButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -157,10 +161,11 @@ public class ImageSelectorView {
 		button.setTextColor(Color.parseColor("#3BB9FF"));
 	}
 
-	private void setTextSize(DigitalCareFontButton button, float size) {
-		button.setTextSize(size);
-	}
+	/*private void setTextSize(DigitalCareFontButton button, float size) {
+		button.setTextSize(android.R.style.TextAppearance_DeviceDefault_Small);
+	}*/
 
+	@SuppressWarnings("deprecation")
 	private void setBackground(DigitalCareFontButton button, int buttonHeight,
 			int ID) {
 		GradientDrawable mBackground = new GradientDrawable();
