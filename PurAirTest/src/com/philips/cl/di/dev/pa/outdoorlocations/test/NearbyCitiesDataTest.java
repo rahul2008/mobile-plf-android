@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData.LocalityInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
-
-import junit.framework.TestCase;
 
 public class NearbyCitiesDataTest extends TestCase {
 	

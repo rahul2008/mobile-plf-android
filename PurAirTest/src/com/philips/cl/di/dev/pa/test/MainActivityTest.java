@@ -8,8 +8,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {

@@ -7,12 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.ImageSaveListener;
-
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 
 public class ImageSaveAsynctask extends AsyncTask<Bitmap, Void, Void> {
 	

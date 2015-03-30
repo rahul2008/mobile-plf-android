@@ -1,11 +1,11 @@
 package com.philips.cl.di.dev.pa.buyonline;
 
-import com.philips.cl.di.dev.pa.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class SquareImageView extends ImageView {
 

@@ -163,7 +163,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		OutdoorController.getInstance().setActivity(this);
 
-//    	checkForCrashesHockeyApp();
+    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {

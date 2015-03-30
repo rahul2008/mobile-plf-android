@@ -11,7 +11,6 @@ import com.philips.cl.di.dev.pa.newpurifier.DeviceHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class AirPort extends DICommPort {
 	

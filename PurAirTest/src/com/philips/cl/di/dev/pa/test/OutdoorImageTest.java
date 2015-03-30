@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.test;
 
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorImage;
-
-import junit.framework.TestCase;
 
 public class OutdoorImageTest extends TestCase {
 	

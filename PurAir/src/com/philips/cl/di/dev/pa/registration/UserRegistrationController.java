@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.registration;
 import java.util.Locale;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.reg.User;
@@ -42,7 +41,6 @@ public class UserRegistrationController implements NetworkStateListener {
 	public boolean isUserLoggedIn() {
 		User user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());
-
 		return (null != profile);
 	}
 

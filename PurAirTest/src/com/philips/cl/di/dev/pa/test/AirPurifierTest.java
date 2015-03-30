@@ -10,8 +10,8 @@ import java.util.Observer;
 
 import android.test.InstrumentationTestCase;
 
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierListener;
 
 public class AirPurifierTest extends InstrumentationTestCase {

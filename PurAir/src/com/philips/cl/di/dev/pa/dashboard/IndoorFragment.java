@@ -48,7 +48,6 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.Error.PurifierEvent;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
 	AlertDialogBtnInterface {

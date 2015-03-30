@@ -5,8 +5,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-
 import android.annotation.SuppressLint;
+
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
