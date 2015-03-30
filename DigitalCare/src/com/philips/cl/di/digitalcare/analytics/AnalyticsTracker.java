@@ -25,7 +25,7 @@ import com.philips.cl.di.digitalcare.util.DLog;
  */
 public class AnalyticsTracker {
 
-	public static String TAG = "DigitalCare:Analytics";
+	private static final String TAG = "DigitalCare:Analytics";
 	private static boolean trackMetrics = false;
 
 	/**
