@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
     android:installLocation="preferExternal"
-    android:versionCode="67"
-    android:versionName="1.31.0" >
+    android:versionCode="70"
+    android:versionName="1.32.0" >
 
     <uses-sdk
         android:minSdkVersion="9"
