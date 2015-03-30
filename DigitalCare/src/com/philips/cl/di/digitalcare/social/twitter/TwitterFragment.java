@@ -233,9 +233,10 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				String socialType = "Twitter";
 				AnalyticsTracker.trackAction(
 						AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
-						AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, "Twitter");
+						AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, socialType);
 				Toast.makeText(getActivity(), "Posted Successfully!!",
 						Toast.LENGTH_SHORT).show();
 				closeProgress();

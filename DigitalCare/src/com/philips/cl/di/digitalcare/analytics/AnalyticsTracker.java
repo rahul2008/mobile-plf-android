@@ -17,15 +17,15 @@ import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * 
  * AnalyticsTracker class is responsible for Adobe Analytics. Here all APIs has
  * been added to call for page/event tagging.
  * 
  * @author: ritesh.jha@philips.com
  * @since: Mar 25, 2015
  */
-public class AnalyticsTracker implements AnalyticsConstants {
+public class AnalyticsTracker {
 
+	public static String TAG = "DigitalCare:Analytics";
 	private static boolean trackMetrics = false;
 
 	/**
@@ -89,14 +89,15 @@ public class AnalyticsTracker implements AnalyticsConstants {
 		if (!trackMetrics)
 			return;
 		DLog.i(TAG, "TrackAction : actionName : " + actionName);
-		Analytics.trackAction(ACTION_KEY_SET_ERROR,
+		Analytics.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
 				getContextData(mapKey, mapValue));
 	}
 
 	private static Map<String, Object> getContextData(String mapKey,
 			String mapValue) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
+		contextData.put(AnalyticsConstants.ACTION_KEY_TIME_STAMP,
+				getTimestamp());
 		contextData.put(mapKey, mapValue);
 		return contextData;
 	}
@@ -106,18 +107,23 @@ public class AnalyticsTracker implements AnalyticsConstants {
 	 */
 	private static Map<String, Object> addAnalyticsDataObject() {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(ACTION_KEY_APPNAME, ACTION_VALUE_APPNAME);
-		contextData.put(ACTION_KEY_VERSION,
+		contextData.put(AnalyticsConstants.ACTION_KEY_APPNAME,
+				AnalyticsConstants.ACTION_VALUE_APPNAME);
+		contextData.put(AnalyticsConstants.ACTION_KEY_VERSION,
 				DigitalCareConfigManager.getAppVersion());
-		contextData.put(ACTION_KEY_OS, ACTION_VALUE_ANDROID
-				+ Build.VERSION.RELEASE);
-		contextData.put(ACTION_KEY_COUNTRY,
+		contextData
+				.put(AnalyticsConstants.ACTION_KEY_OS,
+						AnalyticsConstants.ACTION_VALUE_ANDROID
+								+ Build.VERSION.RELEASE);
+		contextData.put(AnalyticsConstants.ACTION_KEY_COUNTRY,
 				DigitalCareConfigManager.getCountry());
-		contextData.put(ACTION_KEY_LANGUAGE,
+		contextData.put(AnalyticsConstants.ACTION_KEY_LANGUAGE,
 				DigitalCareConfigManager.getLanguage());
-		contextData.put(ACTION_KEY_CURRENCY, getCurrency());
-		contextData.put(ACTION_KEY_TIME_STAMP, getTimestamp());
-		contextData.put(ACTION_KEY_APP_ID, Analytics.getTrackingIdentifier());
+		contextData.put(AnalyticsConstants.ACTION_KEY_CURRENCY, getCurrency());
+		contextData.put(AnalyticsConstants.ACTION_KEY_TIME_STAMP,
+				getTimestamp());
+		contextData.put(AnalyticsConstants.ACTION_KEY_APP_ID,
+				Analytics.getTrackingIdentifier());
 		return contextData;
 	}
 
@@ -125,7 +131,7 @@ public class AnalyticsTracker implements AnalyticsConstants {
 		Currency currency = Currency.getInstance(Locale.getDefault());
 		String currencyCode = currency.getCurrencyCode();
 		if (currencyCode == null)
-			currencyCode = ACTION_KEY_CURRENCY;
+			currencyCode = AnalyticsConstants.ACTION_KEY_CURRENCY;
 		return currencyCode;
 	}
 

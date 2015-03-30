@@ -50,9 +50,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_CHATNOW);
-		AnalyticsTracker.trackAction(AnalyticsTracker.ACTION_KEY_EXIT_LINK,
-				AnalyticsTracker.MAP_KEY_EXIT_LINK, mUrl);
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
+				AnalyticsConstants.MAP_KEY_EXIT_LINK, mUrl);
 
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(

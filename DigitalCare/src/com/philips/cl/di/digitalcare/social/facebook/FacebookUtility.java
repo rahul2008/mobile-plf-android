@@ -164,10 +164,11 @@ public class FacebookUtility {
 
 					@Override
 					public void onCompleted(Response response) {
+						String socialType = "Facebook";
 						AnalyticsTracker.trackAction(
 								AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
 								AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
-								"Facebook");
+								socialType);
 
 						String posted = "Shared Image Successful to Facebook";
 						DLog.d(TAG, posted);

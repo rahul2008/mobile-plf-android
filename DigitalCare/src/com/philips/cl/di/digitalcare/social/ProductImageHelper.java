@@ -94,8 +94,8 @@ public class ProductImageHelper {
 		if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
 			AnalyticsTracker.trackAction(
 					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
-					AnalyticsConstants.ACTION_KEY_APP_ID,
-					Analytics.getTrackingIdentifier());
+					AnalyticsConstants.ACTION_KEY_PHOTO,
+					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
 			DLog.d(TAG, "Product Image receiving from Camera");
 
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");

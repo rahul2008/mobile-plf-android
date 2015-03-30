@@ -44,7 +44,7 @@ public class ImageSelectorView {
 		int mCalcHeight = mHeight / 100;
 		int mButtonHeight = mCalcHeight * 7;
 		int mTrasparentViewHeight = mCalcHeight * 1;
-		int mButtonTextSize = mCalcHeight * 4;
+//		int mButtonTextSize = mCalcHeight * 4;
 		int mDividerHeight = mTrasparentViewHeight / 3;
 
 		RelativeLayout mRelativeLayout = new RelativeLayout(mContext);

@@ -53,9 +53,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		DLog.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP);
-		AnalyticsTracker.trackAction(AnalyticsTracker.ACTION_KEY_EXIT_LINK,
-				AnalyticsTracker.MAP_KEY_EXIT_LINK, mStoreUri.toString());
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
+				AnalyticsConstants.MAP_KEY_EXIT_LINK, mStoreUri.toString());
 
 		mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
