@@ -279,7 +279,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		} else if (id == R.id.socialLoginTwitterBtn
 				&& Utils.isNetworkConnected(getActivity())) {
-			mTwitter.setClickable(true);
+			mTwitter.setClickable(false);
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
