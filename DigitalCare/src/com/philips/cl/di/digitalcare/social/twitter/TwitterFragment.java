@@ -163,6 +163,7 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 			break;
 		case R.id.fb_post_camera:
 			ProductImageHelper.getInstance(getActivity(), this).pickImage();
+			
 			break;
 		case R.id.fb_Post_camera_close:
 			onImageDettach();
@@ -264,6 +265,6 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.post);
+		return getResources().getString(R.string.opt_contact_us);
 	}
 }
