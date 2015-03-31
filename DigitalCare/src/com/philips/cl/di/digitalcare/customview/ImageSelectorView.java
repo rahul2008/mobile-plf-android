@@ -1,9 +1,11 @@
 package com.philips.cl.di.digitalcare.customview;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.test.MoreAsserts;
 import android.util.DisplayMetrics;
 import android.widget.RelativeLayout;
 
@@ -14,6 +16,7 @@ public class ImageSelectorView {
 
 	private final String TAG = ImageSelectorView.class.getSimpleName();
 	private Activity mContext = null;
+	int mOrientation = 0;
 	private int mWidth = 0;
 	private int mHeight = 0;
 
@@ -25,6 +28,7 @@ public class ImageSelectorView {
 
 	public ImageSelectorView(Activity c) {
 		mContext = c;
+		mOrientation = mContext.getResources().getConfiguration().orientation;
 		setDialogDimension();
 	}
 
@@ -40,12 +44,23 @@ public class ImageSelectorView {
 		return CAMERA_BUTTON;
 	}
 
-	public RelativeLayout getPortraitView() {
+	public RelativeLayout getPhoneAlertView() {
 		int mCalcHeight = mHeight / 100;
-		int mButtonHeight = mCalcHeight * 7;
-		int mTrasparentViewHeight = mCalcHeight * 1;
-//		int mButtonTextSize = mCalcHeight * 4;
-		int mDividerHeight = mTrasparentViewHeight / 3;
+		int mButtonHeight = 0;
+		int mTrasparentViewHeight = 0;
+		int mDividerHeight = 0;
+
+		if (mOrientation == Configuration.ORIENTATION_PORTRAIT) {
+
+			mButtonHeight = mCalcHeight * 7;
+			mTrasparentViewHeight = mCalcHeight * 1;
+			// int mButtonTextSize = mCalcHeight * 4;
+			mDividerHeight = mTrasparentViewHeight / 3;
+		} else {
+			mButtonHeight = mCalcHeight * 15;
+			mTrasparentViewHeight = mCalcHeight * 2;
+			mDividerHeight = mTrasparentViewHeight / 3;
+		}
 
 		RelativeLayout mRelativeLayout = new RelativeLayout(mContext);
 		RelativeLayout.LayoutParams mRelativeLayoutParams = new RelativeLayout.LayoutParams(
@@ -61,12 +76,12 @@ public class ImageSelectorView {
 		RelativeLayout.LayoutParams mCancelButtonParams = new RelativeLayout.LayoutParams(
 				-1, mButtonHeight);
 		mCancelButtonParams.setMargins(mTrasparentViewHeight, 0,
-				mTrasparentViewHeight, 0 );
+				mTrasparentViewHeight, 0);
 		mCancelButton.setText(mContext.getResources()
 				.getString(R.string.cancel));
 		mCancelButton.setId(CANCEL_BUTTON);
 		setTypeFace(mCancelButton);
-		//setTextSize(mCancelButton, mButtonTextSize);
+		// setTextSize(mCancelButton, mButtonTextSize);
 
 		setBackground(mCancelButton, mCalcHeight, CANCEL_BUTTON);
 		mCancelButtonParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -94,7 +109,7 @@ public class ImageSelectorView {
 		mLibraryButton.setText(mContext.getResources().getString(
 				R.string.choose_from_library));
 		setTypeFace(mLibraryButton);
-	//	setTextSize(mLibraryButton, mButtonTextSize);
+		// setTextSize(mLibraryButton, mButtonTextSize);
 		setBackground(mLibraryButton, mCalcHeight, LIBRARY_BUTTON);
 		mLibraryButtonParams.addRule(RelativeLayout.ABOVE, TRANSPARENT_BUTTON);
 		mLibraryButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -125,7 +140,7 @@ public class ImageSelectorView {
 		setBackground(mCameraButton, mCalcHeight, CAMERA_BUTTON);
 		mCameraButton.setText(mContext.getResources().getString(
 				R.string.take_photo));
-	//	setTextSize(mCameraButton, mButtonTextSize);
+		// setTextSize(mCameraButton, mButtonTextSize);
 		mCameraButtonParams.addRule(RelativeLayout.ABOVE, DIVIDER_VIEW);
 		mCameraButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		mCameraButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -161,9 +176,10 @@ public class ImageSelectorView {
 		button.setTextColor(Color.parseColor("#3BB9FF"));
 	}
 
-	/*private void setTextSize(DigitalCareFontButton button, float size) {
-		button.setTextSize(android.R.style.TextAppearance_DeviceDefault_Small);
-	}*/
+	/*
+	 * private void setTextSize(DigitalCareFontButton button, float size) {
+	 * button.setTextSize(android.R.style.TextAppearance_DeviceDefault_Small); }
+	 */
 
 	@SuppressWarnings("deprecation")
 	private void setBackground(DigitalCareFontButton button, int buttonHeight,

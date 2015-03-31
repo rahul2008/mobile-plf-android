@@ -33,6 +33,7 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 	public ImagePickerDialog(Activity context) {
 		super(context);
 		mContext = context;
+		
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
 		ImageSelectorView mViewObject = new ImageSelectorView(mContext);
-		View mView = mViewObject.getPortraitView();
+		View mView = mViewObject.getPhoneAlertView();
 		setContentView(mView);
 		getWindow().setLayout(mWidth, (mHeight / 100) * 99);
 		mCameraImagePick = mView.findViewById(mViewObject.getCameraButtonID());
