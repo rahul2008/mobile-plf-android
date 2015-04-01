@@ -12,9 +12,9 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
-public class ImageSelectorView {
+public class DigitalCareProductImageSelectorView {
 
-	private final String TAG = ImageSelectorView.class.getSimpleName();
+	private final String TAG = DigitalCareProductImageSelectorView.class.getSimpleName();
 	private Activity mContext = null;
 	int mOrientation = 0;
 	private int mWidth = 0;
@@ -26,7 +26,7 @@ public class ImageSelectorView {
 	private final int CAMERA_BUTTON = 4;
 	private final int DIVIDER_VIEW = 5;
 
-	public ImageSelectorView(Activity c) {
+	public DigitalCareProductImageSelectorView(Activity c) {
 		mContext = c;
 		mOrientation = mContext.getResources().getConfiguration().orientation;
 		setDialogDimension();
@@ -44,7 +44,7 @@ public class ImageSelectorView {
 		return CAMERA_BUTTON;
 	}
 
-	public RelativeLayout getPhoneAlertView() {
+	public RelativeLayout getPhoneProductMenuView() {
 		int mCalcHeight = mHeight / 100;
 		int mButtonHeight = 0;
 		int mTrasparentViewHeight = 0;

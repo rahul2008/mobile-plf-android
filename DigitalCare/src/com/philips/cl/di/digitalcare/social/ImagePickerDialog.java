@@ -10,7 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 
-import com.philips.cl.di.digitalcare.customview.ImageSelectorView;
+import com.philips.cl.di.digitalcare.customview.DigitalCareProductImageSelectorView;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
@@ -33,7 +33,7 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 	public ImagePickerDialog(Activity context) {
 		super(context);
 		mContext = context;
-		
+
 	}
 
 	@Override
@@ -43,8 +43,9 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
-		ImageSelectorView mViewObject = new ImageSelectorView(mContext);
-		View mView = mViewObject.getPhoneAlertView();
+		DigitalCareProductImageSelectorView mViewObject = new DigitalCareProductImageSelectorView(
+				mContext);
+		View mView = mViewObject.getPhoneProductMenuView();
 		setContentView(mView);
 		getWindow().setLayout(mWidth, (mHeight / 100) * 99);
 		mCameraImagePick = mView.findViewById(mViewObject.getCameraButtonID());
