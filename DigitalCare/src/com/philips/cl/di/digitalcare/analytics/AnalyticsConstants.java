@@ -5,8 +5,7 @@ package com.philips.cl.di.digitalcare.analytics;
  * AnalyticsConstants is holding constant members used for TAGGING, Adobe
  * Analytics.
  * 
- * @author: ritesh.jha@philips.com
- * @since: Mar 26, 2015
+ * = author: ritesh.jha= philips.com = since: Mar 26, 2015
  */
 public class AnalyticsConstants {
 
@@ -16,6 +15,7 @@ public class AnalyticsConstants {
 	public static final String PAGE_CONTACT_US = "digitalcare:contactus";
 	public static final String PAGE_RATE_THIS_APP = "digitalcare:ratethisapp";
 	public static final String PAGE_PRODUCT_REGISTRATION = "digitalcare:productregistration";
+	public static final String PAGE_FIND_PHILIPS_NEAR_YOU = "digitalcare:findphilips";
 
 	public static final String PAGE_CONTACTUS_TWITTER = "digitalcare:contactus:twitter";
 	public static final String PAGE_CONTACTUS_FACEBOOK = "digitalcare:contactus:facebook";
@@ -47,7 +47,7 @@ public class AnalyticsConstants {
 	public static final String ACTION_KEY_SERVICE_CHANNEL = "serviceChannel";
 	public static final String ACTION_KEY_SERVICE_REQUEST = "serviceRequest";
 	public static final String ACTION_KEY_PHOTO = "photo"; // TODO: Has to be
-														// confirmed.
+															// confirmed.
 
 	/* ACTION KEY FOR MAP */
 	public static final String MAP_KEY_EXIT_LINK = "exitLinkName";
@@ -58,8 +58,13 @@ public class AnalyticsConstants {
 	public static final String ACTION_VALUE_FACEBOOK = "Facebook";
 	public static final String ACTION_VALUE_BACKGROUND = "Background";
 	public static final String ACTION_VALUE_FOREGROUND = "Foreground";
-	public static final String ACTION_VALUE_PHOTO_VALUE = "product image"; // TODO:
-																		// Has
-																		// to be
-																		// confirmed.
+	public static final String ACTION_VALUE_PHOTO_VALUE = "productimage"; // TODO:
+																			// Has
+																			// to
+																			// be
+																			// confirmed.
+	/* Error text */
+	public static final String TECHNICAL_ERROR_NETWORK_CONNECITON = "Error connecting to network";
+	public static final String TECHNICAL_ERROR_RESPONSE = "Error response from server";
+	public static final String TECHNICAL_ERROR_LOADING = "Error in loading";
 }
