@@ -14,6 +14,65 @@ package com.pins.philips.shinelib;
  * EventDispatcher -> SHNDeviceScanner : handleDeviceFoundEvent
  * SHNDeviceScanner -> SHNCentral :  reportDeviceFound
  * @enduml
+@startuml
+class SHNDICapabilityImpl
+interface SHNDeviceListener {
+    + void onDeviceStateChanged()
+}
+interface SHNServiceListener {
+    + void onServiceStateChanged()
+}
+interface SHNCharacteristicListener {
+    + void onCharacteristicNotificationStateChanged()
+    + void OnValueUpdated()
+}
+interface SHNCapability
+class BLEDevice
+class BLEService
+class BLECharacteristic
+class SHNDevice
+interface SHNDICapability {
+    + read(SHNDIType type, SHNDIReadListener completion)
+}
+class SHNDIService {
+    + boolean read(SHNDIType type, SHNDIReadListener compl)
+}
+
+class SHNCharacteristic {
+    + void read(CompletionListener completion)
+    + void onCharacteristicRead(BLECharacteristic char, int status, CompletionListener compl)
+}
+
+class SHNService {
+    + void read(SHNCharacteristic char, CompletionListener compl)
+    + void onCharacteristicRead(BLECharacteristic char, int status, CompletionListener compl)
+}
+
+class SHNDevice {
+    + void read(SHNCharacteristic char, CompletionListener compl)
+    + void onCharacteristicRead(BLECharacteristic char, int status)
+}
+
+SHNCapability <|-- SHNDICapability
+SHNCharacteristic "1" o-- "1" BLECharacteristic
+SHNCharacteristic -right-> SHNCharacteristicListener : uses
+SHNDevice -left-> SHNDeviceListener : uses
+SHNDevice "1" o-- "1" BLEDevice
+SHNDevice *-- SHNService
+SHNDevice "1" *-- "1" SHNDIDeviceDefinition
+SHNDeviceDefinition <|-- SHNDIDeviceDefinition
+SHNDICapability <|-- SHNDICapabilityImpl
+SHNDICapabilityImpl "1" o-- "1" SHNDIService
+SHNDIDeviceDefinition *-- SHNDICapabilityImpl
+SHNDIDeviceDefinition *-- SHNDIService
+SHNDIService --|> SHNServiceListener
+SHNDIService "1" *-- "1" SHNService
+SHNDIService "1" *-- "*" SHNCharacteristic
+SHNDIService --|> SHNCharacteristicListener
+SHNService *-right- SHNCharacteristic
+SHNService "1" o-- "1" BLEService
+SHNServiceListener <-left- SHNService
+@enduml
  */
 
 import android.bluetooth.BluetoothAdapter;
@@ -23,6 +82,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.pins.philips.shinelib.bletestsupport.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
@@ -36,7 +96,16 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
  * Created by 310188215 on 02/03/15.
  */
 public class SHNCentral {
-    private final Handler handler;
+    private static final String TAG = SHNCentral.class.getSimpleName();
+
+    public enum SHNCentralState {
+        SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
+    }
+    public interface SHNCentralListener {
+        public void onStateUpdated(SHNCentral shnCentral);
+    }
+
+    private final Handler upperLayerHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
@@ -64,22 +133,7 @@ public class SHNCentral {
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
-    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
-
-    public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {
-        return scheduledThreadPoolExecutor;
-    }
-
-    public Context getApplicationContext() {
-        return applicationContext;
-    }
-
-    public enum SHNCentralState {
-        SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
-    }
-    public interface SHNCentralListener {
-        public void onStateUpdated(SHNCentral shnCentral);
-    }
+    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -89,7 +143,7 @@ public class SHNCentral {
         if (handler == null) {
             handler = new Handler(Looper.getMainLooper());
         }
-        this.handler = handler;
+        this.upperLayerHandler = handler;
 
         // Check that the device supports BLE.
         if (!BleUtilities.deviceHasBle()) {
@@ -107,6 +161,8 @@ public class SHNCentral {
 
         registeredDeviceDefinitions = new ArrayList<>();
         shnDeviceScanner = new SHNDeviceScanner(this);
+
+        scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
     }
 
     public void shutdown() {
@@ -116,8 +172,16 @@ public class SHNCentral {
         shnDeviceScanner = null;
     }
 
+    public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {
+        return scheduledThreadPoolExecutor;
+    }
+
+    public Context getApplicationContext() {
+        return applicationContext;
+    }
+
     void runOnHandlerThread(Runnable runnable) {
-        handler.post(runnable);
+        upperLayerHandler.post(runnable);
     }
 
     void reportSHNDeviceUpdated(final SHNDevice.SHNDeviceListener shnDeviceListener, final SHNDevice shnDevice) {
@@ -127,7 +191,7 @@ public class SHNCentral {
                 shnDeviceListener.onStateUpdated(shnDevice);
             }
         };
-        handler.post(runnable);
+        upperLayerHandler.post(runnable);
     }
 
     public boolean isBluetoothAdapterEnabled() {
@@ -162,6 +226,15 @@ public class SHNCentral {
 
     public SHNCentralState getShnCentralState() {
         return shnCentralState;
+    }
+
+    public SHNDevice createSHNDevice(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, String deviceAddress) {
+        return shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
+    }
+
+    public void reportExceptionOnAppMainThread(Exception e, SHNCentral shnCentral) {
+        Thread t = getApplicationContext().getMainLooper().getThread();
+        t.getUncaughtExceptionHandler().uncaughtException(t, e);
     }
 
 }

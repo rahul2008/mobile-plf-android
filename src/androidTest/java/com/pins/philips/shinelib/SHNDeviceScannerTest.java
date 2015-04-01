@@ -91,7 +91,7 @@ public class SHNDeviceScannerTest extends AndroidTestCase {
         SetupDeviceScanner setupDeviceScanner = new SetupDeviceScanner().invoke();
         SHNCentral mockedShnCentral = setupDeviceScanner.getMockedShnCentral();
         SHNDeviceScanner shnDeviceScanner = setupDeviceScanner.getShnDeviceScanner();
-        
+
 //        verify(mockedShnCentral).getRegisteredDeviceDefinitions();
 
 //        // Generate device one found

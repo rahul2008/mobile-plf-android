@@ -8,29 +8,24 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
-import android.util.Log;
 
-import com.pins.philips.shinelib.framework.BleDeviceFoundInfo;
 import com.pins.philips.shinelib.framework.BluetoothGattCallbackOnExecutor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 /**
  * Created by 310188215 on 02/03/15.
  */
-public class SHNDevice {
+public class SHNDevice implements SHNService.SHNServiceListener {
     private static final String TAG = SHNDevice.class.getSimpleName();
     private final BluetoothDevice bluetoothDevice;
 
-    enum EventSubType {
-        ServicesDiscovered, CharacteristicRead, CharacteristicWrite, CharacteristicChanged, DescriptorRead, DescriptorWrite, ReliableWriteCompleted, ReadRemoteRssi, MtuChanged, ConnectionStateChange
-    }
-    private enum RequestType {
-        Connect, Disconnect
-    }
-
-    private final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo;
     private final Context applicationContext;
     private final SHNCentral shnCentral;
     private BluetoothGatt bluetoothGatt;
@@ -40,6 +35,10 @@ public class SHNDevice {
         return shnDeviceState;
     }
 
+    public boolean readCharacteristic(BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+        return bluetoothGatt.readCharacteristic(bluetoothGattCharacteristic);
+    }
+
     public enum SHNDeviceState {
         SHNDeviceStateDisconnected, SHNDeviceStateDisconnecting, SHNDeviceStateConnecting, SHNDeviceStateConnected
     }
@@ -47,46 +46,41 @@ public class SHNDevice {
         public void onStateUpdated(SHNDevice shnDevice);
     }
 
-    public SHNDevice(BluetoothDevice bluetoothDevice, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, final SHNCentral shnCentral) {
+    public SHNDevice(BluetoothDevice bluetoothDevice, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) {
+        this.shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
         this.bluetoothDevice = bluetoothDevice;
-        this.shnDeviceDefinitionInfo = shnDeviceDefinitionInfo;
         this.shnCentral = shnCentral;
         this.applicationContext = shnCentral.getApplicationContext();
+        this.bluetoothGattCallback = createBluetoothGattCallbackOnExecutor(shnCentral);
+    }
 
-        this.bluetoothGattCallback = new BluetoothGattCallbackOnExecutor(shnCentral.getScheduledThreadPoolExecutor(),new BluetoothGattCallback() {
+    private BluetoothGattCallbackOnExecutor createBluetoothGattCallbackOnExecutor(final SHNCentral shnCentral) {
+        return new BluetoothGattCallbackOnExecutor(shnCentral.getScheduledThreadPoolExecutor(), new BluetoothGattCallback() {
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                SHNDeviceState shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
-                if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                    if (bluetoothGatt != null) {
-                        bluetoothGatt.close();
-                        bluetoothGatt = null;
-                    }
-                    shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
+                try {
+                    handleOnConnectionStateChange(gatt, status, newState);
+                } catch (Exception e) {
+                    shnCentral.reportExceptionOnAppMainThread(e, shnCentral);
                 }
-                else if (newState == BluetoothProfile.STATE_CONNECTED) {
-                    shnDeviceState = SHNDeviceState.SHNDeviceStateConnected;
-                    gatt.discoverServices();
-                }
-                Log.e(TAG, "onConnectionStateChange status: " + status + " newState: " + newState + " [" + shnDeviceState.name() + "]");
-                updateShnDeviceState(shnDeviceState);
             }
 
             @Override
             public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-                Log.e(TAG, "onServicesDiscovered status: " + status);
-                if (status == BluetoothGatt.GATT_SUCCESS) {
-                    for (BluetoothGattService service: gatt.getServices()) {
-                        Log.e(TAG, "onServicesDiscovered service.UUID: " + service.getUuid());
-                        for (BluetoothGattCharacteristic characteristic: service.getCharacteristics()) {
-                            Log.e(TAG, "onServicesDiscovered characteristic.UUID: " + characteristic.getUuid());
-                        }
-                    }
+                try {
+                    handleOnServicesDiscovered(gatt, status);
+                } catch (Exception e) {
+                    shnCentral.reportExceptionOnAppMainThread(e, shnCentral);
                 }
             }
 
             @Override
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+                try {
+                    handleOnCharacteristicRead(gatt, characteristic, status);
+                } catch (Exception e) {
+                    shnCentral.reportExceptionOnAppMainThread(e, shnCentral);
+                }
             }
 
             @Override
@@ -119,6 +113,37 @@ public class SHNDevice {
         });
     }
 
+    private void handleOnConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+        SHNDeviceState shnDeviceState = getState();
+        if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+            if (bluetoothGatt != null) {
+                bluetoothGatt.close();
+                bluetoothGatt = null;
+            }
+            for (SHNService shnService: registeredServices.values()) {
+                shnService.disconnectFromBLELayer();
+            }
+            shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
+        } else if (newState == BluetoothProfile.STATE_CONNECTED) {
+            gatt.discoverServices();
+        }
+        updateShnDeviceState(shnDeviceState);
+    }
+
+    private void handleOnServicesDiscovered(BluetoothGatt gatt, int status) {
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            for (BluetoothGattService bluetoothGattService: bluetoothGatt.getServices()) {
+                SHNService shnService = getSHNService(bluetoothGattService.getUuid());
+                if (shnService != null) {
+                    shnService.connectToBLELayer(bluetoothGattService);
+                }
+            }
+        }
+    }
+
+    public void handleOnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    }
+
     private SHNDeviceListener shnDeviceListener;
     private SHNDeviceState shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
     private String name;
@@ -143,8 +168,10 @@ public class SHNDevice {
         shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
     }
     private void handleConnect()  {
-        updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
-        bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
+        if (shnDeviceState == SHNDeviceState.SHNDeviceStateDisconnected) {
+            updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
+            bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
+        }
     }
 
     public void disconnect() {
@@ -163,8 +190,10 @@ public class SHNDevice {
     }
 
     private void updateShnDeviceState(SHNDeviceState newShnDeviceState) {
-        shnDeviceState = newShnDeviceState;
-        informListeners();
+        if (shnDeviceState != newShnDeviceState) {
+            shnDeviceState = newShnDeviceState;
+            informListeners();
+        }
     }
 
     private void informListeners() {
@@ -178,8 +207,40 @@ public class SHNDevice {
         informListeners();
     }
 
-    public Set<SHNCapabilityType> getSupportedCapabilityTypes() { throw new UnsupportedOperationException(); }
-    public SHNCapability getCapabilityForType(SHNCapabilityType type) { throw new UnsupportedOperationException(); }
+    private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();
+    private Set<SHNCapabilityType> registeredCapabilityTypes = new HashSet<>();
+    public Set<SHNCapabilityType> getSupportedCapabilityTypes() {
+        return registeredCapabilityTypes;
+    }
+    public SHNCapability getCapabilityForType(SHNCapabilityType type) {
+        return registeredCapabilities.get(type);
+    }
+
+    public void registerCapability(SHNCapability shnCapability, SHNCapabilityType shnCapabilityType) {
+        registeredCapabilityTypes.add(shnCapabilityType);
+        registeredCapabilities.put(shnCapabilityType, shnCapability);
+    }
+
+    private Map<UUID, SHNService> registeredServices = new HashMap<>();
+    public void registerService(SHNService shnService) {
+        registeredServices.put(shnService.getUuid(), shnService);
+    }
+    private SHNService getSHNService(UUID serviceUUID) {
+        return registeredServices.get(serviceUUID);
+    }
+
+    // SHNServiceListener callback
+    @Override
+    public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
+        SHNDeviceState newState = SHNDeviceState.SHNDeviceStateConnected;
+        for (SHNService service: registeredServices.values()) {
+            if (service.getState() == SHNService.State.Inactive) {
+                newState = SHNDeviceState.SHNDeviceStateConnecting;
+                break;
+            }
+        }
+        updateShnDeviceState(newState);
+    }
 
     @Override
     public String toString() {

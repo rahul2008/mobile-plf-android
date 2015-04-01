@@ -9,13 +9,16 @@ import java.util.UUID;
 public interface SHNDeviceDefinitionInfo {
     public interface SHNDeviceDefinition {
         public Set<SHNCapability> getExposedCapabilities();
-        public SHNDevice createDeviceFromPeripheralIdentifier(UUID peripheralIdentifier, SHNCentral shnCentral);
+        public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral);
         public void associateWithCompletion(Runnable completion);
+        public Set<UUID> getRequiredServiceUUIDs();
+        public Set<UUID> getRequiredCharacteristicUUIDs(UUID serviceUUID);
+        public Set<UUID> getOptionalCharacteristicUUIDs(UUID serviceUUID);
     }
 
     public String getDeviceTypeName();
     public Set<UUID> getPrimaryServiceUUIDs();
     public SHNDeviceAssociation getShnDeviceAssociation();
 
-    public SHNDeviceDefinition createNewInstance(); // no other way to enforce a no arguments constructor
+    public SHNDeviceDefinition getSHNDeviceDefinition(); // no other way to enforce a no arguments constructor
 }

@@ -1,21 +1,22 @@
 package com.pins.philips.shinelib.capabilities;
 
+import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNStringResultListener;
 
 /**
  * Created by 310188215 on 03/03/15.
  */
-public class SHNCapabilityDeviceInformation {
+public interface SHNCapabilityDeviceInformation extends SHNCapability {
     public enum SHNDeviceInformationType {
-        SHNDeviceInformationTypeManufacturerName,
-        SHNDeviceInformationTypeModelNumber,
-        SHNDeviceInformationTypeSerialNumber,
-        SHNDeviceInformationTypeHardwareRevision,
-        SHNDeviceInformationTypeFirmwareRevision,
-        SHNDeviceInformationTypeSoftwareRevision,
-        SHNDeviceInformationTypeSystemID,
-        SHNDeviceInformationTypeUnknown
+        ManufacturerName,
+        ModelNumber,
+        SerialNumber,
+        HardwareRevision,
+        FirmwareRevision,
+        SoftwareRevision,
+        SystemID,
+        Unknown
     }
 
-    public void readDeviceInformation(SHNDeviceInformationType shnDeviceInformationType, SHNStringResultListener shnStringResultListener) { throw new UnsupportedOperationException(); }
+    public void readDeviceInformation(SHNDeviceInformationType shnDeviceInformationType, SHNStringResultListener shnStringResultListener);
 }

@@ -6,7 +6,6 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import java.util.UUID;
 
@@ -19,7 +18,6 @@ public class BleUtilities {
     private Context applicationContext;
 
     public static void init(Context applicationContext) {
-        Log.e(TAG, "init");
         if (instance == null) {
             instance = new BleUtilities();
         }
@@ -27,7 +25,6 @@ public class BleUtilities {
     }
 
     public static void setInstance(BleUtilities bleUtilitiesInstance) {
-        Log.e(TAG, "setInstance");
         instance = bleUtilitiesInstance;
     }
 
@@ -57,33 +54,27 @@ public class BleUtilities {
     }
 
     public static boolean startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
-        Log.e(TAG, "startLeScan: " + leScanCallback);
         return instance._startLeScan(leScanCallback);
     }
     public boolean _startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
-        Log.e(TAG, "_startLeScan: " + leScanCallback);
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         return bluetoothAdapter.startLeScan(leScanCallback);
     }
 
     public static boolean startLeScan(UUID[] serviceUUIDs, BluetoothAdapter.LeScanCallback leScanCallback) {
-        Log.e(TAG, "startLeScan: " + leScanCallback);
         return instance._startLeScan(serviceUUIDs, leScanCallback);
     }
     public boolean _startLeScan(UUID[] serviceUUIDs, BluetoothAdapter.LeScanCallback leScanCallback) {
-        Log.e(TAG, "_startLeScan: " + leScanCallback);
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         return bluetoothAdapter.startLeScan(serviceUUIDs, leScanCallback);
     }
 
     public static void stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
-        Log.e(TAG, "stopLeScan: " + leScanCallback);
         instance._stopLeScan(leScanCallback);
     }
     public void _stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
-        Log.e(TAG, "_stopLeScan: " + leScanCallback);
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         bluetoothAdapter.stopLeScan(leScanCallback);

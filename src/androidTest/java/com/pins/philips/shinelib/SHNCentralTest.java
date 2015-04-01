@@ -27,6 +27,11 @@ public class SHNCentralTest extends AndroidTestCase {
     }
 
     @Override public void setUp() {
+        System.setProperty(
+                "dexmaker.dexcache",
+                getContext().getCacheDir().getPath());
+//                getInstrumentation().getTargetContext().getCacheDir().getPath());
+
         BleUtilities.setInstance(null);
         BleUtilities.init(getContext());
     }

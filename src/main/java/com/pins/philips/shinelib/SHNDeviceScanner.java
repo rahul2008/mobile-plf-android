@@ -1,7 +1,6 @@
 package com.pins.philips.shinelib;
 
 import android.bluetooth.BluetoothDevice;
-import android.util.Log;
 
 import com.pins.philips.shinelib.framework.BleDeviceFoundInfo;
 import com.pins.philips.shinelib.framework.LeScanCallbackProxy;
@@ -100,7 +99,6 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     // SHNDeviceScanner.LeScanCallback
     @Override
     public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-        if (LOGGING) Log.e(TAG, "onLeScan");
         queueBleDeviceFoundInfoOnBleThread(new BleDeviceFoundInfo(device, rssi, scanRecord));
     }
 
@@ -136,7 +134,6 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
                             uuids.add(new UUID(leastSignificantBit, mostSignificantBit));
                         } catch (IndexOutOfBoundsException e) {
                             // TODO Do we want this -> Defensive programming.
-                            Log.e(TAG, e.toString());
                             continue;
                         } finally {
                             // Move the offset to read the next uuid.

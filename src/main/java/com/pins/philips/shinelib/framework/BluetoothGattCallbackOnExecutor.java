@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
-import android.util.Log;
 
 import java.util.concurrent.Executor;
 
@@ -23,7 +22,6 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onConnectionStateChange(final BluetoothGatt gatt, final int status, final int newState) {
-        Log.e(TAG, "onConnectionStateChange");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
