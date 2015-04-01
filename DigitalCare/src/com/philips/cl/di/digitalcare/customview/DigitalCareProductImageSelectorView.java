@@ -5,8 +5,10 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
-import android.test.MoreAsserts;
 import android.util.DisplayMetrics;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.R;
@@ -14,7 +16,8 @@ import com.philips.cl.di.digitalcare.util.DLog;
 
 public class DigitalCareProductImageSelectorView {
 
-	private final String TAG = DigitalCareProductImageSelectorView.class.getSimpleName();
+	private final String TAG = DigitalCareProductImageSelectorView.class
+			.getSimpleName();
 	private Activity mContext = null;
 	int mOrientation = 0;
 	private int mWidth = 0;
@@ -25,6 +28,7 @@ public class DigitalCareProductImageSelectorView {
 	private final int LIBRARY_BUTTON = 3;
 	private final int CAMERA_BUTTON = 4;
 	private final int DIVIDER_VIEW = 5;
+	private final int TABLET_ONLY_BACKGROUND = 6;
 
 	public DigitalCareProductImageSelectorView(Activity c) {
 		mContext = c;
@@ -42,6 +46,44 @@ public class DigitalCareProductImageSelectorView {
 
 	public int getCameraButtonID() {
 		return CAMERA_BUTTON;
+	}
+
+	public LinearLayout getTabletProductImageMenuView() {
+
+		LinearLayout mPopupWindowContainer = new LinearLayout(mContext);
+		LinearLayout.LayoutParams mPopwindowContainer = new LinearLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		mPopupWindowContainer.setOrientation(LinearLayout.VERTICAL);
+		LinearLayout.LayoutParams mButtonParams = new LinearLayout.LayoutParams(
+				-1, -2);
+		DigitalCareFontButton mCameraButton = new DigitalCareFontButton(
+				mContext);
+		DigitalCareFontButton mGalleryButton = new DigitalCareFontButton(
+				mContext);
+		DigitalCareFontButton mCancelButton = new DigitalCareFontButton(
+				mContext);
+		mCameraButton.setId(CAMERA_BUTTON);
+		mGalleryButton.setId(LIBRARY_BUTTON);
+		mCancelButton.setId(CANCEL_BUTTON);
+		mCancelButton.setText(mContext.getResources()
+				.getString(R.string.cancel));
+		mGalleryButton.setText(mContext.getResources().getString(
+				R.string.choose_from_library));
+		mCameraButton.setText(mContext.getResources().getString(
+				R.string.take_photo));
+		setColor(mCameraButton);
+		setColor(mGalleryButton);
+		setColor(mCancelButton);
+		mPopupWindowContainer.setLayoutParams(mPopwindowContainer);
+		mCameraButton.setLayoutParams(mButtonParams);
+		mGalleryButton.setLayoutParams(mButtonParams);
+		mCancelButton.setLayoutParams(mButtonParams);
+
+		mPopupWindowContainer.addView(mCameraButton);
+		mPopupWindowContainer.addView(mGalleryButton);
+		mPopupWindowContainer.addView(mCancelButton);
+		return mPopupWindowContainer;
+
 	}
 
 	public RelativeLayout getPhoneProductMenuView() {
@@ -83,7 +125,7 @@ public class DigitalCareProductImageSelectorView {
 		setTypeFace(mCancelButton);
 		// setTextSize(mCancelButton, mButtonTextSize);
 
-		setBackground(mCancelButton, mCalcHeight, CANCEL_BUTTON);
+		setPhoneMenuBackground(mCancelButton, mCalcHeight, CANCEL_BUTTON);
 		mCancelButtonParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		mCancelButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		mCancelButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -110,7 +152,7 @@ public class DigitalCareProductImageSelectorView {
 				R.string.choose_from_library));
 		setTypeFace(mLibraryButton);
 		// setTextSize(mLibraryButton, mButtonTextSize);
-		setBackground(mLibraryButton, mCalcHeight, LIBRARY_BUTTON);
+		setPhoneMenuBackground(mLibraryButton, mCalcHeight, LIBRARY_BUTTON);
 		mLibraryButtonParams.addRule(RelativeLayout.ABOVE, TRANSPARENT_BUTTON);
 		mLibraryButtonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		mLibraryButtonParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -137,7 +179,7 @@ public class DigitalCareProductImageSelectorView {
 		mCameraButtonParams.setMargins(mTrasparentViewHeight, 0,
 				mTrasparentViewHeight, 0);
 		mCameraButton.setId(CAMERA_BUTTON);
-		setBackground(mCameraButton, mCalcHeight, CAMERA_BUTTON);
+		setPhoneMenuBackground(mCameraButton, mCalcHeight, CAMERA_BUTTON);
 		mCameraButton.setText(mContext.getResources().getString(
 				R.string.take_photo));
 		// setTextSize(mCameraButton, mButtonTextSize);
@@ -182,8 +224,8 @@ public class DigitalCareProductImageSelectorView {
 	 */
 
 	@SuppressWarnings("deprecation")
-	private void setBackground(DigitalCareFontButton button, int buttonHeight,
-			int ID) {
+	private void setPhoneMenuBackground(DigitalCareFontButton button,
+			int buttonHeight, int ID) {
 		GradientDrawable mBackground = new GradientDrawable();
 		mBackground.setColor(mContext.getResources().getColor(
 				R.color.activity_bg));
