@@ -20,7 +20,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
