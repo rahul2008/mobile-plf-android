@@ -169,7 +169,6 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeLong(mLastPairedTime);
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
         @Override
         public NetworkNode createFromParcel(Parcel in) {

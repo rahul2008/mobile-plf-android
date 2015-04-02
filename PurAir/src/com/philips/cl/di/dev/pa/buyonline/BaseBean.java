@@ -33,7 +33,6 @@ public class BaseBean {
         dataMap = parseJSONObject(jsonObject);
     }
 
-    @SuppressWarnings("unchecked")
     private Map<String, Object> parseJSONObject(JSONObject jsonObject) {
         Map<String, Object> map = null;
         String tempKey = "";

@@ -145,7 +145,8 @@ public class DashboardUtil {
 	        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
 	    }
 	 
-	 public static long freeSpaceOnSd_BYTE() {
+	 @SuppressWarnings("deprecation")
+	public static long freeSpaceOnSd_BYTE() {
 	        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
 	        long sdFreeKB = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
 	        return (long) sdFreeKB;
