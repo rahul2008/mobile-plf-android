@@ -14,9 +14,9 @@ import com.philips.cl.di.digitalcare.customview.DigitalCareProductImageSelectorV
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-public class ImagePickerDialog extends Dialog implements View.OnClickListener {
+public class ImagePhonePickerDialog extends Dialog implements View.OnClickListener {
 
-	private final String TAG = ImagePickerDialog.class.getSimpleName();
+	private final String TAG = ImagePhonePickerDialog.class.getSimpleName();
 	private Activity mContext = null;
 
 	private int mWidth = 0;
@@ -30,7 +30,7 @@ public class ImagePickerDialog extends Dialog implements View.OnClickListener {
 	private final int LIBRARY_BUTTON = 3;
 	private final int CAMERA_BUTTON = 4;
 
-	public ImagePickerDialog(Activity context) {
+	public ImagePhonePickerDialog(Activity context) {
 		super(context);
 		mContext = context;
 

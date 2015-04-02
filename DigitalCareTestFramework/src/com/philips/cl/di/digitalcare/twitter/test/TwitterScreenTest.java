@@ -9,7 +9,7 @@ import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationActivity;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterFragment;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterPost;
 import com.philips.cl.di.digitalcare.util.DLog;
 
@@ -20,7 +20,7 @@ public class TwitterScreenTest extends
 		super(DigitalCareActivity.class);
 	}
 
-	private TwitterFragment mApplication = null;
+	private TwitterSupportFragment mApplication = null;
 	private TwitterAuthentication mTwitterAuth = null;
 	private TwitterAuthenticationActivity mTwitterAuthActivity = null;
 	private TwitterAuthenticationCallback mTwitterAuthCallback = null;
@@ -31,7 +31,7 @@ public class TwitterScreenTest extends
 		super.setUp();
 		System.setProperty("dexmaker.dexcache", getInstrumentation()
 				.getTargetContext().getCacheDir().getPath());
-		mApplication = mock(TwitterFragment.class);
+		mApplication = mock(TwitterSupportFragment.class);
 		mTwitterAuth = mock(TwitterAuthentication.class);
 		mTwitterAuthActivity = mock(TwitterAuthenticationActivity.class);
 		mTwitterAuthCallback = mock(TwitterAuthenticationCallback.class);

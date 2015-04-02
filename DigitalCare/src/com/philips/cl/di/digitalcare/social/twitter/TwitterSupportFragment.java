@@ -31,6 +31,7 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * This Screen helps endusers to send the product info/concern along with
@@ -39,10 +40,11 @@ import com.philips.cl.di.digitalcare.util.DLog;
  * @author naveen@philips.com
  * @since Feb 10, 2015
  */
-public class TwitterFragment extends DigitalCareBaseFragment implements
+public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback {
 
-	private static final String TAG = TwitterFragment.class.getSimpleName();
+	private static final String TAG = TwitterSupportFragment.class
+			.getSimpleName();
 	private String mUsername;
 	private View mTwitterView = null;
 	private File mFile = null;
@@ -162,8 +164,13 @@ public class TwitterFragment extends DigitalCareBaseFragment implements
 		case R.id.fb_Post_CheckBox:
 			break;
 		case R.id.fb_post_camera:
-			ProductImageHelper.getInstance(getActivity(), this).pickImage();
-			
+			if (!Utils.isTablet(getActivity())) {
+				DLog.d(TAG, "It is Tablet");
+				Toast.makeText(getActivity(), "This is Tablet",
+						Toast.LENGTH_SHORT).show();
+			} else {
+				ProductImageHelper.getInstance(getActivity(), this).pickImage();
+			}
 			break;
 		case R.id.fb_Post_camera_close:
 			onImageDettach();

@@ -13,12 +13,14 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import com.adobe.mobile.Analytics;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
+import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * @description This Class will fetch the ProductImage from Camera & Gallery and
@@ -31,7 +33,7 @@ public class ProductImageHelper {
 	private static String TAG = ProductImageHelper.class.getSimpleName();
 	private static ProductImageHelper mProductImage = null;
 	private static ProductImageResponseCallback mImageCallback = null;
-	private ImagePickerDialog mDialog = null;
+	private ImagePhonePickerDialog mDialog = null;
 	private static Activity mActivity = null;
 
 	private ProductImageHelper() {
@@ -53,8 +55,11 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-		mDialog = new ImagePickerDialog(mActivity);
+
+		DLog.d(TAG, "It is Mobile Phone");
+		mDialog = new ImagePhonePickerDialog(mActivity);
 		mDialog.show();
+
 	}
 
 	public void resetDialog() {

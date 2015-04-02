@@ -30,7 +30,7 @@ import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterFragment;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
 
@@ -148,7 +148,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mTwitter.setClickable(true);
 		Toast.makeText(getActivity(), "Logged in Successfully",
 				Toast.LENGTH_SHORT).show();
-		showFragment(new TwitterFragment());
+		showFragment(new TwitterSupportFragment());
 	}
 
 	private CdlsResponseCallback mCdlsResponseCallback = new CdlsResponseCallback() {
