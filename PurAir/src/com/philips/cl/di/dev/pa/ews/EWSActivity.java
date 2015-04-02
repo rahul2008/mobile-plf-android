@@ -750,8 +750,11 @@ public class EWSActivity extends ActionBarActivity implements
 		Network defaultNetwork = ConnectivityManager.getProcessDefaultNetwork();
 		Log.e(ALog.WIFI, "EWSActivity$Default Network " + defaultNetwork);
 		Network setNetwork = networkCallback.getNetwork();
-		Log.e(ALog.WIFI, "EWSActivity$set Network " + setNetwork.toString());
-		ConnectivityManager.setProcessDefaultNetwork(setNetwork);
+		if( setNetwork != null ) {
+			ConnectivityManager.setProcessDefaultNetwork(setNetwork);
+		}
+	
+		
 		DiscoveryManager.getInstance().start(this);
 
 	}

@@ -469,7 +469,9 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 			} catch (InterruptedException e) {
 			}
 		}
-		ConnectivityManager.setProcessDefaultNetwork(networkCallback.getNetwork());
+		if(networkCallback.getNetwork() != null) {
+			ConnectivityManager.setProcessDefaultNetwork(networkCallback.getNetwork());
+		}
 		DiscoveryManager.getInstance().start(this);
 	}
 	

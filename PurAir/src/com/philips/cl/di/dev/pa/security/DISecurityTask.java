@@ -50,7 +50,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 		String result = "";
 		try {
 			URL url = new URL(urlString);
-			conn = NetworkUtils.getConnection(url, "PUT", 20000, 3000) ;
+			conn = NetworkUtils.getConnection(url, "PUT", 20000, 5000) ;
 			if( conn == null ) return "";
 			if (Build.VERSION.SDK_INT <= 10) {
 				conn.setDoOutput(true);

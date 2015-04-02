@@ -135,13 +135,8 @@ public class NetworkUtils {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			int count = 1 ;
 			Network wifiNetworkForSocket = getWifiNetworkForSocket(PurAirApplication.getAppContext(),lockTimeout);
-			while(wifiNetworkForSocket == null && count < 5) {
-				count ++ ;
-				wifiNetworkForSocket = getWifiNetworkForSocket(PurAirApplication.getAppContext(),lockTimeout);
-				Log.e(ALog.WIFI, "Failed to communicate to local device - couldn't get wifi network retry "+count);
-			}
+			
 			if (wifiNetworkForSocket == null) {
 				return null;
 			}
@@ -186,6 +181,7 @@ public class NetworkUtils {
 				(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkRequest.Builder request = new NetworkRequest.Builder();
 		request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+		//request.addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P);
 
 		final Object lock = new Object();
 		WifiNetworkCallback networkCallback = new WifiNetworkCallback(lock);

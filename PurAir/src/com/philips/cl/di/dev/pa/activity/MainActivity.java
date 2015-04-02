@@ -230,11 +230,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			} catch (InterruptedException e) {
 			}
 		}
-		Network defaultNetwork = ConnectivityManager.getProcessDefaultNetwork();
-		Log.e(ALog.WIFI, "MainActivity$Default Network " + defaultNetwork);
 		Network setNetwork = networkCallback.getNetwork();
-		Log.e(ALog.WIFI, "MainActivity$set Network " + setNetwork);
-		ConnectivityManager.setProcessDefaultNetwork(setNetwork);
+		if(setNetwork != null) {
+			ConnectivityManager.setProcessDefaultNetwork(setNetwork);
+		}
 		startDiscovery() ;
 		
 	}
