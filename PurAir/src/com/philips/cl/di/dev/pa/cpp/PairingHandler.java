@@ -112,7 +112,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		PairingService getRelations = new PairingService(callbackHandler);
 
 		getRelations.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
-		retValue = getRelations.getRelationshipRequest(getDICommApplianceEntity(),
+		retValue = getRelations.getRelationshipRequest(null,
 				relationshipType, bincludeIncoming, bincludeOutgoing,
 				iMetadataSize, iMaxPermissions, iMaxRelations, iRelOffset);
 		if (Errors.SUCCESS != retValue) {
