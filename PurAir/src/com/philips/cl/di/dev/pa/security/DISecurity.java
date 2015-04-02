@@ -270,7 +270,7 @@ public class DISecurity implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String deviceEui64, String url, String randomValue) {
 		ALog.i(ALog.SECURITY, "Received response from device: " + deviceEui64 + "    ResponseCode: " + responseCode);
-		ALog.i(ALog.SECURITY, responseData);
+		ALog.i(ALog.SECURITY,"Response: "+ responseData);
 		isExchangingKeyTable.put(deviceEui64, false);
 		if ( responseCode == 200 ) {
 			exchangeKeyCounterTable.put(deviceEui64, 0);
