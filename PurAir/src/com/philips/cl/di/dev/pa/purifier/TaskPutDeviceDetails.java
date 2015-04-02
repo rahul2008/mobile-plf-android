@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -52,9 +53,12 @@ public class TaskPutDeviceDetails implements Runnable {
 			ALog.i(ALog.SUBSCRIPTION, "TastPutDeviceDetails$run requestMethod "
 					+ requestMethod + " url " + url);
 			URL urlConn = new URL(url);
-			conn = NetworkUtils.getConnection(urlConn, requestMethod, -1);
-			if (dataToUpload != null && !dataToUpload.isEmpty()) {
-				conn.setDoOutput(true);
+			conn = NetworkUtils.getConnection(urlConn, requestMethod, -1, 100);
+			if( conn == null ) return ;
+			if (dataToUpload != null && !dataToUpload.isEmpty() && !requestMethod.equals("GET")) {
+				if (Build.VERSION.SDK_INT <= 10) {
+					conn.setDoOutput(true);
+				}
 				out = new OutputStreamWriter(conn.getOutputStream(),
 						Charset.defaultCharset());
 				out.write(dataToUpload);

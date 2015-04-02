@@ -12,10 +12,12 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Build;
 
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.NetworkUtils;
 
 public class EWSTasks extends AsyncTask<String, Void, String>{
 
@@ -59,6 +61,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	 * @param  stringUrl	The given URL 	
 	 * @return	Returns 	web page as a string 
 	 */
+	@SuppressLint("NewApi")
 	private String downloadUrl(String stringUrl)  {
 		ALog.i(ALog.EWS, "stringUrl: "+stringUrl) ;
 		InputStream inputStream = null;
@@ -66,11 +69,9 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 		String data = null ;
 		OutputStreamWriter os = null ;
 		try {
-			URL url ;
-			url = new URL(stringUrl);
-			conn = (HttpURLConnection) url.openConnection();
-			conn.setRequestMethod(requestType);			
-			conn.setRequestProperty("Content-Type", "application/json") ;
+			URL url = new URL(stringUrl);
+			conn = (HttpURLConnection) NetworkUtils.getConnection(url,requestType, 20000,3000);
+			if( conn == null ) return "";
 			conn.setRequestProperty("connection", "close");
 			conn.setConnectTimeout(20000);
 			if(! requestType.equals("GET")) {
@@ -158,5 +159,4 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 		}
 	    return null ;
 	}
-
 }

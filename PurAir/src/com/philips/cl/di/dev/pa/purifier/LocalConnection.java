@@ -40,7 +40,8 @@ public class LocalConnection implements DeviceConnection {
 		try {
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) NetworkUtils.getConnection(urlConn,
-					"PUT", CONN_TIMEOUT_LOCAL_CONTROL);
+					"PUT", CONN_TIMEOUT_LOCAL_CONTROL,100);
+			if( conn == null ) return "" ;
 			conn.setDoOutput(true);
 			out = new OutputStreamWriter(conn.getOutputStream(),
 					Charset.defaultCharset());
