@@ -36,6 +36,7 @@ import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 @SuppressWarnings("unchecked")
 public class PromotionsFragment extends BaseFragment implements View.OnClickListener{
@@ -58,6 +59,7 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		MetricsTracker.trackPage("Promotions");
 		mainActivity = (MainActivity) getActivity();
 		initView();
 		process();

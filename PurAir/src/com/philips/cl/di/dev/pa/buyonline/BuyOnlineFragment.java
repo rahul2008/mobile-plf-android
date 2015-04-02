@@ -22,6 +22,7 @@ import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class BuyOnlineFragment extends BaseFragment {
 
@@ -45,6 +46,7 @@ public class BuyOnlineFragment extends BaseFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		MetricsTracker.trackPage("BuyOnline");
 		initView();
 		process();
 		mainActivity = (MainActivity) getActivity();

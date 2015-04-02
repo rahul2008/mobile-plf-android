@@ -11,6 +11,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -27,6 +28,7 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		MetricsTracker.trackPage("About");
 		initView();
 		setAppInformation();
 		super.onActivityCreated(savedInstanceState);

@@ -269,12 +269,12 @@ public class MetricsTracker {
 		Analytics.trackAction(ACTION_EXIT_LINK, contextData);
 	}
 
-	public static void trackActionBuyButton() {
+	public static void trackActionBuyButton(String leadType) {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : BuyButton");
 		Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
-		contextData.put("leadinfo", "Philips lead");
+		contextData.put("leadInfo", leadType);
 		Analytics.trackAction("buyButton", contextData);
 	}
 

@@ -22,7 +22,8 @@ public class SignedInFragment extends BaseFragment {
 		View view = inflater.inflate(R.layout.air_registration_signed_in_fragment, container, false);
 		
 		Button closeBtn = (Button) view.findViewById(R.id.air_registration_close_btn);
-		MetricsTracker.trackPage(TrackPageConstants.USER_SIGNED_IN);
+//		MetricsTracker.trackPage(TrackPageConstants.USER_SIGNED_IN);
+		MetricsTracker.trackPageSuccessLoginUser(TrackPageConstants.USER_SIGNED_IN);
 		closeBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override

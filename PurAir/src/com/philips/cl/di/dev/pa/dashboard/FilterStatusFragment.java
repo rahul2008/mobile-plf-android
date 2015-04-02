@@ -22,6 +22,7 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -56,6 +57,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		MetricsTracker.trackPage(TrackPageConstants.FILTER_STATUS);
 		initFilterStatusViews();
 		super.onActivityCreated(savedInstanceState);
 	}
@@ -243,7 +245,7 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 	public void onClick(View v) {
 		if (getActivity() == null) return;
 		String uri="";
-		MetricsTracker.trackActionBuyButton();
+		MetricsTracker.trackActionBuyButton("Retailer lead");
 		switch (v.getId()) {
 		case R.id.buyonline_multicare:
 			uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072&origin=15_global_en_purifier-app_purifier-app";
