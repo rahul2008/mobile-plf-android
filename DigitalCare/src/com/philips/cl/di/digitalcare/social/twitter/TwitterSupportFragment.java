@@ -27,6 +27,9 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
+import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
+import com.philips.cl.di.digitalcare.social.ImageTabletPick;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
@@ -119,7 +122,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		DLog.d(TAG, "Configuration Changed");
-		ProductImageHelper.getInstance(getActivity(), this).resetDialog();
+		ProductImageHelper.getInstance().resetDialog();
 		setViewParams(newConfig);
 	}
 
@@ -164,13 +167,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		case R.id.fb_Post_CheckBox:
 			break;
 		case R.id.fb_post_camera:
-			if (!Utils.isTablet(getActivity())) {
-				DLog.d(TAG, "It is Tablet");
-				Toast.makeText(getActivity(), "This is Tablet",
-						Toast.LENGTH_SHORT).show();
-			} else {
-				ProductImageHelper.getInstance(getActivity(), this).pickImage();
-			}
+
+			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 			break;
 		case R.id.fb_Post_camera_close:
 			onImageDettach();

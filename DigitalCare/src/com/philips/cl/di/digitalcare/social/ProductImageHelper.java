@@ -13,11 +13,13 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.widget.Toast;
+import android.view.View;
 
 import com.adobe.mobile.Analytics;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
+import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -34,18 +36,21 @@ public class ProductImageHelper {
 	private static ProductImageHelper mProductImage = null;
 	private static ProductImageResponseCallback mImageCallback = null;
 	private ImagePhonePickerDialog mDialog = null;
+	TabletPopupWindow mPopupMenu = null;
 	private static Activity mActivity = null;
+	private static View mProductImageView = null;
 
 	private ProductImageHelper() {
 	}
 
 	public static ProductImageHelper getInstance(Activity activity,
-			ProductImageResponseCallback callback) {
+			ProductImageResponseCallback callback, View view) {
 		if (mProductImage == null)
 			mProductImage = new ProductImageHelper();
 
 		mActivity = activity;
 		mImageCallback = callback;
+		mProductImageView = view;
 
 		return mProductImage;
 	}
@@ -55,18 +60,36 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-
-		DLog.d(TAG, "It is Mobile Phone");
-		mDialog = new ImagePhonePickerDialog(mActivity);
-		mDialog.show();
+		if (!Utils.isTablet(mActivity) && (mProductImageView != null)) {
+			DLog.d(TAG, "It is Tablet");
+			ImageTabletPick mImageTabletPick = new ImageTabletPick(mActivity);
+			mPopupMenu = mImageTabletPick.getPointerAlert();
+			mPopupMenu
+					.setPointerImageRes(com.philips.cl.di.digitalcare.R.drawable.ic_launcher);
+			mPopupMenu.showAsPointer(mProductImageView);
+			mPopupMenu.setAlignMode(AlignMode.AUTO_OFFSET);
+		} else {
+			DLog.d(TAG, "It is Mobile Phone");
+			mDialog = new ImagePhonePickerDialog(mActivity);
+			mDialog.show();
+		}
 
 	}
 
 	public void resetDialog() {
-		if (mDialog.isShowing() && !(mActivity.isFinishing())) {
-			DLog.d(TAG, "Dialog is resetted");
-			mDialog.dismiss();
-			pickImage();
+
+		if (!Utils.isTablet(mActivity) && (mProductImageView != null)) {
+			if (mPopupMenu.isShowing() && !(mActivity.isFinishing())) {
+				mPopupMenu.dismiss();
+				pickImage();
+			}
+		} else {
+
+			if (mDialog.isShowing() && !(mActivity.isFinishing())) {
+				DLog.d(TAG, "Dialog is resetted");
+				mDialog.dismiss();
+				pickImage();
+			}
 		}
 	}
 

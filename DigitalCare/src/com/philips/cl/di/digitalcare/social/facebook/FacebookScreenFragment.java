@@ -194,7 +194,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		ProductImageHelper.getInstance(getActivity(), this).resetDialog();
+		ProductImageHelper.getInstance().resetDialog();
 		setViewParams(config);
 	}
 
@@ -248,7 +248,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			mPostProgress.setCancelable(false);
 			// backstackFragment();
 		} else if (id == R.id.fb_post_camera) {
-			ProductImageHelper.getInstance(getActivity(), this).pickImage();
+			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
 		}
