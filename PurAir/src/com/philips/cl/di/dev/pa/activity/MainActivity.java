@@ -166,7 +166,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		else {
 			startDiscovery() ;
 		}
-//    	checkForCrashesHockeyApp();
+    	checkForCrashesHockeyApp();
 	}
 	
 	private void startDiscovery() {
@@ -238,14 +238,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		ConnectivityManager.setProcessDefaultNetwork(setNetwork);
 		startDiscovery() ;
 		
-	}
-	
-	@SuppressLint("NewApi")
-	private void  unregisterWifiNetworkForSocket() {
-		if (networkCallback != null) {
-			connectivityManager.unregisterNetworkCallback(networkCallback);
-			networkCallback = null ;
-		}
 	}
 
 	@Override
