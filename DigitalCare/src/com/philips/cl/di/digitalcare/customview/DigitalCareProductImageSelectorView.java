@@ -213,8 +213,13 @@ public class DigitalCareProductImageSelectorView {
 		setColor(button);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void setColor(DigitalCareFontButton button) {
-		button.setTextColor(Color.parseColor("#3BB9FF"));
+		// button.setTextColor(Color.parseColor("#3BB9FF"));
+		GradientDrawable mBackground = new GradientDrawable();
+		mBackground.setColor(mContext.getResources().getColor(
+				R.color.activity_bg));
+		button.setBackgroundDrawable(mBackground);
 	}
 
 	/*
