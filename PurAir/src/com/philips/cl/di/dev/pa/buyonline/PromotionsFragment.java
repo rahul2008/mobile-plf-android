@@ -155,6 +155,8 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 						@Override
 						public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 //							cancelProgressDialog();
+							
+							if ( getView() == null ) { return ; }
 							getView().findViewById(R.id.promotions_banner_iv).setVisibility(View.VISIBLE);
 							getView().findViewById(R.id.promotions_banner_iv).setOnClickListener(new View.OnClickListener() {
 								@Override
