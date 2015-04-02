@@ -3,13 +3,23 @@ package com.philips.cl.di.dev.pa.ews;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
+import android.net.ConnectivityManager.NetworkCallback;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.DialogFragment;
@@ -18,6 +28,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,11 +80,15 @@ public class EWSActivity extends ActionBarActivity implements
 	private int apModeFailCounter;
 	private int step2FailCounter;
 	private int powerOnFailCounter;
+	private ConnectivityManager connectionManager;
+	private WifiNetworkCallback networkCallback;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setup_main);
+		
+		connectionManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         
         try {
 			getSupportFragmentManager().beginTransaction()
@@ -401,13 +416,15 @@ public class EWSActivity extends ActionBarActivity implements
 			}
 		} else {
 			mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+			WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 			ALog.i(ALog.EWS, "mWifi.isConnected()== " +mWifi.isConnected() + ", step: " + mStep);
-			if(!mWifi.isConnected()) {
-				showNetworkChangeFragment();
-				ewsService = new EWSBroadcastReceiver(this, networkSSID) ;
+			if(wifiInfo != null && wifiInfo.getSupplicantState() == SupplicantState.COMPLETED) {
+				showStepOne() ;
 			}
 			else {
-				showStepOne() ;
+				showNetworkChangeFragment();
+				ewsService = new EWSBroadcastReceiver(this, networkSSID) ;
+				
 			}
 		}
 	}
@@ -474,8 +491,9 @@ public class EWSActivity extends ActionBarActivity implements
 
 	@Override
 	public void onSelectHomeNetwork() {
+		ALog.i(ALog.EWS, "EWSActivity$onSelectHomeNetwork()");
+		startDiscovery();
 		if (mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
-			DiscoveryManager.getInstance().start(this);
 			showConnectToPurifierDialog();
 			showStepFourFragment();
 			searchPurifierTimer.start();
@@ -509,7 +527,10 @@ public class EWSActivity extends ActionBarActivity implements
 
 	@Override
 	public void onDeviceConnectToHomeNetwork() {
-		DiscoveryManager.getInstance().start(this);
+		//Start discovery for non Lollipop devices
+		if( Build.VERSION.SDK_INT < VERSION_CODES.LOLLIPOP) {
+			DiscoveryManager.getInstance().start(this);
+		}
 	}
 	
 	@Override
@@ -612,6 +633,16 @@ public class EWSActivity extends ActionBarActivity implements
 	
 	public void stopDiscovery() {
 		DiscoveryManager.getInstance().stop();
+		unregisterWifiNetworkForSocket();
+	}
+	
+	public void startDiscovery() {
+		if( Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+			registerWifiNetworkForSocket();
+		}
+		else {
+			DiscoveryManager.getInstance().start(this);
+		}
 	}
 	
 	private EWSStartFragment getIntroFragment() {
@@ -700,6 +731,39 @@ public class EWSActivity extends ActionBarActivity implements
 	
 	private void stopSearchPurifierTimer() {
 		if( searchPurifierTimer != null) searchPurifierTimer.cancel() ;
+	}
+	
+	@SuppressLint("NewApi")
+	private void registerWifiNetworkForSocket() {
+		NetworkRequest.Builder request = new NetworkRequest.Builder();
+		request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+
+		final Object lock = new Object();
+		networkCallback = new WifiNetworkCallback(lock);
+
+		synchronized (lock) {
+			connectionManager.registerNetworkCallback(request.build(),	networkCallback);
+			try {
+				lock.wait(3000);
+				Log.e(ALog.WIFI, "Timeout error occurred");
+			} catch (InterruptedException e) {
+			}
+		}
+		Network defaultNetwork = ConnectivityManager.getProcessDefaultNetwork();
+		Log.e(ALog.WIFI, "EWSActivity$Default Network " + defaultNetwork);
+		Network setNetwork = networkCallback.getNetwork();
+		Log.e(ALog.WIFI, "EWSActivity$set Network " + setNetwork.toString());
+		ConnectivityManager.setProcessDefaultNetwork(setNetwork);
+		DiscoveryManager.getInstance().start(this);
+
+	}
+	
+	@SuppressLint("NewApi")
+	private void  unregisterWifiNetworkForSocket() {
+		if (networkCallback != null) {
+			connectionManager.unregisterNetworkCallback(networkCallback);
+			networkCallback = null ;
+		}
 	}
 
 	@Override
