@@ -27,14 +27,10 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
-import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
-import com.philips.cl.di.digitalcare.social.ImageTabletPick;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * This Screen helps endusers to send the product info/concern along with

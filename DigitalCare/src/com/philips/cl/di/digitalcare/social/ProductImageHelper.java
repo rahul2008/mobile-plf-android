@@ -60,7 +60,7 @@ public class ProductImageHelper {
 	}
 
 	public void pickImage() {
-		if (!Utils.isTablet(mActivity) && (mProductImageView != null)) {
+		if (Utils.isTablet(mActivity) && (mProductImageView != null)) {
 			DLog.d(TAG, "It is Tablet");
 			ImageTabletPick mImageTabletPick = new ImageTabletPick(mActivity);
 			mPopupMenu = mImageTabletPick.getPointerAlert();

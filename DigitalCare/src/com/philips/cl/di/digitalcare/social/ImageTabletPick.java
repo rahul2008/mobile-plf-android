@@ -10,7 +10,6 @@ import android.view.View.OnClickListener;
 
 import com.philips.cl.di.digitalcare.customview.DigitalCareProductImageSelectorView;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
-import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
@@ -61,6 +60,7 @@ public class ImageTabletPick implements OnClickListener {
 		switch (v.getId()) {
 		case CANCEL_BUTTON:
 			DLog.d("IMAGE", "Cancel Button");
+			mPointerAlert.dismiss();
 
 			break;
 		case LIBRARY_BUTTON:
@@ -72,6 +72,7 @@ public class ImageTabletPick implements OnClickListener {
 			mContext.startActivityForResult(
 					Intent.createChooser(intent, "Complete action using"),
 					DigitalCareContants.IMAGE_PICK);
+			mPointerAlert.dismiss();
 			break;
 		case CAMERA_BUTTON:
 			DLog.d("IMAGE", "Camera Button");
@@ -79,6 +80,7 @@ public class ImageTabletPick implements OnClickListener {
 			Intent mCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			mContext.startActivityForResult(mCameraIntent,
 					DigitalCareContants.IMAGE_CAPTURE);
+			mPointerAlert.dismiss();
 			break;
 		default:
 			break;
