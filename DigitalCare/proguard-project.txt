@@ -18,3 +18,46 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-keepattributes *Annotation*
+
+-keep public class * extends android.app.Activity 
+
+-keepclasseswithmembers class * 
+  {
+    public <init>(android.content.Context, android.util.AttributeSet);
+  }
+
+-keepclasseswithmembers class * 
+  {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+  }
+
+   -keep class * extends android.view.View 
+    { 
+                 
+                  void set*(***);
+                   *** get*();
+    }
+
+   -keepclassmembers class * 
+    {
+                    static final %                *;
+                    static final java.lang.String *;
+    }
+  
+-dontwarn com.philips.cl.di.digitalcare.**
+
+ 
+ -dontwarn twitter4j.**
+-keep class twitter4j.** { *; }
+
+
+-keep class com.facebook.** { *; }
+-keepattributes Signature
+-dontwarn com.facebook.**

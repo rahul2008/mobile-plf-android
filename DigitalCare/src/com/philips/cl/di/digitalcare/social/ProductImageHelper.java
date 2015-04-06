@@ -11,11 +11,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 
 import com.adobe.mobile.Analytics;
+import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
@@ -64,7 +67,8 @@ public class ProductImageHelper {
 			DLog.d(TAG, "It is Tablet");
 			ImageTabletPick mImageTabletPick = new ImageTabletPick(mActivity);
 			mPopupMenu = mImageTabletPick.getPointerAlert();
-			mPopupMenu.setPointerImageRes(android.R.drawable.arrow_up_float);
+			// mPopupMenu.setPointerImageRes(android.R.drawable.arrow_up_float);
+			setBackgroundColorToPointerView(mPopupMenu);
 			mPopupMenu.showAsPointer(mProductImageView);
 			mPopupMenu.setAlignMode(AlignMode.CENTER_FIX);
 		} else {
@@ -73,6 +77,15 @@ public class ProductImageHelper {
 			mDialog.show();
 		}
 
+	}
+
+	private void setBackgroundColorToPointerView(TabletPopupWindow mPointerView) {
+		Drawable mPointerImage = mActivity.getResources().getDrawable(
+				android.R.drawable.arrow_up_float);
+		mPointerImage.setColorFilter(
+				mActivity.getResources().getColor(R.color.activity_bg),
+				Mode.LIGHTEN);
+		mPointerView.setPointerImageDrawable(mPointerImage);
 	}
 
 	public void resetDialog() {
