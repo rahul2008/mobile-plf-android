@@ -74,13 +74,13 @@ public class TwitterScreenTest extends
 		assertTrue(validate);
 	}
 
-//	@SmallTest
-//	public void testIsTwitterScreenFragmentIsMocked() {
-//		boolean validate = false;
-//		String received = mApplication.getClass().getSimpleName();
-//		if (received.equalsIgnoreCase("TwitterFragment_Proxy"))
-//			validate = true;
-//		assertTrue(validate);
-//	}
+	@SmallTest
+	public void testIsTwitterScreenFragmentIsMocked() {
+		boolean validate = false;
+		String received = mApplication.getClass().getSimpleName();
+		if (received.equalsIgnoreCase("TwitterSupportFragment_Proxy"))
+			validate = true;
+		assertTrue(validate);
+	}
 
 }
