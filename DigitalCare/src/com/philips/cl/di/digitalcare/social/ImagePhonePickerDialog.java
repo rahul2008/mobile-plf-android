@@ -14,7 +14,16 @@ import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-public class ImagePhonePickerDialog extends Dialog implements View.OnClickListener {
+
+/**
+ * 
+ * @author naveen@philips.com
+ * @description Image picker View Custom AlertView used for Phone(Not tablet)
+ * to select the user defined image/Product image to in Social Support Screens.
+ * @Since  March 20, 2015
+ */
+public class ImagePhonePickerDialog extends Dialog implements
+		View.OnClickListener {
 
 	private final String TAG = ImagePhonePickerDialog.class.getSimpleName();
 	private Activity mContext = null;
@@ -56,6 +65,7 @@ public class ImagePhonePickerDialog extends Dialog implements View.OnClickListen
 		mCameraImagePick.setOnClickListener(this);
 		mLibraryImagePick.setOnClickListener(this);
 		mCancelDialog.setOnClickListener(this);
+
 	}
 
 	private void setDialogDimension() {

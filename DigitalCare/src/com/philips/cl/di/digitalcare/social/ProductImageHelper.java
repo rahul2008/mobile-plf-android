@@ -66,7 +66,7 @@ public class ProductImageHelper {
 			mPopupMenu = mImageTabletPick.getPointerAlert();
 			mPopupMenu.setPointerImageRes(android.R.drawable.arrow_up_float);
 			mPopupMenu.showAsPointer(mProductImageView);
-			mPopupMenu.setAlignMode(AlignMode.AUTO_OFFSET);
+			mPopupMenu.setAlignMode(AlignMode.CENTER_FIX);
 		} else {
 			DLog.d(TAG, "It is Mobile Phone");
 			mDialog = new ImagePhonePickerDialog(mActivity);
@@ -77,17 +77,20 @@ public class ProductImageHelper {
 
 	public void resetDialog() {
 
-		if (Utils.isTablet(mActivity) && (mProductImageView != null)) {
-			if (mPopupMenu.isShowing() && !(mActivity.isFinishing())) {
-				mPopupMenu.dismiss();
-				pickImage();
-			}
-		} else {
+		if (mActivity != null & mProductImage != null) {
 
-			if (mDialog.isShowing() && !(mActivity.isFinishing())) {
-				DLog.d(TAG, "Dialog is resetted");
-				mDialog.dismiss();
-				pickImage();
+			if (Utils.isTablet(mActivity) && (mProductImageView != null)) {
+				if (mPopupMenu.isShowing() && !(mActivity.isFinishing())) {
+					mPopupMenu.dismiss();
+					pickImage();
+				}
+			} else {
+
+				if (mDialog.isShowing() && !(mActivity.isFinishing())) {
+					DLog.d(TAG, "Dialog is resetted");
+					mDialog.dismiss();
+					pickImage();
+				}
 			}
 		}
 	}

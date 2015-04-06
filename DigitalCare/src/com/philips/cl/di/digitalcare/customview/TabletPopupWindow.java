@@ -12,13 +12,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.philips.cl.di.digitalcare.util.DLog;
+
+
+/**
+ * 
+ * @author naveen@philips.com
+ * @description PopupWindow Menu used in Social Support Screens to select the 
+ * product image/user defined image from Camera and device Gallery. 
+ * @Since  March 22, 2015
+ */
 public class TabletPopupWindow extends PopupWindow {
 
 	private LinearLayout mContainer;
 	private ImageView mAnchorImage;
 	private FrameLayout mContent;
 	private int mMarginScreen;
-	private AlignMode mAlignMode = AlignMode.DEFAULT;
+	private AlignMode mAlignMode = AlignMode.CENTER_FIX;
+	private final String TAG = TabletPopupWindow.class.getSimpleName();
 
 	public TabletPopupWindow(Context context, int width) {
 		this(context, width, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -35,7 +46,7 @@ public class TabletPopupWindow extends PopupWindow {
 		mAnchorImage = new ImageView(context);
 		mContent = new FrameLayout(context);
 		setBackgroundDrawable(new ColorDrawable());
-		setOutsideTouchable(true);
+		setOutsideTouchable(false);
 		setFocusable(true);
 	}
 
@@ -106,22 +117,21 @@ public class TabletPopupWindow extends PopupWindow {
 	}
 
 	public void showAsPointer(View anchor, int xoff, int yoff) {
-		// get location and size
 		final Rect displayFrame = new Rect();
 		anchor.getWindowVisibleDisplayFrame(displayFrame);
-		final int displayFrameWidth = displayFrame.right - displayFrame.left;
+		//final int displayFrameWidth = displayFrame.right - displayFrame.left;
 		int[] loc = new int[2];
 		anchor.getLocationInWindow(loc);// get anchor location
-		if (mAlignMode == AlignMode.AUTO_OFFSET) {
-			// compute center offset rate
+		/*if (mAlignMode == AlignMode.CENTER_FIX) {
 			float offCenterRate = (displayFrame.centerX() - loc[0])
 					/ (float) displayFrameWidth;
 			xoff = (int) ((anchor.getWidth() - getWidth()) / 2 + offCenterRate
 					* getWidth() / 2);
-		} else if (mAlignMode == AlignMode.AUTO_OFFSET.CENTER_FIX) {
+		} else*/ if (mAlignMode == AlignMode.CENTER_FIX) {
 			xoff = (anchor.getWidth() - getWidth()) / 2;
+			DLog.i(TAG, "XOff : "+ xoff);
 		}
-		int left = loc[0] + xoff;
+	/*	int left = loc[0] + xoff;
 		int right = left + getWidth();
 		// reset x offset to display the window fully in the screen
 		if (right > displayFrameWidth - mMarginScreen) {
@@ -129,8 +139,9 @@ public class TabletPopupWindow extends PopupWindow {
 		}
 		if (left < displayFrame.left + mMarginScreen) {
 			xoff = displayFrame.left + mMarginScreen - loc[0];
-		}
+		}*/
 		computePointerLocation(anchor, xoff);
+		DLog.i(TAG, "Compute Location Anchor : "+ anchor + " & xOff : "+ xoff);
 		super.showAsDropDown(anchor, xoff, yoff);
 	}
 

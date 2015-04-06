@@ -2,7 +2,6 @@ package com.philips.cl.di.digitalcare.social;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.provider.MediaStore;
 import android.view.View;
@@ -13,6 +12,13 @@ import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
+
+/**
+ * 
+ * @author naveen@philips.com
+ * @description Custom PopupWindow View Parameters & callback listeners.
+ * @Since  March 26, 2015
+ */
 public class ImageTabletPick implements OnClickListener {
 
 	private final String TAG = ImageTabletPick.class.getSimpleName();
@@ -39,7 +45,7 @@ public class ImageTabletPick implements OnClickListener {
 				mContext);
 		View mView = mImageSelectorView.getTabletProductImageMenuView();
 		mPointerAlert.setContentView(mView);
-		mPointerAlert.setBackgroundDrawable(new ColorDrawable(Color.RED));
+		mPointerAlert.setBackgroundDrawable(new ColorDrawable());
 		mCameraImagePick = mView.findViewById(mImageSelectorView
 				.getCameraButtonID());
 		mLibraryImagePick = mView.findViewById(mImageSelectorView

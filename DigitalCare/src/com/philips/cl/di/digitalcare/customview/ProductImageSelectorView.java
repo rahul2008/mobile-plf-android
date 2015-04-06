@@ -3,6 +3,7 @@ package com.philips.cl.di.digitalcare.customview;
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.util.DisplayMetrics;
@@ -13,10 +14,17 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
+/**
+ * 
+ * @author naveen@philips.com
+ * @description This is Tablet Menu View used in Social Screen's to pick the
+ *              Product/User opted photo's to send the locale specific Twitter
+ *              Support center.
+ * @Since March 15, 2015
+ */
 public class ProductImageSelectorView {
 
-	private final String TAG = ProductImageSelectorView.class
-			.getSimpleName();
+	private final String TAG = ProductImageSelectorView.class.getSimpleName();
 	private Activity mContext = null;
 	int mOrientation = 0;
 	private int mWidth = 0;
@@ -27,26 +35,46 @@ public class ProductImageSelectorView {
 	private final int LIBRARY_BUTTON = 3;
 	private final int CAMERA_BUTTON = 4;
 	private final int DIVIDER_VIEW = 5;
-//	private final int TABLET_ONLY_BACKGROUND = 6;
 
+	/**
+	 * 
+	 * @param {@link Activity}
+	 */
 	public ProductImageSelectorView(Activity c) {
 		mContext = c;
 		mOrientation = mContext.getResources().getConfiguration().orientation;
 		setDialogDimension();
 	}
 
+	/**
+	 * Get the Cancel Button Menu ID.
+	 */
 	public int getCancelButtonID() {
 		return CANCEL_BUTTON;
 	}
 
+	/**
+	 * Get the Library Button Menu ID.
+	 */
 	public int getLIbraryButtonID() {
 		return LIBRARY_BUTTON;
 	}
 
+	/**
+	 * Get the Camera option Button View ID.
+	 * 
+	 */
 	public int getCameraButtonID() {
 		return CAMERA_BUTTON;
 	}
 
+	/**
+	 * <p>
+	 * Menu View used in the Image Picker menu of the Tablet View.
+	 * </p>
+	 * 
+	 * @return {@link LinearGradient}
+	 */
 	public LinearLayout getTabletProductImageMenuView() {
 
 		LinearLayout mPopupWindowContainer = new LinearLayout(mContext);
@@ -85,6 +113,12 @@ public class ProductImageSelectorView {
 
 	}
 
+	/**
+	 * Custom Image Picker Menu in Social Support Buttons. And this View is only
+	 * for the Phone Menu Button(Separate type view for Tablet Menu).
+	 * 
+	 * @return {@link RelativeLayout}
+	 */
 	public RelativeLayout getPhoneProductMenuView() {
 		int mCalcHeight = mHeight / 100;
 		int mButtonHeight = 0;
@@ -197,6 +231,9 @@ public class ProductImageSelectorView {
 
 	}
 
+	/**
+	 * Caluculate the Screen Dimenstion of the View wrt to orientation.
+	 */
 	private void setDialogDimension() {
 		DisplayMetrics mDisplayMetrics = new DisplayMetrics();
 		mContext.getWindowManager().getDefaultDisplay()
@@ -206,6 +243,11 @@ public class ProductImageSelectorView {
 		DLog.d(TAG, "Weight : " + mWidth + " & Height is " + mHeight);
 	}
 
+	/**
+	 * Setting "centralesans-book" type face to Button.
+	 * 
+	 * @param button
+	 */
 	private void setTypeFace(DigitalCareFontButton button) {
 		Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
 				"fonts/centralesans-book.otf");
@@ -213,6 +255,12 @@ public class ProductImageSelectorView {
 		setColor(button);
 	}
 
+	/**
+	 * Setting Button Background Color. This Backbground color is configurable
+	 * parameter.
+	 * 
+	 * @param button
+	 */
 	@SuppressWarnings("deprecation")
 	private void setColor(DigitalCareFontButton button) {
 		// button.setTextColor(Color.parseColor("#3BB9FF"));
@@ -220,13 +268,16 @@ public class ProductImageSelectorView {
 		mBackground.setColor(mContext.getResources().getColor(
 				R.color.activity_bg));
 		button.setBackgroundDrawable(mBackground);
+		button.setTextColor(mContext.getResources().getColor(R.color.button_bg));
 	}
 
-	/*
-	 * private void setTextSize(DigitalCareFontButton button, float size) {
-	 * button.setTextSize(android.R.style.TextAppearance_DeviceDefault_Small); }
+	/**
+	 * Setting the Button Layout Parameters to Button as per the design.
+	 * 
+	 * @param button
+	 * @param buttonHeight
+	 * @param ID
 	 */
-
 	@SuppressWarnings("deprecation")
 	private void setPhoneMenuBackground(DigitalCareFontButton button,
 			int buttonHeight, int ID) {
