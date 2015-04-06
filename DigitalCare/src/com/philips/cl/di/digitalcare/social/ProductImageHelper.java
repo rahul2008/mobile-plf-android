@@ -64,8 +64,7 @@ public class ProductImageHelper {
 			DLog.d(TAG, "It is Tablet");
 			ImageTabletPick mImageTabletPick = new ImageTabletPick(mActivity);
 			mPopupMenu = mImageTabletPick.getPointerAlert();
-			mPopupMenu
-					.setPointerImageRes(com.philips.cl.di.digitalcare.R.drawable.ic_launcher);
+			mPopupMenu.setPointerImageRes(android.R.drawable.arrow_up_float);
 			mPopupMenu.showAsPointer(mProductImageView);
 			mPopupMenu.setAlignMode(AlignMode.AUTO_OFFSET);
 		} else {
@@ -78,7 +77,7 @@ public class ProductImageHelper {
 
 	public void resetDialog() {
 
-		if (!Utils.isTablet(mActivity) && (mProductImageView != null)) {
+		if (Utils.isTablet(mActivity) && (mProductImageView != null)) {
 			if (mPopupMenu.isShowing() && !(mActivity.isFinishing())) {
 				mPopupMenu.dismiss();
 				pickImage();
