@@ -65,6 +65,11 @@ public class AnalyticsConstants {
 																			// confirmed.
 	/* Error text */
 	public static final String TECHNICAL_ERROR_NETWORK_CONNECITON = "Error connecting to network";
-	public static final String TECHNICAL_ERROR_RESPONSE = "Error response from server";
+	public static final String TECHNICAL_ERROR_RESPONSE_CDLS = "Error response from CDLS server";
 	public static final String TECHNICAL_ERROR_LOADING = "Error in loading";
+
+	/* Service Channel */
+	public static final String SERVICE_CHANNEL_CHAT = "chat";
+	public static final String SERVICE_CHANNEL_EMAIL = "email";
+	public static final String SERVICE_CHANNEL_CALL = "call";
 }

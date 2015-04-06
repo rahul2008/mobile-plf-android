@@ -10,7 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 
-import com.philips.cl.di.digitalcare.customview.DigitalCareProductImageSelectorView;
+import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
@@ -43,7 +43,7 @@ public class ImagePhonePickerDialog extends Dialog implements View.OnClickListen
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
-		DigitalCareProductImageSelectorView mViewObject = new DigitalCareProductImageSelectorView(
+		ProductImageSelectorView mViewObject = new ProductImageSelectorView(
 				mContext);
 		View mView = mViewObject.getPhoneProductMenuView();
 		setContentView(mView);

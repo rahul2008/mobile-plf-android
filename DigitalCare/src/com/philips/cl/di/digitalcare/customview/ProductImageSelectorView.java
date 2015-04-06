@@ -13,9 +13,9 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DLog;
 
-public class DigitalCareProductImageSelectorView {
+public class ProductImageSelectorView {
 
-	private final String TAG = DigitalCareProductImageSelectorView.class
+	private final String TAG = ProductImageSelectorView.class
 			.getSimpleName();
 	private Activity mContext = null;
 	int mOrientation = 0;
@@ -27,9 +27,9 @@ public class DigitalCareProductImageSelectorView {
 	private final int LIBRARY_BUTTON = 3;
 	private final int CAMERA_BUTTON = 4;
 	private final int DIVIDER_VIEW = 5;
-	private final int TABLET_ONLY_BACKGROUND = 6;
+//	private final int TABLET_ONLY_BACKGROUND = 6;
 
-	public DigitalCareProductImageSelectorView(Activity c) {
+	public ProductImageSelectorView(Activity c) {
 		mContext = c;
 		mOrientation = mContext.getResources().getConfiguration().orientation;
 		setDialogDimension();

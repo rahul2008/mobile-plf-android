@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.widget.LoginButton;
+import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
@@ -227,8 +228,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			String serviceChannel = "chat";
-			tagServiceRequest(serviceChannel);
+			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CHAT);
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
@@ -242,8 +242,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 						Toast.LENGTH_SHORT).show();
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
-				String serviceChannel = "call";
-				tagServiceRequest(serviceChannel);
+				tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CALL);
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				Toast.makeText(getActivity(), "Check the SIM",
@@ -284,8 +283,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
 		} else if (id == R.id.contactUsEmail) {
-			String serviceChannel = "email";
-			tagServiceRequest(serviceChannel);
+			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_EMAIL);
 			sendEmail();
 		}
 	}
@@ -296,9 +294,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
 	}
 
-	private void tagTechnicalError(String technicalError) {
+	private void tagTechnicalError() {
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
-				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, technicalError);
+				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+				AnalyticsConstants.TECHNICAL_ERROR_RESPONSE_CDLS);
 	}
 
 	/*
@@ -314,8 +313,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 * If feature is not available then fade it out.
 	 */
 	private void fadeoutButtons() {
-		String technicalError = "CDLS response failure";
-		tagTechnicalError(technicalError);
+		tagTechnicalError();
 		mCallPhilips
 				.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 		mCallPhilips.setEnabled(false);

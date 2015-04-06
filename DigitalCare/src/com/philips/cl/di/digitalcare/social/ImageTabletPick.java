@@ -8,7 +8,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.philips.cl.di.digitalcare.customview.DigitalCareProductImageSelectorView;
+import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
@@ -28,13 +28,14 @@ public class ImageTabletPick implements OnClickListener {
 	TabletPopupWindow mPointerAlert = null;
 
 	public ImageTabletPick(Activity activity) {
+		DLog.i(TAG, "ImageTabletPick");
 		mContext = activity;
 		getPointerAlert();
 	}
 
 	public TabletPopupWindow getPointerAlert() {
 		mPointerAlert = new TabletPopupWindow(mContext, 400);
-		DigitalCareProductImageSelectorView mImageSelectorView = new DigitalCareProductImageSelectorView(
+		ProductImageSelectorView mImageSelectorView = new ProductImageSelectorView(
 				mContext);
 		View mView = mImageSelectorView.getTabletProductImageMenuView();
 		mPointerAlert.setContentView(mView);
