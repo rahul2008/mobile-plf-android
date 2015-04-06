@@ -43,6 +43,8 @@ public class DigitalCareConfigManager {
 
 	/*
 	 * Initialize everything(resources, variables etc) required for DigitalCare.
+	 * Hosting app, which will integrate this DigitalCare, has to pass app
+	 * context.
 	 */
 	public DigitalCareConfigManager(Context context) {
 		if (mDigitalCareInstance == null) {
@@ -111,7 +113,7 @@ public class DigitalCareConfigManager {
 	 * App's package name.
 	 */
 	public static String getAppPackageName() {
-		return mContext.getResources().getString(R.string.app_package_name);
+		return mContext.getApplicationContext().getPackageName();
 	}
 
 	/*

@@ -47,24 +47,28 @@ public class AnalyticsTracker {
 
 	/**
 	 * Analytics: This needs to call on onResume() of every activity.
-	 * 
-	 * @param activity
 	 */
 	public static void startCollectLifecycleData() {
 		if (!trackMetrics)
 			return;
-		// TODO : Create thread.
-		Config.collectLifecycleData();
+		new Thread() {
+			public void run() {
+				Config.collectLifecycleData();
+			};
+		};
 	}
 
-	/*
+	/**
 	 * Analytics: This needs to call on onPause() of every activity.
 	 */
 	public static void stopCollectLifecycleData() {
 		if (!trackMetrics)
 			return;
-		// TODO : Create thread.
-		Config.pauseCollectingLifecycleData();
+		new Thread() {
+			public void run() {
+				Config.pauseCollectingLifecycleData();
+			};
+		};
 	}
 
 	public static void trackPage(String pageName) {

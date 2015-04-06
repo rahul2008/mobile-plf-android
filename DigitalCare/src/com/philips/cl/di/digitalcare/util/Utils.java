@@ -40,9 +40,9 @@ public class Utils {
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 
-		String noNetwork = "No internet available";
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
-				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR, noNetwork);
+				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+				AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
 
 		return false;
 	}
