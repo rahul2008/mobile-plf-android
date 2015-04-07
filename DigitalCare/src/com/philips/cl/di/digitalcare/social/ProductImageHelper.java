@@ -17,10 +17,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
 
-import com.adobe.mobile.Analytics;
 import com.philips.cl.di.digitalcare.R;
-import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -112,10 +109,6 @@ public class ProductImageHelper {
 		DLog.d(TAG, "onActivity receiving the Intent");
 
 		if (requestCode == DigitalCareContants.IMAGE_PICK) {
-			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
-					AnalyticsConstants.ACTION_KEY_APP_ID,
-					Analytics.getTrackingIdentifier());
 			DLog.d(TAG, "Prod Image Received from Gallery");
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
@@ -132,13 +125,7 @@ public class ProductImageHelper {
 			Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
 			mImageCallback.onImageReceived(bitmap, picturePath);
 			cursor.close();
-		}
-
-		if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
-			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
-					AnalyticsConstants.ACTION_KEY_PHOTO,
-					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
+		} else if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
 			DLog.d(TAG, "Product Image receiving from Camera");
 
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");

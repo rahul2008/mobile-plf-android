@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
@@ -49,7 +51,10 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			FacebookHelper mFacebookHelper = FacebookHelper.getInstance();
 			mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode,
 					data);
-
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+					AnalyticsConstants.ACTION_KEY_PHOTO,
+					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
 		}
 		if (resultCode == Activity.RESULT_CANCELED
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
@@ -62,21 +67,22 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance();
 			mTwitter.onActivityResult(data);
-		}
+		} else if (resultCode == Activity.RESULT_OK) {
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+					AnalyticsConstants.ACTION_KEY_PHOTO,
+					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
 
-		if (requestCode == DigitalCareContants.IMAGE_PICK
-				&& resultCode == Activity.RESULT_OK) {
-			if (mImage == null)
-				mImage = ProductImageHelper.getInstance();
+			if (requestCode == DigitalCareContants.IMAGE_PICK) {
+				if (mImage == null)
+					mImage = ProductImageHelper.getInstance();
 
-			mImage.processProductImage(data, requestCode);
-		}
-
-		if (requestCode == DigitalCareContants.IMAGE_CAPTURE
-				&& resultCode == Activity.RESULT_OK) {
-			if (mImage == null)
-				mImage = ProductImageHelper.getInstance();
-			mImage.processProductImage(data, requestCode);
+				mImage.processProductImage(data, requestCode);
+			} else if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
+				if (mImage == null)
+					mImage = ProductImageHelper.getInstance();
+				mImage.processProductImage(data, requestCode);
+			}
 		}
 	}
 }

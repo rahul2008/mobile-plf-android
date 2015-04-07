@@ -101,6 +101,7 @@ public class TabletPopupWindow extends PopupWindow {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void setBackgroundDrawable(Drawable background) {
 		// noinspection deprecation

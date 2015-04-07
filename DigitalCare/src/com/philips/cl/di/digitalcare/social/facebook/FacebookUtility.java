@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.adobe.mobile.Analytics;
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Request;
@@ -153,10 +152,6 @@ public class FacebookUtility {
 
 	private void shareImage() {
 		DLog.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
-		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
-				AnalyticsConstants.ACTION_KEY_APP_ID,
-				Analytics.getTrackingIdentifier());
 
 		Request request = Request.newUploadPhotoRequest(
 				Session.getActiveSession(), mImageToUpload,
