@@ -46,7 +46,7 @@ public class NetworkNode extends Observable implements Parcelable {
 		this.mCppId = cppId;
 	}
 
-	public ConnectionState getConnectionState() {
+	public synchronized ConnectionState getConnectionState() {
 		return mConnectionState;
 	}
 	
