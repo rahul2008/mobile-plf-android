@@ -31,6 +31,7 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * This Screen helps endusers to send the product info/concern along with
@@ -152,11 +153,13 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		if (id == R.id.facebookCancelPort) {
 			backstackFragment();
 		} else if (id == R.id.facebookSendPort) {
-			sendMessage();
+			if (Utils.isNetworkConnected(getActivity()))
+				sendMessage();
 		} else if (id == R.id.facebookCancelLand) {
 			backstackFragment();
 		} else if (id == R.id.facebookSendLand) {
-			sendMessage();
+			if (Utils.isNetworkConnected(getActivity()))
+				sendMessage();
 		} else if (id == R.id.fb_Post_CheckBox) {
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();

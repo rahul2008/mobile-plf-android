@@ -32,6 +32,7 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * @description: FacebookScreenFragment will help to post messages on Philips
@@ -244,11 +245,15 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			backstackFragment();
 		} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
 				&& mFacebookUtility != null) {
-			mFacebookUtility.performPublishAction(getEditorText());
-			mPostProgress = new ProgressDialog(getActivity());
-			mPostProgress.setMessage("Posting to Philips Facebook Support...");
-			mPostProgress.setCancelable(false);
-			// backstackFragment();
+			if (Utils.isNetworkConnected(getActivity())) {
+
+				mPostProgress = new ProgressDialog(getActivity());
+				mPostProgress
+						.setMessage("Posting to Philips Facebook Support...");
+				mPostProgress.setCancelable(false);
+				mPostProgress.show();
+				mFacebookUtility.performPublishAction(getEditorText());
+			}
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {

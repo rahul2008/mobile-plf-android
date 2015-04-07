@@ -159,6 +159,8 @@ public class FacebookUtility {
 
 					@Override
 					public void onCompleted(Response response) {
+
+						postResponse(response);
 						AnalyticsTracker.trackAction(
 								AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
 								AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
