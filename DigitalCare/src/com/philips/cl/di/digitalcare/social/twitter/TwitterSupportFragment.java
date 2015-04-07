@@ -197,20 +197,6 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private void configureValues() {
 		mTweetfrom.setText("From @" + mUsername);
 		mTwitterIcon.setImageResource(R.drawable.social_twitter_icon);
-		getAnchorView();
-	}
-
-	private void getAnchorView() {
-		DLog.d(TAG,
-				"Left Position of the ImageButton : " + mProductImage.getLeft());
-		DLog.d(TAG,
-				"Right Position of the ImageButton : "
-						+ mProductImage.getRight());
-		DLog.d(TAG,
-				"Top Position of the ImageButton : " + mProductImage.getTop());
-		DLog.d(TAG,
-				"Bottom Position of the ImageButton : "
-						+ mProductImage.getBottom());
 	}
 
 	@Override
