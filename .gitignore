@@ -1,5 +1,3 @@
-.settings/
-.classpath
-bin/
-gen/
 Jump/Doxygen/
+Jump/.classpath
+Jump/.settings/org.eclipse.jdt.core.prefs
