@@ -6,8 +6,9 @@
 
     <uses-sdk android:minSdkVersion="15" />
 
+    <!-- android.test.InstrumentationTestRunner -->
     <instrumentation
-         android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
+        android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
         android:targetPackage="com.philips.cl.di.digitalcare" />
 
     <application

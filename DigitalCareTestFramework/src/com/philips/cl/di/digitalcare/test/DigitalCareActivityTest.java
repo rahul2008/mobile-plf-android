@@ -139,11 +139,23 @@ public class DigitalCareActivityTest extends
 //	}
 
 	@MediumTest
-	public void testCDLSLink() throws NoSuchFieldException,
+	public void testCDLSPrefixLink() throws NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
-		String received = null, expected = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
+		String received = null, expected = "http://www.philips.com/prx/cdls/B2C/";
 		ContactUsFragment mFragment = new ContactUsFragment();
-		Field mVariable = ContactUsFragment.class.getDeclaredField("mURL");
+		Field mVariable = ContactUsFragment.class.getDeclaredField("CDLS_BASE_URL_PREFIX");
+		mVariable.setAccessible(true);
+		received = (String) mVariable.get(mFragment);
+
+		assertEquals(expected, received);
+	}
+	
+	@MediumTest
+	public void testCDLSPostfixLink() throws NoSuchFieldException,
+			IllegalArgumentException, IllegalAccessException {
+		String received = null, expected = ".querytype.(fallback)";
+		ContactUsFragment mFragment = new ContactUsFragment();
+		Field mVariable = ContactUsFragment.class.getDeclaredField("CDLS_BASE_URL_POSTFIX");
 		mVariable.setAccessible(true);
 		received = (String) mVariable.get(mFragment);
 
