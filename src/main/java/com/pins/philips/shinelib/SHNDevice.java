@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SHNDevice implements SHNService.SHNServiceListener {
     private static final String TAG = SHNDevice.class.getSimpleName();
-    private static final boolean LOGING = false;
+    private static final boolean LOGGING = true;
     private final BluetoothDevice bluetoothDevice;
     private final List<Runnable> bluetoothGattCommands;
     private final Context applicationContext;
@@ -48,7 +48,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         void onStateUpdated(SHNDevice shnDevice);
     }
     public interface SHNGattCommandResultReporter {
-        void reportResult();
+        void reportResult(SHNResult shnResult);
     }
 
     public SHNDevice(BluetoothDevice bluetoothDevice, SHNCentral shnCentral) {
@@ -64,7 +64,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         return new BluetoothGattCallbackOnExecutor(shnCentral.getScheduledThreadPoolExecutor(), new BluetoothGattCallback() {
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-                if (LOGING) Log.i(TAG, "onConnectionStateChange");
+                if (LOGGING) Log.i(TAG, "onConnectionStateChange");
                 try {
                     handleOnConnectionStateChange(gatt, status, newState);
                 } catch (Exception e) {
@@ -74,7 +74,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
             @Override
             public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-                if (LOGING) Log.i(TAG, "onServicesDiscovered");
+                if (LOGGING) Log.i(TAG, "onServicesDiscovered");
                 try {
                     handleOnServicesDiscovered(gatt, status);
                 } catch (Exception e) {
@@ -84,7 +84,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
             @Override
             public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                if (LOGING) Log.i(TAG, "onCharacteristicRead");
+                if (LOGGING) Log.i(TAG, "onCharacteristicRead");
                 try {
                     handleOnCharacteristicRead(gatt, characteristic, status);
                 } catch (Exception e) {
@@ -94,43 +94,43 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
             @Override
             public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-                if (LOGING) Log.i(TAG, "onCharacteristicWrite");
+                if (LOGGING) Log.i(TAG, "onCharacteristicWrite");
             }
 
             @Override
             public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-                if (LOGING) Log.i(TAG, "onCharacteristicChanged");
+                if (LOGGING) Log.i(TAG, "onCharacteristicChanged");
             }
 
             @Override
             public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-                if (LOGING) Log.i(TAG, "onDescriptorRead");
+                if (LOGGING) Log.i(TAG, "onDescriptorRead");
             }
 
             @Override
             public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
-                if (LOGING) Log.i(TAG, "onDescriptorWrite");
+                if (LOGGING) Log.i(TAG, "onDescriptorWrite");
             }
 
             @Override
             public void onReliableWriteCompleted(BluetoothGatt gatt, int status) {
-                if (LOGING) Log.i(TAG, "onReliableWriteCompleted");
+                if (LOGGING) Log.i(TAG, "onReliableWriteCompleted");
             }
 
             @Override
             public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
-                if (LOGING) Log.i(TAG, "onReadRemoteRssi");
+                if (LOGGING) Log.i(TAG, "onReadRemoteRssi");
             }
 
             @Override
             public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
-                if (LOGING) Log.i(TAG, "onMtuChanged");
+                if (LOGGING) Log.i(TAG, "onMtuChanged");
             }
         });
     }
 
     private void handleOnConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        if (LOGING) Log.i(TAG, "handleOnConnectionStateChange");
+        if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange");
         SHNDeviceState shnDeviceState = getState();
         if (newState == BluetoothProfile.STATE_DISCONNECTED) {
             if (bluetoothGatt != null) {
@@ -148,7 +148,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     private void handleOnServicesDiscovered(BluetoothGatt gatt, int status) {
-        if (LOGING) Log.i(TAG, "handleOnServicesDiscovered");
+        if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered");
         if (status == BluetoothGatt.GATT_SUCCESS) {
             for (BluetoothGattService bluetoothGattService: bluetoothGatt.getServices()) {
                 SHNService shnService = getSHNService(bluetoothGattService.getUuid());
@@ -160,8 +160,8 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     private void handleOnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        if (LOGING) Log.i(TAG, "handleOnCharacteristicRead");
-        currentResultListener.reportResult();
+        if (LOGGING) Log.i(TAG, "handleOnCharacteristicRead");
+        currentResultListener.reportResult(SHNResult.SHNOk);
         currentResultListener = null;
         executeNextBluetoothGattCommand();
     }
@@ -181,7 +181,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     public void connect()  {
-        if (LOGING) Log.i(TAG, "connect");
+        if (LOGGING) Log.i(TAG, "connect");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -191,7 +191,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
     }
     private void handleConnect()  {
-        if (LOGING) Log.i(TAG, "handleConnect");
+        if (LOGGING) Log.i(TAG, "handleConnect");
         if (shnDeviceState == SHNDeviceState.SHNDeviceStateDisconnected) {
             updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
             bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
@@ -207,11 +207,11 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     private void handleConnectTimeout() {
-        if (LOGING) Log.e(TAG, "handleConnectTimeout");
+        if (LOGGING) Log.e(TAG, "handleConnectTimeout");
     }
 
     public void disconnect() {
-        if (LOGING) Log.e(TAG, "disconnect");
+        if (LOGGING) Log.e(TAG, "disconnect");
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -221,7 +221,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
     }
     private void handleDisconnect() {
-        if (LOGING) Log.e(TAG, "handleDisconnect");
+        if (LOGGING) Log.e(TAG, "handleDisconnect");
         if (bluetoothGatt != null) {
             bluetoothGatt.disconnect();
         }
@@ -271,12 +271,16 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     public boolean readCharacteristic(final BluetoothGattCharacteristic bluetoothGattCharacteristic, final SHNGattCommandResultReporter shnGattCommandResultReporter) {
-        if (LOGING) Log.i(TAG, "readCharacteristic");
+        if (LOGGING) Log.i(TAG, "readCharacteristic");
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                bluetoothGatt.readCharacteristic(bluetoothGattCharacteristic);
-                currentResultListener = shnGattCommandResultReporter;
+                if (bluetoothGatt.readCharacteristic(bluetoothGattCharacteristic)) {
+                    currentResultListener = shnGattCommandResultReporter;
+                } else {
+                    shnGattCommandResultReporter.reportResult(SHNResult.SHNInvalidStateError);
+                    executeNextBluetoothGattCommand();
+                }
             }
         };
         bluetoothGattCommands.add(command);
@@ -285,12 +289,12 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     public boolean setCharacteristicNotification(final BluetoothGattCharacteristic bluetoothGattCharacteristic, final boolean enable, final SHNGattCommandResultReporter shnGattCommandResultReporter) {
-        if (LOGING) Log.i(TAG, "setCharacteristicNotification enable: " + enable);
+        if (LOGGING) Log.i(TAG, "setCharacteristicNotification enable: " + enable);
         Runnable command = new Runnable() {
             @Override
             public void run() {
                 boolean result = bluetoothGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable);
-                if (LOGING) Log.i(TAG, "setCharacteristicNotification enable: " + enable + " result: " + result + " charUUID: " + bluetoothGattCharacteristic.getUuid());
+                if (LOGGING) Log.i(TAG, "setCharacteristicNotification enable: " + enable + " result: " + result + " charUUID: " + bluetoothGattCharacteristic.getUuid());
                 BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(UUID.fromString("00002902-0000-1000-8000-00805f9b34fb"));
                 descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 bluetoothGatt.writeDescriptor(descriptor);
@@ -313,7 +317,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     // SHNServiceListener callback
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if (LOGING) Log.e(TAG, "onServiceStateChanged");
+        if (LOGGING) Log.e(TAG, "onServiceStateChanged");
         SHNDeviceState newState = SHNDeviceState.SHNDeviceStateConnected;
         for (SHNService service: registeredServices.values()) {
             if (service.getState() == SHNService.State.Inactive) {

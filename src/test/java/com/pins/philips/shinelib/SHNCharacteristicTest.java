@@ -69,6 +69,7 @@ public class SHNCharacteristicTest {
     @Test
     public void whenActiveThenReadCharacteristicReturnsTrue() {
         BluetoothGattCharacteristic mockedBluetoothGattCharacteristic = mock(BluetoothGattCharacteristic.class);
+        when(mockedBluetoothGattCharacteristic.getProperties()).thenReturn(BluetoothGattCharacteristic.PROPERTY_READ);
         when(mockedSHNDevice.readCharacteristic(mockedBluetoothGattCharacteristic, null)).thenReturn(true);
         shnCharacteristic.connectToBLELayer(mockedBluetoothGattCharacteristic);
         assertTrue(shnCharacteristic.readCharacteristic(null));

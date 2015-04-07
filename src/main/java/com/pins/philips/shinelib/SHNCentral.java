@@ -227,10 +227,6 @@ public class SHNCentral {
         return shnCentralState;
     }
 
-    public SHNDevice createSHNDevice(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, String deviceAddress) {
-        return shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
-    }
-
     public void reportExceptionOnAppMainThread(Exception e) {
         Thread t = getApplicationContext().getMainLooper().getThread();
         t.getUncaughtExceptionHandler().uncaughtException(t, e);

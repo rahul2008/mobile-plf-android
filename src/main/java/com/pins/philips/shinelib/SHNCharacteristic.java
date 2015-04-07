@@ -50,7 +50,11 @@ public class SHNCharacteristic {
 
     public boolean readCharacteristic(SHNDevice.SHNGattCommandResultReporter resultReporter) {
         if (state == State.Active) {
-            return shnDevice.readCharacteristic(bluetoothGattCharacteristic, resultReporter);
+            int properties = bluetoothGattCharacteristic.getProperties();
+            if ((properties & BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
+                return shnDevice.readCharacteristic(bluetoothGattCharacteristic, resultReporter);
+            }
+            return false;
         } else {
             return false;
         }
