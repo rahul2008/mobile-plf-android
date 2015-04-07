@@ -22,12 +22,12 @@ public class DigitalCareFontTextView extends TextView {
 
 	public DigitalCareFontTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		applyAttributes(this, context, attrs);
+		//applyAttributes(this, context, attrs);
 	}
 
 	public DigitalCareFontTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		applyAttributes(this, context, attrs);
+		//applyAttributes(this, context, attrs);
 	}
 
 	private void applyAttributes(TextView view, Context context, AttributeSet attrs) {
