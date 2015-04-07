@@ -147,32 +147,21 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.facebookCancelPort:
+
+		int id = v.getId();
+		if (id == R.id.facebookCancelPort) {
 			backstackFragment();
-			break;
-		case R.id.facebookSendPort:
+		} else if (id == R.id.facebookSendPort) {
 			sendMessage();
-			break;
-
-		case R.id.facebookCancelLand:
+		} else if (id == R.id.facebookCancelLand) {
 			backstackFragment();
-			break;
-		case R.id.facebookSendLand:
+		} else if (id == R.id.facebookSendLand) {
 			sendMessage();
-			break;
-
-		case R.id.fb_Post_CheckBox:
-			break;
-		case R.id.fb_post_camera:
-
+		} else if (id == R.id.fb_Post_CheckBox) {
+		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
-			break;
-		case R.id.fb_Post_camera_close:
+		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -212,10 +201,16 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void getAnchorView() {
-      DLog.d(TAG, "Left Position of the ImageButton : "+ mProductImage.getLeft());
-      DLog.d(TAG, "Right Position of the ImageButton : "+ mProductImage.getRight());
-      DLog.d(TAG, "Top Position of the ImageButton : "+ mProductImage.getTop());
-      DLog.d(TAG, "Bottom Position of the ImageButton : "+ mProductImage.getBottom());
+		DLog.d(TAG,
+				"Left Position of the ImageButton : " + mProductImage.getLeft());
+		DLog.d(TAG,
+				"Right Position of the ImageButton : "
+						+ mProductImage.getRight());
+		DLog.d(TAG,
+				"Top Position of the ImageButton : " + mProductImage.getTop());
+		DLog.d(TAG,
+				"Bottom Position of the ImageButton : "
+						+ mProductImage.getBottom());
 	}
 
 	@Override
