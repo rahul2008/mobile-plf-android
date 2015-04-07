@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
 
 /**
  * Utils class contains common utility methods required across framework under
@@ -35,10 +36,12 @@ public class Utils {
 			}
 		}
 
-		Toast toast = Toast.makeText(activity, activity.getResources()
-				.getString(R.string.no_internet), Toast.LENGTH_SHORT);
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
+		/*
+		 * Toast toast = Toast.makeText(activity, activity.getResources()
+		 * .getString(R.string.no_internet), Toast.LENGTH_SHORT);
+		 * toast.setGravity(Gravity.CENTER, 0, 0); toast.show();
+		 */
+		new NetworkAlertView().showNetworkAlert(activity);
 
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
 				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
