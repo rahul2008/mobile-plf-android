@@ -177,7 +177,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
 	
 			rv = prv.executeCommand();
-			if (rv != Errors.REQUEST_PENDING) {
+			if (rv != Errors.SUCCESS) {
 				ALog.i(ALog.KPS, "PROVISION-FAILED");
 				try {
 					Thread.sleep(1000);
@@ -185,7 +185,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					e.printStackTrace();
 				}
 				rv = prv.executeCommand();
-				if(rv != Errors.REQUEST_PENDING ) {
+				if(rv != Errors.SUCCESS ) {
 					keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 				}
 		}
@@ -248,7 +248,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			signon.setIsFirstTime(true);
 			ALog.i(ALog.ICPCLIENT,"Version: "+signon.clientVersion()) ;
 			int rv = signon.executeCommand();
-			if( rv != Errors.REQUEST_PENDING ) {
+			if( rv != Errors.SUCCESS ) {
 				isSignOn = false ;
 			}
 		}
@@ -287,7 +287,17 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	public void addDCSEventListener(String cppId, DCSEventListener dcsEventListener) {
-		mDcsEventListenersMap.put(cppId, dcsEventListener);
+		//DI-Comm change. Checking the listener before adding it to the map
+		if (mDcsEventListenersMap != null && !mDcsEventListenersMap.containsKey(cppId)) {
+			mDcsEventListenersMap.put(cppId, dcsEventListener);
+		}
+		
+	}
+	//DI-Comm change. Added one more method to disable remote subscription
+	public void removeDCSListener(String cppId) {
+		if( mDcsEventListenersMap != null ) {
+			mDcsEventListenersMap.remove(cppId) ;
+		}
 	}
 	
 	private DCSEventListener getDCSEventListener(String cppId) {
@@ -468,7 +478,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					AppConstants.NOTIFICATION_PROVIDER_JPUSH*/, gcmRegistrationId);
 
 		int retStatus =  thirdParty.executeCommand();
-		if (Errors.REQUEST_PENDING != retStatus)	{
+		if (Errors.SUCCESS != retStatus)	{
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
 			return false;
 		}
@@ -872,7 +882,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		fileDownload.setOffset(cntOffset);
 
 		int rv = fileDownload.executeCommand();
-		if (rv == Errors.REQUEST_PENDING) {
+		if (rv == Errors.SUCCESS) {
 			ALog.i(ALog.ICPCLIENT, "File download parameters are correct");
 		}
 
@@ -961,7 +971,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ComponentDetails componentDetails = new ComponentDetails(callbackHandler, componentInfo);
 
 		int responseCode = componentDetails.executeCommand();
-		if (responseCode == Errors.REQUEST_PENDING) {
+		if (responseCode == Errors.SUCCESS) {
 			ALog.i(ALog.CPPCONTROLLER, "fetchICPComponentDetails success");
 		} else {
 			downloadFailed() ;
