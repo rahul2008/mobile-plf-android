@@ -8,16 +8,19 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
+import android.util.Log;
 
 import com.pins.philips.shinelib.framework.BluetoothGattCallbackOnExecutor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -25,11 +28,12 @@ import java.util.UUID;
 public class SHNDevice implements SHNService.SHNServiceListener {
     private static final String TAG = SHNDevice.class.getSimpleName();
     private final BluetoothDevice bluetoothDevice;
-
+    private final List<Runnable> bluetoothGattCommands;
     private final Context applicationContext;
     private final SHNCentral shnCentral;
     private BluetoothGatt bluetoothGatt;
     private BluetoothGattCallback bluetoothGattCallback;
+    private SHNGattCommandResultReporter currentResultListener;
 
     public SHNDeviceState getState() {
         return shnDeviceState;
@@ -45,6 +49,9 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     public interface SHNDeviceListener {
         public void onStateUpdated(SHNDevice shnDevice);
     }
+    public interface SHNGattCommandResultReporter {
+        public void reportResult();
+    }
 
     public SHNDevice(BluetoothDevice bluetoothDevice, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral) {
         this.shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
@@ -52,6 +59,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         this.shnCentral = shnCentral;
         this.applicationContext = shnCentral.getApplicationContext();
         this.bluetoothGattCallback = createBluetoothGattCallbackOnExecutor(shnCentral);
+        bluetoothGattCommands = new LinkedList<>();
     }
 
     private BluetoothGattCallbackOnExecutor createBluetoothGattCallbackOnExecutor(final SHNCentral shnCentral) {
@@ -142,6 +150,9 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     public void handleOnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        currentResultListener.reportResult();
+        currentResultListener = null;
+        executeNextBluetoothGattCommand();
     }
 
     private SHNDeviceListener shnDeviceListener;
@@ -171,7 +182,20 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         if (shnDeviceState == SHNDeviceState.SHNDeviceStateDisconnected) {
             updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
             bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
+
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    handleConnectTimeout();
+                }
+            };
+            ScheduledFuture<?> ct = shnCentral.getScheduledThreadPoolExecutor().schedule(runnable, 1000l, TimeUnit.MILLISECONDS);
+            ct.cancel(false);
         }
+    }
+
+    public void handleConnectTimeout() {
+        Log.e(TAG, "handleConnectTimeout");
     }
 
     public void disconnect() {
@@ -227,6 +251,25 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
     private SHNService getSHNService(UUID serviceUUID) {
         return registeredServices.get(serviceUUID);
+    }
+
+    public void readIt(final BluetoothGattCharacteristic bluetoothGattCharacteristic, final SHNGattCommandResultReporter shnGattCommandResultReporter) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                bluetoothGatt.readCharacteristic(bluetoothGattCharacteristic);
+                currentResultListener = shnGattCommandResultReporter;
+            }
+        };
+        bluetoothGattCommands.add(command);
+        executeNextBluetoothGattCommand();
+    }
+
+    private void executeNextBluetoothGattCommand() {
+        if (currentResultListener == null && !bluetoothGattCommands.isEmpty()) {
+            Runnable command = bluetoothGattCommands.remove(0);
+            command.run();
+        }
     }
 
     // SHNServiceListener callback

@@ -180,7 +180,7 @@ public class SHNCentral {
         return applicationContext;
     }
 
-    void runOnHandlerThread(Runnable runnable) {
+    public void runOnHandlerThread(Runnable runnable) {
         upperLayerHandler.post(runnable);
     }
 
