@@ -1,10 +1,10 @@
 package com.philips.cl.di.digitalcare.customview;
 
-import com.philips.cl.di.digitalcare.R;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -19,6 +19,7 @@ import android.widget.TextView;
  *              in application component wise announcement.
  * @Since Apr 7, 2015
  */
+@SuppressLint("NewApi")
 public class NetworkAlertView {
 
 	public void showNetworkAlert(final Activity mContext) {
@@ -32,7 +33,12 @@ public class NetworkAlertView {
 		mContainerParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		mContainerParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
 		mContainerParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		mToastContainer.setBackgroundColor(Color.RED);
+
+		GradientDrawable mBackground = new GradientDrawable();
+		mBackground.setColor(Color.RED);
+		mBackground
+				.setCornerRadii(new float[] { 10, 10, 10, 10, 10, 10, 10, 10 });
+		mToastContainer.setBackground(mBackground);
 
 		TextView mTextView = new TextView(mContext);
 		RelativeLayout.LayoutParams mTextViewParams = new RelativeLayout.LayoutParams(
