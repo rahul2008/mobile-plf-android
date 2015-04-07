@@ -35,10 +35,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	public SubscriptionHandler(NetworkNode networkNode, ResponseHandler responseHandler) {
 		mNetworkNode = networkNode;
-		mResponseHandler = responseHandler;	
-		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), this);
+		mResponseHandler = responseHandler;
 	}
-
 
 	public void subscribeToPurifierEvents() {
 		retrySubscriptionCount = 1 ;
@@ -98,18 +96,22 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ALog.i(ALog.SUBSCRIPTION, "Disabling local subscription (stop udp)");
 		if (UDPReceivingThread.getInstance().isAlive()) {
 			UDPReceivingThread.getInstance().stopUDPListener();
-			UDPReceivingThread.getInstance().reset() ;
+			UDPReceivingThread.getInstance().reset();
 		}
 	}
 
 	public void enableRemoteSubscription(Context context) {
 		ALog.i(ALog.SUBSCRIPTION, "Enabling remote subscription (start dcs)");
-		CPPController.getInstance(context).startDCSService();
+		//DI-Comm change. Moved from Constructor
+		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(mNetworkNode.getCppId(), this);
+		CPPController.getInstance(context).startDCSService();		
 	}
 
 	public void disableRemoteSubscription(Context context) {
 		ALog.i(ALog.SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
 		CPPController.getInstance(context).stopDCSService();
+		//DI-Comm change. Removing the listener on Disabling remote subscroption
+		CPPController.getInstance(PurAirApplication.getAppContext()).removeDCSListener(mNetworkNode.getCppId());
 	}
 
 	private void subscribe(String url, NetworkNode networkNode) {
@@ -222,6 +224,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	@Override
 	public void onDCSEventReceived(String data, String fromEui64, String action) {
+		ALog.i("CHECKSUB","onDCSEventReceived: "+data);
 		if (data == null || data.isEmpty())
 			return;
 
