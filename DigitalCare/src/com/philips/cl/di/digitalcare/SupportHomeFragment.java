@@ -19,6 +19,7 @@ import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFrag
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
+import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * SupportHomeFragment is the first screen of Support app. This class will give
@@ -71,7 +72,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
-		
+
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
 
@@ -149,15 +150,16 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	public void onClick(View view) {
 		int id = view.getId();
 		if (id == R.id.optionBtnContactUs) {
-			showFragment(new ContactUsFragment());
-		} /*
-		 * else if (id == R.id.optionBtnFaq) { }
-		 */else if (id == R.id.optionBtnProdDetails) {
+			if (Utils.isNetworkConnected(getActivity()))
+				showFragment(new ContactUsFragment());
+		} else if (id == R.id.optionBtnProdDetails) {
 			showFragment(new ProductDetailsFragment());
 		} else if (id == R.id.optionBtnFindPhilips) {
-			showFragment(new LocatePhilipsFragment());
+			if (Utils.isNetworkConnected(getActivity()))
+				showFragment(new LocatePhilipsFragment());
 		} else if (id == R.id.optionBtnThinking) {
-			showFragment(new RateThisAppFragment());
+			if (Utils.isNetworkConnected(getActivity()))
+				showFragment(new RateThisAppFragment());
 		} else if (id == R.id.optionBtnRegProd) {
 			showFragment(new ProductRegistrationFragment());
 		}
