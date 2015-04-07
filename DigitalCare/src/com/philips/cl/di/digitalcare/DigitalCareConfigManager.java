@@ -34,6 +34,7 @@ public class DigitalCareConfigManager {
 	private static final String DEFAULT_COUNTRY = "GB";
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
+	private static final String DEFAULT_USA = DEFAULT_LANGAUGE + "_US";
 
 	// Twitter APP SDK API KEYS
 	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
@@ -114,6 +115,26 @@ public class DigitalCareConfigManager {
 	 */
 	public static String getAppPackageName() {
 		return mContext.getApplicationContext().getPackageName();
+	}
+
+	/*
+	 * CDLS category.
+	 * 
+	 * Link for Other countries:
+	 * http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR
+	 * .querytype.(fallback)
+	 * 
+	 * Link for US:
+	 * http://www.philips.com/prx/cdls/B2C/en_US/CARE/MENS_SHAVING_CA.querytype
+	 * .(fallback)
+	 * 
+	 * So if the locale is "en_US" then category is changed.
+	 */
+	public static String getCdlsCategory() {
+		return getLocale().equalsIgnoreCase(DEFAULT_USA) ? mContext
+				.getResources().getString(R.string.CDLS_CATEGORY_USA)
+				: mContext.getResources().getString(
+						R.string.CDLS_CATEGORY_PRIMARY);
 	}
 
 	/*

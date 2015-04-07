@@ -20,6 +20,7 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
@@ -61,7 +62,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private CdlsRequestTask mCdlsRequestTask = null;
 	// private static final String mURL =
 	// "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
-	private static final String mURL = "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
+	// private static final String mURL =
+	// "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
+	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/prx/cdls/B2C/";
+	private static final String CDLS_BASE_URL_POSTFIX = ".querytype.(fallback)";
+
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	@Override
@@ -71,9 +76,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			return null;
 		}
 		/*
-		 * CDLS execution
+		 * CDLS execution.
 		 */
-		mCdlsRequestTask = new CdlsRequestTask(getActivity(), mURL,
+		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formCdlsURL(),
 				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
 				.getStatus() == AsyncTask.Status.FINISHED)) {
@@ -129,6 +134,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		setViewParams(config);
 
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
+	}
+
+	/*
+	 * Forming CDLS url. This url will be different for US and other countries.
+	 */
+	private String formCdlsURL() {
+		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
+				+ DigitalCareConfigManager.getCdlsCategory()
+				+ CDLS_BASE_URL_POSTFIX;
 	}
 
 	@Override

@@ -24,8 +24,9 @@
 
     <!-- Color End -->
 
-	<!-- 	email id for philips support  -->	
-	<string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+
+    <!-- email id for philips support -->
+    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
 
     <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
     <style name="actionbarIconArrowImageViewParent">
@@ -56,9 +57,14 @@
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>
 
+    <!-- CDLS API related -->
+    <string name="CDLS_CATEGORY_PRIMARY">/CARE/PERSONAL_CARE_GR</string>
+    <string name="CDLS_CATEGORY_USA">/CARE/MENS_SHAVING_CA</string>
+
     <!-- please specify client id depending on the registration type -->
     <string name="client_id">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
     <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
     <string name="registration_type">EVAL</string>
     <string name="microsite_id">81376</string>
+
 </resources>
