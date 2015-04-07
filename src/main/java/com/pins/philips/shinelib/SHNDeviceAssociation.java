@@ -10,10 +10,10 @@ public class SHNDeviceAssociation {
         SHNDeviceAssociationStateIdle, SHNDeviceAssociationStateAssociating
     }
     public interface SHNDeviceAssociationListener {
-        public void onAssociationStarted(SHNDeviceAssociationProcedure shnDeviceAssociationProcedure);
-        public void onAssociationStopped();
-        public void onAssociationSucceeded(SHNDevice shnDevice);
-        public void onAssociationFailed(SHNResult shnError); // The iOS version uses NSError
+        void onAssociationStarted(SHNDeviceAssociationProcedure shnDeviceAssociationProcedure);
+        void onAssociationStopped();
+        void onAssociationSucceeded(SHNDevice shnDevice);
+        void onAssociationFailed(SHNResult shnError); // The iOS version uses NSError
     }
 
     private SHNDeviceAssociationListener shnDeviceAssociationListener;

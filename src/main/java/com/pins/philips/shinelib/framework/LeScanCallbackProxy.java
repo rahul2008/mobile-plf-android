@@ -26,9 +26,9 @@ public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
         return BleUtilities.startLeScan(this);
     }
 
-    public boolean startLeScan(UUID[] serviceUuids, LeScanCallback leScanCallback) {
+    public boolean startLeScan(UUID[] serviceUUIDs, LeScanCallback leScanCallback) {
         this.leScanCallback = leScanCallback;
-        return BleUtilities.startLeScan(serviceUuids, this);
+        return BleUtilities.startLeScan(serviceUUIDs, this);
     }
 
     public void stopLeScan(LeScanCallback leScanCallback) {

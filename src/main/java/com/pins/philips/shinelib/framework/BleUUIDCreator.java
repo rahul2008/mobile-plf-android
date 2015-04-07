@@ -4,9 +4,9 @@ package com.pins.philips.shinelib.framework;
  * Created by 310188215 on 10/03/15.
  */
 public class BleUUIDCreator {
-    private static String BLUETOOTH_BASE_UUID_PREFIX = "00000000";
-    private static String BLUETOOTH_BASE_UUID_SUFFIX = "-0000-1000-8000-00805F9B34FB";
-    public static String BLUETOOTH_BASE_UUID = BLUETOOTH_BASE_UUID_PREFIX + BLUETOOTH_BASE_UUID_SUFFIX;
+    private static final String BLUETOOTH_BASE_UUID_PREFIX = "00000000";
+    private static final String BLUETOOTH_BASE_UUID_SUFFIX = "-0000-1000-8000-00805F9B34FB";
+    public static final String BLUETOOTH_BASE_UUID = BLUETOOTH_BASE_UUID_PREFIX + BLUETOOTH_BASE_UUID_SUFFIX;
 
 
     // Bluetooth scanRecord DataTypes

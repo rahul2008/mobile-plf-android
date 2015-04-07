@@ -1,9 +1,7 @@
 package com.pins.philips.shinelib;
 
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.util.Log;
 
-import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 /**
@@ -12,7 +10,8 @@ import java.util.UUID;
 public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
 
-    public enum State {Inactive, Active};
+    public enum State {Inactive, Active}
+
     private final UUID uuid;
     private final SHNDevice shnDevice;
     private BluetoothGattCharacteristic bluetoothGattCharacteristic;
@@ -21,6 +20,7 @@ public class SHNCharacteristic {
     public SHNCharacteristic(SHNDevice shnDevice, UUID characteristicUUID) {
         this.uuid = characteristicUUID;
         this.shnDevice = shnDevice;
+        this.state = State.Inactive;
     }
 
     public State getState() {
@@ -48,11 +48,19 @@ public class SHNCharacteristic {
         return null;
     }
 
-    public void readIt(SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean readCharacteristic(SHNDevice.SHNGattCommandResultReporter resultReporter) {
         if (state == State.Active) {
-            shnDevice.readIt(bluetoothGattCharacteristic, resultReporter);
+            return shnDevice.readCharacteristic(bluetoothGattCharacteristic, resultReporter);
         } else {
-            // TODO Report error by returning false (command not queued)
+            return false;
+        }
+    }
+
+    public boolean setCharacteristicNotification(boolean enable, SHNDevice.SHNGattCommandResultReporter resultReporter) {
+        if (state == State.Active) {
+            return shnDevice.setCharacteristicNotification(bluetoothGattCharacteristic, enable, resultReporter);
+        } else {
+            return false;
         }
     }
 

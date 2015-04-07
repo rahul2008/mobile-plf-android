@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'jacoco'
 
 android {
     compileSdkVersion 21
@@ -26,52 +27,45 @@ android {
                     output.outputFile.name.replace(".aar", "-${versionName}.aar"))
         }
     }
-
-    jacoco {
-        version = "0.7.4.201502262128"
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
-    androidTestCompile 'junit:junit:4.12'
+    //    testCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+    testCompile 'junit:junit:4.12'
+    //    testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.2'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.2'
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
 }
 
-//task jacocoTestReport(type: JacocoReport) {
-//    def coverageSourceDirs = [
-//            'src/main/java'
-//    ]
-//
-//    group = "Reporting"
-//    description = "Generates Jacoco coverage reports"
-//    reports {
-//        xml {
-//            enabled = true
-//            destination "${buildDir}/reports/jacoco/jacoco.xml"
-//        }
-//        csv.enabled = false;
-//        html {
-//            enabled = true
-//            destination "${buildDir}/jacocoHtml"
-//        }
-//    }
-//
-//    classDirectories = fileTree(
-//            dir: 'build/intermediates/classes',
-//            excludes: [ '**/R.class',
-//                        '**/R$*.class',
-//                        '**/BuildConfig.class',
-//                        '**/Manifest*.*',
-//                        '**/*Activity*.*',
-//                        '**/*Fragment*.*'
-//
-//            ]
-//    )
-//
-//    sourceDirectories = files(coverageSourceDirs)
-//    additionalSourceDirs = files(coverageSourceDirs)
-//    executionData = files('build/outputs/code-coverage/connected/coverage.ec')
-//}
+task jacocoTestReport(type:JacocoReport, dependsOn: ["assembleDebug","testDebug"]) {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: "${buildDir}/intermediates/classes/debug",
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*Activity.*',
+                       '**/*Fragment.*',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    sourceDirectories = files("${buildDir.parent}/src/main/java")
+//    additionalSourceDirs = files([
+//            "${buildDir}/generated/source/buildConfig/debug",
+//            "${buildDir}/generated/source/r/debug"
+//    ])
+    executionData = files("${buildDir}/jacoco/testDebug.exec")
+
+    reports {
+        html.enabled = true
+        xml.enabled = false
+        csv.enabled = false
+    }
+}
 

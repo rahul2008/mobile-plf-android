@@ -47,7 +47,7 @@ public class BleUtilities {
     public static void startEnableBluetoothActivity() {
         instance._startEnableBluetoothActivity();
     }
-    public void _startEnableBluetoothActivity() {
+    private void _startEnableBluetoothActivity() {
         Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         applicationContext.startActivity(intent);
@@ -56,7 +56,7 @@ public class BleUtilities {
     public static boolean startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         return instance._startLeScan(leScanCallback);
     }
-    public boolean _startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
+    private boolean _startLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         return bluetoothAdapter.startLeScan(leScanCallback);
@@ -74,7 +74,7 @@ public class BleUtilities {
     public static void stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         instance._stopLeScan(leScanCallback);
     }
-    public void _stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
+    private void _stopLeScan(BluetoothAdapter.LeScanCallback leScanCallback) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         bluetoothAdapter.stopLeScan(leScanCallback);
@@ -83,7 +83,7 @@ public class BleUtilities {
     public static BluetoothDevice getRemoteDevice(String macAddress) {
         return instance._getRemoteDevice(macAddress);
     }
-    public BluetoothDevice _getRemoteDevice(String macAddress) {
+    private BluetoothDevice _getRemoteDevice(String macAddress) {
         BluetoothManager bluetoothManager = (BluetoothManager) applicationContext.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
         return bluetoothAdapter.getRemoteDevice(macAddress);

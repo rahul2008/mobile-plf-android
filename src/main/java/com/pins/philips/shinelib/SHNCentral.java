@@ -82,7 +82,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import com.pins.philips.shinelib.bletestsupport.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
@@ -102,7 +101,7 @@ public class SHNCentral {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
     }
     public interface SHNCentralListener {
-        public void onStateUpdated(SHNCentral shnCentral);
+        void onStateUpdated(SHNCentral shnCentral);
     }
 
     private final Handler upperLayerHandler;
@@ -160,7 +159,7 @@ public class SHNCentral {
         applicationContext.registerReceiver(bluetoothBroadcastReceiver, filter);
 
         registeredDeviceDefinitions = new ArrayList<>();
-        shnDeviceScanner = new SHNDeviceScanner(this);
+        shnDeviceScanner = new SHNDeviceScanner(this, getRegisteredDeviceDefinitions());
 
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
     }
@@ -232,7 +231,7 @@ public class SHNCentral {
         return shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
     }
 
-    public void reportExceptionOnAppMainThread(Exception e, SHNCentral shnCentral) {
+    public void reportExceptionOnAppMainThread(Exception e) {
         Thread t = getApplicationContext().getMainLooper().getThread();
         t.getUncaughtExceptionHandler().uncaughtException(t, e);
     }

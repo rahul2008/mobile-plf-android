@@ -87,7 +87,8 @@ import java.util.UUID;
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
 
-    public enum State {Inactive, Active};
+    public enum State {Inactive, Active}
+
     public interface SHNServiceListener {
         void onServiceStateChanged(SHNService shnService, State state);
     }
@@ -149,7 +150,7 @@ public class SHNService {
     }
 
     public void connectToBLELayer(BluetoothGattService bluetoothGattService) {
-        bluetoothGattServiceWeakReference = new WeakReference<BluetoothGattService>(bluetoothGattService);
+        bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic: bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
             if (shnCharacteristic != null) {

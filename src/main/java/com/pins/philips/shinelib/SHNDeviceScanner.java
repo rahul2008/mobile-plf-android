@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -21,44 +23,57 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private static final boolean LOGGING = false;
 
     private Set<String> macAddressesOfFoundDevices = new HashSet<>();
-    private List<LeScanCallbackProxy> leScanCallbackProxies = new ArrayList<>();
+    private LeScanCallbackProxy leScanCallbackProxy;
     private SHNDeviceScannerListener shnDeviceScannerListener;
+    private boolean scanning = false;
+    private ScheduledFuture<?> scanningTimer;
+    private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
 
     public interface SHNDeviceScannerListener {
-        public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo);
-        public void scanStopped(SHNDeviceScanner shnDeviceScanner);
+        void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo);
+        void scanStopped(SHNDeviceScanner shnDeviceScanner);
     }
 
     private final SHNCentral shnCentral;
 
-    public SHNDeviceScanner(SHNCentral shnCentral) {
+    public SHNDeviceScanner(SHNCentral shnCentral, List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         this.shnCentral = shnCentral;
+        this.registeredDeviceDefinitions = registeredDeviceDefinitions;
     }
 
-    public boolean startScanning(SHNDeviceScannerListener shnDeviceScannerListener) {
+    public boolean startScanning(SHNDeviceScannerListener shnDeviceScannerListener, long stopScanningAfterMS) {
+        if (scanning) {
+            return false;
+        }
         macAddressesOfFoundDevices.clear();
-        leScanCallbackProxies.clear();
         this.shnDeviceScannerListener = shnDeviceScannerListener;
-//        for (SHNDeviceDefinitionInfo deviceDefinitionInfo: shnCentral.getRegisteredDeviceDefinitions()) {
-//            Set<UUID> primaryServiceUUIDs = deviceDefinitionInfo.getPrimaryServiceUUIDs();
-            LeScanCallbackProxy leScanCallbackProxy = new LeScanCallbackProxy();
-//            leScanCallbackProxy.startLeScan(primaryServiceUUIDs.toArray(new UUID[primaryServiceUUIDs.size()]), this, deviceDefinitionInfo);
-//        leScanCallbackProxy.startLeScan(this, deviceDefinitionInfo);
-        leScanCallbackProxy.startLeScan(this, null);
-            leScanCallbackProxies.add(leScanCallbackProxy);
-//        }
-        // TODO monitor the start results and if needed stop scanning....
+        leScanCallbackProxy = new LeScanCallbackProxy();
+        scanning = leScanCallbackProxy.startLeScan(this, null);
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                stopScanning();
+            }
+        };
+        scanningTimer = shnCentral.getScheduledThreadPoolExecutor().schedule(runnable, stopScanningAfterMS, TimeUnit.MILLISECONDS);
+
         return true;
     }
 
-    public void stopScanning(SHNDeviceScannerListener shnDeviceScannerListener) {
-        for (LeScanCallbackProxy leScanCallbackProxy: leScanCallbackProxies) {
+    public void stopScanning() {
+        if (scanning) {
+            scanningTimer.cancel(false);
+            scanningTimer = null;
             leScanCallbackProxy.stopLeScan(this);
+            leScanCallbackProxy = null;
+            shnDeviceScannerListener.scanStopped(this);
+            shnDeviceScannerListener = null;
+            scanning = false;
         }
-        leScanCallbackProxies.clear();
     }
 
-    void queueBleDeviceFoundInfoOnBleThread(final BleDeviceFoundInfo bleDeviceFoundInfo) {
+    private void queueBleDeviceFoundInfoOnBleThread(final BleDeviceFoundInfo bleDeviceFoundInfo) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -68,14 +83,14 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
         shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
     }
 
-    boolean handleDeviceFoundEvent(BleDeviceFoundInfo bleDeviceFoundInfo) {
+    private void handleDeviceFoundEvent(BleDeviceFoundInfo bleDeviceFoundInfo) {
 
         if (!macAddressesOfFoundDevices.contains(bleDeviceFoundInfo.getDeviceAddress())) {
             macAddressesOfFoundDevices.add(bleDeviceFoundInfo.getDeviceAddress());
 
-            List<UUID> uuids = parseUUIDs(bleDeviceFoundInfo.scanRecord);
-            for (UUID uuid: uuids) {
-                for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo: shnCentral.getRegisteredDeviceDefinitions()) {
+            List<UUID> UUIDs = parseUUIDs(bleDeviceFoundInfo.scanRecord);
+            for (UUID uuid: UUIDs) {
+                for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo: registeredDeviceDefinitions) {
                     if (shnDeviceDefinitionInfo.getPrimaryServiceUUIDs().contains(uuid)) {
                         final  SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(bleDeviceFoundInfo.bluetoothDevice, bleDeviceFoundInfo.rssi, bleDeviceFoundInfo.scanRecord, shnDeviceDefinitionInfo);
                         Runnable runnable = new Runnable() {
@@ -89,11 +104,11 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
                 }
             }
         }
-
-        return true; // Event handled
     }
 
     public void shutdown() {
+        stopScanning();
+        // TODO What else: release references???
     }
 
     // SHNDeviceScanner.LeScanCallback
@@ -103,7 +118,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     }
 
     private List<UUID> parseUUIDs(final byte[] advertisedData) {
-        List<UUID> uuids = new ArrayList<UUID>();
+        List<UUID> uuids = new ArrayList<>();
 
         int offset = 0;
         while (offset < (advertisedData.length - 2)) {

@@ -7,18 +7,18 @@ import java.util.UUID;
  * Created by 310188215 on 02/03/15.
  */
 public interface SHNDeviceDefinitionInfo {
-    public interface SHNDeviceDefinition {
-        public Set<SHNCapability> getExposedCapabilities();
-        public SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral);
-        public void associateWithCompletion(Runnable completion);
-        public Set<UUID> getRequiredServiceUUIDs();
-        public Set<UUID> getRequiredCharacteristicUUIDs(UUID serviceUUID);
-        public Set<UUID> getOptionalCharacteristicUUIDs(UUID serviceUUID);
+    interface SHNDeviceDefinition {
+        Set<SHNCapability> getExposedCapabilities();
+        SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral);
+        void associateWithCompletion(Runnable completion);
+        Set<UUID> getRequiredServiceUUIDs();
+        Set<UUID> getRequiredCharacteristicUUIDs(UUID serviceUUID);
+        Set<UUID> getOptionalCharacteristicUUIDs(UUID serviceUUID);
     }
 
-    public String getDeviceTypeName();
-    public Set<UUID> getPrimaryServiceUUIDs();
-    public SHNDeviceAssociation getShnDeviceAssociation();
+    String getDeviceTypeName();
+    Set<UUID> getPrimaryServiceUUIDs();
+    SHNDeviceAssociation getShnDeviceAssociation();
 
-    public SHNDeviceDefinition getSHNDeviceDefinition(); // no other way to enforce a no arguments constructor
+    SHNDeviceDefinition getSHNDeviceDefinition(); // no other way to enforce a no arguments constructor
 }

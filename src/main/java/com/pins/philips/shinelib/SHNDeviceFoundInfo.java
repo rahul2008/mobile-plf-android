@@ -9,7 +9,7 @@ public class SHNDeviceFoundInfo {
     public final String deviceAddress;
     public final String deviceName;
     public final int rssi;
-    public final byte[] scanRecord;
+    private final byte[] scanRecord;
     public final SHNDeviceDefinitionInfo shnDeviceDefinitionInfo;
 
     public SHNDeviceFoundInfo(BluetoothDevice bluetoothDevice, int rssi, byte[] scanRecord, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {

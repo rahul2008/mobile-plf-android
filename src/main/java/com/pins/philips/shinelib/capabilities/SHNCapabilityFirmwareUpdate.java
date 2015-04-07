@@ -15,12 +15,12 @@ public class SHNCapabilityFirmwareUpdate {
         SHNFirmwareUpdateStateDeploying,
     }
     public interface SHNCapabilityFirmwareUpdateListener {
-        public void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
-        public void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float progress);
-        public void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
-        public void onUploadFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
-        public void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
-        public void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
+        void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
+        void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float progress);
+        void onUploadFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
+        void onUploadFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
+        void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
+        void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
     }
 
     private SHNFirmwareUpdateState shnFirmwareUpdateState = SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle;
