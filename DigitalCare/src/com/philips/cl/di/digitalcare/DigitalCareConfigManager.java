@@ -161,7 +161,7 @@ public class DigitalCareConfigManager {
 	}
 
 	public static String getLocale() {
-		return getLanguage() + "-" + getCountry();
+		return getLanguage() + "_" + getCountry();
 	}
 
 	/*

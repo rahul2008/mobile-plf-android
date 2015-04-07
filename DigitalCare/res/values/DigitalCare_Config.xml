@@ -24,8 +24,7 @@
 
     <!-- Color End -->
 
-
-    <!-- email id for philips support -->
+    <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
 
     <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
@@ -51,20 +50,20 @@
     </string-array>
 
     <!-- Facebook APPID, replace app id in app authority string -->
-    <string name="facebook_app_id">1537018913230025</string>
-    <string name="facebook_app_authority">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+    <string name="facebook_app_id" translatable="false">1537018913230025</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>
 
-    <!-- CDLS API related -->
-    <string name="CDLS_CATEGORY_PRIMARY">/CARE/PERSONAL_CARE_GR</string>
-    <string name="CDLS_CATEGORY_USA">/CARE/MENS_SHAVING_CA</string>
+    <!-- CDLS API related. For USA category is different and for other countries category will be at group level -->
+    <string name="CDLS_CATEGORY_PRIMARY" translatable="false">/CARE/PERSONAL_CARE_GR</string>
+    <string name="CDLS_CATEGORY_USA" translatable="false">/CARE/MENS_SHAVING_CA</string>
 
     <!-- please specify client id depending on the registration type -->
-    <string name="client_id">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
+    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
     <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
-    <string name="registration_type">EVAL</string>
-    <string name="microsite_id">81376</string>
+    <string name="registration_type" translatable="false">EVAL</string>
+    <string name="microsite_id" translatable="false">81376</string>
 
 </resources>
