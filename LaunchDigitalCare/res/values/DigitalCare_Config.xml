@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- Color Start -->
+    <!-- Actionbar related -->
+    <color name="actionbar_bg_start_color">#FFFFFF</color>
+    <color name="actionbar_bg_end_color">#FFFFFF</color>
+    <color name="actionbar_menu_bg_color">@color/button_bg</color> <!-- Orange -->
+    <color name="actionbar_title_text_color">#000000</color>
+
+    <!-- Standard Button -->
+    <color name="button_text_color">@color/actionbar_bg_start_color</color>
+    <color name="button_bg">#EEAF00</color>
+    <color name="no_thanks_button_bg">@color/actionbar_bg_start_color</color>
+ 
+    <color name="cancel_button_bg">@color/actionbar_title_text_color</color>
+    <color name="button_bg_pressed">#005A8B</color>
+    <color name="button_prodReg_bg_pressed">#005AAB</color>
+
+    <!-- Text on the screen -->
+    <color name="text_header_color">@color/actionbar_title_text_color</color>
+    <color name="text_sub_header_color">@color/actionbar_title_text_color</color>
+
+    <!-- Activity -->
+    <color name="activity_bg">#FEFBF2</color>
+
+    <!-- Color End -->
+
+
+    <!-- email id for philips support -->
+    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+
+    <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
+    <style name="actionbarIconArrowImageViewParent">
+<!--         <item name="android:background">@color/actionbar_menu_bg_color</item> -->
+         <item name="android:src">@drawable/actionbar_back_arrow_orange</item>
+    </style>
+
+    <!-- Action bar hamburger menu(home) drawables is the part of below style -->
+    <style name="actionbarIconHomeImageViewParent">
+        <item name="android:background">@drawable/selector_clickable_image_bg_orange</item>
+        <item name="android:src">@drawable/actionbar_home_icon_orange</item>
+    </style>
+
+    <!-- Suppport page contains these fetaures -->
+    <string-array name="supported_features">
+        <item name="CONTACT US "> 1 </item>
+        <item name="VIEW PRODUCT DETAILS"> 2 </item>
+        <item name="FAQ"> 3 </item>
+        <item name="FIND PHILIPS NEARBY"> 4 </item>
+        <item name="TELL US YOUR THINKING"> 5 </item>
+        <item name="REGISTER MY PRODUCT"> 6 </item>
+    </string-array>
+
+    <!-- Facebook APPID, replace app id in app authority string -->
+    <string name="facebook_app_id" translatable="false">1537018913230025</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
+
+    <!-- CDLS API related. For USA category is different and for other countries category will be at group level -->
+    <string name="CDLS_CATEGORY_PRIMARY" translatable="false">/CARE/PERSONAL_CARE_GR</string>
+    <string name="CDLS_CATEGORY_USA" translatable="false">/CARE/MENS_SHAVING_CA</string>
+
+    <!-- please specify client id depending on the registration type -->
+    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
+    <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
+    <string name="registration_type" translatable="false">EVAL</string>
+    <string name="microsite_id" translatable="false">81376</string>
+
+    <!-- NetworkAlert Input Credentials -->
+    <string name="NetworkAlertView_height" translatable="false">60</string>
+    <color name="NetworkAlertView_background_color" translatable="false">#ff0000</color>
+    <color name="NetworkAlertView_text_color" translatable="false">#ffffff</color>
+    <string name="NetworkAlertView_text">Connection Not Available</string>
+
+</resources>
