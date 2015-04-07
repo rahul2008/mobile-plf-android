@@ -46,11 +46,11 @@ public class NetworkNode extends Observable implements Parcelable {
 		this.mCppId = cppId;
 	}
 
-	public synchronized ConnectionState getConnectionState() {
+	public ConnectionState getConnectionState() {
 		return mConnectionState;
 	}
 	
-	public synchronized void setConnectionState(ConnectionState connectionState) {
+	public void  setConnectionState(ConnectionState connectionState) {
 		// TODO remove vertical specific code (MetricsTracker)
 		if (!connectionState.equals(mConnectionState)) {
 			MetricsTracker.trackActionConnectionType(connectionState);
