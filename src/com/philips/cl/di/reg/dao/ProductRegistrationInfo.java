@@ -152,7 +152,7 @@ public class ProductRegistrationInfo {
 		return mSector;
 	}
 	public void setSector(Sector sector) {
-		mSector = Sector.B2C;
+		mSector = sector;
 	}
 	public Catalog getCatalog() {
 		return mCatalog;

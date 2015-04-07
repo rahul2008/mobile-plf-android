@@ -22,6 +22,7 @@ import com.philips.cl.di.reg.controller.RefreshLoginSession;
 import com.philips.cl.di.reg.controller.RegisterTraditional;
 import com.philips.cl.di.reg.controller.ResendVerificationEmail;
 import com.philips.cl.di.reg.controller.UpdateReceiveMarketingEmail;
+import com.philips.cl.di.reg.controller.UpdateUserRecord;
 import com.philips.cl.di.reg.dao.ConsumerArray;
 import com.philips.cl.di.reg.dao.ConsumerInterest;
 import com.philips.cl.di.reg.dao.DIUserProfile;
@@ -34,6 +35,7 @@ import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 
 public class User {
 	public String mEmail, mGivenName, mPassword, mDisplayName;
@@ -69,13 +71,16 @@ public class User {
 	private String CONSUMER_TOPIC_COMMUNICATION_KEY = "topicCommunicationKey";
 
 	private String CONSUMER_TOPIC_VALUE = "topicValue";
-	
+
 	private String CONSUMER_INTERESTS = "consumerInterests";
-	
-	private String LOG_TAG = "User";
+
+	private String LOG_TAG = "User Registration";
+
+	private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
 	public User(Context context) {
 		mContext = context;
+		mUpdateUserRecordHandler = new UpdateUserRecord(context);
 	}
 
 	// For Traditional SignIn
@@ -84,7 +89,8 @@ public class User {
 
 		if (emailAddress != null && password != null) {
 			LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-					traditionalLoginHandler, mContext, emailAddress, password);
+					traditionalLoginHandler, mContext,
+					mUpdateUserRecordHandler, emailAddress, password);
 			Jump.performTraditionalSignIn(emailAddress, password,
 					loginTraditionalResultHandler, null);
 		} else {
@@ -98,7 +104,7 @@ public class User {
 			String providerName, SocialProviderLoginHandler socialLoginHandler) {
 		if (providerName != null && activity != null) {
 			LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-					socialLoginHandler, mContext);
+					socialLoginHandler, mContext, mUpdateUserRecordHandler);
 			Jump.showSignInDialog(activity, providerName,
 					loginSocialResultHandler, null);
 		} else {
@@ -124,15 +130,19 @@ public class User {
 			}
 			JSONObject newUser = new JSONObject();
 			try {
-				newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
+				newUser.put(USER_EMAIL, mEmail)
+						.put(USER_GIVEN_NAME, mGivenName)
 						.put(USER_PASSWORD, mPassword)
 						.put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
-						.put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmails);
+						.put(USER_RECEIVE_MARKETING_EMAIL,
+								mReceiveMarketingEmails);
 			} catch (JSONException e) {
-				Log.e(LOG_TAG,"On registerNewUserUsingTraditional,Caught JSON Exception");
+				Log.e(LOG_TAG,
+						"On registerNewUserUsingTraditional,Caught JSON Exception");
 			}
 			RegisterTraditional traditionalRegisterResultHandler = new RegisterTraditional(
-					traditionalRegisterHandler, mContext);
+					traditionalRegisterHandler, mContext,
+					mUpdateUserRecordHandler);
 			Jump.registerNewUser(newUser, null,
 					traditionalRegisterResultHandler);
 		} else {
@@ -192,10 +202,10 @@ public class User {
 
 		if (emailAddress != null && password != null) {
 			LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-					traditionalLoginHandler, mContext, emailAddress, password);
+					traditionalLoginHandler, mContext,
+					mUpdateUserRecordHandler, emailAddress, password);
 			Jump.performTraditionalSignIn(emailAddress, password,
 					loginTraditionalResultHandler, mergeToken);
-
 		} else {
 			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM
 					.geterrorList());
@@ -206,11 +216,12 @@ public class User {
 	public void completeSocialProviderLogin(ArrayList<DIUserProfile> profile,
 			SocialProviderLoginHandler socialProviderLoginHandler,
 			String socialRegistrationToken) {
-
+		String familyName = "";
 		if (profile != null) {
 			for (DIUserProfile diUserProfile : profile) {
 				mEmail = diUserProfile.getEmail();
 				mGivenName = diUserProfile.getGivenName();
+				familyName = diUserProfile.getFamilyName();
 				mPassword = diUserProfile.getPassword();
 				mDisplayName = diUserProfile.getDisplayName();
 				mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
@@ -221,7 +232,7 @@ public class User {
 			try {
 				newUser.put(USER_EMAIL, mEmail)
 						.put(USER_GIVEN_NAME, mGivenName)
-						.put(USER_FAMILY_NAME, mGivenName)
+						.put(USER_FAMILY_NAME, familyName)
 						.put(USER_PASSWORD, mPassword)
 						.put(USER_DISPLAY_NAME, mDisplayName)
 						.put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
@@ -229,11 +240,13 @@ public class User {
 								mReceiveMarketingEmails);
 
 			} catch (JSONException e) {
-				Log.e(LOG_TAG,"On completeSocialProviderLogin,Caught JSON Exception");
+				Log.e(LOG_TAG,
+						"On completeSocialProviderLogin,Caught JSON Exception");
 			}
 
 			ContinueSocialProviderLogin continueSocialProviderLogin = new ContinueSocialProviderLogin(
-					socialProviderLoginHandler, mContext);
+					socialProviderLoginHandler, mContext,
+					mUpdateUserRecordHandler);
 			Jump.registerNewUser(newUser, socialRegistrationToken,
 					continueSocialProviderLogin);
 		} else {
@@ -260,7 +273,7 @@ public class User {
 					.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
 
 		} catch (JSONException e) {
-			Log.e(LOG_TAG,"On getUserInstance,Caught JSON Exception");
+			Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
 		}
 		return diUserProfile;
 	}
@@ -281,7 +294,8 @@ public class User {
 			}
 
 		} catch (JSONException e) {
-			Log.e(LOG_TAG,"On getEmailVerificationStatus,Caught JSON Exception");
+			Log.e(LOG_TAG,
+					"On getEmailVerificationStatus,Caught JSON Exception");
 		}
 		return mEmailVerified;
 	}
@@ -296,9 +310,27 @@ public class User {
 
 	// For update receive marketing email
 	public void updateReceiveMarketingEmail(
+			final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
+			final boolean receiveMarketingEmail) {
+		final User user = new User(mContext);
+		user.refreshLoginSession(new RefreshLoginSessionHandler() {
+			@Override
+			public void onRefreshLoginSessionSuccess() {
+				updateMarketingEmailAfterRefreshAccessToken(
+						updateReceiveMarketingEmail, receiveMarketingEmail);
+			}
+
+			@Override
+			public void onRefreshLoginSessionFailedWithError(int error) {
+				updateReceiveMarketingEmail
+						.onUpdateReceiveMarketingEmailFailedWithError(0);
+			}
+		});
+	}
+
+	private void updateMarketingEmailAfterRefreshAccessToken(
 			UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
 			boolean receiveMarketingEmail) {
-
 		mCapturedData = CaptureRecord.loadFromDisk(mContext);
 		JSONObject userJson = CaptureRecord.loadFromDisk(mContext);
 		UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(
@@ -311,10 +343,12 @@ public class User {
 					mCapturedData.synchronize(
 							updateReceiveMarketingEmailHandler, userJson);
 				} catch (InvalidApidChangeException e) {
-					Log.e(LOG_TAG,"On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
+					Log.e(LOG_TAG,
+							"On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
 				}
 			} catch (JSONException e) {
-				Log.e(LOG_TAG,"On updateReceiveMarketingEmail,Caught JSON Exception");
+				Log.e(LOG_TAG,
+						"On updateReceiveMarketingEmail,Caught JSON Exception");
 			}
 		}
 	}
@@ -348,7 +382,8 @@ public class User {
 							diConsumerInterest.getTopicValue());
 
 				} catch (JSONException e) {
-					Log.e(LOG_TAG,"On addConsumerInterest,Caught JSON Exception");
+					Log.e(LOG_TAG,
+							"On addConsumerInterest,Caught JSON Exception");
 				}
 				mConsumerInterestArray.put(mConsumerInterestObject);
 			}
@@ -357,8 +392,7 @@ public class User {
 		if (captured != null) {
 			try {
 				captured.remove(CONSUMER_INTERESTS);
-				captured.put(CONSUMER_INTERESTS,
-						mConsumerInterestArray);
+				captured.put(CONSUMER_INTERESTS, mConsumerInterestArray);
 				try {
 					captured.synchronize(addConsumerInterest, userJson);
 

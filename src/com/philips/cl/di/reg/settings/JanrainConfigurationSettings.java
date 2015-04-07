@@ -71,21 +71,21 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 	private static String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
 
 	private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
-	
+
 	public static final String REGISTRATION_API_PREFERENCE = "REGAPI_PREFERENCE";
-	
+
 	public static final String MICROSITE_ID = "microSiteID";
-	
+
 	private String mPreferredCountryCode;
-	
+
 	private String mPreferredLangCode;
-	
+
 	public String REGISTRATION_USE_PRODUCTION = "REGISTRATION_USE_PRODUCTION";
-	
+
 	public String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
-	
+
 	public String REGISTRATION_USE_DEVICE = "REGISTRATION_USE_DEVICE";
-	
+
 	private JanrainConfigurationSettings() {
 
 	}
@@ -105,7 +105,7 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 		Editor editor = pref.edit();
 		editor.putString(MICROSITE_ID, microSiteId);
 		editor.commit();
-		
+
 		mRegistrationVersion = registrationType;
 		mCaptureClientId = captureClientId;
 		mLocale = locale;
@@ -114,9 +114,12 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 
 		String localeArr[] = locale.split("_");
 
-		if (localeArr != null && localeArr.length > 0) {
+		if (localeArr != null && localeArr.length > 1) {
 			mLanguageCode = localeArr[0].toLowerCase();
 			mCountryCode = localeArr[1].toUpperCase();
+		} else {
+			mLanguageCode = "en";
+			mCountryCode = "US";
 		}
 
 		PILLocaleManager localeManager = new PILLocaleManager();
@@ -156,8 +159,7 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 
 	@Override
 	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = "
-				+ error);
+		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
 		unRegisterLocaleMatchListener();
 		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
 				+ mCountryCode);
@@ -246,9 +248,9 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 		jumpConfig.captureCountryCode = countryCode;
 		jumpConfig.captureLanguageCode = langCode;
 		jumpConfig.captureLocale = locale;
-		
+
 		mPreferredCountryCode = countryCode;
-	    mPreferredLangCode = langCode;
+		mPreferredLangCode = langCode;
 
 		try {
 			if (mIsIntialize) {
@@ -270,11 +272,11 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 	public String getProductRegisterListUrl() {
 		return mProductRegisterListUrl;
 	}
-	
+
 	public String getPreferredCountryCode() {
 		return mPreferredCountryCode;
 	}
-	
+
 	public String getPreferredLangCode() {
 		return mPreferredLangCode;
 	}

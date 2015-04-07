@@ -1,11 +1,14 @@
 package com.philips.cl.di.reg.controller;
 
 import org.json.JSONObject;
+
 import android.content.Context;
+
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
+import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 
 public class LoginSocialProvider implements Jump.SignInResultHandler,
 		Jump.SignInCodeHandler {
@@ -13,16 +16,19 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,
 	private SocialProviderLoginHandler mSocialLoginHandler;
 	private String mMergeToken;
 	private int mGetError = 1;
+	private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
 	public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler,
-			Context context) {
+			Context context,UpdateUserRecordHandler updateUserRecordHandler) {
 		mSocialLoginHandler = socialLoginHandler;
 		mContext = context;
+		mUpdateUserRecordHandler =updateUserRecordHandler ;
 	}
 
 	@Override
 	public void onSuccess() {
 		Jump.saveToDisk(mContext);
+		mUpdateUserRecordHandler.updateUserRecordLogin();
 		mSocialLoginHandler.onLoginSuccess();
 	}
 
