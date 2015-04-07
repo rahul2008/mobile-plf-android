@@ -36,19 +36,19 @@ public class DigitalCareFontLoader {
 		if (fontName == null)
 			return;
 
-		if (!tv.isInEditMode()) {
-			Typeface typeface = mFonts.get(fontName);
-			if (typeface == null) {
-				typeface = Typeface.createFromAsset(
-						tv.getContext().getAssets(), fontName);
-				mFonts.put(fontName, typeface);
-			}
-
-			// if(!(getDeviceName().equalsIgnoreCase("Sony Ericsson LT18i") &&
-			// LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH"))){
-			// tv.setTypeface(typeface);
-			// }
-		}
+//		if (!tv.isInEditMode()) {
+//			Typeface typeface = mFonts.get(fontName);
+//			if (typeface == null) {
+//				typeface = Typeface.createFromAsset(
+//						tv.getContext().getAssets(), fontName);
+//				mFonts.put(fontName, typeface);
+//			}
+//
+//			// if(!(getDeviceName().equalsIgnoreCase("Sony Ericsson LT18i") &&
+//			// LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH"))){
+//			// tv.setTypeface(typeface);
+//			// }
+//		}
 	}
 
 	// private String getDeviceName() {

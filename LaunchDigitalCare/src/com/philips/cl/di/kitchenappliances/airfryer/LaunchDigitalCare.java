@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
-import com.philips.di.cl.launchdigitalcare.R;
 
 public class LaunchDigitalCare extends Activity {
 
