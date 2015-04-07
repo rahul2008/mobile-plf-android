@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,8 @@ import com.philips.cl.di.digitalcare.util.Utils;
  * @since Feb 10, 2015
  */
 public class TwitterSupportFragment extends DigitalCareBaseFragment implements
-		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback {
+		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback,
+		TextWatcher {
 
 	private static final String TAG = TwitterSupportFragment.class
 			.getSimpleName();
@@ -56,13 +59,14 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private EditText mEditText = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductCloseButton = null;
+	private TextView mCharacterCount = null;
 	private ProgressDialog mPostProgress = null;
 	private LayoutParams mContainerParams = null;
 
 	private TextView mTweetfrom = null;
 	private ImageView mTwitterIcon = null;
 
-	private final String PRODCUT_INFO = "The Prduct Description from CDLS";
+	private final String PRODCUT_INFO = "@PhilipsCare <Product specific as well as locale specific content from CDLS>";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -93,6 +97,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.facebookSendPort);
 		mTweetfrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
+		mCharacterCount = (TextView) getActivity().findViewById(
+				R.id.fb_post_textCount);
 		mTwitterIcon = (ImageView) getActivity().findViewById(
 				R.id.socialLoginIcon);
 		mCheckBox = (CheckBox) getActivity()
@@ -108,7 +114,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductImage.setOnClickListener(this);
 		mProductCloseButton.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
-
+		mEditText.addTextChangedListener(this);
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
 
@@ -166,6 +172,22 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
 		}
+	}
+
+	@Override
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+
+	}
+
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		mCharacterCount.setText(String.valueOf(s.length()));
+	}
+
+	@Override
+	public void afterTextChanged(Editable s) {
+
 	}
 
 	public String getEditorText() {

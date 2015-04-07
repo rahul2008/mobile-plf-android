@@ -64,7 +64,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private Bundle mSaveInstanceState = null;
 	private View mView = null;
 	private ProgressDialog mPostProgress = null;
-	private final String PRODCUT_INFO = "The Prduct Description from CDLS";
+	private final String PRODCUT_INFO = "@PhilipsCare <Product specific as well as locale specific content from CDLS>";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -320,6 +320,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		if (mPostProgress.isShowing())
 			mPostProgress.dismiss();
 	}
+
 }
 
 interface FBAccountCallback {
