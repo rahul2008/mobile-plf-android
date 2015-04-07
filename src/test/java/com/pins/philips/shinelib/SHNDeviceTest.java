@@ -27,7 +27,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Log.class)
+//@PrepareForTest(Log.class) // This does not work on the buildserver. TODO find out why...
 public class SHNDeviceTest {
     private SHNDevice shnDevice;
     private BluetoothDevice mockedBluetoothDevice;
@@ -35,7 +35,7 @@ public class SHNDeviceTest {
 
     @Before
     public void setUp() {
-        mockStatic(Log.class);
+//        mockStatic(Log.class);
 
         mockedBluetoothDevice = mock(BluetoothDevice.class);
         mockedSHNCentral = mock(SHNCentral.class);

@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class SHNDevice implements SHNService.SHNServiceListener {
     private static final String TAG = SHNDevice.class.getSimpleName();
-    private static final boolean LOGING = true;
+    private static final boolean LOGING = false;
     private final BluetoothDevice bluetoothDevice;
     private final List<Runnable> bluetoothGattCommands;
     private final Context applicationContext;
