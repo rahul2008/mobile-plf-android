@@ -4,14 +4,14 @@ import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
 
 public class SupportHomeFragmentTest extends
-ActivityInstrumentationTestCase2<DigitalCareActivity> {
+ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 public SupportHomeFragmentTest() {
-super(DigitalCareActivity.class);
+super(LaunchDigitalCare.class);
 }
 
 private SupportHomeFragment mSupportHomeFragment = null;

@@ -5,11 +5,11 @@ import static org.mockito.Mockito.when;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.contactus.CdlsEmailModel;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 
 public class CdlsEmailTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 	private CdlsEmailModel mObject1, mObject2, mObject3 = null;
 
@@ -19,7 +19,7 @@ public class CdlsEmailTest extends
 			path2 = "http://www.philips.screen.value", path3 = "ftp://askksks";
 
 	public CdlsEmailTest() {
-		super(DigitalCareActivity.class);
+		super(LaunchDigitalCare.class);
 	}
 
 	@Override

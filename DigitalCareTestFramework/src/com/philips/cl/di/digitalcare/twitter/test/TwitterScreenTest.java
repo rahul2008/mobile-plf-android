@@ -3,21 +3,19 @@ package com.philips.cl.di.digitalcare.twitter.test;
 import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
-import android.util.Log;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationActivity;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterPost;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 
 public class TwitterScreenTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 	public TwitterScreenTest() {
-		super(DigitalCareActivity.class);
+		super(LaunchDigitalCare.class);
 	}
 
 	private TwitterSupportFragment mApplication = null;

@@ -8,9 +8,9 @@ import org.junit.Before;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.Utility.test.Log;
 import com.philips.cl.di.digitalcare.contactus.CdlsChatModel;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 
 /**
  * 
@@ -19,10 +19,10 @@ import com.philips.cl.di.digitalcare.contactus.CdlsChatModel;
  * @Since Mar 11, 2015
  */
 public class CdlsChatTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 	public CdlsChatTest() {
-		super(DigitalCareActivity.class);
+		super(LaunchDigitalCare.class);
 
 	}
 
