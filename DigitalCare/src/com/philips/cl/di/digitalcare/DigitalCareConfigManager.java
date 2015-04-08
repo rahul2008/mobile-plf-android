@@ -132,9 +132,9 @@ public class DigitalCareConfigManager {
 	 */
 	public static String getCdlsCategory() {
 		return getLocale().equalsIgnoreCase(DEFAULT_USA) ? mContext
-				.getResources().getString(R.string.CDLS_CATEGORY_USA)
+				.getResources().getString(R.string.cdls_category_usa)
 				: mContext.getResources().getString(
-						R.string.CDLS_CATEGORY_PRIMARY);
+						R.string.cdls_category_primary);
 	}
 
 	/*

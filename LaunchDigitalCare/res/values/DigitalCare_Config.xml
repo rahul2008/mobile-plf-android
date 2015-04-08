@@ -60,8 +60,8 @@
     <bool name="live_chat_required">true</bool>
 
     <!-- CDLS API related. For USA category is different and for other countries category will be at group level -->
-    <string name="CDLS_CATEGORY_PRIMARY" translatable="false">/CARE/PERSONAL_CARE_GR</string>
-    <string name="CDLS_CATEGORY_USA" translatable="false">/CARE/MENS_SHAVING_CA</string>
+    <string name="cdls_category_primary" translatable="false">/CARE/PERSONAL_CARE_GR</string>
+    <string name="cdls_category_usa" translatable="false">/CARE/MENS_SHAVING_CA</string>
 
     <!-- please specify client id depending on the registration type -->
     <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
