@@ -253,7 +253,7 @@ public class ProductImageSelectorView {
 //		Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
 //				"fonts/centralesans-book.otf");
 //		button.setTypeface(mTypeFace);
-//		setColor(button);
+		setColor(button);
 	}
 
 	/**
