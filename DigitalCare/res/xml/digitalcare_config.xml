@@ -3,24 +3,26 @@
 
     <!-- Color Start -->
     <!-- Actionbar related -->
-    <color name="actionbar_bg_start_color">#003478</color>
-    <color name="actionbar_bg_end_color">#0066A1</color>
-    <color name="actionbar_menu_bg_color">#B9BBC7</color>
-    <color name="actionbar_title_text_color">#FFFFFF</color>
+    <color name="actionbar_bg_start_color">#FFFFFF</color>
+    <color name="actionbar_bg_end_color">#FFFFFF</color>
+    <color name="actionbar_menu_bg_color">@color/button_bg</color> <!-- Orange -->
+    <color name="actionbar_title_text_color">#000000</color>
 
     <!-- Standard Button -->
-    <color name="button_text_color">@color/actionbar_title_text_color</color>
-    <color name="button_bg">#003478</color>
+    <color name="button_text_color">@color/actionbar_bg_start_color</color>
+    <color name="button_bg">#EEAF00</color>
+    <color name="no_thanks_button_bg">@color/actionbar_bg_start_color</color>
+ 
     <color name="cancel_button_bg">@color/actionbar_title_text_color</color>
     <color name="button_bg_pressed">#005A8B</color>
     <color name="button_prodReg_bg_pressed">#005AAB</color>
 
     <!-- Text on the screen -->
-    <color name="text_header_color">@color/button_bg</color>
-    <color name="text_sub_header_color">#2E5F94</color>
+    <color name="text_header_color">@color/actionbar_title_text_color</color>
+    <color name="text_sub_header_color">@color/actionbar_title_text_color</color>
 
     <!-- Activity -->
-    <color name="activity_bg">#F0F4F9</color>
+    <color name="activity_bg">#FEFBF2</color>
 
     <!-- Color End -->
 
@@ -30,14 +32,14 @@
 
     <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
     <style name="actionbarIconArrowImageViewParent">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
-        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
+<!--         <item name="android:background">@color/actionbar_menu_bg_color</item> -->
+         <item name="android:src">@drawable/actionbar_back_arrow_orange</item>
     </style>
 
     <!-- Action bar hamburger menu(home) drawables is the part of below style -->
     <style name="actionbarIconHomeImageViewParent">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
-        <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
+        <item name="android:background">@drawable/selector_clickable_image_bg_orange</item>
+        <item name="android:src">@drawable/actionbar_home_icon_orange</item>
     </style>
 
     <!-- Suppport page contains these fetaures -->
@@ -51,8 +53,8 @@
     </string-array>
 
     <!-- Facebook APPID, replace app id in app authority string -->
-    <string name="facebook_app_id" translatable="false">1537018913230025</string>
-    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+    <string name="facebook_app_id" translatable="false">1383360735310383</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1383360735310383"</string>
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>
