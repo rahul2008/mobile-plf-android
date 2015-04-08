@@ -589,6 +589,7 @@
     <string name="no_internet_title">无网络连接</string>
     <string name="no_internet_text">若要继续请连接网络</string>
     <string name="check_network_connection">无法连接网络。请开启网络以完成净化器配置。</string>
+    <string name="signon_failed">Philips Cloud Signon error</string>
     <string name="location_services_title">定位服务</string>
     <string name="location_services_text">请提供您的位置以便我们向您提供您所在方位的实时空气质量信息</string>
     <string name="location_services_turned_off_title">定位服务已关闭</string>
@@ -654,7 +655,8 @@
     <string name="share">分享</string>
     <string name="mail">邮件</string>
     
-    <string name="invalid_input">Invalid input</string>
-    <string name="feedback_sent">Thank you for your feedback</string>
-    <string name="feedback_not_sent">We\'re unable to send your feedback at the moment, please try again later. Thank you.</string>
+    <string name="submit">提交</string>
+    <string name="invalid_input">有效输入</string>
+    <string name="feedback_sent">感谢您的反馈意见</string>
+    <string name="feedback_not_sent">暂时无法给您反馈，请稍后重试，谢谢。</string>
 </resources>

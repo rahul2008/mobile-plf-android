@@ -47,7 +47,7 @@
         
         <TextView 
             android:id="@+id/feedback_submit_tv"
-            android:text="提交"
+            android:text="@string/submit"
             style="@style/btn_blue_text"
             android:layout_marginTop="25dp"/>
     </LinearLayout>

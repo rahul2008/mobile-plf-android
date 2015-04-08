@@ -546,11 +546,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		new InternetConnectionHandler(this, handler).checkInternetConnection() ;
 	}
 	
-	private void showInternetAlertDialog(){
+	private void showInternetAlertDialog(int stringRes){
 		if(!internetDialogShown){
 			internetDialogShown=true;
 			String title = "";
-			showAlertDialogPairingFailed(title, getString(R.string.check_network_connection), "internet_check");
+			showAlertDialogPairingFailed(title, getString(stringRes), "internet_check");
 		}
 	}
 
@@ -692,6 +692,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 							PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
 							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
+						} else {
+							showInternetAlertDialog(R.string.signon_failed);
 						}
 					}
 				});
@@ -720,7 +722,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				cancelPairingDialog() ;
 				((NotificationsFragment) fragment).disableNotificationScreen() ;
 			}
-			showInternetAlertDialog();
+			showInternetAlertDialog(R.string.check_network_connection);
 		}
 	}
 }

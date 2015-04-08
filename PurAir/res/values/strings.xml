@@ -569,6 +569,7 @@
     <string name="invalid_params">Invalid parameters</string>
     <string name="no_network_connection">Please check internet connection</string>
     <string name="check_network_connection">Internet is not accessible. Please enable internet access to complete configuration of the purifier.</string>
+    <string name="signon_failed">Philips Cloud Signon error</string>
     <string name="invalid_username_or_password">Invalid Username or Password</string>
     <string name="usage_agreement">User agreement</string>
     <string name="i_accept">I accept</string>
@@ -663,6 +664,7 @@
     <string name="share">Share</string>
     <string name="mail">Mail</string>
     
+    <string name="submit">Submit</string>
     <string name="invalid_input">Invalid input</string>
     <string name="feedback_sent">Thank you for your feedback</string>
     <string name="feedback_not_sent">We\'re unable to send your feedback at the moment, please try again later. Thank you.</string>
