@@ -44,7 +44,7 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(Log.class) // This does not work on the buildserver. TODO find out why...
+//@PrepareForTest(Log.class) // This does not work on the buildserver. TODO find out why...
 public class SHNDeviceTest {
     public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180D));
     public static final UUID CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A37));
@@ -63,7 +63,7 @@ public class SHNDeviceTest {
 
     @Before
     public void setUp() {
-        mockStatic(Log.class);
+//        mockStatic(Log.class);
 
         mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         mockedSHNCentral = (SHNCentral) Utility.makeThrowingMock(SHNCentral.class);
