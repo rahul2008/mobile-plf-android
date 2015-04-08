@@ -43,7 +43,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="DigitalCare Library is dependent on &quot;v7 library&quot; as well as &quot;Facebook SDK library&quot; so please make sure to add. Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;Config File&quot; under res>values."
+        android:text="DigitalCare Library is dependent on &quot;v7 library&quot; as well as &quot;Facebook SDK library&quot; so please make sure to add. Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values."
         android:textColor="#000080" />
 
     <TextView
