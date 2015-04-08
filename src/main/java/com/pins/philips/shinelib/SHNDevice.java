@@ -28,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 public class SHNDevice implements SHNService.SHNServiceListener {
     private static final String TAG = SHNDevice.class.getSimpleName();
     private static final boolean LOGGING = false;
+    public static final long CONNECT_TIMEOUT = 10000l;
+    public static final String CLIENT_CHARACTERISTIC_CONFIG_UUID = "00002902-0000-1000-8000-00805f9b34fb";
     private final BluetoothDevice bluetoothDevice;
     private final List<Runnable> bluetoothGattCommands;
     private final Context applicationContext;
@@ -209,12 +211,13 @@ public class SHNDevice implements SHNService.SHNServiceListener {
                     handleConnectTimeout();
                 }
             };
-            connectTimer = shnCentral.getScheduledThreadPoolExecutor().schedule(runnable, 10000l, TimeUnit.MILLISECONDS);
+            connectTimer = shnCentral.getScheduledThreadPoolExecutor().schedule(runnable, CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
         }
     }
 
     private void handleConnectTimeout() {
         if (LOGGING) Log.e(TAG, "handleConnectTimeout");
+        handleDisconnect();
     }
 
     public void disconnect() {
@@ -285,7 +288,13 @@ public class SHNDevice implements SHNService.SHNServiceListener {
                 if (bluetoothGatt.readCharacteristic(bluetoothGattCharacteristic)) {
                     currentResultListener = shnGattCommandResultReporter;
                 } else {
-                    shnGattCommandResultReporter.reportResult(SHNResult.SHNInvalidStateError);
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            shnGattCommandResultReporter.reportResult(SHNResult.SHNInvalidStateError);
+                        }
+                    };
+                    shnCentral.runOnHandlerThread(runnable);
                     executeNextBluetoothGattCommand();
                 }
             }
@@ -303,20 +312,35 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
     public boolean setCharacteristicNotification(final BluetoothGattCharacteristic bluetoothGattCharacteristic, final boolean enable, final SHNGattCommandResultReporter shnGattCommandResultReporter) {
         if (LOGGING) Log.i(TAG, "setCharacteristicNotification enable: " + enable);
-        Runnable command = new Runnable() {
+        final Runnable setCharacteristicNotificationCommand = new Runnable() {
             @Override
             public void run() {
                 boolean result = bluetoothGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable);
                 if (LOGGING) Log.i(TAG, "setCharacteristicNotification enable: " + enable + " result: " + result + " charUUID: " + bluetoothGattCharacteristic.getUuid());
-                BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(UUID.fromString("00002902-0000-1000-8000-00805f9b34fb"));
-                descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                bluetoothGatt.writeDescriptor(descriptor);
-
-//                currentResultListener = shnGattCommandResultReporter;
+                if (result) {
+                    BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(UUID.fromString(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                    descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                    bluetoothGatt.writeDescriptor(descriptor);
+                } else {
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            shnGattCommandResultReporter.reportResult(SHNResult.SHNInvalidStateError);
+                        }
+                    };
+                    shnCentral.runOnHandlerThread(runnable);
+                    executeNextBluetoothGattCommand();
+                }
             }
         };
-        bluetoothGattCommands.add(command);
-        executeNextBluetoothGattCommand();
+        final Runnable queueCommand = new Runnable() {
+            @Override
+            public void run() {
+                bluetoothGattCommands.add(setCharacteristicNotificationCommand);
+                executeNextBluetoothGattCommand();
+            }
+        };
+        shnCentral.getScheduledThreadPoolExecutor().execute(queueCommand);
         return true;
     }
 

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.pins.philips.shinelib.framework.BleUUIDCreator;
+import com.pins.philips.shinelib.helper.MockedScheduledThreadPoolExecutor;
 import com.pins.philips.shinelib.helper.Utility;
 
 import org.junit.Before;
@@ -61,6 +62,7 @@ public class SHNDeviceTest {
     private BluetoothGattService mockedBluetoothGattService;
     private SHNService shnService;
     private SHNCharacteristic shnCharacteristic;
+    private MockedScheduledThreadPoolExecutor mockedScheduledThreadPoolExecutor;
 
     @Before
     public void setUp() {
@@ -84,7 +86,8 @@ public class SHNDeviceTest {
             }
         }).when(mockedSHNCentral).runOnHandlerThread(any(Runnable.class));
         mockedContext = (Context) Utility.makeThrowingMock(Context.class);
-        doReturn(new CallthroughExecutor(1)).when(mockedSHNCentral).getScheduledThreadPoolExecutor();
+        mockedScheduledThreadPoolExecutor = new MockedScheduledThreadPoolExecutor();
+        doReturn(mockedScheduledThreadPoolExecutor.getMock()).when(mockedSHNCentral).getScheduledThreadPoolExecutor();
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
         shnDevice = new SHNDevice(mockedBluetoothDevice, mockedSHNCentral);
         shnService = new SHNService(shnDevice, SERVICE_UUID);
@@ -243,59 +246,5 @@ public class SHNDeviceTest {
     @Test
     public void testToString() {
 
-    }
-
-    private static class CallthroughExecutor extends ScheduledThreadPoolExecutor {
-        public CallthroughExecutor(int corePoolSize) {
-            super(corePoolSize);
-        }
-
-        @Override
-        public void execute(Runnable command) {
-            command.run();
-        }
-
-        @Override
-        public ScheduledFuture<?> schedule(Runnable command,
-                                           long delay,
-                                           TimeUnit unit) {
-            command.run();
-            return new ScheduledFuture<Object>() {
-                @Override
-                public long getDelay(TimeUnit unit) {
-                    return 0;
-                }
-
-                @Override
-                public int compareTo(Delayed another) {
-                    return 0;
-                }
-
-                @Override
-                public boolean cancel(boolean mayInterruptIfRunning) {
-                    return false;
-                }
-
-                @Override
-                public boolean isCancelled() {
-                    return false;
-                }
-
-                @Override
-                public boolean isDone() {
-                    return false;
-                }
-
-                @Override
-                public Object get() throws InterruptedException, ExecutionException {
-                    return null;
-                }
-
-                @Override
-                public Object get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-                    return null;
-                }
-            };
-        }
     }
 }
