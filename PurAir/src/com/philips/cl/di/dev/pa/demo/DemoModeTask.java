@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -15,7 +16,7 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
 public class DemoModeTask extends Thread {
 
-	private String url;
+	private String urlString;
 	private ServerResponseListener listener;
 	private int responseCode;
 	private String result = "";
@@ -26,21 +27,22 @@ public class DemoModeTask extends Thread {
 	public DemoModeTask(ServerResponseListener listener, String url,
 			String putData, String requestType) {
 		ALog.i(ALog.DEMO_MODE, "Url: " + url);
-		this.url = url;
+		this.urlString = url;
 		this.listener = listener;
 		this.requestType = requestType;
 		this.putData = putData;
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void run() {
 		InputStream inputStream = null;
 		HttpURLConnection conn = null;
 		OutputStreamWriter os = null;
 		try {
-			URL urlConn = new URL(url);
-			conn = (HttpURLConnection) urlConn.openConnection();
-			conn.setRequestMethod(requestType);
+			URL url = new URL(urlString);
+			conn = NetworkUtils.getConnection(url, requestType, 10000,3000) ;
+			if( conn == null ) return ;
 			if (requestType.equals("PUT")) {
 				if (putData == null)
 					return;

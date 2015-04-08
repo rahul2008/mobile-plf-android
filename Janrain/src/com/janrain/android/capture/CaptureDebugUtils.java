@@ -34,6 +34,7 @@ package com.janrain.android.capture;
 
 import android.util.Pair;
 import com.janrain.android.Jump;
+import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import org.json.JSONArray;
@@ -47,7 +48,6 @@ import java.net.URLConnection;
 import java.util.Iterator;
 import java.util.Set;
 
-import static com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import static com.janrain.android.capture.CaptureStringUtils.readAndClose;
 
 public class CaptureDebugUtils {
@@ -99,12 +99,11 @@ public class CaptureDebugUtils {
                 public void onFailure(CaptureApiError e) {
                     LogUtils.logd("Capture", ("failure: " + e));
                 }
-            });
+            },null);
         } catch (Capture.InvalidApidChangeException e) {
             e.printStackTrace();
         }
     }
-
     public static Object urlConnectionGetJsonContent(URLConnection uConn) {
         String json = null;
         try {

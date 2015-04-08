@@ -2,78 +2,75 @@ package com.philips.cl.di.reg.dao;
 
 public class DIUserProfile {
 
-	private String email;
-	private String givenName;
-	private String password;
-	private String displayName;
-    private boolean olderThanAgeLimit;
-    private boolean receiveMarketingEmail;
-   
-    // For Traditional Registration
-	 public DIUserProfile() {
+	private String mEmail;
+	private String mGivenName;
+	private String mPassword;
+	private String mDisplayName;
+	private boolean mIsOlderThanAgeLimit;
+	private boolean mIsReceiveMarketingEmail;
+
+	// For Traditional Registration
+	public DIUserProfile() {
 
 	}
 
-	public DIUserProfile(String email,String givenName,String password,
-			boolean olderThanAgeLimit,boolean receiveMarketingEmail) {
+	public DIUserProfile(String email, String givenName, String password,
+			boolean isOlderThanAgeLimit, boolean isReceiveMarketingEmail) {
 
-		this.email = email;
-		this.givenName = givenName;
-		this.password = password;
-		this.olderThanAgeLimit = olderThanAgeLimit;
-		this.receiveMarketingEmail = receiveMarketingEmail;
-		
-		}
+		mEmail = email;
+		mGivenName = givenName;
+		mPassword = password;
+		mIsOlderThanAgeLimit = isOlderThanAgeLimit;
+		mIsReceiveMarketingEmail = isReceiveMarketingEmail;
+
+	}
 
 	public String getEmail() {
-		return email;
+		return mEmail;
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		mEmail = email;
 	}
 
-	
 	public String getPassword() {
-		return password;
+		return mPassword;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		mPassword = password;
 	}
 
-	
 	public String getGivenName() {
-		return givenName;
+		return mGivenName;
 	}
 
 	public void setGivenName(String givenName) {
-		this.givenName = givenName;
+		mGivenName = givenName;
 	}
 
-	
 	public boolean getOlderThanAgeLimit() {
-		return olderThanAgeLimit;
+		return mIsOlderThanAgeLimit;
 	}
 
-	public void setOlderThanAgeLimit(boolean olderThanAgeLimit) {
-		this.olderThanAgeLimit = olderThanAgeLimit;
+	public void setOlderThanAgeLimit(boolean isOlderThanAgeLimit) {
+		mIsOlderThanAgeLimit = isOlderThanAgeLimit;
 	}
 
 	public boolean getReceiveMarketingEmail() {
-		return receiveMarketingEmail;
+		return mIsReceiveMarketingEmail;
 	}
 
-	public void setReceiveMarketingEmail(boolean receiveMarketingEmail) {
-		this.receiveMarketingEmail = receiveMarketingEmail;
+	public void setReceiveMarketingEmail(boolean isReceiveMarketingEmail) {
+		mIsReceiveMarketingEmail = isReceiveMarketingEmail;
 	}
-	
+
 	public String getDisplayName() {
-		return displayName;
+		return mDisplayName;
 	}
 
 	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
+		mDisplayName = displayName;
 	}
 
 }

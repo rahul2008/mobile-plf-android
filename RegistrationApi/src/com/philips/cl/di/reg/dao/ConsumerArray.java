@@ -4,27 +4,27 @@ import java.util.ArrayList;
 
 public class ConsumerArray {
 
-	private ArrayList<ConsumerInterest> consumerInterestArray ;
-	static ConsumerArray consumerArray =null ;
+	private ArrayList<ConsumerInterest> mConsumerInterestArray ;
+	private static ConsumerArray mConsumerArray =null ;
 	
 	public ConsumerArray() {
-		consumerInterestArray = new ArrayList<ConsumerInterest>();
+		mConsumerInterestArray = new ArrayList<ConsumerInterest>();
 	}
 
 	public static ConsumerArray getInstance() {
-		if(consumerArray==null)
+		if(mConsumerArray==null)
 		{
-			consumerArray = new ConsumerArray();
+			mConsumerArray = new ConsumerArray();
 		}
-		return consumerArray;
+		return mConsumerArray;
 	}
 	
 	public ArrayList<ConsumerInterest> getConsumerArraylist() {
-		return consumerInterestArray;
+		return mConsumerInterestArray;
 	}
 	
-	public void setConsumerArraylist(ArrayList<ConsumerInterest> alconsumerInterest) {
-		consumerInterestArray = alconsumerInterest;
+	public void setConsumerArraylist(ArrayList<ConsumerInterest> listConsumerInterest) {
+		mConsumerInterestArray = listConsumerInterest;
 	}
 
 }

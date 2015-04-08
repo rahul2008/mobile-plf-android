@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkMonitor {
@@ -133,10 +135,15 @@ public class NetworkMonitor {
 		
 		boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
 		if (isMobileData) {
-			// Assume internet access - don't waste data bandwidth
-			ALog.d(ALog.NETWORKMONITOR, "Network update - Mobile connection");
-			updateNetworkState(NetworkState.MOBILE, null);
-			return;
+			WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE) ;
+			WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+			if(wifiInfo == null ||
+					wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {
+				// Assume internet access - don't waste data bandwidth
+				ALog.d(ALog.NETWORKMONITOR, "Network update - Mobile connection");
+				updateNetworkState(NetworkState.MOBILE, null);
+				return;
+			}
 		}
 		
 		String ssid = getCurrentSsid(); 

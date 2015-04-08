@@ -56,4 +56,7 @@ public interface TrackPageConstants {
     String SCHEDULE = "Schedule";
     String SCHEDULE_OVERVIEW = "Schedule:Overview";
     String SCHEDULE_PICK_TIME = "Schedule:PickTime";
+    
+    String FILTER_STATUS = "FilterStatus";
+    
 }

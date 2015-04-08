@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.registration;
 
+import java.util.Locale;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -12,16 +14,14 @@ public class UserRegistrationController implements NetworkStateListener {
 
 	private static UserRegistrationController smInstance;
 
-	// private static final String CAPTURE_CLIENT_ID_EVAL =
-	// "yakfnsg2hph355fhga2mcac5ywn6fgzt";
-	private static final String CAPTURE_CLIENT_ID_PROD = "ypzud56u92tqa7xhfqry6np9f5zpr3bu";
+	 private static final String CAPTURE_CLIENT_ID_EVAL = "yakfnsg2hph355fhga2mcac5ywn6fgzt";
+//	private static final String CAPTURE_CLIENT_ID_PROD = "ypzud56u92tqa7xhfqry6np9f5zpr3bu";
 //	private static final String CAPTURE_CLIENT_ID_DEV = "4gc24tp5rr84ftrfu3nn4hnrkwuyqxyp";
 
 	private static final String MICRO_SITE_ID = "81374";
 
-	// private static final String REGISTRATION_TYPE_EVAL =
-	// "REGISTRATION_USE_EVAL";
-	private static final String REGISTRATION_TYPE_PROD = "REGISTRATION_USE_PRODUCTION";
+	 private static final String REGISTRATION_TYPE_EVAL = "REGISTRATION_USE_EVAL";
+//	private static final String REGISTRATION_TYPE_PROD = "REGISTRATION_USE_PRODUCTION";
 //	private static final String REGISTRATION_TYPE_DEV = "REGISTRATION_USE_DEVICE";
 
 	private UserRegistrationController() {
@@ -41,7 +41,6 @@ public class UserRegistrationController implements NetworkStateListener {
 	public boolean isUserLoggedIn() {
 		User user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());
-
 		return (null != profile);
 	}
 
@@ -61,7 +60,7 @@ public class UserRegistrationController implements NetworkStateListener {
 		if (errorCode == 8)
 			return Error.AUTHENTICATION_FAILED;
 		if (errorCode == 9)
-			return Error.INCORRECT_PASSWORD;
+			return Error.INVALID_PASSWORD;
 		if (errorCode == 10)
 			return Error.INVALID_USERNAME_OR_PASSWORD;
 		if (errorCode == 11)
@@ -80,10 +79,8 @@ public class UserRegistrationController implements NetworkStateListener {
 	@Override
 	public void onConnected(String ssid) {
 		if (!isJRInitilised && !isUserLoggedIn()) {
-			JanrainConfigurationSettings config = new JanrainConfigurationSettings();
-			config.init(PurAirApplication.getAppContext(),
-					CAPTURE_CLIENT_ID_PROD, MICRO_SITE_ID,
-					REGISTRATION_TYPE_PROD);
+			JanrainConfigurationSettings config = JanrainConfigurationSettings.getInstance();
+			config.init(PurAirApplication.getAppContext(), CAPTURE_CLIENT_ID_EVAL, MICRO_SITE_ID, REGISTRATION_TYPE_EVAL, true, Locale.getDefault().toString());
 			isJRInitilised = true;
 		}
 	}

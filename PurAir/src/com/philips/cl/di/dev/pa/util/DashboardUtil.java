@@ -7,10 +7,16 @@ import java.util.List;
 import java.util.Random;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -18,11 +24,14 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 
 public class DashboardUtil {
+	
+	public static final long SAVE_FREESPACE_BYTE = 5 * 1024 * 1024;
 	
 	public enum Detail {
 		INDOOR, OUTDOOR
@@ -129,5 +138,55 @@ public class DashboardUtil {
 			}
 		}
 	}
+	
+	
+
+	 public static boolean isHaveSDCard() {
+	        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	    }
+	 
+	 @SuppressWarnings("deprecation")
+	public static long freeSpaceOnSd_BYTE() {
+	        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+	        long sdFreeKB = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
+	        return (long) sdFreeKB;
+	    }
+	    
+	    public static Bitmap captureView(View paramView)
+	    {
+	    	
+	    	Bitmap localBitmap = Bitmap.createBitmap(paramView.getWidth(),paramView.getHeight(),Bitmap.Config.ARGB_8888);
+	    	Canvas canvas = new Canvas(localBitmap);
+	    	canvas.drawColor(Color.WHITE);
+	    	paramView.draw(canvas);
+	    	return localBitmap;
+	      
+	    }
+	    
+	    public static AirPortInfo getDefaultAirPortInfo() {
+			AirPortInfo airPortInfo = new AirPortInfo() ;
+			airPortInfo.setActiveFilterStatus(0) ;
+			airPortInfo.setActualFanSpeed("1") ;
+			airPortInfo.setAqiL(0) ;
+			airPortInfo.setAqiThreshold(13) ;
+			airPortInfo.setChildLock(0) ;
+			airPortInfo.setDtrs(0);
+			airPortInfo.setFanSpeed("a") ;
+			airPortInfo.setHepaFilterStatus(1) ;
+			airPortInfo.setIndoorAQI(4) ;
+			airPortInfo.setMachineMode("a") ;
+			airPortInfo.setMulticareFilterStatus(1) ;
+			airPortInfo.setPowerMode("0") ;
+			airPortInfo.setPreFilterStatus(1) ;
+			airPortInfo.setpSensor(1) ;
+			airPortInfo.setReplaceFilter1("n") ;
+			airPortInfo.setReplaceFilter2("n") ;
+			airPortInfo.setReplaceFilter3("n") ;
+			airPortInfo.setReplaceFilter4("n") ;
+			airPortInfo.settFav(1) ;
+			airPortInfo.setValid(true) ;
+			airPortInfo.setTimeStamp(getCurrentTime24HrFormat()) ;
+			return airPortInfo ;
+		}
 	
 }

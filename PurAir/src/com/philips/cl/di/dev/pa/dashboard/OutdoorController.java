@@ -114,7 +114,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 
 	public boolean isPhilipsSetupWifiSelected() {
-		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+		String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 			return true;
 		} 

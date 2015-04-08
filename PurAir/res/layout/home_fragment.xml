@@ -21,6 +21,7 @@
         android:scrollbars="none" >
 
         <LinearLayout
+            android:id="@+id/containerll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -35,6 +36,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true" />
+                
+                 <ImageView
+                    android:id="@+id/share_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="12dp"
+                    android:paddingLeft="4dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="8dp"
+                    android:contentDescription="@string/img_description"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/sharing"
+                     />
 
                 <com.viewpagerindicator.CirclePageIndicator
                     android:id="@+id/indicator_indoor"
@@ -42,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
+                    android:layout_toLeftOf="@id/share_iv"
                     android:padding="2dp" />
 
                 <RelativeLayout

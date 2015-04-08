@@ -41,7 +41,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 	public void connectPurifier() {
 		keyInitializeState = KeyInitializeState.NONE;
 
-		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+		String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 			initializeKeyExchange();
 		} else {
@@ -52,7 +52,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 	}
 
 	public void checkPhilipsSetupWifiSelected() {
-		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+		String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 		if (ssid == null || !ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 			showAlertDialogAppInDemoMode(
 					ctx.getString(R.string.app_in_demo_mode_title),

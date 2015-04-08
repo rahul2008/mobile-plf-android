@@ -27,6 +27,7 @@ import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class AddPurifierFragment extends BaseFragment implements
 		OnClickListener {
@@ -73,6 +74,8 @@ public class AddPurifierFragment extends BaseFragment implements
 			}
 			break;
 		case R.id.btn_go_to_shop:
+			MetricsTracker.trackActionExitLink(AppConstants.PURIFIER_BUY_LINK);
+			MetricsTracker.trackActionBuyButton("Philips lead");
 			Intent intent = new Intent(Intent.ACTION_VIEW,
 					Uri.parse(AppConstants.PURIFIER_BUY_LINK));
 			startActivity(intent);

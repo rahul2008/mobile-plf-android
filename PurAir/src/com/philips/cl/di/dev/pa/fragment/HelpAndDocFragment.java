@@ -2,9 +2,7 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -26,6 +25,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -37,6 +37,9 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	private char lineSeparator='\n';
 	private FontTextView faqAC4373, faqAC4375;
 	private FontTextView userManualAC4373, userManualAC4375;
+	private FontTextView websiteAC4373, websiteAC4375;
+	private ScrollView scrollView;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -64,6 +67,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		faqAC4375 = (FontTextView) rootView.findViewById(R.id.faq_ac4375);
 		userManualAC4373 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4373);
 		userManualAC4375 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4375);
+		websiteAC4373 = (FontTextView) rootView.findViewById(R.id.help_contact_website_ac4373);
+		websiteAC4375 = (FontTextView) rootView.findViewById(R.id.help_contact_website_ac4375);
 		
 		lblAppTutorial.setOnClickListener(this);
 		lblAppAirQualityExplain.setOnClickListener(this);
@@ -88,10 +93,14 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		diagnostics.setOnClickListener(this);
 		lblOpensource.setOnClickListener(this);
 		
+		scrollView = (ScrollView) rootView.findViewById(R.id.help_documentation_scrollview);
+		
 		faqAC4373.setOnClickListener(this);
 		faqAC4375.setOnClickListener(this);
 		userManualAC4373.setOnClickListener(this);
 		userManualAC4375.setOnClickListener(this);
+		websiteAC4373.setOnClickListener(this);
+		websiteAC4375.setOnClickListener(this);
 		backButton.setOnClickListener(this);
 	}	
 	
@@ -106,20 +115,12 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			}
 			break;
 		case R.id.phone_number_one:
-			//TODO : Move to one place.
 			MetricsTracker.trackActionServiceRequest("phone");
-			MetricsTracker.trackActionExitLink("phone : " + getString(R.string.contact_philips_support_phone_num));
-			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
-			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
-			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+			SupportUtil.gotoPhoneDial(getActivity(), getString(R.string.contact_philips_support_phone_num));
 			break;
 		case R.id.phone_number_two:
-			//TODO : Move to one place.
 			MetricsTracker.trackActionServiceRequest("phone");
-			MetricsTracker.trackActionExitLink("phone : " + getString(R.string.contact_philips_support_phone_num_2));
-			Intent callIntent = new Intent(Intent.ACTION_DIAL);
-			callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));
-			startActivity(Intent.createChooser(callIntent, "Air Purifier support"));
+			SupportUtil.gotoPhoneDial(getActivity(), getString(R.string.contact_philips_support_phone_num_2));
 			break;
 		case R.id.layout_email_us:
 			MetricsTracker.trackActionServiceRequest("email");
@@ -127,45 +128,38 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			diagnosticData();
 			break;
 		case R.id.layout_help:
-			MetricsTracker.trackActionServiceRequest("help");
-			MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_website));
-			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
-			gotoSupportWebisteIntent.setData(Uri.parse("http://"+ getString(R.string.contact_philips_support_website)));
-			startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
+			SupportUtil.setVisibility(websiteAC4373, websiteAC4375);
+			SupportUtil.srollUpScrollView(scrollView);
+			break;
+		case R.id.help_contact_website_ac4373:
+			MetricsTracker.trackActionServiceRequest("help_ac4373");
+			SupportUtil.gotoWebsite(getActivity(), getString(R.string.contact_philips_support_website_ac4373));
+			break;
+		case R.id.help_contact_website_ac4375:
+			MetricsTracker.trackActionServiceRequest("help_ac4375");
+			SupportUtil.gotoWebsite(getActivity(), getString(R.string.contact_philips_support_website_ac4375));
 			break;
 		case R.id.faq:
-			setVisibility(faqAC4373, faqAC4375);
+			SupportUtil.setVisibility(faqAC4373, faqAC4375);
 			break;
 		case R.id.faq_ac4373:
 			MetricsTracker.trackActionServiceRequest("faq_ac4373");
-			MetricsTracker.trackActionExitLink(getString(R.string.faq_link_ac4373));
-			Intent faqAc4373 = new Intent(Intent.ACTION_VIEW);
-			faqAc4373.setData(Uri.parse("http://"+ getString(R.string.faq_link_ac4373)));
-			startActivity(Intent.createChooser(faqAc4373,""));
+			SupportUtil.gotoWebsite(getActivity(), getString(R.string.faq_link_ac4373));
 			break;
 		case R.id.faq_ac4375:
 			MetricsTracker.trackActionServiceRequest("faq_ac4375");
-			MetricsTracker.trackActionExitLink(getString(R.string.faq_link_ac4375));
-			Intent faqAC4375 = new Intent(Intent.ACTION_VIEW);
-			faqAC4375.setData(Uri.parse("http://"+ getString(R.string.faq_link_ac4375)));
-			startActivity(Intent.createChooser(faqAC4375,""));
+			SupportUtil.gotoWebsite(getActivity(), getString(R.string.faq_link_ac4375));
 			break;
 		case R.id.lbl_user_manual:
-			setVisibility(userManualAC4373, userManualAC4375);
+			SupportUtil.setVisibility(userManualAC4373, userManualAC4375);
 			break;
 		case R.id.user_manual_ac4373:
 			MetricsTracker.trackActionServiceRequest("user_manual_ac4373");
-			MetricsTracker.trackActionExitLink(getString(R.string.user_manual_link_ac4373));
-			Intent manualAc4373 = new Intent(Intent.ACTION_VIEW);
-			manualAc4373.setData(Uri.parse("http://"+ getString(R.string.user_manual_link_ac4373)));
-			startActivity(Intent.createChooser(manualAc4373,""));
+			SupportUtil.gotoWebsite(getActivity(), getString(R.string.user_manual_link_ac4373));
 			break;
 		case R.id.user_manual_ac4375:
 			MetricsTracker.trackActionServiceRequest("user_manual_ac4375");
-			MetricsTracker.trackActionExitLink(getString(R.string.user_manual_link_ac4375));
-			Intent manualAc4375 = new Intent(Intent.ACTION_VIEW);
-			manualAc4375.setData(Uri.parse("http://"+ getString(R.string.user_manual_link_ac4375)));
-			startActivity(Intent.createChooser(manualAc4375,""));
+			SupportUtil.gotoWebsite(getActivity(), getString(R.string.user_manual_link_ac4375));
 			break;
 		case R.id.app_tutorial:
 			MetricsTracker.trackActionServiceRequest("app_tutorial");
@@ -184,43 +178,12 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		case R.id.layout_we_chat:
 			MetricsTracker.trackActionServiceRequest("we_chat");
 			MetricsTracker.trackActionExitLink("we_chat");
-			startNewActivity(getActivity(), "com.tencent.mm");
+			SupportUtil.startNewActivity(getActivity(), "com.tencent.mm");
 			break;
 		default:
 			break;
 		}
 	}
-	
-	private void setVisibility(FontTextView ac4373View, FontTextView ac4375View) {
-		if (ac4373View.getVisibility() == View.GONE 
-				&& ac4375View.getVisibility() == View.GONE) {
-			ac4373View.setVisibility(View.VISIBLE);
-			ac4375View.setVisibility(View.VISIBLE);
-		} else {
-			ac4373View.setVisibility(View.GONE);
-			ac4375View.setVisibility(View.GONE);
-		}
-	}
-	
-	private void startNewActivity(Context context, String packageName)
-	{
-		Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-		if (intent != null)
-		{
-			/* we found the activity now start the activity */
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
-		}
-		else
-		{
-			/* bring user to the market or let them choose an app? */
-			intent = new Intent(Intent.ACTION_VIEW);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.setData(Uri.parse("market://details?id="+packageName));
-			startActivity(intent);
-		}
-	}
-	
 	
 	/**
 	 * Fetches all required diagnostic data

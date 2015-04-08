@@ -4,15 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
@@ -44,6 +51,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private int schedulerNumberSelected;
 	private int indexSelected;
 	private SchedulerID event;
+	private WifiNetworkCallback networkCallback;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -297,6 +305,9 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	@Override
 	protected void onPause() {
 		super.onPause();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			unregisterWifiNetworkForSocket();
+		}
 		DiscoveryManager.getInstance().stop();
 		setCancelled(true);
 	}
@@ -305,7 +316,12 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	protected void onResume() {
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE);
-		DiscoveryManager.getInstance().start(this);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			registerWifiNetworkForSocket();
+		} else {
+			DiscoveryManager.getInstance().start(this);
+		}
+		
 		if (schedulesList == null || schedulesList.size() == 0) {
 			getSchedulesFromPurifier();
 		} else {
@@ -436,4 +452,35 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 			}
 		}
 	};
+	
+	@SuppressLint("NewApi")
+	private void registerWifiNetworkForSocket() {
+		NetworkRequest.Builder request = new NetworkRequest.Builder();
+		request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+
+		final Object lock = new Object();
+		networkCallback = new WifiNetworkCallback(lock);
+
+		synchronized (lock) {
+			connectivityManager.registerNetworkCallback(request.build(),	networkCallback);
+			try {
+				lock.wait(2000);
+				Log.e(ALog.WIFI, "Timeout error occurred");
+			} catch (InterruptedException e) {
+			}
+		}
+		if(networkCallback.getNetwork() != null) {
+			ConnectivityManager.setProcessDefaultNetwork(networkCallback.getNetwork());
+		}
+		DiscoveryManager.getInstance().start(this);
+	}
+	
+	@SuppressLint("NewApi")
+	private void  unregisterWifiNetworkForSocket() {
+//		if (networkCallback != null) {
+//			connectivityManager.unregisterNetworkCallback(networkCallback);
+//			networkCallback = null ;
+//		}
+	}
+
 }

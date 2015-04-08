@@ -9,6 +9,7 @@
         layout="@layout/heading" />
 
     <ScrollView
+        android:id="@+id/help_documentation_scrollview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
@@ -380,28 +381,54 @@
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/lbl_support"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_toRightOf="@+id/help_call_icon"
+                    android:gravity="center_vertical"
                     android:text="@string/subtitle_help_section"
                     android:textColor="@color/blue_list_sub_item"
                     android:textSize="@dimen/text_size_medium"
                     custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-                <com.philips.cl.di.dev.pa.view.FontTextView
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                    android:id="@+id/help_contact_website"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/lbl_support"
-                    android:layout_below="@+id/lbl_support"
-                    android:lineSpacingExtra="2dp"
-                    android:text="@string/contact_philips_support_website"
-                    android:textColor="@color/blue_list_sub_item"
-                    android:textSize="@dimen/text_size_small"
-                    custom:fontAssetName="fonts/centralesansmedium.ttf" />
             </RelativeLayout>
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/help_contact_website_ac4373"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_item_selector"
+                android:drawableRight="@drawable/purifier_ac4373_icon"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="2dp"
+                android:minHeight="85dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:clickable="true"
+                android:text="@string/purifier_ac4373"
+                android:textColor="@color/blue_list_item"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/help_contact_website_ac4375"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_item_selector"
+                android:drawableRight="@drawable/purifier_ac4375_icon"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="2dp"
+                android:minHeight="85dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:clickable="true"
+                android:text="@string/purifier_ac4375"
+                android:textColor="@color/blue_list_item"
+                android:textSize="@dimen/text_size_medium"
+                android:visibility="gone"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

@@ -85,7 +85,6 @@ public class ScheduleListPort extends DICommPort {
 			if( schedulerJsonFromCPP != null ) {
 				jsonObject = schedulerJsonFromCPP ;
 			}
-			@SuppressWarnings("unchecked")
 			Iterator<String> iterator = jsonObject.keys() ;
 			String key = null ;
 			while(iterator.hasNext()) {

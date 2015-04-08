@@ -1,44 +1,44 @@
 package com.philips.cl.di.reg.errormapping;
 
 public class ErrorMessage {
-	private String errorMessage;
+	private String mErrorMessage;
 	
 	public ErrorMessage() {}
 	
 	public String getError(int error) {
 		if (error == 1) {
-			errorMessage = "GENERIC ERROR";
+			mErrorMessage = "Generic Error";
 		} else if (error == 2) {
-			errorMessage = "INVALID PARAMETERS";
+			mErrorMessage = "Ivvalid parameters";
 		} else if (error == 3) {
-			errorMessage = "AUTHENTICATION CANCELED BY USER";
+			mErrorMessage = "Authentication cancelled by user";
 		} else if (error == 4) {
-			errorMessage = "INVALID EMAILID";
+			mErrorMessage = "Invalid email id";
 		} else if (error == 5) {
-			errorMessage = "EMAIL ADDRESS IN USE";
+			mErrorMessage = "Email Address already in use";
 		} else if (error == 6) {
-			errorMessage = "INTERNET CONNECTION LOST";
+			mErrorMessage = "Internet connection lost";
 		} else if (error == 7) {
-			errorMessage = "CONFIGURATION FAILED";
+			mErrorMessage = "Configuration failed";
 		} else if (error == 8) {
-			errorMessage = "AUTHENTICATION FAILED";
+			mErrorMessage = "Authentication Failed";
 		} else if (error == 9) {
-			errorMessage = "INVALID PASSWORD";
+			mErrorMessage = "Invalid Password";
 		} else if (error == 10) {
-			errorMessage = "INVALID USERNAME OR PASSWORD";
+			mErrorMessage = "Invalid username or password";
 		}else if (error == 11) {
-			errorMessage = "ACCOUNT DOES NOT EXIST";
+			mErrorMessage = "Account doesnot exist";
 		}else if (error == 12) {
-			errorMessage = "TWO STEP ERROR";
+			mErrorMessage = "Two step error";
 		}else if (error == 13) {
-			errorMessage = "MERGE_FLOW_ERROR";
+			mErrorMessage = "Merge flow error";
 		}
 		else if (error == 14) {
-			errorMessage = "EMAIL_ALREADY_EXIST";
+			mErrorMessage = "Email address already in use";
 		}
 		else if (error == 15) {
-			errorMessage = "ENGAGE_ERROR";
+			mErrorMessage = "Engage error";
 		}
-		return errorMessage;
+		return mErrorMessage;
 		}
 	}

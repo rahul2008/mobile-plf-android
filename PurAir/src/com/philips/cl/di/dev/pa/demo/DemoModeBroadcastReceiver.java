@@ -7,7 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.NetworkInfo;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 
@@ -67,13 +68,15 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		ALog.i(ALog.DEMO_MODE, "On Receive:" + intent.getAction());
-		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-			NetworkInfo netInfo = intent
-					.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {			
+			WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext()
+					.getSystemService(Context.WIFI_SERVICE);
 
-			if (netInfo.getState() == android.net.NetworkInfo.State.CONNECTED) {
+			WifiInfo connectedWifiNetwork = wifiMan.getConnectionInfo();
 
-				String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+			if (connectedWifiNetwork.getSupplicantState() == SupplicantState.COMPLETED) {
+
+				String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 				if (ssid == null) {
 					ALog.i(ALog.DEMO_MODE,
 							"Failed to get ssid of connected network");

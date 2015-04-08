@@ -68,7 +68,7 @@ public class NetworkReceiver extends BroadcastReceiver {
 			NetworkInfo netInfo = conMan.getActiveNetworkInfo();
 			if (netInfo != null && netInfo.isConnected()) {
 				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---CONNECTED");
-				String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+				String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 				lastKnownNetworkState = ConnectionState.CONNECTED;
 				notfiyListeners(lastKnownNetworkState, ssid);
 			} else {

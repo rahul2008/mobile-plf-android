@@ -9,12 +9,18 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
@@ -23,6 +29,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
@@ -37,6 +44,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
+import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
@@ -83,6 +91,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	private ProgressDialog progressDialog;
 	private AppInDemoMode appInDemoMode;
 	private boolean internetDialogShown;
+	private WifiNetworkCallback networkCallback;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -143,25 +152,29 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);
-
-		if (PurAirApplication.isDemoModeEnable()) {
-			startDemoMode();
-		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
-			startNormalMode();
-		}
-
 		updatePurifierUIFields() ;
 
 		//Check if App in demo mode and WI-FI not connected PHILIPS Setup show dialog
-		if (PurAirApplication.isDemoModeEnable()) {
-			appInDemoMode.checkPhilipsSetupWifiSelected();
-		}
 
 		OutdoorController.getInstance().setLocationProvider();
 
 		OutdoorController.getInstance().setActivity(this);
-
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			registerWifiNetworkForSocket();
+		}
+		else {
+			startDiscovery() ;
+		}
     	checkForCrashesHockeyApp();
+	}
+	
+	private void startDiscovery() {
+		if (PurAirApplication.isDemoModeEnable()) {
+			appInDemoMode.checkPhilipsSetupWifiSelected();
+			startDemoMode();
+		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
+			startNormalMode();
+		}
 	}
 
 	public void startDemoMode() {
@@ -181,19 +194,48 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		}
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
+//		unregisterWifiNetworkForSocket();
 	}
 
 	public void stopNormalMode() {
+		ALog.i("LOLLIPOP","stopNormalMode");
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
+//		unregisterWifiNetworkForSocket();
 	}
 
 	public void startNormalMode() {
+		ALog.i("LOLLIPOP", "startNormalMode");
 		stopDemoMode();
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
 		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
+	}
+	
+	
+	@SuppressLint("NewApi")
+	private void registerWifiNetworkForSocket() {
+		NetworkRequest.Builder request = new NetworkRequest.Builder();
+		request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+
+		final Object lock = new Object();
+		networkCallback = new WifiNetworkCallback(lock);
+
+		synchronized (lock) {
+			connectivityManager.registerNetworkCallback(request.build(),	networkCallback);
+			try {
+				lock.wait(2000);
+				Log.e(ALog.WIFI, "Timeout error occurred");
+			} catch (InterruptedException e) {
+			}
+		}
+		Network setNetwork = networkCallback.getNetwork();
+		if(setNetwork != null) {
+			ConnectivityManager.setProcessDefaultNetwork(setNetwork);
+		}
+		startDiscovery() ;
+		
 	}
 
 	@Override
@@ -278,6 +320,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
 		} else if (fragment instanceof BuyOnlineFragment) {
+			showFragment(new AboutFragment());
+		} else if (fragment instanceof PromotionsFragment) {
 			showFragment(new AboutFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);

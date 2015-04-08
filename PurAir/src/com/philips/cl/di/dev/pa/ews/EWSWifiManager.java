@@ -76,6 +76,22 @@ public class EWSWifiManager {
 		currentSsid = currentSsid.replace("\"", "");
 		return currentSsid;
 	}
+	
+	public static String getSsidOfSupplicantNetwork() {
+		ALog.i(ALog.EWS, "getSSIDofSupplicantNetwork");
+		String ssid = null;
+		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext()
+				.getSystemService(Context.WIFI_SERVICE);
+		
+		WifiInfo wifiInfo = wifiMan.getConnectionInfo();
+		if (wifiInfo != null) {
+			ssid = wifiInfo.getSSID();
+			if (ssid != null) {
+				ssid = ssid.replace("\"", "") ;
+			}
+		}
+		return ssid;
+	}
 
 	public static boolean isOpenNetwork(String ssid) {
 		ALog.i(ALog.EWS, "isOpenNetwork " + ssid);
@@ -120,11 +136,12 @@ public class EWSWifiManager {
 		wifiMan.startScan();
 
 		Wifi wifi = new Wifi();
-		final String security = wifi.ConfigSec.getScanResultSecurity(result);
-		final WifiConfiguration config = wifi.getWifiConfiguration(wifiMan,
-				result, security);
+//		final String security = wifi.ConfigSec.getScanResultSecurity(result);
+		WifiConfiguration wifiConfiguration = getWifiConfiguration(ssid);
+/*		final WifiConfiguration config = wifi.getWifiConfiguration(wifiMan,
+				result, security);*/
 		final boolean connect = wifi.connectToConfiguredNetwork(
-				PurAirApplication.getAppContext(), wifiMan, config, false);
+				PurAirApplication.getAppContext(), wifiMan, wifiConfiguration, false);
 
 		if (!connect) {
 			ALog.i(ALog.EWS, "Failed to connect to network - reconnect failed");
@@ -140,8 +157,7 @@ public class EWSWifiManager {
 	 */
 	private static int getConfiguredNetworkId(String ssid) {
 		WifiConfiguration config = getWifiConfiguration(ssid);
-		if (config == null)
-			return -1;
+		if (config == null)	return -1;
 
 		return config.networkId;
 	}
@@ -151,8 +167,7 @@ public class EWSWifiManager {
 
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext()
 				.getSystemService(Context.WIFI_SERVICE);
-		List<WifiConfiguration> configuredNetworks = wifiMan
-				.getConfiguredNetworks();
+		List<WifiConfiguration> configuredNetworks = wifiMan.getConfiguredNetworks();
 
 		if (configuredNetworks == null || configuredNetworks.size() < 1) {
 			return null;

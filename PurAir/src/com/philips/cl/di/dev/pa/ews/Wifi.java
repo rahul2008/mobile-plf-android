@@ -26,12 +26,14 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -179,16 +181,40 @@ public class Wifi {
 		
 		// Disable others, but do not save.
 		// Just to force the WifiManager to connect to it.
-		if(!wifiMgr.enableNetwork(config.networkId, true)) {
-			return false;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			//Reference https://stackoverflow.com/questions/26986023/wificonfiguration-enable-network-in-lollipop
+			enableNework(config.SSID, ctx);
+		} else {
+			if(!wifiMgr.enableNetwork(config.networkId, true)) {
+				return false;
+			}
 		}
 		
-		final boolean connect = reassociate ? wifiMgr.reassociate() : wifiMgr.reconnect();
+		final boolean connect  = reassociate ? wifiMgr.reassociate() : wifiMgr.reconnect();
 		if(!connect) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	boolean enableNework(String ssid, Context cxt) {
+	    boolean state = false;
+	    WifiManager wifiManager = (WifiManager) cxt.getSystemService(Context.WIFI_SERVICE);
+	    if (wifiManager.setWifiEnabled(true)) {
+	        List<WifiConfiguration> networks = wifiManager.getConfiguredNetworks();
+	        Iterator<WifiConfiguration> iterator = networks.iterator();
+	        while (iterator.hasNext()) {
+	            WifiConfiguration wifiConfig = iterator.next();
+	            if (wifiConfig.SSID.equals(ssid)) {
+	                state = wifiManager.enableNetwork(wifiConfig.networkId, true);
+	            } else {
+	                wifiManager.disableNetwork(wifiConfig.networkId);
+	            }
+	        }
+	        wifiManager.reconnect();
+	    }
+	    return state;
 	}
 	
 	private void sortByPriority(final List<WifiConfiguration> configurations) {

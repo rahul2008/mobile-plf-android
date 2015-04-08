@@ -2,10 +2,10 @@ package com.philips.cl.di.reg.dao;
 
 public class ConsumerInterest {
 
-	private String campaignName;
-	private String subjectArea;
-	private String topicCommunicationKey;
-	private String topicValue;
+	private String mCampaignName;
+	private String mSubjectArea;
+	private String mTopicCommunicationKey;
+	private String mTopicValue;
 
 	public ConsumerInterest() {
 
@@ -14,43 +14,43 @@ public class ConsumerInterest {
 	public ConsumerInterest(String campaignName, String subjectArea,
 			String topicCommunicationKey, String topicValue) {
 
-		this.campaignName = campaignName;
-		this.subjectArea = subjectArea;
-		this.topicCommunicationKey = topicCommunicationKey;
-		this.topicValue = topicValue;
+		mCampaignName = campaignName;
+		mSubjectArea = subjectArea;
+		mTopicCommunicationKey = topicCommunicationKey;
+		mTopicValue = topicValue;
 
 	}
 
 	public String getCampaignName() {
-		return campaignName;
+		return mCampaignName;
 	}
 
 	public void setCampaignName(String campaignName) {
-		this.campaignName = campaignName;
+		mCampaignName = campaignName;
 	}
 
 	public String getSubjectArea() {
-		return subjectArea;
+		return mSubjectArea;
 	}
 
 	public void setSubjectArea(String subjectArea) {
-		this.subjectArea = subjectArea;
+		mSubjectArea = subjectArea;
 	}
 
 	public String getTopicCommunicationKey() {
-		return topicCommunicationKey;
+		return mTopicCommunicationKey;
 	}
 
 	public void setTopicCommunicationKey(String topicCommunicationKey) {
-		this.topicCommunicationKey = topicCommunicationKey;
+		mTopicCommunicationKey = topicCommunicationKey;
 	}
 
 	public String getTopicValue() {
-		return topicValue;
+		return mTopicValue;
 	}
 
 	public void setTopicValue(String topicValue) {
-		this.topicValue = topicValue;
+		mTopicValue = topicValue;
 	}
 
 }

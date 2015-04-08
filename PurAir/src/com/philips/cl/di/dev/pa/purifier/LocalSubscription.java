@@ -34,7 +34,8 @@ public class LocalSubscription extends AsyncTask<String, Void, String> {
 		HttpURLConnection conn = null ;
 		try {
 			URL urlConn = new URL(url[0]) ;
-			conn = NetworkUtils.getConnection(urlConn,requestMethod, -1) ;
+			conn = NetworkUtils.getConnection(urlConn,requestMethod, -1,100) ;
+			if( conn == null ) return "";
 			if(dataToUpload != null && !dataToUpload.isEmpty()) {
 				conn.setDoOutput(true) ;
 				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());

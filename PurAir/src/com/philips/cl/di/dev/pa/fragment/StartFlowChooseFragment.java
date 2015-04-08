@@ -211,7 +211,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		if (selectedPurifier != null) {
 			clearDiscoveredPurifierObject();//Clear adapter object
 			selectedPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-			selectedPurifier.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfConnectedNetwork());
+			selectedPurifier.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfSupplicantNetwork());
 			if (location != null) {
 				ALog.i(ALog.MANAGE_PUR, 
 						"Add purifier: Purifier Current city lat: " + location.getLatitude() + "; long:" + location.getLongitude());

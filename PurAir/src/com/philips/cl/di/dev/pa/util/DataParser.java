@@ -254,7 +254,6 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		if( dataToParse == null ) return null ;
@@ -287,7 +286,6 @@ public class DataParser {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<OutdoorWeather> parseLocationWeather(String dataToParse) {
 		if( dataToParse == null ) return null ;
 
@@ -364,7 +362,6 @@ public class DataParser {
 		return cityDto;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<ForecastWeatherDto> parseFourDaysForecastData(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseFourDaysForecastDat dataToParse: " + dataToParse);
 		JSONObject cityJson = null;
@@ -407,7 +404,6 @@ public class DataParser {
 		return weatherDtos;
 	}
 
-	@SuppressWarnings("unchecked")
 	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse) {
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);

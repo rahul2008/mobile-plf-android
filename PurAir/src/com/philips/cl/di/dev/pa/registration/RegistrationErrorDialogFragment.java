@@ -48,9 +48,6 @@ public class RegistrationErrorDialogFragment extends DialogFragment {
 		Error dialog = (Error) getArguments().getSerializable(DIALOG_SELECTED);
 		
 		switch (dialog) {
-		case INCORRECT_PASSWORD:
-			message.setText(R.string.password_not_correct);
-			break;
 		case EMAIL_ALREADY_EXIST:
 			message.setText(R.string.already_registerd);
 			break;

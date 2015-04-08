@@ -52,7 +52,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 		ArrayList<DIUserProfile> profileList = new ArrayList<DIUserProfile>();
 		profileList.add(mDIUserProfile);
 
-		mUser.registerNewUserUsingTraditional(profileList, this, this);
+		mUser.registerNewUserUsingTraditional(profileList, this);
 	}
 	
 	public void showFragment(Fragment fragment) {

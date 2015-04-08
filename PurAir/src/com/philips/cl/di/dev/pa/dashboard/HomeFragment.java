@@ -2,7 +2,9 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +29,7 @@ import android.widget.ScrollView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.activity.ShareActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
@@ -41,6 +44,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.DashboardUtil;
+import com.philips.cl.di.dev.pa.util.ImageSaveListener;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
@@ -50,7 +54,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener,
-		AlertDialogBtnInterface, NetworkStateListener {
+		AlertDialogBtnInterface, NetworkStateListener , ImageSaveListener {
 
 	private static final int UPDATE_UI = 1;
 	private static final String OUTDOOR_DEATAIL_FTAG = "outdoor_detail_fragment";
@@ -63,19 +67,24 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private IndoorPagerAdapter indoorPagerAdapter;
 	
 	private LinearLayout takeATourPopup;
+
+	private CirclePageIndicator indicator;
+	private int countIndoor;
+	private UpdateMyPurifierListener updateMyPurifiersListener;
+	private UpdateMyLocationsListener updateMyLocationsListener;
+	private int prevPositionOutdoor;
+	private int prevPositionIndoor;
+	private ScrollView scrollView;
+	private ViewGroup outdoorDetailContainer;
+	private ViewGroup indoorDetailContainer;
+	private ViewGroup titleLayout;
+	private int screenHeight;// Without status bar height
+	private LinearLayout parentLayout;
+	private ImageView share;
 	
-    private CirclePageIndicator indicator;
-    private int countIndoor;
-    private UpdateMyPurifierListener updateMyPurifiersListener;
-    private UpdateMyLocationsListener updateMyLocationsListener;
-    private int prevPositionOutdoor;
-    private int prevPositionIndoor;
-    private ScrollView scrollView;
-    private ViewGroup outdoorDetailContainer;
-    private ViewGroup indoorDetailContainer;
-    private ViewGroup titleLayout;
-    private int screenHeight;// Without status bar height
+	private ProgressDialog imagesavingProgressDialog;
 	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -107,6 +116,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				(LinearLayout) view.findViewById(R.id.home_fragment_indoor_detail_container);
 		indoorDetailContainer.setVisibility(View.GONE);
 		
+		parentLayout = (LinearLayout) view.findViewById(R.id.containerll);
+		
 		outdoorDetailContainer = 
 				(LinearLayout) view.findViewById(R.id.home_fragment_outdoor_detail_container);
 		outdoorDetailContainer.setVisibility(View.GONE);
@@ -115,6 +126,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				(RelativeLayout) view.findViewById(R.id.home_fragment_indoor_viewpager_rl);
 		ViewGroup outdoorLayout = 
 				(RelativeLayout) view.findViewById(R.id.home_fragment_outdoor_viewpager_rl);
+		
+		share = (ImageView) view.findViewById(R.id.share_iv);
+		share.setOnClickListener(this);
 		
 		screenHeight = MainActivity.getScreenHeight();
 		ALog.i(ALog.DASHBOARD, "Before delay screenHeight Height=  " + screenHeight);
@@ -168,6 +182,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		OutdoorManager.getInstance().startCitiesTask();
 		ImageButton infoImgBtn = (ImageButton) getView().findViewById(R.id.home_fragment_info_img_btn);
 		infoImgBtn.setOnClickListener(this);
+		
 		
 		if(((MainActivity)getActivity()).getVisits()<3 && !((MainActivity)getActivity()).isTutorialPromptShown){
 			takeATourPopup = (LinearLayout) getView().findViewById(R.id.take_tour_prompt_drawer);			
@@ -329,6 +344,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		case R.id.heading_close_imgbtn:
 			activity.showFragment(new AboutFragment());
 			break;
+		case R.id.share_iv:
+			share.setClickable(false); 
+			showImagesavingProgressDialog(R.string.please_wait);
+			Bitmap localbitmap = DashboardUtil.captureView(parentLayout);
+			new ImageSaveAsynctask(this).execute(localbitmap);
+			break;
 		default:
 			break;
 		}
@@ -389,9 +410,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				AirPurifierManager.getInstance().setCurrentPurifier(purifier) ;
 			}
 			
+			
 			if (prevPositionIndoor == indoorPagerAdapter.getCount() - 1 && updateMyPurifiersListener != null) {
 				updateMyPurifiersListener.onUpdate();
 			}
+			
+			if (position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+				share.setVisibility(View.VISIBLE);
+			} else {
+				share.setVisibility(View.GONE);
+			}
+			
 			prevPositionIndoor = position;
 		}
 	};
@@ -577,6 +606,33 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			titleLayout.setVisibility(View.GONE);
 		} else {
 			titleLayout.setVisibility(View.VISIBLE);
+		}
+	}
+
+	@Override
+	public void onImagesave() {
+		share.setClickable(true); 
+		if ( getActivity() != null) {
+			dismissProgessDialog();
+			Intent intent_share = new Intent(getActivity(), ShareActivity.class);
+			startActivity(intent_share);
+		}
+		
+	}
+	
+	private void showImagesavingProgressDialog(int msg) {
+		dismissProgessDialog();
+		if (imagesavingProgressDialog == null && getActivity() != null) {
+			imagesavingProgressDialog = new ProgressDialog(getActivity());
+		}
+		imagesavingProgressDialog.setMessage(getString(msg));
+		imagesavingProgressDialog.setCancelable(false);
+		imagesavingProgressDialog.show();
+	}
+	
+	private void dismissProgessDialog() {
+		if (imagesavingProgressDialog != null) {
+			imagesavingProgressDialog.dismiss();
 		}
 	}
 

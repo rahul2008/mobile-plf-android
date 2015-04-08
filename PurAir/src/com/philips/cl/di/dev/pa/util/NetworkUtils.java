@@ -11,11 +11,19 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
+import android.os.Build;
+import android.util.Log;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
+import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 
 public class NetworkUtils {
 
@@ -121,8 +129,21 @@ public class NetworkUtils {
 		
 	}
 
-	public static HttpURLConnection getConnection(URL url, String requestMethod, int connectionTimeout) throws IOException {
+	@SuppressLint("NewApi")
+	public static HttpURLConnection getConnection(URL url, String requestMethod, int connectionTimeout, int lockTimeout) throws IOException {
+		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			Network wifiNetworkForSocket = getWifiNetworkForSocket(PurAirApplication.getAppContext(),lockTimeout);
+			
+			if (wifiNetworkForSocket == null) {
+				return null;
+			}
+			conn = (HttpURLConnection) wifiNetworkForSocket.openConnection(url);
+		} else {
+			conn = (HttpURLConnection) url.openConnection();
+		}
 		conn.setRequestProperty("content-type", "application/json") ;
 		conn.setRequestMethod(requestMethod);
 		if( connectionTimeout != -1) {
@@ -152,5 +173,27 @@ public class NetworkUtils {
 			conn.disconnect() ;
 			conn = null ;
 		}
+	}
+	@SuppressLint("NewApi")
+	private static Network getWifiNetworkForSocket(Context context, int lockTimeout) {
+		ConnectivityManager connectionManager = 
+				(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkRequest.Builder request = new NetworkRequest.Builder();
+		request.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+		//request.addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P);
+
+		final Object lock = new Object();
+		WifiNetworkCallback networkCallback = new WifiNetworkCallback(lock);
+
+		synchronized (lock) {
+			connectionManager.registerNetworkCallback(request.build(),	networkCallback);
+			try {
+				lock.wait(lockTimeout);
+				Log.e(ALog.WIFI, "Timeout error occurred");
+			} catch (InterruptedException e) {
+			}
+		}
+		connectionManager.unregisterNetworkCallback(networkCallback);
+		return networkCallback.getNetwork();
 	}
 }

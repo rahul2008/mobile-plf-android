@@ -174,7 +174,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		switch(isInputValidated()) {
 		case NONE:	
 			try {
-				user.loginUsingTraditional(mEmail, mPassword, SignInDialogFragment.this, PurAirApplication.getAppContext());
+				user.loginUsingTraditional(mEmail, mPassword, SignInDialogFragment.this);
 				showProgressDialog() ;
 			} catch (Exception e) {
                 ALog.e(ALog.USER_REGISTRATION, "ERROR : Login " + e.getMessage());
@@ -238,7 +238,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 	@Override
 	public void onLoginFailedWithError(int error) {
 		ALog.i(ALog.USER_REGISTRATION, "onLoginError errorCode: "+error+" errormessage: "+new ErrorMessage().getError(error));
-		cancelProgressDialog() ;
 		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error)) ;
+		cancelProgressDialog() ;
 	}
 }

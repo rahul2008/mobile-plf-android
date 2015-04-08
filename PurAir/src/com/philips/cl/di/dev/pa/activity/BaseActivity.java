@@ -4,7 +4,10 @@ import net.hockeyapp.android.Tracking;
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -29,11 +32,15 @@ public class BaseActivity extends FragmentActivity implements AppUpdateNotificat
 	
 	private NotificationManager notificationMan;
 	private final int NOTIFICATION_ID=45;
+	protected ConnectivityManager connectivityManager;
+	protected WifiManager wifiManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		ALog.d(ALog.ACTIVITY, "OnCreate on " + this.getClass().getSimpleName());
 		CPPController.getInstance(this).setAppUpdateNotificationListener(this) ;
+		connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE) ;
+		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE) ;
 		notificationMan=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		super.onCreate(savedInstanceState);
 	}

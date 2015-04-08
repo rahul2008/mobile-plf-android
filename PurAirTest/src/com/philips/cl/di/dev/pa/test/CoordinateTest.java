@@ -1,10 +1,10 @@
 package com.philips.cl.di.dev.pa.test;
 
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.GraphConst;
-
-import junit.framework.TestCase;
 
 public class CoordinateTest extends TestCase {
 	private Coordinates coordinates;

@@ -7,19 +7,19 @@ import com.philips.cl.di.dicomm.communication.Error;
 
 public interface PurifierListener {
 
-	public abstract void notifyAirPurifierEventListeners();
+	void notifyAirPurifierEventListeners();
 
-	public abstract void notifyFirmwareEventListeners();
+	void notifyFirmwareEventListeners();
 
-	public abstract void notifyScheduleListenerForSingleSchedule(
+	void notifyScheduleListenerForSingleSchedule(
 			SchedulePortInfo schedulePortInfo);
 
-	public abstract void notifyScheduleListenerForScheduleList(
+	void notifyScheduleListenerForScheduleList(
 			List<SchedulePortInfo> schedulePortInfoList);
 
-	public abstract void notifyScheduleListenerForErrorOccured(int errorType);
+	void notifyScheduleListenerForErrorOccured(int errorType);
 
-	public abstract void notifyAirPurifierEventListenersErrorOccurred(
+	void notifyAirPurifierEventListenersErrorOccurred(
 			Error purifierEventError);
 
 }

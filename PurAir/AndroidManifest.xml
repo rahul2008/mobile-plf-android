@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
     android:installLocation="preferExternal"
-    android:versionCode="67"
-    android:versionName="1.31.0" >
+    android:versionCode="72"
+    android:versionName="1.32.2" >
 
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
-
+    
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,6 +31,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="com.philips.cl.di.dev.pa.permission.C2D_MESSAGE" />
+    
 
     <permission
         android:name="com.philips.cl.di.dev.pa.permission.C2D_MESSAGE"
@@ -132,8 +133,14 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.philips.cl.di.dev.pa.buyonline.FeedbackActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".activity.MarkerActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity android:name=".activity.ShareActivity"
+                  android:launchMode = "singleInstance"></activity>
 
         <receiver
             android:name=".notification.NotificationBroadcastReceiver"
@@ -216,6 +223,9 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="be58d0608ff3f6a29a2f7376" />
+        
+        
+        
     </application>
 
 </manifest>

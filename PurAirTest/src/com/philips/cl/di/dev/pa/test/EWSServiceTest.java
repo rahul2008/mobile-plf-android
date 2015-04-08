@@ -7,8 +7,8 @@ import android.test.AndroidTestCase;
 
 import com.philips.cl.di.dev.pa.ews.EWSBroadcastReceiver;
 import com.philips.cl.di.dev.pa.ews.EWSListener;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 

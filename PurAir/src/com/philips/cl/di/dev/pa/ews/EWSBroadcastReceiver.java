@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -269,10 +271,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 
 			NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+			WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext()
+					.getSystemService(Context.WIFI_SERVICE);
 
-			if (netInfo.getState() == android.net.NetworkInfo.State.CONNECTED) {
+			WifiInfo connectedWifiNetwork = wifiMan.getConnectionInfo();
+			
+			if (connectedWifiNetwork.getSupplicantState() == SupplicantState.COMPLETED) {
 
-				String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+				String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 				if (ssid == null) {
 					ALog.i(ALog.EWS, "Failed to get ssid of connected network");
 					return;
@@ -449,7 +455,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				ALog.i(ALog.EWS, "New timer count down: ......." + timeCount);
 				if (timeCount == HOME_NETWORK_TIME_COUNT) {
 					ALog.i(ALog.EWS, "ssdpCountDownTimer after 30Sec");
-					String currentNetworkSSID = EWSWifiManager.getSsidOfConnectedNetwork();
+					String currentNetworkSSID = EWSWifiManager.getSsidOfSupplicantNetwork();
 					if (currentNetworkSSID == null || !currentNetworkSSID.equals(homeSSID)) {
 						errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_CONNECT_HOME_NETWORK ;
 						onTimeCountDownTaskCompleted();

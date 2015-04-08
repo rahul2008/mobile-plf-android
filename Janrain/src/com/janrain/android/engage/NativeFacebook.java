@@ -41,6 +41,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.janrain.android.engage.JRNativeAuth.NativeProvider;
 import static com.janrain.android.engage.JRNativeAuth.NativeAuthError;
@@ -90,10 +92,16 @@ public class NativeFacebook extends NativeProvider {
                 String accessToken = getFacebookAccessToken(session);
                 getAuthInfoTokenForAccessToken(accessToken);
             } else {
+            	//New implementation to get email id for 1 click registration
                 Method openActiveSession = fbSessionClass.getMethod("openActiveSession",
-                        Activity.class, boolean.class, fbCallbackClass);
+                        Activity.class, boolean.class,List.class, fbCallbackClass);
+                List requestedPermissions = Arrays.asList("public_profile", "email");
+                openActiveSession.invoke(fbSessionClass, fromActivity, true, requestedPermissions, mFacebookCallback);
 
-                openActiveSession.invoke(fbSessionClass, fromActivity, true, mFacebookCallback);
+                //Earlier implementation no email id available. 	
+//                Method openActiveSession = fbSessionClass.getMethod("openActiveSession",
+//                        Activity.class, boolean.class, fbCallbackClass);
+                //openActiveSession.invoke(fbSessionClass, fromActivity, true, mFacebookCallback);
             }
         } catch (NoSuchMethodException e) {
             triggerOnFailure("Could not open Facebook Session", authError, e);

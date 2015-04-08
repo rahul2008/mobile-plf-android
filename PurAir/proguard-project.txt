@@ -161,6 +161,9 @@
 	<fields>;
 }
 
+-keep class com.philips.icpinterface.data.ComponentInfo {
+	<fields>;
+}
 -keep class com.philips.icpinterface.data.DateTime {
 	<fields>;
 }
@@ -171,9 +174,6 @@
 	<fields>;
 }
 -keep class com.philips.icpinterface.data.GCMAProtocolDetails {
-	<fields>;
-}
--keep class com.philips.icpinterface.data.ComponentInfo {
 	<fields>;
 }
 -keep class com.philips.icpinterface.data.NVMComponentInfo {
@@ -204,7 +204,6 @@
 -keepclasseswithmembernames class * {
     native <methods>;
 }
-
 # ICP Proguard rules ---- END -----
 
 

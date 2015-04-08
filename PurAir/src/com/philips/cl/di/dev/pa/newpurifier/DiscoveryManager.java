@@ -677,7 +677,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
 		device.getNetworkNode().setEncryptionKey(key);
-		device.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfConnectedNetwork());
+		device.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfSupplicantNetwork());
 		/*
 		//add geo co-ordinate if null
 		if (device.getLatitude() == null && device.getLongitude() == null) {

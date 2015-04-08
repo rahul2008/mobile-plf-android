@@ -1,7 +1,7 @@
 package com.philips.cl.di.reg.errormapping;
 
 public class CheckLocale {
-	String languageCode;
+	String mLanguageCode;
 
 	public CheckLocale() {
 		
@@ -41,11 +41,11 @@ public class CheckLocale {
 				&& !(locale.equals("zh-CN")) && !(locale.equals("zh-HK"))
 				&& !(locale.equals("zh-TW"))) 
 		{
-			languageCode = "en-US";
+			mLanguageCode = "en-US";
 		} else {
-			languageCode = locale;
+			mLanguageCode = locale;
 		}
-		return languageCode;
+		return mLanguageCode;
 	}
 
 }

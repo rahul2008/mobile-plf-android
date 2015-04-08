@@ -50,7 +50,7 @@ public class NetworkNode extends Observable implements Parcelable {
 		return mConnectionState;
 	}
 	
-	public synchronized void setConnectionState(ConnectionState connectionState) {
+	public void  setConnectionState(ConnectionState connectionState) {
 		// TODO remove vertical specific code (MetricsTracker)
 		if (!connectionState.equals(mConnectionState)) {
 			MetricsTracker.trackActionConnectionType(connectionState);
@@ -169,7 +169,6 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeLong(mLastPairedTime);
     }
 
-    @SuppressWarnings("unused")
     public static final Parcelable.Creator<NetworkNode> CREATOR = new Parcelable.Creator<NetworkNode>() {
         @Override
         public NetworkNode createFromParcel(Parcel in) {

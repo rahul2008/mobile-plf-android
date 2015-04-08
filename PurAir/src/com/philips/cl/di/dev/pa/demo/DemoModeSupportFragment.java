@@ -9,16 +9,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class DemoModeSupportFragment extends Fragment {
 	
 	private ButtonClickListener buttonClickListener;
+	private FontTextView helpWebsiteAC4373, helpWebsiteAC4375;
+	private ScrollView scrollView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,12 +53,24 @@ public class DemoModeSupportFragment extends Fragment {
 		
 		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_SUPPORT);
 		
-		((RelativeLayout) getView().findViewById
-				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener);  
+		scrollView = (ScrollView) getView().findViewById(R.id.contact_philips_support_scrollview);
+		
+		((TextView) getView().findViewById
+				(R.id.contact_support_phone)).setOnClickListener(buttonClickListener); 
+		TextView phone_two= (TextView) getView().findViewById
+				(R.id.contact_support_phone_two); 
+		phone_two.setText(" / "+getString(R.string.contact_philips_support_phone_num_2));
+		phone_two.setOnClickListener(buttonClickListener);
+		RelativeLayout weChat = (RelativeLayout) getView().findViewById(R.id.layout_we_chat);
+		weChat.setOnClickListener(buttonClickListener);
 		((RelativeLayout) getView().findViewById
 				(R.id.contact_support_email_layout)).setOnClickListener(buttonClickListener);  						
 		((RelativeLayout)getView().findViewById
 				(R.id.contact_support_website_layout)).setOnClickListener(buttonClickListener); 
+		helpWebsiteAC4373 = (FontTextView) getView().findViewById(R.id.contact_support_website_ac4373);
+		helpWebsiteAC4375 = (FontTextView) getView().findViewById(R.id.contact_support_website_ac4375);
+		helpWebsiteAC4373.setOnClickListener(buttonClickListener);
+		helpWebsiteAC4375.setOnClickListener(buttonClickListener);
 	}
 	
 	private class ButtonClickListener implements OnClickListener {
@@ -61,12 +78,13 @@ public class DemoModeSupportFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.contact_support_phone_layout:
-				MetricsTracker.trackActionServiceRequest("phone");
-				MetricsTracker.trackActionExitLink("phone_activity : " + getString(R.string.contact_philips_support_phone_num));
-				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
-				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
-				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+			case R.id.contact_support_phone:
+				MetricsTracker.trackActionServiceRequest("phone_1");
+				SupportUtil.gotoPhoneDial(getActivity(), getString(R.string.contact_philips_support_phone_num));
+				break;
+			case R.id.contact_support_phone_two:
+				MetricsTracker.trackActionServiceRequest("phone_2");
+				SupportUtil.gotoPhoneDial(getActivity(), getString(R.string.contact_philips_support_phone_num_2));
 				break;
 			case R.id.contact_support_email_layout:
 				MetricsTracker.trackActionServiceRequest("email");
@@ -77,12 +95,22 @@ public class DemoModeSupportFragment extends Fragment {
 				supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
 				startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
 				break;
+			case R.id.layout_we_chat:
+				MetricsTracker.trackActionServiceRequest("we_chat");
+				MetricsTracker.trackActionExitLink("we_chat");
+				SupportUtil.startNewActivity(getActivity(), "com.tencent.mm");
+				break;
 			case R.id.contact_support_website_layout:
-				MetricsTracker.trackActionServiceRequest("web");
-				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_website));
-				Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
-				gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
-				startActivity(gotoSupportWebisteIntent);
+				SupportUtil.setVisibility(helpWebsiteAC4373, helpWebsiteAC4375);
+				SupportUtil.srollUpScrollView(scrollView);
+				break;
+			case R.id.contact_support_website_ac4373:
+				MetricsTracker.trackActionServiceRequest("web_ac4373");
+				SupportUtil.gotoWebsite(getActivity(), getString(R.string.contact_philips_support_website_ac4373));
+				break;
+			case R.id.contact_support_website_ac4375:
+				MetricsTracker.trackActionServiceRequest("web_ac4375");
+				SupportUtil.gotoWebsite(getActivity(), getString(R.string.contact_philips_support_website_ac4375));
 				break;
 			default:
 				ALog.i(ALog.DEMO_MODE, "Default...");

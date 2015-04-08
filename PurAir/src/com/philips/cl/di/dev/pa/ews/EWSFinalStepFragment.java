@@ -24,6 +24,7 @@ public class EWSFinalStepFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage("EWS:Success");
 		MetricsTracker.trackActionEWSSuccess();
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_FINAL);
 

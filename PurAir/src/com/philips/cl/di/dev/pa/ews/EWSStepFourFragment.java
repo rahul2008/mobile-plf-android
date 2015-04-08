@@ -27,8 +27,6 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.UnicodeSpecialCharacter;

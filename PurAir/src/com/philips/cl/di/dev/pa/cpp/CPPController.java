@@ -288,7 +288,17 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	public void addDCSEventListener(String cppId, DCSEventListener dcsEventListener) {
-		mDcsEventListenersMap.put(cppId, dcsEventListener);
+		//DI-Comm change. Checking the listener before adding it to the map
+		if (mDcsEventListenersMap != null && !mDcsEventListenersMap.containsKey(cppId)) {
+			mDcsEventListenersMap.put(cppId, dcsEventListener);
+		}
+		
+	}
+	//DI-Comm change. Added one more method to disable remote subscription
+	public void removeDCSListener(String cppId) {
+		if( mDcsEventListenersMap != null ) {
+			mDcsEventListenersMap.remove(cppId) ;
+		}
 	}
 	
 	private DCSEventListener getDCSEventListener(String cppId) {

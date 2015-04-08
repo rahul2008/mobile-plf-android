@@ -24,7 +24,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		ServerResponseListener, PublishEventListener {
 
 	private ResponseHandler mResponseHandler;
-	private UDPReceivingThread udpReceivingThread;
 	
 	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
 	private int retrySubscriptionCount;
@@ -33,13 +32,11 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	
 	private NetworkNode mNetworkNode;
 	
-	public SubscriptionHandler(NetworkNode networkNode, ResponseHandler responseHandler) {
-		udpReceivingThread = new UDPReceivingThread(this);
-		mNetworkNode = networkNode;
-		mResponseHandler = responseHandler;	
-		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(networkNode.getCppId(), this);
-	}
 
+	public SubscriptionHandler(NetworkNode networkNode, ResponseHandler responseHandler) {
+		mNetworkNode = networkNode;
+		mResponseHandler = responseHandler;
+	}
 
 	public void subscribeToPurifierEvents() {
 		retrySubscriptionCount = 1 ;
@@ -89,30 +86,33 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	public void enableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Enabling local subscription (start udp)");
-		if (udpReceivingThread == null) {
-			udpReceivingThread = new UDPReceivingThread(this);
-		}
-		if (udpReceivingThread != null && !udpReceivingThread.isAlive()) {
-			udpReceivingThread.start();
+		UDPReceivingThread.getInstance().addUDPEventListener(this) ;
+		if (! UDPReceivingThread.getInstance().isAlive()) {
+			UDPReceivingThread.getInstance().start();
 		}
 	}
 
 	public void disableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Disabling local subscription (stop udp)");
-		if (udpReceivingThread != null && udpReceivingThread.isAlive()) {
-			udpReceivingThread.stopUDPListener();
-			udpReceivingThread = null;
+		if (UDPReceivingThread.getInstance().isAlive()) {
+			UDPReceivingThread.getInstance().stopUDPListener();
+			// TODO: DICOMM Refactor, Only remove individual listener , do not reset. Also Do not stop thread if there is atleast single listener in the list.
+			UDPReceivingThread.getInstance().reset();
 		}
 	}
 
 	public void enableRemoteSubscription(Context context) {
 		ALog.i(ALog.SUBSCRIPTION, "Enabling remote subscription (start dcs)");
-		CPPController.getInstance(context).startDCSService();
+		//DI-Comm change. Moved from Constructor
+		CPPController.getInstance(PurAirApplication.getAppContext()).addDCSEventListener(mNetworkNode.getCppId(), this);
+		CPPController.getInstance(context).startDCSService();		
 	}
 
 	public void disableRemoteSubscription(Context context) {
 		ALog.i(ALog.SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
 		CPPController.getInstance(context).stopDCSService();
+		//DI-Comm change. Removing the listener on Disabling remote subscroption
+		CPPController.getInstance(PurAirApplication.getAppContext()).removeDCSListener(mNetworkNode.getCppId());
 	}
 
 	private void subscribe(String url, NetworkNode networkNode) {
@@ -174,7 +174,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.UNSUBSCRIBE, "", 20, AppConstants.CPP_SUBSCRIPTIONTIME,
+							AppConstants.UNSUBSCRIBE, "", 20,
+							0,
 							networkNode.getCppId());
 
 			CPPController
@@ -184,7 +185,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 									AppConstants.EVENTSUBSCRIBER_KEY,
 									subscriberId),
 							AppConstants.DI_COMM_REQUEST,
-							AppConstants.UNSUBSCRIBE, "", 20, AppConstants.CPP_SUBSCRIPTIONTIME,
+							AppConstants.UNSUBSCRIBE, "", 20,
+							0,
 							networkNode.getCppId());
 		}
 	}
@@ -222,6 +224,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 
 	@Override
 	public void onDCSEventReceived(String data, String fromEui64, String action) {
+		ALog.i("CHECKSUB","onDCSEventReceived: "+data);
 		if (data == null || data.isEmpty())
 			return;
 
