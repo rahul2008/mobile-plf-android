@@ -343,10 +343,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void setViewParams(Configuration config) {
 
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			if (mLeftRightMarginPort != 0)
+//			if (mLeftRightMarginPort != 0)
 				mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
-			if (mLeftRightMarginLand != 0)
+//			if (mLeftRightMarginLand != 0)
 				mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
 		mConactUsParent.setLayoutParams(mParams);
