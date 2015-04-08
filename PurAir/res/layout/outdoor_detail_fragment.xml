@@ -61,7 +61,7 @@
             android:orientation="vertical" >
         </LinearLayout>
     </RelativeLayout>
-    
+
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorSecondMsg"
@@ -77,6 +77,129 @@
         android:textColor="@color/philips_blue"
         android:textSize="@dimen/title_text_size_medium_dp"
         custom:fontAssetName="fonts/centralesansbook.ttf" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:text="与最近添加的三个地点作比较"
+            android:textColor="#5D9DEC"
+            android:textSize="16sp" />
+
+        <ToggleButton
+            android:id="@+id/trend_toggle_button"
+            style="@style/Widget.Button.Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:checked="false" />
+    </LinearLayout><LinearLayout
+        android:id="@+id/weather_item_bijiao_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:id="@+id/city_1_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical" >
+
+            <com.philips.cl.di.dev.pa.view.ImageRound
+                android:id="@+id/city_1_iv"
+                android:layout_width="5dp"
+                android:layout_height="5dp" />
+
+            <TextView
+                android:id="@+id/city_1_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/city_2_3_4_parent_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <LinearLayout
+                android:id="@+id/city_2_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical" >
+
+                <com.philips.cl.di.dev.pa.view.ImageRound
+                    android:id="@+id/city_2_iv"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/city_2_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/city_3_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical" >
+
+                <com.philips.cl.di.dev.pa.view.ImageRound
+                    android:id="@+id/city_3_iv"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/city_3_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/city_4_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical" >
+
+                <com.philips.cl.di.dev.pa.view.ImageRound
+                    android:id="@+id/city_4_iv"
+                    android:layout_width="5dp"
+                    android:layout_height="5dp" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/city_4_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <include
         android:layout_width="match_parent"
