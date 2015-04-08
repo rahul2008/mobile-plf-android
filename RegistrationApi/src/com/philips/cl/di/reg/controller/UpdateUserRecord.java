@@ -114,7 +114,6 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
 	private void updateUserRecord(CaptureRecord user) {
 		try {
-			JSONObject jsonObject = CaptureRecord.loadFromDisk(mContext);
 			user.synchronize(new Capture.CaptureApiRequestCallback() {
 				@Override
 				public void onSuccess() {
@@ -123,7 +122,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 				@Override
 				public void onFailure(CaptureApiError e) {
 				}
-			}, jsonObject);
+			});
 
 		} catch (InvalidApidChangeException e) {
 			e.printStackTrace();

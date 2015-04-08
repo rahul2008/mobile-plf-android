@@ -21,33 +21,33 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 
 	private String mRegistrationVersion = null;
 
-	private String mProductEngageAppId = "ddjbpmgpeifijdlibdio";
-	private String mProductCaptureDomain = "philips.janraincapture.com";
-	private String mProductCaptureFlowVersion = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
-	private String mProductCaptureAppId = "hffxcm638rna8wrxxggx2gykhc";
-	private String mProductRegisterForgotEmailNative = "https://philips.janraincapture.com/oauth/forgot_password_native/";
-	private String mProductRegisterActivationUrl = "https://secure.philips.co.uk/myphilips/activateUser.jsp";
-	private String mProductRegisterForgotEmail = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
+	private String PRODUCT_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
+	private String PRODUCT_CAPTURE_DOMAIN = "philips.janraincapture.com";
+	private String PRODUCT_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
+	private String PRODUCT_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
+	private String PRODUCT_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.janraincapture.com/oauth/forgot_password_native/";
+	private String PRODUCTION_REGISTER_ACTIVATION_URL = "https://secure.philips.co.uk/myphilips/activateUser.jsp";
+	private String PRODUCTION_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
 
-	private String mEvalEngageAppId = "jgehpoggnhbagolnihge";
-	private String mEvalCaptureDomain = "philips.eval.janraincapture.com";
-	private String mEvalCaptureFlowVersion = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
-	private String mEvalCaptureAppId = "nt5dqhp6uck5mcu57snuy8uk6c";
-	private String mEvalRegisterForgotEmailNative = "https://philips.eval.janraincapture.com/oauth/forgot_password_native/";
-	private String mEvalRegisterActivationUrl = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
-	private String mEvalRegisterForgotEmail = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
+	private String EVAL_ENGAGE_APP_ID = "jgehpoggnhbagolnihge";
+	private String EVAL_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
+	private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
+	private String EVAL_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
+	private String EVAL_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.eval.janraincapture.com/oauth/forgot_password_native/";
+	private String EVAL_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
+	private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
-	private String mDeviceEngageAppId = "bdbppnbjfcibijknnfkk";
-	private String mDeviceCaptureDomain = "philips.dev.janraincapture.com";
-	private String mDeviceCaptureFlowVersion = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
-	private String mDeviceCaptureAppId = "eupac7ugz25x8dwahvrbpmndf8";
-	private String mDeviceRegisterForgotEmailNative = "https://philips.dev.janraincapture.com/oauth/forgot_password_native/";
-	private String mDeviceRegisterActivationUrl = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
-	private String mDeviceRegisterForgotEmail = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
+	private String DEVICE_ENGAGE_APP_ID = "bdbppnbjfcibijknnfkk";
+	private String DEVICE_CAPTURE_DOMAIN = "philips.dev.janraincapture.com";
+	private String DEVICE_CAPTURE_FLOW_VERSION = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
+	private String DEVICE_CAPTURE_APP_ID = "eupac7ugz25x8dwahvrbpmndf8";
+	private String DEVICE_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.dev.janraincapture.com/oauth/forgot_password_native/";
+	private String DEVICE_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
+	private String DEVICE_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
-	private String mRegister_Forgot_Email_Native;
-	private String mRegister_Activation_Url;
-	private String mRegister_Forgot_Email;
+	private String mRegisterForgotEmailNative;
+	private String mRegisterActivationUrl;
+	private String mRegisterForgotMailUrl;
 	private String mCountryCode;
 	private String mLanguageCode;
 
@@ -199,38 +199,38 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 
 		// VARIABLES FOR VERSION CHECK TO BE SET IN APP
 		if (mRegistrationVersion == REGISTRATION_USE_PRODUCTION) {
-			jumpConfig.engageAppId = mProductEngageAppId;
-			jumpConfig.captureDomain = mProductCaptureDomain;
-			jumpConfig.captureFlowVersion = mProductCaptureFlowVersion;
-			jumpConfig.captureAppId = mProductCaptureAppId;
-			mRegister_Forgot_Email_Native = mProductRegisterForgotEmailNative;
-			mRegister_Activation_Url = mProductRegisterActivationUrl;
-			mRegister_Forgot_Email = mProductRegisterForgotEmail;
+			jumpConfig.engageAppId = PRODUCT_ENGAGE_APP_ID;
+			jumpConfig.captureDomain = PRODUCT_CAPTURE_DOMAIN;
+			jumpConfig.captureFlowVersion = PRODUCT_CAPTURE_FLOW_VERSION;
+			jumpConfig.captureAppId = PRODUCT_CAPTURE_APP_ID;
+			mRegisterForgotEmailNative = PRODUCT_REGISTER_FORGOT_EMAIL_NATIVE;
+			mRegisterActivationUrl = PRODUCTION_REGISTER_ACTIVATION_URL;
+			mRegisterForgotMailUrl = PRODUCTION_REGISTER_FORGOT_MAIL_URL;
 
 			mProductRegisterUrl = PROD_PRODUCT_REGISTER_URL;
 			mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
 
 		} else if (mRegistrationVersion == REGISTRATION_USE_EVAL) {
-			jumpConfig.engageAppId = mEvalEngageAppId;
-			jumpConfig.captureDomain = mEvalCaptureDomain;
-			jumpConfig.captureFlowVersion = mEvalCaptureFlowVersion;
-			jumpConfig.captureAppId = mEvalCaptureAppId;
-			mRegister_Forgot_Email_Native = mEvalRegisterForgotEmailNative;
-			mRegister_Activation_Url = mEvalRegisterActivationUrl;
-			mRegister_Forgot_Email = mEvalRegisterForgotEmail;
+			jumpConfig.engageAppId = EVAL_ENGAGE_APP_ID;
+			jumpConfig.captureDomain = EVAL_CAPTURE_DOMAIN;
+			jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
+			jumpConfig.captureAppId = EVAL_CAPTURE_APP_ID;
+			mRegisterForgotEmailNative = EVAL_REGISTER_FORGOT_EMAIL_NATIVE;
+			mRegisterActivationUrl = EVAL_REGISTER_ACTIVATION_URL;
+			mRegisterForgotMailUrl = EVAL_REGISTER_FORGOT_MAIL_URL;
 
 			mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
 			mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
 
 		} else if (mRegistrationVersion == REGISTRATION_USE_DEVICE) {
-			jumpConfig.engageAppId = mDeviceEngageAppId;
-			jumpConfig.captureDomain = mDeviceCaptureDomain;
-			jumpConfig.captureFlowVersion = mDeviceCaptureFlowVersion;
-			jumpConfig.captureAppId = mDeviceCaptureAppId;
+			jumpConfig.engageAppId = DEVICE_ENGAGE_APP_ID;
+			jumpConfig.captureDomain = DEVICE_CAPTURE_DOMAIN;
+			jumpConfig.captureFlowVersion = DEVICE_CAPTURE_FLOW_VERSION;
+			jumpConfig.captureAppId = DEVICE_CAPTURE_APP_ID;
 
-			mRegister_Forgot_Email_Native = mDeviceRegisterForgotEmailNative;
-			mRegister_Activation_Url = mDeviceRegisterActivationUrl;
-			mRegister_Forgot_Email = mDeviceRegisterForgotEmail;
+			mRegisterForgotEmailNative = DEVICE_REGISTER_FORGOT_EMAIL_NATIVE;
+			mRegisterActivationUrl = DEVICE_REGISTER_ACTIVATION_URL;
+			mRegisterForgotMailUrl = DEVICE_REGISTER_FORGOT_MAIL_URL;
 
 			mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
 			mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
@@ -240,13 +240,16 @@ public class JanrainConfigurationSettings implements LocaleMatchListener {
 		String langCode = null;
 		String countryCode = null;
 
-		if (localeArr != null && localeArr.length > 0) {
+		if (localeArr != null && localeArr.length > 1) {
 			langCode = localeArr[0];
 			countryCode = localeArr[1];
+		}else{
+			langCode = "en";
+			countryCode = "US";
 		}
 
-		jumpConfig.captureCountryCode = countryCode;
-		jumpConfig.captureLanguageCode = langCode;
+		jumpConfig.captureRedirectUri = mRegisterActivationUrl + "?country=" + countryCode +"&catalogType=CONSUMER&language=" + langCode;
+		jumpConfig.captureRecoverUri = mRegisterForgotMailUrl + "?country=" + countryCode + "&catalogType=CONSUMER&language=" + langCode;
 		jumpConfig.captureLocale = locale;
 
 		mPreferredCountryCode = countryCode;

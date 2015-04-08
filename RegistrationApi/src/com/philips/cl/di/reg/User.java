@@ -332,7 +332,6 @@ public class User {
 			UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
 			boolean receiveMarketingEmail) {
 		mCapturedData = CaptureRecord.loadFromDisk(mContext);
-		JSONObject userJson = CaptureRecord.loadFromDisk(mContext);
 		UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(
 				updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
 		if (mCapturedData != null) {
@@ -341,7 +340,7 @@ public class User {
 						receiveMarketingEmail);
 				try {
 					mCapturedData.synchronize(
-							updateReceiveMarketingEmailHandler, userJson);
+							updateReceiveMarketingEmailHandler);
 				} catch (InvalidApidChangeException e) {
 					Log.e(LOG_TAG,
 							"On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
@@ -361,7 +360,6 @@ public class User {
 		AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
 				addConsumerInterestHandler);
 		CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-		JSONObject userJson = CaptureRecord.loadFromDisk(mContext);
 		mConsumerInterestArray = new JSONArray();
 		ConsumerArray consumer = ConsumerArray.getInstance();
 
@@ -394,7 +392,7 @@ public class User {
 				captured.remove(CONSUMER_INTERESTS);
 				captured.put(CONSUMER_INTERESTS, mConsumerInterestArray);
 				try {
-					captured.synchronize(addConsumerInterest, userJson);
+					captured.synchronize(addConsumerInterest);
 
 				} catch (InvalidApidChangeException e) {
 
