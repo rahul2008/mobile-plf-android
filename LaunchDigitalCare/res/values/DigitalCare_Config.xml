@@ -68,7 +68,7 @@
     <string name="microsite_id" translatable="false">81376</string>
 
     <!-- NetworkAlert Input Credentials -->
-    <string name="NetworkAlertView_height" translatable="false">60</string>
+    <!-- <dimen name="NetworkAlertView_height" >@dimen/support_btn_height</dimen> -->
     <color name="NetworkAlertView_background_color" translatable="false">#ff0000</color>
     <color name="NetworkAlertView_text_color" translatable="false">#ffffff</color>
     <string name="NetworkAlertView_text">Connection Not Available</string>
