@@ -9,6 +9,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,6 +116,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductCloseButton.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
 		mEditText.addTextChangedListener(this);
+		setLimitToEditText(mEditText);
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
 
@@ -132,7 +134,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void sendMessage() {
-		new TwitterPost(getActivity(), mFile, this).execute(getEditorText());
+		new TwitterPost(getActivity(), mFile, this).execute(mEditText.getText()
+				.toString());
 		mPostProgress = new ProgressDialog(getActivity());
 		mPostProgress.setMessage("Posting to Philips Twitter Support...");
 		mPostProgress.setCancelable(false);
@@ -140,15 +143,29 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-			DLog.d(TAG, "Checked True");
-			DLog.d(TAG, getEditorText().toString());
-			mEditText.setText(getEditorText());
+		String mContent = null;
 
+		if (isChecked) {
+			DLog.d(TAG, "Checked True+++++++");
+			DLog.d(TAG, "Before : " + mEditText.getText().toString());
+			mContent = PRODCUT_INFO + " " + mEditText.getText().toString();
+			if (mContent.length() < 140)
+				mEditText.setText(mContent);
+			else
+				Toast.makeText(
+						getActivity(),
+						"Twitter Text Exceding 140 Characters to add the Description!!",
+						Toast.LENGTH_SHORT).show();
+			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		} else {
-			DLog.d(TAG, "Checked False");
-			DLog.d(TAG, "" + getEditorText().toString());
-			mEditText.setText(getEditorText());
+			DLog.d(TAG, "Checked False++++++++");
+			DLog.d(TAG, "Before : " + mEditText.getText().toString());
+			mContent = mEditText.getText().toString();
+			if (mContent.contains(PRODCUT_INFO)) {
+				mContent = mContent.replace(PRODCUT_INFO, "").trim();
+			}
+			mEditText.setText(mContent);
+			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		}
 	}
 
@@ -182,28 +199,20 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		mCharacterCount.setText(String.valueOf(s.length()));
+		if (s.length() <= 140)
+			mCharacterCount.setText(String.valueOf(s.length()));
+		else {
+			Toast.makeText(
+					getActivity(),
+					"Twitter Text Exceding 140 Characters to add the Description!!",
+
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
 
-	}
-
-	public String getEditorText() {
-		String mContent = null, mEditorContent = mEditText.getText().toString();
-
-		if (mCheckBox.isChecked()) {
-			mContent = PRODCUT_INFO + " " + mEditorContent;
-		} else {
-			if (mEditorContent.contains(PRODCUT_INFO))
-				mContent = mEditorContent.replace(PRODCUT_INFO, "").trim();
-			else
-				mContent = mEditorContent;
-		}
-
-		DLog.d(TAG, "Text in the Content Description" + mContent);
-		return mContent;
 	}
 
 	@Override
@@ -282,5 +291,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.opt_contact_us);
+	}
+
+	private void setLimitToEditText(EditText editText) {
+		editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
+				140) });
 	}
 }
