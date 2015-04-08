@@ -38,6 +38,7 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
@@ -74,6 +75,14 @@ public class SHNDeviceTest {
                 throw e;
             }
         }).when(mockedSHNCentral).reportExceptionOnAppMainThread(any(Exception.class));
+        doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                Runnable runnable = (Runnable) invocation.getArguments()[0];
+                runnable.run();
+                return null;
+            }
+        }).when(mockedSHNCentral).runOnHandlerThread(any(Runnable.class));
         mockedContext = (Context) Utility.makeThrowingMock(Context.class);
         doReturn(new CallthroughExecutor(1)).when(mockedSHNCentral).getScheduledThreadPoolExecutor();
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
@@ -211,10 +220,14 @@ public class SHNDeviceTest {
 
         doReturn(true).when(mockedBluetoothGatt).readCharacteristic(mockedBluetoothGattCharacteristic);
 
+        verify(mockedSHNCentral, times(3)).getScheduledThreadPoolExecutor();
         assertTrue(shnCharacteristic.readCharacteristic(mockedShnGattCommandResultReporter));
 
         bluetoothGattCallbackArgumentCaptor.getValue().onCharacteristicRead(mockedBluetoothGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS);
         verify(mockedShnGattCommandResultReporter).reportResult(SHNResult.SHNOk);
+
+        verify(mockedSHNCentral, times(4)).getScheduledThreadPoolExecutor();
+        verify(mockedSHNCentral).runOnHandlerThread(any(Runnable.class));
     }
 
     @Test
