@@ -56,6 +56,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private LinearLayout mContainer = null;
 	private DigitalCareFontButton mCancelPort = null;
 	private DigitalCareFontButton mSendPort = null;
+	private DigitalCareFontButton mCancelLand = null;
+	private DigitalCareFontButton mSendLand = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;
 	private ImageView mProductImage = null;
@@ -96,6 +98,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.facebookCancelPort);
 		mSendPort = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.facebookSendPort);
+		mCancelLand = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.facebookCancelLand);
+		mSendLand = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.facebookSendLand);
 		mTweetfrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
 		mCharacterCount = (TextView) getActivity().findViewById(
@@ -111,7 +117,13 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.fb_Post_camera_close);
 
 		mCancelPort.setOnClickListener(this);
+		mCancelPort.setTransformationMethod(null);
 		mSendPort.setOnClickListener(this);
+		mSendPort.setTransformationMethod(null);
+		mCancelLand.setOnClickListener(this);
+		mCancelLand.setTransformationMethod(null);
+		mSendLand.setOnClickListener(this);
+		mSendLand.setTransformationMethod(null);
 		mProductImage.setOnClickListener(this);
 		mProductCloseButton.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);

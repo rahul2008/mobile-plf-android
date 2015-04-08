@@ -7,17 +7,17 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-
 /**
  * 
  * @author naveen@philips.com
  * @description Custom PopupWindow View Parameters & callback listeners.
- * @Since  March 26, 2015
+ * @Since March 26, 2015
  */
 public class ImageTabletPick implements OnClickListener {
 
@@ -27,9 +27,9 @@ public class ImageTabletPick implements OnClickListener {
 	private final int LIBRARY_BUTTON = 3;
 	private final int CAMERA_BUTTON = 4;
 
-	private View mCameraImagePick;
-	private View mLibraryImagePick;
-	private View mCancelDialog;
+	private DigitalCareFontButton mCameraImagePick;
+	private DigitalCareFontButton mLibraryImagePick;
+	private DigitalCareFontButton mCancelDialog;
 
 	TabletPopupWindow mPointerAlert = null;
 
@@ -46,20 +46,23 @@ public class ImageTabletPick implements OnClickListener {
 		View mView = mImageSelectorView.getTabletProductImageMenuView();
 		mPointerAlert.setContentView(mView);
 		mPointerAlert.setBackgroundDrawable(new ColorDrawable());
-		mCameraImagePick = mView.findViewById(mImageSelectorView
-				.getCameraButtonID());
-		mLibraryImagePick = mView.findViewById(mImageSelectorView
-				.getLIbraryButtonID());
-		mCancelDialog = mView.findViewById(mImageSelectorView
-				.getCancelButtonID());
+		mCameraImagePick = (DigitalCareFontButton) mView
+				.findViewById(mImageSelectorView.getCameraButtonID());
+		mLibraryImagePick = (DigitalCareFontButton) mView
+				.findViewById(mImageSelectorView.getLIbraryButtonID());
+		mCancelDialog = (DigitalCareFontButton) mView
+				.findViewById(mImageSelectorView.getCancelButtonID());
 		setListenersToMenuOptions();
 		return mPointerAlert;
 	}
 
 	private void setListenersToMenuOptions() {
 		mCameraImagePick.setOnClickListener(this);
+		mCameraImagePick.setTransformationMethod(null);
 		mLibraryImagePick.setOnClickListener(this);
+		mLibraryImagePick.setTransformationMethod(null);
 		mCancelDialog.setOnClickListener(this);
+		mCancelDialog.setTransformationMethod(null);
 	}
 
 	@Override

@@ -101,6 +101,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					.findViewById(R.id.optionBtnContactUs);
 			mContactUs.setVisibility(View.VISIBLE);
 			mOptionBtnContactUs.setOnClickListener(this);
+			mOptionBtnContactUs.setTransformationMethod(null);
 			break;
 		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
 			mProductDetails = (RelativeLayout) getActivity().findViewById(
@@ -109,6 +110,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					.findViewById(R.id.optionBtnProdDetails);
 			mProductDetails.setVisibility(View.VISIBLE);
 			mOptionBtnProdDetails.setOnClickListener(this);
+			mOptionBtnProdDetails.setTransformationMethod(null);
 			break;
 		case DigitalCareContants.OPTION_FAQ:
 			mFaq = (RelativeLayout) getActivity().findViewById(R.id.optionFaq);
@@ -116,6 +118,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					R.id.optionBtnFaq);
 			mFaq.setVisibility(View.VISIBLE);
 			mOptionBtnFaq.setOnClickListener(this);
+			mOptionBtnFaq.setTransformationMethod(null);
 			break;
 		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
 			mFindPhilips = (RelativeLayout) getActivity().findViewById(
@@ -124,6 +127,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					.findViewById(R.id.optionBtnFindPhilips);
 			mFindPhilips.setVisibility(View.VISIBLE);
 			mOptionBtnFindPhilips.setOnClickListener(this);
+			mOptionBtnFindPhilips.setTransformationMethod(null);
 			break;
 		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
 			mWhatYouThink = (RelativeLayout) getActivity().findViewById(
@@ -132,6 +136,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					.findViewById(R.id.optionBtnThinking);
 			mWhatYouThink.setVisibility(View.VISIBLE);
 			mOptionBtnThinking.setOnClickListener(this);
+			mOptionBtnThinking.setTransformationMethod(null);
 			break;
 		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
 			mRegisterProduct = (RelativeLayout) getActivity().findViewById(
@@ -140,6 +145,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 					.findViewById(R.id.optionBtnRegProd);
 			mRegisterProduct.setVisibility(View.VISIBLE);
 			mOptionBtnRegisterProduct.setOnClickListener(this);
+			mOptionBtnRegisterProduct.setTransformationMethod(null);
 			break;
 		default:
 			break;

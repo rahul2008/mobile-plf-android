@@ -123,12 +123,17 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mChat.setVisibility(View.GONE);
 		}
 		mChat.setOnClickListener(this);
+		mChat.setTransformationMethod(null);
 		if (!(Utils.isNetworkConnected(getActivity())))
 			mFacebook.setClickable(false);
 
+		mFacebook.setTransformationMethod(null);
 		mCallPhilips.setOnClickListener(this);
+		mCallPhilips.setTransformationMethod(null);
 		mTwitter.setOnClickListener(this);
+		mTwitter.setTransformationMethod(null);
 		mEmail.setOnClickListener(this);
+		mEmail.setTransformationMethod(null);
 		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);

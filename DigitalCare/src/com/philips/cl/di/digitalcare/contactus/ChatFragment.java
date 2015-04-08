@@ -58,6 +58,12 @@ public class ChatFragment extends DigitalCareBaseFragment {
 		mChatNowLand.setOnClickListener(this);
 		mChatNoThanks.setOnClickListener(this);
 		mChatNoThanksLand.setOnClickListener(this);
+		
+		mChatNow.setTransformationMethod(null);
+		mChatNowLand.setTransformationMethod(null);
+		mChatNoThanks.setTransformationMethod(null);
+		mChatNoThanksLand.setTransformationMethod(null);
+		
 
 		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
 		mChatNowParentPort = (LinearLayout) getActivity().findViewById(

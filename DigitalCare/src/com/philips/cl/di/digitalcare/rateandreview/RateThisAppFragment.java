@@ -64,6 +64,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		mLayoutParent = (LinearLayout) getActivity().findViewById(
 				R.id.parentLayout);
 		mRatePlayStoreBtn.setOnClickListener(this);
+		mRatePhilipsBtn.setTransformationMethod(null);
+		mRatePlayStoreBtn.setTransformationMethod(null);
 		mRatePhilipsBtn.setOnClickListener(this);
 
 		mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent

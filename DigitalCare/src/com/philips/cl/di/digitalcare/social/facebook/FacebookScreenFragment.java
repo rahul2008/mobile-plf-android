@@ -141,6 +141,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mPopShareLand.setOnClickListener(this);
 		mPopCancelPort.setOnClickListener(this);
 		mPopCancelLand.setOnClickListener(this);
+		mPopSharePort.setTransformationMethod(null);
+		mPopShareLand.setTransformationMethod(null);
+		mPopCancelPort.setTransformationMethod(null);
+		mPopCancelLand.setTransformationMethod(null);
 		mProductImage.setOnClickListener(this);
 		mProductImageClose.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);

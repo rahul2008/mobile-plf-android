@@ -10,17 +10,18 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 
+import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-
 /**
  * 
  * @author naveen@philips.com
- * @description Image picker View Custom AlertView used for Phone(Not tablet)
- * to select the user defined image/Product image to in Social Support Screens.
- * @Since  March 20, 2015
+ * @description Image picker View Custom AlertView used for Phone(Not tablet) to
+ *              select the user defined image/Product image to in Social Support
+ *              Screens.
+ * @Since March 20, 2015
  */
 public class ImagePhonePickerDialog extends Dialog implements
 		View.OnClickListener {
@@ -31,9 +32,9 @@ public class ImagePhonePickerDialog extends Dialog implements
 	private int mWidth = 0;
 	private int mHeight = 0;
 
-	private View mCameraImagePick;
-	private View mLibraryImagePick;
-	private View mCancelDialog;
+	private DigitalCareFontButton mCameraImagePick;
+	private DigitalCareFontButton mLibraryImagePick;
+	private DigitalCareFontButton mCancelDialog;
 
 	private final int CANCEL_BUTTON = 1;
 	private final int LIBRARY_BUTTON = 3;
@@ -57,14 +58,19 @@ public class ImagePhonePickerDialog extends Dialog implements
 		View mView = mViewObject.getPhoneProductMenuView();
 		setContentView(mView);
 		getWindow().setLayout(mWidth, (mHeight / 100) * 99);
-		mCameraImagePick = mView.findViewById(mViewObject.getCameraButtonID());
-		mLibraryImagePick = mView
+		mCameraImagePick = (DigitalCareFontButton) mView
+				.findViewById(mViewObject.getCameraButtonID());
+		mLibraryImagePick = (DigitalCareFontButton) mView
 				.findViewById(mViewObject.getLIbraryButtonID());
-		mCancelDialog = mView.findViewById(mViewObject.getCancelButtonID());
+		mCancelDialog = (DigitalCareFontButton) mView.findViewById(mViewObject
+				.getCancelButtonID());
 
 		mCameraImagePick.setOnClickListener(this);
+		mCameraImagePick.setTransformationMethod(null);
 		mLibraryImagePick.setOnClickListener(this);
+		mLibraryImagePick.setTransformationMethod(null);
 		mCancelDialog.setOnClickListener(this);
+		mCancelDialog.setTransformationMethod(null);
 
 	}
 
