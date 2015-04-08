@@ -4,18 +4,18 @@ import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 import com.philips.cl.di.digitalcare.DigitalCareBaseActivity;
 
 
 
 class DigitalCareBaseActivityTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 	private DigitalCareBaseActivity mObject = null;
 
 	public DigitalCareBaseActivityTest() {
-		super(DigitalCareActivity.class);
+		super(LaunchDigitalCare.class);
 	}
 
 	@Override

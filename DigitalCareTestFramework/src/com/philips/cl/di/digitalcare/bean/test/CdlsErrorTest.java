@@ -5,8 +5,8 @@ import static org.mockito.Mockito.when;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.contactus.CdlsErrorModel;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 
 
 /**
@@ -16,7 +16,7 @@ import com.philips.cl.di.digitalcare.contactus.CdlsErrorModel;
  * @Since  Mar 12, 2015
  */
 public class CdlsErrorTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 	private CdlsErrorModel mObject = null;
 	private final String ERROR_MESSAGE1 = "null";
@@ -25,7 +25,7 @@ public class CdlsErrorTest extends
 	private final String ERROR_CODE2 = "401";
 
 	public CdlsErrorTest() {
-		super(DigitalCareActivity.class);
+		super(LaunchDigitalCare.class);
 	}
 
 	@Override

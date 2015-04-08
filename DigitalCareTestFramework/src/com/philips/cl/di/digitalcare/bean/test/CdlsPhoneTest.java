@@ -4,11 +4,11 @@ import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.contactus.CdlsPhoneModel;
+import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
 
 public class CdlsPhoneTest extends
-		ActivityInstrumentationTestCase2<DigitalCareActivity> {
+		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
 //	 private CdlsPhoneModel mObject = null;
 //	private static final String TIME_ONE = "10:30", TME_TWO = "ksjkfjk",
@@ -20,7 +20,7 @@ public class CdlsPhoneTest extends
 //			content3 = "790023.&(((@@";
 
 	public CdlsPhoneTest() {
-		super(DigitalCareActivity.class);
+		super(LaunchDigitalCare.class);
 
 	}
 

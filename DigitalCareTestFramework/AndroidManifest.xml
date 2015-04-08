@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.cl.di.digitalcare.test"
+    package="com.philips.cl.di.kitchenappliances.airfryer.test"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -9,7 +9,7 @@
     <!-- android.test.InstrumentationTestRunner -->
     <instrumentation
         android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
-        android:targetPackage="com.philips.cl.di.digitalcare" />
+        android:targetPackage="com.philips.cl.di.kitchenappliances.airfryer" />
 
     <application
         android:icon="@drawable/ic_launcher"
