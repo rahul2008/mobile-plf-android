@@ -3,7 +3,7 @@
 	<name>DigitalCareTestFramework</name>
 	<comment></comment>
 	<projects>
-		<project>DigitalCare</project>
+		<project>LaunchDigitalCare</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
