@@ -1,15 +1,20 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parentActivity"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent" 
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="#3090C7"
+    android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/TextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
-        android:text="This is just a sample app for testing DigitalCare library."
+        android:text="This is just an sample launcher app for  launching the DigitalCare Component."
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20dp"
         android:textStyle="bold" />
 
@@ -17,8 +22,39 @@
         android:id="@+id/launchDigitalCare"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_below="@+id/TextView1"
+        android:layout_centerHorizontal="true"
         android:layout_margin="20dp"
-        android:background="#387576"
-        android:text="Click: Testing DigitalCare Library" />
+        android:layout_marginTop="34dp"
+        android:background="@drawable/button_bg"
+        android:text="Open DigitalCare Component" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textView3"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:freezesText="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="DigitalCare Library is dependent on &quot;v7 library&quot; as well as &quot;Facebook SDK library&quot; so please make sure to add. Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;Config File&quot; under res>values."
+        android:textColor="#000080" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/launchDigitalCare"
+        android:layout_marginTop="14dp"
+        android:text="Note:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+</RelativeLayout>
