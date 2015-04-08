@@ -249,10 +249,11 @@ public class ProductImageSelectorView {
 	 * @param button
 	 */
 	private void setTypeFace(DigitalCareFontButton button) {
-		Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/centralesans-book.otf");
-		button.setTypeface(mTypeFace);
-		setColor(button);
+		//TODO: This is giving jenkins crash.
+//		Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
+//				"fonts/centralesans-book.otf");
+//		button.setTypeface(mTypeFace);
+//		setColor(button);
 	}
 
 	/**

@@ -52,9 +52,10 @@ public class NetworkAlertView {
 				R.color.NetworkAlertView_text_color));
 		mTextView.setText(mContext.getResources().getString(
 				R.string.NetworkAlertView_text));
-		Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/centralesans-book.otf");
-		mTextView.setTypeface(mTypeFace, Typeface.BOLD);
+		//TODO: This is giving jenkins crash.
+//		Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
+//				"fonts/centralesans-book.otf");
+		mTextView.setTypeface(null, Typeface.BOLD);
 		mTextView.setLayoutParams(mTextViewParams);
 
 		mToastContainer.setLayoutParams(mContainerParams);
