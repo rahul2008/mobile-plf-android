@@ -26,7 +26,7 @@ public class NetworkAlertView {
 	public void showNetworkAlert(final Activity mContext) {
 
 		float mAlertbackGroundHeight = mContext.getResources().getDimension(
-				R.dimen.NetworkAlertView_height);
+				R.dimen.support_btn_height);
 		RelativeLayout mParent = new RelativeLayout(mContext);
 
 		RelativeLayout mToastContainer = new RelativeLayout(mContext);

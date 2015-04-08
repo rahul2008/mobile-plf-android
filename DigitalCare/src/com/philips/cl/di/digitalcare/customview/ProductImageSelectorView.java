@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
-import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup.LayoutParams;
