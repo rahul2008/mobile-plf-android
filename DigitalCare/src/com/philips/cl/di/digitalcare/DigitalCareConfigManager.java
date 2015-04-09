@@ -114,7 +114,12 @@ public class DigitalCareConfigManager {
 	 * App's package name.
 	 */
 	public static String getAppPackageName() {
-		return mContext.getApplicationContext().getPackageName();
+		// TODO: We are putting hardcoded air fryer store link. Once integration
+		// will happen then we
+		// can remove this temp code.
+		// return mContext.getApplicationContext().getPackageName();
+
+		return "com.philips.cl.di.kitchenappliances.airfryer";
 	}
 
 	/*
