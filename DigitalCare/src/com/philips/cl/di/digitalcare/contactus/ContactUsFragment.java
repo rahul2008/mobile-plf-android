@@ -92,9 +92,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (!Utils.isNetworkConnected(getActivity())) {
-			return;
-		}
 		mConactUsParent = (LinearLayout) getActivity().findViewById(
 				R.id.contactUsParent);
 		mChat = (DigitalCareFontButton) getActivity().findViewById(
@@ -139,6 +136,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		setViewParams(config);
 
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
+		
+		if (!Utils.isNetworkConnected(getActivity())) {
+			return;
+		}
 	}
 
 	/*
