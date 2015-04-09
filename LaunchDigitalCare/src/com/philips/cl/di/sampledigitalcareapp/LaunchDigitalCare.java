@@ -1,4 +1,4 @@
-package com.philips.cl.di.kitchenappliances.airfryer;
+package com.philips.cl.di.sampledigitalcareapp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,10 +22,6 @@ public class LaunchDigitalCare extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(LaunchDigitalCare.this,
 						DigitalCareActivity.class);
-				// ComponentName component = new ComponentName(
-				// "com.philips.cl.di.digitalcare",
-				// "com.philips.cl.di.digitalcare.DigitalCareActivity");
-				// intent.setComponent(component);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				startActivity(intent);
 			}

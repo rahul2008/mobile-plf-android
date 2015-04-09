@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.contactus.CdlsPhoneModel;
-import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
+import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 public class CdlsPhoneTest extends
 		ActivityInstrumentationTestCase2<LaunchDigitalCare> {

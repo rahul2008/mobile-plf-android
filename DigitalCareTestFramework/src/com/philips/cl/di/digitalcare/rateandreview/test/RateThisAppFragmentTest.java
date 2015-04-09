@@ -5,7 +5,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
-import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
+import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 public class RateThisAppFragmentTest extends
 ActivityInstrumentationTestCase2<LaunchDigitalCare> {

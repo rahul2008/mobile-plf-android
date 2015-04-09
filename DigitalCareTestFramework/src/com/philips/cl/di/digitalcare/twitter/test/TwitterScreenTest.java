@@ -9,7 +9,7 @@ import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationActivit
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterPost;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
-import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
+import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 public class TwitterScreenTest extends
 		ActivityInstrumentationTestCase2<LaunchDigitalCare> {

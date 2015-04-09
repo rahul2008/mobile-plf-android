@@ -5,7 +5,7 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
+import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.Utility.test.Log;

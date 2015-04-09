@@ -10,7 +10,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cl.di.digitalcare.Utility.test.Log;
 import com.philips.cl.di.digitalcare.contactus.CdlsChatModel;
-import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
+import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 /**
  * 

@@ -16,7 +16,7 @@ import com.philips.cl.di.digitalcare.Call.test.CallFeature;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.Utils;
-import com.philips.cl.di.kitchenappliances.airfryer.LaunchDigitalCare;
+import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 /**
  * 
