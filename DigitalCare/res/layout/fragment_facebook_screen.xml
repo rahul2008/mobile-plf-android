@@ -100,8 +100,8 @@
 
             <ImageView
                 android:id="@+id/fb_Post_camera_close"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:layout_width="@dimen/social_support_closebutton"
+                android:layout_height="@dimen/social_support_closebutton"
                 android:layout_alignBottom="@+id/fb_post_camera"
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="55dp"

@@ -16,4 +16,5 @@
 	<dimen name="rate_app_Philips_review_button_bottom_margin">30dp</dimen>
 	<dimen name="rate_app_header_textsize">25sp</dimen>
 	<dimen name="rate_app_header_paddingbottom">13dp</dimen>
+	 <dimen name="social_support_closebutton">12dp</dimen>
 </resources>
