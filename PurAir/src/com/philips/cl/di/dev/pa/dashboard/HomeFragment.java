@@ -1,13 +1,10 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -56,7 +53,6 @@ import com.viewpagerindicator.CirclePageIndicator;
 public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener,
 		AlertDialogBtnInterface, NetworkStateListener , ImageSaveListener {
 
-	private static final int UPDATE_UI = 1;
 	private static final String OUTDOOR_DEATAIL_FTAG = "outdoor_detail_fragment";
 	private static final String INDOOR_DETAIL_FTAG = "indoor_detail_fragment";
 	private ViewPager indoorViewPager;
@@ -196,6 +192,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		}
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		OutdoorManager.getInstance().removeUIChangeListener(this);
+	}
 
     @SuppressWarnings("deprecation")
     private void initIndoorViewPager() {
@@ -277,20 +278,20 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public void updateUIOnDataChange() {
 		ALog.i(ALog.DASHBOARD, "nofifyDataSetChanged updateUI") ;
-		if (getActivity() == null) {
-			return;
+		if (getActivity() != null) {
+			getActivity().runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						notifyOutdoorPager();
+					} catch (IllegalStateException e) {
+						ALog.e(ALog.ERROR, "IllegalStateException: " + e.getMessage());
+					}
+				}
+			});
 		}
-		handler.sendEmptyMessage(UPDATE_UI);
 	}
-	
-	@SuppressLint("HandlerLeak")
-	private final Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			if ( msg.what == UPDATE_UI ) {
-				notifyOutdoorPager();
-			} 
-		};
-	};
 	
 	private void showTakeATourPopup() {
 		if(!((MainActivity)getActivity()).isTutorialPromptShown) {
