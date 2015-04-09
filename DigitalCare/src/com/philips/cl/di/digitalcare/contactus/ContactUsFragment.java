@@ -70,20 +70,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		if (!Utils.isNetworkConnected(getActivity())) {
-			return null;
-		}
-		/*
-		 * CDLS execution.
-		 */
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formCdlsURL(),
 				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
 				.getStatus() == AsyncTask.Status.FINISHED)) {
 			mCdlsRequestTask.execute();
 		}
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		if (!Utils.isNetworkConnected(getActivity())) {
+			return null;
+		}
+
 		View view = inflater.inflate(R.layout.fragment_contact_us, container,
 				false);
 		return view;
@@ -136,7 +139,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		setViewParams(config);
 
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
-		
+
 		if (!Utils.isNetworkConnected(getActivity())) {
 			return;
 		}
@@ -344,11 +347,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void setViewParams(Configuration config) {
 
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//			if (mLeftRightMarginPort != 0)
-				mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+			// if (mLeftRightMarginPort != 0)
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
-//			if (mLeftRightMarginLand != 0)
-				mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+			// if (mLeftRightMarginLand != 0)
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
 		mConactUsParent.setLayoutParams(mParams);
 	}
