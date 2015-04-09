@@ -5,6 +5,10 @@ import java.util.HashMap;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 
 public class CommunicationMarshal extends CommunicationStrategy {
+	
+	private LocalStrategy mLocalStrategy = new LocalStrategy();
+	private RemoteStrategy mRemoteStrategy = new RemoteStrategy();
+	private NullStrategy mNullStrategy = new NullStrategy();
 
 	@Override
 	public void getProperties(String portName, int productId,
@@ -33,10 +37,9 @@ public class CommunicationMarshal extends CommunicationStrategy {
 	}
 
 	@Override
-	public void subscribe(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).subscribe(dataMap, portName, productId, responseHandler, networkNode);
+	public void subscribe(String portName, int productId,
+			ResponseHandler responseHandler, NetworkNode networkNode) {
+		findAvailableStrategy(networkNode).subscribe(portName, productId, responseHandler, networkNode);
 	}
 
 	@Override
@@ -50,15 +53,12 @@ public class CommunicationMarshal extends CommunicationStrategy {
 		return true;
 	}
 	
-	private CommunicationStrategy findAvailableStrategy(NetworkNode networkNode){
-		// TODO:DICOMM Refactor, requestQueue not passed, check
-		LocalStrategy localStrategy = new LocalStrategy(null);
-		RemoteStrategy remoteStrategy = new RemoteStrategy();
-		if(localStrategy.isAvailable(networkNode)){
-			return localStrategy;
-		}else if(remoteStrategy.isAvailable(networkNode)){
-			return remoteStrategy;
+	private CommunicationStrategy findAvailableStrategy(NetworkNode networkNode){		
+		if(mLocalStrategy.isAvailable(networkNode)){
+			return mLocalStrategy;
+		}else if(mRemoteStrategy.isAvailable(networkNode)){
+			return mRemoteStrategy;
 		}
-		return new NullStrategy();
+		return mNullStrategy;
 	}
 }

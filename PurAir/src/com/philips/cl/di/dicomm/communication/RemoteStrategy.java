@@ -17,7 +17,7 @@ private final RequestQueue mRequestQueue;
 	public void getProperties(String portName, int productId,
 			ResponseHandler responseHandler, NetworkNode networkNode) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.GET_PROPS, null, responseHandler);
-		request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
@@ -25,7 +25,7 @@ private final RequestQueue mRequestQueue;
 			int productId, ResponseHandler responseHandler,
 			NetworkNode networkNode) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
-		request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
@@ -33,7 +33,7 @@ private final RequestQueue mRequestQueue;
 			int productId, ResponseHandler responseHandler,
 			NetworkNode networkNode) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);
-		request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
@@ -41,22 +41,21 @@ private final RequestQueue mRequestQueue;
 			ResponseHandler responseHandler, NetworkNode networkNode) {
 		// TODO DICOMM Refactor, make sure to support array ports, use arrayPortId
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
-		request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
-	public void subscribe(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.SUBSCRIBE, dataMap, responseHandler);
-		request.execute();
+	public void subscribe(String portName, int productId,
+			ResponseHandler responseHandler, NetworkNode networkNode) {
+		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.SUBSCRIBE, getSubscriptionData(), responseHandler);
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
 	public void unsubscribe(String portName, int productId,
 			ResponseHandler responseHandler, NetworkNode networkNode) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.UNSUBSCRIBE, null, responseHandler);
-		request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override

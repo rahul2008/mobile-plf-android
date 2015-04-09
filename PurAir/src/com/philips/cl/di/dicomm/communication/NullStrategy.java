@@ -33,9 +33,8 @@ public class NullStrategy extends CommunicationStrategy {
 	}
 
 	@Override
-	public void subscribe(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
+	public void subscribe(String portName, int productId,
+			ResponseHandler responseHandler, NetworkNode networkNode) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 
