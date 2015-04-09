@@ -30,13 +30,13 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 
 public class DashboardUtil {
-	
+
 	public static final long SAVE_FREESPACE_BYTE = 5 * 1024 * 1024;
-	
+
 	public enum Detail {
 		INDOOR, OUTDOOR
 	}
-	
+
 	public static ArrayList<Point> getCircularBoundary(Point imageCenter, int radius, int numOfPoints) {
 		ArrayList<Point> points = new ArrayList<Point>();
 		int angle;
@@ -49,7 +49,7 @@ public class DashboardUtil {
 		}
 		return points;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	public static void setAplha(ImageView ImageView, int alphaInt, float alphaFloat) {
@@ -61,24 +61,24 @@ public class DashboardUtil {
 			}
 		}
 	}
-	
+
 	public static boolean isAPILessThanHoneycomb() {
 		return Build.VERSION.SDK_INT < 11 ? true : false;
 	}
-	
+
 	public static int getRundomNumber(int min, int max) {
 		int num = 450;
 		Random random = new Random();
 		num = random.nextInt(max - min) + 1 + min;
 		return num;
 	}
-	
+
 	@SuppressLint("SimpleDateFormat")
 	public static String getCurrentTime24HrFormat() {
 		SimpleDateFormat formatTime = new SimpleDateFormat("HH:mm");
 		return formatTime.format(new Date());
 	}
-	
+
 	public static boolean isNoPurifierMode(Bundle bundle) {
 		boolean purifierMode = false;
 		GPSLocation.getInstance().requestGPSLocation();
@@ -99,7 +99,7 @@ public class DashboardUtil {
 		}
 		return purifierMode;
 	}
-	
+
 	public static int getIndoorPageCount() {
 		int countIndoor = 0;
 		//For demo mode
@@ -115,18 +115,18 @@ public class DashboardUtil {
 		}
 		return countIndoor;
 	}
-	
+
 	public static int getOutdoorPageCount() {
-    	int count = 0;
+		int count = 0;
 		OutdoorManager.getInstance().processDataBaseInfo();
 		List<String> myCityList = OutdoorManager.getInstance().getUsersCitiesList() ;
 		if( myCityList != null ) {
 			count = myCityList.size() ;
 		}
-		
+
 		return count;
-    }
-	
+	}
+
 	public static void startCurrentCityAreaIdTask() {
 		String lat = LocationUtils.getCurrentLocationLat();
 		String lon = LocationUtils.getCurrentLocationLon();
@@ -138,55 +138,77 @@ public class DashboardUtil {
 			}
 		}
 	}
-	
-	
 
-	 public static boolean isHaveSDCard() {
-	        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-	    }
-	 
-	 @SuppressWarnings("deprecation")
+
+
+	public static boolean isHaveSDCard() {
+		return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	}
+
+	@SuppressWarnings("deprecation")
 	public static long freeSpaceOnSd_BYTE() {
-	        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-	        long sdFreeKB = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
-	        return (long) sdFreeKB;
-	    }
-	    
-	    public static Bitmap captureView(View paramView)
-	    {
-	    	
-	    	Bitmap localBitmap = Bitmap.createBitmap(paramView.getWidth(),paramView.getHeight(),Bitmap.Config.ARGB_8888);
-	    	Canvas canvas = new Canvas(localBitmap);
-	    	canvas.drawColor(Color.WHITE);
-	    	paramView.draw(canvas);
-	    	return localBitmap;
-	      
-	    }
-	    
-	    public static AirPortInfo getDefaultAirPortInfo() {
-			AirPortInfo airPortInfo = new AirPortInfo() ;
-			airPortInfo.setActiveFilterStatus(0) ;
-			airPortInfo.setActualFanSpeed("1") ;
-			airPortInfo.setAqiL(0) ;
-			airPortInfo.setAqiThreshold(13) ;
-			airPortInfo.setChildLock(0) ;
-			airPortInfo.setDtrs(0);
-			airPortInfo.setFanSpeed("a") ;
-			airPortInfo.setHepaFilterStatus(1) ;
-			airPortInfo.setIndoorAQI(4) ;
-			airPortInfo.setMachineMode("a") ;
-			airPortInfo.setMulticareFilterStatus(1) ;
-			airPortInfo.setPowerMode("0") ;
-			airPortInfo.setPreFilterStatus(1) ;
-			airPortInfo.setpSensor(1) ;
-			airPortInfo.setReplaceFilter1("n") ;
-			airPortInfo.setReplaceFilter2("n") ;
-			airPortInfo.setReplaceFilter3("n") ;
-			airPortInfo.setReplaceFilter4("n") ;
-			airPortInfo.settFav(1) ;
-			airPortInfo.setValid(true) ;
-			airPortInfo.setTimeStamp(getCurrentTime24HrFormat()) ;
-			return airPortInfo ;
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+		long sdFreeKB = ((long) stat.getAvailableBlocks() * (long) stat.getBlockSize());
+		return (long) sdFreeKB;
+	}
+
+	public static Bitmap captureView(View paramView)
+	{
+
+		Bitmap localBitmap = Bitmap.createBitmap(paramView.getWidth(),paramView.getHeight(),Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(localBitmap);
+		canvas.drawColor(Color.WHITE);
+		paramView.draw(canvas);
+		return localBitmap;
+
+	}
+
+	public static AirPortInfo getDefaultAirPortInfo() {
+		AirPortInfo airPortInfo = new AirPortInfo() ;
+		airPortInfo.setActiveFilterStatus(0) ;
+		airPortInfo.setActualFanSpeed("1") ;
+		airPortInfo.setAqiL(0) ;
+		airPortInfo.setAqiThreshold(13) ;
+		airPortInfo.setChildLock(0) ;
+		airPortInfo.setDtrs(0);
+		airPortInfo.setFanSpeed("a") ;
+		airPortInfo.setHepaFilterStatus(1) ;
+		airPortInfo.setIndoorAQI(4) ;
+		airPortInfo.setMachineMode("a") ;
+		airPortInfo.setMulticareFilterStatus(1) ;
+		airPortInfo.setPowerMode("0") ;
+		airPortInfo.setPreFilterStatus(1) ;
+		airPortInfo.setpSensor(1) ;
+		airPortInfo.setReplaceFilter1("n") ;
+		airPortInfo.setReplaceFilter2("n") ;
+		airPortInfo.setReplaceFilter3("n") ;
+		airPortInfo.setReplaceFilter4("n") ;
+		airPortInfo.settFav(1) ;
+		airPortInfo.setValid(true) ;
+		airPortInfo.setTimeStamp(getCurrentTime24HrFormat()) ;
+		return airPortInfo ;
+	}
+
+	//For multiple graph
+	public static int getColorWithRespectToIndex(String areaId, List<String> topThreeCityAreaIds) {
+		int color = Color.RED;
+		if (topThreeCityAreaIds != null ) {
+			switch (topThreeCityAreaIds.indexOf(areaId)) {
+			case 0:
+				color = Color.GREEN;
+				break;
+			case 1:
+				color = Color.BLUE;
+				break;
+			case 2:
+				color = Color.BLACK;
+				break;
+			default:
+				//NOP
+				break;
+			}
 		}
-	
+		return color;
+	}
+
 }

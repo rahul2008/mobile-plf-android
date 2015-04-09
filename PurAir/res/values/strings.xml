@@ -655,6 +655,7 @@
     <string name="my_location">My locations</string>
     <string name="add_outdoor_location">Add locations</string>
     <string name="locating">Locating</string>
+    <string name = "compare_top_three_locations">Compare with the Top 3 locations</string>
     
     <!-- About -->
     <string name="about">About</string>

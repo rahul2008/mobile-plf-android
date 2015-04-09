@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -37,7 +38,6 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.DashboardUtil.Detail;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -61,9 +61,9 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private FontTextView msgFirst;
 	private ViewGroup indoorBarChart, outdoorBarChart;
 	private ProgressBar rdcpDownloadProgressBar;
-	private List<float[]> lastDayRDCPValues;
-	private List<float[]> last7daysRDCPValues;
-	private List<float[]> last4weeksRDCPValues;
+	private HashMap<Integer, float[]> lastDayRDCPValuesMap;
+	private HashMap<Integer, float[]> last7daysRDCPValuesMap;
+	private HashMap<Integer, float[]> last4weeksRDCPValuesMap;
 	private List<Float> hrlyAqiValues;
 	private List<Float> dailyAqiValues ;
 	private List<Integer> goodAirInfos;
@@ -132,10 +132,11 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		initClickListener();
 	}
 	
+	@SuppressLint("UseSparseArrays")
 	private void initList() {
-		lastDayRDCPValues = new ArrayList<float[]>();
-		last7daysRDCPValues = new ArrayList<float[]>();
-		last4weeksRDCPValues = new ArrayList<float[]>();
+		lastDayRDCPValuesMap = new HashMap<Integer, float[]>();
+		last7daysRDCPValuesMap = new HashMap<Integer, float[]>();
+		last4weeksRDCPValuesMap = new HashMap<Integer, float[]>();
 		goodAirInfos = new ArrayList<Integer>();
 		currentCityGoodAirInfos = new ArrayList<Integer>();
 	}
@@ -155,7 +156,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		clearLists();
 		addLastDayAQIIntoList();
 		addLastMonthAQIIntoList();
-		callGraphViewOnClickEvent(0, lastDayRDCPValues);
+		callGraphViewOnClickEvent(0, lastDayRDCPValuesMap);
 	}
 
 	private void addLastDayAQIIntoList() {
@@ -167,7 +168,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 			}
 		}
 
-		lastDayRDCPValues.add(lastDayRDCPVal);
+		lastDayRDCPValuesMap.put(Color.GRAY, lastDayRDCPVal);
 	}
 
 	private void addLastMonthAQIIntoList() {
@@ -185,17 +186,17 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 				last4weeksRDCPVal[i] = dailyAqiValues.get(i);
 			}
 		}
-		last7daysRDCPValues.add(last7daysRDCPVal);
-		last4weeksRDCPValues.add(last4weeksRDCPVal);
+		last7daysRDCPValuesMap.put(Color.GRAY, last7daysRDCPVal);
+		last4weeksRDCPValuesMap.put(Color.GRAY, last4weeksRDCPVal);
 	}
 
 	/**
 	 * Clear list if old data available.
 	 */
 	private void clearLists() {
-		if (lastDayRDCPValues.size() > 0) lastDayRDCPValues.clear();
-		if (last7daysRDCPValues.size() > 0) last7daysRDCPValues.clear();
-		if (last4weeksRDCPValues.size() > 0) last4weeksRDCPValues.clear();
+		if (!lastDayRDCPValuesMap.isEmpty()) lastDayRDCPValuesMap.clear();
+		if (!last7daysRDCPValuesMap.isEmpty()) last7daysRDCPValuesMap.clear();
+		if (!last4weeksRDCPValuesMap.isEmpty()) last4weeksRDCPValuesMap.clear();
 	}
 
 	/**
@@ -206,15 +207,15 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 
 		switch (v.getId()) {
 		case R.id.detailsOutdoorLastDayLabel: {
-			callGraphViewOnClickEvent(0, lastDayRDCPValues);
+			callGraphViewOnClickEvent(0, lastDayRDCPValuesMap);
 			break;
 		}
 		case R.id.detailsOutdoorLastWeekLabel: {
-			callGraphViewOnClickEvent(1, last7daysRDCPValues);
+			callGraphViewOnClickEvent(1, last7daysRDCPValuesMap);
 			break;
 		}
 		case R.id.detailsOutdoorLastFourWeekLabel: {
-			callGraphViewOnClickEvent(2, last4weeksRDCPValues);
+			callGraphViewOnClickEvent(2, last4weeksRDCPValuesMap);
 			break;
 		}
 		case R.id.indoor_detail_air_quality_explain_tv:
@@ -225,15 +226,15 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		}
 	}
 
-	private void callGraphViewOnClickEvent(int index, List<float[]> rdcpValues) {
+	private void callGraphViewOnClickEvent(int index, HashMap<Integer, float[]> rdcpValuesMap) {
 		dayIndex = index;
 		setViewOnClick(index);
 		removeChildViewFromBar();
 		addBarChartView(indoorBarChart, goodAirInfos, index);
 		showOutdoorBarChart();
 		
-		if (getMainActivity() != null && rdcpValues != null && rdcpValues.size() > 0) {
-			graphLayout.addView(new GraphView(getMainActivity(), rdcpValues, 0, Detail.INDOOR));
+		if (getMainActivity() != null && rdcpValuesMap != null && rdcpValuesMap.size() > 0) {
+			graphLayout.addView(new GraphView(getMainActivity(), rdcpValuesMap));
 		}	
 	}
 	
@@ -333,9 +334,10 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 
 	private void addDummyDataForDemoMode() {
 		clearLists();
-		lastDayRDCPValues.add(DummyData.lastDayIndoorAQIs);
-		last7daysRDCPValues.add(DummyData.lastWeekIndoorAQIs);
-		last4weeksRDCPValues.add(DummyData.lastMonthIndoorAQIs);
+		lastDayRDCPValuesMap.put(Color.GRAY, DummyData.lastDayIndoorAQIs);
+		last7daysRDCPValuesMap.put(Color.GRAY, DummyData.lastWeekIndoorAQIs);
+		last4weeksRDCPValuesMap.put(Color.GRAY, DummyData.lastMonthIndoorAQIs);
+		
 		goodAirInfos.clear();
 		currentCityGoodAirInfos.clear();
 		goodAirInfos.add(100);
@@ -344,7 +346,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		currentCityGoodAirInfos.add(20);
 		currentCityGoodAirInfos.add(30);
 		currentCityGoodAirInfos.add(42);
-		callGraphViewOnClickEvent(0, lastDayRDCPValues);
+		callGraphViewOnClickEvent(0, lastDayRDCPValuesMap);
 	}
 
 	@SuppressLint("HandlerLeak")

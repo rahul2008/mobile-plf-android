@@ -67,6 +67,6 @@ public class GraphConst {
 	public static final float OUTER_LINE_DIST = 30;
 	public static final float OUTER_CIRCLE_PADD = 30;
 	public static final float OUTER_INDEX_PADD = 27;
-	public static final float STROKE_WIDTH = 2;
+	public static final float STROKE_WIDTH = 1;
 	
 }

@@ -260,7 +260,7 @@ public class MarkerActivity extends MapActivity implements
 	}
 
 	@Override
-	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory) {
+	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory, String areaId) {
 		//NOP	
 		
 	}

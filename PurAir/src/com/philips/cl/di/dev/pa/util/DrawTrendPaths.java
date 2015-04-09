@@ -15,9 +15,11 @@ public class DrawTrendPaths {
 	private float yOutdoorCoordinates[]; 
 	private Coordinates coordinates;
 	public String testStr="";
+	private boolean multipleTrend;
 	
-	public DrawTrendPaths (Coordinates coordinates, boolean isOutdoor) {
+	public DrawTrendPaths (Coordinates coordinates, boolean isOutdoor, boolean multipleTrend) {
 		this.coordinates = coordinates;
+		this.multipleTrend = multipleTrend;
 		if (!isOutdoor) {
 			/**
 			 * Indoor
@@ -120,14 +122,16 @@ public class DrawTrendPaths {
 	public void drawPoint(float x, float y, Canvas canvas, Paint paint, boolean isOutdoor) {
 		Path circle = new Path(); 
 		circle.addCircle(x, y, coordinates.getIdRadius(), Direction.CW);
-		Paint cPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		cPaint.setStyle(Paint.Style.FILL);
-		if (isOutdoor) {
-			cPaint.setColor(getColorOutdoor(y));
-		} else {
-			cPaint.setColor(getColorIndoor(y)); 
+		paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+		paint.setStyle(Paint.Style.FILL);
+		if (!multipleTrend) {
+			if (isOutdoor) {
+				paint.setColor(getColorOutdoor(y));
+			} else {
+				paint.setColor(getColorIndoor(y)); 
+			}
 		}
-		canvas.drawPath(circle, cPaint);
+		canvas.drawPath(circle, paint);
 	}
 	
 	/** The method to draw path after last point for outdoor.*/
@@ -254,11 +258,11 @@ public class DrawTrendPaths {
 			return;
 		}
 		
-		drawAllColourPaths(canvas, upDown, paint, isOutdoor, xyCoordinates);
+		drawMultiColourPaths(canvas, upDown, paint, isOutdoor, xyCoordinates);
 	}
 
 
-	private void drawAllColourPaths(Canvas canvas, int upDown, Paint paint,
+	private void drawMultiColourPaths(Canvas canvas, int upDown, Paint paint,
 			boolean isOutdoor, ArrayList<XYCoordinate> xyCoordinates) {
 		for (int j = 0; j < xyCoordinates.size() - 1; j++) {
 			if (isOutdoor) {
@@ -278,22 +282,26 @@ public class DrawTrendPaths {
 	/** This method check condition graph path draw towards up or down for indoor and outdoor.*/
 	public void yCoordinateConditions(float x1, float y1, float x2, 
 			float y2, Canvas canvas, Paint paint, boolean isOutdoor) {
+
 		if (y1 < 0) {
 			testStr ="y1 less than zero";
 			return;
-		}else if (y2 < 0) {
+		} else if (y2 < 0) {
 			testStr ="y2 less than zero";
 			return;
-		}else {
-			if (y1 >= y2) {
-				/**The graph path draw towards up.*/
-				upDownPath(x1, y1, x2, y2, canvas, 1, paint, isOutdoor);
-			}else {
-				/**The graph path draw towards down.*/
-				upDownPath(x1, y1, x2, y2, canvas, 0, paint, isOutdoor);
+		} else {
+			if (multipleTrend) {
+				drawSameColorPaths(x1, y1, x2, y2, canvas, paint);
+			} else {
+				if (y1 >= y2) {
+					/**The graph path draw towards up.*/
+					upDownPath(x1, y1, x2, y2, canvas, 1, paint, isOutdoor);
+				} else {
+					/**The graph path draw towards down.*/
+					upDownPath(x1, y1, x2, y2, canvas, 0, paint, isOutdoor);
+				}
 			}
 		}
-		
 	}
 	
 	/** The method drawing path for indoor.*/
@@ -406,5 +414,27 @@ public class DrawTrendPaths {
 		float ty = (y-y1)/m;
 		x = ty+x1;
 		return x;
+	}
+	
+	/** The method drawing path for indoor.*/
+	public void drawSameColorPaths(float x1, float y1, float x2, 
+			float y2, Canvas canvas, Paint paint) {
+		Path path = new Path();
+        path.moveTo(x1, y1);
+        path.lineTo(x2, y2);
+		paint.setStrokeWidth(coordinates.getStrokeWidth());
+		paint.setAntiAlias(true);
+		paint.setStyle(Paint.Style.STROKE);
+        
+		canvas.drawPath(path, paint);
+	}
+	
+	/** The method to draw circle for indoor.*/
+	public void drawSameColorPoint(float x, float y, Canvas canvas, Paint paint) {
+		Path circle = new Path(); 
+		circle.addCircle(x, y, coordinates.getIdRadius(), Direction.CW);
+		Paint cPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		cPaint.setStyle(Paint.Style.FILL);
+		canvas.drawPath(circle, cPaint);
 	}
 }

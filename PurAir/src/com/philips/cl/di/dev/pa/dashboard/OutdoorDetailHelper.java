@@ -18,16 +18,14 @@ public class OutdoorDetailHelper {
 	private Calendar calenderGMTChinese;
 	private int currentCityHourOfDay;
 	private int currentCityDayOfWeek;
-	private float lastDayAQIHistoricArr[];
-	private float last7dayAQIHistoricArr[];
-	private float last4weekAQIHistoricArr[];
+	private float lastDayAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last7dayAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last4weekAQIHistoricArr[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 	
-	public OutdoorDetailHelper(float lastDayAQIHistoricArr[], 
-			float last7dayAQIHistoricArr[], float last4weekAQIHistoricArr[]) {
+	public OutdoorDetailHelper() {
 		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
-		this.lastDayAQIHistoricArr = lastDayAQIHistoricArr;
-		this.last7dayAQIHistoricArr = last7dayAQIHistoricArr;
-		this.last4weekAQIHistoricArr = last4weekAQIHistoricArr;
 	}
 	
 	public float[] getUpdateLastDayAQIHistoricArr() {

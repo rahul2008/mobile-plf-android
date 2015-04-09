@@ -98,16 +98,16 @@ public class OutdoorManagerTest extends InstrumentationTestCase {
 		verify(outdoorDetailsListener, times(1)).onNearbyLocationsDataReceived(aqis);
 		verify(outdoorDetailsListener, never()).onOneDayWeatherForecastReceived(anyList());
 		verify(outdoorDetailsListener, never()).onFourDayWeatherForecastReceived(anyList());
-		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList());
+//		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList(), "");
 	}
 	
 	public void testHistoricalAQIDataReceived() {
 		List<OutdoorAQI> aqis = new ArrayList<OutdoorAQI>();
-		outdoorManager.outdoorHistoricalAQIDataReceived(aqis);
+		outdoorManager.outdoorHistoricalAQIDataReceived(aqis, "");
 		verify(outdoorDetailsListener, never()).onNearbyLocationsDataReceived(anyList());
 		verify(outdoorDetailsListener, never()).onOneDayWeatherForecastReceived(anyList());
 		verify(outdoorDetailsListener, never()).onFourDayWeatherForecastReceived(anyList());
-		verify(outdoorDetailsListener, times(1)).onAQIHistoricalDataReceived(aqis);
+//		verify(outdoorDetailsListener, times(1)).onAQIHistoricalDataReceived(aqis, "");
 	}
 	
 	public void testFourDayWeatherForecastReceived() {
@@ -116,7 +116,7 @@ public class OutdoorManagerTest extends InstrumentationTestCase {
 		verify(outdoorDetailsListener, never()).onNearbyLocationsDataReceived(anyList());
 		verify(outdoorDetailsListener, never()).onOneDayWeatherForecastReceived(anyList());
 		verify(outdoorDetailsListener, times(1)).onFourDayWeatherForecastReceived(weatherDtos);
-		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList());
+//		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList(), "");
 	}
 	
 	public void testOneDayForecastReceived() {
@@ -125,7 +125,7 @@ public class OutdoorManagerTest extends InstrumentationTestCase {
 		verify(outdoorDetailsListener, never()).onNearbyLocationsDataReceived(anyList());
 		verify(outdoorDetailsListener, times(1)).onOneDayWeatherForecastReceived(weatherdtos);
 		verify(outdoorDetailsListener, never()).onFourDayWeatherForecastReceived(anyList());
-		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList());
+//		verify(outdoorDetailsListener, never()).onAQIHistoricalDataReceived(anyList(), "");
 	}
 	
 	public void testGetCityNameFromAreaIdEmpty() {

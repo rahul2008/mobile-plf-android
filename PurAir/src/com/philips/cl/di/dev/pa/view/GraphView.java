@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.view;
 
-import java.util.List;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,13 +14,12 @@ import android.view.View;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.DashboardUtil.Detail;
 import com.philips.cl.di.dev.pa.util.DrawTrend;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 
 
 public class GraphView extends View {
-	
+
 	private DisplayMetrics mDisplayMetrics;
 	private DrawTrend drawTrend;
 	private Paint paint;
@@ -29,30 +28,31 @@ public class GraphView extends View {
 	private float graphWidh;
 	private Coordinates coordinates;
 	private boolean isOutdoor = false;
-	
+
 	public GraphView(Context context) {
 		super(context);
 	}
-	
+
 	public GraphView(Context context, AttributeSet attr) {
 		super(context, attr);
 	}
-	
+
 	public GraphView(Context context, AttributeSet attr, int defStyle) {
 		super(context, attr, defStyle);
 	}
-	
-	public GraphView(Context context, float yCoordinate[]) {
+
+	//Outdoor detail trends
+	public GraphView(Context context, HashMap<Integer, float[]> yCoordinatesMap, boolean multipleTrend ) {
 		super(context);
-		
+
 		this.isOutdoor = true;
-		coordinates = Coordinates.getInstance(context);;
-		
+		coordinates = Coordinates.getInstance(context);
+
 		/** The Graph width.*/
 		mDisplayMetrics = context.getResources().getDisplayMetrics();
 		graphWidh = mDisplayMetrics.widthPixels - coordinates.getOdPaddingRight();
 		paint = new Paint();
-		
+
 		/** Outdoor, y axis label.*/
 		yaxisOutdoorLabel[0] = context.getString(R.string.od_yaxis_label1);
 		yaxisOutdoorLabel[1] = context.getString(R.string.od_yaxis_label2);
@@ -60,35 +60,48 @@ public class GraphView extends View {
 		yaxisOutdoorLabel[3] = context.getString(R.string.od_yaxis_label4);
 		yaxisOutdoorLabel[4] = context.getString(R.string.od_yaxis_label5);
 		yaxisOutdoorLabel[5] = context.getString(R.string.od_yaxis_label6);
-		
-		if (yCoordinate != null) {
-			drawTrend = new DrawTrend(context, graphWidh, yCoordinate);
+		if (yCoordinatesMap != null) {
+			HashMap<Integer, float[]> yCoordinatesMapTemp = new HashMap<Integer, float[]>();
+			if (!multipleTrend) {
+				for (int key : yCoordinatesMap.keySet()) {
+					if (key == Color.RED) {
+						yCoordinatesMapTemp.put(key, yCoordinatesMap.get(key));
+						break;
+					}
+				}
+			} else {
+				yCoordinatesMapTemp.putAll(yCoordinatesMap);
+			}
+			if (!yCoordinatesMapTemp.isEmpty()) {
+				drawTrend = new DrawTrend(context, graphWidh, yCoordinatesMapTemp, multipleTrend);
+			}
 		}
 	}
 
-	public GraphView(Context context, List<float[]> yCoordinates, int position, Detail detail) {
+	//Indoor detail trends
+	public GraphView(Context context, HashMap<Integer, float[]> yCoordinatesMap) {
 		super(context);
 		
 		this.isOutdoor = false;
 		coordinates = Coordinates.getInstance(context);
-		
+
 		/** The Graph width.*/
 		mDisplayMetrics = context.getResources().getDisplayMetrics();
 		graphWidh = mDisplayMetrics.widthPixels - coordinates.getIdPaddingRight();
 		paint = new Paint();
-		
+
 		/** Indoor, y axis label.*/
 		yaxisIndoorLabel[0] = context.getString(R.string.id_yaxis_label1);
 		yaxisIndoorLabel[1] = context.getString(R.string.id_yaxis_label2);
 		yaxisIndoorLabel[2] = context.getString(R.string.id_yaxis_label3);
 		yaxisIndoorLabel[3] = context.getString(R.string.id_yaxis_label4);
-		
-		if (yCoordinates != null) {
-			drawTrend = new DrawTrend(context, graphWidh, yCoordinates, position);
+
+		if (yCoordinatesMap != null && !yCoordinatesMap.isEmpty()) {
+			drawTrend = new DrawTrend(context, graphWidh, yCoordinatesMap);
 		}
-		
+
 	}
-	
+
 	@Override
 	protected void onDraw(final Canvas canvas) {
 		drawBackground(canvas);
@@ -103,10 +116,10 @@ public class GraphView extends View {
 			drawTrend.draw(canvas, paint);
 		}
 	}
-	
+
 	/**The drawBackground(Canvas canvas) method.*/
 	private void drawBackground(Canvas canvas) {
-		
+
 		if (coordinates != null && paint != null) {
 			/** The white background of graph. */
 			paint.setStyle(Paint.Style.FILL);
@@ -115,9 +128,9 @@ public class GraphView extends View {
 					GraphConst.GRAPH_BG_START_YAXIS, graphWidh,
 					coordinates.getIdGraphHeight(), paint);
 		}
-		
+
 	}
-	
+
 	/** The draw Indoor YaxisRect(Canvas canvas) method.*/
 	private void drawIndoorYaxisRect(Canvas canvas) {
 		if (coordinates != null && paint != null && canvas!= null) {
@@ -126,19 +139,19 @@ public class GraphView extends View {
 			paint.setColor(GraphConst.COLOR_RED);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY10(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY4(), paint);
-			
+
 			/** The y axis purple rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_DEEP_PINK);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY4(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY3(), paint);
-			
+
 			/** The y axis navy blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_PURPLE);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY3(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY2(), paint);
-			
+
 			/** The y axis royal blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_STATE_BLUE);
@@ -155,28 +168,28 @@ public class GraphView extends View {
 			paint.setColor(Color.GRAY);
 			paint.setTextAlign(Align.CENTER);
 			paint.setTextSize(coordinates.getIdTxtSize());
-	        canvas.drawText(yaxisIndoorLabel[0], coordinates.getIdRectMarginLeft() / 2, 
-	        		coordinates.getIdY2() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisIndoorLabel[0], 0, 
-	        		yaxisIndoorLabel[0].length(), rect);
-	        canvas.drawText(yaxisIndoorLabel[1], coordinates.getIdRectMarginLeft() / 2, 
-	        		coordinates.getIdY3() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisIndoorLabel[1], 0, 
-	        		yaxisIndoorLabel[1].length(), rect);
-	        canvas.drawText(yaxisIndoorLabel[2], coordinates.getIdRectMarginLeft() / 2, 
-	        		coordinates.getIdY4() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisIndoorLabel[2], 0, 
-	        		yaxisIndoorLabel[2].length(), rect);
-	        canvas.drawText(yaxisIndoorLabel[3], coordinates.getIdRectMarginLeft() / 2, 
-	        		coordinates.getIdY10() + coordinates.getIdYxTopLabelPadding(), paint);
-	        paint.getTextBounds(yaxisIndoorLabel[3], 0, 
-	        		yaxisIndoorLabel[3].length(), rect);
+			canvas.drawText(yaxisIndoorLabel[0], coordinates.getIdRectMarginLeft() / 2, 
+					coordinates.getIdY2() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisIndoorLabel[0], 0, 
+					yaxisIndoorLabel[0].length(), rect);
+			canvas.drawText(yaxisIndoorLabel[1], coordinates.getIdRectMarginLeft() / 2, 
+					coordinates.getIdY3() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisIndoorLabel[1], 0, 
+					yaxisIndoorLabel[1].length(), rect);
+			canvas.drawText(yaxisIndoorLabel[2], coordinates.getIdRectMarginLeft() / 2, 
+					coordinates.getIdY4() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisIndoorLabel[2], 0, 
+					yaxisIndoorLabel[2].length(), rect);
+			canvas.drawText(yaxisIndoorLabel[3], coordinates.getIdRectMarginLeft() / 2, 
+					coordinates.getIdY10() + coordinates.getIdYxTopLabelPadding(), paint);
+			paint.getTextBounds(yaxisIndoorLabel[3], 0, 
+					yaxisIndoorLabel[3].length(), rect);
 		}
-        
+
 	}
-	
-	
-	
+
+
+
 	/** The draw OutDoor YaxisRect(Canvas canvas) method.*/
 	private void drawOutdoorYaxisRect(Canvas canvas) {
 		if (coordinates != null && paint != null && canvas!= null) {
@@ -185,31 +198,31 @@ public class GraphView extends View {
 			paint.setColor(GraphConst.COLOR_RED);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY500(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY300(), paint);
-			
+
 			/** The y axis MediumVioletRed  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_DEEP_PINK);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY300(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY200(), paint);
-			
+
 			/** The y axis MediumOrchid  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_PURPLE);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY200(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY150(), paint);
-			
+
 			/** The y axis MediumPurple  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_INDIGO);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY150(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY100(), paint);
-			
+
 			/** The y axis RoyalBlue  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_ROYAL_BLUE);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY100(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY50(), paint);
-			
+
 			/** The y axis Turquoise  color rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(GraphConst.COLOR_STATE_BLUE);
@@ -226,24 +239,24 @@ public class GraphView extends View {
 			paint.setColor(Color.GRAY);
 			paint.setTextAlign(Paint.Align.CENTER);
 			paint.setTextSize(coordinates.getIdTxtSize());
-	        canvas.drawText(yaxisOutdoorLabel[0], coordinates.getOdRectMarginLeft() / 2, 
-	        		coordinates.getOdY50() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisOutdoorLabel[0], 0, yaxisOutdoorLabel[0].length(), rect);
-	        canvas.drawText(yaxisOutdoorLabel[1], coordinates.getOdRectMarginLeft() / 2, 
-	        		coordinates.getOdY100() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisOutdoorLabel[1], 0, yaxisOutdoorLabel[1].length(), rect);
-	        canvas.drawText(yaxisOutdoorLabel[2], coordinates.getOdRectMarginLeft() / 2, 
-	        		coordinates.getOdY150() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisOutdoorLabel[2], 0, yaxisOutdoorLabel[2].length(), rect);
-	        canvas.drawText(yaxisOutdoorLabel[3], coordinates.getOdRectMarginLeft() / 2, 
-	        		coordinates.getOdY200() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisOutdoorLabel[3], 0, yaxisOutdoorLabel[3].length(), rect);
-	        canvas.drawText(yaxisOutdoorLabel[4], coordinates.getOdRectMarginLeft() / 2, 
-	        		coordinates.getOdY300() + coordinates.getIdYxLabelPadding(), paint);
-	        paint.getTextBounds(yaxisOutdoorLabel[4], 0, yaxisOutdoorLabel[4].length(), rect);
-	        canvas.drawText(yaxisOutdoorLabel[5], coordinates.getOdRectMarginLeft() / 2, 
-	        		coordinates.getOdY500() + coordinates.getIdYxTopLabelPadding(), paint);
-	        paint.getTextBounds(yaxisOutdoorLabel[5], 0, yaxisOutdoorLabel[5].length(), rect);
+			canvas.drawText(yaxisOutdoorLabel[0], coordinates.getOdRectMarginLeft() / 2, 
+					coordinates.getOdY50() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisOutdoorLabel[0], 0, yaxisOutdoorLabel[0].length(), rect);
+			canvas.drawText(yaxisOutdoorLabel[1], coordinates.getOdRectMarginLeft() / 2, 
+					coordinates.getOdY100() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisOutdoorLabel[1], 0, yaxisOutdoorLabel[1].length(), rect);
+			canvas.drawText(yaxisOutdoorLabel[2], coordinates.getOdRectMarginLeft() / 2, 
+					coordinates.getOdY150() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisOutdoorLabel[2], 0, yaxisOutdoorLabel[2].length(), rect);
+			canvas.drawText(yaxisOutdoorLabel[3], coordinates.getOdRectMarginLeft() / 2, 
+					coordinates.getOdY200() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisOutdoorLabel[3], 0, yaxisOutdoorLabel[3].length(), rect);
+			canvas.drawText(yaxisOutdoorLabel[4], coordinates.getOdRectMarginLeft() / 2, 
+					coordinates.getOdY300() + coordinates.getIdYxLabelPadding(), paint);
+			paint.getTextBounds(yaxisOutdoorLabel[4], 0, yaxisOutdoorLabel[4].length(), rect);
+			canvas.drawText(yaxisOutdoorLabel[5], coordinates.getOdRectMarginLeft() / 2, 
+					coordinates.getOdY500() + coordinates.getIdYxTopLabelPadding(), paint);
+			paint.getTextBounds(yaxisOutdoorLabel[5], 0, yaxisOutdoorLabel[5].length(), rect);
 		}
 	}
 

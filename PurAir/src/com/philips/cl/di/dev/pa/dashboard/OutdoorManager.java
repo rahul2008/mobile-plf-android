@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
@@ -224,6 +226,28 @@ public class OutdoorManager implements OutdoorDataListener {
 		return null;
 	}
 	
+	public String getLocaleCityNameFromAreaId(String areaId) {
+		String cityName = AppConstants.EMPTY_STRING;
+		OutdoorCity city = OutdoorManager.getInstance().getCityData(areaId);
+		if(city != null) {
+			OutdoorCityInfo cityInfo = city.getOutdoorCityInfo();
+			if (cityInfo != null) {
+				if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+					cityName = cityInfo.getCityNameCN();
+				} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+					cityName = cityInfo.getCityNameTW();
+				} else {
+					cityName =  AddOutdoorLocationHelper.getFirstWordCapitalInSentence(cityInfo.getCityName()) ;
+				}
+			}
+		}
+		if (usEmbassyCities.contains(areaId)) {
+			cityName = cityName + " (" + PurAirApplication.getAppContext().getString(R.string.us_embassy) +")";
+			
+		}
+		return cityName;
+	}
+	
 	public LocalityInfo getLocalityInfoFromAreaId(String areaId, String localityId) {
 		List<LocalityInfo> nearbyLocations = nearbyCitiesData.getNearbyCitiesMap().get(areaId);
 		if(nearbyLocations == null || nearbyLocations.isEmpty()) return null;
@@ -334,9 +358,9 @@ public class OutdoorManager implements OutdoorDataListener {
 	}
 	
 	@Override
-	public void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis) {
+	public void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis, String areaId) {
 		if( outdoorDetailsListener != null )
-			outdoorDetailsListener.onAQIHistoricalDataReceived(aqis);
+			outdoorDetailsListener.onAQIHistoricalDataReceived(aqis, areaId);
 	}
 	
 	@Override

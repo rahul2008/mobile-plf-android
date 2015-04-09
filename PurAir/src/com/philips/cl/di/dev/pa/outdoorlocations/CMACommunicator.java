@@ -70,7 +70,7 @@ public class CMACommunicator implements DataCommunicator {
 		String dateFormat = Utils.getDate(startDateInMillis) + "," + Utils.getDate(currentChineseDateInMillis) ;
 		
 		String url = cmaHelper.getURL(BASE_URL_AQI, city, AIR_HISTORY, dateFormat) ;
-		TaskGetHttp requestHistoricalAQITask = new TaskGetHttp(url,RequestType.HISTORIAL_AQI.getRequestTypeString(), PurAirApplication.getAppContext(), this);
+		TaskGetHttp requestHistoricalAQITask = new TaskGetHttp(url,RequestType.HISTORIAL_AQI.getRequestTypeString(), city, PurAirApplication.getAppContext(), this);
 		requestHistoricalAQITask.start();
 	}
 
@@ -100,13 +100,18 @@ public class CMACommunicator implements DataCommunicator {
 	}
 	
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {
+		ALog.i(ALog.OUTDOOR_LOCATION, "CMACommunicator for AQIHistoric : response " + responseData);
+		if(isResponseValid(responseCode, responseData, type)) {
+			notifyListeners(responseData, RequestType.valueOf(type), areaId);
+		}
+	}
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String type) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "CMACommunicator : response " + responseData);
 		if(isResponseValid(responseCode, responseData, type)) {
-			notifyListeners(responseData, RequestType.valueOf(type));
+			notifyListeners(responseData, RequestType.valueOf(type), null);
 		}
 	}
 
@@ -115,7 +120,7 @@ public class CMACommunicator implements DataCommunicator {
 				&& !responseData.isEmpty() && type != null && !type.isEmpty();
 	}
 	
-	private void notifyListeners(String responseData, RequestType type) {
+	private void notifyListeners(String responseData, RequestType type, String areaId) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "CMACommunicator$notifyListeners " + type);
 		switch(type) {
 		case CITIES_AQI:
@@ -143,7 +148,7 @@ public class CMACommunicator implements DataCommunicator {
 		case HISTORIAL_AQI:
 			List<OutdoorAQI> historicalOutdoorAQIs = DataParser.parseHistoricalAQIData(responseData);
 			if(historicalOutdoorAQIs != null) {
-				outdoorDataListener.outdoorHistoricalAQIDataReceived(historicalOutdoorAQIs);
+				outdoorDataListener.outdoorHistoricalAQIDataReceived(historicalOutdoorAQIs, areaId);
 			}
 			break;
 		case ALL_CITIES_AQI:

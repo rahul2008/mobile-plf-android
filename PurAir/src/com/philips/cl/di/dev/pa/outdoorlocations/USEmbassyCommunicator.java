@@ -69,7 +69,7 @@ public class USEmbassyCommunicator implements DataCommunicator {
 		} else if (RequestType.HISTORIAL_AQI.equals(type)) {
 			List<OutdoorAQI> historicalOutdoorAQIs = DataParser.parseUSEmbassyHistoricalAQIData(responseData);
 			if(historicalOutdoorAQIs != null) {
-				outdoorDataListener.outdoorHistoricalAQIDataReceived(historicalOutdoorAQIs);
+				outdoorDataListener.outdoorHistoricalAQIDataReceived(historicalOutdoorAQIs, areaId);
 			}
 		}
 	}

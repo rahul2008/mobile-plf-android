@@ -1,58 +1,62 @@
 package com.philips.cl.di.dev.pa.util;
 
 import java.util.Calendar;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.TimeZone;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorDetailFragment;
 
 public class DrawTrend {
 
-	private static final String TAG = DrawTrend.class.getSimpleName();
 	private DrawTrendPaths mPathDraw;
 	private float xCoordinates[];
-	private float yCoordinates[];
+	private HashMap<Integer, float[]> yCoordinatesMap;
 	private String xLabels[];
 	private float xAsixStep;
 	private int noOffxCoordinate;
-	private List<float[]> yAxisValues;
+	private HashMap<Integer, float[]> yAxisValuesMap;
 	float[] yAxisValue;
 	private Coordinates coordinates;
 	private float displayWidth;
 	private float y0;
-	private int position;
 	private boolean isOutdoor;
+	private boolean multipleTrend;
 
 	/**
 	 * Outdoor
 	 * @param context
 	 * @param graphWidh
-	 * @param yAxisValues
+	 * @param yAxisValuesMap
+	 * @param multipleTrend
 	 */
-	public DrawTrend(Context context, float graphWidh, float[] yAxisValue) {
-		this.yAxisValue = yAxisValue;
+	@SuppressLint("UseSparseArrays")
+	public DrawTrend(Context context, float graphWidh, HashMap<Integer, float[]> yAxisValuesMap, boolean multipleTrend) {
+		this.yAxisValuesMap = yAxisValuesMap;
 		this.coordinates = Coordinates.getInstance(context);
 		this.displayWidth = graphWidh;
-		this.isOutdoor = true;
-		if (coordinates != null ) {
+		this.multipleTrend = multipleTrend;
+		yCoordinatesMap = new HashMap<Integer, float[]>();
+		
+		isOutdoor = true;
+		Set<Integer> keysSet= yAxisValuesMap.keySet();
+		if (keysSet != null && !keysSet.isEmpty()) {
 			y0 = coordinates.getOdY0();
-			noOffxCoordinate = yAxisValue.length;
+			noOffxCoordinate = yAxisValuesMap.get(keysSet.toArray()[0]).length;
 			xCoordinates = new float[noOffxCoordinate];
-			yCoordinates = new float[noOffxCoordinate];
 
-			mPathDraw = new DrawTrendPaths(coordinates, true);
+			mPathDraw = new DrawTrendPaths(coordinates, isOutdoor, multipleTrend);
 
 			addXLabelToArry(noOffxCoordinate, displayWidth, context);
 
-			addDIPValueToArray();
+			addDIPValueToArray(multipleTrend);
 		}
 	}
 
@@ -60,35 +64,32 @@ public class DrawTrend {
 	 * Indoor
 	 * @param context
 	 * @param displayWidth
-	 * @param yAxisVal
-	 * @param yAxisValues
-	 * @param powerOnFlgs
-	 * @param position
-	 * @param isOutdoor
+	 * @param yAxisValuesMap
 	 */
-	public DrawTrend(Context context, float displayWidth, List<float[]> yAxisValues, int position) {
-		this.yAxisValues = yAxisValues;
+	@SuppressLint("UseSparseArrays")
+	public DrawTrend(Context context, float displayWidth, HashMap<Integer, float[]> yAxisValuesMap) {
+		this.yAxisValuesMap = yAxisValuesMap;
 		this.coordinates = Coordinates.getInstance(context);
 		this.displayWidth = displayWidth;
-		this.position = position;
-		this.isOutdoor = false;
-		Log.i(TAG, "Is outdoor " + isOutdoor);
-		if (coordinates != null ) {
+		yCoordinatesMap = new HashMap<Integer, float[]>();
+		isOutdoor = false;
+		multipleTrend = false;
+		
+		Set<Integer> keysSet= yAxisValuesMap.keySet();
+		if (keysSet != null && !keysSet.isEmpty()) {
 			if (!isOutdoor) {
 				/**
 				 * Indoor
 				 */
 				y0 = coordinates.getIdY0();
-				noOffxCoordinate = yAxisValues.get(position).length;
+				noOffxCoordinate = yAxisValuesMap.get(keysSet.toArray()[0]).length;
 				xCoordinates = new float[noOffxCoordinate];
-				yCoordinates = new float[noOffxCoordinate];
 			} 
-			mPathDraw = new DrawTrendPaths(coordinates, false);
+			mPathDraw = new DrawTrendPaths(coordinates, isOutdoor, multipleTrend);
 
 			addXLabelToArry(noOffxCoordinate, displayWidth, context);
 
-			addDIPValueToArray();
-
+			addDIPValueToArray(multipleTrend);
 		}
 	}
 
@@ -96,7 +97,37 @@ public class DrawTrend {
 	/** 
 	 * X axis coordinates.
 	 * */
-	private void addDIPValueToArray() {
+	private void addDIPValueToArray(boolean multipleTrend) {
+		addDIPValuesOfXAxis();
+
+		/** 
+		 * Y axis coordinates
+		 * */
+		if (isOutdoor) {
+			/** Y axis coordinate outdoor.*/
+			for (Integer key : yAxisValuesMap.keySet()) {
+				float[] yAxisValue = yAxisValuesMap.get(key);
+				float yCoordinatesTemp[] = new float[yAxisValue.length];
+				for (int i = 0; i < yAxisValue.length; i++) {
+					yCoordinatesTemp[i] = mPathDraw.getOutdoorYcoordinate(yAxisValue[i]);
+				}
+				yCoordinatesMap.put(key, yCoordinatesTemp);
+			}
+		} else {
+			/** Y axis coordinate indoor.*/
+			for (Integer key : yAxisValuesMap.keySet()) {
+				float[] yAxisValue = yAxisValuesMap.get(key);
+				float yCoordinatesTemp[] = new float[yAxisValue.length];
+				for (int i = 0; i < yAxisValue.length; i++) {
+					yCoordinatesTemp[i] = mPathDraw.getIndoorYcoordinate(yAxisValue[i]);
+				}
+				yCoordinatesMap.put(key, yCoordinatesTemp);
+			}
+			
+		}
+	}
+	
+	private void addDIPValuesOfXAxis() {
 		/** X axis coordinates.*/
 		for (int i = 0; i < xCoordinates.length; i++) {
 			if (i == 0) {
@@ -119,21 +150,6 @@ public class DrawTrend {
 				xCoordinates[i] = xCoordinates[i-1] + xAsixStep;
 			}
 		}
-
-		/** 
-		 * Y axis coordinates
-		 * */
-		if (isOutdoor) {
-			/** Y axis coordinate outdoor.*/
-			for (int i = 0; i < yAxisValue.length; i++) {
-				yCoordinates[i] = mPathDraw.getOutdoorYcoordinate(yAxisValue[i]);
-			}
-		} else {
-			/** Y axis coordinate indoor.*/
-			for (int i = 0; i < yAxisValues.get(position).length; i++) {
-				yCoordinates[i] = mPathDraw.getIndoorYcoordinate(yAxisValues.get(position)[i]);
-			}
-		}
 	}
 
 
@@ -142,20 +158,27 @@ public class DrawTrend {
 
 		drawVerticalLineXLable(canvas, paint);
 
-		for (int i = 0; i < xCoordinates.length - 1; i++) {
-			mPathDraw.yCoordinateConditions(xCoordinates[i], yCoordinates[i],
-					xCoordinates[i + 1], yCoordinates[i + 1], canvas, paint, isOutdoor);
-		}
-
-		/** For drawing point x and y axis coordinate.*/
-		for (int i = 0; i < xCoordinates.length; i++) {
-			if (yCoordinates[i] != -1) {
-				mPathDraw.drawPoint(xCoordinates[i], yCoordinates[i], canvas, paint, isOutdoor);
+		for (Integer key : yCoordinatesMap.keySet()) {
+			paint.setColor(key);
+			for (int i = 0; i < xCoordinates.length - 1; i++) {
+				float y1 = yCoordinatesMap.get(key)[i];
+				float y2 = yCoordinatesMap.get(key)[i + 1];
+				float x1 = xCoordinates[i];
+				float x2 = xCoordinates[i + 1];
+				mPathDraw.yCoordinateConditions(x1, y1, x2, y2, canvas, paint, isOutdoor);
+				
+				drawPoint(x1,  y1, canvas, paint);
 			}
-
+			int lastIndex = xCoordinates.length - 1;
+			drawPoint(xCoordinates[lastIndex],  yCoordinatesMap.get(key)[lastIndex], canvas, paint);
 		}
 	}
-
+	
+	private void drawPoint(float x, float y, Canvas canvas, Paint paint) {
+		if (y != -1) {
+			mPathDraw.drawPoint(x,  y, canvas, paint, isOutdoor);
+		}
+	}
 
 	/**
 	 * The method adding x-label into string array.

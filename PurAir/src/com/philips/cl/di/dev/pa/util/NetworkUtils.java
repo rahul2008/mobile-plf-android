@@ -132,7 +132,7 @@ public class NetworkUtils {
 	@SuppressLint("NewApi")
 	public static HttpURLConnection getConnection(URL url, String requestMethod, int connectionTimeout, int lockTimeout) throws IOException {
 		
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		HttpURLConnection conn = null;
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Network wifiNetworkForSocket = getWifiNetworkForSocket(PurAirApplication.getAppContext(),lockTimeout);
