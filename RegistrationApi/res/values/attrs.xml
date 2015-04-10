@@ -1,0 +1,7 @@
+<resources>
+
+    <declare-styleable name="RegistrationFontTextView">
+        <attr name="fontAssetName" format="string" />
+    </declare-styleable>
+
+</resources>

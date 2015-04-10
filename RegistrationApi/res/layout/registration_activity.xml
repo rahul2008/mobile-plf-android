@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/navigation_bar"
+    android:visibility="visible" >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageButton
+            android:id="@+id/backArrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/back_press"
+            android:drawSelectorOnTop="true"
+            android:padding="10dp" />
+
+        <com.philips.cl.di.reg.ui.customviews.XTextview
+            android:id="@+id/action_bar_title"
+            style="@style/style_homescreen_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:text="@string/sign_in" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/main_activity_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:background="@color/bg_color"
+        android:clickable="true"
+        android:orientation="vertical" >
+    </FrameLayout>
+
+</RelativeLayout>

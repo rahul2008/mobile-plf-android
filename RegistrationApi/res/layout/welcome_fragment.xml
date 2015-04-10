@@ -1,0 +1,72 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/main_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/welcome_id"
+            style="@style/titleTextStyle"
+            android:layout_marginTop="@dimen/edit_margin_bottom"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:text="@string/welcome_to_philips" >
+        </TextView>
+
+        <View
+            android:id="@+id/line_id"
+            style="@style/line" >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/email_details"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin" >
+
+            <TextView
+                style="@style/textStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:text="@string/mail_Sent_to" >
+            </TextView>
+
+            <TextView
+                style="@style/textStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:text="@string/check_email" >
+            </TextView>
+
+            <TextView
+                style="@style/textStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:text="@string/continue_use_app" >
+            </TextView>
+        </LinearLayout>
+
+        <View style="@style/line" >
+        </View>
+
+        <LinearLayout
+            android:id="@+id/continue_id"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin" >
+
+            <Button
+                style="@style/buttonStyle"
+                android:background="@drawable/navigation_bar"
+                android:text="@string/continue_login" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

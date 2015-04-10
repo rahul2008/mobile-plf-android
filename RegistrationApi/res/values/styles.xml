@@ -1,20 +1,94 @@
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
+  <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
         -->
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="style_homescreen_title">
+        <item name="android:textSize">@dimen/home_title_fontsize</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/bg_color</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dip</item>
+        <!-- <item name="com.philips.cl.di.kitchenappliances.airfryer:fontAssetName">fonts/CentraleSans-Light.otf</item> -->
+    s</style>
+
+    <style name="style_tab_reg_hint">
+        <item name="android:textSize">@dimen/home_title_fontsize</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/t_textbox</item>
+    </style>
+
+    <style name="btn_create_account" parent="@android:style/Widget.Button">
+        <item name="android:textSize">21sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">10dip</item>
+        <item name="android:background">@drawable/navigation_bar</item>
+    </style>
+
+    <style name="line">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/lineColor</item>
+    </style>
+
+    <style name="password_details">
+        <item name="android:textSize">18sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">#E6E6FA</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">10dip</item>
+    </style>
+
+    <style name="buttonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+    </style>
+
+    <style name="textStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+    </style>
+
+    <style name="textBackground">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/textBackground</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="titleTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/title_text_size_large</item>
+    </style>
 </resources>

@@ -5,5 +5,28 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_traditional_registration">TraditionalRegistration</string>
+    
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="welcome">Welcome!</string>
+    <string name="philips">Myphilips</string>
+    <string name="facebook">Facebook</string>
+    <string name="twitter">Twitter</string>
+    <string name="account_details">By creating an account or signing you certify that you are 16 years or older and your agree to our privacy policy and terms and conditions </string>
+    <string name="related_account">You will need an account to [related content]</string>
+    <string name="password_details">Your password can contain:\n  -Minimum of 8 characters\n  -At least 2 out of 3 types of charecters Letters \n (a-z or (A- Z) digits (0-9) or symbols (*^%)</string>
+    <string name="periodic_offers">I would like to receive periodic offers and updates from philips</string>
+    <string name="create_phi_account">Create MyPhilips Account</string>
+    <string name="create_account">Create Account</string>
+    <string name="or_sign">Or sign in with</string>
+    <string name="first_name">Enter First Name</string>
+    <string name="mail_address">Enter Email Address</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="sign_in_philips">Sign in with my philips</string>
+    <string name="welcome_to_philips">Welcome to MyPhilips</string>
+    <string name="mail_Sent_to">We have sent email to :\nemail@email.net</string>
+    <string name="check_email">When you are ready.Please check your email to activate your account</string>
+    <string name="continue_use_app">You can continue to use the app in the meantime</string>
+    <string name="continue_login">Continue</string>
 
-</resources>
+   </resources>
