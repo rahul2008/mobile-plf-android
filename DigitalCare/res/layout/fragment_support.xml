@@ -7,151 +7,16 @@
         android:id="@+id/optionParent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/activity_bg"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_margin"
-        android:paddingRight="@dimen/activity_margin" 
-        android:background="@color/activity_bg" >
+        android:paddingRight="@dimen/activity_margin" >
 
         <TextView
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
             android:text="@string/how_can_we_help"
             custom:fontAssetName="fonts/centralesans-light.otf" />
-
-        <RelativeLayout
-            android:id="@+id/optionProdDetails"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/optionBtnProdDetails"
-                style="@style/fontButton"
-                android:gravity="start|center"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
-                android:text="@string/opt_view_product_details"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-
-            <ImageView
-                android:id="@+id/optionImgProdDetails"
-                style="@style/supportHomeImageButton"
-                android:contentDescription="@string/opt_view_product_details"
-                android:src="@drawable/support_btn_product_info" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/optionFaq"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/optionBtnFaq"
-                style="@style/fontButton"
-                android:gravity="start|center"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
-                android:text="@string/opt_view_faq"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-
-            <ImageView
-                android:id="@+id/optionImgFaq"
-                style="@style/supportHomeImageButton"
-                android:contentDescription="@string/opt_view_faq"
-                android:src="@drawable/support_btn_read_faq" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/optionContactUs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/optionBtnContactUs"
-                style="@style/fontButton"
-                android:gravity="start|center"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
-                android:text="@string/opt_contact_us"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-
-            <ImageView
-                android:id="@+id/optionImgContactUs"
-                style="@style/supportHomeImageButton"
-                android:contentDescription="@string/opt_contact_us"
-                android:src="@drawable/support_btn_contact_us" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/optionFindPhilips"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/optionBtnFindPhilips"
-                style="@style/fontButton"
-                android:gravity="start|center"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
-                android:text="@string/opt_find_philips_near_you"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-
-            <ImageView
-                android:id="@+id/optionImgFindPhilips"
-                style="@style/supportHomeImageButton"
-                android:contentDescription="@string/opt_find_philips_near_you"
-                android:src="@drawable/support_btn_find_philips" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/optionThinking"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/optionBtnThinking"
-                style="@style/fontButton"
-                android:gravity="start|center"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
-                android:text="@string/opt_what_you_think"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-
-            <ImageView
-                android:id="@+id/optionImgThinking"
-                style="@style/supportHomeImageButton"
-                android:contentDescription="@string/opt_what_you_think"
-                android:src="@drawable/support_btn_tell_us" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/optionRegProd"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="40dp"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
-                android:id="@+id/optionBtnRegProd"
-                style="@style/fontButton"
-                android:background="@drawable/selector_option_prod_reg_button_bg"
-                android:gravity="start|center"
-                android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
-                android:text="@string/opt_register_my_product"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-
-            <ImageView
-                android:id="@+id/optionImgRegProd"
-                style="@style/supportHomeImageButton"
-                android:contentDescription="@string/opt_register_my_product"
-                android:src="@drawable/support_btn_register_product" />
-        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

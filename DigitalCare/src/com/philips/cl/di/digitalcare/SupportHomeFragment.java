@@ -1,18 +1,22 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
-import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
@@ -32,24 +36,17 @@ import com.philips.cl.di.digitalcare.util.Utils;
 
 public class SupportHomeFragment extends DigitalCareBaseFragment {
 
-	private RelativeLayout mContactUs = null;
-	private RelativeLayout mProductDetails = null;
-	private RelativeLayout mFaq = null;
-	private RelativeLayout mFindPhilips = null;
-	private RelativeLayout mWhatYouThink = null;
-	private RelativeLayout mRegisterProduct = null;
-
-	private DigitalCareFontButton mOptionBtnContactUs = null;
-	private DigitalCareFontButton mOptionBtnProdDetails = null;
-	private DigitalCareFontButton mOptionBtnFaq = null;
-	private DigitalCareFontButton mOptionBtnFindPhilips = null;
-	private DigitalCareFontButton mOptionBtnThinking = null;
-	private DigitalCareFontButton mOptionBtnRegisterProduct = null;
+	private RelativeLayout mContactUsLayout = null;
+	private RelativeLayout mProdDetailsLayout = null;
+	private RelativeLayout mFaqLayout = null;
+	private RelativeLayout mPhilipsNearByLayout = null;
+	private RelativeLayout mRateThisAppLayout = null;
+	private RelativeLayout mProductRegistrationLayout = null;
 
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 
-	private static final String TAG = "SupportHomeFragment";
+	private static final String TAG = SupportHomeFragment.class.getSimpleName();
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,14 +61,15 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		for (int btnOption : DigitalCareConfigManager.getFeatureListKeys()) {
-			enableOptionButtons(btnOption);
-		}
 		mOptionParent = (LinearLayout) getActivity().findViewById(
 				R.id.optionParent);
 		mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+
+		for (int btnOption : DigitalCareConfigManager.getFeatureListKeys()) {
+			enableOptionButtons(btnOption);
+		}
 
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
@@ -95,57 +93,34 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	private void enableOptionButtons(int option) {
 		switch (option) {
 		case DigitalCareContants.OPTION_CONTACT_US:
-			mContactUs = (RelativeLayout) getActivity().findViewById(
-					R.id.optionContactUs);
-			mOptionBtnContactUs = (DigitalCareFontButton) getActivity()
-					.findViewById(R.id.optionBtnContactUs);
-			mContactUs.setVisibility(View.VISIBLE);
-			mOptionBtnContactUs.setOnClickListener(this);
-			mOptionBtnContactUs.setTransformationMethod(null);
+
+			mContactUsLayout = createButtonLayout(
+					getString(R.string.opt_contact_us),
+					R.drawable.support_btn_contact_us);
 			break;
 		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
-			mProductDetails = (RelativeLayout) getActivity().findViewById(
-					R.id.optionProdDetails);
-			mOptionBtnProdDetails = (DigitalCareFontButton) getActivity()
-					.findViewById(R.id.optionBtnProdDetails);
-			mProductDetails.setVisibility(View.VISIBLE);
-			mOptionBtnProdDetails.setOnClickListener(this);
-			mOptionBtnProdDetails.setTransformationMethod(null);
+			mProdDetailsLayout = createButtonLayout(
+					getString(R.string.opt_view_product_details),
+					R.drawable.support_btn_product_info);
 			break;
 		case DigitalCareContants.OPTION_FAQ:
-			mFaq = (RelativeLayout) getActivity().findViewById(R.id.optionFaq);
-			mOptionBtnFaq = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.optionBtnFaq);
-			mFaq.setVisibility(View.VISIBLE);
-			mOptionBtnFaq.setOnClickListener(this);
-			mOptionBtnFaq.setTransformationMethod(null);
+			mFaqLayout = createButtonLayout(getString(R.string.opt_view_faq),
+					R.drawable.support_btn_read_faq);
 			break;
 		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
-			mFindPhilips = (RelativeLayout) getActivity().findViewById(
-					R.id.optionFindPhilips);
-			mOptionBtnFindPhilips = (DigitalCareFontButton) getActivity()
-					.findViewById(R.id.optionBtnFindPhilips);
-			mFindPhilips.setVisibility(View.VISIBLE);
-			mOptionBtnFindPhilips.setOnClickListener(this);
-			mOptionBtnFindPhilips.setTransformationMethod(null);
+			mPhilipsNearByLayout = createButtonLayout(
+					getString(R.string.opt_find_philips_near_you),
+					R.drawable.support_btn_find_philips);
 			break;
 		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
-			mWhatYouThink = (RelativeLayout) getActivity().findViewById(
-					R.id.optionThinking);
-			mOptionBtnThinking = (DigitalCareFontButton) getActivity()
-					.findViewById(R.id.optionBtnThinking);
-			mWhatYouThink.setVisibility(View.VISIBLE);
-			mOptionBtnThinking.setOnClickListener(this);
-			mOptionBtnThinking.setTransformationMethod(null);
+			mRateThisAppLayout = createButtonLayout(
+					getString(R.string.opt_what_you_think),
+					R.drawable.support_btn_tell_us);
 			break;
 		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
-			mRegisterProduct = (RelativeLayout) getActivity().findViewById(
-					R.id.optionRegProd);
-			mOptionBtnRegisterProduct = (DigitalCareFontButton) getActivity()
-					.findViewById(R.id.optionBtnRegProd);
-			mRegisterProduct.setVisibility(View.VISIBLE);
-			mOptionBtnRegisterProduct.setOnClickListener(this);
-			mOptionBtnRegisterProduct.setTransformationMethod(null);
+			mProductRegistrationLayout = createButtonLayout(
+					getString(R.string.opt_register_my_product),
+					R.drawable.support_btn_register_product);
 			break;
 		default:
 			break;
@@ -154,19 +129,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void onClick(View view) {
-		int id = view.getId();
-		if (id == R.id.optionBtnContactUs) {
+		if (view == mContactUsLayout) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new ContactUsFragment());
-		} else if (id == R.id.optionBtnProdDetails) {
+		} else if (view == mProdDetailsLayout) {
 			showFragment(new ProductDetailsFragment());
-		} else if (id == R.id.optionBtnFindPhilips) {
+		} else if (view == mPhilipsNearByLayout) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new LocatePhilipsFragment());
-		} else if (id == R.id.optionBtnThinking) {
+		} else if (view == mFaqLayout) {
+
+		} else if (view == mRateThisAppLayout) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new RateThisAppFragment());
-		} else if (id == R.id.optionBtnRegProd) {
+		} else if (view == mProductRegistrationLayout) {
 			showFragment(new ProductRegistrationFragment());
 		}
 	}
@@ -174,5 +150,67 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.actionbar_title_support);
+	}
+
+	/**
+	 * Create RelativeLayout at runTime. RelativeLayout will have button and
+	 * image together.
+	 */
+	private RelativeLayout createButtonLayout(String buttonTitle, int resId) {
+		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		relativeLayout.setLayoutParams(params);
+		relativeLayout
+				.setBackgroundResource(R.drawable.selector_option_button_bg);
+
+		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
+		fontButton.setGravity(Gravity.START | Gravity.CENTER);
+		fontButton.setPadding(250, 0, 0, 0);
+		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
+
+		fontButton.setText(buttonTitle);
+		fontButton.setAlpha(1);
+		relativeLayout.addView(fontButton);
+
+		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
+				.getLayoutParams();
+		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+				RelativeLayout.TRUE);
+		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+				RelativeLayout.TRUE);
+
+		fontButton.setLayoutParams(buttonParams);
+
+		ImageView img = new ImageView(getActivity(), null,
+				R.style.supportHomeImageButton);
+		img.setPadding(60, 40, 40, 40);
+		img.setContentDescription(buttonTitle);
+		img.setImageDrawable(getDrawable(resId));
+
+		relativeLayout.addView(img);
+
+		LayoutParams imgParams = (LayoutParams) img.getLayoutParams();
+		imgParams.height = 210;
+		imgParams.width = 210;
+		img.setLayoutParams(imgParams);
+
+		mOptionParent.addView(relativeLayout);
+
+		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
+				.getLayoutParams();
+		param.topMargin = 40;
+		relativeLayout.setLayoutParams(param);
+
+		relativeLayout.setOnClickListener(this);
+		return relativeLayout;
+	}
+
+	private Drawable getDrawable(int resId) {
+		return getResources().getDrawable(resId);
+	}
+
+	private String getStringResource(int resId) {
+		return getResources().getString(resId);
 	}
 }
