@@ -3,6 +3,7 @@ package com.philips.cl.di.digitalcare.twitter.test;
 import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.util.Log;
 
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationActivity;
@@ -49,7 +50,8 @@ public class TwitterScreenTest extends
 	public void testIsTwitterAuthCallbackIsMocked() {
 		boolean validate = false;
 		String received = mTwitterAuthCallback.getClass().getSimpleName();
-		if (received.equalsIgnoreCase("$Proxy0"))
+		Log.d("Naveen", "TwitterScreenTest : "+ mTwitterAuthCallback.getClass().getSimpleName());
+		if (received.equalsIgnoreCase("$Proxy1"))
 			validate = true;
 		assertTrue(validate);
 	}
