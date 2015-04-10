@@ -646,7 +646,7 @@
     <string name="my_location">我的位置</string>
     <string name="add_outdoor_location">添加位置</string>
     <string name="locating">定位中</string>
-    <string name = "compare_top_three_locations">Compare with the top three locations</string>
+    <string name = "compare_top_three_locations">与位置于前三个地点比较</string>
     
     <!-- About -->
     <string name="about">关于</string>
