@@ -195,8 +195,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
-		OutdoorManager.getInstance().removeUIChangeListener(this);
+		super.onDestroy();		
 	}
 
     @SuppressWarnings("deprecation")
