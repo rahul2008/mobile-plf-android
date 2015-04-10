@@ -275,6 +275,14 @@ public class EWSWifiManager {
 		final ContentResolver cr = ctx.getContentResolver();
 
 		int result;
+		
+		/**
+		 * Android OS Lollipop 5.0 do not have poor network avoidance setting in WI-FI,
+		 * but from sdk some off the device return true (Settings.Global.getInt(cr, AVOID_POOR, SETTING_UNKNOWN))
+		 */
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			return false;
+		}
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
 			// Setting was moved from Secure to Global as of JELLY_BEAN_MR1
