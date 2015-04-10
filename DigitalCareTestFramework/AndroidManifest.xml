@@ -9,7 +9,7 @@
     <!-- android.test.InstrumentationTestRunner -->
     <instrumentation
         android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
-        android:targetPackage="com.philips.cl.di.kitchenappliances.airfryer" />
+        android:targetPackage="com.philips.cl.di.sampledigitalcareapp" />
 
     <application
         android:icon="@drawable/ic_launcher"
