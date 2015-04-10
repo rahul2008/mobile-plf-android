@@ -299,7 +299,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		}
 	}
 
-	public void removeUIChangeListener(OutdoorDataChangeListener listener) {
+	public void removeUIChangeListener() {
 		outdoorDataChangeListener = null;
 	}
 

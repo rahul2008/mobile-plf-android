@@ -84,7 +84,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+		OutdoorManager.getInstance().setUIChangeListener(this);
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		notifyOutdoorPager();
 	}
@@ -92,6 +92,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public void onPause() {
 		super.onPause();
+		OutdoorManager.getInstance().removeUIChangeListener();
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
 	
@@ -174,7 +175,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initDashboardViewPager();
-		OutdoorManager.getInstance().setUIChangeListener(this);
+		
 		OutdoorManager.getInstance().startCitiesTask();
 		ImageButton infoImgBtn = (ImageButton) getView().findViewById(R.id.home_fragment_info_img_btn);
 		infoImgBtn.setOnClickListener(this);
@@ -473,9 +474,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
     }
     
 	public synchronized void notifyOutdoorPager() {
+
 		int count = DashboardUtil.getOutdoorPageCount();
-		outdoorPagerAdapter.setCount(count) ;
-		outdoorPagerAdapter.notifyDataSetChanged() ;
+		outdoorPagerAdapter.setCount(count);
+		outdoorPagerAdapter.notifyDataSetChanged();
 		outdoorViewPager.setCurrentItem(OutdoorManager.getInstance().getOutdoorViewPagerCurrentPage(), true);
 	}
 	
