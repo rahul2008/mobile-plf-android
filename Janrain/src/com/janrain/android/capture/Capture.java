@@ -51,9 +51,9 @@ public class Capture {
 
     final public static String JR_REFRESH_SECRET = "jr_capture_refresh_secret";
     
-    public final static String USER_REG_BASEURL = "https://secure.qat1.philips.co.uk/myphilips/activateUser.jsp?country=";
+    public final static String USER_REG_BASEURL = "https://secure.philips.co.uk/myphilips/activateUser.jsp?country=";
     
-    public final static String USER_REG_RESETPWDURL = "https://secure.qat1.philips.co.uk/myphilips/resetPassword.jsp?country=";
+    public final static String USER_REG_RESETPWDURL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp?country=";
 
     private Capture() {}
 
