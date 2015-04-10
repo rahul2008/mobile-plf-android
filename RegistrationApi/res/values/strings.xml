@@ -28,5 +28,14 @@
     <string name="check_email">When you are ready.Please check your email to activate your account</string>
     <string name="continue_use_app">You can continue to use the app in the meantime</string>
     <string name="continue_login">Continue</string>
+    <string name="verify_email">Please verify your email</string>
+    
+    <string name="sent_email">We have sent an email to:email.email.net </string>
+    <string name="ready_email">When your ready. Please check your email to actviate your account</string>
+    <string name="app_mean_time">You can use the app in the meantime </string>
+    <string name="press_resend">Press "Resend" button if you not received an email</string>
+    <string name="activate_account">I have activated my account</string>
+    <string name="resend">Resend</string>
+    
 
    </resources>

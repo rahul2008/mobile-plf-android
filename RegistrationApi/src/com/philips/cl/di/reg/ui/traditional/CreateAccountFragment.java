@@ -193,6 +193,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment
 	public void onRegisterSuccess() {
 		Toast.makeText(getActivity(), "Registration Success", Toast.LENGTH_LONG)
 				.show();
+		((RegistrationActivity) getActivity()).addFragment(new ActivateAccountFragment());
 	}
 
 	@Override

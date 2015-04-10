@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:id="@+id/main_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_marginTop="@dimen/margin_bottom"
+            android:id="@+id/first_part"
+            style="@style/textStyle"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:text="@string/verify_email" >
+        </TextView>
+
+        <View
+            android:id="@+id/line_id"
+            style="@style/line">
+           
+        </View>
+
+        <LinearLayout
+            android:id="@+id/second_part"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin" >
+
+            <TextView
+                style="@style/textStyle"
+                android:text="@string/sent_email" >
+            </TextView>
+
+            <TextView
+                style="@style/textStyle"
+                android:text="@string/ready_email" >
+            </TextView>
+        </LinearLayout>
+			
+         <LinearLayout
+            android:id="@+id/third_part"
+            style="@style/textBackground"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/resend_details"
+                style="@style/textStyle"
+                android:paddingLeft="@dimen/layout_margin"
+                android:paddingRight="@dimen/layout_margin"
+                android:text="@string/press_resend" >
+            </TextView>
+        </LinearLayout>
+        
+       <LinearLayout
+            android:id="@+id/fourth_part"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/activate_acct_btn"
+                style="@style/buttonStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:background="@drawable/navigation_bar"
+                android:text="@string/activate_account" >
+            </Button>
+            
+            <Button
+                android:id="@+id/resend_btn"
+                style="@style/buttonStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:background="@drawable/navigation_bar"
+                android:text="@string/resend" >
+            </Button>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -30,30 +30,24 @@ public class RegistrationActivity extends FragmentActivity {
 	private final String PROD_CLIENT_ID = "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3";
 	private final String MICROSITE_ID = "81376";
 	private final String REGISTRATION_USE_PROD = "REGISTRATION_USE_PRODUCTION";
+	private final String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
+	private final String EVAL_CLIENT_Id = "6v3yzffu6uxq4k9ctcw4jtd498k8zmtz";
 	private final String TAG = XTextview.class.getSimpleName();
-	
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-		LocalBroadcastManager.getInstance(this).registerReceiver(janrainStatusReceiver, flowFilter);
-		intializeJanrain(true);
 	}
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.registration_activity);
 		mFragmentManager = getSupportFragmentManager();
-
 		initialize();
+		intializeJanrain(true);
 		loadMainFragment();
-		getSupportFragmentManager()
-				.addOnBackStackChangedListener(getListener());
+		getSupportFragmentManager().addOnBackStackChangedListener(getListener());
 	}
 
 	public void loadMainFragment() {
@@ -170,10 +164,14 @@ public class RegistrationActivity extends FragmentActivity {
 	}
 	
 	public void intializeJanrain(boolean isInitialized) {
-		
+		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
+		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+		LocalBroadcastManager.getInstance(this).registerReceiver(janrainStatusReceiver, flowFilter);
 		if (NetworkUtility.getInstance().isOnline()) {
 			JanrainConfigurationSettings user = JanrainConfigurationSettings.getInstance();
-			user.init(getApplicationContext(), PROD_CLIENT_ID, MICROSITE_ID,REGISTRATION_USE_PROD, isInitialized, "en_US");
+			//user.init(getApplicationContext(), PROD_CLIENT_ID, MICROSITE_ID,REGISTRATION_USE_PROD, isInitialized, "en_US");
+			user.init(getApplicationContext(), EVAL_CLIENT_Id, MICROSITE_ID,REGISTRATION_USE_EVAL, isInitialized, "en_US");
 		} else {
 			RLog.d(RLog.APPLICATION, "intializeJanrain : There is No internet");
 		}
