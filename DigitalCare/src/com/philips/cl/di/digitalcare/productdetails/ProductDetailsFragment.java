@@ -12,6 +12,7 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
@@ -24,6 +25,9 @@ import com.philips.cl.di.digitalcare.util.DLog;
 public class ProductDetailsFragment extends DigitalCareBaseFragment {
 
 	private static String TAG = ProductDetailsFragment.class.getSimpleName();
+	private DigitalCareFontButton mBtnManual = null;
+	private DigitalCareFontButton mBtnDownload = null;
+	private DigitalCareFontButton mBtnProductInfo = null;
 
 	/**
 	 * PORTRAIT PHONE
@@ -51,6 +55,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 				R.id.toplayout);
 		mSecondContainer = (RelativeLayout) getActivity().findViewById(
 				R.id.prodbuttons);
+		
+		mBtnManual = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.manual_open);
+		mBtnDownload = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.manual_download);
+		mBtnProductInfo = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.prodinfo_button);
+		mBtnManual.setTransformationMethod(null);
+		mBtnDownload.setTransformationMethod(null);
+		mBtnProductInfo.setTransformationMethod(null);
 
 		mFirstContainerParams = (LinearLayout.LayoutParams) mFirstContainer
 				.getLayoutParams();
@@ -59,7 +73,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment {
 		// init();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
-		
+
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS);
 	}
 

@@ -209,8 +209,4 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	private Drawable getDrawable(int resId) {
 		return getResources().getDrawable(resId);
 	}
-
-	private String getStringResource(int resId) {
-		return getResources().getString(resId);
-	}
 }

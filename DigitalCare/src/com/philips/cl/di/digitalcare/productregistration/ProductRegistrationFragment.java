@@ -7,15 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 
 /**
- *	ProductRegistrationFragment will help to register the particular 
- *	product based of category.
+ * ProductRegistrationFragment will help to register the particular product
+ * based of category.
  * 
  * @author : Ritesh.jha@philips.com
  * 
@@ -25,6 +27,12 @@ public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 	private LinearLayout mProdRegParentFirst = null;
 	private LinearLayout mProdRegParentSecond = null;
 	private LinearLayout.LayoutParams mParams = null;
+
+	private DigitalCareFontButton mBtnTwitter = null;
+	private DigitalCareFontButton mBtnFacebook = null;
+	private DigitalCareFontButton mBtnLinkedin = null;
+	private DigitalCareFontButton mBtnGooglePlus = null;
+	private DigitalCareFontButton mBtnSignUp = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,11 +50,29 @@ public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 		mProdRegParentSecond = (LinearLayout) getActivity().findViewById(
 				R.id.prodRegParentSecond);
 
+		mBtnTwitter = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.socialLoginTwitterBtn);
+		mBtnFacebook = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.socialLoginFacebookBtn);
+		mBtnLinkedin = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.prodRegLinkedinBtn);
+		mBtnGooglePlus = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.prodRegGooglePlusBtn);
+		mBtnSignUp = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.prodRegSignUpBtn);
+
+		mBtnTwitter.setTransformationMethod(null);
+		mBtnFacebook.setTransformationMethod(null);
+		mBtnLinkedin.setTransformationMethod(null);
+		mBtnGooglePlus.setTransformationMethod(null);
+		mBtnSignUp.setTransformationMethod(null);
+
 		mParams = (LayoutParams) mProdRegParentFirst.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
-		
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODUCT_REGISTRATION);
+
+		AnalyticsTracker
+				.trackPage(AnalyticsConstants.PAGE_PRODUCT_REGISTRATION);
 	}
 
 	@Override
@@ -73,7 +99,6 @@ public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources()
-				.getString(R.string.opt_register_my_product);
+		return getResources().getString(R.string.opt_register_my_product);
 	}
 }
