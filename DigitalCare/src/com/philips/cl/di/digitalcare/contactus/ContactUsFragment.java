@@ -1,7 +1,5 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-import java.util.Arrays;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -18,13 +16,11 @@ import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
-import com.facebook.widget.LoginButton;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cl.di.digitalcare.customview.DigitalCareFacebookButton;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
@@ -46,7 +42,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		TwitterAuthenticationCallback, OnClickListener {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private DigitalCareFacebookButton mFacebook = null;
+	private DigitalCareFontButton mFacebook = null;
 	private DigitalCareFontButton mTwitter = null;
 	private DigitalCareFontButton mChat = null;
 	private DigitalCareFontButton mEmail = null;
@@ -99,7 +95,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				R.id.contactUsParent);
 		mChat = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.contactUsChat);
-		mFacebook = (DigitalCareFacebookButton) getActivity().findViewById(
+		mFacebook = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.socialLoginFacebookBtn);
 		mTwitter = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.socialLoginTwitterBtn);
@@ -114,7 +110,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mSecondRowText = (TextView) getActivity().findViewById(
 				R.id.secondRowText);
 		mFacebook.setOnClickListener(this);
-		mFacebook.setReadPermissions(Arrays.asList("public_profile"));
 
 		/*
 		 * Live chat is configurable parameter. Developer can enable/disable it.
@@ -124,9 +119,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 		mChat.setOnClickListener(this);
 		mChat.setTransformationMethod(null);
-		if (!(Utils.isNetworkConnected(getActivity())))
-			mFacebook.setClickable(false);
-
 		mFacebook.setTransformationMethod(null);
 		mCallPhilips.setOnClickListener(this);
 		mCallPhilips.setTransformationMethod(null);
@@ -278,17 +270,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			DLog.d(TAG, "Session - getSession from Facebook SDK "
 					+ mFacebookSession);
 			if (mFacebookSession == null) {
+			DLog.d(TAG, "Session is null so Starting FacebookSession");
 				startFacebookSession();
 			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
+                DLog.d(TAG, "Session is state is CLOSED_LOGIN_FAILED"
+                		+ " so Starting Facebook Session");
 				startFacebookSession();
-			} else if ((mFacebookSession != null)
+			}  else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.OPENED)) {
 				DLog.d(TAG,
 						"Session - getSession from Facebook SDK is not NULL  : "
 								+ mFacebookSession);
 				showFragment(new FacebookScreenFragment());
-				LoginButton.builder = null;
 				DLog.d(TAG, "Session is not null");
 
 			}
