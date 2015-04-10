@@ -112,6 +112,26 @@ public class User {
 					.geterrorList());
 		}
 	}
+	
+	// moved app logic to set user info (traditional login) in diuserprofile to framework.
+	public void registerUserInfoForTraditional(String mGivenName, String mUserEmail, String password, boolean olderThanAgeLimit, 
+			boolean isReceiveMarketingEmail, TraditionalRegistrationHandler traditionalRegisterHandler ){
+		
+		ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
+		
+		DIUserProfile profile = new DIUserProfile();
+		profile.setGivenName(mGivenName);
+		profile.setEmail(mUserEmail);
+		profile.setPassword(password);
+		profile.setOlderThanAgeLimit(olderThanAgeLimit);
+		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
+		
+		userData.add(profile);
+		
+		registerNewUserUsingTraditional(userData, traditionalRegisterHandler);
+		
+	}
+	
 
 	// For Traditional Registration
 	public void registerNewUserUsingTraditional(
@@ -212,6 +232,27 @@ public class User {
 		}
 	}
 
+	// moved app logic to set user info ( social sign in ) in diuserprofile to framework.
+	public void registerUserInfoForSocial(String mGivenName, String mDisplayName, String mFamilyName, String mUserEmail, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
+			SocialProviderLoginHandler socialProviderLoginHandler,
+			String socialRegistrationToken){
+		
+		ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
+		
+		DIUserProfile profile = new DIUserProfile();
+		profile.setGivenName(mGivenName);
+		profile.setDisplayName(mDisplayName);
+		profile.setFamilyName(mFamilyName);
+		profile.setEmail(mUserEmail);
+		profile.setOlderThanAgeLimit(olderThanAgeLimit);
+		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
+		
+		userData.add(profile);
+		
+		completeSocialProviderLogin(userData, socialProviderLoginHandler, socialRegistrationToken);
+		
+	}
+	
 	// For Two Step registration
 	public void completeSocialProviderLogin(ArrayList<DIUserProfile> profile,
 			SocialProviderLoginHandler socialProviderLoginHandler,
