@@ -167,7 +167,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
 		fontButton.setGravity(Gravity.START | Gravity.CENTER);
-		fontButton.setPadding((int) (100 * density), 0, 0, 0);
+		fontButton.setPadding((int) (80 * density), 0, 0, 0);
 		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
 
 		fontButton.setText(buttonTitle);
@@ -190,10 +190,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		relativeLayout.addView(img);
 
 		LayoutParams imgParams = (LayoutParams) img.getLayoutParams();
-		imgParams.height = (int) (40 * density);
-		imgParams.width = (int) (40 * density);
+		imgParams.height = (int) (35 * density);
+		imgParams.width = (int) (35 * density);
 		imgParams.topMargin = imgParams.bottomMargin = imgParams.rightMargin = (int) (10 * density);
-		imgParams.leftMargin = (int) (25 * density);
+		imgParams.leftMargin = (int) (19 * density);
 		img.setLayoutParams(imgParams);
 
 		mOptionParent.addView(relativeLayout);
