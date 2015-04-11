@@ -157,6 +157,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	 * image together.
 	 */
 	private RelativeLayout createButtonLayout(String buttonTitle, int resId) {
+		float density = getResources().getDisplayMetrics().density;
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -166,11 +167,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
 		fontButton.setGravity(Gravity.START | Gravity.CENTER);
-		fontButton.setPadding(250, 0, 0, 0);
+		fontButton.setPadding((int) (100 * density), 0, 0, 0);
 		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
 
 		fontButton.setText(buttonTitle);
-		fontButton.setAlpha(1);
 		relativeLayout.addView(fontButton);
 
 		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
@@ -184,24 +184,24 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		ImageView img = new ImageView(getActivity(), null,
 				R.style.supportHomeImageButton);
-		img.setPadding(60, 40, 40, 40);
+		img.setPadding(0, 0, 0, 0);
 		img.setContentDescription(buttonTitle);
 		img.setImageDrawable(getDrawable(resId));
-
 		relativeLayout.addView(img);
 
 		LayoutParams imgParams = (LayoutParams) img.getLayoutParams();
-		imgParams.height = 210;
-		imgParams.width = 210;
+		imgParams.height = (int) (40 * density);
+		imgParams.width = (int) (40 * density);
+		imgParams.topMargin = imgParams.bottomMargin = imgParams.rightMargin = (int) (10 * density);
+		imgParams.leftMargin = (int) (25 * density);
 		img.setLayoutParams(imgParams);
 
 		mOptionParent.addView(relativeLayout);
 
 		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
 				.getLayoutParams();
-		param.topMargin = 40;
+		param.topMargin = (int) (15 * density);
 		relativeLayout.setLayoutParams(param);
-
 		relativeLayout.setOnClickListener(this);
 		return relativeLayout;
 	}
