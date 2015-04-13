@@ -79,10 +79,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		if (!Utils.isNetworkConnected(getActivity())) {
-			return null;
-		}
-
 		View view = inflater.inflate(R.layout.fragment_contact_us, container,
 				false);
 		return view;
@@ -270,14 +266,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			DLog.d(TAG, "Session - getSession from Facebook SDK "
 					+ mFacebookSession);
 			if (mFacebookSession == null) {
-			DLog.d(TAG, "Session is null so Starting FacebookSession");
+				DLog.d(TAG, "Session is null so Starting FacebookSession");
 				startFacebookSession();
 			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
-                DLog.d(TAG, "Session is state is CLOSED_LOGIN_FAILED"
-                		+ " so Starting Facebook Session");
+				DLog.d(TAG, "Session is state is CLOSED_LOGIN_FAILED"
+						+ " so Starting Facebook Session");
 				startFacebookSession();
-			}  else if ((mFacebookSession != null)
+			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.OPENED)) {
 				DLog.d(TAG,
 						"Session - getSession from Facebook SDK is not NULL  : "
