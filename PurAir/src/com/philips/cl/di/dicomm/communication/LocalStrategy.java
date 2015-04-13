@@ -16,7 +16,7 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	@Override
 	public void getProperties(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity and datamap
 		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.GET, null, responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);
@@ -24,8 +24,8 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	@Override
 	public void putProperties(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
+			int productId, NetworkNode networkNode,
+			ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity
 		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.PUT, dataMap, responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);
@@ -33,7 +33,7 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	@Override
 	public void addProperties(HashMap<String,String> dataMap,String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity
 		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.PUT, dataMap, responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);
@@ -41,23 +41,23 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	@Override
 	public void deleteProperties(String portName, int productId, int arrayPortId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity, make sure local/remote requests support array ports, use arrayPortId
 		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);
 	}
 
 	@Override
-	public void subscribe(String portName,int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
+	public void subscribe(String portName,int productId, int subscriptionTtl, NetworkNode networkNode,
+			ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity		
-		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, getSubscriptionData(), responseHandler, new DISecurity(null));
+		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, getSubscriptionData(subscriptionTtl), responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);
 	}
 
 	@Override
 	public void unsubscribe(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity, requesttype
 		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);

@@ -12,6 +12,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public class ScheduleListPort extends DICommPort {
 	
@@ -20,8 +21,8 @@ public class ScheduleListPort extends DICommPort {
 	private final SchedulerHandler mSchedulerHandler;	
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
 	
-	public ScheduleListPort(NetworkNode networkNode, SchedulerHandler schedulerHandler){
-		super(networkNode);
+	public ScheduleListPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, SchedulerHandler schedulerHandler){
+		super(networkNode,communicationStrategy);
 		mSchedulerHandler = schedulerHandler;
 	}
 	

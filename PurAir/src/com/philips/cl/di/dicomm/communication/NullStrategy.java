@@ -8,39 +8,39 @@ public class NullStrategy extends CommunicationStrategy {
 
 	@Override
 	public void getProperties(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 
 	@Override
 	public void putProperties(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
+			int productId, NetworkNode networkNode,
+			ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 
 	@Override
 	public void addProperties(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
+			int productId, NetworkNode networkNode,
+			ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 
 	@Override
 	public void deleteProperties(String portName, int productId, int arrayPortId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 
 	@Override
-	public void subscribe(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+	public void subscribe(String portName, int productId, int subscriptionTtl,
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 
 	@Override
 	public void unsubscribe(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
+			NetworkNode networkNode, ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED);
 	}
 

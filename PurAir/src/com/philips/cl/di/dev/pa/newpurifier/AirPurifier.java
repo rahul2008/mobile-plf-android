@@ -15,6 +15,8 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.AirPort;
@@ -48,6 +50,8 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	private Runnable mResubscribeRunnable;	
 	protected static final long RESUBSCRIBING_TIME = 300000;
 	
+	private CommunicationStrategy mCommunicationStrategy;
+	
 	public AirPurifier(String eui64, String usn, String ipAddress, String name, 
 			long bootId, ConnectionState connectionState) {
 		mNetworkNode.setBootId(bootId);
@@ -56,12 +60,13 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		mNetworkNode.setIpAddress(ipAddress);
 		mNetworkNode.setName(name);
 		mNetworkNode.setConnectionState(connectionState);
+		mCommunicationStrategy = new CommunicationMarshal();
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
 		mDeviceHandler = new DeviceHandler(this);
 		mSchedulerHandler = new SchedulerHandler(this);
-		mAirPort = new AirPort(mNetworkNode,mDeviceHandler);
-		mFirmwarePort = new FirmwarePort(mNetworkNode);
-		mScheduleListPort = new ScheduleListPort(mNetworkNode, mSchedulerHandler);
+		mAirPort = new AirPort(mNetworkNode,mCommunicationStrategy,mDeviceHandler);
+		mFirmwarePort = new FirmwarePort(mNetworkNode,mCommunicationStrategy);
+		mScheduleListPort = new ScheduleListPort(mNetworkNode, mCommunicationStrategy,mSchedulerHandler);
 		mDISecurity = new DISecurity(this);
 	}
 	

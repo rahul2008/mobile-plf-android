@@ -10,6 +10,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.DeviceHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 
 public class AirPort extends DICommPort {
@@ -21,8 +22,8 @@ public class AirPort extends DICommPort {
 	
 	private AirPortInfo mAirPortInfo;
 	
-	public AirPort(NetworkNode networkNode, DeviceHandler deviceHandler){
-		super(networkNode);
+	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, DeviceHandler deviceHandler){
+		super(networkNode,communicationStrategy);
 		mDeviceHandler = deviceHandler;
 	}
 

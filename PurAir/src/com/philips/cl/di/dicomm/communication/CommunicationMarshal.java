@@ -12,40 +12,40 @@ public class CommunicationMarshal extends CommunicationStrategy {
 
 	@Override
 	public void getProperties(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).getProperties(portName, productId, responseHandler, networkNode);
+			NetworkNode networkNode, ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).getProperties(portName, productId, networkNode, responseHandler);
 	}
 
 	@Override
 	public void putProperties(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).putProperties(dataMap, portName, productId, responseHandler, networkNode);
+			int productId, NetworkNode networkNode,
+			ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).putProperties(dataMap, portName, productId, networkNode, responseHandler);
 	}
 
 	@Override
 	public void addProperties(HashMap<String, String> dataMap, String portName,
-			int productId, ResponseHandler responseHandler,
-			NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).addProperties(dataMap, portName, productId, responseHandler, networkNode);
+			int productId, NetworkNode networkNode,
+			ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).addProperties(dataMap, portName, productId, networkNode, responseHandler);
 	}
 
 	@Override
 	public void deleteProperties(String portName, int productId, int arrayPortId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).deleteProperties(portName, productId, arrayPortId,responseHandler, networkNode);
+			NetworkNode networkNode, ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).deleteProperties(portName, productId, arrayPortId,networkNode, responseHandler);
 	}
 
 	@Override
-	public void subscribe(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).subscribe(portName, productId, responseHandler, networkNode);
+	public void subscribe(String portName, int productId,int subscriptionTtl,
+			NetworkNode networkNode, ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).subscribe(portName, productId,subscriptionTtl, networkNode, responseHandler);
 	}
 
 	@Override
 	public void unsubscribe(String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
-		findAvailableStrategy(networkNode).unsubscribe(portName, productId, responseHandler, networkNode);
+			NetworkNode networkNode, ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).unsubscribe(portName, productId, networkNode, responseHandler);
 	}
 
 	@Override

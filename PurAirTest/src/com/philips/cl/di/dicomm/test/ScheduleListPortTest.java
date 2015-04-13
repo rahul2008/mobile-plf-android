@@ -193,12 +193,12 @@ public class ScheduleListPortTest extends TestCase {
 	}	
 	
 	private SchedulePortInfo parseSingleScheduledata(String data){
-		ScheduleListPort scheduleListPort = new ScheduleListPort(null, null);
+		ScheduleListPort scheduleListPort = new ScheduleListPort(null, null,null);
 		return scheduleListPort.parseResponseAsSingleSchedule(data);
 	}
 	
 	private List<SchedulePortInfo> parseScheduleListdata(String data){
-		ScheduleListPort scheduleListPort = new ScheduleListPort(null, null);
+		ScheduleListPort scheduleListPort = new ScheduleListPort(null, null,null);
 		return scheduleListPort.parseResponseAsScheduleList(data);
 	}
 }
