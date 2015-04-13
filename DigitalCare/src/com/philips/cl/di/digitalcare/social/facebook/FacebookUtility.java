@@ -175,6 +175,7 @@ public class FacebookUtility {
 						DLog.d(TAG, posted);
 						Toast.makeText(mActivity, posted, Toast.LENGTH_LONG)
 								.show();
+						postResponse(response);
 					}
 				});
 
@@ -230,22 +231,16 @@ public class FacebookUtility {
 	 * Sharing text in facebook.
 	 */
 	private void shareStatusUpdate() {
-		Request request = Request.newStatusUpdateRequest(
-				Session.getActiveSession(), "Session", new Request.Callback() {
-
-					@Override
-					public void onCompleted(Response response) {
-						DLog.d(TAG,
-								"Shared Status Successful to Facebook 'response'"
-										+ response);
-						postResponse(response);
-
-					}
-				});
-		Bundle params = request.getParameters();
+		Bundle params = new Bundle();
 		params.putString("message", mContentDescription);
-		request.setParameters(params);
-		request.executeAsync();
+		new Request(Session.getActiveSession(), "/PhilipsIndia/feed", params,
+				HttpMethod.POST, new Request.Callback() {
+					public void onCompleted(Response response) {
+						DLog.d(TAG, "MEssage Response Callback : " + response);
+						postResponse(response);
+					}
+				}).executeAsync();
+
 	}
 
 	/**
