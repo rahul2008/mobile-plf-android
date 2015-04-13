@@ -7,9 +7,9 @@ package com.philips.cl.di.digitalcare.util;
  * @since: Dec 5, 2014
  */
 public class DigitalCareContants {
-	public static final int OPTION_CONTACT_US = 1;
-	public static final int OPTION_PRODUCS_DETAILS = 2;
-	public static final int OPTION_FAQ = 3;
+	public static final int OPTION_PRODUCS_DETAILS = 1;
+	public static final int OPTION_FAQ = 2;
+	public static final int OPTION_CONTACT_US = 3;
 	public static final int OPTION_FIND_PHILIPS_NEARBY = 4;
 	public static final int OPTION_WHAT_ARE_YOU_THINKING = 5;
 	public static final int OPTION_REGISTER_PRODUCT = 6;

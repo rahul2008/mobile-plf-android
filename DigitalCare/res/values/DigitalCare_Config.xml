@@ -42,9 +42,9 @@
 
     <!-- Suppport page contains these fetaures -->
     <string-array name="supported_features">
-        <item name="CONTACT US "> 1 </item>
-        <item name="VIEW PRODUCT DETAILS"> 2 </item>
-        <item name="FAQ"> 3 </item>
+        <item name="VIEW PRODUCT DETAILS"> 1 </item>
+        <item name="FAQ"> 2 </item>
+        <item name="CONTACT US "> 3 </item>
         <item name="FIND PHILIPS NEARBY"> 4 </item>
         <item name="TELL US YOUR THINKING"> 5 </item>
         <item name="REGISTER MY PRODUCT"> 6 </item>

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -153,8 +154,12 @@ public class FacebookUtility {
 	private void shareImage() {
 		DLog.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
 
-		Request request = Request.newUploadPhotoRequest(
-				Session.getActiveSession(), mImageToUpload,
+		Bundle params = new Bundle();
+		params.putParcelable("source", mImageToUpload);
+		params.putString("message", mContentDescription);
+
+		Request request = new Request(Session.getActiveSession(),
+				"Philips/photos", params, HttpMethod.POST,
 				new Request.Callback() {
 
 					@Override
@@ -173,8 +178,6 @@ public class FacebookUtility {
 					}
 				});
 
-		Bundle params = request.getParameters();
-		params.putString("message", mContentDescription);
 		request.setParameters(params);
 		request.executeAsync();
 	}
