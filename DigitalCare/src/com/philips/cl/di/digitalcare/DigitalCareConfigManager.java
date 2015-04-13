@@ -34,7 +34,6 @@ public class DigitalCareConfigManager {
 	private static final String DEFAULT_COUNTRY = "GB";
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
-	private static final String DEFAULT_USA = DEFAULT_LANGAUGE + "_US";
 
 	// Twitter APP SDK API KEYS
 	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
@@ -125,21 +124,26 @@ public class DigitalCareConfigManager {
 	/*
 	 * CDLS category.
 	 * 
-	 * Link for Other countries:
-	 * http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR
-	 * .querytype.(fallback)
-	 * 
-	 * Link for US:
+	 * Primary Category(Sub Category):
 	 * http://www.philips.com/prx/cdls/B2C/en_US/CARE/MENS_SHAVING_CA.querytype
 	 * .(fallback)
 	 * 
-	 * So if the locale is "en_US" then category is changed.
+	 * Secondary category(Base category):
+	 * http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR
+	 * .querytype.(fallback)
+	 * 
+	 * TODO: Later on FallBack scenario can be added for CDLS. i.e, First time
+	 * CDLS will be try to primary category and if its not available then only
+	 * it will try for secondary sub category(one dipper category);
 	 */
-	public static String getCdlsCategory() {
-		return getLocale().equalsIgnoreCase(DEFAULT_USA) ? mContext
-				.getResources().getString(R.string.cdls_category_usa)
-				: mContext.getResources().getString(
-						R.string.cdls_category_primary);
+	public static String getCdlsPrimarySubCategory() {
+		return mContext.getResources()
+				.getString(R.string.cdls_category_primary);
+	}
+
+	public static String getCdlsSecondaryCategory() {
+		return mContext.getResources().getString(
+				R.string.cdls_category_secondry);
 	}
 
 	/*

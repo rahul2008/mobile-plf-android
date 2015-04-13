@@ -56,10 +56,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	// CDLS related
 	private CdlsRequestTask mCdlsRequestTask = null;
-	// private static final String mURL =
-	// "http://www.philips.com/prx/cdls/B2C/de_DE/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
-	// private static final String mURL =
-	// "http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR.querytype.(fallback)";
 	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/prx/cdls/B2C/";
 	private static final String CDLS_BASE_URL_POSTFIX = ".querytype.(fallback)";
 
@@ -138,7 +134,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 */
 	private String formCdlsURL() {
 		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
-				+ DigitalCareConfigManager.getCdlsCategory()
+				+ DigitalCareConfigManager.getCdlsPrimarySubCategory()
 				+ CDLS_BASE_URL_POSTFIX;
 	}
 
