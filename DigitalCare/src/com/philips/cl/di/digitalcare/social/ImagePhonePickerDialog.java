@@ -94,12 +94,20 @@ public class ImagePhonePickerDialog extends Dialog implements
 		case LIBRARY_BUTTON:
 			DLog.d("IMAGE", "LIbrary Button");
 
-			Intent intent = new Intent();
+		Intent intent = new Intent();
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			mContext.startActivityForResult(
 					Intent.createChooser(intent, "Complete action using"),
 					DigitalCareContants.IMAGE_PICK);
+			
+			
+			/*Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+			        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+			// Start the Intent
+			mContext.startActivityForResult(galleryIntent, DigitalCareContants.IMAGE_PICK);*/
+			
+			
 			dismiss();
 			break;
 		case CAMERA_BUTTON:
