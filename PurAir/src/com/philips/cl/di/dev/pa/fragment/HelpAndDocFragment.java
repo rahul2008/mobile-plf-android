@@ -184,6 +184,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			SupportUtil.startNewActivity(getActivity(), "com.tencent.mm");
 			break;
 		case R.id.qr_Code:
+			if (getActivity() == null) return;
 			MetricsTracker.trackActionServiceRequest("QR_Code");
 			SupportUtil.gotoWebsite(getActivity(), AppConstants.QR_CODE_LINK );
 			break;
