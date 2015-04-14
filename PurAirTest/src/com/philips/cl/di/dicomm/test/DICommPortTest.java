@@ -49,7 +49,7 @@ public class DICommPortTest extends MockitoTestCase{
 	public void testPutProperties(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		
-		verify(mCommunicationStrategy,times(1)).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), any(ResponseHandler.class));
+		verifyPutPropertiesCalled(true);
 		HashMap<String, String> capturedMap = mMapCaptor.getValue();
 		assertTrue(capturedMap.containsKey(FANSPEED_KEY));
 		assertEquals(FANSPEED_VALUE, capturedMap.get(FANSPEED_KEY));
@@ -58,33 +58,148 @@ public class DICommPortTest extends MockitoTestCase{
 	
 	public void testGetProperties(){
 		mDICommPort.getProperties();
-		
-		verify(mCommunicationStrategy,times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), any(ResponseHandler.class));
+		verifyGetPropertiesCalled(true);
 	}
 	
 	public void testSubscribe(){
 		mDICommPort.subscribe();
-		
-		verify(mCommunicationStrategy,times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(DICommPort.SUBSCRIPTION_TTL) ,eq(mNetworkNode), any(ResponseHandler.class));
+		verifySubscribeCalled(true);
 	}
 	
 	public void testUnsubscribe(){
 		mDICommPort.unsubscribe();
-		
-		verify(mCommunicationStrategy,times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(mNetworkNode), any(ResponseHandler.class));
+		verifyUnsubscribeCalled(true);
 	}
 	
-	public void testPeformSubscribeAfterPutProperties(){
+	public void testPeformSubscribeAfterPutPropertiesSuccess(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-		verify(mCommunicationStrategy,times(1)).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
-		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
-		mDICommPort.subscribe();
-		verify(mCommunicationStrategy,never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(DICommPort.SUBSCRIPTION_TTL) ,eq(mNetworkNode), any(ResponseHandler.class));
-		responseHandler.onSuccess(null);
-		verify(mCommunicationStrategy,times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(DICommPort.SUBSCRIPTION_TTL) ,eq(mNetworkNode), any(ResponseHandler.class));
+		verifyPutPropertiesCalled(true);
+		
+		mDICommPort.subscribe();		
+		verifySubscribeCalled(false);
+		
+		mResponseHandlerCaptor.getValue().onSuccess(null);
+		verifySubscribeCalled(true);		
 	}
 	
 	
+	public void testPerformUnsubscribeAfterPutPropertiesSuccess(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		
+		mDICommPort.unsubscribe();		
+		verifyUnsubscribeCalled(false);
+		
+		mResponseHandlerCaptor.getValue().onSuccess(null);
+		verifyUnsubscribeCalled(true);
+	}
+	
+	public void testDoNotPerformGetAfterPutPropertiesSuccess(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		
+		mDICommPort.getProperties();		
+		verifyGetPropertiesCalled(false);
+		
+		mResponseHandlerCaptor.getValue().onSuccess(null);
+		verifyGetPropertiesCalled(false);
+	}
+	
+	public void testDoNotPerformPutAfterPutPropertiesSuccess(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+		reset(mCommunicationStrategy);
+		
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(false);
+		
+		responseHandler.onSuccess(null);
+		verifyPutPropertiesCalled(true);
+	}
+	
+	public void testPeformSubscribeAfterPutPropertiesError(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		
+		mDICommPort.subscribe();		
+		verifySubscribeCalled(false);
+		
+		mResponseHandlerCaptor.getValue().onError(null);
+		verifySubscribeCalled(true);		
+	}
+	
+	
+	public void testPerformUnsubscribeAfterPutPropertiesError(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		
+		mDICommPort.unsubscribe();		
+		verifyUnsubscribeCalled(false);
+		
+		mResponseHandlerCaptor.getValue().onError(null);
+		verifyUnsubscribeCalled(true);
+	}
+	
+	public void testDoNotPerformGetAfterPutPropertiesError(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		
+		mDICommPort.getProperties();		
+		verifyGetPropertiesCalled(false);
+		
+		mResponseHandlerCaptor.getValue().onError(null);
+		verifyGetPropertiesCalled(true);
+	}
+	
+	public void testDoNotPerformPutAfterPutPropertiesError(){
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(true);
+		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+		reset(mCommunicationStrategy);
+		
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		verifyPutPropertiesCalled(false);
+		
+		responseHandler.onError(null);
+		verifyPutPropertiesCalled(true);
+	}
+	
+	// subsbcribe: test subscribe after subscribe and get after subscribe (also error)
+	// unsubsbcribe: test unsubscribe after unsubscribe and get after unsubscribe (also error)
+	// get: test get after get (also error)
+	
+	private void verifyPutPropertiesCalled(boolean invoked) {
+		if (invoked) {
+			verify(mCommunicationStrategy,times(1)).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+		} else {
+			verify(mCommunicationStrategy,never()).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
+		}
+	}
+	
+	private void verifyGetPropertiesCalled(boolean invoked) {
+		if (invoked) {
+			verify(mCommunicationStrategy,times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), any(ResponseHandler.class));
+		} else {
+			verify(mCommunicationStrategy,never()).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), any(ResponseHandler.class));
+		}
+	}
+
+	private void verifySubscribeCalled(boolean invoked) {
+		if (invoked) {
+			verify(mCommunicationStrategy,times(1)).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(DICommPort.SUBSCRIPTION_TTL) ,eq(mNetworkNode), any(ResponseHandler.class));
+		} else {
+			verify(mCommunicationStrategy,never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(DICommPort.SUBSCRIPTION_TTL) ,eq(mNetworkNode), any(ResponseHandler.class));
+		}
+	}
+	
+	private void verifyUnsubscribeCalled(boolean invoked) {
+		if (invoked) {
+			verify(mCommunicationStrategy,times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID) ,eq(mNetworkNode), any(ResponseHandler.class));
+		} else {
+			verify(mCommunicationStrategy,never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID) ,eq(mNetworkNode), any(ResponseHandler.class));
+		}
+	}
 	
 	
 	public class DICommPortImpl extends DICommPort{
