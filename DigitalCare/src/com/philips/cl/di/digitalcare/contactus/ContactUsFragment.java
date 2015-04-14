@@ -322,11 +322,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 */
 	private void fadeoutButtons() {
 		tagTechnicalError();
-		mCallPhilips
-				.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-		mCallPhilips.setEnabled(false);
-		mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-		mChat.setEnabled(false);
+		if (mCallPhilips != null) {
+			mCallPhilips
+					.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+			mCallPhilips.setEnabled(false);
+		}
+		if (mChat != null) {
+			mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+			mChat.setEnabled(false);
+		}
 	}
 
 	@Override
