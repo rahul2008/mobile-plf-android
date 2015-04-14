@@ -65,11 +65,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private TextView mCharacterCount = null;
 	private ProgressDialog mPostProgress = null;
 	private LayoutParams mContainerParams = null;
-
+	private static String mTwitter_to = null;;
+	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
 	private ImageView mTwitterIcon = null;
-
-	private final String PRODCUT_INFO = "@PhilipsCare <Product specific as well as locale specific content from CDLS>";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,6 +80,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				TwitterAuthentication.PREF_NAME, 0);
 		mUsername = mSharedPreferences.getString(
 				TwitterAuthentication.PREF_USER_NAME, "");
+		mTwitter_to = "@"
+				+ getActivity().getResources().getString(
+						R.string.twitter_support_to_address) + " ";
+		mProductInformation = getActivity().getResources().getString(
+				R.string.support_productinformation)
+				+ " ";
 		DLog.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
 		return mTwitterView;
 	}
@@ -129,6 +134,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mCheckBox.setOnCheckedChangeListener(this);
 		mEditText.addTextChangedListener(this);
 		setLimitToEditText(mEditText);
+		enableCheckBoxonOpen();
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
 
@@ -149,7 +155,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		new TwitterPost(getActivity(), mFile, this).execute(mEditText.getText()
 				.toString());
 		mPostProgress = new ProgressDialog(getActivity());
-		mPostProgress.setMessage("Posting to Philips Twitter Support...");
+		mPostProgress.setMessage(getActivity().getResources().getString(
+				R.string.twitter_post_progress_message));
 		mPostProgress.setCancelable(false);
 	}
 
@@ -159,22 +166,23 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 		if (isChecked) {
 			DLog.d(TAG, "Checked True+++++++");
-			DLog.d(TAG, "Before : " + mEditText.getText().toString());
-			mContent = PRODCUT_INFO + " " + mEditText.getText().toString();
+			mContent = mEditText.getText().toString() + " "
+					+ mProductInformation;
 			if (mContent.length() < 140)
 				mEditText.setText(mContent);
 			else
 				Toast.makeText(
 						getActivity(),
-						"Twitter Text Exceding 140 Characters to add the Description!!",
+						getActivity().getResources().getString(
+								R.string.twitter_post_char_limitation),
 						Toast.LENGTH_SHORT).show();
 			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		} else {
 			DLog.d(TAG, "Checked False++++++++");
 			DLog.d(TAG, "Before : " + mEditText.getText().toString());
 			mContent = mEditText.getText().toString();
-			if (mContent.contains(PRODCUT_INFO)) {
-				mContent = mContent.replace(PRODCUT_INFO, "").trim();
+			if (mContent.contains(mProductInformation)) {
+				mContent = mContent.replace(mProductInformation, "").trim();
 			}
 			mEditText.setText(mContent);
 			DLog.d(TAG, "After : " + mEditText.getText().toString());
@@ -211,19 +219,16 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
+
 		if (s.length() <= 140)
 			mCharacterCount.setText(String.valueOf(s.length()));
-		else {
-			Toast.makeText(
-					getActivity(),
-					"Twitter Text Exceding 140 Characters to add the Description!!",
-
-					Toast.LENGTH_SHORT).show();
-		}
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
+
+		if (!(s.toString().startsWith(mTwitter_to)))
+			mEditText.setText(mTwitter_to);
 
 	}
 
@@ -275,7 +280,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				AnalyticsTracker.trackAction(
 						AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
 						AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, socialType);
-				Toast.makeText(getActivity(), "Posted Successfully!!",
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.social_post_success),
 						Toast.LENGTH_SHORT).show();
 				closeProgress();
 				backstackFragment();
@@ -288,7 +296,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getActivity(), "Failed to post..",
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.social_post_failed),
 						Toast.LENGTH_SHORT).show();
 				closeProgress();
 			}
@@ -308,5 +319,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private void setLimitToEditText(EditText editText) {
 		editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
 				140) });
+		editText.setText(mTwitter_to);
+	}
+
+	private void enableCheckBoxonOpen() {
+		mCheckBox.setChecked(true);
+		/*mEditText.setText(mEditText.getText().toString() + " "
+				+ mProductInformation);*/
 	}
 }
