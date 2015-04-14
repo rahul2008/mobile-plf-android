@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -62,6 +63,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		FontTextView lblAppTutorial=(FontTextView) rootView.findViewById(R.id.app_tutorial);
 		FontTextView lblFAQ= (FontTextView) rootView.findViewById(R.id.faq);
 		FontTextView lblUserManual=(FontTextView) rootView.findViewById(R.id.lbl_user_manual);
+		FontTextView qrCode=(FontTextView) rootView.findViewById(R.id.qr_Code);
 		FontTextView lblOpensource = (FontTextView) rootView.findViewById(R.id.opensource_lb);
 		faqAC4373 = (FontTextView) rootView.findViewById(R.id.faq_ac4373);
 		faqAC4375 = (FontTextView) rootView.findViewById(R.id.faq_ac4375);
@@ -88,6 +90,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		
 		lblFAQ.setOnClickListener(this);
 		lblUserManual.setOnClickListener(this);
+		qrCode.setOnClickListener(this);
 		
 		RelativeLayout diagnostics = (RelativeLayout) rootView.findViewById(R.id.layout_email_us);
 		diagnostics.setOnClickListener(this);
@@ -179,6 +182,10 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			MetricsTracker.trackActionServiceRequest("we_chat");
 			MetricsTracker.trackActionExitLink("we_chat");
 			SupportUtil.startNewActivity(getActivity(), "com.tencent.mm");
+			break;
+		case R.id.qr_Code:
+			MetricsTracker.trackActionServiceRequest("QR_Code");
+			SupportUtil.gotoWebsite(getActivity(), AppConstants.QR_CODE_LINK );
 			break;
 		default:
 			break;

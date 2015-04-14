@@ -282,5 +282,7 @@ public class AppConstants {
 	
 	public static final String SHARE_DASHBOARD = "PhilipsAir.png";
 	
+	public static final String QR_CODE_LINK = "www.philips-smartairpurifier.com";
+	
 	
 }
