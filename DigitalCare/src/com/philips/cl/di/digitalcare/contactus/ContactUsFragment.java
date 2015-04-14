@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,6 +54,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private TextView mSecondRowText = null;
 	private TextView mContactUsOpeningHours = null;
 	private String mCdlsResponseStr = null;
+	private View mView = null;
 
 	// CDLS related
 	private CdlsRequestTask mCdlsRequestTask = null;
@@ -64,6 +66,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		DLog.i(TAG, "ContactUsFragment : onCreate");
 		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formCdlsURL(),
 				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
@@ -75,54 +78,63 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_contact_us, container,
-				false);
-		return view;
+		if (mView == null) {
+			mView = inflater.inflate(R.layout.fragment_contact_us, container,
+					false);
+		}
+		return mView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mConactUsParent = (LinearLayout) getActivity().findViewById(
-				R.id.contactUsParent);
-		mChat = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.contactUsChat);
-		mFacebook = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.socialLoginFacebookBtn);
-		mTwitter = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.socialLoginTwitterBtn);
-		mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.contactUsCall);
-		mEmail = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.contactUsEmail);
-		mContactUsOpeningHours = (TextView) getActivity().findViewById(
-				R.id.contactUsOpeningHours);
-		mFirstRowText = (TextView) getActivity()
-				.findViewById(R.id.firstRowText);
-		mSecondRowText = (TextView) getActivity().findViewById(
-				R.id.secondRowText);
-		mFacebook.setOnClickListener(this);
+		Log.i(TAG,
+				"ContactUsFragment : onActivityCreated : mConactUsParent == "
+						+ mConactUsParent);
+		if (mConactUsParent == null) {
+			mConactUsParent = (LinearLayout) getActivity().findViewById(
+					R.id.contactUsParent);
+			mChat = (DigitalCareFontButton) getActivity().findViewById(
+					R.id.contactUsChat);
+			mFacebook = (DigitalCareFontButton) getActivity().findViewById(
+					R.id.socialLoginFacebookBtn);
+			mTwitter = (DigitalCareFontButton) getActivity().findViewById(
+					R.id.socialLoginTwitterBtn);
+			mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
+					R.id.contactUsCall);
+			mEmail = (DigitalCareFontButton) getActivity().findViewById(
+					R.id.contactUsEmail);
+			mContactUsOpeningHours = (TextView) getActivity().findViewById(
+					R.id.contactUsOpeningHours);
+			mFirstRowText = (TextView) getActivity().findViewById(
+					R.id.firstRowText);
+			mSecondRowText = (TextView) getActivity().findViewById(
+					R.id.secondRowText);
+			mFacebook.setOnClickListener(this);
 
-		/*
-		 * Live chat is configurable parameter. Developer can enable/disable it.
-		 */
-		if (!getResources().getBoolean(R.bool.live_chat_required)) {
-			mChat.setVisibility(View.GONE);
+			/*
+			 * Live chat is configurable parameter. Developer can enable/disable
+			 * it.
+			 */
+			if (!getResources().getBoolean(R.bool.live_chat_required)) {
+				mChat.setVisibility(View.GONE);
+			}
+			mChat.setOnClickListener(this);
+			mChat.setTransformationMethod(null);
+			mFacebook.setTransformationMethod(null);
+			mCallPhilips.setOnClickListener(this);
+			mCallPhilips.setTransformationMethod(null);
+			mTwitter.setOnClickListener(this);
+			mTwitter.setTransformationMethod(null);
+			mEmail.setOnClickListener(this);
+			mEmail.setTransformationMethod(null);
+			mParams = (FrameLayout.LayoutParams) mConactUsParent
+					.getLayoutParams();
+			Configuration config = getResources().getConfiguration();
+			setViewParams(config);
+
+			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 		}
-		mChat.setOnClickListener(this);
-		mChat.setTransformationMethod(null);
-		mFacebook.setTransformationMethod(null);
-		mCallPhilips.setOnClickListener(this);
-		mCallPhilips.setTransformationMethod(null);
-		mTwitter.setOnClickListener(this);
-		mTwitter.setTransformationMethod(null);
-		mEmail.setOnClickListener(this);
-		mEmail.setTransformationMethod(null);
-		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
-		Configuration config = getResources().getConfiguration();
-		setViewParams(config);
-
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 
 		if (!Utils.isNetworkConnected(getActivity())) {
 			return;
