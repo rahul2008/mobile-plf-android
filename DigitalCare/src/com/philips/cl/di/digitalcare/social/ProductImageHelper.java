@@ -209,7 +209,7 @@ public class ProductImageHelper {
 			else if (isDownloadsDocument(uri)) {
 
 				final String id = DocumentsContract.getDocumentId(uri);
-				long mId = Long.valueOf(id);
+				long mId = Long.parseLong(id);
 				Uri mUri = Uri.parse("content://downloads/public_downloads");
 				final Uri contentUri = ContentUris.withAppendedId(
 						mUri,
