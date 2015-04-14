@@ -69,6 +69,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
 	private ImageView mTwitterIcon = null;
+	private final int TWITTER_TEXT = 140;
+	private final int TWITTER_TEXT_WITH_IMAGE = 117;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,7 +135,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductCloseButton.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
 		mEditText.addTextChangedListener(this);
-		setLimitToEditText(mEditText);
+		setLimitToEditText(mEditText, TWITTER_TEXT);
 		enableCheckBoxonOpen();
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
@@ -259,6 +261,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
+		setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
 	}
 
 	@Override
@@ -269,6 +272,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.GONE);
+		setLimitToEditText(mEditText, TWITTER_TEXT);
 	}
 
 	@Override
@@ -316,15 +320,19 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		return getResources().getString(R.string.opt_contact_us);
 	}
 
-	private void setLimitToEditText(EditText editText) {
+	private void setLimitToEditText(EditText editText, int limit) {
+
+		String mExisting = editText.getText().toString();
+		editText.setText(null);
 		editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
-				140) });
-		editText.setText(mTwitter_to);
+				limit) });
+		editText.setText(mExisting);
+		if (editText.getText().toString() == null)
+			editText.setText(mTwitter_to);
 	}
 
 	private void enableCheckBoxonOpen() {
 		mCheckBox.setChecked(true);
-		/*mEditText.setText(mEditText.getText().toString() + " "
-				+ mProductInformation);*/
+
 	}
 }
