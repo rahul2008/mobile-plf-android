@@ -63,7 +63,7 @@
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/selector_no_thanks_button_bg"
-                    android:text="@string/social_login_cancel"
+                    android:text="@string/cancel"
                     android:textColor="@color/button_bg"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
@@ -88,7 +88,7 @@
                     android:id="@+id/chatNoThanksLand"
                     style="@style/fontButton"
                     android:background="@drawable/selector_no_thanks_button_bg"
-                    android:text="@string/social_login_cancel"
+                    android:text="@string/cancel"
                     android:layout_marginTop="0dp"
                     android:textColor="@color/button_bg"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
