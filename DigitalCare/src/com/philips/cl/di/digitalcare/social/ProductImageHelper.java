@@ -21,7 +21,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.view.View;
 
@@ -48,6 +47,7 @@ public class ProductImageHelper {
 	TabletPopupWindow mPopupMenu = null;
 	private static Activity mActivity = null;
 	private static View mProductImageView = null;
+	private final static int KITKAT = 19;
 
 	private ProductImageHelper() {
 	}
@@ -127,15 +127,16 @@ public class ProductImageHelper {
 
 				DLog.d(TAG, "PATH : " + getPath(mActivity, selectedImage));
 				InputStream input;
-			    Bitmap bitmap;
-			    String picturePath = getPath(mActivity, selectedImage);
-			    try {
-			        input = mActivity.getContentResolver().openInputStream(selectedImage);
-			        bitmap = BitmapFactory.decodeStream(input);
-			        mImageCallback.onImageReceived(bitmap, picturePath);
-			    } catch (FileNotFoundException e1) {
+				Bitmap bitmap;
+				String picturePath = getPath(mActivity, selectedImage);
+				try {
+					input = mActivity.getContentResolver().openInputStream(
+							selectedImage);
+					bitmap = BitmapFactory.decodeStream(input);
+					mImageCallback.onImageReceived(bitmap, picturePath);
+				} catch (FileNotFoundException e1) {
 
-			    }
+				}
 			} else {
 
 				Cursor cursor = mActivity.getContentResolver().query(
@@ -189,10 +190,10 @@ public class ProductImageHelper {
 	 */
 	public static String getPath(final Context context, final Uri uri) {
 
-		final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+		final boolean isKitKat = Build.VERSION.SDK_INT > KITKAT;
 
 		// DocumentProvider
-		if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+		if (isKitKat && DocumentsContract.isDocumentUri(uri)) {
 			// ExternalStorageProvider
 			if (isExternalStorageDocument(uri)) {
 				final String docId = DocumentsContract.getDocumentId(uri);
