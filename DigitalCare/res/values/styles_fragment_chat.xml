@@ -17,7 +17,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:paddingBottom">20dp</item>
+        <item name="android:paddingBottom">2dp</item>
         <item name="android:textColor">@color/text_sub_header_color</item>
         <item name="android:text">@string/chat_desc</item>
         <item name="android:textSize">@dimen/title_text_size_medium</item>
