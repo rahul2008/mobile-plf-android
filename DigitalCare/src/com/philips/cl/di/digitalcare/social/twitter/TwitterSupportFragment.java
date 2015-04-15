@@ -53,6 +53,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private View mTwitterView = null;
 	private File mFile = null;
 	private SharedPreferences mSharedPreferences = null;
+	private LinearLayout mFacebookParentPort = null;
+	private LinearLayout mFacebookParentLand = null;
 	private LinearLayout mContainer = null;
 	private DigitalCareFontButton mCancelPort = null;
 	private DigitalCareFontButton mSendPort = null;
@@ -101,6 +103,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.fbPostContainer);
 		mContainerParams = (android.widget.FrameLayout.LayoutParams) mContainer
 				.getLayoutParams();
+
+		mFacebookParentPort = (LinearLayout) getActivity().findViewById(
+				R.id.facebookParentPort);
+		mFacebookParentLand = (LinearLayout) getActivity().findViewById(
+				R.id.facebookParentLand);
+
 		mCancelPort = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.facebookCancelPort);
 		mSendPort = (DigitalCareFontButton) getActivity().findViewById(
@@ -261,10 +269,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	public void setViewParams(Configuration config) {
 		configureValues();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			DLog.d(TAG, "PORTRAIT Orientation");
+			mFacebookParentPort.setVisibility(View.VISIBLE);
+			mFacebookParentLand.setVisibility(View.GONE);
 			mContainerParams.leftMargin = mContainerParams.rightMargin = mLeftRightMarginPort;
 		} else {
-			DLog.d(TAG, "Horizontal Orientaton");
+			mFacebookParentLand.setVisibility(View.VISIBLE);
+			mFacebookParentPort.setVisibility(View.GONE);
 			mContainerParams.leftMargin = mContainerParams.rightMargin = mLeftRightMarginLand;
 		}
 		mContainer.setLayoutParams(mContainerParams);

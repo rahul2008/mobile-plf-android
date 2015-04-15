@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="vertical"
+        android:paddingBottom="15dp"
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin" >
 
@@ -47,11 +48,10 @@
 
                 <ImageView
                     android:id="@+id/socialLoginIcon"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/marginTopButton"
                     android:contentDescription="@string/img_description"
-                    android:scaleType="fitXY"
                     android:src="@drawable/social_fb_icon" />
             </LinearLayout>
         </LinearLayout>
