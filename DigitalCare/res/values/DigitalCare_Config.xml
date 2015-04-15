@@ -27,7 +27,8 @@
 
     <!-- Color End -->
 
-    <!-- email id for philips support -->
+
+    <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
 
     <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
@@ -58,6 +59,8 @@
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id" translatable="false">1537018913230025</string>
     <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+    <string name="facebook_support_page" translatable="false">philipshomelivingindiapakistan</string>
+    <string name="facebook_support_page_rollback" translatable="false">philipshomelivingindia</string>
 
     <!-- Twitter Support page Username -->
     <string name="twitter_support_to_address" translatable="false">PhilipsCare</string>

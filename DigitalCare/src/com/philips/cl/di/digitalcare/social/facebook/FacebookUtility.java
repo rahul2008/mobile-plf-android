@@ -22,6 +22,7 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.PostCallback;
@@ -52,6 +53,7 @@ public class FacebookUtility {
 	private boolean canPresentShareDialogWithPhotos = false;
 	private FBAccountCallback mFaceBookAccCallback = null;
 	private static PostCallback mPostCallback = null;
+	private static String mFaceBookPage;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
@@ -74,6 +76,15 @@ public class FacebookUtility {
 		Session mSession = openActiveSession(true,
 				Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
 		DLog.d(TAG, "Session Object : " + mSession);
+		if (mSession.isOpened()) {
+			String mDestinationPage = mActivity.getResources().getString(
+					R.string.facebook_support_page);
+			String mDestinationRollbackPage = mActivity.getResources()
+					.getString(R.string.facebook_support_page_rollback);
+			DLog.d(TAG, "Destination Page : " + mDestinationPage);
+			DLog.d(TAG, "RollbackPage : " + mDestinationRollbackPage);
+			checkPageAvailability(mDestinationPage, mDestinationRollbackPage);
+		}
 
 	}
 
@@ -92,6 +103,27 @@ public class FacebookUtility {
 				resultCode, data);
 		/* new Session.OpenRequest(activity); */
 
+	}
+
+	private void checkPageAvailability(final String page,
+			final String rollbackpage) {
+		final String mUrlBuild = "/" + page + "/feed";
+		DLog.d(TAG, "Page Reachability Test");
+		new Request(Session.getActiveSession(), mUrlBuild, null,
+				HttpMethod.GET, new Request.Callback() {
+					public void onCompleted(Response response) {
+						DLog.d(TAG, "Page Name is : " + mUrlBuild);
+						DLog.d(TAG, "Error : " + response.getError());
+						DLog.d(TAG, "Response : " + response.getRawResponse());
+						if ((response.getError() != null)
+								&& (response.getRawResponse() == null)) {
+							mFaceBookPage = page;
+						} else {
+							mFaceBookPage = rollbackpage;
+						}
+
+					}
+				}).executeAsync();
 	}
 
 	public void performPublishAction(String description) {
@@ -153,14 +185,14 @@ public class FacebookUtility {
 
 	private void shareImage() {
 		DLog.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
-
+		String mUrl = "/" + mFaceBookPage + "/photos";
+		DLog.d(TAG, "Posting to : " + mUrl);
 		Bundle params = new Bundle();
 		params.putParcelable("source", mImageToUpload);
 		params.putString("message", mContentDescription);
 
-		Request request = new Request(Session.getActiveSession(),
-				"Philips/photos", params, HttpMethod.POST,
-				new Request.Callback() {
+		Request request = new Request(Session.getActiveSession(), mUrl, params,
+				HttpMethod.POST, new Request.Callback() {
 
 					@Override
 					public void onCompleted(Response response) {
@@ -231,10 +263,12 @@ public class FacebookUtility {
 	 * Sharing text in facebook.
 	 */
 	private void shareStatusUpdate() {
+		String url = "/" + mFaceBookPage + "/feed";
 		Bundle params = new Bundle();
 		params.putString("message", mContentDescription);
-		new Request(Session.getActiveSession(), "/PhilipsIndia/feed", params,
-				HttpMethod.POST, new Request.Callback() {
+		DLog.d(TAG, "Posting to : " + url);
+		new Request(Session.getActiveSession(), url, params, HttpMethod.POST,
+				new Request.Callback() {
 					public void onCompleted(Response response) {
 						DLog.d(TAG, "MEssage Response Callback : " + response);
 						postResponse(response);
