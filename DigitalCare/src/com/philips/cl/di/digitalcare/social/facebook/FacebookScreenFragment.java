@@ -258,22 +258,42 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			backstackFragment();
 		} else if ((id == R.id.facebookSendPort || id == R.id.facebookSendLand)
 				&& mFacebookUtility != null) {
-			if (Utils.isNetworkConnected(getActivity())) {
+			if (isDescriptionAvailable()) {
+				sendAlert();
+			} else {
 
-				mPostProgress = new ProgressDialog(getActivity());
-				mPostProgress
-						.setMessage(getActivity().getResources().getString(
-								R.string.facebook_post_progress_message));
-				mPostProgress.setCancelable(false);
-				mPostProgress.show();
-				mFacebookUtility.performPublishAction(mEditText.getText()
-						.toString());
+				if (Utils.isNetworkConnected(getActivity())) {
+
+					mPostProgress = new ProgressDialog(getActivity());
+					mPostProgress
+							.setMessage(getActivity().getResources().getString(
+									R.string.facebook_post_progress_message));
+					mPostProgress.setCancelable(false);
+					mPostProgress.show();
+					mFacebookUtility.performPublishAction(mEditText.getText()
+							.toString());
+				}
 			}
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
 		}
+	}
+
+	private boolean isDescriptionAvailable() {
+		String s = mEditText.getText().toString().trim();
+		if (s.equalsIgnoreCase(""))
+			return true;
+		return false;
+	}
+
+	private void sendAlert() {
+		Toast.makeText(
+				getActivity(),
+				getActivity().getResources().getString(
+						R.string.social_post_editor_alert), Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@Override
@@ -294,8 +314,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getActivity(), getActivity().getResources().getString(
-						R.string.social_post_success),
+				Toast.makeText(
+						getActivity(),
+						getActivity().getResources().getString(
+								R.string.social_post_success),
 						Toast.LENGTH_SHORT).show();
 				closeProgress();
 				backstackFragment();
@@ -308,7 +330,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getActivity(),
+				Toast.makeText(
+						getActivity(),
 						getActivity().getResources().getString(
 								R.string.social_post_failed),
 						Toast.LENGTH_SHORT).show();
