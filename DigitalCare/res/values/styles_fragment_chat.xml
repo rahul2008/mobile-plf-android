@@ -4,7 +4,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">left|center</item>
-        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:textColor">@color/chat_can_we_help_you_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/title_text_size_largest</item>
         <item name="android:text">@string/can_we_help_you</item>

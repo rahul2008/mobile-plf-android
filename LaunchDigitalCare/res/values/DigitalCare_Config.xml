@@ -22,6 +22,9 @@
     <!-- Activity -->
     <color name="activity_bg">#F0F4F9</color>
 
+    <!-- Chat Screen -->
+    <color name="chat_can_we_help_you_title">@color/actionbar_title_text_color</color>
+
     <!-- Color End -->
 
 
@@ -42,17 +45,23 @@
 
     <!-- Suppport page contains these fetaures -->
     <string-array name="supported_features">
-        <item name="CONTACT US "> 1 </item>
-        <item name="VIEW PRODUCT DETAILS"> 2 </item>
-        <item name="FAQ"> 3 </item>
+        <item name="VIEW PRODUCT DETAILS"> 1 </item>
+        <item name="FAQ"> 2 </item>
+        <item name="CONTACT US "> 3 </item>
         <item name="FIND PHILIPS NEARBY"> 4 </item>
         <item name="TELL US YOUR THINKING"> 5 </item>
         <item name="REGISTER MY PRODUCT"> 6 </item>
     </string-array>
 
+    <!-- Product Information to appen in Social Support feature -->
+    <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
+
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id" translatable="false">1537018913230025</string>
     <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+
+    <!-- Twitter Support page Username -->
+    <string name="twitter_support_to_address" translatable="false">PhilipsCare</string>
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">true</bool>
@@ -70,5 +79,7 @@
     <!-- NetworkAlert Input Credentials -->
     <color name="NetworkAlertView_background_color">#b2b2b2</color>
     <color name="NetworkAlertView_text_color">#ffffff</color>
+
+    <string name="NetworkAlertView_text">@string/no_internet</string>
 
 </resources>

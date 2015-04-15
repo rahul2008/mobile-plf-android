@@ -22,10 +22,12 @@
     <!-- Activity -->
     <color name="activity_bg">#F0F4F9</color>
 
+    <!-- Chat Screen -->
+    <color name="chat_can_we_help_you_title">@color/actionbar_title_text_color</color>
+
     <!-- Color End -->
 
-
-    <!-- email id for philips support -->
+    <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
 
     <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
