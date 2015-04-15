@@ -30,7 +30,7 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
-		mView = inflater.inflate(R.layout.activate_account_fragment, null);
+		mView = inflater.inflate(R.layout.fragment_activate_account, null);
 		return mView;
 	}
 

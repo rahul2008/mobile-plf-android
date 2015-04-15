@@ -41,7 +41,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment
 			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
 				"UserCreateAccountFragment : onCreateView");
-		mView = inflater.inflate(R.layout.create_account_fragment, null);
+		mView = inflater.inflate(R.layout.fragment_create_account, null);
 		return mView;
 	}
 

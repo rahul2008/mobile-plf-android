@@ -14,7 +14,7 @@
         android:paddingRight="@dimen/layout_margin" >
 
         <TextView
-            android:id="@+id/welcome_id"
+            android:id="@+id/tv_welcome"
             style="@style/textStyle"
             android:text="@string/sign_in_philips" >
         </TextView>

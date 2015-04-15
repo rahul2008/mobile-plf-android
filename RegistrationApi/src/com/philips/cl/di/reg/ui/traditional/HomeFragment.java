@@ -17,46 +17,20 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 public class HomeFragment extends RegistrationBaseFragment implements
 		OnClickListener {
 
-	private View mView;
-	private Button mCreateAcctBtn;
-	private Button mPhilipsAcctBtn;
-	private LinearLayout mFirstLayout = null;
-	private TextView mSecondLayout = null;
-	private LinearLayout mThirdLayout = null;
-	private LinearLayout mFourthLayout = null;
-	private LinearLayout.LayoutParams mParams = null;
+	private Button mBtnCreateAccount;
+	private Button mBtnMyPhilips;
+	private TextView mTvWelcome;
+	private TextView mTvWelcomeDesc;
+	private LinearLayout mLlCreateBtnContainer;
+	private LinearLayout mLlLoginBtnContainer;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
-		mView = inflater.inflate(R.layout.home_fragment, null);
-		return mView;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserSignInFragment : onActivityCreated");
-		mFirstLayout = (LinearLayout) getActivity().findViewById(
-				R.id.first_part);
-
-		mSecondLayout = (TextView) getActivity().findViewById(
-				R.id.account_details);
-
-		mThirdLayout = (LinearLayout) getActivity().findViewById(
-				R.id.third_part);
-
-		mFourthLayout = (LinearLayout) getActivity().findViewById(
-				R.id.fourth_part);
-
-		mParams = (LayoutParams) mFirstLayout.getLayoutParams();
-		Configuration config = getResources().getConfiguration();
-		setViewParams(config);
-
-		initialize();
-
+		View view = inflater.inflate(R.layout.fragment_home, container, false);
+		initUI(view);
+		return view;
 	}
 
 	@Override
@@ -66,42 +40,47 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				"UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
-	
-	@Override
-	public void onClick(View v) {
-		// TODO: converted into switch after the proper solution 
-		int id = v.getId();
-		if (id == R.id.create_account_id) {
-			((RegistrationActivity) getActivity())
-					.addFragment(new CreateAccountFragment());
-		} else if (id == R.id.philips_acct_id) {
-			((RegistrationActivity) getActivity())
-					.addFragment(new SignInAccountFragment());
-		} else {
-		}
 
+	private void initUI(View view) {
+		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
+		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_welcome_desc);
+		mLlCreateBtnContainer = (LinearLayout) view
+				.findViewById(R.id.third_part);
+		mLlLoginBtnContainer = (LinearLayout) view
+				.findViewById(R.id.fourth_part);
+		mBtnCreateAccount = (Button) view.findViewById(R.id.create_account_id);
+		mBtnCreateAccount.setOnClickListener(this);
+		mBtnMyPhilips = (Button) view.findViewById(R.id.philips_acct_id);
+		mBtnMyPhilips.setOnClickListener(this);
+		setViewParams(getResources().getConfiguration());
 	}
 
-	private void initialize() {
-		mCreateAcctBtn = (Button) mView.findViewById(R.id.create_account_id);
-		mPhilipsAcctBtn = (Button) mView.findViewById(R.id.philips_acct_id);
-		mCreateAcctBtn.setOnClickListener(this);
-		mPhilipsAcctBtn.setOnClickListener(this);
+	@Override
+	public void onClick(View v) {
+		// Library does not include resource constants after ADT 14
+		// Link :http://tools.android.com/tips/non-constant-fields
+		if (v.getId() == R.id.create_account_id) {
+			((RegistrationActivity) getActivity())
+					.addFragment(new CreateAccountFragment());
+		} else if (v.getId() == R.id.philips_acct_id) {
+			((RegistrationActivity) getActivity())
+					.addFragment(new CreateAccountFragment());
+		}
 	}
 
 	@Override
 	public void setViewParams(Configuration config) {
-
+		LinearLayout.LayoutParams mParams = (LayoutParams) mTvWelcome
+				.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
-		mFirstLayout.setLayoutParams(mParams);
-		mSecondLayout.setLayoutParams(mParams);
-		mThirdLayout.setLayoutParams(mParams);
-		mFourthLayout.setLayoutParams(mParams);
-
+		mTvWelcome.setLayoutParams(mParams);
+		mTvWelcomeDesc.setLayoutParams(mParams);
+		mLlCreateBtnContainer.setLayoutParams(mParams);
+		mLlLoginBtnContainer.setLayoutParams(mParams);
 	}
 
 	@Override

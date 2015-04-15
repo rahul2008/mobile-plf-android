@@ -24,8 +24,8 @@ public class WelcomeFragment extends RegistrationBaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
-		mView = inflater.inflate(R.layout.home_fragment, null);
-		mView = inflater.inflate(R.layout.welcome_fragment, null);
+		mView = inflater.inflate(R.layout.fragment_home, null);
+		mView = inflater.inflate(R.layout.fragment_welcome, null);
 		return mView;
 	}
 
@@ -34,7 +34,7 @@ public class WelcomeFragment extends RegistrationBaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
 				"UserWelcomeFragment : onActivityCreated");
-		mWelcomeText = (TextView) getActivity().findViewById(R.id.welcome_id);
+		mWelcomeText = (TextView) getActivity().findViewById(R.id.tv_welcome);
 
 		mEmailDetails = (LinearLayout) getActivity().findViewById(
 				R.id.email_details);

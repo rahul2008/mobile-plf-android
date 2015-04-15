@@ -34,7 +34,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment
 			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
 				"UserPhilipsAccountSignInFragment : onCreateView");
-		mView = inflater.inflate(R.layout.sign_in_account_fragment, null);
+		mView = inflater.inflate(R.layout.fragment_sign_in_account, null);
 		return mView;
 	}
 

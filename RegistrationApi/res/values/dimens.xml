@@ -9,7 +9,7 @@
     <dimen name="layout_margin_port">0dp</dimen>
     <dimen name="layout_margin_land">100dp</dimen>
     <dimen name="btn_text_size_large">20sp</dimen>
-    <dimen name="title_text_size_large">30sp</dimen>
+    <dimen name="title_text_size_large">20sp</dimen>
     <dimen name="title_text_size_medium">22sp</dimen>
     <dimen name="title_text_size_small">18sp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>

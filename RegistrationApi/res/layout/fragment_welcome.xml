@@ -10,7 +10,7 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/welcome_id"
+            android:id="@+id/tv_welcome"
             style="@style/titleTextStyle"
             android:layout_marginTop="@dimen/edit_margin_bottom"
             android:paddingLeft="@dimen/layout_margin"
