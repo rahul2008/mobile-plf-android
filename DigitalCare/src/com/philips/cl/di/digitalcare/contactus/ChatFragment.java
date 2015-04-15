@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -14,7 +15,7 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 
 /**
- *	ChatFragment will help to provide options to start Philips chat.
+ * ChatFragment will help to provide options to start Philips chat.
  * 
  * @author : Ritesh.jha@philips.com
  * 
@@ -27,11 +28,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	private DigitalCareFontButton mChatNoThanks = null;
 	private DigitalCareFontButton mChatNoThanksLand = null;
 
-	// private ImageView mImageView = null;
 	private LinearLayout.LayoutParams mChatNowParentBottom = null;
+	private LinearLayout.LayoutParams mHelpTextParams = null;
 
 	private LinearLayout mChatNowParentPort = null;
 	private LinearLayout mChatNowParentLand = null;
+
+	private TextView mHelpText = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,16 +57,18 @@ public class ChatFragment extends DigitalCareBaseFragment {
 				R.id.chatNoThanks);
 		mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.chatNoThanksLand);
+
+		mHelpText = (TextView) getActivity().findViewById(R.id.chatDesc);
+
 		mChatNow.setOnClickListener(this);
 		mChatNowLand.setOnClickListener(this);
 		mChatNoThanks.setOnClickListener(this);
 		mChatNoThanksLand.setOnClickListener(this);
-		
+
 		mChatNow.setTransformationMethod(null);
 		mChatNowLand.setTransformationMethod(null);
 		mChatNoThanks.setTransformationMethod(null);
 		mChatNoThanksLand.setTransformationMethod(null);
-		
 
 		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
 		mChatNowParentPort = (LinearLayout) getActivity().findViewById(
@@ -73,9 +78,11 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
 		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
 				.getLayoutParams();
+		mHelpTextParams = (LinearLayout.LayoutParams) mHelpText
+				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
-		
+
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT);
 	}
 
@@ -87,16 +94,21 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void setViewParams(Configuration config) {
+		float density = getResources().getDisplayMetrics().density;
+
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mChatNowParentPort.setVisibility(View.VISIBLE);
 			mChatNowParentLand.setVisibility(View.GONE);
 			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
+			mHelpTextParams.topMargin = (int) (20 * density);
 		} else {
 			mChatNowParentLand.setVisibility(View.VISIBLE);
 			mChatNowParentPort.setVisibility(View.GONE);
 			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
+			mHelpTextParams.topMargin = 0;
 		}
 		mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
+		mHelpText.setLayoutParams(mHelpTextParams);
 	}
 
 	@Override
