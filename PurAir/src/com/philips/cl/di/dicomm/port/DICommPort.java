@@ -137,6 +137,7 @@ public abstract class DICommPort {
 			@Override
 			public void onError(Error error) {
 				// TODO: DICOMM Refactor, Retry request.
+				mGetPropertiesRequested = false;
 				requestCompleted();
 			}
 		});
@@ -155,6 +156,7 @@ public abstract class DICommPort {
 			@Override
 			public void onError(Error error) {
 				// TODO: DICOMM Refactor, Retry request.
+				mSubscribeRequested = false;
 				requestCompleted();
 			}
 		});
@@ -173,6 +175,7 @@ public abstract class DICommPort {
 			@Override
 			public void onError(Error error) {
 				// TODO: DICOMM Refactor, Retry request.
+				mUnsubscribeRequested = false;
 				requestCompleted();
 			}
 		});
