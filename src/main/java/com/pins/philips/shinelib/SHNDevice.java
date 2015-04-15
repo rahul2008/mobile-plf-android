@@ -11,6 +11,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.pins.philips.shinelib.framework.BluetoothGattCallbackOnExecutor;
+import com.pins.philips.shinelib.utility.Utilities;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -394,20 +395,12 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         return true;
     }
 
-    public String byteToString(byte[] data) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(data.length).append(" ");
-        for (byte value: data) {
-            sb.append(String.format("0x%2X ", value));
-        }
-        return sb.toString();
-    }
     public boolean writeCharacteristic(final byte[] data, final BluetoothGattCharacteristic bluetoothGattCharacteristic, final SHNGattCommandResultReporter shnGattCommandResultReporter) {
         if (LOGGING) Log.i(TAG, "writeCharacteristic");
         final Runnable writeCharacteristicCommand = new Runnable() {
             @Override
             public void run() {
-                if (LOGGING) Log.i(TAG, "Execute writting characteristic value: " + byteToString(data));
+                if (LOGGING) Log.i(TAG, "Execute writting characteristic value: " + Utilities.byteToString(data));
                 bluetoothGattCharacteristic.setValue(data);
                 if (bluetoothGatt.writeCharacteristic(bluetoothGattCharacteristic)) {
                     currentResultListener = shnGattCommandResultReporter;
