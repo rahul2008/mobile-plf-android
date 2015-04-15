@@ -47,10 +47,11 @@
 
                 <ImageView
                     android:id="@+id/socialLoginIcon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:layout_marginTop="@dimen/marginTopButton"
                     android:contentDescription="@string/img_description"
+                    android:scaleType="fitXY"
                     android:src="@drawable/social_fb_icon" />
             </LinearLayout>
         </LinearLayout>
@@ -160,7 +161,6 @@
             android:id="@+id/facebookParentLand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
             android:visibility="gone"
             android:weightSum="2" >
 
