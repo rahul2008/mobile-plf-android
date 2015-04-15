@@ -200,6 +200,19 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
     private void handleOnCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         if (LOGGING) Log.i(TAG, "handleOnCharacteristicWrite");
+        final SHNGattCommandResultReporter resultListener = currentResultListener;
+        if (resultListener != null) {
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    resultListener.reportResult(SHNResult.SHNOk);
+                }
+            };
+            shnCentral.runOnHandlerThread(runnable);
+            currentResultListener = null;
+        }
+        waitingForGattCallback = false;
+        executeNextBluetoothGattCommand();
     }
 
     private void handleOnCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {

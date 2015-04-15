@@ -98,7 +98,7 @@ public class SHNCharacteristic {
     }
 
     public void onCharacteristicChanged() {
-        Log.i(TAG, "onCharacteristicChanged");
+        if (LOGGING) Log.i(TAG, "onCharacteristicChanged");
         if (shnCharacteristicChangedListener != null) {
             shnCharacteristicChangedListener.onCharacteristicChanged(this);
         }
