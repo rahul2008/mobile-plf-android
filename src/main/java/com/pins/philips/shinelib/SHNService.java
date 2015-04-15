@@ -71,6 +71,7 @@ end
 
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -86,8 +87,9 @@ import java.util.UUID;
  */
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
+    private static final boolean LOGGING = false;
 
-    public enum State {Inactive, Active}
+    public enum State {Inactive, WaitingForUpperLayer, Active}
 
     public interface SHNServiceListener {
         void onServiceStateChanged(SHNService shnService, State state);
@@ -153,13 +155,14 @@ public class SHNService {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic: bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
+            if (LOGGING) Log.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
             if (shnCharacteristic != null) {
                 shnCharacteristic.connectToBLELayer(bluetoothGattCharacteristic);
             }
         }
 
         // Check if the state should be updated
-        State newState = State.Active;
+        State newState = State.WaitingForUpperLayer;
         for (SHNCharacteristic shnCharacteristic: requiredCharacteristics) {
             if (shnCharacteristic.getState() != SHNCharacteristic.State.Active) {
                 newState = State.Inactive;
@@ -167,6 +170,10 @@ public class SHNService {
             }
         }
         updateState(newState);
+    }
+
+    public void upperLayerReady() {
+        updateState(State.Active);
     }
 
     public void disconnectFromBLELayer() {

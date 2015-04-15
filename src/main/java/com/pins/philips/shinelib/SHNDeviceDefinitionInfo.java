@@ -11,9 +11,9 @@ public interface SHNDeviceDefinitionInfo {
         Set<SHNCapability> getExposedCapabilities();
         SHNDevice createDeviceFromDeviceAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo, SHNCentral shnCentral);
         void associateWithCompletion(Runnable completion);
-        Set<UUID> getRequiredServiceUUIDs();
-        Set<UUID> getRequiredCharacteristicUUIDs(UUID serviceUUID);
-        Set<UUID> getOptionalCharacteristicUUIDs(UUID serviceUUID);
+//        Set<UUID> getRequiredServiceUUIDs();
+//        Set<UUID> getRequiredCharacteristicUUIDs(UUID serviceUUID);
+//        Set<UUID> getOptionalCharacteristicUUIDs(UUID serviceUUID);
     }
 
     String getDeviceTypeName();
