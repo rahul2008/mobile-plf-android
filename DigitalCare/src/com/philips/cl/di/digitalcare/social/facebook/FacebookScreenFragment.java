@@ -59,6 +59,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private ImageView mProductImageClose = null;
 	private File mFile = null;
 	private TextView mPostFrom = null;
+	private TextView mPostTo = null;
 	private CheckBox mCheckBox = null;
 	private EditText mEditText = null;
 	private Bundle mSaveInstanceState = null;
@@ -94,6 +95,14 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			mFacebookUtility.onActivityResultFragment(activity, requestCode,
 					resultCode, data);
 		}
+	}
+	
+	private void setHeaderText() {
+		String mLocalizedHeaderText = getActivity().getResources().getString(
+				R.string.social_post_to);
+		if (mLocalizedHeaderText.equalsIgnoreCase("Send a message to @PhilipsCare"))
+			mPostTo.setText("Send a message to Philips");
+
 	}
 
 	@Override
@@ -140,6 +149,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);
+		mPostTo = (TextView) getActivity().findViewById(
+				R.id.fb_Post_ToHeaderText);
 		mPostFrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
 		mProductImageClose = (ImageView) getActivity().findViewById(
@@ -157,6 +168,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mProductImageClose.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
 		enableCheckBoxonOpen();
+		setHeaderText();
 		Configuration config = resource.getConfiguration();
 		setViewParams(config);
 
