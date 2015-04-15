@@ -1,10 +1,12 @@
 package com.philips.cl.di.digitalcare.contactus;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +56,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private TextView mContactUsOpeningHours = null;
 	private String mCdlsResponseStr = null;
 	private View mView = null;
+	private Handler mTwitterProgresshandler = null;
+	private ProgressDialog mPostProgress = null;
 
 	// CDLS related
 	private CdlsRequestTask mCdlsRequestTask = null;
@@ -68,6 +72,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DLog.i(TAG, "ContactUsFragment : onCreate");
 		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formCdlsURL(),
 				mCdlsResponseCallback);
+		mTwitterProgresshandler = new Handler();
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
 				.getStatus() == AsyncTask.Status.FINISHED)) {
 			mCdlsRequestTask.execute();
@@ -302,12 +307,40 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
+			mPostProgress = new ProgressDialog(getActivity());
+			mPostProgress.setMessage("Loading...");
+			mPostProgress.setCancelable(false);
+			if (!(getActivity().isFinishing()))
+				mPostProgress.show();
+			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);
+			
 		} else if (id == R.id.contactUsEmail) {
 			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_EMAIL);
 			sendEmail();
 		}
 	}
 
+	@Override
+	public void onPause() {
+		if (mPostProgress != null && mPostProgress.isShowing()) {
+			mPostProgress.dismiss();
+			mPostProgress = null;
+		}
+		super.onPause();
+	}
+	
+	
+	Runnable mTwitteroAuthRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			if (mPostProgress != null && mPostProgress.isShowing()) {
+				mPostProgress.dismiss();
+				mPostProgress = null;
+			}
+		}
+	}; 
+	
 	private void tagServiceRequest(String serviceChannel) {
 		AnalyticsTracker.trackAction(
 				AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
