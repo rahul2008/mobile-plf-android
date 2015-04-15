@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,11 +97,12 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 					resultCode, data);
 		}
 	}
-	
+
 	private void setHeaderText() {
 		String mLocalizedHeaderText = getActivity().getResources().getString(
 				R.string.social_post_to);
-		if (mLocalizedHeaderText.equalsIgnoreCase("Send a message to @PhilipsCare"))
+		if (mLocalizedHeaderText
+				.equalsIgnoreCase("Send a message to @PhilipsCare"))
 			mPostTo.setText("Send a message to Philips");
 
 	}
@@ -122,6 +124,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 				mEditText.setText(mContent);
 			}
 		}
+	}
+
+	public static final class drawable {
+		public static final int ball_red = Color.RED;
 	}
 
 	@Override
@@ -146,6 +152,10 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 				.findViewById(R.id.facebookSendLand);
 		mCheckBox = (CheckBox) getActivity()
 				.findViewById(R.id.fb_Post_CheckBox);
+
+		int id = Resources.getSystem().getIdentifier("btn_check_holo_light",
+				"drawable", "android");
+		mCheckBox.setButtonDrawable(id);
 		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);

@@ -125,6 +125,9 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.socialLoginIcon);
 		mCheckBox = (CheckBox) getActivity()
 				.findViewById(R.id.fb_Post_CheckBox);
+		int id = Resources.getSystem().getIdentifier("btn_check_holo_light",
+				"drawable", "android");
+		mCheckBox.setButtonDrawable(id);
 		mEditText = (EditText) getActivity().findViewById(R.id.share_text);
 		mProductImage = (ImageView) getActivity().findViewById(
 				R.id.fb_post_camera);
