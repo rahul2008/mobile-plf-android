@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
-import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
