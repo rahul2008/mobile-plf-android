@@ -162,9 +162,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		relativeLayout.setLayoutParams(params);
-		relativeLayout
-				.setBackgroundResource(R.drawable.selector_option_button_bg);
 
+		if (resId == R.drawable.support_btn_register_product) {
+			relativeLayout
+					.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+		} else {
+			relativeLayout
+					.setBackgroundResource(R.drawable.selector_option_button_bg);
+		}
 		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
 		fontButton.setGravity(Gravity.START | Gravity.CENTER);
 		fontButton.setPadding((int) (80 * density), 0, 0, 0);
