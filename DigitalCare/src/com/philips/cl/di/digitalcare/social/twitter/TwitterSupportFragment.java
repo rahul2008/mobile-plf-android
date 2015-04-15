@@ -198,19 +198,42 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		if (id == R.id.facebookCancelPort) {
 			backstackFragment();
 		} else if (id == R.id.facebookSendPort) {
-			if (Utils.isNetworkConnected(getActivity()))
-				sendMessage();
+			if (isDescriptionAvailable()) {
+				sendAlert();
+			} else {
+				if (Utils.isNetworkConnected(getActivity()))
+					sendMessage();
+			}
 		} else if (id == R.id.facebookCancelLand) {
 			backstackFragment();
 		} else if (id == R.id.facebookSendLand) {
-			if (Utils.isNetworkConnected(getActivity()))
-				sendMessage();
+			if (isDescriptionAvailable()) {
+				sendAlert();
+			} else {
+				if (Utils.isNetworkConnected(getActivity()))
+					sendMessage();
+			}
 		} else if (id == R.id.fb_Post_CheckBox) {
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
 		}
+	}
+
+	private boolean isDescriptionAvailable() {
+		String s = mEditText.getText().toString();
+		if (s.equalsIgnoreCase(mTwitter_to))
+			return true;
+		return false;
+	}
+
+	private void sendAlert() {
+		Toast.makeText(
+				getActivity(),
+				getActivity().getResources().getString(
+						R.string.social_post_editor_alert), Toast.LENGTH_SHORT)
+				.show();
 	}
 
 	@Override

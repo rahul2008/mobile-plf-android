@@ -88,6 +88,7 @@
     <string name="choose_from_library">Choose from Library</string>
     <string name="social_post_failed">Failed to post..</string>
     <string name="social_post_success">Posted Successfully!!</string>
+    <string name="social_post_editor_alert">No description to send</string>
     
 
     <!-- Social Login -->
