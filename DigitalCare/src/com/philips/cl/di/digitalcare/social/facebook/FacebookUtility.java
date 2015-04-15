@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -53,7 +54,7 @@ public class FacebookUtility {
 	private boolean canPresentShareDialogWithPhotos = false;
 	private FBAccountCallback mFaceBookAccCallback = null;
 	private static PostCallback mPostCallback = null;
-	private static String mFaceBookPage;
+	private static String mFaceBookPage = null;
 
 	private enum PendingAction {
 		NONE, POST_PHOTO, POST_STATUS_UPDATE
@@ -81,9 +82,10 @@ public class FacebookUtility {
 					R.string.facebook_support_page);
 			String mDestinationRollbackPage = mActivity.getResources()
 					.getString(R.string.facebook_support_page_rollback);
-			DLog.d(TAG, "Destination Page : " + mDestinationPage);
-			DLog.d(TAG, "RollbackPage : " + mDestinationRollbackPage);
-			checkPageAvailability(mDestinationPage, mDestinationRollbackPage);
+			DLog.d(TAG, "Destination Page from xml : " + mDestinationPage);
+			DLog.d(TAG, "RollbackPage from xml : " + mDestinationRollbackPage);
+			mFaceBookPage = mDestinationRollbackPage;
+			checkPageAvailability(mDestinationPage);
 		}
 
 	}
@@ -105,8 +107,7 @@ public class FacebookUtility {
 
 	}
 
-	private void checkPageAvailability(final String page,
-			final String rollbackpage) {
+	private void checkPageAvailability(final String page) {
 		final String mUrlBuild = "/" + page + "/feed";
 		DLog.d(TAG, "Page Reachability Test");
 		new Request(Session.getActiveSession(), mUrlBuild, null,
@@ -114,14 +115,11 @@ public class FacebookUtility {
 					public void onCompleted(Response response) {
 						DLog.d(TAG, "Page Name is : " + mUrlBuild);
 						DLog.d(TAG, "Error : " + response.getError());
-						DLog.d(TAG, "Response : " + response.getRawResponse());
-						if ((response.getError() != null)
-								&& (response.getRawResponse() == null)) {
+						if(response.getError() == null)
 							mFaceBookPage = page;
-						} else {
-							mFaceBookPage = rollbackpage;
-						}
+                       						
 
+						DLog.d(TAG, "FACE BOOK DESTINATION : " + mFaceBookPage);
 					}
 				}).executeAsync();
 	}

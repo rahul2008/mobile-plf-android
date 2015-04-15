@@ -59,8 +59,8 @@
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id" translatable="false">1537018913230025</string>
     <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-    <string name="facebook_support_page" translatable="false">philipshomelivingindiapakistan</string>
-    <string name="facebook_support_page_rollback" translatable="false">philipshomelivingindia</string>
+    <string name="facebook_support_page" translatable="false">philipshomelivingindia</string>
+    <string name="facebook_support_page_rollback" translatable="false">PhilipsIndia</string>
 
     <!-- Twitter Support page Username -->
     <string name="twitter_support_to_address" translatable="false">PhilipsCare</string>
