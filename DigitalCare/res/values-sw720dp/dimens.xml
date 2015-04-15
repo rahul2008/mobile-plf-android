@@ -2,8 +2,8 @@
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_margin">25dp</dimen>
-    <dimen name="activity_margin_port">140dp</dimen>
-    <dimen name="activity_margin_land">350dp</dimen>
+    <dimen name="activity_margin_port">180dp</dimen>
+    <dimen name="activity_margin_land">400dp</dimen>
     <dimen name="activity_padding_top">11dp</dimen>
     <dimen name="btn_text_size_large">17sp</dimen>
     <dimen name="title_text_size_large">25sp</dimen>
