@@ -110,16 +110,24 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	}
 
 	@Override
+	public void onDestroy() {
+		DLog.d(DLog.FRAGMENT, "onDestroy on " + this.getClass().getSimpleName());
+		super.onDestroy();
+	}
+
+	@Override
 	public void onDestroyView() {
 		DLog.d(DLog.FRAGMENT, "OnDestroyView on "
 				+ this.getClass().getSimpleName());
 		super.onDestroyView();
-	}
 
-	@Override
-	public void onDestroy() {
-		DLog.d(DLog.FRAGMENT, "OnDestroy on " + this.getClass().getSimpleName());
-		super.onDestroy();
+		View view = getActivity().getCurrentFocus();
+		if (view != null) {
+			InputMethodManager inputManager = (InputMethodManager) getActivity()
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 
 	@Override
