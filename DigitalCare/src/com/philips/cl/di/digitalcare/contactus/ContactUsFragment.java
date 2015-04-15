@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -78,6 +77,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		DLog.i(TAG, "ContactUsFragment : onCreateView: mView - " + mView);
 		if (mView == null) {
 			mView = inflater.inflate(R.layout.fragment_contact_us, container,
 					false);
@@ -88,7 +88,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		Log.i(TAG,
+		DLog.i(TAG,
 				"ContactUsFragment : onActivityCreated : mConactUsParent == "
 						+ mConactUsParent);
 		if (mConactUsParent == null) {
@@ -130,8 +130,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mEmail.setTransformationMethod(null);
 			mParams = (FrameLayout.LayoutParams) mConactUsParent
 					.getLayoutParams();
-			Configuration config = getResources().getConfiguration();
-			setViewParams(config);
 
 			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 		}
@@ -139,6 +137,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		if (!Utils.isNetworkConnected(getActivity())) {
 			return;
 		}
+		Configuration config = getResources().getConfiguration();
+		setViewParams(config);
 	}
 
 	/*
