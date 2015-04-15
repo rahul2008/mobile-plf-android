@@ -333,6 +333,5 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	private void enableCheckBoxonOpen() {
 		mCheckBox.setChecked(true);
-
 	}
 }

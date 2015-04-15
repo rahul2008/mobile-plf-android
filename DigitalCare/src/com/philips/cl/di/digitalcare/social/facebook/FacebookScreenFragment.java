@@ -64,7 +64,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private Bundle mSaveInstanceState = null;
 	private View mView = null;
 	private ProgressDialog mPostProgress = null;
-	private final String PRODCUT_INFO = "@PhilipsCare <Product specific as well as locale specific content from CDLS>";
+	private static String mProductInformation = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +78,9 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			mFacebookUtility = new FacebookUtility(getActivity(),
 					mSaveInstanceState, mView, this, this);
 		}
+		mProductInformation = " "
+				+ getActivity().getResources().getString(
+						R.string.support_productinformation) + " ";
 		DLog.d(TAG, "onCreateView");
 		return mView;
 	}
@@ -95,15 +98,20 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+		String mContent = null;
 		if (isChecked) {
-			DLog.d(TAG, "Checked True");
-			DLog.d(TAG, getEditorText().toString());
-			mEditText.setText(getEditorText());
+			DLog.d(TAG, "Checked ++");
+			mContent = mEditText.getText().toString() + mProductInformation;
+			mEditText.setText(mContent);
 
 		} else {
-			DLog.d(TAG, "Checked False");
-			DLog.d(TAG, "" + getEditorText().toString());
-			mEditText.setText(getEditorText());
+			DLog.d(TAG, "Checked --");
+			mContent = mEditText.getText().toString();
+			if (mContent.contains(mProductInformation)) {
+				mContent = mContent.replace(mProductInformation, "");
+				mEditText.setText(mContent);
+			}
 		}
 	}
 
@@ -148,6 +156,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mProductImage.setOnClickListener(this);
 		mProductImageClose.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
+		enableCheckBoxonOpen();
 		Configuration config = resource.getConfiguration();
 		setViewParams(config);
 
@@ -253,33 +262,18 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 
 				mPostProgress = new ProgressDialog(getActivity());
 				mPostProgress
-						.setMessage("Posting to Philips Facebook Support...");
+						.setMessage(getActivity().getResources().getString(
+								R.string.facebook_post_progress_message));
 				mPostProgress.setCancelable(false);
 				mPostProgress.show();
-				mFacebookUtility.performPublishAction(getEditorText());
+				mFacebookUtility.performPublishAction(mEditText.getText()
+						.toString());
 			}
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {
 			onImageDettach();
 		}
-	}
-
-	public String getEditorText() {
-		String mContent = null, mEditorContent = mEditText.getText().toString();
-
-		if (mCheckBox.isChecked()) {
-			mContent = PRODCUT_INFO + " " + mEditorContent;
-		} else {
-			if (mEditorContent.contains(PRODCUT_INFO))
-				mContent = mEditorContent.replace(PRODCUT_INFO, "").trim();
-			else
-				mContent = mEditorContent;
-
-		}
-
-		DLog.d(TAG, "Text in the Content Description" + mContent);
-		return mContent;
 	}
 
 	@Override
@@ -300,7 +294,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getActivity(), "Posted Successfully!!",
+				Toast.makeText(getActivity(), getActivity().getResources().getString(
+						R.string.social_post_success),
 						Toast.LENGTH_SHORT).show();
 				closeProgress();
 				backstackFragment();
@@ -313,11 +308,17 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(getActivity(), "Failed to post..",
+				Toast.makeText(getActivity(),
+						getActivity().getResources().getString(
+								R.string.social_post_failed),
 						Toast.LENGTH_SHORT).show();
 				closeProgress();
 			}
 		});
+	}
+
+	private void enableCheckBoxonOpen() {
+		mCheckBox.setChecked(true);
 	}
 
 	private void closeProgress() {

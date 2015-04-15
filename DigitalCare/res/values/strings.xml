@@ -74,6 +74,10 @@
     <string name="twiiter_login_logo_description">Twitter Logo</string>
     <string name="twitter_post_char_limitation">Twitter message has 140 characters limitation</string>
     <string name="twitter_post_progress_message">Posting to Philips Twitter Support...</string>
+    
+    <!-- ContactUS - Facebook Login -->
+    <string name="facebook_post_progress_message">Posting to Philips Facebook Support...</string>
+    
 
     <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
