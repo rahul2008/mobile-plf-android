@@ -31,222 +31,218 @@ public class DICommPortTest extends MockitoTestCase{
 	private final String POWER_VALUE = "1";
 	private final String CHILDLOCK_KEY = "childlock";
 	private final String CHILDLOCK_VALUE = "0";
-	
+
 	private NetworkNode mNetworkNode;
 	private CommunicationStrategy mCommunicationStrategy;
 	private DICommPort mDICommPort;
-	
+
 	@Captor
 	private ArgumentCaptor<HashMap<String, String>> mMapCaptor;
-	
+
 	@Captor
 	private ArgumentCaptor<ResponseHandler> mResponseHandlerCaptor;
-	
+
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();		
+		super.setUp();
 		mNetworkNode = mock(NetworkNode.class);
 		mCommunicationStrategy = mock(CommunicationStrategy.class);
 		mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy);
 	}
-	
+
 	public void testPutProperties(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-		
+
 		verifyPutPropertiesCalled(true);
 		HashMap<String, String> capturedMap = mMapCaptor.getValue();
 		assertTrue(capturedMap.containsKey(FANSPEED_KEY));
 		assertEquals(FANSPEED_VALUE, capturedMap.get(FANSPEED_KEY));
 	}
 
-	
+
 	public void testGetProperties(){
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(true);
 	}
-	
+
 	public void testSubscribe(){
 		mDICommPort.subscribe();
 		verifySubscribeCalled(true);
 	}
-	
+
 	public void testUnsubscribe(){
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(true);
 	}
-	
+
 	public void testPeformSubscribeAfterPutPropertiesSuccess(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
-		
-		mDICommPort.subscribe();		
+
+		mDICommPort.subscribe();
 		verifySubscribeCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onSuccess(null);
-		verifySubscribeCalled(true);		
+		verifySubscribeCalled(true);
 	}
-	
-	
+
+
 	public void testPerformUnsubscribeAfterPutPropertiesSuccess(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
-		
-		mDICommPort.unsubscribe();		
+
+		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onSuccess(null);
 		verifyUnsubscribeCalled(true);
 	}
-	
+
 	public void testDoNotPerformGetAfterPutPropertiesSuccess(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
-		
-		mDICommPort.getProperties();		
+
+		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
-	
+
 	public void testPerformPutAfterPutPropertiesSuccess(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(false);
-		
+
 		responseHandler.onSuccess(null);
 		verifyPutPropertiesCalled(true);
 	}
-	
+
 	public void testPeformSubscribeAfterPutPropertiesError(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
-		
-		mDICommPort.subscribe();		
+
+		mDICommPort.subscribe();
 		verifySubscribeCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
-		verifySubscribeCalled(true);		
+		verifySubscribeCalled(true);
 	}
-	
-	
+
+
 	public void testPerformUnsubscribeAfterPutPropertiesError(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
-		
-		mDICommPort.unsubscribe();		
+
+		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifyUnsubscribeCalled(true);
 	}
-	
+
 	public void testPerformGetAfterPutPropertiesError(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
-		
-		mDICommPort.getProperties();		
+
+		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifyGetPropertiesCalled(true);
 	}
-	
+
 	public void testPerformPutAfterPutPropertiesError(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(false);
-		
+
 		responseHandler.onError(null);
 		verifyPutPropertiesCalled(true);
 	}
-	
+
 	public void testDoNotRetryPutAfterPutPropertiesError(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 		reset(mCommunicationStrategy);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifyPutPropertiesCalled(false);
 	}
-	
-	// subsbcribe: test subscribe after subscribe and get after subscribe (also error)
-	// unsubsbcribe: test unsubscribe after unsubscribe and get after unsubscribe (also error)
-	// get: test get after get (also error)
-	
+
 	public void testDoNotPerformSuscribeAfterSubscribeSuccess(){
 		mDICommPort.subscribe();
-		verifySubscribeCalled(true);		
+		verifySubscribeCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.subscribe();
 		verifySubscribeCalled(false);
-		
+
 		responseHandler.onSuccess(null);
 		verifySubscribeCalled(false);
 	}
-	
+
 	public void testDoNotPerformGetAfterSubscribeSuccess(){
 		mDICommPort.subscribe();
 		verifySubscribeCalled(true);
-		
+
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
-	
+
 	public void testPerformGetAfterSubscribeError(){
 		mDICommPort.subscribe();
 		verifySubscribeCalled(true);
-		
+
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifyGetPropertiesCalled(true);
 	}
-	
+
 	public void testDoNotRetrySuscribeAfterSubscribeError(){
 		mDICommPort.subscribe();
 		verifySubscribeCalled(true);
 		reset(mCommunicationStrategy);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifySubscribeCalled(false);
 	}
-	
-	
+
+
 	public void testDoNotPerformUnsubscribeAfterUnsubscribeSuccess(){
 		mDICommPort.unsubscribe();
-		verifyUnsubscribeCalled(true);		
+		verifyUnsubscribeCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(false);
-		
+
 		responseHandler.onSuccess(null);
 		verifyUnsubscribeCalled(false);
 	}
-	
+
 	public void testDoNotPerformGetAfterUnsubscribeSuccess(){
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(true);
-		
+
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
@@ -255,91 +251,91 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(true);
 		reset(mCommunicationStrategy);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifyUnsubscribeCalled(false);
 	}
-	
+
 	public void testPerformGetAfterUnsubscribeError(){
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(true);
-		
+
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		mResponseHandlerCaptor.getValue().onError(null);
 		verifyGetPropertiesCalled(true);
 	}
-	
+
 	public void testDoNotPerformGetAfterGetSuccess(){
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		responseHandler.onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
-	
+
 	public void testDoNotPerformGetAfterGetError(){
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
-		
+
 		responseHandler.onError(null);
 		verifyGetPropertiesCalled(false);
-	}	
-	
+	}
+
 	public void testPerformRequestsOnPriority(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.getProperties();
 		mDICommPort.unsubscribe();
 		mDICommPort.subscribe();
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
-				
+
 		responseHandler.onSuccess(null);
-		verifyPutPropertiesCalled(true);		
+		verifyPutPropertiesCalled(true);
 		responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		responseHandler.onSuccess(null);
 		verifySubscribeCalled(true);
 		responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		responseHandler.onSuccess(null);
 		verifyUnsubscribeCalled(true);
 		responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		responseHandler.onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
-	
+
 	public void testMultiplePutRequests(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
-		
+
 		mDICommPort.putProperties(POWER_KEY, POWER_VALUE);
 		mDICommPort.putProperties(CHILDLOCK_KEY, CHILDLOCK_VALUE);
-		
+
 		responseHandler.onSuccess(null);
-		
-		verifyPutPropertiesCalled(true);		
-		
+
+		verifyPutPropertiesCalled(true);
+
 		HashMap<String, String> capturedMap = mMapCaptor.getValue();
 		assertTrue(capturedMap.containsKey(POWER_KEY));
 		assertTrue(capturedMap.containsKey(CHILDLOCK_KEY));
@@ -347,7 +343,7 @@ public class DICommPortTest extends MockitoTestCase{
 		assertEquals(CHILDLOCK_VALUE, capturedMap.get(CHILDLOCK_KEY));
 		assertEquals(2, capturedMap.size());
 	}
-	
+
 	private void verifyPutPropertiesCalled(boolean invoked) {
 		if (invoked) {
 			verify(mCommunicationStrategy,times(1)).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
@@ -355,7 +351,7 @@ public class DICommPortTest extends MockitoTestCase{
 			verify(mCommunicationStrategy,never()).putProperties(mMapCaptor.capture(), eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
 		}
 	}
-	
+
 	private void verifyGetPropertiesCalled(boolean invoked) {
 		if (invoked) {
 			verify(mCommunicationStrategy,times(1)).getProperties(eq(PORT_NAME), eq(PORT_PRODUCTID), eq(mNetworkNode), mResponseHandlerCaptor.capture());
@@ -371,7 +367,7 @@ public class DICommPortTest extends MockitoTestCase{
 			verify(mCommunicationStrategy,never()).subscribe(eq(PORT_NAME), eq(PORT_PRODUCTID),eq(DICommPort.SUBSCRIPTION_TTL) ,eq(mNetworkNode), mResponseHandlerCaptor.capture());
 		}
 	}
-	
+
 	private void verifyUnsubscribeCalled(boolean invoked) {
 		if (invoked) {
 			verify(mCommunicationStrategy,times(1)).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID) ,eq(mNetworkNode), mResponseHandlerCaptor.capture());
@@ -379,8 +375,8 @@ public class DICommPortTest extends MockitoTestCase{
 			verify(mCommunicationStrategy,never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID) ,eq(mNetworkNode), mResponseHandlerCaptor.capture());
 		}
 	}
-	
-	
+
+
 	public class DICommPortImpl extends DICommPort{
 
 		public DICommPortImpl(NetworkNode networkNode,
@@ -407,7 +403,7 @@ public class DICommPortTest extends MockitoTestCase{
 		public int getDICommProductId() {
 			return PORT_PRODUCTID;
 		}
-		
+
 	}
 
 }
