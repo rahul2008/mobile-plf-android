@@ -10,21 +10,22 @@ package com.philips.cl.di.reg.ui.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.ui.utils.FontLoader;
 
-public class XTextView extends TextView {
+public class XButton extends Button {
 	private static final String XMLNS = "http://reg.lib/schema";
 
-	public XTextView(Context context) {
+	public XButton(Context context) {
 		super(context);
 	}
 
-	public XTextView(Context context, AttributeSet attrs) {
+	public XButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		String fontAssetName = attrs.getAttributeValue(XTextView.XMLNS,
+		String fontAssetName = attrs.getAttributeValue(XButton.XMLNS,
 				"fontAssetName");
 		applyAttributes(this, context, fontAssetName);
 	}

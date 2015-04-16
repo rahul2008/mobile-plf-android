@@ -6,9 +6,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.ui.customviews.XTextview;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
@@ -41,7 +41,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	}
 
 	private void setActionbarTitle() {
-		((XTextview) getActivity().findViewById(R.id.action_bar_title))
+		((TextView) getActivity().findViewById(R.id.action_bar_title))
 				.setText(getActionbarTitle());
 	}
 

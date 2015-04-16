@@ -14,11 +14,11 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.janrain.android.Jump;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
-import com.philips.cl.di.reg.ui.customviews.XTextview;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 
@@ -26,19 +26,19 @@ public class RegistrationActivity extends FragmentActivity {
 
 	private ImageView mActionBarArrow = null;
 	private FragmentManager mFragmentManager = null;
-	private XTextview mActionBarTitle = null;
+	private TextView mActionBarTitle = null;
 	private final String PROD_CLIENT_ID = "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3";
 	private final String MICROSITE_ID = "81376";
 	private final String REGISTRATION_USE_PROD = "REGISTRATION_USE_PRODUCTION";
 	private final String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
 	private final String EVAL_CLIENT_Id = "6v3yzffu6uxq4k9ctcw4jtd498k8zmtz";
-	private final String TAG = XTextview.class.getSimpleName();
-	
+	private final String TAG = TextView.class.getSimpleName();
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +47,8 @@ public class RegistrationActivity extends FragmentActivity {
 		initialize();
 		intializeJanrain(true);
 		loadMainFragment();
-		getSupportFragmentManager().addOnBackStackChangedListener(getListener());
+		getSupportFragmentManager()
+				.addOnBackStackChangedListener(getListener());
 	}
 
 	public void loadMainFragment() {
@@ -90,7 +91,7 @@ public class RegistrationActivity extends FragmentActivity {
 		};
 		return result;
 	}
-	
+
 	private final BroadcastReceiver janrainStatusReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -108,6 +109,7 @@ public class RegistrationActivity extends FragmentActivity {
 			}
 		}
 	};
+
 	private boolean backstackFragment() {
 
 		if (mFragmentManager.getBackStackEntryCount() == 1) {
@@ -153,7 +155,7 @@ public class RegistrationActivity extends FragmentActivity {
 
 	private void initialize() {
 		mActionBarArrow = (ImageView) findViewById(R.id.backArrow);
-		mActionBarTitle = (XTextview) findViewById(R.id.action_bar_title);
+		mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 		mActionBarArrow.setOnClickListener(actionBarClickListener);
 
 	}
@@ -162,16 +164,21 @@ public class RegistrationActivity extends FragmentActivity {
 		mActionBarArrow.setVisibility(View.VISIBLE);
 		mActionBarArrow.bringToFront();
 	}
-	
+
 	public void intializeJanrain(boolean isInitialized) {
 		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+		IntentFilter flowFilter = new IntentFilter(
+				Jump.JR_DOWNLOAD_FLOW_SUCCESS);
 		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-		LocalBroadcastManager.getInstance(this).registerReceiver(janrainStatusReceiver, flowFilter);
+		LocalBroadcastManager.getInstance(this).registerReceiver(
+				janrainStatusReceiver, flowFilter);
 		if (NetworkUtility.getInstance().isOnline()) {
-			JanrainConfigurationSettings user = JanrainConfigurationSettings.getInstance();
-			//user.init(getApplicationContext(), PROD_CLIENT_ID, MICROSITE_ID,REGISTRATION_USE_PROD, isInitialized, "en_US");
-			user.init(getApplicationContext(), EVAL_CLIENT_Id, MICROSITE_ID,REGISTRATION_USE_EVAL, isInitialized, "en_US");
+			JanrainConfigurationSettings user = JanrainConfigurationSettings
+					.getInstance();
+			// user.init(getApplicationContext(), PROD_CLIENT_ID,
+			// MICROSITE_ID,REGISTRATION_USE_PROD, isInitialized, "en_US");
+			user.init(getApplicationContext(), EVAL_CLIENT_Id, MICROSITE_ID,
+					REGISTRATION_USE_EVAL, isInitialized, "en_US");
 		} else {
 			RLog.d(RLog.APPLICATION, "intializeJanrain : There is No internet");
 		}

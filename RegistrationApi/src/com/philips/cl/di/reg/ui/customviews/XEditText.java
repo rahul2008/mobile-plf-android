@@ -10,21 +10,22 @@ package com.philips.cl.di.reg.ui.customviews;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.ui.utils.FontLoader;
 
-public class XTextView extends TextView {
+public class XEditText extends EditText {
 	private static final String XMLNS = "http://reg.lib/schema";
 
-	public XTextView(Context context) {
+	public XEditText(Context context) {
 		super(context);
 	}
 
-	public XTextView(Context context, AttributeSet attrs) {
+	public XEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		String fontAssetName = attrs.getAttributeValue(XTextView.XMLNS,
+		String fontAssetName = attrs.getAttributeValue(XEditText.XMLNS,
 				"fontAssetName");
 		applyAttributes(this, context, fontAssetName);
 	}

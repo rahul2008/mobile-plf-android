@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent" >
 
@@ -9,28 +10,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
+        <com.philips.cl.di.reg.ui.customviews.XTextView
             android:id="@+id/tv_welcome"
             style="@style/titleTextStyle"
             android:layout_marginTop="@dimen/margin_bottom"
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin"
-            android:text="@string/welcome" >
-        </TextView>
+            android:text="@string/welcome"
+            reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
         <LinearLayout
             android:id="@+id/second_part"
             style="@style/textBackground"
             android:orientation="vertical" >
 
-            <TextView
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/tv_welcome_desc"
                 style="@style/textStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:paddingLeft="@dimen/layout_margin"
                 android:paddingRight="@dimen/layout_margin"
-                android:text="@string/account_details" >
-            </TextView>
+                android:text="@string/account_details"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
         </LinearLayout>
 
         <LinearLayout
@@ -42,24 +43,24 @@
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <TextView
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/related_account_id"
                 style="@style/textStyle"
-                android:text="@string/related_account" >
-            </TextView>
+                android:text="@string/related_account"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/create_account_id"
                 style="@style/buttonStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/navigation_bar"
-                android:text="@string/create_phi_account" />
+                android:text="@string/create_phi_account"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
         </LinearLayout>
 
         <View
             style="@style/line"
-            android:layout_marginBottom="@dimen/margin_bottom" >
-        </View>
+            android:layout_marginBottom="@dimen/margin_bottom" />
 
         <LinearLayout
             android:id="@+id/fourth_part"
@@ -69,38 +70,39 @@
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <TextView
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 style="@style/textStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
-                android:text="@string/or_sign" />
+                android:text="@string/or_sign"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/philips_acct_id"
                 style="@style/buttonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/philips"
-                android:text="@string/philips" >
-            </Button>
+                android:text="@string/philips"
+                reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 style="@style/buttonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/facebook"
-                android:text="@string/facebook" >
-            </Button>
+                android:text="@string/facebook"
+                reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 style="@style/buttonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/twitter"
-                android:text="@string/twitter" >
-            </Button>
+                android:text="@string/twitter"
+                reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
         </LinearLayout>
     </LinearLayout>
 
