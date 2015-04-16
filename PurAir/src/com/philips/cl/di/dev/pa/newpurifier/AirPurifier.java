@@ -32,26 +32,26 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	private final String mUsn;
 	private String latitude;
 	private String longitude;
-	
+
 	private final NetworkNode mNetworkNode = new NetworkNode();
 	private final SchedulerHandler mSchedulerHandler;
 	private SubscriptionHandler mSubscriptionHandler;
-	
+
 	private final AirPort mAirPort;
 	private final FirmwarePort mFirmwarePort;
-	private final ScheduleListPort mScheduleListPort;	
-	
+	private final ScheduleListPort mScheduleListPort;
+
 	private final DISecurity mDISecurity;
-	
+
 	private PurifierListener mPurifierListener;
 
 	private final Handler mResubscriptionHandler = new Handler(Looper.getMainLooper());
-	private Runnable mResubscribeRunnable;	
+	private Runnable mResubscribeRunnable;
 	protected static final long RESUBSCRIBING_TIME = 300000;
-	
+
 	private CommunicationStrategy mCommunicationStrategy;
-	
-	public AirPurifier(String eui64, String usn, String ipAddress, String name, 
+
+	public AirPurifier(String eui64, String usn, String ipAddress, String name,
 			long bootId, ConnectionState connectionState) {
 		mNetworkNode.setBootId(bootId);
 		mNetworkNode.setCppId(eui64);
@@ -67,8 +67,8 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, mCommunicationStrategy,mSchedulerHandler);
 		mDISecurity = new DISecurity(this);
 	}
-	
-	public AirPurifier(String eui64, String usn, String ipAddress, String name, 
+
+	public AirPurifier(String eui64, String usn, String ipAddress, String name,
 			long bootId, ConnectionState connectionState, SubscriptionHandler subscriptionHandler) {
 		this(eui64, usn, ipAddress, name, bootId, connectionState);
 		mSubscriptionHandler = subscriptionHandler;
@@ -105,7 +105,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	public void disableLocalSubscription() {
 		mSubscriptionHandler.disableLocalSubscription();
 	}
-	
+
 	public void enableRemoteSubscription(Context context) {
 		mSubscriptionHandler.enableRemoteSubscription(context);
 	}
@@ -133,7 +133,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	public String getUsn() {
 		return mUsn;
 	}
-	
+
 	public synchronized String getName() {
 		return getNetworkNode().getName();
 	}
@@ -141,7 +141,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	public void setConnectionState(ConnectionState connectionState) {
 		mNetworkNode.setConnectionState(connectionState);
 	}
-			
+
 	public boolean isDemoPurifier() {
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
 	}
@@ -161,7 +161,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	@Override
 	public void onError(Error error) {
 		if(mPurifierListener==null) return;
-		
+
 		switch (error) {
 		case SCHEDULER:
 			mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
@@ -170,7 +170,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 			break;
 		}
 	}
-	
+
 	public void subscribeToAllEvents() {
 		ALog.i(ALog.APPLIANCE, "Subscribe to all events for appliance: " + this) ;
 		mSubscriptionHandler.subscribeToPurifierEvents();
@@ -178,10 +178,10 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		mSubscriptionHandler.subscribeToFirmwareEvents();
 		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 		mResubscriptionHandler.post(mResubscribeRunnable);
-		mResubscribeRunnable = new Runnable() { 
-			@Override 
-			public void run() { 
-				try{					
+		mResubscribeRunnable = new Runnable() {
+			@Override
+			public void run() {
+				try{
 					mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 					mSubscriptionHandler.subscribeToPurifierEvents(); 
 					//mAirPort.subscribe();
@@ -191,8 +191,8 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 				catch (Exception e) {
 					e.printStackTrace();
 				}
-			} 
-		}; 
+			}
+		};
 	}
 
 	public void unSubscribeFromAllEvents() {
@@ -201,18 +201,18 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		mSubscriptionHandler.unSubscribeFromPurifierEvents();
 		mSubscriptionHandler.unSubscribeFromFirmwareEvents();
 	}
-	
+
 	private void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
-		
+
 		if(mAirPort.isResponseForThisPort(data)){
-			mAirPort.processResponse(data);
+			mAirPort.handleSubscription(data);
 			if(mPurifierListener!=null){
 			    mPurifierListener.notifyAirPurifierEventListeners();
 			}
 			return;
 		}
-		
+
 		// TODO: DIComm Refactor use processresponse of schedulelist port class and make parse methods as private
 		if( mScheduleListPort.isResponseForThisPort(data) ){
 			SchedulePortInfo schedulePortInfo = mScheduleListPort.parseResponseAsSingleSchedule(data);
@@ -225,34 +225,34 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 				mPurifierListener.notifyScheduleListenerForScheduleList(schedulePortInfoList);
 				return ;
 			}
-			
+
 			if( data.contains(AppConstants.OUT_OF_MEMORY)) {
 				if(mPurifierListener!=null){
 				    mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.MAX_SCHEDULES_REACHED);
 				}
 			}
 		}
-		
+
 		if(mFirmwarePort.isResponseForThisPort(data)){
-			mFirmwarePort.processResponse(data);
+			mFirmwarePort.handleSubscription(data);
 			if(mPurifierListener!=null){
 			    mPurifierListener.notifyFirmwareEventListeners();
 			}
 			return;
 		}
-		
+
 	}
 
 	@Override
 	public void keyDecrypt(String key, String deviceEui64) {
 		if (key == null) return;
-		
+
 		if (deviceEui64.equals(mNetworkNode.getCppId())) {
 			ALog.e(ALog.APPLIANCE, "Updated current appliance encryption key");
 			mNetworkNode.setEncryptionKey(key);
 			// TODO: DIComm Refactor, modify purifierDatabase to remove purairdevice
 			new PurifierDatabase().updatePurifierUsingUsn(this);
-		}		
+		}
 	}
 
 	@Override
@@ -260,6 +260,4 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		ALog.d(ALog.APPLIANCE, "Success event received");		
 		notifySubscriptionListeners(data) ;		
 	}
-	
-	
 }

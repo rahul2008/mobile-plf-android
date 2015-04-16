@@ -48,8 +48,8 @@ public abstract class DICommPort {
 
 	public boolean isPutPropertiesRequested(){
 		synchronized (mPutPropertiesMap) {
-			return !mPutPropertiesMap.isEmpty();	
-		}	   	
+			return !mPutPropertiesMap.isEmpty();
+		}
 	}
 
 	public boolean isGetPropertiesRequested(){
@@ -66,8 +66,8 @@ public abstract class DICommPort {
 
     public void putProperties(String key, String value){
     	synchronized (mPutPropertiesMap) {
-    		mPutPropertiesMap.put(key, value);	
-		}    	
+    		mPutPropertiesMap.put(key, value);
+		}
     	tryToPerformNextRequest();
     }
 
@@ -110,8 +110,7 @@ public abstract class DICommPort {
     	}
     }
 
-    // TODO DIComm Refactor hide from interface -> package private?
-    public void notifyPropertyUpdateHandlers(boolean isSubscription) {
+    private void notifyPropertyUpdateHandlers(boolean isSubscription) {
     	synchronized (mPropertyUpdateHandlers) {
     		for (DIPropertyUpdateHandler handler : mPropertyUpdateHandlers) {
     			handler.handlePropertyUpdateForPort(this, isSubscription);
@@ -158,17 +157,23 @@ public abstract class DICommPort {
 		notifyPropertyUpdateHandlers(false);
 	}
 
+    public void handleSubscription(String data) {
+		mGetPropertiesRequested = false;
+		processResponse(data);
+		notifyPropertyUpdateHandlers(true);
+	}
+
     private void performPutProperties() {
     	final HashMap<String, String> propertiesToSend;
-    	
+
     	synchronized (mPutPropertiesMap) {
     		propertiesToSend = new HashMap<String, String>(mPutPropertiesMap);
-        	mPutPropertiesMap.clear();	
+        	mPutPropertiesMap.clear();
 		}
-    	
+
     	mIsApplyingChanges = true;
     	mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(),mNetworkNode,new ResponseHandler() {
-    		
+
 			@Override
 			public void onSuccess(String data) {
 				handleResponse(data);
