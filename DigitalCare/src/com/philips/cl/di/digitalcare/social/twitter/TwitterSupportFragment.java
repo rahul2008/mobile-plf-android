@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -71,6 +72,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
 	private ImageView mTwitterIcon = null;
+	private Handler mTwitterPostHandler = null;
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
 
@@ -80,6 +82,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 		mTwitterView = inflater.inflate(R.layout.fragment_facebook_screen,
 				container, false);
+		mTwitterPostHandler = new Handler();
 		mSharedPreferences = getActivity().getSharedPreferences(
 				TwitterAuthentication.PREF_NAME, 0);
 		mUsername = mSharedPreferences.getString(
@@ -171,7 +174,22 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mPostProgress.setMessage(getActivity().getResources().getString(
 				R.string.twitter_post_progress_message));
 		mPostProgress.setCancelable(false);
+		mPostProgress.show();
+		mTwitterPostHandler.postDelayed(mRunnable, 5000l);
+
 	}
+
+	Runnable mRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			if (mPostProgress != null && mPostProgress.isShowing()) {
+				DLog.d(TAG, "5 Seconds finished");
+				mPostProgress.dismiss();
+				mPostProgress = null;
+			}
+		}
+	};
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -347,8 +365,11 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void closeProgress() {
-		if (mPostProgress.isShowing())
+		if (mPostProgress!= null && mPostProgress.isShowing())
+		{
 			mPostProgress.dismiss();
+			mPostProgress = null;
+		}
 	}
 
 	@Override

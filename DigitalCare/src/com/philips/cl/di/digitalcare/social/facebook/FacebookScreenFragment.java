@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private Bundle mSaveInstanceState = null;
 	private View mView = null;
 	private ProgressDialog mPostProgress = null;
+	private Handler mPostHandler = null;
 	private static String mProductInformation = null;
 
 	@Override
@@ -80,6 +82,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			mFacebookUtility = new FacebookUtility(getActivity(),
 					mSaveInstanceState, mView, this, this);
 		}
+		mPostHandler = new Handler();
 		mProductInformation = " "
 				+ getActivity().getResources().getString(
 						R.string.support_productinformation) + " ";
@@ -292,6 +295,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 									R.string.facebook_post_progress_message));
 					mPostProgress.setCancelable(false);
 					mPostProgress.show();
+					mPostHandler.postDelayed(mRunnable, 5000l);
 					mFacebookUtility.performPublishAction(mEditText.getText()
 							.toString());
 				}
@@ -302,6 +306,18 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			onImageDettach();
 		}
 	}
+	
+	Runnable mRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			if (mPostProgress != null && mPostProgress.isShowing()) {
+				DLog.d(TAG, "5 Seconds finished");
+				mPostProgress.dismiss();
+				mPostProgress = null;
+			}
+		}
+	};
 
 	private boolean isDescriptionAvailable() {
 		String s = mEditText.getText().toString().trim();

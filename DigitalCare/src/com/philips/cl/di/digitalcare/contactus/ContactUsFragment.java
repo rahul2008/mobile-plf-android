@@ -58,6 +58,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private View mView = null;
 	private Handler mTwitterProgresshandler = null;
 	private ProgressDialog mPostProgress = null;
+	Configuration config = null;
 
 	// CDLS related
 	private CdlsRequestTask mCdlsRequestTask = null;
@@ -142,7 +143,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		if (!Utils.isNetworkConnected(getActivity())) {
 			return;
 		}
-		Configuration config = getResources().getConfiguration();
+		config = getResources().getConfiguration();
+		
+	}
+	
+	
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		setViewParams(config);
 	}
 
