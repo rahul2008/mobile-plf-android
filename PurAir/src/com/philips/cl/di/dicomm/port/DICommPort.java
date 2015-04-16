@@ -47,7 +47,9 @@ public abstract class DICommPort {
 	}
 
 	public boolean isPutPropertiesRequested(){
-	   	return !mPutPropertiesMap.isEmpty();
+		synchronized (mPutPropertiesMap) {
+			return !mPutPropertiesMap.isEmpty();	
+		}	   	
 	}
 
 	public boolean isGetPropertiesRequested(){
@@ -63,7 +65,9 @@ public abstract class DICommPort {
 	}
 
     public void putProperties(String key, String value){
-    	mPutPropertiesMap.put(key, value);
+    	synchronized (mPutPropertiesMap) {
+    		mPutPropertiesMap.put(key, value);	
+		}    	
     	tryToPerformNextRequest();
     }
 
@@ -155,20 +159,27 @@ public abstract class DICommPort {
 	}
 
     private void performPutProperties() {
-    	final HashMap<String, String> propertiesToSend = new HashMap<String, String>(mPutPropertiesMap);
-    	mPutPropertiesMap.clear();
+    	final HashMap<String, String> propertiesToSend;
+    	
+    	synchronized (mPutPropertiesMap) {
+    		propertiesToSend = new HashMap<String, String>(mPutPropertiesMap);
+        	mPutPropertiesMap.clear();	
+		}
+    	
+    	mIsApplyingChanges = true;
     	mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(),mNetworkNode,new ResponseHandler() {
-
+    		
 			@Override
 			public void onSuccess(String data) {
 				handleResponse(data);
 				requestCompleted();
+				mIsApplyingChanges = false;
 			}
 
 			public void onError(Error error) {
-				// TODO: DICOMM Refactor, Retry request.
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
+				mIsApplyingChanges = false;
 			}
 		});
     }
@@ -184,7 +195,6 @@ public abstract class DICommPort {
 
 			@Override
 			public void onError(Error error) {
-				// TODO: DICOMM Refactor, Retry request.
 				mGetPropertiesRequested = false;
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
@@ -204,7 +214,6 @@ public abstract class DICommPort {
 
 			@Override
 			public void onError(Error error) {
-				// TODO: DICOMM Refactor, Retry request.
 				mSubscribeRequested = false;
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
@@ -224,7 +233,6 @@ public abstract class DICommPort {
 
 			@Override
 			public void onError(Error error) {
-				// TODO: DICOMM Refactor, Retry request.
 				mUnsubscribeRequested = false;
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
