@@ -383,7 +383,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void closeProgress() {
-		if (mPostProgress.isShowing())
+		if (mPostProgress!=null && mPostProgress.isShowing())
 			mPostProgress.dismiss();
 	}
 
