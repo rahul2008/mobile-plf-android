@@ -116,14 +116,16 @@ public class ProductImageHelper {
 
 	public void processProductImage(Intent data, int requestCode) {
 		DLog.d(TAG, "onActivity receiving the Intent");
+		DLog.d(TAG, "Android Version is : " + Build.VERSION.SDK_INT);
 
 		if (requestCode == DigitalCareContants.IMAGE_PICK) {
 
-			DLog.d(TAG, "Image Picked From Gallery");
+			DLog.d(TAG, "Image Picked From Gallery  with Data : " + data);
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
 
-			if (Build.VERSION.SDK_INT > 19) {
+			if (Build.VERSION.SDK_INT >= KITKAT ) {
+				DLog.d(TAG, "Android Version in 19+");
 
 				DLog.d(TAG, "PATH : " + getPath(mActivity, selectedImage));
 				InputStream input;
@@ -138,6 +140,7 @@ public class ProductImageHelper {
 
 				}
 			} else {
+				DLog.d(TAG, "Android Version is 18 below");
 
 				Cursor cursor = mActivity.getContentResolver().query(
 						selectedImage, filePathColumn, null, null, null);
@@ -190,7 +193,7 @@ public class ProductImageHelper {
 	 */
 	public static String getPath(final Context context, final Uri uri) {
 
-		final boolean isKitKat = Build.VERSION.SDK_INT > KITKAT;
+		final boolean isKitKat = Build.VERSION.SDK_INT >= KITKAT;
 
 		// DocumentProvider
 		if (isKitKat && DocumentsContract.isDocumentUri(uri)) {
@@ -211,9 +214,7 @@ public class ProductImageHelper {
 				final String id = DocumentsContract.getDocumentId(uri);
 				long mId = Long.parseLong(id);
 				Uri mUri = Uri.parse("content://downloads/public_downloads");
-				final Uri contentUri = ContentUris.withAppendedId(
-						mUri,
-						mId);
+				final Uri contentUri = ContentUris.withAppendedId(mUri, mId);
 
 				return getDataColumn(context, contentUri, null, null);
 			}

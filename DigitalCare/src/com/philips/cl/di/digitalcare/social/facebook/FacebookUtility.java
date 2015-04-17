@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
@@ -304,7 +303,7 @@ public class FacebookUtility {
 
 	private void postResponse(Response response) {
 
-		if (response.getError() != null)
+		if (response.getError() != null && mPostCallback != null)
 			mPostCallback.onTaskFailed();
 		else
 			mPostCallback.onTaskCompleted();
