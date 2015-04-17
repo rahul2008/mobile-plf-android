@@ -185,13 +185,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		@Override
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
-				if (Utils.isNetworkConnected(getActivity()))
-				{
+				if (Utils.isNetworkConnected(getActivity())) {
 					mPostProgress.setCancelable(false);
-					mTwitterPostHandler.postDelayed(mRunnable, mPostProgressTrack);
+					mTwitterPostHandler.postDelayed(mRunnable,
+							mPostProgressTrack);
 					DLog.d(TAG, "Progress Re alloted");
-				}else
-				{
+				} else {
 					mPostProgress.setCancelable(true);
 					DLog.d(TAG, "Progress is cancellable");
 				}
@@ -317,7 +316,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
-		DLog.d(TAG, "IMAGE RECEIVED : "+ mFile.getAbsolutePath());
+		DLog.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
@@ -337,37 +336,44 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onTaskCompleted() {
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				String socialType = "Twitter";
-				AnalyticsTracker.trackAction(
-						AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
-						AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, socialType);
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.social_post_success),
-						Toast.LENGTH_SHORT).show();
-				closeProgress();
-				backstackFragment();
-			}
-		});
+
+		if (getActivity() != null) {
+			getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					String socialType = "Twitter";
+					AnalyticsTracker.trackAction(
+							AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
+							AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
+							socialType);
+					Toast.makeText(
+							getActivity(),
+							getActivity().getResources().getString(
+									R.string.social_post_success),
+							Toast.LENGTH_SHORT).show();
+					closeProgress();
+					backstackFragment();
+				}
+			});
+		}
 	}
 
 	@Override
 	public void onTaskFailed() {
-		getActivity().runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.social_post_failed),
-						Toast.LENGTH_SHORT).show();
-				closeProgress();
-			}
-		});
+
+		if (getActivity() != null) {
+			getActivity().runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					Toast.makeText(
+							getActivity(),
+							getActivity().getResources().getString(
+									R.string.social_post_failed),
+							Toast.LENGTH_SHORT).show();
+					closeProgress();
+				}
+			});
+		}
 	}
 
 	private void closeProgress() {
