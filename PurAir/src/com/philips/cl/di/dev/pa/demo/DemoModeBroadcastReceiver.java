@@ -28,6 +28,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 
 public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		KeyDecryptListener, Runnable, ServerResponseListener {
@@ -68,7 +69,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		ALog.i(ALog.DEMO_MODE, "On Receive:" + intent.getAction());
-		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {			
+		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 			WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext()
 					.getSystemService(Context.WIFI_SERVICE);
 
@@ -171,7 +172,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
 	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempDemoModePurifier = new AirPurifier(tempEui64, null,
+		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(), tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 	}
@@ -181,7 +182,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			return;
 		String encryptionKey = tempDemoModePurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = DemoModeConstant.DEMO;
-		tempDemoModePurifier = new AirPurifier(eui64, null,
+		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(),eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
@@ -268,7 +269,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			break;
 		}
 	}
-	
+
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 

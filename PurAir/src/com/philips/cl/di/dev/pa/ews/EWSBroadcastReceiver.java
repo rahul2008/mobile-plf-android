@@ -34,9 +34,10 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 
 
-public class EWSBroadcastReceiver extends BroadcastReceiver 
+public class EWSBroadcastReceiver extends BroadcastReceiver
 		implements KeyDecryptListener, EWSTaskListener, Runnable {
 
 	private EWSListener listener ;
@@ -64,7 +65,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	private boolean isOpenNetwork;
 
 	/**
-	 * 
+	 *
 	 * @param listener
 	 * @param context
 	 * @param homeSSID
@@ -144,7 +145,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	public void connectToDeviceAP() {
 		ALog.i(ALog.EWS, "connecttoDevice AP");
-		WifiManager wifiManager = 
+		WifiManager wifiManager =
 				(WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
 
@@ -242,14 +243,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempEWSPurifier = new AirPurifier(tempEui64, null,
+		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(), tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, null, -1,	ConnectionState.CONNECTED_LOCALLY);
 	}
 
 	private void updateTempDevice(String eui64) {
 		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = tempEWSPurifier.getNetworkNode().getName();
-		tempEWSPurifier = new AirPurifier(eui64, null,
+		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(), eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,	ConnectionState.CONNECTED_LOCALLY);
 		tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}
@@ -275,7 +276,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					.getSystemService(Context.WIFI_SERVICE);
 
 			WifiInfo connectedWifiNetwork = wifiMan.getConnectionInfo();
-			
+
 			if (connectedWifiNetwork.getSupplicantState() == SupplicantState.COMPLETED) {
 
 				String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
@@ -287,7 +288,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				ALog.i(ALog.EWS, "Connected to AirPurifier - Ssid= " + ssid
 						+ "; startDeviceSSIDTimer: " + startDeviceSSIDTimer + "; homeSSID:" + homeSSID);
 
-				if (ssid.contains(EWSWifiManager.DEVICE_SSID) 
+				if (ssid.contains(EWSWifiManager.DEVICE_SSID)
 						&& startDeviceSSIDTimer && homeSSID != null) {
 					ALog.i(ALog.EWS,"Connected to PHILIPS Setup");
 					errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
@@ -295,7 +296,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					initializeKey() ;
 					isOpenNetwork = EWSWifiManager.isOpenNetwork(homeSSID);
 					return;
-				} 
+				}
 
 				if (homeSSID != null && ssid.contains(homeSSID)) {
 					ALog.i(ALog.EWS,"Selected Home network");
@@ -306,7 +307,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 				if (homeSSID == null ) {
 					listener.foundHomeNetwork() ;
-				} 
+				}
 
 			} else if (netInfo.getState() == NetworkInfo.State.DISCONNECTED ||
 					netInfo.getState() == NetworkInfo.State.DISCONNECTING) {
@@ -334,7 +335,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					if (deviceDto == null) return;
 					tempEWSPurifier.getNetworkNode().setName(deviceDto.getName());
 					getWifiDetails() ;
-				}				
+				}
 			}
 			else if(taskType == WIFI_GET) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
@@ -350,7 +351,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 					stopSSIDTimer();
 					listener.onHandShakeWithDevice() ;
-				}	
+				}
 			}
 			else if(taskType == DEVICE_PUT ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
@@ -359,7 +360,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					DeviceDto deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					//listener.onHandShakeWithDevice() ;
-				}	
+				}
 			}
 			else if(taskType == WIFI_PUT ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
@@ -376,13 +377,13 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				stop = true ;
 				stopSSDPCountDownTimer() ;
 				if( response != null && response.length() > 0 && response.contains(AppConstants.INVALID_WIFI_SETTINGS)) {
-					listener.onErrorOccurred(EWSListener.ERROR_CODE_INVALID_PASSWORD) ;				
+					listener.onErrorOccurred(EWSListener.ERROR_CODE_INVALID_PASSWORD) ;
 				} else {
 					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE) ;
 				}
 			}
 			break;
-		case HttpURLConnection.HTTP_BAD_GATEWAY: 
+		case HttpURLConnection.HTTP_BAD_GATEWAY:
 			ALog.i(ALog.EWS, "Connect purifier to home network request send succesfully," +
 					" but conn.getResponseCode() failed. Task type: " + taskType);
 			if (taskType == WIFI_PUT) {
@@ -391,7 +392,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_CONNECT_HOME_NETWORK ;
 				break;
 			}
-		default: 
+		default:
 			stop = true ;
 			stopSSDPCountDownTimer() ;
 			stopSSIDTimer() ;
@@ -402,7 +403,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			else if( taskType == WIFI_PUT || taskType == DEVICE_PUT) {
 				listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE) ;
 			}
-			break;			
+			break;
 		}
 	}
 
@@ -459,7 +460,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					if (currentNetworkSSID == null || !currentNetworkSSID.equals(homeSSID)) {
 						errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_CONNECT_HOME_NETWORK ;
 						onTimeCountDownTaskCompleted();
-					} 
+					}
 				} else if (timeCount == TOTAL_TIME_COUNT) {
 					ALog.i(ALog.EWS, "ssdpCountDownTimer after 90Sec");
 					errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE ;

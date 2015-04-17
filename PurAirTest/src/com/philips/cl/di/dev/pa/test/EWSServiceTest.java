@@ -11,22 +11,23 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public class EWSServiceTest extends AndroidTestCase {
-	
+
 	private EWSBroadcastReceiver ewsService;
 	private EWSListener ewsListener;
 	private final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
 	private AirPurifier puriDevice;
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ewsService = new EWSBroadcastReceiver(ewsListener, "WHF2012TEST");
-		puriDevice = new AirPurifier("fffgggcc05", "usn", "192.168.1.1", "name", 1, ConnectionState.CONNECTED_LOCALLY);
+		puriDevice = new AirPurifier(null, "fffgggcc05", "usn", "192.168.1.1", "name", 1, ConnectionState.CONNECTED_LOCALLY);
 		puriDevice.getNetworkNode().setEncryptionKey(KEY);
 	}
-	
+
 	public void testGetWifiPortJson() {
 		String json = JSONBuilder.getWifiPortJson("Purifier2", "1234", puriDevice.getNetworkNode());
 		String decryptedData = new DISecurity(null).decryptData(json, puriDevice.getNetworkNode());
@@ -35,7 +36,7 @@ public class EWSServiceTest extends AndroidTestCase {
 		assertTrue(decryptedData.contains("password"));
 		assertTrue(decryptedData.contains("1234"));
 	}
-	
+
 	public void testGetWifiPortWithAdvConfigJson() {
 		String json = JSONBuilder.getWifiPortWithAdvConfigJson("Purifier2", "1234", "192.168.1.1", "255.255.255.0",
 		"192.168.1.1", puriDevice.getNetworkNode());
@@ -53,17 +54,17 @@ public class EWSServiceTest extends AndroidTestCase {
 		assertTrue(decryptedData.contains("gateway"));
 		assertTrue(decryptedData.contains("192.168.1.1"));
 	}
-	
+
 	public void testGetDevicePortJson() {
 		String data1 = "";
 		String data2 = "";
-		
+
 		try {
 			Method devicePort = EWSBroadcastReceiver.class.getDeclaredMethod("getDevicePortJson", (Class<?>[]) null);
 			devicePort.setAccessible(true);
 			data1 = (String) devicePort.invoke(ewsService, (Object[]) null);
 			data2 = (String) devicePort.invoke(ewsService, (Object[]) null);
-			
+
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -81,8 +82,8 @@ public class EWSServiceTest extends AndroidTestCase {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
-		
+
 		assertEquals(data1, data2);
 	}
-	
+
 }

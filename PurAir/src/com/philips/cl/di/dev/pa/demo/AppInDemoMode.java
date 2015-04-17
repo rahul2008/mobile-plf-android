@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
+import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 
 public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 	private Context ctx;
@@ -117,7 +118,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 	public void keyDecrypt(String key, String deviceEui64) {
 		ALog.i(ALog.MAINACTIVITY, "Key exchange succesfull for shop demo mode");
 		keyInitializeState = KeyInitializeState.NONE;
-		AirPurifier demoModePurifier = new AirPurifier(deviceEui64, null,
+		AirPurifier demoModePurifier = new AirPurifier(new CommunicationMarshal(), deviceEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		demoModePurifier.getNetworkNode().setEncryptionKey(key);

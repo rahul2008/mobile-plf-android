@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 
 public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {
@@ -67,7 +68,7 @@ public class ManagePurifierFragment extends BaseFragment implements
         HomeFragment homeFragment = (HomeFragment) getParentFragment();
         if (homeFragment != null) {
 			homeFragment.setUpdateMyPurifiersListner(new UpdateMyPurifierListener() {
-				
+
 				@Override
 				public void onUpdate() {
 					if (getString(R.string.done).equals(editTV.getText().toString())) {
@@ -80,7 +81,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 			});
 		}
 	}
-	
+
 	private void saveLastPageCurrentPage() {
 		int size = DiscoveryManager.getInstance().getStoreDevices().size() + 1;
 		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(size);
@@ -100,7 +101,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		super.onResume();
 		loadDataFromDatabase();
 	}
-	
+
 	@Override
 	public void onStop() {
 		HomeFragment homeFragment = (HomeFragment) getParentFragment();
@@ -112,7 +113,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	private void loadDataFromDatabase() {
 		purifiers = DiscoveryManager.getInstance().getStoreDevices();
-		AirPurifier addPurifierDevice = new AirPurifier("", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier addPurifierDevice = new AirPurifier(new CommunicationMarshal(), "", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
 		purifiers.add(0, addPurifierDevice);
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection
