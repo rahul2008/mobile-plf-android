@@ -7,24 +7,19 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.newpurifier.DeviceHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class AirPort extends DICommPort {
 	
 	private final String AIRPORT_NAME = "air";	
 	private final int AIRPORT_PRODUCTID = 1;
-	private final DeviceHandler mDeviceHandler;
-	
 	
 	private AirPortInfo mAirPortInfo;
 	
-	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, DeviceHandler deviceHandler){
+	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		super(networkNode,communicationStrategy);
-		mDeviceHandler = deviceHandler;
 	}
 
 	public AirPortInfo getAirPortInfo() {
@@ -99,13 +94,6 @@ public class AirPort extends DICommPort {
 		}
 		
 		return airPortInfo ;
-	}
-	
-	// TODO refactor into new architecture, rename method
-	public void setPurifierDetails(String key, String value, Error purifierEvent) {
-		ALog.i(ALog.AIRPORT, "Set Appliance details: " + key +" = " + value) ;
-		mDeviceHandler.setPurifierEvent(purifierEvent) ;
-		mDeviceHandler.setPurifierDetails(key, value, mNetworkNode);
 	}
 
 	@Override

@@ -10,11 +10,7 @@ public enum Error {
 	BADREQUEST("HTTP BADREQUEST occurred - check log for more info"),
 	BADGATEWAY("HTTP BADGATEWAY occurred "),
 	NOTCONNECTED("Request cannot be performed - Not connected to an appliance"),
-	DEVICE_CONTROL(""),
-	SCHEDULER(""),
-	FIRMWARE(""),
-	AQI_THRESHOLD(""),
-	PAIRING("");	
+	SCHEDULER("");
 
 	private final String mErrorMessage;
 	

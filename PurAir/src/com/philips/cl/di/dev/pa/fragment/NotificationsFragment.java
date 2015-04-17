@@ -44,6 +44,9 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPropertyErrorHandler;
+import com.philips.cl.di.dicomm.port.DIPropertyUpdateHandler;
 
 public class NotificationsFragment extends BaseFragment implements
 OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
@@ -71,6 +74,22 @@ AlertDialogBtnInterface, OnClickListener {
 
 	private ViewGroup lastConnectionLL;
 	private FontTextView lastConnectionTimeTV;
+	
+	private DIPropertyUpdateHandler mAirPortUpdateHandler = new DIPropertyUpdateHandler() {
+		@Override
+		public void handlePropertyUpdateForPort(DICommPort port) {
+			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+			updateUI();
+		}
+	};
+	
+   private DIPropertyErrorHandler mAirPortErrorHandler = new DIPropertyErrorHandler() {
+       @Override
+       public void handleErrorForPort(DICommPort port, Error error) {
+    	   //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+    	   handleSetThresholdError(error);
+	   }
+   };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -132,6 +151,26 @@ AlertDialogBtnInterface, OnClickListener {
 			}
 		}
 
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier!=null){
+		    currentPurifier.getAirPort().registerPropertyUpdateHandler(mAirPortUpdateHandler);
+		    currentPurifier.getAirPort().registerPropertyErrorHandler(mAirPortErrorHandler);
+		}
+	}
+	
+	@Override
+	public void onPause() {
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier!=null){
+		    currentPurifier.getAirPort().unregisterPropertyUpdateHandler(mAirPortUpdateHandler);
+		    currentPurifier.getAirPort().unregisterPropertyErrorHandler(mAirPortErrorHandler);
+		}
+		super.onPause();
 	}
 
 	private void showPairingProgressDialog(){
@@ -326,9 +365,7 @@ AlertDialogBtnInterface, OnClickListener {
 		
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().setPurifierDetails(
-					ParserConstants.AQI_THRESHOLD, aqiThreshold,
-					Error.AQI_THRESHOLD);
+			currentPurifier.getAirPort().putProperties(ParserConstants.AQI_THRESHOLD, aqiThreshold);
 		}
 	}
 
@@ -429,9 +466,8 @@ AlertDialogBtnInterface, OnClickListener {
 	/**
 	 * This method is called if the call to set AQI threshold via locally fails
 	 */
-	@Override
-	public void onErrorOccurred(Error purifierEventError) {
-		if (purifierEventError != Error.AQI_THRESHOLD) return;
+	public void handleSetThresholdError(Error error) {
+		// TODO:DICOMM Refactor, check error mapping
 		if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
 		if (aqiThresholdProgressDialog != null) aqiThresholdProgressDialog.dismiss();
 
@@ -439,35 +475,19 @@ AlertDialogBtnInterface, OnClickListener {
 		showError();
 	}
 
+	public void updateUI() {
+		//		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
+		if (mPurifier != null && ConnectionState.DISCONNECTED != mPurifier.getNetworkNode().getConnectionState()) {
+			lastConnectionLL.setVisibility(View.GONE);
+		}
+		if (aqiThresholdProgressDialog != null)	aqiThresholdProgressDialog.dismiss();
+		if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
+
+	}
+	
+
 	@Override
 	public void onNegativeButtonClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onAirPurifierChanged() {
-		updateUI();
-	}
-
-	@Override
-	public void onAirPurifierEventReceived() {
-		//		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
-		if (getActivity() == null) return;
-		getActivity().runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (mPurifier != null && ConnectionState.DISCONNECTED != mPurifier.getNetworkNode().getConnectionState()) {
-					lastConnectionLL.setVisibility(View.GONE);
-				}
-				if (aqiThresholdProgressDialog != null)	aqiThresholdProgressDialog.dismiss();
-				if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
-			}
-		});
-	}
-
-	@Override
-	public void onFirmwareEventReceived() {
 		// NOP
 	}
 
@@ -541,7 +561,7 @@ AlertDialogBtnInterface, OnClickListener {
 		}
 	}
 
-	private void updateUI() {
+	private void updateUIConnectionState() {
 		if (getActivity() == null)	return;
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
@@ -591,5 +611,25 @@ AlertDialogBtnInterface, OnClickListener {
 		notificationToggleChecked(false);
 		notificationToggle.setEnabled(false);
 		disableDetailedNotificationsLayout();
+	}
+
+	@Override
+	public void onAirPurifierChanged() {
+		updateUIConnectionState();
+	}
+
+	@Override
+	public void onAirPurifierEventReceived() {
+		// TODO DIComm refactor remove when changing AirpurifierEventListener to CurrentPurifierListener
+	}
+
+	@Override
+	public void onFirmwareEventReceived() {
+		// TODO DIComm refactor remove when changing AirpurifierEventListener to CurrentPurifierListener
+	}
+
+	@Override
+	public void onErrorOccurred(Error purifierEventError) {
+		// TODO DIComm refactor remove when changing AirpurifierEventListener to CurrentPurifierListener
 	}
 }

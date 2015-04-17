@@ -34,7 +34,6 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	private String longitude;
 	
 	private final NetworkNode mNetworkNode = new NetworkNode();
-	private final DeviceHandler mDeviceHandler;
 	private final SchedulerHandler mSchedulerHandler;
 	private SubscriptionHandler mSubscriptionHandler;
 	
@@ -62,9 +61,8 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		mNetworkNode.setConnectionState(connectionState);
 		mCommunicationStrategy = new CommunicationMarshal();
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
-		mDeviceHandler = new DeviceHandler(this);
 		mSchedulerHandler = new SchedulerHandler(this);
-		mAirPort = new AirPort(mNetworkNode,mCommunicationStrategy,mDeviceHandler);
+		mAirPort = new AirPort(mNetworkNode,mCommunicationStrategy);
 		mFirmwarePort = new FirmwarePort(mNetworkNode,mCommunicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, mCommunicationStrategy,mSchedulerHandler);
 		mDISecurity = new DISecurity(this);
@@ -80,11 +78,6 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		return mNetworkNode;
 	}
 	
-	// TODO: Remove this method when we inline subscriptioneventlisteners
-	public DeviceHandler getDeviceHandler() {
-		return mDeviceHandler;
-	}
-
 	public void setPurifierListener(PurifierListener mPurifierListener) {
 		this.mPurifierListener = mPurifierListener;
 	}
@@ -173,14 +166,6 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		case SCHEDULER:
 			mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
 			break;
-		case DEVICE_CONTROL:
-		case AQI_THRESHOLD:
-			mPurifierListener.notifyAirPurifierEventListenersErrorOccurred(error);
-			break;
-		case FIRMWARE:
-			break;
-		case PAIRING:
-			break;
 		default:
 			break;
 		}
@@ -189,6 +174,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	public void subscribeToAllEvents() {
 		ALog.i(ALog.APPLIANCE, "Subscribe to all events for appliance: " + this) ;
 		mSubscriptionHandler.subscribeToPurifierEvents();
+		//mAirPort.subscribe();
 		mSubscriptionHandler.subscribeToFirmwareEvents();
 		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 		mResubscriptionHandler.post(mResubscribeRunnable);
@@ -198,6 +184,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 				try{					
 					mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 					mSubscriptionHandler.subscribeToPurifierEvents(); 
+					//mAirPort.subscribe();
 					mSubscriptionHandler.subscribeToFirmwareEvents();
 					mResubscriptionHandler.postDelayed(mResubscribeRunnable, AirPurifier.RESUBSCRIBING_TIME);
 				}
@@ -270,11 +257,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 
 	@Override
 	public void onSuccess(String data) {
-		ALog.i("UIUX", "Check if the thread is running: " + mDeviceHandler.isDeviceThreadRunning()) ;
-		if(mDeviceHandler.isDeviceThreadRunning()) return;
-				
 		ALog.d(ALog.APPLIANCE, "Success event received");		
-		
 		notifySubscriptionListeners(data) ;		
 	}
 	

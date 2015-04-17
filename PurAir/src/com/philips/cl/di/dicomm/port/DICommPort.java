@@ -92,7 +92,7 @@ public abstract class DICommPort {
     	}
     }
 
-    public void removePropertyUpdateHandler(DIPropertyUpdateHandler handler) {
+    public void unregisterPropertyUpdateHandler(DIPropertyUpdateHandler handler) {
     	synchronized(mPropertyUpdateHandlers) {
     		mPropertyUpdateHandlers.remove(handler);
     	}
@@ -104,7 +104,7 @@ public abstract class DICommPort {
     	}
     }
 
-    public void removePropertyErrorHandler(DIPropertyErrorHandler handler) {
+    public void unregisterPropertyErrorHandler(DIPropertyErrorHandler handler) {
     	synchronized(mPropertyErrorHandlers) {
     		mPropertyErrorHandlers.remove(handler);
     	}

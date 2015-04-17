@@ -106,7 +106,7 @@ public class AirPortTest extends TestCase {
 	}		
 
 	private AirPortInfo parseAirPortData(String parseData) {
-		AirPort airPort = new AirPort(null,null,null);
+		AirPort airPort = new AirPort(null,null);
 		airPort.processResponse(parseData);
 		return airPort.getAirPortInfo();
 	}
