@@ -114,9 +114,8 @@ public class FacebookUtility {
 					public void onCompleted(Response response) {
 						DLog.d(TAG, "Page Name is : " + mUrlBuild);
 						DLog.d(TAG, "Error : " + response.getError());
-						if(response.getError() == null)
+						if (response.getError() == null)
 							mFaceBookPage = page;
-                       						
 
 						DLog.d(TAG, "FACE BOOK DESTINATION : " + mFaceBookPage);
 					}
@@ -199,11 +198,6 @@ public class FacebookUtility {
 								AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
 								AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
 								AnalyticsConstants.ACTION_VALUE_FACEBOOK);
-
-						String posted = "Shared Image Successful to Facebook";
-						DLog.d(TAG, posted);
-						Toast.makeText(mActivity, posted, Toast.LENGTH_LONG)
-								.show();
 						postResponse(response);
 					}
 				});

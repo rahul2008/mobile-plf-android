@@ -65,7 +65,8 @@ public class FacebookHelper {
 		}
 	};
 
-	public void onFaceBookCallback(Activity activity, int requestCode, int resultCode, Intent data) {
+	public void onFaceBookCallback(Activity activity, int requestCode,
+			int resultCode, Intent data) {
 		DLog.d(TAG, "result code is : .." + resultCode);
 
 		Session.getActiveSession().onActivityResult(activity, requestCode,
@@ -82,32 +83,5 @@ public class FacebookHelper {
 		mSuccessCallback = callback;
 		openSession(true, getPermissions(), mCallback);
 	}
-
-	/*
-	 * public void onFaceBookCallback(int requestCode, int resultCode, Intent
-	 * data) { DLog.d(TAG, "result code is : .." + resultCode);
-	 * 
-	 * Session.getActiveSession().onActivityResult(mActivity, requestCode,
-	 * resultCode, data);
-	 * 
-	 * }
-	 * 
-	 * public void open(Activity a) { Session.openActiveSession(a, true, new
-	 * Session.StatusCallback() {
-	 * 
-	 * // callback when session changes state
-	 * 
-	 * @Override public void call(Session session, SessionState state, Exception
-	 * exception) { if (session.isOpened()) {
-	 * 
-	 * // make request to the /me API Request.newMeRequest(session, new
-	 * Request.GraphUserCallback() {
-	 * 
-	 * // callback after Graph API response with user object
-	 * 
-	 * @Override public void onCompleted(GraphUser user, Response response) { if
-	 * (user != null) { DLog.d("Second..", "name : "+ user.getName()); } }
-	 * }).executeAsync(); } } }); }
-	 */
 
 }
