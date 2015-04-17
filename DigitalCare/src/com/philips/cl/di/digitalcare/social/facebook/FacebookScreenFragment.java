@@ -257,13 +257,11 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
-		Toast.makeText(getActivity(),
-				"Image Path : " + mFile.getAbsolutePath(), Toast.LENGTH_SHORT)
-				.show();
 		mFacebookUtility.setImageToUpload(image);
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductImageClose.setVisibility(View.VISIBLE);
+		DLog.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
 	}
 
 	@Override

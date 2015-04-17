@@ -317,9 +317,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
-		Toast.makeText(getActivity(),
-				"Image Path : " + mFile.getAbsolutePath(), Toast.LENGTH_SHORT)
-				.show();
+		DLog.d(TAG, "IMAGE RECEIVED : "+ mFile.getAbsolutePath());
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
