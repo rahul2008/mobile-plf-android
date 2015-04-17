@@ -69,6 +69,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private ProgressDialog mPostProgress = null;
 	private Handler mPostHandler = null;
 	private static String mProductInformation = null;
+	private final long mPostProgressTrack = 1000 * 3l;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -295,7 +296,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 									R.string.facebook_post_progress_message));
 					mPostProgress.setCancelable(false);
 					mPostProgress.show();
-					mPostHandler.postDelayed(mRunnable, 5000l);
+					mPostHandler.postDelayed(mRunnable, mPostProgressTrack);
 					mFacebookUtility.performPublishAction(mEditText.getText()
 							.toString());
 				}
@@ -306,14 +307,19 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			onImageDettach();
 		}
 	}
-	
+
 	Runnable mRunnable = new Runnable() {
 
 		@Override
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
-				DLog.d(TAG, "5 Seconds finished");
-				mPostProgress.setCancelable(true);
+
+				if (Utils.isNetworkConnected(getActivity())) {
+					mPostHandler.postDelayed(mRunnable, mPostProgressTrack);
+					mPostProgress.setCancelable(false);
+				} else {
+					mPostProgress.setCancelable(true);
+				}
 			}
 		}
 	};
@@ -382,7 +388,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void closeProgress() {
-		if (mPostProgress!=null && mPostProgress.isShowing())
+		if (mPostProgress != null && mPostProgress.isShowing())
 			mPostProgress.dismiss();
 	}
 

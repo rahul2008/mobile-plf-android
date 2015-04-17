@@ -75,6 +75,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private Handler mTwitterPostHandler = null;
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
+	private final long mPostProgressTrack = 1000 * 3l;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -175,7 +176,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.string.twitter_post_progress_message));
 		mPostProgress.setCancelable(false);
 		mPostProgress.show();
-		mTwitterPostHandler.postDelayed(mRunnable, 5000l);
+		mTwitterPostHandler.postDelayed(mRunnable, mPostProgressTrack);
 
 	}
 
@@ -184,8 +185,16 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		@Override
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
-				DLog.d(TAG, "5 Seconds finished");
-				mPostProgress.setCancelable(true);
+				if (Utils.isNetworkConnected(getActivity()))
+				{
+					mPostProgress.setCancelable(false);
+					mTwitterPostHandler.postDelayed(mRunnable, mPostProgressTrack);
+					DLog.d(TAG, "Progress Re alloted");
+				}else
+				{
+					mPostProgress.setCancelable(true);
+					DLog.d(TAG, "Progress is cancellable");
+				}
 			}
 		}
 	};
@@ -364,8 +373,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void closeProgress() {
-		if (mPostProgress!= null && mPostProgress.isShowing())
-		{
+		if (mPostProgress != null && mPostProgress.isShowing()) {
 			mPostProgress.dismiss();
 			mPostProgress = null;
 		}
