@@ -185,8 +185,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
 				DLog.d(TAG, "5 Seconds finished");
-				mPostProgress.dismiss();
-				mPostProgress = null;
+				mPostProgress.setCancelable(true);
 			}
 		}
 	};
