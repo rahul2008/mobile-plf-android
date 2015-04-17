@@ -1,5 +1,7 @@
 package com.philips.cl.di.reg.ui.traditional;
 
+import java.util.Locale;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,33 +20,37 @@ import android.widget.TextView;
 
 import com.janrain.android.Jump;
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.events.EventHelper;
+import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationActivity extends FragmentActivity {
+public class RegistrationActivity extends FragmentActivity implements
+		EventListener {
 
 	private ImageView mActionBarArrow = null;
 	private FragmentManager mFragmentManager = null;
 	private TextView mActionBarTitle = null;
-	private final String PROD_CLIENT_ID = "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3";
-	private final String MICROSITE_ID = "81376";
-	private final String REGISTRATION_USE_PROD = "REGISTRATION_USE_PRODUCTION";
-	private final String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
-	private final String EVAL_CLIENT_Id = "6v3yzffu6uxq4k9ctcw4jtd498k8zmtz";
 	private final String TAG = TextView.class.getSimpleName();
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-	}
+	public static boolean mJanrainIntialized = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
+
 		setContentView(R.layout.activity_registration);
 		mFragmentManager = getSupportFragmentManager();
 		initialize();
+		/** commented to restrict registration process */
+		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+		LocalBroadcastManager.getInstance(this).registerReceiver(janrainStatusReceiver, flowFilter);
 		intializeJanrain(true);
 		loadMainFragment();
 		getSupportFragmentManager()
@@ -98,13 +104,24 @@ public class RegistrationActivity extends FragmentActivity {
 		public void onReceive(Context context, Intent intent) {
 			if (intent != null) {
 				Bundle extras = intent.getExtras();
-				RLog.i(RLog.APPLICATION, "janrainStatusReceiver, intent = "
-						+ intent.toString());
+				RLog.i(RLog.ACTIVITY_LIFECYCLE,
+						"janrainStatusReceiver, intent = " + intent.toString());
 				if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent
 						.getAction())) && (null != extras)) {
+					mJanrainIntialized = true;
+					System.out.println("success");
+					
+					EventHelper.getInstance().notifyEventOccurred(
+							RegConstants.JANRAIN_INIT_SUCCESS);
 				} else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW
 						.equalsIgnoreCase(intent.getAction())
 						&& (extras != null)) {
+					
+					System.out.println("failed in reciver");
+					
+				/*	EventHelper.getInstance().notifyEventOccurred(
+							RegConstants.JANRAIN_INIT_FAILURE);*/
+					mJanrainIntialized = false;
 				}
 			}
 		}
@@ -165,23 +182,49 @@ public class RegistrationActivity extends FragmentActivity {
 		mActionBarArrow.bringToFront();
 	}
 
+	/**
+	 * Initialize Janrain
+	 * 
+	 * @param isInitialized
+	 *            true for initialize and false for reinitialize Janrain
+	 */
 	public void intializeJanrain(boolean isInitialized) {
-		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		IntentFilter flowFilter = new IntentFilter(
-				Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-		LocalBroadcastManager.getInstance(this).registerReceiver(
-				janrainStatusReceiver, flowFilter);
 		if (NetworkUtility.getInstance().isOnline()) {
 			JanrainConfigurationSettings user = JanrainConfigurationSettings
 					.getInstance();
-			// user.init(getApplicationContext(), PROD_CLIENT_ID,
-			// MICROSITE_ID,REGISTRATION_USE_PROD, isInitialized, "en_US");
-			user.init(getApplicationContext(), EVAL_CLIENT_Id, MICROSITE_ID,
-					REGISTRATION_USE_EVAL, isInitialized, "en_US");
-		} else {
-			RLog.d(RLog.APPLICATION, "intializeJanrain : There is No internet");
+
+			user.init(getApplicationContext(), RegConstants.EVAL_CLIENT_Id,
+					RegConstants.MICROSITE_ID,
+					RegConstants.REGISTRATION_USE_EVAL, isInitialized, Locale
+							.getDefault().toString());
+
+			// user.init(getApplicationContext(), AppConstants.PROD_CLIENT_ID,
+			// AppConstants.MICROSITE_ID, AppConstants.REGISTRATION_USE_PROD,
+			// isInitialized,
+			// LocaleUtil.getAppLocale(getApplicationContext()));
 		}
+	}
+
+	public static boolean isJanrainIntialized() {
+		return mJanrainIntialized;
+	}
+
+	public static void setJanrainIntialized(boolean janrainIntializationStatus) {
+		mJanrainIntialized = janrainIntializationStatus;
+	}
+
+	@Override
+	public void onEventReceived(String event) {
+		if (RegConstants.IS_ONLINE.equals(event)) {
+			if (!isJanrainIntialized()) {
+				intializeJanrain(false);
+			}
+		}
+	}
+
+	@Override
+	public void raiseEvent(String event) {
+		// Do nothing
 	}
 
 }

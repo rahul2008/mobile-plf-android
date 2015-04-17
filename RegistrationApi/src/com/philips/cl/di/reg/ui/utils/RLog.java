@@ -8,6 +8,7 @@ public class RLog {
 
 	public static final String ACTIVITY_LIFECYCLE = "ActivityLifecycle";
 	public static final String APPLICATION = "RegistrationApplication";
+	public static final String NETWORK_STATE = "NetworkState";
 
 	private static boolean isLoggingEnabled = true;
 

@@ -103,6 +103,11 @@
                 android:background="@drawable/twitter"
                 android:text="@string/twitter"
                 reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+
+            <com.philips.cl.di.reg.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 

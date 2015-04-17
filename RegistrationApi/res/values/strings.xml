@@ -4,10 +4,8 @@
     <string name="app_name">RegistrationApi</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-     <string name="content_desc">ContentDesc</string>
-    
+    <string name="content_desc">ContentDesc</string>
     <string name="title_activity_traditional_registration">TraditionalRegistration</string>
-    
     <string name="sign_in">Sign in</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="welcome">Welcome!</string>
@@ -31,13 +29,14 @@
     <string name="continue_use_app">You can continue to use the app in the meantime</string>
     <string name="continue_login">Continue</string>
     <string name="verify_email">Please verify your email</string>
-    
     <string name="sent_email">We have sent an email to:email.email.net </string>
     <string name="ready_email">When your ready. Please check your email to actviate your account</string>
     <string name="app_mean_time">You can use the app in the meantime </string>
     <string name="press_resend">Press "Resend" button if you not received an email</string>
     <string name="activate_account">I have activated my account</string>
     <string name="resend">Resend</string>
-    
 
-   </resources>
+    <!-- Janrain Error messages -->
+    <string name="No_Internet_Connection">Registration is not available because you\'re offline.</string>
+
+</resources>

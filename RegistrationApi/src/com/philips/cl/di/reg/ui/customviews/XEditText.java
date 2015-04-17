@@ -33,6 +33,7 @@ public class XEditText extends EditText {
 	private void applyAttributes(TextView view, Context context,
 			String fontAssetName) {
 		FontLoader.getInstance().setTypeface(view, fontAssetName);
+		applyAttributes(this, context, fontAssetName);
 	}
 
 	public void setTypeface(String fontAssetName) {

@@ -13,7 +13,7 @@
     <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- Janrain specific permission start -->
+    <!-- Janrain specific permission End -->
 
     <uses-sdk
         android:minSdkVersion="10"
@@ -41,7 +41,14 @@
             android:name="com.philips.cl.di.reg.ui.traditional.RegistrationActivity"
             android:configChanges="orientation|screenSize" >
         </activity>
-        <!-- Regitration Api start-->
+
+        <!-- Network state change receiver -->
+        <receiver android:name="com.philips.cl.di.reg.receiver.NetworkStateReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!-- Regitration Api End -->
     </application>
 
 </manifest>

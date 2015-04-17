@@ -1,5 +1,6 @@
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,10 +13,15 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.events.EventHelper;
+import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.ui.customviews.XRegError;
+import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class HomeFragment extends RegistrationBaseFragment implements
-		OnClickListener {
+		OnClickListener, EventListener {
 
 	private Button mBtnCreateAccount;
 	private Button mBtnMyPhilips;
@@ -23,10 +29,17 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	private TextView mTvWelcomeDesc;
 	private LinearLayout mLlCreateBtnContainer;
 	private LinearLayout mLlLoginBtnContainer;
+	private XRegError mRegError;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
@@ -41,6 +54,17 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		setViewParams(config);
 	}
 
+	@Override
+	public void onDestroy() {
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
+		super.onDestroy();
+	}
+
 	private void initUI(View view) {
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
 		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_welcome_desc);
@@ -52,7 +76,11 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		mBtnCreateAccount.setOnClickListener(this);
 		mBtnMyPhilips = (Button) view.findViewById(R.id.philips_acct_id);
 		mBtnMyPhilips.setOnClickListener(this);
+
+		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+
 		setViewParams(getResources().getConfiguration());
+		handleUiState();
 	}
 
 	@Override
@@ -86,6 +114,64 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.sign_in);
+	}
+
+	@Override
+	public void onEventReceived(String event) {
+		if (RegConstants.IS_ONLINE.equals(event)) {
+			handleUiState();
+		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+			enableControls(true);
+		} else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
+			enableControls(false);
+		}
+	}
+
+	private void handleUiState() {
+		if (NetworkUtility.getInstance().isOnline()) {
+			if (isJanrainIntialized()) {
+				mRegError.hideError();
+				enableControls(true);
+			} else {
+				// Show janran offline error
+				System.out.println("ffff");
+				mRegError.setError(getString(R.string.No_Internet_Connection));
+			}
+		} else {
+			// Show network error
+			mRegError.setError(getString(R.string.No_Internet_Connection));
+			enableControls(false);
+		}
+	}
+
+	@SuppressLint("NewApi")
+	private void enableControls(boolean state) {
+
+		mBtnCreateAccount.setEnabled(state);
+		mBtnMyPhilips.setEnabled(state);
+
+		// btnCreateAccount.setEnabled(state);
+		// mLlMyPhilips.setEnabled(state);
+		// mLlFacebook.setEnabled(state);
+		// mLlTwitter.setEnabled(state);
+		// mLlGooglePlus.setEnabled(state);
+		//
+		if (state) {
+			mBtnCreateAccount.setAlpha(1);
+			mBtnMyPhilips.setAlpha(1);
+			// mLlFacebook.setAlpha(1);
+			// mLlTwitter.setAlpha(1);
+			// mLlGooglePlus.setAlpha(1);
+			// mLlRegisterError.setVisibility(View.INVISIBLE);
+		} else {
+			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
+			mBtnCreateAccount.setAlpha(0.75f);
+			mBtnCreateAccount.setAlpha(0.75f);
+
+			// mLlFacebook.setAlpha(0.75f);
+			// mLlTwitter.setAlpha(0.75f);
+			// mLlGooglePlus.setAlpha(0.75f);
+		}
 	}
 
 }

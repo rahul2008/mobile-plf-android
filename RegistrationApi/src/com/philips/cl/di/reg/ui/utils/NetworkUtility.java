@@ -4,9 +4,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-/**
- * @author Vinayak Udikeri
- */
 public class NetworkUtility {
 
 	private static NetworkUtility mNetworkUtility;

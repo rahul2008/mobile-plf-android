@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="20dip" >
+
+    <ImageView
+        android:layout_width="28dip"
+        android:layout_height="28dip"
+        android:layout_gravity="top"
+        android:layout_marginRight="2dip"
+        android:layout_marginTop="4dip"
+        android:contentDescription="@string/content_desc"
+        android:src="@drawable/err_alert" />
+
+    <ImageView
+        android:layout_width="6dip"
+        android:layout_height="15dip"
+        android:layout_gravity="top"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/left_arrow"
+        android:contentDescription="@string/content_desc" />
+
+    <com.philips.cl.di.reg.ui.customviews.XTextView
+        android:id="@+id/tv_error_message"
+        style="@style/errortextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/reg_rect"
+        android:padding="10dip"
+        android:text="@string/No_Internet_Connection"
+        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+</LinearLayout>
