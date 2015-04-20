@@ -15,7 +15,6 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
@@ -173,19 +172,16 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 
 	public void subscribeToAllEvents() {
 		ALog.i(ALog.APPLIANCE, "Subscribe to all events for appliance: " + this) ;
-		mSubscriptionHandler.subscribeToPurifierEvents();
-		//mAirPort.subscribe();
-		mSubscriptionHandler.subscribeToFirmwareEvents();
+		mAirPort.subscribe();
+		mFirmwarePort.subscribe();
 		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
-		mResubscriptionHandler.post(mResubscribeRunnable);
 		mResubscribeRunnable = new Runnable() {
 			@Override
 			public void run() {
 				try{
 					mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
-					mSubscriptionHandler.subscribeToPurifierEvents();
-					//mAirPort.subscribe();
-					mSubscriptionHandler.subscribeToFirmwareEvents();
+					mAirPort.subscribe();
+					mFirmwarePort.subscribe();
 					mResubscriptionHandler.postDelayed(mResubscribeRunnable, AirPurifier.RESUBSCRIBING_TIME);
 				}
 				catch (Exception e) {
@@ -193,6 +189,7 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 				}
 			}
 		};
+		mResubscriptionHandler.post(mResubscribeRunnable);
 	}
 
 	public void unSubscribeFromAllEvents() {
