@@ -68,6 +68,7 @@ public class RequestQueue {
                 super.onLooperPrepared();
             }
         };
+        mRequestThread.start();
 	}
 
     private synchronized void initializeRequestHandler(Looper looper) {
