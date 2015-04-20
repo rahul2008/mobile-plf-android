@@ -5,7 +5,7 @@
     android:layout_height="fill_parent" >
 
     <LinearLayout
-        android:id="@+id/main_id"
+        android:id="@+id/ll_root_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
@@ -20,7 +20,7 @@
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
         <LinearLayout
-            android:id="@+id/second_part"
+            android:id="@+id/ll_welcome_container"
             style="@style/textBackground"
             android:orientation="vertical" >
 
@@ -35,7 +35,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/third_part"
+            android:id="@+id/ll_create_account_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_bottom"
@@ -44,13 +44,13 @@
             android:paddingRight="@dimen/layout_margin" >
 
             <com.philips.cl.di.reg.ui.customviews.XTextView
-                android:id="@+id/related_account_id"
+                android:id="@+id/tv_create_account"
                 style="@style/textStyle"
                 android:text="@string/related_account"
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
             <com.philips.cl.di.reg.ui.customviews.XButton
-                android:id="@+id/create_account_id"
+                android:id="@+id/btn_create_account"
                 style="@style/buttonStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/navigation_bar"
@@ -63,7 +63,7 @@
             android:layout_marginBottom="@dimen/margin_bottom" />
 
         <LinearLayout
-            android:id="@+id/fourth_part"
+            android:id="@+id/ll_singin_options"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

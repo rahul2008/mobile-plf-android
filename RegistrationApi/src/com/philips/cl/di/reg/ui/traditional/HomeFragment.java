@@ -64,17 +64,17 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
+		        this);
 		super.onDestroy();
 	}
 
 	private void initUI(View view) {
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
 		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_welcome_desc);
-		mLlCreateBtnContainer = (LinearLayout) view.findViewById(R.id.third_part);
-		mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.fourth_part);
-		mBtnCreateAccount = (Button) view.findViewById(R.id.create_account_id);
+		mLlCreateBtnContainer = (LinearLayout) view.findViewById(R.id.ll_create_account_container);
+		mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.ll_singin_options);
+		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
 		mBtnMyPhilips = (Button) view.findViewById(R.id.philips_acct_id);
 		mBtnMyPhilips.setOnClickListener(this);
@@ -89,11 +89,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	public void onClick(View v) {
 		// Library does not include resource constants after ADT 14
 		// Link :http://tools.android.com/tips/non-constant-fields
-		if (v.getId() == R.id.create_account_id) {
+		if (v.getId() == R.id.btn_create_account) {
 			((RegistrationActivity) getActivity()).addFragment(new CreateAccountFragment());
 		} else if (v.getId() == R.id.philips_acct_id) {
-			((RegistrationActivity) getActivity())
-					.addFragment(new SignInAccountFragment());
+			((RegistrationActivity) getActivity()).addFragment(new SignInAccountFragment());
 		}
 	}
 
@@ -163,7 +162,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 			// mLlFacebook.setAlpha(1);
 			// mLlTwitter.setAlpha(1);
 			// mLlGooglePlus.setAlpha(1);
-			 mRegError.hideError();
+			mRegError.hideError();
 		} else {
 			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
 			mBtnCreateAccount.setAlpha(0.75f);

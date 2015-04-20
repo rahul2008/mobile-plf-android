@@ -4,7 +4,7 @@
     android:layout_height="fill_parent" >
 
     <LinearLayout
-        android:id="@+id/main_id"
+        android:id="@+id/ll_root_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical" >

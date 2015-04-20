@@ -77,9 +77,9 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 
 	private void initUI(View view) {
 		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_veify_email);
-		mSecondLayout = (LinearLayout) view.findViewById(R.id.second_part);
+		mSecondLayout = (LinearLayout) view.findViewById(R.id.ll_welcome_container);
 		mTvResendDetails = (TextView) view.findViewById(R.id.tv_resend_details);
-		mFourthLayout = (RelativeLayout) view.findViewById(R.id.fourth_part);
+		mFourthLayout = (RelativeLayout) view.findViewById(R.id.ll_singin_options);
 		
 		
 		mActivateBtn = (Button) view.findViewById(R.id.activate_acct_btn);

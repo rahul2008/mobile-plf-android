@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.ui.utils.EmailValidater;
 
-public class XNameField extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener{
+public class XUserName extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener{
 	
 	private Context mContext;
 	private ImageView mIvNameErrAlert;
@@ -24,13 +24,13 @@ public class XNameField extends RelativeLayout implements TextWatcher,OnClickLis
 	private boolean mValidName;
 	
 	
-	public XNameField(Context context) {
+	public XUserName(Context context) {
 		super(context);
 		this.mContext = context;
 		initUi(R.layout.name_field);
 	}
 	
-	public XNameField(Context context, AttributeSet attrs) {
+	public XUserName(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
 		initUi(R.layout.name_field);

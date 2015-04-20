@@ -19,13 +19,13 @@
             android:text="@string/sign_in_philips" >
         </TextView>
 
-        <com.philips.cl.di.reg.ui.customviews.XEmailField
+        <com.philips.cl.di.reg.ui.customviews.XEmail
             android:id="@+id/rl_email_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_bottom" />
 
-        <com.philips.cl.di.reg.ui.customviews.XPasswordField
+        <com.philips.cl.di.reg.ui.customviews.XPassword
             android:id="@+id/rl_password_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
     </View>
 
     <RelativeLayout
-        android:id="@+id/second_part"
+        android:id="@+id/ll_welcome_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

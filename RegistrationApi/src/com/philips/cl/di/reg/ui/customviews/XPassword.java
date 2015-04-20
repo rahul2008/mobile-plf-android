@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.ui.utils.EmailValidater;
 
-public class XPasswordField extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener {
+public class XPassword extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener {
 	
 	private Context mContext;
 	private ImageView mIvPasswordErrAlert;
@@ -26,13 +26,13 @@ public class XPasswordField extends RelativeLayout implements TextWatcher,OnClic
 	private EditText mEtPassword;
 	private boolean mValidPassword;
 	
-	public XPasswordField(Context context) {
+	public XPassword(Context context) {
 		super(context);
 		this.mContext = context;
 		initUi(R.layout.password_field);
 	}
 	
-	public XPasswordField(Context context, AttributeSet attrs) {
+	public XPassword(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
 		initUi(R.layout.password_field);

@@ -19,8 +19,8 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
-import com.philips.cl.di.reg.ui.customviews.XEmailField;
-import com.philips.cl.di.reg.ui.customviews.XPasswordField;
+import com.philips.cl.di.reg.ui.customviews.XEmail;
+import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.utils.EmailValidater;
 import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
@@ -34,8 +34,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	
 	private Button mSigninBtn;
 	private Button mForgotBtn;
-	private XEmailField mEtEmail;
-	private XPasswordField mEtPassword;
+	private XEmail mEtEmail;
+	private XPassword mEtPassword;
 	private User mUser;
 	private ProgressBar mPbSpinner;
 	private final int INVALID_CREDENTIAL = 10;
@@ -90,12 +90,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mFirstLayout = (LinearLayout) view.findViewById(
 				R.id.first_part);
 		mSecondLayout = (RelativeLayout) view.findViewById(
-				R.id.second_part);
+				R.id.ll_welcome_container);
 		
-		mEtEmail = (XEmailField) view.findViewById(R.id.rl_email_field);
+		mEtEmail = (XEmail) view.findViewById(R.id.rl_email_field);
 		mEtEmail.setOnClickListener(this);
 		mEtEmail.setFocusable(true);
-		mEtPassword = (XPasswordField) view.findViewById(R.id.rl_password_field);
+		mEtPassword = (XPassword) view.findViewById(R.id.rl_password_field);
 		mEtPassword.setOnClickListener(this);
 		
 		setViewParams(getResources().getConfiguration());
