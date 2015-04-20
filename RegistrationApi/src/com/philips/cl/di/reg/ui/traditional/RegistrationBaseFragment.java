@@ -53,13 +53,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		return null;
 	}
 
-	public boolean isJanrainIntialized() {
-		Activity activity = getActivity();
-		if (activity != null && (activity instanceof RegistrationActivity)) {
-			return ((RegistrationActivity) activity).isJanrainIntialized();
-		}
-		return false;
-	}
+	
 
 	public void raiseEvent(String event) {
 		// TODO Auto-generated method stub
