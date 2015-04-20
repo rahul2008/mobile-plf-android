@@ -69,14 +69,13 @@ public class LocalRequest extends Request {
 		try {
 			URL urlConn = new URL(mUrl);
 			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
-			if(mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
+			if (mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
 				if (mData == null || mData.isEmpty()) {
 					return new Response(null, Error.NODATA, mResponseHandler);
 				}
-				conn.setDoOutput(true);
-				out = new OutputStreamWriter(conn.getOutputStream(),Charset.defaultCharset());
-				out.write(mData);
-				out.flush();
+				out = appendDataToRequestIfAvailable(conn);
+			} else if (mRequestType == LocalRequestType.DELETE) {
+				appendDataToRequestIfAvailable(conn);
 			}
 			conn.connect();
 
@@ -127,5 +126,16 @@ public class LocalRequest extends Request {
 		finally {
 			NetworkUtils.closeAllConnections(inputStream, out, conn);
 		}
+	}
+
+	private OutputStreamWriter appendDataToRequestIfAvailable(HttpURLConnection conn) throws IOException {
+		if (mData == null) return null;
+
+		OutputStreamWriter out;
+		conn.setDoOutput(true);
+		out = new OutputStreamWriter(conn.getOutputStream(),Charset.defaultCharset());
+		out.write(mData);
+		out.flush();
+		return out;
 	}
 }
