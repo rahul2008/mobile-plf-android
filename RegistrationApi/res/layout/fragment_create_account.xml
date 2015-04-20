@@ -21,32 +21,23 @@
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <EditText
-                android:id="@+id/et_reg_fname"
-                style="@style/style_tab_reg_hint"
-                android:layout_marginBottom="@dimen/edit_margin_bottom"
-                android:hint="@string/first_name"
-                android:inputType="textPersonName"
-                android:maxLength="40" >
+            <com.philips.cl.di.reg.ui.customviews.XNameField
+                android:id="@+id/rl_name_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bottom" />
 
-                <requestFocus />
-            </EditText>
+            <com.philips.cl.di.reg.ui.customviews.XEmailField
+                android:id="@+id/rl_email_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bottom" />
 
-            <EditText
-                android:id="@+id/et_reg_email"
-                style="@style/style_tab_reg_hint"
-                android:layout_marginBottom="@dimen/edit_margin_bottom"
-                android:hint="@string/mail_address"
-                android:inputType="textEmailAddress" >
-            </EditText>
-
-            <EditText
-                android:id="@+id/et_reg_password"
-                style="@style/style_tab_reg_hint"
-                android:layout_marginBottom="@dimen/edit_margin_bottom"
-                android:hint="@string/enter_password"
-                android:inputType="textPassword" >
-            </EditText>
+            <com.philips.cl.di.reg.ui.customviews.XPasswordField
+                android:id="@+id/rl_password_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bottom" />
         </LinearLayout>
 
         <LinearLayout
@@ -95,10 +86,11 @@
             android:layout_marginBottom="@dimen/margin_bottom" >
         </View>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/fourth_part"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
@@ -109,7 +101,25 @@
                 android:background="@drawable/navigation_bar"
                 android:text="@string/create_phi_account" >
             </Button>
-        </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/pb_spinner"
+                android:layout_width="@dimen/rg_fb_icon_height"
+                android:layout_height="@dimen/rg_fb_icon_height"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="8dp"
+                android:indeterminateDrawable="@drawable/bts_progress_drawable"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_test"
+                style="@style/buttonStyle"
+                android:layout_below="@+id/btn_register"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:background="@drawable/navigation_bar"
+                android:text="TEST " >
+            </Button>
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

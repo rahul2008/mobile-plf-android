@@ -1,51 +1,52 @@
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
+import com.philips.cl.di.reg.ui.customviews.XEmailField;
+import com.philips.cl.di.reg.ui.customviews.XPasswordField;
+import com.philips.cl.di.reg.ui.utils.EmailValidater;
+import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
+import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
-import com.philips.cl.di.reg.ui.utils.ValidatorUtility;
 
-public class SignInAccountFragment extends RegistrationBaseFragment
-		implements OnClickListener, TraditionalLoginHandler {
+public class SignInAccountFragment extends RegistrationBaseFragment implements
+		OnClickListener, TraditionalLoginHandler, ForgotPasswordHandler {
 
-	private LinearLayout mFirstLayout = null;
-	private LinearLayout mSecondLayout = null;
-	private View mView;
-	private LinearLayout.LayoutParams mParams = null;
+	private LinearLayout mFirstLayout;
+	private RelativeLayout mSecondLayout;
+	
 	private Button mSigninBtn;
-	private EditText mEtEmail, mEtPassword;
+	private Button mForgotBtn;
+	private XEmailField mEtEmail;
+	private XPasswordField mEtPassword;
 	private User mUser;
+	private ProgressBar mPbSpinner;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
 				"UserPhilipsAccountSignInFragment : onCreateView");
-		mView = inflater.inflate(R.layout.fragment_sign_in_account, null);
-		return mView;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserPhilipsAccountSignInFragment : onActivityCreated");
-		initialize();
-		Configuration config = getResources().getConfiguration();
-		setViewParams(config);
+		View view = inflater.inflate(R.layout.fragment_sign_in_account, null);
+		initUI(view);
+		return view;
 	}
 
 	@Override
@@ -58,15 +59,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment
 
 	@Override
 	public void setViewParams(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserPhilipsAccountSignInFragment : setViewParams");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,"UserPhilipsAccountSignInFragment : setViewParams");
+		LinearLayout.LayoutParams params = (LayoutParams) mFirstLayout.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
 		} else {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
 		}
-		mFirstLayout.setLayoutParams(mParams);
-		mSecondLayout.setLayoutParams(mParams);
+		mFirstLayout.setLayoutParams(params);
+		mSecondLayout.setLayoutParams(params);
 
 	}
 
@@ -75,21 +76,30 @@ public class SignInAccountFragment extends RegistrationBaseFragment
 		int id = v.getId();
 		if (id == R.id.sign_in_btn) {
 			signIn();
-		} else {
+		} else if (id == R.id.forgot_password_btn) {
+			resetPassword();
 		}
 	}
 
-	private void initialize() {
-		mSigninBtn = (Button) mView.findViewById(R.id.sign_in_btn);
+	private void initUI(View view) {
+		mSigninBtn = (Button) view.findViewById(R.id.sign_in_btn);
 		mSigninBtn.setOnClickListener(this);
-		mFirstLayout = (LinearLayout) getActivity().findViewById(
+		mForgotBtn = (Button) view.findViewById(R.id.forgot_password_btn);
+		mForgotBtn.setOnClickListener(this);
+		mFirstLayout = (LinearLayout) view.findViewById(
 				R.id.first_part);
-		mSecondLayout = (LinearLayout) getActivity().findViewById(
+		mSecondLayout = (RelativeLayout) view.findViewById(
 				R.id.second_part);
-		mParams = (LayoutParams) mFirstLayout.getLayoutParams();
-		mEtEmail = (EditText) mView.findViewById(R.id.et_signin_email);
-		mEtPassword = (EditText) mView.findViewById(R.id.et_signin_password);
+		
+		mEtEmail = (XEmailField) view.findViewById(R.id.rl_email_field);
+		mEtEmail.setOnClickListener(this);
+		mEtEmail.setFocusable(true);
+		mEtPassword = (XPasswordField) view.findViewById(R.id.rl_password_field);
+		mEtPassword.setOnClickListener(this);
+		
+		setViewParams(getResources().getConfiguration());
 		mUser = new User(getActivity().getApplicationContext());
+		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_spinner);
 	}
 
 	@Override
@@ -98,65 +108,97 @@ public class SignInAccountFragment extends RegistrationBaseFragment
 	}
 
 	private void signIn() {
-		boolean isValidPassword = validatePassword();
-		boolean isEmailPassword = validateEmail();
-
-		if (isValidPassword && isEmailPassword) {
+		if (mEtPassword.isValidPassword() && mEtEmail.isValidEmail()) {
 			if (mUser != null)
-				mUser.loginUsingTraditional(mEtEmail.getText().toString(),
-						mEtPassword.getText().toString(), this);
+				showSpinner();
+			mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(),
+					mEtPassword.getPassword().toString(), this);
 		}
 
-	}
-
-	private boolean validatePassword() {
-		if (!isValidPassword(mEtPassword.getText().toString())) {
-			Toast.makeText(getActivity(), "Password Wrong", Toast.LENGTH_LONG)
-					.show();
-			return false;
-		}
-
-		return true;
-	}
-
-	private boolean validateEmail() {
-		if (!isValidEmail(mEtEmail.getText().toString())) {
-			Toast.makeText(getActivity(), "Email Wrong", Toast.LENGTH_LONG)
-					.show();
-			return false;
-		}
-		return true;
-	}
-
-	private boolean isValidEmail(String pMail) {
-		if (pMail == null)
-			return false;
-		if (pMail.length() == 0)
-			return false;
-
-		return ValidatorUtility.isValidEmail(pMail);
-	}
-
-	private boolean isValidPassword(String pPassword) {
-		if (pPassword == null)
-			return false;
-		if (pPassword.length() > 0)
-			return true;
-		return false;
 	}
 
 	@Override
 	public void onLoginSuccess() {
-		Toast.makeText(getActivity(), "SignIN Success", Toast.LENGTH_LONG)
-				.show();
+		hideSpinner();
 		((RegistrationActivity) getActivity())
 				.addFragment(new WelcomeFragment());
 	}
 
 	@Override
 	public void onLoginFailedWithError(int error) {
-		Toast.makeText(getActivity(), "SignIN Failure", Toast.LENGTH_LONG)
-				.show();
+		
+		hideSpinner();
+		if (error == 10) {
+			mEtPassword.setErrDescription(getResources().getString(R.string.Janrain_invalid_credentials));
+			mEtPassword.showJanarainError();
+		} else {
+			JanrainErrorMessage errorMessage = new JanrainErrorMessage(getActivity());
+			String message = errorMessage.getError(error);
+			mEtPassword.setErrDescription(message);
+		}
+	}
+	
+	private void forgotpassword() {
+
+		final AlertDialog myBuilder = new AlertDialog.Builder(getActivity())
+				.create();
+		myBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		myBuilder.setCancelable(true);
+		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
+		View myView = myLayoutInflater.inflate(R.layout.reset_password, null);
+		Button continueBtn = (Button) myView.findViewById(R.id.continue_btn);
+
+		continueBtn.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				myBuilder.dismiss();
+				hideSpinner();
+			}
+		});
+
+		myBuilder.setView(myView);
+		myBuilder.show();
+	}
+	
+	@Override
+	public void onSendForgotPasswordSuccess() {
+		hideSpinner();
+		forgotpassword();
 	}
 
+	@Override
+	public void onSendForgotPasswordFailedWithError(int error) {
+		hideSpinner();
+		JanrainErrorMessage errorMessage = new JanrainErrorMessage(getActivity());
+		String message = errorMessage.getError(error);
+		Toast.makeText(getActivity(), ""+message, Toast.LENGTH_LONG).show();
+	}
+
+	private void showSpinner() {
+		mPbSpinner.setVisibility(View.VISIBLE);
+	}
+
+	private void hideSpinner() {
+		mPbSpinner.setVisibility(View.INVISIBLE);
+	}
+
+	private void resetPassword() {
+		boolean validatorResult = EmailValidater.isValidEmail(mEtEmail.getEmailId().toString());
+		if (!validatorResult) {
+			Toast.makeText(getActivity(), "Email Address Wrong!",
+					Toast.LENGTH_LONG).show();
+		} else {
+			if (NetworkUtility.getInstance().isOnline()) {
+				if (mUser != null) {
+					showSpinner();
+					mUser.forgotPassword(mEtEmail.getEmailId().toString(),
+							this);
+				}
+
+			} else {
+				Toast.makeText(getActivity(), "There is No Internet",
+						Toast.LENGTH_LONG).show();
+			}
+		}
+	}
 }

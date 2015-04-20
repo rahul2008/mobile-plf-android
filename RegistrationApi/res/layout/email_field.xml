@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/rl_email_verified_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_reg_email"
+            style="@style/style_tab_reg_hint"
+            android:hint="@string/mail_address"
+            android:inputType="textEmailAddress"
+            android:maxLength="40" >
+        </EditText>
+
+        <ImageView
+            android:id="@+id/iv_email_error_alert"
+            android:layout_width="@dimen/err_alert_width"
+            android:layout_height="@dimen/err_alert_width"
+            android:layout_alignRight="@+id/et_reg_email"
+            android:layout_marginRight="@dimen/alert_margin"
+            android:layout_marginTop="@dimen/err_alert_margin"
+            android:background="@drawable/error_alert"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_valid_email_alert"
+            android:layout_width="@dimen/err_alert_width"
+            android:layout_height="@dimen/err_alert_width"
+            android:layout_alignRight="@+id/et_reg_email"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/alert_margin"
+            android:background="@drawable/valid"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_email_err"
+            style="@style/errValidationStyle"
+            android:layout_width="@dimen/err_msg_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_up_arrow"
+            android:background="@drawable/err_msg"
+            android:text="@string/invalid_email"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_up_arrow"
+            android:layout_width="@dimen/top_arrow_width"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/iv_email_error_alert"
+            android:layout_below="@+id/iv_email_error_alert"
+            android:background="@drawable/up_arrow"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

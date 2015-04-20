@@ -21,4 +21,15 @@
     <dimen name="edit_margin_bottom">20dp</dimen>
     <dimen name="account_margin_bottom">30dp</dimen>
     <dimen name="home_title_fontsize">18sp</dimen>
+    
+    <dimen name="err_msg_width">390dp</dimen>
+    <dimen name="err_alert_width">25dp</dimen>
+    <dimen name="alert_margin">15dp</dimen>
+    <dimen name="top_arrow_width">17dp</dimen>
+    <dimen name="err_alert_margin">5dp</dimen>
+    <dimen name="input_length">5dp</dimen>
+    <dimen name="arrow_width">12dp</dimen>
+    <dimen name="arrow_height">20dp</dimen>
+    <dimen name="err_msg">14sp</dimen>
+    <dimen name="rg_fb_icon_height">32dp</dimen>
 </resources>

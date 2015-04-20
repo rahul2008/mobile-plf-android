@@ -26,5 +26,6 @@
     <color name="lineColor">#E4EAFD</color>
     <color name="textBackground">#EBF1F9</color>
     <color name="error_box_color">#E88200</color>
-
+	<color name="white">#ffffff</color>
+	<color name="err_msg_color">#E88200</color>
 </resources>

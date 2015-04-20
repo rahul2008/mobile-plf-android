@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_reg_fname"
+            style="@style/style_tab_reg_hint"
+            android:hint="@string/first_name"
+            android:inputType="textPersonName"
+            android:maxLength="40" >
+
+            <requestFocus />
+        </EditText>
+
+        <ImageView
+            android:id="@+id/iv_name_error_alert"
+            android:layout_width="@dimen/err_alert_width"
+            android:layout_height="@dimen/err_alert_width"
+            android:layout_alignRight="@+id/et_reg_fname"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/alert_margin"
+            android:background="@drawable/error_alert"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_valid_name_alert"
+            android:layout_width="@dimen/err_alert_width"
+            android:layout_height="@dimen/err_alert_width"
+            android:layout_alignRight="@+id/et_reg_fname"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="@dimen/alert_margin"
+            android:background="@drawable/valid"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</RelativeLayout>

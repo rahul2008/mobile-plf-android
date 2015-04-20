@@ -38,5 +38,16 @@
 
     <!-- Janrain Error messages -->
     <string name="No_Internet_Connection">Registration is not available because you\'re offline.</string>
-
+    
+    <string name="invalid_email">invalid email address</string>
+	<string name="password_not_valid">The password is not valid Please choose another password</string>
+	<string name="reset_password">Reset Paswword</string>
+	<string name="reset_password_link">A link is sent to your mail to reset the password of your philips account</string>
+	<string name="Janrain_invalid_credentials">The email or password you entered is incorrect.</string>
+	<string name="JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
+	<string name="JanRain_Invalid_Input">Invalid input, Please check and enter correct details.</string>
+	<string name="JanRain_Invalid_Credentials">The email or password you entered is incorrect.</string>
+	<string name="JanRain_Error_Check_Internet">Problem in network connection.</string>
+	<string name="email_already_used">Email address is already in use</string>
+	<string name="Janrain_Error_Need_Email_Verification">You have not verified your account yet. Check your email and click the link to activate your account</string>
 </resources>

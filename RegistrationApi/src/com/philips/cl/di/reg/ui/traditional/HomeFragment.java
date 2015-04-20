@@ -92,7 +92,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 					.addFragment(new CreateAccountFragment());
 		} else if (v.getId() == R.id.philips_acct_id) {
 			((RegistrationActivity) getActivity())
-					.addFragment(new CreateAccountFragment());
+					.addFragment(new SignInAccountFragment());
 		}
 	}
 
