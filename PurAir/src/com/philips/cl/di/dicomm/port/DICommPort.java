@@ -2,6 +2,7 @@ package com.philips.cl.di.dicomm.port;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
@@ -20,7 +21,7 @@ public abstract class DICommPort {
 	private boolean mGetPropertiesRequested;
 	private boolean mSubscribeRequested;
 	private boolean mUnsubscribeRequested;
-	private HashMap<String,String> mPutPropertiesMap;
+	private Map<String,Object> mPutPropertiesMap;
 
 	private ArrayList<DIPropertyUpdateHandler> mPropertyUpdateHandlers;
 	private ArrayList<DIPropertyErrorHandler> mPropertyErrorHandlers;
@@ -29,7 +30,7 @@ public abstract class DICommPort {
 	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		mNetworkNode = networkNode;
 		mCommunicationStrategy = communicationStrategy;
-		mPutPropertiesMap = new HashMap<String, String>();
+		mPutPropertiesMap = new HashMap<String, Object>();
 		mPropertyUpdateHandlers = new ArrayList<DIPropertyUpdateHandler>();
 		mPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>();
 	}
@@ -164,10 +165,10 @@ public abstract class DICommPort {
 	}
 
     private void performPutProperties() {
-    	final HashMap<String, String> propertiesToSend;
+    	final HashMap<String, Object> propertiesToSend;
 
     	synchronized (mPutPropertiesMap) {
-    		propertiesToSend = new HashMap<String, String>(mPutPropertiesMap);
+    		propertiesToSend = new HashMap<String, Object>(mPutPropertiesMap);
         	mPutPropertiesMap.clear();
 		}
 

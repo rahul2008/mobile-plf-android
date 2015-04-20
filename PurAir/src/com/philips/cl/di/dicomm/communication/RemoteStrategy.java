@@ -1,6 +1,6 @@
 package com.philips.cl.di.dicomm.communication;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
@@ -8,7 +8,7 @@ import com.philips.cl.di.dev.pa.purifier.RemoteRequest;
 
 public class RemoteStrategy extends CommunicationStrategy {
 private final RequestQueue mRequestQueue;
-	
+
 	public RemoteStrategy(){
 		mRequestQueue = new RequestQueue();
 	}
@@ -21,7 +21,7 @@ private final RequestQueue mRequestQueue;
 	}
 
 	@Override
-	public void putProperties(HashMap<String, String> dataMap, String portName,
+	public void putProperties(Map<String, Object> dataMap, String portName,
 			int productId, NetworkNode networkNode,
 			ResponseHandler responseHandler) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.PUT_PROPS, dataMap, responseHandler);
@@ -29,7 +29,7 @@ private final RequestQueue mRequestQueue;
 	}
 
 	@Override
-	public void addProperties(HashMap<String, String> dataMap, String portName,
+	public void addProperties(Map<String, Object> dataMap, String portName,
 			int productId, NetworkNode networkNode,
 			ResponseHandler responseHandler) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.ADD_PROPS, dataMap, responseHandler);

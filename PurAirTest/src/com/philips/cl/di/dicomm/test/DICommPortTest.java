@@ -1,25 +1,21 @@
 package com.philips.cl.di.dicomm.test;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
-import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dicomm.port.DICommPort;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.eq;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
+import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.port.DICommPort;
 
 
 public class DICommPortTest extends MockitoTestCase{
@@ -37,7 +33,7 @@ public class DICommPortTest extends MockitoTestCase{
 	private DICommPort mDICommPort;
 
 	@Captor
-	private ArgumentCaptor<HashMap<String, String>> mMapCaptor;
+	private ArgumentCaptor<Map<String, Object>> mMapCaptor;
 
 	@Captor
 	private ArgumentCaptor<ResponseHandler> mResponseHandlerCaptor;
@@ -54,7 +50,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 
 		verifyPutPropertiesCalled(true);
-		HashMap<String, String> capturedMap = mMapCaptor.getValue();
+		Map<String, Object> capturedMap = mMapCaptor.getValue();
 		assertTrue(capturedMap.containsKey(FANSPEED_KEY));
 		assertEquals(FANSPEED_VALUE, capturedMap.get(FANSPEED_KEY));
 	}
@@ -336,7 +332,7 @@ public class DICommPortTest extends MockitoTestCase{
 
 		verifyPutPropertiesCalled(true);
 
-		HashMap<String, String> capturedMap = mMapCaptor.getValue();
+		Map<String, Object> capturedMap = mMapCaptor.getValue();
 		assertTrue(capturedMap.containsKey(POWER_KEY));
 		assertTrue(capturedMap.containsKey(CHILDLOCK_KEY));
 		assertEquals(POWER_VALUE, capturedMap.get(POWER_KEY));

@@ -30,23 +30,23 @@ public class LocalRequest extends Request {
 	private final ResponseHandler mResponseHandler;
 	private final DISecurity mDISecurity;
 
-	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,String> dataMap,
+	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,Object> dataMap,
 			ResponseHandler responseHandler, DISecurity diSecurity) {
-		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);		
+		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
 		mRequestType = requestType;
 		mNetworkNode = networkNode;
 		mResponseHandler = responseHandler;
 		mDISecurity = diSecurity;
 		mData = createDataToSend(networkNode,dataMap);
 	}
-	
+
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
 		return String.format(BASEURL_PORTS, ipAddress,dicommProtocolVersion, productId, portName);
 	}
-	
-	private String createDataToSend(NetworkNode networkNode, Map<String,String> dataMap){	
+
+	private String createDataToSend(NetworkNode networkNode, Map<String,Object> dataMap){
 		if (dataMap == null || dataMap.size() <= 0) return null;
-		
+
 		String data = convertKeyValuesToJson(dataMap);
 		ALog.i(ALog.LOCALREQUEST, "Data to send: "+ data);
 
@@ -65,11 +65,11 @@ public class LocalRequest extends Request {
 		OutputStreamWriter out = null;
 		HttpURLConnection conn = null;
 		int responseCode;
-		
+
 		try {
 			URL urlConn = new URL(mUrl);
 			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
-			if(mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {			
+			if(mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
 				if (mData == null || mData.isEmpty()) {
 					return new Response(null, Error.NODATA, mResponseHandler);
 				}
@@ -79,36 +79,36 @@ public class LocalRequest extends Request {
 				out.flush();
 			}
 			conn.connect();
-			
+
 			try {
 				responseCode = conn.getResponseCode();
-			} catch (Exception e) {				
+			} catch (Exception e) {
 				responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
 				ALog.e(ALog.LOCALREQUEST, "Failed to get responsecode");
 				e.printStackTrace();
 			}
-			
+
 			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
-				
+
 				if (mDISecurity != null) {
 					result = mDISecurity.decryptData(result, mNetworkNode);
 				}
-				
+
 				if (result == null) {
 					ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse or failed to decrypt");
 					return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 				}
-				
+
 				return new Response(result, null, mResponseHandler);
 			}
-			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {			
+			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
 				inputStream = conn.getErrorStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
 				ALog.e(ALog.LOCALREQUEST, "BAD REQUEST - " +result);
-				return new Response(result, Error.BADREQUEST, mResponseHandler);				
+				return new Response(result, Error.BADREQUEST, mResponseHandler);
 			}
 			else if(responseCode == HttpURLConnection.HTTP_BAD_GATEWAY){
 				return new Response(null, Error.BADGATEWAY, mResponseHandler);

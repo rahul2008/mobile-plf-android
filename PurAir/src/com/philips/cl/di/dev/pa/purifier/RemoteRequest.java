@@ -16,38 +16,38 @@ import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteRequest extends Request implements DCSResponseListener, PublishEventListener {
-	
+
 	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
 	private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
 	private static final String DICOMM_REQUEST = "DICOMM-REQUEST" ;
 	private static int REQUEST_PRIORITY = 20;
 	private static int REQUEST_TTL = 5;
-	
+
 	private String mEventData ;
 	private String mResponse ;
 	private int mMessageId ;
 	private String mConversationId;
-	
+
 	private CPPController mCppController ;
 	private final NetworkNode mNetworkNode;
 	private final RemoteRequestType mRequestType;
 	private final ResponseHandler mResponseHandler;
-	
 
-	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,String> dataMap,ResponseHandler responseHandler) {
+
+	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,Object> dataMap,ResponseHandler responseHandler) {
 		mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
 		mEventData = createDataToSend(networkNode,portName,productId,dataMap);
 		mRequestType = requestType;
 		mNetworkNode = networkNode;
 		mResponseHandler = responseHandler;
 	}
-	
-	private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String,String> dataMap){	
+
+	private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String,Object> dataMap){
 		String data = convertKeyValuesToJson(dataMap);
 		String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
-		
+
 		ALog.i(ALog.REMOTEREQUEST, "Data to send: "+ dataToSend);
-		return dataToSend;	
+		return dataToSend;
 	}
 
 	@Override
@@ -68,10 +68,10 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 			// NOP
 		}
 		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE");
-		
+
 		mCppController.removePublishEventListener(this);
 		mCppController.removeDCSResponseListener(this);
-		
+
 		if (mResponse == null) {
 			ALog.e(ALog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
@@ -92,12 +92,12 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 		}else{
 			ALog.i(ALog.REMOTEREQUEST,"DCSEvent received from different request - ignoring");
 		}
-		
-		
+
+
 	}
 
 	@Override
-	public void onPublishEventReceived(int status, int messageId, String conversationId) {		
+	public void onPublishEventReceived(int status, int messageId, String conversationId) {
 		if( mMessageId == messageId) {
 			ALog.i(ALog.REMOTEREQUEST,"Publish event received from the right request - status: " + status);
 			if ( status == Errors.SUCCESS){
@@ -107,7 +107,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 					ALog.e(ALog.REMOTEREQUEST, "Publish Event Failed") ;
 					notify() ;
 				}
-			} 
+			}
 		} else {
 			ALog.i(ALog.REMOTEREQUEST,"Publish event received from different request - ignoring");
 		}
