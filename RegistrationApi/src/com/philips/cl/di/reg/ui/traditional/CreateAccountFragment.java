@@ -33,10 +33,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	private LinearLayout mThirdLayout;
 	private RelativeLayout mFourthLayout;
 	private Button mBtnCreateAccount;
-	private Button mBtnTest;
 	private CheckBox mCbTerms;
 	private User mUser;
-	private XNameField mRegErrorName;
+	private XNameField mRegNameField;
 	private XEmailField mEMEmailField;
 	private XPasswordField mPasswordField;
 	
@@ -94,23 +93,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_register_terms);
 		mBtnCreateAccount.setOnClickListener(this);
 		
-		mRegErrorName = (XNameField) view.findViewById(R.id.rl_name_field);
+		mRegNameField = (XNameField) view.findViewById(R.id.rl_name_field);
 		mEMEmailField = (XEmailField) view.findViewById(R.id.rl_email_field);
 		mPasswordField = (XPasswordField) view.findViewById(R.id.rl_password_field);
 		
 		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_spinner);
-		mBtnTest = (Button) view.findViewById(R.id.btn_test);
-		mBtnTest.setOnClickListener(this);
 		setViewParams(getResources().getConfiguration());
 		mUser = new User(getActivity().getApplicationContext());
 	}
 
 	private void register() {
 			
-		if (mRegErrorName.ismValidName() && mEMEmailField.isValidEmail() && mPasswordField.isValidPassword()) {
+		if (mRegNameField.ismValidName() && mEMEmailField.isValidEmail() && mPasswordField.isValidPassword()) {
 			showSpinner();
 			
-			  ArrayList<DIUserProfile> userProfileArray = new
+			  /*ArrayList<DIUserProfile> userProfileArray = new
 			  ArrayList<DIUserProfile>(); User user = new User(getActivity());
 			  DIUserProfile profileab = new DIUserProfile();
 			  profileab.setGivenName(mRegErrorName.getName().toString());
@@ -119,12 +116,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 			  profileab.setOlderThanAgeLimit(true);
 			  profileab.setReceiveMarketingEmail(mCbTerms.isChecked());
 			  userProfileArray.add(profileab);
-			  user.registerNewUserUsingTraditional(userProfileArray, this);
-			 
-			/*
-			mUser.registerUserInfoForTraditional(mEtUserName.getText()
-					.toString().trim(), mEtEmail.getText().toString().trim(), mEtPassword
-					.getText().toString().trim(), true, mCbTerms.isChecked(), this);*/
+			  user.registerNewUserUsingTraditional(userProfileArray, this);*/
+			mUser.registerUserInfoForTraditional(mRegNameField.getName().toString(),
+					mEMEmailField.getEmailId().toString(), mPasswordField.getPassword().toString()
+					, true, mCbTerms.isChecked(), this);
 			
 		} else {
 			Toast.makeText(getActivity(), "Please enter the valid entries",

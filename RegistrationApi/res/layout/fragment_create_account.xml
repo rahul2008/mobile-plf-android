@@ -107,18 +107,8 @@
                 android:layout_width="@dimen/rg_fb_icon_height"
                 android:layout_height="@dimen/rg_fb_icon_height"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="8dp"
                 android:indeterminateDrawable="@drawable/bts_progress_drawable"
                 android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btn_test"
-                style="@style/buttonStyle"
-                android:layout_below="@+id/btn_register"
-                android:layout_marginBottom="@dimen/margin_bottom"
-                android:background="@drawable/navigation_bar"
-                android:text="TEST " >
-            </Button>
         </RelativeLayout>
     </LinearLayout>
 
