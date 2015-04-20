@@ -4,6 +4,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ValidatorUtility {
+	
+	public static boolean isValidName(String name) {
+		if (name == null)
+			return false;
+		if (name.length() > 0)
+			return true;
+
+		return false;
+	}
 
 	public static boolean isValidEmail(String email) {
 		if (email == null)
@@ -20,6 +29,9 @@ public class ValidatorUtility {
 		if (password == null)
 			return false;
 
+		if (password.length() < 8)
+			return false;
+		
 		int passwordValidatorCheckCount = 0;
 
 		if (ValidatorUtility.isAlphabetPresent(password)) {

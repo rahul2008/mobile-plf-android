@@ -117,7 +117,7 @@ public class User {
 	public void registerUserInfoForTraditional(String mGivenName, String mUserEmail, String password, boolean olderThanAgeLimit, 
 			boolean isReceiveMarketingEmail, TraditionalRegistrationHandler traditionalRegisterHandler ){
 		
-		ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
+		//ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
 		
 		DIUserProfile profile = new DIUserProfile();
 		profile.setGivenName(mGivenName);
@@ -126,28 +126,28 @@ public class User {
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
 		
-		userData.add(profile);
+		//userData.add(profile);
 		
-		registerNewUserUsingTraditional(userData, traditionalRegisterHandler);
+		registerNewUserUsingTraditional(profile, traditionalRegisterHandler);
 		
 	}
 	
 
 	// For Traditional Registration
 	public void registerNewUserUsingTraditional(
-			ArrayList<DIUserProfile> profile,
+			DIUserProfile diUserProfile,
 			TraditionalRegistrationHandler traditionalRegisterHandler) {
 
-		if (profile != null) {
+		if (diUserProfile != null) {
 
-			for (DIUserProfile diUserProfile : profile) {
+			//for (DIUserProfile diUserProfile : profile) {
 				mEmail = diUserProfile.getEmail();
 				mGivenName = diUserProfile.getGivenName();
 				mPassword = diUserProfile.getPassword();
 				mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
 				mReceiveMarketingEmails = diUserProfile
 						.getReceiveMarketingEmail();
-			}
+			//}
 			JSONObject newUser = new JSONObject();
 			try {
 				newUser.put(USER_EMAIL, mEmail)
@@ -215,7 +215,7 @@ public class User {
 							.geterrorList());
 		}
 	}
-
+	
 	// For handling merge scenario
 	public void mergeToTraditionalAccount(String emailAddress, String password,
 			String mergeToken, TraditionalLoginHandler traditionalLoginHandler) {
@@ -231,13 +231,13 @@ public class User {
 					.geterrorList());
 		}
 	}
-
+	
 	// moved app logic to set user info ( social sign in ) in diuserprofile to framework.
 	public void registerUserInfoForSocial(String mGivenName, String mDisplayName, String mFamilyName, String mUserEmail, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
 			SocialProviderLoginHandler socialProviderLoginHandler,
 			String socialRegistrationToken){
 		
-		ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
+		//ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
 		
 		DIUserProfile profile = new DIUserProfile();
 		profile.setGivenName(mGivenName);
@@ -247,19 +247,19 @@ public class User {
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
 		
-		userData.add(profile);
+		//userData.add(profile);
 		
-		completeSocialProviderLogin(userData, socialProviderLoginHandler, socialRegistrationToken);
+		completeSocialProviderLogin(profile, socialProviderLoginHandler, socialRegistrationToken);
 		
 	}
 	
 	// For Two Step registration
-	public void completeSocialProviderLogin(ArrayList<DIUserProfile> profile,
+	public void completeSocialProviderLogin(DIUserProfile diUserProfile,
 			SocialProviderLoginHandler socialProviderLoginHandler,
 			String socialRegistrationToken) {
 		String familyName = "";
-		if (profile != null) {
-			for (DIUserProfile diUserProfile : profile) {
+		if (diUserProfile != null) {
+			//for (DIUserProfile diUserProfile : profile) {
 				mEmail = diUserProfile.getEmail();
 				mGivenName = diUserProfile.getGivenName();
 				familyName = diUserProfile.getFamilyName();
@@ -268,7 +268,7 @@ public class User {
 				mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
 				mReceiveMarketingEmails = diUserProfile
 						.getReceiveMarketingEmail();
-			}
+			//}
 			JSONObject newUser = new JSONObject();
 			try {
 				newUser.put(USER_EMAIL, mEmail)

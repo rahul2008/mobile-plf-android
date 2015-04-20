@@ -4,3 +4,7 @@ Jump/.settings/org.eclipse.jdt.core.prefs
 RegistrationSampleApp/bin/
 RegistrationSampleApp/gen/
 RegistrationSampleApp/.settings/org.eclipse.jdt.core.prefs
+RegistrationApiTest/bin/
+RegistrationApiTest/.classpath
+RegistrationApiTest/gen/
+RegistrationSampleApp/.classpath
