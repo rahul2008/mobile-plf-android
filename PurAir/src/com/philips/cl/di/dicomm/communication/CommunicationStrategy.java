@@ -20,11 +20,16 @@ public abstract class CommunicationStrategy {
 	public abstract void unsubscribe(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract boolean isAvailable(NetworkNode networkNode);
 
-	// TODO: DICOMM Refactor, remove dependency on cppcontroller and purair app context
 	protected Map<String, Object> getSubscriptionData(int subscriptionTtl) {
+		Map<String,Object> dataMap = getUnsubscriptionData();
+		dataMap.put(TTL_KEY, subscriptionTtl);
+		return dataMap;
+	}
+
+	// TODO: DICOMM Refactor, remove dependency on cppcontroller and purair app context
+	protected Map<String, Object> getUnsubscriptionData() {
 		Map<String,Object> dataMap = new HashMap<String, Object>();
 		dataMap.put(SUBSCRIBER_KEY, CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId());
-		dataMap.put(TTL_KEY, subscriptionTtl);
 		return dataMap;
 	}
 }

@@ -54,7 +54,7 @@ private final RequestQueue mRequestQueue;
 	@Override
 	public void unsubscribe(String portName, int productId,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
-		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.UNSUBSCRIBE, null, responseHandler);
+		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.UNSUBSCRIBE, getUnsubscriptionData(), responseHandler);
 		mRequestQueue.addRequest(request);
 	}
 

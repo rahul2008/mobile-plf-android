@@ -60,7 +60,7 @@ public class LocalStrategy extends CommunicationStrategy {
 	public void unsubscribe(String portName, int productId,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
 		// TODO DICOMM Refactor, check disecurity, requesttype
-		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, new DISecurity(null));
+		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, getUnsubscriptionData(), responseHandler, new DISecurity(null));
 		mRequestQueue.addRequest(request);
 
 	}
