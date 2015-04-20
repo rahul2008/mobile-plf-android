@@ -7,15 +7,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:gravity="center_vertical" >
 
         <ImageView
             android:id="@+id/title_left_btn"
             android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:paddingBottom="14dp"
-            android:paddingTop="14dp"
-            android:src="@drawable/back_arrow"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:src="@drawable/back_arrow" 
             android:contentDescription="@string/img_description" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -23,21 +24,20 @@
             android:id="@+id/title_text_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
+			android:layout_weight="1"
             android:gravity="center"
             android:singleLine="true"
-            android:textColor="@color/blue_title"
-        	android:textSize="@dimen/heading_text_size_dp"
+            android:textColor="@color/philips_blue"
+            android:textSize="@dimen/heading_text_size_dp"
         	custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <ImageView
             android:id="@+id/title_right_btn"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:paddingBottom="7dp"
-            android:paddingTop="7dp"
-            android:visibility="invisible"
+            android:paddingBottom="11dp"
+            android:paddingTop="11dp"
+            android:src="@drawable/web_fresh"
             android:contentDescription="@string/img_description" />
     </LinearLayout>
 
@@ -45,6 +45,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+        android:contentDescription="@string/img_description" /> 
 
 </LinearLayout>

@@ -25,7 +25,7 @@ public class AppConstants {
 	public static final String OUTDOOR_AQI_URL = "http://ixuanwu.com.cn/app/city-hourly-gov.php?key=%s" ;
 	public static final String OUTDOOR_CITIES_URL = "http://ixuanwu.com.cn/app/citys.php";
 	public static final String SHANGHAI_OUTDOOR_AQI_URL = "http://ixuanwu.com.cn/app/city-hourly-gov.php?key=shanghai" ;
-
+	public static final String URL_WINNING_LIST = "http://philipsair.sinaapp.com/award/";
 
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
 	public static final String PURIFIERDB_NAME = "smart_air.db";
@@ -282,7 +282,12 @@ public class AppConstants {
 	
 	public static final String SHARE_DASHBOARD = "PhilipsAir.png";
 	
+	public static final  String TMP_OUTPUT_JPG = Environment
+			.getExternalStorageDirectory().getPath() + "/philips/air/imgs/tmp_output.jpg";
 	public static final String QR_CODE_LINK = "www.philips-smartairpurifier.com";
 	
+	public static final String TMP_OUTPUT_CORP_JPG = Environment
+			.getExternalStorageDirectory().getPath()
+			+ "/philips/air/imgs/tmp_output_corp.jpg";
 	
 }

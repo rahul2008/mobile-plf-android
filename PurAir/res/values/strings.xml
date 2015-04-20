@@ -650,14 +650,13 @@
     <string name="app_update_failed">Smart Air App update failed</string>
     <string name="external_storage_unavailable">External storage not available</string>
     <string name="last_connection">Last connection:</string>
-    
     <string name="us_embassy">US Consulate</string>
     <string name="my_purifiers">My Purifiers</string>
     <string name="my_location">My locations</string>
     <string name="add_outdoor_location">Add locations</string>
     <string name="locating">Locating</string>
-    <string name = "compare_top_three_locations">Compare with the Top 3 locations</string>
-    
+    <string name="compare_top_three_locations">Compare with the Top 3 locations</string>
+
     <!-- About -->
     <string name="about">About</string>
     <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
@@ -665,9 +664,30 @@
     <!-- Share -->
     <string name="share">Share</string>
     <string name="mail">Mail</string>
-    
     <string name="submit">Submit</string>
     <string name="invalid_input">Invalid input</string>
     <string name="feedback_sent">Thank you for your feedback</string>
     <string name="feedback_not_sent">We\'re unable to send your feedback at the moment, please try again later. Thank you.</string>
+
+    <!-- Product Regestration -->
+    <string name="enter_phone_no">Please enter the phone number</string>
+    <string name="enter_prof_of_purchase">Please enter a proof of purchase</string>
+    <string name="enter_purchase_date">Please enter the purchase date</string>
+    <string name="registration_failed">Registration Failed</string>
+    <string name="pending">Pending</string>
+    <string name="product_list">Product List</string>
+    <string name="tips">Tips</string>
+    <string name="know">Know</string>
+    <string name="register_products">My recently registered products</string>
+    <string name="list_of_winner">The list of winners</string>
+    <string name="enter_product_detail">Enter the details of your product purchase</string>
+    <string name="mobile_no">Mobile number:</string>
+    <string name="date_of_purchase">Date of purchase:</string>
+    <string name="proof_of_purchase">Proof of purchase:</string>
+    <string name="registration">Registration</string>
+    <string name="gallery_app_not_install">You do not have to install local gallery</string>
+    <string name="camera_app_not_install">You do not have to install a local camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+
 </resources>

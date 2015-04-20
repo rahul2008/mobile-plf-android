@@ -22,6 +22,7 @@ public class PurAirApplication extends Application {
 	
 	private static PurAirApplication mInstance = null;
 	public static final String CACHEDIR_IMG = Environment.getExternalStorageDirectory().getPath() + "/philips/air/imgs/";
+	public Object tmpObj; //CO App
 	
 	@Override
 	public void onCreate() {

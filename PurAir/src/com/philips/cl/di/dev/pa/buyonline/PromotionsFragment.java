@@ -37,6 +37,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 @SuppressWarnings("unchecked")
 public class PromotionsFragment extends BaseFragment implements View.OnClickListener{
@@ -77,7 +78,7 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 	protected void setTitle(String title){
 		View view = getView().findViewById(R.id.title_text_tv);
 		if (null != view && view instanceof TextView) {
-			((TextView)view).setText(title);
+			((FontTextView)view).setText(title);
 		}
 	}
 

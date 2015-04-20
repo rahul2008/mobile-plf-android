@@ -23,6 +23,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class BuyOnlineFragment extends BaseFragment {
 
@@ -102,7 +103,7 @@ public class BuyOnlineFragment extends BaseFragment {
 	protected void setTitle(String title){
 		View view = getView().findViewById(R.id.title_text_tv);
 		if (null != view && view instanceof TextView) {
-			((TextView)view).setText(title);
+			((FontTextView)view).setText(title);
 		}
 	}
 	

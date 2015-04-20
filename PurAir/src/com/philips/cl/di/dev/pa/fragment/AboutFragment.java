@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.buyonline.ProductRegisterFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -59,6 +60,10 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		promotionalVideos.setText("Promotional Videos " + " >");
 		promotionalVideos.setOnClickListener(this);
 		
+		FontTextView productRegistration = (FontTextView) getView().findViewById(R.id.product_registration);
+		productRegistration.setText("Product Registation " + " >");
+		productRegistration.setOnClickListener(this);
+		
 	}
 	
 	private void setAppInformation() {
@@ -85,6 +90,9 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 			break;
 		case R.id.promotionals:
 			mainActivity.showFragment(new PromotionsFragment());
+			break;
+		case R.id.product_registration:
+			mainActivity.showFragment(new ProductRegisterFragment());
 			break;
 		default:
 			break;

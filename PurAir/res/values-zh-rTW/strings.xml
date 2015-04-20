@@ -671,4 +671,25 @@
     <string name="invalid_input">有效輸入</string>
     <string name="feedback_sent">感謝您的反饋意見</string>
     <string name="feedback_not_sent">暫時無法給您反饋，請稍後重試，謝謝。</string>
+    
+    <!-- Product Regestration -->
+    <string name="enter_phone_no">请输入手机号码</string>
+    <string name="enter_prof_of_purchase">请输入购买凭证</string>
+    <string name="enter_purchase_date">请输入购买日期</string>
+    <string name="registration_failed">注册失败</string>
+    <string name="pending">待审核</string>
+    <string name="product_list">产品列表</string>
+    <string name="tips">温馨提示</string>
+    <string name="know">知道了</string>
+    <string name="register_products">我最近注册的产品</string>
+    <string name="list_of_winner">中奖名单</string>
+    <string name="enter_product_detail">输入您产品购买的详细信息</string>
+    <string name="mobile_no">手机号码：</string>
+    <string name="date_of_purchase">购买日期：</string>
+    <string name="proof_of_purchase">购买凭证：</string>
+    <string name="registration">注册</string>
+    <string name="gallery_app_not_install">您本地没有安装相册</string>
+    <string name="camera_app_not_install">您本地没有安装照相机</string>
+    <string name="gallery">本地相册</string>
+    <string name="camera">拍照</string>
 </resources>

@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FeedbackActivity extends BaseActivity {
 	
@@ -60,7 +61,7 @@ public class FeedbackActivity extends BaseActivity {
 	private void setTitleText(String title){
 		View view = findViewById(R.id.title_text_tv);
 		if (null != view && view instanceof TextView) {
-			((TextView)view).setText(title);
+			((FontTextView)view).setText(title);
 		}
 	}
 
