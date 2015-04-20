@@ -195,8 +195,8 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	public void unSubscribeFromAllEvents() {
 		ALog.i(ALog.APPLIANCE, "UnSubscribe from all events from appliance: " + this) ;
 		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
-		mSubscriptionHandler.unSubscribeFromPurifierEvents();
-		mSubscriptionHandler.unSubscribeFromFirmwareEvents();
+		mAirPort.unsubscribe();
+		mFirmwarePort.unsubscribe();
 	}
 
 	private void notifySubscriptionListeners(String data) {
