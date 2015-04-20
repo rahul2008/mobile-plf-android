@@ -38,6 +38,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	private XPasswordField mEtPassword;
 	private User mUser;
 	private ProgressBar mPbSpinner;
+	private final int INVALID_CREDENTIAL = 10;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -125,15 +126,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	@Override
-	public void onLoginFailedWithError(int error) {
+	public void onLoginFailedWithError(int errorType) {
 		
 		hideSpinner();
-		if (error == 10) {
+		if (errorType == INVALID_CREDENTIAL) {
 			mEtPassword.setErrDescription(getResources().getString(R.string.Janrain_invalid_credentials));
 			mEtPassword.showJanarainError();
 		} else {
 			JanrainErrorMessage errorMessage = new JanrainErrorMessage(getActivity());
-			String message = errorMessage.getError(error);
+			String message = errorMessage.getError(errorType);
 			mEtPassword.setErrDescription(message);
 		}
 	}

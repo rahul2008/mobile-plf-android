@@ -1,7 +1,5 @@
 package com.philips.cl.di.reg.ui.traditional;
 
-import java.util.ArrayList;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.ui.customviews.XEmailField;
 import com.philips.cl.di.reg.ui.customviews.XNameField;
@@ -38,7 +35,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	private XNameField mRegNameField;
 	private XEmailField mEMEmailField;
 	private XPasswordField mPasswordField;
-	
+	private final int EMAIL_ALEADY_EXIST =14;
 	private ProgressBar mPbSpinner;
 	
 		
@@ -143,9 +140,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	@Override
-	public void onRegisterFailedWithFailure(int error) {
+	public void onRegisterFailedWithFailure(int errorType) {
 		
-		if (error == 14) {
+		if (errorType == EMAIL_ALEADY_EXIST) {
 			mEMEmailField.setErrDescription(getResources().getString(R.string.email_already_used));
 			mEMEmailField.showJanarainError();
 		} else {
