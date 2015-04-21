@@ -6,38 +6,31 @@ import android.content.Context;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.AirPort;
-import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 /**
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifier extends DICommAppliance implements ResponseHandler, KeyDecryptListener{
+public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	private final String mUsn;
 	private String latitude;
 	private String longitude;
 
+    protected final ScheduleListPort mScheduleListPort;
 	private final SchedulerHandler mSchedulerHandler;
 	private SubscriptionHandler mSubscriptionHandler;
 
 	private final AirPort mAirPort;
-	private final FirmwarePort mFirmwarePort;
-	private final ScheduleListPort mScheduleListPort;
-
-	private final DISecurity mDISecurity;
 
 	private PurifierListener mPurifierListener;
 
@@ -50,13 +43,10 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler, Key
 		mSchedulerHandler = new SchedulerHandler(this);
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
-		mFirmwarePort = new FirmwarePort(mNetworkNode,communicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy, mSchedulerHandler);
 		
-		mDISecurity = new DISecurity(this);
 
         addPort(mAirPort);
-        addPort(mFirmwarePort);
         addPort(mScheduleListPort);
 	}
 
@@ -74,17 +64,9 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler, Key
 		return mAirPort;
 	}
 
-	public FirmwarePort getFirmwarePort() {
-		return mFirmwarePort;
-	}
-
-	public ScheduleListPort getScheduleListPort() {
-		return mScheduleListPort;
-	}
-
-	public DISecurity getDISecurity() {
-		return mDISecurity;
-	}
+    public ScheduleListPort getScheduleListPort() {
+        return mScheduleListPort;
+    }
 
 	public void enableLocalSubscription() {
 		mSubscriptionHandler.enableLocalSubscription();
@@ -120,14 +102,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler, Key
 
 	public String getUsn() {
 		return mUsn;
-	}
-
-	public synchronized String getName() {
-		return getNetworkNode().getName();
-	}
-
-	public void setConnectionState(ConnectionState connectionState) {
-		mNetworkNode.setConnectionState(connectionState);
 	}
 
 	public boolean isDemoPurifier() {
@@ -201,20 +175,8 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler, Key
 	}
 
 	@Override
-	public void keyDecrypt(String key, String deviceEui64) {
-		if (key == null) return;
-
-		if (deviceEui64.equals(mNetworkNode.getCppId())) {
-			ALog.e(ALog.APPLIANCE, "Updated current appliance encryption key");
-			mNetworkNode.setEncryptionKey(key);
-			// TODO: DIComm Refactor, modify purifierDatabase to remove purairdevice
-			new PurifierDatabase().updatePurifierUsingUsn(this);
-		}
-	}
-
-	@Override
 	public void onSuccess(String data) {
 		ALog.d(ALog.APPLIANCE, "Success event received");
-		notifySubscriptionListeners(data) ;
+		notifySubscriptionListeners(data);
 	}
 }

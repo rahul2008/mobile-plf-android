@@ -41,13 +41,6 @@ public abstract class DICommPort {
 		mPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>();
 	}
 
-	protected WrappedHander getResubscriptionHandler() {
-	    if(mResubscriptionHandler==null){
-	        mResubscriptionHandler = new WrappedHander(new Handler(Looper.getMainLooper()));
-	    }
-	    return mResubscriptionHandler;
-    }
-
     public abstract boolean isResponseForThisPort(String response);
 
 	public abstract void processResponse(String response);
@@ -100,6 +93,13 @@ public abstract class DICommPort {
         getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL_MS);
     	    	
     	tryToPerformNextRequest();
+    }
+
+    protected WrappedHander getResubscriptionHandler() {
+        if(mResubscriptionHandler==null){
+            mResubscriptionHandler = new WrappedHander(new Handler(Looper.getMainLooper()));
+        }
+        return mResubscriptionHandler;
     }
     
     private final Runnable mResubscribtionRunnable = new Runnable() {
