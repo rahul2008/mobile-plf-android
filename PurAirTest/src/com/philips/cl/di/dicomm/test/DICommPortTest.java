@@ -13,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.DICommPort;
@@ -37,13 +38,15 @@ public class DICommPortTest extends MockitoTestCase{
 
 	@Captor
 	private ArgumentCaptor<ResponseHandler> mResponseHandlerCaptor;
+    private WrappedHander mHandler;
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		mNetworkNode = mock(NetworkNode.class);
-		mCommunicationStrategy = mock(CommunicationStrategy.class);
-		mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy);
+        mCommunicationStrategy = mock(CommunicationStrategy.class);
+        mHandler = mock(WrappedHander.class);
+		mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy, mHandler);
 	}
 
 	public void testPutProperties(){
@@ -376,8 +379,8 @@ public class DICommPortTest extends MockitoTestCase{
 	public class DICommPortImpl extends DICommPort{
 
 		public DICommPortImpl(NetworkNode networkNode,
-				CommunicationStrategy communicationStrategy) {
-			super(networkNode, communicationStrategy);
+				CommunicationStrategy communicationStrategy, WrappedHander hander) {
+			super(networkNode, communicationStrategy, hander);
 		}
 
 		@Override

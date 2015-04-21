@@ -5,16 +5,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
 public abstract class DICommPort {
+    private static final String TAG = DICommPort.class.getSimpleName();
 
-	public static final int SUBSCRIPTION_TTL = 300;
+	public static final int SUBSCRIPTION_TTL = 300000;
 
 	protected final NetworkNode mNetworkNode;
 	private CommunicationStrategy mCommunicationStrategy;
+    private WrappedHander mResubscriptionHandler;
 
 	private boolean mHasOutstandingRequest;
 	private boolean mIsApplyingChanges;
@@ -26,10 +29,10 @@ public abstract class DICommPort {
 	private ArrayList<DIPropertyUpdateHandler> mPropertyUpdateHandlers;
 	private ArrayList<DIPropertyErrorHandler> mPropertyErrorHandlers;
 
-
-	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
+	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, WrappedHander resubscriptionHandler){
 		mNetworkNode = networkNode;
 		mCommunicationStrategy = communicationStrategy;
+        mResubscriptionHandler = resubscriptionHandler;
 		mPutPropertiesMap = new HashMap<String, Object>();
 		mPropertyUpdateHandlers = new ArrayList<DIPropertyUpdateHandler>();
 		mPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>();
@@ -78,12 +81,27 @@ public abstract class DICommPort {
     }
 
     public void subscribe(){
-    	mSubscribeRequested = true;
+//        if(mSubscribeRequested) return;
+        
+    	mSubscribeRequested = true;    	
+    	
+//        mResubscriptionHandler.postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL);
+    	    	
     	tryToPerformNextRequest();
     }
+    
+//    private final Runnable mResubscribtionRunnable = new Runnable() {
+//        @Override
+//        public void run() {
+//            if(!mUnsubscribeRequested){
+//                subscribe();
+//            }
+//        }
+//    };
 
     public void unsubscribe(){
     	mUnsubscribeRequested = true;
+//    	mResubscriptionHandler.removeCallbacks(mResubscribtionRunnable);
     	tryToPerformNextRequest();
     }
 
@@ -209,7 +227,7 @@ public abstract class DICommPort {
     }
 
     private void performSubscribe() {
-    	mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(),SUBSCRIPTION_TTL, mNetworkNode, new ResponseHandler() {
+    	mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, mNetworkNode, new ResponseHandler() {
 
 			@Override
 			public void onSuccess(String data) {

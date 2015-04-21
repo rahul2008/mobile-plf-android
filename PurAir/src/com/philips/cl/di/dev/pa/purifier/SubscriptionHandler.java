@@ -38,6 +38,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		mResponseHandler = responseHandler;
 	}
 
+	// TODO dees moet weg
 	public void subscribeToPurifierEvents() {
 		retrySubscriptionCount = 1 ;
 		ALog.d(ALog.SUBSCRIPTION,
@@ -50,6 +51,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		subscribe(portUrl, mNetworkNode);
 	}
 
+    // TODO dees moet weg
 	public void unSubscribeFromPurifierEvents() {
 		ALog.d(ALog.SUBSCRIPTION,
 				"Unsubscribing to Appliance events for : " + mNetworkNode);
@@ -59,6 +61,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		unSubscribe(portUrl, mNetworkNode);
 	}
 
+    // TODO dees moet weg
 	public void subscribeToFirmwareEvents() {
 		if (mNetworkNode == null || PurAirApplication.isDemoModeEnable())
 			return;
