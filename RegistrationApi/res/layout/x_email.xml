@@ -6,56 +6,70 @@
     <RelativeLayout
         android:id="@+id/rl_email_verified_field"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/t_textbox" >
+
+        <FrameLayout
+            android:id="@+id/fl_align"
+            android:layout_width="@dimen/err_alert_width"
+            android:layout_height="@dimen/err_alert_width"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="2dip"
+            android:layout_marginLeft="2dip"
+            android:layout_marginRight="5dip"
+            android:layout_marginTop="2dip" >
+
+            <ImageView
+                android:id="@+id/iv_email_error_alert"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_desc"
+                android:src="@drawable/error_alert"
+                android:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_valid_email_alert"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_desc"
+                android:src="@drawable/valid"
+                android:visibility="visible" />
+        </FrameLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XEditText
             android:id="@+id/et_reg_email"
             style="@style/style_tab_reg_hint"
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/fl_align"
+            android:background="@android:color/transparent"
             android:hint="@string/mail_address"
             android:inputType="textEmailAddress"
-            reglib:fontAssetName="fonts/CentraleSans-Light.otf"
-            android:maxLength="40" />
-     
-        <ImageView
-            android:id="@+id/iv_email_error_alert"
-            android:layout_width="@dimen/err_alert_width"
-            android:layout_height="@dimen/err_alert_width"
-            android:layout_alignRight="@+id/et_reg_email"
-            android:layout_marginRight="@dimen/alert_margin"
-            android:layout_marginTop="@dimen/err_alert_margin"
-            android:background="@drawable/error_alert"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/iv_valid_email_alert"
-            android:layout_width="@dimen/err_alert_width"
-            android:layout_height="@dimen/err_alert_width"
-            android:layout_alignRight="@+id/et_reg_email"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="@dimen/alert_margin"
-            android:background="@drawable/valid"
-            android:visibility="gone" />
-
-        <com.philips.cl.di.reg.ui.customviews.XTextView
-            android:id="@+id/tv_email_err"
-            style="@style/errValidationStyle"
-            android:layout_width="@dimen/err_msg_width"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_up_arrow"
-            android:background="@drawable/err_msg"
-            android:text="@string/invalid_email"
-            android:textAlignment="center"
-            reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/iv_up_arrow"
-            android:layout_width="@dimen/top_arrow_width"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/iv_email_error_alert"
-            android:layout_below="@+id/iv_email_error_alert"
-            android:background="@drawable/up_arrow"
-            android:visibility="gone" />
+            reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_up_arrow"
+        android:layout_width="20dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rl_email_verified_field"
+        android:layout_marginRight="9dip"
+        android:src="@drawable/up_arrow"
+        android:visibility="gone" />
+
+    <com.philips.cl.di.reg.ui.customviews.XTextView
+        android:id="@+id/tv_email_err"
+        style="@style/errortextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_up_arrow"
+        android:layout_marginTop="-5dip"
+        android:background="@drawable/reg_rect"
+        android:padding="10dip"
+        android:text="@string/invalid_email"
+        android:visibility="gone"
+        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
 </RelativeLayout>

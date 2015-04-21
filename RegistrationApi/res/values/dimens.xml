@@ -23,7 +23,7 @@
     <dimen name="home_title_fontsize">18sp</dimen>
     
     <dimen name="err_msg_width">390dp</dimen>
-    <dimen name="err_alert_width">25dp</dimen>
+    <dimen name="err_alert_width">28dp</dimen>
     <dimen name="alert_margin">15dp</dimen>
     <dimen name="top_arrow_width">17dp</dimen>
     <dimen name="err_alert_margin">5dp</dimen>
