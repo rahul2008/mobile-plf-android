@@ -289,5 +289,6 @@ public class AppConstants {
 	public static final String TMP_OUTPUT_CORP_JPG = Environment
 			.getExternalStorageDirectory().getPath()
 			+ "/philips/air/imgs/tmp_output_corp.jpg";
+	public static final String URL_PRODUCT_SHARE = "http://philipsair.sinaapp.com/";	
 	
 }

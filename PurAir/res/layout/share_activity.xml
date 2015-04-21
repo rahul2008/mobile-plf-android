@@ -18,9 +18,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
+            
+             <LinearLayout
+                android:id="@+id/share_menu_1"
+                style="@style/menu_item" >
+
+                <ImageView
+                    style="@style/sharemenu_item_icon"
+                    android:src="@drawable/share_weixin_circle" />
+
+                <TextView
+                    style="@style/menu_item_text"
+                    android:text= "@string/wechat_moments" />
+            </LinearLayout>
             <View style="@style/line_solid_horizontal" />
+            
             <LinearLayout
                 android:id="@+id/share_menu_2"
+                style="@style/menu_item" >
+
+                <ImageView
+                    style="@style/sharemenu_item_icon"
+                    android:src="@drawable/share_weinxin" />
+
+                <TextView
+                    style="@style/menu_item_text"
+                    android:text="@string/wechat_friends" />
+            </LinearLayout>
+
+            <View style="@style/line_solid_horizontal" />
+            
+            <LinearLayout
+                android:id="@+id/share_menu_3"
+                style="@style/menu_item" >
+
+                <ImageView
+                    style="@style/sharemenu_item_icon"
+                    android:src="@drawable/share_weibo" />
+
+                <TextView
+                    style="@style/menu_item_text"
+                    android:text="@string/sina_weibo" />
+            </LinearLayout>
+
+            <View style="@style/line_solid_horizontal" />
+           
+            <LinearLayout
+                android:id="@+id/share_menu_4"
                 style="@style/menu_item" >
 
                 <ImageView

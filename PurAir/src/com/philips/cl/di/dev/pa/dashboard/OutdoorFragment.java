@@ -236,7 +236,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			int temprature = 6;
 			int humidity = 16;
 			int weatherIconId = 0;
-			weather = new OutdoorWeather(temprature, humidity, weatherIconId, areaID, date);
+			weather = new OutdoorWeather(temprature, humidity, weatherIconId, areaID, date, 0, 0);
 		}
 	}
 }

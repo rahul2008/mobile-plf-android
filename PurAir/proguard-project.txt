@@ -27,6 +27,10 @@
 -optimizationpasses 5
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
+-dontwarn com.umeng.**
+-dontwarn com.tencent.weibo.sdk.**
+-dontwarn com.facebook.**
+
 -dontpreverify
 -verbose
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
@@ -34,6 +38,11 @@
 
 -keepattributes InnerClasses
 
+
+
+-keep public class com.umeng.socialize.* {*;}
+-keep class com.umeng.scrshot.**
+-keep class com.umeng.socialize.sensor.**
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
 -keep public class * extends android.app.Service
@@ -241,5 +250,46 @@
 
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
+}
+
+
+
+-keep enum com.facebook.**
+-keepattributes Exceptions,InnerClasses,Signature
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
+
+-keep public interface com.facebook.**
+-keep public interface com.tencent.**
+-keep public interface com.umeng.socialize.**
+-keep public interface com.umeng.socialize.controller.**
+-keep public interface com.umeng.socialize.sensor.**
+-keep public interface com.umeng.scrshot.**
+
+-keep public class com.umeng.socialize.**{*;}
+-keepattributes *Annotation*
+-keep public interface com.umeng.socialize.**
+
+-keep public class javax.**
+-keep public class android.webkit.**
+
+-keep class com.facebook.**
+-keep class com.umeng.scrshot.**
+-keep public class com.tencent.** {*;}
+-keep class com.umeng.socialize.sensor.**
+-keep class com.mobeta.android.dslv.**
+
+-keep class com.tencent.mm.sdk.openapi.WXMediaMessage {*;}
+
+-keep class com.tencent.mm.sdk.openapi.** implements com.tencent.mm.sdk.openapi.WXMediaMessage$IMediaObject {*;}
+
+-keep class im.yixin.sdk.api.YXMessage {*;}
+-keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
+
+
+
+
+-keep public class com.philips.cl.di.dev.pa.R$*{
+    public static final int *;
 }
 

@@ -655,12 +655,70 @@
     <string name="promotional_videos">促销活动</string>
     <!-- Share -->
     <string name="share">分享</string>
-    <string name="mail">邮件</string>
+    <string name="wechat_moments">微信朋友圈分享</string>
+    <string name="wechat_friends">微信好友分享</string>
+    <string name="sina_weibo">新浪微博分享.</string>
+    <string name="mail">邮件分享</string>
+    <string name="share_info">想要像我一样随时随地，一手掌握最详尽的空气质量情况？那就快来</string>
+    <string name="download">下载吧!</string>
+    <string name="air_quality">Air quality</string>
+    <string name="air_purifier">AirPurifier</string>
     
     <string name="submit">提交</string>
     <string name="invalid_input">有效输入</string>
     <string name="feedback_sent">感谢您的反馈意见</string>
     <string name="feedback_not_sent">暂时无法给您反馈，请稍后重试，谢谢。</string>
+    
+    <!-- Wind Direction -->
+    
+    <string name="no_wind">No wind</string>
+    <string name="northeast">Northeast</string>
+    <string name="east">East</string>
+    <string name="southeast">Southeast</string>
+    <string name="south">South</string>
+    <string name="southwest">Southwest</string>
+    <string name="west">West</string>
+    <string name="northwest">Northwest</string>
+    <string name="north">North</string>
+    <string name="whirl_wind">Whirl wind</string>
+    
+    <!-- Weather Phenomenon -->
+    
+    <string name="sunny">Sunny</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="overcast">Overcast</string>
+    <string name="shower">Shower</string>
+    <string name="thundershower">Thundershower</string>
+    <string name="thundershower_with_hail">Thundershower with hail</string>
+    <string name="sleet">Sleet</string>
+    <string name="light_rain">Light rain</string>
+    <string name="moderate_rain">Moderate rain</string>
+    <string name="heavy_rain">Heavy rain</string>
+    <string name="storm">Storm</string>
+    <string name="heavy_storm">Heavy storm</string>
+    <string name="severe_storm">Severe storm</string>
+    <string name="snow_flurry">Snow flurry</string>
+    <string name="light_snow">Light snow</string>
+    <string name="moderate_snow">Moderate snow</string>
+    <string name="heavy_snow">Heavy snow</string>
+    <string name="snowstorm">Snowstorm</string>
+    <string name="foggy">Foggy</string>
+    <string name="ice_rain">Ice rain</string>
+    <string name="duststorm">Duststorm</string>
+    <string name="light_to_moderate_rain">Light to moderate rain</string>
+    <string name="moderate_to_heavy_rain">Moderate to heavy rain</string>
+    <string name="heavy_rain_to_storm">Heavy rain to storm</string>
+    <string name="storm_to_heavy_storm">Storm to heavy storm</string>
+    <string name="heavy_to_severe_storm">Heavy to severe storm</string>
+    <string name="light_to_moderate_snow">Light to moderate snow</string>
+    <string name="moderate_to_heavy_snow">Moderate to heavy snow</string>
+    <string name="heavy_snow_to_snowstorm">Heavy snow to snowstorm</string>
+    <string name="dust">Dust</string>
+    <string name="sand">Sand</string>
+    <string name="sandstorm">Sandstorm</string>
+    <string name="haze">Haze</string>
+    <string name="unknown">Unknown</string>
+    
     
     <!-- Product Regestration -->
     <string name="enter_phone_no">请输入手机号码</string>

@@ -302,13 +302,16 @@ public class DataParser {
 
 				JSONObject cityJsonObject = cityData.getJSONObject("l") ;
 				String time = cityJsonObject.getString("l7") ;
-				int temperature = 0, humidity = 0, weatherIcon = 0 ;
+				int temperature = 0, humidity = 0, weatherIcon = 0 , windspeedID = 0 , winddirectionID = 0;
 				try {
 					temperature = Integer.parseInt(cityJsonObject.getString("l1"));
 					humidity = Integer.parseInt(cityJsonObject.getString("l2"));
 					weatherIcon = Integer.parseInt(cityJsonObject.getString("l5"));
+					windspeedID = Integer.parseInt(cityJsonObject.getString("l3"));
+					winddirectionID = Integer.parseInt(cityJsonObject.getString("l4"));
 					
-					outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time));
+					
+					outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time, windspeedID, winddirectionID));
 				}catch(NumberFormatException nfe) {
 					
 				}
