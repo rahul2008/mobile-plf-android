@@ -411,6 +411,9 @@ public class DICommPortTest extends MockitoTestCase{
 			return PORT_PRODUCTID;
 		}
 
+        @Override
+        public boolean supportsSubscription() {
+            return false;
+        }
 	}
-
 }

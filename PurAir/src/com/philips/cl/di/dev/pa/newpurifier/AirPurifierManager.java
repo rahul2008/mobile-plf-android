@@ -224,8 +224,8 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		
 		//Start the subscription every time it discovers the Purifier
-		getCurrentPurifier().subscribeToAllEvents();
-		getCurrentPurifier().enableLocalSubscription();
+		purifier.subscribeToAllEvents();
+		purifier.enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {

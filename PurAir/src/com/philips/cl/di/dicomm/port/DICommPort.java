@@ -16,7 +16,8 @@ import com.philips.cl.di.dicomm.communication.ResponseHandler;
 public abstract class DICommPort {
     private static final String TAG = DICommPort.class.getSimpleName();
 
-	public static final int SUBSCRIPTION_TTL = 300000;
+    public static final int SUBSCRIPTION_TTL = 300;
+    public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
 
 	protected final NetworkNode mNetworkNode;
 	private CommunicationStrategy mCommunicationStrategy;
@@ -96,7 +97,7 @@ public abstract class DICommPort {
         
     	mSubscribeRequested = true;    	
     	
-        getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL);
+        getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL_MS);
     	    	
     	tryToPerformNextRequest();
     }
@@ -238,7 +239,7 @@ public abstract class DICommPort {
     }
 
     private void performSubscribe() {
-    	mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL / 1000, mNetworkNode, new ResponseHandler() {
+    	mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, mNetworkNode, new ResponseHandler() {
 
 			@Override
 			public void onSuccess(String data) {
