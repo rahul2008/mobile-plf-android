@@ -76,6 +76,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
 	private final long mPostProgressTrack = 1000 * 3l;
+	private int mTwitterTextCounter = TWITTER_TEXT;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -206,7 +207,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			DLog.d(TAG, "Checked True+++++++");
 			mContent = mEditText.getText().toString() + " "
 					+ mProductInformation;
-			if (mContent.length() < 140)
+			if (mContent.length() < mTwitterTextCounter)
 				mEditText.setText(mContent);
 			else
 				Toast.makeText(
@@ -281,15 +282,24 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-		if (s.length() <= 140)
-			mCharacterCount.setText(String.valueOf(s.length()));
+		/*
+		 * if (!(s.toString().startsWith(mTwitter_to)) &&
+		 * !(s.toString().contains(mTwitter_to)))
+		 * mEditText.setText(mTwitter_to);
+		 */
+
+		if (!(s.toString().contains(mTwitter_to)))
+			mEditText.setText(mTwitter_to);
+
+		if (s.length() <= mTwitterTextCounter) {
+			int mTextCounter = mTwitterTextCounter - s.length();
+			mCharacterCount.setText(String.valueOf(mTextCounter));
+		}
+
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-
-		if (!(s.toString().startsWith(mTwitter_to)))
-			mEditText.setText(mTwitter_to);
 
 	}
 
@@ -321,6 +331,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);
 		setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
+		mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
 	}
 
 	@Override
@@ -332,6 +343,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.GONE);
 		setLimitToEditText(mEditText, TWITTER_TEXT);
+		mTwitterTextCounter = TWITTER_TEXT;
 	}
 
 	@Override
