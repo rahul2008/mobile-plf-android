@@ -54,6 +54,8 @@ public abstract class DICommPort {
 	public abstract String getDICommPortName();
 
 	public abstract int getDICommProductId();
+	
+	public abstract boolean supportsSubscription();
 
 	public boolean isApplyingChanges(){
 	   	return mIsApplyingChanges;

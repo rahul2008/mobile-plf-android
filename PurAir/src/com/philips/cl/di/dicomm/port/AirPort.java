@@ -106,4 +106,8 @@ public class AirPort extends DICommPort {
 		return AIRPORT_PRODUCTID;
 	}
 
+    @Override
+    public boolean supportsSubscription() {
+        return true;
+    }
 }

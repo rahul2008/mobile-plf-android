@@ -24,13 +24,12 @@ import com.philips.cl.di.dicomm.port.ScheduleListPort;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifier implements ResponseHandler, KeyDecryptListener{
+public class AirPurifier extends DICommAppliance implements ResponseHandler, KeyDecryptListener{
 
 	private final String mUsn;
 	private String latitude;
 	private String longitude;
 
-	private final NetworkNode mNetworkNode = new NetworkNode();
 	private final SchedulerHandler mSchedulerHandler;
 	private SubscriptionHandler mSubscriptionHandler;
 
@@ -42,35 +41,29 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 
 	private PurifierListener mPurifierListener;
 
-	private CommunicationStrategy mCommunicationStrategy;
-
 	public AirPurifier(CommunicationStrategy communicationStrategy, String eui64, String usn, String ipAddress, String name,
 			long bootId, ConnectionState connectionState) {
-		mNetworkNode.setBootId(bootId);
-		mNetworkNode.setCppId(eui64);
+	    super(communicationStrategy, eui64, usn, ipAddress, name, bootId, connectionState);
 		mUsn = usn;
-		mNetworkNode.setIpAddress(ipAddress);
-		mNetworkNode.setName(name);
-		mNetworkNode.setConnectionState(connectionState);
-		mCommunicationStrategy = communicationStrategy;
+		
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
 		mSchedulerHandler = new SchedulerHandler(this);
 		
-        mAirPort = new AirPort(mNetworkNode,mCommunicationStrategy);
-		mFirmwarePort = new FirmwarePort(mNetworkNode,mCommunicationStrategy);
-		mScheduleListPort = new ScheduleListPort(mNetworkNode, mCommunicationStrategy, mSchedulerHandler);
+        mAirPort = new AirPort(mNetworkNode,communicationStrategy);
+		mFirmwarePort = new FirmwarePort(mNetworkNode,communicationStrategy);
+		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy, mSchedulerHandler);
 		
 		mDISecurity = new DISecurity(this);
+
+        addPort(mAirPort);
+        addPort(mFirmwarePort);
+        addPort(mScheduleListPort);
 	}
 
 	public AirPurifier(CommunicationStrategy communicationStrategy, String eui64, String usn, String ipAddress, String name,
 			long bootId, ConnectionState connectionState, SubscriptionHandler subscriptionHandler) {
 		this(communicationStrategy, eui64, usn, ipAddress, name, bootId, connectionState);
 		mSubscriptionHandler = subscriptionHandler;
-	}
-
-	public NetworkNode getNetworkNode() {
-		return mNetworkNode;
 	}
 
 	public void setPurifierListener(PurifierListener mPurifierListener) {
@@ -167,15 +160,11 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 	}
 
 	public void subscribeToAllEvents() {
-		ALog.i(ALog.APPLIANCE, "Subscribe to all events for appliance: " + this) ;
-		mAirPort.subscribe();
-		mFirmwarePort.subscribe();
+	    subscribe();
 	}
 
 	public void unSubscribeFromAllEvents() {
-		ALog.i(ALog.APPLIANCE, "UnSubscribe from all events from appliance: " + this) ;
-		mAirPort.unsubscribe();
-		mFirmwarePort.unsubscribe();
+		unsubscribe();
 	}
 
 	private void notifySubscriptionListeners(String data) {

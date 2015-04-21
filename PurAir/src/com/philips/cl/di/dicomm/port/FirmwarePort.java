@@ -80,6 +80,9 @@ public class FirmwarePort extends DICommPort {
 	public int getDICommProductId() {
 		return FIRMWAREPORT_PRODUCTID;
 	}
-	
 
+    @Override
+    public boolean supportsSubscription() {
+        return true;
+    }
 }

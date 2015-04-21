@@ -121,5 +121,10 @@ public class ScheduleListPort extends DICommPort {
 	public int getDICommProductId() {
 		return SCHEDULELISTPORT_PRODUCTID;
 	}
+
+    @Override
+    public boolean supportsSubscription() {
+        return false;
+    }
 	
 }
