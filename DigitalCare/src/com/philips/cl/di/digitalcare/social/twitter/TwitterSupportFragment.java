@@ -209,12 +209,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 					+ mProductInformation;
 			if (mContent.length() < mTwitterTextCounter)
 				mEditText.setText(mContent);
-			else
+		/*	else
 				Toast.makeText(
 						getActivity(),
 						getActivity().getResources().getString(
 								R.string.twitter_post_char_limitation),
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_SHORT).show();*/
 			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		} else {
 			DLog.d(TAG, "Checked False++++++++");
@@ -282,25 +282,17 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-		/*
-		 * if (!(s.toString().startsWith(mTwitter_to)) &&
-		 * !(s.toString().contains(mTwitter_to)))
-		 * mEditText.setText(mTwitter_to);
-		 */
 
 		if (!(s.toString().contains(mTwitter_to)))
 			mEditText.setText(mTwitter_to);
+		}
 
+	@Override
+	public void afterTextChanged(Editable s) {
 		if (s.length() <= mTwitterTextCounter) {
 			int mTextCounter = mTwitterTextCounter - s.length();
 			mCharacterCount.setText(String.valueOf(mTextCounter));
 		}
-
-	}
-
-	@Override
-	public void afterTextChanged(Editable s) {
-
 	}
 
 	@Override
@@ -332,8 +324,19 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductCloseButton.setVisibility(View.VISIBLE);
 		setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
 		mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
+		
+		if (getCharacterCount() <= mTwitterTextCounter) {
+			int mTextCounter = mTwitterTextCounter - getCharacterCount();
+			mCharacterCount.setText(String.valueOf(mTextCounter));
+		}
 	}
 
+	private int getCharacterCount()
+	{
+		return mEditText.getText().toString().length();
+	}
+	
+	
 	@Override
 	public void onImageDettach() {
 		mFile = null;
@@ -344,6 +347,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductCloseButton.setVisibility(View.GONE);
 		setLimitToEditText(mEditText, TWITTER_TEXT);
 		mTwitterTextCounter = TWITTER_TEXT;
+		if (getCharacterCount() <= mTwitterTextCounter) {
+			int mTextCounter = mTwitterTextCounter - getCharacterCount();
+			mCharacterCount.setText(String.valueOf(mTextCounter));
+		}
 	}
 
 	@Override
