@@ -25,17 +25,18 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 	private TextView mTvErrDescriptionView;
 	private EditText mEtPassword;
 	private boolean mValidPassword;
+	private onUpdateListener mUpdateStatusListener;
 	
 	public XPassword(Context context) {
 		super(context);
 		this.mContext = context;
-		initUi(R.layout.password_field);
+		initUi(R.layout.x_password);
 	}
 	
 	public XPassword(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
-		initUi(R.layout.password_field);
+		initUi(R.layout.x_password);
 
 	}
 	
@@ -52,6 +53,17 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 		mEtPassword.setOnClickListener(this);
 		mEtPassword.setOnFocusChangeListener(this);
 		mEtPassword.addTextChangedListener(this);
+	}
+	
+	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+		mUpdateStatusListener = updateStatusListener;
+	}
+	
+	private void fireUpdateStatusEvent() {
+
+		if (null != mUpdateStatusListener) {
+			mUpdateStatusListener.onUpadte();
+		}
 	}
 	
 	private void handlePassword(boolean hasFocus) {
@@ -98,12 +110,13 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 	public void onFocusChange(View v, boolean hasFocus) {
 		 if (v.getId() == R.id.et_reg_password) {
 				handlePassword(hasFocus);
+				fireUpdateStatusEvent();
 		}
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.iv_password_error_alert) {
+		if (v.getId() == R.id.iv_password_error_alert && mEtPassword.getText().toString().trim().length() > 0) {
 			mTvErrDescriptionView.setVisibility(View.VISIBLE);
 			mIvArrowUpView.setVisibility(View.VISIBLE);
 		}	
@@ -120,6 +133,10 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 			mIvPasswordErrAlert.setVisibility(View.GONE);
 			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
 		} else {
+			if(mEtPassword.getText().toString().trim().length() == 0){
+				mTvErrDescriptionView.setVisibility(View.GONE);
+				mIvArrowUpView.setVisibility(View.GONE);
+			}
 			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
 			mIvValidPasswordAlert.setVisibility(View.GONE);
 		}
@@ -127,10 +144,12 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 
 	@Override
 	public void afterTextChanged(Editable s) {
+		fireUpdateStatusEvent();
 		if (validatePassword()) {
 			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
 			mIvArrowUpView.setVisibility(View.GONE);
 			mTvErrDescriptionView.setVisibility(View.GONE);
+			
 		}
 	}
 

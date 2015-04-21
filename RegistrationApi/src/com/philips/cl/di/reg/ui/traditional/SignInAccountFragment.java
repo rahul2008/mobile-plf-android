@@ -21,19 +21,20 @@ import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.ui.customviews.XEmail;
 import com.philips.cl.di.reg.ui.customviews.XPassword;
+import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
 import com.philips.cl.di.reg.ui.utils.EmailValidater;
 import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements
-		OnClickListener, TraditionalLoginHandler, ForgotPasswordHandler {
+		OnClickListener, TraditionalLoginHandler, ForgotPasswordHandler,onUpdateListener{
 
-	private LinearLayout mFirstLayout;
-	private RelativeLayout mSecondLayout;
+	private LinearLayout mLlCreateAccountFields;
+	private RelativeLayout mRlSignInBtnContainer;
 	
-	private Button mSigninBtn;
-	private Button mForgotBtn;
+	private Button mBtnSignInAccount;
+	private Button mBtnForgot;
 	private XEmail mEtEmail;
 	private XPassword mEtPassword;
 	private User mUser;
@@ -61,14 +62,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void setViewParams(Configuration config) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,"UserPhilipsAccountSignInFragment : setViewParams");
-		LinearLayout.LayoutParams params = (LayoutParams) mFirstLayout.getLayoutParams();
+		LinearLayout.LayoutParams params = (LayoutParams) mLlCreateAccountFields.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
 		} else {
 			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
 		}
-		mFirstLayout.setLayoutParams(params);
-		mSecondLayout.setLayoutParams(params);
+		mLlCreateAccountFields.setLayoutParams(params);
+		mRlSignInBtnContainer.setLayoutParams(params);
 
 	}
 
@@ -83,21 +84,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	private void initUI(View view) {
-		mSigninBtn = (Button) view.findViewById(R.id.sign_in_btn);
-		mSigninBtn.setOnClickListener(this);
-		mForgotBtn = (Button) view.findViewById(R.id.forgot_password_btn);
-		mForgotBtn.setOnClickListener(this);
-		mFirstLayout = (LinearLayout) view.findViewById(
-				R.id.first_part);
-		mSecondLayout = (RelativeLayout) view.findViewById(
+		mBtnSignInAccount = (Button) view.findViewById(R.id.sign_in_btn);
+		mBtnSignInAccount.setOnClickListener(this);
+		mBtnForgot = (Button) view.findViewById(R.id.forgot_password_btn);
+		mBtnForgot.setOnClickListener(this);
+		mLlCreateAccountFields = (LinearLayout) view.findViewById(
+				R.id.ll_create_account_fields);
+		mRlSignInBtnContainer = (RelativeLayout) view.findViewById(
 				R.id.ll_welcome_container);
 		
 		mEtEmail = (XEmail) view.findViewById(R.id.rl_email_field);
 		mEtEmail.setOnClickListener(this);
+		mEtEmail.setOnUpdateListener(this);
 		mEtEmail.setFocusable(true);
 		mEtPassword = (XPassword) view.findViewById(R.id.rl_password_field);
 		mEtPassword.setOnClickListener(this);
-		
+		mEtPassword.setOnUpdateListener(this);
 		setViewParams(getResources().getConfiguration());
 		mUser = new User(getActivity().getApplicationContext());
 		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_spinner);
@@ -109,13 +111,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	private void signIn() {
-		if (mEtPassword.isValidPassword() && mEtEmail.isValidEmail()) {
-			if (mUser != null)
-				showSpinner();
-			mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(),
-					mEtPassword.getPassword().toString(), this);
-		}
-
+		if (mUser != null)
+		showSpinner();
+		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
+		        .toString(), this);
 	}
 
 	@Override
@@ -130,8 +129,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		
 		hideSpinner();
 		if (errorType == INVALID_CREDENTIAL) {
+			mEtEmail.setErrDescription(getResources().getString(R.string.Janrain_invalid_credentials));
+			mEtEmail.showJanarainError();
 			mEtPassword.setErrDescription(getResources().getString(R.string.Janrain_invalid_credentials));
 			mEtPassword.showJanarainError();
+			
 		} else {
 			JanrainErrorMessage errorMessage = new JanrainErrorMessage(getActivity());
 			String message = errorMessage.getError(errorType);
@@ -177,10 +179,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void showSpinner() {
 		mPbSpinner.setVisibility(View.VISIBLE);
+		mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+		mBtnSignInAccount.setEnabled(false);
 	}
 
 	private void hideSpinner() {
 		mPbSpinner.setVisibility(View.INVISIBLE);
+		mBtnSignInAccount.setBackgroundResource(R.drawable.navigation_bar);
+		mBtnSignInAccount.setEnabled(true);
 	}
 
 	private void resetPassword() {
@@ -202,4 +208,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			}
 		}
 	}
+
+	@Override
+    public void onUpadte() {
+		if (mEtEmail.isValidEmail()&& mEtPassword.isValidPassword()) {
+			mBtnSignInAccount.setBackgroundResource(R.drawable.navigation_bar);
+			mBtnSignInAccount.setEnabled(true);
+		}else{
+			mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+			mBtnSignInAccount.setEnabled(false);
+		}
+	    
+    }
 }

@@ -39,13 +39,13 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	public XEmail(Context context) {
 		super(context);
 		this.mContext = context;
-		initUi(R.layout.email_field);
+		initUi(R.layout.x_email);
 	}
 
 	public XEmail(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
-		initUi(R.layout.email_field);
+		initUi(R.layout.x_email);
 	}
 
 	public final void initUi(int resourceId) {
@@ -83,11 +83,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		setValidEmail(true);
 		return true;
 	}
-
-	public TextView getErrDescriptionView2() {
-		return mTvErrDescriptionView;
-	}
-
+	
 	public void setErrDescription(String mErrDescription) {
 		mTvErrDescriptionView.setText(mErrDescription);
 	}
@@ -96,11 +92,15 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		if (!hasFocus) {
 			mEtEmail.setFocusable(true);
 			if (mEtEmail.getText().toString().trim().length() == 0) {
-				mIvEmailErrAlert.setVisibility(View.VISIBLE);
+				showEmailInvalidAlert();
 			}
 		}
 	}
-
+	 
+	public void showEmailInvalidAlert(){
+		mIvEmailErrAlert.setVisibility(View.VISIBLE);
+	}
+	
 	public void showJanarainError() {
 		mIvValidEmailAlert.setVisibility(View.GONE);
 		mIvEmailErrAlert.setVisibility(View.VISIBLE);
@@ -127,7 +127,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.iv_email_error_alert) {
+		if (v.getId() == R.id.iv_email_error_alert && mEtEmail.getText().toString().trim().length() >0) {
 			mTvErrDescriptionView.setVisibility(View.VISIBLE);
 			mIvArrowUpView.setVisibility(View.VISIBLE);
 		}
@@ -145,6 +145,10 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 			mIvEmailErrAlert.setVisibility(View.GONE);
 			mValidEmail = true;
 		} else {
+			if(mEtEmail.getText().toString().trim().length() == 0){
+				mTvErrDescriptionView.setVisibility(View.GONE);
+				mIvArrowUpView.setVisibility(View.GONE);
+			}
 			mTvErrDescriptionView.setText(getResources().getString(R.string.invalid_email));
 			mIvEmailErrAlert.setVisibility(View.VISIBLE);
 			mIvValidEmailAlert.setVisibility(View.GONE);
@@ -153,11 +157,12 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	@Override
 	public void afterTextChanged(Editable s) {
+		fireUpdateStatusEvent();
 		if (validateEmail()) {
 			mIvValidEmailAlert.setVisibility(View.VISIBLE);
 			mTvErrDescriptionView.setVisibility(View.GONE);
 			mIvArrowUpView.setVisibility(View.GONE);
-			fireUpdateStatusEvent();
+			
 		}
 	}
 

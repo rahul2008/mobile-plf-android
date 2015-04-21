@@ -7,16 +7,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
+        <com.philips.cl.di.reg.ui.customviews.XEditText
             android:id="@+id/et_reg_fname"
             style="@style/style_tab_reg_hint"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
-            android:maxLength="40" >
-
-            <requestFocus />
-        </EditText>
-
+            reglib:fontAssetName="fonts/CentraleSans-Light.otf"
+         	android:maxLength="15" />
+	
         <ImageView
             android:id="@+id/iv_name_error_alert"
             android:layout_width="@dimen/err_alert_width"

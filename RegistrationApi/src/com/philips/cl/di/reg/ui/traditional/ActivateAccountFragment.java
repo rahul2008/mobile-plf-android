@@ -16,19 +16,18 @@ import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
-import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
+import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.ui.utils.RLog;
 
 public class ActivateAccountFragment extends RegistrationBaseFragment implements
-		OnClickListener, TraditionalLoginHandler,TraditionalRegistrationHandler {
+		OnClickListener{
 
 	private Button mActivateBtn;
 	private Button mResendBtn;
 	private TextView mTvVerifyEmail;
-	private LinearLayout mSecondLayout;
+	private LinearLayout mLlWelcomeContainer;
 	private TextView mTvResendDetails;
-	private RelativeLayout mFourthLayout;
+	private RelativeLayout mRlSingInOptions;
 	private User mUser;
 	private ProgressBar mPbSpinner;
 
@@ -59,29 +58,38 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		// TODO: converted into switch after the proper solution
 		int id = v.getId();
 		if (id == R.id.activate_acct_btn) {
-
-			// System.out.println("***** email  : "+mUser.mEmail +
-			// " pasword : "+mUser.mPassword + " name : "+mUser.mGivenName);
 			if (mUser.getEmailVerificationStatus(getActivity())) {
 				Toast.makeText(getActivity(), "Verification email Success",Toast.LENGTH_LONG).show();
 			} else {
 				Toast.makeText(getActivity(),R.string.Janrain_Error_Need_Email_Verification,Toast.LENGTH_LONG).show();
 			}
 		} else if (id == R.id.resend_btn) {
+			//System.out.println("***** email  : "+mUser.mEmail +" pasword : "+mUser.mPassword + " name : "+mUser.mGivenName);
 			showSpinner();
-			mUser.registerUserInfoForTraditional(mUser.mGivenName,
-					mUser.mEmail, mUser.mPassword, true, true, this);
+			ResendVerificationEmailHandler resendHandler = new ResendVerificationEmailHandler() {
+				
+				@Override
+				public void onResendVerificationEmailSuccess() {
+					hideSpinner();
+					Toast.makeText(getActivity(), "Resend Mail Successfully ", Toast.LENGTH_LONG).show();
+				}
+				
+				@Override
+				public void onResendVerificationEmailFailedWithError(int error) {
+					hideSpinner();
+					Toast.makeText(getActivity(), "Resend Mail Failed ", Toast.LENGTH_LONG).show();
+				}
+			};
+			mUser.resendVerificationMail(mUser.mEmail, resendHandler );
 		}
 
 	}
 
 	private void initUI(View view) {
 		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_veify_email);
-		mSecondLayout = (LinearLayout) view.findViewById(R.id.ll_welcome_container);
+		mLlWelcomeContainer = (LinearLayout) view.findViewById(R.id.ll_welcome_container);
 		mTvResendDetails = (TextView) view.findViewById(R.id.tv_resend_details);
-		mFourthLayout = (RelativeLayout) view.findViewById(R.id.ll_singin_options);
-		
-		
+		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.ll_singin_options);
 		mActivateBtn = (Button) view.findViewById(R.id.activate_acct_btn);
 		mResendBtn = (Button) view.findViewById(R.id.resend_btn);
 		mActivateBtn.setOnClickListener(this);
@@ -107,35 +115,15 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
 		}
 		mTvVerifyEmail.setLayoutParams(params);
-		mSecondLayout.setLayoutParams(params);
+		mLlWelcomeContainer.setLayoutParams(params);
 		mTvResendDetails.setLayoutParams(params);
-		mFourthLayout.setLayoutParams(params);
+		mRlSingInOptions.setLayoutParams(params);
 
 	}
 
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.sign_in);
-	}
-
-	@Override
-	public void onLoginSuccess() {
-
-	}
-
-	@Override
-	public void onLoginFailedWithError(int error) {
-
-	}
-
-	@Override
-	public void onRegisterSuccess() {
-		hideSpinner();
-	}
-
-	@Override
-	public void onRegisterFailedWithFailure(int error) {
-		hideSpinner();
 	}
 
 }

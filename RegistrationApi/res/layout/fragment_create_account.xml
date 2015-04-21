@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent" >
 
@@ -14,7 +15,7 @@
             android:layout_height="@dimen/account_margin_bottom" />
 
         <LinearLayout
-            android:id="@+id/first_part"
+            android:id="@+id/ll_create_account_fields"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -46,13 +47,13 @@
             android:layout_marginBottom="@dimen/margin_bottom"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/password_details"
+            <com.philips.cl.di.reg.ui.customviews.XTextView
+                android:id="@+id/tv_password_details"
                 style="@style/textStyle"
                 android:paddingLeft="@dimen/layout_margin"
                 android:paddingRight="@dimen/layout_margin"
-                android:text="@string/password_details" >
-            </TextView>
+                android:text="@string/password_details"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"/>
         </LinearLayout>
 
         <LinearLayout
@@ -72,19 +73,18 @@
                 android:layout_marginBottom="@dimen/margin_bottom" >
             </CheckBox>
 
-            <TextView
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/periodic_offer_id"
                 style="@style/textStyle"
                 android:layout_marginLeft="@dimen/margin_bottom"
-                android:text="@string/periodic_offers" >
-            </TextView>
+                android:text="@string/periodic_offers" 
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"/>
         </LinearLayout>
 
         <View
-            android:id="@+id/line_id"
             style="@style/line"
-            android:layout_marginBottom="@dimen/margin_bottom" >
-        </View>
+            android:layout_marginBottom="@dimen/margin_bottom" />
+        
 
         <RelativeLayout
             android:id="@+id/ll_singin_options"
@@ -94,15 +94,16 @@
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/btn_register"
                 style="@style/buttonStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
-                android:background="@drawable/navigation_bar"
-                android:text="@string/create_phi_account" >
-            </Button>
-
-            <ProgressBar
+                android:background="@drawable/disable_btn"
+                android:enabled="false"
+                android:text="@string/create_phi_account" 
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"/>
+            
+			<ProgressBar
                 android:id="@+id/pb_spinner"
                 android:layout_width="@dimen/rg_fb_icon_height"
                 android:layout_height="@dimen/rg_fb_icon_height"
@@ -110,6 +111,13 @@
                 android:indeterminateDrawable="@drawable/bts_progress_drawable"
                 android:visibility="gone" />
         </RelativeLayout>
+        
+         <com.philips.cl.di.reg.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:paddingLeft="@dimen/layout_margin"
+            	android:paddingRight="@dimen/layout_margin"
+                android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>

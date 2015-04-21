@@ -22,18 +22,18 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 	private ImageView mIvValidNameAlert;
 	private EditText mEtUserName;
 	private boolean mValidName;
-	
+	private onUpdateListener mUpdateStatusListener;
 	
 	public XUserName(Context context) {
 		super(context);
 		this.mContext = context;
-		initUi(R.layout.name_field);
+		initUi(R.layout.x_user_name);
 	}
 	
 	public XUserName(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.mContext = context;
-		initUi(R.layout.name_field);
+		initUi(R.layout.x_user_name);
 	}
 	
 	public final void initUi(int resourceId) {
@@ -51,6 +51,17 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 		mIvNameErrAlert.setOnClickListener(this);
 		mIvValidNameAlert = (ImageView) findViewById(R.id.iv_valid_name_alert);
 
+	}
+	
+	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
+		mUpdateStatusListener = updateStatusListener;
+	}
+	
+	private void fireUpdateStatusEvent() {
+
+		if (null != mUpdateStatusListener) {
+			mUpdateStatusListener.onUpadte();
+		}
 	}
 	
 	private boolean validateName() {
@@ -88,6 +99,7 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 	public void onFocusChange(View v, boolean hasFocus) {
 		if (v.getId() == R.id.et_reg_fname) {
 			handleName(hasFocus);
+			fireUpdateStatusEvent();
 		}
 	}
 
@@ -109,19 +121,16 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 		if (validateName()) {
 			mIvValidNameAlert.setVisibility(View.VISIBLE);
 			mIvNameErrAlert.setVisibility(View.GONE);
-							
 		} else {
 			mIvNameErrAlert.setVisibility(View.VISIBLE);
 			mIvValidNameAlert.setVisibility(View.GONE);
-			
 		}
 		
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-	
-		
+		fireUpdateStatusEvent();
 	}
 
 }

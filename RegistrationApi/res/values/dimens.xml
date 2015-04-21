@@ -28,7 +28,7 @@
     <dimen name="top_arrow_width">17dp</dimen>
     <dimen name="err_alert_margin">5dp</dimen>
     <dimen name="input_length">5dp</dimen>
-    <dimen name="arrow_width">12dp</dimen>
+    <dimen name="arrow_width">17dp</dimen>
     <dimen name="arrow_height">20dp</dimen>
     <dimen name="err_msg">14sp</dimen>
     <dimen name="rg_fb_icon_height">32dp</dimen>

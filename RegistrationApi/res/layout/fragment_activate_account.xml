@@ -1,5 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent" >
 
@@ -9,19 +10,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
+        <com.philips.cl.di.reg.ui.customviews.XTextView
             android:id="@+id/tv_veify_email"
             style="@style/textStyle"
             android:layout_marginTop="@dimen/margin_bottom"
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin"
-            android:text="@string/verify_email" >
-        </TextView>
+            reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
+            android:text="@string/verify_email" />
 
-        <View
-            android:id="@+id/line_id"
-            style="@style/line" >
-        </View>
+        <View style="@style/line" />
 
         <LinearLayout
             android:id="@+id/ll_welcome_container"
@@ -31,15 +29,16 @@
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <TextView
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 style="@style/textStyle"
-                android:text="@string/sent_email" >
-            </TextView>
-
-            <TextView
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
+                android:text="@string/sent_email" />
+            
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 style="@style/textStyle"
-                android:text="@string/ready_email" >
-            </TextView>
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
+                android:text="@string/ready_email" />
+            
         </LinearLayout>
 
         <LinearLayout
@@ -47,14 +46,15 @@
             style="@style/textBackground"
             android:orientation="vertical" >
 
-            <TextView
+            <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/tv_resend_details"
                 style="@style/textStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:paddingLeft="@dimen/layout_margin"
                 android:paddingRight="@dimen/layout_margin"
-                android:text="@string/press_resend" >
-            </TextView>
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
+                android:text="@string/press_resend" />
+            
         </LinearLayout>
 
         <RelativeLayout
@@ -65,19 +65,21 @@
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/activate_acct_btn"
                 style="@style/buttonStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/navigation_bar"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
                 android:text="@string/activate_account" />
 
-            <Button
+            <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/resend_btn"
                 style="@style/resend_btn"
                 android:layout_below="@+id/activate_acct_btn"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/resend"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
                 android:text="@string/resend" />
 
             <ProgressBar
@@ -85,7 +87,6 @@
                 android:layout_width="@dimen/rg_fb_icon_height"
                 android:layout_height="@dimen/rg_fb_icon_height"
                 android:layout_centerInParent="true"
-                android:layout_marginStart="8dp"
                 android:indeterminateDrawable="@drawable/bts_progress_drawable"
                 android:visibility="gone" />
         </RelativeLayout>

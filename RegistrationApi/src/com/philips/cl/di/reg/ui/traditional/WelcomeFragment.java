@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.res.Configuration;
@@ -14,59 +15,46 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 
 public class WelcomeFragment extends RegistrationBaseFragment {
 
-	private TextView mWelcomeText;
-	private LinearLayout mEmailDetails;
-	private LinearLayout mContinueLayout;
-	private LinearLayout.LayoutParams mParams = null;
-	private View mView;
+	private TextView mTvWelcome;
+	private LinearLayout mLlEmailDetailsContainer;
+	private LinearLayout mLlContinueBtnContainer;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
-		mView = inflater.inflate(R.layout.fragment_home, null);
-		mView = inflater.inflate(R.layout.fragment_welcome, null);
-		return mView;
+		View view = inflater.inflate(R.layout.fragment_welcome, null);
+		init(view);
+		return view;
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserWelcomeFragment : onActivityCreated");
-		mWelcomeText = (TextView) getActivity().findViewById(R.id.tv_welcome);
-
-		mEmailDetails = (LinearLayout) getActivity().findViewById(
-				R.id.email_details);
-
-		mContinueLayout = (LinearLayout) getActivity().findViewById(
-				R.id.continue_id);
-
-		mParams = (LayoutParams) mWelcomeText.getLayoutParams();
-		Configuration config = getResources().getConfiguration();
-		setViewParams(config);
-
+	private void init(View view) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onActivityCreated");
+		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
+		mLlEmailDetailsContainer = (LinearLayout) view.findViewById(R.id.email_details);
+		mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.continue_id);
+		setViewParams(getResources().getConfiguration());
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserWelcomeFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
 	@Override
 	public void setViewParams(Configuration config) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : setViewParams");
+
+		LinearLayout.LayoutParams params = (LayoutParams) mTvWelcome.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
 		} else {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
 		}
-		mWelcomeText.setLayoutParams(mParams);
-		mEmailDetails.setLayoutParams(mParams);
-		mContinueLayout.setLayoutParams(mParams);
+		mTvWelcome.setLayoutParams(params);
+		mLlEmailDetailsContainer.setLayoutParams(params);
+		mLlContinueBtnContainer.setLayoutParams(params);
 
 	}
 
