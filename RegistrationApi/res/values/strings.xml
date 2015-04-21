@@ -51,5 +51,7 @@
 	<string name="email_already_used">Email address is already in use</string>
 	<string name="Janrain_Error_Need_Email_Verification">You have not verified your account yet. Check your email and click the link to activate your account</string>
 	<string name="registration_fail">Registration Failure</string>
+	<string name="invalid_password">Invalid password</string>
+	<string name="resend_email_faild">Resend email faild</string>
 	
 </resources>

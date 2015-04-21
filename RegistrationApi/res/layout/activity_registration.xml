@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/header"
-        android:background="@color/bg_color"
+        android:background="@color/btn_enable_text_color"
         android:clickable="true"
         android:orientation="vertical" />
 

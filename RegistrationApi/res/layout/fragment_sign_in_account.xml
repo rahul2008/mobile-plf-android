@@ -34,13 +34,12 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/line_id"
         style="@style/line"
-        android:layout_marginBottom="@dimen/margin_bottom" >
-    </View>
+        android:layout_marginBottom="@dimen/margin_bottom" />
+    
 
     <RelativeLayout
-        android:id="@+id/ll_welcome_container"
+        android:id="@+id/rl_welcome_container"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -71,6 +70,14 @@
             android:layout_centerInParent="true"
             android:indeterminateDrawable="@drawable/bts_progress_drawable"
             android:visibility="gone" />
+        
     </RelativeLayout>
+    
+         <com.philips.cl.di.reg.ui.customviews.XRegError
+                android:id="@+id/reg_error_msg"
+                android:layout_width="wrap_content"
+                android:paddingLeft="@dimen/layout_margin"
+            	android:paddingRight="@dimen/layout_margin"
+                android:layout_height="wrap_content" />
 
 </LinearLayout>

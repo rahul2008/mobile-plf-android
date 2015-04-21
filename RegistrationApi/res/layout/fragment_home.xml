@@ -20,7 +20,7 @@
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
         <LinearLayout
-            android:id="@+id/ll_welcome_container"
+            android:id="@+id/rl_welcome_container"
             style="@style/textBackground"
             android:orientation="vertical" >
 

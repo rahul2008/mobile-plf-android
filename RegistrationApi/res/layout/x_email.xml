@@ -15,10 +15,10 @@
             android:layout_height="@dimen/err_alert_width"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="2dip"
-            android:layout_marginLeft="2dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="2dip" >
+            android:layout_marginBottom="@dimen/x_edit_field_margin"
+            android:layout_marginLeft="@dimen/x_edit_field_margin"
+            android:layout_marginRight="@dimen/x_edit_field_margin_right"
+            android:layout_marginTop="@dimen/x_edit_field_margin" >
 
             <ImageView
                 android:id="@+id/iv_email_error_alert"
@@ -26,7 +26,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/content_desc"
                 android:src="@drawable/error_alert"
-                android:visibility="visible" />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/iv_valid_email_alert"
@@ -34,13 +34,12 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/content_desc"
                 android:src="@drawable/valid"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </FrameLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XEditText
             android:id="@+id/et_reg_email"
             style="@style/style_tab_reg_hint"
-            android:layout_width="match_parent"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_align"
             android:background="@android:color/transparent"
@@ -51,11 +50,11 @@
 
     <ImageView
         android:id="@+id/iv_up_arrow"
-        android:layout_width="20dip"
+        android:layout_width="@dimen/arrow_up_width"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/rl_email_verified_field"
-        android:layout_marginRight="9dip"
+        android:layout_marginRight="@dimen/arrow_margin_right"
         android:src="@drawable/up_arrow"
         android:visibility="gone" />
 

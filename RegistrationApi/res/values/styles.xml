@@ -18,7 +18,7 @@
     <style name="style_homescreen_title">
         <item name="android:textSize">@dimen/home_title_fontsize</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/bg_color</item>
+        <item name="android:textColor">@color/btn_enable_text_color</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">10dip</item>
     </style>
@@ -26,7 +26,7 @@
     <style name="style_tab_reg_hint">
         <item name="android:textSize">@dimen/home_title_fontsize</item>
         <item name="android:paddingLeft">10dp</item>
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
      
     </style>
@@ -56,7 +56,7 @@
     </style>
 
     <style name="buttonStyle">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/button_text_color</item>
@@ -110,11 +110,18 @@
     </style>
     
     <style name="resend_btn">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/err_msg_color</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
     </style>
-
+		
+    <style name="disable_buttonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/btn_disable_text_color</item>
+        <item name="android:textSize">@dimen/btn_text_size_large</item>
+    </style>
 </resources>

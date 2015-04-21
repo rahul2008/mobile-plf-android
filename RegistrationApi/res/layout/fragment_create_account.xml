@@ -42,7 +42,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/ll_welcome_container"
+            android:id="@+id/rl_welcome_container"
             style="@style/textBackground"
             android:layout_marginBottom="@dimen/margin_bottom"
             android:orientation="vertical" >
@@ -96,7 +96,7 @@
 
             <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/btn_register"
-                style="@style/buttonStyle"
+                style="@style/disable_buttonStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/disable_btn"
                 android:enabled="false"

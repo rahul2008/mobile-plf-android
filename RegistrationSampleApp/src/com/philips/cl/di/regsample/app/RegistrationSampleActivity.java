@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.regsample.app;
 
 import android.app.Activity;
@@ -9,26 +10,27 @@ import android.widget.Button;
 
 import com.philips.cl.di.reg.ui.traditional.RegistrationActivity;
 
-
 public class RegistrationSampleActivity extends Activity implements OnClickListener {
+
 	private Button mTestBtn;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mTestBtn = (Button) findViewById(R.id.button1);
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		mTestBtn = (Button) findViewById(R.id.button1);
 		mTestBtn.setOnClickListener(this);
-    }
-    
-    @Override
+	}
+
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.button1:
-			startActivity(new Intent(this, RegistrationActivity.class));
-			break;
+			case R.id.button1:
+				startActivity(new Intent(this, RegistrationActivity.class));
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 
 	}

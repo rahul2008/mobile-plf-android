@@ -22,7 +22,7 @@
         <View style="@style/line" />
 
         <LinearLayout
-            android:id="@+id/ll_welcome_container"
+            android:id="@+id/rl_welcome_container"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -106,6 +106,14 @@
                     android:visibility="gone" />
             </FrameLayout>
         </RelativeLayout>
+
+        <com.philips.cl.di.reg.ui.customviews.XRegError
+            android:id="@+id/reg_error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/activate_acct_btn"
+            android:paddingLeft="@dimen/layout_margin"
+            android:paddingRight="@dimen/layout_margin" />
     </LinearLayout>
 
 </ScrollView>
