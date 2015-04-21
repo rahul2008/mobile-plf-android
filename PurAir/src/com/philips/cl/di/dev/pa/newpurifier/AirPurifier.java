@@ -3,8 +3,6 @@ package com.philips.cl.di.dev.pa.newpurifier;
 import java.util.List;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -15,12 +13,10 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.AirPort;
-import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
@@ -46,10 +42,6 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 
 	private PurifierListener mPurifierListener;
 
-	private final Handler mResubscriptionHandler = new Handler(Looper.getMainLooper());
-	private Runnable mResubscribeRunnable;
-	protected static final long RESUBSCRIBING_TIME = DICommPort.SUBSCRIPTION_TTL;
-
 	private CommunicationStrategy mCommunicationStrategy;
 
 	public AirPurifier(CommunicationStrategy communicationStrategy, String eui64, String usn, String ipAddress, String name,
@@ -64,10 +56,9 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
 		mSchedulerHandler = new SchedulerHandler(this);
 		
-		WrappedHander resubscriptionHandler = new WrappedHander(mResubscriptionHandler);
-        mAirPort = new AirPort(mNetworkNode,mCommunicationStrategy, resubscriptionHandler);
-		mFirmwarePort = new FirmwarePort(mNetworkNode,mCommunicationStrategy, resubscriptionHandler);
-		mScheduleListPort = new ScheduleListPort(mNetworkNode, mCommunicationStrategy, mSchedulerHandler, resubscriptionHandler);
+        mAirPort = new AirPort(mNetworkNode,mCommunicationStrategy);
+		mFirmwarePort = new FirmwarePort(mNetworkNode,mCommunicationStrategy);
+		mScheduleListPort = new ScheduleListPort(mNetworkNode, mCommunicationStrategy, mSchedulerHandler);
 		
 		mDISecurity = new DISecurity(this);
 	}
@@ -179,29 +170,10 @@ public class AirPurifier implements ResponseHandler, KeyDecryptListener{
 		ALog.i(ALog.APPLIANCE, "Subscribe to all events for appliance: " + this) ;
 		mAirPort.subscribe();
 		mFirmwarePort.subscribe();
-		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
-
-        // TODO HIERO WEG EMN MOVEN NAAR DICOMMPORT
-		mResubscribeRunnable = new Runnable() {
-			@Override
-			public void run() {
-				try{
-					mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
-					mAirPort.subscribe();
-					mFirmwarePort.subscribe();
-					mResubscriptionHandler.postDelayed(mResubscribeRunnable, AirPurifier.RESUBSCRIBING_TIME);
-				}
-				catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		};
-		mResubscriptionHandler.post(mResubscribeRunnable);
 	}
 
 	public void unSubscribeFromAllEvents() {
 		ALog.i(ALog.APPLIANCE, "UnSubscribe from all events from appliance: " + this) ;
-		mResubscriptionHandler.removeCallbacks(mResubscribeRunnable);
 		mAirPort.unsubscribe();
 		mFirmwarePort.unsubscribe();
 	}
