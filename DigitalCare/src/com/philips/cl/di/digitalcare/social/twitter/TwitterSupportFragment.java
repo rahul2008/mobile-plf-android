@@ -208,13 +208,16 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			mContent = mEditText.getText().toString() + " "
 					+ mProductInformation;
 			if (mContent.length() < mTwitterTextCounter)
+			{
 				mEditText.setText(mContent);
-		/*	else
+				mEditText.setSelection(mEditText.getText().toString().length());
+			}
+			else
 				Toast.makeText(
 						getActivity(),
 						getActivity().getResources().getString(
 								R.string.twitter_post_char_limitation),
-						Toast.LENGTH_SHORT).show();*/
+						Toast.LENGTH_SHORT).show();
 			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		} else {
 			DLog.d(TAG, "Checked False++++++++");
@@ -282,10 +285,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-
 		if (!(s.toString().contains(mTwitter_to)))
 			mEditText.setText(mTwitter_to);
-		}
+
+		if (mEditText.getSelectionStart() < mTwitter_to.length())
+			mEditText.setSelection(mTwitter_to.length());
+	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
@@ -324,19 +329,17 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductCloseButton.setVisibility(View.VISIBLE);
 		setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
 		mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
-		
+
 		if (getCharacterCount() <= mTwitterTextCounter) {
 			int mTextCounter = mTwitterTextCounter - getCharacterCount();
 			mCharacterCount.setText(String.valueOf(mTextCounter));
 		}
 	}
 
-	private int getCharacterCount()
-	{
+	private int getCharacterCount() {
 		return mEditText.getText().toString().length();
 	}
-	
-	
+
 	@Override
 	public void onImageDettach() {
 		mFile = null;
