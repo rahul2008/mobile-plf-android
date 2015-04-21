@@ -159,14 +159,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler, Key
 		}
 	}
 
-	public void subscribeToAllEvents() {
-	    subscribe();
-	}
-
-	public void unSubscribeFromAllEvents() {
-		unsubscribe();
-	}
-
 	private void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
 

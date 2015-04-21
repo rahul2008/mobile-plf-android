@@ -61,7 +61,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
 		
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			mCurrentPurifier.unSubscribeFromAllEvents();
+			mCurrentPurifier.unsubscribe();
 		}
 		//stopCurrentSubscription();
 		if(mCurrentPurifier!=null){
@@ -88,7 +88,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if (mCurrentPurifier == null) return;
 		
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			mCurrentPurifier.unSubscribeFromAllEvents();			
+			mCurrentPurifier.unsubscribe();			
 		}
 		mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		mCurrentPurifier.setPurifierListener(null);
@@ -224,7 +224,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
 		
 		//Start the subscription every time it discovers the Purifier
-		purifier.subscribeToAllEvents();
+		purifier.subscribe();
 		purifier.enableLocalSubscription();
 	}
 
@@ -249,7 +249,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		}
 		
 		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
-		getCurrentPurifier().subscribeToAllEvents();
+		getCurrentPurifier().subscribe();
 		
 		// TODO improve when/how remote subscription is enabled
 		getCurrentPurifier().enableRemoteSubscription(PurAirApplication.getAppContext());
