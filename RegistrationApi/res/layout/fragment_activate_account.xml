@@ -16,8 +16,8 @@
             android:layout_marginTop="@dimen/margin_bottom"
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin"
-            reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-            android:text="@string/verify_email" />
+            android:text="@string/verify_email"
+            reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
         <View style="@style/line" />
 
@@ -30,15 +30,15 @@
             android:paddingRight="@dimen/layout_margin" >
 
             <com.philips.cl.di.reg.ui.customviews.XTextView
+                android:id="@+id/tv_email"
                 style="@style/textStyle"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-                android:text="@string/sent_email" />
-            
+                android:text="@string/sent_email"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
             <com.philips.cl.di.reg.ui.customviews.XTextView
                 style="@style/textStyle"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-                android:text="@string/ready_email" />
-            
+                android:text="@string/ready_email"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
         </LinearLayout>
 
         <LinearLayout
@@ -52,43 +52,59 @@
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:paddingLeft="@dimen/layout_margin"
                 android:paddingRight="@dimen/layout_margin"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-                android:text="@string/press_resend" />
-            
+                android:text="@string/press_resend"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
         </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/ll_singin_options"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
-            <com.philips.cl.di.reg.ui.customviews.XButton
-                android:id="@+id/activate_acct_btn"
-                style="@style/buttonStyle"
-                android:layout_marginBottom="@dimen/margin_bottom"
-                android:background="@drawable/navigation_bar"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-                android:text="@string/activate_account" />
+            <FrameLayout
+                android:id="@+id/fl_align_activate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_bottom" >
 
-            <com.philips.cl.di.reg.ui.customviews.XButton
-                android:id="@+id/resend_btn"
-                style="@style/resend_btn"
-                android:layout_below="@+id/activate_acct_btn"
-                android:layout_marginBottom="@dimen/margin_bottom"
-                android:background="@drawable/resend"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"
-                android:text="@string/resend" />
+                <com.philips.cl.di.reg.ui.customviews.XButton
+                    android:id="@+id/activate_acct_btn"
+                    style="@style/buttonStyle"
+                    android:background="@drawable/navigation_bar"
+                    android:text="@string/activate_account"
+                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
-            <ProgressBar
-                android:id="@+id/pb_spinner"
-                android:layout_width="@dimen/rg_fb_icon_height"
-                android:layout_height="@dimen/rg_fb_icon_height"
-                android:layout_centerInParent="true"
-                android:indeterminateDrawable="@drawable/bts_progress_drawable"
-                android:visibility="gone" />
+                <ProgressBar
+                    android:id="@+id/pb_activate_spinner"
+                    android:layout_width="@dimen/rg_fb_icon_height"
+                    android:layout_height="@dimen/rg_fb_icon_height"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fl_align_activate"
+                android:layout_marginBottom="@dimen/margin_bottom" >
+
+                <com.philips.cl.di.reg.ui.customviews.XButton
+                    android:id="@+id/resend_btn"
+                    style="@style/resend_btn"
+                    android:background="@drawable/resend"
+                    android:text="@string/resend"
+                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+                <ProgressBar
+                    android:id="@+id/pb_resend_spinner"
+                    android:layout_width="@dimen/rg_fb_icon_height"
+                    android:layout_height="@dimen/rg_fb_icon_height"
+                    android:layout_gravity="center"
+                    android:visibility="gone" />
+            </FrameLayout>
         </RelativeLayout>
     </LinearLayout>
 

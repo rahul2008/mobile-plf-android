@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.janrain.android.Jump;
+import com.janrain.android.Jump.CaptureApiResultHandler;
 import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureRecord;
 import com.philips.cl.di.reg.controller.AddConsumerInterest;
@@ -30,6 +32,7 @@ import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.RefreshLoginSessionHandler;
+import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
@@ -38,12 +41,17 @@ import com.philips.cl.di.reg.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 
 public class User {
+
 	public String mEmail, mGivenName, mPassword, mDisplayName;
-	private boolean mOlderThanAgeLimit, mReceiveMarketingEmails,
-			mEmailVerified;
+
+	private boolean mOlderThanAgeLimit, mReceiveMarketingEmails, mEmailVerified;
+
 	private Context mContext;
+
 	private JSONObject mConsumerInterestObject;
+
 	private JSONArray mConsumerInterestArray;
+
 	private CaptureRecord mCapturedData;
 
 	private String USER_EMAIL = "email";
@@ -85,160 +93,142 @@ public class User {
 
 	// For Traditional SignIn
 	public void loginUsingTraditional(String emailAddress, String password,
-			TraditionalLoginHandler traditionalLoginHandler) {
+	        TraditionalLoginHandler traditionalLoginHandler) {
 
 		if (emailAddress != null && password != null) {
 			LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-					traditionalLoginHandler, mContext,
-					mUpdateUserRecordHandler, emailAddress, password);
-			Jump.performTraditionalSignIn(emailAddress, password,
-					loginTraditionalResultHandler, null);
+			        traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
+			        password);
+			Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
+			        null);
 		} else {
-			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM
-					.geterrorList());
+			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM.geterrorList());
 		}
 	}
 
 	// For Social SignIn Using Provider
-	public void loginUserUsingSocialProvider(Activity activity,
-			String providerName, SocialProviderLoginHandler socialLoginHandler) {
+	public void loginUserUsingSocialProvider(Activity activity, String providerName,
+	        SocialProviderLoginHandler socialLoginHandler) {
 		if (providerName != null && activity != null) {
 			LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
-					socialLoginHandler, mContext, mUpdateUserRecordHandler);
-			Jump.showSignInDialog(activity, providerName,
-					loginSocialResultHandler, null);
+			        socialLoginHandler, mContext, mUpdateUserRecordHandler);
+			Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, null);
 		} else {
-			socialLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM
-					.geterrorList());
+			socialLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM.geterrorList());
 		}
 	}
-	
+
 	// moved app logic to set user info (traditional login) in diuserprofile to framework.
-	public void registerUserInfoForTraditional(String mGivenName, String mUserEmail, String password, boolean olderThanAgeLimit, 
-			boolean isReceiveMarketingEmail, TraditionalRegistrationHandler traditionalRegisterHandler ){
-		
-		//ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
-		
+	public void registerUserInfoForTraditional(String mGivenName, String mUserEmail,
+	        String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
+	        TraditionalRegistrationHandler traditionalRegisterHandler) {
+
+		// ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
+
 		DIUserProfile profile = new DIUserProfile();
 		profile.setGivenName(mGivenName);
 		profile.setEmail(mUserEmail);
 		profile.setPassword(password);
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-		
-		//userData.add(profile);
-		
+
+		// userData.add(profile);
+
 		registerNewUserUsingTraditional(profile, traditionalRegisterHandler);
-		
+
 	}
-	
 
 	// For Traditional Registration
-	public void registerNewUserUsingTraditional(
-			DIUserProfile diUserProfile,
-			TraditionalRegistrationHandler traditionalRegisterHandler) {
+	public void registerNewUserUsingTraditional(DIUserProfile diUserProfile,
+	        TraditionalRegistrationHandler traditionalRegisterHandler) {
 
 		if (diUserProfile != null) {
 
-			//for (DIUserProfile diUserProfile : profile) {
-				mEmail = diUserProfile.getEmail();
-				mGivenName = diUserProfile.getGivenName();
-				mPassword = diUserProfile.getPassword();
-				mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
-				mReceiveMarketingEmails = diUserProfile
-						.getReceiveMarketingEmail();
-			//}
+			// for (DIUserProfile diUserProfile : profile) {
+			mEmail = diUserProfile.getEmail();
+			mGivenName = diUserProfile.getGivenName();
+			mPassword = diUserProfile.getPassword();
+			mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
+			mReceiveMarketingEmails = diUserProfile.getReceiveMarketingEmail();
+			// }
 			JSONObject newUser = new JSONObject();
 			try {
-				newUser.put(USER_EMAIL, mEmail)
-						.put(USER_GIVEN_NAME, mGivenName)
-						.put(USER_PASSWORD, mPassword)
-						.put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
-						.put(USER_RECEIVE_MARKETING_EMAIL,
-								mReceiveMarketingEmails);
+				newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
+				        .put(USER_PASSWORD, mPassword)
+				        .put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
+				        .put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmails);
 			} catch (JSONException e) {
-				Log.e(LOG_TAG,
-						"On registerNewUserUsingTraditional,Caught JSON Exception");
+				Log.e(LOG_TAG, "On registerNewUserUsingTraditional,Caught JSON Exception");
 			}
 			RegisterTraditional traditionalRegisterResultHandler = new RegisterTraditional(
-					traditionalRegisterHandler, mContext,
-					mUpdateUserRecordHandler);
-			Jump.registerNewUser(newUser, null,
-					traditionalRegisterResultHandler);
+			        traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
+			Jump.registerNewUser(newUser, null, traditionalRegisterResultHandler);
 		} else {
-			traditionalRegisterHandler
-					.onRegisterFailedWithFailure(Error.INVALID_PARAM
-							.geterrorList());
+			traditionalRegisterHandler.onRegisterFailedWithFailure(Error.INVALID_PARAM
+			        .geterrorList());
 		}
 	}
 
 	// For Forgot password
-	public void forgotPassword(String emailAddress,
-			ForgotPasswordHandler forgotPasswordHandler) {
+	public void forgotPassword(String emailAddress, ForgotPasswordHandler forgotPasswordHandler) {
 
 		if (emailAddress != null) {
-			ForgotPassword forgotPasswordResultHandler = new ForgotPassword(
-					forgotPasswordHandler);
-			Jump.performForgotPassword(emailAddress,
-					forgotPasswordResultHandler);
+			ForgotPassword forgotPasswordResultHandler = new ForgotPassword(forgotPasswordHandler);
+			Jump.performForgotPassword(emailAddress, forgotPasswordResultHandler);
 		} else {
-			forgotPasswordHandler
-					.onSendForgotPasswordFailedWithError(Error.INVALID_PARAM
-							.geterrorList());
+			forgotPasswordHandler.onSendForgotPasswordFailedWithError(Error.INVALID_PARAM
+			        .geterrorList());
 		}
 	}
 
 	// For Refresh login Session
-	public void refreshLoginSession(
-			RefreshLoginSessionHandler refreshLoginSessionHandler) {
+	public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler) {
 
 		if (Jump.getSignedInUser() == null) {
 			return;
 		}
 		RefreshLoginSession refreshLoginhandler = new RefreshLoginSession(
-				refreshLoginSessionHandler);
+		        refreshLoginSessionHandler);
 		Jump.getSignedInUser().refreshAccessToken(refreshLoginhandler);
 	}
 
 	// For Resend verification email
 	public void resendVerificationMail(String emailAddress,
-			ResendVerificationEmailHandler resendVerificationEmail) {
+	        ResendVerificationEmailHandler resendVerificationEmail) {
 
 		if (emailAddress != null) {
 			ResendVerificationEmail resendVerificationEmailHandler = new ResendVerificationEmail(
-					resendVerificationEmail);
-			Jump.resendEmailVerification(emailAddress,
-					resendVerificationEmailHandler);
+			        resendVerificationEmail);
+			Jump.resendEmailVerification(emailAddress, resendVerificationEmailHandler);
 		} else {
-			resendVerificationEmail
-					.onResendVerificationEmailFailedWithError(Error.INVALID_PARAM
-							.geterrorList());
+			resendVerificationEmail.onResendVerificationEmailFailedWithError(Error.INVALID_PARAM
+			        .geterrorList());
 		}
 	}
-	
+
 	// For handling merge scenario
-	public void mergeToTraditionalAccount(String emailAddress, String password,
-			String mergeToken, TraditionalLoginHandler traditionalLoginHandler) {
+	public void mergeToTraditionalAccount(String emailAddress, String password, String mergeToken,
+	        TraditionalLoginHandler traditionalLoginHandler) {
 
 		if (emailAddress != null && password != null) {
 			LoginTraditional loginTraditionalResultHandler = new LoginTraditional(
-					traditionalLoginHandler, mContext,
-					mUpdateUserRecordHandler, emailAddress, password);
-			Jump.performTraditionalSignIn(emailAddress, password,
-					loginTraditionalResultHandler, mergeToken);
+			        traditionalLoginHandler, mContext, mUpdateUserRecordHandler, emailAddress,
+			        password);
+			Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
+			        mergeToken);
 		} else {
-			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM
-					.geterrorList());
+			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM.geterrorList());
 		}
 	}
-	
+
 	// moved app logic to set user info ( social sign in ) in diuserprofile to framework.
-	public void registerUserInfoForSocial(String mGivenName, String mDisplayName, String mFamilyName, String mUserEmail, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
-			SocialProviderLoginHandler socialProviderLoginHandler,
-			String socialRegistrationToken){
-		
-		//ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
-		
+	public void registerUserInfoForSocial(String mGivenName, String mDisplayName,
+	        String mFamilyName, String mUserEmail, boolean olderThanAgeLimit,
+	        boolean isReceiveMarketingEmail, SocialProviderLoginHandler socialProviderLoginHandler,
+	        String socialRegistrationToken) {
+
+		// ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
+
 		DIUserProfile profile = new DIUserProfile();
 		profile.setGivenName(mGivenName);
 		profile.setDisplayName(mDisplayName);
@@ -246,54 +236,45 @@ public class User {
 		profile.setEmail(mUserEmail);
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-		
-		//userData.add(profile);
-		
+
+		// userData.add(profile);
+
 		completeSocialProviderLogin(profile, socialProviderLoginHandler, socialRegistrationToken);
-		
+
 	}
-	
+
 	// For Two Step registration
 	public void completeSocialProviderLogin(DIUserProfile diUserProfile,
-			SocialProviderLoginHandler socialProviderLoginHandler,
-			String socialRegistrationToken) {
+	        SocialProviderLoginHandler socialProviderLoginHandler, String socialRegistrationToken) {
 		String familyName = "";
 		if (diUserProfile != null) {
-			//for (DIUserProfile diUserProfile : profile) {
-				mEmail = diUserProfile.getEmail();
-				mGivenName = diUserProfile.getGivenName();
-				familyName = diUserProfile.getFamilyName();
-				mPassword = diUserProfile.getPassword();
-				mDisplayName = diUserProfile.getDisplayName();
-				mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
-				mReceiveMarketingEmails = diUserProfile
-						.getReceiveMarketingEmail();
-			//}
+			// for (DIUserProfile diUserProfile : profile) {
+			mEmail = diUserProfile.getEmail();
+			mGivenName = diUserProfile.getGivenName();
+			familyName = diUserProfile.getFamilyName();
+			mPassword = diUserProfile.getPassword();
+			mDisplayName = diUserProfile.getDisplayName();
+			mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
+			mReceiveMarketingEmails = diUserProfile.getReceiveMarketingEmail();
+			// }
 			JSONObject newUser = new JSONObject();
 			try {
-				newUser.put(USER_EMAIL, mEmail)
-						.put(USER_GIVEN_NAME, mGivenName)
-						.put(USER_FAMILY_NAME, familyName)
-						.put(USER_PASSWORD, mPassword)
-						.put(USER_DISPLAY_NAME, mDisplayName)
-						.put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
-						.put(USER_RECEIVE_MARKETING_EMAIL,
-								mReceiveMarketingEmails);
+				newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
+				        .put(USER_FAMILY_NAME, familyName).put(USER_PASSWORD, mPassword)
+				        .put(USER_DISPLAY_NAME, mDisplayName)
+				        .put(USER_OLDER_THAN_AGE_LIMIT, mOlderThanAgeLimit)
+				        .put(USER_RECEIVE_MARKETING_EMAIL, mReceiveMarketingEmails);
 
 			} catch (JSONException e) {
-				Log.e(LOG_TAG,
-						"On completeSocialProviderLogin,Caught JSON Exception");
+				Log.e(LOG_TAG, "On completeSocialProviderLogin,Caught JSON Exception");
 			}
 
 			ContinueSocialProviderLogin continueSocialProviderLogin = new ContinueSocialProviderLogin(
-					socialProviderLoginHandler, mContext,
-					mUpdateUserRecordHandler);
-			Jump.registerNewUser(newUser, socialRegistrationToken,
-					continueSocialProviderLogin);
+			        socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
+			Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
 		} else {
-			socialProviderLoginHandler
-					.onContinueSocialProviderLoginFailure(Error.INVALID_PARAM
-							.geterrorList());
+			socialProviderLoginHandler.onContinueSocialProviderLoginFailure(Error.INVALID_PARAM
+			        .geterrorList());
 		}
 	}
 
@@ -310,8 +291,8 @@ public class User {
 			diUserProfile.setEmail(mObject.getString(USER_EMAIL));
 			diUserProfile.setGivenName(mObject.getString(USER_GIVEN_NAME));
 			diUserProfile.setDisplayName(mObject.getString(USER_DISPLAY_NAME));
-			diUserProfile.setReceiveMarketingEmail(mObject
-					.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
+			diUserProfile
+			        .setReceiveMarketingEmail(mObject.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
 
 		} catch (JSONException e) {
 			Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
@@ -335,8 +316,7 @@ public class User {
 			}
 
 		} catch (JSONException e) {
-			Log.e(LOG_TAG,
-					"On getEmailVerificationStatus,Caught JSON Exception");
+			Log.e(LOG_TAG, "On getEmailVerificationStatus,Caught JSON Exception");
 		}
 		return mEmailVerified;
 	}
@@ -351,78 +331,71 @@ public class User {
 
 	// For update receive marketing email
 	public void updateReceiveMarketingEmail(
-			final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
-			final boolean receiveMarketingEmail) {
+	        final UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
+	        final boolean receiveMarketingEmail) {
 		final User user = new User(mContext);
 		user.refreshLoginSession(new RefreshLoginSessionHandler() {
+
 			@Override
 			public void onRefreshLoginSessionSuccess() {
-				updateMarketingEmailAfterRefreshAccessToken(
-						updateReceiveMarketingEmail, receiveMarketingEmail);
+				updateMarketingEmailAfterRefreshAccessToken(updateReceiveMarketingEmail,
+				        receiveMarketingEmail);
 			}
 
 			@Override
 			public void onRefreshLoginSessionFailedWithError(int error) {
-				updateReceiveMarketingEmail
-						.onUpdateReceiveMarketingEmailFailedWithError(0);
+				updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(0);
 			}
 		});
 	}
 
 	private void updateMarketingEmailAfterRefreshAccessToken(
-			UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
-			boolean receiveMarketingEmail) {
+	        UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
+	        boolean receiveMarketingEmail) {
 		mCapturedData = CaptureRecord.loadFromDisk(mContext);
 		UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(
-				updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
+		        updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
 		if (mCapturedData != null) {
 			try {
-				mCapturedData.put(USER_RECEIVE_MARKETING_EMAIL,
-						receiveMarketingEmail);
+				mCapturedData.put(USER_RECEIVE_MARKETING_EMAIL, receiveMarketingEmail);
 				try {
-					mCapturedData.synchronize(
-							updateReceiveMarketingEmailHandler);
+					mCapturedData.synchronize(updateReceiveMarketingEmailHandler);
 				} catch (InvalidApidChangeException e) {
 					Log.e(LOG_TAG,
-							"On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
+					        "On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
 				}
 			} catch (JSONException e) {
-				Log.e(LOG_TAG,
-						"On updateReceiveMarketingEmail,Caught JSON Exception");
+				Log.e(LOG_TAG, "On updateReceiveMarketingEmail,Caught JSON Exception");
 			}
 		}
 	}
 
 	// For updating consumer interests
-	public void addConsumerInterest(
-			AddConsumerInterestHandler addConsumerInterestHandler,
-			ConsumerArray consumerArray) {
+	public void addConsumerInterest(AddConsumerInterestHandler addConsumerInterestHandler,
+	        ConsumerArray consumerArray) {
 
 		AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
-				addConsumerInterestHandler);
+		        addConsumerInterestHandler);
 		CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
 		mConsumerInterestArray = new JSONArray();
 		ConsumerArray consumer = ConsumerArray.getInstance();
 
 		if (consumer != null) {
-			for (ConsumerInterest diConsumerInterest : consumer
-					.getConsumerArraylist()) {
+			for (ConsumerInterest diConsumerInterest : consumer.getConsumerArraylist()) {
 				try {
 
 					mConsumerInterestObject = new JSONObject();
 					mConsumerInterestObject.put(CONSUMER_CAMPAIGN_NAME,
-							diConsumerInterest.getCampaignName());
+					        diConsumerInterest.getCampaignName());
 					mConsumerInterestObject.put(CONSUMER_SUBJECT_AREA,
-							diConsumerInterest.getSubjectArea());
-					mConsumerInterestObject.put(
-							CONSUMER_TOPIC_COMMUNICATION_KEY,
-							diConsumerInterest.getTopicCommunicationKey());
+					        diConsumerInterest.getSubjectArea());
+					mConsumerInterestObject.put(CONSUMER_TOPIC_COMMUNICATION_KEY,
+					        diConsumerInterest.getTopicCommunicationKey());
 					mConsumerInterestObject.put(CONSUMER_TOPIC_VALUE,
-							diConsumerInterest.getTopicValue());
+					        diConsumerInterest.getTopicValue());
 
 				} catch (JSONException e) {
-					Log.e(LOG_TAG,
-							"On addConsumerInterest,Caught JSON Exception");
+					Log.e(LOG_TAG, "On addConsumerInterest,Caught JSON Exception");
 				}
 				mConsumerInterestArray.put(mConsumerInterestObject);
 			}
@@ -459,5 +432,32 @@ public class User {
 			return null;
 		}
 		return Jump.getSignedInUser().getAccessToken();
+	}
+
+	/**
+	 * Refresh User object and align with Server
+	 * 
+	 * @param context
+	 *            Application context
+	 * @param handler
+	 *            Callback handler
+	 */
+	public void refreshUser(final Context context, final RefreshUserHandler handler) {
+		if (Jump.getSignedInUser() == null) {
+			return;
+		}
+		Jump.fetchCaptureUserFromServer(new CaptureApiResultHandler() {
+
+			@Override
+			public void onSuccess(JSONObject response) {
+				Jump.saveToDisk(context);
+				handler.onRefreshUserSuccess();
+			}
+
+			@Override
+			public void onFailure(CaptureAPIError failureParam) {
+				handler.onRefreshUserFailed(0);
+			}
+		});
 	}
 }

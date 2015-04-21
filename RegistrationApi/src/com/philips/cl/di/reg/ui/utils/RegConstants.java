@@ -237,4 +237,7 @@ public class RegConstants {
 	public static final String CUSTOM = "custom";
 
 	public static final String CANCEL_SETUP = "CANCEL_SETUP";
+
+	public static final String EMAIL = "Email";
+
 }

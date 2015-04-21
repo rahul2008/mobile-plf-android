@@ -102,7 +102,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mEtPassword.setOnUpdateListener(this);
 		setViewParams(getResources().getConfiguration());
 		mUser = new User(getActivity().getApplicationContext());
-		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_spinner);
+		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_activate_spinner);
 	}
 
 	@Override

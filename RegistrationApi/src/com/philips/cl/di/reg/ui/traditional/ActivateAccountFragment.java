@@ -1,5 +1,7 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,30 +18,46 @@ import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class ActivateAccountFragment extends RegistrationBaseFragment implements
-		OnClickListener{
+public class ActivateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
+        RefreshUserHandler, ResendVerificationEmailHandler {
 
-	private Button mActivateBtn;
-	private Button mResendBtn;
+	private Button mBtnActivate;
+
+	private Button mBtnResend;
+
 	private TextView mTvVerifyEmail;
-	private LinearLayout mLlWelcomeContainer;
-	private TextView mTvResendDetails;
-	private RelativeLayout mRlSingInOptions;
-	private User mUser;
-	private ProgressBar mPbSpinner;
 
-	public ActivateAccountFragment(User mUser) {
-		this.mUser = mUser;
-	}
+	private LinearLayout mLlWelcomeContainer;
+
+	private TextView mTvResendDetails;
+
+	private RelativeLayout mRlSingInOptions;
+
+	private ProgressBar mPbActivateSpinner;
+
+	private ProgressBar mPbResendSpinner;
+
+	private User mUser;
+
+	private Context mContext;
+
+	private String mEmailId;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"ActivateAccountFragment : onCreateView");
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
+		Bundle bundle = getArguments();
+		if (null != bundle) {
+			mEmailId = bundle.getString(RegConstants.EMAIL);
+		}
+		mContext = getRegistrationMainActivity().getApplicationContext();
+		mUser = new User(mContext);
 		View view = inflater.inflate(R.layout.fragment_activate_account, null);
 		initUI(view);
 		return view;
@@ -48,41 +66,40 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserSignInFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
 	@Override
 	public void onClick(View v) {
-		// TODO: converted into switch after the proper solution
 		int id = v.getId();
 		if (id == R.id.activate_acct_btn) {
-			if (mUser.getEmailVerificationStatus(getActivity())) {
-				Toast.makeText(getActivity(), "Verification email Success",Toast.LENGTH_LONG).show();
-			} else {
-				Toast.makeText(getActivity(),R.string.Janrain_Error_Need_Email_Verification,Toast.LENGTH_LONG).show();
-			}
+			handleActivate();
 		} else if (id == R.id.resend_btn) {
-			//System.out.println("***** email  : "+mUser.mEmail +" pasword : "+mUser.mPassword + " name : "+mUser.mGivenName);
-			showSpinner();
-			ResendVerificationEmailHandler resendHandler = new ResendVerificationEmailHandler() {
-				
-				@Override
-				public void onResendVerificationEmailSuccess() {
-					hideSpinner();
-					Toast.makeText(getActivity(), "Resend Mail Successfully ", Toast.LENGTH_LONG).show();
-				}
-				
-				@Override
-				public void onResendVerificationEmailFailedWithError(int error) {
-					hideSpinner();
-					Toast.makeText(getActivity(), "Resend Mail Failed ", Toast.LENGTH_LONG).show();
-				}
-			};
-			mUser.resendVerificationMail(mUser.mEmail, resendHandler );
+			handleResend();
 		}
+	}
 
+	/**
+     * 
+     */
+	private void handleResend() {
+		showResendSpinner();
+		mBtnActivate.setClickable(false);
+		mBtnActivate.setEnabled(false);
+		mBtnResend.setClickable(false);
+		mBtnResend.setEnabled(false);
+
+		mUser.resendVerificationMail(mEmailId, this);
+	}
+
+	private void handleActivate() {
+		showActivateSpinner();
+		mBtnActivate.setClickable(false);
+		mBtnActivate.setEnabled(false);
+		mBtnResend.setClickable(false);
+		mBtnResend.setEnabled(false);
+		mUser.refreshUser(mContext, this);
 	}
 
 	private void initUI(View view) {
@@ -90,20 +107,49 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mLlWelcomeContainer = (LinearLayout) view.findViewById(R.id.ll_welcome_container);
 		mTvResendDetails = (TextView) view.findViewById(R.id.tv_resend_details);
 		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.ll_singin_options);
-		mActivateBtn = (Button) view.findViewById(R.id.activate_acct_btn);
-		mResendBtn = (Button) view.findViewById(R.id.resend_btn);
-		mActivateBtn.setOnClickListener(this);
-		mResendBtn.setOnClickListener(this);
+		mBtnActivate = (Button) view.findViewById(R.id.activate_acct_btn);
+		mBtnResend = (Button) view.findViewById(R.id.resend_btn);
+		mBtnActivate.setOnClickListener(this);
+		mBtnResend.setOnClickListener(this);
 		setViewParams(getResources().getConfiguration());
-		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_spinner);
+		mPbActivateSpinner = (ProgressBar) view.findViewById(R.id.pb_activate_spinner);
+		mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_resend_spinner);
+
+		TextView tvEmail = (TextView) view.findViewById(R.id.tv_email);
+		tvEmail.setText("We have sent and Email to "+mEmailId);
 	}
 
-	private void showSpinner() {
-		mPbSpinner.setVisibility(View.VISIBLE);
+	private void showActivateSpinner() {
+		mPbActivateSpinner.setVisibility(View.VISIBLE);
 	}
 
-	private void hideSpinner() {
-		mPbSpinner.setVisibility(View.INVISIBLE);
+	private void hideActivateSpinner() {
+		mPbActivateSpinner.setVisibility(View.GONE);
+	}
+
+	private void showResendSpinner() {
+		mPbResendSpinner.setVisibility(View.VISIBLE);
+	}
+
+	private void hideResendSpinner() {
+		mPbResendSpinner.setVisibility(View.GONE);
+	}
+
+	/**
+     * 
+     */
+	private void updateActivationUIState() {
+		hideActivateSpinner();
+		mBtnActivate.setClickable(true);
+		mBtnActivate.setEnabled(true);
+		mBtnResend.setClickable(true);
+		mBtnResend.setEnabled(true);
+		if (mUser.getEmailVerificationStatus(mContext)) {
+			Toast.makeText(getActivity(), "Verification email Success", Toast.LENGTH_LONG).show();
+		} else {
+			Toast.makeText(getActivity(), R.string.Janrain_Error_Need_Email_Verification,
+			        Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
@@ -126,4 +172,34 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		return getResources().getString(R.string.sign_in);
 	}
 
+	@Override
+	public void onRefreshUserSuccess() {
+		updateActivationUIState();
+	}
+
+	@Override
+	public void onRefreshUserFailed(int error) {
+		updateActivationUIState();
+	}
+
+	@Override
+	public void onResendVerificationEmailSuccess() {
+		// Navigate to signin
+		updateResendUIState();
+		Toast.makeText(getActivity(), "Resend Mail Successfully ", Toast.LENGTH_LONG).show();
+	}
+
+	private void updateResendUIState() {
+		mBtnActivate.setClickable(true);
+		mBtnActivate.setEnabled(true);
+		mBtnResend.setClickable(true);
+		mBtnResend.setEnabled(true);
+		hideResendSpinner();
+	}
+
+	@Override
+	public void onResendVerificationEmailFailedWithError(int error) {
+		updateResendUIState();
+		Toast.makeText(getActivity(), "Resend Mail Failed ", Toast.LENGTH_LONG).show();
+	}
 }

@@ -104,7 +104,7 @@
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF"/>
             
 			<ProgressBar
-                android:id="@+id/pb_spinner"
+                android:id="@+id/pb_activate_spinner"
                 android:layout_width="@dimen/rg_fb_icon_height"
                 android:layout_height="@dimen/rg_fb_icon_height"
                 android:layout_centerInParent="true"
