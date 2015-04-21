@@ -9,7 +9,6 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public class AirPort extends DICommPort {
@@ -19,8 +18,8 @@ public class AirPort extends DICommPort {
 	
 	private AirPortInfo mAirPortInfo;
 	
-	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, WrappedHander resubscriptionHandler){
-		super(networkNode,communicationStrategy, resubscriptionHandler);
+	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
+		super(networkNode,communicationStrategy);
 	}
 
 	public AirPortInfo getAirPortInfo() {

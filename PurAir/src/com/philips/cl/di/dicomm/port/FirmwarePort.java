@@ -9,7 +9,6 @@ import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public class FirmwarePort extends DICommPort {
@@ -19,8 +18,8 @@ public class FirmwarePort extends DICommPort {
 	private FirmwarePortInfo mFirmwarePortInfo;
 	
 	
-	public FirmwarePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, WrappedHander resubscriptionHandler){
-		super(networkNode,communicationStrategy, resubscriptionHandler);
+	public FirmwarePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
+		super(networkNode,communicationStrategy);
 	}
 
 	public FirmwarePortInfo getFirmwarePortInfo() {

@@ -378,11 +378,19 @@ public class DICommPortTest extends MockitoTestCase{
 
 	public class DICommPortImpl extends DICommPort{
 
-		public DICommPortImpl(NetworkNode networkNode,
+		private WrappedHander hander;
+
+        public DICommPortImpl(NetworkNode networkNode,
 				CommunicationStrategy communicationStrategy, WrappedHander hander) {
-			super(networkNode, communicationStrategy, hander);
+			super(networkNode, communicationStrategy);
+            this.hander = hander;
 		}
 
+		@Override
+		protected WrappedHander getResubscriptionHandler() {
+		    return hander;
+		}
+		
 		@Override
 		public boolean isResponseForThisPort(String response) {
 			return true;
