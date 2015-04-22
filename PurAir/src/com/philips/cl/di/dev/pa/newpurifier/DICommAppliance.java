@@ -9,12 +9,14 @@ import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 
 public abstract class DICommAppliance {
 
     protected final NetworkNode mNetworkNode = new NetworkNode();
 
+    protected final DevicePort mDevicePort;
     protected final FirmwarePort mFirmwarePort;
 
     private final DISecurity mDISecurity;
@@ -46,8 +48,10 @@ public abstract class DICommAppliance {
             }
         });
 
+        mDevicePort = new DevicePort(mNetworkNode, communicationStrategy);
         mFirmwarePort = new FirmwarePort(mNetworkNode, communicationStrategy);
 
+        addPort(mDevicePort);
         addPort(mFirmwarePort);
     }
 
@@ -84,6 +88,10 @@ public abstract class DICommAppliance {
                 port.stopResubscribe();
             }
         }
+    }
+
+    public DevicePort getDevicePort() {
+        return mDevicePort;
     }
 
     public FirmwarePort getFirmwarePort() {
