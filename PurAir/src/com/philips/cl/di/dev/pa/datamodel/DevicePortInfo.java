@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.datamodel;
 
-public class DeviceDto {
+public class DevicePortInfo {
 	private String name ;
 	private String type ;
 	private String modelid ;

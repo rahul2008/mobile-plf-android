@@ -14,7 +14,7 @@ import android.os.CountDownTimer;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
+import com.philips.cl.di.dev.pa.datamodel.DevicePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -230,7 +230,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 						responseData, tempDemoModePurifier.getNetworkNode());
 				if (decryptedResponse != null) {
 					ALog.i(ALog.DEMO_MODE, decryptedResponse);
-					DeviceDto deviceDto = DataParser
+					DevicePortInfo deviceDto = DataParser
 							.getDeviceDetails(decryptedResponse);
 
 					SessionDto.getInstance().setDeviceDto(deviceDto);

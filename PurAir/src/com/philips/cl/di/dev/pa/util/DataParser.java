@@ -28,7 +28,7 @@ import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
+import com.philips.cl.di.dev.pa.datamodel.DevicePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
@@ -218,14 +218,14 @@ public class DataParser {
 		return weatherForecastList ;
 	}
 
-	public static DeviceDto getDeviceDetails(String data) {
+	public static DevicePortInfo getDeviceDetails(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
 		}
 		Gson gson = new GsonBuilder().create() ;
-		DeviceDto deviceDto = null;
+		DevicePortInfo deviceDto = null;
 		try {
-			deviceDto = gson.fromJson(data, DeviceDto.class) ;
+			deviceDto = gson.fromJson(data, DevicePortInfo.class) ;
 		} catch (JsonSyntaxException e) {
 			ALog.e(ALog.PARSER, "JsonSyntaxException");
 		} catch (JsonIOException e) {
