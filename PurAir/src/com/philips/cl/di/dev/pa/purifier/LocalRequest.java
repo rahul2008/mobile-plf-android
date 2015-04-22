@@ -24,7 +24,7 @@ public class LocalRequest extends Request {
 	private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
 	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
 	private final String mUrl;
-	private final String mData;
+	private final Map<String, Object> mDataMap;
 	private final NetworkNode mNetworkNode;
 	private final LocalRequestType mRequestType;
 	private final ResponseHandler mResponseHandler;
@@ -37,7 +37,7 @@ public class LocalRequest extends Request {
 		mNetworkNode = networkNode;
 		mResponseHandler = responseHandler;
 		mDISecurity = diSecurity;
-		mData = createDataToSend(networkNode,dataMap);
+		mDataMap = dataMap;
 	}
 
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
@@ -60,17 +60,19 @@ public class LocalRequest extends Request {
 	@Override
 	public Response execute() {
 		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL");
+		ALog.i(ALog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 		String result = "";
 		InputStream inputStream = null;
 		OutputStreamWriter out = null;
 		HttpURLConnection conn = null;
 		int responseCode;
-
+		
 		try {
 			URL urlConn = new URL(mUrl);
 			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
 			if (mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
-				if (mData == null || mData.isEmpty()) {
+				if (mDataMap == null || mDataMap.isEmpty()) {
+				    ALog.e(ALog.LOCALREQUEST, "Request failed - no data for Put or Post");
 					return new Response(null, Error.NODATA, mResponseHandler);
 				}
 				out = appendDataToRequestIfAvailable(conn);
@@ -129,12 +131,13 @@ public class LocalRequest extends Request {
 	}
 
 	private OutputStreamWriter appendDataToRequestIfAvailable(HttpURLConnection conn) throws IOException {
-		if (mData == null) return null;
+	    String data = createDataToSend(mNetworkNode, mDataMap);
+	    if (data == null) return null;
 
 		OutputStreamWriter out;
 		conn.setDoOutput(true);
 		out = new OutputStreamWriter(conn.getOutputStream(),Charset.defaultCharset());
-		out.write(mData);
+		out.write(data);
 		out.flush();
 		return out;
 	}
