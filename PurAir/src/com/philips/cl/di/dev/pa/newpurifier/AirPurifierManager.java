@@ -63,7 +63,8 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			mCurrentPurifier.unsubscribe();
 		}
-		//stopCurrentSubscription();
+		
+		stopCurrentSubscription();
 		if(mCurrentPurifier!=null){
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 			mCurrentPurifier.setPurifierListener(null);
@@ -196,6 +197,10 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	}
 
 	public synchronized void startSubscription() {
+	    if(airPurifierEventListeners.isEmpty()){
+	        return;
+	    }
+	    
 		AirPurifier purifier = getCurrentPurifier();
 		if (purifier != null) {
 			mCurrentSubscriptionState = purifier.getNetworkNode().getConnectionState();
@@ -230,10 +235,11 @@ public class AirPurifierManager implements Observer, PurifierListener {
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop LocalConnection") ;
-		if(getCurrentPurifier() != null) {
-			getCurrentPurifier().disableLocalSubscription();
+		AirPurifier currentPurifier = getCurrentPurifier();
+        if(currentPurifier != null) {
+			currentPurifier.disableLocalSubscription();
+			currentPurifier.stopResubscribe();
 		}
-		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 
 	private void startRemoteConnection() {
@@ -257,8 +263,16 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	
 	private void stopRemoteConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop RemoteConnection - not doing anything") ;
-		// Don't stop DCS, this is still needed for the discovery service!
-		// Don't unsubscribe - Coming back too foreground would take longer
+		AirPurifier purifier = getCurrentPurifier();
+        if (purifier == null) return;
+        
+        if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
+            ALog.i(ALog.PURIFIER_MANAGER, "Can't stop remote connection - not paired to purifier");
+            return;
+        }
+        
+        purifier.stopResubscribe();
+		// TODO DIComm Refactor - Disable remote subscription
 	}
 	
 	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
