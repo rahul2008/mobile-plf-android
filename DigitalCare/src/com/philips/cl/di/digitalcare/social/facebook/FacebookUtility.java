@@ -305,8 +305,10 @@ public class FacebookUtility {
 
 		if (response.getError() != null && mPostCallback != null)
 			mPostCallback.onTaskFailed();
-		else
+		else {
 			mPostCallback.onTaskCompleted();
+			mImageToUpload = null;
+		}
 	}
 
 	private Session.StatusCallback sessionCalback = new Session.StatusCallback() {

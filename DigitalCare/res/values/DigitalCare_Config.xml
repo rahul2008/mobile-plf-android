@@ -86,7 +86,7 @@
            i,e Core application can use "facebook_support_page" to send the product relevent queries. If that 
            page is not reachable with respect to certain scenario's then the support query will automatically send to global
            Philips page(i,e facebook_support_page_rollback)  -->
-    <string name="facebook_support_page" translatable="false">philipshomelivingindia</string>
-    <string name="facebook_support_page_rollback" translatable="false">PhilipsIndia</string>
+    <string name="facebook_support_page" translatable="false">PhilipsHomeLiving</string>
+    <string name="facebook_support_page_rollback" translatable="false">Philips</string>
 
 </resources>
