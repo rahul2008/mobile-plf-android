@@ -16,22 +16,22 @@ public class DISecurity implements ServerResponseListener {
     }
 
 	public static final String BOOT_STRAP_ID_3 = "MDAwMD" ;
-	private static Hashtable<String, Boolean> 
-			isExchangingKeyTable = new Hashtable<String, Boolean>();
 	private static Hashtable<String, Integer> 
 			exchangeKeyCounterTable = new Hashtable<String, Integer>();
 	
-	private KeyDecryptListener keyDecryptListener;
     private DecryptionFailedListener mDecryptionFailedListener;
 
 	/**
 	 * Constructor
 	 * @param context
 	 */
-	public DISecurity(KeyDecryptListener keyDecryptListener) {
-		this.keyDecryptListener = keyDecryptListener;
-		ALog.i(ALog.SECURITY, "Initialized DISecurity") ;
-	}
+    public DISecurity(KeyDecryptListener keyDecryptListener) {
+        this();
+    }
+    
+    public DISecurity() {
+        ALog.i(ALog.SECURITY, "Initialized DISecurity");
+    }
 	
 	public void initializeExchangeKeyCounter(String deviceEui64) {
 		exchangeKeyCounterTable.put(deviceEui64, 0);
