@@ -77,6 +77,15 @@ public abstract class DICommAppliance {
         }
     }
 
+    public void stopResubscribe() {
+        ALog.i(ALog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
+        for (DICommPort port : portList) {
+            if (port.supportsSubscription()) {
+                port.stopResubscribe();
+            }
+        }
+    }
+
     public FirmwarePort getFirmwarePort() {
         return mFirmwarePort;
     }

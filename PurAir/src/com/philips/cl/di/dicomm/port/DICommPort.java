@@ -28,10 +28,13 @@ public abstract class DICommPort {
 	private boolean mGetPropertiesRequested;
 	private boolean mSubscribeRequested;
 	private boolean mUnsubscribeRequested;
+    private boolean mStopResubscribe;
+    private Object mResubscribeLock = new Object();
 	private Map<String,Object> mPutPropertiesMap;
 
 	private ArrayList<DIPropertyUpdateHandler> mPropertyUpdateHandlers;
 	private ArrayList<DIPropertyErrorHandler> mPropertyErrorHandlers;
+
 
 	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		mNetworkNode = networkNode;
@@ -105,16 +108,24 @@ public abstract class DICommPort {
     private final Runnable mResubscribtionRunnable = new Runnable() {
         @Override
         public void run() {
-            if(!mUnsubscribeRequested){
-                subscribe();
+            synchronized (mResubscribeLock) {
+                if(!mStopResubscribe){
+                    subscribe();
+                }
             }
         }
     };
 
     public void unsubscribe(){
-    	mUnsubscribeRequested = true;
-    	getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
-    	tryToPerformNextRequest();
+        mUnsubscribeRequested = true;
+        stopResubscribe();
+        tryToPerformNextRequest();
+    }
+    public void stopResubscribe(){
+        synchronized (mResubscribeLock) {
+            mStopResubscribe = true;
+        }
+        getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
     }
 
     public void registerPropertyUpdateHandler(DIPropertyUpdateHandler handler) {
