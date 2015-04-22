@@ -8,7 +8,7 @@ public class Utilities {
         StringBuilder sb = new StringBuilder();
         sb.append(data.length).append(" ");
         for (byte value: data) {
-            sb.append(String.format("0x%2X ", value));
+            sb.append(String.format("0x%02X ", value));
         }
         return sb.toString();
     }
