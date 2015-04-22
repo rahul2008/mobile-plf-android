@@ -2,7 +2,7 @@
 package com.philips.cl.di.reg.ui.customviews;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.ui.utils.EmailValidater;
+import com.philips.cl.di.reg.ui.utils.EmailValidator;
 
 import android.content.Context;
 import android.text.Editable;
@@ -76,7 +76,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	}
 
 	private boolean validateEmail() {
-		if (!EmailValidater.isValidEmail(mEtEmail.getText().toString().trim())) {
+		if (!EmailValidator.isValidEmail(mEtEmail.getText().toString().trim())) {
 			setValidEmail(false);
 			return false;
 		}

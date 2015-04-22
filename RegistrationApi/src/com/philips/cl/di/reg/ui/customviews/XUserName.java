@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.ui.utils.EmailValidater;
+import com.philips.cl.di.reg.ui.utils.EmailValidator;
 
 public class XUserName extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener{
 	
@@ -65,7 +65,7 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 	}
 	
 	private boolean validateName() {
-		if (!EmailValidater.isValidName(mEtUserName.getText().toString().trim())) {
+		if (!EmailValidator.isValidName(mEtUserName.getText().toString().trim())) {
 			setmValidName(false);
 			return false;
 		}

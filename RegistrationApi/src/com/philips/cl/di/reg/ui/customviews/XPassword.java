@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.ui.utils.EmailValidater;
+import com.philips.cl.di.reg.ui.utils.EmailValidator;
 
 public class XPassword extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener {
 	
@@ -85,7 +85,7 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 	}
 	
 	private boolean validatePassword() {
-		if (!EmailValidater.isValidPassword(mEtPassword.getText().toString().trim())) {
+		if (!EmailValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
 			setValidPassword(false);
 			return false;
 		}

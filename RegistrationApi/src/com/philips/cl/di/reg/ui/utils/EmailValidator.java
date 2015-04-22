@@ -3,7 +3,7 @@ package com.philips.cl.di.reg.ui.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class EmailValidater {
+public class EmailValidator {
 
 	public static boolean isValidName(String name) {
 		if (name == null)
@@ -34,11 +34,11 @@ public class EmailValidater {
 
 		int passwordValidatorCheckCount = 0;
 
-		if (EmailValidater.isAlphabetPresent(password)) {
+		if (EmailValidator.isAlphabetPresent(password)) {
 			passwordValidatorCheckCount++;
 		}
 
-		if (EmailValidater.isNumberPresent(password)) {
+		if (EmailValidator.isNumberPresent(password)) {
 			passwordValidatorCheckCount++;
 		}
 
@@ -46,7 +46,7 @@ public class EmailValidater {
 			return true;
 		}
 
-		if (EmailValidater.isSymbolsPresent(password)) {
+		if (EmailValidator.isSymbolsPresent(password)) {
 			passwordValidatorCheckCount++;
 		}
 

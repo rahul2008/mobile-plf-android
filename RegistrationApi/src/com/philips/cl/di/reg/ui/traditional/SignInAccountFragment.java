@@ -27,7 +27,7 @@ import com.philips.cl.di.reg.ui.customviews.XEmail;
 import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
-import com.philips.cl.di.reg.ui.utils.EmailValidater;
+import com.philips.cl.di.reg.ui.utils.EmailValidator;
 import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -234,7 +234,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void resetPassword() {
-		boolean validatorResult = EmailValidater.isValidEmail(mEtEmail.getEmailId().toString());
+		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail.getEmailId().toString());
 		if (!validatorResult) {
 			mRegError.setError(getString(R.string.invalid_email));
 		} else {
