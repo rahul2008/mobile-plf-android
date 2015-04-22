@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.provider.MediaStore;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.philips.cl.di.dev.pa.buyonline.AppUtils;
 import com.philips.cl.di.dev.pa.buyonline.CameraUtils;
 import com.philips.cl.di.dev.pa.buyonline.ProductRegActivity;
 
@@ -20,6 +21,16 @@ public class CameraUtilsTest extends ActivityInstrumentationTestCase2<ProductReg
 		super.setUp();
 		activity = getActivity();
 		setActivityInitialTouchMode(false);
+	}
+	
+	public void testCreateBuilderWithNullContext() {
+		AlertDialog.Builder builder = AppUtils.createBuilder(null);
+		assertNull(builder);
+	}
+	
+	public void testCreateBuilderWithAppContext() {
+		AlertDialog.Builder builder = AppUtils.createBuilder(activity);
+		assertNotNull(builder);
 	}
 	
 	public void testGetPicNullParam() {

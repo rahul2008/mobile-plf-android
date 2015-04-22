@@ -144,6 +144,17 @@
             android:name=".activity.MarkerActivity"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
+            android:name="com.philips.cl.di.dev.pa.buyonline.ProductListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.buyonline.ProductRegActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.buyonline.WebActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.ShareActivity"
             android:launchMode="singleInstance" >
         </activity>
