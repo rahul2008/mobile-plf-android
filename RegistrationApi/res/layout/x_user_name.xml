@@ -4,36 +4,48 @@
     android:layout_height="wrap_content" >
 
     <RelativeLayout
+        android:id="@+id/rl_name_verified_field"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/t_textbox" >
+
+        <FrameLayout
+            android:id="@+id/fl_align"
+            android:layout_width="@dimen/err_alert_width"
+            android:layout_height="@dimen/err_alert_width"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="@dimen/x_edit_field_margin"
+            android:layout_marginLeft="@dimen/x_edit_field_margin"
+            android:layout_marginRight="@dimen/x_edit_field_margin_right"
+            android:layout_marginTop="@dimen/x_edit_field_margin" >
+
+            <ImageView
+                android:id="@+id/iv_name_error_alert"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_desc"
+                android:src="@drawable/error_alert"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_valid_name_alert"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/content_desc"
+                android:src="@drawable/valid"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XEditText
             android:id="@+id/et_reg_fname"
             style="@style/style_tab_reg_hint"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/fl_align"
+            android:background="@android:color/transparent"
             android:hint="@string/first_name"
             android:inputType="textPersonName"
-            reglib:fontAssetName="fonts/CentraleSans-Light.otf"
-         	android:maxLength="15" />
-	
-        <ImageView
-            android:id="@+id/iv_name_error_alert"
-            android:layout_width="@dimen/err_alert_width"
-            android:layout_height="@dimen/err_alert_width"
-            android:layout_alignRight="@+id/et_reg_fname"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="@dimen/alert_margin"
-            android:background="@drawable/error_alert"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/iv_valid_name_alert"
-            android:layout_width="@dimen/err_alert_width"
-            android:layout_height="@dimen/err_alert_width"
-            android:layout_alignRight="@+id/et_reg_fname"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="@dimen/alert_margin"
-            android:background="@drawable/valid"
-            android:visibility="gone" />
+            reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
 
 </RelativeLayout>

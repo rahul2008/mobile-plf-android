@@ -17,16 +17,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.R.string;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.settings.RegistrationSettings;
 import com.philips.cl.di.reg.ui.customviews.XEmail;
+import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.XUserName;
-import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -171,7 +170,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 				mRegError.setError(getString(R.string.No_Internet_Connection));
 			}
 		} else {
-			// Show network error
 			mRegError.setError(getString(R.string.No_Internet_Connection));
 		}
 	}
@@ -196,7 +194,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 		if (errorType == EMAIL_ALEADY_EXIST) {
 			mEtEmail.setErrDescription(getResources().getString(R.string.email_already_used));
-			mEtEmail.showJanarainError();
+			mEtEmail.showInvalidEmailAlert();
 			mRegError.setError(getResources().getString(R.string.email_already_used));
 		} else {
 			mRegError.setError(getString(R.string.No_Internet_Connection));
@@ -225,6 +223,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onEventReceived(String event) {
-
+		if (RegConstants.IS_ONLINE.equals(event)) {
+			handleUiState();
+		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+			System.out.println("reint");
+		}
 	}
 }

@@ -64,9 +64,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_up_arrow"
-        android:layout_marginTop="-5dip"
+        android:layout_marginTop="@dimen/edit_fields_margin_top"
+        android:padding="@dimen/edit_fields_padding"
         android:background="@drawable/reg_rect"
-        android:padding="10dip"
         android:text="@string/invalid_email"
         android:visibility="gone"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />

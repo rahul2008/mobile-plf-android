@@ -53,8 +53,6 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		return null;
 	}
 
-	
-
 	public void raiseEvent(String event) {
 		// TODO Auto-generated method stub
 		RLog.i(RLog.NETWORK_STATE, event);

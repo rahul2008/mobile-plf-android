@@ -18,7 +18,7 @@
             android:id="@+id/welcome_id"
             style="@style/textStyle"
             android:text="@string/sign_in_philips"
-            reglib:fontAssetName="fonts/CentraleSans-Book.OTF"  />
+            reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
         <com.philips.cl.di.reg.ui.customviews.XEmail
             android:id="@+id/rl_email_field"
@@ -36,7 +36,6 @@
     <View
         style="@style/line"
         android:layout_marginBottom="@dimen/margin_bottom" />
-    
 
     <RelativeLayout
         android:id="@+id/rl_welcome_container"
@@ -46,38 +45,43 @@
         android:paddingLeft="@dimen/layout_margin"
         android:paddingRight="@dimen/layout_margin" >
 
-        <com.philips.cl.di.reg.ui.customviews.XButton
-            android:id="@+id/sign_in_btn"
-            style="@style/buttonStyle"
-            android:layout_marginBottom="@dimen/margin_bottom"
-            android:background="@drawable/disable_btn"
-            android:enabled="false"
-            android:text="@string/sign_in"
-            reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+        <FrameLayout
+            android:id="@+id/fl_align_activate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_bottom" >
+
+            <com.philips.cl.di.reg.ui.customviews.XButton
+                android:id="@+id/sign_in_btn"
+                style="@style/buttonStyle"
+                android:background="@drawable/disable_btn"
+                android:text="@string/sign_in"
+                android:enabled="false"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+            <ProgressBar
+                android:id="@+id/pb_activate_spinner"
+                android:layout_width="@dimen/rg_fb_icon_height"
+                android:layout_height="@dimen/rg_fb_icon_height"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/bts_progress_drawable"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XButton
             android:id="@+id/forgot_password_btn"
             style="@style/forgot_password"
-            android:layout_below="@+id/sign_in_btn"
+            android:layout_below="@+id/fl_align_activate"
             android:background="@drawable/forgot_password"
             android:text="@string/forgot_password"
             reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
-
-        <ProgressBar
-            android:id="@+id/pb_activate_spinner"
-            android:layout_width="@dimen/rg_fb_icon_height"
-            android:layout_height="@dimen/rg_fb_icon_height"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/bts_progress_drawable"
-            android:visibility="gone" />
-        
     </RelativeLayout>
-    
-         <com.philips.cl.di.reg.ui.customviews.XRegError
-                android:id="@+id/reg_error_msg"
-                android:layout_width="wrap_content"
-                android:paddingLeft="@dimen/layout_margin"
-            	android:paddingRight="@dimen/layout_margin"
-                android:layout_height="wrap_content" />
+
+    <com.philips.cl.di.reg.ui.customviews.XRegError
+        android:id="@+id/reg_error_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/layout_margin"
+        android:paddingRight="@dimen/layout_margin" />
 
 </LinearLayout>

@@ -159,8 +159,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		if (state) {
 			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
 			mBtnCreateAccount.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
-			/*mBtnCreateAccount.setAlpha(1);
-			mBtnMyPhilips.setAlpha(1);*/
+			/*
+			 * mBtnCreateAccount.setAlpha(1);
+			 * mBtnMyPhilips.setAlpha(1);
+			 */
 			// mLlFacebook.setAlpha(1);
 			// mLlTwitter.setAlpha(1);
 			// mLlGooglePlus.setAlpha(1);
@@ -169,8 +171,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
 			mBtnCreateAccount.setBackgroundResource(R.drawable.disable_btn);
 			mBtnCreateAccount.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
-			/*mBtnCreateAccount.setAlpha(0.75f);
-			mBtnCreateAccount.setAlpha(0.75f);*/
+			/*
+			 * mBtnCreateAccount.setAlpha(0.75f);
+			 * mBtnCreateAccount.setAlpha(0.75f);
+			 */
 
 			// mLlFacebook.setAlpha(0.75f);
 			// mLlTwitter.setAlpha(0.75f);

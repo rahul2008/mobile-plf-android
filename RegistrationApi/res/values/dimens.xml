@@ -24,19 +24,20 @@
     
     <dimen name="err_msg_width">390dp</dimen>
     <dimen name="err_alert_width">28dp</dimen>
-    <dimen name="alert_margin">15dp</dimen>
+    <dimen name="alert_margin">2dp</dimen>
     <dimen name="top_arrow_width">17dp</dimen>
     <dimen name="err_alert_margin">5dp</dimen>
     <dimen name="input_length">5dp</dimen>
-    <dimen name="arrow_width">17dp</dimen>
+    <dimen name="arrow_width">16dp</dimen>
     <dimen name="arrow_height">20dp</dimen>
     <dimen name="err_msg">14sp</dimen>
     <dimen name="rg_fb_icon_height">32dp</dimen>
-    
     <dimen name="x_edit_field_margin">2dip</dimen>
     <dimen name="x_edit_field_margin_right">2dip</dimen>
-    
     <dimen name="arrow_up_width">20dip</dimen>
     <dimen name="arrow_margin_right">9dip</dimen>
-    <dimen name="email_error_margin_top">-5dip</dimen>
+    <dimen name="edit_fields_margin_top">-5dip</dimen>
+    <dimen name="edit_fields_padding">10dip</dimen>
+    <dimen name="home_tiltle_padding">10dip</dimen>
+    
 </resources>

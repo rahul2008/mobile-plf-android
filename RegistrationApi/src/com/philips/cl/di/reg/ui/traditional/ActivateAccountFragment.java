@@ -18,14 +18,18 @@ import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.events.EventHelper;
+import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
+import com.philips.cl.di.reg.settings.RegistrationSettings;
+import com.philips.cl.di.reg.ui.customviews.XRegError;
+import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class ActivateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        RefreshUserHandler, ResendVerificationEmailHandler {
+        RefreshUserHandler, ResendVerificationEmailHandler, EventListener {
 
 	private Button mBtnActivate;
 
@@ -49,9 +53,18 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 
 	private String mEmailId;
 
+	private XRegError mRegError;
+
+	private XRegError mEMailVerifiedError;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
+		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		Bundle bundle = getArguments();
 		if (null != bundle) {
 			mEmailId = bundle.getString(RegConstants.EMAIL);
@@ -68,6 +81,16 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
+	}
+
+	@Override
+	public void onDestroy() {
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
+		        this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
+		        this);
+		super.onDestroy();
 	}
 
 	@Override
@@ -111,12 +134,28 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend = (Button) view.findViewById(R.id.resend_btn);
 		mBtnActivate.setOnClickListener(this);
 		mBtnResend.setOnClickListener(this);
-		setViewParams(getResources().getConfiguration());
+
 		mPbActivateSpinner = (ProgressBar) view.findViewById(R.id.pb_activate_spinner);
 		mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_resend_spinner);
 
 		TextView tvEmail = (TextView) view.findViewById(R.id.tv_email);
-		tvEmail.setText("We have sent and Email to "+mEmailId);
+		tvEmail.setText(getString(R.string.mail_Sent_to) + mEmailId);
+		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+		mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
+		setViewParams(getResources().getConfiguration());
+		handleUiState();
+	}
+
+	private void handleUiState() {
+		if (NetworkUtility.getInstance().isOnline()) {
+			if (RegistrationSettings.isJanrainIntialized()) {
+				mRegError.hideError();
+			} else {
+				mRegError.setError(getString(R.string.No_Internet_Connection));
+			}
+		} else {
+			mRegError.setError(getString(R.string.No_Internet_Connection));
+		}
 	}
 
 	private void showActivateSpinner() {
@@ -146,9 +185,13 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend.setEnabled(true);
 		if (mUser.getEmailVerificationStatus(mContext)) {
 			Toast.makeText(getActivity(), "Verification email Success", Toast.LENGTH_LONG).show();
+			mEMailVerifiedError.hideError();
+			mRegError.hideError();
 		} else {
-			Toast.makeText(getActivity(), R.string.Janrain_Error_Need_Email_Verification,
-			        Toast.LENGTH_LONG).show();
+
+			mEMailVerifiedError.setVisibility(View.VISIBLE);
+			mEMailVerifiedError.setError(getResources().getString(
+			        R.string.Janrain_Error_Need_Email_Verification));
 		}
 	}
 
@@ -164,6 +207,7 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mLlWelcomeContainer.setLayoutParams(params);
 		mTvResendDetails.setLayoutParams(params);
 		mRlSingInOptions.setLayoutParams(params);
+		mRegError.setLayoutParams(params);
 
 	}
 
@@ -200,6 +244,16 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onResendVerificationEmailFailedWithError(int error) {
 		updateResendUIState();
-		Toast.makeText(getActivity(), "Resend Mail Failed ", Toast.LENGTH_LONG).show();
+		mRegError.setError(getResources().getString(R.string.resend_email_faild));
+	}
+
+	@Override
+	public void onEventReceived(String event) {
+		if (RegConstants.IS_ONLINE.equals(event)) {
+			handleUiState();
+		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+			System.out.println("reint");
+		}
+
 	}
 }

@@ -30,4 +30,6 @@
 	<color name="err_msg_color">#E88200</color>
 	<color name="btn_disable_text_color">#dddddd</color>
 	<color name="btn_enable_text_color">#ffffff</color>
+	<color name="password_details_bg">#E6E6FA</color>
+	
 </resources>

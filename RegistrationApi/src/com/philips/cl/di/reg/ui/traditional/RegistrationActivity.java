@@ -127,7 +127,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	};
 
 	private void initUI() {
-		mActionBarArrow = (ImageView) findViewById(R.id.backArrow);
+		mActionBarArrow = (ImageView) findViewById(R.id.iv_backArrow);
 		mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 		mActionBarArrow.setOnClickListener(actionBarClickListener);
 

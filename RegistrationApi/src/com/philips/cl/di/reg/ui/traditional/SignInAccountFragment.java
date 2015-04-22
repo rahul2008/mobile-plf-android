@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
@@ -100,7 +99,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		        this);
 		super.onDestroy();
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
@@ -161,7 +160,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onLoginSuccess() {
 		hideSpinner();
+		mRegError.hideError();
 		((RegistrationActivity) getActivity()).addFragment(new WelcomeFragment());
+
 	}
 
 	@Override
@@ -173,7 +174,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mRegError.setError(getResources().getString(R.string.Janrain_invalid_credentials));
 			mEtEmail.setErrDescription(getResources().getString(
 			        R.string.Janrain_invalid_credentials));
-			mEtEmail.showJanarainError();
+			mEtEmail.showInvalidEmailAlert();
 			mEtPassword.setErrDescription(getResources().getString(
 			        R.string.Janrain_invalid_credentials));
 			mEtPassword.showJanarainError();
@@ -181,12 +182,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		} else {
 			JanrainErrorMessage errorMessage = new JanrainErrorMessage(getActivity());
 			String message = errorMessage.getError(errorType);
+			signInBtnUIControle();
 			mEtPassword.setErrDescription(message);
+			mEtEmail.setErrDescription(message);
+			mEtEmail.showInvalidEmailAlert();
+			mEtPassword.showJanarainError();
+
 		}
 	}
 
 	private void forgotpassword() {
-
 		final AlertDialog myBuilder = new AlertDialog.Builder(getActivity()).create();
 		myBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		myBuilder.setCancelable(true);
@@ -218,7 +223,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		JanrainErrorMessage errorMessage = new JanrainErrorMessage(getActivity());
 		String message = errorMessage.getError(error);
 		mRegError.setError(message);
-		Toast.makeText(getActivity(), "" + message, Toast.LENGTH_LONG).show();
+		signInBtnUIControle();
+		mEtPassword.setErrDescription(message);
+		mEtEmail.setErrDescription(message);
+		mEtEmail.showInvalidEmailAlert();
+		mEtPassword.showJanarainError();
 	}
 
 	private void showSpinner() {
@@ -236,7 +245,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private void resetPassword() {
 		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail.getEmailId().toString());
 		if (!validatorResult) {
-			mRegError.setError(getString(R.string.invalid_email));
+			mEtEmail.showInvalidEmailAlert();
 		} else {
 			if (NetworkUtility.getInstance().isOnline()) {
 				if (mUser != null) {
@@ -250,8 +259,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		}
 	}
 
-	@Override
-	public void onUpadte() {
+	private void signInBtnUIControle() {
 		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()) {
 			mBtnSignInAccount.setBackgroundResource(R.drawable.navigation_bar);
 			mBtnSignInAccount.setEnabled(true);
@@ -260,7 +268,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
 			mBtnSignInAccount.setEnabled(false);
 		}
+	}
 
+	@Override
+	public void onUpadte() {
+		signInBtnUIControle();
 	}
 
 	@Override
@@ -269,6 +281,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			handleUiState();
 		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			System.out.println("reint");
-		} 
+		}
 	}
 }
