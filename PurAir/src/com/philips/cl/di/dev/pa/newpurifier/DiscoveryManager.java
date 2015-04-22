@@ -321,11 +321,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			existingPurifier.getNetworkNode().setIpAddress(newPurifier.getNetworkNode().getIpAddress());
 		}
 
-		if (existingPurifier.getNetworkNode().getConnectionState() != newPurifier.getNetworkNode().getConnectionState()) {
-			existingPurifier.getNetworkNode().setConnectionState(newPurifier.getNetworkNode().getConnectionState());
-			notifyListeners = true;
-		}
-
 		if (!existingPurifier.getNetworkNode().getName().equals(newPurifier.getNetworkNode().getName())) {
 			existingPurifier.getNetworkNode().setName(newPurifier.getNetworkNode().getName());
 			mDatabase.updatePurifierUsingUsn(existingPurifier);
@@ -351,6 +346,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			existingPurifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
+		
+        if (existingPurifier.getNetworkNode().getConnectionState() != newPurifier.getNetworkNode().getConnectionState()) {
+            existingPurifier.getNetworkNode().setConnectionState(newPurifier.getNetworkNode().getConnectionState());
+            notifyListeners = true;
+        }
 
 		if (notifyListeners) {
 			notifyDiscoveryListener();
@@ -598,7 +598,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			// NOP
 		}
 
-		AirPurifier purifier = new AirPurifier(new CommunicationMarshal(), eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
+		DISecurity diSecurity = new DISecurity(null);
+        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        AirPurifier purifier = new AirPurifier(communicationStrategy, eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 

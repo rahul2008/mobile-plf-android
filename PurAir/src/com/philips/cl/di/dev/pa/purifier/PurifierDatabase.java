@@ -12,6 +12,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
@@ -103,7 +104,7 @@ public class PurifierDatabase {
 					String latitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 					String longitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 
-					AirPurifier purifier = new AirPurifier(new CommunicationMarshal(), eui64, usn, null, name, bootId, state);
+					AirPurifier purifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), eui64, usn, null, name, bootId, state);
 					purifier.getNetworkNode().setHomeSsid(lastKnownNetwork);
 					purifier.getNetworkNode().setEncryptionKey(encryptionKey);
 					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ NetworkNode.getPairedStatusKey(pairedStatus));

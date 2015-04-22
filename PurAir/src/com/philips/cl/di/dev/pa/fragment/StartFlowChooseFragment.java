@@ -26,7 +26,6 @@ import android.widget.ProgressBar;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
@@ -45,7 +44,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowChooseFragment extends BaseFragment implements
@@ -198,11 +196,14 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	private void getWifiDetails() {
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
-		if (selectedPurifier == null) return;
-		connectTimer.start();
-		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
-				selectedPurifier.getNetworkNode().getIpAddress()), "", "GET");
-		connectTask.start();
+		// TODO DIComm Refactor - Fix connectivity check
+//		if (selectedPurifier == null) return;
+//		connectTimer.start();
+//		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
+//				selectedPurifier.getNetworkNode().getIpAddress()), "", "GET");
+//		connectTask.start();
+        stopSSIDTimer();
+		onSuccessfullyConnected();
 	}
 
 	private void onSuccessfullyConnected() {

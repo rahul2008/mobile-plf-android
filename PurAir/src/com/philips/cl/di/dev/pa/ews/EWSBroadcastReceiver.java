@@ -243,14 +243,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(), tempEui64, null,
+		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, null, -1,	ConnectionState.CONNECTED_LOCALLY);
 	}
 
 	private void updateTempDevice(String eui64) {
 		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = tempEWSPurifier.getNetworkNode().getName();
-		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(), eui64, null,
+		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,	ConnectionState.CONNECTED_LOCALLY);
 		tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}

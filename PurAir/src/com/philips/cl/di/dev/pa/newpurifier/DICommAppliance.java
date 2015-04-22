@@ -47,7 +47,7 @@ public abstract class DICommAppliance {
                 }
             }
         });
-
+        
         mDevicePort = new DevicePort(mNetworkNode, communicationStrategy);
         mFirmwarePort = new FirmwarePort(mNetworkNode, communicationStrategy);
 

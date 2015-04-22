@@ -172,7 +172,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
 	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(), tempEui64, null,
+		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 	}
@@ -182,7 +182,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			return;
 		String encryptionKey = tempDemoModePurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = DemoModeConstant.DEMO;
-		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(),eui64, null,
+		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)),eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);

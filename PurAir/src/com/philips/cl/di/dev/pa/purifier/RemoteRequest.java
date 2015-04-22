@@ -29,17 +29,13 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 	private String mConversationId;
 
 	private CPPController mCppController ;
-	private final NetworkNode mNetworkNode;
 	private final RemoteRequestType mRequestType;
-	private final ResponseHandler mResponseHandler;
-
-
+	
 	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,Object> dataMap,ResponseHandler responseHandler) {
-		mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
+		super(networkNode, dataMap, responseHandler);
+	    mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
 		mEventData = createDataToSend(networkNode,portName,productId,dataMap);
 		mRequestType = requestType;
-		mNetworkNode = networkNode;
-		mResponseHandler = responseHandler;
 	}
 
 	private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String,Object> dataMap){

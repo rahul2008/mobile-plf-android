@@ -1,11 +1,11 @@
-package com.philips.cl.di.dev.pa.util;
+package com.philips.cl.di.dicomm.util;
 
 import android.os.Handler;
 
-public class WrappedHander {
+public class WrappedHandler {
     private Handler handler;
 
-    public WrappedHander(Handler handler) {
+    public WrappedHandler(Handler handler) {
         this.handler = handler;
     }
 

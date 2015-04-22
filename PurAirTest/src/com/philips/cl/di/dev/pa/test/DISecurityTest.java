@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -87,29 +86,29 @@ public class DISecurityTest extends TestCase {
 		assertNull(decrytedData);
 	}
 
-	public void testDiffieGeneration() {
-		DISecurity security = new DISecurity(null);
-
-		String diffie1 = null;
-		String diffie2 = null;
-
-		try {
-			@SuppressWarnings("rawtypes")
-			Class[] cArg = new Class[1];
-		    cArg[0] = String.class;
-			Method diffieMethod = DISecurity.class.getDeclaredMethod("generateDiffieKey", cArg);
-			diffieMethod.setAccessible(true);
-			diffie1 = (String) diffieMethod.invoke(security, "111");
-			diffie2 = (String) diffieMethod.invoke(security, "222");
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-
-		assertNotNull(diffie1);
-		assertNotNull(diffie2);
-		assertNotSame(diffie1, diffie2);
-	}
+//	public void testDiffieGeneration() {
+//		DISecurity security = new DISecurity(null);
+//
+//		String diffie1 = null;
+//		String diffie2 = null;
+//
+//		try {
+//			@SuppressWarnings("rawtypes")
+//			Class[] cArg = new Class[1];
+//		    cArg[0] = String.class;
+//			Method diffieMethod = DISecurity.class.getDeclaredMethod("generateDiffieKey", cArg);
+//			diffieMethod.setAccessible(true);
+//			diffie1 = (String) diffieMethod.invoke(security, "111");
+//			diffie2 = (String) diffieMethod.invoke(security, "222");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			fail(e.getMessage());
+//		}
+//
+//		assertNotNull(diffie1);
+//		assertNotNull(diffie2);
+//		assertNotSame(diffie1, diffie2);
+//	}
 
 	public void testGetEvenNumberSecretKey255bitKey() {
 		String key255bit = "9cd15f5d121ec8c9adbd0682fb9e8d079cba90e7683230985a895f6d90b7d87884e4a3a4cc80ac58889de8f174d0df7dd4fd1c3e7d1f766fdeed89154ea6714ee8f70e551299e41ff8a6f51d60f2f763d8b58af70119fc0734ee80ddbccf0f84d22b5add6103be35dfff1a521075d973fc3262a98a5378364851bbd6a7b1cab";

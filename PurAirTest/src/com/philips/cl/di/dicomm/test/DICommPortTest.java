@@ -13,10 +13,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 
 public class DICommPortTest extends MockitoTestCase{
@@ -38,14 +38,14 @@ public class DICommPortTest extends MockitoTestCase{
 
 	@Captor
 	private ArgumentCaptor<ResponseHandler> mResponseHandlerCaptor;
-    private WrappedHander mHandler;
+    private WrappedHandler mHandler;
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 		mNetworkNode = mock(NetworkNode.class);
         mCommunicationStrategy = mock(CommunicationStrategy.class);
-        mHandler = mock(WrappedHander.class);
+        mHandler = mock(WrappedHandler.class);
 		mDICommPort = new DICommPortImpl(mNetworkNode, mCommunicationStrategy, mHandler);
 	}
 
@@ -378,16 +378,16 @@ public class DICommPortTest extends MockitoTestCase{
 
 	public class DICommPortImpl extends DICommPort{
 
-		private WrappedHander hander;
+		private WrappedHandler hander;
 
         public DICommPortImpl(NetworkNode networkNode,
-				CommunicationStrategy communicationStrategy, WrappedHander hander) {
+				CommunicationStrategy communicationStrategy, WrappedHandler hander) {
 			super(networkNode, communicationStrategy);
             this.hander = hander;
 		}
 
 		@Override
-		protected WrappedHander getResubscriptionHandler() {
+		protected WrappedHandler getResubscriptionHandler() {
 		    return hander;
 		}
 		

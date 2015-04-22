@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.purifier;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -19,25 +20,21 @@ import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
 public class LocalRequest extends Request {
+    
 
 	private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
 	private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
 	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
 	private final String mUrl;
-	private final Map<String, Object> mDataMap;
-	private final NetworkNode mNetworkNode;
 	private final LocalRequestType mRequestType;
-	private final ResponseHandler mResponseHandler;
 	private final DISecurity mDISecurity;
 
 	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,Object> dataMap,
 			ResponseHandler responseHandler, DISecurity diSecurity) {
-		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
+	    super(networkNode, dataMap, responseHandler);
+        mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
 		mRequestType = requestType;
-		mNetworkNode = networkNode;
-		mResponseHandler = responseHandler;
 		mDISecurity = diSecurity;
-		mDataMap = dataMap;
 	}
 
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
@@ -59,7 +56,7 @@ public class LocalRequest extends Request {
 
 	@Override
 	public Response execute() {
-		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL");
+		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL " + mNetworkNode.hashCode());
 		ALog.i(ALog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 		String result = "";
 		InputStream inputStream = null;
@@ -92,18 +89,7 @@ public class LocalRequest extends Request {
 			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				inputStream = conn.getInputStream();
-				result = NetworkUtils.convertInputStreamToString(inputStream);
-
-				if (mDISecurity != null) {
-					result = mDISecurity.decryptData(result, mNetworkNode);
-				}
-
-				if (result == null) {
-					ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse or failed to decrypt");
-					return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
-				}
-
-				return new Response(result, null, mResponseHandler);
+				return handleHttpOk(inputStream);
 			}
 			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
 				inputStream = conn.getErrorStream();
@@ -129,6 +115,29 @@ public class LocalRequest extends Request {
 			NetworkUtils.closeAllConnections(inputStream, out, conn);
 		}
 	}
+
+    private Response handleHttpOk(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+        String cypher = NetworkUtils.convertInputStreamToString(inputStream);
+        if (cypher == null) {
+            ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse");
+            return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
+        }
+        
+        String data = decryptData(cypher);
+        if (data == null) {
+        	ALog.e(ALog.LOCALREQUEST, "Request failed - failed to decrypt");
+        	return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
+        }
+        
+        return new Response(data, null, mResponseHandler);
+    }
+
+    private String decryptData(String cypher) {
+        if (mDISecurity != null) {
+            return mDISecurity.decryptData(cypher, mNetworkNode);
+        }
+        return cypher;
+    }
 
 	private OutputStreamWriter appendDataToRequestIfAvailable(HttpURLConnection conn) throws IOException {
 	    String data = createDataToSend(mNetworkNode, mDataMap);

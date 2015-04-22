@@ -3,10 +3,22 @@ package com.philips.cl.di.dicomm.communication;
 import java.util.Map;
 import java.util.Set;
 
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+
 
 public abstract class Request {
 
-	public abstract Response execute();
+	protected final Map<String, Object> mDataMap;
+    protected final NetworkNode mNetworkNode;
+    protected final ResponseHandler mResponseHandler;
+    
+    public Request(NetworkNode networkNode, Map<String, Object> dataMap, ResponseHandler responseHandler) {
+        this.mDataMap = dataMap;
+        this.mNetworkNode = networkNode;
+        this.mResponseHandler = responseHandler;
+    }
+
+    public abstract Response execute();
 
 	protected String convertKeyValuesToJson(Map<String, Object> dataMap) {
 		if (dataMap == null || dataMap.size() <= 0) return "{}";

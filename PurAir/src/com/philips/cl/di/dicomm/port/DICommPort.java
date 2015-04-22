@@ -8,10 +8,10 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.util.WrappedHander;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 public abstract class DICommPort {
 
@@ -20,7 +20,7 @@ public abstract class DICommPort {
 
 	protected final NetworkNode mNetworkNode;
 	private CommunicationStrategy mCommunicationStrategy;
-    private WrappedHander mResubscriptionHandler;
+    private WrappedHandler mResubscriptionHandler;
 
 	private boolean mHasOutstandingRequest;
 	private boolean mIsApplyingChanges;
@@ -97,9 +97,9 @@ public abstract class DICommPort {
     	tryToPerformNextRequest();
     }
 
-    protected WrappedHander getResubscriptionHandler() {
+    protected WrappedHandler getResubscriptionHandler() {
         if(mResubscriptionHandler==null){
-            mResubscriptionHandler = new WrappedHander(new Handler(Looper.getMainLooper()));
+            mResubscriptionHandler = new WrappedHandler(new Handler(Looper.getMainLooper()));
         }
         return mResubscriptionHandler;
     }

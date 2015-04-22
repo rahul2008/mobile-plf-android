@@ -118,7 +118,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 	public void keyDecrypt(String key, String deviceEui64) {
 		ALog.i(ALog.MAINACTIVITY, "Key exchange succesfull for shop demo mode");
 		keyInitializeState = KeyInitializeState.NONE;
-		AirPurifier demoModePurifier = new AirPurifier(new CommunicationMarshal(), deviceEui64, null,
+		AirPurifier demoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), deviceEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		demoModePurifier.getNetworkNode().setEncryptionKey(key);

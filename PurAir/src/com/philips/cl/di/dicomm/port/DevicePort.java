@@ -40,7 +40,7 @@ public class DevicePort extends DICommPort {
             setDevicePortInfo(devicePortInfo);
             return;
         }
-        ALog.e(ALog.AIRPORT, "DevicePort Info should never be NULL");
+        ALog.e(ALog.DEVICEPORT, "DevicePort Info should never be NULL");
     }
 
     @Override

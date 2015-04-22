@@ -3,14 +3,21 @@ package com.philips.cl.di.dicomm.communication;
 import java.util.Map;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class CommunicationMarshal extends CommunicationStrategy {
 
-	private LocalStrategy mLocalStrategy = new LocalStrategy();
-	private RemoteStrategy mRemoteStrategy = new RemoteStrategy();
-	private NullStrategy mNullStrategy = new NullStrategy();
+	private final LocalStrategy mLocalStrategy;
+	private final RemoteStrategy mRemoteStrategy;
+	private final NullStrategy mNullStrategy ;
 
-	@Override
+	public CommunicationMarshal(DISecurity diSecurity) {
+	    mLocalStrategy = new LocalStrategy(diSecurity);
+	    mRemoteStrategy = new RemoteStrategy();
+	    mNullStrategy = new NullStrategy();
+    }
+
+    @Override
 	public void getProperties(String portName, int productId,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
 		findAvailableStrategy(networkNode).getProperties(portName, productId, networkNode, responseHandler);
