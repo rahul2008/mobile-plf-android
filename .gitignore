@@ -8,3 +8,7 @@ RegistrationApiTest/bin/
 RegistrationApiTest/.classpath
 RegistrationApiTest/gen/
 RegistrationSampleApp/.classpath
+LocaleMatch/bin/
+LocaleMatch/gen/
+LocaleMatch/assets/
+LocaleMatch/.settings/org.eclipse.jdt.core.prefs
