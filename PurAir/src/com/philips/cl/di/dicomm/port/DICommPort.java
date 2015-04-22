@@ -91,6 +91,7 @@ public abstract class DICommPort {
         if(mSubscribeRequested) return;
         
     	mSubscribeRequested = true;    	
+    	mStopResubscribe = false;    	
     	
         getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL_MS);
     	    	
@@ -120,6 +121,7 @@ public abstract class DICommPort {
         stopResubscribe();
         tryToPerformNextRequest();
     }
+    
     public void stopResubscribe(){
         synchronized (mResubscribeLock) {
             mStopResubscribe = true;

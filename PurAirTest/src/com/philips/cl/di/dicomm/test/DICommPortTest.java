@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.Mockito;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
@@ -321,6 +322,115 @@ public class DICommPortTest extends MockitoTestCase{
 		responseHandler.onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
+    
+    public void test_ShouldPostRunnable_WhenSubscribeIsCalled() throws Exception {
+        mDICommPort.subscribe();
+        
+        verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+    }
+    
+    public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() throws Exception {
+        mDICommPort.subscribe();
+        mDICommPort.subscribe();
+        
+        verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+    }
+    
+    public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() throws Exception {
+        mDICommPort.subscribe();
+        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        
+        verifySubscribeCalled(true);
+        ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+        responseHandler.onSuccess(null);
+        
+        mDICommPort.subscribe();
+
+        verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+    }
+    
+    public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() throws Exception {
+        mDICommPort.subscribe();
+        
+        verifySubscribeCalled(true);
+    }
+    
+    public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
+        mDICommPort.unsubscribe();
+        
+        verifyUnsubscribeCalled(true);
+    }
+
+    public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() throws Exception {
+        mDICommPort.subscribe();
+        mDICommPort.stopResubscribe();
+
+        Runnable runnable = captureResubscribeHandler();
+        
+        verify(mHandler).removeCallbacks(runnable);
+    }
+    
+    public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() throws Exception {
+        mDICommPort.subscribe();
+        mDICommPort.unsubscribe();
+
+        Runnable runnable = captureResubscribeHandler();
+        
+        verify(mHandler).removeCallbacks(runnable);
+    }
+    
+    public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() throws Exception {
+        mDICommPort.subscribe();
+        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        
+        verifySubscribeCalled(true);
+        ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+        responseHandler.onSuccess(null);
+
+        Runnable runnable = captureResubscribeHandler();
+        runnable.run();
+        
+        verify(mHandler, Mockito.times(2)).postDelayed(Mockito.eq(runnable), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+    }
+    
+    public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() throws Exception {
+        mDICommPort.subscribe();
+        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        
+        verifySubscribeCalled(true);
+        ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+        responseHandler.onSuccess(null);
+
+        mDICommPort.stopResubscribe();
+        
+        Runnable runnable = captureResubscribeHandler();
+        runnable.run();
+        
+        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+    }
+    
+    public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() throws Exception {
+        mDICommPort.stopResubscribe();
+        
+        mDICommPort.subscribe();
+        verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+        
+        verifySubscribeCalled(true);
+        ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+        responseHandler.onSuccess(null);
+        
+        Runnable runnable = captureResubscribeHandler();
+        runnable.run();
+        
+        verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
+    }
+
+    private Runnable captureResubscribeHandler() {
+        ArgumentCaptor<Runnable> runnableCaptor =  ArgumentCaptor.forClass(Runnable.class);
+        verify(mHandler).postDelayed(runnableCaptor.capture(), Mockito.anyInt());
+        Runnable runnable = runnableCaptor.getValue();
+        return runnable;
+    }
 
 	public void testMultiplePutRequests(){
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
