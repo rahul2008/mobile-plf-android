@@ -1,19 +1,37 @@
 package com.philips.cl.di.regsample.app.test;
 
+import static org.mockito.Mockito.mock;
+
 import org.mockito.Mockito;
+
+import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.controller.ContinueSocialProviderLogin;
 import com.philips.cl.di.reg.controller.RegisterTraditional;
 import com.philips.cl.di.reg.dao.DIUserProfile;
-import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
+import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
 
-public class UserTest extends MockedTestCase {
+public class UserTest extends ActivityInstrumentationTestCase2<RegistrationSampleActivity> {
 
+	UserTest mUserTest = null;
+
+	public UserTest() {
+		super(RegistrationSampleActivity.class);
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.setProperty("dexmaker.dexcache", getInstrumentation()
+				.getTargetContext().getCacheDir().getPath());
+		mUserTest = mock(UserTest.class);
+	}
+	
 	public void testUser() throws Exception {
 
 		User result = new User(getInstrumentation().getTargetContext());

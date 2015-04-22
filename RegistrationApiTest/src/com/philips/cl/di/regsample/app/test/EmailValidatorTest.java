@@ -1,8 +1,26 @@
 package com.philips.cl.di.regsample.app.test;
 
-import com.philips.cl.di.reg.ui.utils.EmailValidator;
+import static org.mockito.Mockito.mock;
+import android.test.ActivityInstrumentationTestCase2;
 
-public class EmailValidatorTest extends MockedTestCase{
+import com.philips.cl.di.reg.ui.utils.EmailValidator;
+import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
+
+public class EmailValidatorTest extends ActivityInstrumentationTestCase2<RegistrationSampleActivity> {
+	
+	EmailValidator mEmailValidator = null;
+
+	public EmailValidatorTest() {
+		super(RegistrationSampleActivity.class);
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.setProperty("dexmaker.dexcache", getInstrumentation()
+				.getTargetContext().getCacheDir().getPath());
+		mEmailValidator = mock(EmailValidator.class);
+	}
 	
 	// email validation tests
 	public void testValidateEmail() {
