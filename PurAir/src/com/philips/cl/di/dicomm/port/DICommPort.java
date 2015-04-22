@@ -14,7 +14,6 @@ import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
 public abstract class DICommPort {
-    private static final String TAG = DICommPort.class.getSimpleName();
 
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
