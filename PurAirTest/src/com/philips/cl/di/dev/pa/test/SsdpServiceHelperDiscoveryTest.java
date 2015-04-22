@@ -20,6 +20,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
@@ -50,6 +51,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			try {
 				Thread.sleep(SLEEP_STEP);
 			} catch (Exception e) {
+				ALog.e(ALog.ERROR, "Error");
 			}
 		}
 	}
@@ -112,6 +114,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -127,6 +130,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -165,6 +169,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 
 		mHelper.startDiscoveryAsync();
@@ -183,6 +188,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 
 		mHelper.startDiscoveryAsync();
@@ -233,6 +239,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
@@ -259,6 +266,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
@@ -299,10 +307,12 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -315,6 +325,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
@@ -330,6 +341,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
@@ -337,6 +349,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -366,6 +379,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 

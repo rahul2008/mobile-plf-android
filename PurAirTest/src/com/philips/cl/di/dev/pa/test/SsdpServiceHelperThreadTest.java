@@ -5,6 +5,7 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 	
@@ -41,6 +42,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 		assertTrue(mHelper.testIsThreadAlive());
@@ -91,6 +93,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -106,6 +109,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 		
@@ -119,6 +123,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.startDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
@@ -164,6 +169,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -178,6 +184,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		
 		mHelper.stopDiscoveryAsync();
@@ -196,6 +203,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		
 		mHelper.stopDiscoveryAsync();
@@ -204,6 +212,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -233,6 +242,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
@@ -247,6 +257,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 
 		mHelper.startDiscoveryAsync();
@@ -265,6 +276,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 
 		mHelper.startDiscoveryAsync();
@@ -303,6 +315,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		try {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
+			ALog.e(ALog.ERROR, "Error");
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 		

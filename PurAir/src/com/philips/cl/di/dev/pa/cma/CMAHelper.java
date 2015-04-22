@@ -2,6 +2,8 @@ package com.philips.cl.di.dev.pa.cma;
 
 import java.net.URLEncoder;
 
+import com.philips.cl.di.dev.pa.util.ALog;
+
 public class CMAHelper {
 	
 	private final String appId ;
@@ -41,7 +43,7 @@ public class CMAHelper {
 			String base64key = CMAUtils.encodeToBase64(CMAUtils.hmacSha1(publicKey,privateKey));
 			finalKey = URLEncoder.encode(base64key.trim(), "UTF-8");
 		} catch (Exception e) {
-			e.printStackTrace();
+			ALog.e(ALog.ERROR, "Error");
 		}	
 		return finalKey;
 	}

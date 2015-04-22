@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.test;
 import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.cma.CMAHelper;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class CMAHelperTest extends TestCase {
 	
@@ -37,7 +38,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("", "101010100,101020100,101280101", "air", "201407251151,201407251651");
-		} catch (Exception e) {}
+		} catch (Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -45,7 +46,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php", "", "air", "201407251151,201407251651");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -53,7 +54,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php", "101010100,101020100,101280101", "", "201407251151,201407251651");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -61,7 +62,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php", "101010100,101020100,101280101", "air", "");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -69,7 +70,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("htp://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -77,7 +78,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("httpss://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -85,7 +86,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -93,7 +94,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http:///api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php.", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -101,7 +102,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http:///api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertFalse(url.isEmpty());
 	}
 	
@@ -109,7 +110,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid?id=", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertFalse(url.isEmpty());
 	}
 	
@@ -117,7 +118,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid", "101010100,101020100,101280101", "air", "201407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertFalse(url.isEmpty());
 	}
 	
@@ -125,7 +126,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid", "101010100,101020100,101280101", "air", "1407251151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -133,7 +134,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid", "101010100,101020100,101280101", "air", "201413071151");
-		} catch(Exception e) {}
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error");}
 		assertTrue(url.isEmpty());
 	}
 	
@@ -141,7 +142,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid", "101010100,101020100,101280101", "air", "201403072551");
-		} catch(Exception e) { }
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error"); }
 		assertTrue(url.isEmpty());
 	}
 	
@@ -149,7 +150,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid", "101010100,101020100,101280101", "air", "201403072551");
-		} catch(Exception e) { }
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error"); }
 		assertTrue(url.isEmpty());
 	}
 	
@@ -157,7 +158,7 @@ public class CMAHelperTest extends TestCase {
 		String url = "";
 		try {
 			url = cmaHelper.getURL("http://data.fuwu.weather.com.cn/getareaid/areaid", "101010100,101020100,101280101", "air", "201403072351");
-		} catch(Exception e) { }
+		} catch(Exception e) {ALog.e(ALog.ERROR, "Error"); }
 		assertFalse(url.isEmpty());
 	}
 	
