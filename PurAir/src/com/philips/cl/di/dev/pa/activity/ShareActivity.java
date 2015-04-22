@@ -29,7 +29,6 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
-import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.umeng.socialize.bean.SHARE_MEDIA;

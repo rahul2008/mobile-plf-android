@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto.WindDirection;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto.WindSpeed;
 
 public class OutdoorWeather {
