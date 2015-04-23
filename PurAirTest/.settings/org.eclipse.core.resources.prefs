@@ -5,6 +5,6 @@ encoding//src/com/philips/cl/di/dev/pa/outdoorlocations/test/OutdoorDetailHelper
 encoding//src/com/philips/cl/di/dev/pa/outdoorlocations/test/USEmbassyCityDataTest.java=UTF-8
 encoding//src/com/philips/cl/di/dev/pa/test/CMACityDataTest.java=UTF-8
 encoding//src/com/philips/cl/di/dev/pa/test/DataParserTest.java=UTF-8
-encoding//src/com/philips/cl/di/dicomm/AirPortTest.java=UTF-8
-encoding//src/com/philips/cl/di/dicomm/FirmwarePortTest.java=UTF-8
-encoding//src/com/philips/cl/di/dicomm/ScheduleListPortTest.java=UTF-8
+encoding//src/com/philips/cl/di/dicomm/port/AirPortTest.java=UTF-8
+encoding//src/com/philips/cl/di/dicomm/port/FirmwarePortTest.java=UTF-8
+encoding//src/com/philips/cl/di/dicomm/port/ScheduleListPortTest.java=UTF-8

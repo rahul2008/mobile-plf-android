@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm;
+package com.philips.cl.di.dicomm.port;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -14,6 +14,7 @@ import org.mockito.Captor;
 import org.mockito.Mockito;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dicomm.MockitoTestCase;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.DICommPort;
