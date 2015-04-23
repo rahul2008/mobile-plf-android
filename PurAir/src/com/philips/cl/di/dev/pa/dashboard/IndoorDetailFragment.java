@@ -341,7 +341,8 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 	 */
 	private void showAlertDialogHistoryDoawnload(String title, String message) {
 		if (getMainActivity() == null) return;
-		if (DashboardUtil.isAppInDemoMode()) {
+		if (PurAirApplication.isDemoModeEnable()
+				 && OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
 			addDummyDataForDemoMode();
 		} else {
 			try {
