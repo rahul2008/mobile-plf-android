@@ -67,28 +67,6 @@ public abstract class DICommPort<T> {
 		mPortProperties = portProperties;
 	}
 
-	public boolean isApplyingChanges(){
-	   	return mIsApplyingChanges;
-	}
-
-	private boolean isPutPropertiesRequested(){
-		synchronized (mPutPropertiesMap) {
-			return !mPutPropertiesMap.isEmpty();
-		}
-	}
-
-	private boolean isGetPropertiesRequested(){
-	   	return mGetPropertiesRequested;
-	}
-
-	private boolean isSubscribeRequested(){
-	   	return mSubscribeRequested;
-	}
-
-	private boolean isUnsubcribeRequested(){
-	   	return mUnsubscribeRequested;
-	}
-
     public void putProperties(String key, String value){
     	synchronized (mPutPropertiesMap) {
     		mPutPropertiesMap.put(key, value);
@@ -201,6 +179,28 @@ public abstract class DICommPort<T> {
     		mHasOutstandingRequest = false;
     	}
 
+    }
+
+    public boolean isApplyingChanges(){
+        return mIsApplyingChanges;
+    }
+
+    private boolean isPutPropertiesRequested(){
+        synchronized (mPutPropertiesMap) {
+            return !mPutPropertiesMap.isEmpty();
+        }
+    }
+
+    private boolean isGetPropertiesRequested(){
+        return mGetPropertiesRequested;
+    }
+
+    private boolean isSubscribeRequested(){
+        return mSubscribeRequested;
+    }
+
+    private boolean isUnsubcribeRequested(){
+        return mUnsubscribeRequested;
     }
 
     private void requestCompleted() {
