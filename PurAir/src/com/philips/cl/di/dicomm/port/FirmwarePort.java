@@ -22,11 +22,11 @@ public class FirmwarePort extends DICommPort {
 		super(networkNode,communicationStrategy);
 	}
 
-	public FirmwarePortInfo getFirmwarePortInfo() {
+	public FirmwarePortInfo getPortInfo() {
 		return mFirmwarePortInfo;
 	}
 
-	public void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
+	public void setPortInfo(FirmwarePortInfo firmwarePortInfo) {
 		mFirmwarePortInfo = firmwarePortInfo;
 	}
 
@@ -39,7 +39,7 @@ public class FirmwarePort extends DICommPort {
 	public void processResponse(String response) {
         FirmwarePortInfo firmwarePortInfo = parseResponse(response);
         if(firmwarePortInfo!=null){
-        	setFirmwarePortInfo(firmwarePortInfo);
+        	setPortInfo(firmwarePortInfo);
         	return;
         }
         ALog.e(ALog.FIRMWAREPORT,"FirmwarePort Info should never be NULL");

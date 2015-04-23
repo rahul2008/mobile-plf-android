@@ -516,7 +516,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
-		return purifier.getAirPort().getAirPortInfo();
+		return purifier.getAirPort().getPortInfo();
 	}
 
 	public int getVisits() {
@@ -637,7 +637,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				+ devices.size() + " :: " + devices);
 
 		AirPurifier current = getCurrentPurifier();
-		if( current != null && current.getAirPort().getAirPortInfo() != null) return ;
+		if( current != null && current.getAirPort().getPortInfo() != null) return ;
 		AirPurifierManager.getInstance().startSubscription() ;
 	}
 

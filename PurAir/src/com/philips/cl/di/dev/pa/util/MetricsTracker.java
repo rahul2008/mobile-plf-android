@@ -472,8 +472,8 @@ public class MetricsTracker {
 
 	private static String getFirmwareVersion() {
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		if(currentPurifier != null && currentPurifier.getFirmwarePort().getFirmwarePortInfo() != null) {
-			String version = currentPurifier.getFirmwarePort().getFirmwarePortInfo().getVersion();
+		if(currentPurifier != null && currentPurifier.getFirmwarePort().getPortInfo() != null) {
+			String version = currentPurifier.getFirmwarePort().getPortInfo().getVersion();
 			return version;
 		}
 		return "Not found";

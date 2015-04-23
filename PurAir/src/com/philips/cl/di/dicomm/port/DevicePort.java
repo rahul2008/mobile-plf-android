@@ -20,11 +20,11 @@ public class DevicePort extends DICommPort {
         super(networkNode, communicationStrategy);
     }
 
-    public DevicePortInfo getDevicePortInfo() {
+    public DevicePortInfo getPortInfo() {
         return mDevicePortInfo;
     }
 
-    public void setDevicePortInfo(DevicePortInfo devicePortInfo) {
+    public void setPortInfo(DevicePortInfo devicePortInfo) {
         mDevicePortInfo = devicePortInfo;
     }
 
@@ -37,7 +37,7 @@ public class DevicePort extends DICommPort {
     public void processResponse(String response) {
         DevicePortInfo devicePortInfo = parseResponse(response);
         if (devicePortInfo != null) {
-            setDevicePortInfo(devicePortInfo);
+            setPortInfo(devicePortInfo);
             return;
         }
         ALog.e(ALog.DEVICEPORT, "DevicePort Info should never be NULL");

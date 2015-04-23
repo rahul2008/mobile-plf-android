@@ -11,22 +11,22 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
-public class AirPort extends DICommPort {
-	
-	private final String AIRPORT_NAME = "air";	
+public class AirPort extends DICommPort<AirPortInfo> {
+
+	private final String AIRPORT_NAME = "air";
 	private final int AIRPORT_PRODUCTID = 1;
-	
+
 	private AirPortInfo mAirPortInfo;
-	
+
 	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		super(networkNode,communicationStrategy);
 	}
 
-	public AirPortInfo getAirPortInfo() {
+	public AirPortInfo getPortInfo() {
 		return mAirPortInfo;
 	}
 
-	public void setAirPortInfo(AirPortInfo airPortInfo) {
+	public void setPortInfo(AirPortInfo airPortInfo) {
 		mAirPortInfo = airPortInfo;
 	}
 
@@ -39,30 +39,30 @@ public class AirPort extends DICommPort {
 	public void processResponse(String response) {
         AirPortInfo airPortInfo = parseResponse(response);
         if(airPortInfo!=null){
-        	setAirPortInfo(airPortInfo);
+        	setPortInfo(airPortInfo);
         	return;
         }
         ALog.e(ALog.AIRPORT,"AirPort Info should never be NULL");
 	}
-	
+
 	private AirPortInfo parseResponse(String response) {
         AirPortInfo airPortInfo = null ;
-		try {			
+		try {
 			if( response != null ) {
 				JSONObject jsonObj = new JSONObject(response) ;
 				JSONObject airPuriferJson = jsonObj.optJSONObject("data") ;
 				if( airPuriferJson != null ) {
 					jsonObj = airPuriferJson ;
 				}
-				airPortInfo = new AirPortInfo() ;			
-		
+				airPortInfo = new AirPortInfo() ;
+
 				airPortInfo.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
 				airPortInfo.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
 				airPortInfo.setPowerMode(jsonObj.getString(ParserConstants.POWER_MODE)) ;
 				String aqi = jsonObj.getString(ParserConstants.AQI) ;
 				if(aqi != null && !aqi.equals(""))
 					airPortInfo.setIndoorAQI(Integer.parseInt(aqi)) ;
-		
+
 				airPortInfo.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
 				airPortInfo.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
 				airPortInfo.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
@@ -76,7 +76,7 @@ public class AirPort extends DICommPort {
 				airPortInfo.setReplaceFilter4(jsonObj.getString(ParserConstants.REP_FILTER_4)) ;
 				airPortInfo.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CHILD_LOCK))) ;
 				airPortInfo.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
-				airPortInfo.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;	
+				airPortInfo.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;
 				airPortInfo.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
 			}
 		} catch (JSONException e) {
@@ -92,7 +92,7 @@ public class AirPort extends DICommPort {
 			ALog.e(ALog.AIRPORT, "Exception AirPortInfo");
 			return null;
 		}
-		
+
 		return airPortInfo ;
 	}
 

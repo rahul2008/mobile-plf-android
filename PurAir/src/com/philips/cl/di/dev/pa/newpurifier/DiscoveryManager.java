@@ -294,7 +294,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (AirPurifier purifier : devices) {
 			if (purifier.getUsn().equals(lostDeviceUsn)) {
 				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
-				if(purifier.getFirmwarePort().getFirmwarePortInfo() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getFirmwarePortInfo().getState()) {
+				if(purifier.getFirmwarePort().getPortInfo() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getPortInfo().getState()) {
 					return false;
 				}
 				purifier.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);

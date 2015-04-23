@@ -92,7 +92,7 @@ public class FirmwarePortTest extends TestCase {
 	private FirmwarePortInfo parseFirmwarePortData(String parseData) {
 		FirmwarePort firmwarePort = new FirmwarePort(null, null);
 		firmwarePort.processResponse(parseData);
-		return firmwarePort.getFirmwarePortInfo();
+		return firmwarePort.getPortInfo();
 	}
 		
 }

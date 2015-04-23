@@ -197,14 +197,14 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
-		return purifier.getAirPort().getAirPortInfo();
+		return purifier.getAirPort().getPortInfo();
 	}
 
 	private void updateFilterViews() {
 		ALog.i(ALog.FILTER_STATUS_FRAGMENT, "updateFilterStatus");
 		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED
-				|| purifier.getAirPort().getAirPortInfo() == null) {
+				|| purifier.getAirPort().getPortInfo() == null) {
 			disableFilterStatus();
 			return ;
 		}
