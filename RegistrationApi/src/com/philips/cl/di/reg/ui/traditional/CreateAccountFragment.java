@@ -139,7 +139,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 
 		setViewParams(getResources().getConfiguration());
-		handleUiState();
+		handleUiErrorState();
 		mUser = new User(getActivity().getApplicationContext());
 	}
 
@@ -162,7 +162,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mBtnCreateAccount.setEnabled(true);
 	}
 
-	private void handleUiState() {
+	private void handleUiErrorState() {
 		if (NetworkUtility.getInstance().isOnline()) {
 			if (RegistrationSettings.isJanrainIntialized()) {
 				mRegError.hideError();
@@ -209,8 +209,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onUpadte() {
+		updateUiStatus();
+	}
 
-		if (mEtName.ismValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()) {
+	private void updateUiStatus() {
+		if (mEtName.ismValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
+		        && NetworkUtility.getInstance().isOnline()
+		        && RegistrationSettings.isJanrainIntialized()) {
 			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();
@@ -218,15 +223,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			mBtnCreateAccount.setBackgroundResource(R.drawable.disable_btn);
 			mBtnCreateAccount.setEnabled(false);
 		}
-
 	}
 
 	@Override
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
-			handleUiState();
+			handleUiErrorState();
+			updateUiStatus();
 		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-			System.out.println("reint");
+			updateUiStatus();
 		}
 	}
 }

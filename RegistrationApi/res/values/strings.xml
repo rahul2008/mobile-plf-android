@@ -41,7 +41,7 @@
     
     <string name="invalid_email">invalid email address</string>
 	<string name="password_not_valid">The password is not valid Please choose another password</string>
-	<string name="reset_password">Reset Paswword</string>
+	<string name="reset_password">Reset Password</string>
 	<string name="reset_password_link">A link is sent to your mail to reset the password of your philips account</string>
 	<string name="Janrain_invalid_credentials">The email or password you entered is incorrect.</string>
 	<string name="JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
