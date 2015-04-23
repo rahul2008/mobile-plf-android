@@ -6,8 +6,8 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.ExchangeKeyRequest;
 import com.philips.cl.di.dev.pa.purifier.LocalRequest;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.DISecurity.DecryptionFailedListener;
+import com.philips.cl.di.dicomm.security.DISecurity;
+import com.philips.cl.di.dicomm.security.DISecurity.DecryptionFailedListener;
 
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;

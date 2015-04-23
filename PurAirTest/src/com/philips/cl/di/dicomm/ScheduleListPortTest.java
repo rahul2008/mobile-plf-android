@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.test;
+package com.philips.cl.di.dicomm;
 import java.util.ArrayList;
 import java.util.List;
 

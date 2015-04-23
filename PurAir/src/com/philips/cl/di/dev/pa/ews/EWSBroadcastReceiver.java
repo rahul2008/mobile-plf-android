@@ -27,18 +27,17 @@ import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 
 public class EWSBroadcastReceiver extends BroadcastReceiver
-		implements KeyDecryptListener, EWSTaskListener, Runnable {
+		implements EWSTaskListener, Runnable {
 
 	private EWSListener listener ;
 	private AirPurifier tempEWSPurifier;
@@ -118,12 +117,12 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		tempEWSPurifier.getNetworkNode().setName(deviceName);
 	}
 
-	public void initializeKey() {
-		ALog.i(ALog.EWS, "initiliazekey") ;
-		DISecurity di = new DISecurity(this) ;
-		di.initializeExchangeKeyCounter(tempEWSPurifier.getNetworkNode().getCppId());
-		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getNetworkNode().getCppId()) ;
-	}
+//	public void initializeKey() {
+//		ALog.i(ALog.EWS, "initiliazekey") ;
+//		DISecurity di = new DISecurity(this) ;
+//		di.initializeExchangeKeyCounter(tempEWSPurifier.getNetworkNode().getCppId());
+//		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getNetworkNode().getCppId()) ;
+//	}
 
 	public void putWifiDetails(String ipAdd, String subnetMask, String gateWay) {
 		ALog.i(ALog.EWS, "putWifiDetails");
@@ -222,7 +221,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		}
 
 		String js = holder.toString();
-		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier.getNetworkNode());
+		String encryptedData = new DISecurity().encryptData(js, tempEWSPurifier.getNetworkNode());
 
 		return encryptedData ;
 	}
@@ -243,28 +242,28 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), tempEui64, null,
+		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, null, -1,	ConnectionState.CONNECTED_LOCALLY);
 	}
 
 	private void updateTempDevice(String eui64) {
 		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = tempEWSPurifier.getNetworkNode().getName();
-		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), eui64, null,
+		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,	ConnectionState.CONNECTED_LOCALLY);
 		tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}
 
-	@Override
-	public void keyDecrypt(String key, String deviceId) {
-		ALog.i(ALog.EWS, "Key: "+key) ;
-		tempEWSPurifier.getNetworkNode().setEncryptionKey(key);
-
-		if ( key != null ) {
-			setDevKey(key);
-			getDeviceDetails() ;
-		}
-	}
+//	@Override
+//	public void keyDecrypt(String key, String deviceId) {
+//		ALog.i(ALog.EWS, "Key: "+key) ;
+//		tempEWSPurifier.getNetworkNode().setEncryptionKey(key);
+//
+//		if ( key != null ) {
+//			setDevKey(key);
+//			getDeviceDetails() ;
+//		}
+//	}
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -293,7 +292,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					ALog.i(ALog.EWS,"Connected to PHILIPS Setup");
 					errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
 					listener.onDeviceAPMode() ;
-					initializeKey() ;
+//					initializeKey() ;
 					isOpenNetwork = EWSWifiManager.isOpenNetwork(homeSSID);
 					return;
 				}
@@ -326,7 +325,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
+				String decryptedResponse = new DISecurity().decryptData(response, tempEWSPurifier.getNetworkNode());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DevicePortProperties deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
@@ -338,7 +337,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}
 			}
 			else if(taskType == WIFI_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
+				String decryptedResponse = new DISecurity().decryptData(response, tempEWSPurifier.getNetworkNode());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(decryptedResponse);
@@ -354,7 +353,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}
 			}
 			else if(taskType == DEVICE_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
+				String decryptedResponse = new DISecurity().decryptData(response, tempEWSPurifier.getNetworkNode());
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					DevicePortProperties deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
@@ -363,7 +362,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}
 			}
 			else if(taskType == WIFI_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
+				String decryptedResponse = new DISecurity().decryptData(response, tempEWSPurifier.getNetworkNode());
 				ALog.i(ALog.EWS, "taskType == WIFI_PUT: "+decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					EWSWifiManager.connectToHomeNetwork(homeSSID);

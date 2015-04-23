@@ -28,13 +28,13 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {
@@ -114,7 +114,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	private void loadDataFromDatabase() {
 		purifiers = DiscoveryManager.getInstance().getStoreDevices();
-		AirPurifier addPurifierDevice = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), "", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier addPurifierDevice = new AirPurifier(new CommunicationMarshal(new DISecurity()), "", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
 		purifiers.add(0, addPurifierDevice);
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection

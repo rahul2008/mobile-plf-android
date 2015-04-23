@@ -45,7 +45,7 @@ import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
-import com.philips.cl.di.dev.pa.security.Util;
+import com.philips.cl.di.dicomm.security.ByteUtil;
 
 
 /**
@@ -699,7 +699,7 @@ public class Utils {
 		bootStrapBuilder.append(Fonts.BOOT_STRAP_KEY_4) ;
 		bootStrapBuilder.append(EWSConstant.BOOT_STRAP_KEY_5) ;
 		try {
-			bootStrapKey = new String(Util.decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
+			bootStrapKey = new String(ByteUtil.decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -713,7 +713,7 @@ public class Utils {
 		cmaAppIdBuilder.append(DemoModeConstant.CMA_APP_ID_3) ;
 		cmaAppIdBuilder.append(TrackPageConstants.CMA_APP_ID_4) ;
 		try {
-			cmaAppId = new String(Util.decodeFromBase64(cmaAppIdBuilder.toString()), Charset.defaultCharset()) ;
+			cmaAppId = new String(ByteUtil.decodeFromBase64(cmaAppIdBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -727,7 +727,7 @@ public class Utils {
 		cmaPrivateKeyBuilder.append(DemoModeConstant.CMA_PRIVATE_KEY_3) ;
 		cmaPrivateKeyBuilder.append(GraphConst.CMA_PRIVATE_KEY_4) ;
 		try {
-			cmaPrivateKey = new String(Util.decodeFromBase64(cmaPrivateKeyBuilder.toString()), Charset.defaultCharset()) ;
+			cmaPrivateKey = new String(ByteUtil.decodeFromBase64(cmaPrivateKeyBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -742,7 +742,7 @@ public class Utils {
 		cmaBaseURLBuilder.append(CMA_BASEURL_3) ;
 		cmaBaseURLBuilder.append(GraphConst.CMA_BASEURL_4) ;
 		try {
-			cmaBaseURL = new String(Util.decodeFromBase64(cmaBaseURLBuilder.toString()), Charset.defaultCharset()) ;
+			cmaBaseURL = new String(ByteUtil.decodeFromBase64(cmaBaseURLBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

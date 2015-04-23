@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.test;
+package com.philips.cl.di.dicomm;
 import static org.mockito.Mockito.mock;
 
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties;

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.test;
+package com.philips.cl.di.dicomm.security;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -6,9 +6,10 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 import android.annotation.SuppressLint;
 
-import com.philips.cl.di.dev.pa.security.Util;
+import com.philips.cl.di.dicomm.security.ByteUtil;
+import com.philips.cl.di.dicomm.security.EncryptionUtil;
 
-public class SecurityUtil extends TestCase {
+public class SecurityUtilTest extends TestCase {
 
     private String key = "173B7E0A9A54CB3E96A70237F6974940";
     public final static String DEVICE_ID = "deviceId";
@@ -16,15 +17,15 @@ public class SecurityUtil extends TestCase {
     String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
 
     public void testRandom() {
-        assertNotSame(Util.generateRandomNum(), Util.generateRandomNum());
+        assertNotSame(ByteUtil.generateRandomNum(), ByteUtil.generateRandomNum());
     }
 
     @SuppressLint("DefaultLocale")
     public void testByteToHex() {
         String testStr = new String("01144add4445aaa839812cccad").toUpperCase();
-        String result = Util.bytesToHex(Util.hexToBytes(testStr));
+        String result = ByteUtil.bytesToCapitalizedHex(ByteUtil.hexToBytes(testStr));
 
-        String result2 = Util.bytesToHex(Util.hexToBytes(key));
+        String result2 = ByteUtil.bytesToCapitalizedHex(ByteUtil.hexToBytes(key));
 
         assertEquals(testStr, result);
         assertEquals(key, result2);
@@ -36,8 +37,8 @@ public class SecurityUtil extends TestCase {
                 .getBytes();
         byte[] result = null;
         try {
-            String encoded = Util.encodeToBase64(testData);
-            result = Util.decodeFromBase64(encoded);
+            String encoded = ByteUtil.encodeToBase64(testData);
+            result = ByteUtil.decodeFromBase64(encoded);
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
@@ -48,8 +49,8 @@ public class SecurityUtil extends TestCase {
                 .getBytes();
         byte[] result2 = null;
         try {
-            String encoded2 = Util.encodeToBase64(testData2);
-            result2 = Util.decodeFromBase64(encoded2);
+            String encoded2 = ByteUtil.encodeToBase64(testData2);
+            result2 = ByteUtil.decodeFromBase64(encoded2);
         } catch (Exception e) {
             assertNotNull(result2);
         }
@@ -61,20 +62,20 @@ public class SecurityUtil extends TestCase {
     public void testGetEvenNumberSecretKey255bitKey() {
         String key255bit = "9cd15f5d121ec8c9adbd0682fb9e8d079cba90e7683230985a895f6d90b7d87884e4a3a4cc80ac58889de8f174d0df7dd4fd1c3e7d1f766fdeed89154ea6714ee8f70e551299e41ff8a6f51d60f2f763d8b58af70119fc0734ee80ddbccf0f84d22b5add6103be35dfff1a521075d973fc3262a98a5378364851bbd6a7b1cab";
 
-        String newKey = Util.getEvenNumberSecretKey(key255bit);
+        String newKey = EncryptionUtil.getEvenNumberSecretKey(key255bit);
         assertEquals(256, newKey.length());
     }
 
     public void testGetEvenNumberSecretKey256bitKey() {
         String key256bit = "2253FD28E69FAC2F38620ED0B6F84565C7634E586CFF83C6300AC296F6DFE1C668D04627F6F929569BC2F783DAB16EAC33D6231959EEC9EBB1BAD522B7B919EA4C51C660A148DCA3B3B2AD558B07DF959337E64423BF4EC8EBD2333032AF11FC430746965E30862680EB9CF075AFD87B60F597699F2EE4354796C7ADAB581747";
 
-        String newKey = Util.getEvenNumberSecretKey(key256bit);
+        String newKey = EncryptionUtil.getEvenNumberSecretKey(key256bit);
         assertEquals(256, newKey.length());
     }
 
     public void testGetRandomBytes() {
-        byte[] byteArr1 = Util.getRandomByteArray(2);
-        byte[] byteArr2 = Util.getRandomByteArray(2);
+        byte[] byteArr1 = ByteUtil.getRandomByteArray(2);
+        byte[] byteArr2 = ByteUtil.getRandomByteArray(2);
 
         assertFalse(byteArr1[0] == byteArr2[0]);
         assertFalse(byteArr1[1] == byteArr2[1]);
@@ -83,27 +84,27 @@ public class SecurityUtil extends TestCase {
     public void testAddRandomBytesCaseOne() {
         String testStr = "Hello Security";
         byte[] testBytes = testStr.getBytes();
-        byte[] testRandomBytes = Util.addRandomBytes(testBytes);
-        assertEquals(testRandomBytes.length, testBytes.length + Util.RANDOM_BYTE_ARR_SIZE);
+        byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+        assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
     }
 
     public void testAddRandomBytesCaseTwo() {
         byte[] testBytes = null;
-        byte[] testRandomBytes = Util.addRandomBytes(testBytes);
+        byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
         assertNull(testRandomBytes);
     }
 
     public void testAddRandomBytesCaseThree() {
         byte[] testBytes = data.getBytes();
-        byte[] testRandomBytes = Util.addRandomBytes(testBytes);
-        assertEquals(testRandomBytes.length, testBytes.length + Util.RANDOM_BYTE_ARR_SIZE);
+        byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+        assertEquals(testRandomBytes.length, testBytes.length + ByteUtil.RANDOM_BYTE_ARR_SIZE);
     }
 
     public void testRemoveRandomBytesCaseOne() {
         String testStr = "Hello Security";
         byte[] testBytes = testStr.getBytes();
-        byte[] testRandomBytes = Util.addRandomBytes(testBytes);
-        byte[] afterRemoveBytes = Util.removeRandomBytes(testRandomBytes);
+        byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+        byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testRandomBytes);
 
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
         assertEquals(testStr, testStr1);
@@ -112,7 +113,7 @@ public class SecurityUtil extends TestCase {
     public void testRemoveRandomBytesCaseTwo() {
         String testStr = "H";
         byte[] testBytes = testStr.getBytes();
-        byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
+        byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
         assertEquals(testStr, testStr1);
     }
@@ -120,22 +121,22 @@ public class SecurityUtil extends TestCase {
     public void testRemoveRandomBytesCaseEmptyStr() {
         String testStr = "";
         byte[] testBytes = testStr.getBytes();
-        byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
+        byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
         assertEquals(testStr, testStr1);
     }
 
     public void testRemoveRandomBytesCaseThree() {
         byte[] testBytes = null;
-        byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
+        byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testBytes);
         assertNull(afterRemoveBytes);
     }
 
     public void testRemoveRandomBytesCaseFour() {
 
         byte[] testBytes = data.getBytes();
-        byte[] testRandomBytes = Util.addRandomBytes(testBytes);
-        byte[] afterRemoveBytes = Util.removeRandomBytes(testRandomBytes);
+        byte[] testRandomBytes = ByteUtil.addRandomBytes(testBytes);
+        byte[] afterRemoveBytes = ByteUtil.removeRandomBytes(testRandomBytes);
 
         String testStr1 = new String(afterRemoveBytes, Charset.defaultCharset());
         assertEquals(data, testStr1);

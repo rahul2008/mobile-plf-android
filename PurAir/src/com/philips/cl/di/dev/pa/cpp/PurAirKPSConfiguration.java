@@ -20,9 +20,9 @@ Version 1:
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.security.ByteUtil;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 
@@ -46,7 +46,7 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 
 	public void setNVMConfigParams() {		
 		//TODO - Obscure the below constants.
-		this.ICPClientBootStrapID = Util.getBootStrapID();
+		this.ICPClientBootStrapID = ByteUtil.getBootStrapID();
 		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;

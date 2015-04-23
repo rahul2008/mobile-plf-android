@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.security;
+package com.philips.cl.di.dicomm.security;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;
@@ -9,10 +9,9 @@ import android.util.Base64;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class Util {
+public class ByteUtil {
 	
 	public static final int MIN = 101;
 	public static final int MAX = Integer.MAX_VALUE;
@@ -34,13 +33,6 @@ public class Util {
 			+ "D662A4D18E73AFA32D779D5918D08BC8858F4DCEF97C2A24"
 			+ "855E6EEB22B3B2E5";
 	
-	/**
-	 * 
-	 * @param data
-	 * @param key
-	 * @return
-	 * @throws Exception
-	 */
 	public static String encodeToBase64(byte[] data) throws Exception {
 		String strEncodeBase64 = null;
 		if(data!=null && data.length > 0){
@@ -57,11 +49,6 @@ public class Util {
 		return byteDecodedBase64;
 	}
 	
-	/**
-	 * 
-	 * @param hexString
-	 * @return
-	 */
 	public static byte[] hexToBytes(String hexString) {
         int len = hexString.length() / 2;
         byte[] result = new byte[len];
@@ -70,14 +57,8 @@ public class Util {
                     16).byteValue();
         return result;
     }
-
 	
-	/**
-	 * 
-	 * @param bytes
-	 * @return hexString with letters (A-F) in capitals
-	 */
-	public static String bytesToHex(byte[] bytes) {
+	public static String bytesToCapitalizedHex(byte[] bytes) {
 		char[] hexChars = new char[bytes.length * 2];
 		int v;
 		for ( int j = 0; j < bytes.length; j++ ) {
@@ -94,21 +75,6 @@ public class Util {
 		return randStr;
 	}
 	
-	public static String getEvenNumberSecretKey(String secKey) {
-		String tempKey = secKey;
-		if (secKey != null) {
-			int keyLength = secKey.length();
-			if (keyLength % 2 == 0) {
-				tempKey = secKey;
-			} else {
-				tempKey = "0"+secKey;
-				ALog.d(ALog.SECURITY, "Appended zero to Secret Key - Resulting lenght: " + tempKey.length());
-			}
-		}
-		return tempKey;
-	}
-
-	// for add random bytes
 	public static byte[] getRandomByteArray(int size) {
 		byte[] result = new byte[size];
 		Random random = new Random();
@@ -116,7 +82,6 @@ public class Util {
 		return result;
 	}
 
-	// for add random bytes
 	public static byte[] addRandomBytes(byte[] data) {
 		
 		if (data == null) {
@@ -136,7 +101,6 @@ public class Util {
 		return dataBytes;
 	}
 	
-	//for remove random bytes
 	public static byte[] removeRandomBytes(byte[] data) {
 		
 		if (data == null || data.length < 3) {
@@ -147,6 +111,7 @@ public class Util {
 		return dataBytes;
 	}
 	
+	// TODO DIComm Refactor - Remove from DIComm code
 	public static String getBootStrapID() {
 		String bootStrapID = AppConstants.EMPTY_STRING ;
 		StringBuilder bootStrapBuilder = new StringBuilder(CPPController.BOOT_STRAP_ID_1);
@@ -155,7 +120,6 @@ public class Util {
 		try {
 			bootStrapID = new String(decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

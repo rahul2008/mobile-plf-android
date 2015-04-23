@@ -22,16 +22,15 @@ import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
-		KeyDecryptListener, Runnable, ServerResponseListener {
+		Runnable, ServerResponseListener {
 
 	private DemoModeListener listener;
 	private boolean isRegistered;
@@ -88,7 +87,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 					ALog.i(ALog.DEMO_MODE, "Connected to AirPurifier - Ssid= "
 							+ ssid);
 					errorCode = DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED;
-					initializeKey();
+//					initializeKey();
 					return;
 				}
 			}
@@ -113,16 +112,16 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		deviceSSIDTimer.start();
 	}
 
-	private void initializeKey() {
-		ALog.i(ALog.DEMO_MODE, "initiliazekey");
-		if (keyInitializeState == KeyInitializeState.NONE) {
-			keyInitializeState = KeyInitializeState.START;
-			DISecurity di = new DISecurity(this);
-			di.initializeExchangeKeyCounter(tempDemoModePurifier.getNetworkNode().getCppId());
-			di.exchangeKey(Utils.getPortUrl(Port.SECURITY,
-					EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getNetworkNode().getCppId());
-		}
-	}
+//	private void initializeKey() {
+//		ALog.i(ALog.DEMO_MODE, "initiliazekey");
+//		if (keyInitializeState == KeyInitializeState.NONE) {
+//			keyInitializeState = KeyInitializeState.START;
+//			DISecurity di = new DISecurity(this);
+//			di.initializeExchangeKeyCounter(tempDemoModePurifier.getNetworkNode().getCppId());
+//			di.exchangeKey(Utils.getPortUrl(Port.SECURITY,
+//					EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getNetworkNode().getCppId());
+//		}
+//	}
 
 	public void registerListener() {
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -172,7 +171,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
 	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)), tempEui64, null,
+		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), tempEui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 	}
@@ -182,7 +181,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			return;
 		String encryptionKey = tempDemoModePurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = DemoModeConstant.DEMO;
-		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity(null)),eui64, null,
+		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()),eui64, null,
 				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,
 				ConnectionState.CONNECTED_LOCALLY);
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
@@ -206,17 +205,17 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		task.start();
 	}
 
-	@Override
-	public void keyDecrypt(String key, String deviceEui64) {
-		ALog.i(ALog.DEMO_MODE, "Key: " + key);
-		if (tempDemoModePurifier == null)
-			return;
-		tempDemoModePurifier.getNetworkNode().setEncryptionKey(key);
-
-		if (key != null) {
-			getDeviceDetails();
-		}
-	}
+//	@Override
+//	public void keyDecrypt(String key, String deviceEui64) {
+//		ALog.i(ALog.DEMO_MODE, "Key: " + key);
+//		if (tempDemoModePurifier == null)
+//			return;
+//		tempDemoModePurifier.getNetworkNode().setEncryptionKey(key);
+//
+//		if (key != null) {
+//			getDeviceDetails();
+//		}
+//	}
 
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String ipStr) {
@@ -226,7 +225,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if (taskType == DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(
+				String decryptedResponse = new DISecurity().decryptData(
 						responseData, tempDemoModePurifier.getNetworkNode());
 				if (decryptedResponse != null) {
 					ALog.i(ALog.DEMO_MODE, decryptedResponse);
@@ -240,7 +239,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 					getWifiDetails();
 				}
 			} else if (taskType == DemoModeConstant.DEMO_MODE_TASK_WIFI_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(
+				String decryptedResponse = new DISecurity().decryptData(
 						responseData, tempDemoModePurifier.getNetworkNode());
 				if (decryptedResponse != null) {
 					ALog.i(ALog.DEMO_MODE, decryptedResponse);

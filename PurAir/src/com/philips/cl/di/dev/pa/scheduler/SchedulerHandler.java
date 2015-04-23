@@ -9,13 +9,13 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class SchedulerHandler implements ServerResponseListener {
 	public static final int DEFAULT_ERROR = 999;
@@ -70,7 +70,7 @@ public class SchedulerHandler implements ServerResponseListener {
 			break;
 		}
 		TaskPutDeviceDetails addSchedulerTask = new TaskPutDeviceDetails(
-				new DISecurity(null).encryptData(dataToSend, networkNode), url, this, requestType);
+				new DISecurity().encryptData(dataToSend, networkNode), url, this, requestType);
 		Thread addSchedulerThread = new Thread(addSchedulerTask);
 		addSchedulerThread.start();
 	}
@@ -149,7 +149,7 @@ public class SchedulerHandler implements ServerResponseListener {
 		if (mListener == null)	return;
 		
 		if (responseCode == HttpURLConnection.HTTP_OK) {
-			DISecurity diSecurity = new DISecurity(null);
+			DISecurity diSecurity = new DISecurity();
 			String decryptedData = diSecurity.decryptData(data, mNetworkNode) ;
 			if (decryptedData == null ) {
 				ALog.d(ALog.SCHEDULER, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
@@ -157,7 +157,7 @@ public class SchedulerHandler implements ServerResponseListener {
 			}			
 			mListener.onSuccess(decryptedData);
 		} else if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
-			//String encryptedData = new DISecurity(null).encryptData(data, mNetworkNode);
+			//String encryptedData = new DISecurity().encryptData(data, mNetworkNode);
 			//TODO: DICOMM Refactor, check if decryption is required			
 			mListener.onSuccess(data);
 		} else {

@@ -6,13 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.security.DiffieHellmanUtil;
-import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.LocalRequestType;
 import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.security.ByteUtil;
+import com.philips.cl.di.dicomm.security.EncryptionUtil;
 
 public class ExchangeKeyRequest extends LocalRequest {
 
@@ -24,8 +24,8 @@ public class ExchangeKeyRequest extends LocalRequest {
     public ExchangeKeyRequest(NetworkNode networkNode, ResponseHandler responseHandler) {
         super(networkNode, SECURITY_PORTNAME, SECURITY_PRODUCTID, LocalRequestType.PUT, new HashMap<String, Object>(), responseHandler, null);
 
-        mRandomValue = Util.generateRandomNum();
-        String sdiffie = DiffieHellmanUtil.generateDiffieKey(mRandomValue);
+        mRandomValue = ByteUtil.generateRandomNum();
+        String sdiffie = EncryptionUtil.generateDiffieKey(mRandomValue);
         mDataMap.put("diffie", sdiffie);
     }
 
@@ -43,7 +43,7 @@ public class ExchangeKeyRequest extends LocalRequest {
             String skeyEnc = json.getString("key");
             ALog.d(ALog.SECURITY, "encrypted key= " + skeyEnc + "    length:= " + skeyEnc.length());
 
-            String key = DiffieHellmanUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
+            String key = EncryptionUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
             ALog.i(ALog.SECURITY, "decryted key= " + key);
             
             mNetworkNode.setEncryptionKey(key);

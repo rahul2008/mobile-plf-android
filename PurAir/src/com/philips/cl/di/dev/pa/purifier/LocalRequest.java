@@ -10,7 +10,6 @@ import java.nio.charset.Charset;
 import java.util.Map;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dicomm.communication.Error;
@@ -18,6 +17,7 @@ import com.philips.cl.di.dicomm.communication.LocalRequestType;
 import com.philips.cl.di.dicomm.communication.Request;
 import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class LocalRequest extends Request {
     

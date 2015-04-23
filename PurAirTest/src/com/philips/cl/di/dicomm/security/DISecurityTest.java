@@ -1,11 +1,11 @@
-package com.philips.cl.di.dev.pa.test;
+package com.philips.cl.di.dicomm.security;
 
 import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.security.DISecurity;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 
 public class DISecurityTest extends TestCase {

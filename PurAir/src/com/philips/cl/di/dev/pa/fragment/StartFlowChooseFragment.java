@@ -39,12 +39,12 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class StartFlowChooseFragment extends BaseFragment implements
 OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
@@ -254,7 +254,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	public void receiveServerResponse(int responseCode, String responseData,
 			final String fromIp) {
 
-		final String decryptedResponse = new DISecurity(null).decryptData(responseData, selectedPurifier.getNetworkNode());
+		final String decryptedResponse = new DISecurity().decryptData(responseData, selectedPurifier.getNetworkNode());
 
 		if (getActivity() != null) {
 			getActivity().runOnUiThread(new Runnable() {

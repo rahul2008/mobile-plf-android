@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.test;
+package com.philips.cl.di.dicomm;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;

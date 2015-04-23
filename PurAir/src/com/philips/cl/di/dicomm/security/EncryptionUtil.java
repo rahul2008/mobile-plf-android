@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.security;
+package com.philips.cl.di.dicomm.security;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -8,17 +8,8 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.philips.cl.di.dev.pa.util.ALog;
+public class EncryptionUtil {
 
-public class DiffieHellmanUtil {
-
-    /**
-     * Encrypting, decrypt data using AES algorithm
-     * 
-     * @param data
-     * @param key
-     * @return
-     */
     public static byte[] aesEncryptData(String data, String keyStr) throws Exception {
         Cipher c = Cipher.getInstance("AES/CBC/PKCS7Padding");
         byte[] longKey = new BigInteger(keyStr, 16).toByteArray();
@@ -33,24 +24,11 @@ public class DiffieHellmanUtil {
         byte[] ivBytes = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         IvParameterSpec iv = new IvParameterSpec(ivBytes);
         c.init(Cipher.ENCRYPT_MODE, keySpec, iv);
-        byte[] dataBytes = Util.addRandomBytes(data.getBytes(Charset.defaultCharset()));// for
-                                                                                        // add
-                                                                                        // random
-                                                                                        // bytes
-        ALog.i(ALog.SECURITY, "dataBytes length: " + dataBytes.length);// for
-                                                                       // add
-                                                                       // random
-                                                                       // bytes
+        byte[] dataBytes = ByteUtil.addRandomBytes(data.getBytes(Charset.defaultCharset()));
+        
         return c.doFinal(dataBytes);
     }
 
-    /**
-     * Decrypt data using AES algorithm
-     * 
-     * @param data
-     * @param key
-     * @return
-     */
     public static byte[] aesDecryptData(byte[] data, String keyStr) throws Exception {
 
         Cipher c = Cipher.getInstance("AES/CBC/PKCS7Padding");
@@ -70,38 +48,40 @@ public class DiffieHellmanUtil {
         return c.doFinal(data);
     }
 
-    /**
-     * Generate diffie key
-     * 
-     * @return
-     */
     public static String generateDiffieKey(String randomValue) {
-        BigInteger p = new BigInteger(Util.PVALUE, 16);
-        BigInteger g = new BigInteger(Util.GVALUE, 16);
+        BigInteger p = new BigInteger(ByteUtil.PVALUE, 16);
+        BigInteger g = new BigInteger(ByteUtil.GVALUE, 16);
         BigInteger r = new BigInteger(randomValue);
-        return Util.bytesToHex(g.modPow(r, p).toByteArray());
+        return ByteUtil.bytesToCapitalizedHex(g.modPow(r, p).toByteArray());
     }
 
-    /**
-     * Generate Secret key using hellman key
-     * 
-     * @param hellmanKey
-     * @return
-     */
     public static String generateSecretKey(String hellmanKey, String randomValue) {
-        BigInteger p = new BigInteger(Util.PVALUE, 16);
+        BigInteger p = new BigInteger(ByteUtil.PVALUE, 16);
         BigInteger g = new BigInteger(hellmanKey, 16);
         BigInteger r = new BigInteger(randomValue);
-        return Util.bytesToHex(g.modPow(r, p).toByteArray());
+        return ByteUtil.bytesToCapitalizedHex(g.modPow(r, p).toByteArray());
     }
 
     public static String extractEncryptionKey(String shellman, String skeyEnc, String randomValue) throws Exception {
         String secKey = generateSecretKey(shellman, randomValue);
-        secKey = Util.getEvenNumberSecretKey(secKey);
-        byte[] bytesEncKey = Util.hexToBytes(skeyEnc);
+        secKey = EncryptionUtil.getEvenNumberSecretKey(secKey);
+        byte[] bytesEncKey = ByteUtil.hexToBytes(skeyEnc);
         byte[] bytesDecKey = aesDecryptData(bytesEncKey, secKey);
 
-        String key = Util.bytesToHex(bytesDecKey);
+        String key = ByteUtil.bytesToCapitalizedHex(bytesDecKey);
         return key;
+    }
+
+    public static String getEvenNumberSecretKey(String secKey) {
+    	String tempKey = secKey;
+    	if (secKey != null) {
+    		int keyLength = secKey.length();
+    		if (keyLength % 2 == 0) {
+    			tempKey = secKey;
+    		} else {
+    			tempKey = "0"+secKey;
+    		}
+    	}
+    	return tempKey;
     }
 }

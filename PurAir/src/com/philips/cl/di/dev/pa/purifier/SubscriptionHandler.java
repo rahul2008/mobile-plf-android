@@ -6,9 +6,9 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class SubscriptionHandler implements UDPEventListener, DCSEventListener {
 
@@ -66,7 +66,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener {
 		ALog.i(ALog.SUBSCRIPTION, "UDP event received from " + fromIp);
 		
 		if (mResponseHandler != null) {			
-			DISecurity diSecurity = new DISecurity(null);
+			DISecurity diSecurity = new DISecurity();
 			String decryptedData = diSecurity.decryptData(data, mNetworkNode) ;
 			if (decryptedData == null ) {
 				ALog.d(ALog.SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());

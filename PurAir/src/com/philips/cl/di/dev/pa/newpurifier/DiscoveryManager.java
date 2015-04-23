@@ -19,7 +19,6 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
@@ -27,16 +26,13 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 /**
  * Discovery of the device is managed by Discovery Manager. It is the main
@@ -48,7 +44,7 @@ import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkChangedCallback, CppDiscoverEventListener {
+public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDiscoverEventListener {
 
 	private static DiscoveryManager mInstance;
 	private LinkedHashMap<String, AirPurifier> mDevicesMap;
@@ -56,7 +52,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	private PurifierDatabase mDatabase;
 	private NetworkMonitor mNetwork;
-	private DISecurity mSecurity;
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
 
@@ -94,7 +89,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		// Enforce Singleton
 		mDatabase = new PurifierDatabase();
 		initializeDevicesMapFromDataBase();
-		mSecurity = new DISecurity(this);
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
 		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), this);
 
@@ -341,8 +335,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		if (existingPurifier.getNetworkNode().getBootId() != newPurifier.getNetworkNode().getBootId() || existingPurifier.getNetworkNode().getEncryptionKey() == null) {
 			existingPurifier.getNetworkNode().setEncryptionKey(null);
 			existingPurifier.getNetworkNode().setBootId(newPurifier.getNetworkNode().getBootId());
-			startKeyExchange(existingPurifier);
-			notifyListeners = false; // only sent events when we have new key
 			existingPurifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
@@ -363,10 +355,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	 */
 	private void addNewDevice(AirPurifier purifier) {
 		mDevicesMap.put(purifier.getNetworkNode().getCppId(), purifier);
-		startKeyExchange(purifier);
-
-		// Listener notified when key is exchanged
 		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
+		notifyDiscoveryListener();
 	}
 
 	public void markLostDevicesInBackgroundOfflineOrRemote() {
@@ -598,7 +588,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			// NOP
 		}
 
-		DISecurity diSecurity = new DISecurity(null);
+		DISecurity diSecurity = new DISecurity();
         CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
         AirPurifier purifier = new AirPurifier(communicationStrategy, eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
@@ -663,41 +653,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		if (mListener instanceof MainActivity && addNewPurifierListener != null) {
 			addNewPurifierListener.onNewPurifierDiscover();
 		}
-	}
-
-	private void startKeyExchange(AirPurifier purifier) {
-		ALog.d(ALog.DISCOVERY, "Starting key exchange: " + purifier);
-
-		mSecurity.initializeExchangeKeyCounter(purifier.getNetworkNode().getCppId());
-		mSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getNetworkNode().getIpAddress()), purifier.getNetworkNode().getCppId());
-	}
-
-	@Override
-	public void keyDecrypt(String key, String deviceEui64) {
-
-		AirPurifier device = mDevicesMap.get(deviceEui64);
-		if (device == null || key == null) return;
-
-		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
-		device.getNetworkNode().setEncryptionKey(key);
-		device.getNetworkNode().setHomeSsid(EWSWifiManager.getSsidOfSupplicantNetwork());
-		/*
-		//add geo co-ordinate if null
-		if (device.getLatitude() == null && device.getLongitude() == null) {
-			Location location = OutdoorController.getInstance().getCurrentLocation();
-			if (location != null) {
-				device.setLatitude(String.valueOf(location.getLatitude()));
-				device.setLongitude(String.valueOf(location.getLongitude()));
-			}
-		}
-		*/
-		if(AirPurifierManager.getInstance().getCurrentPurifier() != null) {
-			if(AirPurifierManager.getInstance().getCurrentPurifier().getNetworkNode().getCppId().equals(deviceEui64)) {
-				AirPurifierManager.getInstance().setCurrentPurifier(device) ;
-			}
-		}
-//		mDatabase.insertPurAirDevice(device);
-		notifyDiscoveryListener();
 	}
 
 	public void printDiscoveredDevicesInfo(String tag) {
