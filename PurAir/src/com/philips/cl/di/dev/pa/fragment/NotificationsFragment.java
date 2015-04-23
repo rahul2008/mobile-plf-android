@@ -85,7 +85,7 @@ AlertDialogBtnInterface, OnClickListener {
 	
    private DIPropertyErrorHandler mAirPortErrorHandler = new DIPropertyErrorHandler() {
        @Override
-       public void handleErrorForPort(DICommPort<?> port, Error error) {
+       public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
     	   //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
     	   handleSetThresholdError(error);
 	   }
