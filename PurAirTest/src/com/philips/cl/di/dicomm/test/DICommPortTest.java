@@ -33,8 +33,8 @@ public class DICommPortTest extends MockitoTestCase{
 
 	private NetworkNode mNetworkNode;
 	private CommunicationStrategy mCommunicationStrategy;
-	@SuppressWarnings("rawtypes")
-	private DICommPort mDICommPort;
+
+	private DICommPort<?> mDICommPort;
 
 	@Captor
 	private ArgumentCaptor<Map<String, Object>> mMapCaptor;
