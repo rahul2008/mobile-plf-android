@@ -22,17 +22,12 @@ public class EmailValidatorTest extends ActivityInstrumentationTestCase2<Registr
 		mEmailValidator = mock(EmailValidator.class);
 	}
 	
-	// email validation tests
-	public void testValidateEmail() {
-		boolean result = EmailValidator.isValidEmail("sampath.kumar@yahoo.com");
-		assertTrue(result);
-	}
 	
 	public void testValidatEmailIsNull() {
 		boolean result = EmailValidator.isValidEmail(null);
 		assertFalse(result);
 	}
-	
+		
 	public void testValidateEmailIsEmpty() {
 		boolean result = EmailValidator.isValidEmail("");
 		assertFalse(result);
@@ -47,7 +42,13 @@ public class EmailValidatorTest extends ActivityInstrumentationTestCase2<Registr
 		boolean result = EmailValidator.isValidEmail("sampath.yahoo");
 		assertFalse(result);
 	}
-	
+
+	// email validation tests
+		public void testValidateEmail() {
+			boolean result = EmailValidator.isValidEmail("sampath.kumar@yahoo.com");
+			assertTrue(result);
+	}
+		
 	public void testValidateEmailCase3() {
 		boolean result = EmailValidator.isValidEmail("@yahoo.com");
 		assertFalse(result);
