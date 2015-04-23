@@ -13,7 +13,7 @@ import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.util.WrappedHandler;
 
-public abstract class DICommPort {
+public abstract class DICommPort<V> {
 
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
@@ -29,7 +29,9 @@ public abstract class DICommPort {
 	private boolean mUnsubscribeRequested;
     private boolean mStopResubscribe;
     private Object mResubscribeLock = new Object();
+
 	private Map<String,Object> mPutPropertiesMap;
+	private V mPortInfo;
 
 	private ArrayList<DIPropertyUpdateHandler> mPropertyUpdateHandlers;
 	private ArrayList<DIPropertyErrorHandler> mPropertyErrorHandlers;
@@ -50,8 +52,20 @@ public abstract class DICommPort {
 	public abstract String getDICommPortName();
 
 	public abstract int getDICommProductId();
-	
+
 	public abstract boolean supportsSubscription();
+
+	public V getPortInfo() {
+		if (mPortInfo == null) {
+			getProperties();
+		}
+		return mPortInfo;
+	}
+
+	public void setPortInfo(V portInfo) {
+		mGetPropertiesRequested = false;
+		mPortInfo = portInfo;
+	}
 
 	public boolean isApplyingChanges(){
 	   	return mIsApplyingChanges;
@@ -89,12 +103,12 @@ public abstract class DICommPort {
 
     public void subscribe(){
         if(mSubscribeRequested) return;
-        
-    	mSubscribeRequested = true;    	
-    	mStopResubscribe = false;    	
-    	
+
+    	mSubscribeRequested = true;
+    	mStopResubscribe = false;
+
         getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL_MS);
-    	    	
+
     	tryToPerformNextRequest();
     }
 
@@ -104,7 +118,7 @@ public abstract class DICommPort {
         }
         return mResubscriptionHandler;
     }
-    
+
     private final Runnable mResubscribtionRunnable = new Runnable() {
         @Override
         public void run() {
@@ -121,7 +135,7 @@ public abstract class DICommPort {
         stopResubscribe();
         tryToPerformNextRequest();
     }
-    
+
     public void stopResubscribe(){
         synchronized (mResubscribeLock) {
             mStopResubscribe = true;

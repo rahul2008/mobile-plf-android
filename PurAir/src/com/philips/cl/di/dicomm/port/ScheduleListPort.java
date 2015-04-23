@@ -14,18 +14,18 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
-public class ScheduleListPort extends DICommPort {
-	
-    private final String SCHEDULELISTPORT_NAME = "schedules";	
-	private final int SCHEDULELISTPORT_PRODUCTID = 0;	
-	private final SchedulerHandler mSchedulerHandler;	
+public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
+
+    private final String SCHEDULELISTPORT_NAME = "schedules";
+	private final int SCHEDULELISTPORT_PRODUCTID = 0;
+	private final SchedulerHandler mSchedulerHandler;
 	private List<SchedulePortInfo> mSchedulerPortInfoList;
-	
+
 	public ScheduleListPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy, SchedulerHandler schedulerHandler){
 		super(networkNode,communicationStrategy);
 		mSchedulerHandler = schedulerHandler;
 	}
-	
+
 	public List<SchedulePortInfo> getSchedulePortInfoList() {
 		return mSchedulerPortInfoList;
 	}
@@ -46,7 +46,7 @@ public class ScheduleListPort extends DICommPort {
 		//TODO: DIComm Refactor, implement
         throw new RuntimeException("Method Not Implemented, SchedulerActivity should be refactored");
 	}
-	
+
 	// TODO: DICOmm refactor - make private
 	public SchedulePortInfo parseResponseAsSingleSchedule(String response) {
 		//TODO: DIComm Refactor
@@ -72,7 +72,7 @@ public class ScheduleListPort extends DICommPort {
 		}
 		return schedulePortInfo ;
      }
-	
+
 	// TODO: DICOmm refactor - make private
 	public List<SchedulePortInfo> parseResponseAsScheduleList(String response) {
 		//TODO: DIComm Refactor
@@ -80,7 +80,7 @@ public class ScheduleListPort extends DICommPort {
 		ALog.i(ALog.SCHEDULELISTPORT, response) ;
 		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
 		JSONObject jsonObject = null ;
-		try {			
+		try {
 			jsonObject = new JSONObject(response);
 			JSONObject schedulerJsonFromCPP = jsonObject.optJSONObject("data") ;
 			if( schedulerJsonFromCPP != null ) {
@@ -97,7 +97,7 @@ public class ScheduleListPort extends DICommPort {
 				schedules.setScheduleNumber(Integer.parseInt(key)) ;
 				schedulesList.add(schedules) ;
 			}
-		
+
 		} catch (JSONException e) {
 			schedulesList = null ;
 			ALog.e(ALog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
@@ -107,7 +107,7 @@ public class ScheduleListPort extends DICommPort {
 		}
 		return schedulesList ;
      }
-	
+
 	public void sendScheduleDetailsToPurifier(String data, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
 		mSchedulerHandler.setScheduleDetails(data, mNetworkNode, scheduleType, scheduleNumber) ;
     }
@@ -126,5 +126,5 @@ public class ScheduleListPort extends DICommPort {
     public boolean supportsSubscription() {
         return false;
     }
-	
+
 }

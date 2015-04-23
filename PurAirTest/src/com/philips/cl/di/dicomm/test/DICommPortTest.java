@@ -21,6 +21,7 @@ import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 
 public class DICommPortTest extends MockitoTestCase{
+
 	private final String PORT_NAME = "air";
 	private final int PORT_PRODUCTID = 1;
 	private final String FANSPEED_KEY = "fs";
@@ -32,6 +33,7 @@ public class DICommPortTest extends MockitoTestCase{
 
 	private NetworkNode mNetworkNode;
 	private CommunicationStrategy mCommunicationStrategy;
+	@SuppressWarnings("rawtypes")
 	private DICommPort mDICommPort;
 
 	@Captor
@@ -322,42 +324,42 @@ public class DICommPortTest extends MockitoTestCase{
 		responseHandler.onSuccess(null);
 		verifyGetPropertiesCalled(false);
 	}
-    
+
     public void test_ShouldPostRunnable_WhenSubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
-        
+
         verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
-    
+
     public void test_ShouldNotPostRunnableTwice_WhenSubscribeIsCalledTwice() throws Exception {
         mDICommPort.subscribe();
         mDICommPort.subscribe();
-        
+
         verify(mHandler).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
-    
+
     public void test_ShouldPostRunnableAgain_WhenSubscribeIsCalled_AfterSubscribeResponseIsReceived() throws Exception {
         mDICommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
-        
+
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         responseHandler.onSuccess(null);
-        
+
         mDICommPort.subscribe();
 
         verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
-    
+
     public void test_ShouldSubscribeToCommunicationStrategy_WhenSubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
-        
+
         verifySubscribeCalled(true);
     }
-    
+
     public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
         mDICommPort.unsubscribe();
-        
+
         verifyUnsubscribeCalled(true);
     }
 
@@ -366,62 +368,62 @@ public class DICommPortTest extends MockitoTestCase{
         mDICommPort.stopResubscribe();
 
         Runnable runnable = captureResubscribeHandler();
-        
+
         verify(mHandler).removeCallbacks(runnable);
     }
-    
+
     public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
         mDICommPort.unsubscribe();
 
         Runnable runnable = captureResubscribeHandler();
-        
+
         verify(mHandler).removeCallbacks(runnable);
     }
-    
+
     public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() throws Exception {
         mDICommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
-        
+
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         responseHandler.onSuccess(null);
 
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
-        
+
         verify(mHandler, Mockito.times(2)).postDelayed(Mockito.eq(runnable), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
-    
+
     public void test_ShouldNotRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
-        
+
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         responseHandler.onSuccess(null);
 
         mDICommPort.stopResubscribe();
-        
+
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
-        
+
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
-    
+
     public void test_ShouldRePostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterStopResubscribeAndSubscribeIsCalled() throws Exception {
         mDICommPort.stopResubscribe();
-        
+
         mDICommPort.subscribe();
         verify(mHandler, Mockito.times(1)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
-        
+
         verifySubscribeCalled(true);
         ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
         responseHandler.onSuccess(null);
-        
+
         Runnable runnable = captureResubscribeHandler();
         runnable.run();
-        
+
         verify(mHandler, Mockito.times(2)).postDelayed(Mockito.any(Runnable.class), Mockito.eq(DICommPort.SUBSCRIPTION_TTL_MS));
     }
 
@@ -451,6 +453,11 @@ public class DICommPortTest extends MockitoTestCase{
 		assertEquals(POWER_VALUE, capturedMap.get(POWER_KEY));
 		assertEquals(CHILDLOCK_VALUE, capturedMap.get(CHILDLOCK_KEY));
 		assertEquals(2, capturedMap.size());
+	}
+
+	public void testGetPropertiesWhenPortInfoNull() {
+		mDICommPort.getPortInfo();
+		verifyGetPropertiesCalled(true);
 	}
 
 	private void verifyPutPropertiesCalled(boolean invoked) {
@@ -486,7 +493,7 @@ public class DICommPortTest extends MockitoTestCase{
 	}
 
 
-	public class DICommPortImpl extends DICommPort{
+	public class DICommPortImpl extends DICommPort<DICommPortImplInfo>{
 
 		private WrappedHandler hander;
 
@@ -500,7 +507,7 @@ public class DICommPortTest extends MockitoTestCase{
 		protected WrappedHandler getResubscriptionHandler() {
 		    return hander;
 		}
-		
+
 		@Override
 		public boolean isResponseForThisPort(String response) {
 			return true;
@@ -525,5 +532,8 @@ public class DICommPortTest extends MockitoTestCase{
         public boolean supportsSubscription() {
             return false;
         }
+	}
+
+	private class DICommPortImplInfo {
 	}
 }

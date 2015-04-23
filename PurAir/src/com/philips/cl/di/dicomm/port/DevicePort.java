@@ -9,23 +9,13 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
-public class DevicePort extends DICommPort {
+public class DevicePort extends DICommPort<DevicePortInfo> {
 
     private final String DEVICEPORT_NAME = "device";
     private final int DEVICEPORT_PRODUCTID = 1;
 
-    private DevicePortInfo mDevicePortInfo;
-
     public DevicePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
-    }
-
-    public DevicePortInfo getPortInfo() {
-        return mDevicePortInfo;
-    }
-
-    public void setPortInfo(DevicePortInfo devicePortInfo) {
-        mDevicePortInfo = devicePortInfo;
     }
 
     @Override

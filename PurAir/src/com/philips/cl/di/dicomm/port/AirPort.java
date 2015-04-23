@@ -16,18 +16,8 @@ public class AirPort extends DICommPort<AirPortInfo> {
 	private final String AIRPORT_NAME = "air";
 	private final int AIRPORT_PRODUCTID = 1;
 
-	private AirPortInfo mAirPortInfo;
-
 	public AirPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		super(networkNode,communicationStrategy);
-	}
-
-	public AirPortInfo getPortInfo() {
-		return mAirPortInfo;
-	}
-
-	public void setPortInfo(AirPortInfo airPortInfo) {
-		mAirPortInfo = airPortInfo;
 	}
 
 	@Override

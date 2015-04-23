@@ -11,23 +11,14 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
-public class FirmwarePort extends DICommPort {
-	
+public class FirmwarePort extends DICommPort<FirmwarePortInfo> {
+
 	private final String FIRMWAREPORT_NAME = "firmware";
-	private final int FIRMWAREPORT_PRODUCTID = 0;	
-	private FirmwarePortInfo mFirmwarePortInfo;
-	
-	
+	private final int FIRMWAREPORT_PRODUCTID = 0;
+
+
 	public FirmwarePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		super(networkNode,communicationStrategy);
-	}
-
-	public FirmwarePortInfo getPortInfo() {
-		return mFirmwarePortInfo;
-	}
-
-	public void setPortInfo(FirmwarePortInfo firmwarePortInfo) {
-		mFirmwarePortInfo = firmwarePortInfo;
 	}
 
 	@Override
@@ -44,10 +35,10 @@ public class FirmwarePort extends DICommPort {
         }
         ALog.e(ALog.FIRMWAREPORT,"FirmwarePort Info should never be NULL");
 	}
-	
+
 	private FirmwarePortInfo parseResponse(String response) {
         Gson gson = new GsonBuilder().create();
-		
+
 		try {
 			JSONObject jsonObj = new JSONObject(response) ;
 			JSONObject firmwareEventJson = jsonObj.optJSONObject("data") ;
