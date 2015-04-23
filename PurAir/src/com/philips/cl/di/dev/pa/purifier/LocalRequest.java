@@ -20,7 +20,7 @@ import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class LocalRequest extends Request {
-    
+
 
 	private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
 	private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
@@ -63,7 +63,7 @@ public class LocalRequest extends Request {
 		OutputStreamWriter out = null;
 		HttpURLConnection conn = null;
 		int responseCode;
-		
+
 		try {
 			URL urlConn = new URL(mUrl);
 			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
@@ -122,13 +122,14 @@ public class LocalRequest extends Request {
             ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse");
             return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
         }
-        
+
         String data = decryptData(cypher);
         if (data == null) {
         	ALog.e(ALog.LOCALREQUEST, "Request failed - failed to decrypt");
         	return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
         }
-        
+
+        ALog.i(ALog.LOCALREQUEST, "Received data: " + data);
         return new Response(data, null, mResponseHandler);
     }
 

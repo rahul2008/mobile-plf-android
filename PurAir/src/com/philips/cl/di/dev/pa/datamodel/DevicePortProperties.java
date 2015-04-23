@@ -5,7 +5,7 @@ public class DevicePortProperties {
 	private String type ;
 	private String modelid ;
 	private String swversion ;
-	
+
 	public String getName() {
 		return name;
 	}

@@ -58,11 +58,11 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         try {
             devicePortInfo = gson.fromJson(response, DevicePortProperties.class);
         } catch (JsonSyntaxException e) {
-            ALog.e(ALog.PARSER, "JsonSyntaxException");
+            ALog.e(ALog.DEVICEPORT, "JsonSyntaxException");
         } catch (JsonIOException e) {
-            ALog.e(ALog.PARSER, "JsonIOException");
+            ALog.e(ALog.DEVICEPORT, "JsonIOException");
         } catch (Exception e2) {
-            ALog.e(ALog.PARSER, "Exception");
+            ALog.e(ALog.DEVICEPORT, "Exception");
         }
         return devicePortInfo;
     }

@@ -18,7 +18,7 @@ public class SessionDto {
 	private HashMap<String, IndoorTrendDto> indoorTrendsHashMap;
 	
 	private DevicePortProperties deviceDto ;
-	private DeviceWifiDto deviceWifiDto ;
+	private WifiPortProperties deviceWifiDto ;
 	/**
 	 * Get the indoor trend from Hashmap using Purifier eui64
 	 * @param purifierEui64
@@ -44,11 +44,11 @@ public class SessionDto {
 		this.deviceDto = deviceDto;
 	}
 	
-	public DeviceWifiDto getDeviceWifiDto() {
+	public WifiPortProperties getDeviceWifiDto() {
 		return deviceWifiDto;
 	}
 
-	public void setDeviceWifiDto(DeviceWifiDto deviceWifiDto) {
+	public void setDeviceWifiDto(WifiPortProperties deviceWifiDto) {
 		this.deviceWifiDto = deviceWifiDto;
 	}
 

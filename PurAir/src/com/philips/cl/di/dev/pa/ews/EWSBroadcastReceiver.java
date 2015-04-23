@@ -23,7 +23,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
-import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
+import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
@@ -243,7 +243,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		
+
 		DISecurity diSecurity = new DISecurity();
         CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
         NetworkNode networkNode = new NetworkNode();
@@ -252,7 +252,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setName(null);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
+
         tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy, null);
 	}
 
@@ -268,7 +268,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setName(purifierName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
+
         tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy, null);
         // TODO DIComm Refactor - remove this line
         tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
@@ -360,7 +360,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity().decryptData(response, tempEWSPurifier.getNetworkNode());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
-					DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(decryptedResponse);
+					WifiPortProperties deviceWifiDto = DataParser.getDeviceWifiDetails(decryptedResponse);
 
 					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 

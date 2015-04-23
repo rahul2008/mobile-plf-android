@@ -13,11 +13,11 @@ import android.util.Log;
  * Custom log class:
  * - Defines all log tags
  * - Intercepts logs so more processing is possible
- * 
+ *
  * @author jmols
  */
 public class ALog {
-	
+
 	public static final String TEMP = "Temp"; // Use for temporary logs during development
 	public static final String ERROR = "Error"; // Use to log errors
 	public static final String APPLICATION = "PurAirApplication";
@@ -68,16 +68,17 @@ public class ALog {
 	public static final String APPLIANCE = "Appliance";
 	public static final String AIRPORT = "AirPort";
 	public static final String DEVICEPORT = "DevicePort";
+	public static final String WIFIPORT = "WifiPort";
 	public static final String FIRMWAREPORT = "FirmwarePort";
 	public static final String SCHEDULELISTPORT = "ScheduleListPort";
 	public static final String LOCALREQUEST = "LocalRequest";
 	public static final String REMOTEREQUEST = "RemoteRequest";
 	public static final String REQUESTQUEUE = "RequestQueue";
-	
+
 	private static boolean isLoggingEnabled = true;
-	
+
 	private static boolean isSaveToFileEnabled = false;
-	
+
 	public static void initLoggingToFile() {
 		if(!isSaveToFileEnabled) return;
 		try {
@@ -86,15 +87,15 @@ public class ALog {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void enableLogging() {
 		isLoggingEnabled = true;
 	}
-	
+
 	public static void disableLogging() {
 		isLoggingEnabled = false;
 	}
-	
+
 	public static boolean isLoggingEnabled() {
 		return isLoggingEnabled;
 	}
@@ -105,35 +106,35 @@ public class ALog {
 			writeToFile(tag + " : "+message);
 		}
 	}
-	
+
 	public static void e(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.e(tag, message);
 			writeToFile(tag + " : "+message);
 		}
 	}
-	
+
 	public static void i(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.i(tag, message);
 			writeToFile(tag + " : "+message);
 		}
 	}
-	
+
 	public static void v(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.v(tag, message);
 			writeToFile(tag + " : "+message);
 		}
 	}
-	
+
 	public static void w(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.w(tag, message);
 			writeToFile(tag + " : "+message);
 		}
-	}	
-	
+	}
+
 	public static BufferedWriter out;
 	@SuppressWarnings("deprecation")
 	private static void createFileOnDevice(Boolean append) throws IOException {
@@ -151,7 +152,7 @@ public class ALog {
 			out.write("Logged at" + String.valueOf(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds() + "\n"));
 		}
 	}
-	
+
 	private static boolean isExternalStorageWritable() {
 		if(!isSaveToFileEnabled) return false;
 	    String state = Environment.getExternalStorageState();
@@ -171,7 +172,7 @@ public class ALog {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void finishLoggingToFile() {
 		if(!isSaveToFileEnabled) return;
 		try {

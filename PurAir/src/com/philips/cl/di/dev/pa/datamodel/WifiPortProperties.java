@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.datamodel;
 
-public class DeviceWifiDto {
+public class WifiPortProperties {
+
 	private String ssid;
 	private String password;
 	private String protection;

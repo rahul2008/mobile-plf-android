@@ -15,7 +15,7 @@ import android.os.CountDownTimer;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
-import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
+import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -181,7 +181,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setName(DemoModeConstant.DEMO);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
+
         tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy, null);
 	}
 
@@ -199,7 +199,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setName(purifierName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
+
         tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy, null);
         // TODO DIComm Refactor - remove this line
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
@@ -262,7 +262,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 						responseData, tempDemoModePurifier.getNetworkNode());
 				if (decryptedResponse != null) {
 					ALog.i(ALog.DEMO_MODE, decryptedResponse);
-					DeviceWifiDto deviceWifiDto = DataParser
+					WifiPortProperties deviceWifiDto = DataParser
 							.getDeviceWifiDetails(decryptedResponse);
 
 					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto);
