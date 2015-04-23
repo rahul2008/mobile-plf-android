@@ -26,7 +26,9 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.CPPController.SignonState;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
+import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData.PurifierCurrentCityPercentListener;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -35,9 +37,11 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
+import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -48,12 +52,14 @@ import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailFragment extends BaseFragment implements OnClickListener,
-		ICPDownloadListener, PurifierCurrentCityPercentListener {
-	
+ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
+
 	private final static int DOWNLOAD_FAILED = 1;
 	private final static int DOWNLOAD_NA = 2;
 	private final static int DOWNLOAD_COMPLETE = 3;
 	private final static int OUTDOOR_TASK_COMPLETE = 4;
+	private final static int AUTHENTICATION_FAILED = 5;
+
 	private AirPurifier currentPurifier;
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
@@ -75,14 +81,14 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good); 
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.indoor_detail_fragment, container, false);
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -100,12 +106,36 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 
 		downloadAQIHistoricData();
 	}
-	
+
+	@Override
+	public void onResume() {
+		getCPPControllerInstance().addSignOnListener(this);
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		getCPPControllerInstance().removeSignOnListener(this);
+		super.onPause();
+	}
+
 	private void downloadAQIHistoricData() {
-		if (currentPurifier == null) return;
-		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
-		CPPController.getInstance(getMainActivity()).setDownloadDataListener(this) ;
-		CPPController.getInstance(getMainActivity()).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
+		ALog.i("SIGNON", "SIGNON-downloadAQIHistoricData:  " + getCPPControllerInstance().getSignOnState() + " pair: " + currentPurifier.getNetworkNode().getPairedState());
+		//If purifier in demo mode, skip download data
+		if (PurAirApplication.isDemoModeEnable() || currentPurifier == null) {
+			handlerDownload.sendEmptyMessage(DOWNLOAD_FAILED);
+			return;
+		}
+
+		if (getCPPControllerInstance().getSignOnState() == SignonState.SIGNED_ON 
+				&& currentPurifier.getNetworkNode().getPairedState() == PAIRED_STATUS.PAIRED) {
+			rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
+			getCPPControllerInstance().setDownloadDataListener(this) ;
+			getCPPControllerInstance().downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
+		} else if (getCPPControllerInstance().getSignOnState() == SignonState.NOT_SIGON 
+				|| currentPurifier.getNetworkNode().getPairedState() != PAIRED_STATUS.PAIRED){
+			handlerDownload.sendEmptyMessage(AUTHENTICATION_FAILED);
+		}
 	}
 
 	/**
@@ -113,7 +143,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	 * */
 	private void init() {
 		initList();
-		
+
 		View view = getView();
 		graphLayout = (LinearLayout) view.findViewById(R.id.trendsOutdoorlayoutGraph);
 
@@ -131,7 +161,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 
 		initClickListener();
 	}
-	
+
 	@SuppressLint("UseSparseArrays")
 	private void initList() {
 		lastDayRDCPValuesMap = new HashMap<Integer, float[]>();
@@ -140,14 +170,14 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		goodAirInfos = new ArrayList<Integer>();
 		currentCityGoodAirInfos = new ArrayList<Integer>();
 	}
-	
+
 	private void initClickListener() {
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
 		airQualityExplainFB.setOnClickListener(this);
 	}
-	
+
 	/**
 	 * Parsing reading
 	 * */
@@ -232,12 +262,12 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		removeChildViewFromBar();
 		addBarChartView(indoorBarChart, goodAirInfos, index);
 		showOutdoorBarChart();
-		
+
 		if (getMainActivity() != null && rdcpValuesMap != null && rdcpValuesMap.size() > 0) {
 			graphLayout.addView(new GraphView(getMainActivity(), rdcpValuesMap));
 		}	
 	}
-	
+
 	private void addBarChartView(ViewGroup viewGroup, List<Integer> goodAirList, int index) {
 		if (getMainActivity() != null && goodAirList != null && goodAirList.size() > 2) {
 			FontTextView percentTxt = new FontTextView(getMainActivity());
@@ -305,25 +335,24 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 			ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Show alert dialog AQI historic data download failed
 	 */
 	private void showAlertDialogHistoryDoawnload(String title, String message) {
 		if (getMainActivity() == null) return;
-		if (PurAirApplication.isDemoModeEnable()
-				 && OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
+		if (DashboardUtil.isAppInDemoMode()) {
 			addDummyDataForDemoMode();
 		} else {
 			try {
 				FragmentTransaction fragTransaction = getMainActivity().getSupportFragmentManager().beginTransaction();
-				
+
 				Fragment prevFrag = getMainActivity().getSupportFragmentManager()
 						.findFragmentByTag("alert_aqi_historic_download_failed");
 				if (prevFrag != null) {
 					fragTransaction.remove(prevFrag);
 				}
-				
+
 				fragTransaction.add(DownloadAlerDialogFragement.
 						newInstance(title, message), "alert_aqi_historic_download_failed").commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
@@ -337,7 +366,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		lastDayRDCPValuesMap.put(Color.GRAY, DummyData.lastDayIndoorAQIs);
 		last7daysRDCPValuesMap.put(Color.GRAY, DummyData.lastWeekIndoorAQIs);
 		last4weeksRDCPValuesMap.put(Color.GRAY, DummyData.lastMonthIndoorAQIs);
-		
+
 		goodAirInfos.clear();
 		currentCityGoodAirInfos.clear();
 		goodAirInfos.add(100);
@@ -353,7 +382,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private final Handler handlerDownload = new Handler() {
 		public void handleMessage(Message msg) {
 			if (getMainActivity() == null) return;
-			
+
 			switch (msg.what) {
 			case DOWNLOAD_NA:
 				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
@@ -363,6 +392,11 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 			case DOWNLOAD_FAILED:
 				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
 						getString(R.string.aqi_history_download_failed));
+				rdcpDownloadProgressBar.setVisibility(View.GONE);
+				break;
+			case AUTHENTICATION_FAILED:
+				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
+						getString(R.string.aqi_history_download_authentication_failed));
 				rdcpDownloadProgressBar.setVisibility(View.GONE);
 				break;
 			case DOWNLOAD_COMPLETE:
@@ -377,7 +411,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 			}
 		};
 	};
-	
+
 	private void updateOutdoorBarChart() {
 		if (currentPurifier != null) {
 			addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
@@ -396,9 +430,9 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		if( status == Errors.SUCCESS ) {
 			if (downloadedData != null && !downloadedData.isEmpty()) {
 				Utils.getIndoorAqiValues(downloadedData, currentPurifier.getNetworkNode().getCppId()) ;
-				
+
 				IndoorTrendDto inDto = SessionDto.getInstance().getIndoorTrendDto(eui64);
-				
+
 				if (inDto != null) {
 					hrlyAqiValues = inDto.getHourlyList() ;
 					dailyAqiValues = inDto.getDailyList() ;
@@ -421,23 +455,23 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		if (!goodAirInfos.isEmpty())  goodAirInfos.clear();
 		goodAirInfos.addAll(trendDto.getGoodAirQualityList());
 	}
-	
+
 	private void addCurrentCityGoodAQIIntoList(List<Integer> goodAQ) {
 		if (goodAQ == null || goodAQ.isEmpty()) return;
 		if (!currentCityGoodAirInfos.isEmpty())  currentCityGoodAirInfos.clear();
 		currentCityGoodAirInfos.addAll(goodAQ);
 	}
-	
+
 	private void showOutdoorBarChart() {
 		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
 			addBarChartView(outdoorBarChart, currentCityGoodAirInfos, dayIndex);
 		}
 	}
-	
+
 	private MainActivity getMainActivity() {
 		return (MainActivity) getActivity();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -447,12 +481,26 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 		handlerDownload.removeMessages(DOWNLOAD_NA);
 		handlerDownload.removeMessages(DOWNLOAD_FAILED);
 		handlerDownload.removeMessages(OUTDOOR_TASK_COMPLETE);
+		handlerDownload.removeMessages(AUTHENTICATION_FAILED);
 	}
 
 	//Current city percentage calculation task
 	@Override
 	public void onTaskComplete() {
 		handlerDownload.sendEmptyMessage(OUTDOOR_TASK_COMPLETE);
+	}
+
+	@Override
+	public void signonStatus(boolean signon) {
+		if (signon) {
+			downloadAQIHistoricData();
+		} else {
+			handlerDownload.sendEmptyMessage(AUTHENTICATION_FAILED);
+		}
+	}
+
+	private CPPController getCPPControllerInstance() {
+		return CPPController.getInstance(getActivity());
 	}
 
 }

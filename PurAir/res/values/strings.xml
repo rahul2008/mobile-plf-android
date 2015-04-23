@@ -181,6 +181,7 @@
     <string name="purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
     <string name="aqi_history">Air Quality History</string>
     <string name="aqi_history_download_failed">Air Quality historic data download failed!</string>
+    <string name="aqi_history_download_authentication_failed">The App is not yet allowed to display indoor data for this Purifier!</string>
     <string name="aqi_history_not_avialable">Air Quality historic data not available!</string>
     <string name="indoor_db">Indoor</string>
     <string name="outdoor_db">Outdoor</string>

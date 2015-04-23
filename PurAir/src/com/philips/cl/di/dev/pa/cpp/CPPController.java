@@ -104,6 +104,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		PROVISIONING,
 		PROVISIONED
 	}
+	
+	public enum SignonState {
+		NOT_SIGON,
+		SIGNING,
+		SIGNED_ON
+	}
+	
+	private SignonState signonState = SignonState.NOT_SIGON;
 
 	private KEY_PROVISION keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 	private boolean appUpdateAlertShown;
@@ -239,6 +247,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if(! isSignOn ) {
 			ALog.i(ALog.ICPCLIENT, "onSignOn");
 			isSignOn = true ;
+			signonState = SignonState.SIGNING;
 
 			if( callbackHandler == null) {
 				callbackHandler = new ICPCallbackHandler();
@@ -250,6 +259,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			int rv = signon.executeCommand();
 			if( rv != Errors.SUCCESS ) {
 				isSignOn = false ;
+				signonState = SignonState.NOT_SIGON;
 			}
 		}
 	}
@@ -528,20 +538,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
-		//If purifier in demo mode, skip download data
-		if (PurAirApplication.isDemoModeEnable()) {
-			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
-			return;
-		}
-		ALog.i(ALog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + isSignOn);
+		ALog.i("SIGNON", "Download RDCP");
+		ALog.i(ALog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + isSignOn + "state: " + signonState);
 		try {
-			if (isSignOn) {
-				downloadData = new DownloadData(callbackHandler);
-				downloadData.setDownloadDataDetails(query, 2048, 0, 0);
-				downloadData.executeCommand();
-			} else {
-				notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
-			}
+			downloadData = new DownloadData(callbackHandler);
+			downloadData.setDownloadDataDetails(query, 2048, 0, 0);
+			downloadData.executeCommand();
 		} catch (IllegalArgumentException e) {
 			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
@@ -578,11 +580,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		case Commands.SIGNON:
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.ICPCLIENT, "SIGNON-SUCCESSFUL") ;
+				ALog.i("SIGNON", "SIGNON-SUCCESSFUL");
 				isSignOn = true;
+				signonState = SignonState.SIGNED_ON;
 				notifySignOnListeners(true);
 			} else {
 				ALog.e(ALog.ICPCLIENT, "SIGNON-FAILED") ;
+				ALog.i("SIGNON", "SIGNON-FAILED");
 				isSignOn = false ;
+				signonState = SignonState.NOT_SIGON;
 				notifySignOnListeners(false);
 			}
 			break;
@@ -1016,5 +1022,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	
 	private String generateTemporaryAppCppId() {
 		return String.format("deadbeef%08x",new Random().nextInt());
+	}
+	
+	public SignonState getSignOnState() {
+		return signonState;
 	}
 }
