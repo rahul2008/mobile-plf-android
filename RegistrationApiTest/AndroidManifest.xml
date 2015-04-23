@@ -6,8 +6,13 @@
 
     <uses-sdk android:minSdkVersion="10" />
 
-    <!-- android:name="android.test.InstrumentationTestRunner" -->
-    <instrumentation
+    <!-- Eclipse Testing -->
+<!--     <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.philips.cl.di.regsample.app" /> -->
+    
+    <!-- Jenkin Testing -->
+     <instrumentation
         android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
         android:targetPackage="com.philips.cl.di.regsample.app" />
 
