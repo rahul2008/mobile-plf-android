@@ -1,5 +1,8 @@
 package com.philips.cl.di.dicomm.port;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
@@ -11,7 +14,14 @@ import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public class WifiPort extends DICommPort<WifiPortProperties> {
 
-	public WifiPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+	private static final String KEY_GATEWAY = "gateway";
+    private static final String KEY_SUBNETMASK = "netmask";
+    private static final String KEY_DHCP = "dhcp";
+    private static final String KEY_IPADDRESS = "ipaddress";
+    private static final String KEY_WIFIPASSWORD = "password";
+    private static final String KEY_WIFISSID = "ssid";
+
+    public WifiPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
 		super(networkNode, communicationStrategy);
 	}
 
@@ -66,5 +76,23 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
 			ALog.e(ALog.WIFIPORT, "Exception");
 		}
 		return wifiPortProperties;
+	}
+	
+	public void setWifiNetworkDetails(String ssid, String password) {
+	    Map<String, Object> dataMap = new HashMap<String, Object>();
+	    dataMap.put(KEY_WIFISSID, ssid);
+        dataMap.put(KEY_WIFIPASSWORD, password);
+        putProperties(dataMap);
+	}
+	
+	public void setWifiNetworkDetails(String ssid, String password, String ipAddress, boolean dhcp, String subnetMask, String gateWay) {
+	    Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put(KEY_WIFISSID, ssid);
+        dataMap.put(KEY_WIFIPASSWORD, password);
+        dataMap.put(KEY_IPADDRESS, ipAddress);
+        dataMap.put(KEY_DHCP, dhcp);
+        dataMap.put(KEY_SUBNETMASK, subnetMask);
+        dataMap.put(KEY_GATEWAY, gateWay);
+        putProperties(dataMap);
 	}
 }

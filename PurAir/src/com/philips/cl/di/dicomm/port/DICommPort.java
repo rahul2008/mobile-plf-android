@@ -74,6 +74,13 @@ public abstract class DICommPort<T> {
     	tryToPerformNextRequest();
     }
 
+    public void putProperties(Map<String, Object> dataMap){
+        synchronized (mPutPropertiesMap) {
+            mPutPropertiesMap.putAll(dataMap);
+        }
+        tryToPerformNextRequest();
+    }
+
     public void getProperties(){
     	mGetPropertiesRequested = true;
     	tryToPerformNextRequest();

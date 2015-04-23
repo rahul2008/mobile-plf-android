@@ -34,6 +34,8 @@ public abstract class Request {
 				builder.append("\"").append(key).append("\":\"").append(dataMap.get(key)).append("\"");
 			} else if (value instanceof Integer) {
 				builder.append("\"").append(key).append("\":").append(dataMap.get(key));
+			} else if (value instanceof Boolean) {
+			    builder.append("\"").append(key).append("\":").append(dataMap.get(key));
 			} else {
 				builder.append("\"").append(key).append("\":\"").append(dataMap.get(key)).append("\"");
 			}

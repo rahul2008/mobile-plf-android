@@ -13,6 +13,8 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
 
     private final String DEVICEPORT_NAME = "device";
     private final int DEVICEPORT_PRODUCTID = 1;
+    
+    private static final String KEY_DEVICENAME = "name";
 
     public DevicePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         super(networkNode, communicationStrategy);
@@ -66,5 +68,8 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         }
         return devicePortInfo;
     }
-
-}
+    
+    public void setDeviceName(String name){
+        putProperties(KEY_DEVICENAME, name);
+    }
+ }

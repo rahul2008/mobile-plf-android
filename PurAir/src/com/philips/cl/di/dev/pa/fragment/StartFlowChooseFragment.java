@@ -28,7 +28,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
@@ -41,19 +40,19 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.security.DISecurity;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPropertyUpdateHandler;
+import com.philips.cl.di.dicomm.port.WifiPort;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
+OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
 	private ListView discoveredPurifierListView;
 	private AirPurifier selectedPurifier;
-	private DemoModeTask connectTask;
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
 	private List<AirPurifier> appItems;
@@ -173,9 +172,6 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 
 		@Override
 		public void onFinish() {
-			if (connectTask != null) {
-				connectTask.stopTask();
-			}
 			showErrorOnConnectPurifier();
 		}
 	};
@@ -196,14 +192,18 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	private void getWifiDetails() {
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
-		// TODO DIComm Refactor - Fix connectivity check
-//		if (selectedPurifier == null) return;
-//		connectTimer.start();
-//		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
-//				selectedPurifier.getNetworkNode().getIpAddress()), "", "GET");
-//		connectTask.start();
-        stopSSIDTimer();
-		onSuccessfullyConnected();
+		final WifiPort wifiPort = selectedPurifier.getWifiPort();
+		wifiPort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+            
+            @Override
+            public void handlePropertyUpdateForPort(DICommPort<?> port) {
+                wifiPort.unregisterPropertyUpdateHandler(this);
+                stopSSIDTimer();
+                onSuccessfullyConnected();
+            }
+        });
+		// TODO DIComm Refactor - See if key exchange retries are necessary
+		wifiPort.getProperties();
 	}
 
 	private void onSuccessfullyConnected() {
@@ -247,31 +247,6 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		getWifiDetails();
 	}
 	
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
-
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData,
-			final String fromIp) {
-
-		final String decryptedResponse = new DISecurity().decryptData(responseData, selectedPurifier.getNetworkNode());
-
-		if (getActivity() != null) {
-			getActivity().runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					if (decryptedResponse != null) {
-						ALog.i(ALog.MANAGE_PUR, decryptedResponse);
-
-						stopSSIDTimer();
-						onSuccessfullyConnected();
-					}
-				}
-			});
-		}
-	}
-
 	@Override
 	public void noWifiTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 

@@ -60,10 +60,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	public synchronized void setCurrentPurifier(AirPurifier purifier) {
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
 		
-		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			mCurrentPurifier.unsubscribe();
-		}
-		
 		stopCurrentSubscription();
 		if(mCurrentPurifier!=null){
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
