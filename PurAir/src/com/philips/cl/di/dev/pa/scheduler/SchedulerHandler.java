@@ -161,7 +161,7 @@ public class SchedulerHandler implements ServerResponseListener {
 			//TODO: DICOMM Refactor, check if decryption is required			
 			mListener.onSuccess(data);
 		} else {
-			mListener.onError(Error.SCHEDULER) ; 
+			mListener.onError(Error.SCHEDULER, data) ; 
 		}
 	}
 }

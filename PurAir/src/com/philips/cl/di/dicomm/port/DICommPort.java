@@ -229,7 +229,7 @@ public abstract class DICommPort<T> {
 				mIsApplyingChanges = false;
 			}
 
-			public void onError(Error error) {
+			public void onError(Error error, String errorData) {
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
 				mIsApplyingChanges = false;
@@ -247,7 +247,7 @@ public abstract class DICommPort<T> {
 			}
 
 			@Override
-			public void onError(Error error) {
+			public void onError(Error error, String errorData) {
 				mGetPropertiesRequested = false;
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
@@ -266,7 +266,7 @@ public abstract class DICommPort<T> {
 			}
 
 			@Override
-			public void onError(Error error) {
+			public void onError(Error error, String errorData) {
 				mSubscribeRequested = false;
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();
@@ -285,7 +285,7 @@ public abstract class DICommPort<T> {
 			}
 
 			@Override
-			public void onError(Error error) {
+			public void onError(Error error, String errorData) {
 				mUnsubscribeRequested = false;
 				notifyPropertyErrorHandlers(error);
 				requestCompleted();

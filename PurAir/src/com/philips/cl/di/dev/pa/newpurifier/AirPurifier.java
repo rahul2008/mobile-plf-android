@@ -119,7 +119,7 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 	}
 
 	@Override
-	public void onError(Error error) {
+	public void onError(Error error, String errorData) {
 		if(mPurifierListener==null) return;
 
 		switch (error) {

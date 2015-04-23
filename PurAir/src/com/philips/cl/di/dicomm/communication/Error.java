@@ -12,7 +12,7 @@ public enum Error {
 	NOTCONNECTED("Request cannot be performed - Not connected to an appliance"),
 	SCHEDULER("");
 
-	private final String mErrorMessage;
+    private final String mErrorMessage;
 	
 	Error(String errorMessage){		
 		mErrorMessage = errorMessage;		

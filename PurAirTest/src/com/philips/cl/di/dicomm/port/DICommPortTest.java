@@ -131,7 +131,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.subscribe();
 		verifySubscribeCalled(false);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifySubscribeCalled(true);
 	}
 
@@ -143,7 +143,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(false);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifyUnsubscribeCalled(true);
 	}
 
@@ -154,7 +154,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifyGetPropertiesCalled(true);
 	}
 
@@ -167,7 +167,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(false);
 
-		responseHandler.onError(null);
+		responseHandler.onError(null, null);
 		verifyPutPropertiesCalled(true);
 	}
 
@@ -176,7 +176,7 @@ public class DICommPortTest extends MockitoTestCase{
 		verifyPutPropertiesCalled(true);
 		reset(mCommunicationStrategy);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifyPutPropertiesCalled(false);
 	}
 
@@ -211,7 +211,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifyGetPropertiesCalled(true);
 	}
 
@@ -220,7 +220,7 @@ public class DICommPortTest extends MockitoTestCase{
 		verifySubscribeCalled(true);
 		reset(mCommunicationStrategy);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifySubscribeCalled(false);
 	}
 
@@ -254,7 +254,7 @@ public class DICommPortTest extends MockitoTestCase{
 		verifyUnsubscribeCalled(true);
 		reset(mCommunicationStrategy);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifyUnsubscribeCalled(false);
 	}
 
@@ -265,7 +265,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
 
-		mResponseHandlerCaptor.getValue().onError(null);
+		mResponseHandlerCaptor.getValue().onError(null, null);
 		verifyGetPropertiesCalled(true);
 	}
 
@@ -291,7 +291,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.getProperties();
 		verifyGetPropertiesCalled(false);
 
-		responseHandler.onError(null);
+		responseHandler.onError(null, null);
 		verifyGetPropertiesCalled(false);
 	}
 

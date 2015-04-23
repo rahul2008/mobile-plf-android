@@ -94,7 +94,7 @@ public class LocalStrategy extends CommunicationStrategy {
             }
             
             @Override
-            public void onError(Error error) {
+            public void onError(Error error, String errorData) {
                 isKeyExchangeOngoing = false;
             }
         });

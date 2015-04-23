@@ -14,7 +14,7 @@ public class Response {
 	
 	public void notifyResponseHandler(){
 		if(mError!=null){
-			mResponseHandler.onError(mError);
+			mResponseHandler.onError(mError, mResponse);
 		}else{
 			mResponseHandler.onSuccess(mResponse);
 		}
