@@ -10,12 +10,12 @@ public abstract class DIPropertyErrorHandler {
 	}
 
 	// Hide this method for subclasses
-	void handleErrorForPortIfEnabled(DICommPort<?> port, Error error) {
+	void handleErrorForPortIfEnabled(DICommPort<?> port, Error error, String errorData) {
 		if (isEnabled) {
-			handleErrorForPort(port, error);
+			handleErrorForPort(port, error, errorData);
 		}
 	}
 
-	public abstract void handleErrorForPort(DICommPort<?> port, Error error);
+	public abstract void handleErrorForPort(DICommPort<?> port, Error error, String errorData);
 
 }

@@ -145,10 +145,10 @@ public abstract class DICommPort<T> {
 		}
     }
 
-    private void notifyPropertyErrorHandlers(Error error) {
+    private void notifyPropertyErrorHandlers(Error error, String errorData) {
         ArrayList<DIPropertyErrorHandler> copyPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>(mPropertyErrorHandlers);
 		for (DIPropertyErrorHandler handler : copyPropertyErrorHandlers) {
-			handler.handleErrorForPortIfEnabled(this, error);
+			handler.handleErrorForPortIfEnabled(this, error, errorData);
 		}
     }
 
@@ -230,7 +230,7 @@ public abstract class DICommPort<T> {
 			}
 
 			public void onError(Error error, String errorData) {
-				notifyPropertyErrorHandlers(error);
+				notifyPropertyErrorHandlers(error, errorData);
 				requestCompleted();
 				mIsApplyingChanges = false;
 			}
@@ -249,7 +249,7 @@ public abstract class DICommPort<T> {
 			@Override
 			public void onError(Error error, String errorData) {
 				mGetPropertiesRequested = false;
-				notifyPropertyErrorHandlers(error);
+				notifyPropertyErrorHandlers(error, errorData);
 				requestCompleted();
 			}
 		});
@@ -268,7 +268,7 @@ public abstract class DICommPort<T> {
 			@Override
 			public void onError(Error error, String errorData) {
 				mSubscribeRequested = false;
-				notifyPropertyErrorHandlers(error);
+				notifyPropertyErrorHandlers(error, errorData);
 				requestCompleted();
 			}
 		});
@@ -287,7 +287,7 @@ public abstract class DICommPort<T> {
 			@Override
 			public void onError(Error error, String errorData) {
 				mUnsubscribeRequested = false;
-				notifyPropertyErrorHandlers(error);
+				notifyPropertyErrorHandlers(error, errorData);
 				requestCompleted();
 			}
 		});
