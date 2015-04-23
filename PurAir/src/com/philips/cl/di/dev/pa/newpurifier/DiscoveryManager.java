@@ -28,6 +28,7 @@ import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -140,7 +141,10 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	public void removeFromDiscoveredList(String eui64) {
 		if (eui64 == null || eui64.isEmpty()) return;
-		mDevicesMap.remove(eui64);
+		AirPurifier airPurifier = mDevicesMap.remove(eui64);
+		if(airPurifier!=null){
+		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(null);
+		}
 	}
 
 	public void updatePairingStatus(String eui64, NetworkNode.PAIRED_STATUS state) {
@@ -597,7 +601,16 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         
-        AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
+        
+        final AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
+
+        networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+            @Override
+            public void onKeyUpdate() {
+                mDatabase.updatePurifierUsingUsn(purifier);
+            }
+        });
+        
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 

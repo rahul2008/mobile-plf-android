@@ -9,7 +9,11 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 
 public class NetworkNode extends Observable implements Parcelable {
-	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING}
+	public static enum PAIRED_STATUS { PAIRED, NOT_PAIRED, UNPAIRED, PAIRING }
+	
+	public interface EncryptionKeyUpdatedListener{
+	    public void onKeyUpdate( );
+	}
 
 	private String mIpAddress;
 	private String mCppId;
@@ -24,6 +28,8 @@ public class NetworkNode extends Observable implements Parcelable {
 	private boolean mIsOnlineViaCpp = false;
 	private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
 	private long mLastPairedTime;
+	
+	private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
 	
 	private final int mDICommProtocolVersion = 1;
 
@@ -104,7 +110,11 @@ public class NetworkNode extends Observable implements Parcelable {
 	}
 
 	public synchronized void setEncryptionKey(String encryptionKey) {
-		this.mEncryptionKey = encryptionKey;
+	    String oldEncryptionKey = mEncryptionKey;
+        this.mEncryptionKey = encryptionKey;
+	    if(mEncryptionKey != oldEncryptionKey && encryptionKeyUpdatedListener != null){
+	        encryptionKeyUpdatedListener.onKeyUpdate();
+	    }
 	}
 	
 	public synchronized boolean isOnlineViaCpp() {
@@ -197,4 +207,8 @@ public class NetworkNode extends Observable implements Parcelable {
 				.append(getHomeSsid());
 		return builder.toString();
 	}
+
+    public void setEncryptionKeyUpdatedListener(EncryptionKeyUpdatedListener encryptionKeyUpdatedListener) {
+        this.encryptionKeyUpdatedListener = encryptionKeyUpdatedListener;
+    }
 }
