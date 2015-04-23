@@ -110,9 +110,9 @@ public class NetworkNode extends Observable implements Parcelable {
 	}
 
 	public synchronized void setEncryptionKey(String encryptionKey) {
-	    String oldEncryptionKey = mEncryptionKey;
+	    boolean isKeyUpdated = mEncryptionKey != encryptionKey;
         this.mEncryptionKey = encryptionKey;
-	    if(mEncryptionKey != oldEncryptionKey && encryptionKeyUpdatedListener != null){
+        if(isKeyUpdated && encryptionKeyUpdatedListener != null){
 	        encryptionKeyUpdatedListener.onKeyUpdate();
 	    }
 	}

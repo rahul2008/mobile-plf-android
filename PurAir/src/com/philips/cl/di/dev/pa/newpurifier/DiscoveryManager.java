@@ -136,7 +136,16 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	public List<AirPurifier> updateStoreDevices() {
-		return storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
+		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
+		for (final AirPurifier airPurifier : storedDevices) {
+		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+                @Override
+                public void onKeyUpdate() {
+                    mDatabase.updatePurifierUsingUsn(airPurifier);
+                }
+            });
+        }
+		return storedDevices;
 	}
 
 	public void removeFromDiscoveredList(String eui64) {
@@ -601,7 +610,6 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         
-        
         final AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
 
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
@@ -654,10 +662,16 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mDevicesMap = new LinkedHashMap<String, AirPurifier>();
 		// Disconnected by default to allow SSDP to discover first and only after try cpp
 		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-
-		for (AirPurifier device : storedDevices) {
-			mDevicesMap.put(device.getNetworkNode().getCppId(), device);
-		}
+		
+		for (final AirPurifier airPurifier : storedDevices) {
+		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+	            @Override
+	            public void onKeyUpdate() {
+	                mDatabase.updatePurifierUsingUsn(airPurifier);
+	            }
+	        });
+            mDevicesMap.put(airPurifier.getNetworkNode().getCppId(), airPurifier);
+        }
 	}
 
 	private void notifyDiscoveryListener() {
