@@ -22,6 +22,7 @@ import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
@@ -171,9 +172,17 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
 	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), tempEui64, null,
-				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
-				ConnectionState.CONNECTED_LOCALLY);
+
+		DISecurity diSecurity = new DISecurity();
+        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(-1);
+        networkNode.setCppId(tempEui64);
+        networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
+        networkNode.setName(DemoModeConstant.DEMO);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy, null);
 	}
 
 	private void updateTempDevice(String eui64) {
@@ -181,10 +190,20 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			return;
 		String encryptionKey = tempDemoModePurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = DemoModeConstant.DEMO;
-		tempDemoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()),eui64, null,
-				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,
-				ConnectionState.CONNECTED_LOCALLY);
+
+        DISecurity diSecurity = new DISecurity();
+        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(-1);
+        networkNode.setCppId(eui64);
+        networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
+        networkNode.setName(purifierName);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy, null);
+        // TODO DIComm Refactor - remove this line
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
+
 		AirPurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
 		PurAirApplication.setDemoModePurifier(eui64);
 	}

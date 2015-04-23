@@ -12,6 +12,7 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierListener;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
@@ -40,7 +41,14 @@ public class AirPurifierTest extends InstrumentationTestCase {
 		// Necessary to get Mockito framework working
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-		purifier = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, PURIFIER_USN, PURIFIER_IP, PURIFIER_NAME, PURIFIER_BOOTID, ConnectionState.CONNECTED_LOCALLY);
+		NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(PURIFIER_BOOTID);
+        networkNode.setCppId(PURIFIER_EUI64);
+        networkNode.setIpAddress(PURIFIER_IP);
+        networkNode.setName(PURIFIER_NAME);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+		
+		purifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class), PURIFIER_USN);
 
 		mPurifierListener = mock(PurifierListener.class);
 		purifier.setPurifierListener(mPurifierListener);

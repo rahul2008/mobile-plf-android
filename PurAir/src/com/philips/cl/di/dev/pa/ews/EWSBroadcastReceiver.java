@@ -27,6 +27,7 @@ import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -242,16 +243,35 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private void generateTempEWSDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), tempEui64, null,
-				EWSConstant.PURIFIER_ADHOCIP, null, -1,	ConnectionState.CONNECTED_LOCALLY);
+		
+		DISecurity diSecurity = new DISecurity();
+        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(-1);
+        networkNode.setCppId(tempEui64);
+        networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
+        networkNode.setName(null);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy, null);
 	}
 
 	private void updateTempDevice(String eui64) {
 		String encryptionKey = tempEWSPurifier.getNetworkNode().getEncryptionKey();
 		String purifierName = tempEWSPurifier.getNetworkNode().getName();
-		tempEWSPurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), eui64, null,
-				EWSConstant.PURIFIER_ADHOCIP, purifierName, -1,	ConnectionState.CONNECTED_LOCALLY);
-		tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
+
+        DISecurity diSecurity = new DISecurity();
+        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(-1);
+        networkNode.setCppId(eui64);
+        networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
+        networkNode.setName(purifierName);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy, null);
+        // TODO DIComm Refactor - remove this line
+        tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}
 
 //	@Override

@@ -590,7 +590,14 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		DISecurity diSecurity = new DISecurity();
         CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
-        AirPurifier purifier = new AirPurifier(communicationStrategy, eui64, usn, ipAddress, name, bootId, ConnectionState.CONNECTED_LOCALLY);
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(bootId);
+        networkNode.setCppId(eui64);
+        networkNode.setIpAddress(ipAddress);
+        networkNode.setName(name);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 

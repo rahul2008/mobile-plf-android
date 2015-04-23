@@ -34,9 +34,8 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	private PurifierListener mPurifierListener;
 
-	public AirPurifier(CommunicationStrategy communicationStrategy, String eui64, String usn, String ipAddress, String name,
-			long bootId, ConnectionState connectionState) {
-	    super(communicationStrategy, eui64, usn, ipAddress, name, bootId, connectionState);
+	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
+	    super(networkNode, communicationStrategy);
 		mUsn = usn;
 		
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
@@ -50,9 +49,8 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
         addPort(mScheduleListPort);
 	}
 
-	public AirPurifier(CommunicationStrategy communicationStrategy, String eui64, String usn, String ipAddress, String name,
-			long bootId, ConnectionState connectionState, SubscriptionHandler subscriptionHandler) {
-		this(communicationStrategy, eui64, usn, ipAddress, name, bootId, connectionState);
+	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn, SubscriptionHandler subscriptionHandler) {
+		this(networkNode, communicationStrategy, usn);
 		mSubscriptionHandler = subscriptionHandler;
 	}
 

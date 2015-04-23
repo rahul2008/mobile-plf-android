@@ -114,7 +114,18 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	private void loadDataFromDatabase() {
 		purifiers = DiscoveryManager.getInstance().getStoreDevices();
-		AirPurifier addPurifierDevice = new AirPurifier(new CommunicationMarshal(new DISecurity()), "", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
+		
+        DISecurity diSecurity = new DISecurity();
+        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(0);
+        networkNode.setCppId("");
+        networkNode.setIpAddress("");
+        networkNode.setName(getString(R.string.add_purifier));
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        AirPurifier addPurifierDevice = new AirPurifier(networkNode, communicationStrategy, "");
+		
 		purifiers.add(0, addPurifierDevice);
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection

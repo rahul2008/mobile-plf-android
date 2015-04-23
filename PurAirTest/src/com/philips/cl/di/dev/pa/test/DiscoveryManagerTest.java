@@ -158,8 +158,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 // ***** START TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED *****
 	public void testCppConnectNotPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -175,9 +175,9 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
 	}
 
-	public void testCppConnectNotPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+    public void testCppConnectNotPairedDisconnectedMobile() {
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -194,8 +194,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectNotPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -212,8 +212,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectNotPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -230,8 +230,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectNotPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -248,8 +248,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectNotPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -266,8 +266,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -286,8 +286,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -306,8 +306,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -326,8 +326,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -346,8 +346,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -366,8 +366,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -386,8 +386,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedRemoteWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -406,8 +406,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedRemoteMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -426,8 +426,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppConnectPairedRemoteNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -446,8 +446,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -464,8 +464,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -482,8 +482,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -500,8 +500,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectNotPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -518,8 +518,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectNotPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -536,8 +536,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectNotPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -554,8 +554,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -574,8 +574,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -594,8 +594,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -614,8 +614,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -634,8 +634,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -654,8 +654,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -674,8 +674,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedRemoteWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -694,8 +694,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedRemoteMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -714,8 +714,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppDisconnectPairedRemoteNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -734,8 +734,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -754,8 +754,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi2() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -774,8 +774,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSingleDisconnectPairedRemoteWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -794,8 +794,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppInvalidEventReceived() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -814,8 +814,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppEventReceivedDifferentPurifier() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -834,8 +834,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -852,8 +852,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -870,8 +870,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReaConnectNotPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -888,8 +888,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectNotPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -906,8 +906,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectNotPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -924,8 +924,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectNotPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(false);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -942,8 +942,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -962,8 +962,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -982,8 +982,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1002,8 +1002,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1022,8 +1022,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1042,8 +1042,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1062,8 +1062,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedRemoteWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1082,8 +1082,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedRemoteMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1102,8 +1102,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqConnectPairedRemoteNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1122,8 +1122,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -1140,8 +1140,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -1158,8 +1158,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -1176,8 +1176,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -1194,8 +1194,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -1212,8 +1212,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
 		purifier2.getNetworkNode().setOnlineViaCpp(true);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
@@ -1230,8 +1230,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1250,8 +1250,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1270,8 +1270,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1290,8 +1290,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedLocallyWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1310,8 +1310,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedLocallyMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1330,8 +1330,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedLocallyNone() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1350,8 +1350,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedRemoteWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1370,8 +1370,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqDisconnectPairedRemoteMobile() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1390,8 +1390,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppAllConnectPairedDisconnectedWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1410,8 +1410,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppAllDisconnectPairedRemoteWifi() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1430,8 +1430,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqInvalidEventReceived() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1450,8 +1450,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppReqEventReceivedDifferentPurifier() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1470,8 +1470,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSignonEventReceivedDisconnected() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1488,8 +1488,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSignonEventReceivedRemoteLocal() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1507,8 +1507,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSignoffEventReceivedRemote() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1525,8 +1525,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testCppSignoffEventReceivedDisconnectedLocal() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1547,8 +1547,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 // ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 	public void testLostBackgroundAllDevicesFound() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1561,8 +1561,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundNoDevicesFound() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1575,8 +1575,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundNoDevicesFoundPaired() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1593,8 +1593,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundNoDevicesFoundPairedOnline() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1611,8 +1611,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundOneDeviceFound() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1625,8 +1625,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundOneDeviceFoundPaired() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(false);
@@ -1643,8 +1643,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundOneDeviceFoundPairedOnline() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1661,8 +1661,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundOneDeviceFoundOffline() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1679,8 +1679,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testLostBackgroundOneDeviceFoundRemote() {
-		AirPurifier purifier1 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		AirPurifier purifier2 = new AirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		AirPurifier purifier1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		AirPurifier purifier2 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
 		purifier1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 		purifier1.getNetworkNode().setOnlineViaCpp(true);
@@ -1791,4 +1791,18 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE);
 	}
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
+
+    private AirPurifier createAirPurifier(CommunicationStrategy communicationStrategy, String purifierEui641, String usn, String ip, String name, long bootId,
+        ConnectionState connectionState) {
+    
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(bootId);
+        networkNode.setCppId(purifierEui641);
+        networkNode.setIpAddress(ip);
+        networkNode.setName(name);
+        networkNode.setConnectionState(connectionState);
+        
+        return new AirPurifier(networkNode,communicationStrategy, usn);
+    }
+
 }

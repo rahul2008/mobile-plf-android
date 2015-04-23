@@ -7,10 +7,9 @@ import android.test.AndroidTestCase;
 
 import com.philips.cl.di.dev.pa.ews.EWSBroadcastReceiver;
 import com.philips.cl.di.dev.pa.ews.EWSListener;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class EWSServiceTest extends AndroidTestCase {
@@ -18,19 +17,26 @@ public class EWSServiceTest extends AndroidTestCase {
 	private EWSBroadcastReceiver ewsService;
 	private EWSListener ewsListener;
 	private final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
-	private AirPurifier puriDevice;
 
+	private NetworkNode mNetworkNode;
+    
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		ewsService = new EWSBroadcastReceiver(ewsListener, "WHF2012TEST");
-		puriDevice = new AirPurifier(null, "fffgggcc05", "usn", "192.168.1.1", "name", 1, ConnectionState.CONNECTED_LOCALLY);
-		puriDevice.getNetworkNode().setEncryptionKey(KEY);
+		
+		mNetworkNode = new NetworkNode();
+        mNetworkNode.setBootId(1);
+        mNetworkNode.setCppId("fffgggcc05");
+        mNetworkNode.setIpAddress("192.168.1.1");
+        mNetworkNode.setName("name");
+        mNetworkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        mNetworkNode.setEncryptionKey(KEY);
 	}
 
 	public void testGetWifiPortJson() {
-		String json = JSONBuilder.getWifiPortJson("Purifier2", "1234", puriDevice.getNetworkNode());
-		String decryptedData = new DISecurity().decryptData(json, puriDevice.getNetworkNode());
+		String json = JSONBuilder.getWifiPortJson("Purifier2", "1234", mNetworkNode);
+		String decryptedData = new DISecurity().decryptData(json, mNetworkNode);
 		assertTrue(decryptedData.contains("ssid"));
 		assertTrue(decryptedData.contains("Purifier2"));
 		assertTrue(decryptedData.contains("password"));
@@ -39,8 +45,8 @@ public class EWSServiceTest extends AndroidTestCase {
 
 	public void testGetWifiPortWithAdvConfigJson() {
 		String json = JSONBuilder.getWifiPortWithAdvConfigJson("Purifier2", "1234", "192.168.1.1", "255.255.255.0",
-		"192.168.1.1", puriDevice.getNetworkNode());
-		String decryptedData = new DISecurity().decryptData(json, puriDevice.getNetworkNode());
+		"192.168.1.1", mNetworkNode);
+		String decryptedData = new DISecurity().decryptData(json, mNetworkNode);
 		assertTrue(decryptedData.contains("ssid"));
 		assertTrue(decryptedData.contains("Purifier2"));
 		assertTrue(decryptedData.contains("password"));

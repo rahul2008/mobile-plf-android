@@ -11,20 +11,15 @@ import com.philips.cl.di.dicomm.port.FirmwarePort;
 
 public abstract class DICommAppliance {
 
-    protected final NetworkNode mNetworkNode = new NetworkNode();
+    protected final NetworkNode mNetworkNode;
 
     protected final DevicePort mDevicePort;
     protected final FirmwarePort mFirmwarePort;
 
-    private final List<DICommPort> portList = new ArrayList<DICommPort>();
+    private final List<DICommPort<?>> portList = new ArrayList<DICommPort<?>>();
 
-    public DICommAppliance(CommunicationStrategy communicationStrategy, String eui64, String usn, String ipAddress, String name, long bootId,
-            ConnectionState connectionState) {
-        mNetworkNode.setBootId(bootId);
-        mNetworkNode.setCppId(eui64);
-        mNetworkNode.setIpAddress(ipAddress);
-        mNetworkNode.setName(name);
-        mNetworkNode.setConnectionState(connectionState);
+    public DICommAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
+        mNetworkNode = networkNode;
 
         mDevicePort = new DevicePort(mNetworkNode, communicationStrategy);
         mFirmwarePort = new FirmwarePort(mNetworkNode, communicationStrategy);

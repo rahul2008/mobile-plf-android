@@ -104,7 +104,17 @@ public class PurifierDatabase {
 					String latitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 					String longitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 
-					AirPurifier purifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), eui64, usn, null, name, bootId, state);
+			        DISecurity diSecurity = new DISecurity();
+			        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+			        NetworkNode networkNode = new NetworkNode();
+			        networkNode.setBootId(bootId);
+			        networkNode.setCppId(eui64);
+			        networkNode.setIpAddress(null);
+			        networkNode.setName(name);
+			        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+			        
+			        AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
+			        
 					purifier.getNetworkNode().setHomeSsid(lastKnownNetwork);
 					purifier.getNetworkNode().setEncryptionKey(encryptionKey);
 					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ NetworkNode.getPairedStatusKey(pairedStatus));
