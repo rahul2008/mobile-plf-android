@@ -54,7 +54,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private DIPropertyUpdateHandler mAirPortUpdateHandler = new DIPropertyUpdateHandler() {
 		@Override
-		public void handlePropertyUpdateForPort(DICommPort port) {
+		public void handlePropertyUpdateForPort(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
 			onAirPurifierEventReceived();
 		}
@@ -62,7 +62,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
    private DIPropertyErrorHandler mAirPortErrorHandler = new DIPropertyErrorHandler() {
        @Override
-       public void handleErrorForPort(DICommPort port, Error error) {
+       public void handleErrorForPort(DICommPort<?> port, Error error) {
     	   //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
     	   onErrorOccurred(error);
 	   }

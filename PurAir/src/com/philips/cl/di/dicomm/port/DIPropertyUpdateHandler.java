@@ -11,12 +11,12 @@ public abstract class DIPropertyUpdateHandler {
 	}
 
 	// Hide this method for subclasses
-	void handlePropertyUpdateForPort(DICommPort port, boolean isSubscription) {
+	void handlePropertyUpdateForPort(DICommPort<?> port, boolean isSubscription) {
 		if ((isSubscriptionsEnabled && isSubscription) || (isResponsesEnabled && !isSubscription)) {
 			handlePropertyUpdateForPort(port);
 		}
 	}
 
-	public abstract void handlePropertyUpdateForPort(DICommPort port);
+	public abstract void handlePropertyUpdateForPort(DICommPort<?> port);
 
 }

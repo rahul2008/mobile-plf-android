@@ -59,13 +59,13 @@ public abstract class DICommAppliance {
         return mNetworkNode;
     }
 
-    protected void addPort(DICommPort port) {
+    protected void addPort(DICommPort<?> port) {
         portList.add(port);
     }
 
     public void subscribe() {
         ALog.i(ALog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
-        for (DICommPort port : portList) {
+        for (DICommPort<?> port : portList) {
             if (port.supportsSubscription()) {
                 port.subscribe();
             }
@@ -74,7 +74,7 @@ public abstract class DICommAppliance {
 
     public void unsubscribe() {
         ALog.i(ALog.APPLIANCE, "Unsubscribe to all ports for appliance: " + this);
-        for (DICommPort port : portList) {
+        for (DICommPort<?> port : portList) {
             if (port.supportsSubscription()) {
                 port.unsubscribe();
             }
@@ -83,7 +83,7 @@ public abstract class DICommAppliance {
 
     public void stopResubscribe() {
         ALog.i(ALog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
-        for (DICommPort port : portList) {
+        for (DICommPort<?> port : portList) {
             if (port.supportsSubscription()) {
                 port.stopResubscribe();
             }

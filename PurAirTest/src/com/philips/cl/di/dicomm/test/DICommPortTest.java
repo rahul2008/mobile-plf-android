@@ -493,7 +493,7 @@ public class DICommPortTest extends MockitoTestCase{
 	}
 
 
-	public class DICommPortImpl extends DICommPort<DICommPortImplInfo>{
+	public class DICommPortImpl extends DICommPort<Object>{
 
 		private WrappedHandler hander;
 
@@ -532,8 +532,5 @@ public class DICommPortTest extends MockitoTestCase{
         public boolean supportsSubscription() {
             return false;
         }
-	}
-
-	private class DICommPortImplInfo {
 	}
 }
