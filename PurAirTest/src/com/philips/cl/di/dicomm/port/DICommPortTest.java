@@ -17,7 +17,6 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dicomm.MockitoTestCase;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 
@@ -363,6 +362,13 @@ public class DICommPortTest extends MockitoTestCase{
 
         verifyUnsubscribeCalled(true);
     }
+    
+    public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() throws Exception {
+        mDICommPort.subscribe();
+
+        Runnable runnable = captureResubscribeHandler();
+        verify(mHandler).removeCallbacks(runnable);
+    }
 
     public void test_ShouldRemoveSubscribeRunnable_WhenStopResubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
@@ -370,7 +376,7 @@ public class DICommPortTest extends MockitoTestCase{
 
         Runnable runnable = captureResubscribeHandler();
 
-        verify(mHandler).removeCallbacks(runnable);
+        verify(mHandler, Mockito.times(2)).removeCallbacks(runnable);
     }
 
     public void test_ShouldRemoveSubscribeRunnable_WhenUnsubscribeIsCalled() throws Exception {
@@ -379,7 +385,7 @@ public class DICommPortTest extends MockitoTestCase{
 
         Runnable runnable = captureResubscribeHandler();
 
-        verify(mHandler).removeCallbacks(runnable);
+        verify(mHandler, Mockito.times(2)).removeCallbacks(runnable);
     }
 
     public void test_ShouldRepostSubscribeRunnable_WhenSubscribeRunnableIsExecuted_AfterSubscribeResponseIsReceived() throws Exception {

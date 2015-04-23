@@ -85,6 +85,7 @@ public abstract class DICommPort<T> {
     	mSubscribeRequested = true;
     	mStopResubscribe = false;
 
+        getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
         getResubscriptionHandler().postDelayed(mResubscribtionRunnable, SUBSCRIPTION_TTL_MS);
 
     	tryToPerformNextRequest();
