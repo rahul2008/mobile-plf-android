@@ -7,7 +7,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.DashboardAPL;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
 public class IndoorDashboardUtilsTest extends TestCase {
@@ -221,14 +221,14 @@ public class IndoorDashboardUtilsTest extends TestCase {
 	
 	public void testFilterStatus1() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"0\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		AirPortInfo info = DataParser.parseAirPurifierEventData(parseData);
+		AirPortProperties info = DataParser.parseAirPurifierEventData(parseData);
 		
 		assertEquals(PurAirApplication.getAppContext().getString(R.string.clean_now), IndoorDashboardUtils.getFilterStatus(info));
 	}
 	
 	public void testFilterStatus2() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"110\",\"fs2\":\"120\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
-		AirPortInfo info = DataParser.parseAirPurifierEventData(parseData);
+		AirPortProperties info = DataParser.parseAirPurifierEventData(parseData);
 		
 		assertEquals(PurAirApplication.getAppContext().getString(R.string.change_now), IndoorDashboardUtils.getFilterStatus(info));
 	}

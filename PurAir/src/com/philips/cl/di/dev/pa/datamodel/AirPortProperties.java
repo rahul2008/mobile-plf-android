@@ -9,7 +9,7 @@ import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
  * @author 310124914
  * 
  */
-public class AirPortInfo {
+public class AirPortProperties {
 
 	private static final String TAG = "AirPurifierEvent";
 

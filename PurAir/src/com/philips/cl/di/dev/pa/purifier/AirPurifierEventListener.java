@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.purifier;
 
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dicomm.communication.Error;
 
 /**
@@ -10,7 +10,7 @@ import com.philips.cl.di.dicomm.communication.Error;
  * When the airPurifierEvent event occurs, that object's 
  * appropriate method is invoked.
  *
- * @see AirPortInfo
+ * @see AirPortProperties
  */
 public interface AirPurifierEventListener {
 	

@@ -25,7 +25,7 @@ import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
+import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
@@ -294,7 +294,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (AirPurifier purifier : devices) {
 			if (purifier.getUsn().equals(lostDeviceUsn)) {
 				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
-				if(purifier.getFirmwarePort().getPortInfo() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getPortInfo().getState()) {
+				if(purifier.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getPortProperties().getState()) {
 					return false;
 				}
 				purifier.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);

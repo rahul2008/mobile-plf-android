@@ -398,8 +398,8 @@ AlertDialogBtnInterface, OnClickListener {
 					notificationToggleChecked(false);
 					disableDetailedNotificationsLayout();
 				}
-				if (mPurifier != null && mPurifier.getAirPort().getPortInfo() != null) {
-					setUIAqiThreshold(mPurifier.getAirPort().getPortInfo().getAqiThreshold());
+				if (mPurifier != null && mPurifier.getAirPort().getPortProperties() != null) {
+					setUIAqiThreshold(mPurifier.getAirPort().getPortProperties().getAqiThreshold());
 				}
 				indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
 			}

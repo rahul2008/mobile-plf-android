@@ -6,12 +6,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
-public class FirmwarePort extends DICommPort<FirmwarePortInfo> {
+public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
 	private final String FIRMWAREPORT_NAME = "firmware";
 	private final int FIRMWAREPORT_PRODUCTID = 0;
@@ -28,15 +28,15 @@ public class FirmwarePort extends DICommPort<FirmwarePortInfo> {
 
 	@Override
 	public void processResponse(String response) {
-        FirmwarePortInfo firmwarePortInfo = parseResponse(response);
+        FirmwarePortProperties firmwarePortInfo = parseResponse(response);
         if(firmwarePortInfo!=null){
-        	setPortInfo(firmwarePortInfo);
+        	setPortProperties(firmwarePortInfo);
         	return;
         }
         ALog.e(ALog.FIRMWAREPORT,"FirmwarePort Info should never be NULL");
 	}
 
-	private FirmwarePortInfo parseResponse(String response) {
+	private FirmwarePortProperties parseResponse(String response) {
         Gson gson = new GsonBuilder().create();
 
 		try {
@@ -45,7 +45,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortInfo> {
 			if( firmwareEventJson != null ) {
 				jsonObj = firmwareEventJson ;
 			}
-			FirmwarePortInfo firmwarePortInfo = gson.fromJson(jsonObj.toString(), FirmwarePortInfo.class);
+			FirmwarePortProperties firmwarePortInfo = gson.fromJson(jsonObj.toString(), FirmwarePortProperties.class);
 			if (firmwarePortInfo.isValid()) {
 				return firmwarePortInfo;
 			}

@@ -4,12 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cl.di.dev.pa.datamodel.DevicePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
-public class DevicePort extends DICommPort<DevicePortInfo> {
+public class DevicePort extends DICommPort<DevicePortProperties> {
 
     private final String DEVICEPORT_NAME = "device";
     private final int DEVICEPORT_PRODUCTID = 1;
@@ -25,9 +25,9 @@ public class DevicePort extends DICommPort<DevicePortInfo> {
 
     @Override
     public void processResponse(String response) {
-        DevicePortInfo devicePortInfo = parseResponse(response);
+        DevicePortProperties devicePortInfo = parseResponse(response);
         if (devicePortInfo != null) {
-            setPortInfo(devicePortInfo);
+            setPortProperties(devicePortInfo);
             return;
         }
         ALog.e(ALog.DEVICEPORT, "DevicePort Info should never be NULL");
@@ -49,14 +49,14 @@ public class DevicePort extends DICommPort<DevicePortInfo> {
         return false;
     }
 
-    private DevicePortInfo parseResponse(String response) {
+    private DevicePortProperties parseResponse(String response) {
         if (response == null || response.isEmpty()) {
             return null;
         }
         Gson gson = new GsonBuilder().create();
-        DevicePortInfo devicePortInfo = null;
+        DevicePortProperties devicePortInfo = null;
         try {
-            devicePortInfo = gson.fromJson(response, DevicePortInfo.class);
+            devicePortInfo = gson.fromJson(response, DevicePortProperties.class);
         } catch (JsonSyntaxException e) {
             ALog.e(ALog.PARSER, "JsonSyntaxException");
         } catch (JsonIOException e) {

@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.datamodel;
 
-public class FirmwarePortInfo {
+public class FirmwarePortProperties {
 
 	public enum FirmwareState {
 		IDLE, DOWNLOADING, CHECKING, READY, PROGRAMMING, CANCELING, ERROR

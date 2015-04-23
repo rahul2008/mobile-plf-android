@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
@@ -195,20 +195,20 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	}
 
-	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
+	private AirPortProperties getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
-		return purifier.getAirPort().getPortInfo();
+		return purifier.getAirPort().getPortProperties();
 	}
 
 	private void updateFilterViews() {
 		ALog.i(ALog.FILTER_STATUS_FRAGMENT, "updateFilterStatus");
 		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED
-				|| purifier.getAirPort().getPortInfo() == null) {
+				|| purifier.getAirPort().getPortProperties() == null) {
 			disableFilterStatus();
 			return ;
 		}
-		final AirPortInfo info = getAirPortInfo(purifier);
+		final AirPortProperties info = getAirPortInfo(purifier);
 		updateFilterStatus(info.getPreFilterStatus(),
 				info.getMulticareFilterStatus(),
 				info.getActiveFilterStatus(),

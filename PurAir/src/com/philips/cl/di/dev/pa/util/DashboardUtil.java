@@ -24,7 +24,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -163,8 +163,8 @@ public class DashboardUtil {
 	      
 	    }
 	    
-	    public static AirPortInfo getDefaultAirPortInfo() {
-			AirPortInfo airPortInfo = new AirPortInfo() ;
+	    public static AirPortProperties getDefaultAirPortInfo() {
+			AirPortProperties airPortInfo = new AirPortProperties() ;
 			airPortInfo.setActiveFilterStatus(0) ;
 			airPortInfo.setActualFanSpeed("1") ;
 			airPortInfo.setAqiL(0) ;
@@ -188,5 +188,4 @@ public class DashboardUtil {
 			airPortInfo.setTimeStamp(getCurrentTime24HrFormat()) ;
 			return airPortInfo ;
 		}
-	
 }

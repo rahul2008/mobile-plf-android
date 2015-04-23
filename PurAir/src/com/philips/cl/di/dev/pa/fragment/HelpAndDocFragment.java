@@ -227,8 +227,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			data.append(lineSeparator);
 			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getNetworkNode().getCppId());
 			data.append(lineSeparator);
-			if(purifiers.get(i).getFirmwarePort().getPortInfo()!=null){
-			data.append(getString(R.string.purifier_firmware_version)).append(purifiers.get(i).getFirmwarePort().getPortInfo().getVersion());
+			if(purifiers.get(i).getFirmwarePort().getPortProperties()!=null){
+			data.append(getString(R.string.purifier_firmware_version)).append(purifiers.get(i).getFirmwarePort().getPortProperties().getVersion());
 			data.append(lineSeparator);
 			}
 			data.append(lineSeparator);

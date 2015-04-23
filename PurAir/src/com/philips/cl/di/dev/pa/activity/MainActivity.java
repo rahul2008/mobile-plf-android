@@ -40,7 +40,7 @@ import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
@@ -507,16 +507,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			return ;
 		}
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getNetworkNode().getConnectionState());
-		final AirPortInfo info = getAirPortInfo(purifier);
+		final AirPortProperties info = getAirPortInfo(purifier);
 		if (info == null) {
 			return;
 		}
 		pairToPurifierIfNecessary();
 	}
 
-	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
+	private AirPortProperties getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
-		return purifier.getAirPort().getPortInfo();
+		return purifier.getAirPort().getPortProperties();
 	}
 
 	public int getVisits() {
@@ -637,7 +637,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				+ devices.size() + " :: " + devices);
 
 		AirPurifier current = getCurrentPurifier();
-		if( current != null && current.getAirPort().getPortInfo() != null) return ;
+		if( current != null && current.getAirPort().getPortProperties() != null) return ;
 		AirPurifierManager.getInstance().startSubscription() ;
 	}
 

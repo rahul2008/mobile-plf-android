@@ -22,7 +22,7 @@ import android.os.Message;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.datamodel.DevicePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
@@ -329,7 +329,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
-					DevicePortInfo deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
+					DevicePortProperties deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
 
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					if (deviceDto == null) return;
@@ -357,7 +357,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier.getNetworkNode());
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
-					DevicePortInfo deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
+					DevicePortProperties deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					//listener.onHandShakeWithDevice() ;
 				}

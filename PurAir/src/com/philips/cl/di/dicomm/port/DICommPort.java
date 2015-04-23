@@ -13,7 +13,7 @@ import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.util.WrappedHandler;
 
-public abstract class DICommPort<V> {
+public abstract class DICommPort<T> {
 
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
@@ -31,7 +31,7 @@ public abstract class DICommPort<V> {
     private Object mResubscribeLock = new Object();
 
 	private Map<String,Object> mPutPropertiesMap;
-	private V mPortInfo;
+	private T mPortProperties;
 
 	private ArrayList<DIPropertyUpdateHandler> mPropertyUpdateHandlers;
 	private ArrayList<DIPropertyErrorHandler> mPropertyErrorHandlers;
@@ -47,45 +47,45 @@ public abstract class DICommPort<V> {
 
     public abstract boolean isResponseForThisPort(String response);
 
-	public abstract void processResponse(String response);
+	protected abstract void processResponse(String response);
 
-	public abstract String getDICommPortName();
+	protected abstract String getDICommPortName();
 
-	public abstract int getDICommProductId();
+	protected abstract int getDICommProductId();
 
 	public abstract boolean supportsSubscription();
 
-	public V getPortInfo() {
-		if (mPortInfo == null) {
+	public T getPortProperties() {
+		if (mPortProperties == null) {
 			getProperties();
 		}
-		return mPortInfo;
+		return mPortProperties;
 	}
 
-	public void setPortInfo(V portInfo) {
+	protected void setPortProperties(T portProperties) {
 		mGetPropertiesRequested = false;
-		mPortInfo = portInfo;
+		mPortProperties = portProperties;
 	}
 
 	public boolean isApplyingChanges(){
 	   	return mIsApplyingChanges;
 	}
 
-	public boolean isPutPropertiesRequested(){
+	private boolean isPutPropertiesRequested(){
 		synchronized (mPutPropertiesMap) {
 			return !mPutPropertiesMap.isEmpty();
 		}
 	}
 
-	public boolean isGetPropertiesRequested(){
+	private boolean isGetPropertiesRequested(){
 	   	return mGetPropertiesRequested;
 	}
 
-	public boolean isSubscribeRequested(){
+	private boolean isSubscribeRequested(){
 	   	return mSubscribeRequested;
 	}
 
-	public boolean isUnsubcribeRequested(){
+	private boolean isUnsubcribeRequested(){
 	   	return mUnsubscribeRequested;
 	}
 

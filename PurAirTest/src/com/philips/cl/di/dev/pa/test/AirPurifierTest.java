@@ -91,8 +91,8 @@ public class AirPurifierTest extends InstrumentationTestCase {
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
 
-			assertNull(purifier.getAirPort().getPortInfo());
-			assertNull(purifier.getFirmwarePort().getPortInfo());
+			assertNull(purifier.getAirPort().getPortProperties());
+			assertNull(purifier.getFirmwarePort().getPortProperties());
 		}
 
 		public void testReceiveValidLocalAPEvent() {
@@ -102,8 +102,8 @@ public class AirPurifierTest extends InstrumentationTestCase {
 			verify(mPurifierListener).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
 
-			assertNotNull(purifier.getAirPort().getPortInfo());
-			assertNull(purifier.getFirmwarePort().getPortInfo());
+			assertNotNull(purifier.getAirPort().getPortProperties());
+			assertNull(purifier.getFirmwarePort().getPortProperties());
 		}
 
 		public void testReceiveValidLocalFWEvent() {
@@ -113,8 +113,8 @@ public class AirPurifierTest extends InstrumentationTestCase {
 			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
 			verify(mPurifierListener).notifyFirmwareEventListeners();
 
-			assertNull(purifier.getAirPort().getPortInfo());
-			assertNotNull(purifier.getFirmwarePort().getPortInfo());
+			assertNull(purifier.getAirPort().getPortProperties());
+			assertNotNull(purifier.getFirmwarePort().getPortProperties());
 		}
 
 
@@ -125,7 +125,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
 			verify(mPurifierListener).notifyAirPurifierEventListeners();
 			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
 
-			assertNotNull(purifier.getAirPort().getPortInfo());
+			assertNotNull(purifier.getAirPort().getPortProperties());
 		}
 	// ***** END TESTS TO UPDATE PURIFIER WHEN SUBSCRIPTION EVENT RECEIVED *****
 

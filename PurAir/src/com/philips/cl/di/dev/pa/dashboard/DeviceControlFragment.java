@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
@@ -92,7 +92,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		    currentPurifier.getAirPort().registerPropertyUpdateHandler(mAirPortUpdateHandler);
 		    currentPurifier.getAirPort().registerPropertyErrorHandler(mAirPortErrorHandler);
 		}
-		updateButtonState(currentPurifier.getAirPort().getPortInfo());
+		updateButtonState(currentPurifier.getAirPort().getPortProperties());
 		super.onResume();
 	}
 
@@ -173,7 +173,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		case R.id.btn_rm_power:
 			if (power.isChecked()) {
 				AirPurifier purifier = mainActivity.getCurrentPurifier();
-				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getPortInfo();
+				AirPortProperties airPortInfo = purifier == null ? null : purifier.getAirPort().getPortProperties();
 				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1");
 				MetricsTracker.trackActionTogglePower("Power on");
@@ -228,8 +228,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			} else {
 				String fspd = "1";
 				if (AirPurifierManager.getInstance().getCurrentPurifier() != null
-						&& AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getPortInfo() != null) {
-					fspd = AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getPortInfo().getActualFanSpeed();
+						&& AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getPortProperties() != null) {
+					fspd = AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getPortProperties().getActualFanSpeed();
 				}
 				controlDevice(ParserConstants.FAN_SPEED, fspd);
 				MetricsTracker.trackActionFanSpeed("auto_off");
@@ -335,7 +335,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private void setTimerStatus() {
 		AirPurifier purifier = mainActivity.getCurrentPurifier();
-		AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getPortInfo();
+		AirPortProperties airPortInfo = purifier == null ? null : purifier.getAirPort().getPortProperties();
 		if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
 			timerState.setText(getString(R.string.time) + "  " + getTimeRemaining(airPortInfo.getDtrs()));
 		} else {
@@ -366,7 +366,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	@Override
 	public void onAirPurifierEventReceived() {
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		final AirPortInfo airPortInfo = currentPurifier.getAirPort().getPortInfo();
+		final AirPortProperties airPortInfo = currentPurifier.getAirPort().getPortProperties();
 		mainActivity.runOnUiThread(new Runnable() {
 
 			@Override
@@ -379,7 +379,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		});
 	}
 
-	private void updateButtonState(AirPortInfo airPortInfo) {
+	private void updateButtonState(AirPortProperties airPortInfo) {
 		if(airPortInfo == null || airPortInfo.getPowerMode() == null) return;
 		notificationTV.setClickable(true) ;
 		scheduleTV.setClickable(true);
@@ -428,7 +428,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		});
 	}
 
-	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
+	private void enableButtonsOnPowerOn(AirPortProperties airPurifierEventDto) {
 
 		if (airPurifierEventDto != null) {
 			fanSpeed.setClickable(true);
@@ -448,7 +448,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		}
 	}
 
-	private boolean getTimerStatus(AirPortInfo airPurifierEventDto) {
+	private boolean getTimerStatus(AirPortProperties airPurifierEventDto) {
 		return airPurifierEventDto.getDtrs() > 0;
 	}
 
@@ -497,7 +497,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		}
 	}
 
-	private void setFanSpeed(AirPortInfo airPurifierEventDto) {
+	private void setFanSpeed(AirPortProperties airPurifierEventDto) {
 		FanSpeed fan = airPurifierEventDto.getFanSpeed();
 		String sActualFanSpeed = airPurifierEventDto.getActualFanSpeed();
 		int buttonImage = 0;
@@ -579,7 +579,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		}
 	}
 
-	private String getTimerText(AirPortInfo airPurifierEventDto) {
+	private String getTimerText(AirPortProperties airPurifierEventDto) {
 		int timeRemaining = airPurifierEventDto.getDtrs();
 		if (timeRemaining > 0 && timeRemaining <= 3600) {
 			return mainActivity.getString(R.string.onehour);

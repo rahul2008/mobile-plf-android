@@ -456,7 +456,7 @@ public class DICommPortTest extends MockitoTestCase{
 	}
 
 	public void testGetPropertiesWhenPortInfoNull() {
-		mDICommPort.getPortInfo();
+		mDICommPort.getPortProperties();
 		verifyGetPropertiesCalled(true);
 	}
 

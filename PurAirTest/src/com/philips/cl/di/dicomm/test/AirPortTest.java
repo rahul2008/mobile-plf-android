@@ -1,7 +1,7 @@
 package com.philips.cl.di.dicomm.test;
 import static org.mockito.Mockito.mock;
 
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.AirPort;
 
@@ -65,14 +65,14 @@ public class AirPortTest extends MockitoTestCase {
 	public void testAirPurifierFirmwareData() {
 		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 
-		AirPortInfo result = parseAirPortData(parseData);
+		AirPortProperties result = parseAirPortData(parseData);
 		assertNull(result);
 	}
 
 	public void testAirPurifierFirmwareData2() {
 		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 
-		AirPortInfo result = parseAirPortData(parseData);
+		AirPortProperties result = parseAirPortData(parseData);
 		assertNull(result);
 	}
 
@@ -106,10 +106,10 @@ public class AirPortTest extends MockitoTestCase {
 		assertFalse(parseAirPortData(parseData).getChildLock() == 1) ;
 	}
 
-	private AirPortInfo parseAirPortData(String parseData) {
+	private AirPortProperties parseAirPortData(String parseData) {
 		AirPort airPort = new AirPort(null, mock(CommunicationStrategy.class));
 		airPort.processResponse(parseData);
-		return airPort.getPortInfo();
+		return airPort.getPortProperties();
 	}
 
 }

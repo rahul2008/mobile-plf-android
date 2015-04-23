@@ -27,8 +27,8 @@ import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.DevicePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
+import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
@@ -45,8 +45,8 @@ import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 public class DataParser {
 
 	// TODO: DIComm refactor, remove this method after refactoring request architecture
-	public static AirPortInfo parseAirPurifierEventData(String dataToParse) {
-		AirPortInfo airPurifierEvent = null ;
+	public static AirPortProperties parseAirPurifierEventData(String dataToParse) {
+		AirPortProperties airPurifierEvent = null ;
 		try {			
 			if( dataToParse != null ) {
 				JSONObject jsonObj = new JSONObject(dataToParse) ;
@@ -54,7 +54,7 @@ public class DataParser {
 				if( airPuriferJson != null ) {
 					jsonObj = airPuriferJson ;
 				}
-				airPurifierEvent = new AirPortInfo() ;			
+				airPurifierEvent = new AirPortProperties() ;			
 
 				airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
 				airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
@@ -218,14 +218,14 @@ public class DataParser {
 		return weatherForecastList ;
 	}
 
-	public static DevicePortInfo getDeviceDetails(String data) {
+	public static DevicePortProperties getDeviceDetails(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
 		}
 		Gson gson = new GsonBuilder().create() ;
-		DevicePortInfo deviceDto = null;
+		DevicePortProperties deviceDto = null;
 		try {
-			deviceDto = gson.fromJson(data, DevicePortInfo.class) ;
+			deviceDto = gson.fromJson(data, DevicePortProperties.class) ;
 		} catch (JsonSyntaxException e) {
 			ALog.e(ALog.PARSER, "JsonSyntaxException");
 		} catch (JsonIOException e) {

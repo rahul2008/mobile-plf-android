@@ -7,7 +7,7 @@ import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
-import com.philips.cl.di.dev.pa.datamodel.DevicePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -129,17 +129,17 @@ public class DataParserTest extends TestCase {
 	}
 	
 	public void testGetEWSDeviceDetailsNull() {
-		DevicePortInfo deviceDto  = DataParser.getDeviceDetails(null);
+		DevicePortProperties deviceDto  = DataParser.getDeviceDetails(null);
 		assertNull(deviceDto);
 	}
 	
 	public void testGetEWSDeviceDetailsEmpty() {
-		DevicePortInfo deviceDto  = DataParser.getDeviceDetails("");
+		DevicePortProperties deviceDto  = DataParser.getDeviceDetails("");
 		assertNull(deviceDto);
 	}
 	
 	public void testGetEWSDeviceDetailsNoneFormat() {
-		DevicePortInfo deviceDto  = DataParser.getDeviceDetails("{hello}");
+		DevicePortProperties deviceDto  = DataParser.getDeviceDetails("{hello}");
 		assertNull(deviceDto);
 	}
 	
