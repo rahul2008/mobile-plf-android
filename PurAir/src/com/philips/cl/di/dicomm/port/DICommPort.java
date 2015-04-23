@@ -123,43 +123,33 @@ public abstract class DICommPort<T> {
     }
 
     public void registerPropertyUpdateHandler(DIPropertyUpdateHandler handler) {
-    	synchronized(mPropertyUpdateHandlers) {
-    		mPropertyUpdateHandlers.add(handler);
-    	}
+		mPropertyUpdateHandlers.add(handler);
     }
 
     public void unregisterPropertyUpdateHandler(DIPropertyUpdateHandler handler) {
-    	synchronized(mPropertyUpdateHandlers) {
-    		mPropertyUpdateHandlers.remove(handler);
-    	}
+		mPropertyUpdateHandlers.remove(handler);
     }
 
     public void registerPropertyErrorHandler(DIPropertyErrorHandler handler) {
-    	synchronized(mPropertyErrorHandlers) {
-    		mPropertyErrorHandlers.add(handler);
-    	}
+		mPropertyErrorHandlers.add(handler);
     }
 
     public void unregisterPropertyErrorHandler(DIPropertyErrorHandler handler) {
-    	synchronized(mPropertyErrorHandlers) {
-    		mPropertyErrorHandlers.remove(handler);
-    	}
+		mPropertyErrorHandlers.remove(handler);
     }
 
     private void notifyPropertyUpdateHandlers(boolean isSubscription) {
-    	synchronized (mPropertyUpdateHandlers) {
-    		for (DIPropertyUpdateHandler handler : mPropertyUpdateHandlers) {
-    			handler.handlePropertyUpdateForPort(this, isSubscription);
-    		}
+        ArrayList<DIPropertyUpdateHandler> copyPropertyUpdateHandlers = new ArrayList<DIPropertyUpdateHandler>(mPropertyUpdateHandlers);
+		for (DIPropertyUpdateHandler handler : copyPropertyUpdateHandlers) {
+			handler.handlePropertyUpdateForPort(this, isSubscription);
 		}
     }
 
     private void notifyPropertyErrorHandlers(Error error) {
-    	synchronized (mPropertyErrorHandlers) {
-    		for (DIPropertyErrorHandler handler : mPropertyErrorHandlers) {
-    			handler.handleErrorForPortIfEnabled(this, error);
-    		}
-    	}
+        ArrayList<DIPropertyErrorHandler> copyPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>(mPropertyErrorHandlers);
+		for (DIPropertyErrorHandler handler : copyPropertyErrorHandlers) {
+			handler.handleErrorForPortIfEnabled(this, error);
+		}
     }
 
     private void tryToPerformNextRequest(){
