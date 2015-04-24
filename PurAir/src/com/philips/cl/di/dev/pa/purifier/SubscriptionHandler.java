@@ -218,7 +218,6 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			
 			ALog.d(ALog.SUBSCRIPTION, decryptedData);
 			mResponseHandler.onSuccess(decryptedData);
-
 		}
 	}
 
