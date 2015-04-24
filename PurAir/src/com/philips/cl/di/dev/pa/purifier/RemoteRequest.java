@@ -73,7 +73,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 		mCppController.removeDCSResponseListener(this);
 		
 		if (mResponse == null) {
-			ALog.e(ALog.REMOTEREQUEST, "Request failed - null reponse or failed to publish event");
+			ALog.e(ALog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 		}
 		return new Response(mResponse, null, mResponseHandler) ;

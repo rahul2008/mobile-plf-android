@@ -7,62 +7,53 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Map;
-import java.util.Set;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.LocalRequestType;
 import com.philips.cl.di.dicomm.communication.Request;
-import com.philips.cl.di.dicomm.communication.RequestType;
 import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
-public class LocalRequest implements Request {
+public class LocalRequest extends Request {
 
 	private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
-	private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
-
-	
 	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%s/%d";
 	private final String mUrl;
 	private final String mData;
 	private final NetworkNode mNetworkNode;
-	private final RequestType mRequestType;
+	private final LocalRequestType mRequestType;
 	private final ResponseHandler mResponseHandler;
+	private final DISecurity mDISecurity;
 
-	public LocalRequest(NetworkNode networkNode, String portName, int productId, RequestType requestType,Map<String,String> dataMap,ResponseHandler responseHandler) {
+	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,String> dataMap,
+			ResponseHandler responseHandler, DISecurity diSecurity) {
 		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
-		mData = convertDataToJson(networkNode,dataMap);
+		mData = createDataToSend(networkNode,dataMap);
 		mRequestType = requestType;
 		mNetworkNode = networkNode;
 		mResponseHandler = responseHandler;
-		ALog.i("UIUX", "Datatosend: " + mData);
+		mDISecurity = diSecurity;
 	}
 	
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
 		return String.format(BASEURL_PORTS, ipAddress,dicommProtocolVersion, portName, productId);
 	}
 	
-	private String convertDataToJson(NetworkNode networkNode, Map<String,String> dataMap){	
-		// TODO: DICOMM Refactor, refactor this method
-		if (dataMap == null || dataMap.size() <= 0)
-			return null;
-		StringBuilder builder = new StringBuilder("{");
-		Set<String> keySet = dataMap.keySet();
-		int index = 1;
-		for (String key : keySet) {
-			builder.append("\"").append(key).append("\":\"").append(dataMap.get(key)).append("\"");
-			if (index < keySet.size()) {
-				builder.append(",");
-			}
-			index++;
+	private String createDataToSend(NetworkNode networkNode, Map<String,String> dataMap){	
+		if (dataMap == null || dataMap.size() <= 0) return null;
+		
+		String data = convertKeyValuesToJson(dataMap);
+		ALog.i(ALog.LOCALREQUEST, "Data to send: "+ data);
+
+		if (mDISecurity != null) {
+			return mDISecurity.encryptData(data, networkNode);
 		}
-		builder.append("}");
-		ALog.i(ALog.LOCALREQUEST, builder.toString());
-		// TODO: DICOMM Refactor, allow to send non encrypted data
-		return new DISecurity(null).encryptData(builder.toString(), networkNode);		
+		ALog.i(ALog.LOCALREQUEST, "Not encrypting data");
+		return data;
 	}
 
 	@Override
@@ -76,8 +67,8 @@ public class LocalRequest implements Request {
 		
 		try {
 			URL urlConn = new URL(mUrl);
-			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
-			if(mRequestType == RequestType.PUT || mRequestType == RequestType.POST) {			
+			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT);
+			if(mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {			
 				if (mData == null || mData.isEmpty()) {
 					return new Response(null, Error.NODATA, mResponseHandler);
 				}
@@ -98,9 +89,18 @@ public class LocalRequest implements Request {
 			
 			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			if (responseCode == HttpURLConnection.HTTP_OK) {
-				//TODO: DICOMM Refactor, add decryption logic here
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.convertInputStreamToString(inputStream);
+				
+				if (mDISecurity != null) {
+					result = mDISecurity.decryptData(result, mNetworkNode);
+				}
+				
+				if (result == null) {
+					ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse or failed to decrypt");
+					return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
+				}
+				
 				return new Response(result, null, mResponseHandler);
 			}
 			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {			
