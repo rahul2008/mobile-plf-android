@@ -693,7 +693,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 				AirPurifierManager.getInstance().setCurrentPurifier(device) ;
 			}
 		}
-//		mDatabase.insertPurAirDevice(device);
+		mDatabase.updatePurifierUsingUsn(device);
 		notifyDiscoveryListener();
 	}
 
