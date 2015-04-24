@@ -58,6 +58,7 @@ public class LocalRequest implements Request {
 		}
 		builder.append("}");
 		ALog.i(ALog.LOCALREQUEST, builder.toString());
+		// TODO: DICOMM Refactor, allow to send non encrypted data
 		return new DISecurity(null).encryptData(builder.toString(), networkNode);		
 	}
 
