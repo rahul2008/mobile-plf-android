@@ -730,23 +730,23 @@
 
     <!-- Product Regestration -->
     <string name="enter_phone_no">Please enter the phone number</string>
-    <string name="enter_prof_of_purchase">Please enter a proof of purchase</string>
+    <string name="enter_prof_of_purchase">Please enter the purchase receipt</string>
     <string name="enter_purchase_date">Please enter the purchase date</string>
-    <string name="registration_failed">Registration Failed</string>
-    <string name="pending">Pending</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="pending">Waiting for verification</string>
     <string name="product_list">Product List</string>
-    <string name="tips">Tips</string>
-    <string name="know">Know</string>
-    <string name="register_products">My recently registered products</string>
-    <string name="list_of_winner">The list of winners</string>
-    <string name="enter_product_detail">Enter the details of your product purchase</string>
-    <string name="mobile_no">Mobile number:</string>
-    <string name="date_of_purchase">Date of purchase:</string>
-    <string name="proof_of_purchase">Proof of purchase:</string>
+    <string name="tips">Reminder</string>
+    <string name="know">Noted</string>
+    <string name="register_products">My latest registered products</string>
+    <string name="list_of_winner">Winner list</string>
+    <string name="enter_product_detail">Please enter your product purchase details</string>
+    <string name="mobile_no">Mobile phone number:</string>
+    <string name="date_of_purchase">Purchase date:</string>
+    <string name="proof_of_purchase">Purchase receipt:</string>
     <string name="registration">Registration</string>
-    <string name="gallery_app_not_install">You do not have to install local gallery</string>
-    <string name="camera_app_not_install">You do not have to install a local camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="camera">Camera</string>
+    <string name="gallery_app_not_install">You have not installed the album</string>
+    <string name="camera_app_not_install">You have not installed the camera</string>
+    <string name="gallery">Album</string>
+    <string name="camera">Take photo</string>
 
 </resources>

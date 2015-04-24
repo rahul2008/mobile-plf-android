@@ -642,14 +642,13 @@
     <string name="app_update_failed">智能空气APP更新失败</string>
     <string name="external_storage_unavailable">外部存储不可用</string>
     <string name="last_connection">Last connection:</string>
-    
-	<string name="us_embassy">美国领事馆</string>
+    <string name="us_embassy">美国领事馆</string>
     <string name="my_purifiers">我的净化器</string>
     <string name="my_location">我的位置</string>
     <string name="add_outdoor_location">添加位置</string>
     <string name="locating">定位中</string>
-    <string name = "compare_top_three_locations">与位置于前三个地点比较</string>
-    
+    <string name="compare_top_three_locations">与位置于前三个地点比较</string>
+
     <!-- About -->
     <string name="about">关于</string>
     <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
@@ -664,14 +663,13 @@
     <string name="download">下载吧!</string>
     <string name="air_quality">Air quality</string>
     <string name="air_purifier">AirPurifier</string>
-    
     <string name="submit">提交</string>
     <string name="invalid_input">有效输入</string>
     <string name="feedback_sent">感谢您的反馈意见</string>
     <string name="feedback_not_sent">暂时无法给您反馈，请稍后重试，谢谢。</string>
-    
+
     <!-- Wind Direction -->
-    
+
     <string name="no_wind">No wind</string>
     <string name="northeast">Northeast</string>
     <string name="east">East</string>
@@ -682,9 +680,9 @@
     <string name="northwest">Northwest</string>
     <string name="north">North</string>
     <string name="whirl_wind">Whirl wind</string>
-    
+
     <!-- Weather Phenomenon -->
-    
+
     <string name="sunny">Sunny</string>
     <string name="cloudy">Cloudy</string>
     <string name="overcast">Overcast</string>
@@ -719,8 +717,7 @@
     <string name="sandstorm">Sandstorm</string>
     <string name="haze">Haze</string>
     <string name="unknown">Unknown</string>
-    
-    
+
     <!-- Product Regestration -->
     <string name="enter_phone_no">请输入手机号码</string>
     <string name="enter_prof_of_purchase">请输入购买凭证</string>
@@ -737,8 +734,9 @@
     <string name="date_of_purchase">购买日期：</string>
     <string name="proof_of_purchase">购买凭证：</string>
     <string name="registration">注册</string>
-    <string name="gallery_app_not_install">您本地没有安装相册</string>
-    <string name="camera_app_not_install">您本地没有安装照相机</string>
-    <string name="gallery">本地相册</string>
+    <string name="gallery_app_not_install">您尚未安装相册</string>
+    <string name="camera_app_not_install">您尚未安装照相机</string>
+    <string name="gallery">相册</string>
     <string name="camera">拍照</string>
+
 </resources>
