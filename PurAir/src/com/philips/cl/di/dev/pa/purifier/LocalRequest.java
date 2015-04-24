@@ -33,12 +33,12 @@ public class LocalRequest extends Request {
 
 	public LocalRequest(NetworkNode networkNode, String portName, int productId, LocalRequestType requestType,Map<String,String> dataMap,
 			ResponseHandler responseHandler, DISecurity diSecurity) {
-		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);
-		mData = createDataToSend(networkNode,dataMap);
+		mUrl = createPortUrl(networkNode.getIpAddress(),networkNode.getDICommProtocolVersion(),portName,productId);		
 		mRequestType = requestType;
 		mNetworkNode = networkNode;
 		mResponseHandler = responseHandler;
 		mDISecurity = diSecurity;
+		mData = createDataToSend(networkNode,dataMap);
 	}
 	
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
