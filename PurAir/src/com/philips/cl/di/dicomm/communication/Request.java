@@ -36,6 +36,9 @@ public abstract class Request {
 				builder.append("\"").append(key).append("\":").append(dataMap.get(key));
 			} else if (value instanceof Boolean) {
 			    builder.append("\"").append(key).append("\":").append(dataMap.get(key));
+			} else if (value instanceof String[]){
+			    builder.append("\"").append(key).append("\":");
+			    appendStringArray(builder, (String[]) value);
 			} else {
 				builder.append("\"").append(key).append("\":\"").append(dataMap.get(key)).append("\"");
 			}
@@ -48,4 +51,15 @@ public abstract class Request {
 		builder.append("}");
 		return builder.toString();
 	}
+
+    private void appendStringArray(StringBuilder builder, String[] array) {
+       builder.append("[");
+        for (int index = 0; index < array.length; index++) {
+            builder.append("\"").append(array[index]).append("\"");
+            if (index < ((String[]) array).length-1) {
+                builder.append(",");
+            }
+        }
+        builder.append("]");
+    }
 }
