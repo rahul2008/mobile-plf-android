@@ -72,6 +72,7 @@ public class ALog {
 	public static final String PRODUCT_REGESTRATION = "ProductRegistration";
 	public static final String LOCALREQUEST = "LocalRequest";
 	public static final String REMOTEREQUEST = "RemoteRequest";
+	public static final String REQUESTQUEUE = "RequestQueue";
 	
 	private static boolean isLoggingEnabled = true;
 	
