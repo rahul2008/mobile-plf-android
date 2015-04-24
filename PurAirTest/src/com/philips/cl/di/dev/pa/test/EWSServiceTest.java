@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.test;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import android.test.AndroidTestCase;
 
 import com.philips.cl.di.dev.pa.ews.EWSBroadcastReceiver;
