@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.Spannable.Factory;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,8 +152,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mProductImage.setOnClickListener(this);
 		mProductCloseButton.setOnClickListener(this);
 		mCheckBox.setOnCheckedChangeListener(this);
-		mEditText.addTextChangedListener(this);
 		setLimitToEditText(mEditText, TWITTER_TEXT);
+		mEditText.addTextChangedListener(this);
 		enableCheckBoxonOpen();
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
@@ -190,10 +192,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 					mPostProgress.setCancelable(false);
 					mTwitterPostHandler.postDelayed(mRunnable,
 							mPostProgressTrack);
-					DLog.d(TAG, "Progress Re alloted");
 				} else {
 					mPostProgress.setCancelable(true);
-					DLog.d(TAG, "Progress is cancellable");
 				}
 			}
 		}
@@ -207,26 +207,29 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			DLog.d(TAG, "Checked True+++++++");
 			mContent = mEditText.getText().toString() + " "
 					+ mProductInformation;
-			if (mContent.length() < mTwitterTextCounter)
-			{
+			if (mContent.length() < mTwitterTextCounter) {
 				mEditText.setText(mContent);
 				mEditText.setSelection(mEditText.getText().toString().length());
-			}
-			else
+			} else {
 				Toast.makeText(
 						getActivity(),
 						getActivity().getResources().getString(
 								R.string.twitter_post_char_limitation),
 						Toast.LENGTH_SHORT).show();
-			DLog.d(TAG, "After : " + mEditText.getText().toString());
+				DLog.d(TAG, "After : " + mEditText.getText().toString());
+				mCheckBox.setChecked(false);
+			}
 		} else {
 			DLog.d(TAG, "Checked False++++++++");
 			DLog.d(TAG, "Before : " + mEditText.getText().toString());
 			mContent = mEditText.getText().toString();
 			if (mContent.contains(mProductInformation)) {
 				mContent = mContent.replace(mProductInformation, "").trim();
+
 			}
+
 			mEditText.setText(mContent);
+			mEditText.setSelection(mEditText.getText().toString().length());
 			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		}
 	}
@@ -279,21 +282,29 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-
 	}
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-		if (!(s.toString().contains(mTwitter_to)))
-			mEditText.setText(mTwitter_to);
-
-		if (mEditText.getSelectionStart() < mTwitter_to.length())
-			mEditText.setSelection(mTwitter_to.length());
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
+
+		int mPost_AddressLength = mTwitter_to.length();
+		String mTwitterMessageContent = mEditText.getText().toString();
+
+		StringBuilder mTwitterAddressBuilder = new StringBuilder(
+				mTwitterMessageContent);
+		mTwitterAddressBuilder.replace(0, mPost_AddressLength, mTwitter_to);
+		DLog.d(TAG, "Twitter String : [" + mTwitterAddressBuilder + "]");
+
+		if (!(s.toString().startsWith(mTwitter_to, 0))) {
+			DLog.d(TAG, "String from the Character S : " + s.toString());
+			mEditText.setText(mTwitterAddressBuilder);
+		}
+
 		if (s.length() <= mTwitterTextCounter) {
 			int mTextCounter = mTwitterTextCounter - s.length();
 			mCharacterCount.setText(String.valueOf(mTextCounter));
@@ -417,7 +428,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		editText.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
 				limit) });
 		editText.setText(mExisting);
-		if (editText.getText().toString() == null)
+		if (!(editText.getText().toString().contains(mTwitter_to)))
 			editText.setText(mTwitter_to);
 	}
 
