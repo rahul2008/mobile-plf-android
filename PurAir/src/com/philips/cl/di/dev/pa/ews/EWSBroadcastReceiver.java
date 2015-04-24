@@ -42,7 +42,6 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
     private EWSListener listener ;
 	private AirPurifier tempEWSPurifier;
 	private IntentFilter filter = new IntentFilter();
-	private EWSTasks task ;
 
 	public static final int DEVICE_GET = 1;
 	public static final int DEVICE_PUT = 2;
@@ -62,6 +61,8 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	private boolean startSSDPCountDownTimer;
 	private boolean startDeviceSSIDTimer;
 	private boolean isOpenNetwork;
+	
+    private boolean isCancelled;
 
 	/**
 	 *
@@ -117,17 +118,10 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		tempEWSPurifier.getNetworkNode().setName(deviceName);
 	}
 
-//	public void initializeKey() {
-//		ALog.i(ALog.EWS, "initiliazekey") ;
-//		DISecurity di = new DISecurity(this) ;
-//		di.initializeExchangeKeyCounter(tempEWSPurifier.getNetworkNode().getCppId());
-//		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getNetworkNode().getCppId()) ;
-//	}
-
-
     private void getDeviceDetails() {
         ALog.i(ALog.EWS,"device details") ;
         taskType = DEVICE_GET ;
+        isCancelled = false;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
         devicePort.registerPortListener(new DIPortListener() {
@@ -151,6 +145,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
     private void getWifiDetails() {
         ALog.i(ALog.EWS, "gettWifiDetails");
         taskType = WIFI_GET ;
+        isCancelled = false;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
         wifiPort.registerPortListener(new DIPortListener() {
@@ -174,6 +169,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
     public void putDeviceDetails() {
         ALog.i(ALog.EWS, "putDeviceDetails");
         taskType = DEVICE_PUT ;
+        isCancelled = false;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
         devicePort.registerPortListener(new DIPortListener() {
@@ -197,6 +193,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	public void putWifiDetails(String ipAdd, String subnetMask, String gateWay) {
 		ALog.i(ALog.EWS, "putWifiDetails");
 		startSSDPCountDownTimer();
+		isCancelled = false;
 
 		taskType = WIFI_PUT ;
 		
@@ -288,9 +285,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	}
 
 	private void cancelEWSTasks() {
-		if( task != null && !task.isCancelled()) {
-			task.cancel(true) ;
-		}
+	    isCancelled = true;
 	}
 
 	private void generateTempEWSDevice() {
@@ -325,17 +320,6 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         // TODO DIComm Refactor - remove this line
         tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}
-
-//	@Override
-//	public void keyDecrypt(String key, String deviceId) {
-//		ALog.i(ALog.EWS, "Key: "+key) ;
-//		tempEWSPurifier.getNetworkNode().setEncryptionKey(key);
-//
-//		if ( key != null ) {
-//			setDevKey(key);
-//			getDeviceDetails() ;
-//		}
-//	}
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -390,7 +374,8 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	}
 
 	public void onTaskCompleted(int responseCode, String response, DevicePortProperties devicePortProperties, WifiPortProperties wifiPortProperties) {
-
+	    if (isCancelled) return;
+	    
 		stop = true ;
 		ALog.i(ALog.EWS, "onTaskCompleted:"+responseCode +", response: " + response) ;
 		switch (responseCode) {

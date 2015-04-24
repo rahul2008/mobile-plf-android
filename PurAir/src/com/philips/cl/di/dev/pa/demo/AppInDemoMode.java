@@ -7,18 +7,21 @@ import android.support.v4.app.FragmentTransaction;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
+import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class AppInDemoMode implements NetworkStateListener {
 	private Context ctx;
-	private KeyInitializeState keyInitializeState = KeyInitializeState.NONE;
 
 	public AppInDemoMode(Context ctx) {
 		this.ctx = ctx;
@@ -34,11 +37,9 @@ public class AppInDemoMode implements NetworkStateListener {
 	}
 
 	public void connectPurifier() {
-		keyInitializeState = KeyInitializeState.NONE;
-
 		String ssid = EWSWifiManager.getSsidOfSupplicantNetwork();
 		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
-//			initializeKeyExchange();
+		    setDemoModePurifier();
 		} else {
 			showAlertDialogAppInDemoMode(
 					ctx.getString(R.string.app_in_demo_mode_title),
@@ -76,18 +77,6 @@ public class AppInDemoMode implements NetworkStateListener {
 		}
 	}
 
-//	private void initializeKeyExchange() {
-//		if (keyInitializeState == KeyInitializeState.NONE) {
-//			keyInitializeState = KeyInitializeState.START;
-//			DISecurity di = new DISecurity(this);
-//			di.initializeExchangeKeyCounter(PurAirApplication
-//					.getDemoModePurifierEUI64());
-//			di.exchangeKey(Utils.getPortUrl(Port.SECURITY,
-//					EWSConstant.PURIFIER_ADHOCIP), PurAirApplication
-//					.getDemoModePurifierEUI64());
-//		}
-//	}
-
 	@Override
 	public void onConnected(String ssid) {
 		AirPurifier current = AirPurifierManager.getInstance()
@@ -97,8 +86,8 @@ public class AppInDemoMode implements NetworkStateListener {
 					&& current.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY)
 				return;
 			if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
-//				initializeKeyExchange();
-				return;
+			    setDemoModePurifier();
+			    return;
 			}
 		}
 	}
@@ -108,14 +97,17 @@ public class AppInDemoMode implements NetworkStateListener {
 		// NOP
 	}
 
-//	@Override
-//	public void keyDecrypt(String key, String deviceEui64) {
-//		ALog.i(ALog.MAINACTIVITY, "Key exchange succesfull for shop demo mode");
-//		keyInitializeState = KeyInitializeState.NONE;
-//		AirPurifier demoModePurifier = new AirPurifier(new CommunicationMarshal(new DISecurity()), deviceEui64, null,
-//				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1,
-//				ConnectionState.CONNECTED_LOCALLY);
-//		demoModePurifier.getNetworkNode().setEncryptionKey(key);
-//		AirPurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
-//	}
+	private void setDemoModePurifier() {
+	    ALog.i(ALog.MAINACTIVITY, "Setting Demo mode purifier");
+        
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(-1);
+        networkNode.setCppId(PurAirApplication.getDemoModePurifierEUI64());
+        networkNode.setName(DemoModeConstant.DEMO);
+        networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        AirPurifier demoModePurifier = new AirPurifier(networkNode, new CommunicationMarshal(new DISecurity()), null);
+        AirPurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
+	}
 }
