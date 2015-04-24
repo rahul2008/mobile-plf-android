@@ -36,7 +36,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
         	setPortProperties(properties);
         	return;
         }
-        ALog.e(ALog.WIFIUIPORT,"Wifi port properties should never be NULL");
+        ALog.e(ALog.WIFIUIPORT,"WifiUI port properties should never be NULL");
 
 	}
 
@@ -52,6 +52,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
 	@Override
 	public boolean supportsSubscription() {
+	    // TODO DIComm Refactor check if subscription to deviceport is necessary 
 		return false;
 	}
 
