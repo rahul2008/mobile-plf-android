@@ -89,7 +89,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().registerPropertyListener(mAirPortListener);
+		    currentPurifier.getAirPort().registerPortListener(mAirPortListener);
 		}
 		updateButtonState(currentPurifier.getAirPort().getPortProperties());
 		super.onResume();
@@ -100,7 +100,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().unregisterPropertyListener(mAirPortListener);
+		    currentPurifier.getAirPort().unregisterPortListener(mAirPortListener);
 		}
 		super.onPause();
 	}

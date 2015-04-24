@@ -195,7 +195,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
 		final WifiPort wifiPort = selectedPurifier.getWifiPort();
-		wifiPort.registerPropertyListener(new DIPropertyListener() {
+		wifiPort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {

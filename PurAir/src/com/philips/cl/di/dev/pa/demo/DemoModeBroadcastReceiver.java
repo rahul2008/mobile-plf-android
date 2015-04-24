@@ -198,7 +198,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
-        devicePort.registerPropertyListener(new DIPropertyListener() {
+        devicePort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -221,7 +221,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
         
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
-        wifiPort.registerPropertyListener(new DIPropertyListener() {
+        wifiPort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {

@@ -130,7 +130,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_GET ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPropertyListener(new DIPropertyListener() {
+        devicePort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -153,7 +153,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = WIFI_GET ;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPropertyListener(new DIPropertyListener() {
+        wifiPort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -176,7 +176,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_PUT ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPropertyListener(new DIPropertyListener() {
+        devicePort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -201,7 +201,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 		
 		final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPropertyListener(new DIPropertyListener() {
+        wifiPort.registerPortListener(new DIPropertyListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {

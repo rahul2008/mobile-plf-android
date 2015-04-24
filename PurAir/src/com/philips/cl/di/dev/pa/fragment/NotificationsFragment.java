@@ -158,7 +158,7 @@ AlertDialogBtnInterface, OnClickListener {
 		super.onResume();
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().registerPropertyListener(mAirPortListener);
+		    currentPurifier.getAirPort().registerPortListener(mAirPortListener);
 		}
 	}
 	
@@ -166,7 +166,7 @@ AlertDialogBtnInterface, OnClickListener {
 	public void onPause() {
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().unregisterPropertyListener(mAirPortListener);
+		    currentPurifier.getAirPort().unregisterPortListener(mAirPortListener);
 		}
 		super.onPause();
 	}
