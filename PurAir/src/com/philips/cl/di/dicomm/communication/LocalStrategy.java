@@ -10,8 +10,8 @@ import com.philips.cl.di.dev.pa.security.DISecurity;
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;
 	
-	public LocalStrategy(RequestQueue requestQueue){
-		mRequestQueue = requestQueue;
+	public LocalStrategy(){
+		mRequestQueue = new RequestQueue();
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class LocalStrategy extends CommunicationStrategy {
 			ResponseHandler responseHandler, NetworkNode networkNode) {
 		// TODO DICOMM Refactor, check disecurity and datamap
 		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.GET, null, responseHandler, new DISecurity(null));
-		request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
@@ -28,8 +28,7 @@ public class LocalStrategy extends CommunicationStrategy {
 			NetworkNode networkNode) {
 		// TODO DICOMM Refactor, check disecurity
 		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.PUT, dataMap, responseHandler, new DISecurity(null));
-		request.execute();
-
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
@@ -37,25 +36,23 @@ public class LocalStrategy extends CommunicationStrategy {
 			ResponseHandler responseHandler, NetworkNode networkNode) {
 		// TODO DICOMM Refactor, check disecurity
 		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.PUT, dataMap, responseHandler, new DISecurity(null));
-		request.execute();
-
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
 	public void deleteProperties(String portName, int productId, int arrayPortId,
 			ResponseHandler responseHandler, NetworkNode networkNode) {
-		// TODO DICOMM Refactor, check disecurity, make sure to support array ports, use arrayPortId
+		// TODO DICOMM Refactor, check disecurity, make sure local/remote requests support array ports, use arrayPortId
 		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, new DISecurity(null));
-        request.execute();
+		mRequestQueue.addRequest(request);
 	}
 
-	// subscribe needs dataMap, need to check
 	@Override
-	public void subscribe(HashMap<String,String> dataMap,String portName, int productId,
-			ResponseHandler responseHandler, NetworkNode networkNode) {
-		// TODO DICOMM Refactor, check disecurity, also cross check "post" is used for local subscription 
-		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, dataMap, responseHandler, new DISecurity(null));
-		request.execute();
+	public void subscribe(String portName,int productId, ResponseHandler responseHandler,
+			NetworkNode networkNode) {
+		// TODO DICOMM Refactor, check disecurity		
+		LocalRequest request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, getSubscriptionData(), responseHandler, new DISecurity(null));
+		mRequestQueue.addRequest(request);
 	}
 
 	@Override
@@ -63,7 +60,7 @@ public class LocalStrategy extends CommunicationStrategy {
 			ResponseHandler responseHandler, NetworkNode networkNode) {
 		// TODO DICOMM Refactor, check disecurity, requesttype
 		LocalRequest request = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, new DISecurity(null));
-		request.execute();
+		mRequestQueue.addRequest(request);
 
 	}
 
