@@ -126,30 +126,30 @@ public abstract class DICommPort<T> {
         getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
     }
 
-    public void registerPropertyUpdateHandler(DIPropertyListener handler) {
+    public void registerPropertyListener(DIPropertyListener handler) {
 		mPropertyListeners.add(handler);
     }
 
-    public void unregisterPropertyUpdateHandler(DIPropertyListener handler) {
+    public void unregisterPropertyListener(DIPropertyListener handler) {
 		mPropertyListeners.remove(handler);
     }
 
-    private void notifyPropertyUpdateHandlers(boolean isSubscription) {
-        ArrayList<DIPropertyListener> copyPropertyUpdateHandlers = new ArrayList<DIPropertyListener>(mPropertyListeners);
-		for (DIPropertyListener handler : copyPropertyUpdateHandlers) {
-			DIRegistration registration = handler.handlePropertyUpdateForPort(this);
+    private void notifyPropertyListenersOnUpdate(boolean isSubscription) {
+        ArrayList<DIPropertyListener> copyListeners = new ArrayList<DIPropertyListener>(mPropertyListeners);
+		for (DIPropertyListener listener : copyListeners) {
+			DIRegistration registration = listener.onPortUpdate(this);
 			if(registration == DIRegistration.UNREGISTER){
-			    mPropertyListeners.remove(handler);
+			    mPropertyListeners.remove(listener);
 			}
 		}
     }
 
-    private void notifyPropertyErrorHandlers(Error error, String errorData) {
-        ArrayList<DIPropertyListener> copyPropertyErrorHandlers = new ArrayList<DIPropertyListener>(mPropertyListeners);
-		for (DIPropertyListener handler : copyPropertyErrorHandlers) {
-		    DIRegistration registration = handler.handleErrorForPort(this, error, errorData);
+    private void notifyPropertyListenersOnError(Error error, String errorData) {
+        ArrayList<DIPropertyListener> copyListeners = new ArrayList<DIPropertyListener>(mPropertyListeners);
+		for (DIPropertyListener listener : copyListeners) {
+		    DIRegistration registration = listener.onPortError(this, error, errorData);
 			if(registration == DIRegistration.UNREGISTER){
-                mPropertyListeners.remove(handler);
+                mPropertyListeners.remove(listener);
             }
 		}
     }
@@ -204,13 +204,13 @@ public abstract class DICommPort<T> {
     private void handleResponse(String data) {
 		mGetPropertiesRequested = false;
 		processResponse(data);
-		notifyPropertyUpdateHandlers(false);
+		notifyPropertyListenersOnUpdate(false);
 	}
 
     public void handleSubscription(String data) {
 		mGetPropertiesRequested = false;
 		processResponse(data);
-		notifyPropertyUpdateHandlers(true);
+		notifyPropertyListenersOnUpdate(true);
 	}
 
     private void performPutProperties() {
@@ -232,7 +232,7 @@ public abstract class DICommPort<T> {
 			}
 
 			public void onError(Error error, String errorData) {
-				notifyPropertyErrorHandlers(error, errorData);
+				notifyPropertyListenersOnError(error, errorData);
 				requestCompleted();
 				mIsApplyingChanges = false;
 			}
@@ -251,7 +251,7 @@ public abstract class DICommPort<T> {
 			@Override
 			public void onError(Error error, String errorData) {
 				mGetPropertiesRequested = false;
-				notifyPropertyErrorHandlers(error, errorData);
+				notifyPropertyListenersOnError(error, errorData);
 				requestCompleted();
 			}
 		});
@@ -270,7 +270,7 @@ public abstract class DICommPort<T> {
 			@Override
 			public void onError(Error error, String errorData) {
 				mSubscribeRequested = false;
-				notifyPropertyErrorHandlers(error, errorData);
+				notifyPropertyListenersOnError(error, errorData);
 				requestCompleted();
 			}
 		});
@@ -289,7 +289,7 @@ public abstract class DICommPort<T> {
 			@Override
 			public void onError(Error error, String errorData) {
 				mUnsubscribeRequested = false;
-				notifyPropertyErrorHandlers(error, errorData);
+				notifyPropertyListenersOnError(error, errorData);
 				requestCompleted();
 			}
 		});

@@ -52,16 +52,16 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private ProgressBar controlProgress;
 
-	private DIPropertyListener mAirPortUpdateHandler = new DIPropertyListener() {
+	private DIPropertyListener mAirPortListener = new DIPropertyListener() {
 		@Override
-		public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+		public DIRegistration onPortUpdate(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
 			onAirPurifierEventReceived();
             return DIRegistration.KEEP_REGISTERED;
 		}
 
         @Override
-        public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+        public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
             //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
             onErrorOccurred(error);
             return DIRegistration.KEEP_REGISTERED;
@@ -89,7 +89,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().registerPropertyUpdateHandler(mAirPortUpdateHandler);
+		    currentPurifier.getAirPort().registerPropertyListener(mAirPortListener);
 		}
 		updateButtonState(currentPurifier.getAirPort().getPortProperties());
 		super.onResume();
@@ -100,7 +100,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().unregisterPropertyUpdateHandler(mAirPortUpdateHandler);
+		    currentPurifier.getAirPort().unregisterPropertyListener(mAirPortListener);
 		}
 		super.onPause();
 	}

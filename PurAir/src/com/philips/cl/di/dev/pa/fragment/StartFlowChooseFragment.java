@@ -195,17 +195,17 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
 		final WifiPort wifiPort = selectedPurifier.getWifiPort();
-		wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
+		wifiPort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 stopSSIDTimer();
                 onSuccessfullyConnected();
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 return DIRegistration.UNREGISTER;
             }
         });

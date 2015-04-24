@@ -4,8 +4,8 @@ import com.philips.cl.di.dicomm.communication.Error;
 
 public interface DIPropertyListener {
 
-	public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port);
+	public DIRegistration onPortUpdate(DICommPort<?> port);
 
-    public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData);
+    public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData);
 
 }

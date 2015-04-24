@@ -130,16 +130,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_GET ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPropertyUpdateHandler(new DIPropertyListener() {
+        devicePort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
                 return DIRegistration.UNREGISTER;
             }
@@ -153,16 +153,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = WIFI_GET ;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
+        wifiPort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
                 return DIRegistration.UNREGISTER;
             }
@@ -176,16 +176,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_PUT ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPropertyUpdateHandler(new DIPropertyListener() {
+        devicePort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
                 return DIRegistration.UNREGISTER;
             }
@@ -201,16 +201,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 		
 		final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
+        wifiPort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
                 return DIRegistration.UNREGISTER;
             }

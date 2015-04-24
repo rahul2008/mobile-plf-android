@@ -198,16 +198,16 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
-        devicePort.registerPropertyUpdateHandler(new DIPropertyListener() {
+        devicePort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, (DevicePortProperties) port.getPortProperties(), null);
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
                 return DIRegistration.UNREGISTER;
             }
@@ -221,16 +221,16 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
         
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
-        wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
+        wifiPort.registerPropertyListener(new DIPropertyListener() {
             
             @Override
-            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
+            public DIRegistration onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, null, (WifiPortProperties) port.getPortProperties());
                 return DIRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
                 return DIRegistration.UNREGISTER;
             }
