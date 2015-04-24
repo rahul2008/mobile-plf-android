@@ -22,8 +22,7 @@ public class LocalRequest extends Request {
 
 	private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
 	private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
-
-	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%s/%d";
+	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%d/%s";
 	private final String mUrl;
 	private final String mData;
 	private final NetworkNode mNetworkNode;
@@ -42,7 +41,7 @@ public class LocalRequest extends Request {
 	}
 	
 	private String createPortUrl(String ipAddress, int dicommProtocolVersion, String portName, int productId){
-		return String.format(BASEURL_PORTS, ipAddress,dicommProtocolVersion, portName, productId);
+		return String.format(BASEURL_PORTS, ipAddress,dicommProtocolVersion, productId, portName);
 	}
 	
 	private String createDataToSend(NetworkNode networkNode, Map<String,String> dataMap){	
@@ -69,7 +68,7 @@ public class LocalRequest extends Request {
 		
 		try {
 			URL urlConn = new URL(mUrl);
-			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
+			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
 			if(mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {			
 				if (mData == null || mData.isEmpty()) {
 					return new Response(null, Error.NODATA, mResponseHandler);
