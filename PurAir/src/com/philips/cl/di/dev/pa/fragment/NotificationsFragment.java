@@ -94,7 +94,7 @@ AlertDialogBtnInterface, OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		pairingHandler = new PairingHandler(null, mPurifier.getNetworkNode());
+		pairingHandler = new PairingHandler(null, mPurifier);
 		super.onCreate(savedInstanceState);
 	}
 

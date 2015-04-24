@@ -8,6 +8,7 @@ import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
+import com.philips.cl.di.dicomm.port.PairingPort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 import com.philips.cl.di.dicomm.port.WifiUIPort;
 
@@ -17,6 +18,7 @@ public abstract class DICommAppliance {
 
     protected final DevicePort mDevicePort;
     protected final FirmwarePort mFirmwarePort;
+    protected final PairingPort mPairingPort;
     protected final WifiPort mWifiPort;
     protected final WifiUIPort mWifiUIPort;
 
@@ -27,11 +29,13 @@ public abstract class DICommAppliance {
 
         mDevicePort = new DevicePort(mNetworkNode, communicationStrategy);
         mFirmwarePort = new FirmwarePort(mNetworkNode, communicationStrategy);
+        mPairingPort = new PairingPort(mNetworkNode, communicationStrategy);
         mWifiPort = new WifiPort(mNetworkNode, communicationStrategy);
         mWifiUIPort = new WifiUIPort(mNetworkNode, communicationStrategy);
 
         addPort(mDevicePort);
         addPort(mFirmwarePort);
+        addPort(mPairingPort);
         addPort(mWifiPort);
         addPort(mWifiUIPort);
     }
@@ -77,6 +81,10 @@ public abstract class DICommAppliance {
 
     public FirmwarePort getFirmwarePort() {
         return mFirmwarePort;
+    }
+    
+    public PairingPort getPairingPort() {
+        return mPairingPort;
     }
 
     public WifiPort getWifiPort() {

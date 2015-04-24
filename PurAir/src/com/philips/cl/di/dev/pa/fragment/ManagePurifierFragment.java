@@ -196,7 +196,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 		if (purifier.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			// Remove pairing
-			PairingHandler pairingHandler = new PairingHandler(this, purifier.getNetworkNode());
+			PairingHandler pairingHandler = new PairingHandler(this, purifier);
 			pairingHandler.initializeRelationshipRemoval();
 		}
 

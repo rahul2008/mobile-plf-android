@@ -689,7 +689,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 					public void signonStatus(boolean signon) {
 						if( signon ) {
 							ALog.i(ALog.PAIRING, "Start pairing process" ) ;
-							PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
+							PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
 						}
@@ -698,7 +698,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			}
 			else {
 				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getNetworkNode().getPairedState()+ " "+ purifier.getName());
-				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 				pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 				pm.startPairing();
 			}
@@ -707,7 +707,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
 				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
-				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 				// Sets the max pairing attempt for the Purifier to stop checking for internet connection
 				while(PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
 					pm.setPairingAttempts(purifier.getNetworkNode().getCppId());

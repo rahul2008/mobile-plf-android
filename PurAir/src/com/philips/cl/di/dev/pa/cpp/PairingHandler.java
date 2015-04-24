@@ -1,25 +1,25 @@
 package com.philips.cl.di.dev.pa.cpp;
 
-import java.net.HttpURLConnection;
 import java.util.Date;
 import java.util.HashMap;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.JSONBuilder;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dicomm.security.DISecurity;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
+import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.PairingPort;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
@@ -32,7 +32,7 @@ import com.philips.icpinterface.data.PairingRelationship;
 
 /**
  */
-public class PairingHandler implements ICPEventListener, ServerResponseListener {
+public class PairingHandler implements ICPEventListener {
 
 	private ICPCallbackHandler callbackHandler;
 	private String currentRelationshipType ;
@@ -40,7 +40,6 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	private PurifierDatabase purifierDatabase;
 	private String secretKey;
 
-	private NetworkNode mNetworkNode;
 	private PermissionListener permissionListener = null;
 	private CPPController cppController;
 	private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
@@ -50,6 +49,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	};
 
 	private ENTITY entity_state;
+    private DICommAppliance mAppliance;
 
 	/**
 	 * Constructor for Pairinghandler.
@@ -61,9 +61,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 * @param purifierEui64
 	 *            String
 	 */
-	public PairingHandler(PairingListener iPairingListener,	NetworkNode networkNode) {
-		if(networkNode==null)return;
-		this.mNetworkNode = networkNode;
+	public PairingHandler(PairingListener iPairingListener,	DICommAppliance appliance) {
+	    if(appliance==null)return;
+		this.mAppliance = appliance;
 		purifierDatabase = new PurifierDatabase();
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
@@ -84,10 +84,12 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 *            String[]
 	 */
 	public void startPairing() {
-		if(mNetworkNode==null)return;
-		ALog.i(ALog.PAIRING, "Started pairing with appliance = " + mNetworkNode.getName() + "attempt: "+getPairingAttempts(mNetworkNode.getCppId()));
+		if(mAppliance==null)return;
+		ALog.i(ALog.PAIRING, "Started pairing with appliance = " + mAppliance.getNetworkNode().getName() + "attempt: "+getPairingAttempts(mAppliance.getNetworkNode().getCppId()));
 		currentRelationshipType = AppConstants.PAIRING_DI_COMM_RELATIONSHIP;
-		getRelationship(currentRelationshipType);
+//		getRelationship(currentRelationshipType);
+		startPairingPortTask(currentRelationshipType, AppConstants.PAIRING_PERMISSIONS
+                .toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
 	}
 
 	/**
@@ -139,15 +141,28 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			final String[] permission) {
 
 		if (relationshipType.equals(AppConstants.PAIRING_DI_COMM_RELATIONSHIP)) {
-			if(mNetworkNode==null)return;
+			if(mAppliance==null)return;
 			secretKey = generateRandomSecretKey();
-			String pairing_url = Utils.getPortUrl(Port.PAIRING,	mNetworkNode.getIpAddress());
 			String appEui64 = cppController.getAppCppId();
-			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
-			dataToUpload = new DISecurity().encryptData(dataToUpload, mNetworkNode);
-			TaskPutDeviceDetails pairingRunnable = new TaskPutDeviceDetails(dataToUpload, pairing_url, this);
-			Thread pairingThread = new Thread(pairingRunnable);
-			pairingThread.start();
+			
+			PairingPort pairingPort = mAppliance.getPairingPort();
+			pairingPort.registerPortListener(new DIPortListener() {
+                
+                @Override
+                public DIRegistration onPortUpdate(DICommPort<?> port) {
+                    ALog.i(ALog.PAIRING, "PairingPort call-SUCCESS");
+                    addRelationship(currentRelationshipType, secretKey);
+                    return DIRegistration.UNREGISTER;
+                }
+                
+                @Override
+                public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+                    ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
+                    notifyListenerFailed(true);
+                    return DIRegistration.UNREGISTER;
+                }
+            });
+            pairingPort.triggerPairing(AppConstants.APP_TYPE, appEui64, secretKey);
 
 		} else {
 			currentRelationshipType = relationshipType;
@@ -248,7 +263,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 */
 	private PairingEntitiyReference getDICommApplianceEntity() {
 		PairingEntitiyReference pairingTrustee = new PairingEntitiyReference();
-		pairingTrustee.entityRefId = mNetworkNode.getCppId();
+		pairingTrustee.entityRefId = mAppliance.getNetworkNode().getCppId();
 		pairingTrustee.entityRefProvider = AppConstants.PAIRING_REFERENCEPROVIDER;
 		pairingTrustee.entityRefType = AppConstants.PAIRING_REFERENCETYPE;
 		pairingTrustee.entityRefCredentials = null;
@@ -347,7 +362,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 		if (status != Errors.SUCCESS) {
 			if (permissionListener == null) {
-				ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add), pairing attempt:"+ getPairingAttempts(mNetworkNode.getCppId())+" Appliance name:" +mNetworkNode.getName());
+				ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add), pairing attempt:"+ getPairingAttempts(mAppliance.getNetworkNode().getCppId())+" Appliance name:" +mAppliance.getNetworkNode().getName());
 				notifyListenerFailed(false);
 
 			} else {
@@ -382,14 +397,14 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
 				notifyListenerSuccess();
 				ALog.i(ALog.PAIRING, "Paring status set to true");
-				mNetworkNode.setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-				mNetworkNode.setLastPairedTime(new Date().getTime());
+				mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+				mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 				
 				//TODO better solution
-				AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mNetworkNode.getCppId());
+				AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
 				purifierDatabase.updatePairingStatus(purifier,	NetworkNode.PAIRED_STATUS.PAIRED);
 				//Clear indoor AQI historic data
-				SessionDto.getInstance().setIndoorTrendDto(mNetworkNode.getCppId(), null);
+				SessionDto.getInstance().setIndoorTrendDto(mAppliance.getNetworkNode().getCppId(), null);
 
 			}
 		}
@@ -453,17 +468,17 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				} else {
 					ALog.i(ALog.PAIRING, "Notification relationship added successfully - Pairing completed");
 					ALog.i(ALog.PAIRING, "Paring status set to true");
-					mNetworkNode.setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-					mNetworkNode.setLastPairedTime(new Date().getTime());
+					mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+					mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
 					//TODO better solution
-					AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mNetworkNode.getCppId());
+					AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
 					purifierDatabase.updatePairingStatus(purifier, NetworkNode.PAIRED_STATUS.PAIRED);
 					
 					notifyListenerSuccess();
 				}
 			} else {
-				ALog.e(ALog.PAIRING, "Pairing status is PENDING, pairing attempt:"+ getPairingAttempts(mNetworkNode.getCppId())+" Appliance name:" +mNetworkNode.getName());
+				ALog.e(ALog.PAIRING, "Pairing status is PENDING, pairing attempt:"+ getPairingAttempts(mAppliance.getNetworkNode().getCppId())+" Appliance name:" +mAppliance.getNetworkNode().getName());
 				notifyListenerFailed(false);
 
 			}
@@ -491,46 +506,22 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			PairingReceivedRelationships relation = pairingObj
 					.getReceivedRelationsAtIndex(i);
 			PairingEntity entity = relation.pairingRcvdRelEntityTo;
-			if (entity.PairingEntityId.equalsIgnoreCase(mNetworkNode.getCppId()))
+			if (entity.PairingEntityId.equalsIgnoreCase(mAppliance.getNetworkNode().getCppId()))
 				noOfRelationReturned++;
 		}
 		return noOfRelationReturned;
 	}
-	
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
-
-	/**
-	 * Method receiveServerResponse.
-	 * 
-	 * @param responseCode	 *            int
-	 * @param responseData	 *            String
-	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int,
-	 *      String)
-	 */
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData,
-			String fromIp) {
-		ALog.d(ALog.PAIRING, "Purifier response: " + responseCode);
-		if (responseCode == HttpURLConnection.HTTP_OK) {
-			ALog.e(ALog.PAIRING, "PairingPort call-SUCCESS");
-			addRelationship(currentRelationshipType, secretKey);
-		} else {
-			ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
-			notifyListenerFailed(true);
-		}
-	}
 
 	private void notifyListenerSuccess() {
 		if (pairingListener == null) return;
-		pairingListener.onPairingSuccess(mNetworkNode);
+		pairingListener.onPairingSuccess(mAppliance.getNetworkNode());
 	}
 
 	private void notifyListenerFailed(boolean isPairingPortTaskFailed) {
 
-		if(mNetworkNode==null)return;
-		if(getPairingAttempts(mNetworkNode.getCppId())<AppConstants.MAX_RETRY){
-			setPairingAttempts(mNetworkNode.getCppId());
+		if(mAppliance==null)return;
+		if(getPairingAttempts(mAppliance.getNetworkNode().getCppId())<AppConstants.MAX_RETRY){
+			setPairingAttempts(mAppliance.getNetworkNode().getCppId());
 			// If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request
 			if( isPairingPortTaskFailed ) {
 				startPairingPortTask(AppConstants.PAIRING_DI_COMM_RELATIONSHIP, AppConstants.PAIRING_PERMISSIONS
@@ -541,9 +532,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			}
 		}
 		else {
-			mNetworkNode.setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+			mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			if (pairingListener == null) return;
-			pairingListener.onPairingFailed(mNetworkNode);
+			pairingListener.onPairingFailed(mAppliance.getNetworkNode());
 		}		
 	}
 
@@ -662,4 +653,5 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 		return false;
 	}
+
 }
