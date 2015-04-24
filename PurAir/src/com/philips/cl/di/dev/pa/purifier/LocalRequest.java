@@ -67,6 +67,11 @@ public class LocalRequest extends Request {
 		try {
 			URL urlConn = new URL(mUrl);
 			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
+			if (conn == null) {
+			    ALog.e(ALog.LOCALREQUEST, "Request failed - no wificonnection available");
+			    return new Response(null, Error.NOWIFIAVAILABLE, mResponseHandler);
+			}
+			
 			if (mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
 				if (mDataMap == null || mDataMap.isEmpty()) {
 				    ALog.e(ALog.LOCALREQUEST, "Request failed - no data for Put or Post");
