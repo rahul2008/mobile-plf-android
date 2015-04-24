@@ -33,13 +33,13 @@ public abstract class DICommPort<T> {
 	private Map<String,Object> mPutPropertiesMap;
 	private T mPortProperties;
 
-	private ArrayList<DIPropertyListener> mPortListeners;
+	private ArrayList<DIPortListener> mPortListeners;
 
 	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		mNetworkNode = networkNode;
 		mCommunicationStrategy = communicationStrategy;
 		mPutPropertiesMap = new HashMap<String, Object>();
-		mPortListeners = new ArrayList<DIPropertyListener>();
+		mPortListeners = new ArrayList<DIPortListener>();
 	}
 
     public abstract boolean isResponseForThisPort(String response);
@@ -126,17 +126,17 @@ public abstract class DICommPort<T> {
         getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
     }
 
-    public void registerPortListener(DIPropertyListener handler) {
-		mPortListeners.add(handler);
+    public void registerPortListener(DIPortListener listener) {
+		mPortListeners.add(listener);
     }
 
-    public void unregisterPortListener(DIPropertyListener handler) {
-		mPortListeners.remove(handler);
+    public void unregisterPortListener(DIPortListener listener) {
+		mPortListeners.remove(listener);
     }
 
     private void notifyPortListenersOnUpdate(boolean isSubscription) {
-        ArrayList<DIPropertyListener> copyListeners = new ArrayList<DIPropertyListener>(mPortListeners);
-		for (DIPropertyListener listener : copyListeners) {
+        ArrayList<DIPortListener> copyListeners = new ArrayList<DIPortListener>(mPortListeners);
+		for (DIPortListener listener : copyListeners) {
 			DIRegistration registration = listener.onPortUpdate(this);
 			if(registration == DIRegistration.UNREGISTER){
 			    mPortListeners.remove(listener);
@@ -145,8 +145,8 @@ public abstract class DICommPort<T> {
     }
 
     private void notifyPortListenersOnError(Error error, String errorData) {
-        ArrayList<DIPropertyListener> copyListeners = new ArrayList<DIPropertyListener>(mPortListeners);
-		for (DIPropertyListener listener : copyListeners) {
+        ArrayList<DIPortListener> copyListeners = new ArrayList<DIPortListener>(mPortListeners);
+		for (DIPortListener listener : copyListeners) {
 		    DIRegistration registration = listener.onPortError(this, error, errorData);
 			if(registration == DIRegistration.UNREGISTER){
                 mPortListeners.remove(listener);

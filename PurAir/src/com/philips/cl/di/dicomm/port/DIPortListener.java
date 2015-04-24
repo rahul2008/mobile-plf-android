@@ -2,7 +2,7 @@ package com.philips.cl.di.dicomm.port;
 
 import com.philips.cl.di.dicomm.communication.Error;
 
-public interface DIPropertyListener {
+public interface DIPortListener {
 
 	public DIRegistration onPortUpdate(DICommPort<?> port);
 

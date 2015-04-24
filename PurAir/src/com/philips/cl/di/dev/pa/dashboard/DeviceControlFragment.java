@@ -31,7 +31,7 @@ import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPropertyListener;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 
 public class DeviceControlFragment extends BaseFragment implements OnClickListener, AirPurifierEventListener{
@@ -52,7 +52,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private ProgressBar controlProgress;
 
-	private DIPropertyListener mAirPortListener = new DIPropertyListener() {
+	private DIPortListener mAirPortListener = new DIPortListener() {
 		@Override
 		public DIRegistration onPortUpdate(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed

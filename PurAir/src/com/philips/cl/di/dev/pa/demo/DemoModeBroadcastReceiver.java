@@ -26,7 +26,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPropertyListener;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
@@ -198,7 +198,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
-        devicePort.registerPortListener(new DIPropertyListener() {
+        devicePort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -221,7 +221,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
         
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
-        wifiPort.registerPortListener(new DIPropertyListener() {
+        wifiPort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {

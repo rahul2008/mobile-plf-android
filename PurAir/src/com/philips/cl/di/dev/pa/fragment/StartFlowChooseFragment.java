@@ -44,7 +44,7 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPropertyListener;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.WifiPort;
 
@@ -195,7 +195,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
 		final WifiPort wifiPort = selectedPurifier.getWifiPort();
-		wifiPort.registerPortListener(new DIPropertyListener() {
+		wifiPort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {

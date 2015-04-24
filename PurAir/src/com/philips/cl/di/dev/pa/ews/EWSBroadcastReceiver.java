@@ -29,7 +29,7 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPropertyListener;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
@@ -130,7 +130,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_GET ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPortListener(new DIPropertyListener() {
+        devicePort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -153,7 +153,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = WIFI_GET ;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPortListener(new DIPropertyListener() {
+        wifiPort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -176,7 +176,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_PUT ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPortListener(new DIPropertyListener() {
+        devicePort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
@@ -201,7 +201,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 		
 		final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPortListener(new DIPropertyListener() {
+        wifiPort.registerPortListener(new DIPortListener() {
             
             @Override
             public DIRegistration onPortUpdate(DICommPort<?> port) {
