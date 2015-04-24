@@ -1,13 +1,14 @@
 package com.philips.cl.di.dicomm.communication;
 
-public enum RequestType {
+public enum LocalRequestType {
+	
 	POST("POST"),
 	DELETE("DELETE"),
 	PUT("PUT"),
 	GET("GET");
 	
 	public final String mMethod;
-	RequestType(String method){
+	LocalRequestType(String method){
 		mMethod = method;
 	}
 	

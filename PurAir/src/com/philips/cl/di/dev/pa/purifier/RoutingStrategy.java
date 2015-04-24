@@ -6,19 +6,18 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.communication.LocalRequestType;
+import com.philips.cl.di.dicomm.communication.RemoteRequestType;
 import com.philips.cl.di.dicomm.communication.Request;
-import com.philips.cl.di.dicomm.communication.RequestType;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 
 public class RoutingStrategy {
 	public static Request getConnection(NetworkNode networkNode, Hashtable<String, String> airPortDetailsTable) {
 		ALog.i("UIUX","State: "+networkNode.getConnectionState()) ;
-		String dataToSend = "" ;
 		if( networkNode.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-			dataToSend = JSONBuilder.getAirporDICommBuilder(airPortDetailsTable, networkNode) ;
-			return new LocalRequest(networkNode, Port.AIR.urlPart,Port.AIR.port,RequestType.PUT,airPortDetailsTable, new ResponseHandler() {
+			// TODO: DICOMM Refactor, generalise to all ports 
+			return new LocalRequest(networkNode, Port.AIR.urlPart,Port.AIR.port,LocalRequestType.PUT,airPortDetailsTable, new ResponseHandler() {
 				
 				@Override
 				public void onSuccess(String data) {
@@ -34,8 +33,20 @@ public class RoutingStrategy {
 			}) ;
 		}
 		else if( networkNode.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
-			dataToSend = JSONBuilder.getAirPortPublishEventBuilder(airPortDetailsTable) ;
-			return new RemoteRequest(networkNode,dataToSend) ;
+			return new RemoteRequest(networkNode,Port.AIR.urlPart,Port.AIR.port,RemoteRequestType.PUT_PROPS,airPortDetailsTable, new ResponseHandler() {
+				
+				@Override
+				public void onSuccess(String data) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onError(Error error) {
+					// TODO Auto-generated method stub
+					
+				}
+			}) ;
 		}
 		else {
 			return null;
