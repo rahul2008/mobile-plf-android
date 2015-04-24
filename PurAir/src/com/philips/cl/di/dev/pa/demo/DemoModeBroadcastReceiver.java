@@ -13,10 +13,9 @@ import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
-import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
@@ -24,14 +23,17 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
+import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPropertyErrorHandler;
+import com.philips.cl.di.dicomm.port.DIPropertyUpdateHandler;
+import com.philips.cl.di.dicomm.port.DevicePort;
+import com.philips.cl.di.dicomm.port.WifiPort;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
-		Runnable, ServerResponseListener {
+		Runnable {
 
 	private DemoModeListener listener;
 	private boolean isRegistered;
@@ -39,10 +41,8 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	private boolean stop = true;
 	private int totalTime = 10 * 1000;
 	private AirPurifier tempDemoModePurifier;
-	private DemoModeTask task;
 	private int taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 	private IntentFilter filter = new IntentFilter();
-	private KeyInitializeState keyInitializeState = KeyInitializeState.NONE;
 
 	public DemoModeBroadcastReceiver(DemoModeListener listener) {
 		this.listener = listener;
@@ -88,7 +88,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 					ALog.i(ALog.DEMO_MODE, "Connected to AirPurifier - Ssid= "
 							+ ssid);
 					errorCode = DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED;
-//					initializeKey();
+					getDeviceDetails();
 					return;
 				}
 			}
@@ -97,7 +97,6 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
 	public void connectToDeviceAP() {
 		ALog.i(ALog.DEMO_MODE, "connecttoDevice AP");
-		keyInitializeState = KeyInitializeState.NONE;
 		WifiManager wifiManager = (WifiManager) PurAirApplication
 				.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
@@ -112,17 +111,6 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		startScanForDeviceAp();
 		deviceSSIDTimer.start();
 	}
-
-//	private void initializeKey() {
-//		ALog.i(ALog.DEMO_MODE, "initiliazekey");
-//		if (keyInitializeState == KeyInitializeState.NONE) {
-//			keyInitializeState = KeyInitializeState.START;
-//			DISecurity di = new DISecurity(this);
-//			di.initializeExchangeKeyCounter(tempDemoModePurifier.getNetworkNode().getCppId());
-//			di.exchangeKey(Utils.getPortUrl(Port.SECURITY,
-//					EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getNetworkNode().getCppId());
-//		}
-//	}
 
 	public void registerListener() {
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -157,9 +145,6 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		public void onFinish() {
 			stop = true;
 			unRegisterListener();
-			if (task != null) {
-				task.stopTask();
-			}
 			listener.onErrorOccur(errorCode);
 		}
 	};
@@ -209,71 +194,77 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	}
 
 	private void getDeviceDetails() {
-		ALog.i(ALog.DEMO_MODE, "device details");
-		taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
-		task = new DemoModeTask(this, Utils.getPortUrl(Port.DEVICE,
-				EWSConstant.PURIFIER_ADHOCIP), "", "GET");
-		task.start();
-	}
+        ALog.i(ALog.DEMO_MODE, "device details");
+        taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
+
+        final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
+        devicePort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+            
+            @Override
+            public void handlePropertyUpdateForPort(DICommPort<?> port) {
+                devicePort.unregisterPropertyUpdateHandler(this);
+                receiveServerResponse(HttpURLConnection.HTTP_OK, (DevicePortProperties) port.getPortProperties(), null);
+            }
+        });
+        
+        devicePort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
+            
+            @Override
+            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+                devicePort.unregisterPropertyErrorHandler(this);
+                receiveServerResponse(-1, null, null);
+            }
+        });
+        
+        devicePort.getProperties();
+    }
 
 	private void getWifiDetails() {
-		ALog.i(ALog.DEMO_MODE, "gettWifiDetails");
-		taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
-		task = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
-				EWSConstant.PURIFIER_ADHOCIP), "", "GET");
-		task.start();
-	}
+        ALog.i(ALog.DEMO_MODE, "gettWifiDetails");
+        taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
+        
+        final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
+        wifiPort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+            
+            @Override
+            public void handlePropertyUpdateForPort(DICommPort<?> port) {
+                wifiPort.unregisterPropertyUpdateHandler(this);
+                receiveServerResponse(HttpURLConnection.HTTP_OK, null, (WifiPortProperties) port.getPortProperties());
+            }
+        });
+        
+        wifiPort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
+            
+            @Override
+            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
+                wifiPort.unregisterPropertyErrorHandler(this);
+                receiveServerResponse(-1, null, null);
+            }
+        });
+        
+        wifiPort.getProperties();
+    }
 
-//	@Override
-//	public void keyDecrypt(String key, String deviceEui64) {
-//		ALog.i(ALog.DEMO_MODE, "Key: " + key);
-//		if (tempDemoModePurifier == null)
-//			return;
-//		tempDemoModePurifier.getNetworkNode().setEncryptionKey(key);
-//
-//		if (key != null) {
-//			getDeviceDetails();
-//		}
-//	}
-
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String ipStr) {
-
+	public void receiveServerResponse(int responseCode, DevicePortProperties devicePortProperties, WifiPortProperties wifiPortProperties) {
 		stop = true;
 		ALog.i(ALog.DEMO_MODE, "onTaskCompleted:" + responseCode);
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if (taskType == DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET) {
-				String decryptedResponse = new DISecurity().decryptData(
-						responseData, tempDemoModePurifier.getNetworkNode());
-				if (decryptedResponse != null) {
-					ALog.i(ALog.DEMO_MODE, decryptedResponse);
-					DevicePortProperties deviceDto = DataParser
-							.getDeviceDetails(decryptedResponse);
-
-					SessionDto.getInstance().setDeviceDto(deviceDto);
-					if (deviceDto == null)
-						return;
-					tempDemoModePurifier.getNetworkNode().setName(DemoModeConstant.DEMO);
-					getWifiDetails();
-				}
+				SessionDto.getInstance().setDeviceDto(devicePortProperties);
+				if (devicePortProperties == null)
+					return;
+				tempDemoModePurifier.getNetworkNode().setName(DemoModeConstant.DEMO);
+				getWifiDetails();
 			} else if (taskType == DemoModeConstant.DEMO_MODE_TASK_WIFI_GET) {
-				String decryptedResponse = new DISecurity().decryptData(
-						responseData, tempDemoModePurifier.getNetworkNode());
-				if (decryptedResponse != null) {
-					ALog.i(ALog.DEMO_MODE, decryptedResponse);
-					WifiPortProperties deviceWifiDto = DataParser
-							.getDeviceWifiDetails(decryptedResponse);
+				SessionDto.getInstance().setDeviceWifiDto(wifiPortProperties);
 
-					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto);
-
-					if (deviceWifiDto != null) {
-						this.updateTempDevice(deviceWifiDto.getCppid());
-					}
-
-					deviceSSIDTimer.cancel();
-					listener.onHandShakeWithDevice();
+				if (wifiPortProperties != null) {
+					this.updateTempDevice(wifiPortProperties.getCppid());
 				}
+
+				deviceSSIDTimer.cancel();
+				listener.onHandShakeWithDevice();
 			}
 			break;
 		default:
@@ -287,8 +278,4 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			break;
 		}
 	}
-
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
-
 }
