@@ -26,8 +26,8 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPropertyErrorHandler;
-import com.philips.cl.di.dicomm.port.DIPropertyUpdateHandler;
+import com.philips.cl.di.dicomm.port.DIPropertyListener;
+import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 import com.philips.cl.di.dicomm.security.DISecurity;
@@ -198,21 +198,18 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
-        devicePort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+        devicePort.registerPropertyUpdateHandler(new DIPropertyListener() {
             
             @Override
-            public void handlePropertyUpdateForPort(DICommPort<?> port) {
-                devicePort.unregisterPropertyUpdateHandler(this);
+            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, (DevicePortProperties) port.getPortProperties(), null);
+                return DIRegistration.UNREGISTER;
             }
-        });
-        
-        devicePort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
-            
+
             @Override
-            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
-                devicePort.unregisterPropertyErrorHandler(this);
+            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
+                return DIRegistration.UNREGISTER;
             }
         });
         
@@ -224,21 +221,18 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
         
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
-        wifiPort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+        wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
             
             @Override
-            public void handlePropertyUpdateForPort(DICommPort<?> port) {
-                wifiPort.unregisterPropertyUpdateHandler(this);
+            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, null, (WifiPortProperties) port.getPortProperties());
+                return DIRegistration.UNREGISTER;
             }
-        });
-        
-        wifiPort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
-            
+
             @Override
-            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
-                wifiPort.unregisterPropertyErrorHandler(this);
+            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
+                return DIRegistration.UNREGISTER;
             }
         });
         

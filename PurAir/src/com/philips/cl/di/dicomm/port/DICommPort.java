@@ -33,16 +33,13 @@ public abstract class DICommPort<T> {
 	private Map<String,Object> mPutPropertiesMap;
 	private T mPortProperties;
 
-	private ArrayList<DIPropertyUpdateHandler> mPropertyUpdateHandlers;
-	private ArrayList<DIPropertyErrorHandler> mPropertyErrorHandlers;
-
+	private ArrayList<DIPropertyListener> mPropertyListeners;
 
 	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		mNetworkNode = networkNode;
 		mCommunicationStrategy = communicationStrategy;
 		mPutPropertiesMap = new HashMap<String, Object>();
-		mPropertyUpdateHandlers = new ArrayList<DIPropertyUpdateHandler>();
-		mPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>();
+		mPropertyListeners = new ArrayList<DIPropertyListener>();
 	}
 
     public abstract boolean isResponseForThisPort(String response);
@@ -129,33 +126,31 @@ public abstract class DICommPort<T> {
         getResubscriptionHandler().removeCallbacks(mResubscribtionRunnable);
     }
 
-    public void registerPropertyUpdateHandler(DIPropertyUpdateHandler handler) {
-		mPropertyUpdateHandlers.add(handler);
+    public void registerPropertyUpdateHandler(DIPropertyListener handler) {
+		mPropertyListeners.add(handler);
     }
 
-    public void unregisterPropertyUpdateHandler(DIPropertyUpdateHandler handler) {
-		mPropertyUpdateHandlers.remove(handler);
-    }
-
-    public void registerPropertyErrorHandler(DIPropertyErrorHandler handler) {
-		mPropertyErrorHandlers.add(handler);
-    }
-
-    public void unregisterPropertyErrorHandler(DIPropertyErrorHandler handler) {
-		mPropertyErrorHandlers.remove(handler);
+    public void unregisterPropertyUpdateHandler(DIPropertyListener handler) {
+		mPropertyListeners.remove(handler);
     }
 
     private void notifyPropertyUpdateHandlers(boolean isSubscription) {
-        ArrayList<DIPropertyUpdateHandler> copyPropertyUpdateHandlers = new ArrayList<DIPropertyUpdateHandler>(mPropertyUpdateHandlers);
-		for (DIPropertyUpdateHandler handler : copyPropertyUpdateHandlers) {
-			handler.handlePropertyUpdateForPort(this, isSubscription);
+        ArrayList<DIPropertyListener> copyPropertyUpdateHandlers = new ArrayList<DIPropertyListener>(mPropertyListeners);
+		for (DIPropertyListener handler : copyPropertyUpdateHandlers) {
+			DIRegistration registration = handler.handlePropertyUpdateForPort(this);
+			if(registration == DIRegistration.UNREGISTER){
+			    mPropertyListeners.remove(handler);
+			}
 		}
     }
 
     private void notifyPropertyErrorHandlers(Error error, String errorData) {
-        ArrayList<DIPropertyErrorHandler> copyPropertyErrorHandlers = new ArrayList<DIPropertyErrorHandler>(mPropertyErrorHandlers);
-		for (DIPropertyErrorHandler handler : copyPropertyErrorHandlers) {
-			handler.handleErrorForPortIfEnabled(this, error, errorData);
+        ArrayList<DIPropertyListener> copyPropertyErrorHandlers = new ArrayList<DIPropertyListener>(mPropertyListeners);
+		for (DIPropertyListener handler : copyPropertyErrorHandlers) {
+		    DIRegistration registration = handler.handleErrorForPort(this, error, errorData);
+			if(registration == DIRegistration.UNREGISTER){
+                mPropertyListeners.remove(handler);
+            }
 		}
     }
 

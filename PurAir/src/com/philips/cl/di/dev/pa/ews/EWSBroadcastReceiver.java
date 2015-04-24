@@ -29,8 +29,8 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPropertyErrorHandler;
-import com.philips.cl.di.dicomm.port.DIPropertyUpdateHandler;
+import com.philips.cl.di.dicomm.port.DIPropertyListener;
+import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 import com.philips.cl.di.dicomm.security.DISecurity;
@@ -130,21 +130,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_GET ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+        devicePort.registerPropertyUpdateHandler(new DIPropertyListener() {
             
             @Override
-            public void handlePropertyUpdateForPort(DICommPort<?> port) {
-                devicePort.unregisterPropertyUpdateHandler(this);
+            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
+                return DIRegistration.UNREGISTER;
             }
-        });
-        
-        devicePort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
-            
+
             @Override
-            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
-                devicePort.unregisterPropertyErrorHandler(this);
+            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
+                return DIRegistration.UNREGISTER;
             }
         });
         
@@ -156,21 +153,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = WIFI_GET ;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+        wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
             
             @Override
-            public void handlePropertyUpdateForPort(DICommPort<?> port) {
-                wifiPort.unregisterPropertyUpdateHandler(this);
+            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
+                return DIRegistration.UNREGISTER;
             }
-        });
-        
-        wifiPort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
-            
+
             @Override
-            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
-                wifiPort.unregisterPropertyErrorHandler(this);
+            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
+                return DIRegistration.UNREGISTER;
             }
         });
         
@@ -182,21 +176,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         taskType = DEVICE_PUT ;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+        devicePort.registerPropertyUpdateHandler(new DIPropertyListener() {
             
             @Override
-            public void handlePropertyUpdateForPort(DICommPort<?> port) {
-                devicePort.unregisterPropertyUpdateHandler(this);
+            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
+                return DIRegistration.UNREGISTER;
             }
-        });
-        
-        devicePort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
-            
+
             @Override
-            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
-                devicePort.unregisterPropertyErrorHandler(this);
+            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
+                return DIRegistration.UNREGISTER;
             }
         });
         
@@ -210,21 +201,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 		
 		final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPropertyUpdateHandler(new DIPropertyUpdateHandler() {
+        wifiPort.registerPropertyUpdateHandler(new DIPropertyListener() {
             
             @Override
-            public void handlePropertyUpdateForPort(DICommPort<?> port) {
-                wifiPort.unregisterPropertyUpdateHandler(this);
+            public DIRegistration handlePropertyUpdateForPort(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
+                return DIRegistration.UNREGISTER;
             }
-        });
-        
-        wifiPort.registerPropertyErrorHandler(new DIPropertyErrorHandler() {
-            
+
             @Override
-            public void handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
-                wifiPort.unregisterPropertyErrorHandler(this);
+            public DIRegistration handleErrorForPort(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
+                return DIRegistration.UNREGISTER;
             }
         });
 
