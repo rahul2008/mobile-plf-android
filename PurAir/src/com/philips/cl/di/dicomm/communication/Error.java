@@ -9,6 +9,7 @@ public enum Error {
 	IOEXCEPTION("IOException occurred - check log for more info"),
 	BADREQUEST("HTTP BADREQUEST occurred - check log for more info"),
 	BADGATEWAY("HTTP BADGATEWAY occurred "),
+	NOTCONNECTED("Request cannot be performed - Not connected to an appliance"),
 	DEVICE_CONTROL(""),
 	SCHEDULER(""),
 	FIRMWARE(""),
