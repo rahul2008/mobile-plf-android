@@ -13,6 +13,11 @@ public class RegistrationApplication extends Application {
 		super.onCreate();
 		RegistrationSettings registrationSettings = new RegistrationSettings(this);
 		registrationSettings.intializeJanrain(Janrain.INITIALIZE);
+		
+/*		JanrainSettings janrainSettings = JanrainSettings.getInstance();
+		registrationSettings.intializeJanrain(Janrain.INITIALIZE, this);*/
+		
+		
 	}
 
 }

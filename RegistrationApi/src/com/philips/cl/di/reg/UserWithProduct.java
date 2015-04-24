@@ -84,11 +84,13 @@ public class UserWithProduct implements LocaleMatchListener {
 			langCode = "en";
 			countryCode = "US";
 		}
-		JanrainConfigurationSettings userSettings = JanrainConfigurationSettings
-				.getInstance();
+		
+		//JanrainSettings userSettings = JanrainSettings.getInstance();
+		JanrainConfigurationSettings userSettings =  JanrainConfigurationSettings.getInstance();
 
 		mProdInfo = prodRegInfo;
 		mProdRegHandler = productRegisterHandler;
+		//mProdRegBaseUrl = userSettings.getRegistrationHelper().getProductRegisterUrl();
 		mProdRegBaseUrl = userSettings.getProductRegisterUrl();
 		mInputLocale = locale;
 

@@ -14,13 +14,15 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.Capture;
+import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.janrain.android.capture.CaptureApiError;
 import com.janrain.android.capture.CaptureRecord;
-import com.janrain.android.capture.Capture.InvalidApidChangeException;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 
 public class UpdateUserRecord implements UpdateUserRecordHandler {
+
+
 
 	private String CONSUMER_TIMESTAMP = "timestamp";
 	private String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -59,6 +61,9 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 				JanrainConfigurationSettings.REGISTRATION_API_PREFERENCE, 0);
 		String microSiteId = myPrefs.getString(
 				JanrainConfigurationSettings.MICROSITE_ID, null);
+		
+		//RegistrationSettings userSettings = RegistrationSettings.getInstance();
+		JanrainConfigurationSettings userSettings =  JanrainConfigurationSettings.getInstance();
 		// visitedMicroSites
 		try {
 			Calendar c = Calendar.getInstance();
@@ -81,9 +86,9 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
 			// PrimaryAddress
 			JSONObject primaryAddressObject = new JSONObject();
-			primaryAddressObject.put(CONSUMER_COUNTRY,
-					JanrainConfigurationSettings.getInstance()
-							.getPreferredCountryCode());
+			
+			//primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getRegistrationHelper().getPreferredCountryCode());
+			primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getPreferredCountryCode());
 			primaryAddressObject.put(CONSUMER_ADDRESS1, "");
 			primaryAddressObject.put(CONSUMER_ADDRESS2, "");
 			primaryAddressObject.put(CONSUMER_ADDRESS3, "");
@@ -101,8 +106,8 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
 			user.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
 			user.put(CONSUMER_ROLES, rolesArray);
-			user.put(CONSUMER_PREFERED_LANGUAGE, JanrainConfigurationSettings
-					.getInstance().getPreferredLangCode());
+			//user.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationHelper().getPreferredLangCode());
+			user.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getPreferredLangCode());
 			user.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
 			updateUserRecord(user);
 

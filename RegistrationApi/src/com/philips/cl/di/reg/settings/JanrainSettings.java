@@ -1,4 +1,4 @@
-
+/*
 package com.philips.cl.di.reg.settings;
 
 import java.util.Locale;
@@ -16,11 +16,17 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationSettings {
+public class JanrainSettings {
 
-	private Context mContext;
+	private static Context mContext;
 
 	public static boolean mJanrainIntialized = false;
+	
+	private static JanrainSettings mJanrainSettings = null;
+	private EvalJanrainSettings mEvalJanrainSettings;
+	private DevJanrainSettings mDevJanrainSettings;
+	private ProdJanrainSettings mProdJanrainSettings;
+	private RegistrationHelper mRegistrationHelper;
 
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
@@ -44,17 +50,24 @@ public class RegistrationSettings {
 		mJanrainIntialized = janrainIntializationStatus;
 	}
 
-	/**
+	*//**
      * 
-     */
-	public RegistrationSettings(Context context) {
+     *//*
+	public JanrainSettings(Context context) {
 
 		mContext = context.getApplicationContext();
-		/** commented to restrict registration process */
+		*//** commented to restrict registration process *//*
 		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
 		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
 		LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
 		        flowFilter);
+	}
+	
+	public static JanrainSettings getInstance() {
+		if (mJanrainSettings == null) {
+			mJanrainSettings = new JanrainSettings(mContext);
+		}
+		return mJanrainSettings;
 	}
 
 	private final BroadcastReceiver janrainStatusReceiver = new BroadcastReceiver() {
@@ -86,27 +99,23 @@ public class RegistrationSettings {
 		}
 	};
 
-	/**
+	*//**
 	 * Initialize Janrain
 	 * 
 	 * @param isInitialized
 	 *            true for initialize and false for reinitialize Janrain
-	 */
+	 *//*
 	public void intializeJanrain(Janrain isInitialized) {
 		mJanrainIntialized = false;
 		NetworkUtility.getInstance().checkIsOnline(mContext);
 		if (NetworkUtility.getInstance().isOnline()) {
 			
-/*			JanrainHelper mJanrainHelper = JanrainHelper.getInstance();
+			//JanrainSettings mJanrainHelper = JanrainSettings.getInstance();
 			
-			mJanrainHelper.initEvalSettings(mContext, RegConstants.EVAL_CLIENT_Id, RegConstants.MICROSITE_ID,
+			initEvalSettings(mContext, RegConstants.EVAL_CLIENT_Id, RegConstants.MICROSITE_ID,
 			        RegConstants.REGISTRATION_USE_EVAL, isInitialized.getValue(), Locale.getDefault()
-	                .toString());*/
-/*
-			mJanrainHelper.initProdSettings(mContext, RegConstants.EVAL_CLIENT_Id, RegConstants.MICROSITE_ID,
-			        RegConstants.REGISTRATION_USE_PROD, isInitialized.getValue(), Locale.getDefault()
-	                .toString());*/
-			
+	                .toString());
+
 			JanrainConfigurationSettings user = JanrainConfigurationSettings.getInstance();
 			user.init(mContext, RegConstants.EVAL_CLIENT_Id, RegConstants.MICROSITE_ID,
 			        RegConstants.REGISTRATION_USE_EVAL, isInitialized.getValue(), Locale.getDefault()
@@ -118,5 +127,39 @@ public class RegistrationSettings {
 			// LocaleUtil.getAppLocale(getApplicationContext()));
 		}
 	}
+	
+	public void initEvalSettings(Context context, String captureClientId,
+			String microSiteId, String registrationType, boolean isintialize,
+			String locale){
+		
+		mEvalJanrainSettings = new EvalJanrainSettings();
+		mEvalJanrainSettings.intializeJanrainSettings(context, captureClientId, microSiteId, registrationType, isintialize, locale);
+		mRegistrationHelper = mEvalJanrainSettings;
+		
+	}
+	
+	public void initDevSettings(Context context, String captureClientId,
+			String microSiteId, String registrationType, boolean isintialize,
+			String locale){
+		
+		mDevJanrainSettings = new DevJanrainSettings();
+		mRegistrationHelper = mDevJanrainSettings;
+		mDevJanrainSettings.intializeJanrainSettings(context, captureClientId, microSiteId, registrationType, isintialize, locale);
+	}
+	
+	public void initProdSettings(Context context, String captureClientId,
+			String microSiteId, String registrationType, boolean isintialize,
+			String locale){
+		
+		mProdJanrainSettings = new ProdJanrainSettings();
+		mRegistrationHelper = mProdJanrainSettings;
+		mProdJanrainSettings.intializeJanrainSettings(context, captureClientId, microSiteId, registrationType, isintialize, locale);
+	}
+	
+	public RegistrationHelper getRegistrationHelper() {
+		
+		return mRegistrationHelper;
+	}
 
 }
+*/
