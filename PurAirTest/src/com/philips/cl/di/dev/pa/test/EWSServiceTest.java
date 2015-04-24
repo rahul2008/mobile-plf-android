@@ -1,12 +1,7 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.test.AndroidTestCase;
 
-import com.philips.cl.di.dev.pa.ews.EWSBroadcastReceiver;
-import com.philips.cl.di.dev.pa.ews.EWSListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -14,8 +9,6 @@ import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class EWSServiceTest extends AndroidTestCase {
 
-	private EWSBroadcastReceiver ewsService;
-	private EWSListener ewsListener;
 	private final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
 
 	private NetworkNode mNetworkNode;
@@ -23,7 +16,6 @@ public class EWSServiceTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		ewsService = new EWSBroadcastReceiver(ewsListener, "WHF2012TEST");
 		
 		mNetworkNode = new NetworkNode();
         mNetworkNode.setBootId(1);
