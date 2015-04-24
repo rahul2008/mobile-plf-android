@@ -26,3 +26,5 @@ PurAir/local.properties
 PurAirTest/PurAirTest.iml
 android-support-v7-appcompat/android-support-v7-appcompat.iml
 google_play_services_lib/google_play_services_lib.iml
+social_sdk_library_project/bin/
+social_sdk_library_project/gen/

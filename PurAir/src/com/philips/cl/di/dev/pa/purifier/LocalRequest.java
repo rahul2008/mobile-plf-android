@@ -22,6 +22,9 @@ import com.philips.cl.di.dicomm.communication.ResponseHandler;
 public class LocalRequest implements Request {
 
 	private static final int CONNECTION_TIMEOUT = 10 * 1000; // 10secs
+	private static final int GETWIFI_TIMEOUT = 3 * 1000; // 3secs
+
+	
 	public static final String BASEURL_PORTS = "http://%s/di/v%d/products/%s/%d";
 	private final String mUrl;
 	private final String mData;
@@ -73,7 +76,7 @@ public class LocalRequest implements Request {
 		
 		try {
 			URL urlConn = new URL(mUrl);
-			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT);
+			conn = NetworkUtils.getConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT, GETWIFI_TIMEOUT);
 			if(mRequestType == RequestType.PUT || mRequestType == RequestType.POST) {			
 				if (mData == null || mData.isEmpty()) {
 					return new Response(null, Error.NODATA, mResponseHandler);
