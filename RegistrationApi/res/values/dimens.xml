@@ -31,13 +31,19 @@
     <dimen name="arrow_width">16dp</dimen>
     <dimen name="arrow_height">20dp</dimen>
     <dimen name="err_msg">14sp</dimen>
-    <dimen name="rg_fb_icon_height">32dp</dimen>
+    <dimen name="rg_pb_height">32dp</dimen>
     <dimen name="x_edit_field_margin">2dip</dimen>
-    <dimen name="x_edit_field_margin_right">2dip</dimen>
+    <dimen name="x_edit_field_margin_right">5dip</dimen>
     <dimen name="arrow_up_width">20dip</dimen>
     <dimen name="arrow_margin_right">9dip</dimen>
     <dimen name="edit_fields_margin_top">-5dip</dimen>
     <dimen name="edit_fields_padding">10dip</dimen>
     <dimen name="home_tiltle_padding">10dip</dimen>
+    
+    <dimen name="back_arrow_width">60dip</dimen>
+    <dimen name="back_arrow_height">40dip</dimen>
+    <dimen name="back_arrow_padding">7dip</dimen>
+    <dimen name="check_box_margin">15dip</dimen>
+    <dimen name="check_content_size">15sp</dimen>
     
 </resources>

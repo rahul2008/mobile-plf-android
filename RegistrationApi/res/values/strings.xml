@@ -8,7 +8,7 @@
     <string name="title_activity_traditional_registration">TraditionalRegistration</string>
     <string name="sign_in">Sign in</string>
     <string name="forgot_password">Forgot Password</string>
-    <string name="welcome">Welcome!</string>
+    <string name="welcome">Welcome</string>
     <string name="philips">Myphilips</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -23,7 +23,7 @@
     <string name="mail_address">Enter Email Address</string>
     <string name="enter_password">Enter Password</string>
     <string name="sign_in_philips">Sign in with my philips</string>
-    <string name="welcome_to_philips">Welcome to MyPhilips</string>
+    <string name="welcome_to_philips">Welcome</string>
     <string name="mail_Sent_to">We have sent email to :\n</string>
     <string name="check_email">When you are ready.Please check your email to activate your account</string>
     <string name="continue_use_app">You can continue to use the app in the meantime</string>
@@ -53,5 +53,7 @@
 	<string name="registration_fail">Registration Failure</string>
 	<string name="invalid_password">Invalid password</string>
 	<string name="resend_email_faild">Resend email faild</string>
-	
+	<string name="you_have_sign_in">You have signed in using:\n</string>
+	<string name="we_sent_email">We have sent an email:\n</string>
+	<string name="sign_out">Signed out</string>
 </resources>

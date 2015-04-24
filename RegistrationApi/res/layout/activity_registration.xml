@@ -10,16 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <ImageView
+        <RelativeLayout
             android:id="@+id/iv_backArrow"
-            android:layout_width="@dimen/arrow_width"
-            android:layout_height="@dimen/arrow_height"
-            android:layout_marginTop="10dp"
-            
-            android:layout_marginLeft="@dimen/margin_bottom"
-            android:src="@drawable/back_press"
-            android:onClick="click"
-            android:visibility="visible" />
+            android:layout_width="@dimen/back_arrow_width"
+            android:layout_height="@dimen/back_arrow_height"
+            android:clickable="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/back_arrow_padding">
+
+            <ImageView
+                android:layout_width="@dimen/arrow_up_width"
+                android:layout_height="@dimen/arrow_height"
+                android:clickable="false"
+                android:layout_centerVertical="true"
+                android:src="@drawable/back_press"
+                android:visibility="visible" />
+        </RelativeLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XTextView
             android:id="@+id/action_bar_title"

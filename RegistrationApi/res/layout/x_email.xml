@@ -42,6 +42,7 @@
             style="@style/style_tab_reg_hint"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/fl_align"
+            android:imeOptions="actionNext"
             android:background="@android:color/transparent"
             android:hint="@string/mail_address"
             android:inputType="textEmailAddress"

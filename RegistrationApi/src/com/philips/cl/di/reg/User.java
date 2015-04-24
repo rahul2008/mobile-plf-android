@@ -444,6 +444,7 @@ public class User {
 	 */
 	public void refreshUser(final Context context, final RefreshUserHandler handler) {
 		if (Jump.getSignedInUser() == null) {
+			handler.onRefreshUserFailed(0);
 			return;
 		}
 		Jump.fetchCaptureUserFromServer(new CaptureApiResultHandler() {

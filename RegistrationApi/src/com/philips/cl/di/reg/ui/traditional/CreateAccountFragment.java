@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.res.Configuration;
@@ -31,8 +30,9 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, onUpdateListener, EventListener {
+public class CreateAccountFragment extends RegistrationBaseFragment implements
+		OnClickListener, TraditionalRegistrationHandler, onUpdateListener,
+		EventListener {
 
 	private LinearLayout mLlCreateAccountFields;
 
@@ -60,42 +60,48 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private ProgressBar mPbSpinner;
 
-	private String mEmailId;
-
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onCreateView");
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserCreateAccountFragment : onCreateView");
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
+		View view = inflater.inflate(R.layout.fragment_create_account,
+				container, false);
 		initUI(view);
 		return view;
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserCreateAccountFragment : onConfigurationChanged");
 		super.onConfigurationChanged(config);
 		setViewParams(config);
 	}
 
 	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-		        this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
 		super.onDestroy();
 	}
 
 	@Override
 	public void setViewParams(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : setViewParams");
-		LinearLayout.LayoutParams params = (LayoutParams) mLlCreateAccountFields.getLayoutParams();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserCreateAccountFragment : setViewParams");
+		LinearLayout.LayoutParams params = (LayoutParams) mLlCreateAccountFields
+				.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
 		} else {
@@ -117,14 +123,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void initUI(View view) {
 
-		mLlCreateAccountFields = (LinearLayout) view.findViewById(R.id.ll_create_account_fields);
-		mTvpasswordDetails = (TextView) view.findViewById(R.id.tv_password_details);
+		mLlCreateAccountFields = (LinearLayout) view
+				.findViewById(R.id.ll_create_account_fields);
+		mTvpasswordDetails = (TextView) view
+				.findViewById(R.id.tv_password_details);
 		mLlCreateAccountContainer = (LinearLayout) view
-		        .findViewById(R.id.ll_create_account_container);
-		mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.ll_singin_options);
+				.findViewById(R.id.ll_create_account_container);
+		mRlCreateActtBtnContainer = (RelativeLayout) view
+				.findViewById(R.id.rl_singin_options);
 
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_register);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_register_terms);
+		//mCbTerms.setTypeface(Fonts.getGillSansStdLight(getActivity()));
+
 		mBtnCreateAccount.setOnClickListener(this);
 
 		mEtName = (XUserName) view.findViewById(R.id.rl_name_field);
@@ -144,10 +155,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void register() {
-		mEmailId = mEtEmail.getEmailId();
 		showSpinner();
-		mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
-		        .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
+		mUser.registerUserInfoForTraditional(mEtName.getName().toString(),
+				mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
+						.toString(), true, mCbTerms.isChecked(), this);
 	}
 
 	private void showSpinner() {
@@ -177,25 +188,21 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onRegisterSuccess() {
 		hideSpinner();
-		Toast.makeText(getActivity(), "Registration Success", Toast.LENGTH_LONG).show();
-		addActivateAccountFragment();
-	}
-
-	private void addActivateAccountFragment() {
-		ActivateAccountFragment activateAccountFragment = new ActivateAccountFragment();
-		Bundle activateAccountBundle = new Bundle();
-		activateAccountBundle.putString(RegConstants.EMAIL, mEmailId);
-		activateAccountFragment.setArguments(activateAccountBundle);
-		getRegistrationMainActivity().addFragment(activateAccountFragment);
+		Toast.makeText(getActivity(), "Registration Success", Toast.LENGTH_LONG)
+				.show();
+		getRegistrationMainActivity()
+				.addFragment(new ActivateAccountFragment());
 	}
 
 	@Override
 	public void onRegisterFailedWithFailure(int errorType) {
 
 		if (errorType == EMAIL_ALEADY_EXIST) {
-			mEtEmail.setErrDescription(getResources().getString(R.string.email_already_used));
+			mEtEmail.setErrDescription(getResources().getString(
+					R.string.email_already_used));
 			mEtEmail.showInvalidEmailAlert();
-			mRegError.setError(getResources().getString(R.string.email_already_used));
+			mRegError.setError(getResources().getString(
+					R.string.email_already_used));
 		} else {
 			mRegError.setError(getString(R.string.No_Internet_Connection));
 		}
@@ -213,9 +220,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void updateUiStatus() {
-		if (mEtName.ismValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-		        && NetworkUtility.getInstance().isOnline()
-		        && RegistrationSettings.isJanrainIntialized()) {
+		if (mEtName.ismValidName() && mEtEmail.isValidEmail()
+				&& mEtPassword.isValidPassword()
+				&& NetworkUtility.getInstance().isOnline()
+				&& RegistrationSettings.isJanrainIntialized()) {
 			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();

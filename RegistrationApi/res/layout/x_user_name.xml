@@ -41,6 +41,7 @@
             android:id="@+id/et_reg_fname"
             style="@style/style_tab_reg_hint"
             android:layout_centerVertical="true"
+            android:imeOptions="actionNext"
             android:layout_toLeftOf="@+id/fl_align"
             android:background="@android:color/transparent"
             android:hint="@string/first_name"

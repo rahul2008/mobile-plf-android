@@ -46,7 +46,7 @@
         android:paddingRight="@dimen/layout_margin" >
 
         <FrameLayout
-            android:id="@+id/fl_align_activate"
+            android:id="@+id/fl_sign_in"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_bottom" >
@@ -55,25 +55,47 @@
                 android:id="@+id/sign_in_btn"
                 style="@style/buttonStyle"
                 android:background="@drawable/disable_btn"
-                android:text="@string/sign_in"
                 android:enabled="false"
+                android:text="@string/sign_in"
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
             <ProgressBar
-                android:id="@+id/pb_activate_spinner"
-                android:layout_width="@dimen/rg_fb_icon_height"
-                android:layout_height="@dimen/rg_fb_icon_height"
+                android:id="@+id/pb_sign_in_spinner"
+                android:layout_width="@dimen/rg_pb_height"
+                android:layout_height="@dimen/rg_pb_height"
                 android:layout_gravity="center"
-                android:indeterminateDrawable="@drawable/bts_progress_drawable"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_forgot_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fl_sign_in"
+            android:layout_marginBottom="@dimen/margin_bottom" >
+
+            <com.philips.cl.di.reg.ui.customviews.XButton
+                android:id="@+id/forgot_password_btn"
+                style="@style/forgot_password"
+                android:background="@drawable/forgot_password"
+                android:text="@string/forgot_password"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+            <ProgressBar
+                android:id="@+id/pb_forgot_spinner"
+                android:layout_width="@dimen/rg_pb_height"
+                android:layout_height="@dimen/rg_pb_height"
+                android:layout_gravity="center"
                 android:visibility="gone" />
         </FrameLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XButton
-            android:id="@+id/forgot_password_btn"
-            style="@style/forgot_password"
-            android:layout_below="@+id/fl_align_activate"
-            android:background="@drawable/forgot_password"
-            android:text="@string/forgot_password"
+            android:id="@+id/resend_btn"
+            style="@style/resend_btn"
+            android:layout_below="@+id/fl_forgot_password"
+            android:background="@drawable/resend"
+            android:text="@string/resend"
+            android:visibility="gone"
             reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
     </RelativeLayout>
 

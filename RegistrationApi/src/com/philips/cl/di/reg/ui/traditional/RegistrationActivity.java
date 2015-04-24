@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,7 +10,8 @@ import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
@@ -23,14 +25,19 @@ import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class RegistrationActivity extends FragmentActivity implements EventListener {
 
-	private ImageView mActionBarArrow = null;
+	private RelativeLayout mActionBarArrow = null;
 
 	private FragmentManager mFragmentManager = null;
 
 	private TextView mActionBarTitle = null;
 
 	private final String TAG = TextView.class.getSimpleName();
-
+	
+	private final int HOME_SCREEN =1;
+	private final int CREATE_ACCOUNT_SCREEN =2;
+	private final int PHILIPS_WELCOME_SCREEN =4;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +70,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 		} catch (IllegalStateException e) {
 			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
 		}
-
+		hideKeyBoard();
 	}
 
 	private OnBackStackChangedListener getListener() {
@@ -85,22 +92,35 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	}
 
 	private boolean backstackFragment() {
-
-		if (mFragmentManager.getBackStackEntryCount() == 1) {
+		
+		if (mFragmentManager.getBackStackEntryCount() == HOME_SCREEN) {
 			this.finish();
 		}
 
-		else if (mFragmentManager.getBackStackEntryCount() == 2) {
+		else if (mFragmentManager.getBackStackEntryCount() == CREATE_ACCOUNT_SCREEN) {
 			hideBackArrow();
 			mFragmentManager.popBackStack();
 			removeCurrentFragment();
+		}else if (mFragmentManager.getBackStackEntryCount() == PHILIPS_WELCOME_SCREEN) {
+			System.out.println("**************** 4 *************");
+			clearBackStack();
 		} else {
 			mFragmentManager.popBackStack();
 			removeCurrentFragment();
 		}
+		
+		hideKeyBoard();
 		return false;
 	}
-
+	
+	public void clearBackStack() {
+		FragmentManager childFragmentManager = getSupportFragmentManager();
+		int fragmentCount = childFragmentManager.getBackStackEntryCount();
+		for (int i = 1; i < fragmentCount; i++) {
+			childFragmentManager.popBackStack();
+		}
+	}
+	
 	private void removeCurrentFragment() {
 		FragmentTransaction transaction = mFragmentManager.beginTransaction();
 
@@ -127,7 +147,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	};
 
 	private void initUI() {
-		mActionBarArrow = (ImageView) findViewById(R.id.iv_backArrow);
+		mActionBarArrow = (RelativeLayout) findViewById(R.id.iv_backArrow);
 		mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 		mActionBarArrow.setOnClickListener(actionBarClickListener);
 
@@ -153,6 +173,14 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	@Override
 	public void raiseEvent(String event) {
 		// Do nothing
+	}
+	
+	private void hideKeyBoard(){
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+					.getWindowToken(), 0);
+		}
 	}
 
 }

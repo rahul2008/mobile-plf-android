@@ -63,16 +63,17 @@
             android:layout_marginBottom="@dimen/margin_bottom"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/layout_margin"
-            android:paddingRight="@dimen/layout_margin" >
+            android:paddingRight="@dimen/layout_margin">
 
             <CheckBox
-                android:id="@+id/cb_register_terms"
+              	android:id="@+id/cb_register_terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/margin_bottom" >
-            </CheckBox>
-
+                android:button="@drawable/checkbox_selector"
+                android:gravity="center_vertical"
+                style="@style/textStyle"
+                android:textSize="@dimen/check_content_size"/>
+            
             <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/periodic_offer_id"
                 style="@style/textStyle"
@@ -87,7 +88,7 @@
         
 
         <RelativeLayout
-            android:id="@+id/ll_singin_options"
+            android:id="@+id/rl_singin_options"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -105,10 +106,11 @@
             
 			<ProgressBar
                 android:id="@+id/pb_activate_spinner"
-                android:layout_width="@dimen/rg_fb_icon_height"
-                android:layout_height="@dimen/rg_fb_icon_height"
+                android:layout_width="@dimen/rg_pb_height"
+                android:layout_height="@dimen/rg_pb_height"
+                android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
-                android:indeterminateDrawable="@drawable/bts_progress_drawable"
+                android:paddingBottom="@dimen/x_edit_field_margin_right"
                 android:visibility="gone" />
         </RelativeLayout>
         

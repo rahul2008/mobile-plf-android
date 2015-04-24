@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
@@ -51,11 +52,11 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 
 	private Context mContext;
 
-	private String mEmailId;
-
 	private XRegError mRegError;
 
 	private XRegError mEMailVerifiedError;
+	
+	private String mEmailId;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,10 +66,6 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-		Bundle bundle = getArguments();
-		if (null != bundle) {
-			mEmailId = bundle.getString(RegConstants.EMAIL);
-		}
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		mUser = new User(mContext);
 		View view = inflater.inflate(R.layout.fragment_activate_account, null);
@@ -76,6 +73,7 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		return view;
 	}
 
+		
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
@@ -129,7 +127,7 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_veify_email);
 		mLlWelcomeContainer = (LinearLayout) view.findViewById(R.id.ll_welcome_container);
 		mTvResendDetails = (TextView) view.findViewById(R.id.tv_resend_details);
-		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.ll_singin_options);
+		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_singin_options);
 		mBtnActivate = (Button) view.findViewById(R.id.activate_acct_btn);
 		mBtnResend = (Button) view.findViewById(R.id.resend_btn);
 		mBtnActivate.setOnClickListener(this);
@@ -139,6 +137,9 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_resend_spinner);
 
 		TextView tvEmail = (TextView) view.findViewById(R.id.tv_email);
+		
+		DIUserProfile userProfile = mUser.getUserInstance(mContext);
+		mEmailId = userProfile.getEmail();
 		tvEmail.setText(getString(R.string.mail_Sent_to) + mEmailId);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
@@ -150,11 +151,23 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		if (NetworkUtility.getInstance().isOnline()) {
 			if (RegistrationSettings.isJanrainIntialized()) {
 				mRegError.hideError();
+				mBtnActivate.setBackgroundResource(R.drawable.navigation_bar);
+				mBtnActivate.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
+				mBtnActivate.setClickable(true);
+				mBtnResend.setClickable(true);
 			} else {
+				mBtnActivate.setBackgroundResource(R.drawable.disable_btn);
+				mBtnActivate.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+				mBtnActivate.setClickable(false);
+				mBtnResend.setClickable(false);
 				mRegError.setError(getString(R.string.No_Internet_Connection));
 			}
 		} else {
 			mRegError.setError(getString(R.string.No_Internet_Connection));
+			mBtnActivate.setBackgroundResource(R.drawable.disable_btn);
+			mBtnActivate.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+			mBtnActivate.setClickable(false);
+			mBtnResend.setClickable(false);
 		}
 	}
 
@@ -184,9 +197,11 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend.setClickable(true);
 		mBtnResend.setEnabled(true);
 		if (mUser.getEmailVerificationStatus(mContext)) {
+			mBtnResend.setVisibility(View.GONE);
 			Toast.makeText(getActivity(), "Verification email Success", Toast.LENGTH_LONG).show();
 			mEMailVerifiedError.hideError();
 			mRegError.hideError();
+			getRegistrationMainActivity().addFragment(new WelcomeFragment());
 		} else {
 
 			mEMailVerifiedError.setVisibility(View.VISIBLE);

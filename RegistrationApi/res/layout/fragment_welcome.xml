@@ -33,7 +33,14 @@
             <com.philips.cl.di.reg.ui.customviews.XTextView
                 style="@style/textStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
-                android:text="@string/mail_Sent_to"
+                android:text="@string/you_have_sign_in"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+            <com.philips.cl.di.reg.ui.customviews.XTextView
+                android:id="@+id/tv_sign_in_email"
+                style="@style/textStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
+                android:text="@string/we_sent_email"
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
             <com.philips.cl.di.reg.ui.customviews.XTextView
@@ -46,7 +53,7 @@
                 style="@style/textStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:text="@string/continue_use_app"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF"/>
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
         </LinearLayout>
 
         <View style="@style/line" />
@@ -55,13 +62,22 @@
             android:id="@+id/continue_id"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingLeft="@dimen/layout_margin"
             android:paddingRight="@dimen/layout_margin" >
 
             <com.philips.cl.di.reg.ui.customviews.XButton
                 style="@style/buttonStyle"
+                android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/navigation_bar"
                 android:text="@string/continue_login"
+                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+            <com.philips.cl.di.reg.ui.customviews.XButton
+                android:id="@+id/sign_out_btn"
+                style="@style/forgot_password"
+                android:background="@drawable/forgot_password"
+                android:text="@string/sign_out"
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
         </LinearLayout>
     </LinearLayout>

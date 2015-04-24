@@ -57,7 +57,7 @@
         </LinearLayout>
 
         <RelativeLayout
-            android:id="@+id/ll_singin_options"
+            android:id="@+id/rl_singin_options"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -79,8 +79,8 @@
 
                 <ProgressBar
                     android:id="@+id/pb_activate_spinner"
-                    android:layout_width="@dimen/rg_fb_icon_height"
-                    android:layout_height="@dimen/rg_fb_icon_height"
+                    android:layout_width="@dimen/rg_pb_height"
+                    android:layout_height="@dimen/rg_pb_height"
                     android:layout_gravity="center"
                     android:visibility="gone" />
             </FrameLayout>
@@ -90,8 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fl_align_activate"
-                android:paddingLeft="@dimen/layout_margin"
-                android:paddingRight="@dimen/layout_margin"
                 android:visibility="gone" />
 
             <FrameLayout
@@ -109,8 +107,8 @@
 
                 <ProgressBar
                     android:id="@+id/pb_resend_spinner"
-                    android:layout_width="@dimen/rg_fb_icon_height"
-                    android:layout_height="@dimen/rg_fb_icon_height"
+                    android:layout_width="@dimen/rg_pb_height"
+                    android:layout_height="@dimen/rg_pb_height"
                     android:layout_gravity="center"
                     android:visibility="gone" />
             </FrameLayout>

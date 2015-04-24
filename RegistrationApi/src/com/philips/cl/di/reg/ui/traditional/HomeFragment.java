@@ -73,7 +73,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
 		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_welcome_desc);
 		mLlCreateBtnContainer = (LinearLayout) view.findViewById(R.id.ll_create_account_container);
-		mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.ll_singin_options);
+		mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_singin_options);
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
 		mBtnMyPhilips = (Button) view.findViewById(R.id.philips_acct_id);
@@ -90,9 +90,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		// Library does not include resource constants after ADT 14
 		// Link :http://tools.android.com/tips/non-constant-fields
 		if (v.getId() == R.id.btn_create_account) {
-			((RegistrationActivity) getActivity()).addFragment(new CreateAccountFragment());
+			getRegistrationMainActivity().addFragment(new CreateAccountFragment());
 		} else if (v.getId() == R.id.philips_acct_id) {
-			((RegistrationActivity) getActivity()).addFragment(new SignInAccountFragment());
+			getRegistrationMainActivity().addFragment(new SignInAccountFragment());
 		}
 	}
 
