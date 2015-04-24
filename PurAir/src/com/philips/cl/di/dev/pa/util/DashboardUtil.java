@@ -16,8 +16,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -209,6 +212,30 @@ public class DashboardUtil {
 			}
 		}
 		return color;
+	}
+	
+	public static synchronized OnTouchListener getListViewTouchListener(final ListView listView) {
+		//We have ListView inside scrollView, so in some of the device list is not scrolling
+		OnTouchListener listViewTouchListener = new OnTouchListener() {
+			float x, prevX;
+			float differnceX;
+			@SuppressLint("ClickableViewAccessibility")
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				listView.requestDisallowInterceptTouchEvent(false);
+				int action = event.getActionMasked();
+				prevX = x;
+				if (action == MotionEvent.ACTION_MOVE) {
+					x = event.getX();
+					differnceX = Math.abs(prevX - x);
+					if (differnceX <= Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 5)) {
+						listView.requestDisallowInterceptTouchEvent(true);
+					}
+				}
+				return false;
+			}
+		};
+		return listViewTouchListener;
 	}
 
 }

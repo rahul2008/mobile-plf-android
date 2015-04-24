@@ -30,6 +30,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
+import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -93,6 +94,7 @@ public class ManagePurifierFragment extends BaseFragment implements
         listView = (ListView) getView().findViewById(R.id.manage_pur_list);
         ImageButton infoButton = (ImageButton) getView().findViewById(R.id.manage_purifier_info_img_btn);
         infoButton.setOnClickListener(this);
+        listView.setOnTouchListener(DashboardUtil.getListViewTouchListener(listView));
     }
 
 	@Override

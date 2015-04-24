@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -71,6 +73,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		editTV.setText(getString(R.string.edit));
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
+		mOutdoorLocationListView.setOnTouchListener(DashboardUtil.getListViewTouchListener(mOutdoorLocationListView));
 		editTV.setOnClickListener(locationOnClickListener);
 		
 		return view;
@@ -212,6 +215,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			this.outdoorCityInfoListAdapter = outdoorCityInfoList;
 		}
 		
+		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -382,5 +386,4 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		outdoorCityInfoList.add(1, outdoorCityInfo);
 		
 	}
-
 }
