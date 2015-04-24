@@ -68,7 +68,8 @@ public class ALog {
 	public static final String APPLIANCE = "Appliance";
 	public static final String AIRPORT = "AirPort";
 	public static final String DEVICEPORT = "DevicePort";
-	public static final String WIFIPORT = "WifiPort";
+    public static final String WIFIPORT = "WifiPort";
+    public static final String WIFIUIPORT = "WifiUIPort";
 	public static final String FIRMWAREPORT = "FirmwarePort";
 	public static final String SCHEDULELISTPORT = "ScheduleListPort";
 	public static final String LOCALREQUEST = "LocalRequest";
