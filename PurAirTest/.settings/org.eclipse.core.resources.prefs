@@ -8,3 +8,4 @@ encoding//src/com/philips/cl/di/dev/pa/test/DataParserTest.java=UTF-8
 encoding//src/com/philips/cl/di/dicomm/port/AirPortTest.java=UTF-8
 encoding//src/com/philips/cl/di/dicomm/port/FirmwarePortTest.java=UTF-8
 encoding//src/com/philips/cl/di/dicomm/port/ScheduleListPortTest.java=UTF-8
+encoding//src/com/philips/cl/di/dicomm/port/WifiPortTest.java=UTF-8
