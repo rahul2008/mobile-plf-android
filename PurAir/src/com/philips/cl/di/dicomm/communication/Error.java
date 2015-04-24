@@ -24,5 +24,4 @@ public enum Error {
 	public String getErrorMessage() {
 		return mErrorMessage;
 	}
-
 }

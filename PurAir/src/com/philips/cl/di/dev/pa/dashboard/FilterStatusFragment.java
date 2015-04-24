@@ -103,7 +103,6 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	@Override
 	public void onErrorOccurred(Error purifierEventError) {
-
 	}
 
 
