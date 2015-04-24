@@ -290,7 +290,6 @@ AlertDialogBtnInterface, OnClickListener {
 
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-		System.out.println("manzer Toggle checked");
 		if (mPurifier != null && ConnectionState.DISCONNECTED == mPurifier.getNetworkNode().getConnectionState()) {
 			return;
 		}

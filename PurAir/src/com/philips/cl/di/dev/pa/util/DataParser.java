@@ -586,7 +586,6 @@ public class DataParser {
 		String quality = jsonObject.optString("quality");
 		String timeStamp = jsonObject.optString("date");
 
-		System.out.println("quality: " + quality);
 		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
 	}
 
