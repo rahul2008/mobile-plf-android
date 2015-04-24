@@ -149,6 +149,4 @@ public class SubscriptionHandlerTest extends InstrumentationTestCase {
 
 		verify(mResponseHandler,never()).onSuccess(data);
 	}
-	
-	
 }
