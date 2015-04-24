@@ -176,11 +176,10 @@ public class PurifierDatabase {
 		
 		if (purifier == null || purifier.getUsn() == null) return newRowId;
 
-		if(purifier.getNetworkNode().getPairedState()!=NetworkNode.PAIRED_STATUS.PAIRED){
+		if(purifier.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED){
 			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 
-		purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		try {
 			db = dbHelper.getWritableDatabase();
 
@@ -263,7 +262,7 @@ public class PurifierDatabase {
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, status.ordinal());
 			if(status==NetworkNode.PAIRED_STATUS.PAIRED){
-			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getNetworkNode().getLastPairedTime());
+				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getNetworkNode().getLastPairedTime());
 			}
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getNetworkNode().getCppId())});
