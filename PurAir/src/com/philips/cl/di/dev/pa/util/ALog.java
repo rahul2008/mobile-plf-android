@@ -70,6 +70,8 @@ public class ALog {
 	public static final String FIRMWAREPORT = "FirmwarePort";
 	public static final String SCHEDULELISTPORT = "ScheduleListPort";
 	public static final String PRODUCT_REGESTRATION = "ProductRegistration";
+	public static final String LOCALREQUEST = "LocalRequest";
+	public static final String REMOTEREQUEST = "RemoteRequest";
 	
 	private static boolean isLoggingEnabled = true;
 	
