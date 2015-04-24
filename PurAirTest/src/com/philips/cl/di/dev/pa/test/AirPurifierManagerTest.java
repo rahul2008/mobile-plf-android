@@ -73,6 +73,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 	public void testAddPurifierListenerAfterCurrentPurifierIsAlreadySet(){
 		AirPurifier device1 = createMockDisconnectedPurifier();			
 		mPurifierMan.setCurrentPurifier(device1);		
+<<<<<<< HEAD
+=======
+		
+>>>>>>> Change: DIComm Refactor-  Deleted observer when we set current purifier and also when we remove it.
 		AirPurifier device2 = createMockDisconnectedPurifier();		
 		mPurifierMan.setCurrentPurifier(device2);
 		
