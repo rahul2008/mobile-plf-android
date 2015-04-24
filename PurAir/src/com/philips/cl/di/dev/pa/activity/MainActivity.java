@@ -497,7 +497,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	@Override
-	public void onErrorOccurred(Error.PurifierEvent purifierEvent) { /**NOP*/ }
+	public void onErrorOccurred(Error purifierEventError) { /**NOP*/ }
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");

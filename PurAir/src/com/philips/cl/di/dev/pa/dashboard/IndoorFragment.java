@@ -555,7 +555,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	@Override
-	public void onErrorOccurred(Error.PurifierEvent purifierEvent) {/**NOP*/}
+	public void onErrorOccurred(Error purifierEventError) {/**NOP*/}
 	
 	@Override
 	public void onDestroy() {

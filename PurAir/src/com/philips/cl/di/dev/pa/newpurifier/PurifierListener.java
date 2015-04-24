@@ -20,6 +20,6 @@ public interface PurifierListener {
 	void notifyScheduleListenerForErrorOccured(int errorType);
 
 	void notifyAirPurifierEventListenersErrorOccurred(
-			Error.PurifierEvent purifierEvent);
+			Error purifierEventError);
 
 }

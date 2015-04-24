@@ -272,10 +272,10 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	 */
 	@Override
 	public void notifyAirPurifierEventListenersErrorOccurred(
-			Error.PurifierEvent purifierEvent) {
+			Error purifierEventError) {
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-				listener.onErrorOccurred(purifierEvent);
+				listener.onErrorOccurred(purifierEventError);
 			}
 		}
 	}
