@@ -23,7 +23,7 @@ import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
-import com.philips.cl.di.reg.settings.RegistrationSettings;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -149,7 +149,7 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 
 	private void handleUiState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationSettings.isJanrainIntialized()) {
+			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 				mBtnActivate.setBackgroundResource(R.drawable.navigation_bar);
 				mBtnActivate.setTextColor(getResources().getColor(R.color.btn_enable_text_color));

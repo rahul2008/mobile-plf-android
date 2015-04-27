@@ -12,3 +12,6 @@ LocaleMatch/bin/
 LocaleMatch/gen/
 LocaleMatch/assets/
 LocaleMatch/.settings/org.eclipse.jdt.core.prefs
+LocaleMatch/.classpath
+RegistrationApiTest/lint.xml
+LocaleMatch/.project

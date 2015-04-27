@@ -20,7 +20,7 @@ import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
-import com.philips.cl.di.reg.settings.RegistrationSettings;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XEmail;
 import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
@@ -175,7 +175,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void handleUiErrorState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationSettings.isJanrainIntialized()) {
+			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
 				mRegError.setError(getString(R.string.No_Internet_Connection));
@@ -223,7 +223,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		if (mEtName.ismValidName() && mEtEmail.isValidEmail()
 				&& mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
-				&& RegistrationSettings.isJanrainIntialized()) {
+				&& RegistrationHelper.isJanrainIntialized()) {
 			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();

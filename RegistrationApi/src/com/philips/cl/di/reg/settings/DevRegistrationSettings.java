@@ -1,4 +1,4 @@
-/*package com.philips.cl.di.reg.settings;
+package com.philips.cl.di.reg.settings;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
@@ -17,7 +17,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class DevJanrainSettings extends RegistrationHelper implements LocaleMatchListener{
+public class DevRegistrationSettings extends RegistrationSettings implements LocaleMatchListener{
 
 
 	private String DEVICE_ENGAGE_APP_ID = "bdbppnbjfcibijknnfkk";
@@ -43,7 +43,7 @@ public class DevJanrainSettings extends RegistrationHelper implements LocaleMatc
 	private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
 	@Override
-	public void intializeJanrainSettings(Context context,
+	public void intializeRegistrationSettings(Context context,
 			String captureClientId, String microSiteId,
 			String registrationType, boolean isintialize, String locale) {
 		SharedPreferences pref = context.getSharedPreferences(
@@ -189,4 +189,3 @@ public class DevJanrainSettings extends RegistrationHelper implements LocaleMatc
 
 
 }
-*/

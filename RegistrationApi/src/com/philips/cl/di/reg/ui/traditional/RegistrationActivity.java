@@ -17,8 +17,8 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
-import com.philips.cl.di.reg.settings.RegistrationSettings;
-import com.philips.cl.di.reg.settings.RegistrationSettings.Janrain;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
+import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -161,10 +161,10 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	@Override
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
-			if (!RegistrationSettings.isJanrainIntialized()) {
+			if (!RegistrationHelper.isJanrainIntialized()) {
 
-				RegistrationSettings registrationSettings = new RegistrationSettings(this);
-				registrationSettings.intializeJanrain(Janrain.REINITIALIZE);
+				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
+				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this);
 
 			}
 		}

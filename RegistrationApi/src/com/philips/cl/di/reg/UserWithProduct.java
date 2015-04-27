@@ -25,7 +25,8 @@ import com.philips.cl.di.localematch.enums.Platform;
 import com.philips.cl.di.reg.dao.ProductRegistrationInfo;
 import com.philips.cl.di.reg.handlers.ProductRegistrationHandler;
 import com.philips.cl.di.reg.handlers.RefreshLoginSessionHandler;
-import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
+import com.philips.cl.di.reg.settings.RegistrationSettings;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
 
 public class UserWithProduct implements LocaleMatchListener {
 	private String LOG_TAG = "UserWithProduct";
@@ -64,9 +65,9 @@ public class UserWithProduct implements LocaleMatchListener {
 		mContext = context;
 		/** Get microsite id from preference */
 		SharedPreferences pref = context.getSharedPreferences(
-				JanrainConfigurationSettings.REGISTRATION_API_PREFERENCE, 0);
+				RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
 		MICROSITE_ID = pref.getString(
-				JanrainConfigurationSettings.MICROSITE_ID, "");
+				RegistrationSettings.MICROSITE_ID, "");
 		registerProduct(prodRegInfo, productRegisterHandler, locale, mContext);
 	}
 
@@ -85,13 +86,11 @@ public class UserWithProduct implements LocaleMatchListener {
 			countryCode = "US";
 		}
 		
-		//JanrainSettings userSettings = JanrainSettings.getInstance();
-		JanrainConfigurationSettings userSettings =  JanrainConfigurationSettings.getInstance();
+		RegistrationHelper userSettings = RegistrationHelper.getInstance();
 
 		mProdInfo = prodRegInfo;
 		mProdRegHandler = productRegisterHandler;
-		//mProdRegBaseUrl = userSettings.getRegistrationHelper().getProductRegisterUrl();
-		mProdRegBaseUrl = userSettings.getProductRegisterUrl();
+		mProdRegBaseUrl = userSettings.getRegistrationHelper().getProductRegisterUrl();
 		mInputLocale = locale;
 
 		PILLocaleManager PILLocaleMngr = new PILLocaleManager();

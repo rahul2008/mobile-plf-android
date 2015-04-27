@@ -1,4 +1,4 @@
-/*package com.philips.cl.di.reg.settings;
+package com.philips.cl.di.reg.settings;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
@@ -17,17 +17,9 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class ProdJanrainSettings extends RegistrationHelper implements LocaleMatchListener{
+public class EvalRegistrationSettings extends RegistrationSettings implements
+		LocaleMatchListener {
 
-	private String PRODUCT_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
-	private String PRODUCT_CAPTURE_DOMAIN = "philips.janraincapture.com";
-	private String PRODUCT_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
-	private String PRODUCT_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
-	private String PRODUCT_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.janraincapture.com/oauth/forgot_password_native/";
-	private String PRODUCTION_REGISTER_ACTIVATION_URL = "https://secure.philips.co.uk/myphilips/activateUser.jsp";
-	private String PRODUCTION_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
-
-	//private String mRegisterForgotEmailNative; //not used
 	private String mCountryCode;
 	private String mLanguageCode;
 
@@ -38,17 +30,20 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 
 	private String LOG_TAG = "RegistrationAPI";
 
+	private static String DEV_EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
+	private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
-	private static String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
+	private String EVAL_ENGAGE_APP_ID = "jgehpoggnhbagolnihge";
+	private String EVAL_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
+	private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
+	private String EVAL_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
+	//private String EVAL_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.eval.janraincapture.com/oauth/forgot_password_native/"; //not used
+	private String EVAL_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
+	private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
-	private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
-
-
-
-	
 	@Override
-	public void intializeJanrainSettings(Context context,
+	public void intializeRegistrationSettings(Context context,
 			String captureClientId, String microSiteId,
 			String registrationType, boolean isintialize, String locale) {
 		SharedPreferences pref = context.getSharedPreferences(
@@ -80,6 +75,7 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 
 	@Override
 	public void onLocaleMatchRefreshed(String locale) {
+
 		PILLocaleManager manager = new PILLocaleManager();
 		PILLocale pilLocaleInstance = manager
 				.currentLocaleWithLanguageFallbackForPlatform(locale,
@@ -106,7 +102,18 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 		unRegisterLocaleMatchListener();
 
 	}
-	
+
+	@Override
+	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
+
+		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
+		unRegisterLocaleMatchListener();
+		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
+				+ mCountryCode);
+		initialiseConfigParameters(verifiedLocale);
+
+	}
+
 	private void unRegisterLocaleMatchListener() {
 		LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
 		notifier.unRegisterLocaleMatchChange(this);
@@ -120,16 +127,6 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 			localeCode = "zh-HK";
 		}
 		return localeCode;
-	}
-
-
-	@Override
-	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-		unRegisterLocaleMatchListener();
-		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-				+ mCountryCode);
-		initialiseConfigParameters(verifiedLocale);
 	}
 
 	private void initialiseConfigParameters(String locale) {
@@ -148,14 +145,14 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 		jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
 		jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
 
-		jumpConfig.engageAppId = PRODUCT_ENGAGE_APP_ID;
-		jumpConfig.captureDomain = PRODUCT_CAPTURE_DOMAIN;
-		jumpConfig.captureFlowVersion = PRODUCT_CAPTURE_FLOW_VERSION;
-		jumpConfig.captureAppId = PRODUCT_CAPTURE_APP_ID;
-		//mRegisterForgotEmailNative = PRODUCT_REGISTER_FORGOT_EMAIL_NATIVE; // not used
+		jumpConfig.engageAppId = EVAL_ENGAGE_APP_ID;
+		jumpConfig.captureDomain = EVAL_CAPTURE_DOMAIN;
+		jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
+		jumpConfig.captureAppId = EVAL_CAPTURE_APP_ID;
+		//mRegisterForgotEmailNative = EVAL_REGISTER_FORGOT_EMAIL_NATIVE; //not used
 
-		mProductRegisterUrl = PROD_PRODUCT_REGISTER_URL;
-		mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
+		mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
+		mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
 
 		String localeArr[] = locale.split("-");
 		String langCode = null;
@@ -164,13 +161,17 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 		if (localeArr != null && localeArr.length > 1) {
 			langCode = localeArr[0];
 			countryCode = localeArr[1];
-		}else{
+		} else {
 			langCode = "en";
 			countryCode = "US";
 		}
-
-		jumpConfig.captureRedirectUri = PRODUCTION_REGISTER_ACTIVATION_URL + "?country=" + countryCode +"&catalogType=CONSUMER&language=" + langCode;
-		jumpConfig.captureRecoverUri = PRODUCTION_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		
+		jumpConfig.captureRedirectUri = EVAL_REGISTER_ACTIVATION_URL
+				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
+				+ langCode;
+		jumpConfig.captureRecoverUri = EVAL_REGISTER_FORGOT_MAIL_URL
+				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
+				+ langCode;
 		jumpConfig.captureLocale = locale;
 
 		mPreferredCountryCode = countryCode;
@@ -186,7 +187,7 @@ public class ProdJanrainSettings extends RegistrationHelper implements LocaleMat
 			e.printStackTrace();
 			Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
 		}
+
 	}
 
 }
-*/
