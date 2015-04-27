@@ -90,7 +90,7 @@ public class UserWithProduct implements LocaleMatchListener {
 
 		mProdInfo = prodRegInfo;
 		mProdRegHandler = productRegisterHandler;
-		mProdRegBaseUrl = userSettings.getRegistrationHelper().getProductRegisterUrl();
+		mProdRegBaseUrl = userSettings.getRegistrationSettings().getProductRegisterUrl();
 		mInputLocale = locale;
 
 		PILLocaleManager PILLocaleMngr = new PILLocaleManager();

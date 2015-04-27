@@ -85,7 +85,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 			// PrimaryAddress
 			JSONObject primaryAddressObject = new JSONObject();
 			
-			primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getRegistrationHelper().getPreferredCountryCode());
+			primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getRegistrationSettings().getPreferredCountryCode());
 			primaryAddressObject.put(CONSUMER_ADDRESS1, "");
 			primaryAddressObject.put(CONSUMER_ADDRESS2, "");
 			primaryAddressObject.put(CONSUMER_ADDRESS3, "");
@@ -103,7 +103,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
 			user.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
 			user.put(CONSUMER_ROLES, rolesArray);
-			user.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationHelper().getPreferredLangCode());
+			user.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationSettings().getPreferredLangCode());
 			user.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
 			updateUserRecord(user);
 

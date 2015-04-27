@@ -140,7 +140,7 @@ public class RegistrationHelper {
 		mProdRegistrationSettings.intializeRegistrationSettings(context, captureClientId, microSiteId, registrationType, isintialize, locale);
 	}
 	
-	public RegistrationSettings getRegistrationHelper() {
+	public RegistrationSettings getRegistrationSettings() {
 		
 		return mRegistrationSettings;
 	}
