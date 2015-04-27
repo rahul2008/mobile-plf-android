@@ -23,7 +23,7 @@
         <View style="@style/line" />
 
         <LinearLayout
-            android:id="@+id/ll_email_details"
+            android:id="@+id/email_details"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_bottom"
@@ -32,13 +32,11 @@
             android:paddingRight="@dimen/layout_margin" >
 
             <com.philips.cl.di.reg.ui.customviews.XTextView
-                android:id="@+id/tv_sign_in_using"
+                android:id="@+id/tv_sign_in_email_success"
                 style="@style/textStyle"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:text="@string/you_have_sign_in"
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
-
-            <include layout="@layout/email_details" />
         </LinearLayout>
 
         <View style="@style/line" />
@@ -53,7 +51,6 @@
 
             <com.philips.cl.di.reg.ui.customviews.XButton
                 style="@style/buttonStyle"
-                android:id="@+id/btn_continue"
                 android:layout_marginBottom="@dimen/margin_bottom"
                 android:background="@drawable/navigation_bar"
                 android:text="@string/continue_login"

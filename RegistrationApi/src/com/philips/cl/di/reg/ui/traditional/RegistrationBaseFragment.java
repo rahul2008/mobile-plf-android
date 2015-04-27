@@ -6,8 +6,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
@@ -31,6 +33,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		mLeftRightMarginPort = (int) getResources().getDimension(R.dimen.layout_margin_port);
 		mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.layout_margin_land);
 	}
@@ -52,10 +55,22 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		}
 		return null;
 	}
-
+	
 	public void raiseEvent(String event) {
 		// TODO Auto-generated method stub
 		RLog.i(RLog.NETWORK_STATE, event);
 	}
+	
+	protected void consumeTouch(View view) {
+        if (view == null)    return;
+        view.setOnTouchListener(new OnTouchListener() {
+
+             @Override
+             public boolean onTouch(View v, MotionEvent event) {
+
+                  return true;
+             }
+        });
+    }
 
 }

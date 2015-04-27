@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.annotation.SuppressLint;
@@ -22,8 +21,8 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
-        EventListener {
+public class HomeFragment extends RegistrationBaseFragment implements
+		OnClickListener, EventListener {
 
 	private Button mBtnCreateAccount;
 
@@ -40,12 +39,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	private XRegError mRegError;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
@@ -55,25 +56,30 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
 	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-		        this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
 		super.onDestroy();
 	}
 
 	private void initUI(View view) {
+		consumeTouch(view);
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
 		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_welcome_desc);
-		mLlCreateBtnContainer = (LinearLayout) view.findViewById(R.id.ll_create_account_container);
-		mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_singin_options);
+		mLlCreateBtnContainer = (LinearLayout) view
+				.findViewById(R.id.ll_create_account_container);
+		mLlLoginBtnContainer = (LinearLayout) view
+				.findViewById(R.id.rl_singin_options);
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
 		mBtnMyPhilips = (Button) view.findViewById(R.id.philips_acct_id);
@@ -90,15 +96,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		// Library does not include resource constants after ADT 14
 		// Link :http://tools.android.com/tips/non-constant-fields
 		if (v.getId() == R.id.btn_create_account) {
-			getRegistrationMainActivity().addFragment(new CreateAccountFragment());
+			getRegistrationMainActivity().addFragment(
+					new CreateAccountFragment());
 		} else if (v.getId() == R.id.philips_acct_id) {
-			getRegistrationMainActivity().addFragment(new SignInAccountFragment());
+			getRegistrationMainActivity().addFragment(
+					new SignInAccountFragment());
 		}
 	}
 
 	@Override
 	public void setViewParams(Configuration config) {
-		LinearLayout.LayoutParams mParams = (LayoutParams) mTvWelcome.getLayoutParams();
+		LinearLayout.LayoutParams mParams = (LayoutParams) mTvWelcome
+				.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {
@@ -158,10 +167,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		//
 		if (state) {
 			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
-			mBtnCreateAccount.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
+			mBtnCreateAccount.setTextColor(getResources().getColor(
+					R.color.btn_enable_text_color));
 			/*
-			 * mBtnCreateAccount.setAlpha(1);
-			 * mBtnMyPhilips.setAlpha(1);
+			 * mBtnCreateAccount.setAlpha(1); mBtnMyPhilips.setAlpha(1);
 			 */
 			// mLlFacebook.setAlpha(1);
 			// mLlTwitter.setAlpha(1);
@@ -170,7 +179,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		} else {
 			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
 			mBtnCreateAccount.setBackgroundResource(R.drawable.disable_btn);
-			mBtnCreateAccount.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+			mBtnCreateAccount.setTextColor(getResources().getColor(
+					R.color.btn_disable_text_color));
 			/*
 			 * mBtnCreateAccount.setAlpha(0.75f);
 			 * mBtnCreateAccount.setAlpha(0.75f);

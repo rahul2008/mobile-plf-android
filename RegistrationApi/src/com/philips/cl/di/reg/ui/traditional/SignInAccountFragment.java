@@ -107,12 +107,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			signIn();
 		} else if (id == R.id.forgot_password_btn) {
 			resetPassword();
+			
 		}else if (id == R.id.resend_btn) {
-			//getRegistrationMainActivity().addFragment(new ActivateAccountFragment());
+		   getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 		}
 	}
 
 	private void initUI(View view) {
+		consumeTouch(view);
 		mBtnSignInAccount = (Button) view.findViewById(R.id.sign_in_btn);
 		mBtnSignInAccount.setOnClickListener(this);
 		mBtnForgot = (Button) view.findViewById(R.id.forgot_password_btn);
@@ -150,6 +152,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	private void signIn() {
 		if (mUser != null)
 			showSignInSpinner();
+		    mBtnForgot.setEnabled(false);
+		    mBtnResend.setEnabled(false);
 		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(),
 				mEtPassword.getPassword().toString(), this);
 	}
@@ -170,13 +174,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onLoginSuccess() {
 		hideSignInSpinner();
+		mBtnForgot.setEnabled(true);
+		mBtnResend.setEnabled(true);
 		mRegError.hideError();
 		if (mUser.getEmailVerificationStatus(getActivity())) {
-			((RegistrationActivity) getActivity()).addFragment(new WelcomeFragment());
-            //addRegisterOptionalInfo();
-           // CoffeeUtility.notifyLogoutAction(getActivity());
-       } else {
-            mUser.logout();
+			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+	   } else {
             mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
             mBtnResend.setVisibility(View.VISIBLE);
        }
@@ -184,7 +187,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onLoginFailedWithError(int errorType) {
-
+		mBtnForgot.setEnabled(true);
+		mBtnResend.setEnabled(true);
 		hideSignInSpinner();
 		if (errorType == INVALID_CREDENTIAL) {
 
@@ -235,10 +239,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	public void onSendForgotPasswordSuccess() {
 		hideForgotPasswordSpinner();
 		forgotpassword();
+		mBtnResend.setEnabled(true);
 	}
 
 	@Override
 	public void onSendForgotPasswordFailedWithError(int error) {
+		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
 		JanrainErrorMessage errorMessage = new JanrainErrorMessage(
 				getActivity());
@@ -282,6 +288,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			if (NetworkUtility.getInstance().isOnline()) {
 				if (mUser != null) {
 					showForgotPasswordSpinner();
+					mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+					mBtnSignInAccount.setEnabled(false);
+					mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+					mBtnResend.setEnabled(false);
 					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
 				}
 
@@ -297,10 +307,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 				&& RegistrationHelper.isJanrainIntialized()) {
 			mBtnSignInAccount.setBackgroundResource(R.drawable.navigation_bar);
 			mBtnSignInAccount.setEnabled(true);
+			mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
 			mRegError.hideError();
 		} else {
-			mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
 			mBtnSignInAccount.setEnabled(false);
+			mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+			mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
 		}
 	}
 

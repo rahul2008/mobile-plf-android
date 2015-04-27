@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.Context;
@@ -8,8 +7,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -23,33 +24,47 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationActivity extends FragmentActivity implements EventListener {
+public class RegistrationActivity extends FragmentActivity implements
+		EventListener, OnClickListener {
 
 	private RelativeLayout mActionBarArrow = null;
-
 	private FragmentManager mFragmentManager = null;
-
-	private TextView mActionBarTitle = null;
-
 	private final String TAG = TextView.class.getSimpleName();
-	
-	private final int HOME_SCREEN =1;
-	private final int CREATE_ACCOUNT_SCREEN =2;
-	private final int PHILIPS_WELCOME_SCREEN =4;
-	
-	
+	private static final boolean VERIFICATION_SUCCESS = true;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
 
 		setContentView(R.layout.activity_registration);
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
 
 		loadMainFragment();
-		getSupportFragmentManager().addOnBackStackChangedListener(getListener());
+		getSupportFragmentManager()
+				.addOnBackStackChangedListener(getListener());
+	}
+
+	@Override
+	public void onBackPressed() {
+		handleBackStack();
+	}
+
+	private void handleBackStack() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		int count = fragmentManager.getBackStackEntryCount();
+		if (count > 0) {
+			Fragment fragment = fragmentManager.getFragments().get(count - 1);
+			if (fragment instanceof WelcomeFragment) {
+				navigateToHome();
+			} else {
+				super.onBackPressed();
+			}
+		}
+
 	}
 
 	public void loadMainFragment() {
@@ -58,19 +73,24 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 
 	public void addFragment(Fragment fragment) {
 		try {
-			if (mFragmentManager.getBackStackEntryCount() == 0) {
-				hideBackArrow();
-			} else {
-				enableActionBarLeftArrow();
-			}
-			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.main_activity_container, fragment, fragment.getTag());
+			FragmentTransaction fragmentTransaction = mFragmentManager
+					.beginTransaction();
+			fragmentTransaction.add(R.id.main_activity_container, fragment,
+					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
 			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
 		}
 		hideKeyBoard();
+	}
+
+	public void navigateToHome() {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		int fragmentCount = fragmentManager.getBackStackEntryCount();
+		for (int i = fragmentCount; i > 1; i--) {
+			fragmentManager.popBackStack();
+		}
 	}
 
 	private OnBackStackChangedListener getListener() {
@@ -83,79 +103,27 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 					if (backStackEntryCount == 0) {
 						finish();
 					} else if (backStackEntryCount == 1) {
-						hideBackArrow();
+						// hideBackArrow();
 					}
+
 				}
 			}
 		};
 		return result;
 	}
 
-	private boolean backstackFragment() {
-		
-		if (mFragmentManager.getBackStackEntryCount() == HOME_SCREEN) {
-			this.finish();
-		}
-
-		else if (mFragmentManager.getBackStackEntryCount() == CREATE_ACCOUNT_SCREEN) {
-			hideBackArrow();
-			mFragmentManager.popBackStack();
-			removeCurrentFragment();
-		}else if (mFragmentManager.getBackStackEntryCount() == PHILIPS_WELCOME_SCREEN) {
-			System.out.println("**************** 4 *************");
-			clearBackStack();
-		} else {
-			mFragmentManager.popBackStack();
-			removeCurrentFragment();
-		}
-		
-		hideKeyBoard();
-		return false;
-	}
-	
-	public void clearBackStack() {
-		FragmentManager childFragmentManager = getSupportFragmentManager();
-		int fragmentCount = childFragmentManager.getBackStackEntryCount();
-		for (int i = 1; i < fragmentCount; i++) {
-			childFragmentManager.popBackStack();
-		}
-	}
-	
-	private void removeCurrentFragment() {
-		FragmentTransaction transaction = mFragmentManager.beginTransaction();
-
-		Fragment currentFrag = mFragmentManager.findFragmentById(R.id.main_activity_container);
-
-		if (currentFrag != null) {
-			transaction.remove(currentFrag);
-		}
-
-		transaction.commit();
-	}
-
-	protected void hideBackArrow() {
-		mActionBarArrow.setVisibility(View.INVISIBLE);
-		mActionBarTitle.setText(getResources().getString(R.string.sign_in));
-	}
-
-	private OnClickListener actionBarClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View view) {
-			backstackFragment();
-		}
-	};
-
 	private void initUI() {
 		mActionBarArrow = (RelativeLayout) findViewById(R.id.iv_backArrow);
-		mActionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-		mActionBarArrow.setOnClickListener(actionBarClickListener);
-
+		mActionBarArrow.setOnClickListener(this);
 	}
 
-	private void enableActionBarLeftArrow() {
-		mActionBarArrow.setVisibility(View.VISIBLE);
-		mActionBarArrow.bringToFront();
+	public void addWelcomeFragmentOnVerification() {
+		WelcomeFragment welcomeFragment = new WelcomeFragment();
+		Bundle welcomeFragmentBundle = new Bundle();
+		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS,
+				VERIFICATION_SUCCESS);
+		welcomeFragment.setArguments(welcomeFragmentBundle);
+		addFragment(welcomeFragment);
 	}
 
 	@Override
@@ -174,13 +142,27 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	public void raiseEvent(String event) {
 		// Do nothing
 	}
-	
-	private void hideKeyBoard(){
+
+	private void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
 					.getWindowToken(), 0);
 		}
+	}
+
+	public void handleContinue() {
+		this.finish();
+		// TODO: need to notify app onSuccessful login
+	}
+
+	@Override
+	public void onClick(View v) {
+
+		if (v.getId() == R.id.iv_backArrow) {
+			onBackPressed();
+		}
+
 	}
 
 }

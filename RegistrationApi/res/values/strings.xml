@@ -54,6 +54,6 @@
 	<string name="invalid_password">Invalid password</string>
 	<string name="resend_email_faild">Resend email faild</string>
 	<string name="you_have_sign_in">You have signed in using:\n</string>
-	<string name="we_sent_email">We have sent an email:\n</string>
+	<string name="we_sent_email">We have sent an email\n</string>
 	<string name="sign_out">Signed out</string>
 </resources>

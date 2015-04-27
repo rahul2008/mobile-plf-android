@@ -3,7 +3,8 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@android:color/white" >
 
     <LinearLayout
         android:id="@+id/ll_create_account_fields"
@@ -53,7 +54,7 @@
 
             <com.philips.cl.di.reg.ui.customviews.XButton
                 android:id="@+id/sign_in_btn"
-                style="@style/buttonStyle"
+                style="@style/disable_buttonStyle"
                 android:background="@drawable/disable_btn"
                 android:enabled="false"
                 android:text="@string/sign_in"

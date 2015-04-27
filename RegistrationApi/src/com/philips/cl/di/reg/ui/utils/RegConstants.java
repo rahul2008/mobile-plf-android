@@ -239,5 +239,7 @@ public class RegConstants {
 	public static final String CANCEL_SETUP = "CANCEL_SETUP";
 
 	public static final String EMAIL = "Email";
+	
+	public static final String VERIFICATIN_SUCCESS = "VERIFICATIN_SUCCESS";
 
 }

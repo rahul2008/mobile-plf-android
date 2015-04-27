@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.Context;
@@ -17,8 +16,10 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener {
+public class WelcomeFragment extends RegistrationBaseFragment implements
+		OnClickListener {
 
 	private TextView mTvWelcome;
 	private TextView mTvSignInEmail;
@@ -26,51 +27,73 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	private LinearLayout mLlContinueBtnContainer;
 	private User mUser;
 	private Context mContext;
-	private Button mBtnSignOut;
 	
+	private LinearLayout mLlEmailDetails;
+	private boolean isfromVerification;
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
+
+		Bundle bundle = getArguments();
+		if (null != bundle) {
+			isfromVerification = bundle
+					.getBoolean(RegConstants.VERIFICATIN_SUCCESS);
+		}
+
 		View view = inflater.inflate(R.layout.fragment_welcome, null);
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		mUser = new User(mContext);
 		init(view);
 		return view;
 	}
-	
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		getRegistrationMainActivity().clearBackStack();
-	}
 
 	private void init(View view) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onActivityCreated");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserWelcomeFragment : onActivityCreated");
+		consumeTouch(view);
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
-		mLlEmailDetailsContainer = (LinearLayout) view.findViewById(R.id.email_details);
-		mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.continue_id);
+		mLlEmailDetailsContainer = (LinearLayout) view
+				.findViewById(R.id.ll_email_details);
+		mLlContinueBtnContainer = (LinearLayout) view
+				.findViewById(R.id.continue_id);
 		setViewParams(getResources().getConfiguration());
-		mBtnSignOut = (Button) view.findViewById(R.id.sign_out_btn);
-		mBtnSignOut.setOnClickListener(this);
-		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_sign_in_email);
-		
+		Button btnSignOut = (Button) view.findViewById(R.id.btn_sign_out);
+		btnSignOut.setOnClickListener(this);
+		Button btnContinue = (Button) view.findViewById(R.id.btn_continue);
+		btnContinue.setOnClickListener(this);
+		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_sign_in_using);
+		mLlEmailDetails = (LinearLayout) view.findViewById(R.id.email_details);
+		if (isfromVerification) {
+			mLlEmailDetails.setVisibility(View.GONE);
+		}
+
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
-		mTvWelcome.setText(getString(R.string.welcome) + " ["+userProfile.getGivenName() +"]");
-		mTvSignInEmail.setText(getString(R.string.we_sent_email) +userProfile.getEmail());
+		mTvWelcome.setText(getString(R.string.welcome) + " ["
+				+ userProfile.getGivenName() + "]");
+		mTvSignInEmail.setText(getString(R.string.you_have_sign_in)
+				+ userProfile.getEmail());
 	}
-	
+
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.sign_out_btn) {
-            mUser.logout();
-		}
+		int id = v.getId();
 		
+		if (id == R.id.btn_sign_out) {
+			mUser.logout();
+			getRegistrationMainActivity().navigateToHome();
+		}else if(id == R.id.btn_continue){
+			getRegistrationMainActivity().handleContinue();
+		}
+
 	}
 
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserWelcomeFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
@@ -78,7 +101,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	public void setViewParams(Configuration config) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : setViewParams");
 
-		LinearLayout.LayoutParams params = (LayoutParams) mTvWelcome.getLayoutParams();
+		LinearLayout.LayoutParams params = (LayoutParams) mTvWelcome
+				.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
 		} else {
@@ -95,5 +119,4 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		return getResources().getString(R.string.create_account);
 	}
 
-	
 }

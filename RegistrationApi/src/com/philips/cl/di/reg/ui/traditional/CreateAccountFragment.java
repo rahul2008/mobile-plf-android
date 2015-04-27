@@ -35,29 +35,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		EventListener {
 
 	private LinearLayout mLlCreateAccountFields;
-
 	private TextView mTvpasswordDetails;
-
 	private LinearLayout mLlCreateAccountContainer;
-
 	private RelativeLayout mRlCreateActtBtnContainer;
-
 	private Button mBtnCreateAccount;
-
 	private CheckBox mCbTerms;
-
 	private User mUser;
-
 	private XUserName mEtName;
-
 	private XEmail mEtEmail;
-
 	private XPassword mEtPassword;
-
 	private final int EMAIL_ALEADY_EXIST = 14;
-
 	private XRegError mRegError;
-
 	private ProgressBar mPbSpinner;
 
 	@Override
@@ -122,7 +110,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	private void initUI(View view) {
-
+		consumeTouch(view);
 		mLlCreateAccountFields = (LinearLayout) view
 				.findViewById(R.id.ll_create_account_fields);
 		mTvpasswordDetails = (TextView) view
@@ -134,7 +122,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_register);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_register_terms);
-		//mCbTerms.setTypeface(Fonts.getGillSansStdLight(getActivity()));
+		// mCbTerms.setTypeface(Fonts.getGillSansStdLight(getActivity()));
 
 		mBtnCreateAccount.setOnClickListener(this);
 
@@ -190,8 +178,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		hideSpinner();
 		Toast.makeText(getActivity(), "Registration Success", Toast.LENGTH_LONG)
 				.show();
-		getRegistrationMainActivity()
-				.addFragment(new ActivateAccountFragment());
+		getRegistrationMainActivity().addFragment(
+				new AccountActivationFragment());
 	}
 
 	@Override

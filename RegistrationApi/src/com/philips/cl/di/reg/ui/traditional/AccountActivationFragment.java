@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.Context;
@@ -24,70 +23,65 @@ import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
+import com.philips.cl.di.reg.settings.RegistrationSettings;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class ActivateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        RefreshUserHandler, ResendVerificationEmailHandler, EventListener {
+public class AccountActivationFragment extends RegistrationBaseFragment
+		implements OnClickListener, RefreshUserHandler,
+		ResendVerificationEmailHandler, EventListener {
 
 	private Button mBtnActivate;
-
 	private Button mBtnResend;
-
 	private TextView mTvVerifyEmail;
-
 	private LinearLayout mLlWelcomeContainer;
-
 	private TextView mTvResendDetails;
-
 	private RelativeLayout mRlSingInOptions;
-
 	private ProgressBar mPbActivateSpinner;
-
 	private ProgressBar mPbResendSpinner;
-
 	private User mUser;
-
 	private Context mContext;
-
 	private XRegError mRegError;
-
 	private XRegError mEMailVerifiedError;
-	
 	private String mEmailId;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"ActivateAccountFragment : onCreateView");
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		mUser = new User(mContext);
-		View view = inflater.inflate(R.layout.fragment_activate_account, null);
+		View view = inflater
+				.inflate(R.layout.fragment_account_activation, null);
 		initUI(view);
 		return view;
 	}
 
-		
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE,
+				"UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
 	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-		        this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.JANRAIN_INIT_FAILURE, this);
 		super.onDestroy();
 	}
 
@@ -124,25 +118,31 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	private void initUI(View view) {
+		consumeTouch(view);
 		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_veify_email);
-		mLlWelcomeContainer = (LinearLayout) view.findViewById(R.id.ll_welcome_container);
+		mLlWelcomeContainer = (LinearLayout) view
+				.findViewById(R.id.ll_welcome_container);
 		mTvResendDetails = (TextView) view.findViewById(R.id.tv_resend_details);
-		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_singin_options);
+		mRlSingInOptions = (RelativeLayout) view
+				.findViewById(R.id.rl_singin_options);
 		mBtnActivate = (Button) view.findViewById(R.id.activate_acct_btn);
 		mBtnResend = (Button) view.findViewById(R.id.resend_btn);
 		mBtnActivate.setOnClickListener(this);
 		mBtnResend.setOnClickListener(this);
 
-		mPbActivateSpinner = (ProgressBar) view.findViewById(R.id.pb_activate_spinner);
-		mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_resend_spinner);
+		mPbActivateSpinner = (ProgressBar) view
+				.findViewById(R.id.pb_activate_spinner);
+		mPbResendSpinner = (ProgressBar) view
+				.findViewById(R.id.pb_resend_spinner);
 
 		TextView tvEmail = (TextView) view.findViewById(R.id.tv_email);
-		
+
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mEmailId = userProfile.getEmail();
 		tvEmail.setText(getString(R.string.mail_Sent_to) + mEmailId);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-		mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
+		mEMailVerifiedError = (XRegError) view
+				.findViewById(R.id.reg_email_verified_error);
 		setViewParams(getResources().getConfiguration());
 		handleUiState();
 	}
@@ -152,12 +152,14 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 				mBtnActivate.setBackgroundResource(R.drawable.navigation_bar);
-				mBtnActivate.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
+				mBtnActivate.setTextColor(getResources().getColor(
+						R.color.btn_enable_text_color));
 				mBtnActivate.setClickable(true);
 				mBtnResend.setClickable(true);
 			} else {
 				mBtnActivate.setBackgroundResource(R.drawable.disable_btn);
-				mBtnActivate.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+				mBtnActivate.setTextColor(getResources().getColor(
+						R.color.btn_disable_text_color));
 				mBtnActivate.setClickable(false);
 				mBtnResend.setClickable(false);
 				mRegError.setError(getString(R.string.No_Internet_Connection));
@@ -165,7 +167,8 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		} else {
 			mRegError.setError(getString(R.string.No_Internet_Connection));
 			mBtnActivate.setBackgroundResource(R.drawable.disable_btn);
-			mBtnActivate.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+			mBtnActivate.setTextColor(getResources().getColor(
+					R.color.btn_disable_text_color));
 			mBtnActivate.setClickable(false);
 			mBtnResend.setClickable(false);
 		}
@@ -198,21 +201,24 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend.setEnabled(true);
 		if (mUser.getEmailVerificationStatus(mContext)) {
 			mBtnResend.setVisibility(View.GONE);
-			Toast.makeText(getActivity(), "Verification email Success", Toast.LENGTH_LONG).show();
+			Toast.makeText(getActivity(), "Verification email Success",
+					Toast.LENGTH_LONG).show();
 			mEMailVerifiedError.hideError();
 			mRegError.hideError();
-			getRegistrationMainActivity().addFragment(new WelcomeFragment());
+			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+
 		} else {
 
 			mEMailVerifiedError.setVisibility(View.VISIBLE);
 			mEMailVerifiedError.setError(getResources().getString(
-			        R.string.Janrain_Error_Need_Email_Verification));
+					R.string.Janrain_Error_Need_Email_Verification));
 		}
 	}
 
 	@Override
 	public void setViewParams(Configuration config) {
-		LinearLayout.LayoutParams params = (LayoutParams) mTvVerifyEmail.getLayoutParams();
+		LinearLayout.LayoutParams params = (LayoutParams) mTvVerifyEmail
+				.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
 		} else {
@@ -245,7 +251,8 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 	public void onResendVerificationEmailSuccess() {
 		// Navigate to signin
 		updateResendUIState();
-		Toast.makeText(getActivity(), "Resend Mail Successfully ", Toast.LENGTH_LONG).show();
+		Toast.makeText(getActivity(), "Resend Mail Successfully ",
+				Toast.LENGTH_LONG).show();
 	}
 
 	private void updateResendUIState() {
@@ -259,7 +266,8 @@ public class ActivateAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onResendVerificationEmailFailedWithError(int error) {
 		updateResendUIState();
-		mRegError.setError(getResources().getString(R.string.resend_email_faild));
+		mRegError.setError(getResources()
+				.getString(R.string.resend_email_faild));
 	}
 
 	@Override
