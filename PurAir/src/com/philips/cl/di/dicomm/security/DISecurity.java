@@ -6,17 +6,18 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class DISecurity {
-    
-    public interface DecryptionFailedListener{
+
+    public interface EncryptionDecryptionFailedListener{
         void onDecryptionFailed(NetworkNode networkNode);
+        void onEncryptionFailed(NetworkNode networkNode);
     }
 
 	public static final String BOOT_STRAP_ID_3 = "MDAwMD" ;
 
-	private DecryptionFailedListener mDecryptionFailedListener;
-	
-    public void setDecryptionFailedListener(DecryptionFailedListener decryptionFailedListener) {
-        this.mDecryptionFailedListener = decryptionFailedListener;
+	private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener;
+
+    public void setEncryptionDecryptionFailedListener(EncryptionDecryptionFailedListener encryptionDecryptionFailedListener) {
+        this.mEncryptionDecryptionFailedListener = encryptionDecryptionFailedListener;
     }
 
     public String encryptData(String data, NetworkNode networkNode) {
@@ -96,8 +97,14 @@ public class DISecurity {
     }
 
     private void notifyDecryptionFailedListener(NetworkNode networkNode) {
-        if(mDecryptionFailedListener!=null){
-            mDecryptionFailedListener.onDecryptionFailed(networkNode);
+        if(mEncryptionDecryptionFailedListener!=null){
+            mEncryptionDecryptionFailedListener.onDecryptionFailed(networkNode);
         }
+    }
+
+    public void notifyEncryptionFailedListener(NetworkNode networkNode) {
+    	if(mEncryptionDecryptionFailedListener!=null){
+    		mEncryptionDecryptionFailedListener.onEncryptionFailed(networkNode);
+    	}
     }
 }
