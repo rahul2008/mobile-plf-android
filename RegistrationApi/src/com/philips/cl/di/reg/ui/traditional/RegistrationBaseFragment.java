@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.app.Activity;
@@ -8,8 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
@@ -26,16 +25,19 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	public abstract String getActionbarTitle();
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		mLeftRightMarginPort = (int) getResources().getDimension(R.dimen.layout_margin_port);
-		mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.layout_margin_land);
+
+		mLeftRightMarginPort = (int) getResources().getDimension(
+				R.dimen.layout_margin_port);
+		mLeftRightMarginLand = (int) getResources().getDimension(
+				R.dimen.layout_margin_land);
 	}
 
 	@Override
@@ -45,7 +47,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	}
 
 	private void setActionbarTitle() {
-		((TextView) getActivity().findViewById(R.id.action_bar_title)).setText(getActionbarTitle());
+		((TextView) getActivity().findViewById(R.id.action_bar_title))
+				.setText(getActionbarTitle());
 	}
 
 	public RegistrationActivity getRegistrationMainActivity() {
@@ -55,22 +58,22 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		}
 		return null;
 	}
-	
+
 	public void raiseEvent(String event) {
 		// TODO Auto-generated method stub
 		RLog.i(RLog.NETWORK_STATE, event);
 	}
-	
+
 	protected void consumeTouch(View view) {
-        if (view == null)    return;
-        view.setOnTouchListener(new OnTouchListener() {
+		if (view == null)
+			return;
+		view.setOnTouchListener(new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
 
-             @Override
-             public boolean onTouch(View v, MotionEvent event) {
-
-                  return true;
-             }
-        });
-    }
+				return true;
+			}
+		});
+	}
 
 }

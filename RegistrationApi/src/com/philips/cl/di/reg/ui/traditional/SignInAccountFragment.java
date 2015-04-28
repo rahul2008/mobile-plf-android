@@ -220,7 +220,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		myBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		myBuilder.setCancelable(true);
 		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
-		View myView = myLayoutInflater.inflate(R.layout.reset_password, null);
+		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password, null);
 		Button continueBtn = (Button) myView.findViewById(R.id.continue_btn);
 
 		continueBtn.setOnClickListener(new View.OnClickListener() {

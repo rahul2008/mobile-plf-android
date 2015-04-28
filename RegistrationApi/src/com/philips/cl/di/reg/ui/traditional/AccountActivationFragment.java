@@ -23,7 +23,6 @@ import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.settings.RegistrationSettings;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
