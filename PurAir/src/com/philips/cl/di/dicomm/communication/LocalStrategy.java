@@ -7,7 +7,7 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.ExchangeKeyRequest;
 import com.philips.cl.di.dev.pa.purifier.LocalRequest;
 import com.philips.cl.di.dicomm.security.DISecurity;
-import com.philips.cl.di.dicomm.security.DISecurity.DecryptionFailedListener;
+import com.philips.cl.di.dicomm.security.DISecurity.EncryptionDecryptionFailedListener;
 
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;
@@ -16,7 +16,7 @@ public class LocalStrategy extends CommunicationStrategy {
 
 	public LocalStrategy(DISecurity diSecurity){
 		mDISecurity = diSecurity;
-		mDISecurity.setDecryptionFailedListener(mDecryptionFailedListener);
+		mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = new RequestQueue();
 	}
 
@@ -79,6 +79,11 @@ public class LocalStrategy extends CommunicationStrategy {
 		return false;
 	}
 
+	private void triggerKeyExchange(NetworkNode networkNode) {
+		networkNode.setEncryptionKey(null);
+        exchangeKeyIfNecessary(networkNode);
+	}
+
     private void exchangeKeyIfNecessary(NetworkNode networkNode) {
         if(networkNode.getEncryptionKey()==null && !isKeyExchangeOngoing){
             doKeyExchange(networkNode);
@@ -101,13 +106,17 @@ public class LocalStrategy extends CommunicationStrategy {
         isKeyExchangeOngoing = true;
         mRequestQueue.addRequestInFrontOfQueue(request);
     }
-    
-    DecryptionFailedListener mDecryptionFailedListener = new DecryptionFailedListener() {
+
+    EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener = new EncryptionDecryptionFailedListener() {
 
         @Override
         public void onDecryptionFailed(NetworkNode networkNode) {
-            networkNode.setEncryptionKey(null);
-            exchangeKeyIfNecessary(networkNode);
+            triggerKeyExchange(networkNode);
+        }
+
+        @Override
+        public void onEncryptionFailed(NetworkNode networkNode) {
+        	triggerKeyExchange(networkNode);
         }
     };
 }

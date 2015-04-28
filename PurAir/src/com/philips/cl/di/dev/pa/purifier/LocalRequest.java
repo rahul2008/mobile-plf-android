@@ -98,9 +98,7 @@ public class LocalRequest extends Request {
 			}
 			else if(responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
 				inputStream = conn.getErrorStream();
-				result = NetworkUtils.convertInputStreamToString(inputStream);
-				ALog.e(ALog.LOCALREQUEST, "BAD REQUEST - " +result);
-				return new Response(result, Error.BADREQUEST, mResponseHandler);
+				return handleBadRequest(inputStream);
 			}
 			else if(responseCode == HttpURLConnection.HTTP_BAD_GATEWAY){
 				return new Response(null, Error.BADGATEWAY, mResponseHandler);
@@ -137,6 +135,18 @@ public class LocalRequest extends Request {
         ALog.i(ALog.LOCALREQUEST, "Received data: " + data);
         return new Response(data, null, mResponseHandler);
     }
+
+	private Response handleBadRequest(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+		String errorMessage = NetworkUtils.convertInputStreamToString(inputStream);
+		ALog.e(ALog.LOCALREQUEST, "BAD REQUEST - " + errorMessage);
+
+		if (mDISecurity != null) {
+			ALog.e(ALog.LOCALREQUEST, "Request not properly encrypted - notifying listener");
+			mDISecurity.notifyEncryptionFailedListener(mNetworkNode);
+		}
+
+		return new Response(errorMessage, Error.BADREQUEST, mResponseHandler);
+	}
 
     private String decryptData(String cypher) {
         if (mDISecurity != null) {
