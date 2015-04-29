@@ -104,7 +104,7 @@ public class SHNCentral {
         void onStateUpdated(SHNCentral shnCentral);
     }
 
-    private final Handler upperLayerHandler;
+    private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
@@ -142,7 +142,7 @@ public class SHNCentral {
         if (handler == null) {
             handler = new Handler(Looper.getMainLooper());
         }
-        this.upperLayerHandler = handler;
+        this.userHandler = handler;
 
         // Check that the device supports BLE.
         if (!BleUtilities.deviceHasBle()) {
@@ -164,6 +164,10 @@ public class SHNCentral {
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
     }
 
+    public Handler getUserHandler() {
+        return userHandler;
+    }
+
     public void shutdown() {
         scheduledThreadPoolExecutor.shutdown();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
@@ -180,7 +184,7 @@ public class SHNCentral {
     }
 
     public void runOnHandlerThread(Runnable runnable) {
-        upperLayerHandler.post(runnable);
+        userHandler.post(runnable);
     }
 
     void reportSHNDeviceUpdated(final SHNDevice.SHNDeviceListener shnDeviceListener, final SHNDevice shnDevice) {
@@ -190,7 +194,7 @@ public class SHNCentral {
                 shnDeviceListener.onStateUpdated(shnDevice);
             }
         };
-        upperLayerHandler.post(runnable);
+        userHandler.post(runnable);
     }
 
     public boolean isBluetoothAdapterEnabled() {
