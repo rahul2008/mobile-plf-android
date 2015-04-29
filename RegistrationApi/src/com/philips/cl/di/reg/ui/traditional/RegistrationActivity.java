@@ -46,6 +46,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 
 	@Override
 	public void onBackPressed() {
+		hideKeyBoard();
 		handleBackStack();
 	}
 
