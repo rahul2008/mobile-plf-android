@@ -23,5 +23,11 @@
     <dimen name="reg_header_height">50dip</dimen>
     <dimen name="reg_header_title_size">23sp</dimen>
     <dimen name="reg_header_iv_back_padding">13dip</dimen>
-
+	
+    <!-- Edit Text -->
+    <dimen name="reg_et_height">45dip</dimen>
+    <dimen name="reg_et_hint_size">20sp</dimen>
+    <dimen name="reg_err_alert_width">33dp</dimen>
+    <dimen name="arrow_margin_right">12dip</dimen>
+    
 </resources>

@@ -107,9 +107,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			signIn();
 		} else if (id == R.id.forgot_password_btn) {
 			resetPassword();
-			
-		}else if (id == R.id.resend_btn) {
-		   getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+
+		} else if (id == R.id.resend_btn) {
+			mEtEmail.clearFocus();
+			mEtPassword.clearFocus();
+			getRegistrationMainActivity().addFragment(
+					new AccountActivationFragment());
 		}
 	}
 
@@ -152,8 +155,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	private void signIn() {
 		if (mUser != null)
 			showSignInSpinner();
-		    mBtnForgot.setEnabled(false);
-		    mBtnResend.setEnabled(false);
+		mEtEmail.clearFocus();
+		mEtPassword.clearFocus();
+		mBtnForgot.setEnabled(false);
+		mBtnResend.setEnabled(false);
 		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(),
 				mEtPassword.getPassword().toString(), this);
 	}
@@ -179,10 +184,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mRegError.hideError();
 		if (mUser.getEmailVerificationStatus(getActivity())) {
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-	   } else {
-            mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
-            mBtnResend.setVisibility(View.VISIBLE);
-       }
+		} else {
+			mRegError
+					.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
+			mBtnResend.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
@@ -220,7 +226,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		myBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		myBuilder.setCancelable(true);
 		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
-		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password, null);
+		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password,
+				null);
 		Button continueBtn = (Button) myView.findViewById(R.id.continue_btn);
 
 		continueBtn.setOnClickListener(new View.OnClickListener() {
@@ -288,9 +295,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			if (NetworkUtility.getInstance().isOnline()) {
 				if (mUser != null) {
 					showForgotPasswordSpinner();
-					mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+					mEtEmail.clearFocus();
+					mEtPassword.clearFocus();
+					mBtnSignInAccount
+							.setBackgroundResource(R.drawable.disable_btn);
 					mBtnSignInAccount.setEnabled(false);
-					mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+					mBtnSignInAccount.setTextColor(getResources().getColor(
+							R.color.btn_disable_text_color));
 					mBtnResend.setEnabled(false);
 					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
 				}
@@ -307,12 +318,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 				&& RegistrationHelper.isJanrainIntialized()) {
 			mBtnSignInAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnSignInAccount.setEnabled(true);
-			mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
+			mBtnSignInAccount.setTextColor(getResources().getColor(
+					R.color.btn_enable_text_color));
 			mRegError.hideError();
 		} else {
 			mBtnSignInAccount.setEnabled(false);
 			mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
-			mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_disable_text_color));
+			mBtnSignInAccount.setTextColor(getResources().getColor(
+					R.color.btn_disable_text_color));
 		}
 	}
 

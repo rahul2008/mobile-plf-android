@@ -3,6 +3,8 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+     android:focusable="true"
+    android:focusableInTouchMode="true"
     android:background="@android:color/white" >
 
     <ScrollView

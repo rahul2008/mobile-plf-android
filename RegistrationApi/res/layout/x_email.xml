@@ -6,13 +6,14 @@
     <RelativeLayout
         android:id="@+id/rl_email_verified_field"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/t_textbox" >
+        android:layout_height="@dimen/reg_et_height"
+        android:background="@drawable/reg_et_focus_disable"
+        >
 
         <FrameLayout
             android:id="@+id/fl_align"
-            android:layout_width="@dimen/err_alert_width"
-            android:layout_height="@dimen/err_alert_width"
+            android:layout_width="@dimen/reg_err_alert_width"
+            android:layout_height="@dimen/reg_err_alert_width"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/x_edit_field_margin"
@@ -41,11 +42,12 @@
             android:id="@+id/et_reg_email"
             style="@style/style_tab_reg_hint"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/fl_align"
-            android:imeOptions="actionNext"
             android:background="@android:color/transparent"
+            android:layout_toLeftOf="@+id/fl_align"
             android:hint="@string/mail_address"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
+            android:paddingLeft="10dp"
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
 
@@ -66,8 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_up_arrow"
         android:layout_marginTop="@dimen/edit_fields_margin_top"
-        android:padding="@dimen/edit_fields_padding"
         android:background="@drawable/reg_rect"
+        android:padding="@dimen/edit_fields_padding"
         android:text="@string/invalid_email"
         android:visibility="gone"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />

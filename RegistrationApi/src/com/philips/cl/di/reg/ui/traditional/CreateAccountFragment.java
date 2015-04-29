@@ -118,7 +118,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		mLlCreateAccountContainer = (LinearLayout) view
 				.findViewById(R.id.ll_create_account_container);
 		mRlCreateActtBtnContainer = (RelativeLayout) view
-				.findViewById(R.id.rl_singin_options);
+				.findViewById(R.id.rl_reg_singin_options);
 
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_register);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_register_terms);
@@ -144,6 +144,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void register() {
 		showSpinner();
+		//mBtnCreateAccount.requestFocus();
+		mEtName.clearFocus();
+		mEtEmail.clearFocus();
+		mEtPassword.clearFocus();
 		mUser.registerUserInfoForTraditional(mEtName.getName().toString(),
 				mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
 						.toString(), true, mCbTerms.isChecked(), this);

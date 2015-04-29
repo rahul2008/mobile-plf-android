@@ -24,7 +24,7 @@
     </style>
 
     <style name="style_tab_reg_hint">
-        <item name="android:textSize">@dimen/reg_header_title_size</item>
+        <item name="android:textSize">@dimen/reg_et_hint_size</item>
         <item name="android:paddingLeft">@dimen/home_tiltle_padding</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

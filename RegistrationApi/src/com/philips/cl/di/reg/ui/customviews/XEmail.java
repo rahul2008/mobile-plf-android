@@ -35,6 +35,8 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	private ImageView mIvArrowUpView;
 
 	private onUpdateListener mUpdateStatusListener;
+	
+	private RelativeLayout mRlEtEmail;
 
 	public XEmail(Context context) {
 		super(context);
@@ -51,7 +53,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	public final void initUi(int resourceId) {
 		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
-
+		mRlEtEmail  = (RelativeLayout) findViewById(R.id.rl_email_verified_field);
 		mEtEmail = (EditText) findViewById(R.id.et_reg_email);
 		mEtEmail.setOnClickListener(this);
 		mEtEmail.setOnFocusChangeListener(this);
@@ -90,13 +92,24 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	private void handleEmail(boolean hasFocus) {
 		if (!hasFocus) {
+			showEtEmailFocusDisable();
 			mEtEmail.setFocusable(true);
 			if (mEtEmail.getText().toString().trim().length() == 0) {
 				showEmailInvalidAlert();
 			}
+		}else{
+			showEtEmailFocusEnable();
 		}
 	}
 	 
+	public void showEtEmailFocusEnable(){
+		mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_enable);
+	}
+	
+	public void showEtEmailFocusDisable(){
+		mRlEtEmail.setBackgroundResource(R.drawable.reg_et_focus_disable);
+	}
+
 	public void showEmailInvalidAlert(){
 		mIvEmailErrAlert.setVisibility(View.VISIBLE);
 	}

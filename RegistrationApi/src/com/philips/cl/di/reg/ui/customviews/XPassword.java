@@ -26,6 +26,7 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 	private EditText mEtPassword;
 	private boolean mValidPassword;
 	private onUpdateListener mUpdateStatusListener;
+	private RelativeLayout mRlEtPassword;
 	
 	public XPassword(Context context) {
 		super(context);
@@ -53,6 +54,7 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 		mEtPassword.setOnClickListener(this);
 		mEtPassword.setOnFocusChangeListener(this);
 		mEtPassword.addTextChangedListener(this);
+		mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_password_field_id);
 	}
 	
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -68,11 +70,22 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 	
 	private void handlePassword(boolean hasFocus) {
 		if (!hasFocus) {
+			showPasswordEtFocusDisable();
 			mEtPassword.setFocusable(true);
 			if(mEtPassword.getText().toString().trim().length()==0){
 				mIvPasswordErrAlert.setVisibility(View.VISIBLE);
 			}
+		}else{
+			showEtPasswordFocusEnable();
 		}
+	}
+	
+	public void showEtPasswordFocusEnable(){
+		mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_enable);
+	}
+	
+	public void showPasswordEtFocusDisable(){
+		mRlEtPassword.setBackgroundResource(R.drawable.reg_et_focus_disable);
 	}
 	
 	public void setErrDescription(String mErrDescription) {

@@ -6,7 +6,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,7 +14,7 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.ui.utils.EmailValidator;
 
-public class XUserName extends RelativeLayout implements TextWatcher,OnClickListener,OnFocusChangeListener{
+public class XUserName extends RelativeLayout implements TextWatcher,OnFocusChangeListener{
 	
 	private Context mContext;
 	private ImageView mIvNameErrAlert;
@@ -23,6 +22,7 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 	private EditText mEtUserName;
 	private boolean mValidName;
 	private onUpdateListener mUpdateStatusListener;
+	private RelativeLayout mRlEtName;
 	
 	public XUserName(Context context) {
 		super(context);
@@ -43,14 +43,12 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 		li.inflate(resourceId, this, true);
 		
 		mEtUserName = (EditText) findViewById(R.id.et_reg_fname);
-		mEtUserName.setOnClickListener(this);
 		mEtUserName.setOnFocusChangeListener(this);
 		mEtUserName.addTextChangedListener(this);
 		
 		mIvNameErrAlert = (ImageView) findViewById(R.id.iv_name_error_alert);
-		mIvNameErrAlert.setOnClickListener(this);
 		mIvValidNameAlert = (ImageView) findViewById(R.id.iv_valid_name_alert);
-
+		mRlEtName =  (RelativeLayout) findViewById(R.id.rl_name_verified_field);
 	}
 	
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -88,11 +86,23 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 	    
 	private void handleName(boolean hasFocus) {
 		if (!hasFocus) {
+			showNameEtFocusDisable();
 			mEtUserName.setFocusable(true);
 			if(mEtUserName.getText().toString().trim().length()==0){
 				mIvNameErrAlert.setVisibility(View.VISIBLE);
 			}
+		}else{
+			showEtNameFocusEnable();
 		}
+	}
+	
+	
+	public void showEtNameFocusEnable(){
+		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_enable);
+	}
+	
+	public void showNameEtFocusDisable(){
+		mRlEtName.setBackgroundResource(R.drawable.reg_et_focus_disable);
 	}
 	
 	@Override
@@ -101,11 +111,6 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnClickList
 			handleName(hasFocus);
 			fireUpdateStatusEvent();
 		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		
 	}
 
 	@Override

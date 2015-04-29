@@ -6,13 +6,13 @@
     <RelativeLayout
         android:id="@+id/rl_name_verified_field"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/t_textbox" >
+        android:layout_height="@dimen/reg_et_height"
+        android:background="@drawable/reg_et_focus_disable" >
 
         <FrameLayout
             android:id="@+id/fl_align"
-            android:layout_width="@dimen/err_alert_width"
-            android:layout_height="@dimen/err_alert_width"
+            android:layout_width="@dimen/reg_err_alert_width"
+            android:layout_height="@dimen/reg_err_alert_width"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/x_edit_field_margin"

@@ -21,7 +21,7 @@
     <dimen name="edit_margin_bottom">20dp</dimen>
     <dimen name="account_margin_bottom">30dp</dimen>
     <dimen name="err_msg_width">390dp</dimen>
-    <dimen name="err_alert_width">28dp</dimen>
+    <dimen name="reg_err_alert_width">28dp</dimen>
     <dimen name="alert_margin">2dp</dimen>
     <dimen name="top_arrow_width">17dp</dimen>
     <dimen name="err_alert_margin">5dp</dimen>
@@ -47,6 +47,10 @@
     <dimen name="reg_header_height">40dip</dimen>
     <dimen name="reg_header_title_size">20sp</dimen>
     <dimen name="reg_header_iv_back_padding">10dip</dimen>
+    
+    <!-- Edit Text -->
+    <dimen name="reg_et_height">40dip</dimen>
+    <dimen name="reg_et_hint_size">16sp</dimen>
 
     <!-- Home screen -->
     <dimen name="reg_btn_height">40dip</dimen>
