@@ -65,7 +65,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     private BluetoothGattCallbackOnExecutor createBluetoothGattCallbackOnExecutor(final SHNCentral shnCentral) {
-        return new BluetoothGattCallbackOnExecutor(shnCentral.getScheduledThreadPoolExecutor(), new BluetoothGattCallback() {
+        return new BluetoothGattCallbackOnExecutor(shnCentral.getScheduledThreadPoolExecutor(), new SHNBluetoothGattCallback() {
             @Override
             public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
                 if (LOGGING) Log.i(TAG, "onConnectionStateChange");
@@ -87,10 +87,10 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             }
 
             @Override
-            public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+            public void onCharacteristicReadWithData(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
                 if (LOGGING) Log.i(TAG, "onCharacteristicRead");
                 try {
-                    handleOnCharacteristicRead(gatt, characteristic, status);
+                    handleOnCharacteristicRead(gatt, characteristic, status, data);
                 } catch (Exception e) {
                     shnCentral.reportExceptionOnAppMainThread(e);
                 }
@@ -107,20 +107,20 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             }
 
             @Override
-            public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+            public void onCharacteristicChangedWithData(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
                 if (LOGGING) Log.i(TAG, "onCharacteristicChanged");
                 try {
-                    handleOnCharacteristicChanged(gatt, characteristic);
+                    handleOnCharacteristicChanged(gatt, characteristic, data);
                 } catch (Exception e) {
                     shnCentral.reportExceptionOnAppMainThread(e);
                 }
             }
 
             @Override
-            public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+            public void onDescriptorReadWithData(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
                 if (LOGGING) Log.i(TAG, "onDescriptorRead");
                 try {
-                    handleOnDescriptorRead(gatt, descriptor, status);
+                    handleOnDescriptorRead(gatt, descriptor, status, data);
                 } catch (Exception e) {
                     shnCentral.reportExceptionOnAppMainThread(e);
                 }
@@ -184,7 +184,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         }
     }
 
-    private void handleOnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    private void handleOnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
         if (LOGGING) Log.i(TAG, "handleOnCharacteristicRead");
         final SHNGattCommandResultReporter resultListener = currentResultListener;
         Runnable runnable = new Runnable() {
@@ -216,11 +216,11 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         executeNextBluetoothGattCommand();
     }
 
-    private void handleOnCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
+    private void handleOnCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
         if (LOGGING) Log.i(TAG, "handleOnCharacteristicChanged");
         SHNService shnService = getSHNService(characteristic.getService().getUuid());
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(characteristic.getUuid());
-        shnCharacteristic.onCharacteristicChanged();
+        shnCharacteristic.onCharacteristicChanged(data);
     }
 
     private void handleOnDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
@@ -240,7 +240,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         executeNextBluetoothGattCommand();
     }
 
-    private void handleOnDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+    private void handleOnDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
         if (LOGGING) Log.i(TAG, "handleOnDescriptorRead");
         final SHNGattCommandResultReporter resultListener = currentResultListener;
         if (resultListener != null) {
@@ -280,8 +280,16 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             }
         };
         shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
-        connectTimer.cancel(false);
+        cancelConnectTimer();
     }
+
+    private void cancelConnectTimer() {
+        if (connectTimer != null) {
+            connectTimer.cancel(false);
+            connectTimer = null;
+        }
+    }
+
     private void handleConnect()  {
         if (LOGGING) Log.i(TAG, "handleConnect");
         if (shnDeviceState == SHNDeviceState.SHNDeviceStateDisconnected) {
@@ -323,7 +331,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     private void updateShnDeviceState(SHNDeviceState newShnDeviceState) {
         if (shnDeviceState != newShnDeviceState) {
             if (shnDeviceState == SHNDeviceState.SHNDeviceStateConnecting) {
-                connectTimer.cancel(false);
+                cancelConnectTimer();
             }
             shnDeviceState = newShnDeviceState;
             informListeners();

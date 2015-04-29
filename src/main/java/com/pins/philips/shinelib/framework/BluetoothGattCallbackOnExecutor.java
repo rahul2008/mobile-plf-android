@@ -4,6 +4,10 @@ import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.util.Log;
+
+import com.pins.philips.shinelib.SHNBluetoothGattCallback;
+import com.pins.philips.shinelib.utility.Utilities;
 
 import java.util.concurrent.Executor;
 
@@ -12,10 +16,11 @@ import java.util.concurrent.Executor;
  */
 public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
     private static final String TAG = BluetoothGattCallbackOnExecutor.class.getSimpleName();
-    private BluetoothGattCallback bluetoothGattCallback;
+    private static final boolean LOGGING = false;
+    private SHNBluetoothGattCallback bluetoothGattCallback;
     private Executor executor;
 
-    public BluetoothGattCallbackOnExecutor(Executor executor, BluetoothGattCallback bluetoothGattCallback) {
+    public BluetoothGattCallbackOnExecutor(Executor executor, SHNBluetoothGattCallback bluetoothGattCallback) {
         this.bluetoothGattCallback = bluetoothGattCallback;
         this.executor = executor;
     }
@@ -44,10 +49,11 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onCharacteristicRead(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, final int status) {
+        final byte[] data = characteristic.getValue().clone();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onCharacteristicRead(gatt, characteristic, status);
+                bluetoothGattCallback.onCharacteristicReadWithData(gatt, characteristic, status, data);
             }
         };
         executor.execute(runnable);
@@ -66,10 +72,12 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+        final byte[] data = characteristic.getValue().clone();
+        if (LOGGING) Log.e(TAG, "onCharacteristicChanged: " + Utilities.byteToString(data));
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onCharacteristicChanged(gatt, characteristic);
+                bluetoothGattCallback.onCharacteristicChangedWithData(gatt, characteristic, data);
             }
         };
         executor.execute(runnable);
@@ -77,10 +85,11 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onDescriptorRead(final BluetoothGatt gatt, final BluetoothGattDescriptor descriptor, final int status) {
+        final byte[] data = descriptor.getValue().clone();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onDescriptorRead(gatt, descriptor, status);
+                bluetoothGattCallback.onDescriptorReadWithData(gatt, descriptor, status, data);
             }
         };
         executor.execute(runnable);

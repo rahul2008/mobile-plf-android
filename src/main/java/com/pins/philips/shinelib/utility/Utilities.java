@@ -6,9 +6,13 @@ package com.pins.philips.shinelib.utility;
 public class Utilities {
     public static String byteToString(byte[] data) {
         StringBuilder sb = new StringBuilder();
-        sb.append(data.length).append(" ");
-        for (byte value: data) {
-            sb.append(String.format("0x%02X ", value));
+        if (data != null) {
+            sb.append(data.length).append(" ");
+            for (byte value : data) {
+                sb.append(String.format("0x%02X ", value));
+            }
+        } else {
+            sb.append("null");
         }
         return sb.toString();
     }

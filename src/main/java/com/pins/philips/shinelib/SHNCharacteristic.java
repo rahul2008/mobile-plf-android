@@ -13,7 +13,7 @@ public class SHNCharacteristic {
     private static final boolean LOGGING = false;
 
     public interface SHNCharacteristicChangedListener {
-        void onCharacteristicChanged(SHNCharacteristic shnCharacteristic);
+        void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data);
     }
 
     public enum State {Inactive, Active}
@@ -97,10 +97,10 @@ public class SHNCharacteristic {
         this.shnCharacteristicChangedListener = shnCharacteristicChangedListener;
     }
 
-    public void onCharacteristicChanged() {
+    public void onCharacteristicChanged(byte[] data) {
         if (LOGGING) Log.i(TAG, "onCharacteristicChanged");
         if (shnCharacteristicChangedListener != null) {
-            shnCharacteristicChangedListener.onCharacteristicChanged(this);
+            shnCharacteristicChangedListener.onCharacteristicChanged(this, data);
         }
     }
 }
