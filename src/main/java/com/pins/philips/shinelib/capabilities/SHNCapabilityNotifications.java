@@ -1,11 +1,12 @@
 package com.pins.philips.shinelib.capabilities;
 
+import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNResultListener;
 
 /**
  * Created by 310188215 on 03/03/15.
  */
-public interface SHNCapabilityNotifications {
+public interface SHNCapabilityNotifications extends SHNCapability {
     public  enum SHNNotificationType {
         SHNNotificationTypeEmail
     }

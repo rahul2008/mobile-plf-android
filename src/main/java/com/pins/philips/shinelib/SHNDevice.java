@@ -10,8 +10,11 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.util.Log;
 
+import com.pins.philips.shinelib.capabilities.SHNCapabilityNotifications;
 import com.pins.philips.shinelib.framework.BluetoothGattCallbackOnExecutor;
 import com.pins.philips.shinelib.utility.Utilities;
+import com.pins.philips.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
+import com.pins.philips.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -359,9 +362,17 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
 
     public void registerCapability(SHNCapability shnCapability, SHNCapabilityType shnCapabilityType) {
+        if (registeredCapabilities.containsKey(shnCapabilityType)) {
+            throw new IllegalStateException("Capability already registered");
+        }
+
+        SHNCapability shnCapabilityWrapper = null;
+        shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, shnCapabilityType, shnCentral.getScheduledThreadPoolExecutor(), shnCentral.getUserHandler());
+
         registeredCapabilityTypes.add(shnCapabilityType);
-        registeredCapabilities.put(shnCapabilityType, shnCapability);
+        registeredCapabilities.put(shnCapabilityType, shnCapabilityWrapper);
     }
+
 
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     public void registerService(SHNService shnService) {
