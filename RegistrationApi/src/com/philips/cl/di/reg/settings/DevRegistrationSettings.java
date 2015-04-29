@@ -1,30 +1,19 @@
 package com.philips.cl.di.reg.settings;
 
-import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
-import com.philips.cl.di.localematch.LocaleMatchListener;
-import com.philips.cl.di.localematch.LocaleMatchNotifier;
-import com.philips.cl.di.localematch.PILLocale;
-import com.philips.cl.di.localematch.PILLocaleManager;
-import com.philips.cl.di.localematch.enums.Catalog;
-import com.philips.cl.di.localematch.enums.LocaleMatchError;
-import com.philips.cl.di.localematch.enums.Platform;
-import com.philips.cl.di.localematch.enums.Sector;
-import com.philips.cl.di.reg.errormapping.CheckLocale;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class DevRegistrationSettings extends RegistrationSettings implements LocaleMatchListener{
+import com.janrain.android.Jump;
+import com.janrain.android.JumpConfig;
 
+public class DevRegistrationSettings extends RegistrationSettings {
 
 	private String DEVICE_ENGAGE_APP_ID = "bdbppnbjfcibijknnfkk";
 	private String DEVICE_CAPTURE_DOMAIN = "philips.dev.janraincapture.com";
 	private String DEVICE_CAPTURE_FLOW_VERSION = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
 	private String DEVICE_CAPTURE_APP_ID = "eupac7ugz25x8dwahvrbpmndf8";
-	//private String DEVICE_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.dev.janraincapture.com/oauth/forgot_password_native/"; // not used
 	private String DEVICE_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
 	private String DEVICE_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
@@ -67,69 +56,12 @@ public class DevRegistrationSettings extends RegistrationSettings implements Loc
 			mCountryCode = "US";
 		}
 
-		PILLocaleManager localeManager = new PILLocaleManager();
-		localeManager.init(context, this);
-		localeManager.refresh(context, mLanguageCode, mCountryCode);
-
+		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext,
+				mLanguageCode, mCountryCode);
 	}
 
 	@Override
-	public void onLocaleMatchRefreshed(String locale) {
-
-		PILLocaleManager manager = new PILLocaleManager();
-		PILLocale pilLocaleInstance = manager
-				.currentLocaleWithLanguageFallbackForPlatform(locale,
-						Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-
-		if (null != pilLocaleInstance) {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = "
-							+ pilLocaleInstance.getCountrycode()
-							+ pilLocaleInstance.getLanguageCode()
-							+ pilLocaleInstance.getLocaleCode());
-			initialiseConfigParameters(pilLocaleInstance.getLanguageCode()
-					.toLowerCase()
-					+ "-"
-					+ pilLocaleInstance.getCountrycode().toUpperCase());
-		} else {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-			String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-					+ mCountryCode);
-			initialiseConfigParameters(verifiedLocale);
-		}
-
-		unRegisterLocaleMatchListener();
-		
-	}
-
-	@Override
-	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-
-		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-		unRegisterLocaleMatchListener();
-		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-				+ mCountryCode);
-		initialiseConfigParameters(verifiedLocale);
-
-	}
-	
-	private void unRegisterLocaleMatchListener() {
-		LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
-		notifier.unRegisterLocaleMatchChange(this);
-	}
-
-	private String verifyInputLocale(String locale) {
-		CheckLocale checkLocale = new CheckLocale();
-		String localeCode = checkLocale.checkLanguage(locale);
-
-		if ("zh-TW".equals(localeCode)) {
-			localeCode = "zh-HK";
-		}
-		return localeCode;
-	}
-	
-	private void initialiseConfigParameters(String locale) {
+	public void initialiseConfigParameters(String locale) {
 
 		Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
 
@@ -150,10 +82,9 @@ public class DevRegistrationSettings extends RegistrationSettings implements Loc
 		jumpConfig.captureFlowVersion = DEVICE_CAPTURE_FLOW_VERSION;
 		jumpConfig.captureAppId = DEVICE_CAPTURE_APP_ID;
 
-		//mRegisterForgotEmailNative = DEVICE_REGISTER_FORGOT_EMAIL_NATIVE;
 		mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
 		mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
-	
+
 		String localeArr[] = locale.split("-");
 		String langCode = null;
 		String countryCode = null;
@@ -161,13 +92,17 @@ public class DevRegistrationSettings extends RegistrationSettings implements Loc
 		if (localeArr != null && localeArr.length > 1) {
 			langCode = localeArr[0];
 			countryCode = localeArr[1];
-		}else{
+		} else {
 			langCode = "en";
 			countryCode = "US";
 		}
 
-		jumpConfig.captureRedirectUri = DEVICE_REGISTER_ACTIVATION_URL + "?country=" + countryCode +"&catalogType=CONSUMER&language=" + langCode;
-		jumpConfig.captureRecoverUri = DEVICE_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		jumpConfig.captureRedirectUri = DEVICE_REGISTER_ACTIVATION_URL
+				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
+				+ langCode;
+		jumpConfig.captureRecoverUri = DEVICE_REGISTER_FORGOT_MAIL_URL
+				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
+				+ langCode;
 		jumpConfig.captureLocale = locale;
 
 		mPreferredCountryCode = countryCode;
@@ -185,7 +120,5 @@ public class DevRegistrationSettings extends RegistrationSettings implements Loc
 		}
 
 	}
-
-
 
 }

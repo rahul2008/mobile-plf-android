@@ -23,6 +23,7 @@ public abstract class RegistrationSettings {
 			String microSiteId, String registrationType, boolean isIntialize,
 			String locale);
 	
+	public abstract void initialiseConfigParameters(String locale);
 	
 	public String getProductRegisterUrl() {
 		return mProductRegisterUrl;

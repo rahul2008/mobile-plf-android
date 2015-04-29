@@ -17,17 +17,15 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class ProdRegistrationSettings extends RegistrationSettings implements LocaleMatchListener{
+public class ProdRegistrationSettings extends RegistrationSettings {
 
 	private String PRODUCT_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
 	private String PRODUCT_CAPTURE_DOMAIN = "philips.janraincapture.com";
 	private String PRODUCT_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
 	private String PRODUCT_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
-	private String PRODUCT_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.janraincapture.com/oauth/forgot_password_native/";
 	private String PRODUCTION_REGISTER_ACTIVATION_URL = "https://secure.philips.co.uk/myphilips/activateUser.jsp";
 	private String PRODUCTION_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
 
-	//private String mRegisterForgotEmailNative; //not used
 	private String mCountryCode;
 	private String mLanguageCode;
 
@@ -38,15 +36,10 @@ public class ProdRegistrationSettings extends RegistrationSettings implements Lo
 
 	private String LOG_TAG = "RegistrationAPI";
 
-
-
 	private static String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
 
 	private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
 
-
-
-	
 	@Override
 	public void intializeRegistrationSettings(Context context,
 			String captureClientId, String microSiteId,
@@ -72,67 +65,13 @@ public class ProdRegistrationSettings extends RegistrationSettings implements Lo
 			mCountryCode = "US";
 		}
 
-		PILLocaleManager localeManager = new PILLocaleManager();
-		localeManager.init(context, this);
-		localeManager.refresh(context, mLanguageCode, mCountryCode);
+		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext,
+				mLanguageCode, mCountryCode);
 
 	}
 
 	@Override
-	public void onLocaleMatchRefreshed(String locale) {
-		PILLocaleManager manager = new PILLocaleManager();
-		PILLocale pilLocaleInstance = manager
-				.currentLocaleWithLanguageFallbackForPlatform(locale,
-						Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-
-		if (null != pilLocaleInstance) {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = "
-							+ pilLocaleInstance.getCountrycode()
-							+ pilLocaleInstance.getLanguageCode()
-							+ pilLocaleInstance.getLocaleCode());
-			initialiseConfigParameters(pilLocaleInstance.getLanguageCode()
-					.toLowerCase()
-					+ "-"
-					+ pilLocaleInstance.getCountrycode().toUpperCase());
-		} else {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-			String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-					+ mCountryCode);
-			initialiseConfigParameters(verifiedLocale);
-		}
-
-		unRegisterLocaleMatchListener();
-
-	}
-	
-	private void unRegisterLocaleMatchListener() {
-		LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
-		notifier.unRegisterLocaleMatchChange(this);
-	}
-
-	private String verifyInputLocale(String locale) {
-		CheckLocale checkLocale = new CheckLocale();
-		String localeCode = checkLocale.checkLanguage(locale);
-
-		if ("zh-TW".equals(localeCode)) {
-			localeCode = "zh-HK";
-		}
-		return localeCode;
-	}
-
-
-	@Override
-	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-		unRegisterLocaleMatchListener();
-		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-				+ mCountryCode);
-		initialiseConfigParameters(verifiedLocale);
-	}
-
-	private void initialiseConfigParameters(String locale) {
+	public void initialiseConfigParameters(String locale) {
 
 		Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
 
@@ -152,7 +91,6 @@ public class ProdRegistrationSettings extends RegistrationSettings implements Lo
 		jumpConfig.captureDomain = PRODUCT_CAPTURE_DOMAIN;
 		jumpConfig.captureFlowVersion = PRODUCT_CAPTURE_FLOW_VERSION;
 		jumpConfig.captureAppId = PRODUCT_CAPTURE_APP_ID;
-		//mRegisterForgotEmailNative = PRODUCT_REGISTER_FORGOT_EMAIL_NATIVE; // not used
 
 		mProductRegisterUrl = PROD_PRODUCT_REGISTER_URL;
 		mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
@@ -164,13 +102,17 @@ public class ProdRegistrationSettings extends RegistrationSettings implements Lo
 		if (localeArr != null && localeArr.length > 1) {
 			langCode = localeArr[0];
 			countryCode = localeArr[1];
-		}else{
+		} else {
 			langCode = "en";
 			countryCode = "US";
 		}
 
-		jumpConfig.captureRedirectUri = PRODUCTION_REGISTER_ACTIVATION_URL + "?country=" + countryCode +"&catalogType=CONSUMER&language=" + langCode;
-		jumpConfig.captureRecoverUri = PRODUCTION_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		jumpConfig.captureRedirectUri = PRODUCTION_REGISTER_ACTIVATION_URL
+				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
+				+ langCode;
+		jumpConfig.captureRecoverUri = PRODUCTION_REGISTER_FORGOT_MAIL_URL
+				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
+				+ langCode;
 		jumpConfig.captureLocale = locale;
 
 		mPreferredCountryCode = countryCode;

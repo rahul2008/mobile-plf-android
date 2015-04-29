@@ -17,8 +17,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-public class EvalRegistrationSettings extends RegistrationSettings implements
-		LocaleMatchListener {
+public class EvalRegistrationSettings extends RegistrationSettings {
 
 	private String mCountryCode;
 	private String mLanguageCode;
@@ -38,7 +37,6 @@ public class EvalRegistrationSettings extends RegistrationSettings implements
 	private String EVAL_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
 	private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 	private String EVAL_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
-	//private String EVAL_REGISTER_FORGOT_EMAIL_NATIVE = "https://philips.eval.janraincapture.com/oauth/forgot_password_native/"; //not used
 	private String EVAL_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
 	private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
@@ -67,69 +65,12 @@ public class EvalRegistrationSettings extends RegistrationSettings implements
 			mCountryCode = "US";
 		}
 
-		PILLocaleManager localeManager = new PILLocaleManager();
-		localeManager.init(context, this);
-		localeManager.refresh(context, mLanguageCode, mCountryCode);
-
+		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext,
+				mLanguageCode, mCountryCode);
 	}
 
 	@Override
-	public void onLocaleMatchRefreshed(String locale) {
-
-		PILLocaleManager manager = new PILLocaleManager();
-		PILLocale pilLocaleInstance = manager
-				.currentLocaleWithLanguageFallbackForPlatform(locale,
-						Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
-
-		if (null != pilLocaleInstance) {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = "
-							+ pilLocaleInstance.getCountrycode()
-							+ pilLocaleInstance.getLanguageCode()
-							+ pilLocaleInstance.getLocaleCode());
-			initialiseConfigParameters(pilLocaleInstance.getLanguageCode()
-					.toLowerCase()
-					+ "-"
-					+ pilLocaleInstance.getCountrycode().toUpperCase());
-		} else {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-			String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-					+ mCountryCode);
-			initialiseConfigParameters(verifiedLocale);
-		}
-
-		unRegisterLocaleMatchListener();
-
-	}
-
-	@Override
-	public void onErrorOccurredForLocaleMatch(LocaleMatchError error) {
-
-		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
-		unRegisterLocaleMatchListener();
-		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-				+ mCountryCode);
-		initialiseConfigParameters(verifiedLocale);
-
-	}
-
-	private void unRegisterLocaleMatchListener() {
-		LocaleMatchNotifier notifier = LocaleMatchNotifier.getIntance();
-		notifier.unRegisterLocaleMatchChange(this);
-	}
-
-	private String verifyInputLocale(String locale) {
-		CheckLocale checkLocale = new CheckLocale();
-		String localeCode = checkLocale.checkLanguage(locale);
-
-		if ("zh-TW".equals(localeCode)) {
-			localeCode = "zh-HK";
-		}
-		return localeCode;
-	}
-
-	private void initialiseConfigParameters(String locale) {
+	public void initialiseConfigParameters(String locale) {
 
 		Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
 
@@ -149,7 +90,6 @@ public class EvalRegistrationSettings extends RegistrationSettings implements
 		jumpConfig.captureDomain = EVAL_CAPTURE_DOMAIN;
 		jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
 		jumpConfig.captureAppId = EVAL_CAPTURE_APP_ID;
-		//mRegisterForgotEmailNative = EVAL_REGISTER_FORGOT_EMAIL_NATIVE; //not used
 
 		mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
 		mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
@@ -165,7 +105,7 @@ public class EvalRegistrationSettings extends RegistrationSettings implements
 			langCode = "en";
 			countryCode = "US";
 		}
-		
+
 		jumpConfig.captureRedirectUri = EVAL_REGISTER_ACTIVATION_URL
 				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
 				+ langCode;

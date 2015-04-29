@@ -34,5 +34,11 @@
     <!-- Header -->
     <color name="reg_header_bg_start_color">#28558D</color>
     <color name="reg_header_bg_end_color">#287EB0</color>
+    
+    <!-- please specify client id depending on the registration type -->
+    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
+    <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
+    <string name="registration_type" translatable="false">EVAL</string>
+    <string name="microsite_id" translatable="false">81376</string>
 
 </resources>

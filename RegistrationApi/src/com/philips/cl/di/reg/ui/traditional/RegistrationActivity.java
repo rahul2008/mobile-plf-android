@@ -1,6 +1,8 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -111,7 +113,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 		if (RegConstants.IS_ONLINE.equals(event)) {
 			if (!RegistrationHelper.isJanrainIntialized()) {
 				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
-				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this);
+				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this, Locale.getDefault());
 			}
 		}
 	}
