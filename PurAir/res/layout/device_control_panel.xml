@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <include
@@ -10,7 +11,8 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:background="@color/white" >
 
         <RelativeLayout
             android:id="@+id/right_menu_control_panel"
@@ -25,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="25dp"
                 android:paddingBottom="10dp"
                 android:text="@string/power"
@@ -69,10 +71,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_rm_power"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -81,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/divider_1"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
                 android:paddingBottom="10dp"
                 android:text="@string/fan_speed"
@@ -92,11 +94,11 @@
             <com.philips.cl.di.dev.pa.view.FontButton
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/btn_rm_fan_speed"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="35dp"
                 android:layout_alignBottom="@+id/tv_rm_fan_speed"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="30dp"
+                android:layout_marginRight="35dp"
                 android:background="@drawable/button_bg_2x"
                 android:clickable="false"
                 android:text=""
@@ -109,19 +111,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_rm_fan_speed"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <RelativeLayout
                 android:id="@+id/layout_fan_speed"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider_2"
-                android:background="#CFD1DD"
+                android:background="#EFEFEF"
                 android:paddingBottom="15dp"
                 android:visibility="gone" >
 
@@ -131,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="30dp"
                     android:layout_marginTop="22dp"
                     android:text="@string/auto"
                     android:textColor="@color/blue_list_item"
@@ -155,9 +154,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/fan_speed_auto"
                     android:layout_centerVertical="true"
-                    android:layout_margin="10dp"
-                    android:contentDescription="@string/img_description"
-                    android:src="@drawable/seperator_line_2x" />
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/seperator_line_2x"
+                    android:contentDescription="@string/img_description" />
 
                 <com.philips.cl.di.dev.pa.view.FontButton
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -167,7 +167,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_below="@id/divider"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="30dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/button_bg_normal_2x"
@@ -237,7 +237,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/layout_fan_speed"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="15dp"
                 android:paddingBottom="10dp"
                 android:text="@string/indicator_light"
@@ -261,10 +261,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_rm_indicator_light"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -273,7 +273,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/divider_4"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="30dp"
                 android:layout_marginTop="15dp"
                 android:paddingBottom="10dp"
                 android:text="@string/child_lock"
@@ -297,10 +297,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btn_rm_child_lock"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -309,8 +309,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/divider_5"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="40dp"
                 android:background="@drawable/list_item_selector"
                 android:drawableRight="@drawable/right_arrow_list_item"
                 android:gravity="center_vertical"
@@ -326,12 +326,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_rm_scheduler"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -339,46 +337,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_toLeftOf="@+id/btn_rm_set_timer"
                 android:layout_below="@id/divider_7"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:paddingTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_toLeftOf="@+id/btn_rm_set_timer"
+                android:background="@drawable/list_item_selector"
                 android:paddingBottom="10dp"
+                android:paddingTop="10dp"
                 android:text="@string/set_timer"
                 android:textColor="@color/blue_list_item"
                 android:textSize="16sp"
-                android:background="@drawable/list_item_selector"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <ToggleButton
                 android:id="@+id/btn_rm_set_timer"
                 style="@style/Widget.Button.Toggle"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
                 android:layout_alignBottom="@+id/tv_rm_set_timer"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="30dp"
-                android:clickable="false" />
+                android:clickable="false"
+                android:paddingTop="40dp" />
 
             <ImageView
                 android:id="@+id/divider_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_rm_set_timer"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <RelativeLayout
                 android:id="@+id/layout_timer"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider_3"
-                android:background="#CFD1DD"
+                android:background="#EFEFEF"
                 android:paddingBottom="15dp"
                 android:visibility="gone" >
 
@@ -435,7 +431,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/timer_off"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="30dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="15dp"
                     android:background="@drawable/button_bg_normal_2x"
@@ -453,10 +449,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/layout_timer"
-                android:layout_marginBottom="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="40dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/list_item_selector"
                 android:drawableRight="@drawable/right_arrow_list_item"
                 android:gravity="center_vertical"
@@ -472,10 +467,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_rm_notification"
-                android:layout_centerVertical="true"
-                android:layout_margin="10dp"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/seperator_line_2x" />
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
     </ScrollView>
 
