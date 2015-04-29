@@ -103,7 +103,7 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 	}
 	
 	private void fillBannerView(BaseBean bannerBean){
-		if (null == bannerBean && getView() == null && getActivity() == null) {
+		if (null == bannerBean || getView() == null || getActivity() == null) {
 			return;
 		}
 		String imgUrl = bannerBean.getStr("img");
@@ -175,7 +175,7 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 
 
 	private void fillData(){
-		if (null == data || data.size() == 0 && getActivity() == null && getView() == null) {
+		if (null == data || data.size() == 0 || getActivity() == null || getView() == null) {
 			return;
 		}
 		listView.setAdapter(new BaseAdapter() {
