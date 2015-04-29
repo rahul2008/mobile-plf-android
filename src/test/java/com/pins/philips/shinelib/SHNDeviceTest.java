@@ -24,7 +24,9 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
@@ -91,7 +93,9 @@ public class SHNDeviceTest {
         doReturn(mockedScheduledThreadPoolExecutor.getMock()).when(mockedSHNCentral).getScheduledThreadPoolExecutor();
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
         shnDevice = new SHNDevice(mockedBluetoothDevice, mockedSHNCentral);
-        shnService = new SHNService(shnDevice, SERVICE_UUID);
+        Set<UUID> requiredUUIDs = new HashSet<>();
+        requiredUUIDs.add(CHARACTERISTIC_UUID);
+        shnService = new SHNService(shnDevice, SERVICE_UUID, requiredUUIDs, new HashSet<UUID>());
         shnDevice.registerService(shnService);
         shnCharacteristic = new SHNCharacteristic(shnDevice, CHARACTERISTIC_UUID);
         shnService.addRequiredSHNCharacteristic(shnCharacteristic);

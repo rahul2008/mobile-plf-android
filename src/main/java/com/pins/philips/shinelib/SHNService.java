@@ -103,13 +103,22 @@ public class SHNService {
     private Map<UUID, SHNCharacteristic> characteristicMap;
     private Set<SHNServiceListener> shnServiceListeners;
 
-    public SHNService(SHNDevice shnDevice, UUID serviceUuid) {
+    public SHNService(SHNDevice shnDevice, UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
         this.optionalCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
         this.shnServiceListeners = new HashSet<>();
         this.shnDevice = shnDevice;
+
+        for (UUID characteristicUUID: requiredCharacteristics) {
+            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(shnDevice, characteristicUUID);
+            addRequiredSHNCharacteristic(shnCharacteristic);
+        }
+        for (UUID characteristicUUID: optionalCharacteristics) {
+            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(shnDevice, characteristicUUID);
+            addOptionalSHNCharacteristic(shnCharacteristic);
+        }
     }
 
     public State getState() {
@@ -144,6 +153,7 @@ public class SHNService {
 
     private void updateState(State newState) {
         if (state != newState) {
+            if (LOGGING) Log.i(TAG, "updateState for: " + getUuid() + " new state: " + newState);
             state = newState;
             for (SHNServiceListener shnServiceListener: shnServiceListeners) {
                 shnServiceListener.onServiceStateChanged(this, state);

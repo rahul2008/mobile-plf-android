@@ -377,6 +377,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     private Map<UUID, SHNService> registeredServices = new HashMap<>();
     public void registerService(SHNService shnService) {
         registeredServices.put(shnService.getUuid(), shnService);
+        shnService.registerSHNServiceListener(this);
     }
     private SHNService getSHNService(UUID serviceUUID) {
         return registeredServices.get(serviceUUID);
@@ -487,26 +488,6 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             Runnable command = bluetoothGattCommands.remove(0);
             command.run();
         }
-    }
-
-    public void createAndRegisterSHNServices(SHNDeviceService shnDeviceService, UUID serviceUUID, Set<UUID> requiredCharacteristicUUIDs, Set<UUID> optionalCharacteristicUUIDs) {
-        SHNService shnService = createSHNService(serviceUUID, requiredCharacteristicUUIDs, optionalCharacteristicUUIDs);
-        shnDeviceService.addService(shnService);
-        registerService(shnService);
-        shnService.registerSHNServiceListener(this);
-    }
-
-    private SHNService createSHNService(UUID serviceUUID, Set<UUID> requiredCharacteristicUUIDs, Set<UUID> optionalCharacteristicUUIDs) {
-        SHNService shnService = new SHNService(this, serviceUUID);
-        for (UUID characteristicUUID: requiredCharacteristicUUIDs) {
-            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(this, characteristicUUID);
-            shnService.addRequiredSHNCharacteristic(shnCharacteristic);
-        }
-        for (UUID characteristicUUID: optionalCharacteristicUUIDs) {
-            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(this, characteristicUUID);
-            shnService.addOptionalSHNCharacteristic(shnCharacteristic);
-        }
-        return shnService;
     }
 
     // SHNServiceListener callback
