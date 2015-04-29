@@ -5,6 +5,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +16,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
 import android.util.Base64;
+
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
+import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData.LocalityInfo;
 
 public class CMAUtils {
 	private static final String URL_PATTERN = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
@@ -64,5 +71,26 @@ public class CMAUtils {
 			return false;
 		}
 		return true;
+	}
+	
+	public static String getParentAreaID(String areaId) {
+		OutdoorManager.getInstance().saveNearbyCityData();
+		NearbyCitiesData nearbyCitiesData = OutdoorManager.getInstance().getNeighbourhoodCityData();
+		if (nearbyCitiesData != null) {
+			Map<String, List<LocalityInfo>> nearby_cities = nearbyCitiesData.getNearbyCitiesMap();
+			Iterator<String> idsIterator = nearby_cities.keySet().iterator();
+			while (idsIterator.hasNext()) {
+				String tempAreaId = idsIterator.next();
+				List<LocalityInfo> localityInfos = nearby_cities.get(tempAreaId);
+				if (localityInfos != null) {
+					for (LocalityInfo localityInfo : localityInfos) {
+						if (areaId.equals(localityInfo.getAreaID())) {
+							return tempAreaId;
+						}
+					}
+				}
+			}
+		}
+		return areaId;
 	}
 }

@@ -11,6 +11,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.cma.CMAUtils;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
@@ -91,9 +92,14 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			ALog.i(ALog.OUTDOOR_LOCATION, "Current location same");
 			return;
 		}
-		ALog.i(ALog.OUTDOOR_LOCATION, "Current location new");
-		LocationUtils.saveCurrentLocationAreaId(areaId);
-		OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(areaId);
+		ALog.i(ALog.OUTDOOR_LOCATION, "Current location new areaId: " + areaId);
+//		LocationUtils.saveCurrentLocationAreaId(areaId);
+//		OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(areaId);
+		String newAreaId = CMAUtils.getParentAreaID(areaId);
+		ALog.i(ALog.OUTDOOR_LOCATION, "Current location after check with nabour city areaId: " + areaId);
+		LocationUtils.saveCurrentLocationAreaId(newAreaId);
+		OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(newAreaId);
+		
 		areaIdReceived();//Listen to outdoor location fragment
 		
 		//For download outdoor AQI and weather detail, resetting lastUpdatedTime to zero

@@ -127,6 +127,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		cmaCities = new ArrayList<String>();
 		usEmbassyCities = new ArrayList<String>();
 		mNeighborhoodCitiesData = new ArrayList<OutdoorAQI>();
+		saveNearbyCityData();
 		saveUSEmbassyCitiesInMapAndList(outdoorJsonReader.readUSEmbassyCityJsonAsString());
 		saveCMACitiesInMapAndList(outdoorJsonReader.readCMACityJsonAsString());
 		insertDataAndGetShortListCities();
@@ -138,10 +139,14 @@ public class OutdoorManager implements OutdoorDataListener {
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: " + mOutdoorLocationFillAsyncTask);
 	}
 	
-	public void saveNearbyCityData() {
+	public synchronized void saveNearbyCityData() {
 		if(nearbyCitiesData == null) { //TODO : Add check to see if the city is Beijing, Shanghai or Guongdong??
 			nearbyCitiesData = DataParser.parseNearbyCitiesJson(outdoorJsonReader.readNearbyCitiesJsonAsString());
 		}
+	}
+	
+	public NearbyCitiesData getNeighbourhoodCityData() {
+		return nearbyCitiesData; 
 	}
 	
 	
