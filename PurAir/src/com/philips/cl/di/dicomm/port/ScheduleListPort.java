@@ -12,6 +12,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
@@ -108,9 +109,27 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 		return schedulesList ;
      }
 
-	public void sendScheduleDetailsToPurifier(String data, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
-		mSchedulerHandler.setScheduleDetails(data, mNetworkNode, scheduleType, scheduleNumber) ;
-    }
+	public void getSchedules() {
+		mSchedulerHandler.setScheduleDetails("", mNetworkNode, SCHEDULE_TYPE.GET, -1);
+	}
+
+	public void getScheduleDetails(int scheduleNumber) {
+		mSchedulerHandler.setScheduleDetails("", mNetworkNode, SCHEDULE_TYPE.GET_SCHEDULE_DETAILS, scheduleNumber);
+	}
+
+	public void addSchedule(String time, String fanspeed, String days, boolean enabled) {
+		String addScheduleData = JSONBuilder.getSchedulesJson(time, fanspeed, days, enabled);
+		mSchedulerHandler.setScheduleDetails(addScheduleData, mNetworkNode, SCHEDULE_TYPE.ADD, -1) ;
+	}
+
+	public void updateSchedule(int scheduleNumber, String time, String fanspeed, String days, boolean enabled) {
+		String addScheduleData = JSONBuilder.getSchedulesJson(time, fanspeed, days, enabled);
+		mSchedulerHandler.setScheduleDetails(addScheduleData, mNetworkNode, SCHEDULE_TYPE.EDIT, scheduleNumber) ;
+	}
+
+	public void deleteSchedule(int scheduleNumber) {
+		mSchedulerHandler.setScheduleDetails("", mNetworkNode, SCHEDULE_TYPE.DELETE, scheduleNumber) ;
+	}
 
 	@Override
 	public String getDICommPortName() {

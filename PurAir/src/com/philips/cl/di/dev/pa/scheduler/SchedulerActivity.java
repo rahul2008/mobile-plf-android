@@ -29,7 +29,6 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
@@ -93,14 +92,10 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private void addScheduler() {
 		scheduleType = SCHEDULE_TYPE.ADD;
 		ALog.i(ALog.SCHEDULER, "createScheduler");
-		String addSchedulerJson = "";
 
 		if (purAirDevice == null) return;
-		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
-				selectedFanspeed, selectedDays, enabled);
-		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(addSchedulerJson, scheduleType, -1);
+		purAirDevice.getScheduleListPort().addSchedule(selectedTime, selectedFanspeed, selectedDays, enabled);
 		showProgressDialog();
-		// TODO - Implement Add scheduler Via CPP
 	}
 
 	/**
@@ -110,17 +105,13 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	public void updateScheduler() {
 
 		scheduleType = SCHEDULE_TYPE.EDIT;
-		String editSchedulerJson = "";
 		if (!selectedDays.equals(schedulesList.get(indexSelected).getDays())
 				|| !selectedFanspeed.equals(schedulesList.get(indexSelected).getMode())
 				|| !selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())
 				|| enabled != schedulesList.get(indexSelected).isEnabled()) {
 			showProgressDialog();
-			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
-					selectedFanspeed, selectedDays, enabled);
 			if(null!=purAirDevice){
-			    purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(editSchedulerJson,scheduleType, schedulerNumberSelected);
-			}
+			    purAirDevice.getScheduleListPort().updateSchedule(schedulerNumberSelected, selectedTime, selectedFanspeed, selectedDays, enabled);			}
 		} else {
 			showSchedulerOverviewFragment();
 		}
@@ -136,10 +127,11 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		scheduleType = SCHEDULE_TYPE.DELETE;
 		schedulerNumberSelected = schedulesList.get(index).getScheduleNumber();
 		indexSelected = index;
-		if (purAirDevice == null
-				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
+		if (purAirDevice == null || purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			return;
-		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier("",scheduleType, schedulerNumberSelected);
+		}
+
+		purAirDevice.getScheduleListPort().deleteSchedule(schedulerNumberSelected);
 		showProgressDialog();
 	}
 
@@ -194,11 +186,11 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private void getSchedulesFromPurifier() {
 		scheduleType = SCHEDULE_TYPE.GET;
 		showProgressDialog();
-		if (purAirDevice == null
-				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
+		if (purAirDevice == null || purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			return;
-		String dataToSend = "";
-		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(dataToSend,scheduleType, -1);
+		}
+
+		purAirDevice.getScheduleListPort().getSchedules();
 	}
 
 	private void showSchedulerOverviewFragment() {
@@ -244,9 +236,8 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		indexSelected = position;
 		if (schedulesList.get(position).getMode() == null) {
 			showProgressDialog();
-			String dataToSend = "";
 			if(null!=purAirDevice){
-			    purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(dataToSend,scheduleType,	schedulerNumberSelected);
+			    purAirDevice.getScheduleListPort().getScheduleDetails(schedulerNumberSelected);
 			}
 		} else {
 			setFanSpeed(schedulesList.get(position).getMode());
