@@ -222,15 +222,17 @@ public class DashboardUtil {
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				listView.requestDisallowInterceptTouchEvent(false);
+				listView.requestDisallowInterceptTouchEvent(true);
 				int action = event.getActionMasked();
 				prevX = x;
 				if (action == MotionEvent.ACTION_MOVE) {
 					x = event.getX();
 					differnceX = Math.abs(prevX - x);
-					if (differnceX <= Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 5)) {
-						listView.requestDisallowInterceptTouchEvent(true);
+					if (differnceX > Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 5)) {
+						listView.requestDisallowInterceptTouchEvent(false);
 					}
+				} else if (action == MotionEvent.ACTION_UP) {
+					listView.requestDisallowInterceptTouchEvent(false);
 				}
 				return false;
 			}
