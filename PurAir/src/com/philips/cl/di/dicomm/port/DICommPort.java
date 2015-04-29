@@ -2,6 +2,7 @@ package com.philips.cl.di.dicomm.port;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import android.os.Handler;
@@ -33,7 +34,7 @@ public abstract class DICommPort<T> {
 	private Map<String,Object> mPutPropertiesMap;
 	private T mPortProperties;
 
-	private ArrayList<DIPortListener> mPortListeners;
+	private List<DIPortListener> mPortListeners;
 
 	public DICommPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		mNetworkNode = networkNode;
