@@ -56,13 +56,13 @@ public class LocalRequest extends Request {
 
 	@Override
 	public Response execute() {
-		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL " + mNetworkNode.hashCode());
+		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL");
 		ALog.i(ALog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 		String result = "";
 		InputStream inputStream = null;
 		OutputStreamWriter out = null;
 		HttpURLConnection conn = null;
-		int responseCode;
+		int responseCode = -1;
 
 		try {
 			URL urlConn = new URL(mUrl);
@@ -91,7 +91,6 @@ public class LocalRequest extends Request {
 				e.printStackTrace();
 			}
 
-			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				inputStream = conn.getInputStream();
 				return handleHttpOk(inputStream);
@@ -116,6 +115,7 @@ public class LocalRequest extends Request {
 		}
 		finally {
 			NetworkUtils.closeAllConnections(inputStream, out, conn);
+			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 		}
 	}
 
