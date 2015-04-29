@@ -79,7 +79,7 @@
                     <com.philips.cl.di.reg.ui.customviews.XButton
                         android:id="@+id/activate_acct_btn"
                         style="@style/buttonStyle"
-                        android:background="@drawable/navigation_bar"
+                        android:background="@drawable/reg_header_bg"
                         android:text="@string/activate_account"
                         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

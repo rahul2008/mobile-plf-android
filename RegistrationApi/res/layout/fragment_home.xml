@@ -7,8 +7,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" 
-        android:background="@android:color/transparent">
+        android:layout_height="fill_parent"
+        android:background="@android:color/transparent" >
 
         <LinearLayout
             android:id="@+id/ll_root_container"
@@ -59,7 +59,7 @@
                     android:id="@+id/btn_create_account"
                     style="@style/buttonStyle"
                     android:layout_marginBottom="@dimen/margin_bottom"
-                    android:background="@drawable/navigation_bar"
+                    android:background="@drawable/reg_header_bg"
                     android:text="@string/create_phi_account"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>

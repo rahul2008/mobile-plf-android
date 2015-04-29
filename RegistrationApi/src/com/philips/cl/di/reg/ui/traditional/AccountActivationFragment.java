@@ -150,7 +150,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 		if (NetworkUtility.getInstance().isOnline()) {
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
-				mBtnActivate.setBackgroundResource(R.drawable.navigation_bar);
+				mBtnActivate.setBackgroundResource(R.drawable.reg_header_bg);
 				mBtnActivate.setTextColor(getResources().getColor(
 						R.color.btn_enable_text_color));
 				mBtnActivate.setClickable(true);

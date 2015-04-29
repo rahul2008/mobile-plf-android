@@ -1,50 +1,41 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/navigation_bar"
-    android:visibility="visible" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
-        android:id="@+id/header"
+        android:id="@+id/rl_reg_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="@dimen/reg_header_height"
+        android:background="@drawable/reg_header_bg" >
 
-        <RelativeLayout
-            android:id="@+id/iv_backArrow"
-            android:layout_width="@dimen/back_arrow_width"
-            android:layout_height="@dimen/back_arrow_height"
-            android:clickable="true"
+        <ImageView
+            android:id="@+id/iv_reg_back"
+            android:layout_width="@dimen/reg_header_height"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/back_arrow_padding">
-
-            <ImageView
-                android:layout_width="@dimen/arrow_up_width"
-                android:layout_height="@dimen/arrow_height"
-                android:clickable="false"
-                android:layout_centerVertical="true"
-                android:src="@drawable/back_press"
-                android:visibility="visible" />
-        </RelativeLayout>
+            android:clickable="false"
+            android:contentDescription="@string/content_desc"
+            android:paddingBottom="@dimen/reg_header_iv_back_padding"
+            android:paddingTop="@dimen/reg_header_iv_back_padding"
+            android:src="@drawable/back_press"
+            android:visibility="visible" />
 
         <com.philips.cl.di.reg.ui.customviews.XTextView
-            android:id="@+id/action_bar_title"
-            style="@style/style_homescreen_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:ellipsize="end"
-            android:gravity="center"
+            android:id="@+id/tv_reg_header_title"
+            style="@style/reg_style_homescreen_title"
+            android:layout_marginRight="@dimen/reg_header_height"
+            android:layout_toRightOf="@+id/iv_reg_back"
             android:text="@string/sign_in"
             reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
     </RelativeLayout>
 
     <FrameLayout
-        android:id="@+id/main_activity_container"
+        android:id="@+id/fl_reg_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
-        android:background="@color/btn_enable_text_color"
+        android:layout_below="@+id/rl_reg_header"
         android:clickable="true"
         android:orientation="vertical" />
 

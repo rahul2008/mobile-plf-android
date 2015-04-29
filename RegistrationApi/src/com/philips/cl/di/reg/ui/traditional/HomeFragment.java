@@ -166,7 +166,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		// mLlGooglePlus.setEnabled(state);
 		//
 		if (state) {
-			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
+			mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnCreateAccount.setTextColor(getResources().getColor(
 					R.color.btn_enable_text_color));
 			/*

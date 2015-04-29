@@ -4,7 +4,7 @@
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -16,7 +16,7 @@
     </style>
 
     <style name="style_homescreen_title">
-        <item name="android:textSize">@dimen/home_title_fontsize</item>
+        <item name="android:textSize">@dimen/reg_header_title_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/btn_enable_text_color</item>
         <item name="android:gravity">center</item>
@@ -24,11 +24,10 @@
     </style>
 
     <style name="style_tab_reg_hint">
-        <item name="android:textSize">@dimen/home_title_fontsize</item>
+        <item name="android:textSize">@dimen/reg_header_title_size</item>
         <item name="android:paddingLeft">@dimen/home_tiltle_padding</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-     
     </style>
 
     <style name="btn_create_account" parent="@android:style/Widget.Button">
@@ -37,7 +36,6 @@
         <item name="android:textColor">@color/btn_enable_text_color</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/home_tiltle_padding</item>
-        <item name="android:background">@drawable/navigation_bar</item>
     </style>
 
     <style name="line">
@@ -93,14 +91,14 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/title_text_size_medium</item>
     </style>
-    
-      <style name="errValidationStyle">
+
+    <style name="errValidationStyle">
         <item name="android:layout_gravity">left</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/err_msg</item>
         <item name="android:padding">@dimen/home_tiltle_padding</item>
     </style>
-    
+
     <style name="forgot_password">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -108,7 +106,7 @@
         <item name="android:textColor">@color/button_bg</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
     </style>
-    
+
     <style name="resend_btn">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -116,7 +114,7 @@
         <item name="android:textColor">@color/err_msg_color</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
     </style>
-		
+
     <style name="disable_buttonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -124,4 +122,22 @@
         <item name="android:textColor">@color/btn_disable_text_color</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
     </style>
+
+    <!-- Configurable -->
+
+
+    <!-- Header style -->
+
+    <style name="reg_style_homescreen_title">
+        <item name="android:textSize">@dimen/reg_header_title_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/btn_enable_text_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

@@ -60,7 +60,7 @@
                     android:id="@+id/btn_continue"
                     style="@style/buttonStyle"
                     android:layout_marginBottom="@dimen/margin_bottom"
-                    android:background="@drawable/navigation_bar"
+                    android:background="@drawable/reg_header_bg"
                     android:text="@string/continue_login"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

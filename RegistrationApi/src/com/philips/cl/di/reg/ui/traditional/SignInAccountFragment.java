@@ -265,7 +265,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void hideSignInSpinner() {
 		mPbSignInSpinner.setVisibility(View.INVISIBLE);
-		mBtnSignInAccount.setBackgroundResource(R.drawable.navigation_bar);
+		mBtnSignInAccount.setBackgroundResource(R.drawable.reg_header_bg);
 		mBtnSignInAccount.setEnabled(true);
 	}
 
@@ -305,7 +305,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
 				&& RegistrationHelper.isJanrainIntialized()) {
-			mBtnSignInAccount.setBackgroundResource(R.drawable.navigation_bar);
+			mBtnSignInAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnSignInAccount.setEnabled(true);
 			mBtnSignInAccount.setTextColor(getResources().getColor(R.color.btn_enable_text_color));
 			mRegError.hideError();

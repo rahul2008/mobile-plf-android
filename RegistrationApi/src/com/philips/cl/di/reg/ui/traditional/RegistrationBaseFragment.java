@@ -47,7 +47,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	}
 
 	private void setActionbarTitle() {
-		((TextView) getActivity().findViewById(R.id.action_bar_title))
+		((TextView) getActivity().findViewById(R.id.tv_reg_header_title))
 				.setText(getActionbarTitle());
 	}
 

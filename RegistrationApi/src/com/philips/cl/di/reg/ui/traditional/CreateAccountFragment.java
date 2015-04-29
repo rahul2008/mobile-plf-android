@@ -157,7 +157,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void hideSpinner() {
 		mPbSpinner.setVisibility(View.INVISIBLE);
-		mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
+		mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
 		mBtnCreateAccount.setEnabled(true);
 	}
 
@@ -212,7 +212,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 				&& mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
 				&& RegistrationHelper.isJanrainIntialized()) {
-			mBtnCreateAccount.setBackgroundResource(R.drawable.navigation_bar);
+			mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();
 		} else {

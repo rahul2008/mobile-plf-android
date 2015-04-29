@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.Context;
@@ -10,7 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
@@ -22,28 +23,24 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationActivity extends FragmentActivity implements
-		EventListener, OnClickListener {
+public class RegistrationActivity extends FragmentActivity implements EventListener,
+        OnClickListener {
 
-	private RelativeLayout mActionBarArrow = null;
 	private FragmentManager mFragmentManager = null;
+
 	private final String TAG = TextView.class.getSimpleName();
+
 	private static final boolean VERIFICATION_SUCCESS = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.IS_ONLINE, this);
-
+		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
 		setContentView(R.layout.activity_registration);
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
-
-		loadMainFragment();
-		getSupportFragmentManager()
-				.addOnBackStackChangedListener(getListener());
+		loadFirstFragment();
 	}
 
 	@Override
@@ -54,27 +51,32 @@ public class RegistrationActivity extends FragmentActivity implements
 	private void handleBackStack() {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		int count = fragmentManager.getBackStackEntryCount();
-		if (count > 0) {
-			Fragment fragment = fragmentManager.getFragments().get(count - 1);
-			if (fragment instanceof WelcomeFragment) {
-				navigateToHome();
-			} else {
-				super.onBackPressed();
-			}
+		if (count == 0) {
+			super.onBackPressed();
+			return;
 		}
-
+		Fragment fragment = fragmentManager.getFragments().get(count - 1);
+		if (fragment instanceof WelcomeFragment) {
+			navigateToHome();
+		} else {
+			super.onBackPressed();
+		}
 	}
 
-	public void loadMainFragment() {
-		addFragment(new HomeFragment());
+	public void loadFirstFragment() {
+		try {
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
+		}
 	}
 
 	public void addFragment(Fragment fragment) {
 		try {
-			FragmentTransaction fragmentTransaction = mFragmentManager
-					.beginTransaction();
-			fragmentTransaction.add(R.id.main_activity_container, fragment,
-					fragment.getTag());
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
@@ -91,35 +93,15 @@ public class RegistrationActivity extends FragmentActivity implements
 		}
 	}
 
-	private OnBackStackChangedListener getListener() {
-		OnBackStackChangedListener result = new OnBackStackChangedListener() {
-
-			public void onBackStackChanged() {
-				FragmentManager manager = getSupportFragmentManager();
-				if (manager != null) {
-					int backStackEntryCount = manager.getBackStackEntryCount();
-					if (backStackEntryCount == 0) {
-						finish();
-					} else if (backStackEntryCount == 1) {
-						// hideBackArrow();
-					}
-
-				}
-			}
-		};
-		return result;
-	}
-
 	private void initUI() {
-		mActionBarArrow = (RelativeLayout) findViewById(R.id.iv_backArrow);
-		mActionBarArrow.setOnClickListener(this);
+		ImageView ivBack = (ImageView) findViewById(R.id.iv_reg_back);
+		ivBack.setOnClickListener(this);
 	}
 
 	public void addWelcomeFragmentOnVerification() {
 		WelcomeFragment welcomeFragment = new WelcomeFragment();
 		Bundle welcomeFragmentBundle = new Bundle();
-		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS,
-				VERIFICATION_SUCCESS);
+		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
 		welcomeFragment.setArguments(welcomeFragmentBundle);
 		addFragment(welcomeFragment);
 	}
@@ -128,10 +110,8 @@ public class RegistrationActivity extends FragmentActivity implements
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
 			if (!RegistrationHelper.isJanrainIntialized()) {
-
 				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
 				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this);
-
 			}
 		}
 	}
@@ -144,8 +124,7 @@ public class RegistrationActivity extends FragmentActivity implements
 	private void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-					.getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}
 	}
 
@@ -156,11 +135,8 @@ public class RegistrationActivity extends FragmentActivity implements
 
 	@Override
 	public void onClick(View v) {
-
-		if (v.getId() == R.id.iv_backArrow) {
+		if (v.getId() == R.id.iv_reg_back) {
 			onBackPressed();
 		}
-
 	}
-
 }
