@@ -50,6 +50,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 public class SHNDeviceTest {
     public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180D));
     public static final UUID CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A37));
+    private static final byte[] CHARACTERISTIC_DATA = new byte[] {'T', 'e', 's', 't'};
     private SHNDevice shnDevice;
     private BluetoothDevice mockedBluetoothDevice;
     private SHNCentral mockedSHNCentral;
@@ -106,6 +107,7 @@ public class SHNDeviceTest {
 
         mockedBluetoothGattCharacteristic = (BluetoothGattCharacteristic) Utility.makeThrowingMock(BluetoothGattCharacteristic.class);
         doReturn(CHARACTERISTIC_UUID).when(mockedBluetoothGattCharacteristic).getUuid();
+        doReturn(CHARACTERISTIC_DATA).when(mockedBluetoothGattCharacteristic).getValue();
         bluetoothGattCharacteristics = new ArrayList<>();
         bluetoothGattCharacteristics.add(mockedBluetoothGattCharacteristic);
 
