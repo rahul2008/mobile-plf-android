@@ -82,38 +82,38 @@
                     android:text="@string/or_sign"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
-                <com.philips.cl.di.reg.ui.customviews.XButton
-                    android:id="@+id/philips_acct_id"
-                    style="@style/buttonStyle"
-                    android:layout_width="wrap_content"
+                <com.philips.cl.di.reg.ui.customviews.XProviderButton
+                    android:id="@+id/btn_reg_my_philips"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_bottom"
-                    android:background="@drawable/philips"
-                    android:text="@string/philips"
-                    reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+                    reglib:providerBackground="@drawable/reg_philips_bg_rect"
+                    reglib:providerLogo="@drawable/reg_philips_ic"
+                    reglib:providerName="@string/philips"
+                    reglib:providerTextColor="@color/reg_provider_text_color" />
 
-                <com.philips.cl.di.reg.ui.customviews.XButton
-                    style="@style/buttonStyle"
-                    android:layout_width="wrap_content"
+                <com.philips.cl.di.reg.ui.customviews.XProviderButton
+                    android:id="@+id/btn_reg_facebook"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_bottom"
-                    android:background="@drawable/facebook"
-                    android:text="@string/facebook"
-                    reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+                    reglib:providerBackground="@drawable/reg_facebook_bg_rect"
+                    reglib:providerLogo="@drawable/reg_facebook_ic"
+                    reglib:providerName="@string/facebook"
+                    reglib:providerTextColor="@color/reg_provider_text_color" />
 
-                <com.philips.cl.di.reg.ui.customviews.XButton
-                    style="@style/buttonStyle"
-                    android:layout_width="wrap_content"
+                <com.philips.cl.di.reg.ui.customviews.XProviderButton
+                    android:id="@+id/btn_reg_twitter"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_bottom"
-                    android:background="@drawable/twitter"
-                    android:text="@string/twitter"
-                    reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+                    reglib:providerBackground="@drawable/reg_twitter_bg_rect"
+                    reglib:providerLogo="@drawable/reg_twitter_ic"
+                    reglib:providerName="@string/twitter"
+                    reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content" >
+                </com.philips.cl.di.reg.ui.customviews.XRegError>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -48,4 +48,8 @@
     <dimen name="reg_header_title_size">20sp</dimen>
     <dimen name="reg_header_iv_back_padding">10dip</dimen>
 
+    <!-- Home screen -->
+    <dimen name="reg_btn_height">40dip</dimen>
+    <dimen name="reg_my_philips_btn_text_size">16sp</dimen>
+
 </resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:reglib="http://reg.lib/schema"
+    android:id="@+id/fl_reg_provider_bg"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/reg_btn_height"
+    android:layout_marginBottom="@dimen/margin_bottom"
+    android:background="@drawable/reg_philips_bg_rect" >
+
+    <ImageView
+        android:id="@+id/iv_reg_provider_logo"
+        android:layout_width="40dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:padding="7dip"
+        android:src="@drawable/reg_philips_ic" />
+
+    <com.philips.cl.di.reg.ui.customviews.XTextView
+        android:id="@+id/tv_reg_provider_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="46dip"
+        android:gravity="center_vertical"
+        android:paddingLeft="2dip"
+        android:paddingRight="2dip"
+        android:text="@string/philips"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/reg_my_philips_btn_text_size"
+        reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+
+</FrameLayout>

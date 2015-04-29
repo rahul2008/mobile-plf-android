@@ -41,4 +41,7 @@
     <string name="registration_type" translatable="false">EVAL</string>
     <string name="microsite_id" translatable="false">81376</string>
 
+    <!-- Provider button -->
+    <color name="reg_provider_text_color">@android:color/white</color>
+
 </resources>

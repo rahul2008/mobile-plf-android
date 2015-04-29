@@ -16,6 +16,7 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
+import com.philips.cl.di.reg.ui.customviews.XProviderButton;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -26,7 +27,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	private Button mBtnCreateAccount;
 
-	private Button mBtnMyPhilips;
+	private XProviderButton mBtnMyPhilips;
 
 	private TextView mTvWelcome;
 
@@ -82,7 +83,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				.findViewById(R.id.rl_singin_options);
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
-		mBtnMyPhilips = (Button) view.findViewById(R.id.philips_acct_id);
+		mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
 		mBtnMyPhilips.setOnClickListener(this);
 
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -98,7 +99,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		if (v.getId() == R.id.btn_create_account) {
 			getRegistrationMainActivity().addFragment(
 					new CreateAccountFragment());
-		} else if (v.getId() == R.id.philips_acct_id) {
+		} else if (v.getId() == R.id.btn_reg_my_philips) {
 			getRegistrationMainActivity().addFragment(
 					new SignInAccountFragment());
 		}

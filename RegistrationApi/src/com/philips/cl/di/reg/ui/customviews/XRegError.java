@@ -18,27 +18,28 @@ import com.philips.cl.di.reg.R;
 
 public class XRegError extends RelativeLayout {
 
-	private Context context;
+	private Context mContext;
+
 	private TextView mTvError;
 
 	public XRegError(Context context) {
 		super(context);
-		this.context = context;
+		mContext = context;
 		initUi(R.layout.error_mapping);
 	}
 
 	public XRegError(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.context = context;
+		mContext = context;
 		initUi(R.layout.error_mapping);
 	}
 
-	public final void initUi(int resourceId) {
+	private void initUi(int resourceId) {
 
 		/** inflate amount layout */
-		LayoutInflater li = LayoutInflater.from(context);
+		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
-		
+
 		mTvError = (XTextView) findViewById(R.id.tv_error_message);
 	}
 

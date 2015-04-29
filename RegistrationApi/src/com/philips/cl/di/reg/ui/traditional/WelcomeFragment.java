@@ -111,7 +111,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 		mTvWelcome.setLayoutParams(params);
 		mLlEmailDetailsContainer.setLayoutParams(params);
 		mLlContinueBtnContainer.setLayoutParams(params);
-
 	}
 
 	@Override
