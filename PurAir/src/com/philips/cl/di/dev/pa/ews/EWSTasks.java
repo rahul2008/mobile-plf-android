@@ -70,7 +70,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 		OutputStreamWriter os = null ;
 		try {
 			URL url = new URL(stringUrl);
-			conn = (HttpURLConnection) NetworkUtils.getConnection(url,requestType, 20000,3000);
+			conn = (HttpURLConnection) NetworkUtils.getConnection(url,requestType, -1,3000);
 			if( conn == null ) return "";
 			conn.setRequestProperty("connection", "close");
 			conn.setConnectTimeout(20000);

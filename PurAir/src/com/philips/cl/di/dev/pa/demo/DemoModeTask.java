@@ -41,7 +41,7 @@ public class DemoModeTask extends Thread {
 		OutputStreamWriter os = null;
 		try {
 			URL url = new URL(urlString);
-			conn = NetworkUtils.getConnection(url, requestType, 10000,3000) ;
+			conn = NetworkUtils.getConnection(url, requestType, -1,3000) ;
 			if( conn == null ) return ;
 			if (requestType.equals("PUT")) {
 				if (putData == null)
