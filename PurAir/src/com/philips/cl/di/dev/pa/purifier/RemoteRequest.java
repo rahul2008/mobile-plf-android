@@ -27,6 +27,8 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 	private String mResponse ;
 	private int mMessageId ;
 	private String mConversationId;
+	private String mPortName;
+	private int mProductId;
 
 	private CPPController mCppController ;
 	private final RemoteRequestType mRequestType;
@@ -34,8 +36,9 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,Object> dataMap,ResponseHandler responseHandler) {
 		super(networkNode, dataMap, responseHandler);
 	    mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
-		mEventData = createDataToSend(networkNode,portName,productId,dataMap);
 		mRequestType = requestType;
+		mPortName = portName;
+		mProductId = productId;
 	}
 
 	private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String,Object> dataMap){
@@ -52,26 +55,32 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 		//TODO - Add publish event listener for handling error cases
 		mCppController.addDCSResponseListener(this) ;
 		mCppController.addPublishEventListener(this) ;
+		
+		mEventData = createDataToSend(mNetworkNode, mPortName, mProductId, mDataMap);
 		mMessageId = mCppController.publishEvent(mEventData,DICOMM_REQUEST, mRequestType.getMethod(),
 				"", REQUEST_PRIORITY, REQUEST_TTL, mNetworkNode.getCppId()) ;
 		try {
-			ALog.i(ALog.REMOTEREQUEST, "wait for "+ CPP_DEVICE_CONTROL_TIMEOUT/1000 + "seconds") ;
+			long startTime = System.currentTimeMillis();
 			synchronized (this) {
 				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
 			}
-			ALog.e(ALog.REMOTEREQUEST, "Timeout occured");
+			if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {				
+				ALog.e(ALog.REMOTEREQUEST, "Timeout occured");
+			}
 		} catch (InterruptedException e) {
 			// NOP
 		}
-		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE");
 
 		mCppController.removePublishEventListener(this);
 		mCppController.removeDCSResponseListener(this);
 
 		if (mResponse == null) {
 			ALog.e(ALog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
+			ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Failure");
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 		}
+		
+		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Success");
 		return new Response(mResponse, null, mResponseHandler) ;
 	}
 
@@ -82,7 +91,6 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 			mResponse = dcsResponse ;
 			synchronized (this) {
 				ALog.i(ALog.REMOTEREQUEST, "Notified on DCS Response") ;
-				ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - dcsevent");
 				notify() ;
 			}
 		}else{
