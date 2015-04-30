@@ -80,6 +80,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 		}
 		
+		ALog.i(ALog.REMOTEREQUEST, "Received data: " + mResponse);
 		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Success");
 		return new Response(mResponse, null, mResponseHandler) ;
 	}
