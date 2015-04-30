@@ -204,7 +204,7 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 		}
 	}
 	
-	private SchedulePortInfo parseResponseAsSingleSchedule(String response) {
+	SchedulePortInfo parseResponseAsSingleSchedule(String response) {
 		//TODO: DIComm Refactor
 		if (response == null || response.isEmpty()) return null;
 		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
@@ -230,7 +230,7 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 		return schedulePortInfo ;
      }
 
-	private List<SchedulePortInfo> parseResponseAsScheduleList(String response) {
+	 List<SchedulePortInfo> parseResponseAsScheduleList(String response) {
 		//TODO: DIComm Refactor
 		if (response == null || response.isEmpty()) return null;
 		ALog.i(ALog.SCHEDULELISTPORT, response) ;
