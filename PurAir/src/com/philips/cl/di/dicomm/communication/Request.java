@@ -20,6 +20,7 @@ public abstract class Request {
 
     public abstract Response execute();
 
+	@SuppressWarnings("unchecked")
 	protected String convertKeyValuesToJson(Map<String, Object> dataMap) {
 		if (dataMap == null || dataMap.size() <= 0) return "{}";
 
@@ -31,16 +32,18 @@ public abstract class Request {
 
 			// TODO DICOMM REFACTOR add support for all DIComm datatypes
 			if (value instanceof String) {
-				builder.append("\"").append(key).append("\":\"").append(dataMap.get(key)).append("\"");
+				builder.append("\"").append(key).append("\":\"").append(value).append("\"");
 			} else if (value instanceof Integer) {
-				builder.append("\"").append(key).append("\":").append(dataMap.get(key));
+				builder.append("\"").append(key).append("\":").append(value);
 			} else if (value instanceof Boolean) {
-			    builder.append("\"").append(key).append("\":").append(dataMap.get(key));
+			    builder.append("\"").append(key).append("\":").append(value);
 			} else if (value instanceof String[]){
 			    builder.append("\"").append(key).append("\":");
 			    appendStringArray(builder, (String[]) value);
+			} else if (value instanceof Map<?,?>) {
+				builder.append("\"").append(key).append("\":").append(convertKeyValuesToJson((Map<String,Object>) value));
 			} else {
-				builder.append("\"").append(key).append("\":\"").append(dataMap.get(key)).append("\"");
+				builder.append("\"").append(key).append("\":\"").append(value).append("\"");
 			}
 
 			if (index < keySet.size()) {
