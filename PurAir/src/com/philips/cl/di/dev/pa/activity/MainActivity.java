@@ -31,6 +31,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.AppUpdater;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
@@ -98,7 +99,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
 		getMainContainerHeight();
-		CPPController.getInstance(this).setAppUpdateStatus(false);
+		
+		// DICOMM Refactor - check right place to instantiate appupdater
+		//CPPController.getInstance(this).setAppUpdateStatus(false);
+		AppUpdater appUpdater = AppUpdater.getInstance(getApplicationContext());
+		appUpdater.setAppUpdateStatus(false);
 		
 		//Fetch database data
 		OutdoorManager.getInstance();
