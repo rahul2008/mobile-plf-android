@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.util.Log;
 
-import com.pins.philips.shinelib.SHNBluetoothGattCallback;
+import com.pins.philips.shinelib.ISHNBluetoothGattCallback;
 import com.pins.philips.shinelib.utility.Utilities;
 
 import java.util.concurrent.Executor;
@@ -17,11 +17,11 @@ import java.util.concurrent.Executor;
 public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
     private static final String TAG = BluetoothGattCallbackOnExecutor.class.getSimpleName();
     private static final boolean LOGGING = false;
-    private SHNBluetoothGattCallback bluetoothGattCallback;
+    private ISHNBluetoothGattCallback iShnBluetoothGattCallback;
     private Executor executor;
 
-    public BluetoothGattCallbackOnExecutor(Executor executor, SHNBluetoothGattCallback bluetoothGattCallback) {
-        this.bluetoothGattCallback = bluetoothGattCallback;
+    public BluetoothGattCallbackOnExecutor(Executor executor, ISHNBluetoothGattCallback iShnBluetoothGattCallback) {
+        this.iShnBluetoothGattCallback = iShnBluetoothGattCallback;
         this.executor = executor;
     }
 
@@ -30,7 +30,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onConnectionStateChange(gatt, status, newState);
+                iShnBluetoothGattCallback.onConnectionStateChange(gatt, status, newState);
             }
         };
         executor.execute(runnable);
@@ -41,7 +41,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onServicesDiscovered(gatt, status);
+                iShnBluetoothGattCallback.onServicesDiscovered(gatt, status);
             }
         };
         executor.execute(runnable);
@@ -54,7 +54,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onCharacteristicReadWithData(gatt, characteristic, status, data);
+                iShnBluetoothGattCallback.onCharacteristicReadWithData(gatt, characteristic, status, data);
             }
         };
         executor.execute(runnable);
@@ -65,7 +65,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onCharacteristicWrite(gatt, characteristic, status);
+                iShnBluetoothGattCallback.onCharacteristicWrite(gatt, characteristic, status);
             }
         };
         executor.execute(runnable);
@@ -78,7 +78,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onCharacteristicChangedWithData(gatt, characteristic, data);
+                iShnBluetoothGattCallback.onCharacteristicChangedWithData(gatt, characteristic, data);
             }
         };
         executor.execute(runnable);
@@ -90,7 +90,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onDescriptorReadWithData(gatt, descriptor, status, data);
+                iShnBluetoothGattCallback.onDescriptorReadWithData(gatt, descriptor, status, data);
             }
         };
         executor.execute(runnable);
@@ -101,7 +101,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onDescriptorWrite(gatt, descriptor, status);
+                iShnBluetoothGattCallback.onDescriptorWrite(gatt, descriptor, status);
             }
         };
         executor.execute(runnable);
@@ -112,7 +112,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onReliableWriteCompleted(gatt, status);
+                iShnBluetoothGattCallback.onReliableWriteCompleted(gatt, status);
             }
         };
         executor.execute(runnable);
@@ -123,7 +123,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                bluetoothGattCallback.onReadRemoteRssi(gatt, rssi, status);
+                iShnBluetoothGattCallback.onReadRemoteRssi(gatt, rssi, status);
             }
         };
         executor.execute(runnable);
@@ -135,7 +135,7 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 //        Runnable runnable = new Runnable() {
 //            @Override
 //            public void run() {
-//                bluetoothGattCallback.onMtuChanged(gatt, mtu, status);
+//                iShnBluetoothGattCallback.onMtuChanged(gatt, mtu, status);
 //            }
 //        };
 //        executor.execute(runnable);
