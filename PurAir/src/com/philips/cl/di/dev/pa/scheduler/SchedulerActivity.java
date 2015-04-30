@@ -2,7 +2,9 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -19,6 +21,7 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
@@ -31,6 +34,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dicomm.port.AirPort;
 
 public class SchedulerActivity extends BaseActivity implements SchedulerListener, DiscoveryEventListener {
 
@@ -92,10 +96,23 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private void addScheduler() {
 		scheduleType = SCHEDULE_TYPE.ADD;
 		ALog.i(ALog.SCHEDULER, "createScheduler");
-
+		
 		if (purAirDevice == null) return;
-		purAirDevice.getScheduleListPort().addSchedule(selectedTime, selectedFanspeed, selectedDays, enabled);
+		AirPort airPort = purAirDevice.getAirPort();
+		purAirDevice.getScheduleListPort().addSchedule(airPort.getDICommPortName(), airPort.getDICommProductId(), selectedTime, selectedDays, enabled, createCommandMap());
 		showProgressDialog();
+	}
+
+	private Map<String, Object> createCommandMap() {
+		int pwr = 1;
+		if (selectedFanspeed.equals("0")) {
+			pwr = 0;
+		}
+		
+		Map<String, Object> commandMap = new HashMap<String, Object>();
+		commandMap.put(ParserConstants.POWER_MODE, pwr);
+		commandMap.put(ParserConstants.MACHINE_MODE, selectedFanspeed);
+		return commandMap;
 	}
 
 	/**
@@ -110,8 +127,10 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 				|| !selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())
 				|| enabled != schedulesList.get(indexSelected).isEnabled()) {
 			showProgressDialog();
-			if(null!=purAirDevice){
-			    purAirDevice.getScheduleListPort().updateSchedule(schedulerNumberSelected, selectedTime, selectedFanspeed, selectedDays, enabled);			}
+			if(null!=purAirDevice) {
+				AirPort airPort = purAirDevice.getAirPort();
+			    purAirDevice.getScheduleListPort().updateSchedule(schedulerNumberSelected, airPort.getDICommPortName(), airPort.getDICommProductId(), selectedTime, selectedDays, enabled, createCommandMap());			
+			}
 		} else {
 			showSchedulerOverviewFragment();
 		}

@@ -42,7 +42,7 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 		mSchedulerHandler = new SchedulerHandler(this);
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
-		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy, mSchedulerHandler);
+		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy, mSchedulerHandler, this);
 		
 
         addPort(mAirPort);

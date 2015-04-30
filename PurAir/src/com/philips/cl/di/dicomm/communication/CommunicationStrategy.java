@@ -15,7 +15,7 @@ public abstract class CommunicationStrategy {
 	public abstract void getProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract void putProperties(Map<String,Object> dataMap, String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract void addProperties(Map<String,Object> dataMap, String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
-	public abstract void deleteProperties(String portName, int productId, int arrayPortId, NetworkNode networkNode, ResponseHandler responseHandler);
+	public abstract void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract void subscribe(String portName,int productId, int subscriptionTtl,NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract void unsubscribe(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract boolean isAvailable(NetworkNode networkNode);

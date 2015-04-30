@@ -37,9 +37,7 @@ private final RequestQueue mRequestQueue;
 	}
 
 	@Override
-	public void deleteProperties(String portName, int productId, int arrayPortId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
-		// TODO DICOMM Refactor, make sure to support array ports, use arrayPortId
+	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
 		RemoteRequest request = new RemoteRequest(networkNode, portName, productId, RemoteRequestType.DEL_PROPS, null, responseHandler);
 		mRequestQueue.addRequest(request);
 	}

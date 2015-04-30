@@ -20,7 +20,7 @@ public abstract class DICommPort<T> {
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
 
 	protected final NetworkNode mNetworkNode;
-	private CommunicationStrategy mCommunicationStrategy;
+	protected CommunicationStrategy mCommunicationStrategy;
     private WrappedHandler mResubscriptionHandler;
 
 	private boolean mHasOutstandingRequest;

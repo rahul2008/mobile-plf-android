@@ -27,8 +27,7 @@ public class NullStrategy extends CommunicationStrategy {
 	}
 
 	@Override
-	public void deleteProperties(String portName, int productId, int arrayPortId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
+	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
 		responseHandler.onError(Error.NOTCONNECTED, null);
 	}
 

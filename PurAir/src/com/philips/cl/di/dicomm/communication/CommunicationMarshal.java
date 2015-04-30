@@ -38,9 +38,8 @@ public class CommunicationMarshal extends CommunicationStrategy {
 	}
 
 	@Override
-	public void deleteProperties(String portName, int productId, int arrayPortId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
-		findAvailableStrategy(networkNode).deleteProperties(portName, productId, arrayPortId,networkNode, responseHandler);
+	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
+		findAvailableStrategy(networkNode).deleteProperties(portName, productId, networkNode, responseHandler);
 	}
 
 	@Override

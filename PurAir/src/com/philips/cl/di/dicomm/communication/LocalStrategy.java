@@ -41,15 +41,13 @@ public class LocalStrategy extends CommunicationStrategy {
 	public void addProperties(Map<String,Object> dataMap,String portName, int productId,
 			NetworkNode networkNode, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		Request request = new LocalRequest(networkNode, portName, productId, LocalRequestType.PUT, dataMap, responseHandler, mDISecurity);
+		Request request = new LocalRequest(networkNode, portName, productId, LocalRequestType.POST, dataMap, responseHandler, mDISecurity);
 		mRequestQueue.addRequest(request);
 	}
 
 	@Override
-	public void deleteProperties(String portName, int productId, int arrayPortId,
-			NetworkNode networkNode, ResponseHandler responseHandler) {
+	public void deleteProperties(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler) {
         exchangeKeyIfNecessary(networkNode);
-		// TODO DICOMM Refactor, make sure local/remote requests support array ports, use arrayPortId
 		Request request  = new LocalRequest(networkNode, portName, productId, LocalRequestType.DELETE, null, responseHandler, mDISecurity);
 		mRequestQueue.addRequest(request);
 	}
