@@ -5,9 +5,6 @@ import java.util.Observable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
-
-
 public class NetworkNode extends Observable implements Parcelable {
 	public static enum PAIRED_STATUS { PAIRED, NOT_PAIRED, UNPAIRED, PAIRING }
 	
@@ -57,11 +54,6 @@ public class NetworkNode extends Observable implements Parcelable {
 	}
 	
 	public void  setConnectionState(ConnectionState connectionState) {
-		// TODO remove vertical specific code (MetricsTracker)
-		if (!connectionState.equals(mConnectionState)) {
-			MetricsTracker.trackActionConnectionType(connectionState);
-		}
-		
 		synchronized(this) { // notifyObservers called from same Thread
 			if (connectionState.equals(mConnectionState)) return;
 			this.mConnectionState = connectionState;
