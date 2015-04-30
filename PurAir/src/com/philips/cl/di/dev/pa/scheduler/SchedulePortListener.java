@@ -2,9 +2,10 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import java.util.List;
 
-
-public interface SchedulerListener {
+public interface SchedulePortListener {
+	
 	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) ;
 	public void onScheduleReceived(SchedulePortInfo schedule) ;
-	public void onErrorOccurred(int errorType) ;
+	public void onError(int errorType) ;
+	
 }

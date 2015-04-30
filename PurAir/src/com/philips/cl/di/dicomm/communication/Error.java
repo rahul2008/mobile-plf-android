@@ -10,8 +10,7 @@ public enum Error {
 	BADREQUEST("HTTP BADREQUEST occurred - check log for more info"),
 	BADGATEWAY("HTTP BADGATEWAY occurred "),
 	NOTCONNECTED("Request cannot be performed - Not connected to an appliance"), 
-	NOWIFIAVAILABLE("Request cannot be performed - No WifiConnection available for local request"),
-	SCHEDULER("");
+	NOWIFIAVAILABLE("Request cannot be performed - No WifiConnection available for local request");
 
     private final String mErrorMessage;
 	

@@ -1,14 +1,9 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import java.util.List;
-
 import android.content.Context;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
-import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
@@ -27,7 +22,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 	private String longitude;
 
     protected final ScheduleListPort mScheduleListPort;
-	private final SchedulerHandler mSchedulerHandler;
 	private SubscriptionHandler mSubscriptionHandler;
 
 	private final AirPort mAirPort;
@@ -39,10 +33,9 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 		mUsn = usn;
 		
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
-		mSchedulerHandler = new SchedulerHandler(this);
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
-		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy, mSchedulerHandler, this);
+		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy);
 		
 
         addPort(mAirPort);
@@ -120,15 +113,7 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	@Override
 	public void onError(Error error, String errorData) {
-		if(mPurifierListener==null) return;
-
-		switch (error) {
-		case SCHEDULER:
-			mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.DEFAULT_ERROR);
-			break;
-		default:
-			break;
-		}
+		// TODO DIComm Refactor - remove
 	}
 
 	private void notifySubscriptionListeners(String data) {
@@ -140,26 +125,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 			    mPurifierListener.notifyAirPurifierEventListeners();
 			}
 			return;
-		}
-
-		// TODO: DIComm Refactor use processresponse of schedulelist port class and make parse methods as private
-		if( mScheduleListPort.isResponseForThisPort(data) ){
-			SchedulePortInfo schedulePortInfo = mScheduleListPort.parseResponseAsSingleSchedule(data);
-			if( schedulePortInfo != null && mPurifierListener!=null) {
-				mPurifierListener.notifyScheduleListenerForSingleSchedule(schedulePortInfo);
-				return ;
-			}
-			List<SchedulePortInfo> schedulePortInfoList = mScheduleListPort.parseResponseAsScheduleList(data);
-			if(  schedulePortInfoList != null && mPurifierListener!=null ) {
-				mPurifierListener.notifyScheduleListenerForScheduleList(schedulePortInfoList);
-				return ;
-			}
-
-			if( data.contains(AppConstants.OUT_OF_MEMORY)) {
-				if(mPurifierListener!=null){
-				    mPurifierListener.notifyScheduleListenerForErrorOccured(SchedulerHandler.MAX_SCHEDULES_REACHED);
-				}
-			}
 		}
 
 		if(mFirmwarePort.isResponseForThisPort(data)){

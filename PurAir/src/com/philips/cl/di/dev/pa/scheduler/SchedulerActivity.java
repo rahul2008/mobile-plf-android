@@ -35,8 +35,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
-public class SchedulerActivity extends BaseActivity implements SchedulerListener, DiscoveryEventListener {
+public class SchedulerActivity extends BaseActivity implements SchedulePortListener, DiscoveryEventListener {
 
     private static boolean cancelled;
 	private String selectedDays = "";
@@ -63,10 +64,10 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		SchedulerMarked4Deletion.clear();
 		showSchedulerOverviewFragment();
 		purAirDevice = AirPurifierManager.getInstance().getCurrentPurifier();
-		if (purAirDevice != null)
+		if (purAirDevice != null) {
 			schedulesList = purAirDevice.getScheduleListPort().getSchedulePortInfoList();
-		AirPurifierManager.getInstance().setSchedulerListener(this);
-
+			purAirDevice.getScheduleListPort().setSchedulePortListener(this);
+		}
 	}
 
 	public void setSchedulerType(SCHEDULE_TYPE scheduleType) {
@@ -405,12 +406,12 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	}
 
 	@Override
-	public void onErrorOccurred(final int errorType) {
+	public void onError(final int errorType) {
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				cancelProgressDialog();
-				if (errorType == SchedulerHandler.MAX_SCHEDULES_REACHED) {
+				if (errorType == ScheduleListPort.MAX_SCHEDULES_REACHED) {
 					showErrorDialog(getString(R.string.error_title),
 							getString(R.string.max_schedules_reached));
 				}

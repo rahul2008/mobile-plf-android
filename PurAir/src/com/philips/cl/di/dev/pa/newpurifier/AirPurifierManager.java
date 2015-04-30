@@ -11,8 +11,6 @@ import android.content.SharedPreferences;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
 
@@ -34,8 +32,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 
 	private List<AirPurifierEventListener> airPurifierEventListeners ;
 
-	private SchedulerListener mScheduleListener ;
-	
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
@@ -51,10 +47,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	private AirPurifierManager() {
 		// Enforce Singleton
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
-	}
-	
-	public void setSchedulerListener(SchedulerListener schedulerListener) {
-		this.mScheduleListener =  schedulerListener ;
 	}
 	
 	public synchronized void setCurrentPurifier(AirPurifier purifier) {
@@ -162,36 +154,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyScheduleListenerForSingleSchedule(com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo)
-	 */
-	@Override
-	public void notifyScheduleListenerForSingleSchedule(SchedulePortInfo schedulePortInfo){
-		if(mScheduleListener!=null){
-			mScheduleListener.onScheduleReceived(schedulePortInfo);
-		}
-	}
-	
-    /* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyScheduleListenerForScheduleList(java.util.List)
-	 */
-    @Override
-	public void notifyScheduleListenerForScheduleList(List<SchedulePortInfo> schedulePortInfoList){
-    	if(mScheduleListener!=null){
-			mScheduleListener.onSchedulesReceived(schedulePortInfoList);
-		}
-	}
-    
-    /* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyScheduleListenerForErrorOccured(int)
-	 */
-    @Override
-	public void notifyScheduleListenerForErrorOccured(int errorType){
-    	if(mScheduleListener!=null){
-			mScheduleListener.onErrorOccurred(errorType);
-		}
-	}
-
 	public synchronized void startSubscription() {
 	    if(airPurifierEventListeners.isEmpty()){
 	        return;
