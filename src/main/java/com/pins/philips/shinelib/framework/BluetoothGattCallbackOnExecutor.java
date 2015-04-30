@@ -49,7 +49,8 @@ public class BluetoothGattCallbackOnExecutor extends BluetoothGattCallback {
 
     @Override
     public void onCharacteristicRead(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, final int status) {
-        final byte[] data = characteristic.getValue().clone();
+        final byte[] value = characteristic.getValue();
+        final byte[] data = value.clone();
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
