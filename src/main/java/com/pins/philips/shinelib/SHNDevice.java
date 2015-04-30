@@ -189,30 +189,18 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
     private void handleOnCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
         if (LOGGING) Log.i(TAG, "handleOnCharacteristicRead");
-        final SHNGattCommandResultReporter resultListener = currentResultListener;
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                resultListener.reportResult(SHNResult.SHNOk);
-            }
-        };
-        shnCentral.runOnHandlerThread(runnable);
-        currentResultListener = null;
+        if (currentResultListener != null) {
+            currentResultListener.reportResult(SHNResult.SHNOk); // TODO use the status and put the data in the result...
+            currentResultListener = null;
+        }
         waitingForGattCallback = false;
         executeNextBluetoothGattCommand();
     }
 
     private void handleOnCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         if (LOGGING) Log.i(TAG, "handleOnCharacteristicWrite");
-        final SHNGattCommandResultReporter resultListener = currentResultListener;
-        if (resultListener != null) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    resultListener.reportResult(SHNResult.SHNOk);
-                }
-            };
-            shnCentral.runOnHandlerThread(runnable);
+        if (currentResultListener != null) {
+            currentResultListener.reportResult(SHNResult.SHNOk); // TODO use the status
             currentResultListener = null;
         }
         waitingForGattCallback = false;
@@ -228,15 +216,8 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
     private void handleOnDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         if (LOGGING) Log.i(TAG, "handleOnDescriptorWrite");
-        final SHNGattCommandResultReporter resultListener = currentResultListener;
-        if (resultListener != null) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    resultListener.reportResult(SHNResult.SHNOk);
-                }
-            };
-            shnCentral.runOnHandlerThread(runnable);
+        if (currentResultListener != null) {
+            currentResultListener.reportResult(SHNResult.SHNOk); // TODO use the status
             currentResultListener = null;
         }
         waitingForGattCallback = false;
@@ -245,15 +226,8 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
     private void handleOnDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
         if (LOGGING) Log.i(TAG, "handleOnDescriptorRead");
-        final SHNGattCommandResultReporter resultListener = currentResultListener;
-        if (resultListener != null) {
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    resultListener.reportResult(SHNResult.SHNOk);
-                }
-            };
-            shnCentral.runOnHandlerThread(runnable);
+        if (currentResultListener != null) {
+            currentResultListener.reportResult(SHNResult.SHNOk); // TODO use the status
             currentResultListener = null;
         }
         waitingForGattCallback = false;
@@ -299,6 +273,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
             bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, bluetoothGattCallback);
 
+            // Start a timer (refactor?)
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {

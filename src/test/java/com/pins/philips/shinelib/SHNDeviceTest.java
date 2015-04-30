@@ -239,7 +239,6 @@ public class SHNDeviceTest {
         verify(mockedShnGattCommandResultReporter).reportResult(SHNResult.SHNOk);
 
         verify(mockedSHNCentral, times(4)).getScheduledThreadPoolExecutor();
-        verify(mockedSHNCentral).runOnHandlerThread(any(Runnable.class));
     }
 
     @Test
