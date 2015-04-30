@@ -89,12 +89,12 @@ public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
     private static final boolean LOGGING = false;
 
-    public enum State {Inactive, WaitingForUpperLayer, Active}
+    public enum State {Unavailable, DiscoveringCharacteristics, Available, Ready, Error }
 
     public interface SHNServiceListener {
         void onServiceStateChanged(SHNService shnService, State state);
     }
-    private State state = State.Inactive;
+    private State state = State.Unavailable;
     private final UUID uuid;
     private final SHNDevice shnDevice;
     private WeakReference<BluetoothGattService> bluetoothGattServiceWeakReference;
@@ -172,18 +172,22 @@ public class SHNService {
         }
 
         // Check if the state should be updated
-        State newState = State.WaitingForUpperLayer;
+        State newState = State.Available;
         for (SHNCharacteristic shnCharacteristic: requiredCharacteristics) {
             if (shnCharacteristic.getState() != SHNCharacteristic.State.Active) {
-                newState = State.Inactive;
+                newState = State.Unavailable;
                 break;
             }
         }
         updateState(newState);
     }
 
-    public void upperLayerReady() {
-        updateState(State.Active);
+    public void transitionToReady() {
+        updateState(State.Ready);
+    }
+
+    public void transitionToError() {
+        updateState(State.Error);
     }
 
     public void disconnectFromBLELayer() {
@@ -191,6 +195,6 @@ public class SHNService {
         for (SHNCharacteristic shnCharacteristic: characteristicMap.values()) {
             shnCharacteristic.disconnectFromBLELayer();
         }
-        updateState(State.Inactive);
+        updateState(State.Unavailable);
     }
 }

@@ -10,10 +10,8 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.util.Log;
 
-import com.pins.philips.shinelib.capabilities.SHNCapabilityNotifications;
 import com.pins.philips.shinelib.framework.BluetoothGattCallbackOnExecutor;
 import com.pins.philips.shinelib.utility.Utilities;
-import com.pins.philips.shinelib.wrappers.SHNCapabilityNotificationsWrapper;
 import com.pins.philips.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.util.HashMap;
@@ -471,7 +469,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         if (LOGGING) Log.e(TAG, "onServiceStateChanged: " + shnService.getState() + " [" + shnService.getUuid() + "]");
         SHNDeviceState newState = SHNDeviceState.SHNDeviceStateConnected;
         for (SHNService service: registeredServices.values()) {
-            if (service.getState() != SHNService.State.Active) {
+            if (service.getState() != SHNService.State.Ready) {
                 newState = SHNDeviceState.SHNDeviceStateConnecting;
                 break;
             }

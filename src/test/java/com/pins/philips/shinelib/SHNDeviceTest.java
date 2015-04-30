@@ -160,7 +160,7 @@ public class SHNDeviceTest {
         bluetoothGattCallbackArgumentCaptor.getValue().onServicesDiscovered(mockedBluetoothGatt, BluetoothGatt.GATT_SUCCESS);
         assertEquals(SHNDevice.SHNDeviceState.SHNDeviceStateConnecting, shnDevice.getState());
 
-        shnService.upperLayerReady();
+        shnService.transitionToReady();
         assertEquals(SHNDevice.SHNDeviceState.SHNDeviceStateConnected, shnDevice.getState());
     }
 
