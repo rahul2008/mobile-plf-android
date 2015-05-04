@@ -70,8 +70,11 @@ end
  */
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.util.Log;
+
+import com.pins.philips.shinelib.bletestsupport.BTGatt;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -96,27 +99,26 @@ public class SHNService {
     }
     private State state = State.Unavailable;
     private final UUID uuid;
-    private final SHNDevice shnDevice;
+    private BTGatt btGatt;
     private WeakReference<BluetoothGattService> bluetoothGattServiceWeakReference;
     private List<SHNCharacteristic> requiredCharacteristics;
     private List<SHNCharacteristic> optionalCharacteristics;
     private Map<UUID, SHNCharacteristic> characteristicMap;
     private Set<SHNServiceListener> shnServiceListeners;
 
-    public SHNService(SHNDevice shnDevice, UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
+    public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
         this.uuid = serviceUuid;
         this.requiredCharacteristics = new ArrayList<>();
         this.optionalCharacteristics = new ArrayList<>();
         this.characteristicMap = new HashMap<>();
         this.shnServiceListeners = new HashSet<>();
-        this.shnDevice = shnDevice;
 
         for (UUID characteristicUUID: requiredCharacteristics) {
-            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(shnDevice, characteristicUUID);
+            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
             addRequiredSHNCharacteristic(shnCharacteristic);
         }
         for (UUID characteristicUUID: optionalCharacteristics) {
-            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(shnDevice, characteristicUUID);
+            SHNCharacteristic shnCharacteristic = new SHNCharacteristic(characteristicUUID);
             addOptionalSHNCharacteristic(shnCharacteristic);
         }
     }
@@ -161,13 +163,14 @@ public class SHNService {
         }
     }
 
-    public void connectToBLELayer(BluetoothGattService bluetoothGattService) {
+    public void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
+        this.btGatt = gatt;
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic: bluetoothGattService.getCharacteristics()) {
             SHNCharacteristic shnCharacteristic = getSHNCharacteristic(bluetoothGattCharacteristic.getUuid());
             if (LOGGING) Log.i(TAG, "connectToBLELayer characteristic: " + bluetoothGattCharacteristic.getUuid() + ((shnCharacteristic == null) ? " not found" : " connecting"));
             if (shnCharacteristic != null) {
-                shnCharacteristic.connectToBLELayer(bluetoothGattCharacteristic);
+                shnCharacteristic.connectToBLELayer(btGatt, bluetoothGattCharacteristic);
             }
         }
 
@@ -192,9 +195,36 @@ public class SHNService {
 
     public void disconnectFromBLELayer() {
         bluetoothGattServiceWeakReference.clear();
+        btGatt = null;
         for (SHNCharacteristic shnCharacteristic: characteristicMap.values()) {
             shnCharacteristic.disconnectFromBLELayer();
         }
         updateState(State.Unavailable);
     }
+
+    public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {
+        SHNCharacteristic shnCharacteristic = getSHNCharacteristic(characteristic.getUuid());
+        shnCharacteristic.onReadWithData(gatt, status, data);
+    }
+
+    public void onCharacteristicWrite(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+        SHNCharacteristic shnCharacteristic = getSHNCharacteristic(characteristic.getUuid());
+        shnCharacteristic.onWrite(gatt, status);
+    }
+
+    public void onCharacteristicChangedWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, byte[] data) {
+        SHNCharacteristic shnCharacteristic = getSHNCharacteristic(characteristic.getUuid());
+        shnCharacteristic.onChanged(gatt, data);
+    }
+
+    public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
+        SHNCharacteristic shnCharacteristic = getSHNCharacteristic(descriptor.getCharacteristic().getUuid());
+        shnCharacteristic.onDescriptorReadWithData(gatt, descriptor, status, data);
+    }
+
+    public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        SHNCharacteristic shnCharacteristic = getSHNCharacteristic(descriptor.getCharacteristic().getUuid());
+        shnCharacteristic.onDescriptorWrite(gatt, descriptor, status);
+    }
+
 }

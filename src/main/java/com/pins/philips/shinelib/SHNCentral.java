@@ -83,6 +83,8 @@ import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.pins.philips.shinelib.bletestsupport.BTAdapter;
+import com.pins.philips.shinelib.bletestsupport.BTDevice;
 import com.pins.philips.shinelib.bletestsupport.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
@@ -133,6 +135,8 @@ public class SHNCentral {
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
+    private BTAdapter btAdapter;
+    private final Handler internalHandler;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -162,6 +166,8 @@ public class SHNCentral {
         shnDeviceScanner = new SHNDeviceScanner(this, getRegisteredDeviceDefinitions());
 
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
+        internalHandler = new Handler(); // TODO: fix, use looper, thread, etc.
+        btAdapter = new BTAdapter(applicationContext, internalHandler);
     }
 
     public Handler getUserHandler() {
@@ -236,4 +242,7 @@ public class SHNCentral {
         t.getUncaughtExceptionHandler().uncaughtException(t, e);
     }
 
+    public BTDevice getBTDevice(String address) {
+        return btAdapter.getRemoteDevice(address);
+    }
 }

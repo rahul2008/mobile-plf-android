@@ -1,8 +1,13 @@
 package com.pins.philips.shinelib;
 
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.util.Log;
 
+import com.pins.philips.shinelib.bletestsupport.BTGatt;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,6 +16,7 @@ import java.util.UUID;
 public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
     private static final boolean LOGGING = false;
+    private static final String CLIENT_CHARACTERISTIC_CONFIG_UUID = "00002902-0000-1000-8000-00805f9b34fb";
 
     public interface SHNCharacteristicChangedListener {
         void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data);
@@ -19,15 +25,16 @@ public class SHNCharacteristic {
     public enum State {Inactive, Active}
 
     private final UUID uuid;
-    private final SHNDevice shnDevice;
     private BluetoothGattCharacteristic bluetoothGattCharacteristic;
+    private BTGatt btGatt;
     private State state;
     private SHNCharacteristicChangedListener shnCharacteristicChangedListener;
+    private List<SHNDevice.SHNGattCommandResultReporter> pendingCompletions;
 
-    public SHNCharacteristic(SHNDevice shnDevice, UUID characteristicUUID) {
+    public SHNCharacteristic(UUID characteristicUUID) {
         this.uuid = characteristicUUID;
-        this.shnDevice = shnDevice;
         this.state = State.Inactive;
+        this.pendingCompletions = new LinkedList<>();
     }
 
     public State getState() {
@@ -38,13 +45,15 @@ public class SHNCharacteristic {
         return uuid;
     }
 
-    public void connectToBLELayer(BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+    public void connectToBLELayer(BTGatt btGatt, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+        this.btGatt = btGatt;
         this.bluetoothGattCharacteristic = bluetoothGattCharacteristic;
         state = State.Active;
     }
 
     public void disconnectFromBLELayer() {
         bluetoothGattCharacteristic = null;
+        btGatt = null;
         state = State.Inactive;
     }
 
@@ -55,52 +64,72 @@ public class SHNCharacteristic {
         return null;
     }
 
-    public boolean writeCharacteristic(byte[] data, SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean write(byte[] data, SHNDevice.SHNGattCommandResultReporter resultReporter) {
         if (state == State.Active) {
-            int properties = bluetoothGattCharacteristic.getProperties();
-            if ((properties & BluetoothGattCharacteristic.PROPERTY_WRITE_NO_RESPONSE) != 0) {
-                if (LOGGING) Log.i(TAG, "Success writeCharacteristic: " + uuid);
-                return shnDevice.writeCharacteristic(data, bluetoothGattCharacteristic, resultReporter);
-            }
-            if (LOGGING) Log.i(TAG, "Error writeCharacteristic property cannot be written: " + uuid);
-            return false;
+            btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
+            pendingCompletions.add(resultReporter);
         } else {
-            if (LOGGING) Log.i(TAG, "Error writeCharacteristic characteristic not active: " + uuid);
+            if (LOGGING) Log.i(TAG, "Error write; characteristic not active: " + uuid);
             return false;
         }
+        return true;
     }
 
-    public boolean readCharacteristic(SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean read(SHNDevice.SHNGattCommandResultReporter resultReporter) {
         if (state == State.Active) {
-            int properties = bluetoothGattCharacteristic.getProperties();
-            if ((properties & BluetoothGattCharacteristic.PROPERTY_READ) != 0) {
-                if (LOGGING) Log.i(TAG, "Success readCharacteristic: " + uuid);
-                return shnDevice.readCharacteristic(bluetoothGattCharacteristic, resultReporter);
-            }
-            if (LOGGING) Log.i(TAG, "Error readCharacteristic property cannot be read: " + uuid);
-            return false;
+            btGatt.readCharacteristic(bluetoothGattCharacteristic);
+            pendingCompletions.add(resultReporter);
         } else {
-            if (LOGGING) Log.i(TAG, "Error readCharacteristic characteristic not active: " + uuid);
+            if (LOGGING) Log.i(TAG, "Error read; characteristic not active: " + uuid);
             return false;
         }
+        return true;
     }
 
-    public boolean setCharacteristicNotification(boolean enable, SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean setNotification(boolean enable, SHNDevice.SHNGattCommandResultReporter resultReporter) {
+        boolean ret = false;
         if (state == State.Active) {
-            return shnDevice.setCharacteristicNotification(bluetoothGattCharacteristic, enable, resultReporter);
-        } else {
-            return false;
+            if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
+                BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(UUID.fromString(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                btGatt.writeDescriptor(descriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                pendingCompletions.add(resultReporter);
+                ret = true;
+            }
         }
+        return ret;
     }
 
     public void setShnCharacteristicChangedListener(SHNCharacteristicChangedListener shnCharacteristicChangedListener) {
         this.shnCharacteristicChangedListener = shnCharacteristicChangedListener;
     }
 
-    public void onCharacteristicChanged(byte[] data) {
+    public void onReadWithData(BTGatt gatt, int status, byte[] data) {
+        if (LOGGING) Log.i(TAG, "onReadWithData " + getUuid() + " size = " + pendingCompletions.size());
+        SHNDevice.SHNGattCommandResultReporter completion = pendingCompletions.remove(0);
+        if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO: perhaps use data, use status
+    }
+
+    public void onWrite(BTGatt gatt, int status) {
+        if (LOGGING) Log.i(TAG, "onWrite " + getUuid() + " size = " + pendingCompletions.size());
+        SHNDevice.SHNGattCommandResultReporter completion = pendingCompletions.remove(0);
+        if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO; use status
+    }
+
+    public void onChanged(BTGatt gatt, byte[] data) {
         if (LOGGING) Log.i(TAG, "onCharacteristicChanged");
         if (shnCharacteristicChangedListener != null) {
             shnCharacteristicChangedListener.onCharacteristicChanged(this, data);
         }
+    }
+
+    public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
+        //throw new UnsupportedOperationException("onDescriptorReadWithData");
+        if (LOGGING) Log.i(TAG, "onDescriptorReadWithData " + descriptor.getUuid() + " for characteristic " + getUuid());
+    }
+
+    public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
+        if (LOGGING) Log.i(TAG, "onDescriptorWrite " + getUuid() + " size = " + pendingCompletions.size());
+        SHNDevice.SHNGattCommandResultReporter completion = pendingCompletions.remove(0);
+        if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO; use status
     }
 }
