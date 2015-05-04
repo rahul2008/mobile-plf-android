@@ -17,21 +17,22 @@ public class NetworkNode extends Observable implements Parcelable {
 
 	private String mIpAddress;
 	private String mCppId;
-	private ConnectionState mConnectionState;
+	private ConnectionState mConnectionState; // not
 	
 	private String mName;
 	private String mModelName;
+	private String mModelType;
 	private String mHomeSsid;
 	private long mBootId;
 	private String mEncryptionKey;
 	
-	private boolean mIsOnlineViaCpp = false;
+	private boolean mIsOnlineViaCpp = false; // not
 	private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
-	private long mLastPairedTime;
-	
-	private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
+	private long mLastPairedTime;	
 	
 	private final int mDICommProtocolVersion = 1;
+	
+	private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
 
 	public NetworkNode() {
 	}

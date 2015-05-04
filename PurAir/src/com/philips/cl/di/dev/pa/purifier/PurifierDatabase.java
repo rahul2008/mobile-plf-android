@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.purifier;
 
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_ID;
+import static com.philips.cl.di.dev.pa.purifier.PurifierDatabaseHelper.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +16,19 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class PurifierDatabase {
 
 	private SQLiteDatabase db;
-	private DatabaseHelper dbHelper;
+	private PurifierDatabaseHelper dbHelper;
 	/**
 	 *
 	 * @param context
 	 */
 	public PurifierDatabase() {
-		dbHelper = new DatabaseHelper(PurAirApplication.getAppContext());
+		dbHelper = new PurifierDatabaseHelper(PurAirApplication.getAppContext());
 	}
 	/**
 	 *
@@ -41,6 +43,7 @@ public class PurifierDatabase {
 			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		}
 
+		//FIXME not inserting into table "Usn" but into "device_info"
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + purifier.getUsn()
 				+ ", CppId: " + purifier.getNetworkNode().getCppId()
 				+ ", BootId: " + purifier.getNetworkNode().getBootId()
@@ -55,18 +58,18 @@ public class PurifierDatabase {
 				db = dbHelper.getWritableDatabase();
 
 				ContentValues values = new ContentValues();
-				values.put(AppConstants.KEY_AIRPUR_USN, purifier.getUsn());
+				values.put(KEY_AIRPUR_USN, purifier.getUsn());
 				values.put(AppConstants.KEY_AIRPUR_CPP_ID, purifier.getNetworkNode().getCppId());
 				values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getNetworkNode().getName());
 				values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getNetworkNode().getBootId());
 				values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getNetworkNode().getHomeSsid());
-				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
-				values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
-				values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
+				values.put(KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
+				values.put(KEY_LATITUDE, purifier.getLatitude());
+				values.put(KEY_LONGITUDE, purifier.getLongitude());
 
 				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getNetworkNode().getPairedState() +"is: "+ purifier.getNetworkNode().getPairedState().ordinal());
 				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getNetworkNode().getPairedState().ordinal());
-				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
+				rowId = db.insert(TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 			} finally {
@@ -88,21 +91,21 @@ public class PurifierDatabase {
 		Cursor cursor = null;
 		try {
 			db = dbHelper.getReadableDatabase();
-			cursor = db.query(AppConstants.TABLE_AIRPUR_INFO, null,
+			cursor = db.query(TABLE_AIRPUR_INFO, null,
 					null, null, null, null, null);
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				do {
-					String usn = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_USN));
+					String usn = cursor.getString(cursor.getColumnIndex(KEY_AIRPUR_USN));
 					String eui64 = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_CPP_ID));
 					String name = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_DEVICE_NAME));
 					long bootId = cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_BOOT_ID));
 					String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK));
-					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_KEY));
+					String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_AIRPUR_KEY));
 					int pairedStatus = cursor.getInt(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_IS_PAIRED));
 					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(AppConstants.KEY_AIRPUR_LAST_PAIRED)) ;
-					String latitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
-					String longitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
+					String latitude = cursor.getString(cursor.getColumnIndex(KEY_LATITUDE));
+					String longitude = cursor.getString(cursor.getColumnIndex(KEY_LONGITUDE));
 
 			        DISecurity diSecurity = new DISecurity();
 			        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
@@ -163,17 +166,17 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getNetworkNode().getName());
 			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getNetworkNode().getBootId());
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getNetworkNode().getHomeSsid());
-			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
-			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
-			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
+			values.put(KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
+			values.put(KEY_LATITUDE, purifier.getLatitude());
+			values.put(KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getNetworkNode().getPairedState().ordinal());
 			if(purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.UNPAIRED)
 			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
 
-			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO,
-					values, AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
+			newRowId = db.update(TABLE_AIRPUR_INFO,
+					values, KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
@@ -200,17 +203,17 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getNetworkNode().getName());
 			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getNetworkNode().getBootId());
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getNetworkNode().getHomeSsid());
-			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
-			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
-			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
+			values.put(KEY_AIRPUR_KEY, purifier.getNetworkNode().getEncryptionKey());
+			values.put(KEY_LATITUDE, purifier.getLatitude());
+			values.put(KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getNetworkNode().getPairedState().ordinal());
 			if(purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED || purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.UNPAIRED)
 			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
 
-			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO,
-					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
+			newRowId = db.update(TABLE_AIRPUR_INFO,
+					values, KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
@@ -228,11 +231,11 @@ public class PurifierDatabase {
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
-			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
+			values.put(KEY_LATITUDE, purifier.getLatitude());
+			values.put(KEY_LONGITUDE, purifier.getLongitude());
 
-			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO,
-					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
+			newRowId = db.update(TABLE_AIRPUR_INFO,
+					values, KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row with location co-ordinate " +"Error: " + e.getMessage());
 		} finally {
@@ -248,8 +251,8 @@ public class PurifierDatabase {
 		try {
 			db = dbHelper.getWritableDatabase();
 
-			effectedRowId = db.delete(AppConstants.TABLE_AIRPUR_INFO,
-					AppConstants.KEY_AIRPUR_USN + "= ?", new String[]{usn});
+			effectedRowId = db.delete(TABLE_AIRPUR_INFO,
+					KEY_AIRPUR_USN + "= ?", new String[]{usn});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to delete row "+"Error: " + e.getMessage());
 		} finally {
@@ -277,7 +280,7 @@ public class PurifierDatabase {
 			if(status==NetworkNode.PAIRED_STATUS.PAIRED){
 			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getNetworkNode().getLastPairedTime());
 			}
-			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO,
+			newRowId = db.update(TABLE_AIRPUR_INFO,
 					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getNetworkNode().getCppId())});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
@@ -300,7 +303,7 @@ public class PurifierDatabase {
 		Cursor cursor = null;
 		try {
 			db = dbHelper.getReadableDatabase();
-			cursor = db.query(AppConstants.TABLE_AIRPUR_INFO,
+			cursor = db.query(TABLE_AIRPUR_INFO,
 					new String[] {AppConstants.KEY_AIRPUR_LAST_PAIRED},
 					AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[]{purifier.getNetworkNode().getCppId()}, null, null, null);
 			if (cursor != null && cursor.getCount() > 0) {
@@ -324,13 +327,13 @@ public class PurifierDatabase {
 		Cursor cursor = null;
 		try {
 			db = dbHelper.getReadableDatabase();
-			cursor = db.query(AppConstants.TABLE_AIRPUR_INFO,
-					new String[] {AppConstants.KEY_ID, AppConstants.KEY_AIRPUR_USN},
-					AppConstants.KEY_AIRPUR_USN + "= ?", new String[]{purifier.getUsn()}, null, null, null);
+			cursor = db.query(TABLE_AIRPUR_INFO,
+					new String[] {KEY_ID, KEY_AIRPUR_USN},
+					KEY_AIRPUR_USN + "= ?", new String[]{purifier.getUsn()}, null, null, null);
 
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToNext();
-				id = cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_ID));
+				id = cursor.getLong(cursor.getColumnIndex(KEY_ID));
 			}
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());

@@ -13,14 +13,14 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.util.DatabaseHelper;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabaseHelper;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class OutdoorLocationDatabase {
 
 	private static final String TAG = OutdoorLocationDatabase.class.getSimpleName();
 
-	private DatabaseHelper mDatabaseHelper = null;
+	private PurifierDatabaseHelper mDatabaseHelper = null;
 	private SQLiteDatabase mOutdoorLocationDatabase = null;
 	private static final String[] mTableColumns = new String[] {
 		AppConstants.KEY_ID,
@@ -36,7 +36,7 @@ public class OutdoorLocationDatabase {
 	public static String CURR_LOC_AREAID = "current_loc_aid";
 
 	public OutdoorLocationDatabase() {
-		mDatabaseHelper = new DatabaseHelper(PurAirApplication.getAppContext());
+		mDatabaseHelper = new PurifierDatabaseHelper(PurAirApplication.getAppContext());
 	}
 
 	public synchronized void open() {

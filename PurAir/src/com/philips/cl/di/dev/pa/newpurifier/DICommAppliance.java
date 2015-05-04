@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.newpurifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.philips.cl.di.dev.pa.database.DICommApplianceInterface;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.DICommPort;
@@ -12,7 +13,7 @@ import com.philips.cl.di.dicomm.port.PairingPort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 import com.philips.cl.di.dicomm.port.WifiUIPort;
 
-public abstract class DICommAppliance {
+public abstract class DICommAppliance implements DICommApplianceInterface {
 
     protected final NetworkNode mNetworkNode;
 

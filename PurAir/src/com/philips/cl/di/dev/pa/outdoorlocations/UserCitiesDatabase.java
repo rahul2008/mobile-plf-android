@@ -9,16 +9,16 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabaseHelper;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 
 public class UserCitiesDatabase {
 
 	private SQLiteDatabase db;
-	private DatabaseHelper dbHelper;
+	private PurifierDatabaseHelper dbHelper;
 	
 	public UserCitiesDatabase() {
-		dbHelper = new DatabaseHelper(PurAirApplication.getAppContext());
+		dbHelper = new PurifierDatabaseHelper(PurAirApplication.getAppContext());
 	}
 	
 	public long insertCity(String areaID, int dataProvider) {
