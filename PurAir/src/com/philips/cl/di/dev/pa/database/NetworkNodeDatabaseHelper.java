@@ -11,10 +11,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	
-	public static final String KEY_ID = "_id";
-	
 	// NetworkNode table
-	private static final String TABLE_NETWORK_NODE = "network_node";
+	public static final String KEY_ID = "_id";
+	public static final String TABLE_NETWORK_NODE = "network_node";
 	
 		/**
 		 * Instantiates a new dB helper.
