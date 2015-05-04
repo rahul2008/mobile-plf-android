@@ -5,25 +5,25 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
-    android:layout_marginBottom="@dimen/margin_bottom"
+    android:layout_marginBottom="@dimen/reg_margin_bottom"
     android:orientation="vertical" >
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
-        android:id="@+id/tv_sign_in_email"
-        style="@style/textStyle"
-        android:layout_marginBottom="@dimen/margin_bottom"
+        android:id="@+id/tv_reg_sign_in_email"
+        style="@style/reg_textStyle"
+        android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/we_sent_email"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
-        style="@style/textStyle"
-        android:layout_marginBottom="@dimen/margin_bottom"
+        style="@style/reg_textStyle"
+        android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/check_email"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
-        style="@style/textStyle"
-        android:layout_marginBottom="@dimen/margin_bottom"
+        style="@style/reg_textStyle"
+        android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/continue_use_app"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

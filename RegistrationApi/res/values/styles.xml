@@ -18,109 +18,103 @@
     <style name="style_homescreen_title">
         <item name="android:textSize">@dimen/reg_header_title_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/btn_enable_text_color</item>
+        <item name="android:textColor">@color/reg_btn_enable_text_color</item>
         <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/home_tiltle_padding</item>
+        <item name="android:padding">@dimen/reg_home_tiltle_padding</item>
     </style>
 
-    <style name="style_tab_reg_hint">
+    <style name="reg_style_tab_hint">
         <item name="android:textSize">@dimen/reg_et_hint_size</item>
-        <item name="android:paddingLeft">@dimen/home_tiltle_padding</item>
+        <item name="android:paddingLeft">@dimen/reg_home_tiltle_padding</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="btn_create_account" parent="@android:style/Widget.Button">
-        <item name="android:textSize">21sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/btn_enable_text_color</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/home_tiltle_padding</item>
-    </style>
-
-    <style name="line">
+    <style name="reg_line">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/lineColor</item>
+        <item name="android:background">@color/reg_line_color</item>
     </style>
 
     <style name="password_details">
         <item name="android:textSize">18sp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@color/password_details_bg</item>
+        <item name="android:background">@color/reg_password_details_bg</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:padding">@dimen/home_tiltle_padding</item>
+        <item name="android:padding">@dimen/reg_home_tiltle_padding</item>
     </style>
 
-    <style name="buttonStyle">
+    <style name="btn_reg_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/button_text_color</item>
-        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:textColor">@color/reg_btn_text_color</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
     </style>
 
-    <style name="textStyle">
+    <style name="reg_textStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
-        <item name="android:textColor">@color/text_header_color</item>
-        <item name="android:paddingBottom">@dimen/home_tiltle_padding</item>
-        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:textColor">@color/reg_text_header_color</item>
+        <item name="android:paddingBottom">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
     </style>
-
-    <style name="textBackground">
+	
+    <style name="reg_text_description">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/textBackground</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/reg_text_desc_color</item>
+        <item name="android:paddingBottom">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+    </style>
+    
+    <style name="reg_text_background">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/reg_text_background</item>
         <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">@dimen/home_tiltle_padding</item>
+        <item name="android:paddingBottom">@dimen/reg_home_tiltle_padding</item>
     </style>
 
-    <style name="titleTextStyle">
+    <style name="reg_titleTextStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
-        <item name="android:textColor">@color/text_header_color</item>
-        <item name="android:layout_marginBottom">@dimen/home_tiltle_padding</item>
-        <item name="android:textSize">@dimen/title_text_size_large</item>
+        <item name="android:textColor">@color/reg_text_header_color</item>
+        <item name="android:layout_marginBottom">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_large</item>
     </style>
 
-    <style name="errortextStyle">
+    <style name="reg_error_textStyle">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">@dimen/title_text_size_medium</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
     </style>
-
-    <style name="errValidationStyle">
-        <item name="android:layout_gravity">left</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/err_msg</item>
-        <item name="android:padding">@dimen/home_tiltle_padding</item>
-    </style>
-
-    <style name="forgot_password">
+ 
+    <style name="reg_forgot_password">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/button_bg</item>
-        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:textColor">@color/reg_text_color</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
     </style>
 
-    <style name="resend_btn">
+    <style name="reg_btn_resend">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/err_msg_color</item>
-        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:textColor">@color/reg_err_msg_color</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
     </style>
 
-    <style name="disable_buttonStyle">
+    <style name="reg_btn_disable">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/btn_disable_text_color</item>
-        <item name="android:textSize">@dimen/btn_text_size_large</item>
+        <item name="android:textColor">@color/reg_btn_disable_text_color</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
     </style>
 
     <!-- Configurable -->
@@ -131,7 +125,7 @@
     <style name="reg_style_homescreen_title">
         <item name="android:textSize">@dimen/reg_header_title_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/btn_enable_text_color</item>
+        <item name="android:textColor">@color/reg_btn_enable_text_color</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>

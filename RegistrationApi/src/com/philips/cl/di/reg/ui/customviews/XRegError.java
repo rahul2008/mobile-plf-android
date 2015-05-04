@@ -40,7 +40,7 @@ public class XRegError extends RelativeLayout {
 		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
 
-		mTvError = (XTextView) findViewById(R.id.tv_error_message);
+		mTvError = (XTextView) findViewById(R.id.tv_reg_error_message);
 	}
 
 	public void setError(String errorMsg) {

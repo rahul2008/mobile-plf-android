@@ -103,12 +103,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		if (id == R.id.sign_in_btn) {
+		if (id == R.id.btn_reg_sign_in) {
 			signIn();
-		} else if (id == R.id.forgot_password_btn) {
+		} else if (id == R.id.btn_reg_forgot_password) {
 			resetPassword();
 
-		} else if (id == R.id.resend_btn) {
+		} else if (id == R.id.btn_reg_resend) {
 			mEtEmail.clearFocus();
 			mEtPassword.clearFocus();
 			getRegistrationMainActivity().addFragment(
@@ -118,22 +118,22 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void initUI(View view) {
 		consumeTouch(view);
-		mBtnSignInAccount = (Button) view.findViewById(R.id.sign_in_btn);
+		mBtnSignInAccount = (Button) view.findViewById(R.id.btn_reg_sign_in);
 		mBtnSignInAccount.setOnClickListener(this);
-		mBtnForgot = (Button) view.findViewById(R.id.forgot_password_btn);
+		mBtnForgot = (Button) view.findViewById(R.id.btn_reg_forgot_password);
 		mBtnForgot.setOnClickListener(this);
-		mBtnResend = (Button) view.findViewById(R.id.resend_btn);
+		mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
 		mBtnResend.setOnClickListener(this);
 		mLlCreateAccountFields = (LinearLayout) view
-				.findViewById(R.id.ll_create_account_fields);
+				.findViewById(R.id.ll_reg_create_account_fields);
 		mRlSignInBtnContainer = (RelativeLayout) view
-				.findViewById(R.id.rl_welcome_container);
+				.findViewById(R.id.rl_reg_welcome_container);
 
-		mEtEmail = (XEmail) view.findViewById(R.id.rl_email_field);
+		mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
 		mEtEmail.setOnClickListener(this);
 		mEtEmail.setOnUpdateListener(this);
 		mEtEmail.setFocusable(true);
-		mEtPassword = (XPassword) view.findViewById(R.id.rl_password_field);
+		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnClickListener(this);
 		mEtPassword.setOnUpdateListener(this);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -141,9 +141,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		handleUiState();
 		mUser = new User(getActivity().getApplicationContext());
 		mPbSignInSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_sign_in_spinner);
+				.findViewById(R.id.pb_reg_sign_in_spinner);
 		mPbForgotPasswdSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_forgot_spinner);
+				.findViewById(R.id.pb_reg_forgot_spinner);
 
 	}
 
@@ -228,7 +228,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
 		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password,
 				null);
-		Button continueBtn = (Button) myView.findViewById(R.id.continue_btn);
+		Button continueBtn = (Button) myView.findViewById(R.id.btn_reg_continue);
 
 		continueBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -266,7 +266,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void showSignInSpinner() {
 		mPbSignInSpinner.setVisibility(View.VISIBLE);
-		mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+		mBtnSignInAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 		mBtnSignInAccount.setEnabled(false);
 	}
 
@@ -298,10 +298,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 					mEtEmail.clearFocus();
 					mEtPassword.clearFocus();
 					mBtnSignInAccount
-							.setBackgroundResource(R.drawable.disable_btn);
+							.setBackgroundResource(R.drawable.btn_reg_disable);
 					mBtnSignInAccount.setEnabled(false);
 					mBtnSignInAccount.setTextColor(getResources().getColor(
-							R.color.btn_disable_text_color));
+							R.color.reg_btn_disable_text_color));
 					mBtnResend.setEnabled(false);
 					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
 				}
@@ -319,13 +319,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			mBtnSignInAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnSignInAccount.setEnabled(true);
 			mBtnSignInAccount.setTextColor(getResources().getColor(
-					R.color.btn_enable_text_color));
+					R.color.reg_btn_enable_text_color));
 			mRegError.hideError();
 		} else {
 			mBtnSignInAccount.setEnabled(false);
-			mBtnSignInAccount.setBackgroundResource(R.drawable.disable_btn);
+			mBtnSignInAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 			mBtnSignInAccount.setTextColor(getResources().getColor(
-					R.color.btn_disable_text_color));
+					R.color.reg_btn_disable_text_color));
 		}
 	}
 

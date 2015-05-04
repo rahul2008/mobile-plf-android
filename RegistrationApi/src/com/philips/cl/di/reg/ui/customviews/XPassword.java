@@ -45,16 +45,16 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
 		
-		mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_password_error_alert);
+		mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
 		mIvPasswordErrAlert.setOnClickListener(this);
-		mIvValidPasswordAlert = (ImageView) findViewById(R.id.iv_valid_password_alert);
-		mIvArrowUpView = (ImageView) findViewById(R.id.iv_up_arrow);
-		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_password_err);
+		mIvValidPasswordAlert = (ImageView) findViewById(R.id.iv_reg_valid_password_alert);
+		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
+		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_password_err);
 		mEtPassword = (EditText) findViewById(R.id.et_reg_password);
 		mEtPassword.setOnClickListener(this);
 		mEtPassword.setOnFocusChangeListener(this);
 		mEtPassword.addTextChangedListener(this);
-		mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_password_field_id);
+		mRlEtPassword = (RelativeLayout) findViewById(R.id.rl_reg_password_field_id);
 	}
 	
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {
@@ -129,7 +129,7 @@ public class XPassword extends RelativeLayout implements TextWatcher,OnClickList
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.iv_password_error_alert && mEtPassword.getText().toString().trim().length() > 0) {
+		if (v.getId() == R.id.iv_reg_password_error_alert && mEtPassword.getText().toString().trim().length() > 0) {
 			mTvErrDescriptionView.setVisibility(View.VISIBLE);
 			mIvArrowUpView.setVisibility(View.VISIBLE);
 		}	

@@ -53,16 +53,16 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 	public final void initUi(int resourceId) {
 		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
-		mRlEtEmail  = (RelativeLayout) findViewById(R.id.rl_email_verified_field);
+		mRlEtEmail  = (RelativeLayout) findViewById(R.id.rl_reg_email_verified_field);
 		mEtEmail = (EditText) findViewById(R.id.et_reg_email);
 		mEtEmail.setOnClickListener(this);
 		mEtEmail.setOnFocusChangeListener(this);
 		mEtEmail.addTextChangedListener(this);
-		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_email_err);
-		mIvEmailErrAlert = (ImageView) findViewById(R.id.iv_email_error_alert);
+		mTvErrDescriptionView = (TextView) findViewById(R.id.tv_reg_email_err);
+		mIvEmailErrAlert = (ImageView) findViewById(R.id.iv_reg_email_error_alert);
 		mIvEmailErrAlert.setOnClickListener(this);
-		mIvValidEmailAlert = (ImageView) findViewById(R.id.iv_valid_email_alert);
-		mIvArrowUpView = (ImageView) findViewById(R.id.iv_up_arrow);
+		mIvValidEmailAlert = (ImageView) findViewById(R.id.iv_reg_valid_email_alert);
+		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
 	}
 
 	public String getEmailId() {
@@ -140,7 +140,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.iv_email_error_alert && mEtEmail.getText().toString().trim().length() >0) {
+		if (v.getId() == R.id.iv_reg_email_error_alert && mEtEmail.getText().toString().trim().length() >0) {
 			mTvErrDescriptionView.setVisibility(View.VISIBLE);
 			mIvArrowUpView.setVisibility(View.VISIBLE);
 		}

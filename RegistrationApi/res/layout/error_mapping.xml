@@ -8,29 +8,29 @@
     android:paddingBottom="20dip" >
 
     <ImageView
-        android:layout_width="28dip"
-        android:layout_height="28dip"
+        android:layout_width="@dimen/reg_err_alert_width"
+        android:layout_height="@dimen/reg_err_alert_width"
         android:layout_gravity="top"
-        android:layout_marginRight="2dip"
-        android:layout_marginTop="4dip"
+        android:layout_marginRight="@dimen/reg_err_mapping_margin_right"
+        android:layout_marginTop="@dimen/reg_err_mapping_mergin_top"
         android:contentDescription="@string/content_desc"
         android:src="@drawable/err_alert" />
 
     <ImageView
-        android:layout_width="6dip"
-        android:layout_height="15dip"
+        android:layout_width="@dimen/reg_left_arrow_width"
+        android:layout_height="@dimen/reg_left_arrow_height"
         android:layout_gravity="top"
-        android:layout_marginTop="10dip"
+        android:layout_marginTop="@dimen/reg_err_mapping_padding"
         android:background="@drawable/left_arrow"
         android:contentDescription="@string/content_desc" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
-        android:id="@+id/tv_error_message"
-        style="@style/errortextStyle"
+        android:id="@+id/tv_reg_error_message"
+        style="@style/reg_error_textStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/reg_rect"
-        android:padding="10dip"
+        android:padding="@dimen/reg_err_mapping_padding"
         android:text="@string/No_Internet_Connection"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

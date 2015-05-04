@@ -46,9 +46,9 @@ public class XUserName extends RelativeLayout implements TextWatcher,OnFocusChan
 		mEtUserName.setOnFocusChangeListener(this);
 		mEtUserName.addTextChangedListener(this);
 		
-		mIvNameErrAlert = (ImageView) findViewById(R.id.iv_name_error_alert);
-		mIvValidNameAlert = (ImageView) findViewById(R.id.iv_valid_name_alert);
-		mRlEtName =  (RelativeLayout) findViewById(R.id.rl_name_verified_field);
+		mIvNameErrAlert = (ImageView) findViewById(R.id.iv_reg_name_error_alert);
+		mIvValidNameAlert = (ImageView) findViewById(R.id.iv_reg_valid_name_alert);
+		mRlEtName =  (RelativeLayout) findViewById(R.id.rl_reg_name_verified_field);
 	}
 	
 	public void setOnUpdateListener(onUpdateListener updateStatusListener) {

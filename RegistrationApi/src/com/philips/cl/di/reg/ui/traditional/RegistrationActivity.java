@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import java.util.Locale;
@@ -24,8 +23,8 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationActivity extends FragmentActivity implements EventListener,
-        OnClickListener {
+public class RegistrationActivity extends FragmentActivity implements
+		EventListener, OnClickListener {
 
 	private FragmentManager mFragmentManager = null;
 
@@ -37,7 +36,8 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.IS_ONLINE, this);
 		setContentView(R.layout.activity_registration);
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
@@ -67,8 +67,10 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 
 	public void loadFirstFragment() {
 		try {
-			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
+			FragmentTransaction fragmentTransaction = mFragmentManager
+					.beginTransaction();
+			fragmentTransaction.replace(R.id.fl_reg_fragment_container,
+					new HomeFragment());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
 			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
@@ -77,8 +79,10 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 
 	public void addFragment(Fragment fragment) {
 		try {
-			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+			FragmentTransaction fragmentTransaction = mFragmentManager
+					.beginTransaction();
+			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment,
+					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
@@ -90,7 +94,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	public void navigateToHome() {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		int fragmentCount = fragmentManager.getBackStackEntryCount();
-		for (int i = fragmentCount; i > 1; i--) {
+		for (int i = fragmentCount; i >= 1; i--) {
 			fragmentManager.popBackStack();
 		}
 	}
@@ -103,7 +107,8 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	public void addWelcomeFragmentOnVerification() {
 		WelcomeFragment welcomeFragment = new WelcomeFragment();
 		Bundle welcomeFragmentBundle = new Bundle();
-		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
+		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS,
+				VERIFICATION_SUCCESS);
 		welcomeFragment.setArguments(welcomeFragmentBundle);
 		addFragment(welcomeFragment);
 	}
@@ -112,8 +117,10 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
 			if (!RegistrationHelper.isJanrainIntialized()) {
-				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
-				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this, Locale.getDefault());
+				RegistrationHelper registrationSettings = RegistrationHelper
+						.getInstance();
+				registrationSettings.intializeRegistrationSettings(
+						Janrain.REINITIALIZE, this, Locale.getDefault());
 			}
 		}
 	}
@@ -126,7 +133,8 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	private void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+					.getWindowToken(), 0);
 		}
 	}
 

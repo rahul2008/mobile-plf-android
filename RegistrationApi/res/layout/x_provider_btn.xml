@@ -4,7 +4,7 @@
     android:id="@+id/fl_reg_provider_bg"
     android:layout_width="match_parent"
     android:layout_height="@dimen/reg_btn_height"
-    android:layout_marginBottom="@dimen/margin_bottom"
+    android:layout_marginBottom="@dimen/reg_margin_bottom"
     android:background="@drawable/reg_philips_bg_rect" >
 
     <ImageView

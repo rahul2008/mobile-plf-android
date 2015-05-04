@@ -35,9 +35,9 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		mLeftRightMarginPort = (int) getResources().getDimension(
-				R.dimen.layout_margin_port);
+				R.dimen.reg_layout_margin_port);
 		mLeftRightMarginLand = (int) getResources().getDimension(
-				R.dimen.layout_margin_land);
+				R.dimen.reg_layout_margin_land);
 	}
 
 	@Override

@@ -104,7 +104,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.btn_register) {
+		if (v.getId() == R.id.btn_reg_register) {
 			register();
 		}
 	}
@@ -112,27 +112,27 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	private void initUI(View view) {
 		consumeTouch(view);
 		mLlCreateAccountFields = (LinearLayout) view
-				.findViewById(R.id.ll_create_account_fields);
+				.findViewById(R.id.ll_reg_create_account_fields);
 		mTvpasswordDetails = (TextView) view
-				.findViewById(R.id.tv_password_details);
+				.findViewById(R.id.tv_reg_password_details);
 		mLlCreateAccountContainer = (LinearLayout) view
-				.findViewById(R.id.ll_create_account_container);
+				.findViewById(R.id.ll_reg_create_account_container);
 		mRlCreateActtBtnContainer = (RelativeLayout) view
 				.findViewById(R.id.rl_reg_singin_options);
 
-		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_register);
-		mCbTerms = (CheckBox) view.findViewById(R.id.cb_register_terms);
+		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
+		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
 		// mCbTerms.setTypeface(Fonts.getGillSansStdLight(getActivity()));
 
 		mBtnCreateAccount.setOnClickListener(this);
 
-		mEtName = (XUserName) view.findViewById(R.id.rl_name_field);
+		mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
 		mEtName.setOnUpdateListener(this);
-		mEtEmail = (XEmail) view.findViewById(R.id.rl_email_field);
+		mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
 		mEtEmail.setOnUpdateListener(this);
-		mEtPassword = (XPassword) view.findViewById(R.id.rl_password_field);
+		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnUpdateListener(this);
-		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_activate_spinner);
+		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
 		mPbSpinner.setClickable(false);
 		mPbSpinner.setEnabled(true);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -155,7 +155,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void showSpinner() {
 		mPbSpinner.setVisibility(View.VISIBLE);
-		mBtnCreateAccount.setBackgroundResource(R.drawable.disable_btn);
+		mBtnCreateAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 		mBtnCreateAccount.setEnabled(false);
 	}
 
@@ -220,7 +220,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();
 		} else {
-			mBtnCreateAccount.setBackgroundResource(R.drawable.disable_btn);
+			mBtnCreateAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 			mBtnCreateAccount.setEnabled(false);
 		}
 	}

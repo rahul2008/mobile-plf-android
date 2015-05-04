@@ -87,9 +87,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		if (id == R.id.activate_acct_btn) {
+		if (id == R.id.btn_reg_activate_acct) {
 			handleActivate();
-		} else if (id == R.id.resend_btn) {
+		} else if (id == R.id.btn_reg_resend) {
 			handleResend();
 		}
 	}
@@ -118,23 +118,23 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	private void initUI(View view) {
 		consumeTouch(view);
-		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_veify_email);
+		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_reg_veify_email);
 		mLlWelcomeContainer = (LinearLayout) view
-				.findViewById(R.id.ll_welcome_container);
-		mTvResendDetails = (TextView) view.findViewById(R.id.tv_resend_details);
+				.findViewById(R.id.ll_reg_welcome_container);
+		mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
 		mRlSingInOptions = (RelativeLayout) view
-				.findViewById(R.id.rl_singin_options);
-		mBtnActivate = (Button) view.findViewById(R.id.activate_acct_btn);
-		mBtnResend = (Button) view.findViewById(R.id.resend_btn);
+				.findViewById(R.id.rl_reg_singin_options);
+		mBtnActivate = (Button) view.findViewById(R.id.btn_reg_activate_acct);
+		mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
 		mBtnActivate.setOnClickListener(this);
 		mBtnResend.setOnClickListener(this);
 
 		mPbActivateSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_activate_spinner);
+				.findViewById(R.id.pb_reg_activate_spinner);
 		mPbResendSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_resend_spinner);
+				.findViewById(R.id.pb_reg_resend_spinner);
 
-		TextView tvEmail = (TextView) view.findViewById(R.id.tv_email);
+		TextView tvEmail = (TextView) view.findViewById(R.id.tv_reg_email);
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mEmailId = userProfile.getEmail();
@@ -152,22 +152,22 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 				mRegError.hideError();
 				mBtnActivate.setBackgroundResource(R.drawable.reg_header_bg);
 				mBtnActivate.setTextColor(getResources().getColor(
-						R.color.btn_enable_text_color));
+						R.color.reg_btn_enable_text_color));
 				mBtnActivate.setClickable(true);
 				mBtnResend.setClickable(true);
 			} else {
-				mBtnActivate.setBackgroundResource(R.drawable.disable_btn);
+				mBtnActivate.setBackgroundResource(R.drawable.btn_reg_disable);
 				mBtnActivate.setTextColor(getResources().getColor(
-						R.color.btn_disable_text_color));
+						R.color.reg_btn_disable_text_color));
 				mBtnActivate.setClickable(false);
 				mBtnResend.setClickable(false);
 				mRegError.setError(getString(R.string.No_Internet_Connection));
 			}
 		} else {
 			mRegError.setError(getString(R.string.No_Internet_Connection));
-			mBtnActivate.setBackgroundResource(R.drawable.disable_btn);
+			mBtnActivate.setBackgroundResource(R.drawable.btn_reg_disable);
 			mBtnActivate.setTextColor(getResources().getColor(
-					R.color.btn_disable_text_color));
+					R.color.reg_btn_disable_text_color));
 			mBtnActivate.setClickable(false);
 			mBtnResend.setClickable(false);
 		}

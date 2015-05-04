@@ -4,45 +4,45 @@
     android:layout_height="wrap_content" >
 
     <RelativeLayout
-        android:id="@+id/rl_name_verified_field"
+        android:id="@+id/rl_reg_name_verified_field"
         android:layout_width="match_parent"
         android:layout_height="@dimen/reg_et_height"
         android:background="@drawable/reg_et_focus_disable" >
 
         <FrameLayout
-            android:id="@+id/fl_align"
+            android:id="@+id/fl_reg_align"
             android:layout_width="@dimen/reg_err_alert_width"
             android:layout_height="@dimen/reg_err_alert_width"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="@dimen/x_edit_field_margin"
-            android:layout_marginLeft="@dimen/x_edit_field_margin"
-            android:layout_marginRight="@dimen/x_edit_field_margin_right"
-            android:layout_marginTop="@dimen/x_edit_field_margin" >
+            android:layout_marginBottom="@dimen/reg_x_edit_field_margin"
+            android:layout_marginLeft="@dimen/reg_x_edit_field_margin"
+            android:layout_marginRight="@dimen/reg_x_edit_field_margin_right"
+            android:layout_marginTop="@dimen/reg_x_edit_field_margin" >
 
             <ImageView
-                android:id="@+id/iv_name_error_alert"
+                android:id="@+id/iv_reg_name_error_alert"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/content_desc"
-                android:src="@drawable/error_alert"
+                android:src="@drawable/reg_error_alert"
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/iv_valid_name_alert"
+                android:id="@+id/iv_reg_valid_name_alert"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/content_desc"
-                android:src="@drawable/valid"
+                android:src="@drawable/reg_valid_alert"
                 android:visibility="gone" />
         </FrameLayout>
 
         <com.philips.cl.di.reg.ui.customviews.XEditText
             android:id="@+id/et_reg_fname"
-            style="@style/style_tab_reg_hint"
+            style="@style/reg_style_tab_hint"
             android:layout_centerVertical="true"
             android:imeOptions="actionNext"
-            android:layout_toLeftOf="@+id/fl_align"
+            android:layout_toLeftOf="@+id/fl_reg_align"
             android:background="@android:color/transparent"
             android:hint="@string/first_name"
             android:inputType="textPersonName"

@@ -75,13 +75,13 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	private void initUI(View view) {
 		consumeTouch(view);
-		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
-		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_welcome_desc);
+		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
+		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_welcome_desc);
 		mLlCreateBtnContainer = (LinearLayout) view
-				.findViewById(R.id.ll_create_account_container);
+				.findViewById(R.id.ll_reg_create_account_container);
 		mLlLoginBtnContainer = (LinearLayout) view
-				.findViewById(R.id.rl_singin_options);
-		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_create_account);
+				.findViewById(R.id.rl_reg_singin_options);
+		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
 		mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
 		mBtnMyPhilips.setOnClickListener(this);
@@ -96,7 +96,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	public void onClick(View v) {
 		// Library does not include resource constants after ADT 14
 		// Link :http://tools.android.com/tips/non-constant-fields
-		if (v.getId() == R.id.btn_create_account) {
+		if (v.getId() == R.id.btn_reg_create_account) {
 			getRegistrationMainActivity().addFragment(
 					new CreateAccountFragment());
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
@@ -169,7 +169,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		if (state) {
 			mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnCreateAccount.setTextColor(getResources().getColor(
-					R.color.btn_enable_text_color));
+					R.color.reg_btn_enable_text_color));
 			/*
 			 * mBtnCreateAccount.setAlpha(1); mBtnMyPhilips.setAlpha(1);
 			 */
@@ -179,9 +179,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			mRegError.hideError();
 		} else {
 			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
-			mBtnCreateAccount.setBackgroundResource(R.drawable.disable_btn);
+			mBtnCreateAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 			mBtnCreateAccount.setTextColor(getResources().getColor(
-					R.color.btn_disable_text_color));
+					R.color.reg_btn_disable_text_color));
 			/*
 			 * mBtnCreateAccount.setAlpha(0.75f);
 			 * mBtnCreateAccount.setAlpha(0.75f);

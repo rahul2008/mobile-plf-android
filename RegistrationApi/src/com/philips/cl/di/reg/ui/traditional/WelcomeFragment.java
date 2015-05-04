@@ -53,17 +53,17 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
 				"UserWelcomeFragment : onActivityCreated");
 		consumeTouch(view);
-		mTvWelcome = (TextView) view.findViewById(R.id.tv_welcome);
+		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
 		mLlEmailDetailsContainer = (LinearLayout) view
-				.findViewById(R.id.ll_email_details);
+				.findViewById(R.id.ll_reg_email_details);
 		mLlContinueBtnContainer = (LinearLayout) view
-				.findViewById(R.id.continue_id);
+				.findViewById(R.id.ll_reg_continue_id);
 		setViewParams(getResources().getConfiguration());
-		Button btnSignOut = (Button) view.findViewById(R.id.btn_sign_out);
+		Button btnSignOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
 		btnSignOut.setOnClickListener(this);
-		Button btnContinue = (Button) view.findViewById(R.id.btn_continue);
+		Button btnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
 		btnContinue.setOnClickListener(this);
-		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_sign_in_using);
+		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
 		mLlEmailDetails = (LinearLayout) view.findViewById(R.id.email_details);
 		if (isfromVerification) {
 			mLlEmailDetails.setVisibility(View.GONE);
@@ -80,10 +80,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 	public void onClick(View v) {
 		int id = v.getId();
 		
-		if (id == R.id.btn_sign_out) {
+		if (id == R.id.btn_reg_sign_out) {
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
-		}else if(id == R.id.btn_continue){
+		}else if(id == R.id.btn_reg_continue){
 			getRegistrationMainActivity().handleContinue();
 		}
 
