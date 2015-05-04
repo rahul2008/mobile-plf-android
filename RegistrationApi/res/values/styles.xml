@@ -4,7 +4,7 @@
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -29,11 +29,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-
+    <!-- Divider -->
     <style name="reg_line">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/reg_line_color</item>
+        <item name="android:layout_marginTop">@dimen/reg_margin_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
     </style>
 
     <style name="password_details">
@@ -50,7 +52,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/reg_btn_text_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
     <style name="reg_textStyle">
@@ -58,25 +60,26 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
         <item name="android:textColor">@color/reg_text_header_color</item>
-        <item name="android:paddingBottom">@dimen/reg_home_tiltle_padding</item>
         <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
     </style>
-	
+
     <style name="reg_text_description">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
         <item name="android:textColor">@color/reg_text_desc_color</item>
-        <item name="android:paddingBottom">@dimen/reg_home_tiltle_padding</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+        <item name="android:paddingTop">@dimen/reg_margin_bottom</item>
+        <item name="android:paddingBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
+        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
     </style>
-    
+
     <style name="reg_text_background">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/reg_text_background</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:layout_marginTop">@dimen/reg_common_margin_top</item>
     </style>
 
     <style name="reg_titleTextStyle">
@@ -84,21 +87,23 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
         <item name="android:textColor">@color/reg_text_header_color</item>
-        <item name="android:layout_marginBottom">@dimen/reg_home_tiltle_padding</item>
-        <item name="android:textSize">@dimen/reg_title_text_size_large</item>
+        <item name="android:textSize">@dimen/reg_title_text_size</item>
+        <item name="android:layout_marginTop">@dimen/reg_header_margin_top</item>
+        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
+        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
     </style>
 
     <style name="reg_error_textStyle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
     </style>
- 
+
     <style name="reg_forgot_password">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/reg_text_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
     <style name="reg_btn_resend">
@@ -106,7 +111,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/reg_err_msg_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
     <style name="reg_btn_disable">
@@ -114,7 +119,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/reg_btn_disable_text_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size_large</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
     <!-- Configurable -->
@@ -132,6 +137,21 @@
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">center</item>
         <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Small Button Style -->
+    <style name="reg_style_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/reg_btn_selector</item>
+        <item name="android:paddingBottom">@dimen/reg_btn_padding_top</item>
+        <item name="android:paddingTop">@dimen/reg_btn_padding_top</item>
+        <item name="android:paddingLeft">@dimen/reg_btn_padding_left</item>
+        <item name="android:paddingRight">@dimen/reg_btn_padding_left</item>
+        <item name="android:minHeight">@dimen/reg_btn_height</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
 </resources>

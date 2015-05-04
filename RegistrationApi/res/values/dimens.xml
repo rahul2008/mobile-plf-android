@@ -8,16 +8,11 @@
     <dimen name="reg_layout_margin">30dp</dimen>
     <dimen name="reg_layout_margin_port">0dp</dimen>
     <dimen name="reg_layout_margin_land">100dp</dimen>
-    <dimen name="btn_reg_text_size_large">16sp</dimen>
-    <dimen name="reg_title_text_size_large">22sp</dimen>
-    <dimen name="reg_title_text_size_medium">14sp</dimen>
-    <dimen name="reg_title_text_size_small">18sp</dimen>
     <dimen name="reg_actionbar_title_text_size">21dp</dimen>
     <dimen name="reg_font_button_text_margin_left">80dp</dimen>
     <dimen name="reg_support_btn_height">60dp</dimen>
     <dimen name="reg_prod_reg_btn_height">55dp</dimen>
     <dimen name="reg_marginTopButton">12dp</dimen>
-    <dimen name="reg_margin_bottom">10dp</dimen>
     <dimen name="reg_edit_margin_bottom">20dp</dimen>
     <dimen name="reg_account_margin_bottom">30dp</dimen>
     <dimen name="reg_err_msg_width">390dp</dimen>
@@ -44,24 +39,34 @@
 
     <!-- Header -->
 
-    <dimen name="reg_header_height">40dip</dimen>
-    <dimen name="reg_header_title_size">20sp</dimen>
-    <dimen name="reg_header_iv_back_padding">10dip</dimen>
-    
+    <dimen name="reg_header_height">47dip</dimen>
+    <dimen name="reg_header_title_size">21sp</dimen>
+    <dimen name="reg_header_iv_back_padding">11dip</dimen>
+    <dimen name="reg_header_title_margin_right">33dip</dimen>
+
     <!-- Edit Text -->
     <dimen name="reg_et_height">40dip</dimen>
     <dimen name="reg_et_hint_size">16sp</dimen>
 
     <!-- Home screen -->
-    <dimen name="reg_btn_height">40dip</dimen>
-    <dimen name="reg_my_philips_btn_text_size">16sp</dimen>
-    
+    <dimen name="reg_title_text_size">22sp</dimen>
+    <dimen name="reg_header_margin_top">29dip</dimen>
+    <dimen name="reg_title_text_size_medium">15sp</dimen>
+    <dimen name="reg_title_text_size_small">12sp</dimen>
+    <dimen name="reg_margin_bottom">11dp</dimen>
+
     <!-- error mapping -->
     <dimen name="reg_err_mapping_padding">10sp</dimen>
     <dimen name="reg_err_mapping_margin_right">2dip</dimen>
     <dimen name="reg_err_mapping_mergin_top">4dip</dimen>
     <dimen name="reg_left_arrow_width">6dip</dimen>
     <dimen name="reg_left_arrow_height">15dip</dimen>
-    
+
+    <!-- button -->
+    <dimen name="btn_reg_text_size">15sp</dimen>
+    <dimen name="reg_btn_height">47dip</dimen>
+    <dimen name="reg_btn_padding_left">15dip</dimen>
+    <dimen name="reg_btn_padding_top">5dip</dimen>
+    <dimen name="reg_common_margin_top">15dip</dimen>
 
 </resources>

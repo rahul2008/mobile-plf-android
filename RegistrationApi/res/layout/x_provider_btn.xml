@@ -3,7 +3,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:id="@+id/fl_reg_provider_bg"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/reg_btn_height"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/reg_margin_bottom"
     android:background="@drawable/reg_philips_bg_rect" >
 
@@ -25,9 +25,11 @@
         android:gravity="center_vertical"
         android:paddingLeft="2dip"
         android:paddingRight="2dip"
+        android:minHeight="@dimen/reg_btn_height"
+        android:minWidth="0dip"
         android:text="@string/philips"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/reg_my_philips_btn_text_size"
+        android:textSize="@dimen/btn_reg_text_size"
         reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
 </FrameLayout>

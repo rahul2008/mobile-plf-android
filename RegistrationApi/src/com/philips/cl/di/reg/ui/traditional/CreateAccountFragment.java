@@ -86,20 +86,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserCreateAccountFragment : setViewParams");
-		LinearLayout.LayoutParams params = (LayoutParams) mLlCreateAccountFields
-				.getLayoutParams();
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
-		} else {
-			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
-		}
-		mLlCreateAccountFields.setLayoutParams(params);
-		mTvpasswordDetails.setLayoutParams(params);
-		mLlCreateAccountContainer.setLayoutParams(params);
-		mRlCreateActtBtnContainer.setLayoutParams(params);
-		mRegError.setLayoutParams(params);
+		applyParams(config, mLlCreateAccountFields);
+		applyParams(config, mTvpasswordDetails);
+		applyParams(config, mLlCreateAccountContainer);
+		applyParams(config, mRlCreateActtBtnContainer);
+		applyParams(config, mRegError);
 	}
 
 	@Override
@@ -132,7 +123,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		mEtEmail.setOnUpdateListener(this);
 		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnUpdateListener(this);
-		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
+		mPbSpinner = (ProgressBar) view
+				.findViewById(R.id.pb_reg_activate_spinner);
 		mPbSpinner.setClickable(false);
 		mPbSpinner.setEnabled(true);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -144,7 +136,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void register() {
 		showSpinner();
-		//mBtnCreateAccount.requestFocus();
+		// mBtnCreateAccount.requestFocus();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
 		mEtPassword.clearFocus();

@@ -106,7 +106,6 @@
                     android:id="@+id/btn_reg_register"
                     style="@style/reg_btn_disable"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:background="@drawable/btn_reg_disable"
                     android:enabled="false"
                     android:text="@string/create_phi_account"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />

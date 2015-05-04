@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
@@ -81,9 +80,11 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				.findViewById(R.id.ll_reg_create_account_container);
 		mLlLoginBtnContainer = (LinearLayout) view
 				.findViewById(R.id.rl_reg_singin_options);
-		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
+		mBtnCreateAccount = (Button) view
+				.findViewById(R.id.btn_reg_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
-		mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
+		mBtnMyPhilips = (XProviderButton) view
+				.findViewById(R.id.btn_reg_my_philips);
 		mBtnMyPhilips.setOnClickListener(this);
 
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -107,17 +108,10 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-		LinearLayout.LayoutParams mParams = (LayoutParams) mTvWelcome
-				.getLayoutParams();
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
-		} else {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
-		}
-		mTvWelcome.setLayoutParams(mParams);
-		mTvWelcomeDesc.setLayoutParams(mParams);
-		mLlCreateBtnContainer.setLayoutParams(mParams);
-		mLlLoginBtnContainer.setLayoutParams(mParams);
+		applyParams(config, mTvWelcome);
+		applyParams(config, mTvWelcomeDesc);
+		applyParams(config, mLlCreateBtnContainer);
+		applyParams(config, mLlLoginBtnContainer);
 	}
 
 	@Override
@@ -167,9 +161,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		// mLlGooglePlus.setEnabled(state);
 		//
 		if (state) {
-			mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
-			mBtnCreateAccount.setTextColor(getResources().getColor(
-					R.color.reg_btn_enable_text_color));
 			/*
 			 * mBtnCreateAccount.setAlpha(1); mBtnMyPhilips.setAlpha(1);
 			 */
@@ -179,9 +170,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			mRegError.hideError();
 		} else {
 			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
-			mBtnCreateAccount.setBackgroundResource(R.drawable.btn_reg_disable);
-			mBtnCreateAccount.setTextColor(getResources().getColor(
-					R.color.reg_btn_disable_text_color));
 			/*
 			 * mBtnCreateAccount.setAlpha(0.75f);
 			 * mBtnCreateAccount.setAlpha(0.75f);

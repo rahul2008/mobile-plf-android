@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
@@ -70,10 +72,20 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		view.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-
 				return true;
 			}
 		});
+	}
+
+	public void applyParams(Configuration config, View view) {
+		LinearLayout.LayoutParams mParams = (LayoutParams) view
+				.getLayoutParams();
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+		} else {
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+		}
+		view.setLayoutParams(mParams);
 	}
 
 }
