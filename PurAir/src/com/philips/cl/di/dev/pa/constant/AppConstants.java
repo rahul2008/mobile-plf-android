@@ -28,24 +28,43 @@ public class AppConstants {
 
 
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
+	public static final String PURIFIERDB_NAME = "smart_air.db";
 	public static final int PURIFIERDB_VERSION = 10;
+	public static final String KEY_ID = "_id";
 
 	// City detail table
+	public static final String TABLE_CITYDETAILS = "CityDetails";
+	public static final String KEY_AREA_ID = "AREA_ID";
 	public static final String KEY_CITY = "CITY";
 	public static final String KEY_CITY_CN = "CITY_CN";
+	public static final String KEY_CITY_TW = "CITY_TW";
 	public static final String KEY_DISTRICT = "DISTRICT";
 	public static final String KEY_PROVINCE = "PROVINCE";
 	public static final String KEY_COUNTRY = "COUNTRY";
 	public static final String KEY_STATION_TYPE = "STATION_TYPE";
 	public static final String KEY_SHORTLIST = "SHORTLIST";
+	public static final String KEY_LONGITUDE = "LONGITUDE";
+	public static final String KEY_LATITUDE = "LATITUDE";
 	
+	//City data provider table
+	public static final String TABLE_USER_SELECTED_CITY = "UserSelectedCity";
+	public static final String KEY_DATA_PROVIDER = "DATA_PROVIDER";// 0 CMA and 1 US Embassy
+ 	
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS = AppConstants.KEY_SHORTLIST + " = '1' ";
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED = AppConstants.KEY_SHORTLIST + " != '1' ";
 	
-	// AirPurifier table
+	// AirPurifier event table
+	public static final String TABLE_AIRPURIFIER_EVENT = "AirPurifierEvent";
+	public static final String KEY_INDOOR_AQI = "aqi" ;
+	public static final String KEY_LAST_SYNC_DATETIME = "lastsyncdatetime" ;
 	
+	// AirPurifier table
+	public static final String TABLE_AIRPUR_INFO = "device_info";
+	public static final String NETWORK_NODE_FK_KEY = "network_node_id";
+	public static final String KEY_AIRPUR_USN = "usn";
 	public static final String KEY_AIRPUR_CPP_ID = "cppid";
 	public static final String KEY_AIRPUR_BOOT_ID = "bootid";
+	public static final String KEY_AIRPUR_KEY = "airpur_key";
 	public static final String KEY_AIRPUR_DEVICE_NAME = "dev_name";
 	public static final String KEY_AIRPUR_LASTKNOWN_NETWORK = "lastknown_network";
 	public static final String KEY_AIRPUR_IS_PAIRED="is_paired";
