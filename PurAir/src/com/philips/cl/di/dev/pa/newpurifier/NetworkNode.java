@@ -21,7 +21,7 @@ public class NetworkNode extends Observable implements Parcelable {
 	
 	private String mName;
 	private String mModelName;
-	private String mModelType;
+	private String mModelType; //TODO implement getter, setter, Parcel, toString
 	private String mHomeSsid;
 	private long mBootId;
 	private String mEncryptionKey;
