@@ -29,7 +29,7 @@ public class SHNCharacteristic {
     private BTGatt btGatt;
     private State state;
     private SHNCharacteristicChangedListener shnCharacteristicChangedListener;
-    private List<SHNDevice.SHNGattCommandResultReporter> pendingCompletions;
+    private List<SHNCommandResultReporter> pendingCompletions;
 
     public SHNCharacteristic(UUID characteristicUUID) {
         this.uuid = characteristicUUID;
@@ -64,7 +64,7 @@ public class SHNCharacteristic {
         return null;
     }
 
-    public boolean write(byte[] data, SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean write(byte[] data, SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             btGatt.writeCharacteristic(bluetoothGattCharacteristic, data);
             pendingCompletions.add(resultReporter);
@@ -75,7 +75,7 @@ public class SHNCharacteristic {
         return true;
     }
 
-    public boolean read(SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean read(SHNCommandResultReporter resultReporter) {
         if (state == State.Active) {
             btGatt.readCharacteristic(bluetoothGattCharacteristic);
             pendingCompletions.add(resultReporter);
@@ -86,7 +86,7 @@ public class SHNCharacteristic {
         return true;
     }
 
-    public boolean setNotification(boolean enable, SHNDevice.SHNGattCommandResultReporter resultReporter) {
+    public boolean setNotification(boolean enable, SHNCommandResultReporter resultReporter) {
         boolean ret = false;
         if (state == State.Active) {
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
@@ -105,13 +105,13 @@ public class SHNCharacteristic {
 
     public void onReadWithData(BTGatt gatt, int status, byte[] data) {
         if (LOGGING) Log.i(TAG, "onReadWithData " + getUuid() + " size = " + pendingCompletions.size());
-        SHNDevice.SHNGattCommandResultReporter completion = pendingCompletions.remove(0);
+        SHNCommandResultReporter completion = pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO: perhaps use data, use status
     }
 
     public void onWrite(BTGatt gatt, int status) {
         if (LOGGING) Log.i(TAG, "onWrite " + getUuid() + " size = " + pendingCompletions.size());
-        SHNDevice.SHNGattCommandResultReporter completion = pendingCompletions.remove(0);
+        SHNCommandResultReporter completion = pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO; use status
     }
 
@@ -129,7 +129,7 @@ public class SHNCharacteristic {
 
     public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         if (LOGGING) Log.i(TAG, "onDescriptorWrite " + getUuid() + " size = " + pendingCompletions.size());
-        SHNDevice.SHNGattCommandResultReporter completion = pendingCompletions.remove(0);
+        SHNCommandResultReporter completion = pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO; use status
     }
 }

@@ -25,16 +25,18 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     private static final String TAG = SHNDevice.class.getSimpleName();
     private static final boolean LOGGING = false;
     public static final long CONNECT_TIMEOUT = 10000l;
-    private final BTDevice bluetoothDevice;
+    private final BTDevice btDevice;
     private final Context applicationContext;
     private final SHNCentral shnCentral;
-    private BTGatt bluetoothGatt;
-    private SHNGattCommandResultReporter currentResultListener;
+    private BTGatt btGatt;
     private Runnable connectTimer;
+    private SHNDeviceListener shnDeviceListener;
+    private SHNDeviceState shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
+//    private String name;
+//    private String type;
+//    private UUID identifier;
+//    private int rssiWhenDiscovered; // How is that usefull?
 
-    public SHNDeviceState getState() {
-        return shnDeviceState;
-    }
 
     public enum SHNDeviceState {
         SHNDeviceStateDisconnected, SHNDeviceStateDisconnecting, SHNDeviceStateConnecting, SHNDeviceStateConnected
@@ -42,29 +44,23 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     public interface SHNDeviceListener {
         void onStateUpdated(SHNDevice shnDevice);
     }
-    public interface SHNGattCommandResultReporter {
-        void reportResult(SHNResult shnResult);
-    }
 
     public SHNDevice(BTDevice btDevice, SHNCentral shnCentral) {
         this.shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
-        this.bluetoothDevice = btDevice;
+        this.btDevice = btDevice;
         this.shnCentral = shnCentral;
         this.applicationContext = shnCentral.getApplicationContext();
     }
 
-    private SHNDeviceListener shnDeviceListener;
-    private SHNDeviceState shnDeviceState = SHNDeviceState.SHNDeviceStateDisconnected;
-    private String name;
-    private String type;
-    private UUID identifier;
-    private int rssiWhenDiscovered; // How is that usefull?
+    public SHNDeviceState getState() {
+        return shnDeviceState;
+    }
 
     public String getAddress() {
-        return bluetoothDevice.getAddress();
+        return btDevice.getAddress();
     }
     public String getName() {
-        return bluetoothDevice.getName();
+        return btDevice.getName();
     }
 
     public void connect()  {
@@ -90,7 +86,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         if (LOGGING) Log.i(TAG, "handleConnect");
         if (shnDeviceState == SHNDeviceState.SHNDeviceStateDisconnected) {
             updateShnDeviceState(SHNDeviceState.SHNDeviceStateConnecting);
-            bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, btGattCallback);
+            btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
 
             // Start a timer (refactor?)
             connectTimer = new Runnable() {
@@ -120,8 +116,8 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     }
     private void handleDisconnect() {
         if (LOGGING) Log.e(TAG, "handleDisconnect");
-        if (bluetoothGatt != null) {
-            bluetoothGatt.disconnect();
+        if (btGatt != null) {
+            btGatt.disconnect();
         }
     }
 
@@ -193,7 +189,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
 
     @Override
     public String toString() {
-        return bluetoothDevice.getName() + " [" + bluetoothDevice.getAddress() + "]";
+        return btDevice.getName() + " [" + btDevice.getAddress() + "]";
     }
 
     private BTGatt.BTGattCallback btGattCallback = new BTGatt.BTGattCallback() {
@@ -202,9 +198,9 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange");
             SHNDeviceState shnDeviceState = getState();
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                if (bluetoothGatt != null) {
-                    bluetoothGatt.close();
-                    bluetoothGatt = null;
+                if (btGatt != null) {
+                    btGatt.close();
+                    btGatt = null;
                 }
                 for (SHNService shnService: registeredServices.values()) {
                     shnService.disconnectFromBLELayer();
@@ -220,7 +216,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         public void onServicesDiscovered(BTGatt gatt, int status) {
             if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered");
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                for (BluetoothGattService bluetoothGattService: bluetoothGatt.getServices()) {
+                for (BluetoothGattService bluetoothGattService: btGatt.getServices()) {
                     SHNService shnService = getSHNService(bluetoothGattService.getUuid());
                     if (LOGGING) Log.i(TAG, "handleOnServicesDiscovered service: " + bluetoothGattService.getUuid() + ((shnService == null) ? " not found" : " connecting"));
                     if (shnService != null) {
