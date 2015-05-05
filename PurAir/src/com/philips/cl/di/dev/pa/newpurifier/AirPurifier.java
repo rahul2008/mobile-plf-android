@@ -136,9 +136,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 		if(mAirPort.isResponseForThisPort(data)){
 			mAirPort.handleSubscription(data);
-			if(mPurifierListener!=null){
-			    mPurifierListener.notifyAirPurifierEventListeners();
-			}
 			return;
 		}
 
@@ -164,9 +161,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 		if(mFirmwarePort.isResponseForThisPort(data)){
 			mFirmwarePort.handleSubscription(data);
-			if(mPurifierListener!=null){
-			    mPurifierListener.notifyFirmwareEventListeners();
-			}
 			return;
 		}
 
