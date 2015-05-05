@@ -1,5 +1,6 @@
 package com.pins.philips.shinelib;
 
+import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.util.Log;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
     private static final boolean LOGGING = false;
-    private static final String CLIENT_CHARACTERISTIC_CONFIG_UUID = "00002902-0000-1000-8000-00805f9b34fb";
+    private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
     public interface SHNCharacteristicChangedListener {
         void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data);
@@ -87,16 +88,15 @@ public class SHNCharacteristic {
     }
 
     public boolean setNotification(boolean enable, SHNCommandResultReporter resultReporter) {
-        boolean ret = false;
         if (state == State.Active) {
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
-                BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(UUID.fromString(CLIENT_CHARACTERISTIC_CONFIG_UUID));
+                BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
                 btGatt.writeDescriptor(descriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 pendingCompletions.add(resultReporter);
-                ret = true;
+                return true;
             }
         }
-        return ret;
+        return false;
     }
 
     public void setShnCharacteristicChangedListener(SHNCharacteristicChangedListener shnCharacteristicChangedListener) {
@@ -104,19 +104,27 @@ public class SHNCharacteristic {
     }
 
     public void onReadWithData(BTGatt gatt, int status, byte[] data) {
-        if (LOGGING) Log.i(TAG, "onReadWithData " + getUuid() + " size = " + pendingCompletions.size());
+        if (LOGGING) Log.i(TAG, "onReadWithData");
+        SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            shnResult = SHNResult.SHNOk;
+        }
         SHNCommandResultReporter completion = pendingCompletions.remove(0);
-        if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO: perhaps use data, use status
+        if (completion != null) completion.reportResult(shnResult, data);
     }
 
     public void onWrite(BTGatt gatt, int status) {
-        if (LOGGING) Log.i(TAG, "onWrite " + getUuid() + " size = " + pendingCompletions.size());
+        if (LOGGING) Log.i(TAG, "onWrite");
+        SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            shnResult = SHNResult.SHNOk;
+        }
         SHNCommandResultReporter completion = pendingCompletions.remove(0);
-        if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO; use status
+        if (completion != null) completion.reportResult(shnResult, null);
     }
 
     public void onChanged(BTGatt gatt, byte[] data) {
-        if (LOGGING) Log.i(TAG, "onCharacteristicChanged");
+        if (LOGGING) Log.i(TAG, "onChanged");
         if (shnCharacteristicChangedListener != null) {
             shnCharacteristicChangedListener.onCharacteristicChanged(this, data);
         }
@@ -129,7 +137,11 @@ public class SHNCharacteristic {
 
     public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         if (LOGGING) Log.i(TAG, "onDescriptorWrite " + getUuid() + " size = " + pendingCompletions.size());
+        SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
+        if (status == BluetoothGatt.GATT_SUCCESS) {
+            shnResult = SHNResult.SHNOk;
+        }
         SHNCommandResultReporter completion = pendingCompletions.remove(0);
-        if (completion != null) completion.reportResult(SHNResult.SHNOk); // TODO; use status
+        if (completion != null) completion.reportResult(shnResult, null);
     }
 }

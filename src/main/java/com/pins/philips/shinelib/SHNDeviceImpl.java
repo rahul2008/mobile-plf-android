@@ -189,10 +189,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
                         shnService.connectToBLELayer(gatt, bluetoothGattService);
                     }
                 }
-            }
-            else
-            {
-                // TODO
+            } else {
+                disconnect();
             }
         }
 

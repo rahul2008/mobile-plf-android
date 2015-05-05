@@ -331,4 +331,15 @@ public class SHNDeviceTest {
         }
         assertTrue(exceptionCaught);
     }
+
+    // Error conditions
+    @Test
+    public void whenInStateConnectingTheGattCallbackIndicatesServicesDiscoveredErrorThenADisconnectIsInitiated() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_FAILURE);
+        verify(mockedBTGatt).disconnect();
+        assertEquals(SHNDevice.State.Disconnecting, shnDevice.getState());
+    }
+
 }
