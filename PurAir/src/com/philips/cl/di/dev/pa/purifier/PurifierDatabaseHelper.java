@@ -139,6 +139,7 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 			
 			// migrate the data from the 'device_info' to the 'network_node' table
 			String migrateDataToNetworkNodeTableQuery = "INSERT INTO " + TABLE_NETWORK_NODE + "("
+					+ KEY_ID + COMMA
 					+ KEY_CPP_ID + COMMA 
 					+ KEY_BOOT_ID + COMMA 
 					+ KEY_ENCRYPTION_KEY + COMMA 
@@ -149,6 +150,7 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 					+ KEY_IP_ADDRESS + COMMA
 					+ KEY_MODEL_NAME
 					+ ") SELECT "
+					+ "NULL" + COMMA
 					+ AppConstants.KEY_AIRPUR_CPP_ID + COMMA 
 					+ AppConstants.KEY_AIRPUR_BOOT_ID + COMMA 
 					+ AppConstants.KEY_AIRPUR_KEY + COMMA 
