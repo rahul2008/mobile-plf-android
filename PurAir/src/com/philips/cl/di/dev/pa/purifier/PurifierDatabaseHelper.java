@@ -13,7 +13,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
  * The Class DBHelper.
  */
 public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
-
+	
+	private static final String COMMA = ", ";
+	
 	/**
 	 * Instantiates a new dB helper.
 	 * 
@@ -51,25 +53,25 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		ALog.w(ALog.DATABASE, "Create table");
+		
+		super.onCreate(db);
+		
 		String createTableAirPurifierEvent = "CREATE TABLE "
 				+ AppConstants.TABLE_AIRPURIFIER_EVENT + "(" + AppConstants.KEY_INDOOR_AQI + " INTEGER ,"
 				+ AppConstants.KEY_LAST_SYNC_DATETIME + " TEXT )";
 
-		String createDeviceInfo = "CREATE TABLE IF NOT EXISTS " + AppConstants.TABLE_AIRPUR_INFO + "(" 
-				+ AppConstants.KEY_ID + " INTEGER NOT NULL UNIQUE," 
+		String createAirPurifierTableQuery = "CREATE TABLE IF NOT EXISTS " + AppConstants.TABLE_AIRPUR_DEVICE + "(" 
+				+ AppConstants.KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+				+ AppConstants.KEY_AIRPUR_CPP_ID + " TEXT NOT NULL UNIQUE,"
 				+ AppConstants.KEY_AIRPUR_USN + " TEXT UNIQUE," 
 				+ AppConstants.KEY_LATITUDE + " TEXT," 
-				+ AppConstants.KEY_LONGITUDE + " TEXT," 
-				+ AppConstants.KEY_AIRPUR_KEY + " TEXT,"
-				+ AppConstants.NETWORK_NODE_FK_KEY + " INTEGER NOT NULL UNIQUE,"
-				+ "PRIMARY KEY(" + AppConstants.KEY_ID + "),"
-				+ "FOREIGN KEY(" + AppConstants.NETWORK_NODE_FK_KEY + ") REFERENCES " + NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE + "(" + NetworkNodeDatabaseHelper.KEY_ID + ")"
+				+ AppConstants.KEY_LONGITUDE + " TEXT,"
 				+ ");";
-
+		db.execSQL(createAirPurifierTableQuery);
+		
 		String createCityProviderTableSQL = getUserSelectedCityQuery();
 
 		db.execSQL(createTableAirPurifierEvent);
-		db.execSQL(createDeviceInfo);
 		db.execSQL(createCityProviderTableSQL);
 	}
 
@@ -132,11 +134,62 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 
 		switch (oldVersion) {
 		case 10:
-			String upgradeQuery = "";
-			db.execSQL(upgradeQuery);
+			// create the NetworkNode table
+			super.onCreate(db);
+			
+			// migrate the data from the 'device_info' to the 'network_node' table
+			String migrateDataToNetworkNodeTableQuery = "INSERT INTO " + TABLE_NETWORK_NODE + "("
+					+ KEY_CPP_ID + COMMA 
+					+ KEY_BOOT_ID + COMMA 
+					+ KEY_ENCRYPTION_KEY + COMMA 
+					+ KEY_DEVICE_NAME + COMMA 
+					+ KEY_LASTKNOWN_NETWORK + COMMA 
+					+ KEY_IS_PAIRED + COMMA 
+					+ KEY_LAST_PAIRED + COMMA 
+					+ KEY_IP_ADDRESS + COMMA
+					+ KEY_MODEL_NAME
+					+ ") SELECT "
+					+ AppConstants.KEY_AIRPUR_CPP_ID + COMMA 
+					+ AppConstants.KEY_AIRPUR_BOOT_ID + COMMA 
+					+ AppConstants.KEY_AIRPUR_KEY + COMMA 
+					+ AppConstants.KEY_AIRPUR_DEVICE_NAME + COMMA 
+					+ AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK + COMMA 
+					+ AppConstants.KEY_AIRPUR_IS_PAIRED + COMMA 
+					+ AppConstants.KEY_AIRPUR_LAST_PAIRED + COMMA
+					+ "NULL" + COMMA 
+					+ "NULL" 
+					+ "FROM " + AppConstants.TABLE_AIRPUR_INFO;
+			db.execSQL(migrateDataToNetworkNodeTableQuery);
+			
+			String createAirPurifierTableQuery = "CREATE TABLE IF NOT EXISTS " + AppConstants.TABLE_AIRPUR_DEVICE + "(" 
+					+ AppConstants.KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
+					+ AppConstants.KEY_AIRPUR_CPP_ID + " TEXT NOT NULL UNIQUE,"
+					+ AppConstants.KEY_AIRPUR_USN + " TEXT UNIQUE," 
+					+ AppConstants.KEY_LATITUDE + " TEXT," 
+					+ AppConstants.KEY_LONGITUDE + " TEXT,"
+					+ ");";
+			db.execSQL(createAirPurifierTableQuery);
+			
+			String migrateDataToAirPurifierDevicesTableQuery = "INSERT INTO " + AppConstants.TABLE_AIRPUR_DEVICE + " ("
+					+ AppConstants.KEY_ID + COMMA
+					+ AppConstants.KEY_AIRPUR_CPP_ID + COMMA
+					+ AppConstants.KEY_AIRPUR_USN + COMMA
+					+ AppConstants.KEY_LATITUDE + COMMA 
+					+ AppConstants.KEY_LONGITUDE + COMMA
+					+ ") SELECT "
+					+ "NULL" + COMMA
+					+ AppConstants.KEY_AIRPUR_CPP_ID + COMMA
+					+ AppConstants.KEY_AIRPUR_USN + COMMA
+					+ AppConstants.KEY_LATITUDE + COMMA 
+					+ AppConstants.KEY_LONGITUDE + COMMA
+					+ "FROM " + AppConstants.TABLE_AIRPUR_INFO;
+			db.execSQL(migrateDataToAirPurifierDevicesTableQuery);
+
+			String dropDeviceInfoTableQuery = "DROP TABLE IF EXISTS " + AppConstants.TABLE_AIRPUR_INFO;
+			db.execSQL(dropDeviceInfoTableQuery);
+			
 			break;
 		}
-
 	}
 
 }

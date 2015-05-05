@@ -58,9 +58,9 @@ public class AppConstants {
 	public static final String KEY_INDOOR_AQI = "aqi" ;
 	public static final String KEY_LAST_SYNC_DATETIME = "lastsyncdatetime" ;
 	
-	// AirPurifier table
-	public static final String TABLE_AIRPUR_INFO = "device_info";
-	public static final String NETWORK_NODE_FK_KEY = "network_node_id";
+	
+	public static final String TABLE_AIRPUR_INFO = "device_info"; // AirPurifier table (< DB version 11)
+	public static final String TABLE_AIRPUR_DEVICE = "AirPurifierDevice"; // AirPurifierDevice table (=> DB version 11)
 	public static final String KEY_AIRPUR_USN = "usn";
 	public static final String KEY_AIRPUR_CPP_ID = "cppid";
 	public static final String KEY_AIRPUR_BOOT_ID = "bootid";
