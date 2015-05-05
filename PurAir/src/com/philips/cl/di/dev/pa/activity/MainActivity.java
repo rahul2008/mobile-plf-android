@@ -32,6 +32,7 @@ import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.CPPController.SignonState;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
@@ -92,6 +93,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	private AppInDemoMode appInDemoMode;
 	private boolean internetDialogShown;
 	private WifiNetworkCallback networkCallback;
+	private enum InternetState {Connecting, Connected, Disconnected};
+	private InternetState internetState = InternetState.Connecting;
+	private DiscoveryManager discoveryManagerIstance;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -99,7 +103,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		setContentView(R.layout.activity_main_aj);
 		getMainContainerHeight();
 		CPPController.getInstance(this).setAppUpdateStatus(false);
-		
+		discoveryManagerIstance = DiscoveryManager.getInstance();
 		//Fetch database data
 		OutdoorManager.getInstance();
 		//Read data from CLV
@@ -127,6 +131,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (resourceId > 0) {
 			setStatusBarHeight(getResources().getDimensionPixelSize(resourceId));
 		}
+		
+		checkInternetWhenAppLaunch();
 	}
 
 	private void getMainContainerHeight() {
@@ -429,7 +435,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 					}
 
 					fragTransaction.add(DownloadAlerDialogFragement.
-							newInstance(title, message), "pairing_failed").commitAllowingStateLoss();
+							newInstance(title, message), fragTag).commitAllowingStateLoss();
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.MAINACTIVITY, e.getMessage());
 				}
@@ -528,7 +534,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (signon) {
 			//should be called only when signOn is successful
 			AirPurifierManager.getInstance().startSubscription();
+		} else {
+			showCommunicationFailedMessage();
 		}
+		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$signonStatus signon= " + signon);
 	} 
 
 	public void pairToPurifierIfNecessary() {
@@ -681,8 +690,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	@Override
 	public void internetStatus(boolean internetAvailable) {
 		if ( internetAvailable ) {
-			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;			
-			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn() || purifier==null) {
+			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;		
+			if( purifier == null) {
+				return ;
+			}
+			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
 				CPPController.getInstance(PurAirApplication.getAppContext()).signOnWithProvisioning() ;
 				CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(new SignonListener() {
 					@Override
@@ -708,6 +720,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		else {
 			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
+				ALog.i(ALog.PAIRING, "In last if pairToPurifierIfNecessary()");
 				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
 				// Sets the max pairing attempt for the Purifier to stop checking for internet connection
@@ -723,6 +736,39 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				((NotificationsFragment) fragment).disableNotificationScreen() ;
 			}
 			showInternetAlertDialog(R.string.check_network_connection);
+		}
+	}
+	
+	private void checkInternetWhenAppLaunch() {
+		internetState = InternetState.Connecting;
+		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$checkInternetWhenAppLaunch() internetState= " + internetState
+				+ "SignOnState= " + CPPController.getInstance(this).getSignOnState());
+		new InternetConnectionHandler(new InternetConnectionListener() {
+			
+			@Override
+			public void internetStatus(boolean status) {
+				if (status) {
+					internetState = InternetState.Connected;
+				} else {
+					internetState = InternetState.Disconnected;
+					showCommunicationFailedMessage();
+				}
+				ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$internetStatus status= " + status);
+			}
+		}, handler).checkInternetConnection() ;
+	}
+	
+	private synchronized void showCommunicationFailedMessage() {
+		SignonState signonState = CPPController.getInstance(PurAirApplication.getAppContext()).getSignOnState();
+		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$showCommunicationFailedMessage() internetState= " + internetState
+				+ "; SignOnState= " + signonState + "; Added purifierlist size= " + DiscoveryManager.getInstance().getStoreDevices().size());
+		if (internetState != InternetState.Connecting && signonState != SignonState.SIGNING) {
+			if (signonState == SignonState.NOT_SIGON && internetState == InternetState.Connected 
+					&& !discoveryManagerIstance.getStoreDevices().isEmpty()) {
+				showAlertDialogPairingFailed("", getString(R.string.cloud_service_not_available), "communicationFailed");
+			} else if (internetState == InternetState.Disconnected) {
+				showAlertDialogPairingFailed("", getString(R.string.enable_internet_access), "communicationFailed");
+			}
 		}
 	}
 }

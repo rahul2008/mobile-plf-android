@@ -750,4 +750,8 @@
     <string name="camera_app_not_install">您尚未安裝相機</string>
     <string name="gallery">相簿</string>
     <string name="camera">拍照</string>
+    
+    <string name="cloud_service_not_available">We are sorry, the Philips cloud service is currently not available, please try again later.</string>
+    <string name="enable_internet_access">Can’t connect to Internet, please enable Internet access.</string>
+    
 </resources>

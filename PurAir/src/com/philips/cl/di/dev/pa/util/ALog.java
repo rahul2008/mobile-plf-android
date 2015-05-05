@@ -73,6 +73,7 @@ public class ALog {
 	public static final String LOCALREQUEST = "LocalRequest";
 	public static final String REMOTEREQUEST = "RemoteRequest";
 	public static final String REQUESTQUEUE = "RequestQueue";
+	public static final String APP_LAUNCH_CHEK_INTERNET = "AppLaunhCheckInternet";
 	
 	private static boolean isLoggingEnabled = true;
 	
