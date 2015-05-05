@@ -94,7 +94,12 @@ public class NetworkNode extends Observable implements Parcelable {
 	}
 
 	public synchronized void setBootId(long bootId) {
-		this.mBootId = bootId;
+		synchronized(this) { // notifyObservers called from same Thread
+			if (mBootId == bootId) return;
+			this.mBootId = bootId;
+		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public synchronized String getEncryptionKey() {

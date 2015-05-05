@@ -111,8 +111,8 @@ public class PurifierDatabase {
 			        networkNode.setCppId(eui64);
 			        networkNode.setIpAddress(null);
 			        networkNode.setName(name);
-			        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-			        
+			        networkNode.setConnectionState(state);
+
 			        AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
 			        
 					purifier.getNetworkNode().setHomeSsid(lastKnownNetwork);

@@ -349,6 +349,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			existingPurifier.getNetworkNode().setEncryptionKey(null);
 			existingPurifier.getNetworkNode().setBootId(newPurifier.getNetworkNode().getBootId());
 			existingPurifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+			// TODO DIComm Refactor - ConnectionState should be set to locally here (after changing pairing)
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
 		
@@ -609,7 +610,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
+
         final AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
 
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
@@ -618,7 +619,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
                 mDatabase.updatePurifierUsingUsn(purifier);
             }
         });
-        
+
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 
@@ -662,7 +663,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mDevicesMap = new LinkedHashMap<String, AirPurifier>();
 		// Disconnected by default to allow SSDP to discover first and only after try cpp
 		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-		
+
 		for (final AirPurifier airPurifier : storedDevices) {
 		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
 	            @Override
