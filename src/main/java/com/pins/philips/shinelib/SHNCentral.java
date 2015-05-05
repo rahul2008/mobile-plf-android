@@ -194,7 +194,7 @@ public class SHNCentral {
         userHandler.post(runnable);
     }
 
-    void reportSHNDeviceUpdated(final SHNDevice.SHNDeviceListener shnDeviceListener, final SHNDevice shnDevice) {
+    void reportSHNDeviceUpdated(final SHNDeviceImpl.SHNDeviceListener shnDeviceListener, final SHNDevice shnDevice) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

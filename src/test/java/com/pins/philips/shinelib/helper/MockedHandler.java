@@ -80,6 +80,10 @@ public class MockedHandler {
         }
     }
 
+    public int getScheduledExecutionCount() {
+        return scheduledExecutions.size();
+    }
+
     private static class ScheduledExecution implements Comparable<ScheduledExecution> {
         private final Runnable runnable;
         private final long delay;
