@@ -56,7 +56,7 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 		
 		super.onCreate(db);
 		
-		String createTableAirPurifierEvent = "CREATE TABLE "
+		String createTableAirPurifierEvent = "CREATE TABLE IF NOT EXISTS "
 				+ AppConstants.TABLE_AIRPURIFIER_EVENT + "(" + AppConstants.KEY_INDOOR_AQI + " INTEGER ,"
 				+ AppConstants.KEY_LAST_SYNC_DATETIME + " TEXT )";
 
