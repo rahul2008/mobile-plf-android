@@ -74,7 +74,7 @@ import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.util.Log;
 
-import com.pins.philips.shinelib.bletestsupport.BTGatt;
+import com.pins.philips.shinelib.bluetoothwrapper.BTGatt;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.util.Log;
 
-import com.pins.philips.shinelib.bletestsupport.BTGatt;
+import com.pins.philips.shinelib.bluetoothwrapper.BTGatt;
 
 import java.util.LinkedList;
 import java.util.List;

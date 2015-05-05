@@ -26,13 +26,12 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private boolean scanning = false;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private Runnable scanningTimer;
+    private final SHNCentral shnCentral;
 
     public interface SHNDeviceScannerListener {
         void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo);
         void scanStopped(SHNDeviceScanner shnDeviceScanner);
     }
-
-    private final SHNCentral shnCentral;
 
     public SHNDeviceScanner(SHNCentral shnCentral, List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions) {
         this.shnCentral = shnCentral;
@@ -71,7 +70,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
         }
     }
 
-    private void queueBleDeviceFoundInfoOnBleThread(final BleDeviceFoundInfo bleDeviceFoundInfo) {
+    private void postBleDeviceFoundInfoOnBleThread(final BleDeviceFoundInfo bleDeviceFoundInfo) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -112,7 +111,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     // SHNDeviceScanner.LeScanCallback
     @Override
     public void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord) {
-        queueBleDeviceFoundInfoOnBleThread(new BleDeviceFoundInfo(device, rssi, scanRecord));
+        postBleDeviceFoundInfoOnBleThread(new BleDeviceFoundInfo(device, rssi, scanRecord));
     }
 
     private List<UUID> parseUUIDs(final byte[] advertisedData) {

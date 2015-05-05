@@ -5,10 +5,9 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 
-import com.pins.philips.shinelib.bletestsupport.BleUtilities;
+import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 import com.pins.philips.shinelib.framework.BleUUIDCreator;
 import com.pins.philips.shinelib.helper.MockedHandler;
-import com.pins.philips.shinelib.helper.MockedScheduledThreadPoolExecutor;
 import com.pins.philips.shinelib.helper.Utility;
 
 import org.junit.Before;

@@ -2,7 +2,7 @@ package com.pins.philips.shinelib;
 
 import android.bluetooth.BluetoothGattCharacteristic;
 
-import com.pins.philips.shinelib.bletestsupport.BTGatt;
+import com.pins.philips.shinelib.bluetoothwrapper.BTGatt;
 import com.pins.philips.shinelib.helper.Utility;
 
 import org.junit.Before;

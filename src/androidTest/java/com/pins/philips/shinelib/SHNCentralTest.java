@@ -2,7 +2,7 @@ package com.pins.philips.shinelib;
 
 import android.test.AndroidTestCase;
 
-import com.pins.philips.shinelib.bletestsupport.BleUtilities;
+import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.pins.philips.shinelib.utilities.MockedBleUtilitiesBuilder;
 

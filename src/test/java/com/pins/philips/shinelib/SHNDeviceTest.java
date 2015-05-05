@@ -6,11 +6,10 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 
-import com.pins.philips.shinelib.bletestsupport.BTDevice;
-import com.pins.philips.shinelib.bletestsupport.BTGatt;
+import com.pins.philips.shinelib.bluetoothwrapper.BTDevice;
+import com.pins.philips.shinelib.bluetoothwrapper.BTGatt;
 import com.pins.philips.shinelib.framework.BleUUIDCreator;
 import com.pins.philips.shinelib.helper.MockedHandler;
-import com.pins.philips.shinelib.helper.MockedScheduledThreadPoolExecutor;
 import com.pins.philips.shinelib.helper.Utility;
 
 import org.junit.Before;

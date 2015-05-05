@@ -1,4 +1,4 @@
-package com.pins.philips.shinelib.bletestsupport;
+package com.pins.philips.shinelib.bluetoothwrapper;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

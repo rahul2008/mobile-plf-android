@@ -8,8 +8,8 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.util.Log;
 
-import com.pins.philips.shinelib.bletestsupport.BTDevice;
-import com.pins.philips.shinelib.bletestsupport.BTGatt;
+import com.pins.philips.shinelib.bluetoothwrapper.BTDevice;
+import com.pins.philips.shinelib.bluetoothwrapper.BTGatt;
 import com.pins.philips.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.util.HashMap;

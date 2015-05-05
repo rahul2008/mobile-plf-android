@@ -1,15 +1,9 @@
-package com.pins.philips.shinelib.bletestsupport;
+package com.pins.philips.shinelib.bluetoothwrapper;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
-import android.bluetooth.BluetoothGattCallback;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.bluetooth.BluetoothGattDescriptor;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 310188215 on 04/05/15.

@@ -2,7 +2,7 @@ package com.pins.philips.shinelib.utilities;
 
 import android.bluetooth.BluetoothAdapter;
 
-import com.pins.philips.shinelib.bletestsupport.BleUtilities;
+import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 
 import java.util.UUID;
 

@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
-import com.pins.philips.shinelib.bletestsupport.BleUtilities;
+import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 
 import java.lang.ref.WeakReference;
 

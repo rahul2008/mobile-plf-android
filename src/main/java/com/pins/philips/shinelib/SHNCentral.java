@@ -84,9 +84,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
-import com.pins.philips.shinelib.bletestsupport.BTAdapter;
-import com.pins.philips.shinelib.bletestsupport.BTDevice;
-import com.pins.philips.shinelib.bletestsupport.BleUtilities;
+import com.pins.philips.shinelib.bluetoothwrapper.BTAdapter;
+import com.pins.philips.shinelib.bluetoothwrapper.BTDevice;
+import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
 import java.util.ArrayList;
