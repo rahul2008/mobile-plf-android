@@ -96,6 +96,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	private enum InternetState {Connecting, Connected, Disconnected};
 	private InternetState internetState = InternetState.Connecting;
 	private DiscoveryManager discoveryManagerIstance;
+	private boolean communicationFailedMsgDisplayed;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -740,6 +741,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 	
 	private void checkInternetWhenAppLaunch() {
+		communicationFailedMsgDisplayed = false;
 		internetState = InternetState.Connecting;
 		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$checkInternetWhenAppLaunch() internetState= " + internetState
 				+ "SignOnState= " + CPPController.getInstance(this).getSignOnState());
@@ -765,10 +767,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (internetState != InternetState.Connecting && signonState != SignonState.SIGNING) {
 			if (signonState == SignonState.NOT_SIGON && internetState == InternetState.Connected 
 					&& !discoveryManagerIstance.getStoreDevices().isEmpty()) {
-				showAlertDialogPairingFailed("", getString(R.string.cloud_service_not_available), "communicationFailed");
+				showCommunicationFailedMessage(R.string.cloud_service_not_available, "communicationFailed");
 			} else if (internetState == InternetState.Disconnected) {
-				showAlertDialogPairingFailed("", getString(R.string.enable_internet_access), "communicationFailed");
+				showCommunicationFailedMessage(R.string.enable_internet_access, "communicationFailed");
 			}
+		}
+	}
+	
+	private void showCommunicationFailedMessage(int msgId, String tag) {
+		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$showCommunicationFailedMessage() communicationFailedMsgDisplayed = " + communicationFailedMsgDisplayed);
+		if (!communicationFailedMsgDisplayed) {
+			communicationFailedMsgDisplayed = true;
+			showAlertDialogPairingFailed("", getString(msgId), tag);
 		}
 	}
 }
