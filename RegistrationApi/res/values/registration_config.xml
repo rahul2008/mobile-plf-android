@@ -1,57 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
-    <!-- Action Bar -->
-    <color name="reg_actionbar_bg_start_color">#003478</color>
-    <color name="reg_actionbar_bg_end_color">#0066A1</color>
-    <color name="reg_actionbar_menu_bg_color">#B9BBC7</color>
-    <color name="reg_actionbar_title_text_color">#FFFFFF</color>
-    <color name="reg_password_background">#E6E6FA</color>
-
-    <!-- Standard Button -->
-    <color name="reg_btn_text_color">@color/reg_actionbar_title_text_color</color>
-    <color name="reg_text_color">#003377</color>
-    <color name="reg_btn_cancel_bg">@color/reg_actionbar_title_text_color</color>
-    <color name="reg_btn_bg_pressed">#005A8B</color>
-    <color name="reg_btn_prod_bg_pressed">#005AAB</color>
-
-    <!-- Text on the screen -->
-    <color name="reg_text_header_color">@color/reg_text_color</color>
-    <color name="reg_text_sub_header_color">#2E5F94</color>
-
-    <!-- new colors added -->
-    <color name="reg_description_text_color">#2E5F94</color>
-    <color name="reg_medium_text_color">#2E5F94</color>
-    <color name="reg_line_color">#E4EAFD</color>
-    <color name="reg_text_background">#EBF1F9</color>
+    <!-- Framework specific start -->
+    <!-- Error message -->
     <color name="reg_error_box_color">#E88200</color>
     <color name="reg_err_msg_color">#E88200</color>
-    <color name="reg_btn_disable_text_color">#dddddd</color>
-    <color name="reg_btn_enable_text_color">#ffffff</color>
-    <color name="reg_password_details_bg">#E6E6FA</color>
+    <!-- Framework specific End -->
 
-    <!-- Header -->
-    <color name="reg_header_bg_start_color">#28558D</color>
-    <color name="reg_header_bg_end_color">#287EB0</color>
-    
-    <!-- button -->
-    <color name="reg_btn_bg_enabled_color">#003478</color>
-    <color name="reg_btn_bg_disabled_color">#EFEFEF</color>
-    <color name="reg_btn_text_enable_color">@android:color/white</color>
-    <color name="reg_btn_text_disabled_color">#dddddd</color>
-       
-    <!-- please specify client id depending on the registration type -->
-    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
-    <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
-    <string name="registration_type" translatable="false">EVAL</string>
-    <!-- Edit Text -->
-    <color name="reg_et_border_disable_color">#A6A6A7</color>
-    <color name="reg_et_bg_color">@android:color/white</color>
 
+    <!-- Framework specific -->
+
+
+    <!-- User configuration start -->
+
+
+    <!-- Application Microsite ID -->
     <string name="microsite_id" translatable="false">81376</string>
 
-    <!-- Provider button -->
-    <color name="reg_provider_text_color">@android:color/white</color>
-    
+    <!-- Registartion environment : please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
+    <string name="registration_type" translatable="false">EVAL</string>
+
+    <!-- Registration client ID: please specify client id depending on the registration type -->
+    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
+
+    <!-- Background of each layout -->
+    <color name="reg_layout_bg">#FFFFFF</color>
+
+    <!-- Action bar header -->
+    <!-- Strating color of Header:background  start gradient color -->
+    <color name="reg_header_bg_start_color">#28558D</color>
+    <!-- Ending color of Header:background end gradient color -->
+    <color name="reg_header_bg_end_color">#287EB0</color>
+    <!-- Header title text color -->
+    <color name="reg_header_text_color">#FFFFFF</color>
+
+    <!-- Page heading text color -->
+    <color name="reg_text_heading_one_color">#003377</color>
+
+    <!-- Description text color -->
     <color name="reg_text_desc_color">#252525</color>
-   </resources>
+    <!-- Description text background color -->
+    <color name="reg_text_desc_bg">#EBF1F9</color>
+
+    <!-- Common Button -->
+    <!-- Common button enabled color -->
+    <color name="reg_btn_bg_enabled_color">#003478</color>
+    <!-- Common button disabled color -->
+    <color name="reg_btn_bg_disabled_color">#EFEFEF</color>
+    <!-- Common button enabled text color -->
+    <color name="reg_btn_text_enable_color">#FFFFFF</color>
+    <!-- Common button disabled text color -->
+    <color name="reg_btn_text_disabled_color">#DDDDDD</color>
+
+    <!-- Edit Text -->
+    <!-- Text box border disabled color -->
+    <color name="reg_et_border_disable_color">#A6A6A7</color>
+    <!-- Text box background color -->
+    <color name="reg_et_bg_color">#FFFFFF</color>
+    <!-- Text box border enabled color -->
+    <color name="reg_et_enabled_color">#000000</color>
+
+    <!-- Forgot password button -->
+    <!-- Forgot password buton border color -->
+    <color name="reg_btn_forgot_border">#7793B9</color>
+    <!-- Forgot password buton background color -->
+    <color name="reg_btn_forgot_bg">#FFFFFF</color>
+    <!-- Forgot password buton textcolor -->
+    <color name="reg_forgot_text_color">#003377</color>
+
+    <!-- Resend email button -->
+    <!-- Resend email button border color -->
+    <color name="reg_btn_resend_border">#EBBB7D</color>
+    <!-- Resend email button background color -->
+    <color name="reg_btn_resend_bg">#FFFFFF</color>
+
+    <!-- Line devider color -->
+    <color name="reg_devider_color">#E4EAFD</color>
+
+    <!-- Provider button text color -->
+    <color name="reg_provider_text_color">#FFFFFF</color>
+
+    <!-- User configuration end -->
+
+</resources>

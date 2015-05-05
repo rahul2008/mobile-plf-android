@@ -3,7 +3,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white" >
+    android:background="@color/reg_layout_bg" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,7 +51,6 @@
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_create_account"
                     style="@style/reg_style_btn"
-                    android:layout_marginTop="@dimen/reg_common_margin_top"
                     android:enabled="true"
                     android:text="@string/create_phi_account"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
@@ -79,6 +78,7 @@
                     android:layout_height="wrap_content"
                     reglib:providerBackground="@drawable/reg_philips_bg_rect"
                     reglib:providerLogo="@drawable/reg_philips_ic"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerName="@string/philips"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
@@ -89,6 +89,7 @@
                     reglib:providerBackground="@drawable/reg_facebook_bg_rect"
                     reglib:providerLogo="@drawable/reg_facebook_ic"
                     reglib:providerName="@string/facebook"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
@@ -98,6 +99,7 @@
                     reglib:providerBackground="@drawable/reg_twitter_bg_rect"
                     reglib:providerLogo="@drawable/reg_twitter_ic"
                     reglib:providerName="@string/twitter"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
@@ -74,19 +73,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserPhilipsAccountSignInFragment : setViewParams");
-		LinearLayout.LayoutParams params = (LayoutParams) mLlCreateAccountFields
-				.getLayoutParams();
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
-		} else {
-			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
-		}
-		mLlCreateAccountFields.setLayoutParams(params);
-		mRlSignInBtnContainer.setLayoutParams(params);
-		mRegError.setLayoutParams(params);
-
+		applyParams(config, mLlCreateAccountFields);
+		applyParams(config, mRlSignInBtnContainer);
+		applyParams(config, mRegError);
 	}
 
 	@Override
@@ -228,7 +217,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
 		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password,
 				null);
-		Button continueBtn = (Button) myView.findViewById(R.id.btn_reg_continue);
+		Button continueBtn = (Button) myView
+				.findViewById(R.id.btn_reg_continue);
 
 		continueBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -266,13 +256,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void showSignInSpinner() {
 		mPbSignInSpinner.setVisibility(View.VISIBLE);
-		mBtnSignInAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 		mBtnSignInAccount.setEnabled(false);
 	}
 
 	private void hideSignInSpinner() {
 		mPbSignInSpinner.setVisibility(View.INVISIBLE);
-		mBtnSignInAccount.setBackgroundResource(R.drawable.reg_header_bg);
 		mBtnSignInAccount.setEnabled(true);
 	}
 
@@ -297,11 +285,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 					showForgotPasswordSpinner();
 					mEtEmail.clearFocus();
 					mEtPassword.clearFocus();
-					mBtnSignInAccount
-							.setBackgroundResource(R.drawable.btn_reg_disable);
 					mBtnSignInAccount.setEnabled(false);
-					mBtnSignInAccount.setTextColor(getResources().getColor(
-							R.color.reg_btn_disable_text_color));
 					mBtnResend.setEnabled(false);
 					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
 				}
@@ -316,16 +300,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
 				&& RegistrationHelper.isJanrainIntialized()) {
-			mBtnSignInAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnSignInAccount.setEnabled(true);
-			mBtnSignInAccount.setTextColor(getResources().getColor(
-					R.color.reg_btn_enable_text_color));
 			mRegError.hideError();
 		} else {
 			mBtnSignInAccount.setEnabled(false);
-			mBtnSignInAccount.setBackgroundResource(R.drawable.btn_reg_disable);
-			mBtnSignInAccount.setTextColor(getResources().getColor(
-					R.color.reg_btn_disable_text_color));
 		}
 	}
 

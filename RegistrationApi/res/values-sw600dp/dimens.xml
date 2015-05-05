@@ -39,5 +39,11 @@
     <!-- button -->
     <dimen name="reg_btn_height">50dip</dimen>
     <dimen name="btn_reg_text_size">17sp</dimen>
+    
+    <!-- progress Bar -->
+    <dimen name="reg_pb_padding">7dip</dimen>
+    
+    <!-- error mapping -->
+    <dimen name="reg_err_mapping_padding">13dip</dimen>
 
 </resources>

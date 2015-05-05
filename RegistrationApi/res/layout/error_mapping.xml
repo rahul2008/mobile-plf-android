@@ -3,9 +3,8 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:background="@android:color/white"
-    android:paddingBottom="20dip" >
+    android:background="@color/reg_layout_bg"
+    android:orientation="horizontal" >
 
     <ImageView
         android:layout_width="@dimen/reg_err_alert_width"

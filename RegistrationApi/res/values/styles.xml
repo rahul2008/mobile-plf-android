@@ -4,7 +4,7 @@
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -15,16 +15,8 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="style_homescreen_title">
-        <item name="android:textSize">@dimen/reg_header_title_size</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/reg_btn_enable_text_color</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">@dimen/reg_home_tiltle_padding</item>
-    </style>
-
     <style name="reg_style_tab_hint">
-        <item name="android:textSize">@dimen/reg_et_hint_size</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
         <item name="android:paddingLeft">@dimen/reg_home_tiltle_padding</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -33,33 +25,17 @@
     <style name="reg_line">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/reg_line_color</item>
+        <item name="android:background">@color/reg_devider_color</item>
         <item name="android:layout_marginTop">@dimen/reg_margin_bottom</item>
         <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
     </style>
-
-    <style name="password_details">
-        <item name="android:textSize">18sp</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:gravity">center</item>
-        <item name="android:background">@color/reg_password_details_bg</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:padding">@dimen/reg_home_tiltle_padding</item>
-    </style>
-
-    <style name="btn_reg_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/reg_btn_text_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
-    </style>
-
+   
     <style name="reg_textStyle">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
-        <item name="android:textColor">@color/reg_text_header_color</item>
+        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:textColor">@color/reg_text_heading_one_color</item>
         <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
     </style>
 
@@ -78,7 +54,7 @@
     <style name="reg_text_background">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/reg_text_background</item>
+        <item name="android:background">@color/reg_text_desc_bg</item>
         <item name="android:layout_marginTop">@dimen/reg_common_margin_top</item>
     </style>
 
@@ -86,7 +62,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center|left</item>
-        <item name="android:textColor">@color/reg_text_header_color</item>
+        <item name="android:textColor">@color/reg_text_heading_one_color</item>
         <item name="android:textSize">@dimen/reg_title_text_size</item>
         <item name="android:layout_marginTop">@dimen/reg_header_margin_top</item>
         <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
@@ -99,30 +75,20 @@
     </style>
 
     <style name="reg_forgot_password">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/reg_text_color</item>
+        <item name="android:textColor">@color/reg_forgot_text_color</item>
         <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
     <style name="reg_btn_resend">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/reg_err_msg_color</item>
         <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
-
-    <style name="reg_btn_disable">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/reg_btn_disable_text_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
-    </style>
-
-    <!-- Configurable -->
 
 
     <!-- Header style -->
@@ -130,7 +96,6 @@
     <style name="reg_style_homescreen_title">
         <item name="android:textSize">@dimen/reg_header_title_size</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/reg_btn_enable_text_color</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerVertical">true</item>

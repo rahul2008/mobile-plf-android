@@ -56,7 +56,7 @@
     <dimen name="reg_margin_bottom">11dp</dimen>
 
     <!-- error mapping -->
-    <dimen name="reg_err_mapping_padding">10sp</dimen>
+    <dimen name="reg_err_mapping_padding">10dip</dimen>
     <dimen name="reg_err_mapping_margin_right">2dip</dimen>
     <dimen name="reg_err_mapping_mergin_top">4dip</dimen>
     <dimen name="reg_left_arrow_width">6dip</dimen>
@@ -68,5 +68,8 @@
     <dimen name="reg_btn_padding_left">15dip</dimen>
     <dimen name="reg_btn_padding_top">5dip</dimen>
     <dimen name="reg_common_margin_top">15dip</dimen>
+    
+    <!-- progress Bar -->
+    <dimen name="reg_pb_padding">5dip</dimen>
 
 </resources>

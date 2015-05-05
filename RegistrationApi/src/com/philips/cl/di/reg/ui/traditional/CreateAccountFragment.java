@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,6 +25,7 @@ import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.XUserName;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
+import com.philips.cl.di.reg.ui.utils.FontLoader;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -113,7 +113,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
-		// mCbTerms.setTypeface(Fonts.getGillSansStdLight(getActivity()));
+		FontLoader.getInstance().setTypeface(mCbTerms,
+				"fonts/CentraleSans-Light.otf");
 
 		mBtnCreateAccount.setOnClickListener(this);
 
@@ -136,7 +137,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void register() {
 		showSpinner();
-		// mBtnCreateAccount.requestFocus();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
 		mEtPassword.clearFocus();
@@ -147,13 +147,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	private void showSpinner() {
 		mPbSpinner.setVisibility(View.VISIBLE);
-		mBtnCreateAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 		mBtnCreateAccount.setEnabled(false);
 	}
 
 	private void hideSpinner() {
 		mPbSpinner.setVisibility(View.INVISIBLE);
-		mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
 		mBtnCreateAccount.setEnabled(true);
 	}
 
@@ -208,11 +206,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 				&& mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
 				&& RegistrationHelper.isJanrainIntialized()) {
-			mBtnCreateAccount.setBackgroundResource(R.drawable.reg_header_bg);
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();
 		} else {
-			mBtnCreateAccount.setBackgroundResource(R.drawable.btn_reg_disable);
 			mBtnCreateAccount.setEnabled(false);
 		}
 	}

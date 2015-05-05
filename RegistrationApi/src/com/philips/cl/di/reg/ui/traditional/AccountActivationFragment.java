@@ -99,9 +99,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment
      */
 	private void handleResend() {
 		showResendSpinner();
-		mBtnActivate.setClickable(false);
 		mBtnActivate.setEnabled(false);
-		mBtnResend.setClickable(false);
+		mBtnActivate.setEnabled(false);
+		mBtnResend.setEnabled(false);
 		mBtnResend.setEnabled(false);
 
 		mUser.resendVerificationMail(mEmailId, this);
@@ -109,9 +109,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	private void handleActivate() {
 		showActivateSpinner();
-		mBtnActivate.setClickable(false);
 		mBtnActivate.setEnabled(false);
-		mBtnResend.setClickable(false);
+		mBtnActivate.setEnabled(false);
+		mBtnResend.setEnabled(false);
 		mBtnResend.setEnabled(false);
 		mUser.refreshUser(mContext, this);
 	}
@@ -150,26 +150,17 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 		if (NetworkUtility.getInstance().isOnline()) {
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
-				mBtnActivate.setBackgroundResource(R.drawable.reg_header_bg);
-				mBtnActivate.setTextColor(getResources().getColor(
-						R.color.reg_btn_enable_text_color));
-				mBtnActivate.setClickable(true);
-				mBtnResend.setClickable(true);
+				mBtnActivate.setEnabled(true);
+				mBtnResend.setEnabled(true);
 			} else {
-				mBtnActivate.setBackgroundResource(R.drawable.btn_reg_disable);
-				mBtnActivate.setTextColor(getResources().getColor(
-						R.color.reg_btn_disable_text_color));
-				mBtnActivate.setClickable(false);
-				mBtnResend.setClickable(false);
+				mBtnActivate.setEnabled(false);
+				mBtnResend.setEnabled(false);
 				mRegError.setError(getString(R.string.No_Internet_Connection));
 			}
 		} else {
 			mRegError.setError(getString(R.string.No_Internet_Connection));
-			mBtnActivate.setBackgroundResource(R.drawable.btn_reg_disable);
-			mBtnActivate.setTextColor(getResources().getColor(
-					R.color.reg_btn_disable_text_color));
-			mBtnActivate.setClickable(false);
-			mBtnResend.setClickable(false);
+			mBtnActivate.setEnabled(false);
+			mBtnResend.setEnabled(false);
 		}
 	}
 
@@ -194,9 +185,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment
      */
 	private void updateActivationUIState() {
 		hideActivateSpinner();
-		mBtnActivate.setClickable(true);
 		mBtnActivate.setEnabled(true);
-		mBtnResend.setClickable(true);
+		mBtnActivate.setEnabled(true);
+		mBtnResend.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		if (mUser.getEmailVerificationStatus(mContext)) {
 			mBtnResend.setVisibility(View.GONE);
@@ -216,19 +207,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	@Override
 	public void setViewParams(Configuration config) {
-		LinearLayout.LayoutParams params = (LayoutParams) mTvVerifyEmail
-				.getLayoutParams();
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
-		} else {
-			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
-		}
-		mTvVerifyEmail.setLayoutParams(params);
-		mLlWelcomeContainer.setLayoutParams(params);
-		mTvResendDetails.setLayoutParams(params);
-		mRlSingInOptions.setLayoutParams(params);
-		mRegError.setLayoutParams(params);
-
+		applyParams(config, mTvVerifyEmail);
+		applyParams(config, mLlWelcomeContainer);
+		applyParams(config, mTvResendDetails);
+		applyParams(config, mRlSingInOptions);
+		applyParams(config, mRegError);
 	}
 
 	@Override
@@ -255,9 +238,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 	}
 
 	private void updateResendUIState() {
-		mBtnActivate.setClickable(true);
 		mBtnActivate.setEnabled(true);
-		mBtnResend.setClickable(true);
+		mBtnActivate.setEnabled(true);
+		mBtnResend.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		hideResendSpinner();
 	}

@@ -3,7 +3,7 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white" >
+    android:background="@color/reg_layout_bg" >
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/tv_reg_welcome"
                 style="@style/reg_titleTextStyle"
-                android:layout_marginTop="@dimen/reg_edit_margin_bottom"
+                android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:text="@string/welcome_to_philips"
@@ -58,16 +58,16 @@
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_continue"
-                    style="@style/btn_reg_style"
+                    style="@style/reg_style_btn"
+                    android:enabled="true"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:background="@drawable/reg_header_bg"
                     android:text="@string/continue_login"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_sign_out"
                     style="@style/reg_forgot_password"
-                    android:background="@drawable/reg_forgot_password"
+                    android:background="@drawable/reg_btn_forgot_rect"
                     android:text="@string/sign_out"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>

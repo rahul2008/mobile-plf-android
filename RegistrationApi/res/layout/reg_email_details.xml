@@ -4,7 +4,7 @@
     android:id="@+id/email_details"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@color/reg_layout_bg"
     android:layout_marginBottom="@dimen/reg_margin_bottom"
     android:orientation="vertical" >
 

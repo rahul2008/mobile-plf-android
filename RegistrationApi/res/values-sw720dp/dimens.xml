@@ -1,0 +1,8 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="reg_layout_margin">25dp</dimen>
+    <dimen name="reg_layout_margin_port">190dp</dimen>
+    <dimen name="reg_layout_margin_land">410dp</dimen>
+   
+</resources>

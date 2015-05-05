@@ -27,7 +27,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 	private LinearLayout mLlContinueBtnContainer;
 	private User mUser;
 	private Context mContext;
-	
+
 	private LinearLayout mLlEmailDetails;
 	private boolean isfromVerification;
 
@@ -63,7 +63,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 		btnSignOut.setOnClickListener(this);
 		Button btnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
 		btnContinue.setOnClickListener(this);
-		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
+		mTvSignInEmail = (TextView) view
+				.findViewById(R.id.tv_reg_sign_in_using);
 		mLlEmailDetails = (LinearLayout) view.findViewById(R.id.email_details);
 		if (isfromVerification) {
 			mLlEmailDetails.setVisibility(View.GONE);
@@ -79,11 +80,11 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-		
+
 		if (id == R.id.btn_reg_sign_out) {
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
-		}else if(id == R.id.btn_reg_continue){
+		} else if (id == R.id.btn_reg_continue) {
 			getRegistrationMainActivity().handleContinue();
 		}
 
@@ -99,18 +100,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : setViewParams");
 
-		LinearLayout.LayoutParams params = (LayoutParams) mTvWelcome
-				.getLayoutParams();
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			params.leftMargin = params.rightMargin = mLeftRightMarginPort;
-		} else {
-			params.leftMargin = params.rightMargin = mLeftRightMarginLand;
-		}
-		mTvWelcome.setLayoutParams(params);
-		mLlEmailDetailsContainer.setLayoutParams(params);
-		mLlContinueBtnContainer.setLayoutParams(params);
+		applyParams(config, mTvWelcome);
+		applyParams(config, mLlEmailDetailsContainer);
+		applyParams(config, mLlContinueBtnContainer);
 	}
 
 	@Override
