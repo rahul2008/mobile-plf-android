@@ -5,10 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
+	
+	private static final int DB_VERSION = 1;
 	
 	// NetworkNode table
 	public static final String TABLE_NETWORK_NODE = "network_node";
@@ -30,8 +31,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	 *            the context
 	 */
 	public NetworkNodeDatabaseHelper(Context context) {
-		super(context, TABLE_NETWORK_NODE, null, AppConstants.PURIFIERDB_VERSION); 
-		//TODO how to deal with DB version??
+		super(context, TABLE_NETWORK_NODE, null, DB_VERSION); 
 	}
 
 	/**
@@ -89,6 +89,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		switch(oldVersion) {
 		case 1:
+			// code to migrate from DB version 1 to 2
 			break;
 		}
 	}
