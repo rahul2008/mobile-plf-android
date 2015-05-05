@@ -12,8 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -26,8 +24,8 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private LeScanCallbackProxy leScanCallbackProxy;
     private SHNDeviceScannerListener shnDeviceScannerListener;
     private boolean scanning = false;
-    private ScheduledFuture<?> scanningTimer;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
+    private Runnable scanningTimer;
 
     public interface SHNDeviceScannerListener {
         void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo);
@@ -50,20 +48,20 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
         leScanCallbackProxy = new LeScanCallbackProxy();
         scanning = leScanCallbackProxy.startLeScan(this, null);
 
-        Runnable runnable = new Runnable() {
+        scanningTimer = new Runnable() {
             @Override
             public void run() {
                 stopScanning();
             }
         };
-        scanningTimer = shnCentral.getScheduledThreadPoolExecutor().schedule(runnable, stopScanningAfterMS, TimeUnit.MILLISECONDS);
+        shnCentral.getInternalHandler().postDelayed(scanningTimer, stopScanningAfterMS);
 
         return true;
     }
 
     public void stopScanning() {
         if (scanning) {
-            scanningTimer.cancel(false);
+            shnCentral.getInternalHandler().removeCallbacks(scanningTimer);
             scanningTimer = null;
             leScanCallbackProxy.stopLeScan(this);
             leScanCallbackProxy = null;
@@ -80,7 +78,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
                 handleDeviceFoundEvent(bleDeviceFoundInfo);
             }
         };
-        shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
+        shnCentral.getInternalHandler().post(runnable);
     }
 
     private void handleDeviceFoundEvent(BleDeviceFoundInfo bleDeviceFoundInfo) {

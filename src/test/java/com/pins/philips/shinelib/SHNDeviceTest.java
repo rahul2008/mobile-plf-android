@@ -9,6 +9,7 @@ import android.content.Context;
 import com.pins.philips.shinelib.bletestsupport.BTDevice;
 import com.pins.philips.shinelib.bletestsupport.BTGatt;
 import com.pins.philips.shinelib.framework.BleUUIDCreator;
+import com.pins.philips.shinelib.helper.MockedHandler;
 import com.pins.philips.shinelib.helper.MockedScheduledThreadPoolExecutor;
 import com.pins.philips.shinelib.helper.Utility;
 
@@ -18,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
@@ -33,7 +33,6 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
@@ -57,7 +56,7 @@ public class SHNDeviceTest {
     private BluetoothGattService mockedBluetoothGattService;
     private SHNService shnService;
     private SHNCharacteristic shnCharacteristic;
-    private MockedScheduledThreadPoolExecutor mockedScheduledThreadPoolExecutor;
+    private MockedHandler mockedHandler;
 
     @Before
     public void setUp() {
@@ -81,8 +80,8 @@ public class SHNDeviceTest {
             }
         }).when(mockedSHNCentral).runOnHandlerThread(any(Runnable.class));
         mockedContext = (Context) Utility.makeThrowingMock(Context.class);
-        mockedScheduledThreadPoolExecutor = new MockedScheduledThreadPoolExecutor();
-        doReturn(mockedScheduledThreadPoolExecutor.getMock()).when(mockedSHNCentral).getScheduledThreadPoolExecutor();
+        mockedHandler = new MockedHandler();
+        doReturn(mockedHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
         shnDevice = new SHNDevice(mockedBTDevice, mockedSHNCentral);
         Set<UUID> requiredUUIDs = new HashSet<>();

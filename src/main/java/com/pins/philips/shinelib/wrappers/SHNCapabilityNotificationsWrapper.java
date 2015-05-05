@@ -6,19 +6,17 @@ import com.pins.philips.shinelib.SHNResult;
 import com.pins.philips.shinelib.SHNResultListener;
 import com.pins.philips.shinelib.capabilities.SHNCapabilityNotifications;
 
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-
 /**
  * Created by 310188215 on 29/04/15.
  */
 public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotifications {
 
-    private final ScheduledThreadPoolExecutor shnExecutor;
+    private final Handler internalHandler;
     private final Handler userHandler;
     private final SHNCapabilityNotifications wrappedShnCapabilityNotifications;
 
-    public SHNCapabilityNotificationsWrapper(SHNCapabilityNotifications shnCapabilityNotifications, ScheduledThreadPoolExecutor shnExecutor, Handler userHandler) {
-        this.shnExecutor = shnExecutor;
+    public SHNCapabilityNotificationsWrapper(SHNCapabilityNotifications shnCapabilityNotifications, Handler internalHandler, Handler userHandler) {
+        this.internalHandler = internalHandler;
         this.userHandler = userHandler;
         wrappedShnCapabilityNotifications = shnCapabilityNotifications;
     }
@@ -43,7 +41,7 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
                 });
             }
         };
-        shnExecutor.execute(command);
+        internalHandler.post(command);
     }
 
     @Override
@@ -65,6 +63,6 @@ public class SHNCapabilityNotificationsWrapper implements SHNCapabilityNotificat
                 });
             }
         };
-        shnExecutor.execute(command);
+        internalHandler.post(command);
     }
 }

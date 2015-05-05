@@ -2,13 +2,9 @@ package com.pins.philips.shinelib.wrappers;
 
 import android.os.Handler;
 
-import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNResult;
-import com.pins.philips.shinelib.SHNResultListener;
 import com.pins.philips.shinelib.SHNStringResultListener;
 import com.pins.philips.shinelib.capabilities.SHNCapabilityDeviceInformation;
-
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Created by 310188215 on 29/04/15.
@@ -16,12 +12,12 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDeviceInformation {
     private final SHNCapabilityDeviceInformation wrappedShnCapability;
     private final Handler userHandler;
-    private final ScheduledThreadPoolExecutor shnExecutor;
+    private final Handler internalHandler;
 
-    public SHNCapabilityDeviceInformationWrapper(SHNCapabilityDeviceInformation shnCapability, ScheduledThreadPoolExecutor shnExecutor, Handler userHandler) {
+    public SHNCapabilityDeviceInformationWrapper(SHNCapabilityDeviceInformation shnCapability, Handler internalHandler, Handler userHandler) {
         wrappedShnCapability = shnCapability;
         this.userHandler = userHandler;
-        this.shnExecutor = shnExecutor;
+        this.internalHandler = internalHandler;
     }
 
     // implements SHNCapabilityDeviceInformation
@@ -44,6 +40,6 @@ public class SHNCapabilityDeviceInformationWrapper implements SHNCapabilityDevic
                 });
             }
         };
-        shnExecutor.execute(command);
+        internalHandler.post(command);
     }
 }

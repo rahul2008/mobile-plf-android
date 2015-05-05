@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.pins.philips.shinelib.bletestsupport.BleUtilities;
 import com.pins.philips.shinelib.framework.BleUUIDCreator;
+import com.pins.philips.shinelib.helper.MockedHandler;
 import com.pins.philips.shinelib.helper.MockedScheduledThreadPoolExecutor;
 import com.pins.philips.shinelib.helper.Utility;
 
@@ -41,7 +42,7 @@ public class SHNDeviceScannerTest {
     private Context mockedContext;
     private BluetoothManager mockedBluetoothManager;
     private BluetoothAdapter mockedBluetoothAdapter;
-    private MockedScheduledThreadPoolExecutor mockedScheduledThreadPoolExecutor;
+    private MockedHandler mockedHandler;
     private List<SHNDeviceDefinitionInfo> testDeviceDefinitionInfos;
 
     @Before
@@ -50,9 +51,9 @@ public class SHNDeviceScannerTest {
         mockedBluetoothManager = (BluetoothManager) Utility.makeThrowingMock(BluetoothManager.class);
         mockedBluetoothAdapter = (BluetoothAdapter) Utility.makeThrowingMock(BluetoothAdapter.class);
         mockedSHNCentral = (SHNCentral) Utility.makeThrowingMock(SHNCentral.class);
-        mockedScheduledThreadPoolExecutor = new MockedScheduledThreadPoolExecutor();
+        mockedHandler = new MockedHandler();
 
-        doReturn(mockedScheduledThreadPoolExecutor.getMock()).when(mockedSHNCentral).getScheduledThreadPoolExecutor();
+        doReturn(mockedHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocation) throws Throwable {
@@ -137,7 +138,7 @@ public class SHNDeviceScannerTest {
         assertTrue(shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS));
         verify(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
 
-        mockedScheduledThreadPoolExecutor.executeFirstScheduledExecution(); // Assumes that no other timers are running...
+        mockedHandler.executeFirstScheduledExecution(); // Assumes that no other timers are running...
         verify(mockedSHNDeviceScannerListener).scanStopped(shnDeviceScanner);
     }
 

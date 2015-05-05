@@ -81,6 +81,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 
 import com.pins.philips.shinelib.bletestsupport.BTAdapter;
@@ -91,7 +92,6 @@ import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableExcep
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -134,7 +134,6 @@ public class SHNCentral {
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
-    private ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
     private BTAdapter btAdapter;
     private final Handler internalHandler;
 
@@ -165,9 +164,15 @@ public class SHNCentral {
         registeredDeviceDefinitions = new ArrayList<>();
         shnDeviceScanner = new SHNDeviceScanner(this, getRegisteredDeviceDefinitions());
 
-        scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1); // An executor with one thread.
-        internalHandler = new Handler(); // TODO: fix, use looper, thread, etc.
+        HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
+        thread.start();
+        internalHandler = new Handler(thread.getLooper());
+
         btAdapter = new BTAdapter(applicationContext, internalHandler);
+    }
+
+    public Handler getInternalHandler() {
+        return internalHandler;
     }
 
     public Handler getUserHandler() {
@@ -175,14 +180,10 @@ public class SHNCentral {
     }
 
     public void shutdown() {
-        scheduledThreadPoolExecutor.shutdown();
+        internalHandler.getLooper().quitSafely();
         applicationContext.unregisterReceiver(bluetoothBroadcastReceiver);
         shnDeviceScanner.shutdown();
         shnDeviceScanner = null;
-    }
-
-    public ScheduledThreadPoolExecutor getScheduledThreadPoolExecutor() {
-        return scheduledThreadPoolExecutor;
     }
 
     public Context getApplicationContext() {

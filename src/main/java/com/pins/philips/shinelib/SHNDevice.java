@@ -10,7 +10,6 @@ import android.util.Log;
 
 import com.pins.philips.shinelib.bletestsupport.BTDevice;
 import com.pins.philips.shinelib.bletestsupport.BTGatt;
-import com.pins.philips.shinelib.utility.Utilities;
 import com.pins.philips.shinelib.wrappers.SHNCapabilityWrapperFactory;
 
 import java.util.HashMap;
@@ -18,8 +17,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -33,7 +30,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
     private final SHNCentral shnCentral;
     private BTGatt bluetoothGatt;
     private SHNGattCommandResultReporter currentResultListener;
-    private ScheduledFuture<?> connectTimer;
+    private Runnable connectTimer;
 
     public SHNDeviceState getState() {
         return shnDeviceState;
@@ -78,13 +75,13 @@ public class SHNDevice implements SHNService.SHNServiceListener {
                 handleConnect();
             }
         };
-        shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
+        shnCentral.getInternalHandler().post(runnable);
         cancelConnectTimer();
     }
 
     private void cancelConnectTimer() {
         if (connectTimer != null) {
-            connectTimer.cancel(false);
+            shnCentral.getInternalHandler().removeCallbacks(connectTimer);
             connectTimer = null;
         }
     }
@@ -96,13 +93,13 @@ public class SHNDevice implements SHNService.SHNServiceListener {
             bluetoothGatt = bluetoothDevice.connectGatt(applicationContext, false, btGattCallback);
 
             // Start a timer (refactor?)
-            Runnable runnable = new Runnable() {
+            connectTimer = new Runnable() {
                 @Override
                 public void run() {
                     handleConnectTimeout();
                 }
             };
-            connectTimer = shnCentral.getScheduledThreadPoolExecutor().schedule(runnable, CONNECT_TIMEOUT, TimeUnit.MILLISECONDS);
+            shnCentral.getInternalHandler().postDelayed(connectTimer, CONNECT_TIMEOUT);
         }
     }
 
@@ -119,7 +116,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
                 handleDisconnect();
             }
         };
-        shnCentral.getScheduledThreadPoolExecutor().execute(runnable);
+        shnCentral.getInternalHandler().post(runnable);
     }
     private void handleDisconnect() {
         if (LOGGING) Log.e(TAG, "handleDisconnect");
@@ -164,7 +161,7 @@ public class SHNDevice implements SHNService.SHNServiceListener {
         }
 
         SHNCapability shnCapabilityWrapper = null;
-        shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, shnCapabilityType, shnCentral.getScheduledThreadPoolExecutor(), shnCentral.getUserHandler());
+        shnCapabilityWrapper = SHNCapabilityWrapperFactory.createCapabilityWrapper(shnCapability, shnCapabilityType, shnCentral.getInternalHandler(), shnCentral.getUserHandler());
 
         registeredCapabilityTypes.add(shnCapabilityType);
         registeredCapabilities.put(shnCapabilityType, shnCapabilityWrapper);
