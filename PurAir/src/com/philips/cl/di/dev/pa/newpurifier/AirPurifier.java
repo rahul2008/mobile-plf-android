@@ -121,17 +121,11 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 		if(mAirPort.isResponseForThisPort(data)){
 			mAirPort.handleSubscription(data);
-			if(mPurifierListener!=null){
-			    mPurifierListener.notifyAirPurifierEventListeners();
-			}
 			return;
 		}
 
 		if(mFirmwarePort.isResponseForThisPort(data)){
 			mFirmwarePort.handleSubscription(data);
-			if(mPurifierListener!=null){
-			    mPurifierListener.notifyFirmwareEventListeners();
-			}
 			return;
 		}
 
