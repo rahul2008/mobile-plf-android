@@ -49,7 +49,7 @@ public class ConfigurationSecurities {
         WPA_WPA2
     }
     
-    private static final String TAG = "ConfigurationSecuritiesV14";
+    private static final String TAG = "ConfigurationSecurity";
     
     private static int getSecurity(WifiConfiguration config) {
     	if (config == null)  return SECURITY_NONE;
