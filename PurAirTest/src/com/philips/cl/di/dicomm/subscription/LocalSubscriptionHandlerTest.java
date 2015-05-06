@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.test;
+package com.philips.cl.di.dicomm.subscription;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -8,10 +8,10 @@ import static org.mockito.Mockito.when;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
+import com.philips.cl.di.dicomm.communication.LocalSubscriptionHandler;
+import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
 
-public class SubscriptionHandlerTest extends InstrumentationTestCase {
+public class LocalSubscriptionHandlerTest extends InstrumentationTestCase {
 	
 	private static final String PURIFIER_IP = "198.168.1.145";
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
@@ -23,8 +23,8 @@ public class SubscriptionHandlerTest extends InstrumentationTestCase {
 	private static final String VALID_DECRYPTED_LOCALFWEVENT = "{\"name\":\"AC4373DEV\",\"version\":\"24\",\"upgrade\":\"25\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 	
 	
-	private SubscriptionHandler mSubscriptionHandler;
-	private ResponseHandler mResponseHandler;
+	private LocalSubscriptionHandler mLocalSubscriptionHandler;
+	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
 	
 	@Override
@@ -32,123 +32,78 @@ public class SubscriptionHandlerTest extends InstrumentationTestCase {
 		// Necessary to get Mockito framework working
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
-		mResponseHandler = mock(ResponseHandler.class);
+		mSubscriptionEventListener = mock(SubscriptionEventListener.class);
 		mNetworkNode = mock(NetworkNode.class);
 		when(mNetworkNode.getIpAddress()).thenReturn(PURIFIER_IP);		
 		when(mNetworkNode.getCppId()).thenReturn(PURIFIER_EUI64);
 		when(mNetworkNode.getEncryptionKey()).thenReturn(PURIFIER_KEY);
 		
-		mSubscriptionHandler = new SubscriptionHandler(mNetworkNode, mResponseHandler);
+		mLocalSubscriptionHandler = new LocalSubscriptionHandler();
+		
+		mLocalSubscriptionHandler.registerSubscriptionListener(mSubscriptionEventListener);
+		mLocalSubscriptionHandler.enableSubscription(mNetworkNode);
+		
 		super.setUp();
 	}
 
 	public void testUDPEventReceivedDataNull() {
-		mSubscriptionHandler.onUDPEventReceived(null, PURIFIER_IP);
-		verify(mResponseHandler, never()).onSuccess(anyString());
+		mLocalSubscriptionHandler.onUDPEventReceived(null, PURIFIER_IP);
+		verify(mSubscriptionEventListener, never()).onSubscriptionEventReceived(anyString());
 	}
 	
 	public void testUDPEventReceivedDataEmptyString() {
-		mSubscriptionHandler.onUDPEventReceived("", PURIFIER_IP);
-		verify(mResponseHandler, never()).onSuccess(anyString());
+		mLocalSubscriptionHandler.onUDPEventReceived("", PURIFIER_IP);
+		verify(mSubscriptionEventListener, never()).onSubscriptionEventReceived(anyString());
 	}
 	
 	public void testUDPEventReceivedDataNonDecryptableString() {
 		String expected = "dfjalsjdfl";
-		mSubscriptionHandler.onUDPEventReceived(expected, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(expected, PURIFIER_IP);
 
-		verify(mResponseHandler,never()).onSuccess(expected);
+		verify(mSubscriptionEventListener,never()).onSubscriptionEventReceived(expected);
 	}
 	
 	public void testUDPEventReceivedIpNull() {
 		String expected = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-		mSubscriptionHandler.onUDPEventReceived(expected, null);
+		mLocalSubscriptionHandler.onUDPEventReceived(expected, null);
 
-		verify(mResponseHandler, never()).onSuccess(anyString());
+		verify(mSubscriptionEventListener, never()).onSubscriptionEventReceived(anyString());
 	}
 	
 	public void testUDPEventReceivedIpEmptyString() {
 		String expected = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-		mSubscriptionHandler.onUDPEventReceived(expected, "");
+		mLocalSubscriptionHandler.onUDPEventReceived(expected, "");
 
-		verify(mResponseHandler, never()).onSuccess(anyString());
+		verify(mSubscriptionEventListener, never()).onSubscriptionEventReceived(anyString());
 	}
 	
 	public void testUDPEventReceivedWrongIp() {
 		String expected = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-		mSubscriptionHandler.onUDPEventReceived(expected, "0.0.0.0");
+		mLocalSubscriptionHandler.onUDPEventReceived(expected, "0.0.0.0");
 
-		verify(mResponseHandler, never()).onSuccess(anyString());
+		verify(mSubscriptionEventListener, never()).onSubscriptionEventReceived(anyString());
 	}
 
 	
 	public void testUDPEncryptedAPEvent() {
 		String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;		
-		mSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
 		
-		verify(mResponseHandler).onSuccess(VALID_DECRYPTED_LOCALAIRPORTEVENT);
+		verify(mSubscriptionEventListener).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALAIRPORTEVENT);
 	}
 	
 	public void testUDPEncryptedFWEvent() {
 		String data = VALID_ENCRYPTED_LOCALFWEVENT;		
-		mSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
 		
-		verify(mResponseHandler).onSuccess(VALID_DECRYPTED_LOCALFWEVENT);
+		verify(mSubscriptionEventListener).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALFWEVENT);
 	}
 	
 	public void testUDPEncryptedAPEventWrongKey() {
 		when(mNetworkNode.getEncryptionKey()).thenReturn("726783627");
 		String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;		
-		mSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
 		
-		verify(mResponseHandler,never()).onSuccess(VALID_DECRYPTED_LOCALAIRPORTEVENT);
+		verify(mSubscriptionEventListener,never()).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALAIRPORTEVENT);
 	}
-	
-	public void testDCSEventReceivedDataNull() {
-		mSubscriptionHandler.onDCSEventReceived(null, PURIFIER_EUI64, null);
-
-		verify(mResponseHandler, never()).onSuccess(anyString());
-	}
-	
-	public void testDCSEventReceivedDataEmptyString() {
-		mSubscriptionHandler.onDCSEventReceived("", PURIFIER_EUI64, null);
-
-		verify(mResponseHandler, never()).onSuccess(anyString());
-	}
-	
-	public void testDCSEventReceivedDataRandomString() {
-		String expected = "dfjalsjdfl";
-		mSubscriptionHandler.onDCSEventReceived(expected, PURIFIER_EUI64, null);
-
-		verify(mResponseHandler).onSuccess(expected);
-	}
-	
-	public void testDCSEventReceivedEui64Null() {
-		String data = "dfjalsjdfl";
-		mSubscriptionHandler.onDCSEventReceived(data, null, null);
-
-		verify(mResponseHandler, never()).onSuccess(anyString());
-	}
-	
-	public void testDCSEventReceivedEui64EmptyString() {
-		String data = "dfjalsjdfl";
-		mSubscriptionHandler.onDCSEventReceived(data, "", null);
-
-		verify(mResponseHandler, never()).onSuccess(anyString());
-	}
-	
-	public void testDCSEventReceivedRightEui64() {
-		String data = "dfjalsjdfl";
-		mSubscriptionHandler.onDCSEventReceived(data, PURIFIER_EUI64, null);
-
-		verify(mResponseHandler).onSuccess(data);
-	}
-	
-	public void testDCSEventReceivedWrongEui64() {
-		String data = "dfjalsjdfl";
-		mSubscriptionHandler.onDCSEventReceived(data, "0.0.0.0", null);
-
-		verify(mResponseHandler,never()).onSuccess(data);
-	}
-	
-	
 }

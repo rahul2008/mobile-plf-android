@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import org.mockito.Mockito;
 
@@ -14,7 +13,6 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
@@ -45,14 +43,6 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         // Remove mock objects after tests
         AirPurifierManager.setDummyPurifierManagerForTesting(null);
         super.tearDown();
-    }
-
-    private AirPurifier createMockDisconnectedPurifier() {
-        AirPurifier device1 = mock(AirPurifier.class);
-        NetworkNode networkNode = mock(NetworkNode.class);
-        when(device1.getNetworkNode()).thenReturn(networkNode);
-        when(networkNode.getConnectionState()).thenReturn(ConnectionState.DISCONNECTED);
-        return device1;
     }
 
     // ***** START TESTS TO TOGGLE SUBSCRIPTION WHEN PURIFIER CHANGES *****
@@ -94,6 +84,8 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         device1 = Mockito.spy(device1);
         mPurifierMan.setCurrentPurifier(device1);
 
+        reset(device1);
+        
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device2 = Mockito.spy(device2);
         mPurifierMan.setCurrentPurifier(device2);
@@ -107,6 +99,8 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         device1 = Mockito.spy(device1);
         mPurifierMan.setCurrentPurifier(device1);
 
+        reset(device1);
+        
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device2 = Mockito.spy(device2);
         mPurifierMan.setCurrentPurifier(device2);
@@ -120,6 +114,8 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         device1 = Mockito.spy(device1);
         mPurifierMan.setCurrentPurifier(device1);
 
+        reset(device1);
+        
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
         mPurifierMan.setCurrentPurifier(device2);
@@ -133,6 +129,8 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         device1 = Mockito.spy(device1);
         mPurifierMan.setCurrentPurifier(device1);
 
+        reset(device1); 
+        
         ConnectionState device2ConnectedState = ConnectionState.CONNECTED_REMOTELY;
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, device2ConnectedState);
         device2 = Mockito.spy(device2);
@@ -398,9 +396,9 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         device1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 
         verify(device1).disableSubscription();
-        verify(device1, never()).enableSubscription();
+        verify(device1).enableSubscription();
 
-        verify(device1, never()).subscribe();
+        verify(device1).subscribe();
         verify(device1).stopResubscribe();
 
         verify(listener).onAirPurifierChanged();
@@ -440,10 +438,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
         verify(device1).disableSubscription();
+        verify(device1).stopResubscribe();
+        
         verify(device1).enableSubscription();
-
         verify(device1).subscribe();
-        verify(device1,never()).stopResubscribe();
 
         verify(listener).onAirPurifierChanged();
     }
@@ -462,16 +460,16 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
         verify(device1).disableSubscription();
+        verify(device1).stopResubscribe();
+        
         verify(device1).enableSubscription();
-
         verify(device1).subscribe();
-        verify(device1, never()).stopResubscribe();
 
         verify(listener).onAirPurifierChanged();
     }
 
     public void testPurifierLocalAfterRemote() {
-        AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
+        AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         mPurifierMan.setCurrentPurifier(device1);
 
@@ -483,10 +481,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch from disconnected state.
         verify(device1).disableSubscription();
+        verify(device1).stopResubscribe();
+        
         verify(device1).enableSubscription();
-
         verify(device1).subscribe();
-        verify(device1, never()).stopResubscribe();
 
         verify(listener).onAirPurifierChanged();
     }
@@ -505,10 +503,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
 
         // dicomm refactor: there is change in the behaviour, on app level it would call disable but internally it does nothing when we switch to disconnected state.
         verify(device1).disableSubscription();
-        verify(device1, never()).enableSubscription();
-        
-        verify(device1, never()).subscribe();
         verify(device1).stopResubscribe();
+        
+        verify(device1).enableSubscription();
+        verify(device1).subscribe();
 
         verify(listener).onAirPurifierChanged();
     }
@@ -673,46 +671,18 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     // -----------
 
     private void verifyAddedPurifier(AirPurifier device) {
-        ConnectionState connectionState = device.getNetworkNode().getConnectionState();
-        //PAIRED_STATUS pairedStatus = device.getNetworkNode().getPairedState();
-        if (connectionState == ConnectionState.CONNECTED_REMOTELY) {
-            verify(device).enableSubscription();
-            verify(device).subscribe();
-        } else if (connectionState == ConnectionState.CONNECTED_LOCALLY) {
-            //verify(device, never()).enableSubscription();
-            verify(device).enableSubscription();
-            verify(device).subscribe();
-        } else {
-            //verify(device, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
-            verify(device, never()).enableSubscription();
-            verify(device, never()).subscribe();
-        }
+        verify(device).enableSubscription();
+        verify(device).subscribe();
+        
         verify(device, never()).disableSubscription();
-        //verify(device, never()).disableSubscription(PurAirApplication.getAppContext());
         verify(device, never()).stopResubscribe();
     }
 
     private void verifyRemovedPurifier(AirPurifier device) {
-        ConnectionState connectionState = device.getNetworkNode().getConnectionState();
-       // PAIRED_STATUS pairedStatus = device.getNetworkNode().getPairedState();
-        if (connectionState == ConnectionState.CONNECTED_REMOTELY ) {
-            //verify(device, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
-            // TODO DIComm Refactor - This should actually be called
-            //verify(device, never()).disableLocalSubscription();
-        	
-        	verify(device, never()).disableSubscription();
-            verify(device).stopResubscribe();
-        } else if (connectionState == ConnectionState.CONNECTED_LOCALLY) {
-           // verify(device, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
-            verify(device).disableSubscription();
-            verify(device).stopResubscribe();
-        } else {
-            //verify(device, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
-            verify(device).disableSubscription();
-            verify(device, never()).stopResubscribe();
-        }
+        verify(device).disableSubscription();
+        verify(device).stopResubscribe();
+        
         verify(device, never()).enableSubscription();
-        //verify(device, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
         verify(device, never()).subscribe();
     }
 

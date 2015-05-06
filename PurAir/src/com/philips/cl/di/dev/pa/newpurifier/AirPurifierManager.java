@@ -136,28 +136,6 @@ public class AirPurifierManager implements Observer {
 		
 		if (purifier == null) return;
 		
-		mCurrentSubscriptionState = purifier.getNetworkNode().getConnectionState();
-//		
-//		ALog.i(ALog.PURIFIER_MANAGER, "Start Subscription: " + mCurrentSubscriptionState);
-//		switch (mCurrentSubscriptionState) {
-//			case CONNECTED_LOCALLY:  //Start the subscription every time it discovers the Purifier
-//				                    ALog.i(ALog.PURIFIER_MANAGER, "Start local subscription for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
-//									purifier.subscribe();
-//									purifier.enableSubscription();
-//									break;
-//			case CONNECTED_REMOTELY: if (PurAirApplication.isDemoModeEnable()) return;
-//		    
-//								    if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
-//										ALog.i(ALog.PURIFIER_MANAGER, "Can't start remote connection - not paired to purifier");
-//										return;
-//									} 
-//								    ALog.i(ALog.PURIFIER_MANAGER, "Start Remote subscription for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
-//								    //Start the subscription every time it discovers the Purifier
-//									purifier.subscribe();
-//									purifier.enableSubscription();
-//								    break;
-//			case DISCONNECTED: /* NOP */ break;
-//		}
 		// TODO:DICOMM REFACTOR, Need to remove after builder is introduced.
 		if(mCurrentSubscriptionState == ConnectionState.CONNECTED_REMOTELY && PurAirApplication.isDemoModeEnable()){
 			return;
@@ -173,26 +151,8 @@ public class AirPurifierManager implements Observer {
 		if(currentPurifier == null){
 			return;
 		}
-//		switch (mCurrentSubscriptionState) {
-//			case CONNECTED_REMOTELY: if (currentPurifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
-//						                ALog.i(ALog.PURIFIER_MANAGER, "Can't stop remote connection - not paired to purifier");
-//						                return;
-//						             }  
-//									currentPurifier.disableSubscription();
-//									currentPurifier.stopResubscribe();
-//									break;
-//			case CONNECTED_LOCALLY: currentPurifier.disableSubscription();
-//			                        currentPurifier.stopResubscribe();
-//			                        break;
-//			case DISCONNECTED: /* NOP */ break;
-//			
-//		}
-		
 		currentPurifier.disableSubscription();
-		if(!(mCurrentSubscriptionState == ConnectionState.DISCONNECTED)){
 		currentPurifier.stopResubscribe();
-		}
-		
 	}
 
 	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
@@ -202,22 +162,24 @@ public class AirPurifierManager implements Observer {
 	@Override
 	public void update(Observable observable, Object data) {
 		if(mCurrentPurifier == null) return;
-		switch (mCurrentPurifier.getNetworkNode().getConnectionState()) {
-		case DISCONNECTED:
-			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier went offline");
-			stopCurrentSubscription();
-			break;
-		case CONNECTED_LOCALLY:
-			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected locally");
-			stopCurrentSubscription();
-			startSubscription();
-			break;
-		case CONNECTED_REMOTELY:
-			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected remotely");
-			stopCurrentSubscription();
-			startSubscription();
-			break;
-		}
+//		switch (mCurrentPurifier.getNetworkNode().getConnectionState()) {
+//		case DISCONNECTED:
+//			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier went offline");
+//			stopCurrentSubscription();
+//			break;
+//		case CONNECTED_LOCALLY:
+//			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected locally");
+//			stopCurrentSubscription();
+//			startSubscription();
+//			break;
+//		case CONNECTED_REMOTELY:
+//			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected remotely");
+//			stopCurrentSubscription();
+//			startSubscription();
+//			break;
+//		}
+		stopCurrentSubscription();
+        startSubscription();
 		notifyPurifierChangedListeners();
 	}
 	
