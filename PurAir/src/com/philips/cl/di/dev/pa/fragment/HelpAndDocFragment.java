@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
+import com.philips.cl.di.dev.pa.activity.DiagnosticShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
@@ -196,7 +197,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	/**
 	 * Fetches all required diagnostic data
 	 */
-	public void diagnosticData(){
+	private void diagnosticData(){
 
 		String jainRainUser="App not registered";
 		String userEmail="";
@@ -244,7 +245,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		sendMail(data.toString(), getString(R.string.contact_philips_support_email), userEmail);
 	}
 
-	public void sendMail(String message, String sendTo, String userEmail) {
+	private void sendMail(String message, String sendTo, String userEmail) {
 		Intent email = new Intent(Intent.ACTION_SEND);
 		email.putExtra(Intent.EXTRA_EMAIL, new String[] { sendTo });
 		email.putExtra(Intent.EXTRA_SUBJECT, "AC4373/75 diagnostics for "+userEmail);
