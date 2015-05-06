@@ -96,7 +96,7 @@
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_register"
                     style="@style/reg_style_btn"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:text="@string/Welcome_Create_MyPhilips_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

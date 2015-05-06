@@ -1,8 +1,6 @@
 
 package com.philips.cl.di.reg;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +25,7 @@ import com.philips.cl.di.reg.controller.UpdateReceiveMarketingEmail;
 import com.philips.cl.di.reg.controller.UpdateUserRecord;
 import com.philips.cl.di.reg.dao.ConsumerArray;
 import com.philips.cl.di.reg.dao.ConsumerInterest;
+import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
@@ -164,8 +163,9 @@ public class User {
 			        traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
 			Jump.registerNewUser(newUser, null, traditionalRegisterResultHandler);
 		} else {
-			traditionalRegisterHandler.onRegisterFailedWithFailure(Error.INVALID_PARAM
-			        .geterrorList());
+			CreateAccountFailuerInfo createAccountFailuerInfo = new CreateAccountFailuerInfo();
+			createAccountFailuerInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			traditionalRegisterHandler.onRegisterFailedWithFailure(createAccountFailuerInfo);
 		}
 	}
 
