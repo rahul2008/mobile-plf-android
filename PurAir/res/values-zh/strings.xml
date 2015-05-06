@@ -739,8 +739,8 @@
     <string name="gallery">相册</string>
     <string name="camera">拍照</string>
     
-    <string name="cloud_service_not_available">We are sorry, the Philips cloud service is currently not available, please try again later.</string>
-    <string name="enable_internet_access">Can’t connect to Internet, please enable Internet access.</string>
+    <string name="cloud_service_not_available">对不起，飞利浦云服务暂时不可用，请稍后再试。</string>
+    <string name="enable_internet_access">无法连接至网络，请打开网络连接。</string>
     
 
 </resources>
