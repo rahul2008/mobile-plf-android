@@ -9,14 +9,16 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.database.ApplianceDatabase;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
-public class PurifierDatabase {
+public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 
 	private SQLiteDatabase db;
 	private PurifierDatabaseHelper dbHelper;
@@ -364,6 +366,14 @@ public class PurifierDatabase {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		}
 
+	}
+
+	@Override
+	public void save(AirPurifier object) {
+	}
+
+	@Override
+	public void loadDataForAppliance(AirPurifier object) {		
 	}
 
 }

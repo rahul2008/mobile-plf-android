@@ -23,6 +23,7 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.database.NetworkNodeDatabase;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -51,6 +52,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private LinkedHashMap<String, AirPurifier> mDevicesMap;
 	private static final Object mDiscoveryLock = new Object();
 
+	private NetworkNodeDatabase mNetworkNodeDatabase;
 	private PurifierDatabase mDatabase;
 	private NetworkMonitor mNetwork;
 	private SsdpServiceHelper mSsdpHelper;
@@ -89,6 +91,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private DiscoveryManager() {
 		// Enforce Singleton
 		mDatabase = new PurifierDatabase();
+		mNetworkNodeDatabase = new NetworkNodeDatabase();
 		initializeDevicesMapFromDataBase();
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
 		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), this);
@@ -136,12 +139,14 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	public List<AirPurifier> updateStoreDevices() {
-		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
+		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED); //TODO ombouwen mDatabase.getAll() ?
 		for (final AirPurifier airPurifier : storedDevices) {
 		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
                 @Override
                 public void onKeyUpdate() {
-                    mDatabase.updatePurifierUsingUsn(airPurifier);
+//                    mDatabase.updatePurifierUsingUsn(airPurifier); //TODO ombouwen
+                	mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
+                	mDatabase.save(airPurifier);
                 }
             });
         }
@@ -321,7 +326,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		if (newPurifier.getNetworkNode().getHomeSsid() != null &&
 				!newPurifier.getNetworkNode().getHomeSsid().equals(existingPurifier.getNetworkNode().getHomeSsid())) {
 			existingPurifier.getNetworkNode().setHomeSsid(newPurifier.getNetworkNode().getHomeSsid());
-			mDatabase.updatePurifierUsingUsn(existingPurifier);
+			mNetworkNodeDatabase.save(existingPurifier.getNetworkNode());
+			mDatabase.save(existingPurifier);
+//			mDatabase.updatePurifierUsingUsn(existingPurifier); //TODO ombouwen
 		}
 
 		if (!newPurifier.getNetworkNode().getIpAddress().equals(existingPurifier.getNetworkNode().getIpAddress())) {
@@ -330,7 +337,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		if (!existingPurifier.getNetworkNode().getName().equals(newPurifier.getNetworkNode().getName())) {
 			existingPurifier.getNetworkNode().setName(newPurifier.getNetworkNode().getName());
-			mDatabase.updatePurifierUsingUsn(existingPurifier);
+//			mDatabase.updatePurifierUsingUsn(existingPurifier); //TODO ombouwen
+			mNetworkNodeDatabase.save(existingPurifier.getNetworkNode());
+			mDatabase.save(existingPurifier);
 			notifyListeners = true;
 		}
 
@@ -340,7 +349,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			if (location != null) {
 				existingPurifier.setLatitude(String.valueOf(location.getLatitude()));
 				existingPurifier.setLongitude(String.valueOf(location.getLongitude()));
-				mDatabase.updatePurifierUsingUsn(existingPurifier);
+//				mDatabase.updatePurifierUsingUsn(existingPurifier); // TODO ombouwen
+				mNetworkNodeDatabase.save(existingPurifier.getNetworkNode());
+				mDatabase.save(existingPurifier);
 				notifyListeners = true;
 			}
 		}
@@ -615,7 +626,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
             @Override
             public void onKeyUpdate() {
-                mDatabase.updatePurifierUsingUsn(purifier);
+//                mDatabase.updatePurifierUsingUsn(purifier); //TODO ombouwen
+            	mNetworkNodeDatabase.save(purifier.getNetworkNode());
+            	mDatabase.save(purifier);
             }
         });
         
@@ -660,18 +673,18 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private void initializeDevicesMapFromDataBase() {
 		ALog.i(ALog.DISCOVERY, "initializeDevicesMap") ;
 		mDevicesMap = new LinkedHashMap<String, AirPurifier>();
-		// Disconnected by default to allow SSDP to discover first and only after try cpp
-		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 		
-		for (final AirPurifier airPurifier : storedDevices) {
-		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
-	            @Override
-	            public void onKeyUpdate() {
-	                mDatabase.updatePurifierUsingUsn(airPurifier);
-	            }
-	        });
-            mDevicesMap.put(airPurifier.getNetworkNode().getCppId(), airPurifier);
-        }
+		DISecurity diSecurity = new DISecurity();
+		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+
+		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
+		
+		for (NetworkNode networkNode : networkNodes) {
+			//TODO implement usn
+			AirPurifier airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
+			mDatabase.loadDataForAppliance(airPurifier);
+			mDevicesMap.put(networkNode.getCppId(), airPurifier);
+		}
 	}
 
 	private void notifyDiscoveryListener() {
