@@ -135,7 +135,7 @@ public class SHNCentral {
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
     private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private BTAdapter btAdapter;
-    private final Handler internalHandler;
+    private Handler internalHandler;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -166,7 +166,11 @@ public class SHNCentral {
 
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.start();
-        internalHandler = new Handler(thread.getLooper());
+        try {
+            internalHandler = new Handler(thread.getLooper());
+        } catch (RuntimeException e) {
+            // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
+        }
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
     }
@@ -191,16 +195,6 @@ public class SHNCentral {
     }
 
     public void runOnHandlerThread(Runnable runnable) {
-        userHandler.post(runnable);
-    }
-
-    void reportSHNDeviceUpdated(final SHNDeviceImpl.SHNDeviceListener shnDeviceListener, final SHNDevice shnDevice) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                shnDeviceListener.onStateUpdated(shnDevice);
-            }
-        };
         userHandler.post(runnable);
     }
 
@@ -236,11 +230,6 @@ public class SHNCentral {
 
     public SHNCentralState getShnCentralState() {
         return shnCentralState;
-    }
-
-    public void reportExceptionOnAppMainThread(Exception e) {
-        Thread t = getApplicationContext().getMainLooper().getThread();
-        t.getUncaughtExceptionHandler().uncaughtException(t, e);
     }
 
     public BTDevice getBTDevice(String address) {
