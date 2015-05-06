@@ -1,6 +1,8 @@
 package com.pins.philips.shinelib;
 
 import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.content.Context;
 
@@ -25,6 +27,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
@@ -50,6 +53,8 @@ public class SHNDeviceTest {
     private SHNService.State mockedServiceState;
     private BluetoothGattService mockedBluetoothGattService;
     private SHNDeviceImpl.SHNDeviceListener mockedSHNDeviceListener;
+    private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
+    private BluetoothGattDescriptor mockedBluetoothGattDescriptor;
 
     @Before
     public void setUp() {
@@ -61,6 +66,8 @@ public class SHNDeviceTest {
         mockedUserHandler = new MockedHandler();
         mockedSHNService = (SHNService) Utility.makeThrowingMock(SHNService.class);
         mockedBluetoothGattService = (BluetoothGattService) Utility.makeThrowingMock(BluetoothGattService.class);
+        mockedBluetoothGattCharacteristic = (BluetoothGattCharacteristic) Utility.makeThrowingMock(BluetoothGattCharacteristic.class);
+        mockedBluetoothGattDescriptor = (BluetoothGattDescriptor) Utility.makeThrowingMock(BluetoothGattDescriptor.class);
         mockedSHNDeviceListener = (SHNDeviceImpl.SHNDeviceListener) Utility.makeThrowingMock(SHNDeviceImpl.SHNDeviceListener.class);
 
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
@@ -97,6 +104,15 @@ public class SHNDeviceTest {
                 return mockedServiceState;
             }
         }).when(mockedSHNService).getState();
+        doNothing().when(mockedSHNService).onCharacteristicReadWithData(any(BTGatt.class), any(BluetoothGattCharacteristic.class), anyInt(), any(byte[].class));
+        doNothing().when(mockedSHNService).onCharacteristicWrite(any(BTGatt.class), any(BluetoothGattCharacteristic.class), anyInt());
+        doNothing().when(mockedSHNService).onCharacteristicChangedWithData(any(BTGatt.class), any(BluetoothGattCharacteristic.class), any(byte[].class));
+        doNothing().when(mockedSHNService).onDescriptorReadWithData(any(BTGatt.class), any(BluetoothGattDescriptor.class), anyInt(), any(byte[].class));
+        doNothing().when(mockedSHNService).onDescriptorWrite(any(BTGatt.class), any(BluetoothGattDescriptor.class), anyInt());
+
+
+        doReturn(mockedBluetoothGattService).when(mockedBluetoothGattCharacteristic).getService();
+        doReturn(mockedBluetoothGattCharacteristic).when(mockedBluetoothGattDescriptor).getCharacteristic();
 
         doNothing().when(mockedSHNDeviceListener).onStateUpdated(any(SHNDevice.class));
 
@@ -290,6 +306,67 @@ public class SHNDeviceTest {
         // Now the SHNDevice is connected
 
         assertEquals(0, mockedInternalHandler.getScheduledExecutionCount());
+    }
+
+    // Receiving responses tot requests
+    @Test
+    public void whenInStateConnectedOnCharacteristicReadWithDataThenTheServiceIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        // Now the SHNDevice is connected
+
+        btGattCallback.onCharacteristicReadWithData(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
+        verify(mockedSHNService).onCharacteristicReadWithData(any(BTGatt.class), any(BluetoothGattCharacteristic.class), anyInt(), any(byte[].class));
+    }
+
+    @Test
+    public void whenInStateConnectedOnCharacteristicWriteThenTheServiceIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        // Now the SHNDevice is connected
+
+        btGattCallback.onCharacteristicWrite(mockedBTGatt, mockedBluetoothGattCharacteristic, BluetoothGatt.GATT_SUCCESS);
+        verify(mockedSHNService).onCharacteristicWrite(any(BTGatt.class), any(BluetoothGattCharacteristic.class), anyInt());
+    }
+
+    @Test
+    public void whenInStateConnectedOnCharacteristicChangedWithDataThenTheServiceIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        // Now the SHNDevice is connected
+
+        btGattCallback.onCharacteristicChangedWithData(mockedBTGatt, mockedBluetoothGattCharacteristic, new byte[]{'d', 'a', 't', 'a'});
+        verify(mockedSHNService).onCharacteristicChangedWithData(any(BTGatt.class), any(BluetoothGattCharacteristic.class), any(byte[].class));
+    }
+
+    @Test
+    public void whenInStateConnectedOnDescriptorReadWithDataThenTheServiceIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        // Now the SHNDevice is connected
+
+        btGattCallback.onDescriptorReadWithData(mockedBTGatt, mockedBluetoothGattDescriptor, BluetoothGatt.GATT_SUCCESS, new byte[]{'d', 'a', 't', 'a'});
+        verify(mockedSHNService).onDescriptorReadWithData(any(BTGatt.class), any(BluetoothGattDescriptor.class), anyInt(), any(byte[].class));
+    }
+
+    @Test
+    public void whenInStateConnectedOnDescriptorWriteThenTheServiceIsCalled() {
+        shnDevice.connect();
+        btGattCallback.onConnectionStateChange(mockedBTGatt, BluetoothGatt.GATT_SUCCESS, BluetoothGatt.STATE_CONNECTED);
+        btGattCallback.onServicesDiscovered(mockedBTGatt, BluetoothGatt.GATT_SUCCESS);
+        shnDevice.onServiceStateChanged(mockedSHNService, SHNService.State.Ready);
+        // Now the SHNDevice is connected
+
+        btGattCallback.onDescriptorWrite(mockedBTGatt, mockedBluetoothGattDescriptor, BluetoothGatt.GATT_SUCCESS);
+        verify(mockedSHNService).onDescriptorWrite(any(BTGatt.class), any(BluetoothGattDescriptor.class), anyInt());
     }
 
     // Test toString()
