@@ -15,6 +15,11 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
+import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.FirmwarePort;
 
 /**
  * Purifier Manager is the one point contact for all UI layers to communicate
@@ -40,7 +45,26 @@ public class AirPurifierManager implements Observer, PurifierListener {
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
 	private int indoorViewPagerPosition;
-	
+	private DIPortListener mCurrentPurifierPortListener = new DIPortListener() {
+
+		@Override
+		public DIRegistration onPortUpdate(DICommPort<?> port) {
+			if (port instanceof AirPort) {
+				notifyAirPurifierEventListeners();
+			} else if (port instanceof FirmwarePort) {
+				notifyFirmwareEventListeners();
+			}
+			return DIRegistration.KEEP_REGISTERED;
+		}
+
+		@Override
+		public DIRegistration onPortError(DICommPort<?> port, Error error,
+				String errorData) {
+			notifyAirPurifierEventListenersErrorOccurred(error);
+			return DIRegistration.KEEP_REGISTERED;
+		}
+	};
+
 	public static synchronized AirPurifierManager getInstance() {
 		if (instance == null) {
 			instance = new AirPurifierManager();
@@ -64,11 +88,13 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		if(mCurrentPurifier!=null){
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
 			mCurrentPurifier.setPurifierListener(null);
+			mCurrentPurifier.removeListenerForAllPorts(mCurrentPurifierPortListener);
 		}
 		mCurrentPurifier = purifier;
 		mCurrentPurifier.getNetworkNode().addObserver(this);
 		mCurrentPurifier.setPurifierListener(this);
-		
+		mCurrentPurifier.addListenerForAllPorts(mCurrentPurifierPortListener);
+
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
 		startSubscription();
@@ -89,6 +115,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		}
 		mCurrentPurifier.getNetworkNode().deleteObserver(this);
 		mCurrentPurifier.setPurifierListener(null);
+		mCurrentPurifier.removeListenerForAllPorts(mCurrentPurifierPortListener);
 		stopCurrentSubscription();
 		
 		mCurrentPurifier = null;

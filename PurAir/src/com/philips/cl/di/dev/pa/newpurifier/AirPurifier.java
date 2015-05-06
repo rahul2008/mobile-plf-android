@@ -14,6 +14,8 @@ import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 /**
@@ -37,13 +39,12 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
 	    super(networkNode, communicationStrategy);
 		mUsn = usn;
-		
-		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
+
+		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
 		mSchedulerHandler = new SchedulerHandler(this);
-		
+
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy, mSchedulerHandler);
-		
 
         addPort(mAirPort);
         addPort(mScheduleListPort);
@@ -104,6 +105,18 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	public boolean isDemoPurifier() {
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
+	}
+
+	public void addListenerForAllPorts(DIPortListener portListener) {
+		for (DICommPort<?> port : getAllPorts()) {
+			port.registerPortListener(portListener);
+		}
+	}
+
+	public void removeListenerForAllPorts(DIPortListener portListener) {
+		for (DICommPort<?> port : getAllPorts()) {
+			port.unregisterPortListener(portListener);
+		}
 	}
 
 	public String toString() {

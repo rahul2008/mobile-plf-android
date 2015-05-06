@@ -48,6 +48,10 @@ public abstract class DICommAppliance {
         portList.add(port);
     }
 
+    protected List<DICommPort<?>> getAllPorts() {
+    	return portList;
+    }
+
     public void subscribe() {
         ALog.i(ALog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : portList) {
