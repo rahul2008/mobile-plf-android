@@ -138,7 +138,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mEmailId = userProfile.getEmail();
-		tvEmail.setText(getString(R.string.mail_Sent_to) + mEmailId);
+		tvEmail.setText(getString(R.string.VerifyEmail_EmailSentto_lbltxt) + mEmailId);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mEMailVerifiedError = (XRegError) view
 				.findViewById(R.id.reg_email_verified_error);
@@ -155,10 +155,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 			} else {
 				mBtnActivate.setEnabled(false);
 				mBtnResend.setEnabled(false);
-				mRegError.setError(getString(R.string.No_Internet_Connection));
+				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
-			mRegError.setError(getString(R.string.No_Internet_Connection));
+			mRegError.setError(getString(R.string.NoNetworkConnection));
 			mBtnActivate.setEnabled(false);
 			mBtnResend.setEnabled(false);
 		}
@@ -216,7 +216,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.sign_in);
+		return getResources().getString(R.string.SigIn_TitleTxt);
 	}
 
 	@Override

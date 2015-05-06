@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/reg_rect"
         android:padding="@dimen/reg_err_mapping_padding"
-        android:text="@string/No_Internet_Connection"
+        android:text="@string/NoNetworkConnection"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
 </LinearLayout>

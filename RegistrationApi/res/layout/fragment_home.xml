@@ -19,7 +19,7 @@
             <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/tv_reg_welcome"
                 style="@style/reg_titleTextStyle"
-                android:text="@string/welcome"
+                android:text="@string/RegWelcomeText"
                 reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
             <LinearLayout
@@ -29,7 +29,7 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     android:id="@+id/tv_reg_welcome_desc"
                     style="@style/reg_text_description"
-                    android:text="@string/account_details"
+                    android:text="@string/LegalNoticeText"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -45,14 +45,14 @@
                     android:id="@+id/tv_reg_create_account"
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_common_margin_top"
-                    android:text="@string/related_account"
+                    android:text="@string/Welcome_needAccountto_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_create_account"
                     style="@style/reg_style_btn"
                     android:enabled="true"
-                    android:text="@string/create_phi_account"
+                    android:text="@string/Welcome_Create_MyPhilips_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -69,7 +69,7 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="@string/or_sign"
+                    android:text="@string/Welcome_Alternate_SignInAccount_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
@@ -79,7 +79,7 @@
                     reglib:providerBackground="@drawable/reg_philips_bg_rect"
                     reglib:providerLogo="@drawable/reg_philips_ic"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    reglib:providerName="@string/philips"
+                    reglib:providerName="@string/Welcome_MyPhilips_btntxt"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
@@ -88,7 +88,7 @@
                     android:layout_height="wrap_content"
                     reglib:providerBackground="@drawable/reg_facebook_bg_rect"
                     reglib:providerLogo="@drawable/reg_facebook_ic"
-                    reglib:providerName="@string/facebook"
+                    reglib:providerName="@string/Welcome_Facebook_btntxt"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     reglib:providerBackground="@drawable/reg_twitter_bg_rect"
                     reglib:providerLogo="@drawable/reg_twitter_ic"
-                    reglib:providerName="@string/twitter"
+                    reglib:providerName="@string/Welcome_Twitter_btntxt"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 

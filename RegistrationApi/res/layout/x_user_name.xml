@@ -44,7 +44,7 @@
             android:imeOptions="actionNext"
             android:layout_toLeftOf="@+id/fl_reg_align"
             android:background="@android:color/transparent"
-            android:hint="@string/first_name"
+            android:hint="@string/Create_Account_FirstName__Placeholder_txtFiled"
             android:inputType="textPersonName"
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>

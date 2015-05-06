@@ -22,7 +22,7 @@
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/welcome_to_philips"
+                android:text="@string/RegWelcomeText"
                 reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
 
             <View style="@style/reg_line" />
@@ -40,7 +40,7 @@
                     android:id="@+id/tv_reg_sign_in_using"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="@string/you_have_sign_in"
+                    android:text="@string/InitialSignedIn_SignedInUsing_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <include layout="@layout/reg_email_details" />
@@ -59,16 +59,17 @@
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_continue"
                     style="@style/reg_style_btn"
-                    android:enabled="true"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="@string/continue_login"
+                    android:enabled="true"
+                    android:text="@string/SignInSuccess_Continue_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_sign_out"
                     style="@style/reg_forgot_password"
+                    android:layout_height="@dimen/reg_btn_height"
                     android:background="@drawable/reg_btn_forgot_rect"
-                    android:text="@string/sign_out"
+                    android:text="@string/SignInSuccess_SignOut_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
         </LinearLayout>

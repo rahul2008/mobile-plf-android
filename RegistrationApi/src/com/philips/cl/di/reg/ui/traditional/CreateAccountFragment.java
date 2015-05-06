@@ -160,10 +160,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
-				mRegError.setError(getString(R.string.No_Internet_Connection));
+				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
-			mRegError.setError(getString(R.string.No_Internet_Connection));
+			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}
 	}
 
@@ -181,19 +181,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 		if (errorType == EMAIL_ALEADY_EXIST) {
 			mEtEmail.setErrDescription(getResources().getString(
-					R.string.email_already_used));
+					R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
 			mEtEmail.showInvalidEmailAlert();
 			mRegError.setError(getResources().getString(
-					R.string.email_already_used));
+					R.string.EmailAlreadyUsed_TxtFieldErrorAlertMsg));
 		} else {
-			mRegError.setError(getString(R.string.No_Internet_Connection));
+			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}
 		hideSpinner();
 	}
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.create_account);
+		return getResources().getString(R.string.RegCreateAccount_NavTitle);
 	}
 
 	@Override

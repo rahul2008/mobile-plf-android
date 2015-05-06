@@ -55,7 +55,7 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     android:id="@+id/tv_reg_password_details"
                     style="@style/reg_text_description"
-                    android:text="@string/password_details"
+                    android:text="@string/Create_Account_Hint_Password_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -75,7 +75,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="10dip"
                     android:paddingRight="0dip"
-                    android:text="@string/periodic_offers"
+                    android:text="@string/Create_Account_PeridicOffers_lbltxt"
                     android:textColor="@color/reg_text_heading_one_color"
                     android:textSize="@dimen/reg_title_text_size_medium" />
             </LinearLayout>
@@ -97,7 +97,7 @@
                     android:id="@+id/btn_reg_register"
                     style="@style/reg_style_btn"
                     android:enabled="false"
-                    android:text="@string/create_phi_account"
+                    android:text="@string/Welcome_Create_MyPhilips_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <ProgressBar

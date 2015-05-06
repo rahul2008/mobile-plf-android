@@ -116,7 +116,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.sign_in);
+		return getResources().getString(R.string.SigIn_TitleTxt);
 	}
 
 	@Override
@@ -139,11 +139,11 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			} else {
 				// Show janran offline error
 				System.out.println("ffff");
-				mRegError.setError(getString(R.string.No_Internet_Connection));
+				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
 			// Show network error
-			mRegError.setError(getString(R.string.No_Internet_Connection));
+			mRegError.setError(getString(R.string.NoNetworkConnection));
 			enableControls(false);
 		}
 	}

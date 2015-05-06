@@ -71,9 +71,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 		}
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
-		mTvWelcome.setText(getString(R.string.welcome) + " ["
+		mTvWelcome.setText(getString(R.string.RegWelcomeText) + " ["
 				+ userProfile.getGivenName() + "]");
-		mTvSignInEmail.setText(getString(R.string.you_have_sign_in)
+		mTvSignInEmail.setText(getString(R.string.InitialSignedIn_SignedInUsing_lbltxt)
 				+ userProfile.getEmail());
 	}
 
@@ -108,7 +108,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.create_account);
+		return getResources().getString(R.string.RegCreateAccount_NavTitle);
 	}
 
 }

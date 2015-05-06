@@ -44,7 +44,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:layout_toLeftOf="@+id/fl_reg_align"
-            android:hint="@string/mail_address"
+            android:hint="@string/TraditionalSignIn_EmailAddPlaceHolder_txtFiled"
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
@@ -70,7 +70,7 @@
         android:layout_marginTop="@dimen/reg_edit_fields_margin_top"
         android:background="@drawable/reg_rect"
         android:padding="@dimen/reg_edit_fields_padding"
-        android:text="@string/invalid_email"
+        android:text="@string/InvalidEmailAdddress_ErrorMsg"
         android:visibility="gone"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

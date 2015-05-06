@@ -23,7 +23,7 @@
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/verify_email"
+                android:text="@string/VerifyEmail_VerifyEmail_lbltxt"
                 reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
             <View style="@style/reg_line" />
@@ -39,12 +39,12 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     android:id="@+id/tv_reg_email"
                     style="@style/reg_textStyle"
-                    android:text="@string/sent_email"
+                    android:text="@string/VerifyEmail_EmailSentto_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     style="@style/reg_textStyle"
-                    android:text="@string/ready_email"
+                    android:text="@string/VerifyEmail_ActivateInfo_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -57,7 +57,7 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     android:id="@+id/tv_reg_resend_details"
                     style="@style/reg_text_description"
-                    android:text="@string/press_resend"
+                    android:text="@string/VerifyEmail_ResendErrorMsg_lbltxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -79,7 +79,7 @@
                         android:id="@+id/btn_reg_activate_acct"
                         style="@style/reg_style_btn"
                         android:enabled="true"
-                        android:text="@string/activate_account"
+                        android:text="@string/VerifyEmail_Activated_btntxt"
                         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                     <ProgressBar
@@ -109,7 +109,7 @@
                         android:id="@+id/btn_reg_resend"
                         style="@style/reg_btn_resend"
                         android:background="@drawable/reg_btn_resend_rect"
-                        android:text="@string/resend"
+                        android:text="@string/VerifyEmail_Resend_btntxt"
                         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
                     <ProgressBar

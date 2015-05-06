@@ -138,7 +138,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.sign_in);
+		return getResources().getString(R.string.SigIn_TitleTxt);
 	}
 
 	private void signIn() {
@@ -157,11 +157,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
-				mRegError.setError(getString(R.string.No_Internet_Connection));
+				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
 			// Show network error
-			mRegError.setError(getString(R.string.No_Internet_Connection));
+			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}
 	}
 
@@ -188,12 +188,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		if (errorType == INVALID_CREDENTIAL) {
 
 			mRegError.setError(getResources().getString(
-					R.string.Janrain_invalid_credentials));
+					R.string.JanRain_Invalid_Credentials));
 			mEtEmail.setErrDescription(getResources().getString(
-					R.string.Janrain_invalid_credentials));
+					R.string.JanRain_Invalid_Credentials));
 			mEtEmail.showInvalidEmailAlert();
 			mEtPassword.setErrDescription(getResources().getString(
-					R.string.Janrain_invalid_credentials));
+					R.string.JanRain_Invalid_Credentials));
 			mEtPassword.showJanarainError();
 
 		} else {
@@ -291,7 +291,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 				}
 
 			} else {
-				mRegError.setError(getString(R.string.No_Internet_Connection));
+				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		}
 	}

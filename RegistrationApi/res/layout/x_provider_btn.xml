@@ -26,7 +26,7 @@
         android:paddingRight="2dip"
         android:minHeight="@dimen/reg_btn_height"
         android:minWidth="0dip"
-        android:text="@string/philips"
+        android:text="@string/Welcome_MyPhilips_btntxt"
         android:textColor="@android:color/white"
         android:textSize="@dimen/btn_reg_text_size"
         reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
