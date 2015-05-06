@@ -57,6 +57,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		@Override
 		public DIRegistration onPortUpdate(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+			if (port.isApplyingChanges()) return DIRegistration.KEEP_REGISTERED;
 			onAirPurifierEventReceived();
             return DIRegistration.KEEP_REGISTERED;
 		}
@@ -64,6 +65,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
         @Override
         public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
             //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+        	if (port.isApplyingChanges()) return DIRegistration.KEEP_REGISTERED;
             onErrorOccurred(error);
             return DIRegistration.KEEP_REGISTERED;
         }
@@ -86,8 +88,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onResume() {
-		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
-
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().registerPortListener(mAirPortListener);
@@ -98,7 +98,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onPause() {
-		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().unregisterPortListener(mAirPortListener);
