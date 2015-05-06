@@ -112,16 +112,18 @@ public class UDPReceivingThread extends Thread {
 
 	public void stopUDPListener() {
 		ALog.d(ALog.UDP, "Requested to stop UDP socket") ;
+		if(udpEventListenerList!=null && udpEventListenerList.size() ==0 ){
 		stop = true ;
 		if( socket != null && !socket.isClosed()) {
 			socket.close() ;
 			socket = null ;
 		}
 		releaseMulticastLock();
-		
+		reset();
+		}
 	}
 	
-	public void reset() {
+	private void reset() {
 		udpReceivingThread = null ;
 		udpEventListenerList = null ;
 	}

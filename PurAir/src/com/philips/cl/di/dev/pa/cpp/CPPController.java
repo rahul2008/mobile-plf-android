@@ -82,6 +82,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private StringBuilder mDownloadDataBuilder;
 	private List<PublishEventListener> mPublishEventListeners ;
 	private List<DCSResponseListener> mDcsResponseListeners ;
+	private int mDcsServiceListenersCount = 0 ;
 	private String mProvider = null;
 	private int mCntOffset  = 0;
 	
@@ -342,6 +343,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void startDCSService() {
 		ALog.d(ALog.CPPCONTROLLER, "Start DCS: " + mIsDCSRunning + " isSIgnOn" + mIsSignOn +"DCS state: " +mDcsState);
 		
+		mDcsServiceListenersCount ++;
+		
 			if( mDcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
 				mDcsState = ICP_CLIENT_DCS_STATE.STARTING ;
 				mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
@@ -369,16 +372,21 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Stop the DCS service
 	 */
 	public void stopDCSService() {
-		if(! isSignOn()) return ;
-		if (mEventSubscription == null) return;
-		if( mDcsState == ICP_CLIENT_DCS_STATE.STARTED) {
-			mDcsState = ICP_CLIENT_DCS_STATE.STOPPING ;
-			mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
-			ALog.i(ALog.SUBSCRIPTION, "Stop DCS service");
-			mEventSubscription.stopCommand();
-		}
-		else {
-			mAppDcsRequestState = APP_REQUESTED_STATE.STOP ;
+		mDcsServiceListenersCount --;
+		if(mDcsServiceListenersCount ==0){
+			
+			if(! isSignOn()) return ;
+			if (mEventSubscription == null) return;
+			if( mDcsState == ICP_CLIENT_DCS_STATE.STARTED) {
+				mDcsState = ICP_CLIENT_DCS_STATE.STOPPING ;
+				mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
+				ALog.i(ALog.SUBSCRIPTION, "Stop DCS service");
+				mEventSubscription.stopCommand();
+			}
+			else {
+				mAppDcsRequestState = APP_REQUESTED_STATE.STOP ;
+			}
+		
 		}
 	}
 

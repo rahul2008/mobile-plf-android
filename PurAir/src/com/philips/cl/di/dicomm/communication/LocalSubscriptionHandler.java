@@ -35,10 +35,9 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 	@Override
 	public void disableSubscription() {
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
+		UDPReceivingThread.getInstance().removeUDPEventListener(this);
 		if (UDPReceivingThread.getInstance().isAlive()) {
 			UDPReceivingThread.getInstance().stopUDPListener();
-			// TODO: DICOMM Refactor, Only remove individual listener , do not reset. Also Do not stop thread if there is atleast single listener in the list.
-			UDPReceivingThread.getInstance().reset();
 		}
 	}
 

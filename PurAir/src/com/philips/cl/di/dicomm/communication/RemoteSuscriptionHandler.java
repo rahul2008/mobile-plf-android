@@ -38,9 +38,9 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 	@Override
 	public void disableSubscription() {
 		ALog.i(ALog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
-		mCppController.stopDCSService();
 		//DI-Comm change. Removing the listener on Disabling remote subscription
 		mCppController.removeDCSListener(mNetworkNode.getCppId());
+		mCppController.stopDCSService();
 	}
 
 	@Override
