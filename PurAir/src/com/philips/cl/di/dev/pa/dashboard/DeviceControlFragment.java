@@ -363,7 +363,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onAirPurifierEventReceived() {
-		ALog.i("UPDATE", "onAirPurifierEventReceived"); 
+		ALog.i("UPDATE", "onAirPurifierEventReceived");
 		final AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		final AirPortProperties airPortInfo = currentPurifier.getAirPort().getPortProperties();
 		mainActivity.runOnUiThread(new Runnable() {
@@ -371,10 +371,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			@Override
 			public void run() {
 				// Dismiss the progress dialog
-				if(!currentPurifier.getAirPort().isApplyingChanges()) {
-					controlProgress.setVisibility(View.INVISIBLE);
-					updateButtonState(airPortInfo);
-				}
+				controlProgress.setVisibility(View.INVISIBLE);
+				updateButtonState(airPortInfo);
 			}
 		});
 	}
