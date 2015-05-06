@@ -706,7 +706,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
 						} else {
-							showInternetAlertDialog(R.string.signon_failed);
+							showInternetAlertDialog(R.string.cloud_service_not_available);
 						}
 					}
 				});
@@ -736,7 +736,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				cancelPairingDialog() ;
 				((NotificationsFragment) fragment).disableNotificationScreen() ;
 			}
-			showInternetAlertDialog(R.string.check_network_connection);
+			showInternetAlertDialog(R.string.enable_internet_access);
 		}
 	}
 	
@@ -764,11 +764,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		SignonState signonState = CPPController.getInstance(PurAirApplication.getAppContext()).getSignOnState();
 		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$showCommunicationFailedMessage() internetState= " + internetState
 				+ "; SignOnState= " + signonState + "; Added purifierlist size= " + DiscoveryManager.getInstance().getStoreDevices().size());
+		if (discoveryManagerIstance.getStoreDevices().isEmpty() || signonState == SignonState.SIGNED_ON) return;
+		
 		if (internetState != InternetState.Connecting && signonState != SignonState.SIGNING) {
-			if (signonState == SignonState.NOT_SIGON && internetState == InternetState.Connected 
-					&& !discoveryManagerIstance.getStoreDevices().isEmpty()) {
+			if (internetState == InternetState.Connected) {
 				showCommunicationFailedMessage(R.string.cloud_service_not_available, "communicationFailed");
-			} else if (internetState == InternetState.Disconnected) {
+			} else {
 				showCommunicationFailedMessage(R.string.enable_internet_access, "communicationFailed");
 			}
 		}
