@@ -227,15 +227,19 @@ public abstract class DICommPort<T> {
 
 			@Override
 			public void onSuccess(String data) {
+				if (!isPutPropertiesRequested()) {
+					mIsApplyingChanges = false;
+				}
 				handleResponse(data);
 				requestCompleted();
-				mIsApplyingChanges = false;
 			}
 
 			public void onError(Error error, String errorData) {
 				notifyPortListenersOnError(error, errorData);
+				if (!isPutPropertiesRequested()) {
+					mIsApplyingChanges = false;
+				}
 				requestCompleted();
-				mIsApplyingChanges = false;
 			}
 		});
     }

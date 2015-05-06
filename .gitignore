@@ -60,3 +60,6 @@ Thumbs.db
 *.iml
 PurAir/.idea/
 social_sdk_library_project/.project
+PurAir/proguard/
+.recommenders/
+.metadata/

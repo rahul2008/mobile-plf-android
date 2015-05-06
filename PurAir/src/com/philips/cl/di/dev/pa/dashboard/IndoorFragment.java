@@ -49,6 +49,9 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
+import com.philips.cl.di.dicomm.port.DIRegistration;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
 	AlertDialogBtnInterface {
@@ -153,6 +156,23 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		initFirmwareUpdatePopup();
 	}
 	
+	private DIPortListener mAirPortListener = new DIPortListener() {
+		@Override
+		public DIRegistration onPortUpdate(DICommPort<?> port) {
+			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+			onAirPurifierEventReceived();
+            return DIRegistration.KEEP_REGISTERED;
+		}
+
+        @Override
+        public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+            onErrorOccurred(error);
+            return DIRegistration.KEEP_REGISTERED;
+        }
+	};
+
+	
 	private void initFirmwareUpdatePopup() {
 		firmwareUpdatePopup = (RelativeLayout) getView().findViewById(R.id.firmware_update_available);
 		firmwareUpdatePopup.setOnClickListener(this);
@@ -172,7 +192,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		super.onResume();
 
 		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
-		
+		if( AirPurifierManager.getInstance().getCurrentPurifier() != null ) {
+			AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().registerPortListener(mAirPortListener);
+		}
 		updateDashboardUI();
 		hideFirmwareUpdatePopup();
 	}
@@ -186,6 +208,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onPause() {
 		super.onPause();
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
+		if( AirPurifierManager.getInstance().getCurrentPurifier() != null ) {
+			AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().unregisterPortListener(mAirPortListener);
+		}
 	}
 
 	private void updateDashboardUI() {

@@ -26,6 +26,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -56,6 +57,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		@Override
 		public DIRegistration onPortUpdate(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+			if (port.isApplyingChanges()) return DIRegistration.KEEP_REGISTERED;
 			onAirPurifierEventReceived();
             return DIRegistration.KEEP_REGISTERED;
 		}
@@ -63,6 +65,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
         @Override
         public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
             //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+        	if (port.isApplyingChanges()) return DIRegistration.KEEP_REGISTERED;
             onErrorOccurred(error);
             return DIRegistration.KEEP_REGISTERED;
         }
@@ -85,8 +88,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onResume() {
-		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
-
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().registerPortListener(mAirPortListener);
@@ -97,7 +98,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onPause() {
-		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
 		    currentPurifier.getAirPort().unregisterPortListener(mAirPortListener);
@@ -363,7 +363,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onAirPurifierEventReceived() {
-		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		ALog.i("UPDATE", "onAirPurifierEventReceived");
+		final AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		final AirPortProperties airPortInfo = currentPurifier.getAirPort().getPortProperties();
 		mainActivity.runOnUiThread(new Runnable() {
 
@@ -372,7 +373,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 				// Dismiss the progress dialog
 				controlProgress.setVisibility(View.INVISIBLE);
 				updateButtonState(airPortInfo);
-
 			}
 		});
 	}
