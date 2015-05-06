@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    
+	<string name="app_name">RegistrationApi</string>
     <string name="ForgotPwdEmailResendMsg"> A link is sent to your email to reset the password of your Philips Account</string>
     <string name="ForgotPwdEmailResendMsg_Title">Reset Password</string>
     <string name="Continue_Btntxt">Continue</string>
