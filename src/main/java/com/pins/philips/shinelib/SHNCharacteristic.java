@@ -18,19 +18,18 @@ public class SHNCharacteristic {
     private static final String TAG = SHNCharacteristic.class.getSimpleName();
     private static final boolean LOGGING = false;
     private static final UUID CLIENT_CHARACTERISTIC_CONFIG_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
-
-    public interface SHNCharacteristicChangedListener {
-        void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data);
-    }
-
-    public enum State {Inactive, Active}
-
     private final UUID uuid;
     private BluetoothGattCharacteristic bluetoothGattCharacteristic;
     private BTGatt btGatt;
     private State state;
     private SHNCharacteristicChangedListener shnCharacteristicChangedListener;
     private List<SHNCommandResultReporter> pendingCompletions;
+
+    public interface SHNCharacteristicChangedListener {
+        void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data);
+    }
+
+    public enum State {Inactive, Active}
 
     public SHNCharacteristic(UUID characteristicUUID) {
         this.uuid = characteristicUUID;
@@ -105,22 +104,14 @@ public class SHNCharacteristic {
 
     public void onReadWithData(BTGatt gatt, int status, byte[] data) {
         if (LOGGING) Log.i(TAG, "onReadWithData");
-        SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            shnResult = SHNResult.SHNOk;
-        }
-        SHNCommandResultReporter completion = (pendingCompletions.isEmpty()) ? null : pendingCompletions.remove(0);
-        if (completion != null) completion.reportResult(shnResult, data);
+        SHNResult shnResult = translateGATTResultToSHNResult(status);
+        reportResultToCaller(data, shnResult);
     }
 
     public void onWrite(BTGatt gatt, int status) {
         if (LOGGING) Log.i(TAG, "onWrite");
-        SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
-        if (status == BluetoothGatt.GATT_SUCCESS) {
-            shnResult = SHNResult.SHNOk;
-        }
-        SHNCommandResultReporter completion = (pendingCompletions.isEmpty()) ? null : pendingCompletions.remove(0);
-        if (completion != null) completion.reportResult(shnResult, null);
+        SHNResult shnResult = translateGATTResultToSHNResult(status);
+        reportResultToCaller(null, shnResult);
     }
 
     public void onChanged(BTGatt gatt, byte[] data) {
@@ -131,17 +122,25 @@ public class SHNCharacteristic {
     }
 
     public void onDescriptorReadWithData(BTGatt gatt, BluetoothGattDescriptor descriptor, int status, byte[] data) {
-        //throw new UnsupportedOperationException("onDescriptorReadWithData");
-        if (LOGGING) Log.i(TAG, "onDescriptorReadWithData " + descriptor.getUuid() + " for characteristic " + getUuid());
+        throw new UnsupportedOperationException("onDescriptorReadWithData");
     }
 
     public void onDescriptorWrite(BTGatt gatt, BluetoothGattDescriptor descriptor, int status) {
         if (LOGGING) Log.i(TAG, "onDescriptorWrite " + getUuid() + " size = " + pendingCompletions.size());
+        SHNResult shnResult = translateGATTResultToSHNResult(status);
+        reportResultToCaller(null, shnResult);
+    }
+
+    private SHNResult translateGATTResultToSHNResult(int status) {
         SHNResult shnResult = SHNResult.SHNUnknownDeviceTypeError;
         if (status == BluetoothGatt.GATT_SUCCESS) {
             shnResult = SHNResult.SHNOk;
         }
-        SHNCommandResultReporter completion = (pendingCompletions.isEmpty()) ? null : pendingCompletions.remove(0);
-        if (completion != null) completion.reportResult(shnResult, null);
+        return shnResult;
+    }
+
+    private void reportResultToCaller(byte[] data, SHNResult shnResult) {
+        SHNCommandResultReporter completion = pendingCompletions.remove(0);
+        if (completion != null) completion.reportResult(shnResult, data);
     }
 }
