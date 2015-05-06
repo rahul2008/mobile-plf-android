@@ -8,6 +8,7 @@ import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 /**
@@ -78,6 +79,18 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
 	}
 
+	public void addListenerForAllPorts(DIPortListener portListener) {
+		for (DICommPort<?> port : getAllPorts()) {
+			port.registerPortListener(portListener);
+		}
+	}
+
+	public void removeListenerForAllPorts(DIPortListener portListener) {
+		for (DICommPort<?> port : getAllPorts()) {
+			port.unregisterPortListener(portListener);
+		}
+	}
+
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
@@ -93,9 +106,9 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
 	@Override
 	public void onSubscriptionEventReceived(String data) {
 		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
-		
-		List<DICommPort<?>> portList = getAvailablePorts();
-		
+
+		List<DICommPort<?>> portList = getAllPorts();
+
 		for (DICommPort<?> port : portList) {
 		    if (port.isResponseForThisPort(data)) {
 		        port.handleSubscription(data);

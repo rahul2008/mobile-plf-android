@@ -95,8 +95,8 @@ public abstract class DICommAppliance {
     public WifiUIPort getWifiUIPort() {
         return mWifiUIPort;
     }
-    
-    public List<DICommPort<?>> getAvailablePorts(){
+
+    protected List<DICommPort<?>> getAllPorts(){
     	return mPortList;
     }
 

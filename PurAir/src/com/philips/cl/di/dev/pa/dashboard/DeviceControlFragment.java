@@ -53,24 +53,6 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private ProgressBar controlProgress;
 
-	private DIPortListener mAirPortListener = new DIPortListener() {
-		@Override
-		public DIRegistration onPortUpdate(DICommPort<?> port) {
-			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
-			if (port.isApplyingChanges()) return DIRegistration.KEEP_REGISTERED;
-			onAirPurifierEventReceived();
-            return DIRegistration.KEEP_REGISTERED;
-		}
-
-        @Override
-        public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
-            //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
-        	if (port.isApplyingChanges()) return DIRegistration.KEEP_REGISTERED;
-            onErrorOccurred(error);
-            return DIRegistration.KEEP_REGISTERED;
-        }
-	};
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.device_control_panel, null);
@@ -90,18 +72,15 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 	public void onResume() {
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().registerPortListener(mAirPortListener);
+		    updateButtonState(currentPurifier.getAirPort().getPortProperties());
 		}
-		updateButtonState(currentPurifier.getAirPort().getPortProperties());
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().unregisterPortListener(mAirPortListener);
-		}
+		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		super.onPause();
 	}
 
@@ -371,6 +350,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			@Override
 			public void run() {
 				// Dismiss the progress dialog
+				if (currentPurifier.getAirPort().isApplyingChanges()) return;
 				controlProgress.setVisibility(View.INVISIBLE);
 				updateButtonState(airPortInfo);
 			}
@@ -421,6 +401,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				AirPurifier currentPurifier = mainActivity.getCurrentPurifier();
+				if (currentPurifier.getAirPort().isApplyingChanges()) return;
 				controlProgress.setVisibility(View.INVISIBLE);
 			}
 		});
