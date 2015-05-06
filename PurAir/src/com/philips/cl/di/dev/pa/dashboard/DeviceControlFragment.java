@@ -26,6 +26,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -363,16 +364,18 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onAirPurifierEventReceived() {
-		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		ALog.i("UPDATE", "onAirPurifierEventReceived"); 
+		final AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		final AirPortProperties airPortInfo = currentPurifier.getAirPort().getPortProperties();
 		mainActivity.runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
 				// Dismiss the progress dialog
-				controlProgress.setVisibility(View.INVISIBLE);
-				updateButtonState(airPortInfo);
-
+				if(!currentPurifier.getAirPort().isApplyingChanges()) {
+					controlProgress.setVisibility(View.INVISIBLE);
+					updateButtonState(airPortInfo);
+				}
 			}
 		});
 	}
