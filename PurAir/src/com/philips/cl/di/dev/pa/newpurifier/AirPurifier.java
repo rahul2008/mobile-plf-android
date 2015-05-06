@@ -17,24 +17,21 @@ import com.philips.cl.di.dicomm.port.ScheduleListPort;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifier extends DICommAppliance implements ResponseHandler , SubscriptionEventListener {
+public class AirPurifier extends DICommAppliance implements SubscriptionEventListener {
 
 	private final String mUsn;
 	private String latitude;
 	private String longitude;
 
     protected final ScheduleListPort mScheduleListPort;
-	private SubscriptionHandler mSubscriptionHandler;
 
 	private final AirPort mAirPort;
-	private PurifierListener mPurifierListener;
 	private final CommunicationStrategy mCommunicationStrategy;
 
 	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
 	    super(networkNode, communicationStrategy);
 		mUsn = usn;
 		mCommunicationStrategy = communicationStrategy;
-		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy);
@@ -42,15 +39,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler , Su
 
         addPort(mAirPort);
         addPort(mScheduleListPort);
-	}
-
-	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn, SubscriptionHandler subscriptionHandler) {
-		this(networkNode, communicationStrategy, usn);
-		mSubscriptionHandler = subscriptionHandler;
-	}
-
-	public void setPurifierListener(PurifierListener mPurifierListener) {
-		this.mPurifierListener = mPurifierListener;
 	}
 
 	public AirPort getAirPort() {
@@ -106,32 +94,15 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler , Su
 	}
 
 	@Override
-	public void onError(Error error, String errorData) {
-		// TODO DIComm Refactor - remove
-	}
-
-	private void notifySubscriptionListeners(String data) {
+	public void onSubscriptionEventReceived(String data) {
 		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
-
+		
 		List<DICommPort<?>> portList = getAvailablePorts();
 		
 		for (DICommPort<?> port : portList) {
-            if (port.isResponseForThisPort(data)) {
-                port.handleSubscription(data);
-            }
-        }
-
-	}
-
-	@Override
-	public void onSuccess(String data) {
-		ALog.d(ALog.APPLIANCE, "Success event received");
-		notifySubscriptionListeners(data);
-	}
-
-	@Override
-	public void onSubscriptionEventReceived(String data) {
-		// TODO Auto-generated method stub
-		notifySubscriptionListeners(data);
+		    if (port.isResponseForThisPort(data)) {
+		        port.handleSubscription(data);
+		    }
+		}
 	}
 }
