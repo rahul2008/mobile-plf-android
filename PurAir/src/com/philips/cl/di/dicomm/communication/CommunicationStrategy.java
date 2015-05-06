@@ -19,6 +19,8 @@ public abstract class CommunicationStrategy {
 	public abstract void subscribe(String portName,int productId, int subscriptionTtl,NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract void unsubscribe(String portName, int productId, NetworkNode networkNode, ResponseHandler responseHandler);
 	public abstract boolean isAvailable(NetworkNode networkNode);
+	public abstract void enableSubscription(SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode);
+	public abstract void disableSubscription(SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode);
 
 	protected Map<String, Object> getSubscriptionData(int subscriptionTtl) {
 		Map<String,Object> dataMap = getUnsubscriptionData();

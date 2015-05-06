@@ -1,7 +1,7 @@
 package com.philips.cl.di.dicomm.communication;
 
-import android.content.Context;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
@@ -14,8 +14,8 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 	private CPPController mCppController;
 	
 	//TODO: DICOMM Refactor, if cppcontroller is available without context, then we need to remove this
-	public RemoteSuscriptionHandler(Context context){
-		mCppController = CPPController.getInstance(context);
+	public RemoteSuscriptionHandler(){
+		mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
 	}
 	
 	public void registerSubscriptionListener(SubscriptionEventListener subscriptionEventListener){
@@ -27,7 +27,7 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 	}
 
 	@Override
-	public void enableSubscriptionFromAppliance(NetworkNode networkNode) {
+	public void enableSubscription(NetworkNode networkNode) {
 		ALog.i(ALog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
 		mNetworkNode = networkNode;
 		//DI-Comm change. Moved from Constructor
@@ -36,7 +36,7 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 	}
 
 	@Override
-	public void disableSubscriptionFromAppliance() {
+	public void disableSubscription() {
 		ALog.i(ALog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
 		mCppController.stopDCSService();
 		//DI-Comm change. Removing the listener on Disabling remote subscription
@@ -60,7 +60,7 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 		ALog.i(ALog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
 		ALog.i(ALog.REMOTE_SUBSCRIPTION, data);
 		if (mSubscriptionEventListener != null) {
-			mSubscriptionEventListener.onSubscriptionEventReceived();
+			mSubscriptionEventListener.onSubscriptionEventReceived(data);
 		}
 	}
 }

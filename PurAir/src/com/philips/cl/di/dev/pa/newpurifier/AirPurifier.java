@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import android.content.Context;
+import java.util.List;
 
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
@@ -8,14 +8,16 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
 import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 /**
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifier extends DICommAppliance implements ResponseHandler {
+public class AirPurifier extends DICommAppliance implements ResponseHandler , SubscriptionEventListener {
 
 	private final String mUsn;
 	private String latitude;
@@ -25,13 +27,13 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 	private SubscriptionHandler mSubscriptionHandler;
 
 	private final AirPort mAirPort;
-
 	private PurifierListener mPurifierListener;
+	private final CommunicationStrategy mCommunicationStrategy;
 
 	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
 	    super(networkNode, communicationStrategy);
 		mUsn = usn;
-		
+		mCommunicationStrategy = communicationStrategy;
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
@@ -58,21 +60,13 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
     public ScheduleListPort getScheduleListPort() {
         return mScheduleListPort;
     }
-
-	public void enableLocalSubscription() {
-		mSubscriptionHandler.enableLocalSubscription();
+    
+    public void enableSubscription() {
+		mCommunicationStrategy.enableSubscription(this, mNetworkNode);
 	}
 
-	public void disableLocalSubscription() {
-		mSubscriptionHandler.disableLocalSubscription();
-	}
-
-	public void enableRemoteSubscription(Context context) {
-		mSubscriptionHandler.enableRemoteSubscription(context);
-	}
-
-	public void disableRemoteSubscription(Context context) {
-		mSubscriptionHandler.disableRemoteSubscription(context);
+	public void disableSubscription() {
+		mCommunicationStrategy.disableSubscription(this, null);
 	}
 
 	public String getLatitude() {
@@ -119,21 +113,25 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 	private void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
 
-		if(mAirPort.isResponseForThisPort(data)){
-			mAirPort.handleSubscription(data);
-			return;
-		}
-
-		if(mFirmwarePort.isResponseForThisPort(data)){
-			mFirmwarePort.handleSubscription(data);
-			return;
-		}
+		List<DICommPort<?>> portList = getAvailablePorts();
+		
+		for (DICommPort<?> port : portList) {
+            if (port.isResponseForThisPort(data)) {
+                port.handleSubscription(data);
+            }
+        }
 
 	}
 
 	@Override
 	public void onSuccess(String data) {
 		ALog.d(ALog.APPLIANCE, "Success event received");
+		notifySubscriptionListeners(data);
+	}
+
+	@Override
+	public void onSubscriptionEventReceived(String data) {
+		// TODO Auto-generated method stub
 		notifySubscriptionListeners(data);
 	}
 }

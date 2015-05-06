@@ -48,4 +48,16 @@ public class NullStrategy extends CommunicationStrategy {
 		return true;
 	}
 
+	@Override
+	public void enableSubscription(
+			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+		return;
+	}
+
+	@Override
+	public void disableSubscription(
+			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+		return;
+	}
+
 }

@@ -13,11 +13,13 @@ public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;
     private DISecurity mDISecurity;
     private boolean isKeyExchangeOngoing;
+    private LocalSubscriptionHandler mLocalSubscriptionHandler;
 
 	public LocalStrategy(DISecurity diSecurity){
 		mDISecurity = diSecurity;
 		mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = new RequestQueue();
+        mLocalSubscriptionHandler = new LocalSubscriptionHandler();
 	}
 
 	@Override
@@ -117,4 +119,21 @@ public class LocalStrategy extends CommunicationStrategy {
         	triggerKeyExchange(networkNode);
         }
     };
+
+	@Override
+	public void enableSubscription(
+			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+		// TODO DICOMM Refactor, check if there is better way to inject
+		mLocalSubscriptionHandler.registerSubscriptionListener(subscriptionEventListener);
+		mLocalSubscriptionHandler.enableSubscription(networkNode);
+	}
+
+	@Override
+	public void disableSubscription(
+			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+		// TODO DICOMM Refactor, check if there is better way to inject
+		mLocalSubscriptionHandler.unRegisterSubscriptionListener(subscriptionEventListener);
+		mLocalSubscriptionHandler.disableSubscription();
+		
+	}
 }

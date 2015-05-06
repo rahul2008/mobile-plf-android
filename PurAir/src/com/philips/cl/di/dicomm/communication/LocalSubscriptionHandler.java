@@ -23,7 +23,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 	}
 
 	@Override
-	public void enableSubscriptionFromAppliance(NetworkNode networkNode) {
+	public void enableSubscription(NetworkNode networkNode) {
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
 		mNetworkNode = networkNode;
 		UDPReceivingThread.getInstance().addUDPEventListener(this) ;
@@ -33,7 +33,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 	}
 
 	@Override
-	public void disableSubscriptionFromAppliance() {
+	public void disableSubscription() {
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
 		if (UDPReceivingThread.getInstance().isAlive()) {
 			UDPReceivingThread.getInstance().stopUDPListener();
@@ -66,7 +66,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 			}
 			
 			ALog.d(ALog.LOCAL_SUBSCRIPTION, decryptedData);
-			mSubscriptionEventListener.onSubscriptionEventReceived();
+			mSubscriptionEventListener.onSubscriptionEventReceived(decryptedData);
 		}
 	}
 
