@@ -91,12 +91,6 @@ import java.util.UUID;
 public class SHNService {
     private static final String TAG = SHNService.class.getSimpleName();
     private static final boolean LOGGING = false;
-
-    public enum State {Unavailable, DiscoveringCharacteristics, Available, Ready, Error }
-
-    public interface SHNServiceListener {
-        void onServiceStateChanged(SHNService shnService, State state);
-    }
     private State state = State.Unavailable;
     private final UUID uuid;
     private BTGatt btGatt;
@@ -105,6 +99,12 @@ public class SHNService {
     private List<SHNCharacteristic> optionalCharacteristics;
     private Map<UUID, SHNCharacteristic> characteristicMap;
     private Set<SHNServiceListener> shnServiceListeners;
+
+    public enum State {Unavailable, Available, Ready, Error }
+
+    public interface SHNServiceListener {
+        void onServiceStateChanged(SHNService shnService, State state);
+    }
 
     public SHNService(UUID serviceUuid, Set<UUID> requiredCharacteristics, Set<UUID> optionalCharacteristics) {
         this.uuid = serviceUuid;
@@ -143,12 +143,12 @@ public class SHNService {
         return characteristicMap.get(characteristicUUID);
     }
 
-    public void addRequiredSHNCharacteristic(SHNCharacteristic shnCharacteristic) {
+    private void addRequiredSHNCharacteristic(SHNCharacteristic shnCharacteristic) {
         characteristicMap.put(shnCharacteristic.getUuid(), shnCharacteristic);
         requiredCharacteristics.add(shnCharacteristic);
     }
 
-    public void addOptionalSHNCharacteristic(SHNCharacteristic shnCharacteristic) {
+    private void addOptionalSHNCharacteristic(SHNCharacteristic shnCharacteristic) {
         characteristicMap.put(shnCharacteristic.getUuid(), shnCharacteristic);
         optionalCharacteristics.add(shnCharacteristic);
     }
@@ -163,7 +163,7 @@ public class SHNService {
         }
     }
 
-    public void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
+    /* package */ void connectToBLELayer(BTGatt gatt, BluetoothGattService bluetoothGattService) {
         bluetoothGattServiceWeakReference = new WeakReference<>(bluetoothGattService);
         this.btGatt = gatt;
         for (BluetoothGattCharacteristic bluetoothGattCharacteristic: bluetoothGattService.getCharacteristics()) {
@@ -185,21 +185,23 @@ public class SHNService {
         updateState(newState);
     }
 
+    /* package */ void disconnectFromBLELayer() {
+        if (bluetoothGattServiceWeakReference != null) {
+            bluetoothGattServiceWeakReference.clear();
+        }
+        btGatt = null;
+        for (SHNCharacteristic shnCharacteristic: characteristicMap.values()) {
+            shnCharacteristic.disconnectFromBLELayer();
+        }
+        updateState(State.Unavailable);
+    }
+
     public void transitionToReady() {
         updateState(State.Ready);
     }
 
     public void transitionToError() {
         updateState(State.Error);
-    }
-
-    public void disconnectFromBLELayer() {
-        bluetoothGattServiceWeakReference.clear();
-        btGatt = null;
-        for (SHNCharacteristic shnCharacteristic: characteristicMap.values()) {
-            shnCharacteristic.disconnectFromBLELayer();
-        }
-        updateState(State.Unavailable);
     }
 
     public void onCharacteristicReadWithData(BTGatt gatt, BluetoothGattCharacteristic characteristic, int status, byte[] data) {

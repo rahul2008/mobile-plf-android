@@ -109,7 +109,7 @@ public class SHNCharacteristic {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             shnResult = SHNResult.SHNOk;
         }
-        SHNCommandResultReporter completion = pendingCompletions.remove(0);
+        SHNCommandResultReporter completion = (pendingCompletions.isEmpty()) ? null : pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(shnResult, data);
     }
 
@@ -119,7 +119,7 @@ public class SHNCharacteristic {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             shnResult = SHNResult.SHNOk;
         }
-        SHNCommandResultReporter completion = pendingCompletions.remove(0);
+        SHNCommandResultReporter completion = (pendingCompletions.isEmpty()) ? null : pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(shnResult, null);
     }
 
@@ -141,7 +141,7 @@ public class SHNCharacteristic {
         if (status == BluetoothGatt.GATT_SUCCESS) {
             shnResult = SHNResult.SHNOk;
         }
-        SHNCommandResultReporter completion = pendingCompletions.remove(0);
+        SHNCommandResultReporter completion = (pendingCompletions.isEmpty()) ? null : pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(shnResult, null);
     }
 }
