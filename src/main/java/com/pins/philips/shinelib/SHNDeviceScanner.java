@@ -93,7 +93,9 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
                         Runnable runnable = new Runnable() {
                             @Override
                             public void run() {
-                                shnDeviceScannerListener.deviceFound(SHNDeviceScanner.this, shnDeviceFoundInfo);
+                                if (shnDeviceScannerListener != null) {
+                                    shnDeviceScannerListener.deviceFound(SHNDeviceScanner.this, shnDeviceFoundInfo);
+                                }
                             }
                         };
                         shnCentral.runOnHandlerThread(runnable);
