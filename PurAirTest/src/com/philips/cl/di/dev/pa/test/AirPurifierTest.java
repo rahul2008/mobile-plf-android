@@ -5,7 +5,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-
+import static org.mockito.Matchers.any;
 import java.util.Observer;
 
 import android.test.InstrumentationTestCase;
@@ -13,14 +13,16 @@ import android.test.InstrumentationTestCase;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierListener;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
+import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 
 public class AirPurifierTest extends InstrumentationTestCase {
 
-	private AirPurifier purifier = null;
-	private Observer observer = null;
-	private PurifierListener mPurifierListener;
+	private AirPurifier mPurifier = null;
+	private Observer mObserver = null;
+	private DIPortListener mAirPortListener;
+	private DIPortListener mFirmwarePortListener;
 
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
 	private static final String PURIFIER_USN = "uuid:12345678-1234-1234-1234-1c5a6b634357::urn:philips-com:device:DiProduct:1";
@@ -48,92 +50,96 @@ public class AirPurifierTest extends InstrumentationTestCase {
         networkNode.setName(PURIFIER_NAME);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		
-		purifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class), PURIFIER_USN);
+		mPurifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class), PURIFIER_USN);
 
-		mPurifierListener = mock(PurifierListener.class);
-		purifier.setPurifierListener(mPurifierListener);
+		mAirPortListener = mock(DIPortListener.class);
+		mFirmwarePortListener = mock(DIPortListener.class);
+		
+		mPurifier.getAirPort().registerPortListener(mAirPortListener);
+		mPurifier.getFirmwarePort().registerPortListener(mFirmwarePortListener);
+		
 
-		observer = mock(Observer.class);
+		mObserver = mock(Observer.class);
 
 		super.setUp();
 	}
 
 	public void testNotifyObserverNoChange() {
-		purifier.getNetworkNode().addObserver(observer);
-		assertEquals(1,  purifier.getNetworkNode().countObservers());
-		verify(observer, never()).update(eq(purifier.getNetworkNode()), anyObject());
+		mPurifier.getNetworkNode().addObserver(mObserver);
+		assertEquals(1,  mPurifier.getNetworkNode().countObservers());
+		verify(mObserver, never()).update(eq(mPurifier.getNetworkNode()), anyObject());
 	}
 
 	public void testNotifyObserverChangeConnectionState() {
-		purifier.getNetworkNode().addObserver(observer);
-		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		verify(observer).update(eq(purifier.getNetworkNode()), anyObject());
+		mPurifier.getNetworkNode().addObserver(mObserver);
+		mPurifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		verify(mObserver).update(eq(mPurifier.getNetworkNode()), anyObject());
 	}
 
 	public void testNotifyObserverSameConnectionState() {
-		purifier.getNetworkNode().addObserver(observer);
-		purifier.getNetworkNode().setConnectionState(purifier.getNetworkNode().getConnectionState());
-		verify(observer, never()).update(eq(purifier.getNetworkNode()), anyObject());
+		mPurifier.getNetworkNode().addObserver(mObserver);
+		mPurifier.getNetworkNode().setConnectionState(mPurifier.getNetworkNode().getConnectionState());
+		verify(mObserver, never()).update(eq(mPurifier.getNetworkNode()), anyObject());
 	}
 
 	public void testNotifyObserverRemoveObserver() {
-		purifier.getNetworkNode().addObserver(observer);
-		purifier.getNetworkNode().deleteObserver(observer);
-		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		verify(observer, never()).update(eq(purifier.getNetworkNode()), anyObject());
+		mPurifier.getNetworkNode().addObserver(mObserver);
+		mPurifier.getNetworkNode().deleteObserver(mObserver);
+		mPurifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		verify(mObserver, never()).update(eq(mPurifier.getNetworkNode()), anyObject());
 	}
 
 	public void testNotifyObserverDoubleObserver() {
-		purifier.getNetworkNode().addObserver(observer);
-		purifier.getNetworkNode().addObserver(observer);
-		purifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		verify(observer).update(eq(purifier.getNetworkNode()), anyObject());
+		mPurifier.getNetworkNode().addObserver(mObserver);
+		mPurifier.getNetworkNode().addObserver(mObserver);
+		mPurifier.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		verify(mObserver).update(eq(mPurifier.getNetworkNode()), anyObject());
 	}
 
 	// ***** START TESTS TO UPDATE PURIFIER WHEN SUBSCRIPTION EVENT RECEIVED *****
 
 		public void testReceiveIncorrectEvent(){
 			String data = "dfasfas";
-			purifier.onSuccess(data);
+			mPurifier.onSubscriptionEventReceived(data);
 
-			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
+			verify(mAirPortListener, never()).onPortUpdate(any(DICommPort.class));
+			verify(mFirmwarePortListener, never()).onPortUpdate(any(DICommPort.class));
 
-			assertNull(purifier.getAirPort().getPortProperties());
-			assertNull(purifier.getFirmwarePort().getPortProperties());
+			assertNull(mPurifier.getAirPort().getPortProperties());
+			assertNull(mPurifier.getFirmwarePort().getPortProperties());
 		}
 
 		public void testReceiveValidLocalAPEvent() {
 			String data = VALID_LOCALAIRPORTEVENT;
-			purifier.onSuccess(data);
+			mPurifier.onSubscriptionEventReceived(data);
 
-			verify(mPurifierListener).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
+			verify(mAirPortListener).onPortUpdate(any(DICommPort.class));
+			verify(mFirmwarePortListener, never()).onPortUpdate(any(DICommPort.class));
 
-			assertNotNull(purifier.getAirPort().getPortProperties());
-			assertNull(purifier.getFirmwarePort().getPortProperties());
+			assertNotNull(mPurifier.getAirPort().getPortProperties());
+			assertNull(mPurifier.getFirmwarePort().getPortProperties());
 		}
 
 		public void testReceiveValidLocalFWEvent() {
 			String data = VALID_LOCALFWEVENT;
-			purifier.onSuccess(data);
+			mPurifier.onSubscriptionEventReceived(data);
 
-			verify(mPurifierListener, never()).notifyAirPurifierEventListeners();
-			verify(mPurifierListener).notifyFirmwareEventListeners();
+			verify(mAirPortListener, never()).onPortUpdate(any(DICommPort.class));
+			verify(mFirmwarePortListener).onPortUpdate(any(DICommPort.class));
 
-			assertNull(purifier.getAirPort().getPortProperties());
-			assertNotNull(purifier.getFirmwarePort().getPortProperties());
+			assertNull(mPurifier.getAirPort().getPortProperties());
+			assertNotNull(mPurifier.getFirmwarePort().getPortProperties());
 		}
 
 
 		public void testReceiveValidRemoteAPEvent() {
 			String data = VALID_REMOTEAIRPORTEVENT;
-			purifier.onSuccess(data);
+			mPurifier.onSubscriptionEventReceived(data);
 
-			verify(mPurifierListener).notifyAirPurifierEventListeners();
-			verify(mPurifierListener, never()).notifyFirmwareEventListeners();
+			verify(mAirPortListener).onPortUpdate(any(DICommPort.class));
+			verify(mFirmwarePortListener, never()).onPortUpdate(any(DICommPort.class));
 
-			assertNotNull(purifier.getAirPort().getPortProperties());
+			assertNotNull(mPurifier.getAirPort().getPortProperties());
 		}
 	// ***** END TESTS TO UPDATE PURIFIER WHEN SUBSCRIPTION EVENT RECEIVED *****
 

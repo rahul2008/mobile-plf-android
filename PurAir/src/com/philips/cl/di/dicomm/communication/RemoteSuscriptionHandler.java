@@ -32,7 +32,7 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 		mNetworkNode = networkNode;
 		//DI-Comm change. Moved from Constructor
 		mCppController.addDCSEventListener(networkNode.getCppId(), this);
-		mCppController.startDCSService();		
+		mCppController.startDCSService();	
 	}
 
 	@Override

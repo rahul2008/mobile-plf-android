@@ -67,4 +67,18 @@ public class CommunicationMarshal extends CommunicationStrategy {
 		}
 		return mNullStrategy;
 	}
+
+	@Override
+	public void enableSubscription(
+			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+		findAvailableStrategy(networkNode).enableSubscription(subscriptionEventListener, networkNode);
+	}
+
+	@Override
+	public void disableSubscription(
+			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
+		mLocalStrategy.disableSubscription(subscriptionEventListener, networkNode);
+		mRemoteStrategy.disableSubscription(subscriptionEventListener, networkNode);
+		mNullStrategy.disableSubscription(subscriptionEventListener, networkNode);
+	}
 }

@@ -12,7 +12,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.communication.Error;
 
 /**
  * Purifier Manager is the one point contact for all UI layers to communicate
@@ -23,7 +22,7 @@ import com.philips.cl.di.dicomm.communication.Error;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifierManager implements Observer, PurifierListener {
+public class AirPurifierManager implements Observer {
 
 	private static AirPurifierManager instance;
 	
@@ -55,11 +54,9 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		stopCurrentSubscription();
 		if(mCurrentPurifier!=null){
 			mCurrentPurifier.getNetworkNode().deleteObserver(this);
-			mCurrentPurifier.setPurifierListener(null);
 		}
 		mCurrentPurifier = purifier;
 		mCurrentPurifier.getNetworkNode().addObserver(this);
-		mCurrentPurifier.setPurifierListener(this);
 		
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
@@ -80,7 +77,6 @@ public class AirPurifierManager implements Observer, PurifierListener {
 			mCurrentPurifier.unsubscribe();			
 		}
 		mCurrentPurifier.getNetworkNode().deleteObserver(this);
-		mCurrentPurifier.setPurifierListener(null);
 		stopCurrentSubscription();
 		
 		mCurrentPurifier = null;
@@ -114,6 +110,7 @@ public class AirPurifierManager implements Observer, PurifierListener {
 				airPurifierEventListeners.add(airPurifierEventListener);				
 				if (airPurifierEventListeners.size() == 1) {
 					// TODO optimize not to call start after adding each listener
+					// TODO: DICOMM REFACTOR, need to check in case of multiple purifiers may be for powercube
 					startSubscription();
 				}
 			}
@@ -130,124 +127,76 @@ public class AirPurifierManager implements Observer, PurifierListener {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyAirPurifierEventListeners()
-	 */
-	@Override
-	public void notifyAirPurifierEventListeners() {
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-				listener.onAirPurifierEventReceived();
-			}
-		}		
-	}
-	
-	/* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyFirmwareEventListeners()
-	 */
-	@Override
-	public void notifyFirmwareEventListeners() {
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-				listener.onFirmwareEventReceived();
-			}
-		}
-	}
-	
 	public synchronized void startSubscription() {
 	    if(airPurifierEventListeners.isEmpty()){
 	        return;
 	    }
 	    
 		AirPurifier purifier = getCurrentPurifier();
-		if (purifier != null) {
-			mCurrentSubscriptionState = purifier.getNetworkNode().getConnectionState();
+		
+		if (purifier == null) return;
+		
+		mCurrentSubscriptionState = purifier.getNetworkNode().getConnectionState();
+//		
+//		ALog.i(ALog.PURIFIER_MANAGER, "Start Subscription: " + mCurrentSubscriptionState);
+//		switch (mCurrentSubscriptionState) {
+//			case CONNECTED_LOCALLY:  //Start the subscription every time it discovers the Purifier
+//				                    ALog.i(ALog.PURIFIER_MANAGER, "Start local subscription for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
+//									purifier.subscribe();
+//									purifier.enableSubscription();
+//									break;
+//			case CONNECTED_REMOTELY: if (PurAirApplication.isDemoModeEnable()) return;
+//		    
+//								    if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
+//										ALog.i(ALog.PURIFIER_MANAGER, "Can't start remote connection - not paired to purifier");
+//										return;
+//									} 
+//								    ALog.i(ALog.PURIFIER_MANAGER, "Start Remote subscription for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
+//								    //Start the subscription every time it discovers the Purifier
+//									purifier.subscribe();
+//									purifier.enableSubscription();
+//								    break;
+//			case DISCONNECTED: /* NOP */ break;
+//		}
+		// TODO:DICOMM REFACTOR, Need to remove after builder is introduced.
+		if(mCurrentSubscriptionState == ConnectionState.CONNECTED_REMOTELY && PurAirApplication.isDemoModeEnable()){
+			return;
 		}
 		
-		ALog.i(ALog.PURIFIER_MANAGER, "Start Subscription: " + mCurrentSubscriptionState);
-		switch (mCurrentSubscriptionState) {
-			case CONNECTED_LOCALLY: startLocalConnection(); break;
-			case CONNECTED_REMOTELY: startRemoteConnection(); break;
-			case DISCONNECTED: /* NOP */ break;
-		}
+		purifier.subscribe();
+        purifier.enableSubscription();
 	}
 
 	private synchronized void stopCurrentSubscription() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
-		switch (mCurrentSubscriptionState) {
-			case CONNECTED_LOCALLY: stopLocalConnection(); break;
-			case CONNECTED_REMOTELY: stopRemoteConnection(); break;
-			case DISCONNECTED: /* NOP */ break;
-		}
-	}
-
-	private void startLocalConnection() {
-		AirPurifier purifier = getCurrentPurifier();
-		if (purifier == null) return;
-		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
-		
-		//Start the subscription every time it discovers the Purifier
-		purifier.subscribe();
-		purifier.enableLocalSubscription();
-	}
-
-	private void stopLocalConnection() {
-		ALog.i(ALog.PURIFIER_MANAGER, "Stop LocalConnection") ;
 		AirPurifier currentPurifier = getCurrentPurifier();
-        if(currentPurifier != null) {
-			currentPurifier.disableLocalSubscription();
-			currentPurifier.stopResubscribe();
-		}
-	}
-
-	private void startRemoteConnection() {
-		
-		if (PurAirApplication.isDemoModeEnable()) return;
-		
-		AirPurifier purifier = getCurrentPurifier();
-		if (purifier == null) return;
-		
-		if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
-			ALog.i(ALog.PURIFIER_MANAGER, "Can't start remote connection - not paired to purifier");
+		if(currentPurifier == null){
 			return;
 		}
+//		switch (mCurrentSubscriptionState) {
+//			case CONNECTED_REMOTELY: if (currentPurifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
+//						                ALog.i(ALog.PURIFIER_MANAGER, "Can't stop remote connection - not paired to purifier");
+//						                return;
+//						             }  
+//									currentPurifier.disableSubscription();
+//									currentPurifier.stopResubscribe();
+//									break;
+//			case CONNECTED_LOCALLY: currentPurifier.disableSubscription();
+//			                        currentPurifier.stopResubscribe();
+//			                        break;
+//			case DISCONNECTED: /* NOP */ break;
+//			
+//		}
 		
-		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getNetworkNode().getName() + " (" + purifier.getNetworkNode().getCppId() + ")");
-		getCurrentPurifier().subscribe();
+		currentPurifier.disableSubscription();
+		if(!(mCurrentSubscriptionState == ConnectionState.DISCONNECTED)){
+		currentPurifier.stopResubscribe();
+		}
 		
-		// TODO improve when/how remote subscription is enabled
-		getCurrentPurifier().enableRemoteSubscription(PurAirApplication.getAppContext());
-	}
-	
-	private void stopRemoteConnection() {
-		ALog.i(ALog.PURIFIER_MANAGER, "Stop RemoteConnection - not doing anything") ;
-		AirPurifier purifier = getCurrentPurifier();
-        if (purifier == null) return;
-        
-        if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) {
-            ALog.i(ALog.PURIFIER_MANAGER, "Can't stop remote connection - not paired to purifier");
-            return;
-        }
-        
-        purifier.stopResubscribe();
-		// TODO DIComm Refactor - Disable remote subscription
-	}
-	
-	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
-		instance = dummyManager;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.newpurifier.PurifierListener#notifyAirPurifierEventListenersErrorOccurred(com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent)
-	 */
-	@Override
-	public void notifyAirPurifierEventListenersErrorOccurred(
-			Error purifierEventError) {
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-				listener.onErrorOccurred(purifierEventError);
-			}
-		}
+	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
+		instance = dummyManager;
 	}
 
 	@Override
