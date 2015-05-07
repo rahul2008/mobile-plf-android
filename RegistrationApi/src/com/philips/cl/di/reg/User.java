@@ -27,6 +27,7 @@ import com.philips.cl.di.reg.dao.ConsumerArray;
 import com.philips.cl.di.reg.dao.ConsumerInterest;
 import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
@@ -101,7 +102,9 @@ public class User {
 			Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
 			        null);
 		} else {
-			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM.geterrorList());
+			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo = new SignInTraditionalFailuerInfo();
+			signInTraditionalFailuerInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			traditionalLoginHandler.onLoginFailedWithError(signInTraditionalFailuerInfo);
 		}
 	}
 
@@ -217,7 +220,9 @@ public class User {
 			Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
 			        mergeToken);
 		} else {
-			traditionalLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM.geterrorList());
+			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo = new SignInTraditionalFailuerInfo();
+			signInTraditionalFailuerInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			traditionalLoginHandler.onLoginFailedWithError(signInTraditionalFailuerInfo);
 		}
 	}
 
