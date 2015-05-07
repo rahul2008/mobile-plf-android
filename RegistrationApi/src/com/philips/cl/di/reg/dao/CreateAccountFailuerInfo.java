@@ -26,7 +26,7 @@ public class CreateAccountFailuerInfo {
 
 	public String getErrorDescription() {
 		if (null != error && null != error.captureApiError) {
-			return error.captureApiError.error;
+			return error.captureApiError.error_description;
 		}
 
 		return null;
