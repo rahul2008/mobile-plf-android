@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import java.util.Map;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
@@ -35,7 +34,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 	
 	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,Object> dataMap,ResponseHandler responseHandler) {
 		super(networkNode, dataMap, responseHandler);
-	    mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
+	    mCppController = CPPController.getInstance();
 		mRequestType = requestType;
 		mPortName = portName;
 		mProductId = productId;

@@ -123,14 +123,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	/**
-	 * 
-	 * @param appContext
+	 *
 	 * @return
 	 */
-	public static synchronized CPPController getInstance(Context appContext) {
+	public static synchronized CPPController getInstance() {
 		ALog.i(ALog.ICPCLIENT, "GetInstance: " + mIcpStateInstance);
 		if (null == mIcpStateInstance) {
-			mIcpStateInstance = new CPPController(appContext);
+			mIcpStateInstance = new CPPController(PurAirApplication.getAppContext());
 			// init and signon
 		}
 		setLocale();
@@ -472,7 +471,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	public boolean sendNotificationRegistrationId(String gcmRegistrationId) {
-		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
+		if (!CPPController.getInstance().isSignOn()) {
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}

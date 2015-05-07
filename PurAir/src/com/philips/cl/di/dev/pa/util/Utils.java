@@ -847,7 +847,7 @@ public class Utils {
 	}
 
 	public static boolean isVersionChanged() {
-		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
+		final SharedPreferences prefs = CPPController.getInstance().
 				getGCMPreferences();
 
 		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
@@ -864,7 +864,7 @@ public class Utils {
 	}
 
 	public static boolean isLocaleChanged() {
-		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
+		final SharedPreferences prefs = CPPController.getInstance().
 				getGCMPreferences();
 		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
 

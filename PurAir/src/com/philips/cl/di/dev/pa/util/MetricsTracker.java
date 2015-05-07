@@ -466,7 +466,7 @@ public class MetricsTracker {
 		contextData.put(KEY_FIRMWARE_VERSION, getFirmwareVersion());
 		contextData.put(KEY_MACHINE_ID, getDeviceEui64());
 		contextData.put(KEY_PRODUCT_MODEL, AirPurifierManager.getInstance().getCurrentPurifier() != null ? VALUE_MODEL_AC4373 : "Not Found");
-		contextData.put(KEY_APP_ID, CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId());
+		contextData.put(KEY_APP_ID, CPPController.getInstance().getAppCppId());
 		return contextData;
 	}
 

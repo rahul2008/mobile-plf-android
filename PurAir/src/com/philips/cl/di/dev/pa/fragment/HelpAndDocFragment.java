@@ -202,7 +202,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String appVersion= getString(R.string.app_version)+Utils.getVersionNumber();
 		String platform= getString(R.string.mobile_platform) +"Android";
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
-		String appEui64 = getString(R.string.app_eui64) + CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId();
+		String appEui64 = getString(R.string.app_eui64) + CPPController.getInstance().getAppCppId();
 		
 		List<AirPurifier> purifiers= DiscoveryManager.getInstance().getStoreDevices();
 

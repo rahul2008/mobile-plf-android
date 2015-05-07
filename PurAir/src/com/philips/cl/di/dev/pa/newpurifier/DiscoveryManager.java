@@ -91,7 +91,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mDatabase = new PurifierDatabase();
 		initializeDevicesMapFromDataBase();
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
-		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), this);
+		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(), this);
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);

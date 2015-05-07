@@ -1,7 +1,6 @@
 package com.philips.cl.di.dicomm.communication;
 
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
@@ -15,7 +14,7 @@ public class RemoteSuscriptionHandler extends SubscribeHandler implements DCSEve
 	
 	//TODO: DICOMM Refactor, if cppcontroller is available without context, then we need to remove this
 	public RemoteSuscriptionHandler(){
-		mCppController = CPPController.getInstance(PurAirApplication.getAppContext());
+		mCppController = CPPController.getInstance();
 	}
 	
 	public void registerSubscriptionListener(SubscriptionEventListener subscriptionEventListener){
