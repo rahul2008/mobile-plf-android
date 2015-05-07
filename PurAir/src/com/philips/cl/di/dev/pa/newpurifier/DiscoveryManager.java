@@ -711,6 +711,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 	
 	public List<AirPurifier> getAllAirPurifiers() {
+		List<AirPurifier> result = new ArrayList<AirPurifier>();
+		
 		DISecurity diSecurity = new DISecurity();
 		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
 		
@@ -719,9 +721,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		for (NetworkNode networkNode : networkNodes) {
 			AirPurifier airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
 			mDatabase.loadDataForAppliance(airPurifier);
-			mDevicesMap.put(networkNode.getCppId(), airPurifier);
+			result.add(airPurifier);
 		}
-		return new ArrayList<AirPurifier>();
+		return result;
 	}
 
 	public long insert(AirPurifier airPurifier) {
