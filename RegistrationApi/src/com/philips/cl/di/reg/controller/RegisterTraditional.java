@@ -43,6 +43,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 	@Override
 	public void onFailure(SignInError error) {
 		CreateAccountFailuerInfo createAccountFailuerInfo = new CreateAccountFailuerInfo();
+		createAccountFailuerInfo.setError(error);
 		handleInvalidInputs(error, createAccountFailuerInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
 		int errorCondition = errorMapping.checkSignInError();

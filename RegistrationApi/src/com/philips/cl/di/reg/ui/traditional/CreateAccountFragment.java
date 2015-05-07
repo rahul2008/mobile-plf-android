@@ -215,8 +215,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 				mEtName.showInvalidAlert();
 			}
 
-			mRegError.setError(getResources().getString(
-					R.string.JanRain_Invalid_Input));
+			mRegError.setError(createAccountFailuerInfo.getErrorDescription());
 		} else {
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}

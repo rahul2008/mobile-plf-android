@@ -192,7 +192,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mRegError.setError(getResources().getString(R.string.JanRain_Invalid_Credentials));
 			mEtEmail.setErrDescription(getResources().getString(
 			        R.string.JanRain_Invalid_Credentials));
-			mEtEmail.showInvalidEmailAlert();
+			mEtEmail.showInvalidAlert();
 			mEtPassword.setErrDescription(getResources().getString(
 			        R.string.JanRain_Invalid_Credentials));
 			mEtPassword.showJanarainError();
@@ -203,7 +203,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			updateUiStatus();
 			mEtPassword.setErrDescription(message);
 			mEtEmail.setErrDescription(message);
-			mEtEmail.showInvalidEmailAlert();
+			mEtEmail.showInvalidAlert();
 			mEtPassword.showJanarainError();
 
 		}
@@ -246,7 +246,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		updateUiStatus();
 		mEtPassword.setErrDescription(message);
 		mEtEmail.setErrDescription(message);
-		mEtEmail.showInvalidEmailAlert();
+		mEtEmail.showInvalidAlert();
 		mEtPassword.showJanarainError();
 	}
 
@@ -273,7 +273,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private void resetPassword() {
 		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail.getEmailId().toString());
 		if (!validatorResult) {
-			mEtEmail.showInvalidEmailAlert();
+			mEtEmail.showInvalidAlert();
 		} else {
 			if (NetworkUtility.getInstance().isOnline()) {
 				if (mUser != null) {

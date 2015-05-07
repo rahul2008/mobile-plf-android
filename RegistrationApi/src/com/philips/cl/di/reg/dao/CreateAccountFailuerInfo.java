@@ -1,6 +1,8 @@
 
 package com.philips.cl.di.reg.dao;
 
+import com.janrain.android.Jump.SignInResultHandler.SignInError;
+
 public class CreateAccountFailuerInfo {
 
 	/* kSocialEmailError = @"socialRegistration_emailAddress"; */
@@ -11,6 +13,24 @@ public class CreateAccountFailuerInfo {
 	private String emailErrorMessage;
 
 	private String passwordErrorMessage;
+
+	private SignInError error;
+
+	public SignInError getError() {
+		return error;
+	}
+
+	public void setError(SignInError error) {
+		this.error = error;
+	}
+
+	public String getErrorDescription() {
+		if (null != error && null != error.captureApiError) {
+			return error.captureApiError.error;
+		}
+
+		return null;
+	}
 
 	public String getFirstNameErrorMessage() {
 		return firstNameErrorMessage;
