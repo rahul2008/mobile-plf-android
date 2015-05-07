@@ -63,7 +63,7 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 		String createAirPurifierTableQuery = "CREATE TABLE IF NOT EXISTS " + AppConstants.TABLE_AIRPUR_DEVICE + "(" 
 				+ AppConstants.KEY_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,"
 				+ AppConstants.KEY_AIRPUR_CPP_ID + " TEXT NOT NULL UNIQUE,"
-				+ AppConstants.KEY_AIRPUR_USN + " TEXT UNIQUE," 
+				+ AppConstants.KEY_AIRPUR_USN + " TEXT UNIQUE," //TODO remove usn
 				+ AppConstants.KEY_LATITUDE + " TEXT," 
 				+ AppConstants.KEY_LONGITUDE + " TEXT,"
 				+ ");";
