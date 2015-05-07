@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by 310188215 on 07/05/15.
  */
-public abstract class SHNLogItemDataSleep implements SHNLogItemData {
+public abstract class SHNDataSleep implements SHNData {
     public enum SleepState {
         Awake, Asleep
     }

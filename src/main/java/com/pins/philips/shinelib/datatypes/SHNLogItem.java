@@ -9,6 +9,6 @@ import java.util.Set;
  */
 public abstract class SHNLogItem {
     public abstract Date getTimestamp();
-    public abstract Set<SHNLogItemDataType> getContainedDataTypes(); // Is this usefull. Its the same data that can be obtained from the Map...
-    public abstract Map<SHNLogItemDataType, SHNLogItemData> getDataByDataTypeMap();
+    public abstract Set<SHNDataType> getContainedDataTypes();
+    public abstract Map<SHNDataType, SHNData> getDataByDataTypeMap();
 }

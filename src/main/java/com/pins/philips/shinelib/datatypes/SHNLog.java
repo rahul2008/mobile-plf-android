@@ -1,7 +1,5 @@
 package com.pins.philips.shinelib.datatypes;
 
-import com.pins.philips.shinelib.SHNDevice;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -12,11 +10,11 @@ import java.util.Set;
 public abstract class SHNLog {
     public abstract Date getStartDate();
     public abstract Date getEndDate();
-    public abstract long getDuration(); // In seconds? between end and start?
-    public abstract SHNDevice getAssociatedDevice();
+    public abstract long getDurationMS(); // In MSseconds? between end and start?
+    public abstract String getAssociatedDeviceAddress();
     public abstract List<SHNLogItem> getLogItems();
-    public abstract Set<SHNLogItemDataType> getContainedDataTypes();
+    public abstract Set<SHNDataType> getContainedDataTypes();
 
-    public abstract List<SHNLogItem> getLogItems(SHNLogItemDataType shnLogItemDataType);
+    public abstract List<SHNLogItem> getLogItems(SHNDataType shnDataType);
     public abstract SHNLogItem getLogItemAtTimeOffset(long offset);
 }

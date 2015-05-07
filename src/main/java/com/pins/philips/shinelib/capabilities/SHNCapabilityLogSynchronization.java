@@ -1,5 +1,6 @@
 package com.pins.philips.shinelib.capabilities;
 
+import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNIntegerResultListener;
 import com.pins.philips.shinelib.SHNResult;
 import com.pins.philips.shinelib.SHNResultListener;
@@ -8,7 +9,7 @@ import com.pins.philips.shinelib.datatypes.SHNLog;
 /**
  * Created by 310188215 on 03/03/15.
  */
-public interface SHNCapabilityLogSynchronization {
+public interface SHNCapabilityLogSynchronization extends SHNCapability {
     enum State {
         Idle,
         Synchronizing,
@@ -24,7 +25,7 @@ public interface SHNCapabilityLogSynchronization {
         ShouldReadHighResolutionData
     }
 
-    enum Error {
+    enum Error { // SHNError.h
 
     }
 
@@ -37,11 +38,11 @@ public interface SHNCapabilityLogSynchronization {
 
     void setListener(Listener listener);
     State getState();
-    int getLastSynchronizationToken();
+    Object getLastSynchronizationToken();
 
     void getValueForOption(Option option, SHNIntegerResultListener shnResultListener);
     void setValueForOption(int value, Option option, SHNResultListener shnResultListener);
 
-    void startSynchronizationFromToken(int synchronizationToken);
+    void startSynchronizationFromToken(Object synchronizationToken);
     void abortSynchronization();
 }

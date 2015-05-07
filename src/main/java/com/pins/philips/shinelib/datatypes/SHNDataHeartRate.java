@@ -3,11 +3,11 @@ package com.pins.philips.shinelib.datatypes;
 /**
  * Created by 310188215 on 07/05/15.
  */
-public class SHNLogItemDataHeartRate implements SHNLogItemData {
+public class SHNDataHeartRate implements SHNData {
     private final int heartRate;
     private final boolean valid;
 
-    public SHNLogItemDataHeartRate(int heartRate, boolean valid) {
+    public SHNDataHeartRate(int heartRate, boolean valid) {
         this.heartRate = heartRate;
         this.valid = valid;
     }
