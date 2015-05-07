@@ -13,16 +13,18 @@ import android.os.Environment;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.PurAirKPSConfiguration;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 
 public class PurAirApplication extends Application {
-	
+
 	private static PurAirApplication mInstance = null;
 	public static final String CACHEDIR_IMG = Environment.getExternalStorageDirectory().getPath() + "/philips/air/imgs/";
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -35,9 +37,10 @@ public class PurAirApplication extends Application {
 		
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
-		
+
+		CPPController.createSharedInstance(getAppContext(), new PurAirKPSConfiguration());
 	}
-	
+
 	private void initImageLoader() {
 		ImageLoaderUtils.initImageLoader(getApplicationContext(),
 				ImageLoaderUtils.getDisplayImageOptions(true,

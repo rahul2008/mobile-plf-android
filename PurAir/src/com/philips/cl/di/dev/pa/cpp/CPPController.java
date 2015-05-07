@@ -47,7 +47,7 @@ import com.philips.icpinterface.data.Errors;
 
 public class CPPController implements ICPClientToAppInterface, ICPEventListener {
 
-	private static CPPController mIcpStateInstance;	
+	private static CPPController mInstance;
 	private static final String CERTIFICATE_EXTENSION = ".cer";
 	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
 
@@ -59,11 +59,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private AppUpdateListener mAppUpdateListener ; 
 
 	private ICPCallbackHandler mICPCallbackHandler;
-	private Params mConfigParams;
+	private Params mKpsConfiguration;
 	private Context mContext;
 
-	private EventSubscription mEventSubscription; 
-    private HashMap<String,DCSEventListener> mDcsEventListenersMap = new HashMap<String, DCSEventListener>(); 
+	private EventSubscription mEventSubscription;
+    private HashMap<String,DCSEventListener> mDcsEventListenersMap = new HashMap<String, DCSEventListener>();
 	private CppDiscoverEventListener mCppDiscoverEventListener;
 	private boolean mIsDCSRunning;
 
@@ -85,7 +85,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private int mDcsServiceListenersCount = 0 ;
 	private String mProvider = null;
 	private int mCntOffset  = 0;
-	
+
 	private int mFileSize = 0;
 	private int mPercentage ;
 	private int mByteOffset = 0;
@@ -93,7 +93,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private EventPublisher mEventPublisher ;
 	private ComponentInfo mComponentInfo;
-	
 	private enum KEY_PROVISION {
 		NOT_PROVISIONED,
 		PROVISIONING,
@@ -101,39 +100,39 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
-	
+
 	private String mAppCppId;
 
-	private CPPController(Context context) {
+	public static synchronized void createSharedInstance(Context context, PurAirKPSConfiguration kpsConfiguration) {
+		if (mInstance != null) {
+			throw new RuntimeException("CPPController can only be initialized once");
+		}
+		mInstance = new CPPController(context, kpsConfiguration);
+	}
+
+	public static synchronized CPPController getInstance() {
+		ALog.i(ALog.ICPCLIENT, "GetInstance: " + mInstance);
+		setLocale();
+		return mInstance;
+	}
+
+	private CPPController(Context context, PurAirKPSConfiguration kpsConfiguration) {
 		this.mContext = context;
+		this.mKpsConfiguration = kpsConfiguration;
 		mICPCallbackHandler = new ICPCallbackHandler();
 		mICPCallbackHandler.setHandler(this);
-		
+
 		mSignOnListeners = new ArrayList<SignonListener>();
 		mPublishEventListeners = new ArrayList<PublishEventListener>() ;
 		mDcsResponseListeners = new ArrayList<DCSResponseListener>() ;
 
 		mAppCppId = generateTemporaryAppCppId();
-		
+
 		init() ;
 	}
 
 	private CPPController() {
 		// Only used for testing
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public static synchronized CPPController getInstance() {
-		ALog.i(ALog.ICPCLIENT, "GetInstance: " + mIcpStateInstance);
-		if (null == mIcpStateInstance) {
-			mIcpStateInstance = new CPPController(PurAirApplication.getAppContext());
-			// init and signon
-		}
-		setLocale();
-		return mIcpStateInstance;
 	}
 
 	public void signOnWithProvisioning() {
@@ -144,7 +143,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.i(ALog.ICPCLIENT, "startsignon on network change if not signed on");
 			signOn();
 		}
-				
+
 	}
 
 	private void startKeyProvisioning() {
@@ -153,11 +152,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			String appID = null;
 			String appVersion = null;
 			int rv = 0;
-	
+
 			// set Peripheral Information
-			Provision prv = new Provision(mICPCallbackHandler, mConfigParams,
+			Provision prv = new Provision(mICPCallbackHandler, mKpsConfiguration,
 					null, mContext);
-	
+
 			// Set Application Info
 			// TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
 			PackageManager pm = mContext.getPackageManager();
@@ -170,7 +169,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 			ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
 			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
-	
+
 			rv = prv.executeCommand();
 			if (rv != Errors.SUCCESS) {
 				ALog.i(ALog.KPS, "PROVISION-FAILED");
@@ -188,7 +187,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	public boolean isSignOn() {
 		if (mSignon == null) {
-			mSignon = SignOn.getInstance(mICPCallbackHandler, mConfigParams);			
+			mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
 		}
 		mSignon.getSignOnStatus();
 		return mSignon.getSignOnStatus();
@@ -202,16 +201,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Method to inialize
 	 */
 	private void init() {
-		// Provision
-		mConfigParams = new PurAirKPSConfiguration();
-		((PurAirKPSConfiguration) mConfigParams).setNVMConfigParams();
-
 		int rv = 0;
 
 		if (mSignon == null) {
-			mSignon = SignOn.getInstance(mICPCallbackHandler, mConfigParams);
+			mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
 		}
-		
+
 		// For TLS/KPS enabled case to load-certificates/chek network & other
 		// information
 		// Need android context
@@ -275,7 +270,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
 		this.mDownloadDataListener = downloadDataListener;
 	}
-	
+
 	public void removeDownloadDataListener() {
 		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
 		this.mDownloadDataListener = null;
@@ -286,7 +281,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (mDcsEventListenersMap != null && !mDcsEventListenersMap.containsKey(cppId)) {
 			mDcsEventListenersMap.put(cppId, dcsEventListener);
 		}
-		
+
 	}
 	//DI-Comm change. Added one more method to disable remote subscription
 	public void removeDCSListener(String cppId) {
@@ -294,7 +289,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mDcsEventListenersMap.remove(cppId) ;
 		}
 	}
-	
+
 	private DCSEventListener getDCSEventListener(String cppId) {
 		return mDcsEventListenersMap.get(cppId);
 	}
@@ -310,7 +305,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	public void removeDCSResponseListener(DCSResponseListener dcsResponseListener) {
 		synchronized (mDcsResponseListeners) {
 			if (mDcsResponseListeners.contains(dcsResponseListener)) {
@@ -326,7 +321,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	public void removePublishEventListener(PublishEventListener publishEventListener) {
 		synchronized (mPublishEventListeners) {
 			if (mPublishEventListeners.contains(publishEventListener)) {
@@ -334,16 +329,16 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	/** Subcribe event methods **/
 	/**
 	 * This method will subscribe to events
 	 */
 	public void startDCSService() {
 		ALog.d(ALog.CPPCONTROLLER, "Start DCS: " + mIsDCSRunning + " isSIgnOn" + mIsSignOn +"DCS state: " +mDcsState);
-		
+
 		mDcsServiceListenersCount ++;
-		
+
 			if( mDcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
 				mDcsState = ICP_CLIENT_DCS_STATE.STARTING ;
 				mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
@@ -354,7 +349,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 							numberOfEvents);
 					mEventSubscription.setFilter("");
 					mEventSubscription.setServiceTag("");
-	
+
 					mEventSubscription.executeCommand();
 				} else {
 					ALog.i(ALog.CPPCONTROLLER, "Failed to start DCS - not signed on");
@@ -364,8 +359,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			else {
 				mAppDcsRequestState = APP_REQUESTED_STATE.START ;
 			}
-	
-	}		
+
+	}
 
 	/**
 	 * Stop the DCS service
@@ -373,7 +368,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void stopDCSService() {
 		mDcsServiceListenersCount --;
 		if(mDcsServiceListenersCount ==0){
-			
+
 			if(! isSignOn()) return ;
 			if (mEventSubscription == null) return;
 			if( mDcsState == ICP_CLIENT_DCS_STATE.STARTED) {
@@ -385,7 +380,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			else {
 				mAppDcsRequestState = APP_REQUESTED_STATE.STOP ;
 			}
-		
+
 		}
 	}
 
@@ -410,13 +405,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
 		if( action == null ) return ;
 		if( action.equalsIgnoreCase("RESPONSE")) {
-			
+
 			for(DCSResponseListener listener: mDcsResponseListeners) {
 				listener.onDCSResponseReceived(data, conversationId);
 			}
 		}
-		if (data == null) return;	
-		
+		if (data == null) return;
+
 		if (DataParser.parseDiscoverInfo(data) != null) {
 			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
 			boolean isResponseToRequest = false;
@@ -429,7 +424,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 			return;
 		}
-		
+
 		if (getDCSEventListener(fromEui64) != null) {
 			getDCSEventListener(fromEui64).onDCSEventReceived(data, fromEui64, action);
 		}
@@ -438,7 +433,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	/**
 	 * This method will be used to publish the events from App to Air Purifier
 	 * via CPP
-	 * 
+	 *
 	 * @param eventData
 	 * @param eventType
 	 * @param actionName
@@ -485,13 +480,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mProvider = AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
 		}
 
-		ALog.i(ALog.NOTIFICATION, "CPPController sendNotificationRegistrationId provider : " + mProvider 
+		ALog.i(ALog.NOTIFICATION, "CPPController sendNotificationRegistrationId provider : " + mProvider
 				+"------------RegId : " + gcmRegistrationId);
 
 		ThirdPartyNotification thirdParty = new ThirdPartyNotification(
 				mICPCallbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
-		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, mProvider/* = 
-				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE : 
+		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, mProvider/* =
+				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE :
 					AppConstants.NOTIFICATION_PROVIDER_JPUSH*/, gcmRegistrationId);
 
 		int retStatus =  thirdParty.executeCommand();
@@ -515,7 +510,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
 			return AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
-		} 
+		}
 		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			return AppConstants.NOTIFICATION_PROVIDER_JPUSH;
 		}
@@ -540,7 +535,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will download the data from the cpp given the query and the
 	 * buffer size callback from the download will happen in
 	 * onICPCallbackEventOccurred
-	 * 
+	 *
 	 * @param query
 	 * @param bufferSize
 	 */
@@ -568,7 +563,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		} catch (Error e) {
 			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	public void setDefaultDcsState() {
@@ -583,7 +578,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	/***
 	 * This is the callback method for all the CPP related events. (Signon,
 	 * Publish Events, Subscription, etc..)
-	 * 
+	 *
 	 */
 
 	@Override
@@ -639,7 +634,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			break;
 		}
 	}
-	
+
 	private void keyProvisionEvent(int status, ICPClient obj) {
 		if (status == Errors.SUCCESS) {
 			ALog.i(ALog.KPS, "PROVISION-SUCCESS");
@@ -654,7 +649,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 		}
 	}
-	
+
 	// TODO:DICOMM Refactor, check if this also can be moved to appupdater then onfiledownloadFailed callback can be removed
 	private void componentDetailsEvent(int status, ICPClient obj) {
 		if (status == Errors.SUCCESS) {
@@ -680,12 +675,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "ICPCallback FetchComponentDetails failed: " + status);
 		}
 	}
-	
+
 	private void subscribeEvents(int status, ICPClient obj) {
 		String dcsEvents = "";
 		String fromEui64 = "";
 		String action = "";
-		//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
+		//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED
 		if (status == Errors.SUCCESS) {
 			ALog.i(ALog.ICPCLIENT,"State :"+mEventSubscription.getState())  ;
 			mDcsState = ICP_CLIENT_DCS_STATE.STARTED;
@@ -726,9 +721,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	private void thirdPartyRegisterProtocolAddressEvent(int status, ICPClient obj) {
-		ThirdPartyNotification tpns = (ThirdPartyNotification) obj;			
+		ThirdPartyNotification tpns = (ThirdPartyNotification) obj;
 		if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
 			ALog.i(ALog.CPPCONTROLLER, "Successfully registered with CPP");
 			ALog.i(ALog.NOTIFICATION, "Successfully registered with CPP");
@@ -742,7 +737,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			notifyNotificationListener(false);
 		}
 	}
-	
+
 	private void rdcpDownloadEvent(int status, ICPClient obj) {
 		if (status == Errors.SUCCESS) {
 			byte[] bufferOriginal = new byte[((DownloadData) obj)
@@ -771,14 +766,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			notifyDownloadDataListener(status, null);
 		}
 	}
-	
+
 	private void notifyDownloadDataListener(int status, String downloadedData) {
 		if (mDownloadDataListener != null) {
 			mDownloadDataListener.onDataDownload(status, downloadedData);
 		}
 	}
-	
-	
+
+
 	public void startNewAppUpdateDownload() {
 		FileDownload fileDownload = new FileDownload(mICPCallbackHandler);
 
@@ -859,7 +854,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 */
 	public String getICPClientVersion() {
 		if (mSignon == null) {
-			mSignon = SignOn.getInstance(mICPCallbackHandler, mConfigParams);
+			mSignon = SignOn.getInstance(mICPCallbackHandler, mKpsConfiguration);
 		}
 		return mSignon.clientVersion();
 	}
@@ -886,7 +881,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "fetchICPComponentDetails failed");
 		}
 	}
-	
+
 	private void startFileDownload(int status, ICPClient obj) {
 		if(status == Errors.SUCCESS) {
 
@@ -908,13 +903,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						mFileOutputStream.write(buffer);
 						mByteOffset += buffer.length;
 						float currentPercentage = (mByteOffset / (float) mFileSize) * 100;
-						
+
 						if(mPercentage != (int)currentPercentage) {
 							mPercentage = (int)currentPercentage;
 							mAppUpdateListener.onAppUpdateDownloadProgress(mPercentage);
 						}
 					}
-					
+
 					if(((FileDownload)obj).getDownloadStatus() == true) {
 						//In downloading time, if Internet disconnect, then we are getting getDownloadStatus() true.
 						// So we added double check as file size.
@@ -938,7 +933,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mAppUpdateListener.onAppUpdateDownloadFailed();
 		}
 	}
-	
+
 	private void createFileOutputStream() {
 		try {
 			File outFile = mAppUpdateListener.createFileForAppUpdateDownload();
@@ -954,7 +949,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mFileOutputStream = null;
 		}
 	}
-	
+
 	private void closeFileOutputStream() {
 		try {
 			if (mFileOutputStream != null) {
@@ -963,9 +958,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 	private int getAppVersion() {
 		try {
 			PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
@@ -979,14 +974,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private static void setLocale(){
 		if (mSignon == null) return;
-		
+
 		mSignon.setNewLocale(Utils.getCountryCode(), Utils.getCountryLocale());
 	}
-	
+
 	public String getAppCppId() {
 		return mAppCppId;
 	}
-	
+
 	private String generateTemporaryAppCppId() {
 		return String.format("deadbeef%08x",new Random().nextInt());
 	}
