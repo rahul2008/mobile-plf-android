@@ -1,27 +1,20 @@
 package com.philips.cl.di.dev.pa.database;
 
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class NetworkNodeDatabase  {
+public class NetworkNodeDatabase {
 	
 	private SQLiteDatabase db;
 	private NetworkNodeDatabaseHelper dbHelper;
@@ -33,57 +26,114 @@ public class NetworkNodeDatabase  {
 	public List<NetworkNode> getAll() {
 		List<NetworkNode> result = new ArrayList<NetworkNode>();
 		
-		db = dbHelper.getReadableDatabase();
-		Cursor cursor = db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+		Cursor cursor = null;
 		
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			
-			do {
-				String eui64 = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
-				long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
-				String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
-				String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
-				String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LASTKNOWN_NETWORK));
-				int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
-				long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
-				String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
-				String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
+		try {
+			db = dbHelper.getReadableDatabase();
+			cursor = db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
+		
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToFirst();
 				
-				NetworkNode networkNode = new NetworkNode();
-				networkNode.setCppId(eui64);
-				networkNode.setBootId(bootId);
-				networkNode.setEncryptionKey(encryptionKey);
-				networkNode.setName(name);
-				networkNode.setHomeSsid(lastKnownNetwork);
-				networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
-				networkNode.setLastPairedTime(lastPairedTime);
-				networkNode.setIpAddress(ipAddress);
-				networkNode.setModelName(modelName);
-				
-				result.add(networkNode);
-			} while (cursor.moveToNext());
-		} else {
-			ALog.i(ALog.DATABASE, "Empty network node table");
+				do {
+					String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
+					long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
+					String encryptionKey = cursor.getString(cursor.getColumnIndex(KEY_ENCRYPTION_KEY));
+					String name = cursor.getString(cursor.getColumnIndex(KEY_DEVICE_NAME));
+					String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(KEY_LASTKNOWN_NETWORK));
+					int pairedStatus = cursor.getInt(cursor.getColumnIndex(KEY_IS_PAIRED));
+					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
+					String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
+					String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
+					
+					NetworkNode networkNode = new NetworkNode();
+					networkNode.setCppId(cppId);
+					networkNode.setBootId(bootId);
+					networkNode.setEncryptionKey(encryptionKey);
+					networkNode.setName(name);
+					networkNode.setHomeSsid(lastKnownNetwork);
+					networkNode.setPairedState(NetworkNode.getPairedStatusKey(pairedStatus));
+					networkNode.setLastPairedTime(lastPairedTime);
+					networkNode.setIpAddress(ipAddress);
+					networkNode.setModelName(modelName);
+					
+					result.add(networkNode);
+				} while (cursor.moveToNext());
+			} else {
+				ALog.i(ALog.DATABASE, "Empty network node table");
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		} finally {
+			closeCursor(cursor);
+			closeDatabase();
 		}
 		
 		return result;
 	}
 
-	public void save(NetworkNode object) {
-//		if (alreadyExists(object)) {
-//			update(object);
-//		} else {
-//			insert(object);
-//		}
+	public long save(NetworkNode networkNode) {
+		long rowId = -1L;
+		
+		if (networkNode == null) 
+			return rowId;
+		
+		if (networkNode.getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED)
+			networkNode.setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+		
+		try {
+			db = dbHelper.getWritableDatabase();
+			
+			ContentValues values = new ContentValues();
+//			values.put(KEY_ID, null); // http://stackoverflow.com/questions/17212781/how-to-skip-the-primary-key-when-inserting-contentvalues-in-sqlitedatabase
+			values.put(KEY_CPP_ID, networkNode.getCppId());
+			values.put(KEY_BOOT_ID, networkNode.getBootId());
+			values.put(KEY_ENCRYPTION_KEY, networkNode.getEncryptionKey());
+			values.put(KEY_DEVICE_NAME, networkNode.getName());
+			values.put(KEY_LASTKNOWN_NETWORK, networkNode.getHomeSsid());
+			values.put(KEY_IS_PAIRED, networkNode.getPairedState().ordinal());
+			
+			if (networkNode.getPairedState() == PAIRED_STATUS.PAIRED) {
+				values.put(KEY_LAST_PAIRED, networkNode.getLastPairedTime());
+			} else {
+				values.put(KEY_LAST_PAIRED, -1L);
+			}
+			
+			values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
+			values.put(KEY_MODEL_NAME, networkNode.getModelName());
+			
+			rowId = db.update(TABLE_NETWORK_NODE, values, null, null);
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
+		} finally {
+			closeDatabase();
+		}
+		
+		return rowId;
 	}
 	
-	private void insert(NetworkNode networkNode) {
-		
+	public long delete(NetworkNode networkNode) {
+		return -1L;
 	}
 	
-	private void update(NetworkNode networkNode) {
-		
+	private void closeDatabase() {
+		try {
+			if (db != null && db.isOpen()) {
+				db.close();
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		}
+	}
+
+	private void closeCursor(Cursor cursor) {
+		try {
+			if (cursor != null && !cursor.isClosed() ) {
+				cursor.close();
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		}
 	}
 	
 }
