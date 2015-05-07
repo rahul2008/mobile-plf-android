@@ -3,8 +3,11 @@ package com.philips.cl.di.dev.pa.buyonline;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+
 import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -14,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -22,6 +26,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -161,18 +167,41 @@ public class ProductRegActivity extends BaseActivity{
 		}).start();
 	}
 	
-	@SuppressLint("SimpleDateFormat")
+	
+	private DatePickerDialog  datePickerDialog;
+	@SuppressLint({ "SimpleDateFormat", "NewApi" })
 	private void showDataSelDialog() {
-		Calendar calendar = Calendar.getInstance();
-		new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+		
+		Calendar currentCalendar = Calendar.getInstance();
+		final int currentYear = currentCalendar.get(Calendar.YEAR);
+	    final int currentMonth = currentCalendar.get(Calendar.MONTH);
+	    final int currentDay = currentCalendar.get(Calendar.DAY_OF_MONTH);
+		datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
 			@Override
 			public void onDateSet(DatePicker view, int year, int monthOfYear,
 					int dayOfMonth) {
 				Calendar calendar = Calendar.getInstance();
 				calendar.set(year, monthOfYear, dayOfMonth);
-				((TextView)findViewById(R.id.productreg_buytime_tv)).setText(new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime()));
+				long selectedMilli = calendar.getTimeInMillis();
+
+				Date datePickerDate = new Date(selectedMilli);
+				if (datePickerDate.after(new Date())) {
+					datePickerDialog.updateDate(currentYear, currentMonth, currentDay);
+					calendar.set(currentYear, currentMonth, currentDay);
+					Toast.makeText(getApplicationContext(), getString(R.string.enter_purchase_date_alert), Toast.LENGTH_LONG).show();
+				}
+
+				((TextView)findViewById(R.id.productreg_buytime_tv))
+					.setText(new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime()));
 			}
-		}, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+		}, currentYear, currentMonth, currentDay);
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+		}
+		
+		datePickerDialog.show();
 	}
 	
 	@Override

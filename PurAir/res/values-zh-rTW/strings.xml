@@ -750,6 +750,7 @@
     <string name="camera_app_not_install">您尚未安裝相機</string>
     <string name="gallery">相簿</string>
     <string name="camera">拍照</string>
+    <string name="enter_purchase_date_alert">请输入正确的购买日期</string>
     
     <string name="cloud_service_not_available">對不起，飛利浦雲端暫時未能提供服務，請稍後再次嘗試。</string>
     <string name="enable_internet_access">未能與網絡連線，請啟用網絡連線。</string>
