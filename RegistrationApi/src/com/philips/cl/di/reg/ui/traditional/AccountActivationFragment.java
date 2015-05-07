@@ -9,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -116,7 +115,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_reg_veify_email);
 		mLlWelcomeContainer = (LinearLayout) view
 				.findViewById(R.id.ll_reg_welcome_container);
-		mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
+		mTvResendDetails = (TextView) view
+				.findViewById(R.id.tv_reg_resend_details);
 		mRlSingInOptions = (RelativeLayout) view
 				.findViewById(R.id.rl_reg_singin_options);
 		mBtnActivate = (Button) view.findViewById(R.id.btn_reg_activate_acct);
@@ -133,7 +133,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mEmailId = userProfile.getEmail();
-		tvEmail.setText(getString(R.string.VerifyEmail_EmailSentto_lbltxt) + mEmailId);
+		tvEmail.setText(getString(R.string.VerifyEmail_EmailSentto_lbltxt)
+				+ mEmailId);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mEMailVerifiedError = (XRegError) view
 				.findViewById(R.id.reg_email_verified_error);

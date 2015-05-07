@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.dao;
 
 import com.janrain.android.Jump.SignInResultHandler.SignInError;

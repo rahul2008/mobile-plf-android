@@ -27,6 +27,7 @@ import com.philips.cl.di.reg.dao.ConsumerArray;
 import com.philips.cl.di.reg.dao.ConsumerInterest;
 import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
 import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
@@ -179,8 +180,10 @@ public class User {
 			ForgotPassword forgotPasswordResultHandler = new ForgotPassword(forgotPasswordHandler);
 			Jump.performForgotPassword(emailAddress, forgotPasswordResultHandler);
 		} else {
-			forgotPasswordHandler.onSendForgotPasswordFailedWithError(Error.INVALID_PARAM
-			        .geterrorList());
+			
+			ForgotPasswordFailureInfo forgotPasswordFailureInfo  = new ForgotPasswordFailureInfo();
+			forgotPasswordFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			forgotPasswordHandler.onSendForgotPasswordFailedWithError(forgotPasswordFailureInfo);
 		}
 	}
 

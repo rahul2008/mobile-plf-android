@@ -12,6 +12,7 @@ import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
+import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
 
@@ -54,26 +55,26 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 	private void handleInvalidInputs(SignInError error,
 	        CreateAccountFailuerInfo createAccountFailuerInfo) {
 		if (null != error.captureApiError && null != error.captureApiError.error
-		        && error.captureApiError.error.equals("invalid_form_fields")) {
+		        && error.captureApiError.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
 				JSONObject object = error.captureApiError.raw_response;
-				JSONObject jsonObject = (JSONObject) object.get("invalid_fields");
+				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
-					if (!jsonObject.isNull("traditionalRegistration_firstName")) {
+					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_FIRST_NAME)) {
 						createAccountFailuerInfo
 						        .setFirstNameErrorMessage(getErrorMessage(jsonObject
-						                .getJSONArray("traditionalRegistration_firstName")));
+						                .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_FIRST_NAME)));
 					}
 
-					if (!jsonObject.isNull("traditionalRegistration_emailAddress")) {
+					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)) {
 						createAccountFailuerInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray("traditionalRegistration_emailAddress")));
+						        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)));
 					}
 
-					if (!jsonObject.isNull("traditionalRegistration_password")) {
+					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)) {
 						createAccountFailuerInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray("traditionalRegistration_password")));
+						        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)));
 					}
 				}
 			} catch (JSONException e) {

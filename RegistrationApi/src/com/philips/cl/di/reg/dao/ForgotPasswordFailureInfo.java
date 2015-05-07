@@ -1,22 +1,20 @@
 package com.philips.cl.di.reg.dao;
 
-import com.janrain.android.Jump.SignInResultHandler.SignInError;
+import com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
 
-public class SignInTraditionalFailuerInfo {
+public class ForgotPasswordFailureInfo {
 
 	private int errorCode;
 
 	private String emailErrorMessage;
 
-	private String passwordErrorMessage;
+	private ForgetPasswordError error;
 
-	private SignInError error;
-
-	public SignInError getError() {
+	public ForgetPasswordError getError() {
 		return error;
 	}
 
-	public void setError(SignInError error) {
+	public void setError(ForgetPasswordError error) {
 		this.error = error;
 	}
 
@@ -24,7 +22,6 @@ public class SignInTraditionalFailuerInfo {
 		if (null != error && null != error.captureApiError) {
 			return error.captureApiError.error_description;
 		}
-
 		return null;
 	}
 
@@ -34,14 +31,6 @@ public class SignInTraditionalFailuerInfo {
 
 	public void setEmailErrorMessage(String emailErrorMessage) {
 		this.emailErrorMessage = emailErrorMessage;
-	}
-
-	public String getPasswordErrorMessage() {
-		return passwordErrorMessage;
-	}
-
-	public void setPasswordErrorMessage(String passwordErrorMessage) {
-		this.passwordErrorMessage = passwordErrorMessage;
 	}
 
 	public int getErrorCode() {

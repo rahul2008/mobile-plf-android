@@ -44,7 +44,9 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 	@Override
 	public void onFailure(SignInError error) {
 		SignInTraditionalFailuerInfo signInTraditionalFailuerInfo = new SignInTraditionalFailuerInfo();
+		signInTraditionalFailuerInfo.setError(error);
 		handleInvalidInputs(error, signInTraditionalFailuerInfo);
+		handleInvalidCredentials(error, signInTraditionalFailuerInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
 		int errorCondition = errorMapping.checkSignInError();
 		signInTraditionalFailuerInfo.setErrorCode(errorCondition);
@@ -70,6 +72,31 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 						signInTraditionalFailuerInfo
 						        .setPasswordErrorMessage(getErrorMessage(jsonObject
 						                .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)));
+					}
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void handleInvalidCredentials(SignInError error,
+	        SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
+		if (null != error.captureApiError && null != error.captureApiError.error
+		        && error.captureApiError.error.equals(RegConstants.INVALID_CREDENTIALS)) {
+			try {
+				JSONObject object = error.captureApiError.raw_response;
+				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
+				if (jsonObject != null) {
+
+					if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
+						signInTraditionalFailuerInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
+					}
+
+					if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
+						signInTraditionalFailuerInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
+						        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
 					}
 				}
 			} catch (JSONException e) {

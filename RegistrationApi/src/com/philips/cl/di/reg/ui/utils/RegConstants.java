@@ -10,6 +10,11 @@ package com.philips.cl.di.reg.ui.utils;
 
 public class RegConstants {
 
+	public static final String TRADITIONAL_REGISTRATION_FIRST_NAME = "traditionalRegistration_firstName";
+	
+	public static final String TRADITIONAL_REGISTRATION_PASSWORD = "traditionalRegistration_password";
+
+	public static final String TRADITIONAL_REGISTRATION_EMAIL_ADDRESS = "traditionalRegistration_emailAddress";
 	
 	public static final String TRADITIONAL_SIGN_IN_PASSWORD = "traditionalSignIn_password";
 
@@ -18,6 +23,14 @@ public class RegConstants {
 	public static final String INVALID_FIELDS = "invalid_fields";
 
 	public static final String INVALID_FORM_FIELDS = "invalid_form_fields";
+	
+	public static final String NO_SUCH_ACCOUNT = "no_such_account";
+	
+	public static final String FORGOT_PASSWORD_FORM = "forgotPasswordForm";
+	
+	public static final String INVALID_CREDENTIALS = "invalid_credentials";
+	
+	public static final String USER_INFORMATION_FORM = "userInformationForm";
 	
 	public static final String SERIALIZED_RECIPE_CONTAINER_FILE = "recipe_container.obj";
 
