@@ -410,10 +410,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
 		if( action == null ) return ;
 		if( action.equalsIgnoreCase("RESPONSE")) {
-			
+		synchronized(mDcsResponseListeners){	
 			for(DCSResponseListener listener: mDcsResponseListeners) {
 				listener.onDCSResponseReceived(data, conversationId);
 			}
+		}
 		}
 		if (data == null) return;	
 		
