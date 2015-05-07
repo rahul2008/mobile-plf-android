@@ -10,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -71,7 +72,7 @@ public class NetworkNodeDatabase {
 		
 		return result;
 	}
-
+	
 	public long save(NetworkNode networkNode) {
 		long rowId = -1L;
 		
@@ -102,7 +103,7 @@ public class NetworkNodeDatabase {
 			values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
 			values.put(KEY_MODEL_NAME, networkNode.getModelName());
 			
-			rowId = db.update(TABLE_NETWORK_NODE, values, null, null);
+			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
 		} finally {
@@ -112,8 +113,9 @@ public class NetworkNodeDatabase {
 		return rowId;
 	}
 	
-	public long delete(NetworkNode networkNode) {
-		return -1L;
+	public int delete(NetworkNode networkNode) {
+		int rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[] { networkNode.getCppId() });
+		return rowsDeleted;
 	}
 	
 	private void closeDatabase() {

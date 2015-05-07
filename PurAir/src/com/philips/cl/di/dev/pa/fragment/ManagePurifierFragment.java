@@ -215,8 +215,8 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
     private void setCurrentPage(AirPurifier purifier) {
-        int effectedRow = database.deletePurifier(purifier.getUsn());
-        if (effectedRow > 0) {
+        int rowsDeleted = DiscoveryManager.getInstance().delete(purifier);
+        if (rowsDeleted > 0) {
             if (selectedItems.containsKey(purifier.getUsn())) {
                 selectedItems.remove(purifier.getUsn());
             }

@@ -12,6 +12,7 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -402,7 +403,11 @@ public class PairingHandler implements ICPEventListener {
 				
 				//TODO better solution
 				AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
-				purifierDatabase.updatePairingStatus(purifier,	NetworkNode.PAIRED_STATUS.PAIRED);
+				
+				//TODO verify with Jeroen: implementation correct this way?
+				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+				DiscoveryManager.getInstance().update(purifier);
+				
 				//Clear indoor AQI historic data
 				SessionDto.getInstance().setIndoorTrendDto(mAppliance.getNetworkNode().getCppId(), null);
 
@@ -473,7 +478,10 @@ public class PairingHandler implements ICPEventListener {
 
 					//TODO better solution
 					AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
-					purifierDatabase.updatePairingStatus(purifier, NetworkNode.PAIRED_STATUS.PAIRED);
+					
+					//TODO verify with Jeroen: implementation correct this way?
+					purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+					DiscoveryManager.getInstance().update(purifier);
 					
 					notifyListenerSuccess();
 				}
