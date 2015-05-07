@@ -2,20 +2,20 @@ package com.philips.cl.di.dev.pa.cpp;
 
 /*----------------------------------------------------------------------------
 Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without 
+All rights reserved. Reproduction in whole or in part is prohibited without
 the written consent of the copyright holder.
 
-Project           : Android Demo ICP App  
+Project           : Android Demo ICP App
 
-File Name         : DemoAppConfigurationParametersForKeyProvisioning.java        
+File Name         : DemoAppConfigurationParametersForKeyProvisioning.java
 
-Description       : 
+Description       :
 
 Revision History:
-Version 1: 
+Version 1:
     Date: 26-Jun-2013
     Original author: Haranadh Kaki
-    Description: Initial version    
+    Description: Initial version
 ----------------------------------------------------------------------------*/
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -27,11 +27,11 @@ import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 
 /**
- *This class provide interface to set ICP Client configuration. 
+ *This class provide interface to set ICP Client configuration.
  *configuration parameters set by the application.
- *Set the necessary parameters, as per the request. 
+ *Set the necessary parameters, as per the request.
  */
-public class PurAirKPSConfiguration extends KeyProvisioningConfiguration 
+public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 {
 
 	/* Constructor */
@@ -42,9 +42,11 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		HTTPTimeout = 30;
 		FilterString = "TEST";
 		MaxNrOfRetry = 2;
+
+		setNVMConfigParams();
 	}
 
-	public void setNVMConfigParams() {		
+	public void setNVMConfigParams() {
 		//TODO - Obscure the below constants.
 		this.ICPClientBootStrapID = ByteUtil.getBootStrapID();
 		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
