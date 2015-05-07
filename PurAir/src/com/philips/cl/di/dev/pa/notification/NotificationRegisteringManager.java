@@ -36,9 +36,9 @@ public class NotificationRegisteringManager implements SignonListener,
 	private static int jPushRetryCount = 0;
 
 	public NotificationRegisteringManager() {
-		CPPController.getInstance(PurAirApplication.getAppContext())
+		CPPController.getInstance()
 				.addSignOnListener(this);
-		CPPController.getInstance(PurAirApplication.getAppContext())
+		CPPController.getInstance()
 				.setNotificationListener(this);
 
 //		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
@@ -193,13 +193,13 @@ public class NotificationRegisteringManager implements SignonListener,
 	}
 
 	private static void sendRegistrationIdToBackend(String regid) {
-		if (!CPPController.getInstance(PurAirApplication.getAppContext())
+		if (!CPPController.getInstance()
 				.isSignOn())
 			return;
 		storeRegistrationKeySendToCPP(false);
 		if (regid == null || regid.isEmpty())
 			return;
-		CPPController.getInstance(PurAirApplication.getAppContext())
+		CPPController.getInstance()
 				.sendNotificationRegistrationId(regid);
 	}
 
@@ -432,7 +432,7 @@ public class NotificationRegisteringManager implements SignonListener,
 	}
 	
 	private static void sendRegistrationId(){
-		String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
+		String previousProvider = CPPController.getInstance().getNotificationProvider();
 		
 		if((previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()) || 
 				getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
@@ -488,7 +488,7 @@ public class NotificationRegisteringManager implements SignonListener,
 	
 	public void getNotificationRegisteringManager() {
 		jPushRetryCount = 0;
-		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
+		String provider = CPPController.getInstance().getNotificationProvider(); 
 		if(Utils.isVersionChanged()){
 			isRegistrationNeeded = true ;
 			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager version changed");

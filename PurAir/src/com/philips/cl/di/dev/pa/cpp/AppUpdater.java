@@ -43,7 +43,7 @@ public class AppUpdater implements AppUpdateListener{
 	
 	private AppUpdater(Context context){	
 		mContext = context;
-		mCppController = CPPController.getInstance(context);
+		mCppController = CPPController.getInstance();
 		mCppController.setAppUpdateNotificationListener(this) ;
 		mAppUpdateAlertShown=false;
 	}

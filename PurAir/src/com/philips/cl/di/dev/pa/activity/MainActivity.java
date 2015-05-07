@@ -289,7 +289,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	@Override
 	protected void onDestroy() {
-		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
+		CPPController.getInstance().removeSignOnListener(this);
 		clearObjects();
 		super.onDestroy();
 	}
@@ -410,8 +410,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	private void initializeCPPController() {
-			CPPController.getInstance(this).setDefaultDcsState() ;
-			CPPController.getInstance(this).addSignOnListener(this) ;
+			CPPController.getInstance().setDefaultDcsState() ;
+			CPPController.getInstance().addSignOnListener(this) ;
 		
 	}
 
@@ -657,7 +657,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (PurAirApplication.isDemoModeEnable()) {
 			updateUIInDemoMode();
 		} else {
-			CPPController.getInstance(this).signOnWithProvisioning();			
+			CPPController.getInstance().signOnWithProvisioning();			
 		}
 	}
 
@@ -687,9 +687,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	public void internetStatus(boolean internetAvailable) {
 		if ( internetAvailable ) {
 			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;			
-			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn() || purifier==null) {
-				CPPController.getInstance(PurAirApplication.getAppContext()).signOnWithProvisioning() ;
-				CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(new SignonListener() {
+			if (!CPPController.getInstance().isSignOn() || purifier==null) {
+				CPPController.getInstance().signOnWithProvisioning() ;
+				CPPController.getInstance().addSignOnListener(new SignonListener() {
 					@Override
 					public void signonStatus(boolean signon) {
 						if( signon ) {

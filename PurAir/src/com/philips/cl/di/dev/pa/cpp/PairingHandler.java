@@ -68,7 +68,7 @@ public class PairingHandler implements ICPEventListener {
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
-		cppController = CPPController.getInstance(PurAirApplication.getAppContext());
+		cppController = CPPController.getInstance();
 	}
 
 	public void setPermissionListener(PermissionListener iPermissionListener) {

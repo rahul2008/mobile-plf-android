@@ -104,8 +104,8 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private void downloadAQIHistoricData() {
 		if (currentPurifier == null) return;
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
-		CPPController.getInstance(getMainActivity()).setDownloadDataListener(this) ;
-		CPPController.getInstance(getMainActivity()).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
+		CPPController.getInstance().setDownloadDataListener(this) ;
+		CPPController.getInstance().downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
 	}
 
 	/**
@@ -440,7 +440,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	public void onDestroy() {
 		super.onDestroy();
 		PurifierCurrentCityData.getInstance().removeListener();
-		CPPController.getInstance(getMainActivity()).removeDownloadDataListener();
+		CPPController.getInstance().removeDownloadDataListener();
 		handlerDownload.removeMessages(DOWNLOAD_COMPLETE);
 		handlerDownload.removeMessages(DOWNLOAD_NA);
 		handlerDownload.removeMessages(DOWNLOAD_FAILED);
