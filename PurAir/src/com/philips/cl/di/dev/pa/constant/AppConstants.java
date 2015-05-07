@@ -58,7 +58,7 @@ public class AppConstants {
 	public static final String KEY_INDOOR_AQI = "aqi" ;
 	public static final String KEY_LAST_SYNC_DATETIME = "lastsyncdatetime" ;
 	
-	
+	@Deprecated
 	public static final String TABLE_AIRPUR_INFO = "device_info"; // AirPurifier table (< DB version 11)
 	public static final String TABLE_AIRPUR_DEVICE = "AirPurifierDevice"; // AirPurifierDevice table (=> DB version 11)
 	public static final String KEY_AIRPUR_USN = "usn";
