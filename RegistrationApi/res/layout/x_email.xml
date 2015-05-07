@@ -48,6 +48,7 @@
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
+            android:maxLength="128"
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
 
@@ -62,7 +63,7 @@
         android:visibility="gone" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
-        android:id="@+id/tv_reg_email_err"
+        android:id="@+id/tv_reg_name_err"
         style="@style/reg_error_textStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
         android:layout_marginTop="@dimen/reg_edit_fields_margin_top"
         android:background="@drawable/reg_rect"
         android:padding="@dimen/reg_edit_fields_padding"
-        android:text="@string/InvalidEmailAdddress_ErrorMsg"
+        android:text="@string/EmptyField_ErrorMsg"
         android:visibility="gone"
         reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 

@@ -23,6 +23,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/reg_header_margin_top"
+                android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin" >

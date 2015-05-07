@@ -46,7 +46,31 @@
             android:background="@android:color/transparent"
             android:hint="@string/Create_Account_FirstName__Placeholder_txtFiled"
             android:inputType="textPersonName"
+            android:maxLength="1000"
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
+    
+      <ImageView
+        android:id="@+id/iv_reg_up_arrow"
+        android:layout_width="@dimen/reg_arrow_up_width"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/rl_reg_name_verified_field"
+        android:layout_marginRight="@dimen/reg_arrow_margin_right"
+        android:src="@drawable/reg_up_arrow"
+        android:visibility="gone" />
+
+    <com.philips.cl.di.reg.ui.customviews.XTextView
+        android:id="@+id/tv_reg_name_err"
+        style="@style/reg_error_textStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_reg_up_arrow"
+        android:layout_marginTop="@dimen/reg_edit_fields_margin_top"
+        android:background="@drawable/reg_rect"
+        android:padding="@dimen/reg_edit_fields_padding"
+        android:text="@string/EmptyField_ErrorMsg"
+        android:visibility="gone"
+        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
 
 </RelativeLayout>

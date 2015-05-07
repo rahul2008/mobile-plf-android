@@ -100,18 +100,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 	private void handleResend() {
 		showResendSpinner();
 		mBtnActivate.setEnabled(false);
-		mBtnActivate.setEnabled(false);
 		mBtnResend.setEnabled(false);
-		mBtnResend.setEnabled(false);
-
 		mUser.resendVerificationMail(mEmailId, this);
 	}
 
 	private void handleActivate() {
 		showActivateSpinner();
 		mBtnActivate.setEnabled(false);
-		mBtnActivate.setEnabled(false);
-		mBtnResend.setEnabled(false);
 		mBtnResend.setEnabled(false);
 		mUser.refreshUser(mContext, this);
 	}
@@ -239,8 +234,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	private void updateResendUIState() {
 		mBtnActivate.setEnabled(true);
-		mBtnActivate.setEnabled(true);
-		mBtnResend.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		hideResendSpinner();
 	}
