@@ -10,6 +10,15 @@ package com.philips.cl.di.reg.ui.utils;
 
 public class RegConstants {
 
+	
+	public static final String TRADITIONAL_SIGN_IN_PASSWORD = "traditionalSignIn_password";
+
+	public static final String TRADITIONAL_SIGN_IN_EMAIL_ADDRESS = "traditionalSignIn_emailAddress";
+
+	public static final String INVALID_FIELDS = "invalid_fields";
+
+	public static final String INVALID_FORM_FIELDS = "invalid_form_fields";
+	
 	public static final String SERIALIZED_RECIPE_CONTAINER_FILE = "recipe_container.obj";
 
 	public static final String INTENT_BT_STATE_CHANGE = "android.bluetooth.adapter.action.STATE_CHANGED";
