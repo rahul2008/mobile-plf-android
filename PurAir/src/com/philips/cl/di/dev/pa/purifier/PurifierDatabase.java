@@ -12,7 +12,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.database.ApplianceDatabase;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
@@ -342,10 +341,22 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 		return id;
 	}
 
-	/**
-	 *
-	 */
-	public void closeDb() {
+	
+
+	@Override
+	public void save(AirPurifier object) {
+		
+	}
+
+	@Override
+	public void loadDataForAppliance(AirPurifier object) {		
+	}
+	
+	@Override
+	public void delete(AirPurifier appliance) {
+	}
+	
+	private void closeDb() {
 		try {
 			if (db != null && db.isOpen()) {
 				db.close();
@@ -354,9 +365,7 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
-	/**
-	 * Close cursor
-	 */
+
 	private void closeCursor(Cursor c) {
 		try {
 			if (c != null && !c.isClosed() ) {
@@ -366,14 +375,6 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		}
 
-	}
-
-	@Override
-	public void save(AirPurifier object) {
-	}
-
-	@Override
-	public void loadDataForAppliance(AirPurifier object) {		
 	}
 
 }
