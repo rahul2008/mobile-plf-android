@@ -56,7 +56,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private List<SignonListener> mSignOnListeners;
 
 	private SendNotificationRegistrationIdListener mNotificationListener;
-	private AppUpdateNotificationListener mAppUpdateNotificationListener ; 
+	private AppUpdateListener mAppUpdateListener ; 
 
 	private ICPCallbackHandler mICPCallbackHandler;
 	private Params mConfigParams;
@@ -577,8 +577,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
 	}
 
-	public void setAppUpdateNotificationListener(AppUpdateNotificationListener listener) {
-		this.mAppUpdateNotificationListener = listener ;
+	public void setAppUpdateNotificationListener(AppUpdateListener listener) {
+		this.mAppUpdateListener = listener ;
 	}
 
 	/***
@@ -616,8 +616,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		case Commands.EVENT_NOTIFICATION:
 			ALog.i(ALog.ICPCLIENT, "Event Notification: "+status) ;
 			if( status == Errors.SUCCESS ) {
-				if( mAppUpdateNotificationListener != null ) {
-					mAppUpdateNotificationListener.onAppUpdate() ;
+				if( mAppUpdateListener != null ) {
+					mAppUpdateListener.onAppUpdateAvailable() ;
 				}
 			}
 			break;
@@ -669,7 +669,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					if(isUpgradeAvailable(componentDetails.getComponentInfo(index).versionNumber)) {
 						//downloadNewApplication(componentDetails.getComponentInfo(index));
 						mComponentInfo = componentDetails.getComponentInfo(index);
-						mAppUpdateNotificationListener.onComponentInfoDownloaded();
+						mAppUpdateListener.onAppUpdateInfoDownloaded();
 						break;
 					}
 				}
@@ -677,7 +677,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		else {
 			//downloadFailed() ;
-			mAppUpdateNotificationListener.onFileDownloadFailed();
+			mAppUpdateListener.onAppUpdateDownloadFailed();
 			ALog.e(ALog.CPPCONTROLLER, "ICPCallback FetchComponentDetails failed: " + status);
 		}
 	}
@@ -780,7 +780,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 	
 	
-	public void startNewAppDownload() {
+	public void startNewAppUpdateDownload() {
 		FileDownload fileDownload = new FileDownload(mICPCallbackHandler);
 
 		fileDownload.setURL(mComponentInfo.url);
@@ -883,7 +883,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.i(ALog.CPPCONTROLLER, "fetchICPComponentDetails success");
 		} else {
 			//downloadFailed() ;
-			mAppUpdateNotificationListener.onFileDownloadFailed();
+			mAppUpdateListener.onAppUpdateDownloadFailed();
 			ALog.e(ALog.CPPCONTROLLER, "fetchICPComponentDetails failed");
 		}
 	}
@@ -892,7 +892,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if(status == Errors.SUCCESS) {
 
 			if (mFileOutputStream == null) {
-				mAppUpdateNotificationListener.onFileDownloadStart(mPercentage);
+				mAppUpdateListener.onAppUpdateDownloadStart(mPercentage);
 				mFileSize = ((FileDownload)obj).getFileSize();
 				createFileOutputStream();
 			}
@@ -912,7 +912,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						
 						if(mPercentage != (int)currentPercentage) {
 							mPercentage = (int)currentPercentage;
-							mAppUpdateNotificationListener.onFileDownloadProgress(mPercentage);
+							mAppUpdateListener.onAppUpdateDownloadProgress(mPercentage);
 						}
 					}
 					
@@ -924,25 +924,25 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					        mPercentage = 0 ;
 					        mByteOffset = 0;
 							closeFileOutputStream() ;
-							mAppUpdateNotificationListener.onFileDownloadComplete();
+							mAppUpdateListener.onAppUpdateDownloadComplete();
 						} else {
-							mAppUpdateNotificationListener.onFileDownloadFailed();
+							mAppUpdateListener.onAppUpdateDownloadFailed();
 						}
 					}
 				} catch (IOException e) {
-					mAppUpdateNotificationListener.onFileDownloadFailed();
+					mAppUpdateListener.onAppUpdateDownloadFailed();
 					e.printStackTrace();
 				}
 			}
 		}
 		else {
-			mAppUpdateNotificationListener.onFileDownloadFailed();
+			mAppUpdateListener.onAppUpdateDownloadFailed();
 		}
 	}
 	
 	private void createFileOutputStream() {
 		try {
-			File outFile = mAppUpdateNotificationListener.createFileForDownload();
+			File outFile = mAppUpdateListener.createFileForAppUpdateDownload();
 			if(outFile==null){
 				mFileOutputStream=null;
 				return;
@@ -950,7 +950,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mFileOutputStream = new FileOutputStream(outFile);
 			mByteOffset = 0;
 		} catch (FileNotFoundException e) {
-			mAppUpdateNotificationListener.onFileDownloadFailed();
+			mAppUpdateListener.onAppUpdateDownloadFailed();
 			e.printStackTrace();
 			mFileOutputStream = null;
 		}

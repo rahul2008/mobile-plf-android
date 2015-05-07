@@ -12,7 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cl.di.dev.pa.cpp.AppUpdater;
-import com.philips.cl.di.dev.pa.cpp.AppUpdater.showAppUpdateDialogListener;
+import com.philips.cl.di.dev.pa.cpp.AppUpdater.ShowAppUpdateDialogListener;
 import com.philips.cl.di.dev.pa.fragment.AppUpdateDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -23,7 +23,7 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
  * functionalities.
  */
 @SuppressLint("Registered")
-public class BaseActivity extends FragmentActivity implements showAppUpdateDialogListener {
+public class BaseActivity extends FragmentActivity implements ShowAppUpdateDialogListener {
 	
 	protected ConnectivityManager connectivityManager;
 	protected WifiManager wifiManager;
