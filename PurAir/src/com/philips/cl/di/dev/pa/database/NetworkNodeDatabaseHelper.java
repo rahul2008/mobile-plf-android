@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.database;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,6 +13,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	private static final int DB_VERSION = 1;
 	
 	// NetworkNode table
+	public static final String DB_NAME = "network_node.db";
 	public static final String TABLE_NETWORK_NODE = "network_node";
 	public static final String KEY_ID = "_id";
 	public static final String KEY_CPP_ID = "cppid";
@@ -31,7 +33,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	 *            the context
 	 */
 	public NetworkNodeDatabaseHelper(Context context) {
-		super(context, TABLE_NETWORK_NODE, null, DB_VERSION); 
+		super(context, DB_NAME, null, DB_VERSION); 
 	}
 
 	/**
@@ -75,7 +77,11 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 				+ "PRIMARY KEY(" + KEY_ID + ")"
 				+ ");";
 		
-		db.execSQL(createNetworkNodeTable);
+		try {
+			db.execSQL(createNetworkNodeTable);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*

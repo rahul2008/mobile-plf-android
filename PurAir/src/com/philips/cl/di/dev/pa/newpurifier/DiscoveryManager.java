@@ -23,6 +23,7 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.database.ApplianceDatabase;
 import com.philips.cl.di.dev.pa.database.NetworkNodeDatabase;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
@@ -53,7 +54,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private static final Object mDiscoveryLock = new Object();
 
 	private NetworkNodeDatabase mNetworkNodeDatabase;
-	private PurifierDatabase mDatabase;
+	private ApplianceDatabase mApplianceDatabase;
 	private NetworkMonitor mNetwork;
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
@@ -90,7 +91,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	private DiscoveryManager() {
 		// Enforce Singleton
-		mDatabase = new PurifierDatabase();
+		mApplianceDatabase = new PurifierDatabase();
 		mNetworkNodeDatabase = new NetworkNodeDatabase();
 		initializeDevicesMapFromDataBase();
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
@@ -722,7 +723,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
 			final AirPurifier airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
 
-			mDatabase.loadDataForAppliance(airPurifier);
+			mApplianceDatabase.loadDataForAppliance(airPurifier);
 			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
 				@Override
 				public void onKeyUpdate() {
@@ -737,7 +738,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	// TODO DIComm refactor: improve interface
 	public long insertApplianceToDatabase(AirPurifier airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
-		mDatabase.save(airPurifier);
+		mApplianceDatabase.save(airPurifier);
 		
 		return rowId;
 	}
@@ -745,7 +746,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	// TODO DIComm refactor: improve interface
 	public long updateApplianceInDatabase(AirPurifier airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
-		mDatabase.save(airPurifier);
+		mApplianceDatabase.save(airPurifier);
 
 		return rowId;
 	}
@@ -753,7 +754,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	// TODO DIComm refactor: improve interface
 	public int deleteApplianceFromDatabase(AirPurifier airPurifier) {
 		int rowsDeleted = mNetworkNodeDatabase.delete(airPurifier.getNetworkNode());
-		mDatabase.delete(airPurifier);
+		mApplianceDatabase.delete(airPurifier);
 		
 		return rowsDeleted;
 	}
