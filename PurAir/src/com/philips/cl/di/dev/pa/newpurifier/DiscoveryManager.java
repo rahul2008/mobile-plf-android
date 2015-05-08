@@ -713,14 +713,20 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	public List<AirPurifier> getAllAirPurifiers() {
 		List<AirPurifier> result = new ArrayList<AirPurifier>();
 		
-		DISecurity diSecurity = new DISecurity();
-		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
-		
 		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 		
 		for (NetworkNode networkNode : networkNodes) {
-			AirPurifier airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
+			DISecurity diSecurity = new DISecurity();
+			CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+			final AirPurifier airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
+
 			mDatabase.loadDataForAppliance(airPurifier);
+			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+				@Override
+				public void onKeyUpdate() {
+					update(airPurifier);
+				}
+			});
 			result.add(airPurifier);
 		}
 		return result;
