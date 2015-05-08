@@ -25,6 +25,7 @@ public class DiagnosticShareActivity extends BaseActivity implements OnClickList
 	
 	private char lineSeparator='\n';
 	private String userEmail="";
+	public static final String SINA_WEIBO_ID = "飞利浦中国";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
