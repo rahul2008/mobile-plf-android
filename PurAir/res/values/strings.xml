@@ -672,7 +672,7 @@
     <string name="download">Download!</string>
     <string name="air_quality">Air quality</string>
     <string name="air_purifier">AirPurifier</string>
-    
+    <string name="no_data_available">No Data Available</string>
     <string name="submit">Submit</string>
     <string name="invalid_input">Invalid input</string>
     <string name="feedback_sent">Thank you for your feedback</string>

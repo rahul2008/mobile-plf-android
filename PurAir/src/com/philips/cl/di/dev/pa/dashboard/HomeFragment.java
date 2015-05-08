@@ -25,8 +25,8 @@ import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.WBShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.activity.ShareActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
@@ -616,7 +616,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		share.setClickable(true); 
 		if ( getActivity() != null) {
 			dismissProgessDialog();
-			Intent intent_share = new Intent(getActivity(), ShareActivity.class);
+			Intent intent_share = new Intent(getActivity(), WBShareActivity.class);
 			startActivity(intent_share);
 		}
 		

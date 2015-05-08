@@ -682,54 +682,54 @@
     
     <!-- Wind Direction -->
     
-    <string name="no_wind">No wind</string>
-    <string name="northeast">Northeast</string>
-    <string name="east">East</string>
-    <string name="southeast">Southeast</string>
-    <string name="south">South</string>
-    <string name="southwest">Southwest</string>
-    <string name="west">West</string>
-    <string name="northwest">Northwest</string>
-    <string name="north">North</string>
-    <string name="whirl_wind">Whirl wind</string>
+    <string name="no_wind">風向不定</string>
+    <string name="northeast">東北風</string>
+    <string name="east">東風</string>
+    <string name="southeast"> 東南風</string>
+    <string name="south">南風</string>
+    <string name="southwest">西南風</string>
+    <string name="west">西風</string>
+    <string name="northwest">西北風</string>
+    <string name="north"> 北風</string>
+    <string name="whirl_wind"> 龍捲風</string>
     
     <!-- Weather Phenomenon -->
     
-    <string name="sunny">Sunny</string>
-    <string name="cloudy">Cloudy</string>
-    <string name="overcast">Overcast</string>
-    <string name="shower">Shower</string>
-    <string name="thundershower">Thundershower</string>
-    <string name="thundershower_with_hail">Thundershower with hail</string>
-    <string name="sleet">Sleet</string>
-    <string name="light_rain">Light rain</string>
-    <string name="moderate_rain">Moderate rain</string>
-    <string name="heavy_rain">Heavy rain</string>
-    <string name="storm">Storm</string>
-    <string name="heavy_storm">Heavy storm</string>
-    <string name="severe_storm">Severe storm</string>
-    <string name="snow_flurry">Snow flurry</string>
-    <string name="light_snow">Light snow</string>
-    <string name="moderate_snow">Moderate snow</string>
-    <string name="heavy_snow">Heavy snow</string>
-    <string name="snowstorm">Snowstorm</string>
-    <string name="foggy">Foggy</string>
-    <string name="ice_rain">Ice rain</string>
-    <string name="duststorm">Duststorm</string>
-    <string name="light_to_moderate_rain">Light to moderate rain</string>
-    <string name="moderate_to_heavy_rain">Moderate to heavy rain</string>
-    <string name="heavy_rain_to_storm">Heavy rain to storm</string>
-    <string name="storm_to_heavy_storm">Storm to heavy storm</string>
-    <string name="heavy_to_severe_storm">Heavy to severe storm</string>
-    <string name="light_to_moderate_snow">Light to moderate snow</string>
-    <string name="moderate_to_heavy_snow">Moderate to heavy snow</string>
-    <string name="heavy_snow_to_snowstorm">Heavy snow to snowstorm</string>
-    <string name="dust">Dust</string>
-    <string name="sand">Sand</string>
-    <string name="sandstorm">Sandstorm</string>
-    <string name="haze">Haze</string>
-    <string name="unknown">Unknown</string>
-    
+    <string name="sunny">天晴</string>
+    <string name="cloudy">多雲</string>
+    <string name="overcast">天陰</string>
+    <string name="shower">驟雨</string>
+    <string name="thundershower">雷雨</string>
+    <string name="thundershower_with_hail">雷雨帶冰雹</string>
+    <string name="sleet">雨夾雪</string>
+    <string name="light_rain">微雨</string>
+    <string name="moderate_rain">中雨</string>
+    <string name="heavy_rain">大雨</string>
+    <string name="storm">暴雨</string>
+    <string name="heavy_storm">大暴雨</string>
+    <string name="severe_storm">特大暴雨</string>
+    <string name="snow_flurry">陣雪</string>
+    <string name="light_snow">小雪</string>
+    <string name="moderate_snow">中雪</string>
+    <string name="heavy_snow">大雪</string>
+    <string name="snowstorm">暴雪</string>
+    <string name="foggy">霧</string>
+    <string name="ice_rain">冰雨</string>
+    <string name="duststorm">沙塵暴</string>
+    <string name="light_to_moderate_rain">小至中雨</string>
+    <string name="moderate_to_heavy_rain">中至大雨</string>
+    <string name="heavy_rain_to_storm">大至暴雨</string>
+    <string name="storm_to_heavy_storm">暴雨至大暴雨</string>
+    <string name="heavy_to_severe_storm">大暴雨至特大暴雨</string>
+    <string name="light_to_moderate_snow">小至中雪</string>
+    <string name="moderate_to_heavy_snow">中至大雪</string>
+    <string name="heavy_snow_to_snowstorm">大至暴雪</string>
+    <string name="dust">塵粒</string>
+    <string name="sand">沙粒</string>
+    <string name="sandstorm">强沙塵暴</string>
+    <string name="haze">煙霞</string>
+    <string name="unknown">不詳</string>
+
     <!-- Product Regestration -->
     <string name="enter_phone_no">請輸入手機號碼</string>
     <string name="enter_prof_of_purchase">請輸入購買發票</string>

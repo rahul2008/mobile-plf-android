@@ -671,7 +671,7 @@
     <string name="download">下载吧!</string>
     <string name="air_quality">Air quality</string>
     <string name="air_purifier">AirPurifier</string>
-    
+    <string name="no_data_available">No Data Available</string>
     <string name="submit">提交</string>
     <string name="invalid_input">有效输入</string>
     <string name="feedback_sent">感谢您的反馈意见</string>

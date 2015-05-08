@@ -18,10 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-            
-             <LinearLayout
+
+            <LinearLayout
                 android:id="@+id/share_menu_1"
-                style="@style/menu_item" >
+                style="@style/menu_item"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true" >
 
                 <ImageView
                     style="@style/sharemenu_item_icon"
@@ -29,13 +31,16 @@
 
                 <TextView
                     style="@style/menu_item_text"
-                    android:text= "@string/wechat_moments" />
+                    android:text="@string/wechat_moments" />
             </LinearLayout>
+
             <View style="@style/line_solid_horizontal" />
-            
+
             <LinearLayout
                 android:id="@+id/share_menu_2"
-                style="@style/menu_item" >
+                style="@style/menu_item"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true" >
 
                 <ImageView
                     style="@style/sharemenu_item_icon"
@@ -47,10 +52,12 @@
             </LinearLayout>
 
             <View style="@style/line_solid_horizontal" />
-            
+
             <LinearLayout
                 android:id="@+id/share_menu_3"
-                style="@style/menu_item" >
+                style="@style/menu_item"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true" >
 
                 <ImageView
                     style="@style/sharemenu_item_icon"
@@ -61,11 +68,15 @@
                     android:text="@string/sina_weibo" />
             </LinearLayout>
 
+            
+
             <View style="@style/line_solid_horizontal" />
-           
+            
             <LinearLayout
                 android:id="@+id/share_menu_4"
-                style="@style/menu_item" >
+                style="@style/menu_item"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true" >
 
                 <ImageView
                     style="@style/sharemenu_item_icon"
@@ -73,7 +84,7 @@
 
                 <TextView
                     style="@style/menu_item_text"
-                    android:text="@string/mail"/>
+                    android:text="@string/mail" />
             </LinearLayout>
 
             <View style="@style/line_solid_horizontal" />
