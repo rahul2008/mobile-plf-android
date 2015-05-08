@@ -113,6 +113,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 		setViewParams(getResources().getConfiguration());
 		linkifyTermAndPolicy(mTvWelcomeDesc);
+		enableControls(false);
 		handleUiState();
 	}
 
