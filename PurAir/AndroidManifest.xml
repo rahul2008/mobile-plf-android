@@ -159,10 +159,6 @@
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.DiagnosticShareActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.ShareActivity"
-            android:launchMode="singleInstance" >
-        </activity>
         
         <activity
             android:name=".wxapi.WXEntryActivity"
