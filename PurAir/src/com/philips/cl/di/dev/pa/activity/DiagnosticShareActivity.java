@@ -215,7 +215,7 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 	private TextObject getTextObj() {
 		
 		StringBuilder messageBuilder = new StringBuilder(getDiagnosticDataForSinaWeibo());
-		messageBuilder.append("@manzerhassan");
+		messageBuilder.append("@"+SINA_WEIBO_ID);
 		TextObject textObject = new TextObject();
 		textObject.text = messageBuilder.toString();
 		return textObject;
