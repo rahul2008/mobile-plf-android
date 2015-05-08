@@ -47,7 +47,7 @@ public class CongratulationFragment extends BaseFragment {
 
 				Utils.saveAppFirstUse(false);
 				
-				DiscoveryManager.getInstance().insert(AirPurifierManager.getInstance().getCurrentPurifier());
+				DiscoveryManager.getInstance().insertApplianceToDatabase(AirPurifierManager.getInstance().getCurrentPurifier());
 				List<AirPurifier> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
 				AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 			}

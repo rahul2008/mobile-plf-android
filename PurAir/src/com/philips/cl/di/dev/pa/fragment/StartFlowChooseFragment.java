@@ -236,7 +236,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 
 			((MainActivity) getActivity()).showFragment(congratulationFragment);
 
-			DiscoveryManager.getInstance().insert(selectedPurifier);
+			DiscoveryManager.getInstance().insertApplianceToDatabase(selectedPurifier);
 		} else {
 			showAlertDialog(getString(R.string.purifier_add_fail_title),
 					getString(R.string.purifier_add_fail_msg));

@@ -406,7 +406,7 @@ public class PairingHandler implements ICPEventListener {
 				
 				//TODO verify with Jeroen: implementation correct this way?
 				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-				DiscoveryManager.getInstance().update(purifier);
+				DiscoveryManager.getInstance().updateApplianceInDatabase(purifier);
 				
 				//Clear indoor AQI historic data
 				SessionDto.getInstance().setIndoorTrendDto(mAppliance.getNetworkNode().getCppId(), null);
@@ -481,7 +481,7 @@ public class PairingHandler implements ICPEventListener {
 					
 					//TODO verify with Jeroen: implementation correct this way?
 					purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-					DiscoveryManager.getInstance().update(purifier);
+					DiscoveryManager.getInstance().updateApplianceInDatabase(purifier);
 					
 					notifyListenerSuccess();
 				}

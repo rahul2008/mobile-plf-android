@@ -144,7 +144,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
                 @Override
                 public void onKeyUpdate() {
-                	update(airPurifier);
+                	updateApplianceInDatabase(airPurifier);
                 }
             });
         }
@@ -324,7 +324,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		if (newPurifier.getNetworkNode().getHomeSsid() != null &&
 				!newPurifier.getNetworkNode().getHomeSsid().equals(existingPurifier.getNetworkNode().getHomeSsid())) {
 			existingPurifier.getNetworkNode().setHomeSsid(newPurifier.getNetworkNode().getHomeSsid());
-			update(existingPurifier);
+			updateApplianceInDatabase(existingPurifier);
 		}
 
 		if (!newPurifier.getNetworkNode().getIpAddress().equals(existingPurifier.getNetworkNode().getIpAddress())) {
@@ -333,7 +333,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		if (!existingPurifier.getNetworkNode().getName().equals(newPurifier.getNetworkNode().getName())) {
 			existingPurifier.getNetworkNode().setName(newPurifier.getNetworkNode().getName());
-			update(existingPurifier);
+			updateApplianceInDatabase(existingPurifier);
 			notifyListeners = true;
 		}
 
@@ -343,7 +343,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			if (location != null) {
 				existingPurifier.setLatitude(String.valueOf(location.getLatitude()));
 				existingPurifier.setLongitude(String.valueOf(location.getLongitude()));
-				update(existingPurifier);
+				updateApplianceInDatabase(existingPurifier);
 				notifyListeners = true;
 			}
 		}
@@ -618,7 +618,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
             @Override
             public void onKeyUpdate() {
-            	update(purifier);
+            	updateApplianceInDatabase(purifier);
             }
         });
         
@@ -724,7 +724,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
 				@Override
 				public void onKeyUpdate() {
-					update(airPurifier);
+					updateApplianceInDatabase(airPurifier);
 				}
 			});
 			result.add(airPurifier);
@@ -732,21 +732,24 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return result;
 	}
 
-	public long insert(AirPurifier airPurifier) {
+	// TODO DIComm refactor: improve interface
+	public long insertApplianceToDatabase(AirPurifier airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
 		mDatabase.save(airPurifier);
 		
 		return rowId;
 	}
-	
-	public long update(AirPurifier airPurifier) {
+
+	// TODO DIComm refactor: improve interface
+	public long updateApplianceInDatabase(AirPurifier airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
 		mDatabase.save(airPurifier);
-		
+
 		return rowId;
 	}
-	
-	public int delete(AirPurifier airPurifier) {
+
+	// TODO DIComm refactor: improve interface
+	public int deleteApplianceFromDatabase(AirPurifier airPurifier) {
 		int rowsDeleted = mNetworkNodeDatabase.delete(airPurifier.getNetworkNode());
 		mDatabase.delete(airPurifier);
 		
