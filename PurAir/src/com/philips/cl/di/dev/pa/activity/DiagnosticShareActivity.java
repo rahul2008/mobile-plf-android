@@ -2,8 +2,17 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -12,20 +21,20 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.sina.weibo.sdk.api.TextObject;
+import com.sina.weibo.sdk.api.WeiboMultiMessage;
+import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboHandler;
+import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
+import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.Toast;
-
-public class DiagnosticShareActivity extends BaseActivity implements OnClickListener {
+public class DiagnosticShareActivity extends Activity implements OnClickListener, IWeiboHandler.Response  {
 	
 	private char lineSeparator='\n';
 	private String userEmail="";
 	public static final String SINA_WEIBO_ID = "飞利浦中国";
+	private IWeiboShareAPI  mWeiboShareAPI = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,21 @@ public class DiagnosticShareActivity extends BaseActivity implements OnClickList
 		backButton.setOnClickListener(this);
 		sendViaSina.setOnClickListener(this);
 		sendViaMail.setOnClickListener(this);
+		
+		mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, AppConstants.APP_KEY);
+		mWeiboShareAPI.registerApp();
+		if (savedInstanceState != null) {
+			mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
+		}
+	}
+	
+	/**
+	 * @see {@link Activity#onNewIntent}
+	 */	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		mWeiboShareAPI.handleWeiboResponse(intent, this);
 	}
 	
 	
@@ -54,7 +78,7 @@ public class DiagnosticShareActivity extends BaseActivity implements OnClickList
 			finish();
 			break;
 		case R.id.diagonistic_via_sina:
-			Toast.makeText(getApplicationContext(), "Wrok in progress", Toast.LENGTH_LONG).show();
+			sendMessage();
 			break;
 		case R.id.diagonistic_via_mail:
 			sendMail(diagnosticData(), getString(R.string.contact_philips_support_email), userEmail);
@@ -122,6 +146,50 @@ public class DiagnosticShareActivity extends BaseActivity implements OnClickList
 		email.putExtra(Intent.EXTRA_TEXT, message);
 		email.setType("message/rfc822");
 		startActivity(Intent.createChooser(email, "Send this mail via:"));
+	}
+
+	@Override
+	public void onResponse(BaseResponse arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void sendMessage() {
+
+		if (mWeiboShareAPI.isWeiboAppSupportAPI()) {
+			/*int supportApi = mWeiboShareAPI.getWeiboAppSupportAPI();
+			if (supportApi >= 10351 ApiUtils.BUILD_INT_VER_2_2) {
+				sendMultiMessage();
+			} else {*/
+			sendMultiMessage();
+			/*}
+		} else {
+			Toast.makeText(this, "Hint", Toast.LENGTH_SHORT).show();
+		}*/
+		}
+
+	}
+
+
+	private void sendMultiMessage() {
+
+		WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+		weiboMessage.textObject = getTextObj();
+
+		SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
+		// 用transaction唯一标识一个请求
+		request.transaction = String.valueOf(System.currentTimeMillis());
+		request.multiMessage = weiboMessage;
+		mWeiboShareAPI.sendRequest(DiagnosticShareActivity.this, request);
+		
+	}
+	private TextObject getTextObj() {
+		
+		StringBuilder messageBuilder = new StringBuilder(diagnosticData().trim());
+		messageBuilder.append("@manzerhassan");
+		TextObject textObject = new TextObject();
+		textObject.text = messageBuilder.toString();
+		return textObject;
 	}
 
 
