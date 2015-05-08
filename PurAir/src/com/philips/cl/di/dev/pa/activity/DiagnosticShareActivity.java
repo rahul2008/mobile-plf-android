@@ -32,6 +32,8 @@ import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 public class DiagnosticShareActivity extends Activity implements OnClickListener, IWeiboHandler.Response  {
 	
 	private char lineSeparator='\n';
+	private char commaSeparator=',';
+	
 	private String userEmail="";
 	public static final String SINA_WEIBO_ID = "飞利浦中国";
 	private IWeiboShareAPI  mWeiboShareAPI = null;
@@ -81,7 +83,7 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 			sendMessage();
 			break;
 		case R.id.diagonistic_via_mail:
-			sendMail(diagnosticData(), getString(R.string.contact_philips_support_email), userEmail);
+			sendMail(getDiagnosticDataForEmail(), getString(R.string.contact_philips_support_email), userEmail);
 			break;
 		default:
 			//NOP
@@ -92,7 +94,7 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 	/**
 	 * Fetches all required diagnostic data
 	 */
-	private String diagnosticData(){
+	private String getDiagnosticDataForEmail(){
 
 		String jainRainUser="App not registered";
 		if(UserRegistrationController.getInstance().isUserLoggedIn())
@@ -137,6 +139,33 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 			data.append(lineSeparator);
 		}
 		return data.toString();
+	}
+	
+	private String getDiagnosticDataForSinaWeibo(){
+
+		String appVersion= "v"+Utils.getVersionNumber();
+		String platform= "Android " + Build.VERSION.RELEASE ;
+		String appEui64 = "EUI64:" + CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId();
+		
+		List<AirPurifier> purifiers= DiscoveryManager.getInstance().getStoreDevices();
+
+		StringBuilder data= new StringBuilder("App- ") ;
+		data.append(appVersion);
+		data.append(commaSeparator);
+		data.append(platform);
+		data.append(commaSeparator);
+		data.append(appEui64);
+		data.append(lineSeparator);
+		for(int i=0; i<purifiers.size(); i++){
+			data.append(getString(R.string.purifier)).append(i+1).append("- ");
+			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getNetworkNode().getCppId());
+			if(purifiers.get(i).getFirmwarePort().getFirmwarePortInfo()!=null){
+			data.append(commaSeparator);
+			data.append("FW:").append(purifiers.get(i).getFirmwarePort().getFirmwarePortInfo().getVersion());
+			}
+			data.append(lineSeparator);
+		}
+		return data.toString().trim();
 	}
 
 	private void sendMail(String message, String sendTo, String userEmail) {
@@ -185,7 +214,7 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 	}
 	private TextObject getTextObj() {
 		
-		StringBuilder messageBuilder = new StringBuilder(diagnosticData().trim());
+		StringBuilder messageBuilder = new StringBuilder(getDiagnosticDataForSinaWeibo());
 		messageBuilder.append("@manzerhassan");
 		TextObject textObject = new TextObject();
 		textObject.text = messageBuilder.toString();

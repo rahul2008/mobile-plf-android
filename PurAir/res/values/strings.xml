@@ -357,7 +357,7 @@
     <string name="indoor_good">Good air. Overall there is low dust and particle levels in the air. The PM2.5 level is expected to be low. Health risk is considered to be minor. Enjoy your usual indoor activities.</string>
     <string name="indoor_color_explained_intro">The Philips Smart Air app shows real-time air particle level on a scale of 1&#8211;10 measured by a smart built-in sensor. You can read update air quality information in your home, including PM2.5 concentration.</string>
     <!-- Diagnostics -->
-    <string name="diagnostics">Email Diagnostics:</string>
+    <string name="diagnostics">Email Diagnostics</string>
     <string name="diagnostics_intro">This is an automatically generated diagnostic email sent by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.</string>
     <string name="janrain_user">Jan Rain User: </string>
     <string name="app_version">App version: </string>

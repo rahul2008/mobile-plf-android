@@ -55,6 +55,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		FontTextView lblUserManual=(FontTextView) rootView.findViewById(R.id.lbl_user_manual);
 		FontTextView qrCode=(FontTextView) rootView.findViewById(R.id.qr_Code);
 		FontTextView lblOpensource = (FontTextView) rootView.findViewById(R.id.opensource_lb);
+		FontTextView diagnosticLabel = (FontTextView)rootView.findViewById(R.id.lbl_email_us) ;
+		diagnosticLabel.setText(getString(R.string.diagnostics) +":");
 		faqAC4373 = (FontTextView) rootView.findViewById(R.id.faq_ac4373);
 		faqAC4375 = (FontTextView) rootView.findViewById(R.id.faq_ac4375);
 		userManualAC4373 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4373);
