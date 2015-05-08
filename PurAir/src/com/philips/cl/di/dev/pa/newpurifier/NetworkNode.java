@@ -93,7 +93,7 @@ public class NetworkNode extends Observable implements Parcelable {
 	}
 
 	public synchronized void setHomeSsid(String homeSsid) {
-		if (mHomeSsid == null || mHomeSsid.isEmpty()) return;
+		if (homeSsid == null || homeSsid.isEmpty()) return;
 		this.mHomeSsid = homeSsid;
 	}
 
