@@ -669,9 +669,9 @@
     <string name="mail">邮件分享</string>
     <string name="share_info">想要像我一样随时随地，一手掌握最详尽的空气质量情况？那就快来</string>
     <string name="download">下载吧!</string>
-    <string name="air_quality">Air quality</string>
-    <string name="air_purifier">AirPurifier</string>
-    <string name="no_data_available">No Data Available</string>
+    <string name="air_quality">空气质量</string>
+    <string name="air_purifier">空气净化器</string>
+    <string name="no_data_available">无数据</string>
     <string name="submit">提交</string>
     <string name="invalid_input">有效输入</string>
     <string name="feedback_sent">感谢您的反馈意见</string>

@@ -661,9 +661,9 @@
     <string name="mail">邮件分享</string>
     <string name="share_info">想要像我一样随时随地，一手掌握最详尽的空气质量情况？那就快来</string>
     <string name="download">下载吧!</string>
-    <string name="air_quality">Air quality</string>
-    <string name="air_purifier">AirPurifier</string>
-    <string name="no_data_available">No Data Available</string>
+    <string name="air_quality">空气质量</string>
+    <string name="air_purifier">空气净化器</string>
+    <string name="no_data_available">无数据</string>
     <string name="submit">提交</string>
     <string name="invalid_input">有效输入</string>
     <string name="feedback_sent">感谢您的反馈意见</string>
@@ -671,7 +671,7 @@
 
     <!-- Wind Direction -->
 
-    <string name="no_wind">无持续风向</string>
+     <string name="no_wind">无持续风向</string>
     <string name="northeast">东北风</string>
     <string name="east">东风</string>
     <string name="southeast"> 东南风</string>
@@ -697,27 +697,27 @@
     <string name="storm">暴雨</string>
     <string name="heavy_storm">大暴雨</string>
     <string name="severe_storm">特大暴雨</string>
-    <string name="snow_flurry">陣雪</string>
+    <string name="snow_flurry">阵雪</string>
     <string name="light_snow">小雪</string>
     <string name="moderate_snow">中雪</string>
-    <string name="heavy_snow">大雪</string>
+    <string name="heavy_snow">中雪</string>
     <string name="snowstorm">暴雪</string>
-    <string name="foggy">霧</string>
-    <string name="ice_rain">冰雨</string>
-    <string name="duststorm">沙塵暴</string>
-    <string name="light_to_moderate_rain">小至中雨</string>
-    <string name="moderate_to_heavy_rain">中至大雨</string>
-    <string name="heavy_rain_to_storm">大至暴雨</string>
-    <string name="storm_to_heavy_storm">暴雨至大暴雨</string>
-    <string name="heavy_to_severe_storm">大暴雨至特大暴雨</string>
-    <string name="light_to_moderate_snow">小至中雪</string>
-    <string name="moderate_to_heavy_snow">中至大雪</string>
-    <string name="heavy_snow_to_snowstorm">大至暴雪</string>
-    <string name="dust">塵粒</string>
-    <string name="sand">沙粒</string>
-    <string name="sandstorm">强沙塵暴</string>
-    <string name="haze">煙霞</string>
-    <string name="unknown">不詳</string>
+    <string name="foggy">雾</string>
+    <string name="ice_rain">冻雨</string>
+    <string name="duststorm">沙尘暴</string>
+    <string name="light_to_moderate_rain">小到中雨</string>
+    <string name="moderate_to_heavy_rain">中到大雨</string>
+    <string name="heavy_rain_to_storm">大到暴雨</string>
+    <string name="storm_to_heavy_storm">暴雨到大暴雨</string>
+    <string name="heavy_to_severe_storm">大暴雨到特大暴雨</string>
+    <string name="light_to_moderate_snow">小到中雪</string>
+    <string name="moderate_to_heavy_snow">中到大雪</string>
+    <string name="heavy_snow_to_snowstorm">大到暴雪</string>
+    <string name="dust">浮尘</string>
+    <string name="sand">扬沙</string>
+    <string name="sandstorm">强沙尘暴</string>
+    <string name="haze">霾</string>
+    <string name="unknown">无</string>
 
     <!-- Product Regestration -->
     <string name="enter_phone_no">请输入手机号码</string>
