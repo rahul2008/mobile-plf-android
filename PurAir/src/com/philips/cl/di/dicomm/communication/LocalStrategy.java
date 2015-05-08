@@ -19,7 +19,7 @@ public class LocalStrategy extends CommunicationStrategy {
 		mDISecurity = diSecurity;
 		mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = new RequestQueue();
-        mLocalSubscriptionHandler = new LocalSubscriptionHandler();
+        mLocalSubscriptionHandler = new LocalSubscriptionHandler(mDISecurity);
 	}
 
 	@Override
@@ -123,17 +123,11 @@ public class LocalStrategy extends CommunicationStrategy {
 	@Override
 	public void enableSubscription(
 			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		// TODO DICOMM Refactor, check if there is better way to inject
-		mLocalSubscriptionHandler.registerSubscriptionListener(subscriptionEventListener);
-		mLocalSubscriptionHandler.enableSubscription(networkNode);
+		mLocalSubscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
 	}
 
 	@Override
-	public void disableSubscription(
-			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		// TODO DICOMM Refactor, check if there is better way to inject
-		mLocalSubscriptionHandler.unRegisterSubscriptionListener(subscriptionEventListener);
+	public void disableSubscription() {
 		mLocalSubscriptionHandler.disableSubscription();
-		
 	}
 }

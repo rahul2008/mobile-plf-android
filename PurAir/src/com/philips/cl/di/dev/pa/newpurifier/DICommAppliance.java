@@ -21,17 +21,20 @@ public abstract class DICommAppliance {
     protected final PairingPort mPairingPort;
     protected final WifiPort mWifiPort;
     protected final WifiUIPort mWifiUIPort;
+    
+    protected final CommunicationStrategy mCommunicationStrategy;
 
     private final List<DICommPort<?>> mPortList = new ArrayList<DICommPort<?>>();
 
     public DICommAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         mNetworkNode = networkNode;
-
-        mDevicePort = new DevicePort(mNetworkNode, communicationStrategy);
-        mFirmwarePort = new FirmwarePort(mNetworkNode, communicationStrategy);
-        mPairingPort = new PairingPort(mNetworkNode, communicationStrategy);
-        mWifiPort = new WifiPort(mNetworkNode, communicationStrategy);
-        mWifiUIPort = new WifiUIPort(mNetworkNode, communicationStrategy);
+        mCommunicationStrategy = communicationStrategy;
+        
+        mDevicePort = new DevicePort(mNetworkNode, mCommunicationStrategy);
+        mFirmwarePort = new FirmwarePort(mNetworkNode, mCommunicationStrategy);
+        mPairingPort = new PairingPort(mNetworkNode, mCommunicationStrategy);
+        mWifiPort = new WifiPort(mNetworkNode, mCommunicationStrategy);
+        mWifiUIPort = new WifiUIPort(mNetworkNode, mCommunicationStrategy);
 
         addPort(mDevicePort);
         addPort(mFirmwarePort);

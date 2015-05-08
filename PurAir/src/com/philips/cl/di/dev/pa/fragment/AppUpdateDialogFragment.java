@@ -10,7 +10,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.AppUpdater;

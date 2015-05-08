@@ -10,22 +10,18 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 	
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
+	private final DISecurity mDISecurity;
 	
-	public LocalSubscriptionHandler(){
-	}
-	
-	public void registerSubscriptionListener(SubscriptionEventListener subscriptionEventListener){
-		mSubscriptionEventListener = subscriptionEventListener;		
-	}
-	
-	public void unRegisterSubscriptionListener(SubscriptionEventListener subscriptionEventListener){
-		mSubscriptionEventListener = null;		
+	public LocalSubscriptionHandler(DISecurity diSecurity){
+		mDISecurity = diSecurity;
 	}
 
 	@Override
-	public void enableSubscription(NetworkNode networkNode) {
+	public void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
 		mNetworkNode = networkNode;
+		mSubscriptionEventListener = subscriptionEventListener;
+		
 		UDPReceivingThread.getInstance().addUDPEventListener(this) ;
 		if (! UDPReceivingThread.getInstance().isAlive()) {
 			UDPReceivingThread.getInstance().start();
@@ -35,6 +31,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 	@Override
 	public void disableSubscription() {
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
+		mSubscriptionEventListener = null;
 		UDPReceivingThread.getInstance().removeUDPEventListener(this);
 		if (UDPReceivingThread.getInstance().isAlive()) {
 			UDPReceivingThread.getInstance().stopUDPListener();
@@ -56,17 +53,20 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 		
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
 		
-		if(mSubscriptionEventListener!=null){			
-			DISecurity diSecurity = new DISecurity();
-			String decryptedData = diSecurity.decryptData(data, mNetworkNode) ;
+		if(mSubscriptionEventListener!=null && mDISecurity!=null ){			
+			String decryptedData = mDISecurity.decryptData(data, mNetworkNode) ;
 			if (decryptedData == null ) {
 				ALog.d(ALog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
 				return;
 			}
 			
 			ALog.d(ALog.LOCAL_SUBSCRIPTION, decryptedData);
-			mSubscriptionEventListener.onSubscriptionEventReceived(decryptedData);
+			if (mSubscriptionEventListener != null) {
+				postSubscriptionEventOnUIThread(decryptedData, mSubscriptionEventListener);
+			}
 		}
 	}
+	
+	
 
 }

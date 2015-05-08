@@ -214,22 +214,6 @@ public class AirPurifierManager implements Observer {
 	@Override
 	public void update(Observable observable, Object data) {
 		if(mCurrentPurifier == null) return;
-//		switch (mCurrentPurifier.getNetworkNode().getConnectionState()) {
-//		case DISCONNECTED:
-//			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier went offline");
-//			stopCurrentSubscription();
-//			break;
-//		case CONNECTED_LOCALLY:
-//			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected locally");
-//			stopCurrentSubscription();
-//			startSubscription();
-//			break;
-//		case CONNECTED_REMOTELY:
-//			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected remotely");
-//			stopCurrentSubscription();
-//			startSubscription();
-//			break;
-//		}
 		stopCurrentSubscription();
         startSubscription();
 		notifyPurifierChangedListeners();

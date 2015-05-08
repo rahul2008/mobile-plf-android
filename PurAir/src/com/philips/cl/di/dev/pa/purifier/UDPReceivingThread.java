@@ -48,10 +48,7 @@ public class UDPReceivingThread extends Thread {
 			udpEventListenerList.remove(udpEventListener) ;			
 		}
 	}
-//	public UDPReceivingThread() {
-//		this.udpEventListener = udpEventListener ;
-//	}
-//	
+
 	@Override
 	public void run() {
 		ALog.i(ALog.UDP, "Started UDP socket") ;

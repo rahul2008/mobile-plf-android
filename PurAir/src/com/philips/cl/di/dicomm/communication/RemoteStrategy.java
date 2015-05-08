@@ -8,11 +8,11 @@ import com.philips.cl.di.dev.pa.purifier.RemoteRequest;
 
 public class RemoteStrategy extends CommunicationStrategy {
 private final RequestQueue mRequestQueue;
-private final RemoteSuscriptionHandler mRemoteSuscriptionHandler;
+private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 
 	public RemoteStrategy(){
 		mRequestQueue = new RequestQueue();
-		mRemoteSuscriptionHandler = new RemoteSuscriptionHandler();
+		mRemoteSuscriptionHandler = new RemoteSubscriptionHandler();
 	}
 
 	@Override
@@ -70,18 +70,12 @@ private final RemoteSuscriptionHandler mRemoteSuscriptionHandler;
 	@Override
 	public void enableSubscription(
 			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		// TODO DICOMM Refactor, check if there is better way to inject
-		mRemoteSuscriptionHandler.registerSubscriptionListener(subscriptionEventListener);
-		mRemoteSuscriptionHandler.enableSubscription(networkNode);
+		mRemoteSuscriptionHandler.enableSubscription(networkNode, null);
 	}
 
 	@Override
-	public void disableSubscription(
-			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		// TODO DICOMM Refactor, check if there is better way to inject
-		mRemoteSuscriptionHandler.unRegisterSubscriptionListener(subscriptionEventListener);
+	public void disableSubscription() {
 		mRemoteSuscriptionHandler.disableSubscription();
-		
 	}
 
 }

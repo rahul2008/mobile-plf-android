@@ -24,16 +24,14 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
     protected final ScheduleListPort mScheduleListPort;
 
 	private final AirPort mAirPort;
-	private final CommunicationStrategy mCommunicationStrategy;
+	
 
 	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
 	    super(networkNode, communicationStrategy);
 		mUsn = usn;
-		mCommunicationStrategy = communicationStrategy;
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy);
-		
 
         addPort(mAirPort);
         addPort(mScheduleListPort);
@@ -52,7 +50,7 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
 	}
 
 	public void disableSubscription() {
-		mCommunicationStrategy.disableSubscription(this, null);
+		mCommunicationStrategy.disableSubscription();
 	}
 
 	public String getLatitude() {
