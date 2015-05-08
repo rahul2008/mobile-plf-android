@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FeedbackActivity extends BaseActivity {
@@ -37,10 +38,12 @@ public class FeedbackActivity extends BaseActivity {
 		setContentView(R.layout.feedback_activity);
 		setTitleBack();
 		setTitleText(getString(R.string.send_us_feedback));
+		MetricsTracker.trackPage("SendUsFeedback");
 
 		findViewById(R.id.feedback_submit_tv).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				MetricsTracker.trackActionFeedback("FeedbackSubmitClicked");
 				submit();
 			}
 		});
@@ -82,12 +85,14 @@ public class FeedbackActivity extends BaseActivity {
 		String contentStr = ((EditText)findViewById(R.id.feedback_content_edt)).getText().toString().trim();
 		if (contentStr.length() == 0) {
 //			toast("è¯·å¡«å†™æ‚¨çš„æ„?è§?");
+			MetricsTracker.trackActionUserError("FeedbackError : No content");
 			return;
 		}
 
 		String contactStr = ((EditText)findViewById(R.id.feedback_contact_edt)).getText().toString().trim();
 		if (contentStr.length() == 0) {
 			showErrorDialog(R.string.invalid_input);
+			MetricsTracker.trackActionUserError("FeedbackError : No contact info");
 			return;
 		}
 //		showLoading();
@@ -97,20 +102,24 @@ public class FeedbackActivity extends BaseActivity {
 		sendData.put("mobile", contactStr);
 		sendData.put("content", contentStr);
 		showProgressDialog();
+		MetricsTracker.trackActionFeedback("FeedbackSubmitSuccess");
 		new NetworkRequests().requestToParse(getParamsUrl("http://222.73.255.34/philips_co/feedback.php", sendData),new RequestCallback(){
 			@Override
 			public void success(Response response) {
 //				super.success(response);
 				if (response.success()) {
+					MetricsTracker.trackActionFeedback("FeedbackResponseSuccess");
 					cancelProgressDialog();
 					showErrorDialog(R.string.feedback_sent);
 				}else{
+					MetricsTracker.trackActionFeedback("FeedbackResponseFailure");
 					cancelProgressDialog();
 					showErrorDialog(R.string.feedback_not_sent);
 				}
 			}
 			@Override
 			public void error(ResponseState state, String message) {
+				MetricsTracker.trackActionFeedback("FeedbackResponseFailure");
 				cancelProgressDialog();
 				showErrorDialog(R.string.feedback_not_sent);
 			}

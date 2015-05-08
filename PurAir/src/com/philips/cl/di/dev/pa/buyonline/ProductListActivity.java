@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class ProductListActivity  extends BaseActivity implements OnClickListener {
@@ -38,6 +39,7 @@ public class ProductListActivity  extends BaseActivity implements OnClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.productlist_activity);
+		MetricsTracker.trackPage("ProductRegistration:ProductsList");
 		inflater = LayoutInflater.from(this);
 		initView();
 		getData();
@@ -104,6 +106,9 @@ public class ProductListActivity  extends BaseActivity implements OnClickListene
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				PurAirApplication.getAppContext().tmpObj = (BaseBean)parent.getItemAtPosition(position);
+				BaseBean tempBean = (BaseBean)parent.getItemAtPosition(position);
+				String productName = tempBean.getStr("typename");
+				MetricsTracker.trackActionRegisterProductType(productName);
 				startActivity(new Intent(ProductListActivity.this,ProductRegActivity.class));
 			}
 		});

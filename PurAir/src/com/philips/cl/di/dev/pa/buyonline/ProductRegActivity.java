@@ -27,7 +27,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -36,6 +35,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class ProductRegActivity extends BaseActivity{
@@ -49,6 +49,7 @@ public class ProductRegActivity extends BaseActivity{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.productreg_activity);
+		MetricsTracker.trackPage("ProductRegistration:RegisterNewProduct");
 		baseBean = (BaseBean)PurAirApplication.getAppContext().tmpObj;
 		if (null == baseBean) {
 			finish();
@@ -109,18 +110,22 @@ public class ProductRegActivity extends BaseActivity{
 	private void submit() {
 		final String phoneStr = ((EditText)findViewById(R.id.productreg_contact_edt)).getText().toString().trim();
 		if (phoneStr.length() == 0) {
+			MetricsTracker.trackActionUserError("ProductReg:NoPhoneNumber");
 			showErrorDialog(R.string.enter_phone_no);
 			return;
 		}
 		if (null == photo) {
+			MetricsTracker.trackActionUserError("ProductReg:NoPurchaseProof");
 			showErrorDialog(R.string.enter_prof_of_purchase);
 			return;
 		}
 		final String buytime = ((TextView)findViewById(R.id.productreg_buytime_tv)).getText().toString().trim();
 		if (buytime.length() == 0) {
+			MetricsTracker.trackActionUserError("ProductReg:NoBuyDate");
 			showErrorDialog(R.string.enter_purchase_date);
 			return;
 		}
+		MetricsTracker.trackActionRegisterNewProduct(baseBean.getStr("typename"), phoneStr, buytime);
 		showProgressDialog();
 		new Thread(new Runnable() {
 			@Override

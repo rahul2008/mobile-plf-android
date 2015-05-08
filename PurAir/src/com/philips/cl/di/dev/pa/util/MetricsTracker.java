@@ -455,6 +455,53 @@ public class MetricsTracker {
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 	
+	public static void trackActionFeedback(String action) {
+		if(!trackMetrics) return;
+        ALog.i(ALog.TAGGING, "TrackAction : Feedback page event");
+		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put(KEY_PAGE_EVENT, action);
+		Analytics.trackAction(ACTION_SET_OPTION, contextData);
+	}
+	
+	public static void trackActionRateThisApp() {
+		if(!trackMetrics) return;
+        ALog.i(ALog.TAGGING, "TrackAction : Feedback page event");
+		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put(KEY_PAGE_EVENT, "Rate this app clicked");
+		Analytics.trackAction(ACTION_SET_OPTION, contextData);
+	}
+	
+	public static void trackActionRegisterProductType(String productName) {
+		if(!trackMetrics) return;
+        ALog.i(ALog.TAGGING, "TrackAction : Feedback page event");
+		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put("RegisterProduct", productName);
+		Analytics.trackAction(ACTION_SET_OPTION, contextData);
+	}
+	
+	public static void trackActionDeleteRegisteredProduct(String id) {
+		if(!trackMetrics) return;
+        ALog.i(ALog.TAGGING, "TrackAction : Feedback page event");
+		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put("DeletedProductId", id);
+		Analytics.trackAction(ACTION_SET_OPTION, contextData);
+	}
+	
+	public static void trackActionRegisterNewProduct(String productName, String phoneNumber, String purchaseDate) {
+		if(!trackMetrics) return;
+        ALog.i(ALog.TAGGING, "TrackAction : Feedback page event");
+		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put("RegisterProduct", productName);
+		contextData.put("PhoneNumber", phoneNumber);
+		contextData.put("PurchaseDate", purchaseDate);
+		Analytics.trackAction(ACTION_SET_OPTION, contextData);
+	}
+	
 	private static Map<String, Object> addAnalyticsDataObject() {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_APPNAME, VALUE_APPNAME);

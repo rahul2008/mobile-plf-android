@@ -82,6 +82,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.rate_this_app:
+			MetricsTracker.trackActionRateThisApp();
 			AppUtils.startMarketCommend(getActivity(), getActivity().getPackageName());
 			break;
 		case R.id.share_feedback:

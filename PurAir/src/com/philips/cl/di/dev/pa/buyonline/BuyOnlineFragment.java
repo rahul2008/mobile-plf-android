@@ -196,6 +196,7 @@ public class BuyOnlineFragment extends BaseFragment {
 		view.findViewById(R.id.buyonline_item_buy_tv).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				MetricsTracker.trackActionExitLink((String) v.getTag());
 				AppUtils.startInnerWeb(getActivity(), String.valueOf(v.getTag()));
 			}
 		});

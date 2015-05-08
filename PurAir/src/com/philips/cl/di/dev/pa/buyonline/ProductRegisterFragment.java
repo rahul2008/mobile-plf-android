@@ -50,7 +50,7 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		MetricsTracker.trackPage("ProductRegistration");
+		MetricsTracker.trackPage("ProductRegistration:RegisteredProducts");
 		initView();
 		isUpdate = true;
 		super.onActivityCreated(savedInstanceState);
@@ -226,6 +226,7 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 		if (data == null || data.get(pos) == null) return;
 		showProgressDialog();
 		String id = data.get(pos).getStr("id");
+		MetricsTracker.trackActionDeleteRegisteredProduct(id);
 		String url = "http://222.73.255.34/philips_new/deleteuserproduct.php?id="+id;
 		new NetworkRequests().requestToParse(url, new RequestCallback(){
 			@Override
