@@ -138,6 +138,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return purifiers;
 	}
 
+	// TODO DIComm Refactor never return different object for same appliance, should return getStoreDevices()
 	public List<AirPurifier> updateStoreDevices() {
 		storedDevices = getAllAirPurifiers();
 		for (final AirPurifier airPurifier : storedDevices) {
