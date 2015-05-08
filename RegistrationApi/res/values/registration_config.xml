@@ -79,7 +79,11 @@
 
     <!-- Provider button text color -->
     <color name="reg_provider_text_color">#FFFFFF</color>
-
+    
+    <!-- privacy policy and Terms and condition hyper link color --> 
+	 <color name="reg_hyperlink_highlight_color">#1470AA</color>
+	 
     <!-- User configuration end -->
-
+   
+    
 </resources>

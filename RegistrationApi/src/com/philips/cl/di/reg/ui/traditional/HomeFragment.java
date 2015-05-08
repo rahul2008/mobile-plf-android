@@ -228,7 +228,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		pTvPrivacyPolicy.setText(spanableString);
 		pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
 		pTvPrivacyPolicy.setLinkTextColor(getResources().getColor(
-				R.color.reg_btn_bg_enabled_color));
+				R.color.reg_hyperlink_highlight_color));
 		pTvPrivacyPolicy.setHighlightColor(getResources().getColor(
 				android.R.color.transparent));
 	}
