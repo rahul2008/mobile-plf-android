@@ -10,7 +10,6 @@
 	<classpathentry kind="lib" path="libs/umeng_social_sdk.jar"/>
 	<classpathentry kind="lib" path="libs/SocialSDK_WeiXin_1.jar"/>
 	<classpathentry kind="lib" path="libs/SocialSDK_WeiXin_2.jar"/>
-	<classpathentry kind="lib" path="libs/SocialSDK_Sina.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="output" path="bin/classes"/>
