@@ -81,8 +81,7 @@ public class NetworkNode extends Observable implements Parcelable {
 	
 	//TODO: to implement
 	public synchronized String getModelName() {
-		throw new UnsupportedOperationException();
-		//return mModelName;
+		return mModelName;
 	}
 
 	public synchronized void setModelName(String modelName) {

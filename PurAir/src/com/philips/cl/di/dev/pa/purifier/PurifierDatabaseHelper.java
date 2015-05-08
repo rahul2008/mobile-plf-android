@@ -65,7 +65,7 @@ public class PurifierDatabaseHelper extends NetworkNodeDatabaseHelper {
 				+ AppConstants.KEY_AIRPUR_CPP_ID + " TEXT NOT NULL UNIQUE,"
 				+ AppConstants.KEY_AIRPUR_USN + " TEXT UNIQUE," //TODO remove usn
 				+ AppConstants.KEY_LATITUDE + " TEXT," 
-				+ AppConstants.KEY_LONGITUDE + " TEXT,"
+				+ AppConstants.KEY_LONGITUDE + " TEXT"
 				+ ");";
 		db.execSQL(createAirPurifierTableQuery);
 		

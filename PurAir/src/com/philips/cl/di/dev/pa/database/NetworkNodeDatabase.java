@@ -1,6 +1,15 @@
 package com.philips.cl.di.dev.pa.database;
 
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.*;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_CPP_ID;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
+import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +20,13 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkNodeDatabase {
 	
-	private SQLiteDatabase db;
 	private NetworkNodeDatabaseHelper dbHelper;
 	
 	public NetworkNodeDatabase() {
@@ -29,6 +38,7 @@ public class NetworkNodeDatabase {
 		
 		Cursor cursor = null;
 		
+		SQLiteDatabase db = null;
 		try {
 			db = dbHelper.getReadableDatabase();
 			cursor = db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
@@ -48,6 +58,7 @@ public class NetworkNodeDatabase {
 					String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
 					
 					NetworkNode networkNode = new NetworkNode();
+					networkNode.setConnectionState(ConnectionState.DISCONNECTED);
 					networkNode.setCppId(cppId);
 					networkNode.setBootId(bootId);
 					networkNode.setEncryptionKey(encryptionKey);
@@ -67,7 +78,7 @@ public class NetworkNodeDatabase {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
-			closeDatabase();
+			closeDatabase(db);
 		}
 		
 		return result;
@@ -82,6 +93,7 @@ public class NetworkNodeDatabase {
 		if (networkNode.getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED)
 			networkNode.setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 		
+		SQLiteDatabase db = null;
 		try {
 			db = dbHelper.getWritableDatabase();
 			
@@ -105,20 +117,31 @@ public class NetworkNodeDatabase {
 			
 			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 		} catch (Exception e) {
+			e.printStackTrace();
 			ALog.e(ALog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
 		} finally {
-			closeDatabase();
+			closeDatabase(db);
 		}
 		
 		return rowId;
 	}
 	
 	public int delete(NetworkNode networkNode) {
-		int rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[] { networkNode.getCppId() });
+		SQLiteDatabase db = null;
+		int rowsDeleted = 0;
+		try {
+			db = dbHelper.getReadableDatabase();
+
+			rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[] { networkNode.getCppId() });
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		} finally {
+			closeDatabase(db);
+		}
 		return rowsDeleted;
 	}
 	
-	private void closeDatabase() {
+	private void closeDatabase(SQLiteDatabase db) {
 		try {
 			if (db != null && db.isOpen()) {
 				db.close();

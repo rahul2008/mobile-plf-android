@@ -12,7 +12,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 
-	private SQLiteDatabase db;
 	private PurifierDatabaseHelper dbHelper;
 	/**
 	 *
@@ -29,7 +28,10 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 		if (purifier == null)
 			return rowId;
 		
+		SQLiteDatabase db = null;
 		try {
+			db = dbHelper.getWritableDatabase();
+			
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.KEY_AIRPUR_CPP_ID, purifier.getNetworkNode().getCppId());
 			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
@@ -39,7 +41,7 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
-			closeDb();
+			closeDb(db);
 		}
 		
 		return rowId;
@@ -51,6 +53,7 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 		
 		Cursor cursor = null;
 		
+		SQLiteDatabase db = null;
 		try {
 			db = dbHelper.getReadableDatabase();
 			cursor = db.query(AppConstants.TABLE_AIRPUR_DEVICE, null, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", 
@@ -69,17 +72,28 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
-			closeDb();
+			closeDb(db);
 		}
 	}
 	
 	@Override
 	public int delete(AirPurifier purifier) {
-		int rowsDeleted = db.delete(AppConstants.TABLE_AIRPUR_DEVICE, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] { purifier.getNetworkNode().getCppId() });
+		SQLiteDatabase db = null;
+		int rowsDeleted = 0;
+		try {
+			db = dbHelper.getReadableDatabase();
+
+			rowsDeleted = db.delete(AppConstants.TABLE_AIRPUR_DEVICE, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] { purifier.getNetworkNode().getCppId() });
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		} finally {
+			closeDb(db);
+		}
+		
 		return rowsDeleted;
 	}
 	
-	private void closeDb() {
+	private void closeDb(SQLiteDatabase db) {
 		try {
 			if (db != null && db.isOpen()) {
 				db.close();

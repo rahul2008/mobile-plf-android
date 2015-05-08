@@ -105,9 +105,8 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 				.append("   eui64: ").append(getNetworkNode().getCppId()).append("   bootId: ").append(getNetworkNode().getBootId())
 				.append("   usn: ").append(getUsn()).append("   paired: ").append(getNetworkNode().getPairedState())
 				.append("   airportInfo: ").append(getAirPort().getPortProperties()).append("   firmwareInfo: ").append(getFirmwarePort().getPortProperties())
-				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ")
-				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
-				.append(getNetworkNode().getHomeSsid());
+				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ").append(getNetworkNode().getHomeSsid())
+				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude());
 		return builder.toString();
 	}
 
