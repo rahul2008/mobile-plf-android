@@ -669,6 +669,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		for (AirPurifier airPurifier : allAirPurifiers) {
 			mDevicesMap.put(airPurifier.getNetworkNode().getCppId(), airPurifier);
 		}
+		storedDevices = allAirPurifiers;
 	}
 
 	private void notifyDiscoveryListener() {
