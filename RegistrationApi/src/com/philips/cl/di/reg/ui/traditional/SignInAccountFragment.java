@@ -58,8 +58,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private final int INVALID_CREDENTIAL = 10;
 
-	private final int NO_SUCH_ACCOUNT = 212;
-
 	private XRegError mRegError;
 
 	@Override
@@ -269,7 +267,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
 
-		if (forgotPasswordFailureInfo.getError().captureApiError.code == NO_SUCH_ACCOUNT) {
+		if (forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.NO_SUCH_ACCOUNT_ERROR_CODE) {
 
 			if (null != forgotPasswordFailureInfo.getEmailErrorMessage()) {
 				mEtEmail.setErrDescription(forgotPasswordFailureInfo

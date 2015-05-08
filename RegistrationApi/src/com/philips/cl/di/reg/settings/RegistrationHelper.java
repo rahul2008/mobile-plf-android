@@ -72,15 +72,12 @@ public class RegistrationHelper {
 				if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent
 						.getAction())) && (null != extras)) {
 					mJanrainIntialized = true;
-					System.out.println("success");
 
 					EventHelper.getInstance().notifyEventOccurred(
 							RegConstants.JANRAIN_INIT_SUCCESS);
 				} else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW
 						.equalsIgnoreCase(intent.getAction())
 						&& (extras != null)) {
-
-					System.out.println("failed in reciver");
 
 					EventHelper.getInstance().notifyEventOccurred(
 							RegConstants.JANRAIN_INIT_FAILURE);

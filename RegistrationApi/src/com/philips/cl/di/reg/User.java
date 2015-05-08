@@ -28,6 +28,7 @@ import com.philips.cl.di.reg.dao.ConsumerInterest;
 import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
+import com.philips.cl.di.reg.dao.ResendMailFailureInfo;
 import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
@@ -207,8 +208,10 @@ public class User {
 			        resendVerificationEmail);
 			Jump.resendEmailVerification(emailAddress, resendVerificationEmailHandler);
 		} else {
-			resendVerificationEmail.onResendVerificationEmailFailedWithError(Error.INVALID_PARAM
+			ResendMailFailureInfo resendMailFailureInfo = new ResendMailFailureInfo();
+			resendMailFailureInfo.setErrorCode(Error.INVALID_PARAM
 			        .geterrorList());
+			resendVerificationEmail.onResendVerificationEmailFailedWithError(resendMailFailureInfo);
 		}
 	}
 

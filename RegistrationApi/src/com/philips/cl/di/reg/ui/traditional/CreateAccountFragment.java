@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
@@ -183,8 +182,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onRegisterSuccess() {
 		hideSpinner();
-		Toast.makeText(getActivity(), "Registration Success", Toast.LENGTH_LONG)
-				.show();
+		/*
+		 * Toast.makeText(getActivity(), "Registration Success",
+		 * Toast.LENGTH_LONG) .show();
+		 */
 		getRegistrationMainActivity().addFragment(
 				new AccountActivationFragment());
 	}

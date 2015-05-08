@@ -12,11 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.dao.ResendMailFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
@@ -187,8 +187,10 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 		mBtnResend.setEnabled(true);
 		if (mUser.getEmailVerificationStatus(mContext)) {
 			mBtnResend.setVisibility(View.GONE);
-			Toast.makeText(getActivity(), "Verification email Success",
-					Toast.LENGTH_LONG).show();
+			/*
+			 * Toast.makeText(getActivity(), "Verification email Success",
+			 * Toast.LENGTH_LONG).show();
+			 */
 			mEMailVerifiedError.hideError();
 			mRegError.hideError();
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
@@ -229,21 +231,31 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 	public void onResendVerificationEmailSuccess() {
 		// Navigate to signin
 		updateResendUIState();
-		Toast.makeText(getActivity(), "Resend Mail Successfully ",
-				Toast.LENGTH_LONG).show();
+		/*
+		 * Toast.makeText(getActivity(), "Resend Mail Successfully ",
+		 * Toast.LENGTH_LONG).show();
+		 */
 	}
 
 	private void updateResendUIState() {
 		mBtnActivate.setEnabled(true);
-		mBtnResend.setEnabled(true);
+		mBtnResend.setEnabled(false);
 		hideResendSpinner();
 	}
 
 	@Override
-	public void onResendVerificationEmailFailedWithError(int error) {
+	public void onResendVerificationEmailFailedWithError(
+			ResendMailFailureInfo resendMailFailureInfo) {
 		updateResendUIState();
-		mRegError.setError(getResources()
-				.getString(R.string.resend_email_faild));
+
+		if (resendMailFailureInfo.getError().code == RegConstants.INVALID_FIELDS_ERROR_CODE) {
+			mRegError.setError(resendMailFailureInfo.getErrorDescription()
+					+ "\n" + resendMailFailureInfo.getEmailErrorMessage());
+		} else if (resendMailFailureInfo.getError().code == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+			mRegError.setError(resendMailFailureInfo.getErrorDescription()
+					+ "\n" + resendMailFailureInfo.getEmailErrorMessage());
+		} else
+			mRegError.setError(resendMailFailureInfo.getErrorDescription());
 	}
 
 	@Override

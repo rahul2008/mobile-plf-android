@@ -32,16 +32,17 @@
 
 package com.janrain.android.capture;
 
-import com.janrain.android.Jump;
-import com.janrain.android.utils.ApiConnection;
-import org.json.JSONObject;
+import static com.janrain.android.Jump.getCaptureClientId;
+import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 import java.security.SecureRandom;
 import java.util.Set;
 
-import static com.janrain.android.Jump.TraditionalSignInType;
-import static com.janrain.android.Jump.getCaptureClientId;
-import static com.janrain.android.utils.LogUtils.throwDebugException;
+import org.json.JSONObject;
+
+import com.janrain.android.Jump;
+import com.janrain.android.Jump.TraditionalSignInType;
+import com.janrain.android.utils.ApiConnection;
 
 /**
  * This class implements Capture operations

@@ -11,11 +11,11 @@ package com.philips.cl.di.reg.ui.utils;
 public class RegConstants {
 
 	public static final String TRADITIONAL_REGISTRATION_FIRST_NAME = "traditionalRegistration_firstName";
-	
+
 	public static final String TRADITIONAL_REGISTRATION_PASSWORD = "traditionalRegistration_password";
 
 	public static final String TRADITIONAL_REGISTRATION_EMAIL_ADDRESS = "traditionalRegistration_emailAddress";
-	
+
 	public static final String TRADITIONAL_SIGN_IN_PASSWORD = "traditionalSignIn_password";
 
 	public static final String TRADITIONAL_SIGN_IN_EMAIL_ADDRESS = "traditionalSignIn_emailAddress";
@@ -23,15 +23,17 @@ public class RegConstants {
 	public static final String INVALID_FIELDS = "invalid_fields";
 
 	public static final String INVALID_FORM_FIELDS = "invalid_form_fields";
-	
+
 	public static final String NO_SUCH_ACCOUNT = "no_such_account";
-	
+
 	public static final String FORGOT_PASSWORD_FORM = "forgotPasswordForm";
-	
+
+	public static final String RESEND_VERIFICATION_FORM = "resendVerificationForm";
+
 	public static final String INVALID_CREDENTIALS = "invalid_credentials";
-	
+
 	public static final String USER_INFORMATION_FORM = "userInformationForm";
-	
+
 	public static final String SERIALIZED_RECIPE_CONTAINER_FILE = "recipe_container.obj";
 
 	public static final String INTENT_BT_STATE_CHANGE = "android.bluetooth.adapter.action.STATE_CHANGED";
@@ -98,7 +100,9 @@ public class RegConstants {
 	/** To get the Device Name for which setup done once */
 	public static final String DEVICE_NAME = "DEVICE_NAME";
 
-	/** To get the known preferred Device Name for which setup is not done at all */
+	/**
+	 * To get the known preferred Device Name for which setup is not done at all
+	 */
 	public static final String KNOWN_PREF_DEVICE_NAME = "KNOWN_PREF_DEVICE_NAME";
 
 	/** To get the Device Pin for which setup done once */
@@ -261,7 +265,13 @@ public class RegConstants {
 	public static final String CANCEL_SETUP = "CANCEL_SETUP";
 
 	public static final String EMAIL = "Email";
-	
+
 	public static final String VERIFICATIN_SUCCESS = "VERIFICATIN_SUCCESS";
+	
+	public static final int INVALID_CREDENTIALS_ERROR_CODE = 210;
+	
+	public static final int INVALID_FIELDS_ERROR_CODE = 390;
+	
+	public static final int NO_SUCH_ACCOUNT_ERROR_CODE = 212;
 
 }
