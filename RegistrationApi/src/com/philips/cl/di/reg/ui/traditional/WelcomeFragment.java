@@ -72,8 +72,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mTvWelcome.setText(getString(R.string.RegWelcomeText) + " ["
 				+ userProfile.getGivenName() + "]");
-		mTvSignInEmail.setText(getString(R.string.InitialSignedIn_SignedInUsing_lbltxt)
-				+ userProfile.getEmail());
+		
+		String email = getString(R.string.InitialSignedIn_SigninEmailText);
+		email = String.format(email, userProfile.getEmail());
+        mTvSignInEmail.setText(email);
 	}
 
 	@Override
