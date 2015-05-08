@@ -70,6 +70,7 @@ public class NetworkNodeDatabase {
 					networkNode.setModelName(modelName);
 					
 					result.add(networkNode);
+					ALog.d(ALog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
 				} while (cursor.moveToNext());
 			} else {
 				ALog.i(ALog.DATABASE, "Empty network node table");
@@ -98,7 +99,6 @@ public class NetworkNodeDatabase {
 			db = dbHelper.getWritableDatabase();
 			
 			ContentValues values = new ContentValues();
-//			values.put(KEY_ID, null); // http://stackoverflow.com/questions/17212781/how-to-skip-the-primary-key-when-inserting-contentvalues-in-sqlitedatabase
 			values.put(KEY_CPP_ID, networkNode.getCppId());
 			values.put(KEY_BOOT_ID, networkNode.getBootId());
 			values.put(KEY_ENCRYPTION_KEY, networkNode.getEncryptionKey());
@@ -116,6 +116,7 @@ public class NetworkNodeDatabase {
 			values.put(KEY_MODEL_NAME, networkNode.getModelName());
 			
 			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+			ALog.d(ALog.DATABASE, "Saved NetworkNode in db: " + networkNode);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.e(ALog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
@@ -133,6 +134,7 @@ public class NetworkNodeDatabase {
 			db = dbHelper.getReadableDatabase();
 
 			rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[] { networkNode.getCppId() });
+			ALog.d(ALog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  ("+rowsDeleted+")");
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {

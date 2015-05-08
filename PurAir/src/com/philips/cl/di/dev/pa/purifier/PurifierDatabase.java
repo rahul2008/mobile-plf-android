@@ -38,6 +38,7 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 
 			rowId = db.insertWithOnConflict(AppConstants.TABLE_AIRPUR_DEVICE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+			ALog.d(ALog.DATABASE, "Saved Purifier in db: " + purifier);
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
@@ -68,6 +69,7 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 				purifier.setLatitude(latitude);
 				purifier.setLongitude(longitude);
 			}
+			ALog.d(ALog.DATABASE, "Loaded Purifier from db: " + purifier);
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
@@ -84,6 +86,7 @@ public class PurifierDatabase implements ApplianceDatabase<AirPurifier> {
 			db = dbHelper.getReadableDatabase();
 
 			rowsDeleted = db.delete(AppConstants.TABLE_AIRPUR_DEVICE, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] { purifier.getNetworkNode().getCppId() });
+			ALog.d(ALog.DATABASE, "Deleted Purifier from db: " + purifier + "  ("+rowsDeleted+")");
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
