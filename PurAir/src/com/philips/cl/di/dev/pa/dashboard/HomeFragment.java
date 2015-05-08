@@ -348,7 +348,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		case R.id.share_iv:
 			share.setClickable(false); 
 			showImagesavingProgressDialog(R.string.please_wait);
-			Bitmap localbitmap = DashboardUtil.captureView(parentLayout);
+			Bitmap localbitmap = DashboardUtil.captureView(getView());
 			new ImageSaveAsynctask(this).execute(localbitmap);
 			break;
 		default:

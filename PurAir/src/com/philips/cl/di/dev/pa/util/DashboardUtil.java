@@ -157,12 +157,17 @@ public class DashboardUtil {
 
 	public static Bitmap captureView(View paramView)
 	{
-
-		Bitmap localBitmap = Bitmap.createBitmap(paramView.getWidth(),paramView.getHeight(),Bitmap.Config.ARGB_8888);
-		Canvas canvas = new Canvas(localBitmap);
+		
+		View view = paramView.getRootView();
+		view.setDrawingCacheEnabled(true);
+		Bitmap bm = view.getDrawingCache();
+		Bitmap resultBitmap = Bitmap.createScaledBitmap(bm, bm.getWidth(), bm.getHeight(), false);
+		Canvas canvas = new Canvas(resultBitmap);
 		canvas.drawColor(Color.WHITE);
 		paramView.draw(canvas);
-		return localBitmap;
+		view.setDrawingCacheEnabled(false);
+	
+		return resultBitmap;
 
 	}
 
