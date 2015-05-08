@@ -691,6 +691,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	@Override
 	public void internetStatus(boolean internetAvailable) {
 		if ( internetAvailable ) {
+			internetState = InternetState.Connected;
 			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;		
 			if( purifier == null) {
 				return ;
@@ -706,7 +707,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
 						} else {
-							showInternetAlertDialog(R.string.cloud_service_not_available);
+//							showInternetAlertDialog(R.string.cloud_service_not_available);
+							showCommunicationFailedMessage(R.string.cloud_service_not_available, "communicationFailed");
 						}
 					}
 				});
@@ -719,6 +721,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			}
 		}
 		else {
+			internetState = InternetState.Disconnected;
 			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
 			if (purifier != null) {
 				ALog.i(ALog.PAIRING, "In last if pairToPurifierIfNecessary()");
@@ -736,7 +739,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				cancelPairingDialog() ;
 				((NotificationsFragment) fragment).disableNotificationScreen() ;
 			}
-			showInternetAlertDialog(R.string.enable_internet_access);
+//			showInternetAlertDialog(R.string.enable_internet_access);
+			showCommunicationFailedMessage(R.string.enable_internet_access, "communicationFailed");
 		}
 	}
 	
