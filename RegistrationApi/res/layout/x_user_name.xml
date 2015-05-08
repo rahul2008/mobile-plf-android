@@ -46,7 +46,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/Create_Account_FirstName__Placeholder_txtFiled"
             android:inputType="textPersonName"
-            android:maxLength="1000"
+            android:maxLength="@integer/reg_et_name_max_length"
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
     

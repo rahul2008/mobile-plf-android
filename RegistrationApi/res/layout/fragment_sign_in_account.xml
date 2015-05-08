@@ -22,8 +22,8 @@
                 android:id="@+id/ll_reg_create_account_fields"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
+                android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin" >
@@ -123,6 +123,10 @@
                 android:layout_marginTop="@dimen/reg_margin_bottom"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/reg_scroll_margin" />
         </LinearLayout>
     </ScrollView>
 

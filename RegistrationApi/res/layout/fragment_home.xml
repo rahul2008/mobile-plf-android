@@ -76,9 +76,9 @@
                     android:id="@+id/btn_reg_my_philips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerBackground="@drawable/reg_philips_bg_rect"
                     reglib:providerLogo="@drawable/reg_philips_ic"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerName="@string/Welcome_MyPhilips_btntxt"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
@@ -86,20 +86,20 @@
                     android:id="@+id/btn_reg_facebook"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerBackground="@drawable/reg_facebook_bg_rect"
                     reglib:providerLogo="@drawable/reg_facebook_ic"
                     reglib:providerName="@string/Welcome_Facebook_btntxt"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
                     android:id="@+id/btn_reg_twitter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerBackground="@drawable/reg_twitter_bg_rect"
                     reglib:providerLogo="@drawable/reg_twitter_ic"
                     reglib:providerName="@string/Welcome_Twitter_btntxt"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
@@ -107,6 +107,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
                 </com.philips.cl.di.reg.ui.customviews.XRegError>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/reg_scroll_margin" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -71,6 +71,10 @@
                     android:background="@drawable/reg_btn_forgot_rect"
                     android:text="@string/SignInSuccess_SignOut_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/reg_scroll_margin" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

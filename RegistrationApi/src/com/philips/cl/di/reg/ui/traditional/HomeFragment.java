@@ -1,12 +1,23 @@
 package com.philips.cl.di.reg.ui.traditional;
 
-import android.annotation.SuppressLint;
+import java.util.Locale;
+
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +38,10 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	private Button mBtnCreateAccount;
 
 	private XProviderButton mBtnMyPhilips;
+
+	private XProviderButton mBtnFacebook;
+
+	private XProviderButton mBtnTwitter;
 
 	private TextView mTvWelcome;
 
@@ -87,16 +102,26 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				.findViewById(R.id.btn_reg_my_philips);
 		mBtnMyPhilips.setOnClickListener(this);
 
+		mBtnFacebook = (XProviderButton) view
+				.findViewById(R.id.btn_reg_facebook);
+		mBtnFacebook.setOnClickListener(this);
+
+		mBtnTwitter = (XProviderButton) view.findViewById(R.id.btn_reg_twitter);
+		mBtnTwitter.setOnClickListener(this);
+
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 
 		setViewParams(getResources().getConfiguration());
+		linkifyTermAndPolicy(mTvWelcomeDesc);
 		handleUiState();
 	}
 
 	@Override
 	public void onClick(View v) {
-		// Library does not include resource constants after ADT 14
-		// Link :http://tools.android.com/tips/non-constant-fields
+		/**
+		 * Library does not include resource constants after ADT 14 Link
+		 * :http://tools.android.com/tips/non-constant-fields
+		 */
 		if (v.getId() == R.id.btn_reg_create_account) {
 			getRegistrationMainActivity().addFragment(
 					new CreateAccountFragment());
@@ -137,48 +162,116 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				mRegError.hideError();
 				enableControls(true);
 			} else {
-				// Show janran offline error
-				System.out.println("ffff");
 				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
-			// Show network error
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 			enableControls(false);
 		}
 	}
 
-	@SuppressLint("NewApi")
 	private void enableControls(boolean state) {
 
 		mBtnCreateAccount.setEnabled(state);
 		mBtnMyPhilips.setEnabled(state);
 
-		// btnCreateAccount.setEnabled(state);
-		// mLlMyPhilips.setEnabled(state);
-		// mLlFacebook.setEnabled(state);
-		// mLlTwitter.setEnabled(state);
-		// mLlGooglePlus.setEnabled(state);
-		//
+		/*
+		 * mBtnFacebook.setEnabled(state); mLlTwitter.setEnabled(state);
+		 * mLlGooglePlus.setEnabled(state);
+		 */
+
 		if (state) {
-			/*
-			 * mBtnCreateAccount.setAlpha(1); mBtnMyPhilips.setAlpha(1);
-			 */
-			// mLlFacebook.setAlpha(1);
-			// mLlTwitter.setAlpha(1);
-			// mLlGooglePlus.setAlpha(1);
+			setAlphaForView(mBtnMyPhilips, 1);
+			setAlphaForView(mBtnFacebook, 1);
+			setAlphaForView(mBtnTwitter, 1);
 			mRegError.hideError();
 		} else {
-			// setErrorMsg(SaecoAvantiApplication.getInstance().getJanrainErrorMsg());
-			/*
-			 * mBtnCreateAccount.setAlpha(0.75f);
-			 * mBtnCreateAccount.setAlpha(0.75f);
-			 */
-
-			// mLlFacebook.setAlpha(0.75f);
-			// mLlTwitter.setAlpha(0.75f);
-			// mLlGooglePlus.setAlpha(0.75f);
+			setAlphaForView(mBtnMyPhilips, 0.75f);
+			setAlphaForView(mBtnFacebook, 0.75f);
+			setAlphaForView(mBtnTwitter, 0.75f);
 		}
+	}
+
+	private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
+		String termAndPrivacy = getResources().getString(
+				R.string.LegalNoticeText);
+		String terms = getResources()
+				.getString(R.string.TermsAndConditionsText);
+		String privacy = getResources().getString(R.string.PrivacyPolicyText);
+		int termStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault())
+				.indexOf(terms.toLowerCase(Locale.getDefault()));
+		int privacyStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault())
+				.indexOf(privacy.toLowerCase(Locale.getDefault()));
+
+		SpannableString spanableString = new SpannableString(termAndPrivacy);
+		spanableString.setSpan(new ClickableSpan() {
+
+			@Override
+			public void onClick(View widget) {
+				handleTermsCondition();
+			}
+		}, termStartIndex, termStartIndex + terms.length(),
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		spanableString.setSpan(new ClickableSpan() {
+
+			@Override
+			public void onClick(View widget) {
+				handlePrivacyPolicy();
+			}
+
+		}, privacyStartIndex, privacyStartIndex + privacy.length(),
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		removeUnderlineFromLink(spanableString);
+
+		pTvPrivacyPolicy.setText(spanableString);
+		pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
+		pTvPrivacyPolicy.setLinkTextColor(getResources().getColor(
+				R.color.reg_btn_bg_enabled_color));
+		pTvPrivacyPolicy.setHighlightColor(getResources().getColor(
+				android.R.color.transparent));
+	}
+
+	private void removeUnderlineFromLink(SpannableString spanableString) {
+		for (ClickableSpan u : spanableString.getSpans(0,
+				spanableString.length(), ClickableSpan.class)) {
+			spanableString.setSpan(new UnderlineSpan() {
+
+				public void updateDrawState(TextPaint tp) {
+					tp.setUnderlineText(false);
+				}
+			}, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
+		}
+
+		for (URLSpan u : spanableString.getSpans(0, spanableString.length(),
+				URLSpan.class)) {
+			spanableString.setSpan(new UnderlineSpan() {
+
+				public void updateDrawState(TextPaint tp) {
+					tp.setUnderlineText(false);
+				}
+			}, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
+		}
+	}
+
+	private void setAlphaForView(View v, float alpha) {
+		AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
+		animation.setDuration(0);
+		animation.setFillAfter(true);
+		v.startAnimation(animation);
+	}
+
+	private void handlePrivacyPolicy() {
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(getResources().getString(R.string.PrivacyPolicyURL)));
+		startActivity(browserIntent);
+	}
+
+	private void handleTermsCondition() {
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+				Uri.parse(getResources().getString(R.string.PrivacyPolicyURL)));
+		startActivity(browserIntent);
 	}
 
 }

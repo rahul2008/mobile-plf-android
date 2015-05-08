@@ -48,7 +48,7 @@
             android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
-            android:maxLength="128"
+            android:maxLength="@integer/reg_et_email_max_length"
             reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
     </RelativeLayout>
 

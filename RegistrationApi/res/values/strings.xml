@@ -87,5 +87,6 @@
     <string name="content_desc">ContentDesc</string>
     <string name="continue_use_app">You can continue to use the app in the meantime</string>
     <string name="resend_email_faild">Resend email failed</string>
+    <string name="PrivacyPolicyURL">http://www.philips.co.in/</string>
 
 </resources>
