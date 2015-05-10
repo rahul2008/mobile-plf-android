@@ -1,8 +1,8 @@
-package com.philips.cl.di.dev.pa.database;
+package com.philips.cl.di.dicomm.appliance;
 
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 
-public class NullDatabase implements ApplianceDatabase<DICommAppliance> {
+public class NullDatabase implements DICommApplianceDatabase<DICommAppliance> {
 
 	@Override
 	public long save(DICommAppliance appliance) {

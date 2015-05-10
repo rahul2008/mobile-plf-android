@@ -11,12 +11,12 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.database.NetworkNodeDatabase;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.appliance.NetworkNodeDatabase;
 
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.*;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.*;
 
 /**
  * The Class DBHelper.

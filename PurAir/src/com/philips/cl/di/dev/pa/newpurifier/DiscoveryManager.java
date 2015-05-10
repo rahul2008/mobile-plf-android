@@ -16,26 +16,31 @@ import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
-import com.philips.cl.di.dev.pa.PurAirApplication; //
-import com.philips.cl.di.dev.pa.activity.MainActivity; //
-import com.philips.cl.di.dev.pa.constant.AppConstants; //
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.database.ApplianceDatabase;
-import com.philips.cl.di.dev.pa.database.NetworkNodeDatabase;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.EncryptionKeyUpdatedListener;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase; //
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceDatabase;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cl.di.dicomm.appliance.NetworkNodeDatabase;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.security.DISecurity;
+//
+//
+//
+//
 
 /**
  * Discovery of the device is managed by Discovery Manager. It is the main
@@ -54,7 +59,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private static final Object mDiscoveryLock = new Object();
 
 	private NetworkNodeDatabase mNetworkNodeDatabase;
-	private ApplianceDatabase mApplianceDatabase;
+	private DICommApplianceDatabase mApplianceDatabase;
 	private NetworkMonitor mNetwork;
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
@@ -81,6 +86,15 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			}
 		};
 	};
+
+	public static synchronized void createSharedInstance(DICommApplianceFactory<?> applianceFactory) {
+
+	}
+
+	public static synchronized void createSharedInstance(DICommApplianceFactory<?> applianceFactory, DICommApplianceDatabase<?> applianceDatabase) {
+
+	}
+
 
 	public static synchronized DiscoveryManager getInstance() {
 		if (mInstance == null) {
@@ -356,7 +370,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			existingPurifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
-		
+
         if (existingPurifier.getNetworkNode().getConnectionState() != newPurifier.getNetworkNode().getConnectionState()) {
             existingPurifier.getNetworkNode().setConnectionState(newPurifier.getNetworkNode().getConnectionState());
             notifyListeners = true;
@@ -614,7 +628,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
+
         final AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
 
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
@@ -623,7 +637,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
             	updateApplianceInDatabase(purifier);
             }
         });
-        
+
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
 		if (!isValidPurifier(purifier)) return null;
 
@@ -665,7 +679,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private void initializeDevicesMapFromDataBase() {
 		ALog.i(ALog.DISCOVERY, "initializeDevicesMap") ;
 		mDevicesMap = new LinkedHashMap<String, AirPurifier>();
-		
+
 		List<AirPurifier> allAirPurifiers = getAllAirPurifiers();
 		for (AirPurifier airPurifier : allAirPurifiers) {
 			mDevicesMap.put(airPurifier.getNetworkNode().getCppId(), airPurifier);
@@ -712,12 +726,12 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		ALog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
 		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
 	}
-	
+
 	public List<AirPurifier> getAllAirPurifiers() {
 		List<AirPurifier> result = new ArrayList<AirPurifier>();
-		
+
 		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
-		
+
 		for (NetworkNode networkNode : networkNodes) {
 			DISecurity diSecurity = new DISecurity();
 			CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
@@ -739,7 +753,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	public long insertApplianceToDatabase(AirPurifier airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
 		mApplianceDatabase.save(airPurifier);
-		
+
 		return rowId;
 	}
 
@@ -755,7 +769,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	public int deleteApplianceFromDatabase(AirPurifier airPurifier) {
 		int rowsDeleted = mNetworkNodeDatabase.delete(airPurifier.getNetworkNode());
 		mApplianceDatabase.delete(airPurifier);
-		
+
 		return rowsDeleted;
 	}
 

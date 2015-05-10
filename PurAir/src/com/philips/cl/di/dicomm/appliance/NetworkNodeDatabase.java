@@ -1,15 +1,15 @@
-package com.philips.cl.di.dev.pa.database;
+package com.philips.cl.di.dicomm.appliance;
 
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
-import static com.philips.cl.di.dev.pa.database.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_CPP_ID;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
+import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 import java.util.ArrayList;
 import java.util.List;

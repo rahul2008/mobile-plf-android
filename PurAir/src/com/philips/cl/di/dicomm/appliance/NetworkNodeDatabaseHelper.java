@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.database;
+package com.philips.cl.di.dicomm.appliance;
 
 import android.content.Context;
 import android.database.SQLException;
