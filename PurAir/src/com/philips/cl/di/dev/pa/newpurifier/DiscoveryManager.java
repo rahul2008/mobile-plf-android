@@ -67,7 +67,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private CppDiscoveryHelper mCppHelper;
 
 	private DiscoveryEventListener mListener;
-	private AddNewPurifierListener addNewPurifierListener;
+	private NewApplianceDiscoveredListener mNewApplianceDiscoveredListener;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
 	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
@@ -141,12 +141,12 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mListener = null;
 	}
 
-	public void setAddNewPurifierListener(AddNewPurifierListener addNewPurifierListener) {
-		this.addNewPurifierListener = addNewPurifierListener;
+	public void setAddNewPurifierListener(NewApplianceDiscoveredListener addNewPurifierListener) {
+		this.mNewApplianceDiscoveredListener = addNewPurifierListener;
 	}
 
 	public void removeAddNewPurifierListener() {
-		this.addNewPurifierListener = null;
+		this.mNewApplianceDiscoveredListener = null;
 	}
 
 	public ArrayList<DICommAppliance> getDiscoveredDevices() {
@@ -704,9 +704,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	private void notifyAddNewPurifier() {
-		Log.i("TEMP", "notifyAddNewPurifier datasetChanged: " + addNewPurifierListener);
-		if (mListener instanceof MainActivity && addNewPurifierListener != null) {
-			addNewPurifierListener.onNewPurifierDiscover();
+		Log.i("TEMP", "notifyAddNewPurifier datasetChanged: " + mNewApplianceDiscoveredListener);
+		if (mListener instanceof MainActivity && mNewApplianceDiscoveredListener != null) {
+			mNewApplianceDiscoveredListener.onNewApplianceDiscovered();
 		}
 	}
 

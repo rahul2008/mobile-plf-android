@@ -32,7 +32,7 @@ import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
-import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
+import com.philips.cl.di.dev.pa.newpurifier.NewApplianceDiscoveredListener;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
@@ -50,7 +50,7 @@ import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.WifiPort;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener {
+OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
@@ -305,7 +305,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 	}
 
 	@Override
-	public void onNewPurifierDiscover() {
+	public void onNewApplianceDiscovered() {
 
 		if (getActivity() == null) return;
 		getActivity().runOnUiThread(new Runnable() {
