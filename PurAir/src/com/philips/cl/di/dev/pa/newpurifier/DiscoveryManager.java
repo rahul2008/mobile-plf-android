@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import android.content.Context;
 import android.location.Location;
 import android.os.Handler;
 import android.os.Handler.Callback;
@@ -29,18 +30,15 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.EncryptionKeyUpdatedListener;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceDatabase;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 import com.philips.cl.di.dicomm.appliance.NetworkNodeDatabase;
+import com.philips.cl.di.dicomm.appliance.NullApplianceDatabase;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.security.DISecurity;
-//
-//
-//
-//
+import com.philips.cl.di.dicomm.util.DICommContext;
 
 /**
  * Discovery of the device is managed by Discovery Manager. It is the main
@@ -58,8 +56,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private LinkedHashMap<String, AirPurifier> mDevicesMap;
 	private static final Object mDiscoveryLock = new Object();
 
+	private DICommApplianceFactory<DICommAppliance> mApplianceFactory;
 	private NetworkNodeDatabase mNetworkNodeDatabase;
-	private DICommApplianceDatabase mApplianceDatabase;
+	private DICommApplianceDatabase<DICommAppliance> mApplianceDatabase;
 	private NetworkMonitor mNetwork;
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
@@ -87,27 +86,34 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		};
 	};
 
-	public static synchronized void createSharedInstance(DICommApplianceFactory<?> applianceFactory) {
-
+	public static synchronized void createSharedInstance(Context applicationContext, DICommApplianceFactory<? extends DICommAppliance> applianceFactory) {
+		if (mInstance != null) {
+			throw new RuntimeException("DiscoveryManager can only be initialized once");
+		}
+		DICommContext.initialize(applicationContext);
+		mInstance = new DiscoveryManager(applianceFactory, new NullApplianceDatabase());
 	}
 
-	public static synchronized void createSharedInstance(DICommApplianceFactory<?> applianceFactory, DICommApplianceDatabase<?> applianceDatabase) {
-
+	public static synchronized void createSharedInstance(Context applicationContext, DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
+		if (mInstance != null) {
+			throw new RuntimeException("CPPController can only be initialized once");
+		}
+		DICommContext.initialize(applicationContext);
+		mInstance = new DiscoveryManager(applianceFactory, applianceDatabase);
 	}
-
 
 	public static synchronized DiscoveryManager getInstance() {
-		if (mInstance == null) {
-			mInstance = new DiscoveryManager();
-		}
 		return mInstance;
 	}
 
-	private DiscoveryManager() {
-		// Enforce Singleton
-		mApplianceDatabase = new PurifierDatabase();
+	@SuppressWarnings("unchecked")
+	private DiscoveryManager(DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
+		mApplianceFactory = (DICommApplianceFactory<DICommAppliance>) applianceFactory;
+
+		mApplianceDatabase = (DICommApplianceDatabase<DICommAppliance>) applianceDatabase;
 		mNetworkNodeDatabase = new NetworkNodeDatabase();
 		initializeDevicesMapFromDataBase();
+
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
 		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), this);
 

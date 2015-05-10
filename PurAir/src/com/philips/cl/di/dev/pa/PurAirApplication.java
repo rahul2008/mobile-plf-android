@@ -13,6 +13,9 @@ import android.os.Environment;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierFactory;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -35,9 +38,10 @@ public class PurAirApplication extends Application {
 		
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
-		
+
+		DiscoveryManager.createSharedInstance(getApplicationContext(), new AirPurifierFactory(), new PurifierDatabase());
 	}
-	
+
 	private void initImageLoader() {
 		ImageLoaderUtils.initImageLoader(getApplicationContext(),
 				ImageLoaderUtils.getDisplayImageOptions(true,
