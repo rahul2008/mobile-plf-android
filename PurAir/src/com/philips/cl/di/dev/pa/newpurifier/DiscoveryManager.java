@@ -647,7 +647,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         });
 
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
-		if (!isValidNetworkNode(purifier)) return null;
+		if (!isValidNetworkNode(purifier.getNetworkNode())) return null;
 
 		return purifier;
 	}
