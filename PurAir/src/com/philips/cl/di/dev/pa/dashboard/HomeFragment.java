@@ -38,6 +38,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
@@ -404,10 +405,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			}
 			
 			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-				AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-				if (purifier == null) return;
-		
-				AirPurifierManager.getInstance().setCurrentPurifier(purifier) ;
+				DICommAppliance appliance = DiscoveryManager.getInstance().getStoreDevices().get(position);
+				if (appliance == null || !(appliance instanceof AirPurifier)) return;
+
+				AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier)appliance) ;
 			}
 			
 			

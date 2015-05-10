@@ -53,18 +53,20 @@ import com.philips.cl.di.dicomm.util.DICommContext;
 public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDiscoverEventListener {
 
 	private static DiscoveryManager mInstance;
-	private LinkedHashMap<String, AirPurifier> mDevicesMap;
-	private static final Object mDiscoveryLock = new Object();
+
+	private LinkedHashMap<String, DICommAppliance> mAllAppliancesMap;
+	private List<DICommAppliance> mAddedAppliances;
 
 	private DICommApplianceFactory<DICommAppliance> mApplianceFactory;
 	private NetworkNodeDatabase mNetworkNodeDatabase;
 	private DICommApplianceDatabase<DICommAppliance> mApplianceDatabase;
+
+	private static final Object mDiscoveryLock = new Object();
 	private NetworkMonitor mNetwork;
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
 
 	private DiscoveryEventListener mListener;
-	private List<AirPurifier> storedDevices;
 	private AddNewPurifierListener addNewPurifierListener;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
@@ -147,55 +149,55 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		this.addNewPurifierListener = null;
 	}
 
-	public ArrayList<AirPurifier> getDiscoveredDevices() {
-		return new ArrayList<AirPurifier>(mDevicesMap.values());
+	public ArrayList<DICommAppliance> getDiscoveredDevices() {
+		return new ArrayList<DICommAppliance>(mAllAppliancesMap.values());
 	}
 
-	public List<AirPurifier> getStoreDevices() {
-		List<AirPurifier> purifiers = new ArrayList<AirPurifier>();
-		for (AirPurifier purAirDevice : storedDevices) {
-			purifiers.add(mDevicesMap.get(purAirDevice.getNetworkNode().getCppId()));
+	public List<DICommAppliance> getStoreDevices() {
+		List<DICommAppliance> appliances = new ArrayList<DICommAppliance>();
+		for (DICommAppliance purAirDevice : mAddedAppliances) {
+			appliances.add(mAllAppliancesMap.get(purAirDevice.getNetworkNode().getCppId()));
 		}
-		return purifiers;
+		return appliances;
 	}
 
 	// TODO DIComm Refactor never return different object for same appliance, should return getStoreDevices()
-	public List<AirPurifier> updateStoreDevices() {
-		storedDevices = getAllAirPurifiers();
-		for (final AirPurifier airPurifier : storedDevices) {
-		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+	public List<DICommAppliance> updateStoreDevices() {
+		mAddedAppliances = getAllAirPurifiers();
+		for (final DICommAppliance appliance : mAddedAppliances) {
+		    appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
                 @Override
                 public void onKeyUpdate() {
-                	updateApplianceInDatabase(airPurifier);
+                	updateApplianceInDatabase(appliance);
                 }
             });
         }
-		return storedDevices;
+		return mAddedAppliances;
 	}
 
 	public void removeFromDiscoveredList(String eui64) {
 		if (eui64 == null || eui64.isEmpty()) return;
-		AirPurifier airPurifier = mDevicesMap.remove(eui64);
-		if(airPurifier!=null){
-		    airPurifier.getNetworkNode().setEncryptionKeyUpdatedListener(null);
+		DICommAppliance appliance = mAllAppliancesMap.remove(eui64);
+		if(appliance!=null){
+		    appliance.getNetworkNode().setEncryptionKeyUpdatedListener(null);
 		}
 	}
 
 	public void updatePairingStatus(String eui64, NetworkNode.PAIRED_STATUS state) {
 		if (eui64 == null || eui64.isEmpty()) return;
-		if (mDevicesMap.containsKey(eui64)) {
-			mDevicesMap.get(eui64).getNetworkNode().setPairedState(state);
+		if (mAllAppliancesMap.containsKey(eui64)) {
+			mAllAppliancesMap.get(eui64).getNetworkNode().setPairedState(state);
 		}
 	}
 
-	public List<AirPurifier> getNewDevicesDiscovered() {
+	public List<DICommAppliance> getNewDevicesDiscovered() {
 		boolean addToNewDeviceList = true ;
-		List<AirPurifier> discoveredDevices = getDiscoveredDevices() ;
-		List<AirPurifier> devicesInDataBase = getStoreDevices() ;
-		List<AirPurifier> newDevices = new ArrayList<AirPurifier>() ;
+		List<DICommAppliance> discoveredDevices = getDiscoveredDevices() ;
+		List<DICommAppliance> devicesInDataBase = getStoreDevices() ;
+		List<DICommAppliance> newDevices = new ArrayList<DICommAppliance>() ;
 
-		for(AirPurifier device: discoveredDevices) {
-			for( AirPurifier deviceInDB: devicesInDataBase) {
+		for(DICommAppliance device: discoveredDevices) {
+			for( DICommAppliance deviceInDB: devicesInDataBase) {
 				if( device.getNetworkNode().getCppId().equals(deviceInDB.getNetworkNode().getCppId())) {
 					addToNewDeviceList = false;
 					break;
@@ -213,9 +215,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return newDevices ;
 	}
 
-	public AirPurifier getDeviceByEui64(String eui64) {
+	public DICommAppliance getDeviceByEui64(String eui64) {
 		if (eui64 == null || eui64.isEmpty()) return null;
-		return mDevicesMap.get(eui64);
+		return mAllAppliancesMap.get(eui64);
 	}
 
 	@Override
@@ -306,10 +308,10 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	// ********** START SSDP METHODS ************
 	private boolean onDeviceDiscovered(DeviceModel deviceModel) {
 
-		AirPurifier purifier = getPurAirDevice(deviceModel);
+		DICommAppliance purifier = getPurAirDevice(deviceModel);
 		if (purifier == null) return false;
 		ALog.i(ALog.SSDP, "Discovered device name: " + purifier.getNetworkNode().getName());
-		if (mDevicesMap.containsKey(purifier.getNetworkNode().getCppId())) {
+		if (mAllAppliancesMap.containsKey(purifier.getNetworkNode().getCppId())) {
 			updateExistingDevice(purifier);
 		} else {
 			addNewDevice(purifier);
@@ -322,9 +324,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		String lostDeviceUsn = deviceModel.getId();
 		if (lostDeviceUsn == null || lostDeviceUsn.length() <= 0) return false;
 
-		ArrayList<AirPurifier> devices = getDiscoveredDevices();
-		for (AirPurifier purifier : devices) {
-			if (purifier.getUsn().equals(lostDeviceUsn)) {
+		ArrayList<DICommAppliance> devices = getDiscoveredDevices();
+		for (DICommAppliance purifier : devices) {
+			if (((AirPurifier)purifier).getUsn().equals(lostDeviceUsn)) {
 				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
 				if(purifier.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getPortProperties().getState()) {
 					return false;
@@ -339,60 +341,60 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return false;
 	}
 
-	private void updateExistingDevice(AirPurifier newPurifier) {
-		AirPurifier existingPurifier = mDevicesMap.get(newPurifier.getNetworkNode().getCppId());
+	private void updateExistingDevice(DICommAppliance newAppliance) {
+		DICommAppliance existingAppliance = mAllAppliancesMap.get(newAppliance.getNetworkNode().getCppId());
 		boolean notifyListeners = true;
 
-		if (newPurifier.getNetworkNode().getHomeSsid() != null &&
-				!newPurifier.getNetworkNode().getHomeSsid().equals(existingPurifier.getNetworkNode().getHomeSsid())) {
-			existingPurifier.getNetworkNode().setHomeSsid(newPurifier.getNetworkNode().getHomeSsid());
-			updateApplianceInDatabase(existingPurifier);
+		if (newAppliance.getNetworkNode().getHomeSsid() != null &&
+				!newAppliance.getNetworkNode().getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
+			existingAppliance.getNetworkNode().setHomeSsid(newAppliance.getNetworkNode().getHomeSsid());
+			updateApplianceInDatabase(existingAppliance);
 		}
 
-		if (!newPurifier.getNetworkNode().getIpAddress().equals(existingPurifier.getNetworkNode().getIpAddress())) {
-			existingPurifier.getNetworkNode().setIpAddress(newPurifier.getNetworkNode().getIpAddress());
+		if (!newAppliance.getNetworkNode().getIpAddress().equals(existingAppliance.getNetworkNode().getIpAddress())) {
+			existingAppliance.getNetworkNode().setIpAddress(newAppliance.getNetworkNode().getIpAddress());
 		}
 
-		if (!existingPurifier.getNetworkNode().getName().equals(newPurifier.getNetworkNode().getName())) {
-			existingPurifier.getNetworkNode().setName(newPurifier.getNetworkNode().getName());
-			updateApplianceInDatabase(existingPurifier);
+		if (!existingAppliance.getNetworkNode().getName().equals(newAppliance.getNetworkNode().getName())) {
+			existingAppliance.getNetworkNode().setName(newAppliance.getNetworkNode().getName());
+			updateApplianceInDatabase(existingAppliance);
 			notifyListeners = true;
 		}
 
 		//If current location latitude and longitude null, then update
-		if (existingPurifier.getLatitude() == null && existingPurifier.getLongitude() == null) {
+		if (((AirPurifier) existingAppliance).getLatitude() == null && ((AirPurifier) existingAppliance).getLongitude() == null) {
 			Location location = OutdoorController.getInstance().getCurrentLocation();
 			if (location != null) {
-				existingPurifier.setLatitude(String.valueOf(location.getLatitude()));
-				existingPurifier.setLongitude(String.valueOf(location.getLongitude()));
-				updateApplianceInDatabase(existingPurifier);
+				((AirPurifier) existingAppliance).setLatitude(String.valueOf(location.getLatitude()));
+				((AirPurifier) existingAppliance).setLongitude(String.valueOf(location.getLongitude()));
+				updateApplianceInDatabase(existingAppliance);
 				notifyListeners = true;
 			}
 		}
 
-		if (existingPurifier.getNetworkNode().getBootId() != newPurifier.getNetworkNode().getBootId() || existingPurifier.getNetworkNode().getEncryptionKey() == null) {
-			existingPurifier.getNetworkNode().setEncryptionKey(null);
-			existingPurifier.getNetworkNode().setBootId(newPurifier.getNetworkNode().getBootId());
-			existingPurifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
+		if (existingAppliance.getNetworkNode().getBootId() != newAppliance.getNetworkNode().getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
+			existingAppliance.getNetworkNode().setEncryptionKey(null);
+			existingAppliance.getNetworkNode().setBootId(newAppliance.getNetworkNode().getBootId());
+			existingAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
 
-        if (existingPurifier.getNetworkNode().getConnectionState() != newPurifier.getNetworkNode().getConnectionState()) {
-            existingPurifier.getNetworkNode().setConnectionState(newPurifier.getNetworkNode().getConnectionState());
+        if (existingAppliance.getNetworkNode().getConnectionState() != newAppliance.getNetworkNode().getConnectionState()) {
+            existingAppliance.getNetworkNode().setConnectionState(newAppliance.getNetworkNode().getConnectionState());
             notifyListeners = true;
         }
 
 		if (notifyListeners) {
 			notifyDiscoveryListener();
 		}
-		ALog.d(ALog.DISCOVERY, "Successfully updated purifier: " + existingPurifier);
+		ALog.d(ALog.DISCOVERY, "Successfully updated purifier: " + existingAppliance);
 	}
 
 	/**
 	 * Completely new device - never seen before
 	 */
-	private void addNewDevice(AirPurifier purifier) {
-		mDevicesMap.put(purifier.getNetworkNode().getCppId(), purifier);
+	private void addNewDevice(DICommAppliance purifier) {
+		mAllAppliancesMap.put(purifier.getNetworkNode().getCppId(), purifier);
 		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
 		notifyDiscoveryListener();
 	}
@@ -403,14 +405,14 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesEui64();
 
-		for (AirPurifier device : mDevicesMap.values()) {
-			if (device.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
-			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
-			if (onlineCppIds.contains(device.getNetworkNode().getCppId())) continue; // State is correct
+		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
+			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
+			if (onlineCppIds.contains(appliance.getNetworkNode().getCppId())) continue; // State is correct
 
 			// Losing a device in the background means it is offline
-			device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-			ALog.v(ALog.DISCOVERY, "Marked non discovered DISCONNECTED: " + device.getNetworkNode().getName());
+			appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+			ALog.v(ALog.DISCOVERY, "Marked non discovered DISCONNECTED: " + appliance.getNetworkNode().getName());
 
 			statusUpdated = true;
 		}
@@ -424,15 +426,15 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private void markOtherNetworkDevicesRemote(String ssid) {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
 		boolean statusUpdated = false;
-		for (AirPurifier device : mDevicesMap.values()) {
-			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getNetworkNode().getHomeSsid() != null && device.getNetworkNode().getHomeSsid().equals(ssid)) continue; // will appear local on this network
-			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not paired or not online
+		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
+			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
+			if (appliance.getNetworkNode().getHomeSsid() != null && appliance.getNetworkNode().getHomeSsid().equals(ssid)) continue; // will appear local on this network
+			if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !appliance.getNetworkNode().isOnlineViaCpp()) continue; // not paired or not online
 
-			device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getNetworkNode().getName());
+			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + appliance.getNetworkNode().getName());
 		}
 		if (!statusUpdated) return;
 		notifyDiscoveryListener();
@@ -441,14 +443,14 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private void markNonDiscoveredDevicesRemote() {
 		ALog.d(ALog.DISCOVERY, "Marking paired devices that where not discovered locally REMOTE");
 		boolean statusUpdated = false;
-		for (AirPurifier device : mDevicesMap.values()) {
-			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (device.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !device.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
+		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
+			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
+			if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !appliance.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
 
-			device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getNetworkNode().getName());
+			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + appliance.getNetworkNode().getName());
 		}
 		if (!statusUpdated) return;
 		notifyDiscoveryListener();
@@ -457,15 +459,15 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private void markAllDevicesRemote() {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
 		boolean statusUpdated = false;
-		for (AirPurifier device : mDevicesMap.values()) {
-			if (device.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && device.getNetworkNode().isOnlineViaCpp()) {
-				device.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
+			if (appliance.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && appliance.getNetworkNode().isOnlineViaCpp()) {
+				appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 				statusUpdated = true;
-				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + device.getNetworkNode().getName());
+				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + appliance.getNetworkNode().getName());
 			} else {
-				device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
+				appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 				statusUpdated = true;
-				ALog.v(ALog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + device.getNetworkNode().getName());
+				ALog.v(ALog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + appliance.getNetworkNode().getName());
 			}
 		}
 		if (!statusUpdated) return;
@@ -475,7 +477,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private void markAllDevicesOffline() {
 		ALog.d(ALog.DISCOVERY, "Marking all devices OFFLINE");
 		boolean statusUpdated = false;
-		for (AirPurifier device : mDevicesMap.values()) {
+		for (DICommAppliance device : mAllAppliancesMap.values()) {
 			if (device.getNetworkNode().getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
 
 			device.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
@@ -498,7 +500,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		ALog.i(ALog.DISCOVERY, "List: "+eui64s) ;
 
-		for (AirPurifier current : getDiscoveredDevices()) {
+		for (DICommAppliance current : getDiscoveredDevices()) {
 			boolean updatedState = false ;
 			boolean currentOnlineViaCpp = connected;
 			if( eui64s.isEmpty() ) {
@@ -529,7 +531,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		boolean notifyListeners = false;
 
 		for (String eui64 : info.getClientIds()) {
-			AirPurifier current = getDeviceByEui64(eui64);
+			DICommAppliance current = getDeviceByEui64(eui64);
 			if (current == null) {
 				ALog.v(ALog.DISCOVERY, "Received discover event for unknown purifier: " + eui64);
 				continue;
@@ -547,7 +549,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return notifyListeners;
 	}
 
-	private boolean updateConnectedStateOnlineViaCpp(AirPurifier purifier) {
+	private boolean updateConnectedStateOnlineViaCpp(DICommAppliance purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOnlineViaCpp: "+purifier) ;
 		if (purifier.getNetworkNode().getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED) return false;
 		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) return false;
@@ -559,7 +561,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return true;
 	}
 
-	private boolean updateConnectedStateOfflineViaCpp(AirPurifier purifier) {
+	private boolean updateConnectedStateOfflineViaCpp(DICommAppliance purifier) {
 		ALog.i(ALog.DISCOVERY, "updateConnectedStateOfflineViaCpp: "+purifier) ;
 		if (purifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
 
@@ -604,7 +606,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 	// ********** END ASYNC METHODS ************
 
-	private AirPurifier getPurAirDevice(DeviceModel deviceModel) {
+	private DICommAppliance getPurAirDevice(DeviceModel deviceModel) {
 		SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
 		if (ssdpDevice == null) return null;
 
@@ -635,7 +637,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-        final AirPurifier purifier = new AirPurifier(networkNode, communicationStrategy, usn);
+        final DICommAppliance purifier = new AirPurifier(networkNode, communicationStrategy, usn);
 
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
             @Override
@@ -650,15 +652,15 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return purifier;
 	}
 
-	private boolean isValidPurifier(AirPurifier purifier) {
+	private boolean isValidPurifier(DICommAppliance purifier) {
 		if (purifier.getNetworkNode().getCppId() == null || purifier.getNetworkNode().getCppId().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - eui64 is null");
 			return false;
 		}
-		if (purifier.getUsn() == null || purifier.getUsn().isEmpty()) {
-			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - usn is null");
-			return false;
-		}
+//		if (purifier.getUsn() == null || purifier.getUsn().isEmpty()) {
+//			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - usn is null");
+//			return false;
+//		}
 		if (purifier.getNetworkNode().getIpAddress() == null || purifier.getNetworkNode().getIpAddress().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - ipAddress is null");
 			return false;
@@ -684,13 +686,13 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	private void initializeDevicesMapFromDataBase() {
 		ALog.i(ALog.DISCOVERY, "initializeDevicesMap") ;
-		mDevicesMap = new LinkedHashMap<String, AirPurifier>();
+		mAllAppliancesMap = new LinkedHashMap<String, DICommAppliance>();
 
-		List<AirPurifier> allAirPurifiers = getAllAirPurifiers();
-		for (AirPurifier airPurifier : allAirPurifiers) {
-			mDevicesMap.put(airPurifier.getNetworkNode().getCppId(), airPurifier);
+		List<DICommAppliance> allAirPurifiers = getAllAirPurifiers();
+		for (DICommAppliance airPurifier : allAirPurifiers) {
+			mAllAppliancesMap.put(airPurifier.getNetworkNode().getCppId(), airPurifier);
 		}
-		storedDevices = allAirPurifiers;
+		mAddedAppliances = allAirPurifiers;
 	}
 
 	private void notifyDiscoveryListener() {
@@ -713,7 +715,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			tag = ALog.DISCOVERY;
 		}
 
-		if (mDevicesMap.size() <= 0) {
+		if (mAllAppliancesMap.size() <= 0) {
 			ALog.d(tag, "No devices discovered - map is 0");
 			return;
 		}
@@ -721,7 +723,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		String offline = "Offline devices %d: ";
 		String local = "Local devices %d: ";
 		String cpp = "Cpp devices %d: ";
-		for (AirPurifier device : mDevicesMap.values()) {
+		for (DICommAppliance device : mAllAppliancesMap.values()) {
 			switch (device.getNetworkNode().getConnectionState()) {
 			case DISCONNECTED: offline += device.getNetworkNode().getName() + ", "; break;
 			case CONNECTED_LOCALLY: local += device.getNetworkNode().getName() + ", "; break;
@@ -733,15 +735,15 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
 	}
 
-	public List<AirPurifier> getAllAirPurifiers() {
-		List<AirPurifier> result = new ArrayList<AirPurifier>();
+	public List<DICommAppliance> getAllAirPurifiers() {
+		List<DICommAppliance> result = new ArrayList<DICommAppliance>();
 
 		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 
 		for (NetworkNode networkNode : networkNodes) {
 			DISecurity diSecurity = new DISecurity();
 			CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
-			final AirPurifier airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
+			final DICommAppliance airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
 
 			mApplianceDatabase.loadDataForAppliance(airPurifier);
 			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
@@ -756,7 +758,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: improve interface
-	public long insertApplianceToDatabase(AirPurifier airPurifier) {
+	public long insertApplianceToDatabase(DICommAppliance airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
 		mApplianceDatabase.save(airPurifier);
 
@@ -764,7 +766,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: improve interface
-	public long updateApplianceInDatabase(AirPurifier airPurifier) {
+	public long updateApplianceInDatabase(DICommAppliance airPurifier) {
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
 		mApplianceDatabase.save(airPurifier);
 
@@ -772,7 +774,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: improve interface
-	public int deleteApplianceFromDatabase(AirPurifier airPurifier) {
+	public int deleteApplianceFromDatabase(DICommAppliance airPurifier) {
 		int rowsDeleted = mNetworkNodeDatabase.delete(airPurifier.getNetworkNode());
 		mApplianceDatabase.delete(airPurifier);
 
@@ -799,8 +801,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mCppHelper = dummyHelper;
 	}
 
-	public void setPurifierListForTesting(LinkedHashMap<String, AirPurifier> testMap) {
-		mDevicesMap = testMap;
+	public void setPurifierListForTesting(LinkedHashMap<String, DICommAppliance> testMap) {
+		mAllAppliancesMap = testMap;
 	}
 
 	public Handler getDiscoveryTimeoutHandlerForTesting() {

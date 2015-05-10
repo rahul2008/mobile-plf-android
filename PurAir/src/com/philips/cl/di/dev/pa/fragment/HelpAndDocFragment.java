@@ -22,6 +22,7 @@ import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -203,8 +204,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String platform= getString(R.string.mobile_platform) +"Android";
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
 		String appEui64 = getString(R.string.app_eui64) + CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId();
-		
-		List<AirPurifier> purifiers= DiscoveryManager.getInstance().getStoreDevices();
+
+		List<DICommAppliance> appliances = DiscoveryManager.getInstance().getStoreDevices();
 
 		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
 		data.append(lineSeparator);
@@ -220,15 +221,15 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		data.append(appEui64);
 		data.append(lineSeparator);
 		data.append(lineSeparator);
-		for(int i=0; i<purifiers.size(); i++){
+		for(int i=0; i<appliances.size(); i++){
 			data.append(getString(R.string.purifier)).append(i+1).append(":");
 			data.append(lineSeparator);
-			data.append(getString(R.string.purifier_name)).append(purifiers.get(i).getName());
+			data.append(getString(R.string.purifier_name)).append(appliances.get(i).getName());
 			data.append(lineSeparator);
-			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getNetworkNode().getCppId());
+			data.append(getString(R.string.purifier_eui64)).append(appliances.get(i).getNetworkNode().getCppId());
 			data.append(lineSeparator);
-			if(purifiers.get(i).getFirmwarePort().getPortProperties()!=null){
-			data.append(getString(R.string.purifier_firmware_version)).append(purifiers.get(i).getFirmwarePort().getPortProperties().getVersion());
+			if(appliances.get(i).getFirmwarePort().getPortProperties()!=null){
+			data.append(getString(R.string.purifier_firmware_version)).append(appliances.get(i).getFirmwarePort().getPortProperties().getVersion());
 			data.append(lineSeparator);
 			}
 			data.append(lineSeparator);

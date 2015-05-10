@@ -27,6 +27,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 
 public class DashboardUtil {
@@ -108,9 +109,9 @@ public class DashboardUtil {
 		} else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
 			countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
 
-			AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
-			if(purifier != null) {
-				AirPurifierManager.getInstance().setCurrentPurifier(purifier);
+			DICommAppliance appliance = DiscoveryManager.getInstance().getStoreDevices().get(0);
+			if(appliance != null && (appliance instanceof AirPurifier)) {
+				AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier) appliance);
 			}
 		}
 		return countIndoor;

@@ -402,12 +402,12 @@ public class PairingHandler implements ICPEventListener {
 				mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 				
 				//TODO better solution
-				AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
-				
+				DICommAppliance appliance = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
+
 				//TODO verify with Jeroen: implementation correct this way?
-				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-				DiscoveryManager.getInstance().updateApplianceInDatabase(purifier);
-				
+				appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+				DiscoveryManager.getInstance().updateApplianceInDatabase(appliance);
+
 				//Clear indoor AQI historic data
 				SessionDto.getInstance().setIndoorTrendDto(mAppliance.getNetworkNode().getCppId(), null);
 
@@ -477,12 +477,12 @@ public class PairingHandler implements ICPEventListener {
 					mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
 					//TODO better solution
-					AirPurifier purifier = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
-					
+					DICommAppliance appliance = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
+
 					//TODO verify with Jeroen: implementation correct this way?
-					purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-					DiscoveryManager.getInstance().updateApplianceInDatabase(purifier);
-					
+					appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
+					DiscoveryManager.getInstance().updateApplianceInDatabase(appliance);
+
 					notifyListenerSuccess();
 				}
 			} else {

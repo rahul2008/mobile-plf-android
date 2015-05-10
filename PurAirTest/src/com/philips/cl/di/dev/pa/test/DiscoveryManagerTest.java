@@ -15,6 +15,7 @@ import android.test.InstrumentationTestCase;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
@@ -59,14 +60,14 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	// TODO add unit tests for SSDP events
 	// TODO add unit tests for Network events
 
-	private void setPurifierList(AirPurifier[] devicesList) {
-		if (devicesList == null || devicesList.length == 0) {
+	private void setPurifierList(DICommAppliance[] appliancesList) {
+		if (appliancesList == null || appliancesList.length == 0) {
 			fail("Performing test with null/empty devicesList");
 		}
 
-		LinkedHashMap<String, AirPurifier> devices = new LinkedHashMap<String, AirPurifier>();
-		for (AirPurifier device : devicesList) {
-			devices.put(device.getNetworkNode().getCppId(), device);
+		LinkedHashMap<String, DICommAppliance> devices = new LinkedHashMap<String, DICommAppliance>();
+		for (DICommAppliance appliance : appliancesList) {
+			devices.put(appliance.getNetworkNode().getCppId(), appliance);
 		}
 		mDiscMan.setPurifierListForTesting(devices);
 	}

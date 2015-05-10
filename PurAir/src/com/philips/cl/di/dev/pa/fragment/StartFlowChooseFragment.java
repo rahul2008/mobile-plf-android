@@ -36,6 +36,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -57,7 +58,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 	private AirPurifier selectedPurifier;
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
-	private List<AirPurifier> appItems;
+	private List<DICommAppliance> appItems;
 	private ImageView seperatorupImgView;
 	private ImageView seperatordownImgView;
 	@Override
@@ -329,7 +330,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		AirPurifier currentPurifier = appItems.get(position);
+		AirPurifier currentPurifier = (AirPurifier) appItems.get(position);
 		onPurifierSelect(currentPurifier);
 	}
 }

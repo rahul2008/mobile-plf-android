@@ -61,6 +61,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
@@ -636,10 +637,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 
-		ArrayList<AirPurifier> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-		if (devices.size() <= 0) return;
+		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getDiscoveredDevices();
+		if (appliances.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
-				+ devices.size() + " :: " + devices);
+				+ appliances.size() + " :: " + appliances);
 
 		AirPurifier current = getCurrentPurifier();
 		if( current != null && current.getAirPort().getPortProperties() != null) return ;
