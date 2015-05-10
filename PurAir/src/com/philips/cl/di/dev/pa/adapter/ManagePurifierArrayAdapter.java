@@ -59,7 +59,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<DICommAppliance> {
 
 		final AirPurifier purifier = (AirPurifier) purifiers.get(position);
 		final String purifierName = purifier.getName();
-		final String usn = purifier.getUsn();
+		final String usn = purifier.getNetworkNode().getCppId();
 
 		purifierNameTxt.setText(purifierName);
 		purifierNameTxt.setTag(usn);
@@ -125,7 +125,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<DICommAppliance> {
                 ImageView arrowImg = (ImageView) view.findViewById(R.id.list_item_right_arrow);
                 arrowImg.setVisibility(View.INVISIBLE);
                 AirPurifier purifier = (AirPurifier) purifiers.get(position);
-                final String usn = purifier.getUsn();
+                final String usn = purifier.getNetworkNode().getCppId();
                 addToDeleteMap(deleteSign, delete, usn);
             } else {
                 delete.setVisibility(View.GONE);

@@ -167,7 +167,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         networkNode.setName(DemoModeConstant.DEMO);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-        tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy, null);
+        tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy);
 	}
 
 	private void updateTempDevice(String eui64) {
@@ -185,7 +185,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         networkNode.setName(purifierName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-        tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy, null);
+        tempDemoModePurifier = new AirPurifier(networkNode, communicationStrategy);
         // TODO DIComm Refactor - remove this line
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 

@@ -48,7 +48,7 @@ public class AirPurifierTest extends InstrumentationTestCase {
         networkNode.setName(PURIFIER_NAME);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		
-		purifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class), PURIFIER_USN);
+		purifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class));
 
 		mPurifierListener = mock(PurifierListener.class);
 		purifier.setPurifierListener(mPurifierListener);

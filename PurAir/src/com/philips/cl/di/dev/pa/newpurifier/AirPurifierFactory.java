@@ -20,7 +20,7 @@ public class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
 		// TODO DIComm Refactor - test
 		DISecurity diSecurity = new DISecurity();
 		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
-		return new AirPurifier(networkNode, communicationStrategy, "");
+		return new AirPurifier(networkNode, communicationStrategy);
 	}
 
 }

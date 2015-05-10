@@ -326,7 +326,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		ArrayList<DICommAppliance> devices = getDiscoveredDevices();
 		for (DICommAppliance purifier : devices) {
-			if (((AirPurifier)purifier).getUsn().equals(lostDeviceUsn)) {
+			if (((AirPurifier)purifier).getNetworkNode().getCppId().equals(lostDeviceUsn)) {
 				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
 				if(purifier.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getPortProperties().getState()) {
 					return false;
@@ -637,7 +637,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-        final DICommAppliance purifier = new AirPurifier(networkNode, communicationStrategy, usn);
+        final DICommAppliance purifier = new AirPurifier(networkNode, communicationStrategy);
 
         networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
             @Override
@@ -739,7 +739,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		for (NetworkNode networkNode : networkNodes) {
 			DISecurity diSecurity = new DISecurity();
 			CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
-			final DICommAppliance airPurifier = new AirPurifier(networkNode, communicationStrategy, "");
+			final DICommAppliance airPurifier = new AirPurifier(networkNode, communicationStrategy);
 
 			mApplianceDatabase.loadDataForAppliance(airPurifier);
 			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {

@@ -125,7 +125,7 @@ public class ManagePurifierFragment extends BaseFragment implements
         networkNode.setName(getString(R.string.add_purifier));
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         
-        AirPurifier addPurifierDevice = new AirPurifier(networkNode, communicationStrategy, "");
+        AirPurifier addPurifierDevice = new AirPurifier(networkNode, communicationStrategy);
 
 		appliances.add(0, addPurifierDevice);
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
@@ -218,8 +218,8 @@ public class ManagePurifierFragment extends BaseFragment implements
     private void setCurrentPage(AirPurifier purifier) {
         int rowsDeleted = DiscoveryManager.getInstance().deleteApplianceFromDatabase(purifier);
         if (rowsDeleted > 0) {
-            if (selectedItems.containsKey(purifier.getUsn())) {
-                selectedItems.remove(purifier.getUsn());
+            if (selectedItems.containsKey(purifier.getNetworkNode().getCppId())) {
+                selectedItems.remove(purifier.getNetworkNode().getCppId());
             }
             // Updates store device from DB
             DiscoveryManager.getInstance().updateStoreDevices();

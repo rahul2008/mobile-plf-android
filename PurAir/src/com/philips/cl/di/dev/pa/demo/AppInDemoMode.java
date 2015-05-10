@@ -107,7 +107,7 @@ public class AppInDemoMode implements NetworkStateListener {
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         
-        AirPurifier demoModePurifier = new AirPurifier(networkNode, new CommunicationMarshal(new DISecurity()), null);
+        AirPurifier demoModePurifier = new AirPurifier(networkNode, new CommunicationMarshal(new DISecurity()));
         AirPurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
 	}
 }

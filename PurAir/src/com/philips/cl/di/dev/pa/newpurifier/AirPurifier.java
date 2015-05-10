@@ -17,7 +17,6 @@ import com.philips.cl.di.dicomm.port.ScheduleListPort;
  */
 public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
-	private final String mUsn;
 	private String latitude;
 	private String longitude;
 
@@ -28,10 +27,8 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	private PurifierListener mPurifierListener;
 
-	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
+	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
 	    super(networkNode, communicationStrategy);
-		mUsn = usn;
-		
 		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
 		
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
@@ -40,11 +37,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
         addPort(mAirPort);
         addPort(mScheduleListPort);
-	}
-
-	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn, SubscriptionHandler subscriptionHandler) {
-		this(networkNode, communicationStrategy, usn);
-		mSubscriptionHandler = subscriptionHandler;
 	}
 
 	public void setPurifierListener(PurifierListener mPurifierListener) {
@@ -91,10 +83,6 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 		this.longitude = longitude;
 	}
 
-	public String getUsn() {
-		return mUsn;
-	}
-
 	public boolean isDemoPurifier() {
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
 	}
@@ -103,7 +91,7 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
 				.append("   eui64: ").append(getNetworkNode().getCppId()).append("   bootId: ").append(getNetworkNode().getBootId())
-				.append("   usn: ").append(getUsn()).append("   paired: ").append(getNetworkNode().getPairedState())
+				.append("   paired: ").append(getNetworkNode().getPairedState())
 				.append("   airportInfo: ").append(getAirPort().getPortProperties()).append("   firmwareInfo: ").append(getFirmwarePort().getPortProperties())
 				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ").append(getNetworkNode().getHomeSsid())
 				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude());

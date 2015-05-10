@@ -1803,7 +1803,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
         networkNode.setName(name);
         networkNode.setConnectionState(connectionState);
         
-        return new AirPurifier(networkNode,communicationStrategy, usn);
+        return new AirPurifier(networkNode,communicationStrategy);
     }
 
 }
