@@ -308,13 +308,13 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	// ********** START SSDP METHODS ************
 	private boolean onDeviceDiscovered(DeviceModel deviceModel) {
 
-		DICommAppliance purifier = getPurAirDevice(deviceModel);
-		if (purifier == null) return false;
-		ALog.i(ALog.SSDP, "Discovered device name: " + purifier.getNetworkNode().getName());
-		if (mAllAppliancesMap.containsKey(purifier.getNetworkNode().getCppId())) {
-			updateExistingDevice(purifier);
+		NetworkNode networkNode = createNetworkNode(deviceModel);
+		if (networkNode == null) return false;
+		ALog.i(ALog.SSDP, "Discovered appliance name: " + networkNode.getName());
+		if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
+			updateExistingAppliance(networkNode);
 		} else {
-			addNewDevice(purifier);
+			addNewAppliance(networkNode);
 		}
 
 		return true;
@@ -341,26 +341,26 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return false;
 	}
 
-	private void updateExistingDevice(DICommAppliance newAppliance) {
-		DICommAppliance existingAppliance = mAllAppliancesMap.get(newAppliance.getNetworkNode().getCppId());
+	private void updateExistingAppliance(NetworkNode networkNode) {
+		DICommAppliance existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
 		boolean notifyListeners = true;
 
-		if (newAppliance.getNetworkNode().getHomeSsid() != null &&
-				!newAppliance.getNetworkNode().getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
-			existingAppliance.getNetworkNode().setHomeSsid(newAppliance.getNetworkNode().getHomeSsid());
+		if (networkNode.getHomeSsid() != null && !networkNode.getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
+			existingAppliance.getNetworkNode().setHomeSsid(networkNode.getHomeSsid());
 			updateApplianceInDatabase(existingAppliance);
 		}
 
-		if (!newAppliance.getNetworkNode().getIpAddress().equals(existingAppliance.getNetworkNode().getIpAddress())) {
-			existingAppliance.getNetworkNode().setIpAddress(newAppliance.getNetworkNode().getIpAddress());
+		if (!networkNode.getIpAddress().equals(existingAppliance.getNetworkNode().getIpAddress())) {
+			existingAppliance.getNetworkNode().setIpAddress(networkNode.getIpAddress());
 		}
 
-		if (!existingAppliance.getNetworkNode().getName().equals(newAppliance.getNetworkNode().getName())) {
-			existingAppliance.getNetworkNode().setName(newAppliance.getNetworkNode().getName());
+		if (!existingAppliance.getNetworkNode().getName().equals(networkNode.getName())) {
+			existingAppliance.getNetworkNode().setName(networkNode.getName());
 			updateApplianceInDatabase(existingAppliance);
 			notifyListeners = true;
 		}
 
+		// TODO DIComm refactor - move this code to Purifier
 		//If current location latitude and longitude null, then update
 		if (((AirPurifier) existingAppliance).getLatitude() == null && ((AirPurifier) existingAppliance).getLongitude() == null) {
 			Location location = OutdoorController.getInstance().getCurrentLocation();
@@ -372,30 +372,42 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			}
 		}
 
-		if (existingAppliance.getNetworkNode().getBootId() != newAppliance.getNetworkNode().getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
+		if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
 			existingAppliance.getNetworkNode().setEncryptionKey(null);
-			existingAppliance.getNetworkNode().setBootId(newAppliance.getNetworkNode().getBootId());
+			existingAppliance.getNetworkNode().setBootId(networkNode.getBootId());
 			existingAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			ALog.d(ALog.PAIRING, "Discovery-Boot id changed pairing set to false");
 		}
 
-        if (existingAppliance.getNetworkNode().getConnectionState() != newAppliance.getNetworkNode().getConnectionState()) {
-            existingAppliance.getNetworkNode().setConnectionState(newAppliance.getNetworkNode().getConnectionState());
+        if (existingAppliance.getNetworkNode().getConnectionState() != networkNode.getConnectionState()) {
+            existingAppliance.getNetworkNode().setConnectionState(networkNode.getConnectionState());
             notifyListeners = true;
         }
 
 		if (notifyListeners) {
 			notifyDiscoveryListener();
 		}
-		ALog.d(ALog.DISCOVERY, "Successfully updated purifier: " + existingAppliance);
+		ALog.d(ALog.DISCOVERY, "Successfully updated appliance: " + existingAppliance);
 	}
 
 	/**
 	 * Completely new device - never seen before
 	 */
-	private void addNewDevice(DICommAppliance purifier) {
-		mAllAppliancesMap.put(purifier.getNetworkNode().getCppId(), purifier);
-		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
+	private void addNewAppliance(NetworkNode networkNode) {
+		if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
+			ALog.d(ALog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
+			return;
+		}
+		final DICommAppliance appliance = mApplianceFactory.createApplianceForNode(networkNode);
+		appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
+	    	@Override
+	    	public void onKeyUpdate() {
+	    		updateApplianceInDatabase(appliance);
+	    	}
+		});
+
+		mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
+		ALog.d(ALog.DISCOVERY, "Successfully added appliance: " + appliance);
 		notifyDiscoveryListener();
 	}
 
@@ -606,18 +618,12 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 	// ********** END ASYNC METHODS ************
 
-	private DICommAppliance getPurAirDevice(DeviceModel deviceModel) {
+	private NetworkNode createNetworkNode(DeviceModel deviceModel) {
 		SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
 		if (ssdpDevice == null) return null;
 
-		String modelName = ssdpDevice.getModelName();
-		if (modelName == null || !modelName.contains(AppConstants.MODEL_NAME)) {
-			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - model: " + modelName);
-			return null;
-		}
-		ALog.i(ALog.DISCOVERY, "Air Purifier Device Discovered USN: " + deviceModel.getUsn());
+		ALog.i(ALog.DISCOVERY, "Device discoverd - name: " + ssdpDevice.getFriendlyName());
 		String eui64 = ssdpDevice.getCppId();
-		String usn = deviceModel.getUsn();
 		String ipAddress = deviceModel.getIpAddress();
 		String name = ssdpDevice.getFriendlyName();
 		String networkSsid = mNetwork.getLastKnownNetworkSsid();
@@ -628,28 +634,17 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			// NOP
 		}
 
-		DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(bootId);
         networkNode.setCppId(eui64);
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+		networkNode.setHomeSsid(networkSsid);
 
-        final DICommAppliance purifier = new AirPurifier(networkNode, communicationStrategy);
+		if (!isValidNetworkNode(networkNode)) return null;
 
-        networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
-            @Override
-            public void onKeyUpdate() {
-            	updateApplianceInDatabase(purifier);
-            }
-        });
-
-		purifier.getNetworkNode().setHomeSsid(networkSsid);
-		if (!isValidNetworkNode(purifier.getNetworkNode())) return null;
-
-		return purifier;
+		return networkNode;
 	}
 
 	private boolean isValidNetworkNode(NetworkNode networkNode) {
@@ -663,6 +658,10 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		}
 		if (networkNode.getName() == null || networkNode.getName().isEmpty()) {
 			ALog.d(ALog.DISCOVERY, "Not a valid networkNode - name is null");
+			return false;
+		}
+		if (networkNode.getModelName() == null || networkNode.getModelName().isEmpty()) {
+			ALog.d(ALog.DISCOVERY, "Not a valid networkNode - modelName is null");
 			return false;
 		}
 		return true;
