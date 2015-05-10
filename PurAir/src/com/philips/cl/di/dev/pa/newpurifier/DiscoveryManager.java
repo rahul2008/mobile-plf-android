@@ -647,26 +647,22 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         });
 
 		purifier.getNetworkNode().setHomeSsid(networkSsid);
-		if (!isValidPurifier(purifier)) return null;
+		if (!isValidNetworkNode(purifier)) return null;
 
 		return purifier;
 	}
 
-	private boolean isValidPurifier(DICommAppliance purifier) {
-		if (purifier.getNetworkNode().getCppId() == null || purifier.getNetworkNode().getCppId().isEmpty()) {
-			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - eui64 is null");
+	private boolean isValidNetworkNode(NetworkNode networkNode) {
+		if (networkNode.getCppId() == null || networkNode.getCppId().isEmpty()) {
+			ALog.d(ALog.DISCOVERY, "Not a valid networkNode - eui64 is null");
 			return false;
 		}
-//		if (purifier.getUsn() == null || purifier.getUsn().isEmpty()) {
-//			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - usn is null");
-//			return false;
-//		}
-		if (purifier.getNetworkNode().getIpAddress() == null || purifier.getNetworkNode().getIpAddress().isEmpty()) {
-			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - ipAddress is null");
+		if (networkNode.getIpAddress() == null || networkNode.getIpAddress().isEmpty()) {
+			ALog.d(ALog.DISCOVERY, "Not a valid networkNode - ipAddress is null");
 			return false;
 		}
-		if (purifier.getNetworkNode().getName() == null || purifier.getNetworkNode().getName().isEmpty()) {
-			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - name is null");
+		if (networkNode.getName() == null || networkNode.getName().isEmpty()) {
+			ALog.d(ALog.DISCOVERY, "Not a valid networkNode - name is null");
 			return false;
 		}
 		return true;
