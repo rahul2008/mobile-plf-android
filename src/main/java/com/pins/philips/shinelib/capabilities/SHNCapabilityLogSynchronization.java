@@ -25,7 +25,8 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
         ShouldReadHighResolutionData
     }
 
-    enum Error { // SHNError.h
+    enum Error {
+        LogBufferFormatError, UnknownLogRecordType // SHNError.h
 
     }
 
