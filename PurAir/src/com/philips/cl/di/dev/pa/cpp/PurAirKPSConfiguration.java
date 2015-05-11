@@ -19,9 +19,9 @@ Version 1:
 ----------------------------------------------------------------------------*/
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
-import com.philips.cl.di.dicomm.security.ByteUtil;
 
 /**
  *This class provides list of
@@ -33,7 +33,7 @@ public class PurAirKPSConfiguration extends KPSConfigurationInfo
 
 	@Override
 	public String getBootStrapId() {
-		return ByteUtil.getBootStrapID();
+		return AlertDialogFragment.getBootStrapID();
 	}
 
 	@Override

@@ -12,8 +12,6 @@ public class DISecurity {
         void onEncryptionFailed(NetworkNode networkNode);
     }
 
-	public static final String BOOT_STRAP_ID_3 = "MDAwMD" ;
-
 	private EncryptionDecryptionFailedListener mEncryptionDecryptionFailedListener;
 
     public void setEncryptionDecryptionFailedListener(EncryptionDecryptionFailedListener encryptionDecryptionFailedListener) {

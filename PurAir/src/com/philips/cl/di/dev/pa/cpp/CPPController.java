@@ -42,7 +42,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private static CPPController mInstance;
 	private static final String CERTIFICATE_EXTENSION = ".cer";
-	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
 	public static final String NOTIFICATION_SERVICE_TAG="3pns";
 	public static final String NOTIFICATION_PROTOCOL="push";
 

@@ -18,6 +18,8 @@ public class DrawerAdapter implements DrawerListener {
 
 	private List<DrawerEventListener> listeners;
 
+	public static final String BOOT_STRAP_ID_3 = "MDAwMD" ;
+
 	private DrawerAdapter() {
 		listeners = new ArrayList<DrawerEventListener>();
 	}
