@@ -82,7 +82,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 				}
 			} else if(msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
 				synchronized (mDiscoveryLock) {
-					DiscoveryManager.getInstance().markLostDevicesInBackgroundOfflineOrRemote();
+					DiscoveryManager.getInstance().markLostAppliancesInBackgroundOfflineOrRemote();
 				}
 			}
 		};
@@ -149,7 +149,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		this.mNewApplianceDiscoveredListener = null;
 	}
 
-	public ArrayList<DICommAppliance> getDiscoveredDevices() {
+	public ArrayList<DICommAppliance> getDiscoveredAppliances() {
 		return new ArrayList<DICommAppliance>(mAllAppliancesMap.values());
 	}
 
@@ -192,7 +192,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	public List<DICommAppliance> getNewDevicesDiscovered() {
 		boolean addToNewDeviceList = true ;
-		List<DICommAppliance> discoveredDevices = getDiscoveredDevices() ;
+		List<DICommAppliance> discoveredDevices = getDiscoveredAppliances() ;
 		List<DICommAppliance> devicesInDataBase = getStoreDevices() ;
 		List<DICommAppliance> newDevices = new ArrayList<DICommAppliance>() ;
 
@@ -296,8 +296,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		synchronized (mDiscoveryLock) {
 			switch (messageID) {
-			case DEVICE_DISCOVERED: return onDeviceDiscovered(device);
-			case DEVICE_LOST: return onDeviceLost(device);
+			case DEVICE_DISCOVERED: return onApplianceDiscovered(device);
+			case DEVICE_LOST: return onApplianceLost(device);
 			default: break;
 			}
 		}
@@ -306,7 +306,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 
 	// ********** START SSDP METHODS ************
-	private boolean onDeviceDiscovered(DeviceModel deviceModel) {
+	private boolean onApplianceDiscovered(DeviceModel deviceModel) {
 
 		NetworkNode networkNode = createNetworkNode(deviceModel);
 		if (networkNode == null) return false;
@@ -320,20 +320,19 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return true;
 	}
 
-	private boolean onDeviceLost(DeviceModel deviceModel) {
-		String lostDeviceUsn = deviceModel.getId();
-		if (lostDeviceUsn == null || lostDeviceUsn.length() <= 0) return false;
+	private boolean onApplianceLost(DeviceModel deviceModel) {
+		String lostApplianceCppId = deviceModel.getSsdpDevice().getCppId();
+		if (lostApplianceCppId == null || lostApplianceCppId.length() <= 0) return false;
 
-		ArrayList<DICommAppliance> devices = getDiscoveredDevices();
-		for (DICommAppliance purifier : devices) {
-			if (((AirPurifier)purifier).getNetworkNode().getCppId().equals(lostDeviceUsn)) {
-				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
-				if(purifier.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != purifier.getFirmwarePort().getPortProperties().getState()) {
+		ArrayList<DICommAppliance> discoveredAppliances = getDiscoveredAppliances();
+		for (DICommAppliance appliance : discoveredAppliances) {
+			if (appliance.getNetworkNode().getCppId().equals(lostApplianceCppId)) {
+				ALog.d(ALog.DISCOVERY, "Lost appliance - marking as DISCONNECTED: " + appliance);
+				// TODO: DIComm Refactor check if can be removed
+				if(appliance.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != appliance.getFirmwarePort().getPortProperties().getState()) {
 					return false;
 				}
-				purifier.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
-				//Clear indoor AQI historic data
-				SessionDto.getInstance().setIndoorTrendDto(purifier.getNetworkNode().getCppId(), null);
+				appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 				notifyDiscoveryListener();
 				return true;
 			}
@@ -411,8 +410,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		notifyDiscoveryListener();
 	}
 
-	public void markLostDevicesInBackgroundOfflineOrRemote() {
-		ALog.d(ALog.DISCOVERY, "Syncing local list after app went to background");
+	public void markLostAppliancesInBackgroundOfflineOrRemote() {
+		ALog.d(ALog.DISCOVERY, "Syncing appliances list for lost devices in background");
 		boolean statusUpdated = false;
 
 		ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesEui64();
@@ -512,7 +511,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		ALog.i(ALog.DISCOVERY, "List: " + eui64s) ;
 
-		for (DICommAppliance current : getDiscoveredDevices()) {
+		for (DICommAppliance current : getDiscoveredAppliances()) {
 			boolean updatedState = false ;
 			boolean currentOnlineViaCpp = connected;
 			if( eui64s.isEmpty() ) {

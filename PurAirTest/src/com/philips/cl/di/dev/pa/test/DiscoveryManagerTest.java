@@ -1564,7 +1564,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_1, PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
@@ -1578,7 +1578,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
@@ -1596,7 +1596,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
@@ -1614,7 +1614,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
@@ -1628,7 +1628,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
@@ -1646,7 +1646,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
@@ -1664,7 +1664,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
@@ -1682,7 +1682,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
@@ -1700,7 +1700,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
 		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
-		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());

@@ -637,7 +637,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 
-		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getDiscoveredDevices();
+		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getDiscoveredAppliances();
 		if (appliances.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
 				+ appliances.size() + " :: " + appliances);
