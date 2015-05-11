@@ -6,23 +6,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import android.content.Context;
-import android.location.Location;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
-import android.util.Log;
 
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
-import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
@@ -62,7 +57,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
 
-	private DiscoveryEventListener mListener;
+	private DiscoveryEventListener mDiscoveryEventListener;
 	private NewApplianceDiscoveredListener mNewApplianceDiscoveredListener;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
@@ -113,10 +108,10 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
-		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), this);
+		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(DICommContext.getContext()), this);
 
 		// Starting network monitor will ensure a fist callback.
-		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
+		mNetwork = new NetworkMonitor(DICommContext.getContext(), this);
 	}
 
 	public void start(DiscoveryEventListener listener) {
@@ -125,16 +120,16 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
 		mCppHelper.startDiscoveryViaCpp();
-		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mListener = listener;
+		mNetwork.startNetworkChangedReceiver(DICommContext.getContext());
+		mDiscoveryEventListener = listener;
 	}
 
 	public void stop() {
 		mSsdpHelper.stopDiscoveryAsync();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mCppHelper.stopDiscoveryViaCpp();
-		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mListener = null;
+		mNetwork.stopNetworkChangedReceiver(DICommContext.getContext());
+		mDiscoveryEventListener = null;
 	}
 
 	public void setNewApplianceDiscoveredListener(NewApplianceDiscoveredListener newApplianceDiscoveredListener) {
@@ -159,7 +154,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	// TODO DIComm refactor: this method should be removed completely
 	public List<DICommAppliance> updateAddedAppliances() {
-		mAddedAppliances = loadAllAddedAppliancesFromDatabse();
+		mAddedAppliances = loadAllAddedAppliancesFromDatabase();
 		return getAddedAppliances();
 	}
 
@@ -349,18 +344,6 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			existingAppliance.getNetworkNode().setName(networkNode.getName());
 			updateApplianceInDatabase(existingAppliance);
 			notifyListeners = true;
-		}
-
-		// TODO DIComm refactor - move this code to Purifier
-		//If current location latitude and longitude null, then update
-		if (((AirPurifier) existingAppliance).getLatitude() == null && ((AirPurifier) existingAppliance).getLongitude() == null) {
-			Location location = OutdoorController.getInstance().getCurrentLocation();
-			if (location != null) {
-				((AirPurifier) existingAppliance).setLatitude(String.valueOf(location.getLatitude()));
-				((AirPurifier) existingAppliance).setLongitude(String.valueOf(location.getLongitude()));
-				updateApplianceInDatabase(existingAppliance);
-				notifyListeners = true;
-			}
 		}
 
 		if (existingAppliance.getNetworkNode().getBootId() != networkNode.getBootId() || existingAppliance.getNetworkNode().getEncryptionKey() == null) {
@@ -676,7 +659,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		ALog.i(ALog.DISCOVERY, "Initializing appliances from database") ;
 		mAllAppliancesMap = new LinkedHashMap<String, DICommAppliance>();
 
-		List<DICommAppliance> allAppliances = loadAllAddedAppliancesFromDatabse();
+		List<DICommAppliance> allAppliances = loadAllAddedAppliancesFromDatabase();
 		for (DICommAppliance appliance : allAppliances) {
 			mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
 		}
@@ -684,8 +667,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	private void notifyDiscoveryListener() {
-		if (mListener == null) return;
-		mListener.onDiscoveredAppliancesListChanged();
+		if (mDiscoveryEventListener == null) return;
+		mDiscoveryEventListener.onDiscoveredAppliancesListChanged();
 
 		notifyNewApplianceDiscoveredListener();
 		printDiscoveredAppliances(ALog.DISCOVERY);
@@ -693,8 +676,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	private void notifyNewApplianceDiscoveredListener() {
-		Log.i("TEMP", "notifyNewApplianceDiscoveredListener datasetChanged: " + mNewApplianceDiscoveredListener);
-		if (mListener instanceof MainActivity && mNewApplianceDiscoveredListener != null) {
+		if (mNewApplianceDiscoveredListener != null) {
 			mNewApplianceDiscoveredListener.onNewApplianceDiscovered();
 		}
 	}
@@ -724,7 +706,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
 	}
 
-	private List<DICommAppliance> loadAllAddedAppliancesFromDatabse() {
+	private List<DICommAppliance> loadAllAddedAppliancesFromDatabase() {
 		List<DICommAppliance> result = new ArrayList<DICommAppliance>();
 
 		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
@@ -783,7 +765,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
-		mListener = dummyListener;
+		mDiscoveryEventListener = dummyListener;
 	}
 
 	public void setDummyNetworkMonitorForTesting(NetworkMonitor dummyMonitor) {

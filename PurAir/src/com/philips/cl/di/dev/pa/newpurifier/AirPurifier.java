@@ -1,7 +1,9 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import android.content.Context;
+import android.location.Location;
 
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -29,14 +31,17 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
 	    super(networkNode, communicationStrategy);
-		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);		
-		
+		mSubscriptionHandler = new SubscriptionHandler(getNetworkNode(), this);
+
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy);
-		
 
         addPort(mAirPort);
         addPort(mScheduleListPort);
+
+        /* Very first time AirPurifier is created, its connectionState will be local.
+         * This call will ensure its location is set.*/
+        loadLocationData();
 	}
 
 	public void setPurifierListener(PurifierListener mPurifierListener) {
@@ -85,6 +90,15 @@ public class AirPurifier extends DICommAppliance implements ResponseHandler {
 
 	public boolean isDemoPurifier() {
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
+	}
+
+	private void loadLocationData() {
+		Location location = OutdoorController.getInstance().getCurrentLocation();
+		if (location != null && getNetworkNode().getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)) {
+			setLatitude(String.valueOf(location.getLatitude()));
+			setLongitude(String.valueOf(location.getLongitude()));
+			DiscoveryManager.getInstance().updateApplianceInDatabase(this);
+		}
 	}
 
 	public String toString() {
