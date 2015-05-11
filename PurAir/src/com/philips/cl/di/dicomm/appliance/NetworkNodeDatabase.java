@@ -18,18 +18,18 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.util.DICommContext;
 
 public class NetworkNodeDatabase {
 
 	private NetworkNodeDatabaseHelper dbHelper;
 
 	public NetworkNodeDatabase() {
-		dbHelper = new NetworkNodeDatabaseHelper(PurAirApplication.getAppContext());
+		dbHelper = new NetworkNodeDatabaseHelper(DICommContext.getContext());
 	}
 
 	public List<NetworkNode> getAll() {

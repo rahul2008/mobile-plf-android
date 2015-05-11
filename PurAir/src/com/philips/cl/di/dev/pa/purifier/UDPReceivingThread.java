@@ -12,8 +12,8 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.util.DICommContext;
 
 public class UDPReceivingThread extends Thread {
 	
@@ -126,7 +126,7 @@ public class UDPReceivingThread extends Thread {
 	}
 
 	private void acquireMulticastLock() {
-		WifiManager wifi = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifi = (WifiManager) DICommContext.getContext().getSystemService(Context.WIFI_SERVICE);
 		if (wifi != null) {
 			multicastLock = wifi.createMulticastLock(getName());
 			multicastLock.setReferenceCounted(true);

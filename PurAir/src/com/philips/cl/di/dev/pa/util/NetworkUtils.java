@@ -21,9 +21,9 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.util.Log;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
+import com.philips.cl.di.dicomm.util.DICommContext;
 
 public class NetworkUtils {
 
@@ -135,8 +135,8 @@ public class NetworkUtils {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			Network wifiNetworkForSocket = getWifiNetworkForSocket(PurAirApplication.getAppContext(),lockTimeout);
-			
+			Network wifiNetworkForSocket = getWifiNetworkForSocket(DICommContext.getContext(),lockTimeout);
+
 			if (wifiNetworkForSocket == null) {
 				return null;
 			}
