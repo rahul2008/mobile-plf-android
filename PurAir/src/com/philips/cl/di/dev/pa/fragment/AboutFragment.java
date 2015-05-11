@@ -57,11 +57,11 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		buyOnlineTV.setOnClickListener(this);
 		
 		FontTextView promotionalVideos = (FontTextView) getView().findViewById(R.id.promotionals);
-		promotionalVideos.setText("Promotional Videos " + " >");
+		promotionalVideos.setText(getString(R.string.promotional_videos) + " >");
 		promotionalVideos.setOnClickListener(this);
 		
 		FontTextView productRegistration = (FontTextView) getView().findViewById(R.id.product_registration);
-		productRegistration.setText("Product Registation " + " >");
+		productRegistration.setText(getString(R.string.list_item_prod_reg) + " >");
 		productRegistration.setOnClickListener(this);
 		
 	}
