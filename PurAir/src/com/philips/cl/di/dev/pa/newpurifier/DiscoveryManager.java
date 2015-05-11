@@ -34,8 +34,6 @@ import com.philips.cl.di.dicomm.appliance.DICommApplianceDatabase;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 import com.philips.cl.di.dicomm.appliance.NetworkNodeDatabase;
 import com.philips.cl.di.dicomm.appliance.NullApplianceDatabase;
-import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
-import com.philips.cl.di.dicomm.security.DISecurity;
 import com.philips.cl.di.dicomm.util.DICommContext;
 
 /**
@@ -732,18 +730,20 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 
 		for (NetworkNode networkNode : networkNodes) {
-			DISecurity diSecurity = new DISecurity();
-			CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
-			final DICommAppliance airPurifier = new AirPurifier(networkNode, communicationStrategy);
+			if (!mApplianceFactory.canCreateApplianceForNode(networkNode)) {
+				ALog.e(ALog.DISCOVERY, "Did not load appliance from database - factory cannot create appliance");
+				continue;
+			}
 
-			mApplianceDatabase.loadDataForAppliance(airPurifier);
+			final DICommAppliance appliance = mApplianceFactory.createApplianceForNode(networkNode);
+			mApplianceDatabase.loadDataForAppliance(appliance);
 			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
 				@Override
 				public void onKeyUpdate() {
-					updateApplianceInDatabase(airPurifier);
+					updateApplianceInDatabase(appliance);
 				}
 			});
-			result.add(airPurifier);
+			result.add(appliance);
 		}
 		return result;
 	}
