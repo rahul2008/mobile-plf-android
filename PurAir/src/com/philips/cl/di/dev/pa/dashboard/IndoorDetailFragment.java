@@ -103,6 +103,11 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	
 	private void downloadAQIHistoricData() {
 		if (currentPurifier == null) return;
+		//If purifier in demo mode, skip download data, moved code from cppcontroller
+		if (PurAirApplication.isDemoModeEnable()) {
+			handlerDownload.sendEmptyMessage(DOWNLOAD_FAILED);
+			return;
+		}
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 		CPPController.getInstance().setDownloadDataListener(this) ;
 		CPPController.getInstance().downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB

@@ -36,7 +36,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -844,41 +843,6 @@ public class Utils {
 			}
 		} catch (Exception ex) { } // for now eat exceptions
 		return "";
-	}
-
-	public static boolean isVersionChanged() {
-		final SharedPreferences prefs = CPPController.getInstance().
-				getGCMPreferences();
-
-		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
-				Integer.MIN_VALUE);
-		int currentVersion = PurAirApplication.getAppVersion();
-		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
-
-		if (isGCMRegistrationExpired) {
-			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean isLocaleChanged() {
-		final SharedPreferences prefs = CPPController.getInstance().
-				getGCMPreferences();
-		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-
-		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
-				LanguageUtils.DEFAULT_LANGUAGE);
-		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
-
-		if (!isLocalChanged) {
-			ALog.d(ALog.NOTIFICATION,
-					"App Locale change happened");
-			return true;
-		}
-
-		return false;
 	}
 
 	public static String getVersionNumber() {

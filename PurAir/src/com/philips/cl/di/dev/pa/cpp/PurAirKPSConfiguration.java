@@ -18,51 +18,77 @@ Version 1:
     Description: Initial version
 ----------------------------------------------------------------------------*/
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
 import com.philips.cl.di.dicomm.security.ByteUtil;
-import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
-import com.philips.icpinterface.data.NVMComponentInfo;
 
 /**
- *This class provide interface to set ICP Client configuration.
- *configuration parameters set by the application.
- *Set the necessary parameters, as per the request.
+ *This class provides list of 
+ *configuration parameters set by the application for sign on.
  */
-public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
+
+public class PurAirKPSConfiguration extends KPSConfigurationInfo
 {
 
-	/* Constructor */
-	public PurAirKPSConfiguration()
-	{
-		ICPClientPriority = 20;
-		ICPClientStackSize = 131072;
-		HTTPTimeout = 30;
-		FilterString = "TEST";
-		MaxNrOfRetry = 2;
-
-		setNVMConfigParams();
+	@Override
+	public String getBootStrapId() {
+		return ByteUtil.getBootStrapID();
 	}
 
-	public void setNVMConfigParams() {
-		//TODO - Obscure the below constants.
-		this.ICPClientBootStrapID = ByteUtil.getBootStrapID();
-		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
-		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
-		this.ICPClientproductVersion = 0;
-		this.ICPClientproductCountry = Utils.getCountryCode();
-		this.ICPClientproductLanguage = Utils.getCountryLocale();
-		ALog.i(ALog.ICPCLIENT, "setNVMConfigParams, getCountryLocale: "+Utils.getCountryLocale());
-
-		this.ICPClientComponentCount = 1;
-		NVMComponentInfo appComponentInfo = new NVMComponentInfo();
-		appComponentInfo.componentID = "AC4373-AND";//AC4373APP
-		appComponentInfo.componentVersion = PurAirApplication.getAppVersion();
-		this.ICPClientNVMComponents = new NVMComponentInfo[] {appComponentInfo};
-
-		this.ICPClientdevicePortalURL1="https://dp.cpp.philips.com.cn/DevicePortalICPRequestHandler/RequestHandler.ashx";
+	@Override
+	public String getBootStrapKey() {
+		return Utils.getBootStrapKey();
 	}
 
+	@Override
+	public String getProductId() {
+		return AppConstants.BOOT_STRAP_PRODUCT_ID;
+	}
+
+	@Override
+	public int getProductVersion() {
+		return 0;
+	}
+
+	@Override
+	public String getComponentId() {
+		return AppConstants.COMPONENT_ID;
+	}
+
+	@Override
+	public String getAppId() {
+		return AppConstants.APP_ID;
+	}
+
+	@Override
+	public int getAppVersion() {
+		return 0;
+	}
+
+	@Override
+	public String getAppType() {
+		return AppConstants.APP_TYPE;
+	}
+
+	@Override
+	public String getCountryCode() {
+		return Utils.getCountryCode();
+	}
+
+	@Override
+	public String getLanguageCode() {
+		return Utils.getCountryLocale();
+	}
+
+	@Override
+	public String getDevicePortUrl() {
+		return AppConstants.DEVICE_PORT_URL;
+	}
+
+	@Override
+	public int getComponentCount() {
+		return 1;
+	}
+	
 }

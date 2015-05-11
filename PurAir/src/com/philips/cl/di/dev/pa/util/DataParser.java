@@ -29,10 +29,9 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
-import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
-import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.NearbyCitiesData;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
@@ -320,25 +319,6 @@ public class DataParser {
 			return null;
 		}catch(Exception e) {
 			return null ;
-		}
-	}
-
-
-	public static DiscoverInfo parseDiscoverInfo(String dataToParse) {
-		if (dataToParse== null || dataToParse.isEmpty()) return null;
-
-		try {
-			Gson gson = new GsonBuilder().create();
-			DiscoverInfo info =  gson.fromJson(dataToParse, DiscoverInfo.class);
-
-			if (!info.isValid()) return null;
-			return info;
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null;
 		}
 	}
 

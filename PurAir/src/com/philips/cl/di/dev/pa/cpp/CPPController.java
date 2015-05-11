@@ -10,25 +10,19 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
-import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
-import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -50,6 +44,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private static CPPController mInstance;
 	private static final String CERTIFICATE_EXTENSION = ".cer";
 	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
+	public static final String NOTIFICATION_SERVICE_TAG="3pns";
+	public static final String NOTIFICATION_PROTOCOL="push";
 
 	private static SignOn mSignon;
 	private boolean mIsSignOn;
@@ -102,23 +98,34 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 
 	private String mAppCppId;
-
-	public static synchronized void createSharedInstance(Context context, PurAirKPSConfiguration kpsConfiguration) {
+	
+	public static final String DISCOVER = "DISCOVER" ;
+	
+	private KPSConfigurationInfo mKpsConfigurationInfo;
+	
+	public static synchronized void createSharedInstance(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		if (mInstance != null) {
 			throw new RuntimeException("CPPController can only be initialized once");
 		}
-		mInstance = new CPPController(context, kpsConfiguration);
+		mInstance = new CPPController(context, kpsConfigurationInfo);
 	}
 
 	public static synchronized CPPController getInstance() {
 		ALog.i(ALog.ICPCLIENT, "GetInstance: " + mInstance);
-		setLocale();
 		return mInstance;
 	}
 
-	private CPPController(Context context, PurAirKPSConfiguration kpsConfiguration) {
+	private CPPController(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		this.mContext = context;
-		this.mKpsConfiguration = kpsConfiguration;
+		KeyProvisioningHelper keyProvisioningHelper = new KeyProvisioningHelper(kpsConfigurationInfo);
+		
+		mKpsConfigurationInfo = kpsConfigurationInfo;
+		
+		this.mKpsConfiguration = keyProvisioningHelper;
+		
+		// TODO:DICOMM Refactor, check when to set the locale, after/before sign on
+		setLocale();
+				
 		mICPCallbackHandler = new ICPCallbackHandler();
 		mICPCallbackHandler.setHandler(this);
 
@@ -127,7 +134,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		mDcsResponseListeners = new ArrayList<DCSResponseListener>() ;
 
 		mAppCppId = generateTemporaryAppCppId();
-
+		
 		init() ;
 	}
 
@@ -160,15 +167,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			// Set Application Info
 			// TODO:DICOMM Refactor, replace appversion by getappversion API and check how to get app id and app type
 			PackageManager pm = mContext.getPackageManager();
-			appID = "1_com.philips.cl.di.air";
+			appID = mKpsConfigurationInfo.getAppId();
 			try {
 				appVersion = ""
 						+ pm.getPackageInfo(mContext.getPackageName(), 0).versionCode;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
-			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
+			ALog.i(ALog.KPS, appID + ":" + mKpsConfigurationInfo.getAppType() + ":" + appVersion);
+			prv.setApplicationInfo(appID, mKpsConfigurationInfo.getAppType(), appVersion);
 
 			rv = prv.executeCommand();
 			if (rv != Errors.SUCCESS) {
@@ -338,7 +345,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ALog.d(ALog.CPPCONTROLLER, "Start DCS: " + mIsDCSRunning + " isSIgnOn" + mIsSignOn +"DCS state: " +mDcsState);
 
 		mDcsServiceListenersCount ++;
-
+		
 			if( mDcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
 				mDcsState = ICP_CLIENT_DCS_STATE.STARTING ;
 				mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
@@ -359,7 +366,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			else {
 				mAppDcsRequestState = APP_REQUESTED_STATE.START ;
 			}
-
 	}
 
 	/**
@@ -413,11 +419,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		if (data == null) return;
 
-		if (DataParser.parseDiscoverInfo(data) != null) {
+		if (DiscoveryManager.getInstance().parseDiscoverInfo(data) != null) {
 			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
 			boolean isResponseToRequest = false;
 			if (action != null
-					&& action.toUpperCase().trim().equals(AppConstants.DISCOVER)) {
+					&& action.toUpperCase().trim().equals(DISCOVER)) {
 				isResponseToRequest = true;
 			}
 			if (mCppDiscoverEventListener != null) {
@@ -466,29 +472,19 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		return messageID ;
 	}
 
-	public boolean sendNotificationRegistrationId(String gcmRegistrationId) {
+	public boolean sendNotificationRegistrationId(String gcmRegistrationId, String provider) {
 		if (!CPPController.getInstance().isSignOn()) {
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}
+		provider = mProvider;
 
-		NotificationRegisteringManager.getNotificationManager();
-		if(NotificationRegisteringManager.getRegitrationProvider().equalsIgnoreCase(
-				AppConstants.NOTIFICATION_PROVIDER_JPUSH) || !Utils.isGooglePlayServiceAvailable()){
-			mProvider = AppConstants.NOTIFICATION_PROVIDER_JPUSH;
-		}
-		else{
-			mProvider = AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
-		}
-
-		ALog.i(ALog.NOTIFICATION, "CPPController sendNotificationRegistrationId provider : " + mProvider
+		ALog.i(ALog.CPPCONTROLLER, "CPPController sendNotificationRegistrationId provider : " + mProvider
 				+"------------RegId : " + gcmRegistrationId);
 
 		ThirdPartyNotification thirdParty = new ThirdPartyNotification(
-				mICPCallbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
-		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, mProvider/* =
-				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE :
-					AppConstants.NOTIFICATION_PROVIDER_JPUSH*/, gcmRegistrationId);
+				mICPCallbackHandler, NOTIFICATION_SERVICE_TAG);
+		thirdParty.setProtocolDetails(NOTIFICATION_PROTOCOL, mProvider, gcmRegistrationId);
 
 		int retStatus =  thirdParty.executeCommand();
 		if (Errors.SUCCESS != retStatus)	{
@@ -497,40 +493,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		return true;
 	}
-
-	public SharedPreferences getGCMPreferences() {
-		return PurAirApplication.getAppContext().getSharedPreferences(
-				AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
-				Context.MODE_PRIVATE);
-	}
-
-	public String getNotificationProvider() {
-		final SharedPreferences prefs = getGCMPreferences();
-		String previousProvider = prefs.getString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER,
-				AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
-
-		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
-			return AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
-		}
-		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
-			return AppConstants.NOTIFICATION_PROVIDER_JPUSH;
-		}
-		else {
-			return AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
-		}
-	}
-
-	private void storeProviderInPref(String provider) {
-		final SharedPreferences prefs = getGCMPreferences();
-
-		ALog.i(ALog.NOTIFICATION,
-				"Storing Push notification provider name : " + provider);
-
-		SharedPreferences.Editor editor = prefs.edit();
-		editor.putString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER, provider);
-		editor.commit();
-	}
-
 
 	/**
 	 * This method will download the data from the cpp given the query and the
@@ -541,11 +503,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
-		//If purifier in demo mode, skip download data
-		if (PurAirApplication.isDemoModeEnable()) {
-			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
-			return;
-		}
 		ALog.i(ALog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + mIsSignOn);
 		try {
 			if (mIsSignOn) {
@@ -659,7 +616,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			int numberOfComponents = componentDetails.getNumberOfComponentReturned() ;
 			ALog.i(ALog.ICPCLIENT, "Number of components: "+numberOfComponents) ;
 			for( int index = 0 ; index < numberOfComponents; index ++ ) {
-				if( componentDetails.getComponentInfo(index).id.equals(AppConstants.COMPONENT_ID)) {
+				if( componentDetails.getComponentInfo(index).id.equals(mKpsConfigurationInfo.getComponentId())) {
 					// Start software download
 					if(isUpgradeAvailable(componentDetails.getComponentInfo(index).versionNumber)) {
 						//downloadNewApplication(componentDetails.getComponentInfo(index));
@@ -727,11 +684,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ThirdPartyNotification tpns = (ThirdPartyNotification) obj;
 		if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
 			ALog.i(ALog.CPPCONTROLLER, "Successfully registered with CPP");
-			ALog.i(ALog.NOTIFICATION, "Successfully registered with CPP");
-			storeProviderInPref(mProvider);
-			NotificationRegisteringManager.getNotificationManager().storeVersion(mContext, getAppVersion());
-			String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-			NotificationRegisteringManager.getNotificationManager().storeLocale(mContext, languageLocale);
 			notifyNotificationListener(true);
 		} else {
 			ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
@@ -973,10 +925,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 
-	private static void setLocale(){
+	private void setLocale(){
+		
 		if (mSignon == null) return;
 
-		mSignon.setNewLocale(Utils.getCountryCode(), Utils.getCountryLocale());
+		mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
 	}
 
 	public String getAppCppId() {

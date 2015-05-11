@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.notification;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,7 +18,9 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 
 public class NotificationRegisteringManager implements SignonListener,
 		SendNotificationRegistrationIdListener {
@@ -199,8 +202,9 @@ public class NotificationRegisteringManager implements SignonListener,
 		storeRegistrationKeySendToCPP(false);
 		if (regid == null || regid.isEmpty())
 			return;
+		// TODO:DICOMM Refactor, check getRegitrationProvider has valid value
 		CPPController.getInstance()
-				.sendNotificationRegistrationId(regid);
+				.sendNotificationRegistrationId(regid,  getRegitrationProvider());
 	}
 
 	private boolean isRegisteredForGCM() {
@@ -232,11 +236,6 @@ public class NotificationRegisteringManager implements SignonListener,
 		return true;
 	}
 
-	private static SharedPreferences getGCMPreferences() {
-		return PurAirApplication.getAppContext().getSharedPreferences(
-				AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
-				Context.MODE_PRIVATE);
-	}
 
 	private String getRegistrationId() {
 		final SharedPreferences prefs = getGCMPreferences();
@@ -317,6 +316,39 @@ public class NotificationRegisteringManager implements SignonListener,
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP,
 				registrationKeySent);
+		editor.commit();
+	}
+	
+	public static SharedPreferences getGCMPreferences() {
+		return PurAirApplication.getAppContext().getSharedPreferences(
+				AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
+				Context.MODE_PRIVATE);
+	}
+	
+	public static String getNotificationProvider() {
+		final SharedPreferences prefs = getGCMPreferences();
+		String previousProvider = prefs.getString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER,
+				AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
+
+		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
+			return AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
+		}
+		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			return AppConstants.NOTIFICATION_PROVIDER_JPUSH;
+		}
+		else {
+			return AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
+		}
+	}
+
+	private void storeProviderInPref(String provider) {
+		final SharedPreferences prefs = getGCMPreferences();
+
+		ALog.i(ALog.NOTIFICATION,
+				"Storing Push notification provider name : " + provider);
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER, provider);
 		editor.commit();
 	}
 
@@ -432,7 +464,7 @@ public class NotificationRegisteringManager implements SignonListener,
 	}
 	
 	private static void sendRegistrationId(){
-		String previousProvider = CPPController.getInstance().getNotificationProvider();
+		String previousProvider = getNotificationProvider();
 		
 		if((previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()) || 
 				getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
@@ -454,6 +486,11 @@ public class NotificationRegisteringManager implements SignonListener,
 			mChildHandler.removeMessages(TRY_JPUSH);
 			mChildHandler.removeMessages(TRY_GCM);
 		}
+		
+		storeProviderInPref(mProvider);
+		NotificationRegisteringManager.getNotificationManager().storeVersion(PurAirApplication.getAppContext(), PurAirApplication.getAppVersion());
+		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
+		NotificationRegisteringManager.getNotificationManager().storeLocale(PurAirApplication.getAppContext(), languageLocale);
 		storeRegistrationKeySendToCPP(true);
 	}
 
@@ -488,13 +525,13 @@ public class NotificationRegisteringManager implements SignonListener,
 	
 	public void getNotificationRegisteringManager() {
 		jPushRetryCount = 0;
-		String provider = CPPController.getInstance().getNotificationProvider(); 
-		if(Utils.isVersionChanged()){
+		String provider = getNotificationProvider(); 
+		if(isVersionChanged()){
 			isRegistrationNeeded = true ;
 			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager version changed");
 			initNotification();
 		}
-		else if(Utils.isLocaleChanged()) {
+		else if(isLocaleChanged()) {
 			isRegistrationNeeded = true ;
 			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager locale changed");
 			initNotification();
@@ -520,6 +557,39 @@ public class NotificationRegisteringManager implements SignonListener,
 
 	private boolean isRegistrationNeeded() {
 		return isRegistrationNeeded;
+	}
+	
+	public static boolean isVersionChanged() {
+		final SharedPreferences prefs = getGCMPreferences();
+
+		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
+				Integer.MIN_VALUE);
+		int currentVersion = PurAirApplication.getAppVersion();
+		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
+
+		if (isGCMRegistrationExpired) {
+			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
+			return true;
+		}
+
+		return false;
+	}
+
+	public static boolean isLocaleChanged() {
+		final SharedPreferences prefs = getGCMPreferences();
+		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
+
+		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
+				LanguageUtils.DEFAULT_LANGUAGE);
+		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
+
+		if (!isLocalChanged) {
+			ALog.d(ALog.NOTIFICATION,
+					"App Locale change happened");
+			return true;
+		}
+
+		return false;
 	}
 
 //	private void setRegistered(boolean isRegistered) {

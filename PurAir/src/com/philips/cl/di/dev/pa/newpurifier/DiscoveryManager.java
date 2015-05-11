@@ -11,6 +11,10 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -31,7 +35,6 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
@@ -236,7 +239,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	@Override
 	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
-		DiscoverInfo info = DataParser.parseDiscoverInfo(data);
+		DiscoverInfo info = parseDiscoverInfo(data);
 		if (info == null) return;
 		ALog.v(ALog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
 
@@ -713,6 +716,24 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		ALog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
 		ALog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
 		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
+	}
+
+	public DiscoverInfo parseDiscoverInfo(String dataToParse) {
+		if (dataToParse== null || dataToParse.isEmpty()) return null;
+
+		try {
+			Gson gson = new GsonBuilder().create();
+			DiscoverInfo info =  gson.fromJson(dataToParse, DiscoverInfo.class);
+
+			if (!info.isValid()) return null;
+			return info;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+			return null;
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null;
+		}
 	}
 
 

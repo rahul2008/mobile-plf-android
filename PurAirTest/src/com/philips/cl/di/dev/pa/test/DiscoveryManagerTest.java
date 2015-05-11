@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
+import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
@@ -1790,6 +1791,105 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE);
 	}
+	
+	public void testParseDiscoverInfoNullParam() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo(null);
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoValidEvent() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNotNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoEmptyString() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoRandomString() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("fhaksjdfkljashl");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoRandomJSON() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"key\":\"value\"}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoNoState() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("\"ClientIds\":\"\"}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoNoClientIds() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"\"}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoveryInfoNoClientId() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Disconnected\"}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoRandomState() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Random\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoConnectedState() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNotNull(discoverInfo);
+	}
+
+	public void testParseDiscoverInfoDisConnectedState() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Disconnected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNotNull(discoverInfo);
+	}
+
+	public void testParseDiscoverEmptyClientId() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":\"\"\"}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverEmptyClientIdArray() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[]}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverSingleClientIdArray() {
+		String[] expected = {"1c5a6bfffe63436c"};
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\"]}");
+
+		assertNotNull(discoverInfo);
+		assertEquals(expected[0], discoverInfo.getClientIds()[0]);
+		assertTrue(discoverInfo.getClientIds().length == 1);
+	}
+
+	public void testParseDiscoverDoubleClientIdArray() {
+		String[] expected = {"1c5a6bfffe63436c", "1c5a6bfffe634357"};
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+
+		assertNotNull(discoverInfo);
+		assertEquals(expected[0], discoverInfo.getClientIds()[0]);
+		assertEquals(expected[1], discoverInfo.getClientIds()[1]);
+		assertTrue(discoverInfo.getClientIds().length == 2);
+	}
+
+	public void testParseDiscoverConnectedEvent() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+
+		assertNotNull(discoverInfo);
+		assertTrue(discoverInfo.isConnected());
+	}
+
+	public void testParseDiscoverDisconnectedEvent() {
+		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Disconnected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+
+		assertNotNull(discoverInfo);
+		assertFalse(discoverInfo.isConnected());
+	}
+
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 
     private AirPurifier createAirPurifier(CommunicationStrategy communicationStrategy, String purifierEui641, String usn, String ip, String name, long bootId,

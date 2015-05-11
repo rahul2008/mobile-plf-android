@@ -56,7 +56,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		
 		mHelper.startDiscoveryViaCpp();
 
-		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(AppConstants.DISCOVER), eq(""), anyInt(), anyInt(), anyString());
+		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(CPPController.DISCOVER), eq(""), anyInt(), anyInt(), anyString());
 		verify(mCppController).startDCSService();
 		verify(mDiscListener).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();
