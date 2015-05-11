@@ -41,9 +41,13 @@ public abstract class DICommAppliance {
         addPort(mPairingPort);
         addPort(mWifiPort);
         addPort(mWifiUIPort);
-        
     }
-    
+
+    /**
+     * @return DeviceType used by CPP to identify this appliance
+     */
+    public abstract String getDeviceType();
+
     public NetworkNode getNetworkNode() {
         return mNetworkNode;
     }

@@ -9,7 +9,6 @@ public class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
 
 	@Override
 	public boolean canCreateApplianceForNode(NetworkNode networkNode) {
-		// TODO DIComm Refactor - test
 		if (networkNode == null) return false;
 		if (networkNode.getModelName().equalsIgnoreCase(AppConstants.MODEL_NAME)) return true;
 		return false;
@@ -17,7 +16,6 @@ public class AirPurifierFactory extends DICommApplianceFactory<AirPurifier> {
 
 	@Override
 	public AirPurifier createApplianceForNode(NetworkNode networkNode) {
-		// TODO DIComm Refactor - test
 		DISecurity diSecurity = new DISecurity();
 		CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
 		return new AirPurifier(networkNode, communicationStrategy);

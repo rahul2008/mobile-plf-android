@@ -927,6 +927,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
 	}
 
+	public String getAppType() {
+		return mKpsConfigurationInfo.getAppType();
+	}
+
 	public String getAppCppId() {
 		return mAppCppId;
 	}

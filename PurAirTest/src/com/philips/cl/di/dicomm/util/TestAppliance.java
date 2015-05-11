@@ -9,4 +9,9 @@ public class TestAppliance extends DICommAppliance {
 	public TestAppliance(NetworkNode networkNode) {
 		super(networkNode, new NullStrategy());
 	}
+
+	@Override
+	public String getDeviceType() {
+		return null;
+	}
 }

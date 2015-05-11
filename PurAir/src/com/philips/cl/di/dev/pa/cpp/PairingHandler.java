@@ -35,14 +35,11 @@ public class PairingHandler implements ICPEventListener {
 	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
 	public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 
-	public static final String PAIRING_REFERENCETYPE = "883437300710";
 	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
 	public static final String PAIRING_DI_COMM_RELATIONSHIP="DI-COMM";
 	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
 	public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "DATAACCESS";
-	public static final String PAIRING_APP_REFERENCETYPE="AC4373APP";
 
-	public static final String APP_TYPE="AC4373APP";
 	public static final int MAX_RETRY = 3;
 
 	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
@@ -174,7 +171,7 @@ public class PairingHandler implements ICPEventListener {
                     return DIRegistration.UNREGISTER;
                 }
             });
-            pairingPort.triggerPairing(APP_TYPE, appEui64, secretKey);
+            pairingPort.triggerPairing(CPPController.getInstance().getAppType(), appEui64, secretKey);
 
 		} else {
 			currentRelationshipType = relationshipType;
@@ -277,7 +274,7 @@ public class PairingHandler implements ICPEventListener {
 		PairingEntitiyReference pairingTrustee = new PairingEntitiyReference();
 		pairingTrustee.entityRefId = mAppliance.getNetworkNode().getCppId();
 		pairingTrustee.entityRefProvider = PAIRING_REFERENCEPROVIDER;
-		pairingTrustee.entityRefType = PAIRING_REFERENCETYPE;
+		pairingTrustee.entityRefType = mAppliance.getDeviceType();
 		pairingTrustee.entityRefCredentials = null;
 
 		ALog.i(ALog.PAIRING, "Appliance entityRefId"
@@ -300,7 +297,7 @@ public class PairingHandler implements ICPEventListener {
 		PairingEntitiyReference pairingTrustor = new PairingEntitiyReference();
 		pairingTrustor.entityRefId = cppController.getAppCppId();
 		pairingTrustor.entityRefProvider = PAIRING_REFERENCEPROVIDER;
-		pairingTrustor.entityRefType = PAIRING_APP_REFERENCETYPE;
+		pairingTrustor.entityRefType = CPPController.getInstance().getAppType();
 		pairingTrustor.entityRefCredentials = null;
 
 		ALog.i(ALog.PAIRING, "app entityRefId" + pairingTrustor.entityRefId);
