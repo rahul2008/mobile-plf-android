@@ -19,10 +19,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
+import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -415,7 +414,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		if (data == null) return;
 
-		if (DiscoveryManager.getInstance().parseDiscoverInfo(data) != null) {
+		if (mCppDiscoverEventListener != null && mCppDiscoverEventListener.isDiscoverEvent(data)) {
 			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
 			boolean isResponseToRequest = false;
 			if (action != null

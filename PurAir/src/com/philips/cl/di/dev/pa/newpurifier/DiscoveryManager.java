@@ -252,6 +252,11 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	@Override
+	public boolean isDiscoverEvent(String data) {
+		return (parseDiscoverInfo(data) != null);
+	}
+
+	@Override
 	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
 		DiscoverInfo info = parseDiscoverInfo(data);
 		if (info == null) return;
