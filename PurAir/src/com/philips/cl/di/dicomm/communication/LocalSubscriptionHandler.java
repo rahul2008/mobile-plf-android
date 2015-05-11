@@ -52,9 +52,9 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 
 		
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
-		
-		if(mSubscriptionEventListener!=null && mDISecurity!=null ){			
-			String decryptedData = mDISecurity.decryptData(data, mNetworkNode) ;
+
+		if(mSubscriptionEventListener!=null){
+			String decryptedData = decryptData(data) ;
 			if (decryptedData == null ) {
 				ALog.d(ALog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
 				return;
@@ -66,7 +66,12 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 			}
 		}
 	}
-	
-	
+
+	private String decryptData(String cypher) {
+        if (mDISecurity != null) {
+            return mDISecurity.decryptData(cypher, mNetworkNode);
+        }
+        return cypher;
+    }
 
 }
