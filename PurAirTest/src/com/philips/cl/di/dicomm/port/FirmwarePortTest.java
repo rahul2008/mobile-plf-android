@@ -3,9 +3,9 @@ import static org.mockito.Mockito.mock;
 
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
-import com.philips.cl.di.dicomm.MockitoTestCase;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class FirmwarePortTest extends MockitoTestCase {
 
