@@ -46,7 +46,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private static DiscoveryManager mInstance;
 
 	private LinkedHashMap<String, DICommAppliance> mAllAppliancesMap;
-	private List<DICommAppliance> mAddedAppliances;
+	private List<NetworkNode> mAddedAppliances;
 
 	private DICommApplianceFactory<DICommAppliance> mApplianceFactory;
 	private NetworkNodeDatabase mNetworkNodeDatabase;
@@ -146,15 +146,15 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	public List<DICommAppliance> getAddedAppliances() {
 		List<DICommAppliance> appliances = new ArrayList<DICommAppliance>();
-		for (DICommAppliance addedAppliance : mAddedAppliances) {
-			appliances.add(mAllAppliancesMap.get(addedAppliance.getNetworkNode().getCppId()));
+		for (NetworkNode addedAppliance : mAddedAppliances) {
+			appliances.add(mAllAppliancesMap.get(addedAppliance.getCppId()));
 		}
 		return appliances;
 	}
 
 	// TODO DIComm refactor: this method should be removed completely
 	public List<DICommAppliance> updateAddedAppliances() {
-		mAddedAppliances = loadAllAddedAppliancesFromDatabase();
+		mAddedAppliances = mNetworkNodeDatabase.getAll();
 		return getAddedAppliances();
 	}
 
@@ -660,10 +660,12 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mAllAppliancesMap = new LinkedHashMap<String, DICommAppliance>();
 
 		List<DICommAppliance> allAppliances = loadAllAddedAppliancesFromDatabase();
+		List<NetworkNode> addedAppliances = new ArrayList<NetworkNode>();
 		for (DICommAppliance appliance : allAppliances) {
 			mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
+			addedAppliances.add(appliance.getNetworkNode());
 		}
-		mAddedAppliances = allAppliances;
+		mAddedAppliances = addedAppliances;
 	}
 
 	private void notifyDiscoveryListener() {
