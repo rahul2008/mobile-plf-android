@@ -24,7 +24,7 @@ import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
 import com.philips.cl.di.dicomm.security.ByteUtil;
 
 /**
- *This class provides list of 
+ *This class provides list of
  *configuration parameters set by the application for sign on.
  */
 
@@ -90,5 +90,10 @@ public class PurAirKPSConfiguration extends KPSConfigurationInfo
 	public int getComponentCount() {
 		return 1;
 	}
-	
+
+	@Override
+	public String getFilterString() {
+		return "TEST";
+	}
+
 }

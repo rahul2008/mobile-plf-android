@@ -52,10 +52,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private List<SignonListener> mSignOnListeners;
 
 	private SendNotificationRegistrationIdListener mNotificationListener;
-	private AppUpdateListener mAppUpdateListener ; 
+	private AppUpdateListener mAppUpdateListener ;
 
 	private ICPCallbackHandler mICPCallbackHandler;
-	private Params mKpsConfiguration;
 	private Context mContext;
 
 	private EventSubscription mEventSubscription;
@@ -71,7 +70,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private ICP_CLIENT_DCS_STATE mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
 	private APP_REQUESTED_STATE mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
-
 
 	private DownloadData mDownloadData;
 	private ICPDownloadListener mDownloadDataListener;
@@ -96,13 +94,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+	private KPSConfigurationInfo mKpsConfigurationInfo;
+	private Params mKpsConfiguration;
 
 	private String mAppCppId;
-	
+
 	public static final String DISCOVER = "DISCOVER" ;
-	
-	private KPSConfigurationInfo mKpsConfigurationInfo;
-	
+
+
 	public static synchronized void createSharedInstance(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		if (mInstance != null) {
 			throw new RuntimeException("CPPController can only be initialized once");
@@ -117,12 +116,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private CPPController(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		this.mContext = context;
-		KeyProvisioningHelper keyProvisioningHelper = new KeyProvisioningHelper(kpsConfigurationInfo);
-		
 		mKpsConfigurationInfo = kpsConfigurationInfo;
-		
-		this.mKpsConfiguration = keyProvisioningHelper;
-		
+		mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
+
 		// TODO:DICOMM Refactor, check when to set the locale, after/before sign on
 		setLocale();
 				
@@ -477,7 +473,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}
-		provider = mProvider;
+		mProvider = provider;
 
 		ALog.i(ALog.CPPCONTROLLER, "CPPController sendNotificationRegistrationId provider : " + mProvider
 				+"------------RegId : " + gcmRegistrationId);
