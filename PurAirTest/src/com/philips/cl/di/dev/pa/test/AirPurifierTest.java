@@ -25,7 +25,6 @@ public class AirPurifierTest extends InstrumentationTestCase {
 	private DIPortListener mFirmwarePortListener;
 
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
-	private static final String PURIFIER_USN = "uuid:12345678-1234-1234-1234-1c5a6b634357::urn:philips-com:device:DiProduct:1";
 	private static final String PURIFIER_IP = "198.168.1.145";
 	private static final String PURIFIER_NAME = "Jeroen_test";
 	private static final long PURIFIER_BOOTID = 243;
@@ -50,14 +49,13 @@ public class AirPurifierTest extends InstrumentationTestCase {
         networkNode.setName(PURIFIER_NAME);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-		mPurifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class), PURIFIER_USN);
+		mPurifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class));
 
 		mAirPortListener = mock(DIPortListener.class);
 		mFirmwarePortListener = mock(DIPortListener.class);
-		
+
 		mPurifier.getAirPort().registerPortListener(mAirPortListener);
 		mPurifier.getFirmwarePort().registerPortListener(mFirmwarePortListener);
-		
 
 		mObserver = mock(Observer.class);
 

@@ -319,9 +319,9 @@ AlertDialogBtnInterface, OnClickListener {
 
 			// Enable UI and check if permission exists
 			pairingHandler.getPermission(
-					AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-					AppConstants.PAIRING_PUSH_PERMISSIONS
-					.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+					PairingHandler.PAIRING_NOTIFY_RELATIONSHIP,
+					PairingHandler.PAIRING_PUSH_PERMISSIONS
+					.toArray(new String[PairingHandler.PAIRING_PUSH_PERMISSIONS.size()]));
 		}
 	}
 
@@ -337,15 +337,15 @@ AlertDialogBtnInterface, OnClickListener {
 				showProgressDialog(R.string.notification_enabling_msg);
 				enableDetailedNotificationsLayout();
 				pairingHandler.addPermission(
-						AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-						AppConstants.PAIRING_PUSH_PERMISSIONS
-						.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+						PairingHandler.PAIRING_NOTIFY_RELATIONSHIP,
+						PairingHandler.PAIRING_PUSH_PERMISSIONS
+						.toArray(new String[PairingHandler.PAIRING_PUSH_PERMISSIONS.size()]));
 			} else {
 				showProgressDialog(R.string.notification_disabling_msg);
 				pairingHandler.removePermission(
-						AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-						AppConstants.PAIRING_PUSH_PERMISSIONS
-						.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+						PairingHandler.PAIRING_NOTIFY_RELATIONSHIP,
+						PairingHandler.PAIRING_PUSH_PERMISSIONS
+						.toArray(new String[PairingHandler.PAIRING_PUSH_PERMISSIONS.size()]));
 				disableDetailedNotificationsLayout();
 			}
 			MetricsTracker.trackActionNotification(isChecked);

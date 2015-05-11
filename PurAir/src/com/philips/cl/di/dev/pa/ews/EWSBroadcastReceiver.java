@@ -300,7 +300,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         networkNode.setName(null);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-        tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy, null);
+        tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy);
 	}
 
 	private void updateTempDevice(String eui64) {
@@ -316,7 +316,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         networkNode.setName(purifierName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
-        tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy, null);
+        tempEWSPurifier = new AirPurifier(networkNode, communicationStrategy);
         // TODO DIComm Refactor - remove this line
         tempEWSPurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 	}

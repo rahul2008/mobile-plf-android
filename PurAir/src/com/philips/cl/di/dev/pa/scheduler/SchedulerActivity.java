@@ -446,7 +446,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 	}
 
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 
 	}
 

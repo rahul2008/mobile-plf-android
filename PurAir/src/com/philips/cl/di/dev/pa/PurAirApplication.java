@@ -15,6 +15,9 @@ import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PurAirKPSConfiguration;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierFactory;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -39,6 +42,7 @@ public class PurAirApplication extends Application {
 		setApplication(this);
 
 		CPPController.createSharedInstance(getAppContext(), new PurAirKPSConfiguration());
+		DiscoveryManager.createSharedInstance(getApplicationContext(), new AirPurifierFactory(), new PurifierDatabase());
 	}
 
 	private void initImageLoader() {

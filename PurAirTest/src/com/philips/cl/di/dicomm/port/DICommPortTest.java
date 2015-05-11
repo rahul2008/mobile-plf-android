@@ -14,9 +14,9 @@ import org.mockito.Captor;
 import org.mockito.Mockito;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dicomm.MockitoTestCase;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 

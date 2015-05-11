@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm;
+package com.philips.cl.di.dicomm.util;
 
 import org.mockito.MockitoAnnotations;
 

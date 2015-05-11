@@ -15,20 +15,21 @@ public class NetworkNode extends Observable implements Parcelable {
 	private String mIpAddress;
 	private String mCppId;
 	private ConnectionState mConnectionState;
-	
+
 	private String mName;
 	private String mModelName;
+	private String mModelType;
 	private String mHomeSsid;
 	private long mBootId;
 	private String mEncryptionKey;
 	
-	private boolean mIsOnlineViaCpp = false;
+	private boolean mIsOnlineViaCpp = false; // not
 	private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
-	private long mLastPairedTime;
-	
-	private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
+	private long mLastPairedTime;	
 	
 	private final int mDICommProtocolVersion = 1;
+	
+	private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
 
 	public NetworkNode() {
 	}
@@ -69,15 +70,21 @@ public class NetworkNode extends Observable implements Parcelable {
 	public synchronized void setName(String name) {
 		this.mName = name;
 	}
-	
-	//TODO: to implement
+
 	public synchronized String getModelName() {
-		throw new UnsupportedOperationException();
-		//return mModelName;
+		return mModelName;
 	}
 
 	public synchronized void setModelName(String modelName) {
 		this.mModelName = modelName;
+	}
+
+	public synchronized String getModelType() {
+		return mModelType;
+	}
+
+	public synchronized void setModelType(String modelType) {
+		this.mModelType = modelType;
 	}
 
 	public synchronized String getHomeSsid() {
@@ -85,7 +92,7 @@ public class NetworkNode extends Observable implements Parcelable {
 	}
 
 	public synchronized void setHomeSsid(String homeSsid) {
-		if (mHomeSsid == null || mHomeSsid.isEmpty()) return;
+		if (homeSsid == null || homeSsid.isEmpty()) return;
 		this.mHomeSsid = homeSsid;
 	}
 
@@ -148,6 +155,7 @@ public class NetworkNode extends Observable implements Parcelable {
         mConnectionState = ConnectionState.values()[in.readInt()];
         mName = in.readString();
         mModelName = in.readString();
+        mModelType = in.readString();
         mHomeSsid = in.readString();
         mBootId = in.readLong();
         mEncryptionKey = in.readString();
@@ -168,6 +176,7 @@ public class NetworkNode extends Observable implements Parcelable {
         dest.writeInt(mConnectionState.ordinal());
         dest.writeString(mName);
         dest.writeString(mModelName);
+        dest.writeString(mModelType);
         dest.writeString(mHomeSsid);
         dest.writeLong(mBootId);
         dest.writeString(mEncryptionKey);
@@ -199,6 +208,7 @@ public class NetworkNode extends Observable implements Parcelable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())
 				.append("   cppId: ").append(getCppId()).append("   bootId: ").append(getBootId())
+				.append("   modelName: ").append(getModelName()).append("   modelType: ").append(getModelType())
 				.append("   paired: ").append(getPairedState())
 				.append("   connectedState: ").append(getConnectionState()).append("   HomeSsid: ")
 				.append(getHomeSsid());

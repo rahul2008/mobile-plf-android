@@ -42,6 +42,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
@@ -349,9 +350,9 @@ public class EWSActivity extends ActionBarActivity implements
 				current.setLatitude(String.valueOf(location.getLatitude()));
 				current.setLongitude(String.valueOf(location.getLongitude()));
 			}
-			new PurifierDatabase().insertPurAirDevice(current);
-			List<AirPurifier> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
-			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
+			DiscoveryManager.getInstance().insertApplianceToDatabase(current);
+			List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateAddedAppliances();
+			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(appliances.size() - 1);
 		}
 		
 		// STOP move code
@@ -702,13 +703,13 @@ public class EWSActivity extends ActionBarActivity implements
 	}
 	
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
-		AirPurifier ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
-		if (ewsPurifier == null) return;
-		if (ewsPurifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+		DICommAppliance ewsAppliance = DiscoveryManager.getInstance().getApplianceByCppId(cppId);
+		if (ewsAppliance == null || !(ewsAppliance instanceof AirPurifier)) return;
+		if (ewsAppliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
-		AirPurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
+		AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier) ewsAppliance);
 		deviceDiscoveryCompleted();
 	}
 	

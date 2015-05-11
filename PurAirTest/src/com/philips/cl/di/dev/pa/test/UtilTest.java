@@ -123,12 +123,7 @@ public class UtilTest extends TestCase {
 		int hr = Utils.getLastDayHours("hello");
 		assertEquals(0, hr);
 	}
-	
-	public void testGetDiffInDays() {
-		long rl = Utils.getDiffInDays(0L);
-		assertTrue(rl != 0);
-	}
-	
+
 	public void testGetPercentageBothZero() {
 		int percent = Utils.getPercentage(0, 0);
 		assertEquals(0, percent);

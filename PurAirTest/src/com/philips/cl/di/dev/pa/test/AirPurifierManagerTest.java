@@ -695,7 +695,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         networkNode.setIpAddress(ip);
         networkNode.setName(name);
         networkNode.setConnectionState(connectionState);
-        
-        return new AirPurifier(networkNode, communicationStrategy, usn);
+
+        return new AirPurifier(networkNode, communicationStrategy);
     }
 }
