@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.ConnectivityManager.NetworkCallback;
 import android.net.Network;
-import android.util.Log;
 
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -24,16 +23,16 @@ public class WifiNetworkCallback extends NetworkCallback {
 
 		@Override
 		public void onAvailable(final Network network) {
-			Log.i(ALog.WIFI, "WifiNetwork available");
+			ALog.i(ALog.WIFI, "WifiNetwork available");
 			wifiNetwork = network;
 			synchronized (lock) {
 				lock.notify();
 			}
 		}
-		
+
 		@Override
 		public void onLost(Network network) {
-			Log.i(ALog.WIFI, "WifiNetwork lost");
+			ALog.i(ALog.WIFI, "WifiNetwork lost");
 			ConnectivityManager.setProcessDefaultNetwork(null);
 			super.onLost(network);
 		}
