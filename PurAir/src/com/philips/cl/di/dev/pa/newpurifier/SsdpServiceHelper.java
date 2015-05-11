@@ -57,7 +57,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 		}
 	}
 
-	public ArrayList<String> getOnlineDevicesEui64() {
+	public ArrayList<String> getOnlineDevicesCppId() {
 		Set<DeviceModel> devices = mSsdpService.getAliveDeviceList();
 		ArrayList<String> onlineEui64s = new ArrayList<String>();
 		if (devices == null) {

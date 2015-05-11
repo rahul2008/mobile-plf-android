@@ -74,7 +74,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		for (DICommAppliance appliance : appliancesList) {
 			devices.put(appliance.getNetworkNode().getCppId(), appliance);
 		}
-		mDiscMan.setPurifierListForTesting(devices);
+		mDiscMan.setAppliancesListForTesting(devices);
 	}
 
 
@@ -182,7 +182,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
     public void testCppConnectNotPairedDisconnectedMobile() {
@@ -200,7 +200,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedDisconnectedNone() {
@@ -218,7 +218,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedLocallyWifi() {
@@ -236,7 +236,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedLocallyMobile() {
@@ -254,7 +254,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectNotPairedLocallyNone() {
@@ -272,7 +272,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedDisconnectedWifi() {
@@ -292,7 +292,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedDisconnectedMobile() {
@@ -312,7 +312,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedDisconnectedNone() {
@@ -332,7 +332,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedLocallyWifi() {
@@ -352,7 +352,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedLocallyMobile() {
@@ -372,7 +372,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedLocallyNone() {
@@ -392,7 +392,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedRemoteWifi() {
@@ -412,7 +412,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedRemoteMobile() {
@@ -432,7 +432,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppConnectPairedRemoteNone() {
@@ -452,7 +452,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedWifi() {
@@ -470,7 +470,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedMobile() {
@@ -488,7 +488,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedNone() {
@@ -506,7 +506,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedLocallyWifi() {
@@ -524,7 +524,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedLocallyMobile() {
@@ -542,7 +542,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectNotPairedLocallyNone() {
@@ -560,7 +560,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedDisconnectedWifi() {
@@ -580,7 +580,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedDisconnectedMobile() {
@@ -600,7 +600,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedDisconnectedNone() {
@@ -620,7 +620,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedLocallyWifi() {
@@ -640,7 +640,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedLocallyMobile() {
@@ -660,7 +660,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedLocallyNone() {
@@ -680,7 +680,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedRemoteWifi() {
@@ -700,7 +700,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedRemoteMobile() {
@@ -720,7 +720,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppDisconnectPairedRemoteNone() {
@@ -740,7 +740,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi() {
@@ -760,7 +760,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi2() {
@@ -780,7 +780,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSingleDisconnectPairedRemoteWifi() {
@@ -800,7 +800,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppInvalidEventReceived() {
@@ -820,7 +820,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppEventReceivedDifferentPurifier() {
@@ -840,7 +840,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedWifi() {
@@ -858,7 +858,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedMobile() {
@@ -876,7 +876,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReaConnectNotPairedDisconnectedNone() {
@@ -894,7 +894,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedLocallyWifi() {
@@ -912,7 +912,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedLocallyMobile() {
@@ -930,7 +930,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectNotPairedLocallyNone() {
@@ -948,7 +948,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedDisconnectedWifi() {
@@ -968,7 +968,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedDisconnectedMobile() {
@@ -988,7 +988,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedDisconnectedNone() {
@@ -1008,7 +1008,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedLocallyWifi() {
@@ -1028,7 +1028,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedLocallyMobile() {
@@ -1048,7 +1048,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedLocallyNone() {
@@ -1068,7 +1068,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedRemoteWifi() {
@@ -1088,7 +1088,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedRemoteMobile() {
@@ -1108,7 +1108,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqConnectPairedRemoteNone() {
@@ -1128,7 +1128,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedWifi() {
@@ -1146,7 +1146,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedMobile() {
@@ -1164,7 +1164,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedNone() {
@@ -1182,7 +1182,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyWifi() {
@@ -1200,7 +1200,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyMobile() {
@@ -1218,7 +1218,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyNone() {
@@ -1236,7 +1236,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedWifi() {
@@ -1256,7 +1256,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedMobile() {
@@ -1276,7 +1276,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedNone() {
@@ -1296,7 +1296,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedLocallyWifi() {
@@ -1316,7 +1316,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedLocallyMobile() {
@@ -1336,7 +1336,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedLocallyNone() {
@@ -1356,7 +1356,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedRemoteWifi() {
@@ -1376,7 +1376,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqDisconnectPairedRemoteMobile() {
@@ -1396,7 +1396,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppAllConnectPairedDisconnectedWifi() {
@@ -1416,7 +1416,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppAllDisconnectPairedRemoteWifi() {
@@ -1436,7 +1436,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqInvalidEventReceived() {
@@ -1456,7 +1456,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppReqEventReceivedDifferentPurifier() {
@@ -1476,7 +1476,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		verify(mListener).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSignonEventReceivedDisconnected() {
@@ -1513,7 +1513,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertFalse(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 	public void testCppSignoffEventReceivedRemote() {
@@ -1550,7 +1550,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertTrue(purifier2.getNetworkNode().isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getNetworkNode().getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getNetworkNode().getConnectionState());
-		verify(mListener, never()).onDiscoveredDevicesListChanged();
+		verify(mListener, never()).onDiscoveredAppliancesListChanged();
 	}
 
 // ***** STOP TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED *****
@@ -1562,7 +1562,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_1, PURIFIER_EUI64_2})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_1, PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1576,7 +1576,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1594,7 +1594,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1612,7 +1612,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1626,7 +1626,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1644,7 +1644,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1662,7 +1662,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1680,7 +1680,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 
@@ -1698,7 +1698,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		setPurifierList(new AirPurifier[] {purifier1, purifier2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
-		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		when(helper.getOnlineDevicesCppId()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
 		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
 		mDiscMan.markLostAppliancesInBackgroundOfflineOrRemote();
 

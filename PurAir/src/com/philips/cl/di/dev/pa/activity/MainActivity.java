@@ -631,7 +631,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		if (PurAirApplication.isDemoModeEnable()) return;
 

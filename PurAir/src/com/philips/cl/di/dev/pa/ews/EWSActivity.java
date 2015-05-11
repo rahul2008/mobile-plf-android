@@ -703,7 +703,7 @@ public class EWSActivity extends ActionBarActivity implements
 	}
 	
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
 		DICommAppliance ewsAppliance = DiscoveryManager.getInstance().getApplianceByCppId(cppId);
 		if (ewsAppliance == null || !(ewsAppliance instanceof AirPurifier)) return;
