@@ -539,7 +539,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	public void pairToPurifierIfNecessary() {
 		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
-		if( PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		if (PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
 			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			checkInternetConnection() ;

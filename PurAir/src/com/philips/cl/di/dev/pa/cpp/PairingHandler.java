@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.cpp;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
@@ -18,6 +17,7 @@ import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.PairingPort;
+import com.philips.cl.di.dicomm.util.DICommContext;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
@@ -64,7 +64,7 @@ public class PairingHandler implements ICPEventListener {
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
-		cppController = CPPController.getInstance(PurAirApplication.getAppContext());
+		cppController = CPPController.getInstance(DICommContext.getContext());
 	}
 
 	public void setPermissionListener(PermissionListener iPermissionListener) {
@@ -632,10 +632,6 @@ public class PairingHandler implements ICPEventListener {
 	}
 
 	public static boolean pairApplianceIfNecessary(NetworkNode networkNode) {
-		if(PurAirApplication.isDemoModeEnable()){
-			return false;
-		}
-
 		if (networkNode == null || networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
 			return false;
 		}	
