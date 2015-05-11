@@ -26,26 +26,26 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkNodeDatabase {
-	
+
 	private NetworkNodeDatabaseHelper dbHelper;
-	
+
 	public NetworkNodeDatabase() {
 		dbHelper = new NetworkNodeDatabaseHelper(PurAirApplication.getAppContext());
 	}
 
 	public List<NetworkNode> getAll() {
 		List<NetworkNode> result = new ArrayList<NetworkNode>();
-		
+
 		Cursor cursor = null;
-		
+
 		SQLiteDatabase db = null;
 		try {
 			db = dbHelper.getReadableDatabase();
 			cursor = db.query(TABLE_NETWORK_NODE, null, null, null, null, null, null);
-		
+
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
-				
+
 				do {
 					String cppId = cursor.getString(cursor.getColumnIndex(KEY_CPP_ID));
 					long bootId = cursor.getLong(cursor.getColumnIndex(KEY_BOOT_ID));
@@ -56,7 +56,7 @@ public class NetworkNodeDatabase {
 					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
 					String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
 					String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
-					
+
 					NetworkNode networkNode = new NetworkNode();
 					networkNode.setConnectionState(ConnectionState.DISCONNECTED);
 					networkNode.setCppId(cppId);
@@ -68,7 +68,7 @@ public class NetworkNodeDatabase {
 					networkNode.setLastPairedTime(lastPairedTime);
 					networkNode.setIpAddress(ipAddress);
 					networkNode.setModelName(modelName);
-					
+
 					result.add(networkNode);
 					ALog.d(ALog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
 				} while (cursor.moveToNext());
@@ -81,23 +81,23 @@ public class NetworkNodeDatabase {
 			closeCursor(cursor);
 			closeDatabase(db);
 		}
-		
+
 		return result;
 	}
-	
+
 	public long save(NetworkNode networkNode) {
 		long rowId = -1L;
-		
-		if (networkNode == null) 
+
+		if (networkNode == null)
 			return rowId;
-		
+
 		if (networkNode.getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED)
 			networkNode.setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
-		
+
 		SQLiteDatabase db = null;
 		try {
 			db = dbHelper.getWritableDatabase();
-			
+
 			ContentValues values = new ContentValues();
 			values.put(KEY_CPP_ID, networkNode.getCppId());
 			values.put(KEY_BOOT_ID, networkNode.getBootId());
@@ -105,16 +105,16 @@ public class NetworkNodeDatabase {
 			values.put(KEY_DEVICE_NAME, networkNode.getName());
 			values.put(KEY_LASTKNOWN_NETWORK, networkNode.getHomeSsid());
 			values.put(KEY_IS_PAIRED, networkNode.getPairedState().ordinal());
-			
+
 			if (networkNode.getPairedState() == PAIRED_STATUS.PAIRED) {
 				values.put(KEY_LAST_PAIRED, networkNode.getLastPairedTime());
 			} else {
 				values.put(KEY_LAST_PAIRED, -1L);
 			}
-			
+
 			values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
 			values.put(KEY_MODEL_NAME, networkNode.getModelName());
-			
+
 			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 			ALog.d(ALog.DATABASE, "Saved NetworkNode in db: " + networkNode);
 		} catch (Exception e) {
@@ -123,10 +123,34 @@ public class NetworkNodeDatabase {
 		} finally {
 			closeDatabase(db);
 		}
-		
+
 		return rowId;
 	}
-	
+
+	public boolean contains(NetworkNode networkNode) {
+		if (networkNode == null) return false;
+
+		SQLiteDatabase db = null;
+		Cursor cursor = null;
+		try {
+			db = dbHelper.getWritableDatabase();
+			cursor = db.query(TABLE_NETWORK_NODE, null, KEY_CPP_ID + " = ?", new String[] {networkNode.getCppId()}, null, null, null);
+
+			if (cursor.getCount() > 0) {
+				ALog.d(ALog.DATABASE, "NetworkNode already in db - " + networkNode);
+				return true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDatabase(db);
+			closeCursor(cursor);
+		}
+
+		ALog.d(ALog.DATABASE, "NetworkNode not yet in db - " + networkNode);
+		return false;
+	}
+
 	public int delete(NetworkNode networkNode) {
 		SQLiteDatabase db = null;
 		int rowsDeleted = 0;
@@ -142,7 +166,7 @@ public class NetworkNodeDatabase {
 		}
 		return rowsDeleted;
 	}
-	
+
 	private void closeDatabase(SQLiteDatabase db) {
 		try {
 			if (db != null && db.isOpen()) {
@@ -162,5 +186,5 @@ public class NetworkNodeDatabase {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
-	
+
 }

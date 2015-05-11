@@ -510,7 +510,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		List<String> eui64s = Arrays.asList(info.getClientIds());
 
-		ALog.i(ALog.DISCOVERY, "List: "+eui64s) ;
+		ALog.i(ALog.DISCOVERY, "List: " + eui64s) ;
 
 		for (DICommAppliance current : getDiscoveredDevices()) {
 			boolean updatedState = false ;
@@ -626,6 +626,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		String eui64 = ssdpDevice.getCppId();
 		String ipAddress = deviceModel.getIpAddress();
 		String name = ssdpDevice.getFriendlyName();
+		String modelName = ssdpDevice.getModelName();
 		String networkSsid = mNetwork.getLastKnownNetworkSsid();
 		Long bootId = -1l;
 		try {
@@ -639,6 +640,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
         networkNode.setCppId(eui64);
         networkNode.setIpAddress(ipAddress);
         networkNode.setName(name);
+        networkNode.setModelName(modelName);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		networkNode.setHomeSsid(networkSsid);
 
@@ -695,6 +697,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mListener.onDiscoveredDevicesListChanged();
 
 		notifyAddNewPurifier();
+		printDiscoveredDevicesInfo(ALog.DISCOVERY);
 		ALog.v(ALog.DISCOVERY, "Notified listener of change event");
 	}
 
@@ -762,6 +765,11 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	// TODO DIComm refactor: improve interface
 	public long updateApplianceInDatabase(DICommAppliance airPurifier) {
+		if (!mNetworkNodeDatabase.contains(airPurifier.getNetworkNode())) {
+			ALog.d(ALog.DISCOVERY, "Not updating NetworkNode database - not yet in database");
+			return -1;
+		}
+
 		long rowId = mNetworkNodeDatabase.save(airPurifier.getNetworkNode());
 		mApplianceDatabase.save(airPurifier);
 
