@@ -18,7 +18,6 @@ import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.PairingPort;
-import com.philips.cl.di.dicomm.util.DICommContext;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
