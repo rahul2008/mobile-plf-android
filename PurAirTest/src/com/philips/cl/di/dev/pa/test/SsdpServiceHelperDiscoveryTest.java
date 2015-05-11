@@ -20,6 +20,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
@@ -53,7 +54,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			}
 		}
 	}
-	
+
 	private DeviceModel generateSsdpDeviceModel(String udn, String eui64) {
 		DeviceModel model = new DeviceModel(udn);
 		SSDPdevice device = new SSDPdevice();
@@ -343,7 +344,8 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, times(2)).stopDeviceDiscovery();
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void testDiscoverySyncLocalOnStart() {
 		DiscoveryManager discMan = mock(DiscoveryManager.class);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
@@ -356,8 +358,10 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		verify(discMan, never()).cancelSyncLocalDevicesWithSsdpStack();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void testDiscoverySyncLocalOnStop() {
 		DiscoveryManager discMan = mock(DiscoveryManager.class);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
@@ -373,6 +377,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		verify(discMan).cancelSyncLocalDevicesWithSsdpStack();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
 	}
 
 	// ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****

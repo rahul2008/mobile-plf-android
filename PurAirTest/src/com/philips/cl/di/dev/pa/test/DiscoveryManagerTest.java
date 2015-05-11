@@ -22,7 +22,9 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
+import com.philips.cl.di.dicomm.communication.NullStrategy;
 
 public class DiscoveryManagerTest extends InstrumentationTestCase {
 
@@ -41,6 +43,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), new TestApplianceFactory());
+
 		mDiscMan = DiscoveryManager.getInstance();
 		mListener = mock(DiscoveryEventListener.class);
 		mDiscMan.setDummyDiscoveryEventListenerForTesting(mListener);
@@ -54,6 +58,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		// Clean up resources
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), new TestApplianceFactory());
 		super.tearDown();
 	}
 
@@ -76,6 +81,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 // ***** START TESTS FOR START/STOP METHODS *****
 	public void testOnStartNoNetwork() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 		NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -97,6 +103,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 	public void testOnStartMobile() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 		NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -118,6 +125,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 	public void testOnStartWifi() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 		NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -139,6 +147,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 
 	public void testOnStop() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 
@@ -1804,6 +1813,26 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
         networkNode.setConnectionState(connectionState);
         
         return new AirPurifier(networkNode,communicationStrategy);
+    }
+
+    private class TestApplianceFactory extends DICommApplianceFactory<TestAppliance> {
+
+    	@Override
+			public boolean canCreateApplianceForNode(NetworkNode networkNode) {
+				return true;
+			}
+
+			@Override
+			public TestAppliance createApplianceForNode(NetworkNode networkNode) {
+				return new TestAppliance(networkNode);
+			}
+    }
+
+    private class TestAppliance extends DICommAppliance {
+
+		public TestAppliance(NetworkNode networkNode) {
+			super(networkNode, new NullStrategy());
+		}
     }
 
 }
