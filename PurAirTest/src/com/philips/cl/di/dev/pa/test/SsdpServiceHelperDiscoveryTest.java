@@ -354,8 +354,8 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.removePendingMessagesOnQueueForTesting();
 
-		verify(discMan).syncLocalDevicesWithSsdpStackDelayed();
-		verify(discMan, never()).cancelSyncLocalDevicesWithSsdpStack();
+		verify(discMan).syncLocalAppliancesWithSsdpStackDelayed();
+		verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
@@ -373,8 +373,8 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
-		verify(discMan, never()).syncLocalDevicesWithSsdpStackDelayed();
-		verify(discMan).cancelSyncLocalDevicesWithSsdpStack();
+		verify(discMan, never()).syncLocalAppliancesWithSsdpStackDelayed();
+		verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));

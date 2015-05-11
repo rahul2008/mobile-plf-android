@@ -351,7 +351,7 @@ public class EWSActivity extends ActionBarActivity implements
 				current.setLongitude(String.valueOf(location.getLongitude()));
 			}
 			DiscoveryManager.getInstance().insertApplianceToDatabase(current);
-			List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateStoreDevices();
+			List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateAddedAppliances();
 			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(appliances.size() - 1);
 		}
 		
@@ -705,7 +705,7 @@ public class EWSActivity extends ActionBarActivity implements
 	@Override
 	public void onDiscoveredDevicesListChanged() {
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
-		DICommAppliance ewsAppliance = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
+		DICommAppliance ewsAppliance = DiscoveryManager.getInstance().getApplianceByCppId(cppId);
 		if (ewsAppliance == null || !(ewsAppliance instanceof AirPurifier)) return;
 		if (ewsAppliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 

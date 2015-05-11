@@ -119,7 +119,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		String eui64 = "";
 		if(getArguments() != null) {
 			position = getArguments().getInt("position");
-			DICommAppliance appliance = DiscoveryManager.getInstance().getStoreDevices().get(position);
+			DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(position);
 			if (appliance == null) return;
 
 			eui64 = appliance.getNetworkNode().getCppId() ;
@@ -200,7 +200,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (PurAirApplication.isDemoModeEnable()) {
 			purifierNameTxt.setText(DemoModeConstant.DEMO);
 		} else if (purifier == null || !purifier.getNetworkNode().getCppId().equals(tempEui64)) {
-			DICommAppliance appliance = DiscoveryManager.getInstance().getDeviceByEui64(tempEui64);
+			DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(tempEui64);
 			if (appliance instanceof AirPurifier) {
 				purifier = (AirPurifier) appliance;
 			}

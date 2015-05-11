@@ -49,7 +49,7 @@ public class CongratulationFragment extends BaseFragment {
 				Utils.saveAppFirstUse(false);
 				
 				DiscoveryManager.getInstance().insertApplianceToDatabase(AirPurifierManager.getInstance().getCurrentPurifier());
-				List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateStoreDevices();
+				List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateAddedAppliances();
 				AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(appliances.size() - 1);
 			}
 		});

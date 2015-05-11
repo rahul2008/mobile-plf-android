@@ -106,10 +106,10 @@ public class DashboardUtil {
 		//For demo mode
 		if (PurAirApplication.isDemoModeEnable()) {
 			countIndoor = 1;
-		} else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
-			countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+		} else if (DiscoveryManager.getInstance().getAddedAppliances().size() > 0) {
+			countIndoor = DiscoveryManager.getInstance().getAddedAppliances().size() ;
 
-			DICommAppliance appliance = DiscoveryManager.getInstance().getStoreDevices().get(0);
+			DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(0);
 			if(appliance != null && (appliance instanceof AirPurifier)) {
 				AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier) appliance);
 			}

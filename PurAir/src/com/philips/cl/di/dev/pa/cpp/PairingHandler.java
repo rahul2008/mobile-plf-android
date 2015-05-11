@@ -402,7 +402,7 @@ public class PairingHandler implements ICPEventListener {
 				mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 				
 				//TODO better solution
-				DICommAppliance appliance = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
+				DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
 
 				//TODO verify with Jeroen: implementation correct this way?
 				appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
@@ -477,7 +477,7 @@ public class PairingHandler implements ICPEventListener {
 					mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
 					//TODO better solution
-					DICommAppliance appliance = DiscoveryManager.getInstance().getDeviceByEui64(mAppliance.getNetworkNode().getCppId());
+					DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
 
 					//TODO verify with Jeroen: implementation correct this way?
 					appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);

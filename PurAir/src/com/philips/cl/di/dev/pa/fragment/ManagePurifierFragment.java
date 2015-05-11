@@ -85,7 +85,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	private void saveLastPageCurrentPage() {
-		int size = DiscoveryManager.getInstance().getStoreDevices().size() + 1;
+		int size = DiscoveryManager.getInstance().getAddedAppliances().size() + 1;
 		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(size);
 	}
 
@@ -114,7 +114,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	private void loadDataFromDatabase() {
-		appliances = DiscoveryManager.getInstance().getStoreDevices();
+		appliances = DiscoveryManager.getInstance().getAddedAppliances();
 
         DISecurity diSecurity = new DISecurity();
         CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
@@ -222,7 +222,7 @@ public class ManagePurifierFragment extends BaseFragment implements
                 selectedItems.remove(purifier.getNetworkNode().getCppId());
             }
             // Updates store device from DB
-            DiscoveryManager.getInstance().updateStoreDevices();
+            DiscoveryManager.getInstance().updateAddedAppliances();
             saveLastPageCurrentPage();
             loadDataFromDatabase();
         }
@@ -253,7 +253,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	@Override
 	public void onItemClickGoToAddPurifier() {
-		List<DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateStoreDevices();
+		List<DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateAddedAppliances();
 		if (addedAppliances.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 			showAlertDialog("",	getString(R.string.max_purifier_reached));
 		} else {

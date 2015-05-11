@@ -270,8 +270,8 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 
 	private void showDiscoveredPurifier() {
 		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-		discoveryManager.setAddNewPurifierListener(this);
-		appItems = discoveryManager.getNewDevicesDiscovered();
+		discoveryManager.setNewApplianceDiscoveredListener(this);
+		appItems = discoveryManager.getNewAppliancesDiscovered();
 		listItemsArrayList = new ArrayList<String>();
 
 		for (int i = 0; i < appItems.size(); i++) {
@@ -299,7 +299,7 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 	}
 
 	private void clearDiscoveredPurifierObject() {
-		DiscoveryManager.getInstance().removeAddNewPurifierListener();
+		DiscoveryManager.getInstance().clearNewApplianceDiscoveredListener();
 		appSelectorAdapter = null;
 		listItemsArrayList = null;
 	}
@@ -313,7 +313,7 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 			@Override
 			public void run() {
 				if (appSelectorAdapter == null || listItemsArrayList == null) return;
-				appItems = DiscoveryManager.getInstance().getNewDevicesDiscovered();
+				appItems = DiscoveryManager.getInstance().getNewAppliancesDiscovered();
 				if (!listItemsArrayList.isEmpty()) {
 					listItemsArrayList.clear();
 				}

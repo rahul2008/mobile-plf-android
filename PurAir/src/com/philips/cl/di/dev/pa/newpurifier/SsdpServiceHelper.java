@@ -105,7 +105,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	public void startDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.startDeviceDiscovery(mSsdpCallback);
-		DiscoveryManager.getInstance().syncLocalDevicesWithSsdpStackDelayed();
+		DiscoveryManager.getInstance().syncLocalAppliancesWithSsdpStackDelayed();
 		ALog.i(ALog.SSDPHELPER,
 				"Starting SsdpService took - "
 						+ (System.currentTimeMillis() - startTime) + "ms");
@@ -115,7 +115,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	public void stopDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.stopDeviceDiscovery();
-		DiscoveryManager.getInstance().cancelSyncLocalDevicesWithSsdpStack();
+		DiscoveryManager.getInstance().cancelSyncLocalAppliancesWithSsdpStack();
 		ALog.i(ALog.SSDPHELPER,
 				"Stopping SsdpService took - "
 						+ (System.currentTimeMillis() - startTime) + "ms");

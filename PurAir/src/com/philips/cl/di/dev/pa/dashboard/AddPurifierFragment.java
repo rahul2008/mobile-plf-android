@@ -65,7 +65,7 @@ public class AddPurifierFragment extends BaseFragment implements
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				((MainActivity) getActivity()).startActivity(intent);
 			} else {
-				List<DICommAppliance> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
+				List<DICommAppliance> storePurifiers = DiscoveryManager.getInstance().updateAddedAppliances();
 				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 					showAlertDialog("",	getString(R.string.max_purifier_reached));
 				} else {

@@ -635,9 +635,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		if (PurAirApplication.isDemoModeEnable()) return;
 
-		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
+		DiscoveryManager.getInstance().printDiscoveredAppliances(ALog.MAINACTIVITY);
 
-		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getDiscoveredAppliances();
+		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getAllDiscoveredAppliances();
 		if (appliances.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
 				+ appliances.size() + " :: " + appliances);
