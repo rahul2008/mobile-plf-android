@@ -47,7 +47,7 @@ public abstract class DICommAppliance {
     /**
      * @return DeviceType used by CPP to identify this appliance
      */
-    protected abstract String getDeviceType();
+    public abstract String getDeviceType();
 
     public NetworkNode getNetworkNode() {
         return mNetworkNode;
