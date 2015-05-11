@@ -28,9 +28,9 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 	private String EVAL_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
 	private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 	private String EVAL_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
-	//private String EVAL_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
+	/** Activation Account URL */
 	private String EVAL_REGISTER_ACTIVATION_URL = "https://www.qat1.consumer.philips.com/myphilips/activateUser.jsp";
-	//private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
+	/** Forgot Password URL */
 	private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://www.qat1.consumer.philips.com/myphilips/resetPassword.jsp";
 
 	@Override
