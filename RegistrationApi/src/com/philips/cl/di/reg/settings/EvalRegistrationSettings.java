@@ -1,21 +1,12 @@
 package com.philips.cl.di.reg.settings;
 
-import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
-import com.philips.cl.di.localematch.LocaleMatchListener;
-import com.philips.cl.di.localematch.LocaleMatchNotifier;
-import com.philips.cl.di.localematch.PILLocale;
-import com.philips.cl.di.localematch.PILLocaleManager;
-import com.philips.cl.di.localematch.enums.Catalog;
-import com.philips.cl.di.localematch.enums.LocaleMatchError;
-import com.philips.cl.di.localematch.enums.Platform;
-import com.philips.cl.di.localematch.enums.Sector;
-import com.philips.cl.di.reg.errormapping.CheckLocale;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+
+import com.janrain.android.Jump;
+import com.janrain.android.JumpConfig;
 
 public class EvalRegistrationSettings extends RegistrationSettings {
 
@@ -37,8 +28,10 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 	private String EVAL_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
 	private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 	private String EVAL_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
-	private String EVAL_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
-	private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
+	//private String EVAL_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
+	private String EVAL_REGISTER_ACTIVATION_URL = "https://www.qat1.consumer.philips.com/myphilips/activateUser.jsp";
+	//private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
+	private String EVAL_REGISTER_FORGOT_MAIL_URL = "https://www.qat1.consumer.philips.com/myphilips/resetPassword.jsp";
 
 	@Override
 	public void intializeRegistrationSettings(Context context,
