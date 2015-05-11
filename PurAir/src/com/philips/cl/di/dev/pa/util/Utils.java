@@ -598,17 +598,6 @@ public class Utils {
 		return newTime;
 	}
 
-	public static long getDiffInDays(long pairedOn) {
-		Date currentDate = new Date();
-		long currenttimeInMillis = currentDate.getTime();
-
-		// Difference between current and previous timestamp
-		long diff = currenttimeInMillis - pairedOn;
-		long diffInDays = diff / (1000 * 60 * 60 * 24);
-
-		return diffInDays ;
-	}
-
 	public static String getMacAddressFromUsn(String usn){
 		if(usn==null || usn.isEmpty())return null;
 		String[] usnArray=usn.split("::");

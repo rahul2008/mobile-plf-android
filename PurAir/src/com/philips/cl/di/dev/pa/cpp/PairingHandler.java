@@ -11,7 +11,6 @@ import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
@@ -631,6 +630,17 @@ public class PairingHandler implements ICPEventListener {
 		}
 	}
 
+	public static long getDiffInDays(long pairedOn) {
+		Date currentDate = new Date();
+		long currenttimeInMillis = currentDate.getTime();
+
+		// Difference between current and previous timestamp
+		long diff = currenttimeInMillis - pairedOn;
+		long diffInDays = diff / (1000 * 60 * 60 * 24);
+
+		return diffInDays ;
+	}
+
 	public static boolean pairApplianceIfNecessary(NetworkNode networkNode) {
 		if (networkNode == null || networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
 			return false;
@@ -644,9 +654,9 @@ public class PairingHandler implements ICPEventListener {
 			return true;			
 		}
 		//Everyday check for pairing
-		long lastPairingCheckTime = networkNode.getLastPairedTime();		
-		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
-		
+		long lastPairingCheckTime = networkNode.getLastPairedTime();
+		long diffInDays = PairingHandler.getDiffInDays(lastPairingCheckTime);
+
 		if(networkNode.getPairedState()==NetworkNode.PAIRED_STATUS.PAIRED && diffInDays != 0){
 			return true;
 		}
