@@ -315,8 +315,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	private boolean onApplianceLost(DeviceModel deviceModel) {
+		if (deviceModel == null || deviceModel.getSsdpDevice() == null) return false;
 		String lostApplianceCppId = deviceModel.getSsdpDevice().getCppId();
-		if (lostApplianceCppId == null || lostApplianceCppId.length() <= 0) return false;
 
 		ArrayList<DICommAppliance> discoveredAppliances = getAllDiscoveredAppliances();
 		for (DICommAppliance appliance : discoveredAppliances) {

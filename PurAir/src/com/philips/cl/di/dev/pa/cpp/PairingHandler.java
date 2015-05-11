@@ -38,7 +38,6 @@ public class PairingHandler implements ICPEventListener {
 	private ICPCallbackHandler callbackHandler;
 	private String currentRelationshipType ;
 	private PairingListener pairingListener;
-	private PurifierDatabase purifierDatabase;
 	private String secretKey;
 
 	private PermissionListener permissionListener = null;
@@ -65,7 +64,6 @@ public class PairingHandler implements ICPEventListener {
 	public PairingHandler(PairingListener iPairingListener,	DICommAppliance appliance) {
 	    if(appliance==null)return;
 		this.mAppliance = appliance;
-		purifierDatabase = new PurifierDatabase();
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
