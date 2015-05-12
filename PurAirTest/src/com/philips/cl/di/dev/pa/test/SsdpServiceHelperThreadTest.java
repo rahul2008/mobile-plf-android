@@ -5,9 +5,10 @@ import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
-public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
-	
+public class SsdpServiceHelperThreadTest extends MockitoTestCase {
+
 	private static final int STOPSSDP_TESTDELAY = 300;
 	private static final int STOPMESSAGE_TIMEOUT = STOPSSDP_TESTDELAY + 100;
 	
@@ -16,13 +17,11 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 	
 	@Override
 	protected void setUp() throws Exception {
-		// Necessary to get Mockito framework working
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-				
+		super.setUp();
+
 		mService = mock(SsdpService.class);
 		mHelper = new SsdpServiceHelper(mService, null);
 		mHelper.setStopDelayForTesting(STOPSSDP_TESTDELAY);
-		super.setUp();
 	}
 	
 // ***** START TESTS TO START STOP THREAD WHEN METHODS ARE CALLED ***** 

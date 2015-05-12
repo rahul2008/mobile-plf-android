@@ -5,23 +5,15 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
-public class CppControllerTest extends InstrumentationTestCase {
-	
-	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
-	
-	@Override
-	protected void setUp() throws Exception {
-		// Necessary to get Mockito framework working
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-		
-		super.setUp();
-	}
+public class CppControllerTest extends MockitoTestCase {
+
+	private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
 	public void testNotifyDCSListenerNullData() {
 		DCSEventListener dcsListener = mock(DCSEventListener.class);		
@@ -36,24 +28,24 @@ public class CppControllerTest extends InstrumentationTestCase {
 	
 	public void testNotifyDCSListenerAllValidData() {
 		String data = "valid dcs event";
-		String eui64 = "valid eui64";
+		String cppId = "valid cppId";
 		String action = "valid action";
-		
-		DCSEventListener dcsListener = mock(DCSEventListener.class);		
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CPPController controller = createCppControllerWithListeners(eui64,discoveryListener, dcsListener);
 
-		controller.notifyDCSListener(data, eui64, action,null);
-		
-		verify(dcsListener).onDCSEventReceived(data, eui64, action);
+		DCSEventListener dcsListener = mock(DCSEventListener.class);
+		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
+		CPPController controller = createCppControllerWithListeners(cppId,discoveryListener, dcsListener);
+
+		controller.notifyDCSListener(data, cppId, action,null);
+
+		verify(dcsListener).onDCSEventReceived(data, cppId, action);
 		verify(discoveryListener,never()).onDiscoverEventReceived(anyString(),anyBoolean());
 	}
-	
-	public void testNotifyDCSListenerNullEui64() {
+
+	public void testNotifyDCSListenerNullCppId() {
 		String data = "valid dcs event";
 		String action = "valid action";
 
-		DCSEventListener dcsListener = mock(DCSEventListener.class);		
+		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		CPPController controller = createCppControllerWithListeners(null,discoveryListener, dcsListener);
 		
@@ -65,15 +57,15 @@ public class CppControllerTest extends InstrumentationTestCase {
 	
 	public void testNotifyDCSListenerNullAction() {
 		String data = "valid dcs event";
-		String eui64 = "valid eui64";
-		
-		DCSEventListener dcsListener = mock(DCSEventListener.class);		
+		String cppId = "valid cppId";
+
+		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CPPController controller = createCppControllerWithListeners(eui64,discoveryListener, dcsListener);
-		
-		
-		controller.notifyDCSListener(data, eui64, null,null);
-		
+		CPPController controller = createCppControllerWithListeners(cppId,discoveryListener, dcsListener);
+
+
+		controller.notifyDCSListener(data, cppId, null,null);
+
 		verify(dcsListener,never()).onDCSEventReceived(anyString(), anyString(), anyString());
 		verify(discoveryListener,never()).onDiscoverEventReceived(anyString(), anyBoolean());
 	}
@@ -82,9 +74,9 @@ public class CppControllerTest extends InstrumentationTestCase {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
-		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
-		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, "CHANGE",null);
+		CPPController controller = createCppControllerWithListeners(APPLIANCE_CPPID,discoveryListener, dcsListener);
+
+		controller.notifyDCSListener(data, APPLIANCE_CPPID, "CHANGE",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, false);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -94,9 +86,9 @@ public class CppControllerTest extends InstrumentationTestCase {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
-		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
-		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, "",null);
+		CPPController controller = createCppControllerWithListeners(APPLIANCE_CPPID,discoveryListener, dcsListener);
+
+		controller.notifyDCSListener(data, APPLIANCE_CPPID, "",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, false);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -106,15 +98,15 @@ public class CppControllerTest extends InstrumentationTestCase {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
-		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
-		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, null,null);
+		CPPController controller = createCppControllerWithListeners(APPLIANCE_CPPID,discoveryListener, dcsListener);
+
+		controller.notifyDCSListener(data, APPLIANCE_CPPID, null,null);
 
 		verify(discoveryListener, never()).onDiscoverEventReceived(anyString(), anyBoolean());
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
 	}
-	
-	public void testDCSEventReceivedDiscoverEui64NullRequested() {
+
+	public void testDCSEventReceivedDiscoverCppIdNullRequested() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
@@ -126,7 +118,7 @@ public class CppControllerTest extends InstrumentationTestCase {
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
 	}
 
-	public void testDCSEventReceivedDiscoverEui64Null() {
+	public void testDCSEventReceivedDiscoverCppIdNull() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
@@ -142,9 +134,9 @@ public class CppControllerTest extends InstrumentationTestCase {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
 		DCSEventListener dcsListener = mock(DCSEventListener.class);
-		CPPController controller = createCppControllerWithListeners(PURIFIER_EUI64,discoveryListener, dcsListener);
-		
-		controller.notifyDCSListener(data, PURIFIER_EUI64, "DISCOVER",null);
+		CPPController controller = createCppControllerWithListeners(APPLIANCE_CPPID,discoveryListener, dcsListener);
+
+		controller.notifyDCSListener(data, APPLIANCE_CPPID, "DISCOVER",null);
 
 		verify(discoveryListener).onDiscoverEventReceived(data, true);
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());

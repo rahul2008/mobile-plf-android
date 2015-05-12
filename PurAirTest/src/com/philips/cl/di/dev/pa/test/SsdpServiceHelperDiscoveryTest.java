@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 import android.os.Handler.Callback;
-import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -21,8 +20,9 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
-public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
+public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 
 	private static final int SHORT_TIMEOUT = 200;
 	private static final int STOPSSDP_TESTDELAY = 300;
@@ -34,14 +34,11 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		// Necessary to get Mockito framework working
-		System.setProperty("dexmaker.dexcache", getInstrumentation()
-				.getTargetContext().getCacheDir().getPath());
+		super.setUp();
 
 		mService = mock(SsdpService.class);
 		mHelper = new SsdpServiceHelper(mService, null);
 		mHelper.setStopDelayForTesting(STOPSSDP_TESTDELAY);
-		super.setUp();
 	}
 
 	private void waitForMessagesToBeProcessed(int timeout) {
@@ -55,10 +52,10 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		}
 	}
 
-	private DeviceModel generateSsdpDeviceModel(String udn, String eui64) {
+	private DeviceModel generateSsdpDeviceModel(String udn, String cppId) {
 		DeviceModel model = new DeviceModel(udn);
 		SSDPdevice device = new SSDPdevice();
-		device.setCppId(eui64);
+		device.setCppId(cppId);
 		model.setSsdpDevice(device);
 		return model;
 	}
@@ -399,7 +396,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 	}
 
 	public void testOnlineDevicesOneDevice() {
-		DeviceModel model1 = generateSsdpDeviceModel("udn1", "eui64_1");
+		DeviceModel model1 = generateSsdpDeviceModel("udn1", "cppId_1");
 		HashSet<DeviceModel> aliveDevices = new HashSet<DeviceModel>();
 		aliveDevices.add(model1);
 		when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
@@ -407,12 +404,12 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		
 		assertNotNull(onlineCppIds);
 		assertEquals(1, onlineCppIds.size());
-		assertEquals("eui64_1", onlineCppIds.get(0));
+		assertEquals("cppId_1", onlineCppIds.get(0));
 	}
 
 	public void testOnlineDevicesTwoDevices() {
-		DeviceModel model1 = generateSsdpDeviceModel("udn1","eui64_1");
-		DeviceModel model2 = generateSsdpDeviceModel("udn2","eui64_2");
+		DeviceModel model1 = generateSsdpDeviceModel("udn1","cppId_1");
+		DeviceModel model2 = generateSsdpDeviceModel("udn2","cppId_2");
 		LinkedHashSet<DeviceModel> aliveDevices = new LinkedHashSet<DeviceModel>();
 		aliveDevices.add(model1);
 		aliveDevices.add(model2);
@@ -421,7 +418,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		
 		assertNotNull(onlineCppIds);
 		assertEquals(2, onlineCppIds.size());
-		assertEquals("eui64_1", onlineCppIds.get(0));
-		assertEquals("eui64_2", onlineCppIds.get(1));
+		assertEquals("cppId_1", onlineCppIds.get(0));
+		assertEquals("cppId_2", onlineCppIds.get(1));
 	}
 }

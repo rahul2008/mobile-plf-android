@@ -13,11 +13,10 @@ import com.philips.cl.di.dicomm.util.MockitoTestCase;
 import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 public class RemoteSubscriptionHandlerTest extends MockitoTestCase {
-	
-	private static final String PURIFIER_IP = "198.168.1.145";
-	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
-	private static final String PURIFIER_KEY = "75B9424B0EA8089428915EB0AA1E4B5E";
-	
+
+	private static final String APPLIANCE_IP = "198.168.1.145";
+	private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
+
 	private RemoteSubscriptionHandler mRemoteSubscriptionHandler;
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
@@ -29,10 +28,9 @@ public class RemoteSubscriptionHandlerTest extends MockitoTestCase {
 
 		mSubscriptionEventListener = mock(SubscriptionEventListener.class);
 		mNetworkNode = mock(NetworkNode.class);
-		when(mNetworkNode.getIpAddress()).thenReturn(PURIFIER_IP);		
-		when(mNetworkNode.getCppId()).thenReturn(PURIFIER_EUI64);
-		when(mNetworkNode.getEncryptionKey()).thenReturn(PURIFIER_KEY);
-		
+		when(mNetworkNode.getIpAddress()).thenReturn(APPLIANCE_IP);
+		when(mNetworkNode.getCppId()).thenReturn(APPLIANCE_CPPID);
+
 		mRemoteSubscriptionHandler = new RemoteSubscriptionHandlerImpl();
 		
 		mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
@@ -42,20 +40,20 @@ public class RemoteSubscriptionHandlerTest extends MockitoTestCase {
 
 		
 	public void testDCSEventReceivedDataNull() {
-		mRemoteSubscriptionHandler.onDCSEventReceived(null, PURIFIER_EUI64, null);
+		mRemoteSubscriptionHandler.onDCSEventReceived(null, APPLIANCE_CPPID, null);
 
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 	
 	public void testDCSEventReceivedDataEmptyString() {
-		mRemoteSubscriptionHandler.onDCSEventReceived("", PURIFIER_EUI64, null);
+		mRemoteSubscriptionHandler.onDCSEventReceived("", APPLIANCE_CPPID, null);
 
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 	
 	public void testDCSEventReceivedDataRandomString() {
 		String expected = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(expected, PURIFIER_EUI64, null);
+		mRemoteSubscriptionHandler.onDCSEventReceived(expected, APPLIANCE_CPPID, null);
 
 		verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
 	}
@@ -76,7 +74,7 @@ public class RemoteSubscriptionHandlerTest extends MockitoTestCase {
 	
 	public void testDCSEventReceivedRightEui64() {
 		String data = "dfjalsjdfl";
-		mRemoteSubscriptionHandler.onDCSEventReceived(data, PURIFIER_EUI64, null);
+		mRemoteSubscriptionHandler.onDCSEventReceived(data, APPLIANCE_CPPID, null);
 
 		verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
 	}

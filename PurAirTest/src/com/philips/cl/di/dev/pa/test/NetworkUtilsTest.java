@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
@@ -23,17 +20,5 @@ public class NetworkUtilsTest extends TestCase {
 	public void testDownloadUrlTwoParamNull() {
 		ResponseDto responseDto = NetworkUtils.downloadUrl(null, 0);
 		assertNull(responseDto);
-	}
-	
-	public void testReadFullyNullParam() {
-		String readStr = "";
-		try {
-			readStr = NetworkUtils.convertInputStreamToString(null);
-		} catch (UnsupportedEncodingException e) {
-			fail(e.getMessage());
-		} catch (IOException e) {
-			fail(e.getMessage());
-		}
-		assertTrue(readStr.isEmpty());
 	}
 }
