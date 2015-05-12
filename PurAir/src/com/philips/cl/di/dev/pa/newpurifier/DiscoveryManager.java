@@ -14,6 +14,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicomm.appliance.DICommAppliance;
+import com.philips.cdp.dicomm.appliance.DICommApplianceDatabase;
+import com.philips.cdp.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicomm.appliance.NullApplianceDatabase;
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.util.DICommContext;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -32,9 +36,6 @@ import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.appliance.DICommApplianceDatabase;
-import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
-import com.philips.cl.di.dicomm.appliance.NullApplianceDatabase;
 
 /**
  * Discovery of the appliances is managed by Discovery Manager. It is the main

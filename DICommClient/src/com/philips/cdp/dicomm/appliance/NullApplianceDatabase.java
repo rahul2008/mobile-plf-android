@@ -1,6 +1,4 @@
-package com.philips.cl.di.dicomm.appliance;
-
-import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
+package com.philips.cdp.dicomm.appliance;
 
 public class NullApplianceDatabase implements DICommApplianceDatabase<DICommAppliance> {
 

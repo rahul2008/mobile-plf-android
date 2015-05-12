@@ -26,6 +26,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import cn.jpush.android.api.JPushInterface;
 
+import com.philips.cdp.dicomm.appliance.DICommAppliance;
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.SignonListener;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -63,7 +64,6 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;

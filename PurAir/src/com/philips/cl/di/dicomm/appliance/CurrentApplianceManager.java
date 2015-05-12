@@ -5,13 +5,14 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.philips.cdp.dicomm.appliance.DICommAppliance;
+import com.philips.cdp.dicomm.appliance.DICommApplianceListener;
 import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class CurrentApplianceManager implements Observer {

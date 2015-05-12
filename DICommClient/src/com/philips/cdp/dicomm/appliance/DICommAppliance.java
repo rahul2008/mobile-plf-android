@@ -1,8 +1,9 @@
-package com.philips.cl.di.dev.pa.newpurifier;
+package com.philips.cdp.dicomm.appliance;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -14,7 +15,6 @@ import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public abstract class DICommAppliance implements SubscriptionEventListener {
 
@@ -33,7 +33,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     public DICommAppliance(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
         mNetworkNode = networkNode;
         mCommunicationStrategy = communicationStrategy;
-        
+
         mDevicePort = new DevicePort(mNetworkNode, mCommunicationStrategy);
         mFirmwarePort = new FirmwarePort(mNetworkNode, mCommunicationStrategy);
         mPairingPort = new PairingPort(mNetworkNode, mCommunicationStrategy);
@@ -95,7 +95,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     public FirmwarePort getFirmwarePort() {
         return mFirmwarePort;
     }
-    
+
     public PairingPort getPairingPort() {
         return mPairingPort;
     }
@@ -119,7 +119,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     public void setConnectionState(ConnectionState connectionState) {
         mNetworkNode.setConnectionState(connectionState);
     }
-    
+
     public void addListenerForAllPorts(DICommPortListener portListener) {
 		for (DICommPort<?> port : getAllPorts()) {
 			port.registerPortListener(portListener);
@@ -131,7 +131,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 			port.unregisterPortListener(portListener);
 		}
 	}
-	
+
 	public void enableSubscription() {
 		mCommunicationStrategy.enableSubscription(this, mNetworkNode);
 	}
@@ -139,7 +139,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 	public void disableSubscription() {
 		mCommunicationStrategy.disableSubscription();
 	}
-	
+
 	@Override
 	public void onSubscriptionEventReceived(String data) {
 		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);

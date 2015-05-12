@@ -7,11 +7,11 @@ import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 
+import com.philips.cdp.dicomm.appliance.DICommApplianceFactory;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
-import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	

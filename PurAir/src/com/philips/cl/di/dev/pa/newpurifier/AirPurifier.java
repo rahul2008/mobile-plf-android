@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import android.location.Location;
 
+import com.philips.cdp.dicomm.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;

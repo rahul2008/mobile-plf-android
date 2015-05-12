@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.philips.cdp.dicomm.appliance.DICommAppliance;
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.ICPCallbackHandler;
 import com.philips.cdp.dicomm.cpp.ICPEventListener;
@@ -18,7 +19,6 @@ import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
-import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.ICPClient;
