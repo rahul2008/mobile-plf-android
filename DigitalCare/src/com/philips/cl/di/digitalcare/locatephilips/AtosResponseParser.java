@@ -21,12 +21,6 @@ public class AtosResponseParser {
 	private Context mContext = null;
 	private static AtosResponseParser mParserController = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
-	private AtosErrorModel cdlsErrorModel = null;
-	private AddressModel addressModel = null;
-	private LocationModel locationModel = null;
-	private LocationModel currentLocationModel = null;
-	private AtosResponseModel cdlsResponseModel = null;
-	private ResultsModel mResultModel = null;
 	private ArrayList<ResultsModel> mArrayListResultsModel = null;
 
 	private AtosResponseParser(Context context) {
@@ -63,6 +57,9 @@ public class AtosResponseParser {
 
 			Log.i(TAG, "response jsonObjectData : " + jsonObjectData);
 
+			LocationModel currentLocationModel = null;
+			AtosErrorModel cdlsErrorModel = null;
+
 			if (success) {
 				JSONObject centerMap = jsonObjectData
 						.optJSONObject("centerMap");
@@ -73,7 +70,6 @@ public class AtosResponseParser {
 				currentLocationModel.setLongitude(longitude);
 
 				JSONArray jsonArray = jsonObjectData.optJSONArray("results");
-				mResultModel = new ResultsModel();
 				mArrayListResultsModel = new ArrayList<ResultsModel>();
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject jsonObj = jsonArray.optJSONObject(i);
@@ -108,7 +104,7 @@ public class AtosResponseParser {
 		JSONObject location = jsonObj.optJSONObject("location");
 		String latitude = location.optString("latitude");
 		String longitude = location.optString("longitude");
-		locationModel = new LocationModel();
+		LocationModel locationModel = new LocationModel();
 		locationModel.setLatitude(latitude);
 		locationModel.setLongitude(longitude);
 
@@ -124,7 +120,7 @@ public class AtosResponseParser {
 		String url = jsonAddress.optString("url");
 		String city = jsonAddress.optString("city");
 
-		addressModel = new AddressModel();
+		AddressModel addressModel = new AddressModel();
 		addressModel.setZip(zip);
 		addressModel.setPhone(phone);
 		addressModel.setState(state);
@@ -132,12 +128,15 @@ public class AtosResponseParser {
 		addressModel.setAddress2(address2);
 		addressModel.setUrl(url);
 		addressModel.setCity(city);
-		mResultModel.setAddressModel(addressModel);
-		mResultModel.setId(id);
-		mResultModel.setInfoType(infoType);
-		mResultModel.setLocationModel(locationModel);
-		mResultModel.setTitle(title);
 
-		mArrayListResultsModel.add(mResultModel);
+		/*Result */
+		ResultsModel resultModel = new ResultsModel();
+		resultModel.setAddressModel(addressModel);
+		resultModel.setId(id);
+		resultModel.setInfoType(infoType);
+		resultModel.setLocationModel(locationModel);
+		resultModel.setTitle(title);
+
+		mArrayListResultsModel.add(resultModel);
 	}
 }

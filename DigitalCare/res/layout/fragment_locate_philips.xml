@@ -24,15 +24,6 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="true" />
 
-    <TextView
-        android:id="@+id/txtOutput"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#66cccccc"
-        android:padding="3dp"
-        android:text="Output"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="fill_parent"
@@ -46,35 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="moveOnClick"
             android:text="Move" />
-
-        <Button
-            android:id="@+id/button2"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="zoomInOnClick"
-            android:text="ZoomIn" />
-
-        <Button
-            android:id="@+id/button3"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="zoomToOnClick"
-            android:text="ZoomTo" />
-
-        <Button
-            android:id="@+id/button4"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="animToOnClick"
-            android:text="AnimTo" />
     </LinearLayout>
 
 </RelativeLayout>

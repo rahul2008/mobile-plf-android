@@ -7,6 +7,8 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.GpsStatus;
@@ -17,12 +19,10 @@ import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,8 +31,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -54,21 +54,17 @@ import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
  */
 @SuppressLint("SetJavaScriptEnabled")
 public class LocatePhilipsFragment extends DigitalCareBaseFragment {
-	final LatLng BANGALORE = new LatLng(12.920102, 77.571412);
 	private GoogleMap mMap = null;
-	private TextView txtOutput = null;
 	private Marker markerMe = null;
-	private LinearLayout mConactUsParent = null;
-	private FrameLayout.LayoutParams mParams = null;
 	private AtosResponseParser mCdlsResponseParser = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
-	private String mCdlsResponseStr = null;
-	private View mView = null;
 	private ProgressDialog mPostProgress = null;
-	private Configuration config = null;
 	private ArrayList<LatLng> traceOfMe = null;
 	// CDLS related
 	private CdlsRequestTask mCdlsRequestTask = null;
+	private Thread mThread = null;
+	private MarkerRunnable mRunnable = null;
+	private Bitmap mBitmapMarker = null;
 	// private static final String CDLS_BASE_URL_PREFIX =
 	// "http://www.philips.com/prx/cdls/B2C/";
 	// private static final String CDLS_BASE_URL_POSTFIX =
@@ -79,12 +75,15 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=FC5830/81&&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 
-	private static final String TAG = LocatePhilipsFragment.class
-			.getSimpleName();
+	private static final String TAG = "testing";/*
+												 * LocatePhilipsFragment.class
+												 * .getSimpleName();
+												 */
 
 	/** GPS */
 	private LocationManager locationMgr;
 	private String provider;
+	private static View mView = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -95,24 +94,33 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 				.getStatus() == AsyncTask.Status.FINISHED)) {
 			mCdlsRequestTask.execute();
 		}
-		View view = inflater.inflate(R.layout.fragment_locate_philips,
-				container, false);
-		return view;
+		if (mView != null) {
+			ViewGroup parent = (ViewGroup) mView.getParent();
+			if (parent != null)
+				parent.removeView(mView);
+		}
+		try {
+			mView = inflater.inflate(R.layout.fragment_locate_philips,
+					container, false);
+		} catch (InflateException e) {
+		}
+
+		return mView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initView();
-		initMap();
+		// initMap();
 		checkGooglePlayServices();
-		drawPolyline();
 		Log.i("testing", "initLocationProvider : " + initLocationProvider());
 		if (initLocationProvider()) {
 			whereAmI();
 		} else {
-			txtOutput.setText("RITESH");
+
 		}
+		createBitmap();
 	}
 
 	/*
@@ -137,26 +145,22 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		@Override
 		public void onCdlsResponseReceived(String response) {
 			Log.i(TAG, "response : " + response);
-			if (response != null/* && isAdded() */) {
-				mCdlsResponseStr = response;
+			if (response != null && isAdded()) {
 				mCdlsResponseParser = AtosResponseParser
 						.getParserControllInstance(getActivity());
 				mCdlsResponseParser.processCdlsResponse(response);
 				mCdlsParsedResponse = mCdlsResponseParser.getCdlsBean();
 				if (mCdlsParsedResponse != null) {
 					if (mCdlsParsedResponse.getSuccess()) {
-						// if (Utils.isEmpty(mCdlsParsedResponse.getPhone()
-						// .getOpeningHoursSaturday())) {
-						// mSecondRowText.setText(mCdlsParsedResponse
-						// .getPhone().getOpeningHoursSunday());
-						// } else {
-						// mSecondRowText.setText(mCdlsParsedResponse
-						// .getPhone().getOpeningHoursSaturday());
-						// }
-						// if (hasEmptyChatContent(mCdlsParsedResponse)) {
-						// mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-						// mChat.setEnabled(false);
-						// }
+						// mRunnable = new MarkerRunnable(mCdlsParsedResponse);
+						// mThread = new Thread(mRunnable);
+						// mThread.start();
+						ArrayList<ResultsModel> resultModelSet = mCdlsParsedResponse
+								.getResultsModel();
+						if (resultModelSet.size() <= 0) {
+							return;
+						}
+						addMarkers(resultModelSet);
 					}
 				}
 			}
@@ -173,117 +177,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	}
 
 	private void initView() {
-		txtOutput = (TextView) getActivity().findViewById(R.id.txtOutput);
-	}
-
-	private void initMap() {
-		if (mMap == null) {
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(
-					R.id.map)).getMap();
-
-			if (mMap != null) {
-				// 設定地圖類型
-				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-				// Marker1
-				MarkerOptions markerOpt = new MarkerOptions();
-				markerOpt.position(BANGALORE);
-				markerOpt.title("台北101");
-				markerOpt
-						.snippet("於1999年動工，2004年12月31日完工啟用，樓高509.2公尺。");
-				markerOpt.draggable(false);
-				markerOpt.visible(true);
-				markerOpt.anchor(0.5f, 0.5f);// 設為圖片中心
-
-				for (int rad = 100; rad <= 500; rad = rad + 100) {
-
-					CircleOptions circleOptions = new CircleOptions()
-							.center(BANGALORE)
-							// set center
-							.radius(rad)
-							// set radius in meters
-							.fillColor(Color.parseColor("#DAD7DE"))
-							// default
-							.strokeColor(Color.parseColor("#7B69F3"))
-							.strokeWidth(1);
-
-					mMap.addCircle(circleOptions);
-				}
-
-				// markerOpt.icon(BitmapDescriptorFactory
-				// .defaultMarker(BitmapDescriptorFactory.HUE_BLUE)/*
-				// * BitmapDescriptorFactory
-				// * .
-				// * fromResource
-				// * (
-				// * android
-				// * .R.
-				// * drawable
-				// * .
-				// * ic_menu_mylocation
-				// * )
-				// */);
-				//
-				// mMap.addMarker(markerOpt);
-				//
-				// //Marker2
-				// MarkerOptions markerOpt2 = new MarkerOptions();
-				// markerOpt2.position(TAIPEI_TRAIN_STATION);
-				// markerOpt2.title("台北火車站");
-				//
-				// mMap.addMarker(markerOpt2);
-				//
-				// //Marker3
-				// MarkerOptions markerOpt3 = new MarkerOptions();
-				// markerOpt3.position(NATIONAL_TAIWAN_MUSEUM);
-				// markerOpt3.title("國立台灣博物館");
-				// markerOpt3.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-				//
-				// mMap.addMarker(markerOpt3);
-
-				zoomInOnClick();
-			}
-		}
-
-	}
-
-	/**
-	 * 畫線
-	 */
-	private void drawPolyline() {
-		PolylineOptions polylineOpt = new PolylineOptions();
-		polylineOpt.add(new LatLng(25.033611, 121.565000));
-		polylineOpt.add(new LatLng(25.032728, 121.565137));
-		polylineOpt.add(new LatLng(25.033739, 121.527886));
-		polylineOpt.add(new LatLng(25.038716, 121.517758));
-		polylineOpt.add(new LatLng(25.045656, 121.519636));
-		polylineOpt.add(new LatLng(25.046200, 121.517533));
-
-		polylineOpt.color(Color.BLUE);
-
-		Polyline polyline = mMap.addPolyline(polylineOpt);
-		polyline.setWidth(10);
-	}
-
-	/**
-	 * 按鈕:移動攝影機到墾丁
-	 * 
-	 * @param v
-	 */
-	public void moveOnClick(View v) {
-		// move camera
-		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BANGALORE, 15));
-	}
-
-	/**
-	 * 按鈕:放大地圖
-	 * 
-	 * @param v
-	 */
-	public void zoomInOnClick() {
-		// zoom in
-		mMap.animateCamera(CameraUpdateFactory
-				.newCameraPosition(new CameraPosition(BANGALORE, 13.5f, 30f,
-						112.5f))/* CameraUpdateFactory.zoomIn() */);
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+				.getMap();
 		mMap.setTrafficEnabled(true);
 
 		UiSettings settings = mMap.getUiSettings();
@@ -297,46 +192,108 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		settings.setZoomGesturesEnabled(true);
 	}
 
-	/**
-	 * 按鈕:縮小地圖
+	private class MarkerRunnable implements Runnable {
+		private AtosResponseModel atosResponseModel = null;
+
+		public MarkerRunnable(AtosResponseModel atosResponseModel) {
+			this.atosResponseModel = atosResponseModel;
+		}
+
+		@Override
+		public void run() {
+			ArrayList<ResultsModel> resultModelSet = atosResponseModel
+					.getResultsModel();
+			if (resultModelSet.size() <= 0) {
+				return;
+			}
+			addMarkers(resultModelSet);
+		}
+	}
+
+	private void addMarkers(ArrayList<ResultsModel> resultModelSet) {
+
+		for (int i = 0; i < resultModelSet.size(); i++) {
+			ResultsModel resultModel = resultModelSet.get(i);
+			LocationModel locationModel = resultModel.getLocationModel();
+
+			MarkerOptions markerOpt = new MarkerOptions();
+			double lat = Double.parseDouble(locationModel.getLatitude());
+			double lng = Double.parseDouble(locationModel.getLongitude());
+
+			markerOpt.position(new LatLng(lat, lng));
+			markerOpt.title(resultModel.getTitle());
+			markerOpt.snippet("Snippet : " + resultModel.getTitle());
+			markerOpt.draggable(false);
+			markerOpt.visible(true);
+			markerOpt.anchor(0.5f, 0.5f);
+			markerOpt.icon(BitmapDescriptorFactory.fromBitmap(mBitmapMarker));
+
+			mMap.addMarker(markerOpt);
+		}
+		// zoomInOnClick();
+	}
+
+	private void createBitmap() {
+		mBitmapMarker = BitmapFactory.decodeResource(
+				getActivity().getResources(), R.drawable.marker).copy(
+				Bitmap.Config.ARGB_8888, true);
+	}
+
+	// private void initMap() {
+	// if (mMap == null) {
+	// mMap = ((MapFragment) getFragmentManager().findFragmentById(
+	// R.id.map)).getMap();
+	// }
+	// // mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+	// MarkerOptions markerOpt = new MarkerOptions();
+	// markerOpt.position(BANGALORE);
+	// markerOpt.title("Ritesh Title");
+	// markerOpt.snippet("Ritesh Snippet");
+	// markerOpt.draggable(false);
+	// markerOpt.visible(true);
+	// markerOpt.anchor(0.5f, 0.5f);
+	//
+	// CircleOptions circleOptions = new CircleOptions().center(BANGALORE)
+	// // set center
+	// .radius(100)
+	// // set radius in meters
+	// .fillColor(Color.parseColor("#DAD7DE"))
+	// // default
+	// .strokeColor(Color.parseColor("#7B69F3")).strokeWidth(2);
+	//
+	// mMap.addCircle(circleOptions);
+	// zoomInOnClick();
+	// }
+
+	/*
+	 * public void zoomInOnClick() { // zoom in
+	 * mMap.animateCamera(CameraUpdateFactory .newCameraPosition(new
+	 * CameraPosition(BANGALORE, 13.5f, 30f, 112.5f))
+	 * CameraUpdateFactory.zoomIn() ); mMap.setTrafficEnabled(true);
 	 * 
-	 * @param v
+	 * UiSettings settings = mMap.getUiSettings();
+	 * settings.setAllGesturesEnabled(true); settings.setCompassEnabled(true);
+	 * settings.setMyLocationButtonEnabled(true);
+	 * settings.setRotateGesturesEnabled(true);
+	 * settings.setScrollGesturesEnabled(true);
+	 * settings.setTiltGesturesEnabled(true);
+	 * settings.setZoomControlsEnabled(true);
+	 * settings.setZoomGesturesEnabled(true); }
 	 */
+
+	// public void moveOnClick(View v) { // move camera
+	// mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BANGALORE, 15));
+	// }
+
 	public void zoomToOnClick(View v) {
 		// zoom to level 10, animating with a duration of 3 seconds
 		mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 3000, null);
 	}
 
-	/**
-	 * 按鈕:攝影機移動到日月潭
-	 * 
-	 * @param v
-	 */
-	// public void animToOnClick(View v){
-	// CameraPosition cameraPosition = new CameraPosition.Builder()
-	// .target(ZINTUN) // Sets the center of the map to ZINTUN
-	// .zoom(13) // Sets the zoom
-	// .bearing(90) // Sets the orientation of the camera to east
-	// .tilt(30) // Sets the tilt of the camera to 30 degrees
-	// .build(); // Creates a CameraPosition from the builder
-	// mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-	// }
-
-	/************************************************
-	 * 
-	 * GPS部份
-	 * 
-	 ***********************************************/
-	/**
-	 * GPS初始化，取得可用的位置提供器
-	 * 
-	 * @return
-	 */
 	private boolean initLocationProvider() {
 		locationMgr = (LocationManager) getActivity().getSystemService(
 				Context.LOCATION_SERVICE);
 
-		// 1.選擇最佳提供器
 		Criteria criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		criteria.setAltitudeRequired(false);
@@ -350,13 +307,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 			return true;
 		}
 
-		// 2.選擇使用GPS提供器
 		if (locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			provider = LocationManager.GPS_PROVIDER;
 			return true;
 		}
 
-		// 3.選擇使用網路提供器
 		if (locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
 			return true;
@@ -368,7 +323,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private void whereAmI() {
 		// String provider = LocationManager.GPS_PROVIDER;
 
-		// 取得上次已知的位置
 		Location location = locationMgr.getLastKnownLocation(provider);
 		updateWithNewLocation(location);
 
@@ -472,9 +426,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		} else {
 			where = "No location found.";
 		}
-
-		// 位置改變顯示
-		txtOutput.setText(where);
+		Toast.makeText(getActivity(), where, Toast.LENGTH_SHORT).show();
 	}
 
 	GpsStatus.Listener gpsListener = new GpsStatus.Listener() {
