@@ -16,10 +16,10 @@ import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Analytics.TimedActionBlock;
 import com.adobe.mobile.Config;
 import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 
 public class MetricsTracker {
 

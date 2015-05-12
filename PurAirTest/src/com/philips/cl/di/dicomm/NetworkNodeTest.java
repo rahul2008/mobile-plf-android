@@ -2,8 +2,8 @@ package com.philips.cl.di.dicomm;
 
 import org.mockito.Mockito;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.EncryptionKeyUpdatedListener;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class NetworkNodeTest extends MockitoTestCase {

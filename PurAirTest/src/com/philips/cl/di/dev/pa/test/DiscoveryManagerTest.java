@@ -11,14 +11,14 @@ import java.util.LinkedHashMap;
 
 import android.os.Handler;
 
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;

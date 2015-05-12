@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.appliance;
+package com.philips.cdp.dicommclient.networknode;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cdp.dicomm.util.ALog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
-	
+
 	private static final int DB_VERSION = 1;
-	
+
 	// NetworkNode table
 	public static final String DB_NAME = "network_node.db";
 	public static final String TABLE_NETWORK_NODE = "network_node";
@@ -25,20 +25,20 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	public static final String KEY_LAST_PAIRED = "last_paired";
 	public static final String KEY_IP_ADDRESS = "ip_address";
 	public static final String KEY_MODEL_NAME = "model_name";
-	
+
 	/**
 	 * Instantiates a new dB helper.
-	 * 
+	 *
 	 * @param context
 	 *            the context
 	 */
 	public NetworkNodeDatabaseHelper(Context context) {
-		super(context, DB_NAME, null, DB_VERSION); 
+		super(context, DB_NAME, null, DB_VERSION);
 	}
 
 	/**
 	 * Instantiates a new dB helper.
-	 * 
+	 *
 	 * @param context
 	 *            the context
 	 * @param name
@@ -54,7 +54,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * android.database.sqlite.SQLiteOpenHelper#onCreate(android.database.sqlite
 	 * .SQLiteDatabase)
@@ -62,10 +62,10 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		ALog.w(ALog.DATABASE, "Create table " + TABLE_NETWORK_NODE);
-		
+
 		String createNetworkNodeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_NETWORK_NODE + "("
 				+ KEY_ID + " INTEGER NOT NULL UNIQUE,"
-				+ KEY_CPP_ID + " TEXT UNIQUE," 
+				+ KEY_CPP_ID + " TEXT UNIQUE,"
 				+ KEY_BOOT_ID + " NUMERIC,"
 				+ KEY_ENCRYPTION_KEY + " TEXT,"
 				+ KEY_DEVICE_NAME + " TEXT,"
@@ -76,17 +76,17 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 				+ KEY_MODEL_NAME + " TEXT,"
 				+ "PRIMARY KEY(" + KEY_ID + ")"
 				+ ");";
-		
+
 		try {
 			db.execSQL(createNetworkNodeTable);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * android.database.sqlite.SQLiteOpenHelper#onUpgrade(android.database.sqlite
 	 * .SQLiteDatabase, int, int)

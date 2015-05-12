@@ -3,7 +3,7 @@ package com.philips.cl.di.dicomm.communication;
 import java.util.Map;
 import java.util.Set;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 
 public abstract class Request {

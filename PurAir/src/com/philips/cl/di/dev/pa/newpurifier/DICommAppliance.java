@@ -3,6 +3,8 @@ package com.philips.cl.di.dev.pa.newpurifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;

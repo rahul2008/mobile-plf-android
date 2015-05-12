@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;

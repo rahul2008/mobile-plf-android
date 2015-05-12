@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.newpurifier;
+package com.philips.cdp.dicommclient.networknode;
 
 import java.util.Observable;
 
@@ -7,7 +7,7 @@ import android.os.Parcelable;
 
 public class NetworkNode extends Observable implements Parcelable {
 	public static enum PAIRED_STATUS { PAIRED, NOT_PAIRED, UNPAIRED, PAIRING }
-	
+
 	public interface EncryptionKeyUpdatedListener{
 	    public void onKeyUpdate( );
 	}
@@ -22,22 +22,22 @@ public class NetworkNode extends Observable implements Parcelable {
 	private String mHomeSsid;
 	private long mBootId;
 	private String mEncryptionKey;
-	
+
 	private boolean mIsOnlineViaCpp = false; // not
 	private PAIRED_STATUS mPairedState = PAIRED_STATUS.NOT_PAIRED;
-	private long mLastPairedTime;	
-	
+	private long mLastPairedTime;
+
 	private final int mDICommProtocolVersion = 1;
-	
+
 	private EncryptionKeyUpdatedListener encryptionKeyUpdatedListener;
 
 	public NetworkNode() {
 	}
-	
+
 	public synchronized String getIpAddress() {
 		return mIpAddress;
 	}
-	
+
 	public synchronized void setIpAddress(String ipAddress) {
 		this.mIpAddress = ipAddress;
 	}
@@ -53,7 +53,7 @@ public class NetworkNode extends Observable implements Parcelable {
 	public synchronized ConnectionState getConnectionState() {
 		return mConnectionState;
 	}
-	
+
 	public void  setConnectionState(ConnectionState connectionState) {
 		synchronized(this) { // notifyObservers called from same Thread
 			if (connectionState.equals(mConnectionState)) return;
@@ -108,7 +108,7 @@ public class NetworkNode extends Observable implements Parcelable {
 		setChanged();
 		notifyObservers();
 	}
-	
+
 	public synchronized String getEncryptionKey() {
 		return mEncryptionKey;
 	}
@@ -120,7 +120,7 @@ public class NetworkNode extends Observable implements Parcelable {
 	        encryptionKeyUpdatedListener.onKeyUpdate();
 	    }
 	}
-	
+
 	public synchronized boolean isOnlineViaCpp() {
 		return mIsOnlineViaCpp;
 	}
@@ -203,7 +203,7 @@ public class NetworkNode extends Observable implements Parcelable {
 		}
 		return NetworkNode.PAIRED_STATUS.NOT_PAIRED;
 	}
-    
+
     public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ipAddress: ").append(getIpAddress())

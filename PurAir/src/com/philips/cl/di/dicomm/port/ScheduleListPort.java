@@ -9,7 +9,7 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortListener;
 import com.philips.cl.di.dev.pa.util.ALog;

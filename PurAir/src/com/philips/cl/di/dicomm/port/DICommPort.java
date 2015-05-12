@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.philips.cdp.dicomm.util.WrappedHandler;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;

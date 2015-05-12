@@ -3,7 +3,7 @@ package com.philips.cl.di.dicomm.communication;
 
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.DCSEventListener;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class RemoteSubscriptionHandler extends SubscribeHandler implements DCSEventListener {

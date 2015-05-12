@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 public abstract class CommunicationStrategy {
 

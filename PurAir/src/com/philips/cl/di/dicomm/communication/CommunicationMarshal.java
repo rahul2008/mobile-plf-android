@@ -2,7 +2,7 @@ package com.philips.cl.di.dicomm.communication;
 
 import java.util.Map;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class CommunicationMarshal extends CommunicationStrategy {

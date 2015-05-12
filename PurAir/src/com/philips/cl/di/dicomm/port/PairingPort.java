@@ -3,7 +3,7 @@ package com.philips.cl.di.dicomm.port;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 

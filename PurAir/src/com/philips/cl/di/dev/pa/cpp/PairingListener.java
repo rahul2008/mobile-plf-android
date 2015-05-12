@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.cpp;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
 
 public interface PairingListener {	

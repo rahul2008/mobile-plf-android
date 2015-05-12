@@ -2,8 +2,8 @@ package com.philips.cl.di.dicomm.communication;
 
 import java.util.Map;
 
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.ExchangeKeyRequest;
 import com.philips.cl.di.dev.pa.purifier.LocalRequest;
 import com.philips.cl.di.dicomm.security.DISecurity;

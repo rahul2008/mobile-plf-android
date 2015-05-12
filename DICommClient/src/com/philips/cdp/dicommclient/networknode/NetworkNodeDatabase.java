@@ -1,15 +1,15 @@
-package com.philips.cl.di.dicomm.appliance;
+package com.philips.cdp.dicommclient.networknode;
 
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_CPP_ID;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_BOOT_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_CPP_ID;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_DEVICE_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_ENCRYPTION_KEY;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IP_ADDRESS;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_IS_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicomm.util.DICommContext;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 
 public class NetworkNodeDatabase {
 

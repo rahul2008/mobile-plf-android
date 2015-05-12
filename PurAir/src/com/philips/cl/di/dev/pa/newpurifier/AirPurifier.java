@@ -2,6 +2,8 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import android.location.Location;
 
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;

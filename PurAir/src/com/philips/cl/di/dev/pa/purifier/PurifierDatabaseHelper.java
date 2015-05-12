@@ -10,13 +10,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.appliance.NetworkNodeDatabase;
 
-import static com.philips.cl.di.dicomm.appliance.NetworkNodeDatabaseHelper.*;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.*;
 
 /**
  * The Class DBHelper.

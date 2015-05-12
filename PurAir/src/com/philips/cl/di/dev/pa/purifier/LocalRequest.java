@@ -21,8 +21,8 @@ import android.os.Build;
 import android.util.Log;
 
 import com.philips.cdp.dicomm.util.DICommContext;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.communication.LocalRequestType;

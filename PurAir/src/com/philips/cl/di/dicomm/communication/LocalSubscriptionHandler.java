@@ -1,6 +1,6 @@
 package com.philips.cl.di.dicomm.communication;
 
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.purifier.UDPEventListener;
 import com.philips.cl.di.dev.pa.purifier.UDPReceivingThread;
 import com.philips.cl.di.dev.pa.util.ALog;
