@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
+import com.philips.cl.di.dicomm.appliance.CurrentApplianceChangedListener;
 import com.philips.cl.di.dicomm.appliance.CurrentApplianceManager;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceListener;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
@@ -19,7 +20,7 @@ import com.philips.cl.di.dicomm.util.TestAppliance;
 public class CurrentApplianceManagerTest extends MockitoTestCase {
 
     private CurrentApplianceManager mCurrentApplianceMan;
-    private DICommApplianceListener mEventListener;
+    private DICommApplianceListener mApplianceListener;
 
     private static final String APPLIANCE_IP = "198.168.1.145";
     private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
@@ -31,8 +32,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
 
-        mEventListener = mock(DICommApplianceListener.class);
-        mCurrentApplianceMan.addApplianceListener(mEventListener);
+        mApplianceListener = mock(DICommApplianceListener.class);
+        mCurrentApplianceMan.addApplianceListener(mApplianceListener);
     }
 
     @Override
@@ -388,6 +389,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
+        CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
+        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
 
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
@@ -398,7 +401,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         verify(appliance1).subscribe();
         verify(appliance1).stopResubscribe();
 
-        verify(listener).onApplianceChanged();
+        verify(changedListener).onCurrentApplianceChanged();
     }
 
     public void testPurifierRemotedAfterLocal() {
@@ -409,6 +412,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
+        CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
+        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
 
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
@@ -419,7 +424,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         verify(appliance1).subscribe();
         verify(appliance1).stopResubscribe();
 
-        verify(listener).onApplianceChanged();
+        verify(changedListener).onCurrentApplianceChanged();
     }
 
     public void testPurifierLocalAfterDisconnected() {
@@ -429,6 +434,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
+        CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
+        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
 
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
@@ -440,7 +447,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         verify(appliance1).enableSubscription();
         verify(appliance1).subscribe();
 
-        verify(listener).onApplianceChanged();
+        verify(changedListener).onCurrentApplianceChanged();
     }
 
     public void testPurifierRemoteAfterDisconnected() {
@@ -451,6 +458,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
+        CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
+        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
 
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
@@ -462,7 +471,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         verify(appliance1).enableSubscription();
         verify(appliance1).subscribe();
 
-        verify(listener).onApplianceChanged();
+        verify(changedListener).onCurrentApplianceChanged();
     }
 
     public void testPurifierLocalAfterRemote() {
@@ -472,6 +481,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
+        CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
+        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
 
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_LOCALLY);
@@ -483,7 +494,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         verify(appliance1).enableSubscription();
         verify(appliance1).subscribe();
 
-        verify(listener).onApplianceChanged();
+        verify(changedListener).onCurrentApplianceChanged();
     }
 
     public void testPurifierDisconnectedAfterRemote() {
@@ -494,6 +505,8 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
 
         DICommApplianceListener listener = mock(DICommApplianceListener.class);
         mCurrentApplianceMan.addApplianceListener(listener);
+        CurrentApplianceChangedListener changedListener = mock(CurrentApplianceChangedListener.class);
+        mCurrentApplianceMan.addCurrentApplianceChangedListener(changedListener);
 
         reset(appliance1);
         appliance1.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
@@ -505,7 +518,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
         verify(appliance1).enableSubscription();
         verify(appliance1).subscribe();
 
-        verify(listener).onApplianceChanged();
+        verify(changedListener).onCurrentApplianceChanged();
     }
 
     // ***** END TESTS TO TOGGLE SUBSCRIPTION WHEN APPLIANCE CONNECTIONSTATE

@@ -9,6 +9,5 @@ public interface DICommApplianceListener {
 	public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port);
  
 	public void onPortError(DICommAppliance appliance, DICommPort<?> port, Error error);
-	
-	public void onApplianceChanged();
+
 }

@@ -23,6 +23,7 @@ public class CurrentApplianceManager implements Observer {
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
 	private List<DICommApplianceListener> mApplianceListenersList ;
+	private List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList ;
 
 	private DIPortListener mDICommAppliancePortListener = new DIPortListener() {
 
@@ -49,6 +50,7 @@ public class CurrentApplianceManager implements Observer {
 	
 	protected CurrentApplianceManager() {
 		mApplianceListenersList = new ArrayList<DICommApplianceListener>();
+		mCurrentApplianceChangedListenerList = new ArrayList<CurrentApplianceChangedListener>();
 	}
 	
 	public synchronized void setCurrentAppliance(DICommAppliance diCommAppliance) {
@@ -109,7 +111,21 @@ public class CurrentApplianceManager implements Observer {
 			}
 		}
 	}
-	
+
+	public void addCurrentApplianceChangedListener(CurrentApplianceChangedListener currentApplianceChangedListener) {
+		synchronized (mCurrentApplianceChangedListenerList) {
+			if (!mCurrentApplianceChangedListenerList.contains(currentApplianceChangedListener)) {
+				mCurrentApplianceChangedListenerList.add(currentApplianceChangedListener);
+			}
+		}
+	}
+
+	public void removeCurrentApplianceChangedListener(CurrentApplianceChangedListener currentApplianceChangedListener) {
+		synchronized (mCurrentApplianceChangedListenerList) {
+			mCurrentApplianceChangedListenerList.remove(currentApplianceChangedListener);
+		}
+	}
+
 	private void notifyApplianceListenersOnSuccess(DICommPort<?> port) {
 		ALog.d(ALog.APPLIANCE_MANAGER, "Notify appliance changed listeners");
 		
@@ -130,10 +146,10 @@ public class CurrentApplianceManager implements Observer {
 	
 	private void notifyApplianceChanged() {
 		ALog.d(ALog.APPLIANCE_MANAGER, "Notify appliance changed");
-		
-		synchronized (mApplianceListenersList) {
-			for (DICommApplianceListener listener : mApplianceListenersList) {
-				    listener.onApplianceChanged();
+
+		synchronized (mCurrentApplianceChangedListenerList) {
+			for (CurrentApplianceChangedListener listener : mCurrentApplianceChangedListenerList) {
+				    listener.onCurrentApplianceChanged();
 			}
 		}
 	}

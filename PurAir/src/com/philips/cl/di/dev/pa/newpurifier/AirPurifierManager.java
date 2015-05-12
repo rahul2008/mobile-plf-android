@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
+import com.philips.cl.di.dicomm.appliance.CurrentApplianceChangedListener;
 import com.philips.cl.di.dicomm.appliance.CurrentApplianceManager;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceListener;
 import com.philips.cl.di.dicomm.communication.Error;
@@ -34,7 +35,8 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	private int mIndoorViewPagerPosition;
 	
 	private HashMap<AirPurifierEventListener, DICommApplianceListener> mApplianceEventListeners;
-	
+	private HashMap<AirPurifierEventListener, CurrentApplianceChangedListener> mApplianceChangedListeners;
+
 	public static synchronized AirPurifierManager getInstance() {
 		if (instance == null) {
 			instance = new AirPurifierManager();
@@ -63,36 +65,41 @@ public class AirPurifierManager extends CurrentApplianceManager {
 				return;
 			}
 			DICommApplianceListener diCommApplianceListener = new DICommApplianceListener() {
-				
-			@Override
-			public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port) {
-				if (port instanceof AirPort) {
-					airPurifierEventListener.onAirPurifierEventReceived();
-				} else if (port instanceof FirmwarePort) {
-					airPurifierEventListener.onFirmwareEventReceived();
+
+				@Override
+				public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port) {
+					if (port instanceof AirPort) {
+						airPurifierEventListener.onAirPurifierEventReceived();
+					} else if (port instanceof FirmwarePort) {
+						airPurifierEventListener.onFirmwareEventReceived();
+					}
 				}
-			}
-			
-			@Override
-			public void onPortError(DICommAppliance appliance, DICommPort<?> port,
-					Error error) {
-				airPurifierEventListener.onErrorOccurred(error);
-			}
-			
-			@Override
-			public void onApplianceChanged() {
-				airPurifierEventListener.onAirPurifierChanged();
-			}
-		};
+
+				@Override
+				public void onPortError(DICommAppliance appliance, DICommPort<?> port,
+						Error error) {
+					airPurifierEventListener.onErrorOccurred(error);
+				}
+			};
 			mApplianceEventListeners.put(airPurifierEventListener, diCommApplianceListener);
 			addApplianceListener(diCommApplianceListener);
+
+			CurrentApplianceChangedListener currentApplianceChangedListener = new CurrentApplianceChangedListener() {
+
+				@Override
+				public void onCurrentApplianceChanged() {
+					airPurifierEventListener.onAirPurifierChanged();
+				}
+			};
+			mApplianceChangedListeners.put(airPurifierEventListener, currentApplianceChangedListener);
 	    }
 	}
 	
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
 		synchronized (mApplianceEventListeners) {
-			mApplianceEventListeners.remove(airPurifierEventListener);
 			removeApplianceListener(mApplianceEventListeners.get(airPurifierEventListener));
+			mApplianceEventListeners.remove(airPurifierEventListener);
+			mApplianceChangedListeners.remove(airPurifierEventListener);
 		}
 	}
 
