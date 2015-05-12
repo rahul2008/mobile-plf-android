@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.purifier;
+package com.philips.cdp.dicommclient.subscription;
 
 public interface UDPEventListener {
 	

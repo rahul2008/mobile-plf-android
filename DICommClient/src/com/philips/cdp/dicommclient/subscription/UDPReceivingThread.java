@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.purifier;
+package com.philips.cdp.dicommclient.subscription;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -12,23 +12,23 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicomm.util.DICommContext;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class UDPReceivingThread extends Thread {
-	
+
 	private static final int UDP_PORT = 8080 ;
 	private static List<UDPEventListener> udpEventListenerList ;
 	private static UDPReceivingThread udpReceivingThread;
-	
+
 	private DatagramSocket socket ;
 	private boolean stop ;
 	private MulticastLock multicastLock ;
-	
+
 	private UDPReceivingThread() {
-		
+
 	}
-	
+
 	public static synchronized UDPReceivingThread getInstance() {
 		if( udpReceivingThread == null ) {
 			udpReceivingThread = new UDPReceivingThread() ;
@@ -36,16 +36,16 @@ public class UDPReceivingThread extends Thread {
 		}
 		return udpReceivingThread ;
 	}
-	
+
 	public void addUDPEventListener(UDPEventListener udpEventListener) {
 		if( udpEventListenerList != null && !udpEventListenerList.contains(udpEventListener)) {
-			udpEventListenerList.add(udpEventListener) ;			
+			udpEventListenerList.add(udpEventListener) ;
 		}
 	}
-	
+
 	public void removeUDPEventListener(UDPEventListener udpEventListener) {
 		if( udpEventListenerList != null ) {
-			udpEventListenerList.remove(udpEventListener) ;			
+			udpEventListenerList.remove(udpEventListener) ;
 		}
 	}
 
@@ -54,9 +54,9 @@ public class UDPReceivingThread extends Thread {
 		ALog.i(ALog.UDP, "Started UDP socket") ;
 		try {
 			acquireMulticastLock();
-			
+
 			socket = new DatagramSocket(UDP_PORT) ;
-			
+
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
@@ -68,7 +68,7 @@ public class UDPReceivingThread extends Thread {
 					socket = new DatagramSocket(UDP_PORT) ;
 				}
 				socket.receive(packet) ;
-				
+
 				String packetReceived = new String(packet.getData(), Charset.defaultCharset()).trim();
 				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListenerList != null) {
 					String [] packetsReceived = packetReceived.split("\n") ;
@@ -77,17 +77,17 @@ public class UDPReceivingThread extends Thread {
 						try {
 							senderIp = packet.getAddress().getHostAddress();
 						} catch (Exception e) {}
-						
+
 						ALog.d(ALog.UDP, "UDP Data Received from: " + senderIp) ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
 						notifyUDPEventListeners(lastLine, senderIp) ;
-						
+
 					} else {
-						ALog.d(ALog.UDP, "Couldn't split receiving packet: " + packetReceived); 
+						ALog.d(ALog.UDP, "Couldn't split receiving packet: " + packetReceived);
 					}
 				}
-				
-				
+
+
 			} catch (IOException e) {
 				ALog.d(ALog.UDP, "UDP exception: " + "Error: " + e.getMessage()) ;
 			} catch (NullPointerException e2) {
@@ -97,14 +97,14 @@ public class UDPReceivingThread extends Thread {
 		}
 		ALog.i(ALog.UDP, "Stopped UDP Socket") ;
 	}
-	
+
 	private void notifyUDPEventListeners(String lastLine, String senderIp) {
 		if(udpEventListenerList != null ) {
 			for (UDPEventListener udpEventListener : udpEventListenerList) {
-				udpEventListener.onUDPEventReceived(lastLine, senderIp) ;				
+				udpEventListener.onUDPEventReceived(lastLine, senderIp) ;
 			}
 		}
-	
+
 	}
 
 	public void stopUDPListener() {
@@ -119,7 +119,7 @@ public class UDPReceivingThread extends Thread {
 		reset();
 		}
 	}
-	
+
 	private void reset() {
 		udpReceivingThread = null ;
 		udpEventListenerList = null ;
@@ -137,7 +137,7 @@ public class UDPReceivingThread extends Thread {
 
 	private void releaseMulticastLock() {
 		if (multicastLock == null) return;
-			
+
 		multicastLock.release();
 		multicastLock = null;
 		ALog.d(ALog.UDP, "Released MulticastLock") ;

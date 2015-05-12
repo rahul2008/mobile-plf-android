@@ -1,17 +1,15 @@
-package com.philips.cl.di.dicomm.communication;
+package com.philips.cdp.dicommclient.subscription;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
-import com.philips.cl.di.dev.pa.purifier.UDPEventListener;
-import com.philips.cl.di.dev.pa.purifier.UDPReceivingThread;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEventListener{
-	
+
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
 	private final DISecurity mDISecurity;
-	
+
 	public LocalSubscriptionHandler(DISecurity diSecurity){
 		mDISecurity = diSecurity;
 	}
@@ -21,7 +19,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
 		mNetworkNode = networkNode;
 		mSubscriptionEventListener = subscriptionEventListener;
-		
+
 		UDPReceivingThread.getInstance().addUDPEventListener(this) ;
 		if (! UDPReceivingThread.getInstance().isAlive()) {
 			UDPReceivingThread.getInstance().start();
@@ -44,13 +42,13 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 			return;
 		if (fromIp == null || fromIp.isEmpty())
 			return;
-		
+
 		if (mNetworkNode.getIpAddress() == null || !mNetworkNode.getIpAddress().equals(fromIp)) {
 			ALog.d(ALog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromIp == null? "null" : fromIp) + ")");
 			return;
 		}
 
-		
+
 		ALog.i(ALog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
 
 		if(mSubscriptionEventListener!=null){
@@ -59,7 +57,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 				ALog.d(ALog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
 				return;
 			}
-			
+
 			ALog.d(ALog.LOCAL_SUBSCRIPTION, decryptedData);
 			if (mSubscriptionEventListener != null) {
 				postSubscriptionEventOnUIThread(decryptedData, mSubscriptionEventListener);

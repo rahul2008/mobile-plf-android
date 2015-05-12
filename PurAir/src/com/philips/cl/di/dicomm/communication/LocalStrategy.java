@@ -13,6 +13,8 @@ import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
+import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;

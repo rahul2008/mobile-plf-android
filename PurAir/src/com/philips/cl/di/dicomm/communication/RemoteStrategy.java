@@ -8,6 +8,8 @@ import com.philips.cdp.dicommclient.request.RemoteRequest;
 import com.philips.cdp.dicommclient.request.RemoteRequestType;
 import com.philips.cdp.dicommclient.request.RequestQueue;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 public class RemoteStrategy extends CommunicationStrategy {
 private final RequestQueue mRequestQueue;

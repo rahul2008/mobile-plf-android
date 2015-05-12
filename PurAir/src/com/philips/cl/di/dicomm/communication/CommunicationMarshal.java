@@ -5,6 +5,7 @@ import java.util.Map;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.security.DISecurity;
+import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 
 public class CommunicationMarshal extends CommunicationStrategy {
 
