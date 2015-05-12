@@ -168,5 +168,7 @@
     <color name="red_delete">#CC1F2C</color>
     <color name="philip_light_blue">#B3C8E7</color>
     <color name="scroll_bar_thumb">#4891BA</color>
+    <color name="weather_bg_color">#FAFAFA</color>
+    
 
 </resources>

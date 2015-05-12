@@ -14,53 +14,61 @@
 
     <!-- Weather report -->
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/odWeatherHeading"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="2dp"
-        android:text="@string/weather_forecast"
-        android:textColor="@color/philips_blue"
-        android:textSize="@dimen/title_text_size_medium_dp"
-        custom:fontAssetName="fonts/centralesansbook.ttf" />
+        android:orientation="vertical"
+        android:background="@color/weather_bg_color" >
 
-    <HorizontalScrollView
-        android:id="@+id/odTodayWetherReportHSV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:fadeScrollbars="false"
-        android:scrollbarSize="4dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbarThumbHorizontal="@drawable/scroll_thumb"
-        android:scrollbarTrackHorizontal="@drawable/scrollview_track"
-        android:scrollbars="horizontal" >
-    </HorizontalScrollView>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" >
-
-        <ProgressBar
-            android:id="@+id/weatherProgressBar"
-            style="?android:attr/progressBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:indeterminateDrawable="@drawable/progress_circle" />
-
-        <LinearLayout
-            android:id="@+id/odWetherForcastLL"
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/odWeatherHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:orientation="vertical" >
-        </LinearLayout>
-    </RelativeLayout>
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/weather_forecast"
+            android:textColor="@color/philips_blue"
+            android:textSize="@dimen/title_text_size_medium_dp"
+            custom:fontAssetName="fonts/centralesansbook.ttf" />
+
+        <HorizontalScrollView
+            android:id="@+id/odTodayWetherReportHSV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="4dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbHorizontal="@drawable/scroll_thumb"
+            android:scrollbarTrackHorizontal="@drawable/scrollview_track"
+            android:scrollbars="horizontal" >
+        </HorizontalScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" >
+
+            <ProgressBar
+                android:id="@+id/weatherProgressBar"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:indeterminateDrawable="@drawable/progress_circle" />
+
+            <LinearLayout
+                android:id="@+id/odWetherForcastLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -70,7 +78,7 @@
         android:layout_marginBottom="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="24dp"
         android:gravity="center"
         android:lineSpacingExtra="2dp"
         android:text="@string/detailed_air_quality"
@@ -81,8 +89,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -108,8 +116,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
         android:visibility="visible" >
 
@@ -140,8 +148,8 @@
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:indeterminateDrawable="@drawable/progress_circle" />
+                android:indeterminateDrawable="@drawable/progress_circle"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -150,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="8dp"
-            android:gravity="center_vertical" 
+            android:gravity="center_vertical"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.view.ImageRound
@@ -174,8 +182,8 @@
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:indeterminateDrawable="@drawable/progress_circle" />
+                android:indeterminateDrawable="@drawable/progress_circle"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -208,8 +216,8 @@
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:indeterminateDrawable="@drawable/progress_circle" />
+                android:indeterminateDrawable="@drawable/progress_circle"
+                android:visibility="gone" />
         </LinearLayout>
 
         <LinearLayout
@@ -242,8 +250,8 @@
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:indeterminateDrawable="@drawable/progress_circle" />
+                android:indeterminateDrawable="@drawable/progress_circle"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
