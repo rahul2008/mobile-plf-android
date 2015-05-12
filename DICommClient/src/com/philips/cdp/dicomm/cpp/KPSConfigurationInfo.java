@@ -1,6 +1,6 @@
 package com.philips.cdp.dicomm.cpp;
 
-public abstract class KpsConfigurationInfo {
+public abstract class KPSConfigurationInfo {
 
 	private static final int ICPCLIENT_PRIORITY = 20;
 	private static final int ICPCLIENT_STACKSIZE = 131072;

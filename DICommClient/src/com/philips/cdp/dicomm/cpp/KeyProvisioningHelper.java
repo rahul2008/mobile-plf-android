@@ -11,9 +11,9 @@ import com.philips.icpinterface.data.NVMComponentInfo;
  */
 public class KeyProvisioningHelper extends KeyProvisioningConfiguration{
 
-	private final KpsConfigurationInfo mKpsConfigurationInfo;
+	private final KPSConfigurationInfo mKpsConfigurationInfo;
 
-	public KeyProvisioningHelper(KpsConfigurationInfo kpsConfigurationInfo){
+	public KeyProvisioningHelper(KPSConfigurationInfo kpsConfigurationInfo){
 		this.mKpsConfigurationInfo = kpsConfigurationInfo;
 
 		// General configuration
