@@ -98,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/img_description"
-        android:paddingTop="8dp"
+        android:paddingTop="24dp"
         android:src="@drawable/wifi_setting" />
 
 </LinearLayout>

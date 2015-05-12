@@ -133,7 +133,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			setStatusBarHeight(getResources().getDimensionPixelSize(resourceId));
 		}
 		
-		checkInternetWhenAppLaunch();
+//		checkInternetWhenAppLaunch();
 	}
 
 	private void getMainContainerHeight() {
