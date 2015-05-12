@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
+import com.philips.cdp.dicommclient.communication.LocalStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
@@ -98,15 +99,15 @@ public class AppInDemoMode implements NetworkStateListener {
 
 	private void setDemoModePurifier() {
 	    ALog.i(ALog.MAINACTIVITY, "Setting Demo mode purifier");
-        
+
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(-1);
         networkNode.setCppId(PurAirApplication.getDemoModePurifierEUI64());
         networkNode.setName(DemoModeConstant.DEMO);
         networkNode.setIpAddress(EWSConstant.PURIFIER_ADHOCIP);
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-        
-        AirPurifier demoModePurifier = new AirPurifier(networkNode, new CommunicationMarshal(new DISecurity()));
+
+        AirPurifier demoModePurifier = new AirPurifier(networkNode, new LocalStrategy(new DISecurity()));
         AirPurifierManager.getInstance().setCurrentAppliance(demoModePurifier);
 	}
 }

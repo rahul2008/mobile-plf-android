@@ -14,6 +14,7 @@ import android.os.CountDownTimer;
 
 import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
+import com.philips.cdp.dicommclient.communication.LocalStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -159,7 +160,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		String tempEui64 = UUID.randomUUID().toString();
 
 		DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        LocalStrategy communicationStrategy = new LocalStrategy(diSecurity);
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(-1);
         networkNode.setCppId(tempEui64);
@@ -177,7 +178,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		String purifierName = DemoModeConstant.DEMO;
 
         DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        LocalStrategy communicationStrategy = new LocalStrategy(diSecurity);
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(-1);
         networkNode.setCppId(eui64);
@@ -199,7 +200,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
         devicePort.registerPortListener(new DICommPortListener() {
-            
+
             @Override
             public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, (DevicePortProperties) port.getPortProperties(), null);
@@ -212,17 +213,17 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
                 return ListenerRegistration.UNREGISTER;
             }
         });
-        
+
         devicePort.getProperties();
     }
 
 	private void getWifiDetails() {
         ALog.i(ALog.DEMO_MODE, "gettWifiDetails");
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
-        
+
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
         wifiPort.registerPortListener(new DICommPortListener() {
-            
+
             @Override
             public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, null, (WifiPortProperties) port.getPortProperties());
@@ -235,7 +236,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
                 return ListenerRegistration.UNREGISTER;
             }
         });
-        
+
         wifiPort.getProperties();
     }
 
