@@ -1,6 +1,4 @@
-package com.philips.cl.di.dev.pa.cpp;
-
-import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
+package com.philips.cdp.dicommclient.discovery;
 
 public interface CppDiscoverEventListener {
 

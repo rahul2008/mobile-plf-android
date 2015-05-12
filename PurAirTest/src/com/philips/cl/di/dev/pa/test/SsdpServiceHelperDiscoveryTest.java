@@ -15,11 +15,11 @@ import java.util.LinkedHashSet;
 import android.os.Handler.Callback;
 
 import com.philips.cdp.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {

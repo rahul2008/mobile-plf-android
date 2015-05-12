@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.newpurifier;
+package com.philips.cdp.dicommclient.discovery;
 
 public interface DiscoveryEventListener {
 

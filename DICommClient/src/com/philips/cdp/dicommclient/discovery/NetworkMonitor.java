@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.newpurifier;
+package com.philips.cdp.dicommclient.discovery;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -14,8 +14,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicomm.util.DICommContext;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkMonitor {
 
@@ -24,7 +24,7 @@ public class NetworkMonitor {
 
 	public NetworkChangedCallback mNetworkChangedCallback;
 	private BroadcastReceiver mNetworkChangedReceiver;
-	
+
 	private static NetworkState mLastKnownState = NetworkState.NONE;
 	private static String mLastKnownSsid = null;
 
@@ -40,9 +40,9 @@ public class NetworkMonitor {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		mWifiManager = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
-		
+
 		mNetworkChangedCallback = listener;
-		
+
 		mNetworkChangedReceiver = new BroadcastReceiver() {
 
 			@Override
@@ -56,12 +56,12 @@ public class NetworkMonitor {
 	public void startNetworkChangedReceiver(Context context) {
 		mLooper = new LooperThread();
 		mLooper.start();
-		
+
 		// Start connectivity changed receiver
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		context.registerReceiver(mNetworkChangedReceiver, filter);
-		
+
 		updateNetworkStateAsync();
 	}
 
@@ -81,11 +81,11 @@ public class NetworkMonitor {
 	public synchronized NetworkState getLastKnownNetworkState() {
 		return mLastKnownState;
 	}
-	
+
 	public synchronized String getLastKnownNetworkSsid() {
 		return mLastKnownSsid;
 	}
-	
+
 	private void updateNetworkStateAsync() {
 		if (mLooper == null || mLooper.mHandler == null) return;
 		mLooper.mHandler.sendEmptyMessage(0);
@@ -99,40 +99,40 @@ public class NetworkMonitor {
 			ALog.d(ALog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
 			return;
 		}
-		
+
 		if (mLastKnownState == newState && !isLastKnowSsid(newSsid)) {
 			ALog.d(ALog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
 			updateListener(NetworkState.NONE, null);
 		}
-		
+
 		if (mLastKnownState == NetworkState.MOBILE && newState == NetworkState.WIFI_WITH_INTERNET
 				|| mLastKnownState == NetworkState.WIFI_WITH_INTERNET && newState == NetworkState.MOBILE) {
 			ALog.d(ALog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
 			updateListener(NetworkState.NONE, null);
 		}
-		
+
 		ALog.d(ALog.NETWORKMONITOR, "NetworkState Changed");
 		mLastKnownState = newState;
 		mLastKnownSsid = newSsid;
 		updateListener(newState, newSsid);
 	}
-	
+
 	private void updateListener(NetworkState state, String ssid) {
 		if (mNetworkChangedCallback == null) return;
 		ALog.v(ALog.NETWORKMONITOR, "Updating listener");
 		mNetworkChangedCallback.onNetworkChanged(state, ssid);
 	}
-	
+
 	private void loadNetworkStateSynchronous() {
 		NetworkInfo activeNetwork = mConnectivityManager.getActiveNetworkInfo();
-		
+
 		boolean isConnected = activeNetwork != null	&& activeNetwork.isConnectedOrConnecting();
 		if (!isConnected) {
 			ALog.d(ALog.NETWORKMONITOR, "Network update - No connection");
 			updateNetworkState(NetworkState.NONE, null);
 			return;
 		}
-		
+
 		boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
 		if (isMobileData) {
 			WifiManager wifiManager = (WifiManager) DICommContext.getContext().getSystemService(Context.WIFI_SERVICE) ;
@@ -145,14 +145,14 @@ public class NetworkMonitor {
 				return;
 			}
 		}
-		
-		String ssid = getCurrentSsid(); 
+
+		String ssid = getCurrentSsid();
 		// Assume internet access - checking for internet technically difficult (slow DNS timeout)
 		ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
 		updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
 		return;
 	}
-	
+
 	@SuppressLint("HandlerLeak")
 	private class LooperThread extends Thread {
 		public Handler mHandler;
@@ -169,7 +169,7 @@ public class NetworkMonitor {
 			Looper.loop();
 		}
 	}
-	
+
 	private boolean isLastKnowSsid(String ssid) {
 		if (ssid == null && mLastKnownSsid == null) {
 			return true;
@@ -179,20 +179,20 @@ public class NetworkMonitor {
 		}
 		return false;
 	}
-	
+
 	private String getCurrentSsid() {
 		String ssid  = null;
 		WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
 		if (wifiInfo != null) {
 			ssid = wifiInfo.getSSID();
 		}
-		
+
 		if (ssid == null || ssid.isEmpty()) {
 			return null;
 		}
 		return ssid;
 	}
-	
+
 
 	public interface NetworkChangedCallback {
 		void onNetworkChanged(NetworkState networkState, String networkSsid);

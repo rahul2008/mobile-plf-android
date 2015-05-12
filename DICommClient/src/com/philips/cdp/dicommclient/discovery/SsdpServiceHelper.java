@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.newpurifier;
+package com.philips.cdp.dicommclient.discovery;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -6,10 +6,10 @@ import java.util.Set;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 
+import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.discovery.SsdpServiceHelperThread.StartStopInterface;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelperThread.StartStopInterface;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class SsdpServiceHelper implements StartStopInterface {
 

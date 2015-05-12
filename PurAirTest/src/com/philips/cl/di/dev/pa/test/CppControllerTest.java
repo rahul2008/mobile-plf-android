@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.DCSEventListener;
-import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
+import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class CppControllerTest extends MockitoTestCase {

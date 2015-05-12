@@ -3,8 +3,8 @@ package com.philips.cl.di.dev.pa.test;
 import static org.mockito.Mockito.mock;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class SsdpServiceHelperThreadTest extends MockitoTestCase {

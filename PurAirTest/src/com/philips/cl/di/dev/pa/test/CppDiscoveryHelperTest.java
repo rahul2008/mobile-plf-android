@@ -12,9 +12,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
-import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
-import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
+import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
+import com.philips.cdp.dicommclient.discovery.CppDiscoveryHelper;
+import com.philips.cdp.dicommclient.discovery.DiscoverInfo;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class CppDiscoveryHelperTest extends MockitoTestCase {

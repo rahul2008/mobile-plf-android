@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.cpp;
+package com.philips.cdp.dicommclient.discovery;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -8,8 +8,7 @@ import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.DCSEventListener;
 import com.philips.cdp.dicomm.cpp.PublishEventListener;
 import com.philips.cdp.dicomm.cpp.SignonListener;
-import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
 public class CppDiscoveryHelper implements SignonListener, PublishEventListener, DCSEventListener {
@@ -31,7 +30,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 		mCppDiscoverEventListener = cppDiscListener;
 		mCppController.setDCSDiscoverEventListener(this);
 	}
-	
+
 	public void startDiscoveryViaCpp() {
 		ALog.d(ALog.CPPDISCHELPER, "Start discovery via CPP");
 		boolean isSignedOnToCpp = mCppController.isSignOn();
@@ -45,7 +44,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 		mCppController.stopDCSService();
 		mCppController.removePublishEventListener(this) ;
 	}
-	
+
 	private void startDiscoveryViaCpp(boolean isSignedOnToCpp) {
 		if (isSignedOnToCpp) {
 			mCppDiscListener.onSignedOnViaCpp();
@@ -60,7 +59,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 			ALog.i(ALog.CPPDISCHELPER, "Starting discovery via Cpp - DELAYED");
 		}
 	}
-	
+
 	@Override
 	public void signonStatus(boolean signon) {
 		ALog.d(ALog.CPPDISCHELPER, "Sigon on callback: " + signon);
@@ -70,11 +69,11 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 			return;
 		}
 		if (!isCppDiscoveryPending) return;
-		
+
 		ALog.i(ALog.CPPDISCHELPER, "Signed on - Starting discovery via CPP");
 		startDiscoveryViaCpp(signon);
 	}
-	
+
 	// UTILITY METHODS TO ALLOW TESTING
 	public boolean getCppDiscoveryPendingForTesting() {
 		return isCppDiscoveryPending;

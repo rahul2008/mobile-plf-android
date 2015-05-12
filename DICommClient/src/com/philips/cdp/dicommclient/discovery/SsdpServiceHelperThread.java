@@ -1,10 +1,10 @@
-package com.philips.cl.di.dev.pa.newpurifier;
+package com.philips.cdp.dicommclient.discovery;
 
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cdp.dicomm.util.ALog;
 
 public class SsdpServiceHelperThread extends HandlerThread {
 
