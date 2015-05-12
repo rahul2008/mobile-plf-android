@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
 import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
-import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
@@ -173,7 +172,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -191,7 +190,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -209,7 +208,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -227,7 +226,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -245,7 +244,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -263,7 +262,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -283,7 +282,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -303,7 +302,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -323,7 +322,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -343,7 +342,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -363,7 +362,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -383,7 +382,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -403,7 +402,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -423,7 +422,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -443,7 +442,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -461,7 +460,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -479,7 +478,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -497,7 +496,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -515,7 +514,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -533,7 +532,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -551,7 +550,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -571,7 +570,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -591,7 +590,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -611,7 +610,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -631,7 +630,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -651,7 +650,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -671,7 +670,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -691,7 +690,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -711,7 +710,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -731,7 +730,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -751,7 +750,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -771,7 +770,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -791,7 +790,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -811,7 +810,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "I'm an invalid event";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -831,7 +830,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + "eui64notexist" + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -849,7 +848,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -867,7 +866,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -885,7 +884,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -903,7 +902,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -921,7 +920,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -939,7 +938,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -959,7 +958,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -979,7 +978,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -999,7 +998,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1019,7 +1018,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1039,7 +1038,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1059,7 +1058,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1079,7 +1078,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1099,7 +1098,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1119,7 +1118,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1137,7 +1136,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1155,7 +1154,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1173,7 +1172,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1191,7 +1190,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1209,7 +1208,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1227,7 +1226,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1247,7 +1246,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1267,7 +1266,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1287,7 +1286,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1307,7 +1306,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1327,7 +1326,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1347,7 +1346,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1367,7 +1366,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1387,7 +1386,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1407,7 +1406,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1427,7 +1426,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, false);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), false);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1447,7 +1446,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "I'm an invalid event";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertTrue(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertTrue(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1467,7 +1466,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + "eui64notexist" + "\"]}";
-		mDiscMan.onDiscoverEventReceived(event, true);
+		mDiscMan.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
 
 		assertFalse(appliance1.getNetworkNode().isOnlineViaCpp());
 		assertFalse(appliance2.getNetworkNode().isOnlineViaCpp());
@@ -1796,104 +1795,6 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE);
-	}
-
-	public void testParseDiscoverInfoNullParam() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo(null);
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoValidEvent() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-		assertNotNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoEmptyString() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoRandomString() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("fhaksjdfkljashl");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoRandomJSON() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"key\":\"value\"}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoNoState() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("\"ClientIds\":\"\"}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoNoClientIds() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"\"}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoveryInfoNoClientId() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Disconnected\"}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoRandomState() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Random\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoConnectedState() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-		assertNotNull(discoverInfo);
-	}
-
-	public void testParseDiscoverInfoDisConnectedState() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Disconnected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-		assertNotNull(discoverInfo);
-	}
-
-	public void testParseDiscoverEmptyClientId() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":\"\"\"}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverEmptyClientIdArray() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[]}");
-		assertNull(discoverInfo);
-	}
-
-	public void testParseDiscoverSingleClientIdArray() {
-		String[] expected = {"1c5a6bfffe63436c"};
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\"]}");
-
-		assertNotNull(discoverInfo);
-		assertEquals(expected[0], discoverInfo.getClientIds()[0]);
-		assertTrue(discoverInfo.getClientIds().length == 1);
-	}
-
-	public void testParseDiscoverDoubleClientIdArray() {
-		String[] expected = {"1c5a6bfffe63436c", "1c5a6bfffe634357"};
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-
-		assertNotNull(discoverInfo);
-		assertEquals(expected[0], discoverInfo.getClientIds()[0]);
-		assertEquals(expected[1], discoverInfo.getClientIds()[1]);
-		assertTrue(discoverInfo.getClientIds().length == 2);
-	}
-
-	public void testParseDiscoverConnectedEvent() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-
-		assertNotNull(discoverInfo);
-		assertTrue(discoverInfo.isConnected());
-	}
-
-	public void testParseDiscoverDisconnectedEvent() {
-		DiscoverInfo discoverInfo = mDiscMan.parseDiscoverInfo("{\"State\":\"Disconnected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
-
-		assertNotNull(discoverInfo);
-		assertFalse(discoverInfo.isConnected());
 	}
 
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****

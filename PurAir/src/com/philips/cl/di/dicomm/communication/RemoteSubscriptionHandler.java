@@ -32,7 +32,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DCSEv
 		mSubscriptionEventListener = null;
 		//DI-Comm change. Removing the listener on Disabling remote subscription
 		if (mNetworkNode != null) {
-			mCppController.removeDCSListener(mNetworkNode.getCppId());
+			mCppController.removeDCSEventListener(mNetworkNode.getCppId());
 		}
 		mCppController.stopDCSService();
 	}

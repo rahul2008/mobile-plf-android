@@ -27,7 +27,7 @@ import com.philips.cl.di.dicomm.port.FirmwarePort;
  */
 public class AirPurifierManager extends CurrentApplianceManager {
 
-	private static AirPurifierManager instance;
+	private static AirPurifierManager mInstance;
 
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
@@ -38,10 +38,10 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	private HashMap<AirPurifierEventListener, CurrentApplianceChangedListener> mApplianceChangedListeners;
 
 	public static synchronized AirPurifierManager getInstance() {
-		if (instance == null) {
-			instance = new AirPurifierManager();
-		}		
-		return instance;
+		if (mInstance == null) {
+			mInstance = new AirPurifierManager();
+		}
+		return mInstance;
 	}
 	
 	private AirPurifierManager() {
@@ -119,5 +119,9 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	
 	public int getCurrentIndoorViewPagerPosition() {
 		return mIndoorViewPagerPosition;
+	}
+
+	public static void setDummyAirPurifierManagerForTesting(AirPurifierManager dummyManager) {
+		mInstance = dummyManager;
 	}
 }

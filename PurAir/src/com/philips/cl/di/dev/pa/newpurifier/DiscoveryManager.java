@@ -252,13 +252,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	@Override
-	public boolean isDiscoverEvent(String data) {
-		return (parseDiscoverInfo(data) != null);
-	}
-
-	@Override
-	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
-		DiscoverInfo info = parseDiscoverInfo(data);
+	public void onDiscoverEventReceived(DiscoverInfo info, boolean isResponseToRequest) {
 		if (info == null) return;
 		ALog.v(ALog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
 
@@ -715,24 +709,6 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		ALog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
 		ALog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
 		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
-	}
-
-	public DiscoverInfo parseDiscoverInfo(String dataToParse) {
-		if (dataToParse== null || dataToParse.isEmpty()) return null;
-
-		try {
-			Gson gson = new GsonBuilder().create();
-			DiscoverInfo info =  gson.fromJson(dataToParse, DiscoverInfo.class);
-
-			if (!info.isValid()) return null;
-			return info;
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null;
-		}
 	}
 
 	private List<DICommAppliance> loadAllAddedAppliancesFromDatabase() {

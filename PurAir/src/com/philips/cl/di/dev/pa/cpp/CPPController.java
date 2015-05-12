@@ -57,7 +57,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private EventSubscription mEventSubscription;
     private HashMap<String,DCSEventListener> mDcsEventListenersMap = new HashMap<String, DCSEventListener>();
-	private CppDiscoverEventListener mCppDiscoverEventListener;
+	private DCSEventListener mCppDiscoverEventListener;
 	private boolean mIsDCSRunning;
 
 	//DCS client state
@@ -96,9 +96,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private Params mKpsConfiguration;
 
 	private String mAppCppId;
-
-	public static final String DISCOVER = "DISCOVER" ;
-
 
 	public static synchronized void createSharedInstance(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		if (mInstance != null) {
@@ -285,7 +282,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	}
 	//DI-Comm change. Added one more method to disable remote subscription
-	public void removeDCSListener(String cppId) {
+	public void removeDCSEventListener(String cppId) {
 		if( mDcsEventListenersMap != null ) {
 			mDcsEventListenersMap.remove(cppId) ;
 		}
@@ -295,7 +292,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		return mDcsEventListenersMap.get(cppId);
 	}
 
-	public void setCppDiscoverEventListener(CppDiscoverEventListener mCppDiscoverEventListener) {
+	public void setDCSDiscoverEventListener(DCSEventListener mCppDiscoverEventListener) {
 		this.mCppDiscoverEventListener = mCppDiscoverEventListener;
 	}
 
@@ -413,17 +410,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		if (data == null) return;
 
-		if (mCppDiscoverEventListener != null && mCppDiscoverEventListener.isDiscoverEvent(data)) {
-			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
-			boolean isResponseToRequest = false;
-			if (action != null
-					&& action.toUpperCase().trim().equals(DISCOVER)) {
-				isResponseToRequest = true;
-			}
-			if (mCppDiscoverEventListener != null) {
-				mCppDiscoverEventListener.onDiscoverEventReceived(data, isResponseToRequest);
-			}
-			return;
+		if (mCppDiscoverEventListener != null) {
+			mCppDiscoverEventListener.onDCSEventReceived(data, fromEui64, action);
 		}
 
 		if (getDCSEventListener(fromEui64) != null) {
