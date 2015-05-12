@@ -47,6 +47,7 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	private AirPurifierManager() {
 		super();
 		mApplianceEventListeners = new HashMap<AirPurifierEventListener, DICommApplianceListener>();
+		mApplianceChangedListeners = new HashMap<AirPurifierEventListener, CurrentApplianceChangedListener>();
 	}
 	
 	public String getDefaultPurifierEUI64() {
@@ -92,6 +93,7 @@ public class AirPurifierManager extends CurrentApplianceManager {
 				}
 			};
 			mApplianceChangedListeners.put(airPurifierEventListener, currentApplianceChangedListener);
+			addCurrentApplianceChangedListener(currentApplianceChangedListener);
 	    }
 	}
 	
