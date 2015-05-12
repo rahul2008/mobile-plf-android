@@ -43,58 +43,6 @@ import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
  */
 public class DataParser {
 
-	// TODO: DIComm refactor, remove this method after refactoring request architecture
-	public static AirPortProperties parseAirPurifierEventData(String dataToParse) {
-		AirPortProperties airPurifierEvent = null ;
-		try {
-			if( dataToParse != null ) {
-				JSONObject jsonObj = new JSONObject(dataToParse) ;
-				JSONObject airPuriferJson = jsonObj.optJSONObject("data") ;
-				if( airPuriferJson != null ) {
-					jsonObj = airPuriferJson ;
-				}
-				airPurifierEvent = new AirPortProperties() ;
-
-				airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
-				airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
-				airPurifierEvent.setPowerMode(jsonObj.getString(ParserConstants.POWER_MODE)) ;
-				String aqi = jsonObj.getString(ParserConstants.AQI) ;
-				if(aqi != null && !aqi.equals(""))
-					airPurifierEvent.setIndoorAQI(Integer.parseInt(aqi)) ;
-
-				airPurifierEvent.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
-				airPurifierEvent.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
-				airPurifierEvent.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
-				airPurifierEvent.setPreFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_1))) ;
-				airPurifierEvent.setMulticareFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_2))) ;
-				airPurifierEvent.setActiveFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_3))) ;
-				airPurifierEvent.setHepaFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_4))) ;
-				airPurifierEvent.setReplaceFilter1(jsonObj.getString(ParserConstants.CLEAN_FILTER_1)) ;
-				airPurifierEvent.setReplaceFilter2(jsonObj.getString(ParserConstants.REP_FILTER_2)) ;
-				airPurifierEvent.setReplaceFilter3(jsonObj.getString(ParserConstants.REP_FILTER_3)) ;
-				airPurifierEvent.setReplaceFilter4(jsonObj.getString(ParserConstants.REP_FILTER_4)) ;
-				airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CHILD_LOCK))) ;
-				airPurifierEvent.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
-				airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;
-				airPurifierEvent.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
-			}
-		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "JSONException AirPortInfo") ;
-			return null;
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException AirPortInfo");
-			return null;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException AirPortInfo");
-			return null;
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception AirPortInfo");
-			return null;
-		}
-
-		return airPurifierEvent ;
-	}
-
 	public  static List<IndoorHistoryDto> parseHistoryData(String dataToParse) {
 		//Log.i("PARSE", "Parse History Data\n"+dataToParse) ;
 		List<IndoorHistoryDto> indoorHistoryList = null ;
@@ -215,42 +163,6 @@ public class DataParser {
 			return null;
 		}
 		return weatherForecastList ;
-	}
-
-	public static DevicePortProperties getDeviceDetails(String data) {
-		if (data == null || data.isEmpty()) {
-			return null;
-		}
-		Gson gson = new GsonBuilder().create() ;
-		DevicePortProperties deviceDto = null;
-		try {
-			deviceDto = gson.fromJson(data, DevicePortProperties.class) ;
-		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-		}
-		return deviceDto;
-	}
-
-	public static WifiPortProperties getDeviceWifiDetails(String data) {
-		if (data == null || data.isEmpty()) {
-			return null;
-		}
-		Gson gson = new GsonBuilder().create() ;
-		WifiPortProperties WifiPortProperties = null;
-		try {
-			WifiPortProperties = gson.fromJson(data, WifiPortProperties.class) ;
-		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-		}
-		return WifiPortProperties;
 	}
 
 	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
