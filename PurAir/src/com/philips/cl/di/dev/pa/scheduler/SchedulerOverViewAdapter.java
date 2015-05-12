@@ -12,18 +12,19 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.philips.cdp.dicommclient.port.common.ScheduleListPortInfo;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
+public class SchedulerOverViewAdapter extends ArrayAdapter<ScheduleListPortInfo> {
 	private Context context;
-	private List<SchedulePortInfo> schedulers;
+	private List<ScheduleListPortInfo> schedulers;
 	private HashMap<Integer, Boolean> selectedItems;
 	private boolean edit;
 	private SchedulerEditListener listener;
 	
-	public SchedulerOverViewAdapter(Context context, int resource, List<SchedulePortInfo> schedulers,
+	public SchedulerOverViewAdapter(Context context, int resource, List<ScheduleListPortInfo> schedulers,
 			HashMap<Integer, Boolean> selectedItems, boolean edit, SchedulerEditListener listener) {
 		super(context, resource, schedulers);
 		this.context = context;

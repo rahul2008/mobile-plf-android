@@ -1,7 +1,7 @@
-package com.philips.cl.di.dev.pa.scheduler;
+package com.philips.cdp.dicommclient.port.common;
 
 
-public class SchedulePortInfo implements Comparable<SchedulePortInfo> {
+public class ScheduleListPortInfo implements Comparable<ScheduleListPortInfo> {
 	private String time;
 	private String days ;
 	private String mode ;
@@ -47,7 +47,7 @@ public class SchedulePortInfo implements Comparable<SchedulePortInfo> {
 	}
 	
 	@Override
-	public int compareTo(SchedulePortInfo port) {
+	public int compareTo(ScheduleListPortInfo port) {
 		return name.compareTo(port.getName());
 	}	
 }

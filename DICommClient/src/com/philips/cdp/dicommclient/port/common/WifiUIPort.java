@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,11 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cl.di.dev.pa.datamodel.WifiUIPortProperties;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
@@ -53,7 +52,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
 	@Override
 	public boolean supportsSubscription() {
-	    // TODO DIComm Refactor check if subscription to deviceport is necessary 
+	    // TODO DIComm Refactor check if subscription to deviceport is necessary
 		return false;
 	}
 
@@ -74,7 +73,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 		}
 		return properties;
 	}
-    
+
     public void disableDemoMode() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put(KEY_SETUP, "inactive");

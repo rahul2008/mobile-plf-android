@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,16 +9,14 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.SchedulePortListener;
-import com.philips.cl.di.dev.pa.util.ALog;
 
-public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
+public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
     private static final String KEY_SCHEDULECOMMAND = "command";
 	private static final String KEY_SCHEDULEPORT = "port";
@@ -27,16 +25,16 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 	private static final String KEY_SCHEDULETIME = "time";
 	private static final String KEY_SCHEDULEENABLED = "enabled";
 	private static final String KEY_SCHEDULENAME = "name";
-	
+
 	private final String SCHEDULELISTPORT_NAME = "schedules";
 	private final int SCHEDULELISTPORT_PRODUCTID = 0;
-	private List<SchedulePortInfo> mSchedulerPortInfoList;
+	private List<ScheduleListPortInfo> mSchedulerPortInfoList;
 	private SchedulePortListener mSchedulePortListener;
-	
+
 	public static final String ERROR_OUT_OF_MEMORY = "out of memory" ;
 	public static final int MAX_SCHEDULES_REACHED = 1;
 	public static final int DEFAULT_ERROR = 999;
-	
+
 	public ScheduleListPort(NetworkNode networkNode, CommunicationStrategy communicationStrategy){
 		super(networkNode,communicationStrategy);
 	}
@@ -53,12 +51,12 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 		//TODO: DIComm Refactor, implement
         throw new RuntimeException("Method Not Implemented, SchedulerActivity should be refactored");
 	}
-	
+
 	@Override
 	public String getDICommPortName() {
 		return SCHEDULELISTPORT_NAME;
 	}
-	
+
 	@Override
 	public int getDICommProductId() {
 		return SCHEDULELISTPORT_PRODUCTID;
@@ -68,35 +66,35 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
     public boolean supportsSubscription() {
         return false;
     }
-    
-	public List<SchedulePortInfo> getSchedulePortInfoList() {
+
+	public List<ScheduleListPortInfo> getSchedulePortInfoList() {
 		return mSchedulerPortInfoList;
 	}
 
-	public void setSchedulePortInfoList(List<SchedulePortInfo> schedulePortInfoList) {
+	public void setSchedulePortInfoList(List<ScheduleListPortInfo> schedulePortInfoList) {
 		mSchedulerPortInfoList = schedulePortInfoList;
 	}
-    
+
 	private String getDICommNestedPortName(int scheduleNumber) {
 		return String.format("%s/%d", getDICommPortName(), scheduleNumber);
 	}
-	
+
 	public void setSchedulePortListener(SchedulePortListener listener) {
 		mSchedulePortListener = listener;
 	}
-	
+
 	public void clearSchedulePortListener() {
 		mSchedulePortListener = null;
 	}
 
 	public void getSchedules() {
 		mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
-			
+
 			@Override
 			public void onSuccess(String data) {
 				handleSuccessResponse(data);
 			}
-			
+
 			@Override
 			public void onError(Error error, String errorData) {
 				handleErrorResponse();
@@ -106,12 +104,12 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 
 	public void getScheduleDetails(int scheduleNumber) {
 		mCommunicationStrategy.getProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode,new ResponseHandler() {
-			
+
 			@Override
 			public void onSuccess(String data) {
 				handleSuccessResponse(data);
 			}
-			
+
 			@Override
 			public void onError(Error error, String errorData) {
 				handleErrorResponse();
@@ -123,12 +121,12 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 		Map<String, Object> dataMap = createDataMap(portName, productId, time, days, enabled, commandMap);
 
 		mCommunicationStrategy.addProperties(dataMap, getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
-			
+
 			@Override
 			public void onSuccess(String data) {
 				handleSuccessResponse(data);
 			}
-			
+
 			@Override
 			public void onError(Error error, String errorData) {
 				handleErrorResponse();
@@ -138,14 +136,14 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 
 	public void updateSchedule(int scheduleNumber, String portName, int productId, String time, String days, boolean enabled, Map<String, Object> commandMap) {
 		Map<String, Object> dataMap = createDataMap(portName, productId, time, days, enabled, commandMap);
-		
+
 		mCommunicationStrategy.putProperties(dataMap, getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode, new ResponseHandler() {
-			
+
 			@Override
 			public void onSuccess(String data) {
 				handleSuccessResponse(data);
 			}
-			
+
 			@Override
 			public void onError(Error error, String errorData) {
 				handleErrorResponse();
@@ -155,12 +153,12 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 
 	public void deleteSchedule(int scheduleNumber) {
 		mCommunicationStrategy.deleteProperties(getDICommNestedPortName(scheduleNumber), getDICommProductId(), mNetworkNode, new ResponseHandler() {
-			
+
 			@Override
 			public void onSuccess(String data) {
 				handleSuccessResponse(data);
 			}
-			
+
 			@Override
 			public void onError(Error error, String errorData) {
 				handleErrorResponse();
@@ -182,17 +180,17 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 
 	private void handleErrorResponse() {
 		if (mSchedulePortListener != null) {
-			mSchedulePortListener.onError(ScheduleListPort.DEFAULT_ERROR);					
+			mSchedulePortListener.onError(ScheduleListPort.DEFAULT_ERROR);
 		}
 	}
-	
+
 	private void handleSuccessResponse(String data) {
-		SchedulePortInfo schedulePortInfo = parseResponseAsSingleSchedule(data);
+		ScheduleListPortInfo schedulePortInfo = parseResponseAsSingleSchedule(data);
 		if( schedulePortInfo != null && mSchedulePortListener != null) {
 			mSchedulePortListener.onScheduleReceived(schedulePortInfo);
 			return ;
 		}
-		List<SchedulePortInfo> schedulePortInfoList = parseResponseAsScheduleList(data);
+		List<ScheduleListPortInfo> schedulePortInfoList = parseResponseAsScheduleList(data);
 		if(  schedulePortInfoList != null && mSchedulePortListener != null ) {
 			mSchedulePortListener.onSchedulesReceived(schedulePortInfoList);
 			return ;
@@ -204,11 +202,11 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 			}
 		}
 	}
-	
-	SchedulePortInfo parseResponseAsSingleSchedule(String response) {
+
+	ScheduleListPortInfo parseResponseAsSingleSchedule(String response) {
 		//TODO: DIComm Refactor
 		if (response == null || response.isEmpty()) return null;
-		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
+		ScheduleListPortInfo scheduleListPortInfo = new ScheduleListPortInfo() ;
 		ALog.i(ALog.SCHEDULELISTPORT, response) ;
 		try {
 			JSONObject scheduleJson = new JSONObject(response) ;
@@ -216,26 +214,26 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 			if(scheduleJsonViaCPP != null ) {
 				scheduleJson = scheduleJsonViaCPP ;
 			}
-			schedulePortInfo.setName(scheduleJson.getString(KEY_SCHEDULENAME)) ;
-			schedulePortInfo.setEnabled(scheduleJson.getBoolean(KEY_SCHEDULEENABLED)) ;
-			schedulePortInfo.setDays(scheduleJson.getString(KEY_SCHEDULEDAYS)) ;
-			schedulePortInfo.setMode(scheduleJson.getJSONObject(KEY_SCHEDULECOMMAND).getString("om")) ;
-			schedulePortInfo.setScheduleTime(scheduleJson.getString(KEY_SCHEDULETIME)) ;
+			scheduleListPortInfo.setName(scheduleJson.getString(KEY_SCHEDULENAME)) ;
+			scheduleListPortInfo.setEnabled(scheduleJson.getBoolean(KEY_SCHEDULEENABLED)) ;
+			scheduleListPortInfo.setDays(scheduleJson.getString(KEY_SCHEDULEDAYS)) ;
+			scheduleListPortInfo.setMode(scheduleJson.getJSONObject(KEY_SCHEDULECOMMAND).getString("om")) ;
+			scheduleListPortInfo.setScheduleTime(scheduleJson.getString(KEY_SCHEDULETIME)) ;
 		} catch (JSONException e) {
-			schedulePortInfo = null ;
+			scheduleListPortInfo = null ;
 			ALog.e(ALog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
 		} catch (Exception e) {
-			schedulePortInfo = null ;
+			scheduleListPortInfo = null ;
 			ALog.e(ALog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
 		}
-		return schedulePortInfo ;
+		return scheduleListPortInfo ;
      }
 
-	 List<SchedulePortInfo> parseResponseAsScheduleList(String response) {
+	 List<ScheduleListPortInfo> parseResponseAsScheduleList(String response) {
 		//TODO: DIComm Refactor
 		if (response == null || response.isEmpty()) return null;
 		ALog.i(ALog.SCHEDULELISTPORT, response) ;
-		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
+		List<ScheduleListPortInfo> schedulesList = new ArrayList<ScheduleListPortInfo>() ;
 		JSONObject jsonObject = null ;
 		try {
 			jsonObject = new JSONObject(response);
@@ -247,7 +245,7 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 			String key = null ;
 			while(iterator.hasNext()) {
 				key = iterator.next() ;
-				SchedulePortInfo schedules = new SchedulePortInfo() ;
+				ScheduleListPortInfo schedules = new ScheduleListPortInfo() ;
 				JSONObject schedule;
 				schedule = jsonObject.getJSONObject(key);
 				schedules.setName((String)schedule.get(KEY_SCHEDULENAME)) ;
@@ -264,5 +262,5 @@ public class ScheduleListPort extends DICommPort<SchedulePortInfo> {
 		}
 		return schedulesList ;
      }
-	
+
 }

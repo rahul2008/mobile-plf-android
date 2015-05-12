@@ -20,6 +20,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.port.common.ScheduleListPort;
+import com.philips.cdp.dicommclient.port.common.ScheduleListPortInfo;
+import com.philips.cdp.dicommclient.port.common.SchedulePortListener;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
@@ -35,7 +38,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dicomm.port.AirPort;
-import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 public class SchedulerActivity extends BaseActivity implements SchedulePortListener, DiscoveryEventListener {
 
@@ -50,7 +52,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 	private List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
 	private SchedulerOverviewFragment schFragment;
 
-	private List<SchedulePortInfo> schedulesList;
+	private List<ScheduleListPortInfo> schedulesList;
 	private ProgressDialog progressDialog;
 	private int schedulerNumberSelected;
 	private int indexSelected;
@@ -267,7 +269,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 		}
 	}
 
-	private void showEditFragment(SchedulePortInfo schedulePortInfo) {
+	private void showEditFragment(ScheduleListPortInfo schedulePortInfo) {
 		Bundle bundle = new Bundle();
 		bundle.putString(SchedulerConstants.TIME, schedulePortInfo.getScheduleTime());
 		bundle.putString(SchedulerConstants.DAYS, schedulePortInfo.getDays());
@@ -343,7 +345,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 		setCancelled(false);
 	}
 
-	public List<SchedulePortInfo> getSchedulerList() {
+	public List<ScheduleListPortInfo> getSchedulerList() {
 		return schedulesList;
 	}
 
@@ -355,7 +357,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 	}
 
 	@Override
-	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) {
+	public void onSchedulesReceived(List<ScheduleListPortInfo> scheduleList) {
 		ALog.i(ALog.SCHEDULER, "onSchedulers list response");
 		if (scheduleList != null) {
 			Collections.sort(scheduleList);
@@ -376,7 +378,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 	}
 
 	@Override
-	public void onScheduleReceived(SchedulePortInfo schedule) {
+	public void onScheduleReceived(ScheduleListPortInfo schedule) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -384,7 +386,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 			}
 		});
 
-		for (SchedulePortInfo schedulerPortInfo : schedulesList) {
+		for (ScheduleListPortInfo schedulerPortInfo : schedulesList) {
 			if (schedulerPortInfo.getScheduleNumber() == schedulerNumberSelected) {
 				selectedDays = schedule.getDays();
 				schedulerPortInfo.setDays(selectedDays);

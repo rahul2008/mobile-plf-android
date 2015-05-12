@@ -3,6 +3,9 @@ package com.philips.cl.di.dev.pa.datamodel;
 import java.util.HashMap;
 import java.util.List;
 
+import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
+import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
+
 /**
  * This class will have the session objects required for the Air Purifier application
  * @author 310124914

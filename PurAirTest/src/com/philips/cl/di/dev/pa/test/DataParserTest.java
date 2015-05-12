@@ -3,13 +3,13 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
+import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
-import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
-import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
 public class DataParserTest extends TestCase {

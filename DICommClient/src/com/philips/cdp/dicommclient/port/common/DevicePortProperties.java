@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.datamodel;
+package com.philips.cdp.dicommclient.port.common;
 
 public class DevicePortProperties {
 	private String name ;

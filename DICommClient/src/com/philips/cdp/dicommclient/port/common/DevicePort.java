@@ -1,20 +1,19 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port.common;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class DevicePort extends DICommPort<DevicePortProperties> {
 
     private final String DEVICEPORT_NAME = "device";
     private final int DEVICEPORT_PRODUCTID = 1;
-    
+
     private static final String KEY_DEVICENAME = "name";
 
     public DevicePort(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
@@ -69,7 +68,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         }
         return devicePortInfo;
     }
-    
+
     public void setDeviceName(String name){
         putProperties(KEY_DEVICENAME, name);
     }

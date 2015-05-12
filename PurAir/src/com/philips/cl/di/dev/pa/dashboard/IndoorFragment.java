@@ -22,6 +22,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -29,8 +31,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;

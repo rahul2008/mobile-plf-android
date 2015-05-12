@@ -2,9 +2,9 @@ package com.philips.cl.di.dicomm.port;
 import static org.mockito.Mockito.mock;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortProperties.FirmwareState;
-import com.philips.cl.di.dicomm.port.FirmwarePort;
+import com.philips.cdp.dicommclient.port.common.FirmwarePort;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class FirmwarePortTest extends MockitoTestCase {

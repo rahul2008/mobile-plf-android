@@ -1,12 +1,12 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port.common;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class PairingPort extends DICommPort<Object> {
 
@@ -52,7 +52,7 @@ public class PairingPort extends DICommPort<Object> {
         dataMap.put(KEY_CONNECTION, "disconnected");
         putProperties(dataMap);
     }
-    
+
     public void triggerPairing(String appType, String appEui64, String secretKey) {
         String[] dataArray = {appType, appEui64, secretKey};
         HashMap<String, Object> dataMap = new HashMap<String, Object>();

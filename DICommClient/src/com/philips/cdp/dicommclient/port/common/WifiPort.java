@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,11 +7,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class WifiPort extends DICommPort<WifiPortProperties> {
 
@@ -78,14 +77,14 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
 		}
 		return wifiPortProperties;
 	}
-	
+
 	public void setWifiNetworkDetails(String ssid, String password) {
 	    Map<String, Object> dataMap = new HashMap<String, Object>();
 	    dataMap.put(KEY_WIFISSID, ssid);
         dataMap.put(KEY_WIFIPASSWORD, password);
         putProperties(dataMap);
 	}
-	
+
 	public void setWifiNetworkDetails(String ssid, String password, String ipAddress, boolean dhcp, String subnetMask, String gateWay) {
 	    Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put(KEY_WIFISSID, ssid);

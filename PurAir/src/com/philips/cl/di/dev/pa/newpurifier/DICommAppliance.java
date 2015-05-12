@@ -8,13 +8,13 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.DevicePort;
+import com.philips.cdp.dicommclient.port.common.FirmwarePort;
+import com.philips.cdp.dicommclient.port.common.PairingPort;
+import com.philips.cdp.dicommclient.port.common.WifiPort;
+import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.port.DevicePort;
-import com.philips.cl.di.dicomm.port.FirmwarePort;
-import com.philips.cl.di.dicomm.port.PairingPort;
-import com.philips.cl.di.dicomm.port.WifiPort;
-import com.philips.cl.di.dicomm.port.WifiUIPort;
 
 public abstract class DICommAppliance implements SubscriptionEventListener {
 

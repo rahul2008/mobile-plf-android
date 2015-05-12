@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.philips.cdp.dicommclient.port.common.ScheduleListPortInfo;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
@@ -26,7 +27,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 
 	private ListView lstView;
 	private SchedulerOverViewAdapter schOverviewAdapter;
-	private List<SchedulePortInfo> lstSchedulers;
+	private List<ScheduleListPortInfo> lstSchedulers;
 	private boolean edit;
 	private HashMap<Integer, Boolean> selectedItems;
 	private FontButton editScheduleBtn;
@@ -77,7 +78,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 		addScheduleTV = (FontTextView) view.findViewById(R.id.schedule_add_tv);
 		addScheduleTV.setOnClickListener(this);
 		lstView = (ListView) view.findViewById(R.id.event_scheduler_listview);
-		lstSchedulers = new ArrayList<SchedulePortInfo>();
+		lstSchedulers = new ArrayList<ScheduleListPortInfo>();
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::initViews() method exit");
 	}
 	
