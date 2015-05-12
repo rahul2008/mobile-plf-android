@@ -9,6 +9,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.util.ALog;
 

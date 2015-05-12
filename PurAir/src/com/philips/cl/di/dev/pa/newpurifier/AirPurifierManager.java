@@ -5,6 +5,7 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -13,7 +14,6 @@ import com.philips.cl.di.dicomm.appliance.CurrentApplianceChangedListener;
 import com.philips.cl.di.dicomm.appliance.CurrentApplianceManager;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceListener;
 import com.philips.cl.di.dicomm.port.AirPort;
-import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 
 /**

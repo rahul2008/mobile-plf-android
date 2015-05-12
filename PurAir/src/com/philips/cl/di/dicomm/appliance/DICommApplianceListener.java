@@ -1,8 +1,8 @@
 package com.philips.cl.di.dicomm.appliance;
 
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
-import com.philips.cl.di.dicomm.port.DICommPort;
 
 public interface DICommApplianceListener {
  

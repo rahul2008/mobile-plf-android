@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicomm.util;
 
 public enum ListenerRegistration {
     KEEP_REGISTERED, UNREGISTER

@@ -1,6 +1,8 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port;
 
-public interface DIListPortChangedListener {
+import com.philips.cdp.dicomm.util.ListenerRegistration;
+
+public interface DICommListPortChangedListener {
 
 	public ListenerRegistration onListEntryPortAdded(DICommListEntryPort<?> listEntryPort);
 	public ListenerRegistration onListEntryPortRemoved(DICommListEntryPort<?> listEntryPort);

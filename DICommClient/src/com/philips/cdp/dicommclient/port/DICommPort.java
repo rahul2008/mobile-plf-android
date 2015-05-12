@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Map;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicomm.util.WrappedHandler;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;

@@ -1,24 +1,24 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.request.Error;
 
 public abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPort<Object>{
 
 	private Map<String, T> mListEntryPorts;
-	private List<DIListPortChangedListener> mListPortChangedListeners;
+	private List<DICommListPortChangedListener> mListPortChangedListeners;
 
 	public DICommListPort(NetworkNode networkNode,
 			CommunicationStrategy communicationStrategy) {
 		super(networkNode, communicationStrategy);
 		mListEntryPorts = new HashMap<String, T>();
-		mListPortChangedListeners = new ArrayList<DIListPortChangedListener>();
+		mListPortChangedListeners = new ArrayList<DICommListPortChangedListener>();
 	}
 
 	public abstract T createNewListEntryPort(String listPortName, String portKey);
@@ -66,17 +66,17 @@ public abstract class DICommListPort<T extends DICommListEntryPort<?>> extends D
 		// if port in new hashmap -> create new port and call add listener
 	}
 
-    public void registerListPortChangedListener(DIListPortChangedListener listener) {
+    public void registerListPortChangedListener(DICommListPortChangedListener listener) {
 		mListPortChangedListeners.add(listener);
     }
 
-    public void unRegisterListPortChangedListener(DIListPortChangedListener listener) {
+    public void unRegisterListPortChangedListener(DICommListPortChangedListener listener) {
     	mListPortChangedListeners.remove(listener);
     }
 
     private void notifyListenersOnEntryPortAdded(DICommListEntryPort<?> addedEntryPort) {
-        ArrayList<DIListPortChangedListener> copyListeners = new ArrayList<DIListPortChangedListener>(mListPortChangedListeners);
-		for (DIListPortChangedListener listener : copyListeners) {
+        ArrayList<DICommListPortChangedListener> copyListeners = new ArrayList<DICommListPortChangedListener>(mListPortChangedListeners);
+		for (DICommListPortChangedListener listener : copyListeners) {
 			ListenerRegistration registration = listener.onListEntryPortAdded(addedEntryPort);
 			if (registration == ListenerRegistration.UNREGISTER) {
 			    mListPortChangedListeners.remove(listener);
@@ -85,8 +85,8 @@ public abstract class DICommListPort<T extends DICommListEntryPort<?>> extends D
     }
 
     private void notifyListenersOnEntryPortRemoved(DICommListEntryPort<?> removedEntryPort) {
-    	ArrayList<DIListPortChangedListener> copyListeners = new ArrayList<DIListPortChangedListener>(mListPortChangedListeners);
-		for (DIListPortChangedListener listener : copyListeners) {
+    	ArrayList<DICommListPortChangedListener> copyListeners = new ArrayList<DICommListPortChangedListener>(mListPortChangedListeners);
+		for (DICommListPortChangedListener listener : copyListeners) {
 			ListenerRegistration registration = listener.onListEntryPortRemoved(removedEntryPort);
 			if (registration == ListenerRegistration.UNREGISTER) {
                 mListPortChangedListeners.remove(listener);

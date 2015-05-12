@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class PairingPort extends DICommPort<Object> {

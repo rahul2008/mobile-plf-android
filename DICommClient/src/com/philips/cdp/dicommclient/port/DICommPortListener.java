@@ -1,5 +1,6 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port;
 
+import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.request.Error;
 
 public interface DICommPortListener {
