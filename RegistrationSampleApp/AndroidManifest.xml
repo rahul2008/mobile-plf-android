@@ -43,6 +43,21 @@
             android:configChanges="orientation|screenSize" >
         </activity>
 
+        <!-- Janrain specific  start -->
+        <activity
+            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
+            android:theme="@style/Theme.Janrain.Dialog.Light"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
+            android:theme="@style/Theme.Janrain"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <!-- Janrain specific end -->
+
+
         <!-- Network state change receiver -->
         <receiver android:name="com.philips.cl.di.reg.receiver.NetworkStateReceiver" >
             <intent-filter>
