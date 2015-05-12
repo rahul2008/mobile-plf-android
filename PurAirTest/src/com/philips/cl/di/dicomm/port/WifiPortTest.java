@@ -5,12 +5,12 @@ import static org.mockito.Mockito.mock;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp.dicommclient.communication.NullStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
-import com.philips.cl.di.dicomm.communication.NullStrategy;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class WifiPortTest extends MockitoTestCase {

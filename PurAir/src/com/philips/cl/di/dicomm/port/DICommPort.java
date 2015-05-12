@@ -9,10 +9,10 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.philips.cdp.dicomm.util.WrappedHandler;
+import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 
 public abstract class DICommPort<T> {
 

@@ -2,8 +2,8 @@ package com.philips.cl.di.dicomm.port;
 
 import static org.mockito.Mockito.mock;
 
+import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class DevicePortTest extends MockitoTestCase {

@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.test;
 
 import junit.framework.TestCase;
 
+import com.philips.cdp.dicommclient.communication.NullStrategy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.DashboardAPL;
@@ -9,7 +10,6 @@ import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.util.DataParser;
-import com.philips.cl.di.dicomm.communication.NullStrategy;
 import com.philips.cl.di.dicomm.port.AirPort;
 
 public class IndoorDashboardUtilsTest extends TestCase {

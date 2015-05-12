@@ -1,8 +1,8 @@
 package com.philips.cl.di.dev.pa.test;
 import static org.mockito.Mockito.mock;
 
+import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 

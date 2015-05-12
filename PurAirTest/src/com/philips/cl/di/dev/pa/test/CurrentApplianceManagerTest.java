@@ -7,13 +7,13 @@ import static org.mockito.Mockito.verify;
 
 import org.mockito.Mockito;
 
+import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dicomm.appliance.CurrentApplianceChangedListener;
 import com.philips.cl.di.dicomm.appliance.CurrentApplianceManager;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceListener;
-import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 import com.philips.cl.di.dicomm.util.TestAppliance;
 
