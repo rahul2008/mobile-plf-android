@@ -71,9 +71,14 @@ public class CdlsResponseParser {
 						.opt(FIRST_INDEX_VALUE);
 				JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
 						.opt(FIRST_INDEX_VALUE);
-				JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
-						.opt(FIRST_INDEX_VALUE);
-
+				if(jsonArrayDataEmail != null){
+					JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
+							.opt(FIRST_INDEX_VALUE);
+					cdlsEmailModel = new CdlsEmailModel();
+					cdlsEmailModel.setLabel(jsonObjectDataEmail.optString("label"));
+					cdlsEmailModel.setContentPath(jsonObjectDataEmail
+							.optString("contentPath"));
+				}
 				cdlsPhoneModel = new CdlsPhoneModel();
 
 				cdlsPhoneModel.setPhoneNumber(jsonObjectDataPhone
@@ -91,11 +96,6 @@ public class CdlsResponseParser {
 						.optString("openingHoursWeekdays"));
 				cdlsChatModel.setOpeningHoursSaturday(jsonObjectDataChat
 						.optString("openingHoursSaturday"));
-
-				cdlsEmailModel = new CdlsEmailModel();
-				cdlsEmailModel.setLabel(jsonObjectDataEmail.optString("label"));
-				cdlsEmailModel.setContentPath(jsonObjectDataEmail
-						.optString("contentPath"));
 			} else {
 				cdlsErrorModel = new CdlsErrorModel();
 				JSONObject jsonObjectData = jsonObject.optJSONObject("error");

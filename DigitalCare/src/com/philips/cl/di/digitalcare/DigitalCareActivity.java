@@ -6,6 +6,11 @@ import android.os.Bundle;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
+import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
+import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
+import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
+import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
@@ -35,8 +40,51 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		} catch (ClassCastException e) {
 			DLog.e(TAG, "Actionbar: " + e.getMessage());
 		}
-		showFragment(new SupportHomeFragment());
-		enableActionBarHome();
+
+		Intent intent = getIntent();
+		int feature = intent.getIntExtra("feature", 0);
+
+		switch (feature) {
+		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
+			// product
+			showFragment(new ProductDetailsFragment());
+			break;
+
+		case DigitalCareContants.OPTION_FAQ:
+			// Faq
+			showFragment(new SupportHomeFragment());
+			break;
+
+		case DigitalCareContants.OPTION_CONTACT_US:
+			// contact us
+			showFragment(new ContactUsFragment());
+			break;
+
+		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
+			// find philips
+			showFragment(new LocatePhilipsFragment());
+			break;
+
+		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
+			// rating
+			showFragment(new RateThisAppFragment());
+			break;
+
+		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
+			// register
+			showFragment(new ProductRegistrationFragment());
+			break;
+
+		default:
+			// home
+			showFragment(new SupportHomeFragment());
+			enableActionBarHome();
+			break;
+
+		}
+
+		// showFragment(new SupportHomeFragment());
+		// enableActionBarHome();
 	}
 	
 	@Override

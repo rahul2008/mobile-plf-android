@@ -1,5 +1,7 @@
 package com.philips.cl.di.digitalcare;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -13,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
@@ -39,6 +42,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
 		DLog.i(TAG, "onCreate");
+		setLocaleLanguage();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
 				DigitalCareConfigManager.getAnimationStop());
@@ -102,6 +106,24 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		if (mDigitalCareConfigManager != null) {
 			mDigitalCareConfigManager = null;
 		}
+	}
+
+	private void setLocaleLanguage() {
+
+		Locale locale = new Locale(DigitalCareConfigManager.getLanguage(),
+				DigitalCareConfigManager.getCountry());
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		getBaseContext().getResources().updateConfiguration(config,
+				getBaseContext().getResources().getDisplayMetrics());
+
+		Toast.makeText(
+				getApplicationContext(),
+				"Language set to " + DigitalCareConfigManager.getLanguage()
+						+ "\n Country set to"
+						+ DigitalCareConfigManager.getCountry(),
+				Toast.LENGTH_SHORT).show();
 	}
 
 	private boolean backstackFragment() {
