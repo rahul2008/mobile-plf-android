@@ -1,17 +1,16 @@
-package com.philips.cl.di.dicomm.communication;
+package com.philips.cdp.dicommclient.request;
 
 import java.util.Map;
 import java.util.Set;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-
 public abstract class Request {
 
 	protected final Map<String, Object> mDataMap;
     protected final NetworkNode mNetworkNode;
     protected final ResponseHandler mResponseHandler;
-    
+
     public Request(NetworkNode networkNode, Map<String, Object> dataMap, ResponseHandler responseHandler) {
         this.mDataMap = dataMap;
         this.mNetworkNode = networkNode;

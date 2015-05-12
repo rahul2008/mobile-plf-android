@@ -4,7 +4,10 @@ import java.util.Map;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cl.di.dev.pa.purifier.RemoteRequest;
+import com.philips.cdp.dicommclient.request.RemoteRequest;
+import com.philips.cdp.dicommclient.request.RemoteRequestType;
+import com.philips.cdp.dicommclient.request.RequestQueue;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 
 public class RemoteStrategy extends CommunicationStrategy {
 private final RequestQueue mRequestQueue;

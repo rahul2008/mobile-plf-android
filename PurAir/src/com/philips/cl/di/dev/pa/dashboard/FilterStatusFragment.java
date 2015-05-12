@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -26,7 +27,6 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 

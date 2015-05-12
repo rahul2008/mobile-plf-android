@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.communication;
+package com.philips.cdp.dicommclient.request;
 
 import java.util.ArrayList;
 
@@ -6,8 +6,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
-import com.philips.cl.di.dev.pa.purifier.ExchangeKeyRequest;
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cdp.dicomm.util.ALog;
 
 public class RequestQueue {
 

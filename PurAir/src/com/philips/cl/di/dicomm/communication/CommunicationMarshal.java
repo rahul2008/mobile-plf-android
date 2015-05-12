@@ -3,7 +3,8 @@ package com.philips.cl.di.dicomm.communication;
 import java.util.Map;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cl.di.dicomm.security.DISecurity;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.security.DISecurity;
 
 public class CommunicationMarshal extends CommunicationStrategy {
 

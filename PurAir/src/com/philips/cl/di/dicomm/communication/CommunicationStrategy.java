@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 
 public abstract class CommunicationStrategy {
 

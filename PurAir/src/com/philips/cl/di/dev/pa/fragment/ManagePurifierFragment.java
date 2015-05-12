@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -35,7 +36,6 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
-import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {

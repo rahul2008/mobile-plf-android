@@ -1,18 +1,14 @@
-package com.philips.cl.di.dev.pa.purifier;
+package com.philips.cdp.dicommclient.request;
 
 import java.util.HashMap;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.LocalRequestType;
-import com.philips.cl.di.dicomm.communication.Response;
-import com.philips.cl.di.dicomm.communication.ResponseHandler;
-import com.philips.cl.di.dicomm.security.ByteUtil;
-import com.philips.cl.di.dicomm.security.EncryptionUtil;
+import com.philips.cdp.dicommclient.security.ByteUtil;
+import com.philips.cdp.dicommclient.security.EncryptionUtil;
 
 public class ExchangeKeyRequest extends LocalRequest {
 
@@ -45,7 +41,7 @@ public class ExchangeKeyRequest extends LocalRequest {
 
             String key = EncryptionUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
             ALog.i(ALog.SECURITY, "decryted key= " + key);
-            
+
             mNetworkNode.setEncryptionKey(key);
 
             return new Response(key, null, mResponseHandler);

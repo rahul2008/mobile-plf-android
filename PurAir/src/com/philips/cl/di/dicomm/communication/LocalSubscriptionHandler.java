@@ -1,10 +1,10 @@
 package com.philips.cl.di.dicomm.communication;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cl.di.dev.pa.purifier.UDPEventListener;
 import com.philips.cl.di.dev.pa.purifier.UDPReceivingThread;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEventListener{
 	

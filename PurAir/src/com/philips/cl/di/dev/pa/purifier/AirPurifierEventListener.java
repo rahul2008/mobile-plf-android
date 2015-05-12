@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.purifier;
 
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
-import com.philips.cl.di.dicomm.communication.Error;
 
 /**
  * The listener interface for receiving airPurifierEvent events.

@@ -1,5 +1,7 @@
 package com.philips.cl.di.dicomm.security;
 
+import com.philips.cdp.dicommclient.security.EncryptionUtil;
+
 import junit.framework.TestCase;
 
 public class EncryptionUtilTest extends TestCase {

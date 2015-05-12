@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.communication;
+package com.philips.cdp.dicommclient.request;
 
 public enum RemoteRequestType {
 	

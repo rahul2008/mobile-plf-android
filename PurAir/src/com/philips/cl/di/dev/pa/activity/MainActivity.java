@@ -30,6 +30,7 @@ import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.SignonListener;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
@@ -77,7 +78,6 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
 PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectionListener {

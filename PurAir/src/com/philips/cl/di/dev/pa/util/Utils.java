@@ -31,6 +31,7 @@ import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -44,7 +45,6 @@ import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
-import com.philips.cl.di.dicomm.security.ByteUtil;
 
 
 /**

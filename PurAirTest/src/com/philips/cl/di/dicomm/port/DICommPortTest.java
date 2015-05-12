@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 
 import com.philips.cdp.dicomm.util.WrappedHandler;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
-import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 

@@ -4,10 +4,15 @@ import java.util.Map;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cl.di.dev.pa.purifier.ExchangeKeyRequest;
-import com.philips.cl.di.dev.pa.purifier.LocalRequest;
-import com.philips.cl.di.dicomm.security.DISecurity;
-import com.philips.cl.di.dicomm.security.DISecurity.EncryptionDecryptionFailedListener;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.ExchangeKeyRequest;
+import com.philips.cdp.dicommclient.request.LocalRequest;
+import com.philips.cdp.dicommclient.request.LocalRequestType;
+import com.philips.cdp.dicommclient.request.Request;
+import com.philips.cdp.dicommclient.request.RequestQueue;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.security.DISecurity;
+import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;

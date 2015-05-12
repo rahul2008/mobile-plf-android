@@ -3,6 +3,8 @@ package com.philips.cl.di.dicomm.communication;
 import java.util.Map;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.request.ResponseHandler;
 
 public class NullStrategy extends CommunicationStrategy {
 

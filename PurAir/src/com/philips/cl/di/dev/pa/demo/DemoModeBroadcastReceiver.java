@@ -14,6 +14,8 @@ import android.os.CountDownTimer;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.DevicePortProperties;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -24,13 +26,11 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
-import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
-import com.philips.cl.di.dicomm.security.DISecurity;
 
 public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 		Runnable {

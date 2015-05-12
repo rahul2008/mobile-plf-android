@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.security;
+package com.philips.cdp.dicommclient.security;
 
 import java.math.BigInteger;
 import java.nio.charset.Charset;

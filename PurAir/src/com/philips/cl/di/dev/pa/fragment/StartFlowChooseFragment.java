@@ -24,6 +24,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -43,7 +44,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;

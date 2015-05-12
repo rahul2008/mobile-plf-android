@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.security;
+package com.philips.cdp.dicommclient.security;
 
 import java.nio.charset.Charset;
 import java.util.Arrays;

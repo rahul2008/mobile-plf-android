@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -30,7 +31,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class DeviceControlFragment extends BaseFragment implements OnClickListener, AirPurifierEventListener{
 

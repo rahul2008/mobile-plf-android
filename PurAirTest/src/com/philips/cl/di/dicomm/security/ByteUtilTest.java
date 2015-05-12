@@ -3,6 +3,8 @@ package com.philips.cl.di.dicomm.security;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import com.philips.cdp.dicommclient.security.ByteUtil;
+
 import junit.framework.TestCase;
 import android.annotation.SuppressLint;
 

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -18,7 +19,6 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dicomm.security.ByteUtil;
 
 public class AlertDialogFragment extends DialogFragment {
 

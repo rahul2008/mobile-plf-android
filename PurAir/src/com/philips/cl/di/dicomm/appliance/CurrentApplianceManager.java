@@ -6,10 +6,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;

@@ -22,6 +22,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -48,7 +49,6 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.AirPort;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,

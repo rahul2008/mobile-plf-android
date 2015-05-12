@@ -1,17 +1,12 @@
-package com.philips.cl.di.dev.pa.purifier;
+package com.philips.cdp.dicommclient.request;
 
 import java.util.Map;
 
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.DCSResponseListener;
 import com.philips.cdp.dicomm.cpp.PublishEventListener;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.communication.Error;
-import com.philips.cl.di.dicomm.communication.RemoteRequestType;
-import com.philips.cl.di.dicomm.communication.Request;
-import com.philips.cl.di.dicomm.communication.Response;
-import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteRequest extends Request implements DCSResponseListener, PublishEventListener {
@@ -31,7 +26,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 
 	private CPPController mCppController ;
 	private final RemoteRequestType mRequestType;
-	
+
 	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,Object> dataMap,ResponseHandler responseHandler) {
 		super(networkNode, dataMap, responseHandler);
 	    mCppController = CPPController.getInstance();
@@ -54,7 +49,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 		//TODO - Add publish event listener for handling error cases
 		mCppController.addDCSResponseListener(this) ;
 		mCppController.addPublishEventListener(this) ;
-		
+
 		mEventData = createDataToSend(mNetworkNode, mPortName, mProductId, mDataMap);
 		mMessageId = mCppController.publishEvent(mEventData,DICOMM_REQUEST, mRequestType.getMethod(),
 				"", REQUEST_PRIORITY, REQUEST_TTL, mNetworkNode.getCppId()) ;
@@ -63,7 +58,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 			synchronized (this) {
 				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
 			}
-			if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {				
+			if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {
 				ALog.e(ALog.REMOTEREQUEST, "Timeout occured");
 			}
 		} catch (InterruptedException e) {
@@ -78,7 +73,7 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 			ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Failure");
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 		}
-		
+
 		ALog.i(ALog.REMOTEREQUEST, "Received data: " + mResponse);
 		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Success");
 		return new Response(mResponse, null, mResponseHandler) ;
