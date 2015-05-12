@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.appliance;
+package com.philips.cdp.dicomm.appliance;
 
 public interface CurrentApplianceChangedListener {
 
