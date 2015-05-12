@@ -27,8 +27,8 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
+import com.philips.cl.di.dicomm.port.ListenerRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 
@@ -198,18 +198,18 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
-        devicePort.registerPortListener(new DIPortListener() {
+        devicePort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, (DevicePortProperties) port.getPortProperties(), null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
         });
         
@@ -221,18 +221,18 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
         
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
-        wifiPort.registerPortListener(new DIPortListener() {
+        wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, null, (WifiPortProperties) port.getPortProperties());
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
         });
         

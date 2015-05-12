@@ -45,8 +45,8 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
+import com.philips.cl.di.dicomm.port.ListenerRegistration;
 import com.philips.cl.di.dicomm.port.WifiPort;
 
 public class StartFlowChooseFragment extends BaseFragment implements
@@ -196,18 +196,18 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
 		final WifiPort wifiPort = selectedPurifier.getWifiPort();
-		wifiPort.registerPortListener(new DIPortListener() {
+		wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 stopSSIDTimer();
                 onSuccessfullyConnected();
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
-                return DIRegistration.UNREGISTER;
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+                return ListenerRegistration.UNREGISTER;
             }
         });
 		// TODO DIComm Refactor - See if key exchange retries are necessary

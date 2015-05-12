@@ -45,8 +45,8 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
+import com.philips.cl.di.dicomm.port.ListenerRegistration;
 
 public class NotificationsFragment extends BaseFragment implements
 OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
@@ -75,19 +75,19 @@ AlertDialogBtnInterface, OnClickListener {
 	private ViewGroup lastConnectionLL;
 	private FontTextView lastConnectionTimeTV;
 	
-	private DIPortListener mAirPortListener = new DIPortListener() {
+	private DICommPortListener mAirPortListener = new DICommPortListener() {
 		@Override
-		public DIRegistration onPortUpdate(DICommPort<?> port) {
+		public ListenerRegistration onPortUpdate(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
 			updateUI();
-            return DIRegistration.KEEP_REGISTERED;
+            return ListenerRegistration.KEEP_REGISTERED;
 		}
 
         @Override
-        public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+        public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
             //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
             handleSetThresholdError(error);
-            return DIRegistration.KEEP_REGISTERED;
+            return ListenerRegistration.KEEP_REGISTERED;
         }
 	};
 

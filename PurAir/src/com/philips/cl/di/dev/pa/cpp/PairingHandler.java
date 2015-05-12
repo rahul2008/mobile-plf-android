@@ -18,8 +18,8 @@ import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
+import com.philips.cl.di.dicomm.port.ListenerRegistration;
 import com.philips.cl.di.dicomm.port.PairingPort;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
@@ -157,20 +157,20 @@ public class PairingHandler implements ICPEventListener {
 			String appEui64 = cppController.getAppCppId();
 			
 			PairingPort pairingPort = mAppliance.getPairingPort();
-			pairingPort.registerPortListener(new DIPortListener() {
+			pairingPort.registerPortListener(new DICommPortListener() {
                 
                 @Override
-                public DIRegistration onPortUpdate(DICommPort<?> port) {
+                public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                     ALog.i(ALog.PAIRING, "PairingPort call-SUCCESS");
                     addRelationship(currentRelationshipType, secretKey);
-                    return DIRegistration.UNREGISTER;
+                    return ListenerRegistration.UNREGISTER;
                 }
                 
                 @Override
-                public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+                public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                     ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
                     notifyListenerFailed(true);
-                    return DIRegistration.UNREGISTER;
+                    return ListenerRegistration.UNREGISTER;
                 }
             });
             pairingPort.triggerPairing(CPPController.getInstance().getAppType(), appEui64, secretKey);

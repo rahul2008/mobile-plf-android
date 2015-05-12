@@ -15,14 +15,14 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
 
 public class AirPurifierTest extends InstrumentationTestCase {
 
 	private AirPurifier mPurifier = null;
 	private Observer mObserver = null;
-	private DIPortListener mAirPortListener;
-	private DIPortListener mFirmwarePortListener;
+	private DICommPortListener mAirPortListener;
+	private DICommPortListener mFirmwarePortListener;
 
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
 	private static final String PURIFIER_IP = "198.168.1.145";
@@ -51,8 +51,8 @@ public class AirPurifierTest extends InstrumentationTestCase {
 
 		mPurifier = new AirPurifier(networkNode, mock(CommunicationStrategy.class));
 
-		mAirPortListener = mock(DIPortListener.class);
-		mFirmwarePortListener = mock(DIPortListener.class);
+		mAirPortListener = mock(DICommPortListener.class);
+		mFirmwarePortListener = mock(DICommPortListener.class);
 
 		mPurifier.getAirPort().registerPortListener(mAirPortListener);
 		mPurifier.getFirmwarePort().registerPortListener(mFirmwarePortListener);

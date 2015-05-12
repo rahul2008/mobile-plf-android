@@ -30,8 +30,8 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
+import com.philips.cl.di.dicomm.port.ListenerRegistration;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 
@@ -124,18 +124,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         isCancelled = false;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPortListener(new DIPortListener() {
+        devicePort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
         });
         
@@ -148,18 +148,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         isCancelled = false;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPortListener(new DIPortListener() {
+        wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
         });
         
@@ -172,18 +172,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         isCancelled = false;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPortListener(new DIPortListener() {
+        devicePort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
         });
         
@@ -198,18 +198,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 		
 		final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPortListener(new DIPortListener() {
+        wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public DIRegistration onPortUpdate(DICommPort<?> port) {
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
 
             @Override
-            public DIRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return DIRegistration.UNREGISTER;
+                return ListenerRegistration.UNREGISTER;
             }
         });
 

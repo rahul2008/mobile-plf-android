@@ -9,7 +9,7 @@ import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.PairingPort;
@@ -120,13 +120,13 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
         mNetworkNode.setConnectionState(connectionState);
     }
     
-    public void addListenerForAllPorts(DIPortListener portListener) {
+    public void addListenerForAllPorts(DICommPortListener portListener) {
 		for (DICommPort<?> port : getAllPorts()) {
 			port.registerPortListener(portListener);
 		}
 	}
 
-	public void removeListenerForAllPorts(DIPortListener portListener) {
+	public void removeListenerForAllPorts(DICommPortListener portListener) {
 		for (DICommPort<?> port : getAllPorts()) {
 			port.unregisterPortListener(portListener);
 		}

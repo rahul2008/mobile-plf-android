@@ -77,8 +77,8 @@ public abstract class DICommListPort<T extends DICommListEntryPort<?>> extends D
     private void notifyListenersOnEntryPortAdded(DICommListEntryPort<?> addedEntryPort) {
         ArrayList<DIListPortChangedListener> copyListeners = new ArrayList<DIListPortChangedListener>(mListPortChangedListeners);
 		for (DIListPortChangedListener listener : copyListeners) {
-			DIRegistration registration = listener.onListEntryPortAdded(addedEntryPort);
-			if (registration == DIRegistration.UNREGISTER) {
+			ListenerRegistration registration = listener.onListEntryPortAdded(addedEntryPort);
+			if (registration == ListenerRegistration.UNREGISTER) {
 			    mListPortChangedListeners.remove(listener);
 			}
 		}
@@ -87,8 +87,8 @@ public abstract class DICommListPort<T extends DICommListEntryPort<?>> extends D
     private void notifyListenersOnEntryPortRemoved(DICommListEntryPort<?> removedEntryPort) {
     	ArrayList<DIListPortChangedListener> copyListeners = new ArrayList<DIListPortChangedListener>(mListPortChangedListeners);
 		for (DIListPortChangedListener listener : copyListeners) {
-			DIRegistration registration = listener.onListEntryPortRemoved(removedEntryPort);
-			if (registration == DIRegistration.UNREGISTER) {
+			ListenerRegistration registration = listener.onListEntryPortRemoved(removedEntryPort);
+			if (registration == ListenerRegistration.UNREGISTER) {
                 mListPortChangedListeners.remove(listener);
             }
 		}

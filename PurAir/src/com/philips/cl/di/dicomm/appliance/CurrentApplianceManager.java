@@ -11,8 +11,8 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
+import com.philips.cl.di.dicomm.port.DICommPortListener;
+import com.philips.cl.di.dicomm.port.ListenerRegistration;
 
 public class CurrentApplianceManager implements Observer {
 
@@ -24,19 +24,19 @@ public class CurrentApplianceManager implements Observer {
 	private List<DICommApplianceListener> mApplianceListenersList ;
 	private List<CurrentApplianceChangedListener> mCurrentApplianceChangedListenerList ;
 
-	private DIPortListener mDICommAppliancePortListener = new DIPortListener() {
+	private DICommPortListener mDICommAppliancePortListener = new DICommPortListener() {
 
 		@Override
-		public DIRegistration onPortUpdate(DICommPort<?> port) {
+		public ListenerRegistration onPortUpdate(DICommPort<?> port) {
 			notifyApplianceListenersOnSuccess(port);
-			return DIRegistration.KEEP_REGISTERED;
+			return ListenerRegistration.KEEP_REGISTERED;
 		}
 
 		@Override
-		public DIRegistration onPortError(DICommPort<?> port, Error error,
+		public ListenerRegistration onPortError(DICommPort<?> port, Error error,
 				String errorData) {
 			notifyApplianceListenersOnErrorOccurred(port, error);
-			return DIRegistration.KEEP_REGISTERED;
+			return ListenerRegistration.KEEP_REGISTERED;
 		}
 	};
 
