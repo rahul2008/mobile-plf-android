@@ -19,10 +19,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
+import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -43,7 +42,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private static CPPController mInstance;
 	private static final String CERTIFICATE_EXTENSION = ".cer";
-	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
 	public static final String NOTIFICATION_SERVICE_TAG="3pns";
 	public static final String NOTIFICATION_PROTOCOL="push";
 
@@ -52,10 +50,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private List<SignonListener> mSignOnListeners;
 
 	private SendNotificationRegistrationIdListener mNotificationListener;
-	private AppUpdateListener mAppUpdateListener ; 
+	private AppUpdateListener mAppUpdateListener ;
 
 	private ICPCallbackHandler mICPCallbackHandler;
-	private Params mKpsConfiguration;
 	private Context mContext;
 
 	private EventSubscription mEventSubscription;
@@ -71,7 +68,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private ICP_CLIENT_DCS_STATE mDcsState = ICP_CLIENT_DCS_STATE.STOPPED;
 	private APP_REQUESTED_STATE mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
-
 
 	private DownloadData mDownloadData;
 	private ICPDownloadListener mDownloadDataListener;
@@ -96,13 +92,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+	private KPSConfigurationInfo mKpsConfigurationInfo;
+	private Params mKpsConfiguration;
 
 	private String mAppCppId;
-	
+
 	public static final String DISCOVER = "DISCOVER" ;
-	
-	private KPSConfigurationInfo mKpsConfigurationInfo;
-	
+
+
 	public static synchronized void createSharedInstance(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		if (mInstance != null) {
 			throw new RuntimeException("CPPController can only be initialized once");
@@ -117,12 +114,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private CPPController(Context context, KPSConfigurationInfo kpsConfigurationInfo) {
 		this.mContext = context;
-		KeyProvisioningHelper keyProvisioningHelper = new KeyProvisioningHelper(kpsConfigurationInfo);
-		
 		mKpsConfigurationInfo = kpsConfigurationInfo;
-		
-		this.mKpsConfiguration = keyProvisioningHelper;
-		
+		mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
+
 		// TODO:DICOMM Refactor, check when to set the locale, after/before sign on
 		setLocale();
 				
@@ -419,7 +413,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		if (data == null) return;
 
-		if (DiscoveryManager.getInstance().parseDiscoverInfo(data) != null) {
+		if (mCppDiscoverEventListener != null && mCppDiscoverEventListener.isDiscoverEvent(data)) {
 			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action);
 			boolean isResponseToRequest = false;
 			if (action != null
@@ -477,7 +471,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}
-		provider = mProvider;
+		mProvider = provider;
 
 		ALog.i(ALog.CPPCONTROLLER, "CPPController sendNotificationRegistrationId provider : " + mProvider
 				+"------------RegId : " + gcmRegistrationId);
@@ -930,6 +924,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (mSignon == null) return;
 
 		mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
+	}
+
+	public String getAppType() {
+		return mKpsConfigurationInfo.getAppType();
 	}
 
 	public String getAppCppId() {

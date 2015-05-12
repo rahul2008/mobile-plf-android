@@ -80,14 +80,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	public void testRegisterSubscriptionInOnResume() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 			AirPurifierManager purManager = mock(AirPurifierManager.class);
-			AirPurifierManager.setDummyPurifierManagerForTesting(purManager);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(purManager);
 			
 			instrumentation.callActivityOnResume(activity);
 			
 			verify(purManager).addAirPurifierEventListener(activity);
 //			verify(purManager, never()).removeAirPurifierEventListener(activity);
 			
-			AirPurifierManager.setDummyPurifierManagerForTesting(null);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(null);
 		} else {
 			assertFalse(false);
 		}
@@ -98,14 +98,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	public void testUnRegisterSubscriptionInOnPause() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 			AirPurifierManager purManager = mock(AirPurifierManager.class);
-			AirPurifierManager.setDummyPurifierManagerForTesting(purManager);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(purManager);
 			
 			instrumentation.callActivityOnPause(activity);
 			
 			verify(purManager, never()).addAirPurifierEventListener(activity);
 			verify(purManager).removeAirPurifierEventListener(activity);
 			
-			AirPurifierManager.setDummyPurifierManagerForTesting(null);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(null);
 		
 		} else {
 			assertFalse(false);

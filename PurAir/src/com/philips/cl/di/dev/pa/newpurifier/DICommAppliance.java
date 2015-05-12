@@ -23,7 +23,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     protected final PairingPort mPairingPort;
     protected final WifiPort mWifiPort;
     protected final WifiUIPort mWifiUIPort;
-    
+
     protected final CommunicationStrategy mCommunicationStrategy;
 
     private final List<DICommPort<?>> mPortList = new ArrayList<DICommPort<?>>();
@@ -43,9 +43,14 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
         addPort(mPairingPort);
         addPort(mWifiPort);
         addPort(mWifiUIPort);
-        
     }
-    
+
+    // TODO DIComm Refactor - remove from public interface
+    /**
+     * @return DeviceType used by CPP to identify this appliance
+     */
+    public abstract String getDeviceType();
+
     public NetworkNode getNetworkNode() {
         return mNetworkNode;
     }

@@ -4,11 +4,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceDatabase;
+import com.philips.cl.di.dicomm.util.DICommContext;
 
 public class PurifierDatabase implements DICommApplianceDatabase<AirPurifier> {
 
@@ -18,7 +18,7 @@ public class PurifierDatabase implements DICommApplianceDatabase<AirPurifier> {
 	 * @param context
 	 */
 	public PurifierDatabase() {
-		dbHelper = new PurifierDatabaseHelper(PurAirApplication.getAppContext());
+		dbHelper = new PurifierDatabaseHelper(DICommContext.getContext());
 	}
 
 	@Override

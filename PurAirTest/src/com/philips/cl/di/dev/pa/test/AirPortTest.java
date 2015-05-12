@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cl.di.dev.pa.test;
 import static org.mockito.Mockito.mock;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;

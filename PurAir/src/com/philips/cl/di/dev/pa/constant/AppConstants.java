@@ -17,7 +17,6 @@ public class AppConstants {
 	
 	public static final String APP_ID = "1_com.philips.cl.di.air";
 	public static final String APP_TYPE="AC4373APP";
-	public static final String DISCOVER = "DISCOVER" ;
 	public static final String COMPONENT_ID = "AC4373-AND";
 	
 	public static final String DEVICE_PORT_URL="https://dp.cpp.philips.com.cn/DevicePortalICPRequestHandler/RequestHandler.ashx";
@@ -191,8 +190,6 @@ public class AppConstants {
 	public static final String PURIFIER_BUY_LINK = "http://shop.philips.com.cn/product/JY0002/detail.htm?origin=15_global_en_purifier-app_purifier-app";
 	
 	public static final String MODEL_NAME = "AirPurifier" ;
-	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
-	public static final String DISCOVERY_REQUEST = "DCS-REQUEST" ;
 
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 

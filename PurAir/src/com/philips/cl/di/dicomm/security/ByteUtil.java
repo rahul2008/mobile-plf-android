@@ -6,10 +6,6 @@ import java.util.Random;
 
 import android.util.Base64;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ByteUtil {
 	
@@ -109,20 +105,5 @@ public class ByteUtil {
 		
 		byte[] dataBytes = Arrays.copyOfRange(data, RANDOM_BYTE_ARR_SIZE, data.length);
 		return dataBytes;
-	}
-	
-	// TODO DIComm Refactor - Remove from DIComm code
-	public static String getBootStrapID() {
-		String bootStrapID = AppConstants.EMPTY_STRING ;
-		StringBuilder bootStrapBuilder = new StringBuilder(CPPController.BOOT_STRAP_ID_1);
-		bootStrapBuilder.append(SchedulerConstants.BOOT_STRAP_ID_2).append(DISecurity.BOOT_STRAP_ID_3) ;
-		bootStrapBuilder.append(Utils.BOOT_STRAP_ID_4) ;
-		try {
-			bootStrapID = new String(decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return bootStrapID ;
 	}
 }

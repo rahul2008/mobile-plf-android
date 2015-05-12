@@ -14,13 +14,13 @@ import com.philips.cl.di.dicomm.port.ScheduleListPort;
  */
 public class AirPurifier extends DICommAppliance {
 
+	public static final String PRODUCT_ID = "883437300710";
+
 	private String latitude;
 	private String longitude;
 
     protected final ScheduleListPort mScheduleListPort;
-
 	private final AirPort mAirPort;
-
 
 	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
 	    super(networkNode, communicationStrategy);
@@ -34,6 +34,12 @@ public class AirPurifier extends DICommAppliance {
         /* Very first time AirPurifier is created, its connectionState will be local.
          * This call will ensure its location is set.*/
         loadLocationData();
+	}
+
+	@Override
+	public String getDeviceType() {
+		// AirPurifier uses productId instead of DeviceType for legacy reasons
+		return PRODUCT_ID;
 	}
 
 	public AirPort getAirPort() {

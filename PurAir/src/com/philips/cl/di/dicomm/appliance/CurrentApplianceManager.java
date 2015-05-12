@@ -190,7 +190,7 @@ public class CurrentApplianceManager implements Observer {
 		notifyApplianceChanged();
 	}
 
-	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
+	public static void setDummyCurrentApplianceManagerForTesting(AirPurifierManager dummyManager) {
 		mInstance = dummyManager;
 	}
 

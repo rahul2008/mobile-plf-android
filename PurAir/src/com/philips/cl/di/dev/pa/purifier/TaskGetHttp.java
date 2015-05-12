@@ -2,6 +2,10 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -25,7 +29,7 @@ public class TaskGetHttp extends Thread {
 		this.url = url ;
 		this.listener = listener ;
 	}
-	
+
 	public TaskGetHttp(String url, String type, Context context, ServerResponseListener listener) {
 		this(url,context,listener) ;
 		this.type = type ;
@@ -41,7 +45,7 @@ public class TaskGetHttp extends Thread {
 	public void run() {
 		InputStream inputStream = null;
 		HttpURLConnection conn = null ;
-		
+
 		try {
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection() ;
@@ -51,10 +55,10 @@ public class TaskGetHttp extends Thread {
 			responseCode = conn.getResponseCode() ;
 			result = "" ;
 			if ( responseCode == 200 ) {
-				inputStream = conn.getInputStream();					
-				result = NetworkUtils.convertInputStreamToString(inputStream) ;
+				inputStream = conn.getInputStream();
+				result = convertInputStreamToString(inputStream) ;
 			}
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +70,52 @@ public class TaskGetHttp extends Thread {
 					listener.receiveServerResponse(responseCode, result, type, areaId) ;
 				}
 			}
-			NetworkUtils.closeAllConnections(inputStream, null, conn);
+			closeAllConnections(inputStream, null, conn);
+		}
+	}
+
+	/**
+	 * Reads an InputStream and converts it to a String.
+	 *
+	 * @param  inputStream	Input stream to convert to string
+	 * @return	Returns 	converted string
+	 */
+	private static String convertInputStreamToString(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+		if (inputStream == null) return "";
+		Reader reader = new InputStreamReader(inputStream, "UTF-8");
+
+		int len = 1024;
+		char[] buffer = new char[len];
+		StringBuilder sb = new StringBuilder(len);
+		int count;
+
+		while ((count = reader.read(buffer)) > 0) {
+			sb.append(buffer, 0, count);
+		}
+
+		return sb.toString();
+	}
+
+	private static final void closeAllConnections(InputStream is, OutputStreamWriter out, HttpURLConnection conn) {
+		if(is != null ) {
+			try {
+				is.close() ;
+				is = null ;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if( out != null ) {
+			try {
+				out.close() ;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			out = null ;
+		}
+		if ( conn != null ) {
+			conn.disconnect() ;
+			conn = null ;
 		}
 	}
 

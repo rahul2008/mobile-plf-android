@@ -112,39 +112,6 @@ public class DataParserTest extends TestCase {
 		assertNull(deviceList.get(0).getFriendlyName());
 	}
 
-	public void testGetEWSDeviceWifiDetailsNull() {
-		WifiPortProperties WifiPortProperties = DataParser.getDeviceWifiDetails(null);
-		assertNull(WifiPortProperties);
-	}
-
-	public void testGetEWSDeviceWifiDetailsEmpty() {
-		WifiPortProperties WifiPortProperties = DataParser.getDeviceWifiDetails("");
-		assertNull(WifiPortProperties);
-	}
-
-	public void testGetEWSDeviceWifiDetailsNoneFormat() {
-		WifiPortProperties WifiPortProperties = DataParser.getDeviceWifiDetails("{hello}");
-		assertNull(WifiPortProperties);
-	}
-
-	public void testGetEWSDeviceDetailsNull() {
-		DevicePortProperties deviceDto  = DataParser.getDeviceDetails(null);
-		assertNull(deviceDto);
-	}
-
-	public void testGetEWSDeviceDetailsEmpty() {
-		DevicePortProperties deviceDto  = DataParser.getDeviceDetails("");
-		assertNull(deviceDto);
-	}
-
-	public void testGetEWSDeviceDetailsNoneFormat() {
-		DevicePortProperties deviceDto  = DataParser.getDeviceDetails("{hello}");
-		assertNull(deviceDto);
-	}
-
-
-
-	
 	public void testHourlyWeatherData() {
 		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
 				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +

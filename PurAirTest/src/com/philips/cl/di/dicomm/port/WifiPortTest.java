@@ -8,7 +8,9 @@ import org.json.JSONObject;
 import com.philips.cl.di.dev.pa.datamodel.WifiPortProperties;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
+import com.philips.cl.di.dicomm.communication.NullStrategy;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class WifiPortTest extends MockitoTestCase {
@@ -23,6 +25,11 @@ public class WifiPortTest extends MockitoTestCase {
     public void testWifiNullData() {
         String parseData = null;
         assertNull(parseWifiPortData(parseData));
+    }
+
+    public void testWifiEmptyData() {
+    	String parseData = "";
+    	assertNull(parseWifiPortData(parseData));
     }
 
     public void testWifiInvalidJSON() {

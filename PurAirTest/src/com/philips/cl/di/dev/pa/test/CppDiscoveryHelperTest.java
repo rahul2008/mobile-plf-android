@@ -8,30 +8,25 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import android.test.InstrumentationTestCase;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
-public class CppDiscoveryHelperTest extends InstrumentationTestCase{
-	
+public class CppDiscoveryHelperTest extends MockitoTestCase {
+
 	private CppDiscoveryHelper mHelper;
 	private CPPController mCppController;
 	private CppDiscoverEventListener mDiscListener;
 	
 	@Override
 	protected void setUp() throws Exception {
-		// Necessary to get Mockito framework working
-		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
-		
+		super.setUp();
+
 		mCppController = mock(CPPController.class);
 		mDiscListener = mock(CppDiscoverEventListener.class);
 		mHelper = new CppDiscoveryHelper(mCppController, mDiscListener);
-		
-		
-		super.setUp();
 	}
 
 	public void testCppDiscoveryConstructor() {
@@ -56,7 +51,7 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 		
 		mHelper.startDiscoveryViaCpp();
 
-		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(CPPController.DISCOVER), eq(""), anyInt(), anyInt(), anyString());
+		verify(mCppController).publishEvent(isNull(String.class),eq(CppDiscoveryHelper.DISCOVERY_REQUEST), eq(CPPController.DISCOVER), eq(""), anyInt(), anyInt(), anyString());
 		verify(mCppController).startDCSService();
 		verify(mDiscListener).onSignedOnViaCpp();
 		verify(mDiscListener, never()).onSignedOffViaCpp();

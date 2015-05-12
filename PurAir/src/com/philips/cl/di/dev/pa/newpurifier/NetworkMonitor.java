@@ -14,8 +14,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.util.DICommContext;
 
 public class NetworkMonitor {
 
@@ -135,7 +135,7 @@ public class NetworkMonitor {
 		
 		boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
 		if (isMobileData) {
-			WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE) ;
+			WifiManager wifiManager = (WifiManager) DICommContext.getContext().getSystemService(Context.WIFI_SERVICE) ;
 			WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 			if(wifiInfo == null ||
 					wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {

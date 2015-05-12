@@ -21,6 +21,7 @@ public class TutorialPagerActivity extends BaseActivity {
 	
 
 	private int mCurrentItemId = 0;
+	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

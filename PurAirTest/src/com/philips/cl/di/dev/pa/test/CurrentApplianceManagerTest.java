@@ -29,7 +29,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     protected void setUp() throws Exception {
     	super.setUp();
 
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
 
         mApplianceListener = mock(DICommApplianceListener.class);
@@ -39,7 +39,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     @Override
     protected void tearDown() throws Exception {
         // Remove mock objects after tests
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         super.tearDown();
     }
 
@@ -528,7 +528,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     // PURIFIEREVENTLISTENERS *****
 
     public void testStartSubscriptionAddFirstEventListener() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
@@ -547,7 +547,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     }
 
     public void testStartSubscriptionAddSecondEventListener() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
@@ -569,7 +569,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     }
 
     public void testStopSubscriptionRemoveFirstEventListener() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
@@ -589,7 +589,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     }
 
     public void testStopSubscriptionRemoveSecondEventListener() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
@@ -611,7 +611,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     }
 
     public void testStopSubscriptionRemoveBothEventListeners() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
@@ -634,7 +634,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     }
 
     public void testStartStopSubscriptionAddRemoveListenersSequence() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         appliance1 = Mockito.spy(appliance1);
@@ -663,7 +663,7 @@ public class CurrentApplianceManagerTest extends MockitoTestCase {
     // PURIFIEREVENTLISTENERS *****
 
     public void testDeadlock() {
-        CurrentApplianceManager.setDummyPurifierManagerForTesting(null);
+        CurrentApplianceManager.setDummyCurrentApplianceManagerForTesting(null);
         mCurrentApplianceMan = CurrentApplianceManager.getInstance();
         DICommAppliance appliance1 = createAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID, APPLIANCE_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
         mCurrentApplianceMan.setCurrentAppliance(appliance1);

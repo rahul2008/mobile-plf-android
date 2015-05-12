@@ -15,9 +15,9 @@ import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 
-	private static final String PURIFIER_IP = "198.168.1.145";
-	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
-	private static final String PURIFIER_KEY = "75B9424B0EA8089428915EB0AA1E4B5E";
+	private static final String APPLIANCE_IP = "198.168.1.145";
+	private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
+	private static final String APPLIANCE_KEY = "75B9424B0EA8089428915EB0AA1E4B5E";
 
 	private static final String VALID_ENCRYPTED_LOCALAIRPORTVENT = "kFn051qs6876EV0Q2JItzPE+OUKBRnfUMWFLnbCw1B7yWm0YH8cvZ1yRnolygyCqJqPSD1QGaKZzp6jJ53AfQ5H0i/Xl1Ek3cglWuoeAjpWpL0lWv4hcEb3jgc0x3LUnrrurrlsqhj1w8bcuwWUhrxTFSJqKUGr15E3gRGPkE+lyRJpXb2RoDDgjIL7KwS3Zrre45+UEr9udE8tfqSQILhbPqjfm/7I9KefpKEmHoz3uNkDCvUlvnpyja8gWueBa9Z3LeW2DApHWflvNLHnFEOsH3rgD/XJC2dIrBWn1qQM=";
 	private static final String VALID_ENCRYPTED_LOCALFWEVENT = "sBmgcZ7YiMa/eNNbDLrMDyBcdEVzKY6DJq2IYfoUNfZYacDwEsD0dfAvnbSamcUCAiqc6GNGSPndyegm3WKwwwRh52MyQ6rAe2CqvFibPVXuxlEH31qVBnwqOTdU3J363qgHVR8Z3/1FFyHXGy2nN6s7mAO4Z80WMcyIc2jIRGw=";
@@ -38,9 +38,9 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 
 		mSubscriptionEventListener = mock(SubscriptionEventListener.class);
 		mNetworkNode = mock(NetworkNode.class);
-		when(mNetworkNode.getIpAddress()).thenReturn(PURIFIER_IP);
-		when(mNetworkNode.getCppId()).thenReturn(PURIFIER_EUI64);
-		when(mNetworkNode.getEncryptionKey()).thenReturn(PURIFIER_KEY);
+		when(mNetworkNode.getIpAddress()).thenReturn(APPLIANCE_IP);
+		when(mNetworkNode.getCppId()).thenReturn(APPLIANCE_CPPID);
+		when(mNetworkNode.getEncryptionKey()).thenReturn(APPLIANCE_KEY);
 
 		mDISecurity = new DISecurity();
 		mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
@@ -52,19 +52,19 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 	}
 
 	public void testUDPEventReceivedDataNull() {
-		mLocalSubscriptionHandler.onUDPEventReceived(null, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(null, APPLIANCE_IP);
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 
 	public void testUDPEventReceivedDataEmptyString() {
-		mLocalSubscriptionHandler.onUDPEventReceived("", PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived("", APPLIANCE_IP);
 
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
 
 	public void testUDPEventReceivedDataNonDecryptableString() {
 		String expected = "dfjalsjdfl";
-		mLocalSubscriptionHandler.onUDPEventReceived(expected, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(expected, APPLIANCE_IP);
 
 		verify(mSubscriptionEventResponseHandler,never()).post(any(Runnable.class));
 	}
@@ -93,14 +93,14 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 
 	public void testUDPEncryptedAPEvent() {
 		String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-		mLocalSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
 
 		verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
 	}
 
 	public void testUDPEncryptedFWEvent() {
 		String data = VALID_ENCRYPTED_LOCALFWEVENT;
-		mLocalSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
 
 		//verify(mSubscriptionEventListener).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALFWEVENT);
 		verify(mSubscriptionEventResponseHandler).post(any(Runnable.class));
@@ -109,7 +109,7 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 	public void testUDPEncryptedAPEventWrongKey() {
 		when(mNetworkNode.getEncryptionKey()).thenReturn("726783627");
 		String data = VALID_ENCRYPTED_LOCALAIRPORTVENT;
-		mLocalSubscriptionHandler.onUDPEventReceived(data, PURIFIER_IP);
+		mLocalSubscriptionHandler.onUDPEventReceived(data, APPLIANCE_IP);
 
 		//verify(mSubscriptionEventListener,never()).onSubscriptionEventReceived(VALID_DECRYPTED_LOCALAIRPORTEVENT);
 		// TODO:DICOMM Refactor, we do not check the decrypted data here as before
