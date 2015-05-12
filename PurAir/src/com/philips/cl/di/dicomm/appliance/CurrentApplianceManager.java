@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -87,7 +88,7 @@ public class CurrentApplianceManager implements Observer {
 		return mDICommAppliance;
 	}
 
-	protected void addApplianceListener(DICommApplianceListener applianceListener) {
+	public void addApplianceListener(DICommApplianceListener applianceListener) {
 		synchronized (mApplianceListenersList) {
 			if( !mApplianceListenersList.contains(applianceListener)) {
 				mApplianceListenersList.add(applianceListener);
@@ -172,5 +173,9 @@ public class CurrentApplianceManager implements Observer {
         startSubscription();
 		notifyApplianceChanged();
 	}
-	
+
+	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
+		mInstance = dummyManager;
+	}
+
 }

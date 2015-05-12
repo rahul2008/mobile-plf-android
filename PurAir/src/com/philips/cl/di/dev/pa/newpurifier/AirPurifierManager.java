@@ -96,10 +96,6 @@ public class AirPurifierManager extends CurrentApplianceManager {
 		}
 	}
 
-	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
-		instance = dummyManager;
-	}
-
 	public void setEwsSate(EWS_STATE state) {
 		ewsState = state;
 	}
