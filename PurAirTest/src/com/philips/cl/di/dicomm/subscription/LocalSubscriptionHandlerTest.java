@@ -6,12 +6,12 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.philips.cdp.dicomm.util.WrappedHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dicomm.communication.LocalSubscriptionHandler;
 import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
 import com.philips.cl.di.dicomm.security.DISecurity;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
-import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 

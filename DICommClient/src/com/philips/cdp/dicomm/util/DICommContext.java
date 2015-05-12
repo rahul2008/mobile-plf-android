@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.util;
+package com.philips.cdp.dicomm.util;
 
 import android.content.Context;
 

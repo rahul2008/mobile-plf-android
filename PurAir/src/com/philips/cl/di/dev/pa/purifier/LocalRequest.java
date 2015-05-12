@@ -20,6 +20,7 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.util.Log;
 
+import com.philips.cdp.dicomm.util.DICommContext;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -29,7 +30,6 @@ import com.philips.cl.di.dicomm.communication.Request;
 import com.philips.cl.di.dicomm.communication.Response;
 import com.philips.cl.di.dicomm.communication.ResponseHandler;
 import com.philips.cl.di.dicomm.security.DISecurity;
-import com.philips.cl.di.dicomm.util.DICommContext;
 
 public class LocalRequest extends Request {
 

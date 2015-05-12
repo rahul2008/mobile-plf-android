@@ -3,9 +3,9 @@ package com.philips.cl.di.dicomm.communication;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.philips.cdp.dicomm.util.WrappedHandler;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 public abstract class SubscribeHandler {
 	
