@@ -1,7 +1,6 @@
-package com.philips.cl.di.dev.pa.cpp;
+package com.philips.cdp.dicomm.cpp;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 

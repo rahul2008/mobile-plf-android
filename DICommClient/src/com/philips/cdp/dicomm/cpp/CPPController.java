@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.cpp;
+package com.philips.cdp.dicomm.cpp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,9 +19,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
-import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -116,7 +114,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 		// TODO:DICOMM Refactor, check when to set the locale, after/before sign on
 		setLocale();
-				
+
 		mICPCallbackHandler = new ICPCallbackHandler();
 		mICPCallbackHandler.setHandler(this);
 
@@ -125,7 +123,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		mDcsResponseListeners = new ArrayList<DCSResponseListener>() ;
 
 		mAppCppId = generateTemporaryAppCppId();
-		
+
 		init() ;
 	}
 
@@ -336,7 +334,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		ALog.d(ALog.CPPCONTROLLER, "Start DCS: " + mIsDCSRunning + " isSIgnOn" + mIsSignOn +"DCS state: " +mDcsState);
 
 		mDcsServiceListenersCount ++;
-		
+
 			if( mDcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
 				mDcsState = ICP_CLIENT_DCS_STATE.STARTING ;
 				mAppDcsRequestState = APP_REQUESTED_STATE.NONE ;
@@ -402,7 +400,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void notifyDCSListener(String data, String fromEui64, String action, String conversationId) {
 		if( action == null ) return ;
 		if( action.equalsIgnoreCase("RESPONSE")) {
-		synchronized(mDcsResponseListeners){	
+		synchronized(mDcsResponseListeners){
 			for(DCSResponseListener listener: mDcsResponseListeners) {
 				listener.onDCSResponseReceived(data, conversationId);
 			}
@@ -908,7 +906,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private void setLocale(){
-		
+
 		if (mSignon == null) return;
 
 		mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());

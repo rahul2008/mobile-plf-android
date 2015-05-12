@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.cpp;
+package com.philips.cdp.dicomm.cpp;
 
 public abstract class KPSConfigurationInfo {
 

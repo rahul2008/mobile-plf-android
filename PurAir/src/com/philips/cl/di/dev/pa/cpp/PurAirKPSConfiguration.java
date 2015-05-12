@@ -18,10 +18,10 @@ Version 1:
     Description: Initial version
 ----------------------------------------------------------------------------*/
 
+import com.philips.cdp.dicomm.cpp.KPSConfigurationInfo;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dicomm.cpp.KPSConfigurationInfo;
 
 /**
  *This class provides list of

@@ -13,14 +13,14 @@ import android.os.Message;
 import cn.jpush.android.api.JPushInterface;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.SendNotificationRegistrationIdListener;
+import com.philips.cdp.dicomm.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dicomm.cpp.SendNotificationRegistrationIdListener;
 
 public class NotificationRegisteringManager implements SignonListener,
 		SendNotificationRegistrationIdListener {

@@ -5,9 +5,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
-import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class CppControllerTest extends MockitoTestCase {

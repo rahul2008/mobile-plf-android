@@ -1,8 +1,8 @@
 package com.philips.cl.di.dicomm.communication;
 
 
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
+import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 

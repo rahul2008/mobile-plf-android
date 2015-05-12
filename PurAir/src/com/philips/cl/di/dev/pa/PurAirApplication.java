@@ -11,9 +11,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PurAirKPSConfiguration;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierFactory;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;

@@ -3,7 +3,7 @@ package com.philips.cl.di.dicomm.communication;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 
 public abstract class CommunicationStrategy {

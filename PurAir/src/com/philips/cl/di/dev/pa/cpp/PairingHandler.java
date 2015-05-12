@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.ICPCallbackHandler;
+import com.philips.cdp.dicomm.cpp.ICPEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
@@ -359,7 +362,7 @@ public class PairingHandler implements ICPEventListener {
 	 * @param eventType	 *            int
 	 * @param status	 *            int
 	 * @param obj	 *            ICPClient	 * 
-	 * @see com.philips.cl.di.dev.pa.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
+	 * @see com.philips.cdp.dicomm.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
 	 *      int, ICPClient)
 	 */
 	@Override

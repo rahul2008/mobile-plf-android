@@ -1,32 +1,32 @@
 /*----------------------------------------------------------------------------
 Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without 
+All rights reserved. Reproduction in whole or in part is prohibited without
 the written consent of the copyright holder.
 
-Project           : Android Demo ICP App  
+Project           : Android Demo ICP App
 
-File Name         : EventPublisherServiceActivity.java        
+File Name         : EventPublisherServiceActivity.java
 
-Description       : 
+Description       :
 
 Revision History:
-Version 1: 
+Version 1:
     Date: 02-Aug-2013
     Original author: Haranadh Kaki
-    Description: Updated version    
+    Description: Updated version
 ----------------------------------------------------------------------------*/
-package com.philips.cl.di.dev.pa.cpp;
+package com.philips.cdp.dicomm.cpp;
 
 import android.os.Handler;
 
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 /**
  *This interface defines the callback method of ICP Client.
- *These functions must be implemented by the application. 
+ *These functions must be implemented by the application.
  */
 
 public class ICPCallbackHandler implements CallbackHandler
@@ -97,7 +97,7 @@ public class ICPCallbackHandler implements CallbackHandler
 			registerationCB(status, obj);
 			break;
 
-		case Commands.KEY_PROVISION:			
+		case Commands.KEY_PROVISION:
 		case Commands.KEY_DEPROVISION:
 			provisioningCB(status,obj);
 			break;
@@ -250,7 +250,7 @@ public class ICPCallbackHandler implements CallbackHandler
 	{
 		listener.onICPCallbackEventOccurred(Commands.PAIRING_GET_RELATIONSHIPS,status,obj) ;
 	}
-	
+
 	public void pairingRemoveRelationsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.PAIRING_REMOVE_RELATIONSHIP,status,obj) ;

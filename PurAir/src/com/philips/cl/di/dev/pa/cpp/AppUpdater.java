@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
+import com.philips.cdp.dicomm.cpp.AppUpdateListener;
+import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.Utils;

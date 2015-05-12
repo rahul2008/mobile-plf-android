@@ -2,9 +2,9 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import java.util.Map;
 
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
-import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
+import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicomm.cpp.DCSResponseListener;
+import com.philips.cdp.dicomm.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
