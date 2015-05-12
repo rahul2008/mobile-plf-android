@@ -61,6 +61,7 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
@@ -538,7 +539,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	public void pairToPurifierIfNecessary() {
 		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
-		if( PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		if (PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
 			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			checkInternetConnection() ;
@@ -630,16 +632,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		if (PurAirApplication.isDemoModeEnable()) return;
 
-		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
+		DiscoveryManager.getInstance().printDiscoveredAppliances(ALog.MAINACTIVITY);
 
-		ArrayList<AirPurifier> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-		if (devices.size() <= 0) return;
+		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getAllDiscoveredAppliances();
+		if (appliances.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
-				+ devices.size() + " :: " + devices);
+				+ appliances.size() + " :: " + appliances);
 
 		AirPurifier current = getCurrentPurifier();
 		if( current != null && current.getAirPort().getPortProperties() != null) return ;

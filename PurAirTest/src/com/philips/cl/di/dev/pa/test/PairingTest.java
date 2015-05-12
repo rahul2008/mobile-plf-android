@@ -5,14 +5,14 @@ import junit.framework.TestCase;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 
 public class PairingTest extends TestCase {
-	
+
 	public void testGenerateRandomSecretKeyNotNull()
 	{
 		PairingHandler manager=new PairingHandler(null, null);
 		String randomKey= manager.generateRandomSecretKey();
 		assertNotNull(randomKey);
 	}
-	
+
 	public void testGenerateRandomSecretKeyNotEqual()
 	{
 		PairingHandler manager=new PairingHandler(null, null);
@@ -20,5 +20,10 @@ public class PairingTest extends TestCase {
 		String randomKey1= manager.generateRandomSecretKey();
 		assertFalse(randomKey.equals(randomKey1));
 	}
-	
+
+	public void testGetDiffInDays() {
+		long rl = PairingHandler.getDiffInDays(0L);
+		assertTrue(rl != 0);
+	}
+
 }

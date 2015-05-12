@@ -16,11 +16,12 @@ import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class ManagePurifierArrayAdapter extends ArrayAdapter<AirPurifier> {
-	private List<AirPurifier> purifiers;
+public class ManagePurifierArrayAdapter extends ArrayAdapter<DICommAppliance> {
+	private List<DICommAppliance> purifiers;
 	private Context context;
 	private int resource;
 	private HashMap<String, Boolean> selectedItems;
@@ -28,7 +29,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<AirPurifier> {
     private String edit;
 
 	public ManagePurifierArrayAdapter(Context context, int resource,
-			List<AirPurifier> purifiers, String edit,
+			List<DICommAppliance> purifiers, String edit,
 			HashMap<String, Boolean> selectedItems, DashboardUpdateListener listener) {
 		super(context, resource, purifiers);
 		this.purifiers = purifiers;
@@ -56,9 +57,9 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<AirPurifier> {
 
         setEditableIconVisibility(deleteSign);
 
-		final AirPurifier purifier = purifiers.get(position);
-		final String purifierName = purifiers.get(position).getName();
-		final String usn = purifiers.get(position).getUsn();
+		final AirPurifier purifier = (AirPurifier) purifiers.get(position);
+		final String purifierName = purifier.getName();
+		final String usn = purifier.getNetworkNode().getCppId();
 
 		purifierNameTxt.setText(purifierName);
 		purifierNameTxt.setTag(usn);
@@ -123,8 +124,8 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<AirPurifier> {
                 deleteSign.setFocusable(false);
                 ImageView arrowImg = (ImageView) view.findViewById(R.id.list_item_right_arrow);
                 arrowImg.setVisibility(View.INVISIBLE);
-                AirPurifier purifier = purifiers.get(position);
-                final String usn = purifier.getUsn();
+                AirPurifier purifier = (AirPurifier) purifiers.get(position);
+                final String usn = purifier.getNetworkNode().getCppId();
                 addToDeleteMap(deleteSign, delete, usn);
             } else {
                 delete.setVisibility(View.GONE);

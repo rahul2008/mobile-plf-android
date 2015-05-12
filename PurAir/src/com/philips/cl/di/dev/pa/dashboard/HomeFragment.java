@@ -38,6 +38,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
@@ -403,11 +404,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				return;
 			}
 			
-			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-				AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-				if (purifier == null) return;
-		
-				AirPurifierManager.getInstance().setCurrentPurifier(purifier) ;
+			if( position < DiscoveryManager.getInstance().getAddedAppliances().size()) {
+				DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(position);
+				if (appliance == null || !(appliance instanceof AirPurifier)) return;
+
+				AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier)appliance) ;
 			}
 			
 			
@@ -415,7 +416,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				updateMyPurifiersListener.onUpdate();
 			}
 			
-			if (position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+			if (position < DiscoveryManager.getInstance().getAddedAppliances().size()) {
 				share.setVisibility(View.VISIBLE);
 			} else {
 				share.setVisibility(View.GONE);
@@ -448,7 +449,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	};
 
     public void notifyIndoorPager() {
-        countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+        countIndoor = DiscoveryManager.getInstance().getAddedAppliances().size() ;
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(countIndoor);
         indoorPagerAdapter.setCount(countIndoor) ;
         indoorPagerAdapter.notifyDataSetChanged();

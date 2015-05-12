@@ -11,6 +11,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
@@ -33,6 +34,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		super.setUp();
 	}
 
+	@SuppressWarnings("unchecked")
 	@UiThreadTest
 	public void testEnableDiscoveryInOnResume() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
@@ -45,13 +47,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			verify(discManager, never()).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
 		} else {
 			assertFalse(false);
 		}
 		
 		
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@UiThreadTest
 	public void testDisableDiscoveryInOnPause() {
 		
@@ -65,6 +69,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			verify(discManager).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
 		} else {
 			assertFalse(false);
 		}

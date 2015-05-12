@@ -7,9 +7,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dicomm.MockitoTestCase;
 import com.philips.cl.di.dicomm.communication.RemoteSubscriptionHandler;
 import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 import com.philips.cl.di.dicomm.util.WrappedHandler;
 
 public class RemoteSubscriptionHandlerTest extends MockitoTestCase {

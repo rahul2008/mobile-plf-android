@@ -32,10 +32,11 @@ import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
-import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
+import com.philips.cl.di.dev.pa.newpurifier.NewApplianceDiscoveredListener;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -49,7 +50,7 @@ import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.WifiPort;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener {
+OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
@@ -57,7 +58,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 	private AirPurifier selectedPurifier;
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
-	private List<AirPurifier> appItems;
+	private List<DICommAppliance> appItems;
 	private ImageView seperatorupImgView;
 	private ImageView seperatordownImgView;
 	@Override
@@ -236,9 +237,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 
 			((MainActivity) getActivity()).showFragment(congratulationFragment);
 
-			PurifierDatabase purifierDatabase = new PurifierDatabase();
-			purifierDatabase.insertPurAirDevice(selectedPurifier);
-
+			DiscoveryManager.getInstance().insertApplianceToDatabase(selectedPurifier);
 		} else {
 			showAlertDialog(getString(R.string.purifier_add_fail_title),
 					getString(R.string.purifier_add_fail_msg));
@@ -271,8 +270,8 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 
 	private void showDiscoveredPurifier() {
 		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-		discoveryManager.setAddNewPurifierListener(this);
-		appItems = discoveryManager.getNewDevicesDiscovered();
+		discoveryManager.setNewApplianceDiscoveredListener(this);
+		appItems = discoveryManager.getNewAppliancesDiscovered();
 		listItemsArrayList = new ArrayList<String>();
 
 		for (int i = 0; i < appItems.size(); i++) {
@@ -300,13 +299,13 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 	}
 
 	private void clearDiscoveredPurifierObject() {
-		DiscoveryManager.getInstance().removeAddNewPurifierListener();
+		DiscoveryManager.getInstance().clearNewApplianceDiscoveredListener();
 		appSelectorAdapter = null;
 		listItemsArrayList = null;
 	}
 
 	@Override
-	public void onNewPurifierDiscover() {
+	public void onNewApplianceDiscovered() {
 
 		if (getActivity() == null) return;
 		getActivity().runOnUiThread(new Runnable() {
@@ -314,7 +313,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 			@Override
 			public void run() {
 				if (appSelectorAdapter == null || listItemsArrayList == null) return;
-				appItems = DiscoveryManager.getInstance().getNewDevicesDiscovered();
+				appItems = DiscoveryManager.getInstance().getNewAppliancesDiscovered();
 				if (!listItemsArrayList.isEmpty()) {
 					listItemsArrayList.clear();
 				}
@@ -331,7 +330,7 @@ OnClickListener, StartFlowListener, AddNewPurifierListener, OnItemClickListener 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		AirPurifier currentPurifier = appItems.get(position);
+		AirPurifier currentPurifier = (AirPurifier) appItems.get(position);
 		onPurifierSelect(currentPurifier);
 	}
 }

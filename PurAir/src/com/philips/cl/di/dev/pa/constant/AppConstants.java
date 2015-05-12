@@ -1,9 +1,6 @@
 package com.philips.cl.di.dev.pa.constant;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -34,7 +31,7 @@ public class AppConstants {
 
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
 	public static final String PURIFIERDB_NAME = "smart_air.db";
-	public static final int PURIFIERDB_VERSION = 10;
+	public static final int PURIFIERDB_VERSION = 11;
 	public static final String KEY_ID = "_id";
 
 	// City detail table
@@ -63,8 +60,9 @@ public class AppConstants {
 	public static final String KEY_INDOOR_AQI = "aqi" ;
 	public static final String KEY_LAST_SYNC_DATETIME = "lastsyncdatetime" ;
 	
-	// AirPurifier table
-	public static final String TABLE_AIRPUR_INFO = "device_info";
+	@Deprecated
+	public static final String TABLE_AIRPUR_INFO = "device_info"; // AirPurifier table (< DB version 11)
+	public static final String TABLE_AIRPUR_DEVICE = "AirPurifierDevice"; // AirPurifierDevice table (=> DB version 11)
 	public static final String KEY_AIRPUR_USN = "usn";
 	public static final String KEY_AIRPUR_CPP_ID = "cppid";
 	public static final String KEY_AIRPUR_BOOT_ID = "bootid";
@@ -188,21 +186,7 @@ public class AppConstants {
 	public static final String PROPERTY_APP_LOCALE = "appLocale";
 	public static final String PROPERTY_REG_ID = "registration_id";
 	public static final String PROPERTY_NOTIFICATION_PROVIDER = "provider";
-	
-	
-	/** PAIRING CONSTANTS */
-	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
-	public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
-	public static final String PAIRING_REFERENCETYPE = "883437300710";
-	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
-	public static final String PAIRING_DI_COMM_RELATIONSHIP="DI-COMM";
-	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
-	public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "DATAACCESS";
-	public static final String PAIRING_APP_REFERENCETYPE="AC4373APP";
-	
-	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
-	public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
-	
+
 	/** OTHER CONSTANTS */
 	public static final String PURIFIER_BUY_LINK = "http://shop.philips.com.cn/product/JY0002/detail.htm?origin=15_global_en_purifier-app_purifier-app";
 	

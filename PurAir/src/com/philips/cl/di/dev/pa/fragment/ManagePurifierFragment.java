@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
@@ -42,7 +43,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 	private ManagePurifierArrayAdapter arrayAdapter;
 	private PurifierDatabase database;
 	private ListView listView;
-	private List<AirPurifier> purifiers;
+	private List<DICommAppliance> appliances;
 	private HashMap<String, Boolean> selectedItems;
     private FontTextView editTV;
 
@@ -84,7 +85,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	private void saveLastPageCurrentPage() {
-		int size = DiscoveryManager.getInstance().getStoreDevices().size() + 1;
+		int size = DiscoveryManager.getInstance().getAddedAppliances().size() + 1;
 		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(size);
 	}
 
@@ -113,8 +114,8 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	private void loadDataFromDatabase() {
-		purifiers = DiscoveryManager.getInstance().getStoreDevices();
-		
+		appliances = DiscoveryManager.getInstance().getAddedAppliances();
+
         DISecurity diSecurity = new DISecurity();
         CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
         NetworkNode networkNode = new NetworkNode();
@@ -124,17 +125,17 @@ public class ManagePurifierFragment extends BaseFragment implements
         networkNode.setName(getString(R.string.add_purifier));
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         
-        AirPurifier addPurifierDevice = new AirPurifier(networkNode, communicationStrategy, "");
-		
-		purifiers.add(0, addPurifierDevice);
+        AirPurifier addPurifierDevice = new AirPurifier(networkNode, communicationStrategy);
+
+		appliances.add(0, addPurifierDevice);
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection
 		arrayAdapter = new ManagePurifierArrayAdapter(getActivity(),
-				R.layout.simple_list_item, purifiers, editTV.getText().toString(), selectedItems, this);
+				R.layout.simple_list_item, appliances, editTV.getText().toString(), selectedItems, this);
 		listView.setOnItemClickListener(arrayAdapter.managePurifierItemClickListener);
 		listView.setAdapter(arrayAdapter);
 
-		if (purifiers.isEmpty()) {
+		if (appliances.isEmpty()) {
 			AirPurifierManager.getInstance().removeCurrentPurifier();
 		}
 	}
@@ -215,13 +216,13 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
     private void setCurrentPage(AirPurifier purifier) {
-        int effectedRow = database.deletePurifier(purifier.getUsn());
-        if (effectedRow > 0) {
-            if (selectedItems.containsKey(purifier.getUsn())) {
-                selectedItems.remove(purifier.getUsn());
+        int rowsDeleted = DiscoveryManager.getInstance().deleteApplianceFromDatabase(purifier);
+        if (rowsDeleted > 0) {
+            if (selectedItems.containsKey(purifier.getNetworkNode().getCppId())) {
+                selectedItems.remove(purifier.getNetworkNode().getCppId());
             }
             // Updates store device from DB
-            DiscoveryManager.getInstance().updateStoreDevices();
+            DiscoveryManager.getInstance().updateAddedAppliances();
             saveLastPageCurrentPage();
             loadDataFromDatabase();
         }
@@ -252,8 +253,8 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	@Override
 	public void onItemClickGoToAddPurifier() {
-		List<AirPurifier> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
-		if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
+		List<DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateAddedAppliances();
+		if (addedAppliances.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 			showAlertDialog("",	getString(R.string.max_purifier_reached));
 		} else {
 			((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());

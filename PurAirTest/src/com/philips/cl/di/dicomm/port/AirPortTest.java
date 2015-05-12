@@ -2,9 +2,9 @@ package com.philips.cl.di.dicomm.port;
 import static org.mockito.Mockito.mock;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
-import com.philips.cl.di.dicomm.MockitoTestCase;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.AirPort;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class AirPortTest extends MockitoTestCase {
 

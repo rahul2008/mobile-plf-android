@@ -3,7 +3,7 @@ package com.philips.cl.di.dicomm.security;
 import org.mockito.Mockito;
 
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dicomm.MockitoTestCase;
+import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class DISecurityTest extends MockitoTestCase {
 

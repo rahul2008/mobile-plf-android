@@ -41,7 +41,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 			}
 		} 
 		
-		if	(position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+		if	(position < DiscoveryManager.getInstance().getAddedAppliances().size()) {
 			MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_ADD_PURIFIER);
 			Bundle bundle = new Bundle();
 			bundle.putInt("position", position) ;
@@ -49,7 +49,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 			fragment.setArguments(bundle);
 			return fragment;
 		} else {
-            if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+            if (DiscoveryManager.getInstance().getAddedAppliances().size() > 0) {
                 return new ManagePurifierFragment();
             } else {
                 MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_ADD_PURIFIER);

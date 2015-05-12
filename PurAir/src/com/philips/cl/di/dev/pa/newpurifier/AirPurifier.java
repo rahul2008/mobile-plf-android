@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import android.location.Location;
+
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
 import com.philips.cl.di.dicomm.port.AirPort;
@@ -11,24 +14,26 @@ import com.philips.cl.di.dicomm.port.ScheduleListPort;
  */
 public class AirPurifier extends DICommAppliance {
 
-	private final String mUsn;
 	private String latitude;
 	private String longitude;
 
     protected final ScheduleListPort mScheduleListPort;
 
 	private final AirPort mAirPort;
-	
 
-	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy, String usn) {
+
+	public AirPurifier(NetworkNode networkNode, CommunicationStrategy communicationStrategy) {
 	    super(networkNode, communicationStrategy);
-		mUsn = usn;
-		
+
         mAirPort = new AirPort(mNetworkNode,communicationStrategy);
 		mScheduleListPort = new ScheduleListPort(mNetworkNode, communicationStrategy);
 
         addPort(mAirPort);
         addPort(mScheduleListPort);
+
+        /* Very first time AirPurifier is created, its connectionState will be local.
+         * This call will ensure its location is set.*/
+        loadLocationData();
 	}
 
 	public AirPort getAirPort() {
@@ -38,8 +43,8 @@ public class AirPurifier extends DICommAppliance {
     public ScheduleListPort getScheduleListPort() {
         return mScheduleListPort;
     }
-    
-	public String getLatitude() {
+
+    public String getLatitude() {
 		return latitude;
 	}
 
@@ -55,23 +60,27 @@ public class AirPurifier extends DICommAppliance {
 		this.longitude = longitude;
 	}
 
-	public String getUsn() {
-		return mUsn;
-	}
-
 	public boolean isDemoPurifier() {
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
+	}
+
+	private void loadLocationData() {
+		Location location = OutdoorController.getInstance().getCurrentLocation();
+		if (location != null && getNetworkNode().getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)) {
+			setLatitude(String.valueOf(location.getLatitude()));
+			setLongitude(String.valueOf(location.getLongitude()));
+			DiscoveryManager.getInstance().updateApplianceInDatabase(this);
+		}
 	}
 
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
 				.append("   eui64: ").append(getNetworkNode().getCppId()).append("   bootId: ").append(getNetworkNode().getBootId())
-				.append("   usn: ").append(getUsn()).append("   paired: ").append(getNetworkNode().getPairedState())
+				.append("   paired: ").append(getNetworkNode().getPairedState())
 				.append("   airportInfo: ").append(getAirPort().getPortProperties()).append("   firmwareInfo: ").append(getFirmwarePort().getPortProperties())
-				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ")
-				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
-				.append(getNetworkNode().getHomeSsid());
+				.append("   connectedState: ").append(getNetworkNode().getConnectionState()).append("   lastKnownssid: ").append(getNetworkNode().getHomeSsid())
+				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude());
 		return builder.toString();
 	}
 

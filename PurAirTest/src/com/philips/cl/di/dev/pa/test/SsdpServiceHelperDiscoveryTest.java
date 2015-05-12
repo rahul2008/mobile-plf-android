@@ -20,6 +20,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceFactory;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
@@ -53,7 +54,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			}
 		}
 	}
-	
+
 	private DeviceModel generateSsdpDeviceModel(String udn, String eui64) {
 		DeviceModel model = new DeviceModel(udn);
 		SSDPdevice device = new SSDPdevice();
@@ -343,7 +344,8 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, times(2)).stopDeviceDiscovery();
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void testDiscoverySyncLocalOnStart() {
 		DiscoveryManager discMan = mock(DiscoveryManager.class);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
@@ -352,12 +354,14 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.removePendingMessagesOnQueueForTesting();
 
-		verify(discMan).syncLocalDevicesWithSsdpStackDelayed();
-		verify(discMan, never()).cancelSyncLocalDevicesWithSsdpStack();
+		verify(discMan).syncLocalAppliancesWithSsdpStackDelayed();
+		verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public void testDiscoverySyncLocalOnStop() {
 		DiscoveryManager discMan = mock(DiscoveryManager.class);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
@@ -369,17 +373,18 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		}
 		mHelper.removePendingMessagesOnQueueForTesting();
 
-		verify(discMan, never()).syncLocalDevicesWithSsdpStackDelayed();
-		verify(discMan).cancelSyncLocalDevicesWithSsdpStack();
+		verify(discMan, never()).syncLocalAppliancesWithSsdpStackDelayed();
+		verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
 	}
 
 	// ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
 	
 	public void testOnlineDevicesNull() {
 		when(mService.getAliveDeviceList()).thenReturn(null);
-		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 		
 		assertNotNull(onlineCppIds);
 		assertEquals(0, onlineCppIds.size());
@@ -387,7 +392,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
 	public void testOnlineDevicesEmpty() {
 		when(mService.getAliveDeviceList()).thenReturn(new HashSet<DeviceModel>());
-		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 		
 		assertNotNull(onlineCppIds);
 		assertEquals(0, onlineCppIds.size());
@@ -398,7 +403,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		HashSet<DeviceModel> aliveDevices = new HashSet<DeviceModel>();
 		aliveDevices.add(model1);
 		when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
-		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 		
 		assertNotNull(onlineCppIds);
 		assertEquals(1, onlineCppIds.size());
@@ -412,7 +417,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		aliveDevices.add(model1);
 		aliveDevices.add(model2);
 		when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
-		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesCppId();
 		
 		assertNotNull(onlineCppIds);
 		assertEquals(2, onlineCppIds.size());
