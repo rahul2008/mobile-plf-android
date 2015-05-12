@@ -29,10 +29,10 @@ import com.philips.icpinterface.data.Errors;
  *These functions must be implemented by the application.
  */
 
-public class ICPCallbackHandler implements CallbackHandler
+public class IcpCallbackHandler implements CallbackHandler
 {
 
-	ICPEventListener listener;
+	IcpEventListener listener;
 
 	/**
 	 *Callback function for executeCommand.
@@ -147,7 +147,7 @@ public class ICPCallbackHandler implements CallbackHandler
 	}
 
 
-	public void setHandler(ICPEventListener listener)
+	public void setHandler(IcpEventListener listener)
 	{
 		this.listener = listener;
 	}
