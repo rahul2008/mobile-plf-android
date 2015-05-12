@@ -5,14 +5,16 @@ import java.util.List;
 
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
+import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
 import com.philips.cl.di.dicomm.port.DICommPort;
+import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DevicePort;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
 import com.philips.cl.di.dicomm.port.PairingPort;
 import com.philips.cl.di.dicomm.port.WifiPort;
 import com.philips.cl.di.dicomm.port.WifiUIPort;
 
-public abstract class DICommAppliance {
+public abstract class DICommAppliance implements SubscriptionEventListener {
 
     protected final NetworkNode mNetworkNode;
 
@@ -110,6 +112,40 @@ public abstract class DICommAppliance {
     public void setConnectionState(ConnectionState connectionState) {
         mNetworkNode.setConnectionState(connectionState);
     }
+    
+    public void addListenerForAllPorts(DIPortListener portListener) {
+		for (DICommPort<?> port : getAllPorts()) {
+			port.registerPortListener(portListener);
+		}
+	}
+
+	public void removeListenerForAllPorts(DIPortListener portListener) {
+		for (DICommPort<?> port : getAllPorts()) {
+			port.unregisterPortListener(portListener);
+		}
+	}
+	
+	public void enableSubscription() {
+		mCommunicationStrategy.enableSubscription(this, mNetworkNode);
+	}
+
+	public void disableSubscription() {
+		mCommunicationStrategy.disableSubscription();
+	}
+	
+	@Override
+	public void onSubscriptionEventReceived(String data) {
+		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
+
+		List<DICommPort<?>> portList = getAllPorts();
+
+		for (DICommPort<?> port : portList) {
+		    if (port.isResponseForThisPort(data)) {
+		        port.handleSubscription(data);
+		    }
+		}
+	}
+
 
     public String toString() {
         StringBuilder builder = new StringBuilder();

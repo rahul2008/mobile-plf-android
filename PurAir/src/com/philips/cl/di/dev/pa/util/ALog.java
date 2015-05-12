@@ -78,6 +78,7 @@ public class ALog {
 	public static final String REQUESTQUEUE = "RequestQueue";
 	public static final String LOCAL_SUBSCRIPTION = "LocalSubscription" ;
 	public static final String REMOTE_SUBSCRIPTION = "RemoteSubscription" ;
+	public static final String APPLIANCE_MANAGER = "ApplianceManager" ;
 
 	private static boolean isLoggingEnabled = true;
 

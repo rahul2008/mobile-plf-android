@@ -1,21 +1,15 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import java.util.List;
-
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.CommunicationStrategy;
-import com.philips.cl.di.dicomm.communication.SubscriptionEventListener;
 import com.philips.cl.di.dicomm.port.AirPort;
-import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.ScheduleListPort;
 
 /**
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifier extends DICommAppliance implements SubscriptionEventListener {
+public class AirPurifier extends DICommAppliance {
 
 	private final String mUsn;
 	private String latitude;
@@ -45,14 +39,6 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
         return mScheduleListPort;
     }
     
-    public void enableSubscription() {
-		mCommunicationStrategy.enableSubscription(this, mNetworkNode);
-	}
-
-	public void disableSubscription() {
-		mCommunicationStrategy.disableSubscription();
-	}
-
 	public String getLatitude() {
 		return latitude;
 	}
@@ -77,18 +63,6 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
 		return (EWSConstant.PURIFIER_ADHOCIP.equals(mNetworkNode.getIpAddress()));
 	}
 
-	public void addListenerForAllPorts(DIPortListener portListener) {
-		for (DICommPort<?> port : getAllPorts()) {
-			port.registerPortListener(portListener);
-		}
-	}
-
-	public void removeListenerForAllPorts(DIPortListener portListener) {
-		for (DICommPort<?> port : getAllPorts()) {
-			port.unregisterPortListener(portListener);
-		}
-	}
-
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ip: ").append(getNetworkNode().getIpAddress())
@@ -101,16 +75,4 @@ public class AirPurifier extends DICommAppliance implements SubscriptionEventLis
 		return builder.toString();
 	}
 
-	@Override
-	public void onSubscriptionEventReceived(String data) {
-		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
-
-		List<DICommPort<?>> portList = getAllPorts();
-
-		for (DICommPort<?> port : portList) {
-		    if (port.isResponseForThisPort(data)) {
-		        port.handleSubscription(data);
-		    }
-		}
-	}
 }
