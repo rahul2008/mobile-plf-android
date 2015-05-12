@@ -408,7 +408,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(position);
 				if (appliance == null || !(appliance instanceof AirPurifier)) return;
 
-				AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier)appliance) ;
+				AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier)appliance) ;
 			}
 			
 			

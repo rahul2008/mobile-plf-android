@@ -130,7 +130,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(1);
 				mainActivity.startDemoMode();
 			}
-			AirPurifierManager.getInstance().removeCurrentPurifier();
+			AirPurifierManager.getInstance().removeCurrentAppliance();
 //			((MainActivity) getActivity()).setActionBar(new SettingsFragment());
 			((MainActivity) getActivity()).onAirPurifierChanged();
 

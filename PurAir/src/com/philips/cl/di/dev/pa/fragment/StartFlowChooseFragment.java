@@ -228,7 +228,7 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 				selectedPurifier.setLongitude(String.valueOf(location.getLongitude()));
 			}
 
-			AirPurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
+			AirPurifierManager.getInstance().setCurrentAppliance(selectedPurifier);
 			
 			CongratulationFragment congratulationFragment = new CongratulationFragment();
 			Bundle bundle = new Bundle();

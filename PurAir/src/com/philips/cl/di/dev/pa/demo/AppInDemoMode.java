@@ -79,8 +79,7 @@ public class AppInDemoMode implements NetworkStateListener {
 
 	@Override
 	public void onConnected(String ssid) {
-		AirPurifier current = AirPurifierManager.getInstance()
-				.getCurrentPurifier();
+		AirPurifier current = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
 			if (current != null
 					&& current.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY)
@@ -108,6 +107,6 @@ public class AppInDemoMode implements NetworkStateListener {
         networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
         
         AirPurifier demoModePurifier = new AirPurifier(networkNode, new CommunicationMarshal(new DISecurity()));
-        AirPurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
+        AirPurifierManager.getInstance().setCurrentAppliance(demoModePurifier);
 	}
 }

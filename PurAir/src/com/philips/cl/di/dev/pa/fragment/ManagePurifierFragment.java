@@ -136,7 +136,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		listView.setAdapter(arrayAdapter);
 
 		if (appliances.isEmpty()) {
-			AirPurifierManager.getInstance().removeCurrentPurifier();
+			AirPurifierManager.getInstance().removeCurrentAppliance();
 		}
 	}
 
@@ -241,7 +241,7 @@ public class ManagePurifierFragment extends BaseFragment implements
         AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
         if (currentPurifier == null) return;
         if (currentPurifier.getNetworkNode().getCppId().equals(purifier.getNetworkNode().getCppId())) {
-            AirPurifierManager.getInstance().removeCurrentPurifier();
+            AirPurifierManager.getInstance().removeCurrentAppliance();
         }
     }
 

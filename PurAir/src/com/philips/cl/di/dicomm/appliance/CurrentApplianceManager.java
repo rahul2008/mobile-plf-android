@@ -48,7 +48,7 @@ public class CurrentApplianceManager implements Observer {
 		return mCurrentApplianceManager;
 	}
 	
-	private CurrentApplianceManager() {
+	protected CurrentApplianceManager() {
 		mApplianceListenersList = new ArrayList<DICommApplianceListener>();
 	}
 	
@@ -96,7 +96,7 @@ public class CurrentApplianceManager implements Observer {
 		return null;
 	}
 
-	public void addApplianceListener(DICommApplianceListener applianceListener) {
+	protected void addApplianceListener(DICommApplianceListener applianceListener) {
 		synchronized (mApplianceListenersList) {
 			if( !mApplianceListenersList.contains(applianceListener)) {
 				mApplianceListenersList.add(applianceListener);				

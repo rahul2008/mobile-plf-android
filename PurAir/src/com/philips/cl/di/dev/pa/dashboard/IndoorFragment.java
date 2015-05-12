@@ -50,9 +50,6 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.AirPort;
-import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
 	AlertDialogBtnInterface {

@@ -46,7 +46,6 @@ import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -709,7 +708,7 @@ public class EWSActivity extends ActionBarActivity implements
 		if (ewsAppliance == null || !(ewsAppliance instanceof AirPurifier)) return;
 		if (ewsAppliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
-		AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier) ewsAppliance);
+		AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier) ewsAppliance);
 		deviceDiscoveryCompleted();
 	}
 	

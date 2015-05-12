@@ -111,7 +111,7 @@ public class DashboardUtil {
 
 			DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(0);
 			if(appliance != null && (appliance instanceof AirPurifier)) {
-				AirPurifierManager.getInstance().setCurrentPurifier((AirPurifier) appliance);
+				AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier) appliance);
 			}
 		}
 		return countIndoor;

@@ -189,7 +189,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         // TODO DIComm Refactor - remove this line
 		tempDemoModePurifier.getNetworkNode().setEncryptionKey(encryptionKey);
 
-		AirPurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
+		AirPurifierManager.getInstance().setCurrentAppliance(tempDemoModePurifier);
 		PurAirApplication.setDemoModePurifier(eui64);
 	}
 

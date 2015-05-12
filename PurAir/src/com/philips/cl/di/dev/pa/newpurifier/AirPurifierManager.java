@@ -1,9 +1,8 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -12,12 +11,12 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dicomm.appliance.CurrentApplianceManager;
+import com.philips.cl.di.dicomm.appliance.DICommApplianceListener;
+import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.AirPort;
 import com.philips.cl.di.dicomm.port.DICommPort;
-import com.philips.cl.di.dicomm.port.DIPortListener;
-import com.philips.cl.di.dicomm.port.DIRegistration;
 import com.philips.cl.di.dicomm.port.FirmwarePort;
-import com.philips.cl.di.dicomm.communication.Error;
 
 /**
  * Purifier Manager is the one point contact for all UI layers to communicate
@@ -28,39 +27,19 @@ import com.philips.cl.di.dicomm.communication.Error;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class AirPurifierManager implements Observer {
+public class AirPurifierManager extends CurrentApplianceManager {
 
 	private static AirPurifierManager instance;
 	
-	private AirPurifier mCurrentPurifier = null;
-	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
-
-	private List<AirPurifierEventListener> airPurifierEventListeners ;
+	private List<AirPurifierEventListener> mAirPurifierEventListeners ;
 
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
-	private int indoorViewPagerPosition;
-	private DIPortListener mCurrentPurifierPortListener = new DIPortListener() {
-
-		@Override
-		public DIRegistration onPortUpdate(DICommPort<?> port) {
-			if (port instanceof AirPort) {
-				notifyAirPurifierEventListeners();
-			} else if (port instanceof FirmwarePort) {
-				notifyFirmwareEventListeners();
-			}
-			return DIRegistration.KEEP_REGISTERED;
-		}
-
-		@Override
-		public DIRegistration onPortError(DICommPort<?> port, Error error,
-				String errorData) {
-			notifyAirPurifierEventListenersErrorOccurred(error);
-			return DIRegistration.KEEP_REGISTERED;
-		}
-	};
-
+	private int mIndoorViewPagerPosition;
+	
+	private HashMap<AirPurifierEventListener, DICommApplianceListener> mApplianceEventListeners;
+	
 	public static synchronized AirPurifierManager getInstance() {
 		if (instance == null) {
 			instance = new AirPurifierManager();
@@ -69,26 +48,9 @@ public class AirPurifierManager implements Observer {
 	}
 	
 	private AirPurifierManager() {
-		// Enforce Singleton
-		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
-	}
-	
-	public synchronized void setCurrentPurifier(AirPurifier purifier) {
-		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
-		
-		stopCurrentSubscription();
-		if(mCurrentPurifier!=null){
-			mCurrentPurifier.getNetworkNode().deleteObserver(this);
-			mCurrentPurifier.removeListenerForAllPorts(mCurrentPurifierPortListener);
-		}
-		mCurrentPurifier = purifier;
-		mCurrentPurifier.getNetworkNode().addObserver(this);
-		mCurrentPurifier.addListenerForAllPorts(mCurrentPurifierPortListener);
-
-		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
-		
-		startSubscription();
-		notifyPurifierChangedListeners();
+		super();
+		mAirPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
+		mApplianceEventListeners = new HashMap<AirPurifierEventListener, DICommApplianceListener>();
 	}
 	
 	public String getDefaultPurifierEUI64() {
@@ -96,129 +58,88 @@ public class AirPurifierManager implements Observer {
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.CURR_PURAIR_PREF, Activity.MODE_PRIVATE);
 		return prefs.getString(AppConstants.CURR_PURAIR_PREF_KEY, null);
 	}
-
-	public synchronized void removeCurrentPurifier() {
-		if (mCurrentPurifier == null) return;
-		
-		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			mCurrentPurifier.unsubscribe();			
-		}
-		mCurrentPurifier.getNetworkNode().deleteObserver(this);
-		mCurrentPurifier.removeListenerForAllPorts(mCurrentPurifierPortListener);
-		stopCurrentSubscription();
-		
-		mCurrentPurifier = null;
-		ALog.d(ALog.PURIFIER_MANAGER, "Removed current purifier");
-		notifyPurifierChangedListeners();
-	}
 	
 	public synchronized AirPurifier getCurrentPurifier() {
-		return mCurrentPurifier;
+		return (AirPurifier)getCurrentAppliance();
 	}
 	
-	public synchronized NetworkNode getCurrentNetworkNode() {
-		if(null!=mCurrentPurifier){
-		    return mCurrentPurifier.getNetworkNode();
-		}
-		return null;
-	}
-
-	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		synchronized (airPurifierEventListeners) {
-			airPurifierEventListeners.remove(airPurifierEventListener);
-			if (airPurifierEventListeners.isEmpty()) {
-				stopCurrentSubscription();
-			}
-		}
-	}
-
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		synchronized (airPurifierEventListeners) {
-			if( !airPurifierEventListeners.contains(airPurifierEventListener)) {
-				airPurifierEventListeners.add(airPurifierEventListener);				
-				if (airPurifierEventListeners.size() == 1) {
-					// TODO optimize not to call start after adding each listener
-					// TODO: DICOMM REFACTOR, need to check in case of multiple purifiers may be for powercube
-					startSubscription();
-				}
+		synchronized (mApplianceEventListeners) {
+			if( mApplianceEventListeners.containsKey(airPurifierEventListener)) {
+				return;
 			}
+			DICommApplianceListener diCommApplianceListener = new DICommApplianceListener() {
+				
+			@Override
+			public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port) {
+				if (port instanceof AirPort) {
+					notifyAirPurifierEventListeners();
+				} else if (port instanceof FirmwarePort) {
+					notifyFirmwareEventListeners();
+				}					
+			}
+			
+			@Override
+			public void onPortError(DICommAppliance appliance, DICommPort<?> port,
+					Error error) {
+				notifyAirPurifierEventListenersErrorOccurred(error);
+			}
+			
+			@Override
+			public void onApplianceChanged() {
+				notifyPurifierChangedListeners();	
+			}
+		};
+			mApplianceEventListeners.put(airPurifierEventListener, diCommApplianceListener);
+			addApplianceListener(diCommApplianceListener);
+	    }
+	}
+	
+	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
+		synchronized (mApplianceEventListeners) {
+			mApplianceEventListeners.remove(airPurifierEventListener);
+			removeApplianceListener(mApplianceEventListeners.get(airPurifierEventListener));
 		}
 	}
 	
 	private void notifyPurifierChangedListeners() {
 		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
 		
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
+		synchronized (mAirPurifierEventListeners) {
+			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
 				listener.onAirPurifierChanged();
 			}
 		}
 	}
 
 	public void notifyAirPurifierEventListeners() {
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
+		synchronized (mAirPurifierEventListeners) {
+			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
 				listener.onAirPurifierEventReceived();
 			}
 		}
 	}
 
 	public void notifyFirmwareEventListeners() {
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
+		synchronized (mAirPurifierEventListeners) {
+			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
 				listener.onFirmwareEventReceived();
 			}
 		}
 	}
 
 	public void notifyAirPurifierEventListenersErrorOccurred(Error purifierEventError) {
-		synchronized (airPurifierEventListeners) {
-			for (AirPurifierEventListener listener : airPurifierEventListeners) {
+		synchronized (mAirPurifierEventListeners) {
+			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
 				listener.onErrorOccurred(purifierEventError);
 			}
 		}
-	}
-
-	public synchronized void startSubscription() {
-	    if(airPurifierEventListeners.isEmpty()){
-	        return;
-	    }
-	    
-		AirPurifier purifier = getCurrentPurifier();
-		
-		if (purifier == null) return;
-		
-		// TODO:DICOMM REFACTOR, Need to remove after builder is introduced.
-		if(mCurrentSubscriptionState == ConnectionState.CONNECTED_REMOTELY && PurAirApplication.isDemoModeEnable()){
-			return;
-		}
-		
-		purifier.subscribe();
-        purifier.enableSubscription();
-	}
-
-	private synchronized void stopCurrentSubscription() {
-		ALog.i(ALog.PURIFIER_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
-		AirPurifier currentPurifier = getCurrentPurifier();
-		if(currentPurifier == null){
-			return;
-		}
-		currentPurifier.disableSubscription();
-		currentPurifier.stopResubscribe();
 	}
 
 	public static void setDummyPurifierManagerForTesting(AirPurifierManager dummyManager) {
 		instance = dummyManager;
 	}
 
-	@Override
-	public void update(Observable observable, Object data) {
-		if(mCurrentPurifier == null) return;
-		stopCurrentSubscription();
-        startSubscription();
-		notifyPurifierChangedListeners();
-	}
-	
 	public void setEwsSate(EWS_STATE state) {
 		ewsState = state;
 	}
@@ -228,10 +149,10 @@ public class AirPurifierManager implements Observer {
 	}
 	
 	public void setCurrentIndoorViewPagerPosition(int indoorViewPagerPosition) {
-		this.indoorViewPagerPosition = indoorViewPagerPosition;
+		this.mIndoorViewPagerPosition = indoorViewPagerPosition;
 	}
 	
 	public int getCurrentIndoorViewPagerPosition() {
-		return indoorViewPagerPosition;
+		return mIndoorViewPagerPosition;
 	}
 }

@@ -49,7 +49,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetFirstDisconnectedPurifier() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         verifyAddedPurifier(device1);
     }
@@ -57,7 +57,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetFirstLocalPurifier() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         verifyAddedPurifier(device1);
     }
@@ -65,7 +65,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetFirstRemotePurifierNotPaired() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         verifyAddedPurifier(device1);
     }
@@ -74,7 +74,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         verifyAddedPurifier(device1);
     }
@@ -82,13 +82,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetDisconnectedPurifierAfterDisconnected() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -97,13 +97,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetLocalPurifierAfterDisconnected() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -112,13 +112,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetRemotePurifierNotPairedAfterDisconnected() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -127,7 +127,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetRemotePurifierPairedAfterDisconnected() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1); 
         
@@ -135,7 +135,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, device2ConnectedState);
         device2 = Mockito.spy(device2);
         device2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -144,13 +144,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetDisconnectedPurifierAfterLocally() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
 
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -159,12 +159,12 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetLocalPurifierAfterLocally() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -173,13 +173,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetRemotePurifierNotPairedAfterLocally() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
 
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -188,14 +188,14 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetRemotePurifierPairedAfterLocally() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
 
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
         device2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -204,13 +204,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetDisconnectedPurifierAfterNotPaired() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
 
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -219,12 +219,12 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetLocalPurifierAfterNotPaired() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -233,12 +233,12 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetRemotePurifierNotPairedAfterNotPaired() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -247,13 +247,13 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testSetRemotePurifierPairedAfterNotPaired() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
         device2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -263,12 +263,12 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -278,12 +278,12 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -293,12 +293,12 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
@@ -308,20 +308,20 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
         AirPurifier device2 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device2 = Mockito.spy(device2);
         device2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device2);
+        mPurifierMan.setCurrentAppliance(device2);
 
         verifyRemovedPurifier(device1);
         verifyAddedPurifier(device2);
     }
 
     public void testRemovePurifierPairedAfterNoPurifier() {
-        mPurifierMan.removeCurrentPurifier();
+        mPurifierMan.removeCurrentAppliance();
 
         assertNull(mPurifierMan.getCurrentPurifier());
     }
@@ -329,10 +329,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testRemovePurifierPairedAfterDisconnected() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
-        mPurifierMan.removeCurrentPurifier();
+        mPurifierMan.removeCurrentAppliance();
 
         verifyRemovedPurifier(device1);
 
@@ -342,10 +342,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testRemovePurifierPairedAfterLocal() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
-        mPurifierMan.removeCurrentPurifier();
+        mPurifierMan.removeCurrentAppliance();
 
         verifyRemovedPurifier(device1);
 
@@ -355,10 +355,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testRemovePurifierPairedAfterRemoteNotPaired() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
-        mPurifierMan.removeCurrentPurifier();
+        mPurifierMan.removeCurrentAppliance();
 
         verifyRemovedPurifier(device1);
 
@@ -369,10 +369,10 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
-        mPurifierMan.removeCurrentPurifier();
+        mPurifierMan.removeCurrentAppliance();
 
         verifyRemovedPurifier(device1);
 
@@ -387,7 +387,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testPurifierDisconnectedAfterLocal() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -408,7 +408,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -428,7 +428,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testPurifierLocalAfterDisconnected() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -450,7 +450,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.DISCONNECTED);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -471,7 +471,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
     public void testPurifierLocalAfterRemote() {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -493,7 +493,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
         device1 = Mockito.spy(device1);
         device1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -523,7 +523,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
 
@@ -543,7 +543,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -566,7 +566,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
 
@@ -587,7 +587,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         AirPurifierEventListener listener2 = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -610,7 +610,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
         AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
         AirPurifierEventListener listener2 = mock(AirPurifierEventListener.class);
         mPurifierMan.addAirPurifierEventListener(listener);
@@ -634,7 +634,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
         device1 = Mockito.spy(device1);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         reset(device1);
 
@@ -663,7 +663,7 @@ public class AirPurifierManagerTest extends InstrumentationTestCase {
         mPurifierMan = AirPurifierManager.getInstance();
         AirPurifier device1 = createAirPurifier(mock(CommunicationStrategy.class), PURIFIER_EUI64, null, PURIFIER_IP, null, -1,
                 ConnectionState.CONNECTED_LOCALLY);
-        mPurifierMan.setCurrentPurifier(device1);
+        mPurifierMan.setCurrentAppliance(device1);
 
         device1.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
     }
