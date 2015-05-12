@@ -8,25 +8,23 @@ import java.util.Observer;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DICommAppliance;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.communication.Error;
 import com.philips.cl.di.dicomm.port.DICommPort;
 import com.philips.cl.di.dicomm.port.DIPortListener;
 import com.philips.cl.di.dicomm.port.DIRegistration;
 
-
 public class CurrentApplianceManager implements Observer {
 
-	private static CurrentApplianceManager mCurrentApplianceManager;
-	
+	private static CurrentApplianceManager mInstance;
+
 	private DICommAppliance mDICommAppliance = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
 	private List<DICommApplianceListener> mApplianceListenersList ;
 
-	
 	private DIPortListener mDICommAppliancePortListener = new DIPortListener() {
+
 		@Override
 		public DIRegistration onPortUpdate(DICommPort<?> port) {
 			notifyApplianceListenersOnSuccess(port);
@@ -42,10 +40,10 @@ public class CurrentApplianceManager implements Observer {
 	};
 
 	public static synchronized CurrentApplianceManager getInstance() {
-		if (mCurrentApplianceManager == null) {
-			mCurrentApplianceManager = new CurrentApplianceManager();
-		}		
-		return mCurrentApplianceManager;
+		if (mInstance == null) {
+			mInstance = new CurrentApplianceManager();
+		}
+		return mInstance;
 	}
 	
 	protected CurrentApplianceManager() {
@@ -74,7 +72,7 @@ public class CurrentApplianceManager implements Observer {
 		if (mDICommAppliance == null) return;
 		
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
-			mDICommAppliance.unsubscribe();			
+			mDICommAppliance.unsubscribe();
 		}
 		mDICommAppliance.getNetworkNode().deleteObserver(this);
 		mDICommAppliance.removeListenerForAllPorts(mDICommAppliancePortListener);
@@ -88,18 +86,11 @@ public class CurrentApplianceManager implements Observer {
 	public synchronized DICommAppliance getCurrentAppliance() {
 		return mDICommAppliance;
 	}
-	
-	public synchronized NetworkNode getCurrentNetworkNode() {
-		if(null!=mDICommAppliance){
-		    return mDICommAppliance.getNetworkNode();
-		}
-		return null;
-	}
 
 	protected void addApplianceListener(DICommApplianceListener applianceListener) {
 		synchronized (mApplianceListenersList) {
 			if( !mApplianceListenersList.contains(applianceListener)) {
-				mApplianceListenersList.add(applianceListener);				
+				mApplianceListenersList.add(applianceListener);
 				if (mApplianceListenersList.size() == 1) {
 					// TODO optimize not to call start after adding each listener
 					// TODO: DICOMM REFACTOR, need to check in case of multiple appliances may be for powercube
@@ -123,7 +114,7 @@ public class CurrentApplianceManager implements Observer {
 		
 		synchronized (mApplianceListenersList) {
 			for (DICommApplianceListener listener : mApplianceListenersList) {
-				    listener.onPortUpdate(mDICommAppliance, port);
+				listener.onPortUpdate(mDICommAppliance, port);
 			}
 		}
 	}
@@ -145,7 +136,6 @@ public class CurrentApplianceManager implements Observer {
 			}
 		}
 	}
-
 
 	public synchronized void startSubscription() {
 	    if(mApplianceListenersList.isEmpty()){

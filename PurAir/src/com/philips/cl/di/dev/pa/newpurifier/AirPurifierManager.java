@@ -1,8 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -10,7 +8,6 @@ import android.content.SharedPreferences;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dicomm.appliance.CurrentApplianceManager;
 import com.philips.cl.di.dicomm.appliance.DICommApplianceListener;
 import com.philips.cl.di.dicomm.communication.Error;
@@ -30,8 +27,6 @@ import com.philips.cl.di.dicomm.port.FirmwarePort;
 public class AirPurifierManager extends CurrentApplianceManager {
 
 	private static AirPurifierManager instance;
-	
-	private List<AirPurifierEventListener> mAirPurifierEventListeners ;
 
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
@@ -49,7 +44,6 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	
 	private AirPurifierManager() {
 		super();
-		mAirPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mApplianceEventListeners = new HashMap<AirPurifierEventListener, DICommApplianceListener>();
 	}
 	
@@ -62,8 +56,8 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	public synchronized AirPurifier getCurrentPurifier() {
 		return (AirPurifier)getCurrentAppliance();
 	}
-	
-	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
+
+	public void addAirPurifierEventListener(final AirPurifierEventListener airPurifierEventListener) {
 		synchronized (mApplianceEventListeners) {
 			if( mApplianceEventListeners.containsKey(airPurifierEventListener)) {
 				return;
@@ -73,21 +67,21 @@ public class AirPurifierManager extends CurrentApplianceManager {
 			@Override
 			public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port) {
 				if (port instanceof AirPort) {
-					notifyAirPurifierEventListeners();
+					airPurifierEventListener.onAirPurifierEventReceived();
 				} else if (port instanceof FirmwarePort) {
-					notifyFirmwareEventListeners();
-				}					
+					airPurifierEventListener.onFirmwareEventReceived();
+				}
 			}
 			
 			@Override
 			public void onPortError(DICommAppliance appliance, DICommPort<?> port,
 					Error error) {
-				notifyAirPurifierEventListenersErrorOccurred(error);
+				airPurifierEventListener.onErrorOccurred(error);
 			}
 			
 			@Override
 			public void onApplianceChanged() {
-				notifyPurifierChangedListeners();	
+				airPurifierEventListener.onAirPurifierChanged();
 			}
 		};
 			mApplianceEventListeners.put(airPurifierEventListener, diCommApplianceListener);
@@ -99,40 +93,6 @@ public class AirPurifierManager extends CurrentApplianceManager {
 		synchronized (mApplianceEventListeners) {
 			mApplianceEventListeners.remove(airPurifierEventListener);
 			removeApplianceListener(mApplianceEventListeners.get(airPurifierEventListener));
-		}
-	}
-	
-	private void notifyPurifierChangedListeners() {
-		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
-		
-		synchronized (mAirPurifierEventListeners) {
-			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
-				listener.onAirPurifierChanged();
-			}
-		}
-	}
-
-	public void notifyAirPurifierEventListeners() {
-		synchronized (mAirPurifierEventListeners) {
-			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
-				listener.onAirPurifierEventReceived();
-			}
-		}
-	}
-
-	public void notifyFirmwareEventListeners() {
-		synchronized (mAirPurifierEventListeners) {
-			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
-				listener.onFirmwareEventReceived();
-			}
-		}
-	}
-
-	public void notifyAirPurifierEventListenersErrorOccurred(Error purifierEventError) {
-		synchronized (mAirPurifierEventListeners) {
-			for (AirPurifierEventListener listener : mAirPurifierEventListeners) {
-				listener.onErrorOccurred(purifierEventError);
-			}
 		}
 	}
 
