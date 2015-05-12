@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.cpp;
+package com.philips.cdp.dicommclient.port.common;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -10,17 +10,14 @@ import com.philips.cdp.dicomm.appliance.DICommAppliance;
 import com.philips.cdp.dicomm.cpp.CPPController;
 import com.philips.cdp.dicomm.cpp.ICPCallbackHandler;
 import com.philips.cdp.dicomm.cpp.ICPEventListener;
+import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
-import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.fragment.PermissionListener;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
@@ -65,7 +62,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Constructor for Pairinghandler.
-	 * 
+	 *
 	 * @param context
 	 *            Context
 	 * @param iPairingListener
@@ -88,7 +85,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Method startPairing- starts pairing procedure
-	 * 
+	 *
 	 * @param relationshipType
 	 *            String
 	 * @param permission
@@ -105,7 +102,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Method getRelationship- fetches existing relationships
-	 * 
+	 *
 	 * @param relationshipType
 	 *            String
 	 */
@@ -140,7 +137,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Method startPairingPortTask.
-	 * 
+	 *
 	 * @param relationshipType
 	 *            String
 	 * @param permission
@@ -155,17 +152,17 @@ public class PairingHandler implements ICPEventListener {
 			if(mAppliance==null)return;
 			secretKey = generateRandomSecretKey();
 			String appEui64 = cppController.getAppCppId();
-			
+
 			PairingPort pairingPort = mAppliance.getPairingPort();
 			pairingPort.registerPortListener(new DICommPortListener() {
-                
+
                 @Override
                 public ListenerRegistration onPortUpdate(DICommPort<?> port) {
                     ALog.i(ALog.PAIRING, "PairingPort call-SUCCESS");
                     addRelationship(currentRelationshipType, secretKey);
                     return ListenerRegistration.UNREGISTER;
                 }
-                
+
                 @Override
                 public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
                     ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
@@ -183,7 +180,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Method addRelationship.
-	 * 
+	 *
 	 * @param relationshipType
 	 *            String
 	 * @param permission
@@ -223,7 +220,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Method removeRelationship-remove an existing relationship
-	 * 
+	 *
 	 * @param relationType
 	 *            String
 	 */
@@ -248,7 +245,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * add pairingRelationshipData
-	 * 
+	 *
 	 * @param permission
 	 * @param relationshipType
 	 * @return
@@ -266,10 +263,10 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * add Trustee data
-	 * 
+	 *
 	 * @param purifierEui64
 	 * @param pairingTrustee
-	 * 
+	 *
 	 * @return PairingEntitiyReference
 	 */
 	private PairingEntitiyReference getDICommApplianceEntity() {
@@ -289,10 +286,10 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * add Trustee data
-	 * 
+	 *
 	 * @param purifierEui64
 	 * @param pairingTrustee
-	 * 
+	 *
 	 * @return PairingEntitiyReference
 	 */
 	private PairingEntitiyReference getAppEntity() {
@@ -310,7 +307,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * add pairing info
-	 * 
+	 *
 	 * @param secretKey
 	 * @return
 	 */
@@ -338,7 +335,7 @@ public class PairingHandler implements ICPEventListener {
 		}
 		return attempts;
 	}
-	
+
 	public static void clear() {
 		if( attemptsCount != null)
 			attemptsCount.clear() ;
@@ -351,17 +348,17 @@ public class PairingHandler implements ICPEventListener {
 		}
 		attemptsCount.put(eui64, attempts+1);
 	}
-	
+
 	public void resetPairingAttempts(String eui64){
 		attemptsCount.put(eui64, 0);
 	}
 
 	/**
 	 * Method onICPCallbackEventOccurred.
-	 * 
+	 *
 	 * @param eventType	 *            int
 	 * @param status	 *            int
-	 * @param obj	 *            ICPClient	 * 
+	 * @param obj	 *            ICPClient	 *
 	 * @see com.philips.cdp.dicomm.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
 	 *      int, ICPClient)
 	 */
@@ -410,17 +407,13 @@ public class PairingHandler implements ICPEventListener {
 				ALog.i(ALog.PAIRING, "Paring status set to true");
 				mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 				mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
-				
+
 				//TODO better solution
 				DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
 
 				//TODO verify with Jeroen: implementation correct this way?
 				appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
 				DiscoveryManager.getInstance().updateApplianceInDatabase(appliance);
-
-				//Clear indoor AQI historic data
-				SessionDto.getInstance().setIndoorTrendDto(mAppliance.getNetworkNode().getCppId(), null);
-
 			}
 		}
 
@@ -553,12 +546,12 @@ public class PairingHandler implements ICPEventListener {
 			mAppliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
 			if (pairingListener == null) return;
 			pairingListener.onPairingFailed(mAppliance.getNetworkNode());
-		}		
+		}
 	}
 
 	/**
 	 * Method addPermission- adds permission to a existing relationship
-	 * 
+	 *
 	 * @param relationType
 	 *            String
 	 * @param permission
@@ -585,7 +578,7 @@ public class PairingHandler implements ICPEventListener {
 
 	/**
 	 * Method getPermission-get permissions of a existing relationship
-	 * 
+	 *
 	 * @param relationType
 	 *            String
 	 * @param permission
@@ -600,7 +593,7 @@ public class PairingHandler implements ICPEventListener {
 			int iPermIndex = 0;
 			PairingService getPermission = new PairingService(callbackHandler);
 			int retStatus;
-	
+
 			retStatus = getPermission.getPermissionsRequest(null,
 					getDICommApplianceEntity(), relationType, iMaxPermissons, iPermIndex);
 			if (Errors.SUCCESS != retStatus) {
@@ -613,14 +606,14 @@ public class PairingHandler implements ICPEventListener {
 			if (Errors.SUCCESS != retStatus) {
 				permissionListener.onCallFailed();
 				ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
-	
+
 			}
 		}
 	}
 
 	/**
 	 * Method removePermission-remove permission from a existing relationship
-	 * 
+	 *
 	 * @param relationType
 	 *            String
 	 * @param permission
@@ -660,14 +653,14 @@ public class PairingHandler implements ICPEventListener {
 	public static boolean pairApplianceIfNecessary(NetworkNode networkNode) {
 		if (networkNode == null || networkNode.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
 			return false;
-		}	
-		
+		}
+
 
 		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ networkNode.getPairedState());
-		
-		// First time pairing or on EWS 
+
+		// First time pairing or on EWS
 		if( networkNode.getPairedState()==NetworkNode.PAIRED_STATUS.NOT_PAIRED ) {
-			return true;			
+			return true;
 		}
 		//Everyday check for pairing
 		long lastPairingCheckTime = networkNode.getLastPairedTime();

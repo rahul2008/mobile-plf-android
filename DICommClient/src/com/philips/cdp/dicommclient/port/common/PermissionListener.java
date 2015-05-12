@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.fragment;
+package com.philips.cdp.dicommclient.port.common;
 
 public interface PermissionListener {
 	void onPermissionReturned(boolean permissionExists);

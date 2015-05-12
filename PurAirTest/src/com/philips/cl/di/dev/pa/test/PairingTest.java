@@ -2,7 +2,7 @@ package com.philips.cl.di.dev.pa.test;
 
 import junit.framework.TestCase;
 
-import com.philips.cl.di.dev.pa.cpp.PairingHandler;
+import com.philips.cdp.dicommclient.port.common.PairingHandler;
 
 public class PairingTest extends TestCase {
 
