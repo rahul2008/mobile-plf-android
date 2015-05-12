@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port.common;
 import static org.mockito.Mockito.mock;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dicomm.port;
+package com.philips.cdp.dicommclient.port;
 
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -363,7 +363,7 @@ public class DICommPortTest extends MockitoTestCase{
 
         verifyUnsubscribeCalled(true);
     }
-    
+
     public void test_ShouldRemoveAndAddRunnable_WhenSubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
 
