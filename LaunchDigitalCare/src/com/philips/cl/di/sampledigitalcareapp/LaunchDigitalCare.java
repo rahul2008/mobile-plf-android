@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
@@ -36,8 +37,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 		mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
 		mLaunchProduct = (Button) findViewById(R.id.launchproduct);
-		mLaunchContact = (Button) findViewById(R.id.launchcontact);
-		mLaunchLocate = (Button) findViewById(R.id.launchlocate);
+		mLaunchContact = (Button) findViewById(R.id.launch_contact);
+		mLaunchLocate = (Button) findViewById(R.id.launch_locate);
 		mLaunchRate = (Button) findViewById(R.id.launchrate);
 		mLaunchProductRegister = (Button) findViewById(R.id.launchproductregister);
 
@@ -112,22 +113,32 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 		case R.id.launchproduct:
 			launchComponent(DigitalCareContants.OPTION_PRODUCS_DETAILS);
+			Toast.makeText(getApplicationContext(), "product detail clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 
-		case R.id.launchcontact:
+		case R.id.launch_contact:
 			launchComponent(DigitalCareContants.OPTION_CONTACT_US);
+			Toast.makeText(getApplicationContext(), "contact clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 
-		case R.id.launchlocate:
+		case R.id.launch_locate:
 			launchComponent(DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY);
+			Toast.makeText(getApplicationContext(), "find philips clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 
 		case R.id.launchrate:
 			launchComponent(DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING);
+			Toast.makeText(getApplicationContext(), "tell us clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 
 		case R.id.launchproductregister:
 			launchComponent(DigitalCareContants.OPTION_REGISTER_PRODUCT);
+			Toast.makeText(getApplicationContext(), "product register  clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 
 		default:
