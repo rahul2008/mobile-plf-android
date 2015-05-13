@@ -14,13 +14,12 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
+import com.philips.cdp.dicommclient.communication.NullStrategy;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PairingListener;
-import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -30,7 +29,6 @@ import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -41,7 +39,6 @@ public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {
 
 	private ManagePurifierArrayAdapter arrayAdapter;
-	private PurifierDatabase database;
 	private ListView listView;
 	private List<DICommAppliance> appliances;
 	private HashMap<String, Boolean> selectedItems;
@@ -50,7 +47,6 @@ public class ManagePurifierFragment extends BaseFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		database = new PurifierDatabase();
 		selectedItems = new HashMap<String, Boolean>();
 
 	}
@@ -116,8 +112,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 	private void loadDataFromDatabase() {
 		appliances = DiscoveryManager.getInstance().getAddedAppliances();
 
-        DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+        NullStrategy communicationStrategy = new NullStrategy();
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(0);
         networkNode.setCppId("");
