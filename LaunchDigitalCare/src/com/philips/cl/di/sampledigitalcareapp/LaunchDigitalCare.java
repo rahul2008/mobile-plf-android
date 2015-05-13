@@ -141,7 +141,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 		default:
 			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_PRODUCS_DETAILS);
+					DigitalCareContants.OPTION_SUPPORT_SCREEN);
 			break;
 		}
 	}
