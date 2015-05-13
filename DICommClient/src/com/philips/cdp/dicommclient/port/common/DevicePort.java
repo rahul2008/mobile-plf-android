@@ -7,7 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class DevicePort extends DICommPort<DevicePortProperties> {
 
@@ -32,7 +32,7 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
             setPortProperties(devicePortInfo);
             return;
         }
-        ALog.e(ALog.DEVICEPORT, "DevicePort Info should never be NULL");
+        DLog.e(DLog.DEVICEPORT, "DevicePort Info should never be NULL");
     }
 
     @Override
@@ -60,11 +60,11 @@ public class DevicePort extends DICommPort<DevicePortProperties> {
         try {
             devicePortInfo = gson.fromJson(response, DevicePortProperties.class);
         } catch (JsonSyntaxException e) {
-            ALog.e(ALog.DEVICEPORT, "JsonSyntaxException");
+            DLog.e(DLog.DEVICEPORT, "JsonSyntaxException");
         } catch (JsonIOException e) {
-            ALog.e(ALog.DEVICEPORT, "JsonIOException");
+            DLog.e(DLog.DEVICEPORT, "JsonIOException");
         } catch (Exception e2) {
-            ALog.e(ALog.DEVICEPORT, "Exception");
+            DLog.e(DLog.DEVICEPORT, "Exception");
         }
         return devicePortInfo;
     }

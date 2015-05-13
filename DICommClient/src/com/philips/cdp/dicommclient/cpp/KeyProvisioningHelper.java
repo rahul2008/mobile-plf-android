@@ -1,6 +1,6 @@
 package com.philips.cdp.dicommclient.cpp;
 
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 
@@ -39,6 +39,6 @@ public class KeyProvisioningHelper extends KeyProvisioningConfiguration{
 
 		this.ICPClientdevicePortalURL1 = mKpsConfigurationInfo.getDevicePortUrl();
 
-		ALog.i(ALog.ICPCLIENT, "Created new KeyProvisioningInfo with locale: " + mKpsConfigurationInfo.getLanguageCode());
+		DLog.i(DLog.ICPCLIENT, "Created new KeyProvisioningInfo with locale: " + mKpsConfigurationInfo.getLanguageCode());
 	}
 }

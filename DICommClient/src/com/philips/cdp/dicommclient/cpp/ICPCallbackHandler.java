@@ -19,7 +19,7 @@ package com.philips.cdp.dicommclient.cpp;
 
 import android.os.Handler;
 
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;
@@ -46,7 +46,7 @@ public class ICPCallbackHandler implements CallbackHandler
 
 	public void callback(int command, int status, ICPClient obj)
 	{
-		ALog.d(ALog.CPPCONTROLLER, "callback command " + command + " status " + status);
+		DLog.d(DLog.CPPCONTROLLER, "callback command " + command + " status " + status);
 		switch (command)
 		{
 		case Commands.SIGNON:
@@ -273,6 +273,6 @@ public class ICPCallbackHandler implements CallbackHandler
 	@Override
 	public void setHandler(Handler handler) {
 		//TODO
-		ALog.i(ALog.CPPCONTROLLER, "setHandler: " + handler);
+		DLog.i(DLog.CPPCONTROLLER, "setHandler: " + handler);
 	}
 }

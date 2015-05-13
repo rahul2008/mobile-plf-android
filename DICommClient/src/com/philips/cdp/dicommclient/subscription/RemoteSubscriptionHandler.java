@@ -4,7 +4,7 @@ package com.philips.cdp.dicommclient.subscription;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEventListener {
 
@@ -18,7 +18,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 
 	@Override
 	public void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
-		ALog.i(ALog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
+		DLog.i(DLog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
 		mNetworkNode = networkNode;
 		mSubscriptionEventListener = subscriptionEventListener;
 		//DI-Comm change. Moved from Constructor
@@ -28,7 +28,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 
 	@Override
 	public void disableSubscription() {
-		ALog.i(ALog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
+		DLog.i(DLog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
 		mSubscriptionEventListener = null;
 		//DI-Comm change. Removing the listener on Disabling remote subscription
 		if (mNetworkNode != null) {
@@ -39,7 +39,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 
 	@Override
 	public void onDCSEventReceived(String data, String fromEui64, String action) {
-		ALog.i(ALog.REMOTE_SUBSCRIPTION,"onDCSEventReceived: "+data);
+		DLog.i(DLog.REMOTE_SUBSCRIPTION,"onDCSEventReceived: "+data);
 		if (data == null || data.isEmpty())
 			return;
 
@@ -47,12 +47,12 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 			return;
 
 		if (!mNetworkNode.getCppId().equals(fromEui64)) {
-			ALog.d(ALog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromEui64 == null? "null" : fromEui64) + ")");
+			DLog.d(DLog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromEui64 == null? "null" : fromEui64) + ")");
 			return;
 		}
 
-		ALog.i(ALog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
-		ALog.i(ALog.REMOTE_SUBSCRIPTION, data);
+		DLog.i(DLog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
+		DLog.i(DLog.REMOTE_SUBSCRIPTION, data);
 		if (mSubscriptionEventListener != null) {
 			postSubscriptionEventOnUIThread(data, mSubscriptionEventListener);
 		}

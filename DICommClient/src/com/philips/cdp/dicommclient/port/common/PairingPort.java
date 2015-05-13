@@ -6,7 +6,7 @@ import java.util.Map;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class PairingPort extends DICommPort<Object> {
 
@@ -22,13 +22,13 @@ public class PairingPort extends DICommPort<Object> {
 
 	@Override
 	public boolean isResponseForThisPort(String response) {
-	    ALog.e(ALog.PAIRINGPORT,"Pairing does not return responses");
+	    DLog.e(DLog.PAIRINGPORT,"Pairing does not return responses");
 		return false;
 	}
 
 	@Override
 	public void processResponse(String response) {
-        ALog.e(ALog.PAIRINGPORT,"Pairing does not return responses");
+        DLog.e(DLog.PAIRINGPORT,"Pairing does not return responses");
 	}
 
 	@Override

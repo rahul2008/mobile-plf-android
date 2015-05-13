@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class RequestQueue {
 
@@ -24,26 +24,26 @@ public class RequestQueue {
 
     public synchronized void addRequest(Request request) {
         if (mRequestHandler == null) {
-        	ALog.d(ALog.REQUESTQUEUE, "Added new request - Thread not yet started");
+        	DLog.d(DLog.REQUESTQUEUE, "Added new request - Thread not yet started");
             mThreadNotYetStartedQueue.add(request);
             return;
         }
-        ALog.d(ALog.REQUESTQUEUE, "Added new request");
+        DLog.d(DLog.REQUESTQUEUE, "Added new request");
         postRequestOnBackgroundThread(request);
     }
 
     public synchronized void addRequestInFrontOfQueue(ExchangeKeyRequest request) {
         if (mRequestHandler == null) {
-            ALog.d(ALog.REQUESTQUEUE, "Added new request in front of queue - Thread not yet started");
+            DLog.d(DLog.REQUESTQUEUE, "Added new request in front of queue - Thread not yet started");
             mThreadNotYetStartedQueue.add(request);
             return;
         }
-        ALog.d(ALog.REQUESTQUEUE, "Added new request in front of queue");
+        DLog.d(DLog.REQUESTQUEUE, "Added new request in front of queue");
         postPriorityRequestOnBackgroundThread(request);
     }
 
     public synchronized void clearAllPendingRequests() {
-    	ALog.d(ALog.REQUESTQUEUE, "Cleared all pending requests");
+    	DLog.d(DLog.REQUESTQUEUE, "Cleared all pending requests");
     	mRequestHandler.removeCallbacksAndMessages(null);
     	mThreadNotYetStartedQueue.clear();
     }
@@ -52,7 +52,7 @@ public class RequestQueue {
         Runnable requestRunnable = new Runnable() {
             @Override
             public void run() {
-                ALog.d(ALog.REQUESTQUEUE, "Processing new request");
+                DLog.d(DLog.REQUESTQUEUE, "Processing new request");
                 Response response = request.execute();
                 postResponseOnUIThread(response);
             };
@@ -64,7 +64,7 @@ public class RequestQueue {
         Runnable requestRunnable = new Runnable() {
             @Override
             public void run() {
-                ALog.d(ALog.REQUESTQUEUE, "Processing new request");
+                DLog.d(DLog.REQUESTQUEUE, "Processing new request");
                 Response response = request.execute();
                 postResponseOnUIThread(response);
             };
@@ -76,7 +76,7 @@ public class RequestQueue {
         Runnable responseRunnable = new Runnable() {
             @Override
             public void run() {
-            	ALog.d(ALog.REQUESTQUEUE, "Processing response from request");
+            	DLog.d(DLog.REQUESTQUEUE, "Processing response from request");
             	response.notifyResponseHandler();
         }};
         mResponseHandler.post(responseRunnable);
@@ -94,11 +94,11 @@ public class RequestQueue {
 	}
 
     private synchronized void initializeRequestHandler(Looper looper) {
-    	ALog.d(ALog.REQUESTQUEUE, "Initializing requestHandler");
+    	DLog.d(DLog.REQUESTQUEUE, "Initializing requestHandler");
         mRequestHandler = new Handler(looper);
         for (Request request : mThreadNotYetStartedQueue) {
             postRequestOnBackgroundThread(request);
-            ALog.d(ALog.REQUESTQUEUE, "Added new request - pending due to Thread not started");
+            DLog.d(DLog.REQUESTQUEUE, "Added new request - pending due to Thread not started");
         }
         mThreadNotYetStartedQueue.clear();
     }

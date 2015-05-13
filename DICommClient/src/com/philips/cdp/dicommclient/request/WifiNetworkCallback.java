@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.ConnectivityManager.NetworkCallback;
 import android.net.Network;
 
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 @SuppressLint("NewApi")
 class WifiNetworkCallback extends NetworkCallback {
@@ -23,7 +23,7 @@ class WifiNetworkCallback extends NetworkCallback {
 
 		@Override
 		public void onAvailable(final Network network) {
-			ALog.i(ALog.WIFI, "WifiNetwork available");
+			DLog.i(DLog.WIFI, "WifiNetwork available");
 			wifiNetwork = network;
 			synchronized (lock) {
 				lock.notify();
@@ -32,7 +32,7 @@ class WifiNetworkCallback extends NetworkCallback {
 
 		@Override
 		public void onLost(Network network) {
-			ALog.i(ALog.WIFI, "WifiNetwork lost");
+			DLog.i(DLog.WIFI, "WifiNetwork lost");
 			ConnectivityManager.setProcessDefaultNetwork(null);
 			super.onLost(network);
 		}

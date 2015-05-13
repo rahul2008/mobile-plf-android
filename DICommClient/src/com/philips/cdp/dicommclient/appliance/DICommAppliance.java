@@ -14,7 +14,7 @@ import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public abstract class DICommAppliance implements SubscriptionEventListener {
 
@@ -62,7 +62,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     public void subscribe() {
-        ALog.i(ALog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
+        DLog.i(DLog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : mPortList) {
             if (port.supportsSubscription()) {
                 port.subscribe();
@@ -71,7 +71,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     public void unsubscribe() {
-        ALog.i(ALog.APPLIANCE, "Unsubscribe to all ports for appliance: " + this);
+        DLog.i(DLog.APPLIANCE, "Unsubscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : mPortList) {
             if (port.supportsSubscription()) {
                 port.unsubscribe();
@@ -80,7 +80,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     public void stopResubscribe() {
-        ALog.i(ALog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
+        DLog.i(DLog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : mPortList) {
             if (port.supportsSubscription()) {
                 port.stopResubscribe();
@@ -142,7 +142,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 
 	@Override
 	public void onSubscriptionEventReceived(String data) {
-		ALog.d(ALog.APPLIANCE, "Notify subscription listeners - " + data);
+		DLog.d(DLog.APPLIANCE, "Notify subscription listeners - " + data);
 
 		List<DICommPort<?>> portList = getAllPorts();
 

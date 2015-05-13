@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cdp.dicommclient.security.EncryptionUtil;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class ExchangeKeyRequest extends LocalRequest {
 
@@ -34,13 +34,13 @@ public class ExchangeKeyRequest extends LocalRequest {
         try {
             json = new JSONObject(responseData);
             String shellman = json.getString("hellman");
-            ALog.d(ALog.SECURITY, "result hellmam= " + shellman + "     Length:= " + shellman.length());
+            DLog.d(DLog.SECURITY, "result hellmam= " + shellman + "     Length:= " + shellman.length());
 
             String skeyEnc = json.getString("key");
-            ALog.d(ALog.SECURITY, "encrypted key= " + skeyEnc + "    length:= " + skeyEnc.length());
+            DLog.d(DLog.SECURITY, "encrypted key= " + skeyEnc + "    length:= " + skeyEnc.length());
 
             String key = EncryptionUtil.extractEncryptionKey(shellman, skeyEnc, mRandomValue);
-            ALog.i(ALog.SECURITY, "decryted key= " + key);
+            DLog.i(DLog.SECURITY, "decryted key= " + key);
 
             mNetworkNode.setEncryptionKey(key);
 

@@ -22,7 +22,7 @@ import android.util.Log;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class LocalRequest extends Request {
@@ -50,19 +50,19 @@ public class LocalRequest extends Request {
 		if (dataMap == null || dataMap.size() <= 0) return null;
 
 		String data = convertKeyValuesToJson(dataMap);
-		ALog.i(ALog.LOCALREQUEST, "Data to send: "+ data);
+		DLog.i(DLog.LOCALREQUEST, "Data to send: "+ data);
 
 		if (mDISecurity != null) {
 			return mDISecurity.encryptData(data, networkNode);
 		}
-		ALog.i(ALog.LOCALREQUEST, "Not encrypting data");
+		DLog.i(DLog.LOCALREQUEST, "Not encrypting data");
 		return data;
 	}
 
 	@Override
 	public Response execute() {
-		ALog.d(ALog.LOCALREQUEST, "Start request LOCAL");
-		ALog.i(ALog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
+		DLog.d(DLog.LOCALREQUEST, "Start request LOCAL");
+		DLog.i(DLog.LOCALREQUEST, "Url: " + mUrl + ", Requesttype: " + mRequestType);
 		String result = "";
 		InputStream inputStream = null;
 		OutputStreamWriter out = null;
@@ -73,13 +73,13 @@ public class LocalRequest extends Request {
 			URL urlConn = new URL(mUrl);
 			conn = LocalRequest.createConnection(urlConn, mRequestType.getMethod(), CONNECTION_TIMEOUT,GETWIFI_TIMEOUT);
 			if (conn == null) {
-			    ALog.e(ALog.LOCALREQUEST, "Request failed - no wificonnection available");
+			    DLog.e(DLog.LOCALREQUEST, "Request failed - no wificonnection available");
 			    return new Response(null, Error.NOWIFIAVAILABLE, mResponseHandler);
 			}
 
 			if (mRequestType == LocalRequestType.PUT || mRequestType == LocalRequestType.POST) {
 				if (mDataMap == null || mDataMap.isEmpty()) {
-				    ALog.e(ALog.LOCALREQUEST, "Request failed - no data for Put or Post");
+				    DLog.e(DLog.LOCALREQUEST, "Request failed - no data for Put or Post");
 					return new Response(null, Error.NODATA, mResponseHandler);
 				}
 				out = appendDataToRequestIfAvailable(conn);
@@ -92,7 +92,7 @@ public class LocalRequest extends Request {
 				responseCode = conn.getResponseCode();
 			} catch (Exception e) {
 				responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
-				ALog.e(ALog.LOCALREQUEST, "Failed to get responsecode");
+				DLog.e(DLog.LOCALREQUEST, "Failed to get responsecode");
 				e.printStackTrace();
 			}
 
@@ -110,43 +110,43 @@ public class LocalRequest extends Request {
 			else{
 				inputStream = conn.getErrorStream();
 				result = convertInputStreamToString(inputStream);
-				ALog.e(ALog.LOCALREQUEST, "REQUESTFAILED - " +result);
+				DLog.e(DLog.LOCALREQUEST, "REQUESTFAILED - " +result);
 				return new Response(result, Error.REQUESTFAILED, mResponseHandler);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			ALog.e(ALog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
+			DLog.e(DLog.LOCALREQUEST, e.getMessage() != null ? e.getMessage() : "IOException");
 			return new Response(null, Error.IOEXCEPTION, mResponseHandler);
 		}
 		finally {
 			closeAllConnections(inputStream, out, conn);
-			ALog.d(ALog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
+			DLog.d(DLog.LOCALREQUEST, "Stop request LOCAL - responsecode: " + responseCode);
 		}
 	}
 
     private Response handleHttpOk(InputStream inputStream) throws IOException, UnsupportedEncodingException {
         String cypher = convertInputStreamToString(inputStream);
         if (cypher == null) {
-            ALog.e(ALog.LOCALREQUEST, "Request failed - null reponse");
+            DLog.e(DLog.LOCALREQUEST, "Request failed - null reponse");
             return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
         }
 
         String data = decryptData(cypher);
         if (data == null) {
-        	ALog.e(ALog.LOCALREQUEST, "Request failed - failed to decrypt");
+        	DLog.e(DLog.LOCALREQUEST, "Request failed - failed to decrypt");
         	return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
         }
 
-        ALog.i(ALog.LOCALREQUEST, "Received data: " + data);
+        DLog.i(DLog.LOCALREQUEST, "Received data: " + data);
         return new Response(data, null, mResponseHandler);
     }
 
 	private Response handleBadRequest(InputStream inputStream) throws IOException, UnsupportedEncodingException {
 		String errorMessage = convertInputStreamToString(inputStream);
-		ALog.e(ALog.LOCALREQUEST, "BAD REQUEST - " + errorMessage);
+		DLog.e(DLog.LOCALREQUEST, "BAD REQUEST - " + errorMessage);
 
 		if (mDISecurity != null) {
-			ALog.e(ALog.LOCALREQUEST, "Request not properly encrypted - notifying listener");
+			DLog.e(DLog.LOCALREQUEST, "Request not properly encrypted - notifying listener");
 			mDISecurity.notifyEncryptionFailedListener(mNetworkNode);
 		}
 
@@ -210,7 +210,7 @@ public class LocalRequest extends Request {
 			connectionManager.registerNetworkCallback(request.build(),	networkCallback);
 			try {
 				lock.wait(lockTimeout);
-				Log.e(ALog.WIFI, "Timeout error occurred");
+				Log.e(DLog.WIFI, "Timeout error occurred");
 			} catch (InterruptedException e) {
 			}
 		}

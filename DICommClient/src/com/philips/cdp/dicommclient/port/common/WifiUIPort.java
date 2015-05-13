@@ -10,7 +10,7 @@ import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 
@@ -36,7 +36,7 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
         	setPortProperties(properties);
         	return;
         }
-        ALog.e(ALog.WIFIUIPORT,"WifiUI port properties should never be NULL");
+        DLog.e(DLog.WIFIUIPORT,"WifiUI port properties should never be NULL");
 
 	}
 
@@ -65,11 +65,11 @@ public class WifiUIPort extends DICommPort<WifiUIPortProperties> {
 		try {
 		    properties = gson.fromJson(response, WifiUIPortProperties.class) ;
 		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.WIFIUIPORT, "JsonSyntaxException");
+			DLog.e(DLog.WIFIUIPORT, "JsonSyntaxException");
 		} catch (JsonIOException e) {
-			ALog.e(ALog.WIFIUIPORT, "JsonIOException");
+			DLog.e(DLog.WIFIUIPORT, "JsonIOException");
 		} catch (Exception e2) {
-			ALog.e(ALog.WIFIUIPORT, "Exception");
+			DLog.e(DLog.WIFIUIPORT, "Exception");
 		}
 		return properties;
 	}

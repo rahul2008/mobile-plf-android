@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 
@@ -61,7 +61,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		ALog.w(ALog.DATABASE, "Create table " + TABLE_NETWORK_NODE);
+		DLog.w(DLog.DATABASE, "Create table " + TABLE_NETWORK_NODE);
 
 		String createNetworkNodeTable = "CREATE TABLE IF NOT EXISTS " + TABLE_NETWORK_NODE + "("
 				+ KEY_ID + " INTEGER NOT NULL UNIQUE,"

@@ -2,7 +2,7 @@ package com.philips.cdp.dicommclient.subscription;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 
 public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEventListener{
 
@@ -16,7 +16,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 
 	@Override
 	public void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
-		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
+		DLog.i(DLog.LOCAL_SUBSCRIPTION, "Enabling local subscription (start udp)");
 		mNetworkNode = networkNode;
 		mSubscriptionEventListener = subscriptionEventListener;
 
@@ -28,7 +28,7 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 
 	@Override
 	public void disableSubscription() {
-		ALog.i(ALog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
+		DLog.i(DLog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
 		mSubscriptionEventListener = null;
 		UDPReceivingThread.getInstance().removeUDPEventListener(this);
 		if (UDPReceivingThread.getInstance().isAlive()) {
@@ -44,21 +44,21 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 			return;
 
 		if (mNetworkNode.getIpAddress() == null || !mNetworkNode.getIpAddress().equals(fromIp)) {
-			ALog.d(ALog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromIp == null? "null" : fromIp) + ")");
+			DLog.d(DLog.LOCAL_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromIp == null? "null" : fromIp) + ")");
 			return;
 		}
 
 
-		ALog.i(ALog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
+		DLog.i(DLog.LOCAL_SUBSCRIPTION, "UDP event received from " + fromIp);
 
 		if(mSubscriptionEventListener!=null){
 			String decryptedData = decryptData(data) ;
 			if (decryptedData == null ) {
-				ALog.d(ALog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
+				DLog.d(DLog.LOCAL_SUBSCRIPTION, "Unable to decrypt data for : " + mNetworkNode.getIpAddress());
 				return;
 			}
 
-			ALog.d(ALog.LOCAL_SUBSCRIPTION, decryptedData);
+			DLog.d(DLog.LOCAL_SUBSCRIPTION, decryptedData);
 			if (mSubscriptionEventListener != null) {
 				postSubscriptionEventOnUIThread(decryptedData, mSubscriptionEventListener);
 			}

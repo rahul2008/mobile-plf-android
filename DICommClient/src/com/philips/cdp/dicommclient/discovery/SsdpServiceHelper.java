@@ -7,7 +7,7 @@ import android.os.Handler.Callback;
 import android.os.HandlerThread;
 
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelperThread.StartStopInterface;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 
@@ -51,7 +51,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 		synchronized (threadLock) {
 			long startTime = System.currentTimeMillis();
 			mSsdpService.stopDeviceDiscovery();
-			ALog.i(ALog.SSDPHELPER,
+			DLog.i(DLog.SSDPHELPER,
 					"Stopping SsdpService took - "
 							+ (System.currentTimeMillis() - startTime) + "ms");
 		}
@@ -61,7 +61,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 		Set<DeviceModel> devices = mSsdpService.getAliveDeviceList();
 		ArrayList<String> onlineEui64s = new ArrayList<String>();
 		if (devices == null) {
-			ALog.i(ALog.SSDPHELPER, "Ssdp service returned NULL online devices");
+			DLog.i(DLog.SSDPHELPER, "Ssdp service returned NULL online devices");
 			return onlineEui64s;
 		}
 
@@ -70,7 +70,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 				continue;
 			onlineEui64s.add(model.getSsdpDevice().getCppId());
 		}
-		ALog.i(ALog.SSDPHELPER, "Ssdp service returned " + onlineEui64s.size()
+		DLog.i(DLog.SSDPHELPER, "Ssdp service returned " + onlineEui64s.size()
 				+ " online devices");
 		return onlineEui64s;
 	}
@@ -90,12 +90,12 @@ public class SsdpServiceHelper implements StartStopInterface {
 					mThread.start();
 					startLock.wait(TIMEOUT_STARTTHREAD);
 				} catch (InterruptedException e) {
-					ALog.i(ALog.SSDPHELPER, "Interrupted - " + e);
+					DLog.i(DLog.SSDPHELPER, "Interrupted - " + e);
 					e.printStackTrace();
 				}
 			}
 
-			ALog.i(ALog.SSDPHELPER,
+			DLog.i(DLog.SSDPHELPER,
 					"Starting StartStopThread took "
 							+ (System.currentTimeMillis() - startTime) + "ms");
 		}
@@ -106,7 +106,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.startDeviceDiscovery(mSsdpCallback);
 		DiscoveryManager.getInstance().syncLocalAppliancesWithSsdpStackDelayed();
-		ALog.i(ALog.SSDPHELPER,
+		DLog.i(DLog.SSDPHELPER,
 				"Starting SsdpService took - "
 						+ (System.currentTimeMillis() - startTime) + "ms");
 	}
@@ -116,14 +116,14 @@ public class SsdpServiceHelper implements StartStopInterface {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.stopDeviceDiscovery();
 		DiscoveryManager.getInstance().cancelSyncLocalAppliancesWithSsdpStack();
-		ALog.i(ALog.SSDPHELPER,
+		DLog.i(DLog.SSDPHELPER,
 				"Stopping SsdpService took - "
 						+ (System.currentTimeMillis() - startTime) + "ms");
 
 		synchronized (threadLock) {
 			if (mThread.stopIfNecessary()) {
 				mThread = null;
-				ALog.i(ALog.SSDPHELPER, "Stopping StartStopThread");
+				DLog.i(DLog.SSDPHELPER, "Stopping StartStopThread");
 			}
 		}
 	}

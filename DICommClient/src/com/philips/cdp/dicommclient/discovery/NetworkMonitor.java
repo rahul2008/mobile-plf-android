@@ -14,7 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkMonitor {
@@ -47,7 +47,7 @@ public class NetworkMonitor {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				ALog.d(ALog.NETWORKMONITOR, "onReceive connectivity action : " + intent.getAction());
+				DLog.d(DLog.NETWORKMONITOR, "onReceive connectivity action : " + intent.getAction());
 				updateNetworkStateAsync();
 			};
 		};
@@ -69,7 +69,7 @@ public class NetworkMonitor {
 		try {
 			context.unregisterReceiver(mNetworkChangedReceiver);
 		} catch (IllegalArgumentException e) {
-			ALog.e(ALog.NETWORKMONITOR, "Error: " + e.getMessage());
+			DLog.e(DLog.NETWORKMONITOR, "Error: " + e.getMessage());
 		}
 		if (mLooper ==  null || mLooper.mHandler == null || mLooper.mHandler.getLooper() == null) return;
 		mLooper.mHandler.getLooper().quit();
@@ -96,22 +96,22 @@ public class NetworkMonitor {
 	 */
 	private synchronized void updateNetworkState(NetworkState newState, String newSsid) {
 		if (mLastKnownState == newState && isLastKnowSsid(newSsid)) {
-			ALog.d(ALog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
+			DLog.d(DLog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
 			return;
 		}
 
 		if (mLastKnownState == newState && !isLastKnowSsid(newSsid)) {
-			ALog.d(ALog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
+			DLog.d(DLog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
 			updateListener(NetworkState.NONE, null);
 		}
 
 		if (mLastKnownState == NetworkState.MOBILE && newState == NetworkState.WIFI_WITH_INTERNET
 				|| mLastKnownState == NetworkState.WIFI_WITH_INTERNET && newState == NetworkState.MOBILE) {
-			ALog.d(ALog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
+			DLog.d(DLog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
 			updateListener(NetworkState.NONE, null);
 		}
 
-		ALog.d(ALog.NETWORKMONITOR, "NetworkState Changed");
+		DLog.d(DLog.NETWORKMONITOR, "NetworkState Changed");
 		mLastKnownState = newState;
 		mLastKnownSsid = newSsid;
 		updateListener(newState, newSsid);
@@ -119,7 +119,7 @@ public class NetworkMonitor {
 
 	private void updateListener(NetworkState state, String ssid) {
 		if (mNetworkChangedCallback == null) return;
-		ALog.v(ALog.NETWORKMONITOR, "Updating listener");
+		DLog.v(DLog.NETWORKMONITOR, "Updating listener");
 		mNetworkChangedCallback.onNetworkChanged(state, ssid);
 	}
 
@@ -128,7 +128,7 @@ public class NetworkMonitor {
 
 		boolean isConnected = activeNetwork != null	&& activeNetwork.isConnectedOrConnecting();
 		if (!isConnected) {
-			ALog.d(ALog.NETWORKMONITOR, "Network update - No connection");
+			DLog.d(DLog.NETWORKMONITOR, "Network update - No connection");
 			updateNetworkState(NetworkState.NONE, null);
 			return;
 		}
@@ -140,7 +140,7 @@ public class NetworkMonitor {
 			if(wifiInfo == null ||
 					wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {
 				// Assume internet access - don't waste data bandwidth
-				ALog.d(ALog.NETWORKMONITOR, "Network update - Mobile connection");
+				DLog.d(DLog.NETWORKMONITOR, "Network update - Mobile connection");
 				updateNetworkState(NetworkState.MOBILE, null);
 				return;
 			}
@@ -148,7 +148,7 @@ public class NetworkMonitor {
 
 		String ssid = getCurrentSsid();
 		// Assume internet access - checking for internet technically difficult (slow DNS timeout)
-		ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
+		DLog.d(DLog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
 		updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
 		return;
 	}

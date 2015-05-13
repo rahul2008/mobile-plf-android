@@ -6,7 +6,7 @@ import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteRequest extends Request implements DcsResponseListener, PublishEventListener {
@@ -39,13 +39,13 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 		String data = convertKeyValuesToJson(dataMap);
 		String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
 
-		ALog.i(ALog.REMOTEREQUEST, "Data to send: "+ dataToSend);
+		DLog.i(DLog.REMOTEREQUEST, "Data to send: "+ dataToSend);
 		return dataToSend;
 	}
 
 	@Override
 	public Response execute() {
-		ALog.d(ALog.REMOTEREQUEST, "Start request REMOTE");
+		DLog.d(DLog.REMOTEREQUEST, "Start request REMOTE");
 		//TODO - Add publish event listener for handling error cases
 		mCppController.addDCSResponseListener(this) ;
 		mCppController.addPublishEventListener(this) ;
@@ -59,7 +59,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
 			}
 			if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {
-				ALog.e(ALog.REMOTEREQUEST, "Timeout occured");
+				DLog.e(DLog.REMOTEREQUEST, "Timeout occured");
 			}
 		} catch (InterruptedException e) {
 			// NOP
@@ -69,27 +69,27 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 		mCppController.removeDCSResponseListener(this);
 
 		if (mResponse == null) {
-			ALog.e(ALog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
-			ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Failure");
+			DLog.e(DLog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
+			DLog.d(DLog.REMOTEREQUEST, "Stop request REMOTE - Failure");
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 		}
 
-		ALog.i(ALog.REMOTEREQUEST, "Received data: " + mResponse);
-		ALog.d(ALog.REMOTEREQUEST, "Stop request REMOTE - Success");
+		DLog.i(DLog.REMOTEREQUEST, "Received data: " + mResponse);
+		DLog.d(DLog.REMOTEREQUEST, "Stop request REMOTE - Success");
 		return new Response(mResponse, null, mResponseHandler) ;
 	}
 
 	@Override
 	public void onDCSResponseReceived(String dcsResponse, String conversationId) {
 		if(mConversationId!=null && mConversationId.equals(conversationId)){
-			ALog.i(ALog.REMOTEREQUEST,"DCSEvent received from the right request");
+			DLog.i(DLog.REMOTEREQUEST,"DCSEvent received from the right request");
 			mResponse = dcsResponse ;
 			synchronized (this) {
-				ALog.i(ALog.REMOTEREQUEST, "Notified on DCS Response") ;
+				DLog.i(DLog.REMOTEREQUEST, "Notified on DCS Response") ;
 				notify() ;
 			}
 		}else{
-			ALog.i(ALog.REMOTEREQUEST,"DCSEvent received from different request - ignoring");
+			DLog.i(DLog.REMOTEREQUEST,"DCSEvent received from different request - ignoring");
 		}
 
 
@@ -98,17 +98,17 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 	@Override
 	public void onPublishEventReceived(int status, int messageId, String conversationId) {
 		if( mMessageId == messageId) {
-			ALog.i(ALog.REMOTEREQUEST,"Publish event received from the right request - status: " + status);
+			DLog.i(DLog.REMOTEREQUEST,"Publish event received from the right request - status: " + status);
 			if ( status == Errors.SUCCESS){
 				mConversationId = conversationId;
 			}else {
 				synchronized (this) {
-					ALog.e(ALog.REMOTEREQUEST, "Publish Event Failed") ;
+					DLog.e(DLog.REMOTEREQUEST, "Publish Event Failed") ;
 					notify() ;
 				}
 			}
 		} else {
-			ALog.i(ALog.REMOTEREQUEST,"Publish event received from different request - ignoring");
+			DLog.i(DLog.REMOTEREQUEST,"Publish event received from different request - ignoring");
 		}
 	}
 

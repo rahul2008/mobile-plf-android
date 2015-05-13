@@ -9,7 +9,7 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cdp.dicommclient.util.ListenerRegistration;
 
 public class CurrentApplianceManager implements Observer {
@@ -62,7 +62,7 @@ public class CurrentApplianceManager implements Observer {
 		mDICommAppliance.getNetworkNode().addObserver(this);
 		mDICommAppliance.addListenerForAllPorts(mDICommAppliancePortListener);
 
-		ALog.d(ALog.APPLIANCE_MANAGER, "Current appliance set to: " + diCommAppliance);
+		DLog.d(DLog.APPLIANCE_MANAGER, "Current appliance set to: " + diCommAppliance);
 
 		startSubscription();
 		notifyApplianceChanged();
@@ -79,7 +79,7 @@ public class CurrentApplianceManager implements Observer {
 		stopCurrentSubscription();
 
 		mDICommAppliance = null;
-		ALog.d(ALog.APPLIANCE_MANAGER, "Removed current appliance");
+		DLog.d(DLog.APPLIANCE_MANAGER, "Removed current appliance");
 		notifyApplianceChanged();
 	}
 
@@ -124,7 +124,7 @@ public class CurrentApplianceManager implements Observer {
 	}
 
 	private void notifyApplianceListenersOnSuccess(DICommPort<?> port) {
-		ALog.d(ALog.APPLIANCE_MANAGER, "Notify appliance changed listeners");
+		DLog.d(DLog.APPLIANCE_MANAGER, "Notify appliance changed listeners");
 
 		synchronized (mApplianceListenersList) {
 			for (DICommApplianceListener listener : mApplianceListenersList) {
@@ -142,7 +142,7 @@ public class CurrentApplianceManager implements Observer {
 	}
 
 	private void notifyApplianceChanged() {
-		ALog.d(ALog.APPLIANCE_MANAGER, "Notify appliance changed");
+		DLog.d(DLog.APPLIANCE_MANAGER, "Notify appliance changed");
 
 		synchronized (mCurrentApplianceChangedListenerList) {
 			for (CurrentApplianceChangedListener listener : mCurrentApplianceChangedListenerList) {
@@ -165,7 +165,7 @@ public class CurrentApplianceManager implements Observer {
 	}
 
 	private synchronized void stopCurrentSubscription() {
-		ALog.i(ALog.APPLIANCE_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
+		DLog.i(DLog.APPLIANCE_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
 		DICommAppliance diCommAppliance = getCurrentAppliance();
 		if(diCommAppliance == null){
 			return;

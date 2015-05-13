@@ -19,7 +19,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
-import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkNodeDatabase {
@@ -67,13 +67,13 @@ public class NetworkNodeDatabase {
 					networkNode.setModelName(modelName);
 
 					result.add(networkNode);
-					ALog.d(ALog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
+					DLog.d(DLog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
 				} while (cursor.moveToNext());
 			} else {
-				ALog.i(ALog.DATABASE, "Empty network node table");
+				DLog.i(DLog.DATABASE, "Empty network node table");
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
 			closeDatabase(db);
@@ -113,10 +113,10 @@ public class NetworkNodeDatabase {
 			values.put(KEY_MODEL_NAME, networkNode.getModelName());
 
 			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-			ALog.d(ALog.DATABASE, "Saved NetworkNode in db: " + networkNode);
+			DLog.d(DLog.DATABASE, "Saved NetworkNode in db: " + networkNode);
 		} catch (Exception e) {
 			e.printStackTrace();
-			ALog.e(ALog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
+			DLog.e(DLog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
 		} finally {
 			closeDatabase(db);
 		}
@@ -134,7 +134,7 @@ public class NetworkNodeDatabase {
 			cursor = db.query(TABLE_NETWORK_NODE, null, KEY_CPP_ID + " = ?", new String[] {networkNode.getCppId()}, null, null, null);
 
 			if (cursor.getCount() > 0) {
-				ALog.d(ALog.DATABASE, "NetworkNode already in db - " + networkNode);
+				DLog.d(DLog.DATABASE, "NetworkNode already in db - " + networkNode);
 				return true;
 			}
 		} catch (Exception e) {
@@ -144,7 +144,7 @@ public class NetworkNodeDatabase {
 			closeCursor(cursor);
 		}
 
-		ALog.d(ALog.DATABASE, "NetworkNode not yet in db - " + networkNode);
+		DLog.d(DLog.DATABASE, "NetworkNode not yet in db - " + networkNode);
 		return false;
 	}
 
@@ -155,9 +155,9 @@ public class NetworkNodeDatabase {
 			db = dbHelper.getReadableDatabase();
 
 			rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[] { networkNode.getCppId() });
-			ALog.d(ALog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  ("+rowsDeleted+")");
+			DLog.d(DLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  ("+rowsDeleted+")");
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeDatabase(db);
 		}
@@ -170,7 +170,7 @@ public class NetworkNodeDatabase {
 				db.close();
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
 
@@ -180,7 +180,7 @@ public class NetworkNodeDatabase {
 				cursor.close();
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
 

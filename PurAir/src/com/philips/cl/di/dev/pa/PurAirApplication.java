@@ -13,6 +13,7 @@ import android.os.Environment;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.PurAirKPSConfiguration;
@@ -36,7 +37,7 @@ public class PurAirApplication extends Application {
 		configureUrlConnectionSocketReuse();
 		toggleLoggingAndTagging();
 		initImageLoader();
-		
+
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
 
@@ -67,35 +68,35 @@ public class PurAirApplication extends Application {
 	private static void setApplication(Application application) {
 		mInstance = (PurAirApplication) application;
 	}
-	
+
 	public static PurAirApplication getAppContext() {
 		return mInstance;
 	}
-	
+
 	public static boolean isDemoModeEnable() {
-		SharedPreferences pref = 
+		SharedPreferences pref =
 				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
 		return pref.getBoolean(AppConstants.DEMO_MODE_ENABLE_KEY, false);
 	}
 
 	public static void setDemoModeEnable(boolean isDemoMode) {
-		SharedPreferences pref = 
+		SharedPreferences pref =
 				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
 		pref.edit().putBoolean(AppConstants.DEMO_MODE_ENABLE_KEY, isDemoMode).commit();
 	}
-	
+
 	public static void setDemoModePurifier(String eui64) {
-		SharedPreferences pref = 
+		SharedPreferences pref =
 				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
 		pref.edit().putString(AppConstants.DEMO_MODE_PURIFIER_KEY, eui64).commit();
 	}
-	
+
 	public static String getDemoModePurifierEUI64() {
-		SharedPreferences pref = 
+		SharedPreferences pref =
 				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
 		return pref.getString(AppConstants.DEMO_MODE_PURIFIER_KEY, "");
 	}
-	
+
 	/**
 	 * Bug 1943: Prevent Sockets from being reused.
 	 * - Only 1 socket opened per Purifier at any given point in time
@@ -107,36 +108,38 @@ public class PurAirApplication extends Application {
 		ALog.d(ALog.APPLICATION, "Keeping sockets alive: " + System.getProperty("http.keepAlive"));
 		ALog.d(ALog.APPLICATION, "Max connections: " + System.getProperty("http.maxConnections"));
 	}
-	
+
 	/**
 	 * Added this to stop the OS from destroying an AsyncTask.
 	 * Please refer : https://code.google.com/p/android/issues/detail?id=20915
 	 */
 	private void preventOSFromDestroyingAsyncTasks() {
-		
+
 		try {
             Class.forName("android.os.AsyncTask");
         } catch (ClassNotFoundException e) {
         	ALog.i(ALog.APPLICATION, "Error: " + e.getMessage());
         }
 	}
-	
+
 	private boolean isDebugBuild() {
 		return (0 != (getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE));
 	}
-	
+
 	private void toggleLoggingAndTagging() {
 		if (isDebugBuild()) {
 			ALog.enableLogging();
+			DLog.enableLogging();
 //			MetricsTracker.disableTagging();
 		} else {
 			ALog.disableLogging();
+			DLog.disableLogging();
 			MetricsTracker.enableTagging();
 		}
 	}
-	
+
 	private void printCurrentLanguage() {
 		ALog.i(ALog.APPLICATION, "Current language: " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 	}
-	
+
 }
