@@ -24,7 +24,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
@@ -35,7 +34,6 @@ import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XProviderButton;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
-import com.philips.cl.di.reg.ui.social.MergeAccountFragment;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -447,8 +445,23 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		if (mUser.handleMergeFlowError(existingProvider)) {
 			getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
 		} else {
-			Toast.makeText(getActivity(), "There is No philips Account",
-					Toast.LENGTH_LONG).show();
+			if (NetworkUtility.getInstance().isOnline()
+					&& RegistrationHelper.isJanrainIntialized()) {
+				
+				if(SocialProvider.FACEBOOK.equals(existingProvider)){
+					showFaceBookSpinner();
+				}
+				if(SocialProvider.TWITTER.equals(existingProvider)){
+					showTwitterSpinner();
+				}
+				mUser.loginUserUsingSocialProvider(getActivity(), existingProvider,
+						this,mergeToken);
+			}
+			//SocialAccountMerger_ErrorMsg 
+			/*String errorMsg =  getResources().getString(R.string.SocialAccountMerger_ErrorMsg);
+			errorMsg = String.format(errorMsg, existingProvider,existingProvider);
+			mRegError.setError(errorMsg);*/
+			
 		}
 
 	}

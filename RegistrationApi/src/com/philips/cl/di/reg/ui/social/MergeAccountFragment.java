@@ -104,7 +104,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mPbSpinner.setEnabled(true);
 		mMergeToken = bundle.getString(RegConstants.REGISTER_MERGE_TOKEN);
 		setViewParams(getResources().getConfiguration());
-		
 	}
 	
 	@Override
