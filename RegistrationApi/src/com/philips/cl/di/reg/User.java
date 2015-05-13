@@ -29,6 +29,7 @@ import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
 import com.philips.cl.di.reg.dao.ResendMailFailureInfo;
+import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
 import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
@@ -118,7 +119,9 @@ public class User {
 			        socialLoginHandler, mContext, mUpdateUserRecordHandler);
 			Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, null);
 		} else {
-			socialLoginHandler.onLoginFailedWithError(Error.INVALID_PARAM.geterrorList());
+			SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
+			signInSocialFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			socialLoginHandler.onLoginFailedWithError(signInSocialFailureInfo);
 		}
 	}
 
@@ -284,8 +287,9 @@ public class User {
 			        socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
 			Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
 		} else {
-			socialProviderLoginHandler.onContinueSocialProviderLoginFailure(Error.INVALID_PARAM
-			        .geterrorList());
+			SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
+			signInSocialFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			socialProviderLoginHandler.onContinueSocialProviderLoginFailure(signInSocialFailureInfo);
 		}
 	}
 

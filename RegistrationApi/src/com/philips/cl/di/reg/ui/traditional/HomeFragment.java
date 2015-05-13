@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
@@ -386,7 +387,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	 * onLoginFailedWithError(int)
 	 */
 	@Override
-	public void onLoginFailedWithError(int error) {
+	public void onLoginFailedWithError(SignInSocialFailureInfo signInSocialFailureInfo) {
 		hideFaceBookSpinner();
 		hideTwitterSpinner();
 		RLog.i("HomeFragment", "login failed");
@@ -468,7 +469,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	 * onContinueSocialProviderLoginFailure(int)
 	 */
 	@Override
-	public void onContinueSocialProviderLoginFailure(int error) {
+	public void onContinueSocialProviderLoginFailure(SignInSocialFailureInfo signInSocialFailureInfo) {
 		hideFaceBookSpinner();
 		hideTwitterSpinner();
 		RLog.i("HomeFragment", "onContinueSocialProviderLoginFailure");

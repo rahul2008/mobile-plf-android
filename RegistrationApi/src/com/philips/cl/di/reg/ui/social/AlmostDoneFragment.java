@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
@@ -53,6 +54,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	private boolean isEmailExist;
 	private String mRegistrationToken;	
 
+	private final int INVALID_FIELDS = 14;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -268,9 +271,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	}
 
 	@Override
-	public void onLoginFailedWithError(int error) {
+	public void onLoginFailedWithError(SignInSocialFailureInfo signInSocialFailureInfo) {
 		RLog.i("Almost Done", "onLoginFailedWithError");
 		hideSpinner();
+		
+		if (signInSocialFailureInfo.getErrorCode() == INVALID_FIELDS) {
+
+			if (null != signInSocialFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(signInSocialFailureInfo
+						.getEmailErrorMessage());
+				mEtEmail.showInvalidAlert();
+			}
+		}
+		mRegError.setError(signInSocialFailureInfo.getErrorDescription());
 
 	}
 
@@ -305,10 +318,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	}
 
 	@Override
-	public void onContinueSocialProviderLoginFailure(int error) {
+	public void onContinueSocialProviderLoginFailure(SignInSocialFailureInfo signInSocialFailureInfo) {
 		RLog.i("Almost Done", "onContinueSocialProviderLoginFailure");
 		hideSpinner();
+		
+		if (signInSocialFailureInfo.getErrorCode() == INVALID_FIELDS) {
 
+			if (null != signInSocialFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(signInSocialFailureInfo
+						.getEmailErrorMessage());
+				mEtEmail.showInvalidAlert();
+			}
+		} 
+		mRegError.setError(signInSocialFailureInfo.getErrorDescription());
 	}
 
 }
