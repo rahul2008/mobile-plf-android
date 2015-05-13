@@ -282,4 +282,6 @@ public class RegConstants {
 	
 	public static final String SOCIAL_BLANK_CHARACTER ="";
 	
+	public static final String SOCIAL_MERGE_TOKEN ="SOCIAL_MERGE_TOKEN";
+	
 }

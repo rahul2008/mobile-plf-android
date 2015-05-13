@@ -10,10 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XButton;
 import com.philips.cl.di.reg.ui.customviews.XEmail;
@@ -25,7 +29,7 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener, onUpdateListener, OnClickListener{
+public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener, onUpdateListener,TraditionalLoginHandler, OnClickListener{
 
 	private TextView mTvAccountMergeSignIn;
 	private LinearLayout mLlUsedEMailAddressContainer;
@@ -37,6 +41,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	private XEmail mEtEmail;
 	private XPassword mEtPassword;
 	private ProgressBar mPbSpinner;
+	private String mMergeToken;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,15 +74,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		super.onDestroy();
 	}
 	
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.btn_reg_merg) {
-			showSpinner();
-		}	
-	}
-	
 	private void initUI(View view) {
 		consumeTouch(view);
+		Bundle bundle = this.getArguments();
 		mBtnMerge = (XButton)view.findViewById(R.id.btn_reg_merg);
 		mBtnMerge.setOnClickListener(this);
 		
@@ -103,8 +102,32 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 				.findViewById(R.id.pb_reg_merge_sign_in_spinner);
 		mPbSpinner.setClickable(false);
 		mPbSpinner.setEnabled(true);
+		mMergeToken = bundle.getString(RegConstants.REGISTER_MERGE_TOKEN);
 		setViewParams(getResources().getConfiguration());
 		
+	}
+	
+	@Override
+	public void onClick(View v) {
+		if (v.getId() == R.id.btn_reg_merg) {
+			if (mEtEmail.hasFocus()) {
+				mEtEmail.clearFocus();
+			} else if (mEtPassword.hasFocus()) {
+				mEtPassword.clearFocus();
+			}
+			getView().requestFocus();
+			mergeAccount();
+		}	
+	}
+	
+	private void mergeAccount() {
+		User user = new User(getRegistrationMainActivity().getApplicationContext());
+		if (NetworkUtility.getInstance().isOnline()) {
+			showSpinner();
+			user.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(), mMergeToken, this);
+		} else {
+			mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
+		}
 	}
 	
 	private void showSpinner() {
@@ -178,6 +201,19 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.SigIn_TitleTxt);
+	}
+
+	@Override
+	public void onLoginSuccess() {
+		hideSpinner();
+		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+	}
+
+	@Override
+	public void onLoginFailedWithError(SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
+		 hideSpinner();
+		Toast.makeText(getActivity(), "Login Failure", Toast.LENGTH_LONG).show();
+		
 	}
 
 }

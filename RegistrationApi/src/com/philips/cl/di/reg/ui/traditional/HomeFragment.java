@@ -247,6 +247,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 		mBtnCreateAccount.setEnabled(state);
 		mBtnMyPhilips.setEnabled(state);
+		mBtnFacebook.setEnabled(state);
+		mBtnTwitter.setEnabled(state);
 
 		/*
 		 * mBtnFacebook.setEnabled(state); mLlTwitter.setEnabled(state);
@@ -439,9 +441,11 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		hideTwitterSpinner();
 		RLog.i("HomeFragment", "login failed with merge flow");
 		
+		RLog.i("HomeFragment", "existingProvider "+existingProvider + "  conflictingIdentityProvider :  "+conflictingIdentityProvider +
+				"  conflictingIdpNameLocalized "+conflictingIdpNameLocalized + "  existingIdpNameLocalized " +existingIdpNameLocalized+"");
+		//SocialAccountMerger_ErrorMsg
 		if (mUser.handleMergeFlowError(existingProvider)) {
-			getRegistrationMainActivity().addFragment(
-					new MergeAccountFragment());
+			getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
 		} else {
 			Toast.makeText(getActivity(), "There is No philips Account",
 					Toast.LENGTH_LONG).show();

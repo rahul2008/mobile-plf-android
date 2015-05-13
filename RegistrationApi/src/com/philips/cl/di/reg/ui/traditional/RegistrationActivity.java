@@ -22,6 +22,7 @@ import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.social.AlmostDoneFragment;
+import com.philips.cl.di.reg.ui.social.MergeAccountFragment;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -125,7 +126,17 @@ public class RegistrationActivity extends FragmentActivity implements
 		socialAlmostDoneFragment.setArguments(socialAlmostDoneFragmentBundle);
 		addFragment(socialAlmostDoneFragment);
 	}
-
+	
+	
+	public void addMergeAccountFragment(String registrationToken, String provider) {
+		MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
+		Bundle mergeFragmentBundle = new Bundle();
+		mergeFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
+		mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_TOKEN, registrationToken);
+		mergeAccountFragment.setArguments(mergeFragmentBundle);
+		addFragment(mergeAccountFragment);
+	}
+	
 	@Override
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
