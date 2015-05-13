@@ -192,7 +192,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		if (NetworkUtility.getInstance().isOnline()
 				&& RegistrationHelper.isJanrainIntialized()) {
 			mUser.loginUserUsingSocialProvider(getActivity(), providerName,
-					this);
+					this,null);
 		}
 	}
 

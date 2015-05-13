@@ -113,11 +113,11 @@ public class User {
 
 	// For Social SignIn Using Provider
 	public void loginUserUsingSocialProvider(Activity activity, String providerName,
-	        SocialProviderLoginHandler socialLoginHandler) {
+	        SocialProviderLoginHandler socialLoginHandler,String mergeToken) {
 		if (providerName != null && activity != null) {
 			LoginSocialProvider loginSocialResultHandler = new LoginSocialProvider(
 			        socialLoginHandler, mContext, mUpdateUserRecordHandler);
-			Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, null);
+			Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, mergeToken);
 		} else {
 			SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
 			signInSocialFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
