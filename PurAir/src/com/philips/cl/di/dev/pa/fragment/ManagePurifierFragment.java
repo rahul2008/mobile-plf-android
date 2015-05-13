@@ -33,8 +33,7 @@ import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.CommunicationMarshal;
-import com.philips.cl.di.dicomm.security.DISecurity;
+import com.philips.cl.di.dicomm.communication.NullStrategy;
 
 public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {
@@ -114,9 +113,8 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	private void loadDataFromDatabase() {
 		purifiers = DiscoveryManager.getInstance().getStoreDevices();
-		
-        DISecurity diSecurity = new DISecurity();
-        CommunicationMarshal communicationStrategy = new CommunicationMarshal(diSecurity);
+
+        NullStrategy communicationStrategy = new NullStrategy();
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(0);
         networkNode.setCppId("");
