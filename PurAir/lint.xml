@@ -18,4 +18,5 @@
     <issue id="TypographyOther" severity="ignore" />
     <issue id="UnusedResources" severity="ignore" />
     <issue id="ViewConstructor" severity="ignore" />
+    <issue id="NestedWeights" severity="ignore" />
 </lint>
