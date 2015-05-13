@@ -1,164 +1,180 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parentActivity"
-    android:layout_width="fill_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3090C7"
-    android:orientation="vertical" >
+    android:background="#3090C7" >
 
-    <TextView
-        android:id="@+id/TextView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
-        android:text="This is just an sample launcher app for  launching the DigitalCare Component."
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20dp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/launchDigitalCare"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/blue_button"
-        android:text="Open DigitalCare Component" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="20dp"
-        android:text="Note:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/textView3"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:freezesText="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:text="DigitalCare Library is dependent on &quot;v7 library&quot; as well as &quot;Facebook SDK library&quot; so please make sure to add. Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values."
-        android:textColor="#000080" />
-
-    <LinearLayout
-        android:id="@+id/linearlayout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Langauage :"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Country :"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-
-        <Spinner
-            android:id="@+id/spinner2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Launch Particular Component:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="18dp"
-        android:textStyle="bold" />
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/parentActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
-        <Button
-            android:id="@+id/launchproduct"
+        <TextView
+            android:id="@+id/TextView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="20dp"
+            android:text="This is just an sample launcher app for  launching the DigitalCare Component."
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/launchDigitalCare"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/TextView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/blue_button"
+            android:text="Open DigitalCare Component" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView3"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/textView3"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="DigitalCare Library is dependent on &quot;v7 library&quot; as well as &quot;Facebook SDK library&quot; so please make sure to add. Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values."
+            android:textColor="#000080" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/launchDigitalCare"
+            android:layout_marginTop="14dp"
+            android:text="Note:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <GridLayout
+            android:id="@+id/gridlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView3"
+            android:layout_marginTop="10dp"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:rowCount="2" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Langauage :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Country :"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
+
+            <Spinner
+                android:id="@+id/spinner2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp" />
+        </GridLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gridlayout1"
+            android:layout_marginTop="20dp"
+            android:text="Launch Particular Component:"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/textView6"
+            android:padding="30dp"
+           >
+                <Button
+          
+            android:id="@+id/launchproduct"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            
             android:background="@drawable/blue_button"
             android:text="Product Detail"
-            android:textSize="14sp" />
+         
+            android:layout_marginTop="10dp"/>
 
         <Button
-            android:id="@+id/launchcontact"
-            android:layout_width="wrap_content"
+            android:id="@+id/launch_locate"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
-            android:background="@drawable/blue_button"
-            android:text="Contact"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/launchlocate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
+           
             android:background="@drawable/blue_button"
             android:text="Find Philips"
-            android:textSize="14sp" />
+          
+            android:layout_marginTop="10dp" />
 
         <Button
             android:id="@+id/launchrate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
+           
             android:background="@drawable/blue_button"
-            android:text="TellUs"
-            android:textSize="14sp" />
+            android:text="Tell Us"
+           
+            android:layout_marginTop="10dp" />
 
         <Button
             android:id="@+id/launchproductregister"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:layout_weight="1"
+            android:layout_marginTop="10dp"
             android:background="@drawable/blue_button"
-            android:text="Product Register"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:text="Register My Product"
+           />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/launch_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           android:layout_marginTop="10dp"
+            android:background="@drawable/blue_button"
+            android:text="Contact"
+           />
+            
+            
+            
+        </LinearLayout>
+        
+    
+    </RelativeLayout>
+
+</ScrollView>
