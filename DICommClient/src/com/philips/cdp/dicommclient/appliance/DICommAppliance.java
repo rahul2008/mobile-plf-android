@@ -58,7 +58,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     protected void addPort(DICommPort<?> port) {
-        mPortList.add(port);
+        mPortList.add(0, port);
     }
 
     public void subscribe() {
