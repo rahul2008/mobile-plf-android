@@ -2,6 +2,8 @@ package com.philips.cl.di.reg.ui.traditional;
 
 import java.util.Locale;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
+import com.philips.cl.di.reg.ui.social.AlmostDoneFragment;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -31,7 +34,7 @@ public class RegistrationActivity extends FragmentActivity implements
 	private final String TAG = TextView.class.getSimpleName();
 
 	private static final boolean VERIFICATION_SUCCESS = true;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,6 +115,16 @@ public class RegistrationActivity extends FragmentActivity implements
 		welcomeFragment.setArguments(welcomeFragmentBundle);
 		addFragment(welcomeFragment);
 	}
+	
+	public void addAlmostDoneFragment(JSONObject preFilledRecord,String provider, String registrationToken) {
+		AlmostDoneFragment socialAlmostDoneFragment = new AlmostDoneFragment();
+		Bundle socialAlmostDoneFragmentBundle = new Bundle();
+		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR, preFilledRecord.toString());
+		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
+		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_REGISTRATION_TOKEN, registrationToken);
+		socialAlmostDoneFragment.setArguments(socialAlmostDoneFragmentBundle);
+		addFragment(socialAlmostDoneFragment);
+	}
 
 	@Override
 	public void onEventReceived(String event) {
@@ -149,4 +162,5 @@ public class RegistrationActivity extends FragmentActivity implements
 			onBackPressed();
 		}
 	}
+	
 }

@@ -264,7 +264,7 @@ public class RegConstants {
 
 	public static final String CANCEL_SETUP = "CANCEL_SETUP";
 
-	public static final String EMAIL = "Email";
+	public static final String REGISTER_EMAIL = "email";
 
 	public static final String VERIFICATIN_SUCCESS = "VERIFICATIN_SUCCESS";
 	
@@ -273,5 +273,13 @@ public class RegConstants {
 	public static final int INVALID_FIELDS_ERROR_CODE = 390;
 	
 	public static final int NO_SUCH_ACCOUNT_ERROR_CODE = 212;
-
+	
+	public static final String SOCIAL_PROVIDER ="SOCIAL_PROVIDER";
+	
+	public static final String SOCIAL_TWO_STEP_ERROR ="SOCIAL_TWO_STEP_ERROR";
+	
+	public static final String SOCIAL_REGISTRATION_TOKEN ="SOCIAL_REGISTRATION_TOKEN";
+	
+	public static final String SOCIAL_BLANK_CHARACTER ="";
+	
 }

@@ -22,7 +22,9 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
@@ -32,12 +34,13 @@ import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XProviderButton;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
+import com.philips.cl.di.reg.ui.social.MergeAccountFragment;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class HomeFragment extends RegistrationBaseFragment implements
-		OnClickListener, EventListener ,SocialProviderLoginHandler{
+		OnClickListener, EventListener, SocialProviderLoginHandler {
 
 	private Button mBtnCreateAccount;
 
@@ -56,8 +59,14 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	private LinearLayout mLlLoginBtnContainer;
 
 	private XRegError mRegError;
-	
+
 	private User mUser;
+
+	private String mProvider;
+
+	private ProgressBar mPbFaceBookSpinner;
+
+	private ProgressBar mPbTwiterSpinner;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -118,10 +127,40 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 
+		mPbFaceBookSpinner = (ProgressBar) view
+				.findViewById(R.id.pb_reg_facebook_spinner);
+		mPbFaceBookSpinner.setClickable(false);
+		mPbFaceBookSpinner.setEnabled(false);
+
+		mPbTwiterSpinner = (ProgressBar) view
+				.findViewById(R.id.pb_reg_twitter_spinner);
+		mPbTwiterSpinner.setClickable(false);
+		mPbTwiterSpinner.setEnabled(false);
+
 		setViewParams(getResources().getConfiguration());
 		linkifyTermAndPolicy(mTvWelcomeDesc);
 		enableControls(false);
 		handleUiState();
+	}
+
+	private void showFaceBookSpinner() {
+		mPbFaceBookSpinner.setVisibility(View.VISIBLE);
+		mBtnCreateAccount.setEnabled(false);
+	}
+
+	private void hideFaceBookSpinner() {
+		mPbFaceBookSpinner.setVisibility(View.INVISIBLE);
+		mBtnCreateAccount.setEnabled(true);
+	}
+
+	private void showTwitterSpinner() {
+		mPbTwiterSpinner.setVisibility(View.VISIBLE);
+		mBtnTwitter.setEnabled(false);
+	}
+
+	private void hideTwitterSpinner() {
+		mPbTwiterSpinner.setVisibility(View.INVISIBLE);
+		mBtnTwitter.setEnabled(true);
 	}
 
 	@Override
@@ -134,23 +173,28 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			getRegistrationMainActivity().addFragment(
 					new CreateAccountFragment());
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
-//			getRegistrationMainActivity().addFragment(
-//					new SignInAccountFragment());
-			
-			
-		//	social login
-			
+			getRegistrationMainActivity().addFragment(
+					new SignInAccountFragment());
+		} else if (v.getId() == R.id.btn_reg_facebook) {
+			showFaceBookSpinner();
 			callSocialProvider(SocialProvider.FACEBOOK);
+		} else if (v.getId() == R.id.btn_reg_twitter) {
+			showTwitterSpinner();
+			callSocialProvider(SocialProvider.TWITTER);
 		}
 	}
-	
+
 	private void callSocialProvider(String providerName) {
-		if (null == mUser) return;
-		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
-			mUser.loginUserUsingSocialProvider(getActivity(), providerName, this);
+		mProvider = providerName;
+		if (null == mUser)
+			return;
+		if (NetworkUtility.getInstance().isOnline()
+				&& RegistrationHelper.isJanrainIntialized()) {
+			mUser.loginUserUsingSocialProvider(getActivity(), providerName,
+					this);
 		}
 	}
-	
+
 	public interface SocialProvider {
 
 		public String FACEBOOK = "facebook";
@@ -159,7 +203,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 		public String GOOGLE_PLUS = "googleplus";
 	}
-
 
 	@Override
 	public void setViewParams(Configuration config) {
@@ -179,7 +222,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		if (RegConstants.IS_ONLINE.equals(event)) {
 			handleUiState();
 		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-			System.out.println("reint");
 			enableControls(true);
 		} else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
 			enableControls(false);
@@ -304,98 +346,125 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		startActivity(browserIntent);
 	}
 
-	/* 
-     * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onLoginSuccess()
-     */
-    @Override
-    public void onLoginSuccess() {
-	    // TODO Auto-generated method stub
-    	
-    	System.out.println("social login success");
-    	
-	//This comes for facebook and twitter 
-    	
-    	// Get object of user and from user get email id is present or no 
-    	//If email id is present check is verified or no 
-    	//If verification success welcome screen 
-    	
-  
-    	   	
-    	// Get object of user and from user get email id is present or no 
-    	//If email id is present check is verified or no
-    	//If verification not done then navigate to Sign in account activation page with respective info
-    	
-    	//
-	    
-    }
+	/*
+	 * @see
+	 * com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onLoginSuccess
+	 * ()
+	 */
+	@Override
+	public void onLoginSuccess() {
+		// TODO Auto-generated method stub
+		hideFaceBookSpinner();
+		hideTwitterSpinner();
+		RLog.i("HomeFragment", "social login success");
+		getRegistrationMainActivity().addFragment(new WelcomeFragment());
 
-	/* 
-     * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onLoginFailedWithError(int)
-     */
-    @Override
-    public void onLoginFailedWithError(int error) {
-	    // TODO Auto-generated method stub
-    	System.out.println("login failed");
-    	    
-    	//Do nothing 
-    	
-        }
+		// This comes for facebook and twitter
 
-	/* 
-     * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onLoginFailedWithTwoStepError(org.json.JSONObject, java.lang.String)
-     */
-    @Override
-    public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
-            String socialRegistrationToken) {
-	    // TODO Auto-generated method stub
-    	System.out.println("Login failed with two step error");
-    	
-    	//Facebook
-    	
-    	// Get object of user and from user get email id is present or no 
-    	//If email id is present show almost done screen without edit text 
+		// Get object of user and from user get email id is present or no
+		// If email id is present check is verified or no
+		// If verification success welcome screen
 
-    	//Twitter
+		// Get object of user and from user get email id is present or no
+		// If email id is present check is verified or no
+		// If verification not done then navigate to Sign in account activation
+		// page with respective info
 
-    	// Get object of user and from user get email id is present or no 
-    	//If email id is not present show almost done screen with edit text 
-    	
-  
-    
-    	
-	    
-    }
+		//
 
-	/* 
-     * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onLoginFailedWithMergeFlowError(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
-            String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-            String existingIdpNameLocalized) {
-	    // TODO Auto-generated method stub
-    	System.out.println("login failed with merge flow");
-	    
-    }
+	}
 
-	/* 
-     * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onContinueSocialProviderLoginSuccess()
-     */
-    @Override
-    public void onContinueSocialProviderLoginSuccess() {
-	    // TODO Auto-generated method stub
-    	
-    	System.out.println("onContinueSocialProviderLoginSuccess");
-	    
-    }
+	/*
+	 * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#
+	 * onLoginFailedWithError(int)
+	 */
+	@Override
+	public void onLoginFailedWithError(int error) {
+		hideFaceBookSpinner();
+		hideTwitterSpinner();
+		RLog.i("HomeFragment", "login failed");
+		
+	}
 
-	/* 
-     * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#onContinueSocialProviderLoginFailure(int)
-     */
-    @Override
-    public void onContinueSocialProviderLoginFailure(int error) {
-	    // TODO Auto-generated method stub
-    	System.out.println("onContinueSocialProviderLoginFailure");
-    }
+	/*
+	 * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#
+	 * onLoginFailedWithTwoStepError(org.json.JSONObject, java.lang.String)
+	 */
+	@Override
+	public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
+			String socialRegistrationToken) {
+		// TODO Auto-generated method stub
+		hideFaceBookSpinner();
+		hideTwitterSpinner();
+		RLog.i("HomeFragment", "Login failed with two step error");
+		RLog.i("Almost Done", "  JSON OBJECT : "+prefilledRecord);
+		
+		/*
+		 * getRegistrationMainActivity().addFragment( new
+		 * SocialAlmostDoneFragment());
+		 */
+
+		getRegistrationMainActivity().addAlmostDoneFragment(
+				prefilledRecord, mProvider, socialRegistrationToken);
+
+		// Facebook
+
+		// Get object of user and from user get email id is present or no
+		// If email id is present show almost done screen without edit text
+
+		// Twitter
+
+		// Get object of user and from user get email id is present or no
+		// If email id is not present show almost done screen with edit text
+	}
+
+	/*
+	 * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#
+	 * onLoginFailedWithMergeFlowError(java.lang.String, java.lang.String,
+	 * java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void onLoginFailedWithMergeFlowError(String mergeToken,
+			String existingProvider, String conflictingIdentityProvider,
+			String conflictingIdpNameLocalized, String existingIdpNameLocalized) {
+		hideFaceBookSpinner();
+		hideTwitterSpinner();
+		RLog.i("HomeFragment", "login failed with merge flow");
+		
+		if (mUser.handleMergeFlowError(existingProvider)) {
+			getRegistrationMainActivity().addFragment(
+					new MergeAccountFragment());
+		} else {
+			Toast.makeText(getActivity(), "There is No philips Account",
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+	/*
+	 * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#
+	 * onContinueSocialProviderLoginSuccess()
+	 */
+	@Override
+	public void onContinueSocialProviderLoginSuccess() {
+		// TODO Auto-generated method stub
+		hideFaceBookSpinner();
+		hideTwitterSpinner();
+		RLog.i("HomeFragment", "onContinueSocialProviderLoginSuccess");
+		getRegistrationMainActivity().addFragment(new WelcomeFragment());
+		
+
+	}
+
+	/*
+	 * @see com.philips.cl.di.reg.handlers.SocialProviderLoginHandler#
+	 * onContinueSocialProviderLoginFailure(int)
+	 */
+	@Override
+	public void onContinueSocialProviderLoginFailure(int error) {
+		hideFaceBookSpinner();
+		hideTwitterSpinner();
+		RLog.i("HomeFragment", "onContinueSocialProviderLoginFailure");
+	}
 
 }

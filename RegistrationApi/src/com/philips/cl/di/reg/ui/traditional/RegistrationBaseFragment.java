@@ -78,8 +78,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	}
 
 	public void applyParams(Configuration config, View view) {
-		LinearLayout.LayoutParams mParams = (LayoutParams) view
-				.getLayoutParams();
+		LinearLayout.LayoutParams mParams = (LayoutParams) view.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
 		} else {

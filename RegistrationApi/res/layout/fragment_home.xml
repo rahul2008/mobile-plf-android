@@ -51,7 +51,7 @@
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_create_account"
                     style="@style/reg_style_btn"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="@string/Welcome_Create_MyPhilips_btntxt"
                     reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
             </LinearLayout>
@@ -77,30 +77,59 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
+                    android:enabled="false"
                     reglib:providerBackground="@drawable/reg_philips_bg_rect"
                     reglib:providerLogo="@drawable/reg_philips_ic"
                     reglib:providerName="@string/Welcome_MyPhilips_btntxt"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
-                <com.philips.cl.di.reg.ui.customviews.XProviderButton
-                    android:id="@+id/btn_reg_facebook"
+                <FrameLayout
+                    android:id="@+id/fl_reg_sign_in"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    reglib:providerBackground="@drawable/reg_facebook_bg_rect"
-                    reglib:providerLogo="@drawable/reg_facebook_ic"
-                    reglib:providerName="@string/Welcome_Facebook_btntxt"
-                    reglib:providerTextColor="@color/reg_provider_text_color" />
+                    android:layout_height="@dimen/reg_btn_height"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom" >
 
-                <com.philips.cl.di.reg.ui.customviews.XProviderButton
-                    android:id="@+id/btn_reg_twitter"
+                    <com.philips.cl.di.reg.ui.customviews.XProviderButton
+                        android:id="@+id/btn_reg_facebook"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        reglib:providerBackground="@drawable/reg_facebook_bg_rect"
+                        reglib:providerLogo="@drawable/reg_facebook_ic"
+                        reglib:providerName="@string/Welcome_Facebook_btntxt"
+                        reglib:providerTextColor="@color/reg_provider_text_color" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_reg_facebook_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/reg_pb_padding"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+            
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    reglib:providerBackground="@drawable/reg_twitter_bg_rect"
-                    reglib:providerLogo="@drawable/reg_twitter_ic"
-                    reglib:providerName="@string/Welcome_Twitter_btntxt"
-                    reglib:providerTextColor="@color/reg_provider_text_color" />
+                    android:layout_height="@dimen/reg_btn_height"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom" >
+
+                    <com.philips.cl.di.reg.ui.customviews.XProviderButton
+                        android:id="@+id/btn_reg_twitter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        reglib:providerBackground="@drawable/reg_twitter_bg_rect"
+                        reglib:providerLogo="@drawable/reg_twitter_ic"
+                        reglib:providerName="@string/Welcome_Twitter_btntxt"
+                        reglib:providerTextColor="@color/reg_provider_text_color" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_reg_twitter_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/reg_pb_padding"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"

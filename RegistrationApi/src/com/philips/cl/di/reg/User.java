@@ -233,18 +233,18 @@ public class User {
 	}
 
 	// moved app logic to set user info ( social sign in ) in diuserprofile to framework.
-	public void registerUserInfoForSocial(String mGivenName, String mDisplayName,
-	        String mFamilyName, String mUserEmail, boolean olderThanAgeLimit,
+	public void registerUserInfoForSocial(String givenName, String displayName,
+	        String familyName, String userEmail, boolean olderThanAgeLimit,
 	        boolean isReceiveMarketingEmail, SocialProviderLoginHandler socialProviderLoginHandler,
 	        String socialRegistrationToken) {
 
 		// ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
 
 		DIUserProfile profile = new DIUserProfile();
-		profile.setGivenName(mGivenName);
-		profile.setDisplayName(mDisplayName);
-		profile.setFamilyName(mFamilyName);
-		profile.setEmail(mUserEmail);
+		profile.setGivenName(givenName);
+		profile.setDisplayName(displayName);
+		profile.setFamilyName(familyName);
+		profile.setEmail(userEmail);
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
 
