@@ -1,5 +1,5 @@
 package com.philips.cdp.dicommclient.cpp.listener;
 
-public interface DCSResponseListener {
+public interface DcsResponseListener {
 	void onDCSResponseReceived(String dcsResponse, String conversationId);
 }

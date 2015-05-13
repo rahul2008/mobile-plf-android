@@ -11,7 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cdp.dicommclient.discovery.CppDiscoveryHelper;
 import com.philips.cdp.dicommclient.discovery.DiscoverInfo;
@@ -22,14 +22,14 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
 	private CppDiscoveryHelper mHelper;
-	private CPPController mCppController;
+	private CppController mCppController;
 	private CppDiscoverEventListener mDiscListener;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		mCppController = mock(CPPController.class);
+		mCppController = mock(CppController.class);
 		mDiscListener = mock(CppDiscoverEventListener.class);
 		mHelper = new CppDiscoveryHelper(mCppController, mDiscListener);
 	}
@@ -99,7 +99,7 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	public void testDCSEventReceivedDiscover() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CPPController.class), discoveryListener);
+		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
 
 		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "CHANGE");
 
@@ -109,7 +109,7 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	public void testDCSEventReceivedDiscoverActionEmpty() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CPPController.class), discoveryListener);
+		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
 
 		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "");
 
@@ -119,7 +119,7 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	public void testDCSEventReceivedDiscoverActionNull() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CPPController.class), discoveryListener);
+		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
 
 		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, null);
 
@@ -129,7 +129,7 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	public void testDCSEventReceivedDiscoverCppIdNullRequested() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CPPController.class), discoveryListener);
+		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
 
 		discoveryHelper.onDCSEventReceived(data, null, "DISCOVER");
 
@@ -139,7 +139,7 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	public void testDCSEventReceivedDiscoverCppIdNull() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CPPController.class), discoveryListener);
+		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
 
 		discoveryHelper.onDCSEventReceived(data, null, "CHANGE");
 
@@ -149,7 +149,7 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 	public void testDCSEventReceivedDiscoverRequested() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CPPController.class), discoveryListener);
+		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
 
 		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "DISCOVER");
 

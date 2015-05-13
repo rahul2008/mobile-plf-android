@@ -27,7 +27,7 @@ import android.widget.LinearLayout;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
@@ -79,7 +79,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 
-public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
+public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener,
 PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectionListener {
 
 	private static int screenWidth, screenHeight, statusBarHeight;
@@ -290,7 +290,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	@Override
 	protected void onDestroy() {
-		CPPController.getInstance().removeSignOnListener(this);
+		CppController.getInstance().removeSignOnListener(this);
 		clearObjects();
 		super.onDestroy();
 	}
@@ -411,9 +411,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	private void initializeCPPController() {
-			CPPController.getInstance().setDefaultDcsState() ;
-			CPPController.getInstance().addSignOnListener(this) ;
-		
+			CppController.getInstance().setDefaultDcsState() ;
+			CppController.getInstance().addSignOnListener(this) ;
+
 	}
 
 
@@ -659,7 +659,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (PurAirApplication.isDemoModeEnable()) {
 			updateUIInDemoMode();
 		} else {
-			CPPController.getInstance().signOnWithProvisioning();			
+			CppController.getInstance().signOnWithProvisioning();
 		}
 	}
 
@@ -688,10 +688,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	@Override
 	public void internetStatus(boolean internetAvailable) {
 		if ( internetAvailable ) {
-			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;			
-			if (!CPPController.getInstance().isSignOn() || purifier==null) {
-				CPPController.getInstance().signOnWithProvisioning() ;
-				CPPController.getInstance().addSignOnListener(new SignonListener() {
+			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
+			if (!CppController.getInstance().isSignOn() || purifier==null) {
+				CppController.getInstance().signOnWithProvisioning() ;
+				CppController.getInstance().addSignOnListener(new SignonListener() {
 					@Override
 					public void signonStatus(boolean signon) {
 						if( signon ) {

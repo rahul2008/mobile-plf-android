@@ -15,7 +15,7 @@ import android.os.Build;
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Analytics.TimedActionBlock;
 import com.adobe.mobile.Config;
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
@@ -466,7 +466,7 @@ public class MetricsTracker {
 		contextData.put(KEY_FIRMWARE_VERSION, getFirmwareVersion());
 		contextData.put(KEY_MACHINE_ID, getDeviceEui64());
 		contextData.put(KEY_PRODUCT_MODEL, AirPurifierManager.getInstance().getCurrentPurifier() != null ? VALUE_MODEL_AC4373 : "Not Found");
-		contextData.put(KEY_APP_ID, CPPController.getInstance().getAppCppId());
+		contextData.put(KEY_APP_ID, CppController.getInstance().getAppCppId());
 		return contextData;
 	}
 

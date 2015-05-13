@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -74,8 +74,8 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	private float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 	private float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good); 
-	
+	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good);
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -109,8 +109,8 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 			return;
 		}
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
-		CPPController.getInstance().setDownloadDataListener(this) ;
-		CPPController.getInstance().downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
+		CppController.getInstance().setDownloadDataListener(this) ;
+		CppController.getInstance().downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048); //2048KB
 	}
 
 	/**
@@ -445,7 +445,7 @@ public class IndoorDetailFragment extends BaseFragment implements OnClickListene
 	public void onDestroy() {
 		super.onDestroy();
 		PurifierCurrentCityData.getInstance().removeListener();
-		CPPController.getInstance().removeDownloadDataListener();
+		CppController.getInstance().removeDownloadDataListener();
 		handlerDownload.removeMessages(DOWNLOAD_COMPLETE);
 		handlerDownload.removeMessages(DOWNLOAD_NA);
 		handlerDownload.removeMessages(DOWNLOAD_FAILED);

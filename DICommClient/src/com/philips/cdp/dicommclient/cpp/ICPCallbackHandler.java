@@ -19,7 +19,6 @@ package com.philips.cdp.dicommclient.cpp;
 
 import android.os.Handler;
 
-import com.philips.cdp.dicommclient.cpp.listener.ICPEventListener;
 import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;

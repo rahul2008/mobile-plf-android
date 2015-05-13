@@ -5,18 +5,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import com.philips.cdp.dicommclient.cpp.CPPController;
-import com.philips.cdp.dicommclient.cpp.listener.DCSEventListener;
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class CppControllerTest extends MockitoTestCase {
 
 	public void testNotifyDCSListenerNullData() {
-		DCSEventListener dcsListener = mock(DCSEventListener.class);		
+		DcsEventListener dcsListener = mock(DcsEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CPPController controller = createCppControllerWithListeners("dfasfa",discoveryListener, dcsListener);
-		
+		CppController controller = createCppControllerWithListeners("dfasfa",discoveryListener, dcsListener);
+
 		controller.notifyDCSListener(null, "dfasfa", "dfasfa",null);
 		
 		verify(dcsListener, never()).onDCSEventReceived(anyString(), anyString(), anyString());
@@ -27,9 +27,9 @@ public class CppControllerTest extends MockitoTestCase {
 		String cppId = "valid cppId";
 		String action = "valid action";
 
-		DCSEventListener dcsListener = mock(DCSEventListener.class);
+		DcsEventListener dcsListener = mock(DcsEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CPPController controller = createCppControllerWithListeners(cppId,discoveryListener, dcsListener);
+		CppController controller = createCppControllerWithListeners(cppId,discoveryListener, dcsListener);
 
 		controller.notifyDCSListener(data, cppId, action,null);
 
@@ -40,10 +40,10 @@ public class CppControllerTest extends MockitoTestCase {
 		String data = "valid dcs event";
 		String action = "valid action";
 
-		DCSEventListener dcsListener = mock(DCSEventListener.class);
+		DcsEventListener dcsListener = mock(DcsEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CPPController controller = createCppControllerWithListeners(null,discoveryListener, dcsListener);
-		
+		CppController controller = createCppControllerWithListeners(null,discoveryListener, dcsListener);
+
 		controller.notifyDCSListener(data, null, action,null);
 		
 		verify(dcsListener).onDCSEventReceived(data, null, action);
@@ -53,9 +53,9 @@ public class CppControllerTest extends MockitoTestCase {
 		String data = "valid dcs event";
 		String cppId = "valid cppId";
 
-		DCSEventListener dcsListener = mock(DCSEventListener.class);
+		DcsEventListener dcsListener = mock(DcsEventListener.class);
 		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CPPController controller = createCppControllerWithListeners(cppId,discoveryListener, dcsListener);
+		CppController controller = createCppControllerWithListeners(cppId,discoveryListener, dcsListener);
 
 
 		controller.notifyDCSListener(data, cppId, null,null);
@@ -63,10 +63,10 @@ public class CppControllerTest extends MockitoTestCase {
 		verify(dcsListener,never()).onDCSEventReceived(anyString(), anyString(), anyString());
 	}
 
-	private CPPController createCppControllerWithListeners(String cppId,
+	private CppController createCppControllerWithListeners(String cppId,
 			CppDiscoverEventListener discoveryListener,
-			DCSEventListener dcsListener) {
-		CPPController controller = CPPController.getCppControllerForTesting();
+			DcsEventListener dcsListener) {
+		CppController controller = CppController.getCppControllerForTesting();
 		controller.addDCSEventListener(cppId, dcsListener);
 		return controller;
 	}

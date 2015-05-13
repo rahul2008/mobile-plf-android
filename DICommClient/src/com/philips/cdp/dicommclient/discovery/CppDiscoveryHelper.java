@@ -4,16 +4,16 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.dicommclient.cpp.CPPController;
-import com.philips.cdp.dicommclient.cpp.listener.DCSEventListener;
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
 import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
-public class CppDiscoveryHelper implements SignonListener, PublishEventListener, DCSEventListener {
+public class CppDiscoveryHelper implements SignonListener, PublishEventListener, DcsEventListener {
 
-	private CPPController mCppController;
+	private CppController mCppController;
 	private CppDiscoverEventListener mCppDiscListener;
 	private boolean isCppDiscoveryPending = false;
 	private int retrySubscriptionCount ;
@@ -23,7 +23,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 	private int discoverEventMessageID ;
 	private CppDiscoverEventListener mCppDiscoverEventListener;
 
-	public CppDiscoveryHelper(CPPController controller, CppDiscoverEventListener cppDiscListener) {
+	public CppDiscoveryHelper(CppController controller, CppDiscoverEventListener cppDiscListener) {
 		mCppController = controller;
 		mCppDiscListener = cppDiscListener;
 		mCppController.addSignOnListener(this);

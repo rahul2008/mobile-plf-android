@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.ICPCallbackHandler;
-import com.philips.cdp.dicommclient.cpp.listener.ICPEventListener;
+import com.philips.cdp.dicommclient.cpp.ICPEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -50,7 +50,7 @@ public class PairingHandler implements ICPEventListener {
 	private String secretKey;
 
 	private PermissionListener permissionListener = null;
-	private CPPController cppController;
+	private CppController cppController;
 	private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
 
 	private enum ENTITY {
@@ -76,7 +76,7 @@ public class PairingHandler implements ICPEventListener {
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
-		cppController = CPPController.getInstance();
+		cppController = CppController.getInstance();
 	}
 
 	public void setPermissionListener(PermissionListener iPermissionListener) {
@@ -170,7 +170,7 @@ public class PairingHandler implements ICPEventListener {
                     return ListenerRegistration.UNREGISTER;
                 }
             });
-            pairingPort.triggerPairing(CPPController.getInstance().getAppType(), appEui64, secretKey);
+            pairingPort.triggerPairing(CppController.getInstance().getAppType(), appEui64, secretKey);
 
 		} else {
 			currentRelationshipType = relationshipType;
@@ -296,7 +296,7 @@ public class PairingHandler implements ICPEventListener {
 		PairingEntitiyReference pairingTrustor = new PairingEntitiyReference();
 		pairingTrustor.entityRefId = cppController.getAppCppId();
 		pairingTrustor.entityRefProvider = PAIRING_REFERENCEPROVIDER;
-		pairingTrustor.entityRefType = CPPController.getInstance().getAppType();
+		pairingTrustor.entityRefType = CppController.getInstance().getAppType();
 		pairingTrustor.entityRefCredentials = null;
 
 		ALog.i(ALog.PAIRING, "app entityRefId" + pairingTrustor.entityRefId);
@@ -359,7 +359,7 @@ public class PairingHandler implements ICPEventListener {
 	 * @param eventType	 *            int
 	 * @param status	 *            int
 	 * @param obj	 *            ICPClient	 *
-	 * @see com.philips.cdp.dicommclient.cpp.listener.ICPEventListener#onICPCallbackEventOccurred(int,
+	 * @see com.philips.cdp.dicommclient.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
 	 *      int, ICPClient)
 	 */
 	@Override

@@ -18,7 +18,7 @@ Version 1:
     Description: Initial version
 ----------------------------------------------------------------------------*/
 
-import com.philips.cdp.dicommclient.cpp.KPSConfigurationInfo;
+import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -28,7 +28,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
  *configuration parameters set by the application for sign on.
  */
 
-public class PurAirKPSConfiguration extends KPSConfigurationInfo
+public class PurAirKPSConfiguration extends KpsConfigurationInfo
 {
 
 	@Override

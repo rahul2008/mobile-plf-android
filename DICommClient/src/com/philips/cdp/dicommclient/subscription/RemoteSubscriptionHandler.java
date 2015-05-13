@@ -1,19 +1,19 @@
 package com.philips.cdp.dicommclient.subscription;
 
 
-import com.philips.cdp.dicommclient.cpp.CPPController;
-import com.philips.cdp.dicommclient.cpp.listener.DCSEventListener;
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.ALog;
 
-public class RemoteSubscriptionHandler extends SubscribeHandler implements DCSEventListener {
+public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEventListener {
 
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
-	private CPPController mCppController;
+	private CppController mCppController;
 
 	public RemoteSubscriptionHandler(){
-		mCppController = CPPController.getInstance();
+		mCppController = CppController.getInstance();
 	}
 
 	@Override

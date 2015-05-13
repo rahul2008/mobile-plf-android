@@ -1,4 +1,4 @@
-package com.philips.cdp.dicommclient.cpp.listener;
+package com.philips.cdp.dicommclient.cpp;
 
 import com.philips.icpinterface.ICPClient;
 

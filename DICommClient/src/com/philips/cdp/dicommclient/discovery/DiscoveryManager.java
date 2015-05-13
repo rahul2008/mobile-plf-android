@@ -14,7 +14,7 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.appliance.NullApplianceDatabase;
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
@@ -107,7 +107,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
-		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(), this);
+		mCppHelper = new CppDiscoveryHelper(CppController.getInstance(), this);
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(DICommContext.getContext(), this);

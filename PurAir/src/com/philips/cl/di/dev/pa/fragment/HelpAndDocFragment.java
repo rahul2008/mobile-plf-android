@@ -15,7 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -202,7 +202,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String appVersion= getString(R.string.app_version)+Utils.getVersionNumber();
 		String platform= getString(R.string.mobile_platform) +"Android";
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
-		String appEui64 = getString(R.string.app_eui64) + CPPController.getInstance().getAppCppId();
+		String appEui64 = getString(R.string.app_eui64) + CppController.getInstance().getAppCppId();
 
 		List<DICommAppliance> appliances = DiscoveryManager.getInstance().getAddedAppliances();
 

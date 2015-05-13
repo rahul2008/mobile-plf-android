@@ -2,14 +2,14 @@ package com.philips.cdp.dicommclient.request;
 
 import java.util.Map;
 
-import com.philips.cdp.dicommclient.cpp.CPPController;
-import com.philips.cdp.dicommclient.cpp.listener.DCSResponseListener;
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
-public class RemoteRequest extends Request implements DCSResponseListener, PublishEventListener {
+public class RemoteRequest extends Request implements DcsResponseListener, PublishEventListener {
 
 	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
 	private static String BASEDATA_PORTS = "{ \"product\":\"%d\",\"port\":\"%s\",\"data\":%s}";
@@ -24,12 +24,12 @@ public class RemoteRequest extends Request implements DCSResponseListener, Publi
 	private String mPortName;
 	private int mProductId;
 
-	private CPPController mCppController ;
+	private CppController mCppController ;
 	private final RemoteRequestType mRequestType;
 
 	public RemoteRequest(NetworkNode networkNode, String portName, int productId, RemoteRequestType requestType,Map<String,Object> dataMap,ResponseHandler responseHandler) {
 		super(networkNode, dataMap, responseHandler);
-	    mCppController = CPPController.getInstance();
+	    mCppController = CppController.getInstance();
 		mRequestType = requestType;
 		mPortName = portName;
 		mProductId = productId;

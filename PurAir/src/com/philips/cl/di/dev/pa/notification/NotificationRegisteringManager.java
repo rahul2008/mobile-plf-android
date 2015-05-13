@@ -13,7 +13,7 @@ import android.os.Message;
 import cn.jpush.android.api.JPushInterface;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.SendNotificationRegistrationIdListener;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -39,9 +39,9 @@ public class NotificationRegisteringManager implements SignonListener,
 	private static int jPushRetryCount = 0;
 
 	public NotificationRegisteringManager() {
-		CPPController.getInstance()
+		CppController.getInstance()
 				.addSignOnListener(this);
-		CPPController.getInstance()
+		CppController.getInstance()
 				.setNotificationListener(this);
 
 //		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
@@ -196,15 +196,13 @@ public class NotificationRegisteringManager implements SignonListener,
 	}
 
 	private static void sendRegistrationIdToBackend(String regid) {
-		if (!CPPController.getInstance()
-				.isSignOn())
+		if (!CppController.getInstance().isSignOn())
 			return;
 		storeRegistrationKeySendToCPP(false);
 		if (regid == null || regid.isEmpty())
 			return;
 		// TODO:DICOMM Refactor, check getRegitrationProvider has valid value
-		CPPController.getInstance()
-				.sendNotificationRegistrationId(regid,  getRegitrationProvider());
+		CppController.getInstance().sendNotificationRegistrationId(regid,  getRegitrationProvider());
 	}
 
 	private boolean isRegisteredForGCM() {
