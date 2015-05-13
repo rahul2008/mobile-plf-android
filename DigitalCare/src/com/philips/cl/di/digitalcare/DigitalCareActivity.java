@@ -40,53 +40,43 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		} catch (ClassCastException e) {
 			DLog.e(TAG, "Actionbar: " + e.getMessage());
 		}
+		showScreen();
+	}
 
-		Intent intent = getIntent();
-		int feature = intent.getIntExtra("feature", 0);
-
-		switch (feature) {
+	private void showScreen() {
+		int screenChoice = DigitalCareConfigManager.getLaunchingScreen();
+		switch (screenChoice) {
 		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
-			// product
 			showFragment(new ProductDetailsFragment());
 			break;
 
 		case DigitalCareContants.OPTION_FAQ:
-			// Faq
-			showFragment(new SupportHomeFragment());
+			//TODO: Add proper FAQ screen.
 			break;
 
 		case DigitalCareContants.OPTION_CONTACT_US:
-			// contact us
 			showFragment(new ContactUsFragment());
 			break;
 
 		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
-			// find philips
 			showFragment(new LocatePhilipsFragment());
 			break;
 
 		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
-			// rating
 			showFragment(new RateThisAppFragment());
 			break;
 
 		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
-			// register
 			showFragment(new ProductRegistrationFragment());
 			break;
 
 		default:
-			// home
 			showFragment(new SupportHomeFragment());
 			enableActionBarHome();
 			break;
-
 		}
-
-		// showFragment(new SupportHomeFragment());
-		// enableActionBarHome();
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);

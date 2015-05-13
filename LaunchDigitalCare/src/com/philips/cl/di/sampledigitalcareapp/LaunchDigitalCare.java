@@ -1,7 +1,6 @@
 package com.philips.cl.di.sampledigitalcareapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
@@ -106,56 +104,45 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 	public void onClick(View view) {
 
 		switch (view.getId()) {
-
-//		case R.id.launchDigitalCare:
-//			launchComponent(0);
-//			break;
-
 		case R.id.launchproduct:
-			launchComponent(DigitalCareContants.OPTION_PRODUCS_DETAILS);
+			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
+					DigitalCareContants.OPTION_PRODUCS_DETAILS);
 			Toast.makeText(getApplicationContext(), "product detail clicked",
 					Toast.LENGTH_SHORT).show();
 			break;
 
 		case R.id.launch_contact:
-			launchComponent(DigitalCareContants.OPTION_CONTACT_US);
+			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
+					DigitalCareContants.OPTION_CONTACT_US);
 			Toast.makeText(getApplicationContext(), "contact clicked",
 					Toast.LENGTH_SHORT).show();
 			break;
 
 		case R.id.launch_locate:
-			launchComponent(DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY);
+			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
+					DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY);
 			Toast.makeText(getApplicationContext(), "find philips clicked",
 					Toast.LENGTH_SHORT).show();
 			break;
 
 		case R.id.launchrate:
-			launchComponent(DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING);
+			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
+					DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING);
 			Toast.makeText(getApplicationContext(), "tell us clicked",
 					Toast.LENGTH_SHORT).show();
 			break;
 
 		case R.id.launchproductregister:
-			launchComponent(DigitalCareContants.OPTION_REGISTER_PRODUCT);
-			Toast.makeText(getApplicationContext(), "product register  clicked",
-					Toast.LENGTH_SHORT).show();
+			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
+					DigitalCareContants.OPTION_REGISTER_PRODUCT);
+			Toast.makeText(getApplicationContext(),
+					"product register  clicked", Toast.LENGTH_SHORT).show();
 			break;
 
 		default:
-			launchComponent(0);
+			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
+					DigitalCareContants.OPTION_PRODUCS_DETAILS);
 			break;
 		}
-
 	}
-
-	private void launchComponent(int component) {
-		Intent intent = new Intent(LaunchDigitalCare.this,
-				DigitalCareActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-		intent.putExtra("feature", component);
-		startActivity(intent);
-
-	}
-
 }

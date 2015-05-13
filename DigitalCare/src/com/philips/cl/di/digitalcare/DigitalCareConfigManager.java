@@ -1,12 +1,14 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
@@ -39,6 +41,9 @@ public class DigitalCareConfigManager {
 	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
 	private static final String DEFAULT_TWITTER_SECRET_KEY = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
 
+	// Launching Screen
+	private static int mLaunchingScreen = DigitalCareContants.OPTION_SUPPORT_SCREEN;
+
 	private static Context mContext = null;
 
 	/*
@@ -65,6 +70,27 @@ public class DigitalCareConfigManager {
 	private static void initializeTaggin(Context context) {
 		AnalyticsTracker.isEnable(true);
 		AnalyticsTracker.initContext(context);
+	}
+
+	/*
+	 * Setting user defined screen. User can access any screen which they want.
+	 */
+	public static void setLaunchingScreen(Context context, int launchScreen) {
+		mLaunchingScreen = launchScreen;
+		launchComponent(context);
+	}
+
+	private static void launchComponent(Context context) {
+		Intent intent = new Intent(context, DigitalCareActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		context.startActivity(intent);
+	}
+
+	/*
+	 * Getting User defined screen.
+	 */
+	public static int getLaunchingScreen() {
+		return mLaunchingScreen;
 	}
 
 	/*

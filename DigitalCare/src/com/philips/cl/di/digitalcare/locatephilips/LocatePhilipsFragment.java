@@ -179,7 +179,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private void initView() {
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
-		mMap.setTrafficEnabled(true);
+
+		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+//		mMap.setTrafficEnabled(true);
 
 		UiSettings settings = mMap.getUiSettings();
 		settings.setAllGesturesEnabled(true);
@@ -337,7 +339,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	}
 
 	/**
-	 * 顯示"我"在哪裡
+	 * Create Marker for My GPS location.
 	 * 
 	 * @param lat
 	 * @param lng
@@ -349,7 +351,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 		MarkerOptions markerOpt = new MarkerOptions();
 		markerOpt.position(new LatLng(lat, lng));
-		markerOpt.title("我在這裡");
+		markerOpt.title("GPS: Its Me");
 		markerMe = mMap.addMarker(markerOpt);
 
 		Toast.makeText(getActivity(), "lat:" + lat + ",lng:" + lng,
@@ -380,36 +382,24 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		line.setWidth(10);
 	}
 
-	/**
-	 * 更新並顯示新位置
-	 * 
-	 * @param location
-	 */
 	private void updateWithNewLocation(Location location) {
 		String where = "";
 		if (location != null) {
-			// 經度
 			double lng = location.getLongitude();
-			// 緯度
 			double lat = location.getLatitude();
-			// 速度
-			float speed = location.getSpeed();
-			// 時間
-			long time = location.getTime();
-			String timeString = getTimeString(time);
+			// float speed = location.getSpeed();
+			// long time = location.getTime();
+			// String timeString = getTimeString(time);
 
-			where = "經度: " + lng + "\n緯度: " + lat + "\n速度: " + speed
-					+ "\n時間: " + timeString + "\nProvider: " + provider;
+			where = "lat : " + lat + "\n lng " + lng + "\n Provider: "
+					+ provider;
 
-			// 標記"我"
 			showMarkerMe(lat, lng);
 			cameraFocusOnMe(lat, lng);
 			trackToMe(lat, lng);
 
-			// 移動攝影機跟著"我"
 			CameraPosition cameraPosition = new CameraPosition.Builder()
 					.target(new LatLng(lat, lng)) // Sets the center of the map
-													// to ZINTUN
 					.zoom(13) // Sets the zoom
 					.bearing(90) // Sets the orientation of the camera to east
 					.tilt(30) // Sets the tilt of the camera to 30 degrees

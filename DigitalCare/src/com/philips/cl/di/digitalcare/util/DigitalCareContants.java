@@ -7,6 +7,7 @@ package com.philips.cl.di.digitalcare.util;
  * @since: Dec 5, 2014
  */
 public class DigitalCareContants {
+	public static final int OPTION_SUPPORT_SCREEN = 0;
 	public static final int OPTION_PRODUCS_DETAILS = 1;
 	public static final int OPTION_FAQ = 2;
 	public static final int OPTION_CONTACT_US = 3;
