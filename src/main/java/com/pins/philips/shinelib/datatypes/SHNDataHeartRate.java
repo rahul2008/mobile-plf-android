@@ -3,7 +3,7 @@ package com.pins.philips.shinelib.datatypes;
 /**
  * Created by 310188215 on 07/05/15.
  */
-public class SHNDataHeartRate implements SHNData {
+public class SHNDataHeartRate extends SHNData {
     private final int heartRate;
     private final boolean valid;
 
@@ -18,5 +18,10 @@ public class SHNDataHeartRate implements SHNData {
 
     public boolean isValid() {
         return valid;
+    }
+
+    @Override
+    public SHNDataType getSHNDataType() {
+        return SHNDataType.HeartRate;
     }
 }

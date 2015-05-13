@@ -6,14 +6,27 @@ import java.util.List;
 /**
  * Created by 310188215 on 07/05/15.
  */
-public abstract class SHNDataSleep implements SHNData {
+public abstract class SHNDataSleep extends SHNData {
     public enum SleepState {
         Awake, Asleep
     }
 
-    public static abstract class SleepPhase {
-        public abstract SleepState getSleepState();
-        public abstract int getDuration(); // In seconds?
+    public static class SleepPhase {
+        private final SleepState sleepState;
+        private final int duration;
+
+        public SleepPhase(SleepState sleepState, int duration) {
+            this.sleepState = sleepState;
+            this.duration = duration;
+        }
+
+        public SleepState getSleepState() {
+            return sleepState;
+        }
+
+        public int getDuration() {
+            return duration;
+        }
     }
 
     public abstract List<SleepPhase> getSleepPhases();
