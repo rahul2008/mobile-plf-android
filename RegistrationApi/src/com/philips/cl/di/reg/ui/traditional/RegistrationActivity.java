@@ -60,7 +60,7 @@ public class RegistrationActivity extends FragmentActivity implements
 			super.onBackPressed();
 			return;
 		}
-		Fragment fragment = fragmentManager.getFragments().get(count - 1);
+		Fragment fragment = fragmentManager.getFragments().get(count);
 		if (fragment instanceof WelcomeFragment) {
 			navigateToHome();
 		} else {

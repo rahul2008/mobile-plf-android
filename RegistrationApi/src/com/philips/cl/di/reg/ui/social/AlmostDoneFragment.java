@@ -7,8 +7,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -27,7 +27,6 @@ import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
 import com.philips.cl.di.reg.ui.traditional.AccountActivationFragment;
 import com.philips.cl.di.reg.ui.traditional.RegistrationBaseFragment;
-import com.philips.cl.di.reg.ui.traditional.WelcomeFragment;
 import com.philips.cl.di.reg.ui.utils.FontLoader;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -287,8 +286,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	public void onLoginFailedWithMergeFlowError(String mergeToken,
 			String existingProvider, String conflictingIdentityProvider,
 			String conflictingIdpNameLocalized, String existingIdpNameLocalized) {
-		RLog.i("Almost Done", "onLoginFailedWithMergeFlowError");
 		hideSpinner();
+		RLog.i("Almost Done", "onLoginFailedWithMergeFlowError");
+		getRegistrationMainActivity().addFragment(new MergeAccountFragment());
 
 	}
 

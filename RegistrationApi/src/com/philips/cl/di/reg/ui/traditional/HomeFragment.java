@@ -357,13 +357,20 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		hideFaceBookSpinner();
 		hideTwitterSpinner();
 		RLog.i("HomeFragment", "social login success");
-		getRegistrationMainActivity().addFragment(new WelcomeFragment());
+		//getRegistrationMainActivity().addFragment(new WelcomeFragment());
 
 		// This comes for facebook and twitter
 
 		// Get object of user and from user get email id is present or no
 		// If email id is present check is verified or no
 		// If verification success welcome screen
+		
+		User user = new User(getRegistrationMainActivity().getApplicationContext());
+		if (user.getEmailVerificationStatus(getRegistrationMainActivity().getApplicationContext())) {
+			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		}else{
+			getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+		}
 
 		// Get object of user and from user get email id is present or no
 		// If email id is present check is verified or no
