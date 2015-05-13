@@ -12,10 +12,13 @@ import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 
 public abstract class DICommPort<T> {
+
+	private final String LOG_TAG = getClass().getSimpleName();
 
     public static final int SUBSCRIPTION_TTL = 300;
     public static final int SUBSCRIPTION_TTL_MS = SUBSCRIPTION_TTL * 1000;
@@ -67,6 +70,7 @@ public abstract class DICommPort<T> {
 	}
 
     public void putProperties(String key, String value){
+    	DLog.d(LOG_TAG, "request putProperties - " + key + " : " + value);
     	synchronized (mPutPropertiesMap) {
     		mPutPropertiesMap.put(key, value);
 		}
@@ -74,6 +78,7 @@ public abstract class DICommPort<T> {
     }
 
     public void putProperties(Map<String, Object> dataMap){
+    	DLog.d(LOG_TAG, "request putProperties - multiple key values");
         synchronized (mPutPropertiesMap) {
             mPutPropertiesMap.putAll(dataMap);
         }
@@ -81,12 +86,14 @@ public abstract class DICommPort<T> {
     }
 
     public void getProperties(){
+    	DLog.d(LOG_TAG, "request getProperties");
     	mGetPropertiesRequested = true;
     	tryToPerformNextRequest();
     }
 
     public void subscribe(){
         if(mSubscribeRequested) return;
+        DLog.d(LOG_TAG, "request subscribe");
 
     	mSubscribeRequested = true;
     	mStopResubscribe = false;
@@ -116,12 +123,14 @@ public abstract class DICommPort<T> {
     };
 
     public void unsubscribe(){
+    	DLog.d(LOG_TAG, "request unsubscribe");
         mUnsubscribeRequested = true;
         stopResubscribe();
         tryToPerformNextRequest();
     }
 
     public void stopResubscribe(){
+    	DLog.d(LOG_TAG, "stop resubscribing");
         synchronized (mResubscribeLock) {
             mStopResubscribe = true;
         }
@@ -158,8 +167,10 @@ public abstract class DICommPort<T> {
 
     private void tryToPerformNextRequest(){
     	if(mHasOutstandingRequest){
+    		DLog.d(LOG_TAG, "Trying to perform next request - Request outstanding");
     		return;
     	}
+    	DLog.d(LOG_TAG, "Trying to perform next request - Performing next request");
     	mHasOutstandingRequest = true;
 
     	if (isPutPropertiesRequested()){
@@ -175,6 +186,11 @@ public abstract class DICommPort<T> {
     	}
 
     }
+
+    private void setIsApplyingChanges(boolean isApplyingChanges) {
+    	DLog.d(LOG_TAG, isApplyingChanges ? "Started applying changes" : "Stopped applying changes");
+		this.mIsApplyingChanges = isApplyingChanges;
+	}
 
     public boolean isApplyingChanges(){
         return mIsApplyingChanges;
@@ -223,35 +239,40 @@ public abstract class DICommPort<T> {
         	mPutPropertiesMap.clear();
 		}
 
-    	mIsApplyingChanges = true;
+    	DLog.i(LOG_TAG, "Start putProperties");
+    	setIsApplyingChanges(true);
     	mCommunicationStrategy.putProperties(propertiesToSend, getDICommPortName(), getDICommProductId(),mNetworkNode,new ResponseHandler() {
 
 			@Override
 			public void onSuccess(String data) {
 				if (!isPutPropertiesRequested()) {
-					mIsApplyingChanges = false;
+					setIsApplyingChanges(false);
 				}
 				handleResponse(data);
 				requestCompleted();
+				DLog.i(LOG_TAG, "End putProperties - success");
 			}
 
 			public void onError(Error error, String errorData) {
 				notifyPortListenersOnError(error, errorData);
 				if (!isPutPropertiesRequested()) {
-					mIsApplyingChanges = false;
+					setIsApplyingChanges(false);
 				}
 				requestCompleted();
+				DLog.e(LOG_TAG, "End putProperties - error");
 			}
 		});
     }
 
-    private void performGetProperties() {
+	private void performGetProperties() {
+    	DLog.i(LOG_TAG, "Start getProperties");
     	mCommunicationStrategy.getProperties(getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
 
 			@Override
 			public void onSuccess(String data) {
 				handleResponse(data);
 				requestCompleted();
+				DLog.i(LOG_TAG, "End getProperties - success");
 			}
 
 			@Override
@@ -259,11 +280,13 @@ public abstract class DICommPort<T> {
 				mGetPropertiesRequested = false;
 				notifyPortListenersOnError(error, errorData);
 				requestCompleted();
+				DLog.e(LOG_TAG, "End putProperties - error");
 			}
 		});
     }
 
     private void performSubscribe() {
+    	DLog.i(LOG_TAG, "Start subscribe");
     	mCommunicationStrategy.subscribe(getDICommPortName(), getDICommProductId(), SUBSCRIPTION_TTL, mNetworkNode, new ResponseHandler() {
 
 			@Override
@@ -271,6 +294,7 @@ public abstract class DICommPort<T> {
 				mSubscribeRequested = false;
 				handleResponse(data);
 				requestCompleted();
+				DLog.i(LOG_TAG, "End subscribe - success");
 			}
 
 			@Override
@@ -278,11 +302,13 @@ public abstract class DICommPort<T> {
 				mSubscribeRequested = false;
 				notifyPortListenersOnError(error, errorData);
 				requestCompleted();
+				DLog.e(LOG_TAG, "End subscribe - error");
 			}
 		});
     }
 
     private void performUnsubscribe() {
+    	DLog.i(LOG_TAG, "Start unsubscribe");
     	mCommunicationStrategy.unsubscribe(getDICommPortName(), getDICommProductId(), mNetworkNode, new ResponseHandler() {
 
 			@Override
@@ -290,6 +316,7 @@ public abstract class DICommPort<T> {
 				mUnsubscribeRequested = false;
 				handleResponse(data);
 				requestCompleted();
+				DLog.i(LOG_TAG, "End unsubscribe - success");
 			}
 
 			@Override
@@ -297,6 +324,7 @@ public abstract class DICommPort<T> {
 				mUnsubscribeRequested = false;
 				notifyPortListenersOnError(error, errorData);
 				requestCompleted();
+				DLog.e(LOG_TAG, "End unsubscribe - success");
 			}
 		});
     }
