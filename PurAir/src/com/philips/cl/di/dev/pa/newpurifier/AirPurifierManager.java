@@ -101,6 +101,7 @@ public class AirPurifierManager extends CurrentApplianceManager {
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
 		synchronized (mApplianceEventListeners) {
 			removeApplianceListener(mApplianceEventListeners.get(airPurifierEventListener));
+			removeCurrentApplianceChangedListener(mApplianceChangedListeners.get(airPurifierEventListener));
 			mApplianceEventListeners.remove(airPurifierEventListener);
 			mApplianceChangedListeners.remove(airPurifierEventListener);
 		}
