@@ -5,8 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cdp.dicomm.cpp.DCSEventListener;
+import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.listener.DCSEventListener;
 import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 

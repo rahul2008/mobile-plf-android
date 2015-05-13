@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public class DevicePort extends DICommPort<DevicePortProperties> {
 

@@ -2,8 +2,8 @@ package com.philips.cdp.dicommclient.security;
 
 import java.nio.charset.Charset;
 
-import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public class DISecurity {
 

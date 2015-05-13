@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties;

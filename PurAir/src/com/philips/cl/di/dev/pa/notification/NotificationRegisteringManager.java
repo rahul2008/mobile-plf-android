@@ -13,9 +13,9 @@ import android.os.Message;
 import cn.jpush.android.api.JPushInterface;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cdp.dicomm.cpp.SendNotificationRegistrationIdListener;
-import com.philips.cdp.dicomm.cpp.SignonListener;
+import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.listener.SendNotificationRegistrationIdListener;
+import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;

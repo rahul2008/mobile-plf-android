@@ -1,9 +1,8 @@
-package com.philips.cdp.dicomm.appliance;
+package com.philips.cdp.dicommclient.appliance;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -15,6 +14,7 @@ import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public abstract class DICommAppliance implements SubscriptionEventListener {
 

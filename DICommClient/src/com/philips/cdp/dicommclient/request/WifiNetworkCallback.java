@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.ConnectivityManager.NetworkCallback;
 import android.net.Network;
 
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.util.ALog;
 
 @SuppressLint("NewApi")
 class WifiNetworkCallback extends NetworkCallback {

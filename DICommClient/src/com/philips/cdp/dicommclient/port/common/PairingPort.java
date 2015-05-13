@@ -3,10 +3,10 @@ package com.philips.cdp.dicommclient.port.common;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public class PairingPort extends DICommPort<Object> {
 

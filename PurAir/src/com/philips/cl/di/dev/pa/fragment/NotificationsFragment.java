@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.philips.cdp.dicomm.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
@@ -33,6 +32,7 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PermissionListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;

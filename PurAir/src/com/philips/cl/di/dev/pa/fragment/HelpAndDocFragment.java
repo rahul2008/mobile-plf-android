@@ -14,8 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
-import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.cpp.CPPController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -23,7 +23,6 @@ import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.SupportUtil;

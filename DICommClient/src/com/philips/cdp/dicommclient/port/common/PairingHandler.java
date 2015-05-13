@@ -6,18 +6,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
-import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cdp.dicomm.cpp.ICPCallbackHandler;
-import com.philips.cdp.dicomm.cpp.ICPEventListener;
-import com.philips.cdp.dicomm.util.ALog;
-import com.philips.cdp.dicomm.util.ListenerRegistration;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.ICPCallbackHandler;
+import com.philips.cdp.dicommclient.cpp.listener.ICPEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
@@ -359,7 +359,7 @@ public class PairingHandler implements ICPEventListener {
 	 * @param eventType	 *            int
 	 * @param status	 *            int
 	 * @param obj	 *            ICPClient	 *
-	 * @see com.philips.cdp.dicomm.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
+	 * @see com.philips.cdp.dicommclient.cpp.listener.ICPEventListener#onICPCallbackEventOccurred(int,
 	 *      int, ICPClient)
 	 */
 	@Override

@@ -3,7 +3,7 @@ package com.philips.cdp.dicommclient.communication;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CPPController;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;

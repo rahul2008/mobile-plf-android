@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public class SsdpServiceHelperThread extends HandlerThread {
 

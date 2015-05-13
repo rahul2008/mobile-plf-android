@@ -15,7 +15,7 @@ import android.os.Build;
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Analytics.TimedActionBlock;
 import com.adobe.mobile.Config;
-import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CPPController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;

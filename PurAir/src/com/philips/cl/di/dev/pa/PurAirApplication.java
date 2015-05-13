@@ -11,7 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CPPController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;

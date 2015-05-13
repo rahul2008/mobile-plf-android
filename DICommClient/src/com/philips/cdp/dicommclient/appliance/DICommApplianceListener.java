@@ -1,4 +1,4 @@
-package com.philips.cdp.dicomm.appliance;
+package com.philips.cdp.dicommclient.appliance;
 
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;

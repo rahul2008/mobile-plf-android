@@ -1,4 +1,4 @@
-package com.philips.cdp.dicomm.cpp;
+package com.philips.cdp.dicommclient.cpp;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -19,7 +19,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.cpp.listener.AppUpdateListener;
+import com.philips.cdp.dicommclient.cpp.listener.DCSEventListener;
+import com.philips.cdp.dicommclient.cpp.listener.DCSResponseListener;
+import com.philips.cdp.dicommclient.cpp.listener.ICPEventListener;
+import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
+import com.philips.cdp.dicommclient.cpp.listener.SendNotificationRegistrationIdListener;
+import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
+import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;

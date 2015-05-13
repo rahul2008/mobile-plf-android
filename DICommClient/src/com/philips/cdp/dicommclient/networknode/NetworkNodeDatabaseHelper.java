@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 

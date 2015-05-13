@@ -6,8 +6,8 @@ import java.util.Set;
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 
-import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelperThread.StartStopInterface;
+import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 

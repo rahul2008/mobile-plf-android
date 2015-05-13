@@ -1,4 +1,4 @@
-package com.philips.cdp.dicomm.cpp;
+package com.philips.cdp.dicommclient.cpp.listener;
 
 public interface SendNotificationRegistrationIdListener {
 

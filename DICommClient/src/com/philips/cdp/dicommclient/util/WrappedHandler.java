@@ -1,4 +1,4 @@
-package com.philips.cdp.dicomm.util;
+package com.philips.cdp.dicommclient.util;
 
 import android.os.Handler;
 

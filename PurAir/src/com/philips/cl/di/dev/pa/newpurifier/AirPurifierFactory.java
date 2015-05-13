@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import com.philips.cdp.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;

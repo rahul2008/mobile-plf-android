@@ -2,11 +2,11 @@ package com.philips.cdp.dicommclient.request;
 
 import java.util.Map;
 
-import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cdp.dicomm.cpp.DCSResponseListener;
-import com.philips.cdp.dicomm.cpp.PublishEventListener;
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.listener.DCSResponseListener;
+import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteRequest extends Request implements DCSResponseListener, PublishEventListener {

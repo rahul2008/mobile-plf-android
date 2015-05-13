@@ -14,7 +14,7 @@ import java.util.LinkedHashSet;
 
 import android.os.Handler.Callback;
 
-import com.philips.cdp.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;

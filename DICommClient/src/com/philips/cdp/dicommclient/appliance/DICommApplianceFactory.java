@@ -1,4 +1,4 @@
-package com.philips.cdp.dicomm.appliance;
+package com.philips.cdp.dicommclient.appliance;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 

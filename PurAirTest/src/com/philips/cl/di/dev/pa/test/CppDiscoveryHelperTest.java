@@ -11,7 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.philips.cdp.dicomm.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.CPPController;
 import com.philips.cdp.dicommclient.discovery.CppDiscoverEventListener;
 import com.philips.cdp.dicommclient.discovery.CppDiscoveryHelper;
 import com.philips.cdp.dicommclient.discovery.DiscoverInfo;

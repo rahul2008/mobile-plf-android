@@ -19,7 +19,7 @@ import android.os.StatFs;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;

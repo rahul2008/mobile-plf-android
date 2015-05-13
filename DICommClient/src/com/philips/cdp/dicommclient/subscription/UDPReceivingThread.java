@@ -12,8 +12,8 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
-import com.philips.cdp.dicomm.util.ALog;
-import com.philips.cdp.dicomm.util.DICommContext;
+import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class UDPReceivingThread extends Thread {
 

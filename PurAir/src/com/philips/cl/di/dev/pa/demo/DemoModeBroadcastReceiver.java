@@ -12,8 +12,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 
-import com.philips.cdp.dicomm.util.ListenerRegistration;
-import com.philips.cdp.dicommclient.communication.CommunicationMarshal;
 import com.philips.cdp.dicommclient.communication.LocalStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -25,6 +23,7 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.security.DISecurity;
+import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;

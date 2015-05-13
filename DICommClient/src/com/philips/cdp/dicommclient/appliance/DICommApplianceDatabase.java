@@ -1,4 +1,4 @@
-package com.philips.cdp.dicomm.appliance;
+package com.philips.cdp.dicommclient.appliance;
 
 public interface DICommApplianceDatabase<T extends DICommAppliance> {
 

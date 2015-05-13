@@ -8,12 +8,12 @@ import java.util.Map;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.philips.cdp.dicomm.util.ListenerRegistration;
-import com.philips.cdp.dicomm.util.WrappedHandler;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.ListenerRegistration;
+import com.philips.cdp.dicommclient.util.WrappedHandler;
 
 public abstract class DICommPort<T> {
 

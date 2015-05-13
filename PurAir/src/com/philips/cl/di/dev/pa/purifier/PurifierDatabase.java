@@ -4,8 +4,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.philips.cdp.dicomm.appliance.DICommApplianceDatabase;
-import com.philips.cdp.dicomm.util.DICommContext;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
+import com.philips.cdp.dicommclient.util.DICommContext;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.ALog;

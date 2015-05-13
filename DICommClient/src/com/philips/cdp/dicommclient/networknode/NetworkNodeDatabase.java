@@ -18,9 +18,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.philips.cdp.dicomm.util.ALog;
-import com.philips.cdp.dicomm.util.DICommContext;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
+import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkNodeDatabase {
 

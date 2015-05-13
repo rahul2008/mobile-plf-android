@@ -34,7 +34,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;

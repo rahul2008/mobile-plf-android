@@ -14,8 +14,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.philips.cdp.dicomm.util.ALog;
-import com.philips.cdp.dicomm.util.DICommContext;
+import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkMonitor {
 

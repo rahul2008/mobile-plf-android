@@ -26,9 +26,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import cn.jpush.android.api.JPushInterface;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
-import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cdp.dicomm.cpp.SignonListener;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;

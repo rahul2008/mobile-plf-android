@@ -1,6 +1,6 @@
 package com.philips.cl.di.dicomm.util;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.NullStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 

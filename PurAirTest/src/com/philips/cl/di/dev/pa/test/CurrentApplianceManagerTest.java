@@ -7,10 +7,10 @@ import static org.mockito.Mockito.verify;
 
 import org.mockito.Mockito;
 
-import com.philips.cdp.dicomm.appliance.CurrentApplianceChangedListener;
-import com.philips.cdp.dicomm.appliance.CurrentApplianceManager;
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
-import com.philips.cdp.dicomm.appliance.DICommApplianceListener;
+import com.philips.cdp.dicommclient.appliance.CurrentApplianceChangedListener;
+import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceListener;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;

@@ -1,6 +1,6 @@
-package com.philips.cdp.dicomm.cpp;
+package com.philips.cdp.dicommclient.cpp;
 
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 

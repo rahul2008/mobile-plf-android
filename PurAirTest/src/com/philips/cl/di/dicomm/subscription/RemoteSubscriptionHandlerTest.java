@@ -6,10 +6,10 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.philips.cdp.dicomm.util.WrappedHandler;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.subscription.RemoteSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
 public class RemoteSubscriptionHandlerTest extends MockitoTestCase {

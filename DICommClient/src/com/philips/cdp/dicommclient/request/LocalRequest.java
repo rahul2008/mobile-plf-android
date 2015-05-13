@@ -20,10 +20,10 @@ import android.net.NetworkRequest;
 import android.os.Build;
 import android.util.Log;
 
-import com.philips.cdp.dicomm.util.ALog;
-import com.philips.cdp.dicomm.util.DICommContext;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
+import com.philips.cdp.dicommclient.util.ALog;
+import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class LocalRequest extends Request {
 

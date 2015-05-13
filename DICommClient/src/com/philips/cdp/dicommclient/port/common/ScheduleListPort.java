@@ -9,12 +9,12 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.philips.cdp.dicomm.util.ALog;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
+import com.philips.cdp.dicommclient.util.ALog;
 
 public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 

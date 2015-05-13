@@ -4,11 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.philips.cdp.dicomm.cpp.CPPController;
-import com.philips.cdp.dicomm.cpp.DCSEventListener;
-import com.philips.cdp.dicomm.cpp.PublishEventListener;
-import com.philips.cdp.dicomm.cpp.SignonListener;
-import com.philips.cdp.dicomm.util.ALog;
+import com.philips.cdp.dicommclient.cpp.CPPController;
+import com.philips.cdp.dicommclient.cpp.listener.DCSEventListener;
+import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
+import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
+import com.philips.cdp.dicommclient.util.ALog;
 import com.philips.icpinterface.data.Errors;
 
 public class CppDiscoveryHelper implements SignonListener, PublishEventListener, DCSEventListener {

@@ -11,15 +11,15 @@ import java.util.LinkedHashMap;
 
 import android.os.Handler;
 
-import com.philips.cdp.dicomm.appliance.DICommAppliance;
-import com.philips.cdp.dicomm.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.discovery.CppDiscoveryHelper;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor;
-import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
+import com.philips.cdp.dicommclient.discovery.SsdpServiceHelper;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
