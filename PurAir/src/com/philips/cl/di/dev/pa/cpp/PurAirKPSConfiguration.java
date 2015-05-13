@@ -19,6 +19,7 @@ Version 1:
 ----------------------------------------------------------------------------*/
 
 import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -63,7 +64,7 @@ public class PurAirKPSConfiguration extends KpsConfigurationInfo
 
 	@Override
 	public int getAppVersion() {
-		return 0;
+		return PurAirApplication.getAppVersion();
 	}
 
 	@Override

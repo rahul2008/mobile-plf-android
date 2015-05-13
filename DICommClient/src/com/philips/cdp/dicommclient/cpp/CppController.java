@@ -110,6 +110,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
 	public static synchronized CppController getInstance() {
 		ALog.i(ALog.ICPCLIENT, "GetInstance: " + mInstance);
+		// TODO:DICOMM Refactor, need generic mechanism to update this locale information whenever the language changes. 
+		setLocale();
 		return mInstance;
 	}
 
@@ -117,9 +119,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		this.mContext = context;
 		mKpsConfigurationInfo = kpsConfigurationInfo;
 		mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
-
-		// TODO:DICOMM Refactor, check when to set the locale, after/before sign on
-		setLocale();
 
 		mICPCallbackHandler = new ICPCallbackHandler();
 		mICPCallbackHandler.setHandler(this);
@@ -911,8 +910,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 
-	private void setLocale(){
-
+	private static void setLocale(){
+        ALog.i(ALog.CPPCONTROLLER,"setLocale is called, Country = "+ mKpsConfigurationInfo.getCountryCode() + "Language = " + mKpsConfigurationInfo.getLanguageCode());
 		if (mSignon == null) return;
 
 		mSignon.setNewLocale(mKpsConfigurationInfo.getCountryCode(), mKpsConfigurationInfo.getLanguageCode());
