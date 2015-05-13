@@ -96,7 +96,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
-	private KpsConfigurationInfo mKpsConfigurationInfo;
+	private static KpsConfigurationInfo mKpsConfigurationInfo;
 	private Params mKpsConfiguration;
 
 	private String mAppCppId;
