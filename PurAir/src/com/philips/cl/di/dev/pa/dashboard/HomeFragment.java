@@ -57,7 +57,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private static final String INDOOR_DETAIL_FTAG = "indoor_detail_fragment";
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
-	private RelativeLayout noPurifierFlowLayout;
+	private LinearLayout noPurifierFlowLayout;
 	
 	private OutdoorPagerAdapter outdoorPagerAdapter;
 	private IndoorPagerAdapter indoorPagerAdapter;
@@ -200,7 +200,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
     @SuppressWarnings("deprecation")
     private void initIndoorViewPager() {
-        noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
+        noPurifierFlowLayout = (LinearLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
         indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
         indoorViewPager.setOffscreenPageLimit(0);
 
