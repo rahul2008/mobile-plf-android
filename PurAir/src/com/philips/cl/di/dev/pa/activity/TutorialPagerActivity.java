@@ -68,7 +68,11 @@ public class TutorialPagerActivity extends BaseActivity {
 				
 			}
 		});
+		
+		setBackground(mPager);
 	}
+	
+	
 	
 	@Override
 	protected void onResume() {

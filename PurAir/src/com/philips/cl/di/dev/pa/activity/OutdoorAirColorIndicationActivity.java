@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -93,6 +94,9 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 				finish();
 			}
 		});
+		
+		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.containLL);
+		setBackground(linearLayout);
 	}
 	
 	@Override

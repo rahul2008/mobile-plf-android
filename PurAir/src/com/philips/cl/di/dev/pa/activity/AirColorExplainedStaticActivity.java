@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -30,6 +31,8 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 			initView(R.string.guards_environment);
 		}
 		
+		ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+		setBackground(scrollView);
 	}
 	
 	private void initView(int headingStrId) {

@@ -2,18 +2,22 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.lang.reflect.Field;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cl.di.dev.pa.IBackgroundDrawable;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
-public class BaseFragment extends Fragment {
+public class BaseFragment extends Fragment implements IBackgroundDrawable {
 
 	private static final Field sChildFragmentManagerField;
 	
@@ -96,5 +100,17 @@ public class BaseFragment extends Fragment {
         MetricsTracker.trackActionVideoStart("Smart Air Infomercial");
 		intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"), "video/mp4");
 		startActivity(Intent.createChooser(intent,"")); 
+	}
+	
+	@SuppressWarnings("deprecation")
+	@SuppressLint("NewApi")
+	@Override
+	public void setBackgroundDrawable(ViewGroup view, Drawable drawable) {
+		if (view == null || drawable == null) return;
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			view.setBackgroundDrawable(drawable);
+		} else {
+			view.setBackground(drawable);
+		}
 	}
 }

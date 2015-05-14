@@ -1,6 +1,11 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +26,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
@@ -43,6 +49,13 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.HELP_AND_DOCUMENTATION);
+
+		Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.ews_nav_bar_2x);
+		Bitmap shadow = Utils.getShadow(src.getHeight(), src.getWidth(), Color.BLACK, .1F);
+
+		Drawable drawable = new BitmapDrawable(getResources(), shadow);
+
+		setBackgroundDrawable(scrollView, drawable);
 	}
 	private void initializeView(View rootView) {
 		ImageButton backButton = (ImageButton) rootView.findViewById(R.id.heading_back_imgbtn);
