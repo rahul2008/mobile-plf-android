@@ -14,18 +14,11 @@
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/controls"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:padding="2dp"
-            android:minWidth="80dp"
+            style="@style/control_filter_btn_style"
+            android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/img_description"
             android:text="@string/controls"
-            android:textColor="@color/white"
             android:visibility="invisible"
-            android:background="@drawable/button_border"
-            android:textSize="@dimen/text_size_medium_dp"
             custom:fontAssetName="fonts/centralesansxbold.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -63,18 +56,12 @@
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/filters"
-            android:layout_width="wrap_content"
-            android:padding="2dp"
-            android:layout_height="30dp"
-            android:minWidth="80dp"
+            style="@style/control_filter_btn_style"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@string/img_description"
-            android:textColor="@color/white"
+            android:layout_marginTop="8dp"
             android:text="@string/filters"
             android:visibility="invisible"
             android:background="@drawable/button_border"
-            android:textSize="@dimen/text_size_medium_dp"
             android:layout_alignParentRight="true"
             custom:fontAssetName="fonts/centralesansxbold.ttf" />
 
