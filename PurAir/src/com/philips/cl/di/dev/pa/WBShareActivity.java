@@ -152,7 +152,13 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 	@Override
 	public void onClick(View v) {
 
-		Bitmap bitmap = BitmapFactory.decodeFile(AppConstants.CACHEDIR_IMG + "PhilipsAir.png");
+		Bitmap bitmap = null;
+		if("2".equals(shareType)) {
+			bitmap = getExpressionBitmap();
+		} else {
+			bitmap = BitmapFactory.decodeFile(AppConstants.CACHEDIR_IMG + "PhilipsAir.png");
+		}
+		
 		SHARE_MEDIA media;
 		String shareContent = getShareContent();
 		if (url == null || url.isEmpty()) {
