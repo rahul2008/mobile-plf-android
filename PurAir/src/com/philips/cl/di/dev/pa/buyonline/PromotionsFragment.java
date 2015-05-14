@@ -29,6 +29,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.WBShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment.RequestCallback;
 import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
@@ -75,7 +76,7 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 		showProgressDialog();
 	}
 
-	protected void setTitle(String title){
+	protected void setTitle(String title) {
 		View view = getView().findViewById(R.id.title_text_tv);
 		if (null != view && view instanceof TextView) {
 			((FontTextView)view).setText(title);
@@ -220,8 +221,8 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 				BaseBean baseBean = data.get(Integer.parseInt(String.valueOf(v.getTag())));
 				if ("1".equals(baseBean.getStr("type"))) {
 					//TODO : Add share page here once it's done.
-//					Intent intent = new Intent(getActivity(), OutdoorAirColorIndicationActivity.class);
-//					getActivity().startActivity(intent);
+					Intent intent = new Intent(getActivity(), ExpressionShareActivity.class);
+					getActivity().startActivity(intent);
 				}else if("3".equals(baseBean.getStr("type"))){
 //					Intent intent = new Intent(getActivity(),OutdoorAirColorIndicationActivity.class);
 					Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);

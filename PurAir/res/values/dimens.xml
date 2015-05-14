@@ -28,4 +28,5 @@
 <dimen name="heading_text_size_dp">16dp</dimen>
 
 <dimen name="title_height">46dp</dimen>
+<dimen name="expression_item_height">140dp</dimen>
 </resources>

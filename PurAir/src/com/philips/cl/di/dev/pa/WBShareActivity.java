@@ -16,7 +16,11 @@
 
 package com.philips.cl.di.dev.pa;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -35,10 +39,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
+import com.philips.cl.di.dev.pa.buyonline.AppUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
@@ -46,6 +53,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MD5Util;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.sina.weibo.sdk.api.ImageObject;
 import com.sina.weibo.sdk.api.TextObject;
@@ -75,6 +83,11 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 
 	public static final String APP_ID = "wxdd5f3d69cdf95dbd";
 	private String url = null;
+	
+	private String cityName = "";
+	private String shareImgName = "";
+	private String shareTitle = "";
+	private String shareType;
 
 	/**
 	 * @see {@link Activity#onCreate}
@@ -90,6 +103,13 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 
 		FontTextView heading=(FontTextView) findViewById(R.id.heading_name_tv);
 		heading.setText(getString(R.string.share));
+		
+		
+		cityName = getIntent().getStringExtra("city");
+		url = getIntent().getStringExtra("url");
+		shareType = getIntent().getStringExtra("type");
+		shareImgName = getIntent().getStringExtra("shareImgName");
+		shareTitle = getIntent().getStringExtra("share_title");
 
 		initPage();
 		mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, AppConstants.APP_KEY);
@@ -186,7 +206,13 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			break;
 
 		case R.id.share_menu_4:
-			openEmailApp(this, "","",new File(AppConstants.CACHEDIR_IMG + "PhilipsAir.png"));
+			if("2".equals(shareType)) {
+				bitmap = getExpressionBitmap();
+				saveImageToSD(bitmap, AppConstants.CACHEDIR_IMG+MD5Util.getMD5String(shareImgName)+".png");
+				openEmailApp(this, "","",new File(AppConstants.CACHEDIR_IMG+MD5Util.getMD5String(shareImgName)+".png"));
+			} else {
+				openEmailApp(this, "","", new File(AppConstants.CACHEDIR_IMG + "PhilipsAir.png"));
+			}
 			break;
 		
 		default:
@@ -198,13 +224,10 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 
 	public static void openEmailApp(Context context,String emailAddress,String content,File file) {
 		Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-		intent.putExtra(android.content.Intent.EXTRA_EMAIL,
-				new String[] { emailAddress });
-		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, ""
-				);
+		intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { emailAddress });
+		intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
 		intent.putExtra(android.content.Intent.EXTRA_TEXT, content);
-		intent.putExtra(android.content.Intent.EXTRA_STREAM, Uri 
-				.fromFile(file)); 
+		intent.putExtra(android.content.Intent.EXTRA_STREAM, Uri.fromFile(file)); 
 		intent.setType("image/png"); 
 		context.startActivity(Intent.createChooser(intent, "Mail Chooser"));
 	}
@@ -341,10 +364,37 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		return textObject;
 	}
 
+	private Bitmap getExpressionBitmap() {
+		Bitmap bitmap = null;
+		if (!TextUtils.isEmpty(shareImgName)) {
+			try {
+				bitmap = BitmapFactory.decodeStream(getAssets().open(shareImgName));
+				return bitmap;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 	
 	private ImageObject getImageObj() {
 		ImageObject imageObject = new ImageObject();
-		Bitmap bitmap = BitmapFactory.decodeFile(AppConstants.CACHEDIR_IMG + "PhilipsAir.png");
+		Bitmap bitmap = null;
+		if ("2".equals(shareType)) {
+			if (!TextUtils.isEmpty(shareImgName)) {
+				try {
+					bitmap = BitmapFactory.decodeStream(getAssets().open(shareImgName));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (bitmap != null) {
+				imageObject.setImageObject(bitmap);
+			}
+			return imageObject;
+		}
+		
+		bitmap = BitmapFactory.decodeFile(AppConstants.CACHEDIR_IMG + "PhilipsAir.png");
 		if (bitmap != null) {
 			imageObject.setImageObject(bitmap);
 		}
@@ -356,5 +406,37 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		int supportApiLevel = mWeiboShareAPI.getWeiboAppSupportAPI(); 
 
 	}*/
+	
+	public static void saveImageToSD(Bitmap bitmap, String filePath) {
+        if (!isHaveSDCard()) {
+            return;
+        }
+        if (null == bitmap) {
+            return;
+        }
+//        if (Constant.SAVE_FREESPACE_BYTE > freeSpaceOnSd_BYTE()) {
+//            return;
+//        }
+        File imageFile = new File(filePath);
+        if (!imageFile.getParentFile().exists()) {
+        	imageFile.getParentFile().mkdirs();
+        }
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(imageFile));
+            if (bitmap != null) {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                bos.flush();
+                bos.close();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	private static boolean isHaveSDCard() {
+        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+    }
 
 }

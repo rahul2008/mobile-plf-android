@@ -159,7 +159,9 @@
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.DiagnosticShareActivity"
             android:screenOrientation="portrait" />
-        
+        <activity
+            android:name="com.philips.cl.di.dev.pa.buyonline.ExpressionShareActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"

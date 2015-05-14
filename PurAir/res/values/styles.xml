@@ -84,5 +84,17 @@
         <item name="android:textSize">15sp</item>
         <item name="android:background">@color/philips_blue</item>
     </style>
-    
+    <style name="expression_share_label_tv">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:textColor">#444444</item>
+        <item name="android:background">#EBEBEC</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+    </style>
+    <style name="expression_share_img">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
 </resources>
