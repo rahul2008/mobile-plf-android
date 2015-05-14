@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
@@ -42,7 +41,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	private XPassword mEtPassword;
 	private ProgressBar mPbSpinner;
 	private String mMergeToken;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -211,8 +210,39 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onLoginFailedWithError(SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
 		 hideSpinner();
-		Toast.makeText(getActivity(), "Login Failure", Toast.LENGTH_LONG).show();
 		
+		if (signInTraditionalFailuerInfo.getError().captureApiError.code == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+
+			handleInvalidCredentials(signInTraditionalFailuerInfo);
+			return ;
+		}
+		
+		if (signInTraditionalFailuerInfo.getError().captureApiError.code == RegConstants.INVALID_FIELDS_ERROR_CODE) {
+
+			handleInvalidCredentials(signInTraditionalFailuerInfo);
+			return ;
+		}
+		
+		mRegError.setError(signInTraditionalFailuerInfo.getErrorDescription());
+	}
+
+	private void handleInvalidCredentials(
+			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
+		if (null != signInTraditionalFailuerInfo.getEmailErrorMessage()) {
+			mEtEmail.setErrDescription(signInTraditionalFailuerInfo
+					.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();
+		}
+
+		if (null != signInTraditionalFailuerInfo.getPasswordErrorMessage()) {
+
+			mEtPassword.setErrDescription(signInTraditionalFailuerInfo
+					.getPasswordErrorMessage());
+			mEtPassword.showInvalidAlert();
+		}
+
+		mRegError.setError(signInTraditionalFailuerInfo
+				.getErrorDescription());
 	}
 
 }
