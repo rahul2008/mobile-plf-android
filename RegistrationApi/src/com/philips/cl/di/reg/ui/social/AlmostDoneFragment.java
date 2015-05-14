@@ -61,7 +61,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 			Bundle savedInstanceState) {
 		
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserCreateAccountFragment : onCreateView");
+				"AlmostDoneFragment : onCreateView");
 		
 		EventHelper.getInstance().registerEventNotification(
 				RegConstants.IS_ONLINE, this);
@@ -81,7 +81,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	@Override
 	public void onDestroy() {
 
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onDestroy");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
 		EventHelper.getInstance().unregisterEventNotification(
 				RegConstants.IS_ONLINE, this);
 		EventHelper.getInstance().unregisterEventNotification(
@@ -205,7 +205,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"SocialAlmostDoneFragment : onConfigurationChanged");
+				"AlmostDoneFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 

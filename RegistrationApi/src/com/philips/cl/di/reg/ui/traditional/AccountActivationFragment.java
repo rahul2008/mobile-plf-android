@@ -187,10 +187,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 		mBtnResend.setEnabled(true);
 		if (mUser.getEmailVerificationStatus(mContext)) {
 			mBtnResend.setVisibility(View.GONE);
-			/*
-			 * Toast.makeText(getActivity(), "Verification email Success",
-			 * Toast.LENGTH_LONG).show();
-			 */
 			mEMailVerifiedError.hideError();
 			mRegError.hideError();
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
@@ -229,12 +225,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	@Override
 	public void onResendVerificationEmailSuccess() {
-		// Navigate to signin
 		updateResendUIState();
-		/*
-		 * Toast.makeText(getActivity(), "Resend Mail Successfully ",
-		 * Toast.LENGTH_LONG).show();
-		 */
 	}
 
 	private void updateResendUIState() {

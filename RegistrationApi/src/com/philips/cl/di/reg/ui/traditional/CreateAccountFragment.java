@@ -194,9 +194,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	public void onRegisterFailedWithFailure(
 			CreateAccountFailuerInfo createAccountFailuerInfo) {
 
-		// Set error message as per response
-		// set generic error invalid inputs
-
 		if (createAccountFailuerInfo.getErrorCode() == INVALID_FIELDS) {
 
 			if (null != createAccountFailuerInfo.getEmailErrorMessage()) {

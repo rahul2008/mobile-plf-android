@@ -1,13 +1,11 @@
 package com.philips.cl.di.reg.ui.traditional;
 
-import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -30,6 +28,7 @@ import com.philips.cl.di.reg.ui.utils.EmailValidator;
 import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements
@@ -173,7 +172,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
-			// Show network error
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}
 	}
@@ -231,34 +229,15 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		}
 	}
 
-	private void forgotpassword() {
-		final AlertDialog myBuilder = new AlertDialog.Builder(getActivity())
-				.create();
-		myBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		myBuilder.setCancelable(true);
-		LayoutInflater myLayoutInflater = getActivity().getLayoutInflater();
-		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password,
-				null);
-		Button continueBtn = (Button) myView
-				.findViewById(R.id.btn_reg_continue);
-
-		continueBtn.setOnClickListener(new View.OnClickListener() {
-
-			public void onClick(View v) {
-				myBuilder.dismiss();
-				hideForgotPasswordSpinner();
-			}
-		});
-
-		myBuilder.setView(myView);
-		myBuilder.show();
-	}
+	
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		hideForgotPasswordSpinner();
-		forgotpassword();
+		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity());
+		hideForgotPasswordSpinner();
 		mBtnResend.setEnabled(true);
+		mRegError.hideError();
 	}
 
 	@Override
@@ -266,6 +245,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 			ForgotPasswordFailureInfo forgotPasswordFailureInfo) {
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
+		
+		if(forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE){
+			mEtEmail.setErrDescription(forgotPasswordFailureInfo
+					.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();
+			mRegError.setError(forgotPasswordFailureInfo
+					.getEmailErrorMessage());
+			return;
+			
+		}
 
 		if (forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.NO_SUCH_ACCOUNT_ERROR_CODE) {
 

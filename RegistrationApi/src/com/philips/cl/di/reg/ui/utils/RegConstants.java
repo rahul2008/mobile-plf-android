@@ -42,8 +42,6 @@ public class RegConstants {
 
 	public static final String JANRAIN_INIT_FAILURE = "JANRAIN_FAILURE";
 
-	public static final String REGISTER_MERGE_TOKEN = "mergetoken";
-
 	public static final String REGISTER_GIVEN_NAME = "givenName";
 
 	public static final String REGISTER_DISPLAY_NAME = "displayName";
@@ -77,6 +75,8 @@ public class RegConstants {
 	public static final int INVALID_FIELDS_ERROR_CODE = 390;
 
 	public static final int NO_SUCH_ACCOUNT_ERROR_CODE = 212;
+	
+	public static final int ONLY_SOCIAL_SIGN_IN_ERROR_CODE = 540;
 
 	public static final String SOCIAL_PROVIDER = "SOCIAL_PROVIDER";
 

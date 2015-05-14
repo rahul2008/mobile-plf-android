@@ -27,6 +27,7 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler {
 		ForgotPasswordFailureInfo forgotPasswordFailureInfo = new ForgotPasswordFailureInfo();
 		forgotPasswordFailureInfo.setError(error);
 		handleAccountExistance(error, forgotPasswordFailureInfo);
+		handleOnlySocialSignIn(error, forgotPasswordFailureInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(null, null, error);
 		int getError = errorMapping.checkFogetPassWordError();
 		forgotPasswordFailureInfo.setErrorCode(getError);
@@ -52,10 +53,30 @@ public class ForgotPassword implements Jump.ForgotPasswordResultHandler {
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 	
+	
+	
+	private void handleOnlySocialSignIn(ForgetPasswordError error,
+			ForgotPasswordFailureInfo forgotPasswordFailureInfo) {
+		//{"stat":"error","code":540,"error_description":"an error was triggered in the flow","error":"triggered_error","request_id":"wy9phq44563h722z","message":"that account is social signin only"}
+		
+		if (null != error.captureApiError && null != error.captureApiError.error
+		        && error.captureApiError.code==RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE) {
+			try {
+				JSONObject object = error.captureApiError.raw_response;
+				
+					if (!object.isNull("message")) {
+						forgotPasswordFailureInfo.setEmailErrorMessage(object.getString("message"));
+					}
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
 	private String getErrorMessage(JSONArray jsonArray)
 	        throws JSONException {
 		if (null == jsonArray) {

@@ -10,12 +10,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
 import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XButton;
@@ -24,11 +27,15 @@ import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
 import com.philips.cl.di.reg.ui.traditional.RegistrationBaseFragment;
+import com.philips.cl.di.reg.ui.utils.EmailValidator;
+import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener, onUpdateListener,TraditionalLoginHandler, OnClickListener{
+public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener, onUpdateListener
+,TraditionalLoginHandler,ForgotPasswordHandler,OnClickListener{
 
 	private TextView mTvAccountMergeSignIn;
 	private LinearLayout mLlUsedEMailAddressContainer;
@@ -39,15 +46,17 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	private XButton mBtnForgotPassword;
 	private XEmail mEtEmail;
 	private XPassword mEtPassword;
-	private ProgressBar mPbSpinner;
+	private ProgressBar mPbMergeSpinner;
+	private ProgressBar mPbForgotPaswwordSpinner;
 	private String mMergeToken;
+	private User mUser;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"SocialMergeAccountFragment : onCreateView");
+				"MergeAccountFragment : onCreateView");
 		EventHelper.getInstance().registerEventNotification(
 				RegConstants.IS_ONLINE, this);
 		EventHelper.getInstance().registerEventNotification(
@@ -63,7 +72,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onDestroy() {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"SocialMergeAccountFragment : onDestroy");
+				"MergeAccountFragment : onDestroy");
 		EventHelper.getInstance().unregisterEventNotification(
 				RegConstants.IS_ONLINE, this);
 		EventHelper.getInstance().unregisterEventNotification(
@@ -80,7 +89,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mBtnMerge.setOnClickListener(this);
 		
 		mBtnForgotPassword = (XButton)view.findViewById(R.id.btn_reg_forgot_password);
-		
+		mBtnForgotPassword.setOnClickListener(this);
 		mTvAccountMergeSignIn = (TextView) view
 				.findViewById(R.id.tv_reg_account_merge_sign_in);
 		mLlUsedEMailAddressContainer = (LinearLayout) view
@@ -97,12 +106,21 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnUpdateListener(this);
 		
-		mPbSpinner = (ProgressBar) view
+		mPbMergeSpinner = (ProgressBar) view
 				.findViewById(R.id.pb_reg_merge_sign_in_spinner);
-		mPbSpinner.setClickable(false);
-		mPbSpinner.setEnabled(true);
-		mMergeToken = bundle.getString(RegConstants.REGISTER_MERGE_TOKEN);
+		mPbMergeSpinner.setClickable(false);
+		mPbMergeSpinner.setEnabled(true);
+		
+		mPbForgotPaswwordSpinner = (ProgressBar) view
+				.findViewById(R.id.pb_reg_forgot_spinner);
+		mPbForgotPaswwordSpinner.setClickable(false);
+		mPbForgotPaswwordSpinner.setEnabled(true);
+		
+		
+		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 		setViewParams(getResources().getConfiguration());
+		
+		 mUser = new User(getRegistrationMainActivity().getApplicationContext());
 	}
 	
 	@Override
@@ -115,27 +133,60 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			}
 			getView().requestFocus();
 			mergeAccount();
-		}	
+		}else if (v.getId() == R.id.btn_reg_forgot_password) {
+			resetPassword();
+		}
 	}
 	
 	private void mergeAccount() {
-		User user = new User(getRegistrationMainActivity().getApplicationContext());
+		
 		if (NetworkUtility.getInstance().isOnline()) {
-			showSpinner();
-			user.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(), mMergeToken, this);
+			showMergeSpinner();
+			mUser.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(), mMergeToken, this);
 		} else {
 			mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
 		}
 	}
 	
-	private void showSpinner() {
-		mPbSpinner.setVisibility(View.VISIBLE);
+	private void resetPassword() {
+		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail
+				.getEmailId().toString());
+		if (!validatorResult) {
+			mEtEmail.showInvalidAlert();
+		} else {
+			if (NetworkUtility.getInstance().isOnline()) {
+				if (mUser != null) {
+					showForgotPasswordSpinner();
+					mEtEmail.clearFocus();
+					mEtPassword.clearFocus();
+					mBtnMerge.setEnabled(false);
+					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
+				}
+
+			} else {
+				mRegError.setError(getString(R.string.NoNetworkConnection));
+			}
+		}
+	}
+	
+	private void showMergeSpinner() {
+		mPbMergeSpinner.setVisibility(View.VISIBLE);
 		mBtnMerge.setEnabled(false);
 	}
 
-	private void hideSpinner() {
-		mPbSpinner.setVisibility(View.INVISIBLE);
+	private void hideMergeSpinner() {
+		mPbMergeSpinner.setVisibility(View.INVISIBLE);
 		mBtnMerge.setEnabled(true);
+	}
+	
+	private void showForgotPasswordSpinner() {
+		mPbForgotPaswwordSpinner.setVisibility(View.VISIBLE);
+		mBtnForgotPassword.setEnabled(false);
+	}
+
+	private void hideForgotPasswordSpinner() {
+		mPbForgotPaswwordSpinner.setVisibility(View.INVISIBLE);
+		mBtnForgotPassword.setEnabled(true);
 	}
 	
 	private void handleUiErrorState() {
@@ -160,7 +211,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			mRegError.hideError();
 		} else {
 			mBtnMerge.setEnabled(false);
-			mBtnForgotPassword.setEnabled(false);
 		}
 	}
 	
@@ -203,13 +253,13 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	@Override
 	public void onLoginSuccess() {
-		hideSpinner();
+		hideMergeSpinner();
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
 	}
 
 	@Override
 	public void onLoginFailedWithError(SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
-		 hideSpinner();
+		 hideMergeSpinner();
 		
 		if (signInTraditionalFailuerInfo.getError().captureApiError.code == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
 
@@ -243,6 +293,55 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 		mRegError.setError(signInTraditionalFailuerInfo
 				.getErrorDescription());
+	}
+
+	@Override
+	public void onSendForgotPasswordSuccess() {
+		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity());
+		hideForgotPasswordSpinner();
+		mRegError.hideError();
+	}
+
+	@Override
+	public void onSendForgotPasswordFailedWithError(
+			ForgotPasswordFailureInfo forgotPasswordFailureInfo) {
+		hideForgotPasswordSpinner();
+		
+		if(forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE){
+			mEtEmail.setErrDescription(forgotPasswordFailureInfo
+					.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();
+			mRegError.setError(forgotPasswordFailureInfo
+					.getEmailErrorMessage());
+			return;
+			
+		}
+		
+		if (forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.NO_SUCH_ACCOUNT_ERROR_CODE) {
+
+			if (null != forgotPasswordFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(forgotPasswordFailureInfo
+						.getEmailErrorMessage());
+				mEtEmail.showInvalidAlert();
+			}
+
+			mRegError.setError(forgotPasswordFailureInfo.getErrorDescription());
+
+		} else {
+
+			JanrainErrorMessage errorMessage = new JanrainErrorMessage(
+					getActivity());
+			String message = errorMessage.getError(forgotPasswordFailureInfo
+					.getErrorCode());
+			mRegError.setError(message);
+			updateUiStatus();
+			mEtPassword.setErrDescription(message);
+			mEtEmail.setErrDescription(message);
+			mEtEmail.showInvalidAlert();
+			mEtPassword.showJanarainError();
+
+		}
+		
 	}
 
 }
