@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
 import java.util.Locale;
@@ -10,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -27,21 +29,20 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationActivity extends FragmentActivity implements
-		EventListener, OnClickListener {
+public class RegistrationActivity extends FragmentActivity implements EventListener,
+        OnClickListener {
 
 	private FragmentManager mFragmentManager = null;
 
 	private final String TAG = TextView.class.getSimpleName();
 
 	private static final boolean VERIFICATION_SUCCESS = true;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
 		setContentView(R.layout.activity_registration);
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
@@ -52,6 +53,15 @@ public class RegistrationActivity extends FragmentActivity implements
 	public void onBackPressed() {
 		hideKeyBoard();
 		handleBackStack();
+	}
+
+	/*
+	 * @see android.support.v4.app.FragmentActivity#onDestroy()
+	 */
+	@Override
+	protected void onDestroy() {
+		RegistrationHelper.getInstance().unregisterListener(getApplicationContext());
+		super.onDestroy();
 	}
 
 	private void handleBackStack() {
@@ -71,10 +81,8 @@ public class RegistrationActivity extends FragmentActivity implements
 
 	public void loadFirstFragment() {
 		try {
-			FragmentTransaction fragmentTransaction = mFragmentManager
-					.beginTransaction();
-			fragmentTransaction.replace(R.id.fl_reg_fragment_container,
-					new HomeFragment());
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
 			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
@@ -83,10 +91,8 @@ public class RegistrationActivity extends FragmentActivity implements
 
 	public void addFragment(Fragment fragment) {
 		try {
-			FragmentTransaction fragmentTransaction = mFragmentManager
-					.beginTransaction();
-			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment,
-					fragment.getTag());
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
@@ -111,23 +117,24 @@ public class RegistrationActivity extends FragmentActivity implements
 	public void addWelcomeFragmentOnVerification() {
 		WelcomeFragment welcomeFragment = new WelcomeFragment();
 		Bundle welcomeFragmentBundle = new Bundle();
-		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS,
-				VERIFICATION_SUCCESS);
+		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
 		welcomeFragment.setArguments(welcomeFragmentBundle);
 		addFragment(welcomeFragment);
 	}
-	
-	public void addAlmostDoneFragment(JSONObject preFilledRecord,String provider, String registrationToken) {
+
+	public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,
+	        String registrationToken) {
 		AlmostDoneFragment socialAlmostDoneFragment = new AlmostDoneFragment();
 		Bundle socialAlmostDoneFragmentBundle = new Bundle();
-		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR, preFilledRecord.toString());
+		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_TWO_STEP_ERROR,
+		        preFilledRecord.toString());
 		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
-		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_REGISTRATION_TOKEN, registrationToken);
+		socialAlmostDoneFragmentBundle.putString(RegConstants.SOCIAL_REGISTRATION_TOKEN,
+		        registrationToken);
 		socialAlmostDoneFragment.setArguments(socialAlmostDoneFragmentBundle);
 		addFragment(socialAlmostDoneFragment);
 	}
-	
-	
+
 	public void addMergeAccountFragment(String registrationToken, String provider) {
 		MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
 		Bundle mergeFragmentBundle = new Bundle();
@@ -136,15 +143,14 @@ public class RegistrationActivity extends FragmentActivity implements
 		mergeAccountFragment.setArguments(mergeFragmentBundle);
 		addFragment(mergeAccountFragment);
 	}
-	
+
 	@Override
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
 			if (!RegistrationHelper.isJanrainIntialized()) {
-				RegistrationHelper registrationSettings = RegistrationHelper
-						.getInstance();
-				registrationSettings.intializeRegistrationSettings(
-						Janrain.REINITIALIZE, this, Locale.getDefault());
+				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
+				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
+				        Locale.getDefault());
 			}
 		}
 	}
@@ -157,8 +163,7 @@ public class RegistrationActivity extends FragmentActivity implements
 	private void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-					.getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}
 	}
 
@@ -173,5 +178,5 @@ public class RegistrationActivity extends FragmentActivity implements
 			onBackPressed();
 		}
 	}
-	
+
 }

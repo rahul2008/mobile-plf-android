@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.settings;
 
 import java.util.Locale;
@@ -23,9 +24,13 @@ public class RegistrationHelper {
 	public static boolean mJanrainIntialized = false;
 
 	private static RegistrationHelper mRegistrationHelper = null;
+
 	private EvalRegistrationSettings mEvalRegistrationSettings;
+
 	private DevRegistrationSettings mDevRegistrationSettings;
+
 	private ProdRegistrationSettings mProdRegistrationSettings;
+
 	private RegistrationSettings mRegistrationSettings;
 
 	public enum Janrain {
@@ -68,19 +73,18 @@ public class RegistrationHelper {
 			if (intent != null) {
 				Bundle extras = intent.getExtras();
 				RLog.i(RLog.ACTIVITY_LIFECYCLE,
-						"janrainStatusReceiver, intent = " + intent.toString());
-				if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent
-						.getAction())) && (null != extras)) {
+				        "janrainStatusReceiver, intent = " + intent.toString());
+				if ((Jump.JR_DOWNLOAD_FLOW_SUCCESS.equalsIgnoreCase(intent.getAction()))
+				        && (null != extras)) {
 					mJanrainIntialized = true;
 
-					EventHelper.getInstance().notifyEventOccurred(
-							RegConstants.JANRAIN_INIT_SUCCESS);
-				} else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW
-						.equalsIgnoreCase(intent.getAction())
-						&& (extras != null)) {
+					EventHelper.getInstance()
+					        .notifyEventOccurred(RegConstants.JANRAIN_INIT_SUCCESS);
+				} else if (Jump.JR_FAILED_TO_DOWNLOAD_FLOW.equalsIgnoreCase(intent.getAction())
+				        && (extras != null)) {
 
-					EventHelper.getInstance().notifyEventOccurred(
-							RegConstants.JANRAIN_INIT_FAILURE);
+					EventHelper.getInstance()
+					        .notifyEventOccurred(RegConstants.JANRAIN_INIT_FAILURE);
 
 					mJanrainIntialized = false;
 				}
@@ -90,79 +94,72 @@ public class RegistrationHelper {
 
 	/*
 	 * Initialize Janrain
-	 * 
 	 * @param isInitialized true for initialize and false for reinitialize
 	 * Janrain
 	 */
-	public void intializeRegistrationSettings(Janrain isInitialized,
-			Context context, Locale locale) {
+	public void intializeRegistrationSettings(Janrain isInitialized, Context context, Locale locale) {
 		mJanrainIntialized = false;
 		mContext = context.getApplicationContext();
 		NetworkUtility.getInstance().checkIsOnline(mContext);
 
-		IntentFilter flowFilter = new IntentFilter(
-				Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
 		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-		LocalBroadcastManager.getInstance(context).registerReceiver(
-				janrainStatusReceiver, flowFilter);
+		LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
+		        flowFilter);
 
-		String mClientId = mContext.getResources()
-				.getString(R.string.client_id);
-		String mMicrositeId = mContext.getResources().getString(
-				R.string.microsite_id);
-		String mRegistrationType = mContext.getResources().getString(
-				R.string.registration_type);
+		String mClientId = mContext.getResources().getString(R.string.client_id);
+		String mMicrositeId = mContext.getResources().getString(R.string.microsite_id);
+		String mRegistrationType = mContext.getResources().getString(R.string.registration_type);
 		boolean mIsInitialize = isInitialized.getValue();
 		String mLocale = locale.toString();
 
 		if (NetworkUtility.getInstance().isOnline()) {
 
 			if (mRegistrationType.equalsIgnoreCase("EVAL"))
-				initEvalSettings(mContext, mClientId, mMicrositeId,
-						mRegistrationType, mIsInitialize, mLocale);
+				initEvalSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
+				        mIsInitialize, mLocale);
 
 			else if (mRegistrationType.equalsIgnoreCase("PROD"))
-				initProdSettings(mContext, mClientId, mMicrositeId,
-						mRegistrationType, mIsInitialize, mLocale);
+				initProdSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
+				        mIsInitialize, mLocale);
 
 			else if (mRegistrationType.equalsIgnoreCase("DEV"))
-				initDevSettings(mContext, mClientId, mMicrositeId,
-						mRegistrationType, mIsInitialize, mLocale);
+				initDevSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
+				        mIsInitialize, mLocale);
 		}
+
 	}
 
-	private void initEvalSettings(Context context, String captureClientId,
-			String microSiteId, String registrationType, boolean isintialize,
-			String locale) {
+	public void unregisterListener(Context context) {
+		LocalBroadcastManager.getInstance(context).unregisterReceiver(janrainStatusReceiver);
+	}
+
+	private void initEvalSettings(Context context, String captureClientId, String microSiteId,
+	        String registrationType, boolean isintialize, String locale) {
 
 		mEvalRegistrationSettings = new EvalRegistrationSettings();
 		mRegistrationSettings = mEvalRegistrationSettings;
-		mEvalRegistrationSettings.intializeRegistrationSettings(context,
-				captureClientId, microSiteId, registrationType, isintialize,
-				locale);
+		mEvalRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
+		        microSiteId, registrationType, isintialize, locale);
 
 	}
 
-	private void initDevSettings(Context context, String captureClientId,
-			String microSiteId, String registrationType, boolean isintialize,
-			String locale) {
+	private void initDevSettings(Context context, String captureClientId, String microSiteId,
+	        String registrationType, boolean isintialize, String locale) {
 
 		mDevRegistrationSettings = new DevRegistrationSettings();
 		mRegistrationSettings = mDevRegistrationSettings;
-		mDevRegistrationSettings.intializeRegistrationSettings(context,
-				captureClientId, microSiteId, registrationType, isintialize,
-				locale);
+		mDevRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
+		        microSiteId, registrationType, isintialize, locale);
 	}
 
-	private void initProdSettings(Context context, String captureClientId,
-			String microSiteId, String registrationType, boolean isintialize,
-			String locale) {
+	private void initProdSettings(Context context, String captureClientId, String microSiteId,
+	        String registrationType, boolean isintialize, String locale) {
 
 		mProdRegistrationSettings = new ProdRegistrationSettings();
 		mRegistrationSettings = mProdRegistrationSettings;
-		mProdRegistrationSettings.intializeRegistrationSettings(context,
-				captureClientId, microSiteId, registrationType, isintialize,
-				locale);
+		mProdRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
+		        microSiteId, registrationType, isintialize, locale);
 	}
 
 	public RegistrationSettings getRegistrationSettings() {
