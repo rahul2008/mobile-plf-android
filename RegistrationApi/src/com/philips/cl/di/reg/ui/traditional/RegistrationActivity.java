@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -153,11 +152,6 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 				        Locale.getDefault());
 			}
 		}
-	}
-
-	@Override
-	public void raiseEvent(String event) {
-		// Do nothing
 	}
 
 	private void hideKeyBoard() {
