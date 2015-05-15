@@ -57,9 +57,11 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.FILTER_STATUS);
 		initFilterStatusViews();
-		super.onActivityCreated(savedInstanceState);
+		ViewGroup scrollView = (ViewGroup) getView().findViewById(R.id.scrollView);
+		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 	@Override

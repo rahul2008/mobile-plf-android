@@ -2,8 +2,6 @@ package com.philips.cl.di.dev.pa.buyonline;
 
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.R;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,6 +11,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.telephony.TelephonyManager;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class AppUtils{
 	

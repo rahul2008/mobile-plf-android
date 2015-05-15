@@ -2,6 +2,7 @@
 package com.philips.cl.di.dev.pa.wxapi;
 
 import android.os.Bundle;
+
 import com.umeng.socialize.weixin.view.WXCallbackActivity;
 
 public class WXEntryActivity extends WXCallbackActivity {

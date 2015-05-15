@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -12,31 +12,33 @@
         android:focusableInTouchMode="true"
         android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:lineSpacingExtra="2dp"
             android:text="@string/step3_off_3"
             android:textColor="@color/title_gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_instruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/ews_step3_title"
+            android:lineSpacingExtra="2dp"
             android:text="@string/step3_instruction"
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_password_lb"
             android:layout_width="match_parent"
@@ -44,6 +46,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/ews_step3_instruction"
             android:layout_marginTop="8dp"
+            android:lineSpacingExtra="2dp"
             android:text="@string/step3_msg1"
             android:textColor="@color/title_gray"
             android:textSize="16sp"
@@ -85,20 +88,21 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/password_visible" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_password_enable_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/show_password_label"
                 android:textColor="@color/philips_blue"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_message2"
             android:layout_width="match_parent"
@@ -106,6 +110,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/ews_password_layout"
             android:layout_marginBottom="4dp"
+            android:lineSpacingExtra="2dp"
             android:text="@string/step3_msg2"
             android:textColor="@color/philips_blue"
             android:textSize="14sp"
@@ -125,13 +130,14 @@
             android:textColor="@color/philips_blue"
             android:textSize="14sp"
             custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
         <ImageView
-        android:id="@+id/place_name_separator_up"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_above="@id/ews_step3_edit_name_btn"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+            android:id="@+id/place_name_separator_up"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@id/ews_step3_edit_name_btn"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <EditText
             android:id="@+id/ews_step3_place_name_edittxt"
@@ -153,14 +159,14 @@
             android:textColor="@color/blue_list_item"
             android:textSize="14sp" >
         </EditText>
-        
+
         <ImageView
-        android:id="@+id/place_name_separator_down"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/ews_step3_edit_name_btn"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+            android:id="@+id/place_name_separator_down"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/ews_step3_edit_name_btn"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <RelativeLayout
             android:id="@+id/ews_step3_adv_config_layout"
@@ -179,8 +185,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/clickable_image_bg_selector"
-                android:src="@drawable/cross_close"
-                android:contentDescription="@string/img_description" />
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/cross_close" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -214,7 +220,7 @@
                 android:textSize="14sp" >
             </EditText>
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_subnet_lb"
                 android:layout_width="wrap_content"
@@ -245,7 +251,7 @@
                 android:textSize="14sp" >
             </EditText>
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_router_lb"
                 android:layout_width="wrap_content"
@@ -277,7 +283,7 @@
                 android:textSize="14sp" >
             </EditText>
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add_lb"
                 android:layout_width="wrap_content"
@@ -289,7 +295,7 @@
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add"
                 android:layout_width="wrap_content"
@@ -297,6 +303,7 @@
                 android:layout_below="@+id/ews_step3_router_edittxt"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/ews_step3_wifi_add_lb"
+                android:lineSpacingExtra="2dp"
                 android:text=""
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
@@ -340,7 +347,7 @@
                 android:padding="12dp"
                 android:src="@drawable/ews_setting_selector" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_adv_config_lb"
                 android:layout_width="match_parent"
@@ -352,8 +359,6 @@
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
         </LinearLayout>
-        
-        
     </RelativeLayout>
 
 </ScrollView>

@@ -2,11 +2,11 @@ package com.philips.cl.di.dicomm.communication;
 
 import java.util.ArrayList;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class RequestQueue {
 
