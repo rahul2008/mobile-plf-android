@@ -1,9 +1,11 @@
 package com.philips.cl.di.dev.pa.buyonline;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -17,6 +19,8 @@ public class ExpressionShareActivity extends BaseActivity {
 		setContentView(R.layout.share_expression_activity);
 		setTitleText("表情分享");
 		initPage();
+		ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
+		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	private void setTitleText(String title){

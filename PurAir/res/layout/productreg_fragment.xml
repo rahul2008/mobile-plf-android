@@ -8,78 +8,84 @@
         style="@style/titlebar"
         layout="@layout/titlebar_basic" />
 
-    <com.philips.cl.di.dev.pa.buyonline.SquareImageView
-        android:id="@+id/productreg_ad_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:src="@drawable/ad_reg"
-        android:visibility="gone"
-        app:height_weight="50"
-        app:width_weight="320" />
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/containerLL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
+        android:orientation="vertical" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/my_register_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/register_products"
-            android:textColor="#444444"
-            android:textSize="15sp"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
+        <com.philips.cl.di.dev.pa.buyonline.SquareImageView
+            android:id="@+id/productreg_ad_view"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:src="@drawable/ad_reg"
+            android:visibility="gone"
+            app:height_weight="50"
+            app:width_weight="320" />
 
-        <ListView
-            android:id="@+id/productreg_lately_lv"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/my_register_products"
-            android:layout_above="@+id/productreg_button_ll"
-            android:background="#00000000"
-            android:cacheColorHint="#00000000"
-            android:divider="#CCCCCC"
-            android:dividerHeight="1px"
-            android:listSelector="#00000000"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:scrollbarStyle="outsideOverlay" >
-        </ListView>
-
-        <LinearLayout
-            android:id="@+id/productreg_button_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/productreg_reg_btn"
-                style="@style/btn_blue_text"
-                android:layout_weight="1"
-                android:text="@string/list_item_prod_reg"
+                android:id="@+id/my_register_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/register_products"
+                android:textColor="#444444"
+                android:textSize="15sp"
                 custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/productreg_wining_btn"
-                style="@style/btn_blue_text"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="@string/list_of_winner"
-                android:visibility="visible"
-                custom:fontAssetName="fonts/centralesanslight.ttf" />
-        </LinearLayout>
-   </RelativeLayout>
+            <ListView
+                android:id="@+id/productreg_lately_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/productreg_button_ll"
+                android:layout_below="@+id/my_register_products"
+                android:cacheColorHint="#00000000"
+                android:divider="#CCCCCC"
+                android:dividerHeight="1px"
+                android:listSelector="#00000000"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:scrollbarStyle="outsideOverlay" >
+            </ListView>
+
+            <LinearLayout
+                android:id="@+id/productreg_button_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/productreg_reg_btn"
+                    style="@style/btn_blue_text"
+                    android:layout_weight="1"
+                    android:text="@string/list_item_prod_reg"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/productreg_wining_btn"
+                    style="@style/btn_blue_text"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:text="@string/list_of_winner"
+                    android:visibility="visible"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

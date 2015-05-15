@@ -16,15 +16,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +61,9 @@ public class ProductRegActivity extends BaseActivity{
 			return;
 		}
 		initView();
+		
+		ViewGroup container = (ScrollView) findViewById(R.id.scrollView);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	private void initView() {

@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.buyonline;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -49,6 +51,10 @@ public class BuyOnlineFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		MetricsTracker.trackPage("BuyOnline");
 		initView();
+		
+		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+		
 		process();
 		mainActivity = (MainActivity) getActivity();
 		super.onActivityCreated(savedInstanceState);

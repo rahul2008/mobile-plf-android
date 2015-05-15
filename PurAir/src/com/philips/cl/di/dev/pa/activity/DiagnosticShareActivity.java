@@ -4,11 +4,15 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -28,8 +32,9 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.umeng.socialize.view.ShareActivity;
 
-public class DiagnosticShareActivity extends Activity implements OnClickListener, IWeiboHandler.Response  {
+public class DiagnosticShareActivity extends ShareBaseActivity implements OnClickListener, IWeiboHandler.Response  {
 	
 	private char lineSeparator='\n';
 	private char commaSeparator=',';
@@ -42,6 +47,9 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.diagonistic_share_activity);
+		
+		ViewGroup container = (LinearLayout) findViewById(R.id.containerLL);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
 		backButton.setVisibility(View.VISIBLE);

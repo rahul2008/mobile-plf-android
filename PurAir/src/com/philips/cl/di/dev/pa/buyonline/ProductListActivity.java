@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,6 +44,10 @@ public class ProductListActivity  extends BaseActivity implements OnClickListene
 		MetricsTracker.trackPage("ProductRegistration:ProductsList");
 		inflater = LayoutInflater.from(this);
 		initView();
+		
+		ViewGroup container = (LinearLayout) findViewById(R.id.containerLL);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+		
 		getData();
 	}
 

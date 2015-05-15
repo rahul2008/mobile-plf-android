@@ -3,14 +3,17 @@ package com.philips.cl.di.dev.pa.buyonline;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -27,6 +30,10 @@ public class WebActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.web_activity);
 		initPage();
+		
+//		ViewGroup container = (LinearLayout) findViewById(R.id.shadowLL);
+//		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+		
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null && bundle.getString("url") != null) {
 			webView.loadUrl(bundle.getString("url"));

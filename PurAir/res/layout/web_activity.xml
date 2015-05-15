@@ -7,6 +7,13 @@
         style="@style/titlebar"
         layout="@layout/titlebar_web" />
 
+    <LinearLayout
+        android:id="@+id/shadowLL"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E6EAF1"
+        android:orientation="vertical" />
+
     <WebView
         android:id="@+id/web_wv"
         android:layout_width="match_parent"
@@ -23,35 +30,35 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal" >
 
             <ImageView
                 android:id="@+id/web_pre_iv"
-                android:layout_width="wrap_content" 
+                android:layout_width="wrap_content"
                 android:layout_height="26dp"
+                android:contentDescription="@string/img_description"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:src="@drawable/web_pre" 
-                android:contentDescription="@string/img_description" />
+                android:src="@drawable/web_pre" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="horizontal" >
 
             <ImageView
-               	android:id="@+id/web_next_iv"
+                android:id="@+id/web_next_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="26dp"
+                android:contentDescription="@string/img_description"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:src="@drawable/web_next"
-                android:contentDescription="@string/img_description" />
+                android:src="@drawable/web_next" />
         </LinearLayout>
     </LinearLayout>
 

@@ -8,6 +8,7 @@
         layout="@layout/titlebar_basic_back" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         style="@style/fillParent"
         android:scrollbars="vertical" >
 
