@@ -15,6 +15,7 @@
         android:src="@drawable/center_plus_2x" />
 
     <RelativeLayout
+        android:id="@+id/titleRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ews_nav_bar_2x"
@@ -44,6 +45,12 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/info" />
     </RelativeLayout>
+    <LinearLayout 
+        android:id="@+id/dropShadowView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleRL"
+        android:orientation="vertical"/>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

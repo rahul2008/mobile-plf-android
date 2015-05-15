@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -53,6 +55,9 @@ public class AddPurifierFragment extends BaseFragment implements
 		btnGotoShop.setOnClickListener(this);
 		ImageButton infoImgBtn = (ImageButton) getView().findViewById(R.id.add_new_purifier_info_img_btn);
 		infoImgBtn.setOnClickListener(this);
+		
+		ViewGroup container = (LinearLayout) getView().findViewById(R.id.dropShadowView);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 	@Override
