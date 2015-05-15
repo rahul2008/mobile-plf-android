@@ -10,7 +10,7 @@
     <LinearLayout
         android:id="@+id/shadowLL"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="3dp"
         android:background="#E6EAF1"
         android:orientation="vertical" />
 
