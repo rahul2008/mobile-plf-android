@@ -18,6 +18,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -97,6 +98,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private String[] descriptions;
 
 	private CustomGeoAdapter adapter;
+	private Handler mHandler = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,6 +109,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 				.getStatus() == AsyncTask.Status.FINISHED)) {
 			mCdlsRequestTask.execute();
 		}
+		mHandler = new Handler();
 		if (mView != null) {
 			ViewGroup parent = (ViewGroup) mView.getParent();
 			if (parent != null)
@@ -212,19 +215,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	}
 
 	private void initView() {
+
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
-		mMap.setTrafficEnabled(true);
-
-		UiSettings settings = mMap.getUiSettings();
-		settings.setAllGesturesEnabled(true);
-		settings.setCompassEnabled(true);
-		settings.setMyLocationButtonEnabled(true);
-		settings.setRotateGesturesEnabled(true);
-		settings.setScrollGesturesEnabled(true);
-		settings.setTiltGesturesEnabled(true);
-		settings.setZoomControlsEnabled(true);
-		settings.setZoomGesturesEnabled(true);
+		mHandler.postDelayed(mMapViewRunnable, 2000l);
 	}
 
 	private class MarkerRunnable implements Runnable {
@@ -358,6 +352,30 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	// public void moveOnClick(View v) { // move camera
 	// mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BANGALORE, 15));
 	// }
+
+	Runnable mMapViewRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+
+			if (mMap == null) {
+				mHandler.postDelayed(mMapViewRunnable, 1000l);
+			} else {
+				mMap.setTrafficEnabled(true);
+
+				UiSettings settings = mMap.getUiSettings();
+				settings.setAllGesturesEnabled(true);
+				settings.setCompassEnabled(true);
+				settings.setMyLocationButtonEnabled(true);
+				settings.setRotateGesturesEnabled(true);
+				settings.setScrollGesturesEnabled(true);
+				settings.setTiltGesturesEnabled(true);
+				settings.setZoomControlsEnabled(true);
+				settings.setZoomGesturesEnabled(true);
+				mHandler.removeCallbacks(mMapViewRunnable);
+			}
+		}
+	};
 
 	public void zoomToOnClick(View v) {
 		// zoom to level 10, animating with a duration of 3 seconds
@@ -615,6 +633,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	public void onStop() {
 		super.onStop();
 		locationMgr.removeUpdates(locationListener);
+		mHandler.removeCallbacks(mMapViewRunnable);
+		mHandler = null;
 	}
 
 	@Override
