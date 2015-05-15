@@ -14,44 +14,52 @@
         android:orientation="vertical"
         android:paddingTop="15dp" >
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/buyonline_item_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="@color/philips_blue_dark"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/buyonline_item_typename_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="#666666"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/buyonline_item_publishtime_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="#666666"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/buyonline_item_buy_tv"
             style="@style/btn_blue_text"
-            android:text="立即购买"
             android:layout_gravity="left"
-            android:layout_marginTop="5dp" />
+            android:layout_marginTop="5dp"
+            android:text="立即购买"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
     <com.philips.cl.di.dev.pa.buyonline.SquareImageView
         android:id="@+id/buyonline_item_siv"
         android:layout_width="80dp"
-        android:layout_marginRight="5dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
         app:height_weight="781"
         app:width_weight="400" />
 

@@ -7,7 +7,8 @@
     android:paddingRight="16dp"
     android:paddingTop="24dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
+        android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_header"
         android:layout_width="wrap_content"
@@ -19,7 +20,8 @@
         android:textSize="24sp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
+        android:lineSpacingExtra="2dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_message"
         android:layout_width="wrap_content"

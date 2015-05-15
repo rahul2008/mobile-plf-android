@@ -19,7 +19,7 @@
 
             <!-- part1 -->
 
-            <TextView
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                 style="@style/expression_share_label_tv"
                 android:text="飞利浦净化丸" />
 
@@ -37,7 +37,7 @@
                     android:src="@drawable/expression_2" />
             </LinearLayout>
 
-            <TextView style="@style/line_solid_horizontal" />
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  style="@style/line_solid_horizontal" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -53,7 +53,7 @@
                     android:src="@drawable/expression_4" />
             </LinearLayout>
 
-            <TextView style="@style/line_solid_horizontal" />
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  style="@style/line_solid_horizontal" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -70,7 +70,7 @@
             </LinearLayout>
             <!-- part2 -->
 
-            <TextView
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                 style="@style/expression_share_label_tv"
                 android:text="飞利浦空净神器系列" />
 
@@ -88,7 +88,7 @@
                     android:src="@drawable/expression_8" />
             </LinearLayout>
 
-            <TextView style="@style/line_solid_horizontal" />
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  style="@style/line_solid_horizontal" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -104,7 +104,7 @@
                     android:src="@drawable/expression_10" />
             </LinearLayout>
 
-            <TextView style="@style/line_solid_horizontal" />
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  style="@style/line_solid_horizontal" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -122,7 +122,7 @@
 
             <!-- part3 -->
 
-            <TextView
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                 style="@style/expression_share_label_tv"
                 android:text="飞利浦净化士" />
 
@@ -140,7 +140,7 @@
                     android:src="@drawable/expression_14" />
             </LinearLayout>
 
-            <TextView style="@style/line_solid_horizontal" />
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  style="@style/line_solid_horizontal" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -156,7 +156,7 @@
                     android:src="@drawable/expression_16" />
             </LinearLayout>
 
-            <TextView style="@style/line_solid_horizontal" />
+            <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  style="@style/line_solid_horizontal" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -174,7 +174,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:padding="3dp"

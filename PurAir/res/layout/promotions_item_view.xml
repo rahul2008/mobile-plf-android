@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
             android:id="@+id/promotions_item_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
             android:textColor="#ff666666"
             android:textSize="14.0dip" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
             android:id="@+id/promotions_item_go_tv"
             style="@style/btn_blue_text"
             android:layout_gravity="center_vertical"

@@ -45,7 +45,7 @@
             android:gravity="center_vertical"
             android:singleLine="true" />
         
-        <TextView 
+        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf"  
             android:id="@+id/feedback_submit_tv"
             android:text="@string/submit"
             style="@style/btn_blue_text"

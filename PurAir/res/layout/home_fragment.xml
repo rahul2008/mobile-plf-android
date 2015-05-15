@@ -75,6 +75,8 @@
                         android:orientation="horizontal" >
 
                         <com.philips.cl.di.dev.pa.view.FontTextView
+							xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+							custom:fontAssetName="fonts/centralesanslight.ttf"
                             android:id="@+id/tv_healthy_air_always"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -167,6 +169,8 @@
                     android:visibility="gone" >
 
                     <com.philips.cl.di.dev.pa.view.FontTextView
+						xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+						custom:fontAssetName="fonts/centralesanslight.ttf"
                         android:id="@+id/lbl_take_tour"
                         android:layout_width="0dp"
                         android:layout_height="fill_parent"

@@ -13,7 +13,9 @@
             style="@style/sharemenu_item_icon"
             android:src="@drawable/share_weixin_circle" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView 
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
+            custom:fontAssetName="fonts/centralesanslight.ttf" 
             style="@style/menu_item_text"
             android:textColor="#FFFFFF"
             android:text="微信朋友圈分享" />
@@ -30,7 +32,7 @@
             style="@style/sharemenu_item_icon"
             android:src="@drawable/share_weinxin" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
             style="@style/menu_item_text"
             android:textColor="#FFFFFF"
             android:text="微信好友分享" />

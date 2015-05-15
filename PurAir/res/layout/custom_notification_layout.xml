@@ -17,7 +17,7 @@
         android:orientation="vertical" 
         android:layout_marginLeft="10dp">
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
             android:id="@+id/notification_progressbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:paddingLeft="4dp"
             android:text="@string/app_update_notif_title" />
         
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
             android:id="@+id/notification_progressbar_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

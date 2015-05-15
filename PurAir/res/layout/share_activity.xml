@@ -29,7 +29,7 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_weixin_circle" />
 
-                <TextView
+                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                     style="@style/menu_item_text"
                     android:text="@string/wechat_moments" />
             </LinearLayout>
@@ -46,7 +46,7 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_weinxin" />
 
-                <TextView
+                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                     style="@style/menu_item_text"
                     android:text="@string/wechat_friends" />
             </LinearLayout>
@@ -63,7 +63,7 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_weibo" />
 
-                <TextView
+                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                     style="@style/menu_item_text"
                     android:text="@string/sina_weibo" />
             </LinearLayout>
@@ -82,7 +82,7 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_email" />
 
-                <TextView
+                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
                     style="@style/menu_item_text"
                     android:text="@string/mail" />
             </LinearLayout>
