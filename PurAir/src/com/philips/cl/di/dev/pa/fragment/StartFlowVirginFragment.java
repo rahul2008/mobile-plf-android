@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import android.graphics.Color;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -10,7 +9,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -57,8 +55,8 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.INTRODUCTION_PAGE);
-		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+//		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
+//		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	@Override

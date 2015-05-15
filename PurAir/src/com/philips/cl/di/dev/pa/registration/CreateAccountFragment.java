@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.registration;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -64,6 +66,9 @@ public class CreateAccountFragment extends BaseFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPageStartUserRegistration("my_philips");
+		
+		ViewGroup container = (ScrollView) getView().findViewById(R.id.scrollView);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 	private void initViews(View view) {

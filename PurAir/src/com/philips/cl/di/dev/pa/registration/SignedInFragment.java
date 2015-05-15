@@ -1,11 +1,13 @@
 package com.philips.cl.di.dev.pa.registration;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -32,5 +34,12 @@ public class SignedInFragment extends BaseFragment {
 			}
 		});
 		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		ViewGroup container = (RelativeLayout) getView().findViewById(R.id.containerRL);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+		super.onActivityCreated(savedInstanceState);
 	}
 }

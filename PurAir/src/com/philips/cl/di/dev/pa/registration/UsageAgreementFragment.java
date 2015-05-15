@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.registration;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -80,6 +82,10 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.USAGE_AGREEMENT);
+		
+		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+		
 		mExpListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
 			
 			@Override
