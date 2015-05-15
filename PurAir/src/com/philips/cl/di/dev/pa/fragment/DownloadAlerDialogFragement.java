@@ -52,6 +52,7 @@ public class DownloadAlerDialogFragement extends DialogFragment {
 		button.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 		FontTextView tvHeader = (FontTextView) getView().findViewById(R.id.alert_dialog_title);
+		if(title.isEmpty()) tvHeader.setVisibility(View.GONE);
 		tvHeader.setText(title);
 
 		FontTextView tvMessage = (FontTextView) getView().findViewById(R.id.alert_dialog_msg);
