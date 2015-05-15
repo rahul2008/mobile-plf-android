@@ -355,7 +355,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		public void run() {
 
 			if (mMap == null) {
-				mHandler.postDelayed(mMapViewRunnable, 2000l);
+				mHandler.postDelayed(mMapViewRunnable, 1000l);
 			} else {
 				mMap.setTrafficEnabled(true);
 
