@@ -6,36 +6,38 @@
 
     <LinearLayout
         android:id="@+id/dialog_share_weixin_menu_1"
-        android:layout_height="55dp"
-        style="@style/menu_item" >
+        style="@style/menu_item"
+        android:layout_height="55dp" >
 
         <ImageView
             style="@style/sharemenu_item_icon"
             android:src="@drawable/share_weixin_circle" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView 
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
-            custom:fontAssetName="fonts/centralesanslight.ttf" 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             style="@style/menu_item_text"
+            android:text="微信朋友圈分享"
             android:textColor="#FFFFFF"
-            android:text="微信朋友圈分享" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
     <View style="@style/line_solid_horizontal" />
 
     <LinearLayout
         android:id="@+id/dialog_share_weixin_menu_2"
-        android:layout_height="55dp"
-        style="@style/menu_item" >
+        style="@style/menu_item"
+        android:layout_height="55dp" >
 
         <ImageView
             style="@style/sharemenu_item_icon"
             android:src="@drawable/share_weinxin" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             style="@style/menu_item_text"
+            android:text="微信好友分享"
             android:textColor="#FFFFFF"
-            android:text="微信好友分享" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </LinearLayout>

@@ -14,24 +14,28 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" 
-        android:layout_marginLeft="10dp">
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/notification_progressbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:paddingLeft="4dp"
-            android:text="@string/app_update_notif_title" />
-        
-        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+            android:text="@string/app_update_notif_title"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/notification_progressbar_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"/>
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <ProgressBar
             android:id="@+id/notification_progressbar"
@@ -39,8 +43,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/notification_progressbar_title"
-            android:padding="4dp"
             android:max="0"
+            android:padding="4dp"
             android:progress="0" />
     </RelativeLayout>
 

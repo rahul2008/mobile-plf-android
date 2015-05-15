@@ -29,9 +29,11 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_weixin_circle" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     style="@style/menu_item_text"
-                    android:text="@string/wechat_moments" />
+                    android:text="@string/wechat_moments"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
 
             <View style="@style/line_solid_horizontal" />
@@ -46,9 +48,11 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_weinxin" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     style="@style/menu_item_text"
-                    android:text="@string/wechat_friends" />
+                    android:text="@string/wechat_friends"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
 
             <View style="@style/line_solid_horizontal" />
@@ -63,15 +67,15 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_weibo" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     style="@style/menu_item_text"
-                    android:text="@string/sina_weibo" />
+                    android:text="@string/sina_weibo"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
 
-            
-
             <View style="@style/line_solid_horizontal" />
-            
+
             <LinearLayout
                 android:id="@+id/share_menu_4"
                 style="@style/menu_item"
@@ -82,9 +86,11 @@
                     style="@style/sharemenu_item_icon"
                     android:src="@drawable/share_email" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     style="@style/menu_item_text"
-                    android:text="@string/mail" />
+                    android:text="@string/mail"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
             </LinearLayout>
 
             <View style="@style/line_solid_horizontal" />

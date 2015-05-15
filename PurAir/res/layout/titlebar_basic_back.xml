@@ -18,7 +18,8 @@
             android:paddingTop="10dp"
             android:src="@drawable/title_back" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/centralesanslight.ttf" 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/title_text_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -26,8 +27,9 @@
             android:layout_weight="1"
             android:gravity="center"
             android:singleLine="true"
+            android:textColor="@color/philips_blue_dark"
             android:textSize="16sp"
-            android:textColor="@color/philips_blue_dark" />
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <ImageView
             android:id="@+id/title_right_btn"
