@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,7 +26,7 @@ public class AirQualityActivity extends BaseActivity implements OnClickListener 
 		setContentView(R.layout.air_quality_fragment);
 		initializeView();
 		ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-		setBackground(scrollView);
+		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	private void initializeView() {

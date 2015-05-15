@@ -10,7 +10,7 @@
         android:background="@drawable/ews_nav_bar_2x"
         android:minHeight="40dp"
         android:visibility="visible" >
-        
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/outdoor_location_edit_tv"
@@ -18,12 +18,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:clickable="true"
-            android:textColor="@color/blue_title"
-            android:textSize="@dimen/text_size_medium"
             android:layout_marginLeft="16dp"
             android:background="@drawable/list_item_selector"
+            android:clickable="true"
             android:text="@string/edit"
+            android:textColor="@color/blue_title"
+            android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -40,25 +40,26 @@
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
-    <ImageView
+    <LinearLayout
+        android:id="@+id/containLL"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-    <ListView
-        android:id="@+id/outdoor_locations_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@drawable/seperator_line_2x"
-        android:dividerHeight="0dp" >
-    </ListView>
+        <ListView
+            android:id="@+id/outdoor_locations_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@drawable/seperator_line_2x"
+            android:dividerHeight="0dp" >
+        </ListView>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -141,10 +140,11 @@ public class BaseActivity extends FragmentActivity implements AppUpdateNotificat
 		}
 	}
 	
-	protected void setBackground(ViewGroup view) {
+	@Override
+	public void setBackground(ViewGroup view, int resourceId, int color, float height) {
 		if (view != null) {
-			Bitmap src = BitmapFactory.decodeResource(getResources(), R.drawable.ews_nav_bar_2x);
-			Bitmap shadow = Utils.getShadow(src.getHeight(), src.getWidth(), Color.BLACK, .1F);
+			Bitmap src = BitmapFactory.decodeResource(getResources(), resourceId);
+			Bitmap shadow = Utils.getShadow(src.getHeight(), src.getWidth(), color, height);
 	
 			Drawable drawable = new BitmapDrawable(getResources(), shadow);
 			

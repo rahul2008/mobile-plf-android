@@ -7,6 +7,7 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,9 +45,9 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks,
-	OnConnectionFailedListener, CurrentCityAreaIdReceivedListener {
+OnConnectionFailedListener, CurrentCityAreaIdReceivedListener {
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
-	
+
 	private boolean isGooglePlayServiceAvailable;
 	private ListView mOutdoorLocationListView;
 	private Hashtable<String, Boolean> selectedItemHashtable;
@@ -54,49 +56,49 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private List<String> userCitiesId;
 	private List<OutdoorCityInfo> outdoorCityInfoList;
 	private FontTextView editTV;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		isGooglePlayServiceAvailable = Utils.isGooglePlayServiceAvailable();
 		Log.i(TAG, "isGooglePlayServiceAvailable " + isGooglePlayServiceAvailable);
 		selectedItemHashtable = new Hashtable<String, Boolean>();
-		
+
 		super.onCreate(savedInstanceState);
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView");
 		View view = inflater.inflate(R.layout.my_outdoor_locations_fragment, container, false);
-		
+
 		editTV = (FontTextView) view.findViewById(R.id.outdoor_location_edit_tv);
 		editTV.setText(getString(R.string.edit));
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
 		mOutdoorLocationListView.setOnTouchListener(DashboardUtil.getListViewTouchListener(mOutdoorLocationListView));
 		editTV.setOnClickListener(locationOnClickListener);
-		
+
 		return view;
 	}
-	
-	
+
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		userCitiesDatabase = new UserCitiesDatabase();
-		
+
 		userCitiesId = userCitiesDatabase.getAllCities();
 		outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCitiesId) ;
 		addCurrentLocationIntoList();
 		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
 		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
 		addAreaIdToCityList();
-		
+
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_LOCATIONS);
 		HomeFragment homeFragment = (HomeFragment) getParentFragment();
 		if (homeFragment != null) {
 			homeFragment.setUpdateMyLocationsListner(new UpdateMyLocationsListener() {
-				
+
 				@Override
 				public void onUpdate() {
 					if (getString(R.string.done).equals(editTV.getText().toString())) {
@@ -106,8 +108,11 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				}
 			});
 		}
+
+		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containLL);
+		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .2F);
 	}
-	
+
 	@Override
 	public void onResume() {
 		showCurrentCityVisibility();
@@ -116,7 +121,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		setAdapter();
 		super.onResume();
 	}
-	
+
 	@Override
 	public void onPause() {
 		OutdoorController.getInstance().removeCurrentCityAreaIdReceivedListener();
@@ -130,13 +135,13 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		}
 		super.onStop();
 	}
-	
+
 	private void showCurrentCityVisibility() {
 		if (LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			startCurrentCityAreaIdTask();
 		}
 	}
-	
+
 	private void startCurrentCityAreaIdTask() {
 		String lat = LocationUtils.getCurrentLocationLat();
 		String lon = LocationUtils.getCurrentLocationLon();
@@ -154,35 +159,35 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		if(result.hasResolution()) {
 			Log.i(TAG, "onConnectionFailed#hasResolution");
 		} else {
-//			showErrorDialog(result.getErrorCode());
+			//			showErrorDialog(result.getErrorCode());
 			Log.i(TAG, "onConnectionFailed#noResolution");
 		}
 	}
-	
+
 	private void addAreaIdToCityList() {
 		OutdoorManager.getInstance().clearCitiesList();
-		
+
 		if (outdoorCityInfoList != null && !outdoorCityInfoList.isEmpty()) {
-			
+
 			for (OutdoorCityInfo outdoorCityInfo : outdoorCityInfoList) {
 				String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
 				OutdoorManager.getInstance().addAreaIDToUsersList(key);
 			}
 		}
-		
+
 		//Add current location 
 		if (LocationUtils.isCurrentLocationEnabled()) {
 			OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 		} 
 	}
-	
+
 	@Override
 	public void onConnected(Bundle arg0) {/**NOP*/}
 
 	@Override
 	public void onDisconnected() {/**NOP*/}
-	
-	
+
+
 	private void gotoPage(int position) {
 		HomeFragment homeFragment = (HomeFragment) getParentFragment();
 		if (homeFragment != null) {
@@ -193,28 +198,28 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	@Override
 	public void areaIdReceived() {
 		if (getActivity() == null) return;
-		
+
 		getActivity().runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				showCurrentCityVisibility();
 			}
 		});
 	}
-	
-	
+
+
 	private class UserSelectedCitiesAdapter extends ArrayAdapter<OutdoorCityInfo> {
 
 		private Context context;
 		private List<OutdoorCityInfo> outdoorCityInfoListAdapter;
-		
+
 		public UserSelectedCitiesAdapter(Context context, int resource, List<OutdoorCityInfo> outdoorCityInfoList) {
 			super(context, resource, outdoorCityInfoList);
 			this.context = context;
 			this.outdoorCityInfoListAdapter = outdoorCityInfoList;
 		}
-		
+
 		@SuppressLint("ViewHolder")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
@@ -226,8 +231,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			deleteSign.setClickable(false);
-		    deleteSign.setFocusable(false);
-			
+			deleteSign.setFocusable(false);
+
 			String cityName = info.getCityName();
 			if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
 				cityName = info.getCityNameCN();
@@ -242,21 +247,21 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				cityName = builder.toString() ;
 			}
 			tvName.setText(cityName);
-			
+
 			tvName.setTag(key);
-			
+
 			if (position == 0) {
 				deleteSign.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.white_plus);
 				return view;
 			}
-			
+
 			if (position == 1) {
 				deleteSign.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.location_white);
 				return view;
 			}
-			
+
 			if (getString(R.string.edit).equals(editTV.getText().toString())) {
 				deleteSign.setVisibility(View.GONE);
 				delete.setVisibility(View.GONE);
@@ -270,7 +275,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					deleteSign.setImageResource(R.drawable.white_cross);
 				}
 			}
-			
+
 			delete.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -283,16 +288,16 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			return view;
 		}
 	}
-	
+
 	private void deleteItem(String key) {
 		OutdoorManager.getInstance().removeAreaIDFromUsersList(key);
 		new UserCitiesDatabase().deleteCity(key);
-		
+
 		if (selectedItemHashtable.containsKey(key)) {
 			selectedItemHashtable.remove(key);
 		}
 	}
-	
+
 	private void reloadList() {
 		HomeFragment homeFragment = (HomeFragment) getParentFragment();
 		if (homeFragment != null) {
@@ -306,7 +311,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			homeFragment.notifyOutdoorPager();
 		}
 	}
-	
+
 	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {
 
 		@Override
@@ -324,11 +329,11 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			}
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
-			
+
 			if (getString(R.string.done).equals(editTV.getText().toString())) {
 				ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 				FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-//				selectedItemHashtable.clear();
+				//				selectedItemHashtable.clear();
 				if(delete.getVisibility() == View.GONE) {
 					delete.setVisibility(View.VISIBLE);
 					deleteSign.setImageResource(R.drawable.red_cross);
@@ -338,16 +343,16 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					deleteSign.setImageResource(R.drawable.white_cross);
 					selectedItemHashtable.put(key, false);
 				}
-//				setAdapter();
+				//				setAdapter();
 			} else {
 				int index = OutdoorManager.getInstance().getUsersCitiesList().indexOf(key);
 				gotoPage(index);
 			}
 		}
 	};
-	
+
 	private OnClickListener locationOnClickListener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
@@ -362,21 +367,21 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			default:
 				break;
 			}
-			
+
 		}
 	};
-	
+
 	private void setAdapter() {
 		userCitiesId = userCitiesDatabase.getAllCities();
 		outdoorCityInfoList.clear();
 		outdoorCityInfoList.addAll(AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCitiesId)) ;
 		addCurrentLocationIntoList();
 		userSelectedCitiesAdapter.notifyDataSetChanged();
-//		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
-//		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+		//		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
+		//		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
 		addAreaIdToCityList();
 	}
-	
+
 	private void addCurrentLocationIntoList() {
 		String addLoc = getString(R.string.add_outdoor_location);
 		String currentLoc = getString(R.string.current_location);
@@ -384,6 +389,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		outdoorCityInfoList.add(0, outdoorCityInfo);
 		outdoorCityInfo = new OutdoorCityInfo(currentLoc, currentLoc, currentLoc, 0f, 0f, LocationUtils.getCurrentLocationAreaId(), 0);
 		outdoorCityInfoList.add(1, outdoorCityInfo);
-		
+
 	}
 }

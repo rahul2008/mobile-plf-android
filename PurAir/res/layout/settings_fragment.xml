@@ -9,144 +9,149 @@
         android:layout_height="wrap_content"
         layout="@layout/heading" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/settings_demo_mode_lb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/settings_demo_mode_toggle"
-        android:layout_alignTop="@+id/settings_demo_mode_toggle"
-        android:layout_below="@+id/settings_heading_rl"
-        android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="@string/shop_demo_mode"
-        android:textColor="@color/blue_list_item"
-        android:textSize="@dimen/text_size_medium"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ToggleButton
-        android:id="@+id/settings_demo_mode_toggle"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/settings_heading_rl"
-        android:layout_marginBottom="4dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="4dp"
-        android:checked="false" />
-
-    <ImageView
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/settings_demo_mode_toggle"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/rate_this_app"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/divider2"
-        android:paddingBottom="14dp"
-        android:paddingTop="14dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="@string/rate_this_app"
-        android:textColor="@color/blue_list_item"
-        android:textSize="@dimen/text_size_medium"
-        android:background="@drawable/list_item_selector"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ImageView
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/rate_this_app"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
-    
-        <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/share_feedback"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/divider3"
-        android:paddingBottom="14dp"
-        android:paddingTop="14dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="@string/send_us_feedback"
-        android:textColor="@color/blue_list_item"
-        android:textSize="@dimen/text_size_medium"
-        android:background="@drawable/list_item_selector"
-        custom:fontAssetName="fonts/centralesanslight.ttf" />
-
-    <ImageView
-        android:id="@+id/divider4"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/share_feedback"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
-
-    <LinearLayout
-        android:id="@+id/policy_layout"
+    <RelativeLayout
+        android:id="@+id/containerRL"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:padding="8dp" >
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/settings_heading_rl" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/tv_privacy_policy"
-            android:layout_width="0dp"
+            android:id="@+id/settings_demo_mode_lb"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/list_item_selector"
-            android:lineSpacingExtra="2dp"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:text="@string/privacy_policy"
+            android:layout_alignBottom="@+id/settings_demo_mode_toggle"
+            android:layout_alignTop="@+id/settings_demo_mode_toggle"
+            android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="@string/shop_demo_mode"
             android:textColor="@color/blue_list_item"
-            android:textSize="@dimen/text_size_very_small"
+            android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <ToggleButton
+            android:id="@+id/settings_demo_mode_toggle"
+            style="@style/Widget.Button.Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:checked="false" />
+
+        <ImageView
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/settings_demo_mode_toggle"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/tv_eula"
-            android:layout_width="0dp"
+            android:id="@+id/rate_this_app"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.50"
+            android:layout_below="@+id/divider2"
             android:background="@drawable/list_item_selector"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="2dp"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:text="@string/eula"
+            android:gravity="center_vertical"
+            android:paddingBottom="14dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
+            android:text="@string/rate_this_app"
             android:textColor="@color/blue_list_item"
-            android:textSize="@dimen/text_size_very_small"
+            android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <ImageView
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rate_this_app"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/tv_terms_and_conditions"
-            android:layout_width="0dp"
+            android:id="@+id/share_feedback"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_below="@+id/divider3"
             android:background="@drawable/list_item_selector"
-            android:gravity="right"
-            android:lineSpacingExtra="2dp"
-            android:paddingBottom="4dp"
-            android:paddingTop="4dp"
-            android:text="@string/terms_and_conditions"
+            android:gravity="center_vertical"
+            android:paddingBottom="14dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
+            android:text="@string/send_us_feedback"
             android:textColor="@color/blue_list_item"
-            android:textSize="@dimen/text_size_very_small"
+            android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
-    </LinearLayout>
+
+        <ImageView
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/share_feedback"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+
+        <LinearLayout
+            android:id="@+id/policy_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:padding="8dp" >
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_privacy_policy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_selector"
+                android:lineSpacingExtra="2dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="@string/privacy_policy"
+                android:textColor="@color/blue_list_item"
+                android:textSize="@dimen/text_size_very_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_eula"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.50"
+                android:background="@drawable/list_item_selector"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="2dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="@string/eula"
+                android:textColor="@color/blue_list_item"
+                android:textSize="@dimen/text_size_very_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_terms_and_conditions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/list_item_selector"
+                android:gravity="right"
+                android:lineSpacingExtra="2dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="@string/terms_and_conditions"
+                android:textColor="@color/blue_list_item"
+                android:textSize="@dimen/text_size_very_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+        </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

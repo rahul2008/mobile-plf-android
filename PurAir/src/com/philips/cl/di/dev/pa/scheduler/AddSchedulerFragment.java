@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import java.util.Calendar;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
@@ -42,7 +44,9 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.ADD_SCHEDULE);
-		initViews(getView());		
+		initViews(getView());	
+		ViewGroup scrollView = (ScrollView) getView().findViewById(R.id.scrollView);
+		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	@Override

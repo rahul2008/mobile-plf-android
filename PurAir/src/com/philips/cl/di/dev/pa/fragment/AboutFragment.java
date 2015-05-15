@@ -1,11 +1,13 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -29,10 +31,12 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage("About");
 		initView();
 		setAppInformation();
-		super.onActivityCreated(savedInstanceState);
+		RelativeLayout containRL = (RelativeLayout) getView().findViewById(R.id.containRL);
+		setBackground(containRL, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	private void initView() {

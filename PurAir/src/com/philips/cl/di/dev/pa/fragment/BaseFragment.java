@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -16,6 +19,7 @@ import android.view.ViewGroup;
 import com.philips.cl.di.dev.pa.IBackgroundDrawable;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class BaseFragment extends Fragment implements IBackgroundDrawable {
 
@@ -111,6 +115,18 @@ public class BaseFragment extends Fragment implements IBackgroundDrawable {
 			view.setBackgroundDrawable(drawable);
 		} else {
 			view.setBackground(drawable);
+		}
+	}
+	
+	@Override
+	public void setBackground(ViewGroup view, int resourceId, int color, float height) {
+		if (view != null) {
+			Bitmap src = BitmapFactory.decodeResource(getResources(), resourceId);
+			Bitmap shadow = Utils.getShadow(src.getHeight(), src.getWidth(), color, height);
+	
+			Drawable drawable = new BitmapDrawable(getResources(), shadow);
+			
+			setBackgroundDrawable(view, drawable);
 		}
 	}
 }
