@@ -80,15 +80,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=FC5830/81&&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 
-	private static final String TAG = "testing";/*
-												 * LocatePhilipsFragment.class
-												 * .getSimpleName();
-												 */
+	private static final String TAG = LocatePhilipsFragment.class
+			.getSimpleName();
 
 	/** GPS */
-	private LocationManager locationMgr;
-	private String provider;
+	private LocationManager locationMgr = null;
+	private String provider = null;
 	private static View mView = null;
+	// private Builder mBuilder = null;
 
 	// variables related to search
 	private LinearLayout linearLayout;
@@ -120,6 +119,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		}
 
 		linearLayout = (LinearLayout) mView.findViewById(R.id.showlayout);
+		linearLayout.setVisibility(View.GONE); // ritesh testing
 		listview = (ListView) mView.findViewById(R.id.placelistview);
 		txtAddress = (TextView) mView.findViewById(R.id.place_address);
 		txtCityState = (TextView) mView.findViewById(R.id.place_city_state);
@@ -153,7 +153,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		// adapter);
 		// swingBottomInAdapter.setAbsListView(listview);
 		// listview.setAdapter(swingBottomInAdapter);
-
 	}
 
 	/*
@@ -188,11 +187,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 						// mRunnable = new MarkerRunnable(mCdlsParsedResponse);
 						// mThread = new Thread(mRunnable);
 						// mThread.start();
+
 						ArrayList<ResultsModel> resultModelSet = mCdlsParsedResponse
 								.getResultsModel();
 						if (resultModelSet.size() <= 0) {
 							return;
 						}
+
+						// mBuilder = new LatLngBounds.Builder();
 						addMarkers(resultModelSet);
 					}
 				}
@@ -261,14 +263,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		for (int i = 0; i < resultModelSet.size(); i++) {
 			ResultsModel resultModel = resultModelSet.get(i);
 			LocationModel locationModel = resultModel.getLocationModel();
+			AddressModel addressModel = resultModel.getmAddressModel();
 
 			MarkerOptions markerOpt = new MarkerOptions();
 			double lat = Double.parseDouble(locationModel.getLatitude());
 			double lng = Double.parseDouble(locationModel.getLongitude());
 
-			markerOpt.position(new LatLng(lat, lng));
+			LatLng latLng = new LatLng(lat, lng);
+			// mBuilder.include(latLng);
+			markerOpt.position(latLng);
 			markerOpt.title(resultModel.getTitle());
-			markerOpt.snippet("Snippet : " + resultModel.getTitle());
+			markerOpt.snippet(addressModel.getCityState());
 			markerOpt.draggable(false);
 			markerOpt.visible(true);
 			markerOpt.anchor(0.5f, 0.5f);
@@ -292,12 +297,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 						.getmAddressModel();
 
 				txtAddress.setText(addressModel.getAddress1());
-				txtCityState.setText(addressModel.getCity() + ","
-						+ addressModel.getState());
+				txtCityState.setText(addressModel.getCityState());
 				txtPhone.setText(addressModel.getPhone());
-
 				listview.setVisibility(View.GONE);
 				linearLayout.setVisibility(View.VISIBLE);
+				linearLayout.setVisibility(View.GONE);// ritesh testing
 			}
 		});
 
@@ -305,7 +309,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 	private void createBitmap() {
 		mBitmapMarker = BitmapFactory.decodeResource(
-				getActivity().getResources(), R.drawable.marker).copy(
+				getActivity().getResources(), R.drawable.marker_shadow).copy(
 				Bitmap.Config.ARGB_8888, true);
 	}
 
@@ -407,7 +411,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	}
 
 	/**
-	 * Åã¥Ü"§Ú"¦b­þ¸Ì
 	 * 
 	 * @param lat
 	 * @param lng
@@ -419,7 +422,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 		MarkerOptions markerOpt = new MarkerOptions();
 		markerOpt.position(new LatLng(lat, lng));
-		markerOpt.title("§Ú¦b³o¸Ì");
+		markerOpt.title("testing");
+		markerOpt.snippet("testing");
 		markerMe = mMap.addMarker(markerOpt);
 
 		Toast.makeText(getActivity(), "lat:" + lat + ",lng:" + lng,
@@ -428,7 +432,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 	private void cameraFocusOnMe(double lat, double lng) {
 		CameraPosition camPosition = new CameraPosition.Builder()
-				.target(new LatLng(lat, lng)).zoom(16).build();
+				.target(new LatLng(lat, lng)).zoom(2).build();
 
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPosition));
 	}
@@ -458,29 +462,24 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private void updateWithNewLocation(Location location) {
 		String where = "";
 		if (location != null) {
-			// ¸g«×
 			double lng = location.getLongitude();
-			// ½n«×
 			double lat = location.getLatitude();
-			// ³t«×
 			float speed = location.getSpeed();
-			// ®É¶¡
 			long time = location.getTime();
 			String timeString = getTimeString(time);
 
-			where = "¸g«×: " + lng + "\n½n«×: " + lat + "\n³t«×: " + speed
-					+ "\n®É¶¡: " + timeString + "\nProvider: " + provider;
+			where = "latitude : " + lat + "\n longitude : " + lng
+					+ "\n³ speed: " + speed + "\n timestamp: " + timeString
+					+ "\nProvider: " + provider;
 
-			// ¼Ð°O"§Ú"
 			showMarkerMe(lat, lng);
 			cameraFocusOnMe(lat, lng);
 			trackToMe(lat, lng);
 
-			// ²¾°ÊÄá¼v¾÷¸òµÛ"§Ú"
 			CameraPosition cameraPosition = new CameraPosition.Builder()
 					.target(new LatLng(lat, lng)) // Sets the center of the map
 													// to ZINTUN
-					.zoom(13) // Sets the zoom
+					.zoom(2) // Sets the zoom
 					.bearing(90) // Sets the orientation of the camera to east
 					.tilt(30) // Sets the tilt of the camera to 30 degrees
 					.build(); // Creates a CameraPosition from the builder
@@ -488,7 +487,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 					.newCameraPosition(cameraPosition));
 
 			CameraPosition camPosition = new CameraPosition.Builder()
-					.target(new LatLng(lat, lng)).zoom(16).build();
+					.target(new LatLng(lat, lng)).zoom(6).build();
 
 			mMap.animateCamera(CameraUpdateFactory
 					.newCameraPosition(camPosition));

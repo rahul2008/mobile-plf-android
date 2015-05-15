@@ -66,8 +66,7 @@ public class CustomGeoAdapter extends BaseAdapter {
 		AddressModel addressModel = resultModel.getmAddressModel();
 
 		txtAddress.setText(addressModel.getAddress1());
-		txtCityState.setText(addressModel.getCity() + ","
-				+ addressModel.getState());
+		txtCityState.setText(addressModel.getCityState());
 		txtPhone.setText(addressModel.getPhone());
 
 		return convertView;

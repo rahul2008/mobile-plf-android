@@ -10,11 +10,13 @@ package com.philips.cl.di.digitalcare.locatephilips;
 public class AddressModel {
 	private String mZip = null;
 	private String mPhone = null;
-	private String mState = null;
+	// private String mState = null;
 	private String mAddress1 = null;
 	private String mAddress2 = null;
 	private String mUrl = null;
-	private String mCity = null;
+	private String mCityState = null;
+
+	// private String mCity = null;
 
 	public String getZip() {
 		return mZip;
@@ -32,13 +34,21 @@ public class AddressModel {
 		mPhone = phone;
 	}
 
-	public String getState() {
-		return mState;
+	public String getCityState() {
+		return mCityState;
 	}
 
-	public void setState(String state) {
-		mState = state;
+	public void setCityState(String cityState) {
+		mCityState = cityState;
 	}
+
+	// public String getState() {
+	// return mState;
+	// }
+	//
+	// public void setState(String state) {
+	// mState = state;
+	// }
 
 	public String getAddress1() {
 		return mAddress1;
@@ -64,11 +74,11 @@ public class AddressModel {
 		mUrl = url;
 	}
 
-	public String getCity() {
-		return mCity;
-	}
-
-	public void setCity(String city) {
-		mCity = city;
-	}
+	// public String getCity() {
+	// return mCity;
+	// }
+	//
+	// public void setCity(String city) {
+	// mCity = city;
+	// }
 }

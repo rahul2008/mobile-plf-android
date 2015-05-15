@@ -114,22 +114,25 @@ public class AtosResponseParser {
 		/* Address */
 		String zip = jsonAddress.optString("zip");
 		String phone = jsonAddress.optString("phone");
-		String state = jsonAddress.optString("state");
+		// String state = jsonAddress.optString("state");
 		String address1 = jsonAddress.optString("address1");
 		String address2 = jsonAddress.optString("address2");
 		String url = jsonAddress.optString("url");
-		String city = jsonAddress.optString("city");
+		// String city = jsonAddress.optString("city");
+		String cityState = jsonAddress.optString("city") + " "
+				+ jsonAddress.optString("state");
 
 		AddressModel addressModel = new AddressModel();
 		addressModel.setZip(zip);
 		addressModel.setPhone(phone);
-		addressModel.setState(state);
+		// addressModel.setState(state);
 		addressModel.setAddress1(address1);
 		addressModel.setAddress2(address2);
 		addressModel.setUrl(url);
-		addressModel.setCity(city);
+		// addressModel.setCity(city);
+		addressModel.setCityState(cityState);
 
-		/*Result */
+		/* Result */
 		ResultsModel resultModel = new ResultsModel();
 		resultModel.setAddressModel(addressModel);
 		resultModel.setId(id);
