@@ -29,7 +29,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.WBShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment.RequestCallback;
 import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
