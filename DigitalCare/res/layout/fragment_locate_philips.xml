@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -9,8 +10,6 @@
         android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         map:cameraBearing="45"
         map:cameraTargetLat="12.920102"
         map:cameraTargetLng="77.571412"
@@ -24,20 +23,49 @@
         map:uiZoomControls="false"
         map:uiZoomGestures="true" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true" >
+    <RelativeLayout
+        android:id="@+id/relativelayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-        <Button
-            android:id="@+id/button1"
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+        <include layout="@layout/locate_search" />
+
+        <ListView
+            android:id="@+id/placelistview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="200dp" >
+        </ListView>
+
+        <LinearLayout
+            android:id="@+id/showlayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Move" />
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:background="@color/whitesmoke"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone" >
 
-</RelativeLayout>
+            <include layout="@layout/geo_list_item" />
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/getdirection"
+                style="@style/fontButton"
+                android:text="@string/get_directions" />
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/call"
+                style="@style/fontButton"
+                android:text="@string/call" />
+
+            <TextView
+                android:id="@+id/help"
+                style="@style/contactUsHelpText"
+                android:layout_marginTop="30dp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</FrameLayout>

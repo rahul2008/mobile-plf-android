@@ -23,6 +23,11 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -85,6 +90,15 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private String provider;
 	private static View mView = null;
 
+	// variables related to search
+	private LinearLayout linearLayout;
+	private ListView listview;
+	private TextView txtAddress, txtCityState, txtPhone;
+	private String[] titles;
+	private String[] descriptions;
+
+	private CustomGeoAdapter adapter;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -105,6 +119,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		} catch (InflateException e) {
 		}
 
+		linearLayout = (LinearLayout) mView.findViewById(R.id.showlayout);
+		listview = (ListView) mView.findViewById(R.id.placelistview);
+		txtAddress = (TextView) mView.findViewById(R.id.place_address);
+		txtCityState = (TextView) mView.findViewById(R.id.place_city_state);
+		txtPhone = (TextView) mView.findViewById(R.id.place_phone);
+
 		return mView;
 	}
 
@@ -121,6 +141,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 		}
 		createBitmap();
+
+		// listview
+
+		// adapter = new CustomGeoAdapter(getActivity(), mListItems);
+		//
+		// listview.setAdapter(adapter);
+
+		// SwingBottomInAnimationAdapter swingBottomInAdapter = new
+		// SwingBottomInAnimationAdapter(
+		// adapter);
+		// swingBottomInAdapter.setAbsListView(listview);
+		// listview.setAdapter(swingBottomInAdapter);
+
 	}
 
 	/*
@@ -179,9 +212,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private void initView() {
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
 				.getMap();
-
-		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-//		mMap.setTrafficEnabled(true);
+		mMap.setTrafficEnabled(true);
 
 		UiSettings settings = mMap.getUiSettings();
 		settings.setAllGesturesEnabled(true);
@@ -212,7 +243,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		}
 	}
 
-	private void addMarkers(ArrayList<ResultsModel> resultModelSet) {
+	private void addMarkers(final ArrayList<ResultsModel> resultModelSet) {
+
+		// ResultsModel rs = resultModelSet.get(0);
+		// AddressModel am = rs.getmAddressModel();
+
+		// Toast.makeText(
+		// getActivity(),
+		// "City" + am.getCity() + "\nAddress" + am.getAddress1()
+		// + "\nState" + am.getState() + "\nzip" + am.getZip()
+		// + "\nphone" + am.getPhone(), Toast.LENGTH_SHORT).show();
+		//
+		// String data = "City" + am.getCity() + "\nAddress" + am.getAddress1()
+		// + "\nState" + am.getState() + "\nzip" + am.getZip() + "\nphone"
+		// + am.getPhone();
 
 		for (int i = 0; i < resultModelSet.size(); i++) {
 			ResultsModel resultModel = resultModelSet.get(i);
@@ -231,8 +275,32 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 			markerOpt.icon(BitmapDescriptorFactory.fromBitmap(mBitmapMarker));
 
 			mMap.addMarker(markerOpt);
+
 		}
 		// zoomInOnClick();
+
+		// adapter = new CustomGeoAdapter(getActivity(), mListItems);
+		adapter = new CustomGeoAdapter(getActivity(), resultModelSet);
+		listview.setAdapter(adapter);
+
+		listview.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+
+				AddressModel addressModel = resultModelSet.get(position)
+						.getmAddressModel();
+
+				txtAddress.setText(addressModel.getAddress1());
+				txtCityState.setText(addressModel.getCity() + ","
+						+ addressModel.getState());
+				txtPhone.setText(addressModel.getPhone());
+
+				listview.setVisibility(View.GONE);
+				linearLayout.setVisibility(View.VISIBLE);
+			}
+		});
+
 	}
 
 	private void createBitmap() {
@@ -339,7 +407,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	}
 
 	/**
-	 * Create Marker for My GPS location.
+	 * 顯示"我"在哪裡
 	 * 
 	 * @param lat
 	 * @param lng
@@ -351,7 +419,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 		MarkerOptions markerOpt = new MarkerOptions();
 		markerOpt.position(new LatLng(lat, lng));
-		markerOpt.title("GPS: Its Me");
+		markerOpt.title("我在這裡");
 		markerMe = mMap.addMarker(markerOpt);
 
 		Toast.makeText(getActivity(), "lat:" + lat + ",lng:" + lng,
@@ -382,24 +450,36 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		line.setWidth(10);
 	}
 
+	/**
+	 * 更新並顯示新位置
+	 * 
+	 * @param location
+	 */
 	private void updateWithNewLocation(Location location) {
 		String where = "";
 		if (location != null) {
+			// 經度
 			double lng = location.getLongitude();
+			// 緯度
 			double lat = location.getLatitude();
-			// float speed = location.getSpeed();
-			// long time = location.getTime();
-			// String timeString = getTimeString(time);
+			// 速度
+			float speed = location.getSpeed();
+			// 時間
+			long time = location.getTime();
+			String timeString = getTimeString(time);
 
-			where = "lat : " + lat + "\n lng " + lng + "\n Provider: "
-					+ provider;
+			where = "經度: " + lng + "\n緯度: " + lat + "\n速度: " + speed
+					+ "\n時間: " + timeString + "\nProvider: " + provider;
 
+			// 標記"我"
 			showMarkerMe(lat, lng);
 			cameraFocusOnMe(lat, lng);
 			trackToMe(lat, lng);
 
+			// 移動攝影機跟著"我"
 			CameraPosition cameraPosition = new CameraPosition.Builder()
 					.target(new LatLng(lat, lng)) // Sets the center of the map
+													// to ZINTUN
 					.zoom(13) // Sets the zoom
 					.bearing(90) // Sets the orientation of the camera to east
 					.tilt(30) // Sets the tilt of the camera to 30 degrees
@@ -562,4 +642,5 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		// TODO Auto-generated method stub
 
 	}
+
 }

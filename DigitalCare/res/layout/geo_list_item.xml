@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp" 
+    android:background="@color/whitesmoke">
+
+    <!-- Address -->
+
+    <TextView
+        android:id="@+id/place_address"
+        style="@style/locateText"
+        android:text=""
+        android:textStyle="bold"
+        custom:fontAssetName="fonts/centralesans-book.otf" />
+
+    <!-- City State -->
+
+    <TextView
+        android:id="@+id/place_city_state"
+        style="@style/locateText"
+        android:text=""
+        custom:fontAssetName="fonts/centralesans-book.otf" />
+
+    <!-- Phone -->
+
+    <TextView
+        android:id="@+id/place_phone"
+        style="@style/locateText"
+        android:text=""
+        custom:fontAssetName="fonts/centralesans-book.otf" />
+
+</LinearLayout>

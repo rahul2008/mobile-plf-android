@@ -31,6 +31,9 @@
     <!-- values for Locate Near You Screen -->
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait &#8230;</string>
+    <string name="get_directions">Get Directions</string>
+    <string name="call">Call</string>
+    <string name="search">search&#8230;</string>
 
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>
@@ -74,10 +77,9 @@
     <string name="twiiter_login_logo_description">Twitter Logo</string>
     <string name="twitter_post_char_limitation">Twitter message has characters limitation</string>
     <string name="twitter_post_progress_message">Posting to Philips Twitter Support...</string>
-    
+
     <!-- ContactUS - Facebook Login -->
     <string name="facebook_post_progress_message">Posting to Philips Facebook Support...</string>
-    
 
     <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
@@ -89,7 +91,6 @@
     <string name="social_post_failed">Failed to post..</string>
     <string name="social_post_success">Posted Successfully!!</string>
     <string name="social_post_editor_alert">No description to send</string>
-    
 
     <!-- Social Login -->
     <string name="social_login_cancel">Cancel</string>
