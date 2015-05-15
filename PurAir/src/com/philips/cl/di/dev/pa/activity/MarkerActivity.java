@@ -206,8 +206,10 @@ public class MarkerActivity extends MapActivity implements
 		if (OutdoorDetailFragment.getSelectedCityCode().equalsIgnoreCase(cityCode)) {
 			setMarkerIconOval(true);
 			mOutdoorCity = outdoorCity;
+			textView.setTextSize(16);
 		} else {
 			setMarkerIconOval(false);
+			textView.setTextSize(10);
 		}
 
 		setMarkerSnippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2

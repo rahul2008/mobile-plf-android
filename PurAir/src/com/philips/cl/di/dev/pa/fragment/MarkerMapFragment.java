@@ -208,6 +208,9 @@ public class MarkerMapFragment extends BaseFragment implements
 		if (selectedCityAreaId != null && selectedCityAreaId.equalsIgnoreCase(cityCode)) {
 			mOutdoorCity = outdoorCity;
 			iconOval = true;
+			textView.setTextSize(16);
+		} else {
+			textView.setTextSize(10);
 		}
 
 		if(mBitMap != null){
