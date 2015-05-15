@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment.ErrorType;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
@@ -91,7 +92,9 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		}
 		MetricsTracker.trackPageUserLoginChannel(dialog.toString().toLowerCase());
 		final EditText etEmail = (EditText) view.findViewById(R.id.etEmailAddress);
+		etEmail.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		final EditText etPassword = (EditText) view.findViewById(R.id.etPassword);
+		etPassword.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		
 		OnClickListener clickListener = new OnClickListener() {
 			@Override

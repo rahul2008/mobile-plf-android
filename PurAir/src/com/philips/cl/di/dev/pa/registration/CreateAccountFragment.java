@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -69,8 +70,11 @@ public class CreateAccountFragment extends BaseFragment implements
 		ImageView backImageView = (ImageView) view.findViewById(R.id.user_reg_back_img);
 		backImageView.setOnClickListener(this);
 		mEditTextName = (EditText) view.findViewById(R.id.etName);
+		mEditTextName.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		mEditTextEmail = (EditText) view.findViewById(R.id.etEmailAddress);
+		mEditTextEmail.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		mEditTextPassword = (EditText) view.findViewById(R.id.etPassword);
+		mEditTextPassword.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 
 		mCheckBoxReceivInfo = (CheckBox) view.findViewById(R.id.rbReceiveInformation);
 		mCheckBoxReceivInfo.setOnClickListener(this);

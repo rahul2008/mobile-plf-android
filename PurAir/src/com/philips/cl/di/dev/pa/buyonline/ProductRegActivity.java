@@ -36,6 +36,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -109,7 +110,9 @@ public class ProductRegActivity extends BaseActivity{
 	private Handler handler = new Handler();
 	
 	private void submit() {
-		final String phoneStr = ((EditText)findViewById(R.id.productreg_contact_edt)).getText().toString().trim();
+		EditText phoneStrEditText = (EditText)findViewById(R.id.productreg_contact_edt);
+		phoneStrEditText.setTypeface(Fonts.getCentraleSansLight(this));
+		final String phoneStr = phoneStrEditText.getText().toString().trim();
 		if (phoneStr.length() == 0) {
 			MetricsTracker.trackActionUserError("ProductReg:NoPhoneNumber");
 			showErrorDialog(R.string.enter_phone_no);

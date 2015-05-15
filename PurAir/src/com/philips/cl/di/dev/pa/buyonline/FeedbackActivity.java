@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -82,14 +83,18 @@ public class FeedbackActivity extends BaseActivity {
 	}
 
 	private void submit() {
-		String contentStr = ((EditText)findViewById(R.id.feedback_content_edt)).getText().toString().trim();
+		EditText contentStrEditText = ((EditText)findViewById(R.id.feedback_content_edt));
+		contentStrEditText.setTypeface(Fonts.getCentraleSansLight(this));
+		String contentStr = contentStrEditText.getText().toString().trim();
 		if (contentStr.length() == 0) {
 //			toast("è¯·å¡«å†™æ‚¨çš„æ„?è§?");
 			MetricsTracker.trackActionUserError("FeedbackError : No content");
 			return;
 		}
 
-		String contactStr = ((EditText)findViewById(R.id.feedback_contact_edt)).getText().toString().trim();
+		EditText contactStrEditText = (EditText)findViewById(R.id.feedback_contact_edt);
+		contactStrEditText.setTypeface(Fonts.getCentraleSansLight(this));
+		String contactStr = contactStrEditText.getText().toString().trim();
 		if (contentStr.length() == 0) {
 			showErrorDialog(R.string.invalid_input);
 			MetricsTracker.trackActionUserError("FeedbackError : No contact info");

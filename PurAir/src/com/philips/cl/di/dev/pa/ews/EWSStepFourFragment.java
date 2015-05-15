@@ -27,9 +27,11 @@ import android.widget.ScrollView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.UnicodeSpecialCharacter;
+import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSStepFourFragment extends EWSBaseFragment {
@@ -42,7 +44,7 @@ public class EWSStepFourFragment extends EWSBaseFragment {
 			subnetMaskStep3, routerAddStep3;
 	private ImageView showPasswordImgStep3, showAdvanceConfigImg,
 			hideAdvanceConfigImg;
-	private Button editSavePlaceNameBtnStep3, nextBtn;
+	private FontButton editSavePlaceNameBtnStep3, nextBtn;
 	private RelativeLayout advSettingLayoutStep3;
 	private LinearLayout advSettingBtnLayoutStep3;
 	private boolean isPasswordVisibelStep3 = true;
@@ -146,37 +148,31 @@ public class EWSStepFourFragment extends EWSBaseFragment {
 		wifiNetworkAddStep3 = (FontTextView) getView().findViewById(
 				R.id.ews_step3_wifi_add);
 
-		passwordStep3 = (EditText) getView().findViewById(
-				R.id.ews_step3_password);
+		passwordStep3 = (EditText) getView().findViewById(R.id.ews_step3_password);
+		passwordStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		passwordStep3.setOnFocusChangeListener(focusListener);
-		deviceNameStep3 = (EditText) getView().findViewById(
-				R.id.ews_step3_place_name_edittxt);
+		deviceNameStep3 = (EditText) getView().findViewById(R.id.ews_step3_place_name_edittxt);
+		deviceNameStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		deviceNameStep3.setOnFocusChangeListener(focusListener);
-		ipAddStep3 = (EditText) getView().findViewById(
-				R.id.ews_step3_ip_edittxt);
+		ipAddStep3 = (EditText) getView().findViewById(R.id.ews_step3_ip_edittxt);
+		ipAddStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		ipAddStep3.setOnFocusChangeListener(focusListener);
-		subnetMaskStep3 = (EditText) getView().findViewById(
-				R.id.ews_step3_subnet_edittxt);
+		subnetMaskStep3 = (EditText) getView().findViewById(R.id.ews_step3_subnet_edittxt);
+		subnetMaskStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		subnetMaskStep3.setOnFocusChangeListener(focusListener);
-		routerAddStep3 = (EditText) getView().findViewById(
-				R.id.ews_step3_router_edittxt);
+		routerAddStep3 = (EditText) getView().findViewById(R.id.ews_step3_router_edittxt);
+		routerAddStep3.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		routerAddStep3.setOnFocusChangeListener(focusListener);
 
-		showPasswordImgStep3 = (ImageView) getView().findViewById(
-				R.id.ews_password_enable_img);
-		showAdvanceConfigImg = (ImageView) getView().findViewById(
-				R.id.ews_adv_config_img);
-		hideAdvanceConfigImg = (ImageView) getView().findViewById(
-				R.id.ews_hide_adv_setting);
+		showPasswordImgStep3 = (ImageView) getView().findViewById(R.id.ews_password_enable_img);
+		showAdvanceConfigImg = (ImageView) getView().findViewById(R.id.ews_adv_config_img);
+		hideAdvanceConfigImg = (ImageView) getView().findViewById(R.id.ews_hide_adv_setting);
 
-		nextBtn = (Button) getView().findViewById(R.id.ews_step3_next_btn);
-		editSavePlaceNameBtnStep3 = (Button) getView().findViewById(
-				R.id.ews_step3_edit_name_btn);
+		nextBtn = (FontButton) getView().findViewById(R.id.ews_step3_next_btn);
+		editSavePlaceNameBtnStep3 = (FontButton) getView().findViewById(R.id.ews_step3_edit_name_btn);
 
-		advSettingLayoutStep3 = (RelativeLayout) getView().findViewById(
-				R.id.ews_step3_adv_config_layout);
-		advSettingBtnLayoutStep3 = (LinearLayout) getView().findViewById(
-				R.id.ews_adv_config_layout);
+		advSettingLayoutStep3 = (RelativeLayout) getView().findViewById(R.id.ews_step3_adv_config_layout);
+		advSettingBtnLayoutStep3 = (LinearLayout) getView().findViewById(R.id.ews_adv_config_layout);
 		
 		separtorUp = (ImageView) getView().findViewById(R.id.place_name_separator_up);
 		separtorDown = (ImageView) getView().findViewById(R.id.place_name_separator_down);
