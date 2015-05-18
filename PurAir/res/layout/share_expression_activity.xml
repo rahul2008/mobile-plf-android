@@ -33,11 +33,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_1" />
+                    android:src="@drawable/expression_1"
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_2" />
+                    android:src="@drawable/expression_2" 
+                    android:contentDescription="@string/img_description"/>
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -52,11 +54,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_3" />
+                    android:src="@drawable/expression_3"
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_4" />
+                    android:src="@drawable/expression_4" 
+                    android:contentDescription="@string/img_description"/>
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -71,11 +75,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_5" />
+                    android:src="@drawable/expression_5" 
+                    android:contentDescription="@string/img_description"/>
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_6" />
+                    android:src="@drawable/expression_6"
+                    android:contentDescription="@string/img_description" />
             </LinearLayout>
             <!-- part2 -->
 
@@ -92,11 +98,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_7" />
+                    android:src="@drawable/expression_7"
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_8" />
+                    android:src="@drawable/expression_8" 
+                    android:contentDescription="@string/img_description"/>
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -111,11 +119,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_9" />
+                    android:src="@drawable/expression_9" 
+                    android:contentDescription="@string/img_description"/>
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_10" />
+                    android:src="@drawable/expression_10" 
+                    android:contentDescription="@string/img_description" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -130,11 +140,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_11" />
+                    android:src="@drawable/expression_11" 
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_12" />
+                    android:src="@drawable/expression_12" 
+                    android:contentDescription="@string/img_description" />
             </LinearLayout>
 
             <!-- part3 -->
@@ -152,11 +164,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_13" />
+                    android:src="@drawable/expression_13" 
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_14" />
+                    android:src="@drawable/expression_14"
+                    android:contentDescription="@string/img_description" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -171,11 +185,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_15" />
+                    android:src="@drawable/expression_15"
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_16" />
+                    android:src="@drawable/expression_16"
+                    android:contentDescription="@string/img_description" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -190,11 +206,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_17" />
+                    android:src="@drawable/expression_17"
+                    android:contentDescription="@string/img_description" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_18" />
+                    android:src="@drawable/expression_18"
+                    android:contentDescription="@string/img_description" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
