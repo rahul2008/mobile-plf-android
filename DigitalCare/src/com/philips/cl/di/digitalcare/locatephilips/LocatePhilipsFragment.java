@@ -35,6 +35,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -59,7 +60,8 @@ import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
  * @since : 8 May 2015
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class LocatePhilipsFragment extends DigitalCareBaseFragment {
+public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
+		OnMarkerClickListener {
 	private GoogleMap mMap = null;
 	private Marker markerMe = null;
 	private AtosResponseParser mCdlsResponseParser = null;
@@ -71,6 +73,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	private Thread mThread = null;
 	private MarkerRunnable mRunnable = null;
 	private Bitmap mBitmapMarker = null;
+
+	private double mCurrentLat = 0;
+	private double mCurrentLng = 0;
 	// private static final String CDLS_BASE_URL_PREFIX =
 	// "http://www.philips.com/prx/cdls/B2C/";
 	// private static final String CDLS_BASE_URL_POSTFIX =
@@ -122,7 +127,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		}
 
 		linearLayout = (LinearLayout) mView.findViewById(R.id.showlayout);
-		linearLayout.setVisibility(View.GONE); // ritesh testing
+//		linearLayout.setVisibility(View.GONE); // ritesh testing
 		listview = (ListView) mView.findViewById(R.id.placelistview);
 		txtAddress = (TextView) mView.findViewById(R.id.place_address);
 		txtCityState = (TextView) mView.findViewById(R.id.place_city_state);
@@ -254,16 +259,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		// + "\nState" + am.getState() + "\nzip" + am.getZip() + "\nphone"
 		// + am.getPhone();
 
+		mMap.setOnMarkerClickListener(this);
+
 		for (int i = 0; i < resultModelSet.size(); i++) {
 			ResultsModel resultModel = resultModelSet.get(i);
 			LocationModel locationModel = resultModel.getLocationModel();
 			AddressModel addressModel = resultModel.getmAddressModel();
-
-			MarkerOptions markerOpt = new MarkerOptions();
 			double lat = Double.parseDouble(locationModel.getLatitude());
 			double lng = Double.parseDouble(locationModel.getLongitude());
-
 			LatLng latLng = new LatLng(lat, lng);
+
+			MarkerOptions markerOpt = new MarkerOptions();
 			// mBuilder.include(latLng);
 			markerOpt.position(latLng);
 			markerOpt.title(resultModel.getTitle());
@@ -295,7 +301,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 				txtPhone.setText(addressModel.getPhone());
 				listview.setVisibility(View.GONE);
 				linearLayout.setVisibility(View.VISIBLE);
-				linearLayout.setVisibility(View.GONE);// ritesh testing
+//				linearLayout.setVisibility(View.GONE);// ritesh testing
 			}
 		});
 
@@ -455,26 +461,32 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPosition));
 	}
 
-	private void trackToMe(double lat, double lng) {
+	private Polyline mPolyline = null;
+
+	private void trackToMe(LatLng currentLocation, LatLng markerPosition) {
+		traceOfMe = null;
 		if (traceOfMe == null) {
 			traceOfMe = new ArrayList<LatLng>();
+			traceOfMe.add(currentLocation);
+			traceOfMe.add(markerPosition);
 		}
-		traceOfMe.add(new LatLng(lat, lng));
 
 		PolylineOptions polylineOpt = new PolylineOptions();
 		for (LatLng latlng : traceOfMe) {
 			polylineOpt.add(latlng);
 		}
 
-		polylineOpt.color(Color.RED);
+		polylineOpt.color(Color.BLUE);
 
-		Polyline line = mMap.addPolyline(polylineOpt);
-		line.setWidth(10);
+		if(mPolyline != null){
+			mPolyline.remove();
+			mPolyline=null;
+		}
+		/*Polyline*/ mPolyline = mMap.addPolyline(polylineOpt);
+		mPolyline.setWidth(8);
 	}
 
 	/**
-	 * 更新並顯示新位置
-	 * 
 	 * @param location
 	 */
 	private void updateWithNewLocation(Location location) {
@@ -492,7 +504,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 
 			showMarkerMe(lat, lng);
 			cameraFocusOnMe(lat, lng);
-			trackToMe(lat, lng);
+			mCurrentLat = lat;
+			mCurrentLng = lng;
 
 			CameraPosition cameraPosition = new CameraPosition.Builder()
 					.target(new LatLng(lat, lng)) // Sets the center of the map
@@ -660,6 +673,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment {
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+		trackToMe(new LatLng(mCurrentLat, mCurrentLng), marker.getPosition());
+		return false;
 	}
 
 }
