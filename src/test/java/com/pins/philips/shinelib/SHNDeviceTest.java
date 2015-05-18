@@ -117,7 +117,7 @@ public class SHNDeviceTest {
         doNothing().when(mockedSHNDeviceListener).onStateUpdated(any(SHNDevice.class));
 
         shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral);
-        shnDevice.setShnDeviceListener(mockedSHNDeviceListener);
+        shnDevice.setSHNDeviceListener(mockedSHNDeviceListener);
         shnDevice.registerService(mockedSHNService);
     }
 
