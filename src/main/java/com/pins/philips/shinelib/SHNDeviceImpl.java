@@ -102,8 +102,18 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
     }
 
     @Override
-    public void setShnDeviceListener(SHNDeviceListener shnDeviceListener) {
+    public void setSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
         this.shnDeviceListener = shnDeviceListener;
+    }
+
+    @Override
+    public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
+        throw new UnsupportedOperationException("Intended for the external API");
+    }
+
+    @Override
+    public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
+        throw new UnsupportedOperationException("Intended for the external API");
     }
 
     private Map<SHNCapabilityType, SHNCapability> registeredCapabilities = new HashMap<>();

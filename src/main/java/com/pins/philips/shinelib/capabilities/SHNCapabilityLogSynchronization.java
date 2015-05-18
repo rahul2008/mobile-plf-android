@@ -2,7 +2,6 @@ package com.pins.philips.shinelib.capabilities;
 
 import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNIntegerResultListener;
-import com.pins.philips.shinelib.SHNResult;
 import com.pins.philips.shinelib.SHNResultListener;
 import com.pins.philips.shinelib.datatypes.SHNLog;
 

@@ -16,7 +16,11 @@ public interface SHNDevice {
 
     void disconnect();
 
-    void setShnDeviceListener(SHNDeviceListener shnDeviceListener);
+    void setSHNDeviceListener(SHNDeviceListener shnDeviceListener);
+
+    void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener);
+
+    void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener);
 
     Set<SHNCapabilityType> getSupportedCapabilityTypes();
 

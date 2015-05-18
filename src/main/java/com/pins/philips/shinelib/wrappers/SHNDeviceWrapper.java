@@ -7,6 +7,8 @@ import com.pins.philips.shinelib.SHNCapabilityType;
 import com.pins.philips.shinelib.SHNDevice;
 import com.pins.philips.shinelib.SHNService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,13 +18,14 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     private final SHNDevice shnDevice;
     private final Handler internalHandler;
     private final Handler userHandler;
-    private SHNDeviceListener shnDeviceListener;
+    private List<SHNDeviceListener> shnDeviceListeners;
 
     public SHNDeviceWrapper(SHNDevice shnDevice, Handler internalHandler, Handler userHandler) {
         this.shnDevice = shnDevice;
         this.internalHandler = internalHandler;
         this.userHandler = userHandler;
-        shnDevice.setShnDeviceListener(this);
+        shnDevice.setSHNDeviceListener(this);
+        shnDeviceListeners = new ArrayList<>();
     }
 
     // implements SHNDevice
@@ -64,8 +67,24 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     }
 
     @Override
-    public void setShnDeviceListener(SHNDeviceListener shnDeviceListener) {
-        this.shnDeviceListener = shnDeviceListener;
+    public void setSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
+        throw new UnsupportedOperationException("This operation is for internal use only");
+    }
+
+    @Override
+    public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
+        synchronized (shnDeviceListeners) {
+            if (!shnDeviceListeners.contains(shnDeviceListener)) {
+                shnDeviceListeners.add(shnDeviceListener);
+            }
+        }
+    }
+
+    @Override
+    public void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
+        synchronized (shnDeviceListeners) {
+            shnDeviceListeners.remove(shnDeviceListener);
+        }
     }
 
     @Override
@@ -81,13 +100,17 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     // implements SHNDevice.SHNDeviceListener
     @Override
     public void onStateUpdated(final SHNDevice shnDevice) {
-        if (shnDeviceListener != null) {
-            userHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    shnDeviceListener.onStateUpdated(shnDevice);
+        synchronized (shnDeviceListeners) {
+            for (final SHNDeviceListener shnDeviceListener: shnDeviceListeners) {
+                if (shnDeviceListener != null) {
+                    userHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            shnDeviceListener.onStateUpdated(shnDevice);
+                        }
+                    });
                 }
-            });
+            }
         }
     }
 }
