@@ -152,7 +152,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/colour_circle_big_2x"
+            android:src="@drawable/outdoor_meter"
             android:visibility="invisible" />
 
         <ImageView

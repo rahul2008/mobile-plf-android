@@ -15,7 +15,7 @@
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/controls"
             style="@style/control_filter_btn_style"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="8dp"
             android:text="@string/controls"
             android:visibility="invisible"
@@ -26,7 +26,7 @@
             android:id="@+id/hf_indoor_purifier_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:ellipsize="marquee"
             android:layout_centerHorizontal="true"
             android:layout_toLeftOf="@+id/filters"
@@ -58,7 +58,7 @@
             android:id="@+id/filters"
             style="@style/control_filter_btn_style"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="@string/filters"
             android:visibility="invisible"
             android:background="@drawable/button_border"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/all_colour_circle_2x"
+            android:src="@drawable/indoor_meter"
             android:visibility="invisible" />
 
         <ImageView
@@ -128,7 +128,7 @@
          android:layout_marginLeft="16dp"
         android:gravity="center"
         android:lineSpacingExtra="2dp"
-        android:paddingBottom="2dp"
+        android:paddingBottom="4dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
