@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import com.janrain.android.capture.CaptureApiError;
-import com.philips.cl.di.reg.dao.ResendMailFailureInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -27,20 +27,20 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 
 	public void onFailure(CaptureApiError error) {
 
-		ResendMailFailureInfo resendMailFailureInfo = new ResendMailFailureInfo();
-		resendMailFailureInfo.setError(error);
-		handleInvalidInputs(error, resendMailFailureInfo);
-		handleInvalidCredentials(error, resendMailFailureInfo);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+		userRegistrationFailureInfo.setError(error);
+		handleInvalidInputs(error, userRegistrationFailureInfo);
+		handleInvalidCredentials(error, userRegistrationFailureInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(null, error,
 				null);
 		int getError = errorMapping.checkCaptureApiError();
-		resendMailFailureInfo.setErrorCode(getError);
+		userRegistrationFailureInfo.setErrorCode(getError);
 		mResendVerificationEmail
-				.onResendVerificationEmailFailedWithError(resendMailFailureInfo);
+				.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
-			ResendMailFailureInfo resendMailFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
 				&& error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
@@ -51,7 +51,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 
 					if (!jsonObject
 							.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-						resendMailFailureInfo
+						userRegistrationFailureInfo
 								.setEmailErrorMessage(getErrorMessage(jsonObject
 										.getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
 					}
@@ -64,7 +64,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 	}
 
 	private void handleInvalidCredentials(CaptureApiError error,
-			ResendMailFailureInfo resendMailFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
 				&& error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
 			try {
@@ -75,7 +75,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 
 					if (!jsonObject
 							.isNull(RegConstants.RESEND_VERIFICATION_FORM)) {
-						resendMailFailureInfo
+						userRegistrationFailureInfo
 								.setEmailErrorMessage(getErrorMessage(jsonObject
 										.getJSONArray(RegConstants.RESEND_VERIFICATION_FORM)));
 					}

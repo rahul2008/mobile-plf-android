@@ -8,7 +8,8 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.janrain.android.Jump;
-import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
+import com.janrain.android.capture.CaptureApiError;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
@@ -43,37 +44,37 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 
 	@Override
 	public void onFailure(SignInError error) {
-		CreateAccountFailuerInfo createAccountFailuerInfo = new CreateAccountFailuerInfo();
-		createAccountFailuerInfo.setError(error);
-		handleInvalidInputs(error, createAccountFailuerInfo);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+		userRegistrationFailureInfo.setError(error.captureApiError);
+		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
 		int errorCondition = errorMapping.checkSignInError();
-		createAccountFailuerInfo.setErrorCode(errorCondition);
-		mTraditionalRegisterHandler.onRegisterFailedWithFailure(createAccountFailuerInfo);
+		userRegistrationFailureInfo.setErrorCode(errorCondition);
+		mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
 	}
 
-	private void handleInvalidInputs(SignInError error,
-	        CreateAccountFailuerInfo createAccountFailuerInfo) {
-		if (null != error.captureApiError && null != error.captureApiError.error
-		        && error.captureApiError.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
+	private void handleInvalidInputs(CaptureApiError error,
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		if (null != error && null != error.error
+		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
-				JSONObject object = error.captureApiError.raw_response;
+				JSONObject object = error.raw_response;
 				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_FIRST_NAME)) {
-						createAccountFailuerInfo
+						userRegistrationFailureInfo
 						        .setFirstNameErrorMessage(getErrorMessage(jsonObject
 						                .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_FIRST_NAME)));
 					}
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)) {
-						createAccountFailuerInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
 						        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)));
 					}
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)) {
-						createAccountFailuerInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
+						userRegistrationFailureInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
 						        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)));
 					}
 				}

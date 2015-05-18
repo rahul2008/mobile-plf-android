@@ -25,12 +25,8 @@ import com.philips.cl.di.reg.controller.UpdateReceiveMarketingEmail;
 import com.philips.cl.di.reg.controller.UpdateUserRecord;
 import com.philips.cl.di.reg.dao.ConsumerArray;
 import com.philips.cl.di.reg.dao.ConsumerInterest;
-import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
 import com.philips.cl.di.reg.dao.DIUserProfile;
-import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
-import com.philips.cl.di.reg.dao.ResendMailFailureInfo;
-import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
-import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.handlers.AddConsumerInterestHandler;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
@@ -50,17 +46,17 @@ public class User {
 	private boolean mOlderThanAgeLimit, mReceiveMarketingEmails, mEmailVerified;
 
 	private Context mContext;
-
+	
 	private JSONObject mConsumerInterestObject;
-
+	
 	private JSONArray mConsumerInterestArray;
-
+	
 	private CaptureRecord mCapturedData;
-
+	
 	private String USER_EMAIL = "email";
-
+	
 	private String USER_GIVEN_NAME = "givenName";
-
+	
 	private String USER_FAMILY_NAME = "familyName";
 
 	private String USER_PASSWORD = "password";
@@ -88,7 +84,7 @@ public class User {
 	private String LOG_TAG = "User Registration";
 
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
+	
 	public User(Context context) {
 		mContext = context;
 		mUpdateUserRecordHandler = new UpdateUserRecord(context);
@@ -105,9 +101,9 @@ public class User {
 			Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
 			        null);
 		} else {
-			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo = new SignInTraditionalFailuerInfo();
-			signInTraditionalFailuerInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
-			traditionalLoginHandler.onLoginFailedWithError(signInTraditionalFailuerInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 		}
 	}
 
@@ -119,9 +115,9 @@ public class User {
 			        socialLoginHandler, mContext, mUpdateUserRecordHandler);
 			Jump.showSignInDialog(activity, providerName, loginSocialResultHandler, mergeToken);
 		} else {
-			SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
-			signInSocialFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
-			socialLoginHandler.onLoginFailedWithError(signInSocialFailureInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			socialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 		}
 	}
 
@@ -130,16 +126,12 @@ public class User {
 	        String password, boolean olderThanAgeLimit, boolean isReceiveMarketingEmail,
 	        TraditionalRegistrationHandler traditionalRegisterHandler) {
 
-		// ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
-
 		DIUserProfile profile = new DIUserProfile();
 		profile.setGivenName(mGivenName);
 		profile.setEmail(mUserEmail);
 		profile.setPassword(password);
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-
-		// userData.add(profile);
 
 		registerNewUserUsingTraditional(profile, traditionalRegisterHandler);
 
@@ -151,13 +143,12 @@ public class User {
 
 		if (diUserProfile != null) {
 
-			// for (DIUserProfile diUserProfile : profile) {
 			mEmail = diUserProfile.getEmail();
 			mGivenName = diUserProfile.getGivenName();
 			mPassword = diUserProfile.getPassword();
 			mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
 			mReceiveMarketingEmails = diUserProfile.getReceiveMarketingEmail();
-			// }
+
 			JSONObject newUser = new JSONObject();
 			try {
 				newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
@@ -171,9 +162,9 @@ public class User {
 			        traditionalRegisterHandler, mContext, mUpdateUserRecordHandler);
 			Jump.registerNewUser(newUser, null, traditionalRegisterResultHandler);
 		} else {
-			CreateAccountFailuerInfo createAccountFailuerInfo = new CreateAccountFailuerInfo();
-			createAccountFailuerInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
-			traditionalRegisterHandler.onRegisterFailedWithFailure(createAccountFailuerInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			traditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
 		}
 	}
 
@@ -184,10 +175,9 @@ public class User {
 			ForgotPassword forgotPasswordResultHandler = new ForgotPassword(forgotPasswordHandler);
 			Jump.performForgotPassword(emailAddress, forgotPasswordResultHandler);
 		} else {
-			
-			ForgotPasswordFailureInfo forgotPasswordFailureInfo  = new ForgotPasswordFailureInfo();
-			forgotPasswordFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
-			forgotPasswordHandler.onSendForgotPasswordFailedWithError(forgotPasswordFailureInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			forgotPasswordHandler.onSendForgotPasswordFailedWithError(userRegistrationFailureInfo);
 		}
 	}
 
@@ -211,10 +201,10 @@ public class User {
 			        resendVerificationEmail);
 			Jump.resendEmailVerification(emailAddress, resendVerificationEmailHandler);
 		} else {
-			ResendMailFailureInfo resendMailFailureInfo = new ResendMailFailureInfo();
-			resendMailFailureInfo.setErrorCode(Error.INVALID_PARAM
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM
 			        .geterrorList());
-			resendVerificationEmail.onResendVerificationEmailFailedWithError(resendMailFailureInfo);
+			resendVerificationEmail.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
 		}
 	}
 
@@ -229,9 +219,9 @@ public class User {
 			Jump.performTraditionalSignIn(emailAddress, password, loginTraditionalResultHandler,
 			        mergeToken);
 		} else {
-			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo = new SignInTraditionalFailuerInfo();
-			signInTraditionalFailuerInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
-			traditionalLoginHandler.onLoginFailedWithError(signInTraditionalFailuerInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			traditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 		}
 	}
 
@@ -241,8 +231,6 @@ public class User {
 	        boolean isReceiveMarketingEmail, SocialProviderLoginHandler socialProviderLoginHandler,
 	        String socialRegistrationToken) {
 
-		// ArrayList<DIUserProfile> userData = new ArrayList<DIUserProfile>();
-
 		DIUserProfile profile = new DIUserProfile();
 		profile.setGivenName(givenName);
 		profile.setDisplayName(displayName);
@@ -250,8 +238,6 @@ public class User {
 		profile.setEmail(userEmail);
 		profile.setOlderThanAgeLimit(olderThanAgeLimit);
 		profile.setReceiveMarketingEmail(isReceiveMarketingEmail);
-
-		// userData.add(profile);
 
 		completeSocialProviderLogin(profile, socialProviderLoginHandler, socialRegistrationToken);
 
@@ -262,7 +248,7 @@ public class User {
 	        SocialProviderLoginHandler socialProviderLoginHandler, String socialRegistrationToken) {
 		String familyName = "";
 		if (diUserProfile != null) {
-			// for (DIUserProfile diUserProfile : profile) {
+
 			mEmail = diUserProfile.getEmail();
 			mGivenName = diUserProfile.getGivenName();
 			familyName = diUserProfile.getFamilyName();
@@ -270,7 +256,7 @@ public class User {
 			mDisplayName = diUserProfile.getDisplayName();
 			mOlderThanAgeLimit = diUserProfile.getOlderThanAgeLimit();
 			mReceiveMarketingEmails = diUserProfile.getReceiveMarketingEmail();
-			// }
+
 			JSONObject newUser = new JSONObject();
 			try {
 				newUser.put(USER_EMAIL, mEmail).put(USER_GIVEN_NAME, mGivenName)
@@ -287,9 +273,9 @@ public class User {
 			        socialProviderLoginHandler, mContext, mUpdateUserRecordHandler);
 			Jump.registerNewUser(newUser, socialRegistrationToken, continueSocialProviderLogin);
 		} else {
-			SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
-			signInSocialFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
-			socialProviderLoginHandler.onContinueSocialProviderLoginFailure(signInSocialFailureInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(Error.INVALID_PARAM.geterrorList());
+			socialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
 		}
 	}
 

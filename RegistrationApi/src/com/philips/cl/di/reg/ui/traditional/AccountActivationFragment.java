@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
-import com.philips.cl.di.reg.dao.ResendMailFailureInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
@@ -236,17 +236,12 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	@Override
 	public void onResendVerificationEmailFailedWithError(
-			ResendMailFailureInfo resendMailFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		updateResendUIState();
 
-		if (resendMailFailureInfo.getError().code == RegConstants.INVALID_FIELDS_ERROR_CODE) {
-			mRegError.setError(resendMailFailureInfo.getErrorDescription()
-					+ "\n" + resendMailFailureInfo.getEmailErrorMessage());
-		} else if (resendMailFailureInfo.getError().code == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
-			mRegError.setError(resendMailFailureInfo.getErrorDescription()
-					+ "\n" + resendMailFailureInfo.getEmailErrorMessage());
-		} else
-			mRegError.setError(resendMailFailureInfo.getErrorDescription());
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription()
+				+ "\n" + userRegistrationFailureInfo.getEmailErrorMessage());
+		
 	}
 
 	@Override

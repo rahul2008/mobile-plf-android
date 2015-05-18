@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
@@ -361,7 +361,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onLoginFailedWithError(
-			SignInSocialFailureInfo signInSocialFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		hideSpinner();
 		hideSpinner();
 		RLog.i("HomeFragment", "login failed");
@@ -422,7 +422,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	
 	@Override
 	public void onContinueSocialProviderLoginFailure(
-			SignInSocialFailureInfo signInSocialFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		hideSpinner();
 		hideSpinner();
 		enableControls(true);

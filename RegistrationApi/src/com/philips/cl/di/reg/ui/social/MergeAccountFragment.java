@@ -10,12 +10,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
-import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
@@ -28,7 +26,6 @@ import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
 import com.philips.cl.di.reg.ui.traditional.RegistrationBaseFragment;
 import com.philips.cl.di.reg.ui.utils.EmailValidator;
-import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
@@ -258,41 +255,25 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	@Override
-	public void onLoginFailedWithError(SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
+	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		 hideMergeSpinner();
 		
-		if (signInTraditionalFailuerInfo.getError().captureApiError.code == RegConstants.INVALID_CREDENTIALS_ERROR_CODE) {
+			if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(userRegistrationFailureInfo
+						.getEmailErrorMessage());
+				mEtEmail.showInvalidAlert();
+			}
 
-			handleInvalidCredentials(signInTraditionalFailuerInfo);
-			return ;
-		}
-		
-		if (signInTraditionalFailuerInfo.getError().captureApiError.code == RegConstants.INVALID_FIELDS_ERROR_CODE) {
+			if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
 
-			handleInvalidCredentials(signInTraditionalFailuerInfo);
-			return ;
-		}
-		
-		mRegError.setError(signInTraditionalFailuerInfo.getErrorDescription());
-	}
+				mEtPassword.setErrDescription(userRegistrationFailureInfo
+						.getPasswordErrorMessage());
+				mEtPassword.showInvalidAlert();
+			}
 
-	private void handleInvalidCredentials(
-			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
-		if (null != signInTraditionalFailuerInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(signInTraditionalFailuerInfo
-					.getEmailErrorMessage());
-			mEtEmail.showInvalidAlert();
-		}
-
-		if (null != signInTraditionalFailuerInfo.getPasswordErrorMessage()) {
-
-			mEtPassword.setErrDescription(signInTraditionalFailuerInfo
-					.getPasswordErrorMessage());
-			mEtPassword.showInvalidAlert();
-		}
-
-		mRegError.setError(signInTraditionalFailuerInfo
-				.getErrorDescription());
+			mRegError.setError(userRegistrationFailureInfo
+					.getErrorDescription());
+			
 	}
 
 	@Override
@@ -304,44 +285,25 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	@Override
 	public void onSendForgotPasswordFailedWithError(
-			ForgotPasswordFailureInfo forgotPasswordFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		hideForgotPasswordSpinner();
-		
-		if(forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE){
-			mEtEmail.setErrDescription(forgotPasswordFailureInfo
-					.getEmailErrorMessage());
+
+		if(null != userRegistrationFailureInfo.getSocialOnlyError()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo
+					.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
-			mRegError.setError(forgotPasswordFailureInfo
-					.getEmailErrorMessage());
-			return;
+			mRegError.setError(userRegistrationFailureInfo
+					.getSocialOnlyError());
 			
+			return ;
 		}
 		
-		if (forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.NO_SUCH_ACCOUNT_ERROR_CODE) {
-
-			if (null != forgotPasswordFailureInfo.getEmailErrorMessage()) {
-				mEtEmail.setErrDescription(forgotPasswordFailureInfo
+		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(userRegistrationFailureInfo
 						.getEmailErrorMessage());
 				mEtEmail.showInvalidAlert();
-			}
-
-			mRegError.setError(forgotPasswordFailureInfo.getErrorDescription());
-
-		} else {
-
-			JanrainErrorMessage errorMessage = new JanrainErrorMessage(
-					getActivity());
-			String message = errorMessage.getError(forgotPasswordFailureInfo
-					.getErrorCode());
-			mRegError.setError(message);
-			updateUiStatus();
-			mEtPassword.setErrDescription(message);
-			mEtEmail.setErrDescription(message);
-			mEtEmail.showInvalidAlert();
-			mEtPassword.showJanarainError();
-
 		}
-		
-	}
 
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+	}
 }

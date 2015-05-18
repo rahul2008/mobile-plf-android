@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
@@ -54,8 +54,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	private boolean isEmailExist;
 	private String mRegistrationToken;	
 
-	private final int INVALID_FIELDS = 14;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -98,7 +96,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 			try{	
 				JSONObject mPreRegJson = null;
 				mPreRegJson = new JSONObject(bundle.getString(RegConstants.SOCIAL_TWO_STEP_ERROR));
-				
 				
 				if (null != mPreRegJson) {
 					mProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
@@ -271,19 +268,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	}
 
 	@Override
-	public void onLoginFailedWithError(SignInSocialFailureInfo signInSocialFailureInfo) {
+	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		RLog.i("Almost Done", "onLoginFailedWithError");
 		hideSpinner();
 		
-		if (signInSocialFailureInfo.getErrorCode() == INVALID_FIELDS) {
 
-			if (null != signInSocialFailureInfo.getEmailErrorMessage()) {
-				mEtEmail.setErrDescription(signInSocialFailureInfo
-						.getEmailErrorMessage());
-				mEtEmail.showInvalidAlert();
-			}
+		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo
+					.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();
 		}
-		mRegError.setError(signInSocialFailureInfo.getErrorDescription());
+
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 
 	}
 
@@ -318,19 +314,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	}
 
 	@Override
-	public void onContinueSocialProviderLoginFailure(SignInSocialFailureInfo signInSocialFailureInfo) {
+	public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		RLog.i("Almost Done", "onContinueSocialProviderLoginFailure");
 		hideSpinner();
 		
-		if (signInSocialFailureInfo.getErrorCode() == INVALID_FIELDS) {
-
-			if (null != signInSocialFailureInfo.getEmailErrorMessage()) {
-				mEtEmail.setErrDescription(signInSocialFailureInfo
-						.getEmailErrorMessage());
-				mEtEmail.showInvalidAlert();
-			}
-		} 
-		mRegError.setError(signInSocialFailureInfo.getErrorDescription());
+		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo
+					.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();
+		}
+			
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 	}
 
 }

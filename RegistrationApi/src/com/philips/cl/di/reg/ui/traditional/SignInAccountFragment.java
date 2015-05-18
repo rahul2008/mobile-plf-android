@@ -13,8 +13,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.ForgotPasswordFailureInfo;
-import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
@@ -25,7 +24,6 @@ import com.philips.cl.di.reg.ui.customviews.XPassword;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.customviews.onUpdateListener;
 import com.philips.cl.di.reg.ui.utils.EmailValidator;
-import com.philips.cl.di.reg.ui.utils.JanrainErrorMessage;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
@@ -54,8 +52,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	private ProgressBar mPbSignInSpinner;
 
 	private ProgressBar mPbForgotPasswdSpinner;
-
-	private final int INVALID_CREDENTIAL = 10;
 
 	private XRegError mRegError;
 
@@ -193,43 +189,26 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onLoginFailedWithError(
-			SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		mBtnForgot.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		hideSignInSpinner();
-		if (signInTraditionalFailuerInfo.getErrorCode() == INVALID_CREDENTIAL) {
-
-			if (null != signInTraditionalFailuerInfo.getEmailErrorMessage()) {
-				mEtEmail.setErrDescription(signInTraditionalFailuerInfo
-						.getEmailErrorMessage());
-				mEtEmail.showInvalidAlert();
-			}
-
-			if (null != signInTraditionalFailuerInfo.getPasswordErrorMessage()) {
-
-				mEtPassword.setErrDescription(signInTraditionalFailuerInfo
-						.getPasswordErrorMessage());
-				mEtPassword.showInvalidAlert();
-			}
-
-			mRegError.setError(signInTraditionalFailuerInfo
-					.getErrorDescription());
-
-		} else {
-			JanrainErrorMessage errorMessage = new JanrainErrorMessage(
-					getActivity());
-			String message = errorMessage.getError(signInTraditionalFailuerInfo
-					.getErrorCode());
-			updateUiStatus();
-			mEtPassword.setErrDescription(message);
-			mEtEmail.setErrDescription(message);
+		
+		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo
+					.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
-			mEtPassword.showJanarainError();
-
 		}
-	}
 
-	
+		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
+			mEtPassword.setErrDescription(userRegistrationFailureInfo
+					.getPasswordErrorMessage());
+			mEtPassword.showInvalidAlert();
+		}
+
+		mRegError.setError(userRegistrationFailureInfo
+					.getErrorDescription());
+	}
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
@@ -242,44 +221,29 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onSendForgotPasswordFailedWithError(
-			ForgotPasswordFailureInfo forgotPasswordFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
 		
-		if(forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.ONLY_SOCIAL_SIGN_IN_ERROR_CODE){
-			mEtEmail.setErrDescription(forgotPasswordFailureInfo
-					.getEmailErrorMessage());
+		
+		if(null != userRegistrationFailureInfo.getSocialOnlyError()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo
+					.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
-			mRegError.setError(forgotPasswordFailureInfo
-					.getEmailErrorMessage());
-			return;
+			mRegError.setError(userRegistrationFailureInfo
+					.getSocialOnlyError());
 			
+			return ;
 		}
-
-		if (forgotPasswordFailureInfo.getError().captureApiError.code == RegConstants.NO_SUCH_ACCOUNT_ERROR_CODE) {
-
-			if (null != forgotPasswordFailureInfo.getEmailErrorMessage()) {
-				mEtEmail.setErrDescription(forgotPasswordFailureInfo
-						.getEmailErrorMessage());
-				mEtEmail.showInvalidAlert();
-			}
-
-			mRegError.setError(forgotPasswordFailureInfo.getErrorDescription());
-
-		} else {
-
-			JanrainErrorMessage errorMessage = new JanrainErrorMessage(
-					getActivity());
-			String message = errorMessage.getError(forgotPasswordFailureInfo
-					.getErrorCode());
-			mRegError.setError(message);
-			updateUiStatus();
-			mEtPassword.setErrDescription(message);
-			mEtEmail.setErrDescription(message);
+		
+		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo
+					.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
-			mEtPassword.showJanarainError();
-
 		}
+			
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+
 	}
 
 	private void showSignInSpinner() {
@@ -315,7 +279,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 					mEtPassword.clearFocus();
 					mBtnSignInAccount.setEnabled(false);
 					mBtnResend.setEnabled(false);
-					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
+					mUser.forgotPassword("", this);
 				}
 
 			} else {

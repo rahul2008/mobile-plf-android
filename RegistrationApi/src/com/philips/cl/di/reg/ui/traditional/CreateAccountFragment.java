@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.dao.CreateAccountFailuerInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
@@ -53,8 +53,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 	private XEmail mEtEmail;
 
 	private XPassword mEtPassword;
-
-	private final int INVALID_FIELDS = 14;
 
 	private XRegError mRegError;
 
@@ -192,31 +190,27 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onRegisterFailedWithFailure(
-			CreateAccountFailuerInfo createAccountFailuerInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 
-		if (createAccountFailuerInfo.getErrorCode() == INVALID_FIELDS) {
-
-			if (null != createAccountFailuerInfo.getEmailErrorMessage()) {
-				mEtEmail.setErrDescription(createAccountFailuerInfo
+			if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(userRegistrationFailureInfo
 						.getEmailErrorMessage());
 				mEtEmail.showInvalidAlert();
 			}
-			if (null != createAccountFailuerInfo.getPasswordErrorMessage()) {
-				mEtPassword.setErrDescription(createAccountFailuerInfo
+			if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
+				mEtPassword.setErrDescription(userRegistrationFailureInfo
 						.getPasswordErrorMessage());
 				mEtPassword.showInvalidAlert();
 			}
 
-			if (null != createAccountFailuerInfo.getFirstNameErrorMessage()) {
-				mEtName.setErrDescription(createAccountFailuerInfo
+			if (null != userRegistrationFailureInfo.getFirstNameErrorMessage()) {
+				mEtName.setErrDescription(userRegistrationFailureInfo
 						.getFirstNameErrorMessage());
 				mEtName.showInvalidAlert();
 			}
 
-			mRegError.setError(createAccountFailuerInfo.getErrorDescription());
-		} else {
-			mRegError.setError(getString(R.string.NoNetworkConnection));
-		}
+			mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+			
 		hideSpinner();
 	}
 

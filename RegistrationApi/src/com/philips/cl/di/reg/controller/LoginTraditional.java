@@ -8,7 +8,8 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.janrain.android.Jump;
-import com.philips.cl.di.reg.dao.SignInTraditionalFailuerInfo;
+import com.janrain.android.capture.CaptureApiError;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
@@ -43,33 +44,33 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 
 	@Override
 	public void onFailure(SignInError error) {
-		SignInTraditionalFailuerInfo signInTraditionalFailuerInfo = new SignInTraditionalFailuerInfo();
-		signInTraditionalFailuerInfo.setError(error);
-		handleInvalidInputs(error, signInTraditionalFailuerInfo);
-		handleInvalidCredentials(error, signInTraditionalFailuerInfo);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+		userRegistrationFailureInfo.setError(error.captureApiError);
+		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
+		handleInvalidCredentials(error.captureApiError, userRegistrationFailureInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
 		int errorCondition = errorMapping.checkSignInError();
-		signInTraditionalFailuerInfo.setErrorCode(errorCondition);
-		mTraditionalLoginHandler.onLoginFailedWithError(signInTraditionalFailuerInfo);
+		userRegistrationFailureInfo.setErrorCode(errorCondition);
+		mTraditionalLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 	}
 
-	private void handleInvalidInputs(SignInError error,
-	        SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
-		if (null != error.captureApiError && null != error.captureApiError.error
-		        && error.captureApiError.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
+	private void handleInvalidInputs(CaptureApiError error,
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		if (null != error && null != error.error
+		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
-				JSONObject object = error.captureApiError.raw_response;
+				JSONObject object = error.raw_response;
 				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-						signInTraditionalFailuerInfo
+						userRegistrationFailureInfo
 						        .setEmailErrorMessage(getErrorMessage(jsonObject
 						                .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
 					}
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)) {
-						signInTraditionalFailuerInfo
+						userRegistrationFailureInfo
 						        .setPasswordErrorMessage(getErrorMessage(jsonObject
 						                .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)));
 					}
@@ -80,22 +81,22 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 		}
 	}
 	
-	private void handleInvalidCredentials(SignInError error,
-	        SignInTraditionalFailuerInfo signInTraditionalFailuerInfo) {
-		if (null != error.captureApiError && null != error.captureApiError.error
-		        && error.captureApiError.error.equals(RegConstants.INVALID_CREDENTIALS)) {
+	private void handleInvalidCredentials(CaptureApiError error,
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		if (null != error && null != error.error
+		        && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
 			try {
-				JSONObject object = error.captureApiError.raw_response;
+				JSONObject object = error.raw_response;
 				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
 					if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-						signInTraditionalFailuerInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
 						        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
 					}
 
 					if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-						signInTraditionalFailuerInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
+						userRegistrationFailureInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
 						        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
 					}
 				}

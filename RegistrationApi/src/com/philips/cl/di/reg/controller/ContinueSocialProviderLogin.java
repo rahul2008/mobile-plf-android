@@ -7,7 +7,8 @@ import org.json.JSONObject;
 import android.content.Context;
 
 import com.janrain.android.Jump;
-import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
+import com.janrain.android.capture.CaptureApiError;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
@@ -38,27 +39,27 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 
 	public void onFailure(SignInError error) 
 	{
-		SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
-		signInSocialFailureInfo.setError(error);
-		handleInvalidInputs(error, signInSocialFailureInfo);
+		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+		userRegistrationFailureInfo.setError(error.captureApiError);
+		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
 		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
 		int errorCondition = errorMapping.checkSignInError();
-		signInSocialFailureInfo.setErrorCode(errorCondition);
-		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(signInSocialFailureInfo);
+		userRegistrationFailureInfo.setErrorCode(errorCondition);
+		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
 		
 	}
 	
-	private void handleInvalidInputs(SignInError error,
-			SignInSocialFailureInfo signInSocialFailureInfo) {
-		if (null != error.captureApiError && null != error.captureApiError.error
-		        && error.captureApiError.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
+	private void handleInvalidInputs(CaptureApiError error,
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		if (null != error && null != error.error
+		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
-				JSONObject object = error.captureApiError.raw_response;
+				JSONObject object = error.raw_response;
 				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
 					if (!jsonObject.isNull("socialRegistration_emailAddress")) {
-						signInSocialFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
 						        .getJSONArray("socialRegistration_emailAddress")));
 					}
 				}

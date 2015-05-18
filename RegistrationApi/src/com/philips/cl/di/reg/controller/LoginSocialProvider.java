@@ -6,7 +6,7 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
-import com.philips.cl.di.reg.dao.SignInSocialFailureInfo;
+import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
@@ -72,11 +72,9 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,
 
 		} else {
 
-			SignInSocialFailureInfo signInSocialFailureInfo = new SignInSocialFailureInfo();
-			signInSocialFailureInfo.setErrorCode(mGetError);
-			mSocialLoginHandler.onLoginFailedWithError(signInSocialFailureInfo);
+			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
+			userRegistrationFailureInfo.setErrorCode(mGetError);
+			mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
 		}
-
 	}
-
 }

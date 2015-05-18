@@ -1,10 +1,9 @@
 package com.philips.cl.di.reg.dao;
 
-import com.janrain.android.Jump.SignInResultHandler.SignInError;
+import com.janrain.android.capture.CaptureApiError;
 
-public class CreateAccountFailuerInfo {
+public class UserRegistrationFailureInfo {
 
-	/* kSocialEmailError = @"socialRegistration_emailAddress"; */
 	private int errorCode;
 
 	private String firstNameErrorMessage;
@@ -12,23 +11,33 @@ public class CreateAccountFailuerInfo {
 	private String emailErrorMessage;
 
 	private String passwordErrorMessage;
+	
+	private String socialOnlyError;
 
-	private SignInError error;
-
-	public SignInError getError() {
-		return error;
+	public String getSocialOnlyError() {
+		return socialOnlyError;
 	}
 
-	public void setError(SignInError error) {
-		this.error = error;
+	public void setSocialOnlyError(String socialOnlyError) {
+		this.socialOnlyError = socialOnlyError;
 	}
+
+	private CaptureApiError error;
 
 	public String getErrorDescription() {
-		if (null != error && null != error.captureApiError) {
-			return error.captureApiError.error_description;
+		if (null != error ) {
+			return error.error_description;
 		}
 
 		return null;
+	}
+	
+	public int getErrorCode() {
+		return errorCode;
+	}
+
+	public void setErrorCode(int errorCode) {
+		this.errorCode = errorCode;
 	}
 
 	public String getFirstNameErrorMessage() {
@@ -55,12 +64,11 @@ public class CreateAccountFailuerInfo {
 		this.passwordErrorMessage = passwordErrorMessage;
 	}
 
-	public int getErrorCode() {
-		return errorCode;
+	public CaptureApiError getError() {
+		return error;
 	}
 
-	public void setErrorCode(int errorCode) {
-		this.errorCode = errorCode;
+	public void setError(CaptureApiError error) {
+		this.error = error;
 	}
-
 }
