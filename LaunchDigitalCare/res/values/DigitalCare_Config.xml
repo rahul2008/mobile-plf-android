@@ -81,5 +81,12 @@
     <color name="NetworkAlertView_text_color">#ffffff</color>
 
     <string name="NetworkAlertView_text">@string/no_internet</string>
+    
+    <!-- Post to Facebook Support page: DigitalCare horizontal component supports rollback page hitting feature.
+           i,e Core application can use "facebook_support_page" to send the product relevent queries. If that 
+           page is not reachable with respect to certain scenario's then the support query will automatically send to global
+           Philips page(i,e facebook_support_page_rollback)  -->
+    <string name="facebook_support_page" translatable="false">PhilipsHomeLiving</string>
+    <string name="facebook_support_page_rollback" translatable="false">Philips</string>
 
 </resources>
