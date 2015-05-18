@@ -264,6 +264,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	private boolean isDescriptionAvailable() {
 		String s = mEditText.getText().toString();
+		s = s.trim();
+		s = s.toString() + " ";
 		if (s.equalsIgnoreCase(mTwitter_to))
 			return true;
 		return false;
