@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
-import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
@@ -26,15 +25,11 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 	}
 
 	public void onFailure(CaptureApiError error) {
-
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error);
 		handleInvalidInputs(error, userRegistrationFailureInfo);
 		handleInvalidCredentials(error, userRegistrationFailureInfo);
-		FailureErrorMaping errorMapping = new FailureErrorMaping(null, error,
-				null);
-		int getError = errorMapping.checkCaptureApiError();
-		userRegistrationFailureInfo.setErrorCode(getError);
+		userRegistrationFailureInfo.setErrorCode(error.code);
 		mResendVerificationEmail
 				.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
 	}

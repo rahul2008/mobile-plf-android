@@ -1,8 +1,6 @@
 
 package com.philips.cl.di.regsample.app;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-import com.philips.cl.di.reg.controller.LoginTraditional;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
-import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.traditional.RegistrationActivity;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 

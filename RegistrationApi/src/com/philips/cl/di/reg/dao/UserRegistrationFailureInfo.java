@@ -6,13 +6,24 @@ public class UserRegistrationFailureInfo {
 
 	private int errorCode;
 
+	private String errorDescription;
 	private String firstNameErrorMessage;
 
 	private String emailErrorMessage;
 
 	private String passwordErrorMessage;
-	
+
 	private String socialOnlyError;
+
+	private String displayNameErrorMessage;
+
+	public String getDisplayNameErrorMessage() {
+		return displayNameErrorMessage;
+	}
+
+	public void setDisplayNameErrorMessage(String displayNameErrorMessage) {
+		this.displayNameErrorMessage = displayNameErrorMessage;
+	}
 
 	public String getSocialOnlyError() {
 		return socialOnlyError;
@@ -25,13 +36,14 @@ public class UserRegistrationFailureInfo {
 	private CaptureApiError error;
 
 	public String getErrorDescription() {
-		if (null != error ) {
+		if (null != error) {
 			return error.error_description;
 		}
-
 		return null;
 	}
-	
+
+
+
 	public int getErrorCode() {
 		return errorCode;
 	}

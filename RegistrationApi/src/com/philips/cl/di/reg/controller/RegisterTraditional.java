@@ -10,7 +10,6 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
-import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -47,9 +46,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error.captureApiError);
 		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
-		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
-		int errorCondition = errorMapping.checkSignInError();
-		userRegistrationFailureInfo.setErrorCode(errorCondition);
+		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
 		mTraditionalRegisterHandler.onRegisterFailedWithFailure(userRegistrationFailureInfo);
 	}
 

@@ -9,13 +9,13 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
-import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 		Jump.SignInCodeHandler {
+	
 	private SocialProviderLoginHandler mSocialProviderLoginHandler;
 	private Context mContext;
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
@@ -42,11 +42,8 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error.captureApiError);
 		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
-		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null, null);
-		int errorCondition = errorMapping.checkSignInError();
-		userRegistrationFailureInfo.setErrorCode(errorCondition);
+		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
 		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
-		
 	}
 	
 	private void handleInvalidInputs(CaptureApiError error,
@@ -58,9 +55,14 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
-					if (!jsonObject.isNull("socialRegistration_emailAddress")) {
+					if (!jsonObject.isNull(RegConstants.SOCIAL_REGISTRATION_EMAIL_ADDRESS)) {
 						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray("socialRegistration_emailAddress")));
+						        .getJSONArray(RegConstants.SOCIAL_REGISTRATION_EMAIL_ADDRESS)));
+					}
+					if (!jsonObject.isNull(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)) {
+						userRegistrationFailureInfo
+								.setDisplayNameErrorMessage(getErrorMessage(jsonObject
+						        .getJSONArray(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)));
 					}
 				}
 			} catch (JSONException e) {

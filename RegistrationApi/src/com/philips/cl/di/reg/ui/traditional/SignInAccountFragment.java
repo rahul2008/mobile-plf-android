@@ -225,7 +225,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
 		
-		
 		if(null != userRegistrationFailureInfo.getSocialOnlyError()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo
 					.getSocialOnlyError());
@@ -279,7 +278,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 					mEtPassword.clearFocus();
 					mBtnSignInAccount.setEnabled(false);
 					mBtnResend.setEnabled(false);
-					mUser.forgotPassword("", this);
+					mUser.forgotPassword(mEtEmail.getEmailId(), this);
 				}
 
 			} else {

@@ -44,6 +44,9 @@ public class XRegError extends RelativeLayout {
 	}
 
 	public void setError(String errorMsg) {
+		if (null == errorMsg) {
+			return;
+		}
 		mTvError.setText(errorMsg);
 		setVisibility(VISIBLE);
 	}

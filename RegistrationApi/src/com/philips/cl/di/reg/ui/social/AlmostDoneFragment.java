@@ -317,13 +317,24 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 	public void onContinueSocialProviderLoginFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		RLog.i("Almost Done", "onContinueSocialProviderLoginFailure");
 		hideSpinner();
-		
-		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo
-					.getEmailErrorMessage());
-			mEtEmail.showInvalidAlert();
-		}
+		RLog.i("Almost Done **************************************  : "," CODE :" +userRegistrationFailureInfo.getErrorCode());
+
+	
+
+			if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+				mEtEmail.setErrDescription(userRegistrationFailureInfo
+						.getEmailErrorMessage());
+				mEtEmail.showInvalidAlert();
+			}
 			
+			if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
+				mEtEmail.setErrDescription(userRegistrationFailureInfo
+						.getDisplayNameErrorMessage());
+				mEtEmail.showInvalidAlert();
+				mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'" + mDisplayName+"' " + userRegistrationFailureInfo.getDisplayNameErrorMessage());
+				return;
+			}
+		
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 	}
 

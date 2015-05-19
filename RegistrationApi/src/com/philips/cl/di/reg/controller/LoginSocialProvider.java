@@ -6,24 +6,24 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
+import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
-import com.philips.cl.di.reg.errormapping.FailureErrorMaping;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
+import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class LoginSocialProvider implements Jump.SignInResultHandler,
 		Jump.SignInCodeHandler {
 	private Context mContext;
 	private SocialProviderLoginHandler mSocialLoginHandler;
 	private String mMergeToken;
-	private int mGetError = 1;
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
 	public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler,
-			Context context,UpdateUserRecordHandler updateUserRecordHandler) {
+			Context context, UpdateUserRecordHandler updateUserRecordHandler) {
 		mSocialLoginHandler = socialLoginHandler;
 		mContext = context;
-		mUpdateUserRecordHandler =updateUserRecordHandler ;
+		mUpdateUserRecordHandler = updateUserRecordHandler;
 	}
 
 	@Override
@@ -40,11 +40,6 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,
 
 	@Override
 	public void onFailure(SignInError error) {
-
-		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null,
-				null);
-		mGetError = errorMapping.checkSignInError();
-
 		if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
 				&& error.captureApiError.isMergeFlowError()) {
 
@@ -71,10 +66,13 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,
 					socialRegistrationToken);
 
 		} else {
-
+			
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-			userRegistrationFailureInfo.setErrorCode(mGetError);
-			mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+			userRegistrationFailureInfo
+					.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+			mSocialLoginHandler
+			.onLoginFailedWithError(userRegistrationFailureInfo);
+			
 		}
 	}
 }

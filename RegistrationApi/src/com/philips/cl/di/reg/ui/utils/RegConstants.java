@@ -75,7 +75,7 @@ public class RegConstants {
 	public static final int INVALID_FIELDS_ERROR_CODE = 390;
 
 	public static final int NO_SUCH_ACCOUNT_ERROR_CODE = 212;
-	
+
 	public static final int ONLY_SOCIAL_SIGN_IN_ERROR_CODE = 540;
 
 	public static final String SOCIAL_PROVIDER = "SOCIAL_PROVIDER";
@@ -89,5 +89,13 @@ public class RegConstants {
 	public static final String SOCIAL_MERGE_TOKEN = "SOCIAL_MERGE_TOKEN";
 
 	public static final String USER_LOGIN_SUCCESS = "USER_LOGIN_SUCCESS";
+
+	public static final String SOCIAL_REGISTRATION_DISPLAY_NAME = "socialRegistration_displayName";
+
+	public static final String SOCIAL_REGISTRATION_EMAIL_ADDRESS = "socialRegistration_emailAddress";
+
+	public static final String MESSAGE = "message";
+
+	public static final int DI_PROFILE_NULL_ERROR_CODE = -1;
 
 }

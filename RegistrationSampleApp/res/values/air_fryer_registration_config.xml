@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
-    <!-- Framework specific start -->
-    <!-- Error message -->
-    <color name="reg_error_box_color">#E88200</color>
-    <color name="reg_err_msg_color">#E88200</color>
-    <!-- Framework specific End -->
-
-
-    <!-- Framework specific -->
-
-
     <!-- User configuration start -->
 
 
@@ -28,14 +18,14 @@
 
     <!-- Action bar header -->
     <!-- Strating color of Header:background  start gradient color -->
-    <color name="reg_header_bg_start_color">#28558D</color>
+    <color name="reg_header_bg_start_color">#FFFFFF</color>
     <!-- Ending color of Header:background end gradient color -->
-    <color name="reg_header_bg_end_color">#287EB0</color>
+    <color name="reg_header_bg_end_color">#FFFFFF</color>
     <!-- Header title text color -->
-    <color name="reg_header_text_color">#FFFFFF</color>
+    <color name="reg_header_text_color">#323232</color>
 
     <!-- Page heading text color -->
-    <color name="reg_text_heading_one_color">#003377</color>
+    <color name="reg_text_heading_one_color">#323232</color>
 
     <!-- Description text color -->
     <color name="reg_text_desc_color">#252525</color>
@@ -44,7 +34,7 @@
 
     <!-- Common Button -->
     <!-- Common button enabled color -->
-    <color name="reg_btn_bg_enabled_color">#003478</color>
+    <color name="reg_btn_bg_enabled_color">#EDAE00</color>
     <!-- Common button disabled color -->
     <color name="reg_btn_bg_disabled_color">#EFEFEF</color>
     <!-- Common button enabled text color -->
@@ -58,35 +48,30 @@
     <!-- Text box background color -->
     <color name="reg_et_bg_color">#FFFFFF</color>
     <!-- Text box border enabled color -->
-    <color name="reg_et_enabled_color">#000000</color>
+    <color name="reg_et_enabled_color">#EDAE00</color>
 
     <!-- Forgot password button -->
     <!-- Forgot password buton border color -->
-    <color name="reg_btn_forgot_border">#7793B9</color>
+    <color name="reg_btn_forgot_border">#EDAE00</color>
     <!-- Forgot password buton background color -->
     <color name="reg_btn_forgot_bg">#FFFFFF</color>
     <!-- Forgot password buton textcolor -->
-    <color name="reg_forgot_text_color">#003377</color>
+    <color name="reg_forgot_text_color">#EDAE00</color>
 
     <!-- Resend email button -->
     <!-- Resend email button border color -->
-    <color name="reg_btn_resend_border">#EBBB7D</color>
+    <color name="reg_btn_resend_border">#EDAE00</color>
     <!-- Resend email button background color -->
     <color name="reg_btn_resend_bg">#FFFFFF</color>
     <!-- resend buton textcolor -->
-    <color name="reg_btn_resend_text_color">#003377</color>
-    
+    <color name="reg_btn_resend_text_color">#EDAE00</color>
 
     <!-- Line devider color -->
     <color name="reg_devider_color">#E4EAFD</color>
 
     <!-- Provider button text color -->
     <color name="reg_provider_text_color">#FFFFFF</color>
-    
-    <!-- privacy policy and Terms and condition hyper link color --> 
-	 <color name="reg_hyperlink_highlight_color">#1470AA</color>
-	 
+
     <!-- User configuration end -->
-   
-    
+
 </resources>

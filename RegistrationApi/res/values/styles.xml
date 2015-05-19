@@ -86,7 +86,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/reg_err_msg_color</item>
+        <item name="android:textColor">@color/reg_btn_resend_text_color</item>
         <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
