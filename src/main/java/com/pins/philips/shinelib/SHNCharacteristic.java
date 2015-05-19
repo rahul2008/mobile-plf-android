@@ -35,6 +35,7 @@ public class SHNCharacteristic {
         this.uuid = characteristicUUID;
         this.state = State.Inactive;
         this.pendingCompletions = new LinkedList<>();
+        if (LOGGING) Log.i(TAG, "created: " + uuid);
     }
 
     public State getState() {
@@ -46,12 +47,14 @@ public class SHNCharacteristic {
     }
 
     public void connectToBLELayer(BTGatt btGatt, BluetoothGattCharacteristic bluetoothGattCharacteristic) {
+        if (LOGGING) Log.i(TAG, "connectToBLELayer: " + uuid);
         this.btGatt = btGatt;
         this.bluetoothGattCharacteristic = bluetoothGattCharacteristic;
         state = State.Active;
     }
 
     public void disconnectFromBLELayer() {
+        if (LOGGING) Log.i(TAG, "disconnectFromBLELayer: " + uuid);
         bluetoothGattCharacteristic = null;
         btGatt = null;
         state = State.Inactive;

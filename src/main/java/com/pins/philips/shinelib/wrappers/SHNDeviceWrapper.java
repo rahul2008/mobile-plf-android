@@ -1,6 +1,7 @@
 package com.pins.philips.shinelib.wrappers;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNCapabilityType;
@@ -15,6 +16,8 @@ import java.util.Set;
  * Created by 310188215 on 05/05/15.
  */
 public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener {
+    private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
+    private static final boolean LOGGING = false;
     private final SHNDevice shnDevice;
     private final Handler internalHandler;
     private final Handler userHandler;
@@ -103,6 +106,7 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
         synchronized (shnDeviceListeners) {
             for (final SHNDeviceListener shnDeviceListener: shnDeviceListeners) {
                 if (shnDeviceListener != null) {
+                    if (LOGGING) Log.i(TAG, "posting onStateUpdated() to the user");
                     userHandler.post(new Runnable() {
                         @Override
                         public void run() {
