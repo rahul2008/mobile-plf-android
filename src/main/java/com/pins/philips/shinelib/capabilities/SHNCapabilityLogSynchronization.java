@@ -10,9 +10,9 @@ import com.pins.philips.shinelib.datatypes.SHNLog;
  */
 public interface SHNCapabilityLogSynchronization extends SHNCapability {
     enum State {
-        Idle,
-        Synchronizing,
-        Processing
+        Idle
+        ,Synchronizing
+//        ,Processing
     }
 
     enum Option {
@@ -25,7 +25,7 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
     }
 
     enum Error {
-        LogBufferFormatError, UnknownLogRecordType // SHNError.h
+        NoError, LogBufferFormatError, UnknownLogRecordType, InvalidStateError // SHNError.h
 
     }
 
@@ -40,9 +40,9 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
     State getState();
     Object getLastSynchronizationToken();
 
-    void getValueForOption(Option option, SHNIntegerResultListener shnResultListener);
-    void setValueForOption(int value, Option option, SHNResultListener shnResultListener);
-
     void startSynchronizationFromToken(Object synchronizationToken);
     void abortSynchronization();
+
+    void getValueForOption(Option option, SHNIntegerResultListener shnResultListener);
+    void setValueForOption(int value, Option option, SHNResultListener shnResultListener);
 }
