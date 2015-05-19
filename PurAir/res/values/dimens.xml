@@ -29,5 +29,6 @@
     <dimen name="title_height">46dp</dimen>
     <dimen name="expression_item_height">140dp</dimen>
     <dimen name="view_pager_indicator_padding_bottom">8dp</dimen>
+    <dimen name="outdoor_circle_text_size_dp">26dp</dimen>
 
 </resources>

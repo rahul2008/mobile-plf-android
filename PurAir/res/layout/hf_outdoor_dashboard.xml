@@ -172,7 +172,7 @@
             android:lineSpacingExtra="2dp"
             android:text="@string/no_data"
             android:textColor="@color/white"
-            android:textSize="@dimen/title_text_size_small_dp"
+            android:textSize="@dimen/outdoor_circle_text_size_dp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <LinearLayout
