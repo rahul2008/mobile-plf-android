@@ -1,5 +1,12 @@
 package com.philips.cl.di.digitalcare.locatephilips;
 
+/**
+ * CustomGeoAdapter is Custom BaseAdapter for Search ListView.
+ * 
+ * @author : pawan.kumar.deshpande@philips.com
+ * 
+ * @since : 15 May 2015
+ */
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -8,40 +15,39 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.philips.cl.di.digitalcare.R;
 
-public class CustomGeoAdapter extends BaseAdapter {
+public class CustomGeoAdapter extends BaseAdapter implements Filterable {
+	private Context context;
+	private ArrayList<AtosResultsModel> mResultModelSet;
+	private ArrayList<AtosResultsModel> mOriginalSet;
 
-	Context context;
-	// List<GeoDataModel> ListItems;
-	ArrayList<ResultsModel> mresultModel;
+	private CustomFilter mCustomFilter;
 
-	CustomGeoAdapter(Context context, ArrayList<ResultsModel> resultModel) {
+	CustomGeoAdapter(Context context,
+			ArrayList<AtosResultsModel> mresultModelSet) {
 		this.context = context;
-		// this.ListItems = ListItems;
-
-		this.mresultModel = resultModel;
-
+		this.mResultModelSet = mresultModelSet;
+		mOriginalSet = mresultModelSet;
 	}
 
 	@Override
 	public int getCount() {
-
-		return mresultModel.size();
+		return mResultModelSet.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-
-		return mresultModel.get(position);
+		return mResultModelSet.get(position);
 	}
 
 	@Override
 	public long getItemId(int position) {
-
-		return mresultModel.indexOf(getItem(position));
+		return mResultModelSet.indexOf(getItem(position));
 	}
 
 	@Override
@@ -53,24 +59,76 @@ public class CustomGeoAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.geo_list_item, null);
 		}
 
+		TextView txtTitle = (TextView) convertView
+				.findViewById(R.id.place_title);
 		TextView txtAddress = (TextView) convertView
 				.findViewById(R.id.place_address);
-		TextView txtCityState = (TextView) convertView
-				.findViewById(R.id.place_city_state);
-
 		TextView txtPhone = (TextView) convertView
 				.findViewById(R.id.place_phone);
 
-		ResultsModel resultModel = mresultModel.get(position);
+		AtosResultsModel resultModel = mResultModelSet.get(position);
+		AtosAddressModel addressModel = resultModel.getmAddressModel();
 
-		AddressModel addressModel = resultModel.getmAddressModel();
-
-		txtAddress.setText(addressModel.getAddress1());
-		txtCityState.setText(addressModel.getCityState());
+		txtTitle.setText(resultModel.getTitle());
+		txtAddress.setText(addressModel.getAddress1()
+				+ addressModel.getCityState());
 		txtPhone.setText(addressModel.getPhone());
-
 		return convertView;
-
 	}
 
+	@Override
+	public Filter getFilter() {
+		if (mCustomFilter == null) {
+			mCustomFilter = new CustomFilter();
+		}
+		return mCustomFilter;
+	}
+
+	private class CustomFilter extends Filter {
+
+		@Override
+		protected FilterResults performFiltering(CharSequence constraint) {
+			FilterResults filterResults = new FilterResults();
+			if (constraint != null && constraint.length() > 0) {
+				ArrayList<AtosResultsModel> FilteredResultModelSet = new ArrayList<AtosResultsModel>();
+				for (int i = 0; i < mOriginalSet.size(); i++) {
+					AtosResultsModel resultModel = mOriginalSet.get(i);
+					AtosAddressModel addressModel = resultModel
+							.getmAddressModel();
+					if ((addressModel.getCityState().toUpperCase())
+							.contains(constraint.toString().toUpperCase())) {
+
+						AtosResultsModel filteredResultModel = new AtosResultsModel();
+
+						filteredResultModel.setId(resultModel.getId());
+						filteredResultModel.setInfoType(resultModel
+								.getInfoType());
+						filteredResultModel.setTitle(resultModel.getTitle());
+						filteredResultModel.setLocationModel(resultModel
+								.getLocationModel());
+						filteredResultModel.setAddressModel(resultModel
+								.getmAddressModel());
+						FilteredResultModelSet.add(filteredResultModel);
+					} // if
+
+				} // for
+				filterResults.count = FilteredResultModelSet.size();
+				filterResults.values = FilteredResultModelSet;
+			} else {
+				synchronized (this) {
+					filterResults.count = mOriginalSet.size();
+					filterResults.values = mOriginalSet;
+				}
+			}
+			return filterResults;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected void publishResults(CharSequence constraint,
+				FilterResults results) {
+			mResultModelSet = (ArrayList<AtosResultsModel>) results.values;
+			notifyDataSetChanged();
+		}
+	}
 }

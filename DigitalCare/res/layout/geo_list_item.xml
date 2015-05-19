@@ -3,15 +3,16 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/whitesmoke"
     android:orientation="vertical"
-    android:padding="10dp" 
-    android:background="@color/whitesmoke">
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp" >
 
     <!-- Address -->
 
     <TextView
-        android:id="@+id/place_address"
-        style="@style/locateText"
+        android:id="@+id/place_title"
+        style="@style/locateNearText"
         android:text=""
         android:textStyle="bold"
         custom:fontAssetName="fonts/centralesans-book.otf" />
@@ -19,8 +20,8 @@
     <!-- City State -->
 
     <TextView
-        android:id="@+id/place_city_state"
-        style="@style/locateText"
+        android:id="@+id/place_address"
+        style="@style/locateNearText"
         android:text=""
         custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -28,7 +29,7 @@
 
     <TextView
         android:id="@+id/place_phone"
-        style="@style/locateText"
+        style="@style/locateNearText"
         android:text=""
         custom:fontAssetName="fonts/centralesans-book.otf" />
 

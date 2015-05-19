@@ -21,7 +21,7 @@ public class AtosResponseParser {
 	private Context mContext = null;
 	private static AtosResponseParser mParserController = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
-	private ArrayList<ResultsModel> mArrayListResultsModel = null;
+	private ArrayList<AtosResultsModel> mArrayListResultsModel = null;
 
 	private AtosResponseParser(Context context) {
 		mContext = context;
@@ -57,7 +57,7 @@ public class AtosResponseParser {
 
 			Log.i(TAG, "response jsonObjectData : " + jsonObjectData);
 
-			LocationModel currentLocationModel = null;
+			AtosLocationModel currentLocationModel = null;
 			AtosErrorModel cdlsErrorModel = null;
 
 			if (success) {
@@ -65,12 +65,12 @@ public class AtosResponseParser {
 						.optJSONObject("centerMap");
 				String latitude = centerMap.optString("latitude");
 				String longitude = centerMap.optString("longitude");
-				currentLocationModel = new LocationModel();
+				currentLocationModel = new AtosLocationModel();
 				currentLocationModel.setLatitude(latitude);
 				currentLocationModel.setLongitude(longitude);
 
 				JSONArray jsonArray = jsonObjectData.optJSONArray("results");
-				mArrayListResultsModel = new ArrayList<ResultsModel>();
+				mArrayListResultsModel = new ArrayList<AtosResultsModel>();
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject jsonObj = jsonArray.optJSONObject(i);
 					parseResult(jsonObj);
@@ -104,12 +104,12 @@ public class AtosResponseParser {
 		JSONObject location = jsonObj.optJSONObject("location");
 		String latitude = location.optString("latitude");
 		String longitude = location.optString("longitude");
-		LocationModel locationModel = new LocationModel();
+		AtosLocationModel locationModel = new AtosLocationModel();
 		locationModel.setLatitude(latitude);
 		locationModel.setLongitude(longitude);
 
-		Log.i("testing", "title : " + title);
-		Log.i("testing", "jsonAddress : " + jsonAddress);
+//		Log.i("testing", "title : " + title);
+//		Log.i("testing", "jsonAddress : " + jsonAddress);
 
 		/* Address */
 		String zip = jsonAddress.optString("zip");
@@ -122,7 +122,7 @@ public class AtosResponseParser {
 		String cityState = jsonAddress.optString("city") + " "
 				+ jsonAddress.optString("state");
 
-		AddressModel addressModel = new AddressModel();
+		AtosAddressModel addressModel = new AtosAddressModel();
 		addressModel.setZip(zip);
 		addressModel.setPhone(phone);
 		// addressModel.setState(state);
@@ -133,7 +133,7 @@ public class AtosResponseParser {
 		addressModel.setCityState(cityState);
 
 		/* Result */
-		ResultsModel resultModel = new ResultsModel();
+		AtosResultsModel resultModel = new AtosResultsModel();
 		resultModel.setAddressModel(addressModel);
 		resultModel.setId(id);
 		resultModel.setInfoType(infoType);

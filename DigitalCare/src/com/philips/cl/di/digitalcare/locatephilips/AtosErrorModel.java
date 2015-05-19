@@ -1,6 +1,6 @@
 package com.philips.cl.di.digitalcare.locatephilips;
 /**
- *	CdlsErrorModel is bean class for error.
+ *	AtosErrorModel is bean class for error.
  * 
  * @author: ritesh.jha@philips.com
  * 

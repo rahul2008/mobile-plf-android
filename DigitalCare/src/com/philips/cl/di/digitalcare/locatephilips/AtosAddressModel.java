@@ -1,13 +1,13 @@
 package com.philips.cl.di.digitalcare.locatephilips;
 
 /**
- * AddressModel is bean class for Address.
+ * AtosAddressModel is bean class for Address.
  * 
  * @author : Ritesh.jha@philips.com
  * 
  * @since : 9 May 2015
  */
-public class AddressModel {
+public class AtosAddressModel {
 	private String mZip = null;
 	private String mPhone = null;
 	// private String mState = null;

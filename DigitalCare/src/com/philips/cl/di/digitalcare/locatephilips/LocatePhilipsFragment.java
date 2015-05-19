@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -24,8 +25,12 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -49,6 +54,7 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.contactus.CdlsRequestTask;
 import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
+import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 
 /**
  * LocateNearYouFragment will help to locate PHILIPS SERVICE CENTERS on the
@@ -84,7 +90,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	// private static final String CDLS_BASE_URL_PREFIX =
 	// "http://www.philips.com/search/search?q=FC5830/81&lat=12.920102&lng=77.571412&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 
-	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=FC5830/81&&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
+	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=FC5830/81&&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 
 	private static final String TAG = LocatePhilipsFragment.class
 			.getSimpleName();
@@ -98,9 +104,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	// variables related to search
 	private LinearLayout linearLayout;
 	private ListView listview;
-	private TextView txtAddress, txtCityState, txtPhone;
-	private String[] titles;
-	private String[] descriptions;
+	private TextView txtAddress, txtTitle, txtPhone;
+	private ArrayList<AtosResultsModel> mresultmodelSet;
+
+	private EditText searchBox;
+	private ImageView searchIcon, markerIcon;
+	private Button button_call, button_direction;
 
 	private CustomGeoAdapter adapter;
 	private Handler mHandler = null;
@@ -127,11 +136,23 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 
 		linearLayout = (LinearLayout) mView.findViewById(R.id.showlayout);
-//		linearLayout.setVisibility(View.GONE); // ritesh testing
 		listview = (ListView) mView.findViewById(R.id.placelistview);
+		txtTitle = (TextView) mView.findViewById(R.id.place_title);
 		txtAddress = (TextView) mView.findViewById(R.id.place_address);
-		txtCityState = (TextView) mView.findViewById(R.id.place_city_state);
+
 		txtPhone = (TextView) mView.findViewById(R.id.place_phone);
+
+		searchBox = (EditText) mView.findViewById(R.id.search_box);
+		searchIcon = (ImageView) mView.findViewById(R.id.search_icon);
+		markerIcon = (ImageView) mView.findViewById(R.id.marker_icon);
+
+		button_call = (Button) mView.findViewById(R.id.call);
+		button_direction = (Button) mView.findViewById(R.id.getdirection);
+
+		searchIcon.setOnClickListener(this);
+		markerIcon.setOnClickListener(this);
+
+		listview.setTextFilterEnabled(true);
 
 		return mView;
 	}
@@ -142,7 +163,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		initView();
 		// initMap();
 		checkGooglePlayServices();
-		Log.i("testing", "initLocationProvider : " + initLocationProvider());
 		if (initLocationProvider()) {
 			whereAmI();
 		} else {
@@ -167,7 +187,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	 * Forming CDLS url. This url will be different for US and other countries.
 	 */
 	private String formCdlsURL() {
-		return CDLS_BASE_URL_PREFIX/*
+		return ATOS_BASE_URL_PREFIX/*
 									 * + DigitalCareConfigManager.getLocale() +
 									 * DigitalCareConfigManager
 									 * .getCdlsPrimarySubCategory() +
@@ -196,7 +216,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 						// mThread = new Thread(mRunnable);
 						// mThread.start();
 
-						ArrayList<ResultsModel> resultModelSet = mCdlsParsedResponse
+						ArrayList<AtosResultsModel> resultModelSet = mCdlsParsedResponse
 								.getResultsModel();
 						if (resultModelSet.size() <= 0) {
 							return;
@@ -235,7 +255,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		@Override
 		public void run() {
-			ArrayList<ResultsModel> resultModelSet = atosResponseModel
+			ArrayList<AtosResultsModel> resultModelSet = atosResponseModel
 					.getResultsModel();
 			if (resultModelSet.size() <= 0) {
 				return;
@@ -244,7 +264,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
-	private void addMarkers(final ArrayList<ResultsModel> resultModelSet) {
+	private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
 
 		// ResultsModel rs = resultModelSet.get(0);
 		// AddressModel am = rs.getmAddressModel();
@@ -262,9 +282,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mMap.setOnMarkerClickListener(this);
 
 		for (int i = 0; i < resultModelSet.size(); i++) {
-			ResultsModel resultModel = resultModelSet.get(i);
-			LocationModel locationModel = resultModel.getLocationModel();
-			AddressModel addressModel = resultModel.getmAddressModel();
+			AtosResultsModel resultModel = resultModelSet.get(i);
+			AtosLocationModel locationModel = resultModel.getLocationModel();
+			AtosAddressModel addressModel = resultModel.getmAddressModel();
 			double lat = Double.parseDouble(locationModel.getLatitude());
 			double lng = Double.parseDouble(locationModel.getLongitude());
 			LatLng latLng = new LatLng(lat, lng);
@@ -293,18 +313,33 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 
-				AddressModel addressModel = resultModelSet.get(position)
-						.getmAddressModel();
+				AtosResultsModel resultModel = (AtosResultsModel) adapter
+						.getItem(position);
 
-				txtAddress.setText(addressModel.getAddress1());
-				txtCityState.setText(addressModel.getCityState());
-				txtPhone.setText(addressModel.getPhone());
+				// Toast.makeText(getActivity(), "" + r.getTitle(),
+				// Toast.LENGTH_SHORT).show();
+
+				AtosAddressModel addressModel = resultModel.getmAddressModel();
+
+				txtTitle.setText(resultModel.getTitle());
+				txtAddress.setText(addressModel.getAddress1()
+						+ addressModel.getCityState() + "\n"
+						+ addressModel.getUrl());
+
+				// txtPhone.setText(addressModel.getPhone());
+				txtPhone.setVisibility(View.GONE);
+
+				String phoneNumbers[] = addressModel.getPhone().split(",");
+				button_call.setText(getResources().getString(R.string.call)
+						+ " " + phoneNumbers[0]);
+
 				listview.setVisibility(View.GONE);
 				linearLayout.setVisibility(View.VISIBLE);
-//				linearLayout.setVisibility(View.GONE);// ritesh testing
+				markerIcon.setVisibility(View.GONE);
+
+				// linearLayout.setVisibility(View.GONE);// ritesh testing
 			}
 		});
-
 	}
 
 	private void createBitmap() {
@@ -379,6 +414,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				settings.setZoomControlsEnabled(true);
 				settings.setZoomGesturesEnabled(true);
 				mHandler.removeCallbacks(mMapViewRunnable);
+				mMap.setMyLocationEnabled(true);
+				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			}
 		}
 	};
@@ -448,7 +485,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		markerOpt.position(new LatLng(lat, lng));
 		markerOpt.title("testing");
 		markerOpt.snippet("testing");
-		markerMe = mMap.addMarker(markerOpt);
+		// markerMe = mMap.addMarker(markerOpt);
+		mMap.setMyLocationEnabled(true);
+		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
 		Toast.makeText(getActivity(), "lat:" + lat + ",lng:" + lng,
 				Toast.LENGTH_SHORT).show();
@@ -462,28 +501,62 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	private Polyline mPolyline = null;
+	private MapDirectionResponse mGetDirectionResponse = null;
+	private MapDirections md = null;
 
-	private void trackToMe(LatLng currentLocation, LatLng markerPosition) {
-		traceOfMe = null;
+	private void trackToMe(final LatLng currentLocation,
+			final LatLng markerPosition) {
+		if (traceOfMe != null && !traceOfMe.isEmpty()) {
+			traceOfMe.clear();
+			traceOfMe = null;
+		}
 		if (traceOfMe == null) {
-			traceOfMe = new ArrayList<LatLng>();
-			traceOfMe.add(currentLocation);
-			traceOfMe.add(markerPosition);
+			mGetDirectionResponse = new MapDirectionResponse() {
+				@Override
+				public void onReceived(ArrayList<LatLng> arrayList) {
+					traceOfMe = arrayList;
+					// traceOfMe.add(currentLocation);
+					// traceOfMe.add(markerPosition);
+					PolylineOptions polylineOpt = new PolylineOptions();
+					for (LatLng latlng : traceOfMe) {
+						polylineOpt.add(latlng);
+					}
+
+					polylineOpt.color(Color.BLUE);
+
+					if (mPolyline != null) {
+						mPolyline.remove();
+						mPolyline = null;
+					}
+					/* Polyline */mPolyline = mMap.addPolyline(polylineOpt);
+					mPolyline.setWidth(12);
+				}
+			};
+			md = new MapDirections(mGetDirectionResponse, currentLocation,
+					markerPosition);
+			// Document doc = md.getDocument(/*currentLocation,
+			// markerPosition*/);
+			// md.processGetDirections();
+
+			// traceOfMe = new ArrayList<LatLng>();
+			// traceOfMe = md.getDirection(doc);
+			// traceOfMe.add(currentLocation);
+			// traceOfMe.add(markerPosition);
 		}
 
-		PolylineOptions polylineOpt = new PolylineOptions();
-		for (LatLng latlng : traceOfMe) {
-			polylineOpt.add(latlng);
-		}
-
-		polylineOpt.color(Color.BLUE);
-
-		if(mPolyline != null){
-			mPolyline.remove();
-			mPolyline=null;
-		}
-		/*Polyline*/ mPolyline = mMap.addPolyline(polylineOpt);
-		mPolyline.setWidth(8);
+		// PolylineOptions polylineOpt = new PolylineOptions();
+		// for (LatLng latlng : traceOfMe) {
+		// polylineOpt.add(latlng);
+		// }
+		//
+		// polylineOpt.color(Color.BLUE);
+		//
+		// if (mPolyline != null) {
+		// mPolyline.remove();
+		// mPolyline = null;
+		// }
+		// /* Polyline */mPolyline = mMap.addPolyline(polylineOpt);
+		// mPolyline.setWidth(8);
 	}
 
 	/**
@@ -499,7 +572,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			String timeString = getTimeString(time);
 
 			where = "latitude : " + lat + "\n longitude : " + lng
-					+ "\n³ speed: " + speed + "\n timestamp: " + timeString
+					+ "\n speed: " + speed + "\n timestamp: " + timeString
 					+ "\nProvider: " + provider;
 
 			showMarkerMe(lat, lng);
@@ -671,7 +744,36 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+
+		if (v.getId() == R.id.search_icon) {
+
+			// hide keyboard
+			InputMethodManager inputMethodManager = (InputMethodManager) getActivity()
+					.getSystemService(Activity.INPUT_METHOD_SERVICE);
+			inputMethodManager.hideSoftInputFromWindow(getActivity()
+					.getCurrentFocus().getWindowToken(), 0);
+
+			String constrain = searchBox.getText().toString().trim();
+
+			if (constrain.length() > 1) {
+				adapter.getFilter().filter(constrain);
+				linearLayout.setVisibility(View.GONE);
+				listview.setVisibility(View.VISIBLE);
+				markerIcon.setVisibility(View.VISIBLE);
+			} else {
+				// Toast.makeText(getActivity(), "empty", Toast.LENGTH_SHORT)
+				// .show();
+			}
+
+		}
+
+		else if (v.getId() == R.id.marker_icon) {
+
+			// Toast.makeText(getActivity(), "Marker Icon Clicked",
+			// Toast.LENGTH_SHORT).show();
+			listview.setVisibility(View.GONE);
+			searchBox.setText(null);
+		}
 
 	}
 

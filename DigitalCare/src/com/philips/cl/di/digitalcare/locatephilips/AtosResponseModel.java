@@ -3,7 +3,7 @@ package com.philips.cl.di.digitalcare.locatephilips;
 import java.util.ArrayList;
 
 /**
- * CdlsResponseModel is bean class for all ATOS related objects.
+ * AtosResponseModel is bean class for all ATOS related objects.
  * 
  * @author: ritesh.jha@philips.com
  * 
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 
 public class AtosResponseModel {
 	private Boolean mSuccess = null;
-	private LocationModel mCurrentLocation = null;
-	private ArrayList<ResultsModel> mResultsModel = null;
+	private AtosLocationModel mCurrentLocation = null;
+	private ArrayList<AtosResultsModel> mResultsModel = null;
 	private AtosErrorModel mCdlsErrorModel = null;
 
-	public AtosResponseModel(boolean success, LocationModel locationModel,
-			ArrayList<ResultsModel> resultsModel, AtosErrorModel errorModel) {
+	public AtosResponseModel(boolean success, AtosLocationModel locationModel,
+			ArrayList<AtosResultsModel> resultsModel, AtosErrorModel errorModel) {
 		mSuccess = success;
 		mCurrentLocation = locationModel;
 		mResultsModel = resultsModel;
@@ -40,19 +40,19 @@ public class AtosResponseModel {
 		this.mCdlsErrorModel = cdlsErrorModel;
 	}
 
-	public LocationModel getCurrentLocation() {
+	public AtosLocationModel getCurrentLocation() {
 		return mCurrentLocation;
 	}
 
-	public void setCurrentLocation(LocationModel currentLocation) {
+	public void setCurrentLocation(AtosLocationModel currentLocation) {
 		this.mCurrentLocation = currentLocation;
 	}
 
-	public ArrayList<ResultsModel> getResultsModel() {
+	public ArrayList<AtosResultsModel> getResultsModel() {
 		return mResultsModel;
 	}
 
-	public void setResultsModel(ArrayList<ResultsModel> resultsModel) {
+	public void setResultsModel(ArrayList<AtosResultsModel> resultsModel) {
 		this.mResultsModel = resultsModel;
 	}
 }
