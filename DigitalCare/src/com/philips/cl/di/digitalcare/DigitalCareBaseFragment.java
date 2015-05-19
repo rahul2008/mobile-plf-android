@@ -121,13 +121,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 				+ this.getClass().getSimpleName());
 		super.onDestroyView();
 
-		View view = getActivity().getCurrentFocus();
-		if (view != null) {
-			InputMethodManager inputManager = (InputMethodManager) getActivity()
-					.getSystemService(Context.INPUT_METHOD_SERVICE);
-			inputManager.hideSoftInputFromWindow(view.getWindowToken(),
-					InputMethodManager.HIDE_NOT_ALWAYS);
-		}
+		hideKeyboard();
 	}
 
 	@Override
@@ -220,4 +214,15 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	// "video/mp4");
 	// startActivity(Intent.createChooser(intent, ""));
 	// }
+
+	protected void hideKeyboard() {
+		View view = getActivity().getCurrentFocus();
+		if (view != null) {
+			InputMethodManager inputManager = (InputMethodManager) getActivity()
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			inputManager.hideSoftInputFromWindow(view.getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+		}
+	}
+
 }

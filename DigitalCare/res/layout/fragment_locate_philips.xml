@@ -51,6 +51,7 @@
             android:layout_marginTop="100dp"
             android:background="@color/whitesmoke"
             android:orientation="vertical"
+            android:paddingBottom="20dp"
             android:paddingLeft="50dp"
             android:paddingRight="50dp"
             android:visibility="gone" >
@@ -68,8 +69,24 @@
                 android:text="@string/call" />
 
             <TextView
-                android:id="@+id/help"
-                style="@style/contactUsHelpText" />
+                android:id="@+id/contactUsOpeningHours"
+                style="@style/contactUsHelpText"
+                android:layout_marginBottom="0dp"
+                android:text="@string/opening_hours"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <TextView
+                android:id="@+id/firstRowText"
+                style="@style/contactUsBottomText"
+                android:text="@string/opening_hours_first_row"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <TextView
+                android:id="@+id/secondRowText"
+                style="@style/contactUsBottomText"
+                android:layout_marginBottom="10dp"
+                android:text="@string/opening_hours_second_row"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
         </LinearLayout>
     </RelativeLayout>
 
