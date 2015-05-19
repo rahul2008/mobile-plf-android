@@ -5,7 +5,7 @@
 
 
     <!-- Application Microsite ID -->
-    <string name="microsite_id" translatable="false">81376</string>
+    <string name="microsite_id" translatable="false">77000</string>
 
     <!-- Registartion environment : please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
     <string name="registration_type" translatable="false">EVAL</string>
