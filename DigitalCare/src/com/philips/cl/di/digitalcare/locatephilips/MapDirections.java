@@ -1,9 +1,12 @@
 package com.philips.cl.di.digitalcare.locatephilips;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -85,7 +88,7 @@ public class MapDirections {
 			iStream = urlConnection.getInputStream();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(
-					iStream));
+					iStream, "UTF-8"));
 
 			StringBuffer sb = new StringBuffer();
 
