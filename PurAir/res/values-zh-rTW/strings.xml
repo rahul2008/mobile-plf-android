@@ -181,7 +181,7 @@
     <string name="purifier_not_connect_error">空氣清新機並未連接。請連接空氣清新機。</string>
     <string name="aqi_history">空氣質量 紀錄</string>
     <string name="aqi_history_download_failed">空氣質量紀錄資料下載失敗！</string>
-    <string name="aqi_history_download_authentication_failed">The App is not yet allowed to display indoor data for this Purifier!</string>
+    <string name="aqi_history_download_authentication_failed">這台空氣清新機暫不允許應用程式顯示室內數據!</string>
     <string name="aqi_history_not_avialable">並無 空氣質量紀錄資料！</string>
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">室外</string>
