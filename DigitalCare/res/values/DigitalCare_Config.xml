@@ -71,6 +71,9 @@
     <string name="cdls_category_primary" translatable="false">/CARE/MENS_SHAVING_CA</string>
     <string name="cdls_category_secondry" translatable="false">/CARE/PERSONAL_CARE_GR</string>
 
+    <!-- ATOS API related. Its subcategory. Locate Near You needs it -->
+    <string name="atos_subcategory" translatable="false">BAGLESS_VACUUM_CLEANERS_SU</string>
+    
     <!-- please specify client id depending on the registration type -->
     <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
     <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
