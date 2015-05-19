@@ -414,7 +414,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					mPolyline.setWidth(12);
 				}
 			};
-			MapDirections mMapDirections = new MapDirections(
+			new MapDirections(
 					mGetDirectionResponse, currentLocation, markerPosition);
 		}
 
