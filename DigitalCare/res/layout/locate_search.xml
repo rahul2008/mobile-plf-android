@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_box_parent"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:padding="10dp" >
+    android:layout_height="wrap_content" >
 
     <EditText
         android:id="@+id/search_box"
@@ -13,7 +12,7 @@
         android:background="@android:color/white"
         android:hint="@string/search"
         android:lines="1"
-        android:padding="15dp"
+        android:padding="10dp"
         android:textColor="@color/black" >
     </EditText>
 
@@ -26,6 +25,8 @@
         android:layout_alignRight="@+id/search_box"
         android:layout_alignTop="@+id/search_box"
         android:clickable="true"
+        android:padding="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/ic_menu_search" />
 
     <ImageView
@@ -36,9 +37,10 @@
         android:layout_alignEnd="@+id/search_box"
         android:layout_alignRight="@+id/search_box"
         android:layout_alignTop="@+id/search_box"
-        android:layout_marginEnd="50dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:clickable="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/marker"
         android:visibility="gone" />
 

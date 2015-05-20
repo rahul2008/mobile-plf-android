@@ -12,6 +12,8 @@
     <dimen name="font_button_text_margin_left">80dp</dimen>
     <dimen name="support_btn_height">60dp</dimen>
     <dimen name="prod_reg_btn_height">55dp</dimen>
-	<dimen name="marginTopButton">12dp</dimen>
-	<dimen name="social_support_closebutton">10dp</dimen>
+    <dimen name="marginTopButton">12dp</dimen>
+    <dimen name="social_support_closebutton">10dp</dimen>
+    <dimen name="locate_layout_margin">110dp</dimen>
+
 </resources>
