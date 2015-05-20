@@ -87,7 +87,7 @@ public class MarkerActivity extends MapActivity implements
 	protected void onPause() {
 		super.onPause();
 		MetricsTracker.stopCollectLifecycleData();
-		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
+		OutdoorManager.getInstance().removeOutdoorDetailsListener();
 	}
 	
 	private void populateAllMarkers() {

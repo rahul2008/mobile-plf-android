@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.AirAnalysisExplainActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CPPController.SignonState;
@@ -34,7 +36,6 @@ import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
-import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
@@ -79,8 +80,9 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 	private float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 	private float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
-	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good); 
 
+	private boolean isdownloadErrorDisplay = false;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ALog.d(ALog.INDOOR_DETAILS, "onActivityCreated()");
+		getCPPControllerInstance().addSignOnListener(this);
 		MetricsTracker.trackPage(TrackPageConstants.INDOOR_DETAILS);
 		Coordinates.getInstance(getMainActivity());//Initialize all trend density independent pixel co-ordinate
 		currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
@@ -104,18 +107,6 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 		}
 
 		downloadAQIHistoricData();
-	}
-
-	@Override
-	public void onResume() {
-		getCPPControllerInstance().addSignOnListener(this);
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		getCPPControllerInstance().removeSignOnListener(this);
-		super.onPause();
 	}
 
 	private void downloadAQIHistoricData() {
@@ -248,7 +239,9 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 			break;
 		}
 		case R.id.indoor_detail_air_quality_explain_tv:
-			airQualityExplain();
+			Intent intent = new Intent(getActivity(), AirAnalysisExplainActivity.class);
+			intent.putExtra(AirAnalysisExplainActivity.TYPE_EXTRA, AirAnalysisExplainActivity.INDOOR_EXTRA);
+			startActivity(intent);
 			break;
 		default:
 			break;
@@ -316,34 +309,15 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 		}
 	}
 
-	private void airQualityExplain() {
-		if (getMainActivity() == null) return;
-		try {
-			FragmentTransaction fragTransaction = 
-					getMainActivity().getSupportFragmentManager().beginTransaction();
-
-			Fragment prevFrag = getMainActivity()
-					.getSupportFragmentManager().findFragmentByTag("indoor_aqi_analysis");
-			if (prevFrag != null) {
-				fragTransaction.remove(prevFrag);
-			}
-
-			fragTransaction.add(IndoorAQIExplainedDialogFragment.
-					newInstance(outdoorTitle, outdoorTitle), "indoor_aqi_analysis").commit();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
-		}
-	}
-
 	/**
 	 * Show alert dialog AQI historic data download failed
 	 */
-	private void showAlertDialogHistoryDoawnload(String title, String message) {
+	private synchronized void showAlertDialogHistoryDoawnload(String title, String message) {
 		if (getMainActivity() == null) return;
 		if (PurAirApplication.isDemoModeEnable()
 				 && OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
 			addDummyDataForDemoMode();
-		} else {
+		} else if (!isdownloadErrorDisplay){
 			try {
 				FragmentTransaction fragTransaction = getMainActivity().getSupportFragmentManager().beginTransaction();
 
@@ -355,6 +329,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 
 				fragTransaction.add(DownloadAlerDialogFragement.
 						newInstance(title, message), "alert_aqi_historic_download_failed").commitAllowingStateLoss();
+				isdownloadErrorDisplay = true;
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 			}
@@ -476,6 +451,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 	public void onDestroy() {
 		super.onDestroy();
 		PurifierCurrentCityData.getInstance().removeListener();
+		getCPPControllerInstance().removeSignOnListener(this);
 		CPPController.getInstance(getMainActivity()).removeDownloadDataListener();
 		handlerDownload.removeMessages(DOWNLOAD_COMPLETE);
 		handlerDownload.removeMessages(DOWNLOAD_NA);

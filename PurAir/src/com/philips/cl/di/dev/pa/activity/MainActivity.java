@@ -91,7 +91,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	private ProgressDialog progressDialog;
 	private AppInDemoMode appInDemoMode;
-	private boolean internetDialogShown;
 	private WifiNetworkCallback networkCallback;
 	private enum InternetState {Connecting, Connected, Disconnected};
 	private InternetState internetState = InternetState.Connecting;
@@ -126,7 +125,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		initializeCPPController();
 		selectPurifier();
 		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
-		internetDialogShown=false;
 		
 		int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
 		if (resourceId > 0) {
@@ -201,7 +199,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		}
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
-//		unregisterWifiNetworkForSocket();
 	}
 
 	public void stopNormalMode() {
@@ -209,7 +206,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
-//		unregisterWifiNetworkForSocket();
 	}
 
 	public void startNormalMode() {
@@ -556,14 +552,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		new InternetConnectionHandler(this, handler).checkInternetConnection() ;
 	}
 	
-	private void showInternetAlertDialog(int stringRes){
-		if(!internetDialogShown){
-			internetDialogShown=true;
-			String title = "";
-			showAlertDialogPairingFailed(title, getString(stringRes), "internet_check");
-		}
-	}
-
 	@Override
 	public void onPairingSuccess(NetworkNode networkNode) {	
 		if(getCurrentPurifier()==null) return;
@@ -707,8 +695,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
 						} else {
-//							showInternetAlertDialog(R.string.cloud_service_not_available);
-							showCommunicationFailedMessage(R.string.cloud_service_not_available, "communicationFailed");
+							showCommunicationFailedMessage(R.string.communication_error, R.string.cloud_service_not_available, "communicationFailed");
 						}
 					}
 				});
@@ -739,8 +726,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 				cancelPairingDialog() ;
 				((NotificationsFragment) fragment).disableNotificationScreen() ;
 			}
-//			showInternetAlertDialog(R.string.enable_internet_access);
-			showCommunicationFailedMessage(R.string.enable_internet_access, "communicationFailed");
+			showCommunicationFailedMessage(R.string.communication_error, R.string.enable_internet_access, "communicationFailed");
 		}
 	}
 	
@@ -772,18 +758,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		
 		if (internetState != InternetState.Connecting && signonState != SignonState.SIGNING) {
 			if (internetState == InternetState.Connected) {
-				showCommunicationFailedMessage(R.string.cloud_service_not_available, "communicationFailed");
+				showCommunicationFailedMessage(R.string.communication_error, R.string.cloud_service_not_available, "communicationFailed");
 			} else {
-				showCommunicationFailedMessage(R.string.enable_internet_access, "communicationFailed");
+				showCommunicationFailedMessage(R.string.communication_error, R.string.enable_internet_access, "communicationFailed");
 			}
 		}
 	}
 	
-	private void showCommunicationFailedMessage(int msgId, String tag) {
+	private void showCommunicationFailedMessage(int titleId, int msgId, String tag) {
 		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$showCommunicationFailedMessage() communicationFailedMsgDisplayed = " + communicationFailedMsgDisplayed);
 		if (!communicationFailedMsgDisplayed) {
 			communicationFailedMsgDisplayed = true;
-			showAlertDialogPairingFailed("", getString(msgId), tag);
+			showAlertDialogPairingFailed(getString(titleId), getString(msgId), tag);
 		}
 	}
 }

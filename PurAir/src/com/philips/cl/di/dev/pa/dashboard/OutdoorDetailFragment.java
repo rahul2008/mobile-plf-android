@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +30,7 @@ import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.AirAnalysisExplainActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.MarkerActivity;
 import com.philips.cl.di.dev.pa.adapter.NeighbourhoodCityBaseAdapter;
@@ -39,7 +39,6 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.MarkerMapFragment;
-import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -115,6 +114,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
 		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		Coordinates.getInstance(getMainActivity());
 
@@ -438,13 +438,12 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	public void onResume() {
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS);
-		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
-		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
+	public void onDestroy() {
+		OutdoorManager.getInstance().removeOutdoorDetailsListener();
+		super.onDestroy();
 	}
 
 	@Override
@@ -481,7 +480,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 			setNeighbourhoodAdapter(NearbyInfoType.PM_25) ;
 			break;
 		case R.id.outdoor_detail_air_quality_analysis_fb:
-			airQualityAnalysis();
+			Intent intent = new Intent(getActivity(), AirAnalysisExplainActivity.class);
+			intent.putExtra(AirAnalysisExplainActivity.TYPE_EXTRA, AirAnalysisExplainActivity.OUTDOOR_EXTRA);
+			startActivity(intent);
 			break;
 		default:
 			break;
@@ -554,21 +555,6 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		lastDayBtn.setClickable(click);
 		lastWeekBtn.setClickable(click);
 		lastFourWeekBtn.setClickable(click);
-	}
-
-	/**
-	 * 
-	 * @param v
-	 */
-	public void airQualityAnalysis() {
-		if (getMainActivity() == null) return;
-		try {
-			FragmentManager fragMan = getMainActivity().getSupportFragmentManager();
-			fragMan.beginTransaction().add(
-					OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.OUTDOOR_DETAILS, "Error: " + e.getMessage());
-		}
 	}
 
 	public static int getCurrentCityHourOfDay() {

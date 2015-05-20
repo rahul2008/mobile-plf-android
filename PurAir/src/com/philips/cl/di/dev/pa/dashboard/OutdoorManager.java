@@ -312,7 +312,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		outdoorDataChangeListener = listener;
 	}
 	
-	public void removeOutdoorDetailsListener(OutdoorDetailsListener listener) {
+	public void removeOutdoorDetailsListener() {
 		outdoorDetailsListener = null;
 	}
 	
