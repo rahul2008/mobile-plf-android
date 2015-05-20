@@ -24,7 +24,7 @@
         map:uiZoomGestures="true" />
 
     <RelativeLayout
-        android:id="@+id/relativelayout1"
+        android:id="@+id/locate_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
