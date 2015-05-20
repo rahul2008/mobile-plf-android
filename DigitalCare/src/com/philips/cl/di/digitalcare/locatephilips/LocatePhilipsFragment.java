@@ -307,7 +307,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	// mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BANGALORE, 15));
 	// }
 
-	Runnable mMapViewRunnable = new Runnable() {
+	private Runnable mMapViewRunnable = new Runnable() {
 
 		@Override
 		public void run() {
@@ -639,9 +639,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onClick(View v) {
 
 		if (v.getId() == R.id.search_icon) {
-			// hide keyboard
 			hideKeyboard();
-			String constrain = mSearchBox.getText().toString().trim();
+			String constrain = mSearchBox.getText().toString();
 			if (constrain.length() > 1) {
 				new UITask().execute(constrain);
 			} else {
@@ -653,13 +652,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else if (v.getId() == R.id.marker_icon) {
 			mListView.setVisibility(View.GONE);
 			mSearchBox.setText(null);
-		} else if (v.getId() == R.id.marker_icon) {
+		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
 			if (mPhoneNumber != null && !mCdlsParsedResponse.getSuccess()) {
-				// Toast.makeText(getActivity(),
-				// mCdlsParsedResponse.getError().getErrorMessage(),
-				// Toast.LENGTH_SHORT).show();
-				return;
+				Toast.makeText(
+						getActivity(),
+						mCdlsParsedResponse.getCdlsErrorModel()
+								.getErrorMessage(), Toast.LENGTH_SHORT).show();
 			} else if (Utils.isSimAvailable(getActivity())) {
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
@@ -671,8 +670,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
-//		myintent.setData(Uri.parse("tel:"
-//				+ mCdlsParsedResponse.getPhone().getPhoneNumber()));
+		myintent.setData(Uri.parse("tel:" + mPhoneNumber));
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(myintent);
 	};
