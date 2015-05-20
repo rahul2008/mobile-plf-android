@@ -1,18 +1,18 @@
 package com.philips.cl.di.digitalcare.locatephilips;
 
 /**
- * ResultsModel is bean class for result JSON .
+ * AtosResultsModel is bean class for result JSON .
  * 
  * @author: ritesh.jha@philips.com
  * 
  * @since: 9 May 2015
  */
-public class ResultsModel {
+public class AtosResultsModel {
 	private String mId = null;
 	private String mTitle = null;
 	private String mInfoType = null;
-	private LocationModel mLocationModel = null;
-	private AddressModel mAddressModel = null;
+	private AtosLocationModel mLocationModel = null;
+	private AtosAddressModel mAddressModel = null;
 
 	public String getId() {
 		return mId;
@@ -38,19 +38,19 @@ public class ResultsModel {
 		this.mInfoType = infoType;
 	}
 
-	public LocationModel getLocationModel() {
+	public AtosLocationModel getLocationModel() {
 		return mLocationModel;
 	}
 
-	public void setLocationModel(LocationModel locationModel) {
+	public void setLocationModel(AtosLocationModel locationModel) {
 		this.mLocationModel = locationModel;
 	}
 
-	public AddressModel getmAddressModel() {
+	public AtosAddressModel getmAddressModel() {
 		return mAddressModel;
 	}
 
-	public void setAddressModel(AddressModel addressModel) {
+	public void setAddressModel(AtosAddressModel addressModel) {
 		this.mAddressModel = addressModel;
 	}
 

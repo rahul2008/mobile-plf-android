@@ -31,6 +31,7 @@ public class DigitalCareConfigManager {
 	private static String mTwitterConsumerKey = null;
 	private static String mTwitterConsumerSecret = null;
 	private static DigitalCareConfigManager mDigitalCareInstance = null;
+	private static String mCTN = "itsNullOnly";
 
 	private static final String DEFAULT_LANGAUGE = "en";
 	private static final String DEFAULT_COUNTRY = "GB";
@@ -170,6 +171,23 @@ public class DigitalCareConfigManager {
 	public static String getCdlsSecondaryCategory() {
 		return mContext.getResources().getString(
 				R.string.cdls_category_secondry);
+	}
+
+	/*
+	 * Getting subCategory for Locate Near You (Atos cloud request).
+	 */
+	public static String getSubCategory() {
+		return mContext.getResources().getString(R.string.atos_subcategory);
+	}
+
+	/* Locate Near You. Setting CTN Number(Product ID). */
+	public static void setCTN(String ctn) {
+		mCTN = ctn;
+	}
+
+	/* Locate Near You. Getting CTN Number(Product ID). */
+	public static String getCTN() {
+		return mCTN;
 	}
 
 	/*

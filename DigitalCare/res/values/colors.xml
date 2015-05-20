@@ -3,12 +3,13 @@
 
    <!--  <color name="option_button_bg_blue">#003478</color>
     <color name="option_button_bg_blue_pressed">#005A8B</color>
-    <color name="option_button_prodReg_bg_blue_pressed">#005AAB</color> -->
-    <!-- <color name="actionbar_text_color">#FFFFFF</color> -->
+    <color name="wht">#005AAB</color> 
+     <color name="actionbar_text_color">#FFFFFF</color> -->
     <color name="black">#000000</color>
 <!--     <color name="actionbar_bg_start_color">#003478</color>
     <color name="actionbar_bg_end_color">#0066A1</color> -->
     
+    <color name="white">#FFFFFF</color> 
     <color name="ivory">#FFFFF0</color>
     <color name="lightyellow">#FFFFE0</color>
     <color name="yellow">#FFFF00</color>
