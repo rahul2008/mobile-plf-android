@@ -38,6 +38,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="200dp"
+            android:background="@color/white"
+            android:divider="#cccccc"
+            android:dividerHeight="1dp"
             android:visibility="gone" >
         </ListView>
 
@@ -72,20 +75,17 @@
                 android:id="@+id/contactUsOpeningHours"
                 style="@style/contactUsHelpText"
                 android:layout_marginBottom="0dp"
-                android:text="@string/opening_hours"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <TextView
                 android:id="@+id/firstRowText"
                 style="@style/contactUsBottomText"
-                android:text="@string/opening_hours_first_row"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <TextView
                 android:id="@+id/secondRowText"
                 style="@style/contactUsBottomText"
                 android:layout_marginBottom="10dp"
-                android:text="@string/opening_hours_second_row"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
         </LinearLayout>
     </RelativeLayout>

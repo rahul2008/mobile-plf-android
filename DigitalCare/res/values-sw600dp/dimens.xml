@@ -15,5 +15,6 @@
     <dimen name="support_btn_height">60dp</dimen>
     <dimen name="prod_reg_btn_height">55dp</dimen>
     <dimen name="actionbar_height">55dp</dimen>
+    <dimen name="locate_layout_margin">80dp</dimen>
 
 </resources>
