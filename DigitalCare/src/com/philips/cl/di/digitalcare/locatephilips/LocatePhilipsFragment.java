@@ -73,7 +73,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		OnItemClickListener {
-	private GoogleMap mMap = null;
+	private static GoogleMap mMap = null;
 	private Marker markerMe = null;
 	private AtosResponseParser mCdlsResponseParser = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
@@ -223,9 +223,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void initView() {
-
-		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-				.getMap();
+		mHandler.postDelayed(mMapViewRunnable, 1000l);
+		if(mMap == null){
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+					.getMap();
+		}
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -268,8 +270,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
-
-		mHandler.postDelayed(mMapViewRunnable, 2000l);
 	}
 
 	private class MarkerRunnable implements Runnable {
