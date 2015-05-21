@@ -28,9 +28,6 @@ public class WebActivity extends BaseActivity {
 		setContentView(R.layout.web_activity);
 		initPage();
 		
-//		ViewGroup container = (LinearLayout) findViewById(R.id.shadowLL);
-//		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
-		
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null && bundle.getString("url") != null) {
 			webView.loadUrl(bundle.getString("url"));
