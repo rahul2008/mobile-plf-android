@@ -10,13 +10,16 @@ import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 
 public class RegistrationApplication extends Application {
 
+	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		RegistrationHelper registrationHelper = RegistrationHelper.getInstance();
-		registrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this, Locale.getDefault());
-		
+		registrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this,
+		        Locale.getDefault());
+
 	}
 
 }

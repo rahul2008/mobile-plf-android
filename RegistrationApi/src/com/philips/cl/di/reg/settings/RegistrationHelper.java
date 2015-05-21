@@ -1,18 +1,26 @@
 
 package com.philips.cl.di.reg.settings;
 
-import java.util.Date;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
+import java.util.Scanner;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
-import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.configuration.ConfigurationParser;
+import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
+import com.philips.cl.di.reg.configuration.SocialProviders;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -34,11 +42,13 @@ public class RegistrationHelper {
 
 	private RegistrationSettings mRegistrationSettings;
 
+	private SocialProviders mSocialProivder;
+
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
 
 		private final boolean value;
-		
+
 		Janrain(boolean value) {
 			this.value = value;
 		}
@@ -46,6 +56,15 @@ public class RegistrationHelper {
 		public boolean getValue() {
 			return this.value;
 		}
+	}
+
+	private interface RegistrationEnvironment {
+
+		String EVAL = "EVAL";
+
+		String DEV = "DEV";
+
+		String PROD = "PROD";
 	}
 
 	public static boolean isJanrainIntialized() {
@@ -71,7 +90,7 @@ public class RegistrationHelper {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			System.out.println("Initialization time : "+(new Date().getSeconds()-date.getSeconds()));
+
 			if (intent != null) {
 				Bundle extras = intent.getExtras();
 				RLog.i(RLog.ACTIVITY_LIFECYCLE,
@@ -93,68 +112,102 @@ public class RegistrationHelper {
 			}
 		}
 	};
-	Date date ;
 
 	/*
 	 * Initialize Janrain
 	 * @param isInitialized true for initialize and false for reinitialize
 	 * Janrain
 	 */
-	public void intializeRegistrationSettings(final Janrain isInitialized, final Context context, final Locale locale) {
-		//parse configuration data
-		// must be in thread 
-		 
+	public void intializeRegistrationSettings(final Janrain isInitialized, final Context context,
+	        final Locale locale) {
+		mJanrainIntialized = false;
+		mContext = context.getApplicationContext();
+		NetworkUtility.getInstance().checkIsOnline(mContext);
+		mSocialProivder = null;
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				
-				//process the configuration 
-				
-				 date = new Date();
-				 System.out.println("brfore sleep "+ date.toString());
-				 try {
-	                Thread.sleep(5000);
-                } catch (InterruptedException e) {
-	                // TODO Auto-generated catch block
-	                e.printStackTrace();
-                }
-				 System.out.println("brfore sleep "+ new Date().toString());
-				 
-				mJanrainIntialized = false;
-				mContext = context.getApplicationContext();
-				NetworkUtility.getInstance().checkIsOnline(mContext);
 
-				IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-				flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-				LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
-				        flowFilter);
+				RegistrationConfiguration registrationConfiguration = parseConfigurationJson(mContext);
+				if (null != registrationConfiguration) {
+					mSocialProivder = registrationConfiguration.getSocialProviders();
+					IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+					flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+					LocalBroadcastManager.getInstance(context).registerReceiver(
+					        janrainStatusReceiver, flowFilter);
 
-				String mClientId = mContext.getResources().getString(R.string.client_id);
-				String mMicrositeId = mContext.getResources().getString(R.string.microsite_id);
-				String mRegistrationType = mContext.getResources().getString(R.string.registration_type);
-				boolean mIsInitialize = isInitialized.getValue();
-				String mLocale = locale.toString();
+					String mMicrositeId = registrationConfiguration.getPilConfiguration()
+					        .getMicrositeId();
 
-				if (NetworkUtility.getInstance().isOnline()) {
+					RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + mMicrositeId);
 
-					if (mRegistrationType.equalsIgnoreCase("EVAL"))
-						initEvalSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
-						        mIsInitialize, mLocale);
+					String mRegistrationType = registrationConfiguration.getPilConfiguration()
+					        .getRegistrationEnvironment();
+					RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : "
+					        + mRegistrationType);
 
-					else if (mRegistrationType.equalsIgnoreCase("PROD"))
-						initProdSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
-						        mIsInitialize, mLocale);
+					boolean mIsInitialize = isInitialized.getValue();
+					String mLocale = locale.toString();
 
-					else if (mRegistrationType.equalsIgnoreCase("DEV"))
-						initDevSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
-						        mIsInitialize, mLocale);
+					if (NetworkUtility.getInstance().isOnline()) {
+
+						if (RegistrationEnvironment.EVAL.equalsIgnoreCase(mRegistrationType)) {
+							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+							        + registrationConfiguration.getJanRainConfiguration()
+							                .getClientIds().getEvaluationId());
+							initEvalSettings(mContext, registrationConfiguration
+							        .getJanRainConfiguration().getClientIds().getEvaluationId(),
+							        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+						}
+						if (RegistrationEnvironment.PROD.equalsIgnoreCase(mRegistrationType)) {
+							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+							        + registrationConfiguration.getJanRainConfiguration()
+							                .getClientIds().getProductionId());
+							initProdSettings(mContext, registrationConfiguration
+							        .getJanRainConfiguration().getClientIds().getProductionId(),
+							        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+
+						}
+						if (RegistrationEnvironment.DEV.equalsIgnoreCase(mRegistrationType)) {
+							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+							        + registrationConfiguration.getJanRainConfiguration()
+							                .getClientIds().getDevelopmentId());
+							initDevSettings(mContext, registrationConfiguration
+							        .getJanRainConfiguration().getClientIds().getDevelopmentId(),
+							        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+						}
+
+					}
 				}
 			}
 		}).start();
-		
-		
+	}
 
+	public SocialProviders getSocialProviders() {
+		return mSocialProivder;
+	}
+
+	private RegistrationConfiguration parseConfigurationJson(Context context) {
+		RegistrationConfiguration registrationConfiguration = null;
+		AssetManager assetManager = context.getAssets();
+		try {
+			JSONObject configurationJson = new JSONObject(
+			        convertStreamToString(assetManager.open(RegConstants.CONFIGURATION_JSON_PATH)));
+			ConfigurationParser configurationParser = new ConfigurationParser();
+			registrationConfiguration = configurationParser.parse(configurationJson);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return registrationConfiguration;
+	}
+
+	public static String convertStreamToString(InputStream is) {
+		Scanner s = new Scanner(is).useDelimiter("\\A");
+		return s.hasNext() ? s.next() : "";
 	}
 
 	public void unregisterListener(Context context) {
@@ -190,7 +243,6 @@ public class RegistrationHelper {
 	}
 
 	public RegistrationSettings getRegistrationSettings() {
-
 		return mRegistrationSettings;
 	}
 

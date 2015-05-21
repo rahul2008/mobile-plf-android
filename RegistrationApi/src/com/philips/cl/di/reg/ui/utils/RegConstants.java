@@ -34,10 +34,8 @@ public class RegConstants {
 
 	public static final String USER_INFORMATION_FORM = "userInformationForm";
 
-	/** Is device is connected to Internet raise this event */
 	public static final String IS_ONLINE = "IS_ONLINE";
 
-	/** Is device is connected to Internet raise this event */
 	public static final String JANRAIN_INIT_SUCCESS = "JANRAIN_SUCCESS";
 
 	public static final String JANRAIN_INIT_FAILURE = "JANRAIN_FAILURE";
@@ -99,5 +97,7 @@ public class RegConstants {
 	public static final int DI_PROFILE_NULL_ERROR_CODE = -1;
 
 	public static final String FONT_PATH = "registration/fonts/";
+
+	public static final String CONFIGURATION_JSON_PATH = "registration/configuration/configuration.json";
 
 }
