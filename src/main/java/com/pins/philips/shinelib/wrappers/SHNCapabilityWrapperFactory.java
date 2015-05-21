@@ -4,8 +4,11 @@ import android.os.Handler;
 
 import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNCapabilityType;
+import com.pins.philips.shinelib.SHNIntegerResultListener;
+import com.pins.philips.shinelib.SHNResultListener;
 import com.pins.philips.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.pins.philips.shinelib.capabilities.SHNCapabilityDeviceInformation;
+import com.pins.philips.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.pins.philips.shinelib.capabilities.SHNCapabilityNotifications;
 
 /**
@@ -30,6 +33,12 @@ public class SHNCapabilityWrapperFactory {
             case DataStreaming:
                 shnCapabilityWrapper = new SHNCapabilityDataStreamingWrapper(
                         (SHNCapabilityDataStreaming)shnCapability,
+                        internalHandler,
+                        userHandler);
+                break;
+            case LogSynchronization:
+                shnCapabilityWrapper = new SHNCapabilityLogSynchronizationWrapper(
+                        (SHNCapabilityLogSynchronization)shnCapability,
                         internalHandler,
                         userHandler);
                 break;
