@@ -13,6 +13,7 @@
     <TextView
         android:id="@+id/place_title"
         style="@style/locateNearText"
+        android:paddingRight="50dp"
         android:text=""
         android:textStyle="bold"
         custom:fontAssetName="fonts/centralesans-book.otf" />
@@ -23,6 +24,7 @@
         android:id="@+id/place_address"
         style="@style/locateNearText"
         android:layout_below="@+id/place_title"
+        android:paddingRight="50dp"
         android:text=""
         custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -32,6 +34,7 @@
         android:id="@+id/place_phone"
         style="@style/locateNearText"
         android:layout_below="@+id/place_address"
+        android:paddingRight="50dp"
         android:text=""
         custom:fontAssetName="fonts/centralesans-book.otf" />
 

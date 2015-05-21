@@ -94,10 +94,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private String provider = null;
 	private LinearLayout mLinearLayout;
 	private ListView mListView;
-	private TextView mTxtAddress = null;
-	private TextView mTxtTitle = null;
-	private TextView mTxtPhone = null;
-	private ImageView mImgListRightArrow = null;
+	private TextView mShowTxtAddress = null;
+	private TextView mShowTxtTitle = null;
+
+	// private ImageView mImgListRightArrow = null;
 	private ArrayList<AtosResultsModel> mResultModelSet = null;
 
 	private RelativeLayout mLocateLayout = null;
@@ -225,11 +225,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
-		mTxtTitle = (TextView) getActivity().findViewById(R.id.place_title);
-		mTxtAddress = (TextView) getActivity().findViewById(R.id.place_address);
-		mTxtPhone = (TextView) getActivity().findViewById(R.id.place_phone);
-		mImgListRightArrow = (ImageView) getActivity().findViewById(
-				R.id.imgListRightArrow);
+		mShowTxtTitle = (TextView) getActivity().findViewById(
+				R.id.show_place_title);
+		mShowTxtAddress = (TextView) getActivity().findViewById(
+				R.id.show_place_address);
+
+//		mImgListRightArrow = (ImageView) getActivity().findViewById(
+//				R.id.imgListRightArrow);
 		mLocateLayout = (RelativeLayout) getActivity().findViewById(
 				R.id.locate_layout);
 		mLocateSearchLayout = (RelativeLayout) getActivity().findViewById(
@@ -740,13 +742,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		mPhoneNumber = addressModel.getPhone();
 
-		mTxtTitle.setText(resultModel.getTitle());
-		mTxtAddress.setText(addressModel.getAddress1() + "\n"
+		mShowTxtTitle.setText(resultModel.getTitle());
+		mShowTxtAddress.setText(addressModel.getAddress1() + "\n"
 				+ addressModel.getCityState() + "\n" + addressModel.getUrl());
 
-		// mTxtPhone.setText(mPhoneNumber);
-		mTxtPhone.setVisibility(View.GONE);
-		mImgListRightArrow.setVisibility(View.GONE);
+		// mImgListRightArrow.setVisibility(View.GONE);
 
 		String phoneNumbers[] = addressModel.getPhone().split(",");
 		mButtonCall.setText(getResources().getString(R.string.call) + " "

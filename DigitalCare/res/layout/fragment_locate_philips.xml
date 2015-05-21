@@ -58,9 +58,25 @@
                 android:paddingBottom="@dimen/showlayout_padding_bottom"
                 android:paddingLeft="@dimen/showlayout_padding_left"
                 android:paddingRight="@dimen/showlayout_padding_right"
+                android:paddingTop="@dimen/showlayout_padding_top"
                 android:visibility="gone" >
 
-                <include layout="@layout/geo_list_item" />
+                <!-- Title -->
+
+                <TextView
+                    android:id="@+id/show_place_title"
+                    style="@style/locateNearText"
+                    android:text=""
+                    android:textStyle="bold"
+                    custom:fontAssetName="fonts/centralesans-book.otf" />
+
+                <!-- Address -->
+
+                <TextView
+                    android:id="@+id/show_place_address"
+                    style="@style/locateNearText"
+                    android:text=""
+                    custom:fontAssetName="fonts/centralesans-book.otf" />
 
                 <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/getdirection"
