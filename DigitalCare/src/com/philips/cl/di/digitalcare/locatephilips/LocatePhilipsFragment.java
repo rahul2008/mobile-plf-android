@@ -796,7 +796,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 											new Intent(
 													android.provider.Settings.ACTION_SETTINGS),
 											0);
-
 									SupportHomeFragmentisInLayout();
 
 								}
