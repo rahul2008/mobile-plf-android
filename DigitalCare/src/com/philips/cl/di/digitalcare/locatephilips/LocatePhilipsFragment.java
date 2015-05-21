@@ -97,9 +97,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private TextView mTxtAddress = null;
 	private TextView mTxtTitle = null;
 	private TextView mTxtPhone = null;
+	private ImageView mImgListRightArrow = null;
 	private ArrayList<AtosResultsModel> mResultModelSet = null;
 
 	private RelativeLayout mLocateLayout = null;
+	private RelativeLayout mLocateSearchLayout = null;
+
 	private EditText mSearchBox = null;
 	private ImageView mSearchIcon = null;
 	private ImageView mMarkerIcon = null;
@@ -109,6 +112,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private CustomGeoAdapter adapter = null;
 	private Handler mHandler = null;
 	private int mLocateLayoutMargin = 0;
+	private int mLocateSearchLayoutMargin = 0;
 
 	// "http://www.philips.com/search/search?q=FC5830/81&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=";
@@ -224,8 +228,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mTxtTitle = (TextView) getActivity().findViewById(R.id.place_title);
 		mTxtAddress = (TextView) getActivity().findViewById(R.id.place_address);
 		mTxtPhone = (TextView) getActivity().findViewById(R.id.place_phone);
+		mImgListRightArrow = (ImageView) getActivity().findViewById(
+				R.id.imgListRightArrow);
 		mLocateLayout = (RelativeLayout) getActivity().findViewById(
 				R.id.locate_layout);
+		mLocateSearchLayout = (RelativeLayout) getActivity().findViewById(
+				R.id.locate_search_layout);
 		mSearchBox = (EditText) getActivity().findViewById(R.id.search_box);
 		mSearchIcon = (ImageView) getActivity().findViewById(R.id.search_icon);
 		mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
@@ -243,8 +251,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		mLocateLayoutMargin = (int) getActivity().getResources().getDimension(
 				R.dimen.locate_layout_margin);
+		mLocateSearchLayoutMargin = (int) getActivity().getResources()
+				.getDimension(R.dimen.locate_search_layout_margin);
 
 		mLocateLayoutParentParams = (FrameLayout.LayoutParams) mLocateLayout
+				.getLayoutParams();
+
+		mLocateSearchLayoutParentParams = (FrameLayout.LayoutParams) mLocateSearchLayout
 				.getLayoutParams();
 
 		Configuration config = getResources().getConfiguration();
@@ -611,13 +624,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
+	private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
 
 	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin;
+			mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateSearchLayoutMargin;
 		} else {
 			mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin
+					+ mLeftRightMarginLand / 2;
+			mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateSearchLayoutMargin
 					+ mLeftRightMarginLand / 2;
 		}
 		mLocateLayout.setLayoutParams(mLocateLayoutParentParams);
@@ -721,8 +738,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mTxtAddress.setText(addressModel.getAddress1() + "\n"
 				+ addressModel.getCityState() + "\n" + addressModel.getUrl());
 
-		mTxtPhone.setText(mPhoneNumber);
+		// mTxtPhone.setText(mPhoneNumber);
 		mTxtPhone.setVisibility(View.GONE);
+		mImgListRightArrow.setVisibility(View.GONE);
 
 		String phoneNumbers[] = addressModel.getPhone().split(",");
 		mButtonCall.setText(getResources().getString(R.string.call) + " "

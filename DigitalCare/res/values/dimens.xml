@@ -14,6 +14,12 @@
     <dimen name="prod_reg_btn_height">55dp</dimen>
     <dimen name="marginTopButton">12dp</dimen>
     <dimen name="social_support_closebutton">10dp</dimen>
-    <dimen name="locate_layout_margin">10dp</dimen>
+    <dimen name="locate_layout_margin">0dp</dimen>
+    <dimen name="locate_search_layout_margin">10dp</dimen>
+    <dimen name="showlayout_padding_bottom">10dp</dimen>
+    <dimen name="showlayout_padding_left">10dp</dimen>
+    <dimen name="showlayout_padding_right">10dp</dimen>
+    <dimen name="showLayoutscroll_margin_top">100dp</dimen>
+    <dimen name="placelistview_margin_top">90dp</dimen>
 
 </resources>

@@ -17,5 +17,13 @@
     <dimen name="actionbar_height">55dp</dimen>
     <dimen name="marginTopButton">20dp</dimen>
     <dimen name="locate_layout_margin">110dp</dimen>
+    <dimen name="locate_search_layout_margin">110dp</dimen>
+    
+    <dimen name="showlayout_padding_bottom">20dp</dimen>
+    <dimen name="showlayout_padding_left">20dp</dimen>
+    <dimen name="showlayout_padding_right">120dp</dimen>
+    <dimen name="showlayout_margin_top">100dp</dimen>
+    
+    <dimen name="placelistview_margin_top">200dp</dimen>
 
 </resources>
