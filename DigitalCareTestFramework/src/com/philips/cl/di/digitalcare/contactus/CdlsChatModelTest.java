@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.bean.test;
+package com.philips.cl.di.digitalcare.contactus;
 
 import org.junit.Test;
 

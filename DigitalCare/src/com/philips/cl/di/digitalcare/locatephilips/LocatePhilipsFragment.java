@@ -431,6 +431,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mGetDirectionResponse = new MapDirectionResponse() {
 				@Override
 				public void onReceived(ArrayList<LatLng> arrayList) {
+					if(arrayList==null){
+						return;
+					}
 					traceOfMe = arrayList;
 					PolylineOptions polylineOpt = new PolylineOptions();
 					for (LatLng latlng : traceOfMe) {
