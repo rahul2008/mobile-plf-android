@@ -62,6 +62,11 @@ import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
 import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WeiboAuthListener;
+import com.sina.weibo.sdk.constant.WBConstants;
+import com.sina.weibo.sdk.exception.WeiboException;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -83,9 +88,7 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 	public static final String APP_ID = "wxdd5f3d69cdf95dbd";
 	private String url = null;
 	
-	private String cityName = "";
 	private String shareImgName = "";
-	private String shareTitle = "";
 	private String shareType;
 
 	/**
@@ -104,27 +107,25 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		heading.setText(getString(R.string.share));
 		
 		
-		cityName = getIntent().getStringExtra("city");
 		url = getIntent().getStringExtra("url");
 		shareType = getIntent().getStringExtra("type");
 		shareImgName = getIntent().getStringExtra("shareImgName");
-		shareTitle = getIntent().getStringExtra("share_title");
 
 		initPage();
 		
 		mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, AppConstants.APP_KEY);
 		mWeiboShareAPI.registerApp();
+		
 		if (savedInstanceState != null) {
 			mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
 		}
-		//initialize();
 	}
 
 
 	private void initPage() {
 		findViewById(R.id.share_menu_1).setOnClickListener(this);
 		findViewById(R.id.share_menu_2).setOnClickListener(this);
-		findViewById(R.id.share_menu_3).setOnClickListener(sinaBtnClickListener);
+		findViewById(R.id.share_menu_3).setOnClickListener(this);
 		findViewById(R.id.share_menu_4).setOnClickListener(this);
 	}
 
@@ -141,14 +142,6 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 	public void onResponse(BaseResponse baseResp) {
 		
 	}
-
-	private OnClickListener sinaBtnClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			sendMessage();
-		}
-	};
 
 	@Override
 	public void onClick(View v) {
@@ -209,6 +202,10 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			weixinContent.setTargetUrl(url);
 			mController.setShareMedia(weixinContent);
 			mController.postShare(this, media, null);
+			break;
+			
+		case R.id.share_menu_3:
+				sendMultiMessage();
 			break;
 
 		case R.id.share_menu_4:
@@ -283,7 +280,6 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			shareContent.append(".");
 
 		}
-		shareContent.append(getString(R.string.share_info)+AppConstants.URL_PRODUCT_SHARE+getString(R.string.download));
 
 		try {
 			HashMap<String, String> data = new HashMap<String, String>();
@@ -296,6 +292,12 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		if (url == null || url.isEmpty()) {
+			url = AppConstants.URL_PRODUCT_SHARE;
+		}
+		//To open URL link put space before and after url
+		shareContent.append(getString(R.string.share_info)+" "+url+" "+getString(R.string.download));
 
 		return shareContent.toString();
 	}
@@ -313,56 +315,42 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		address += URLEncodedUtils.format(params, "UTF-8");
 		return address;
 	}
-
 	
-	private void sendMessage() {
-
-		if (mWeiboShareAPI.isWeiboAppSupportAPI()) {
-			/*int supportApi = mWeiboShareAPI.getWeiboAppSupportAPI();
-			if (supportApi >= 10351 ApiUtils.BUILD_INT_VER_2_2) {
-				sendMultiMessage();
-			} else {*/
-			sendMultiMessage();
-			/*}
-		} else {
-			Toast.makeText(this, "Hint", Toast.LENGTH_SHORT).show();
-		}*/
-		}
-
-	}
-
-
-	private void sendMultiMessage() {
-
-		WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-		weiboMessage.textObject = getTextObj();
-		weiboMessage.imageObject = getImageObj();
-
-		SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-		// 用transaction唯一标识一个请求
-		request.transaction = String.valueOf(System.currentTimeMillis());
-		request.multiMessage = weiboMessage;
-		mWeiboShareAPI.sendRequest(WBShareActivity.this, request);
-		
-	}
-
-	/*private void sendSingleMessage() {
-
-		WeiboMessage weiboMessage = new WeiboMessage();
-		weiboMessage.mediaObject = getTextObj();
-		weiboMessage.mediaObject = getImageObj();
-
-		SendMessageToWeiboRequest request = new SendMessageToWeiboRequest();
-		request.transaction = String.valueOf(System.currentTimeMillis());
-		request.message = weiboMessage;
-
-		mWeiboShareAPI.sendRequest(WBShareActivity.this, request);
-	}*/
-
-	
-	/*private String getSharedText() {
-		return getShareContent();
-	}*/
+	 private void sendMultiMessage() {
+	        
+	        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+	            weiboMessage.textObject = getTextObj();
+	            weiboMessage.imageObject = getImageObj();
+	            
+	        
+	        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
+	        request.transaction = String.valueOf(System.currentTimeMillis());
+	        request.multiMessage = weiboMessage;
+	        
+	       
+	            AuthInfo authInfo = new AuthInfo(this, AppConstants.APP_KEY, AppConstants.REDIRECT_URL, AppConstants.SCOPE);
+	            Oauth2AccessToken accessToken = AccessTokenKeeper.readAccessToken(getApplicationContext());
+	            String token = "";
+	            if (accessToken != null) {
+	                token = accessToken.getToken();
+	            }
+	            mWeiboShareAPI.sendRequest(this, request, authInfo, token, new WeiboAuthListener() {
+	                
+	                @Override
+	                public void onWeiboException( WeiboException arg0 ) {
+	                }
+	                
+	                @Override
+	                public void onComplete( Bundle bundle ) {
+	                    Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
+	                    AccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
+	                }
+	                
+	                @Override
+	                public void onCancel() {
+	                }
+	            });
+	    }
 
 	private TextObject getTextObj() {
 		TextObject textObject = new TextObject();
@@ -407,11 +395,7 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		return imageObject;
 	}
 
-	/*private void initialize() {
-		boolean isInstalledWeibo = mWeiboShareAPI.isWeiboAppInstalled();
-		int supportApiLevel = mWeiboShareAPI.getWeiboAppSupportAPI(); 
-
-	}*/
+	
 	
 	public static void saveImageToSD(Bitmap bitmap, String filePath) {
         if (!isHaveSDCard()) {
@@ -420,9 +404,6 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
         if (null == bitmap) {
             return;
         }
-//        if (Constant.SAVE_FREESPACE_BYTE > freeSpaceOnSd_BYTE()) {
-//            return;
-//        }
         File imageFile = new File(filePath);
         if (!imageFile.getParentFile().exists()) {
         	imageFile.getParentFile().mkdirs();
