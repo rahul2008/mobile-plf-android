@@ -2,6 +2,7 @@ package com.pins.philips.shinelib.capabilities;
 
 import com.pins.philips.shinelib.SHNCapability;
 import com.pins.philips.shinelib.SHNIntegerResultListener;
+import com.pins.philips.shinelib.SHNResult;
 import com.pins.philips.shinelib.SHNResultListener;
 import com.pins.philips.shinelib.datatypes.SHNLog;
 
@@ -24,16 +25,11 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
         ShouldReadHighResolutionData
     }
 
-    enum Error {
-        NoError, LogBufferFormatError, UnknownLogRecordType, InvalidStateError // SHNError.h
-
-    }
-
     interface Listener {
         void onStateUpdated(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization);
         void onProgressUpdate(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, float progress);
-        void onLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog, Error error);
-        void onLogSynchronizationFailed(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, Error error);
+        void onLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog, SHNResult shnResult);
+        void onLogSynchronizationFailed(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNResult shnResult);
     }
 
     void setListener(Listener listener);
