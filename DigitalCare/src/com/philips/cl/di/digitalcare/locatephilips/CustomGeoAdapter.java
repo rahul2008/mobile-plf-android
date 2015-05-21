@@ -70,7 +70,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 		AtosAddressModel addressModel = resultModel.getmAddressModel();
 
 		txtTitle.setText(resultModel.getTitle());
-		txtAddress.setText(addressModel.getAddress1()
+		txtAddress.setText(addressModel.getAddress1() + "\n"
 				+ addressModel.getCityState());
 		txtPhone.setText(addressModel.getPhone());
 		return convertView;

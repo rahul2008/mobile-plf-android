@@ -3,8 +3,10 @@ package com.philips.cl.di.digitalcare.locatephilips;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -41,7 +43,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -54,7 +55,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
-import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.contactus.CdlsRequestTask;
 import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
@@ -114,6 +114,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private int mLocateLayoutMargin = 0;
 	private int mLocateSearchLayoutMargin = 0;
 
+	private AlertDialog.Builder mdialogBuilder = null;
+	private AlertDialog malertDialog = null;
+
 	// "http://www.philips.com/search/search?q=FC5830/81&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=";
 	private static final String ATOS_BASE_URL_SUBCATEGORY = "&subcategory=";
@@ -126,6 +129,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
 		View view = null;
 		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formAtosURL(),
 				mCdlsResponseCallback);
@@ -627,6 +631,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 		mLocationListener = null;
 		mGpsListener = null;
+
+		if (mdialogBuilder != null) {
+			mdialogBuilder = null;
+		}
+		if (malertDialog != null) {
+			malertDialog = null;
+		}
+
 	}
 
 	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
@@ -664,7 +676,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString();
-			
+
 			// if (constrain.length() > 1) {
 			// new UITask().execute(constrain);
 			// } else {
@@ -760,4 +772,48 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mMarkerIcon.setVisibility(View.GONE);
 		// linearLayout.setVisibility(View.GONE);// ritesh testing
 	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		// Checking Network
+
+		if (!Utils.isNetworkConnected(getActivity())) {
+
+			mdialogBuilder = new AlertDialog.Builder(getActivity())
+					.setTitle("Alert")
+					.setMessage("No Network")
+					.setPositiveButton(android.R.string.yes,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// do something
+
+									startActivityForResult(
+											new Intent(
+													android.provider.Settings.ACTION_SETTINGS),
+											0);
+
+								}
+							})
+					.setNegativeButton(android.R.string.no,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// do something
+									getActivity().finish();
+
+								}
+							}).setIcon(android.R.drawable.ic_dialog_alert);
+
+			malertDialog = mdialogBuilder.create();
+			malertDialog.show();
+
+			
+			
+		}
+
+	}
+
 }
