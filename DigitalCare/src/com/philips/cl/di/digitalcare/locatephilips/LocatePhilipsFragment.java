@@ -55,6 +55,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.contactus.CdlsRequestTask;
 import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
@@ -224,9 +225,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void initView() {
 		mHandler.postDelayed(mMapViewRunnable, 1000l);
-		if(mMap == null){
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-					.getMap();
+		if (mMap == null) {
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(
+					R.id.map)).getMap();
 		}
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
@@ -781,7 +782,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		super.onResume();
 
 		// Checking Network
-
 		if (!Utils.isNetworkConnected(getActivity())) {
 
 			mdialogBuilder = new AlertDialog.Builder(getActivity())
@@ -791,12 +791,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// do something
-
+									// launch setting Activity
 									startActivityForResult(
 											new Intent(
 													android.provider.Settings.ACTION_SETTINGS),
 											0);
+
+									SupportHomeFragmentisInLayout();
 
 								}
 							})
@@ -804,9 +805,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// do something
-									getActivity().finish();
 
+									SupportHomeFragmentisInLayout();
 								}
 							}).setIcon(android.R.drawable.ic_dialog_alert);
 
@@ -815,10 +815,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else {
 			if (malertDialog != null) {
 				malertDialog.dismiss();
-			}
 
+				SupportHomeFragmentisInLayout();
+
+			}
 		}
 
+	}
+
+	void SupportHomeFragmentisInLayout() {
+		final SupportHomeFragment supporthomeFragment = new SupportHomeFragment();
+		backstackFragment();
+		if (!supporthomeFragment.isInLayout()) {
+			showFragment(supporthomeFragment);
+		}
 	}
 
 }
