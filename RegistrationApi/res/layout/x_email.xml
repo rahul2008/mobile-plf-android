@@ -49,7 +49,7 @@
             android:inputType="textEmailAddress"
             android:paddingLeft="10dp"
             android:maxLength="@integer/reg_et_email_max_length"
-            reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+            reglib:fontAssetName="CentraleSans-Light.otf" />
     </RelativeLayout>
 
     <ImageView
@@ -73,6 +73,6 @@
         android:padding="@dimen/reg_edit_fields_padding"
         android:text="@string/EmptyField_ErrorMsg"
         android:visibility="gone"
-        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
 </RelativeLayout>

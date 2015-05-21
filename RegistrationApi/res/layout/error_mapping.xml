@@ -31,6 +31,6 @@
         android:background="@drawable/reg_rect"
         android:padding="@dimen/reg_err_mapping_padding"
         android:text="@string/NoNetworkConnection"
-        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
 </LinearLayout>

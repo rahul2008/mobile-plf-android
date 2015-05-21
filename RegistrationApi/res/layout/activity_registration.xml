@@ -28,7 +28,7 @@
             android:layout_toRightOf="@+id/iv_reg_back"
             android:text="@string/SigIn_TitleTxt"
             android:textColor="@color/reg_header_text_color"
-            reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+            reglib:fontAssetName="CentraleSans-Book.OTF" />
     </RelativeLayout>
 
     <View

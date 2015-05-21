@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.utils;
 
 import java.util.HashMap;
@@ -32,14 +33,17 @@ public class FontLoader {
 	 * @param fontName
 	 */
 	public void setTypeface(TextView tv, String fontName) {
-		if (fontName == null || fontName.isEmpty()){
+		if (fontName == null || fontName.isEmpty()) {
 			return;
 		}
+
+		fontName = RegConstants.FONT_PATH + fontName;
 
 		if (!tv.isInEditMode()) {
 			Typeface typeface = mFonts.get(fontName);
 			if (typeface == null) {
 				typeface = Typeface.createFromAsset(tv.getContext().getAssets(), fontName);
+
 				mFonts.put(fontName, typeface);
 			}
 			tv.setTypeface(typeface);

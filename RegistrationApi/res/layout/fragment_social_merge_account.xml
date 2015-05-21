@@ -24,7 +24,7 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:text="@string/Account_Merge_SignIn_lbltxt"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <View style="@style/reg_line" />
 
@@ -39,13 +39,13 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     style="@style/reg_textStyle"
                     android:text="@string/Account_Merge_UsedEmail_Error_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="@string/Account_Merge_EnterPassword_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +92,7 @@
                         style="@style/reg_style_btn"
                         android:enabled="false"
                         android:text="@string/Account_Merge_Merge_btntxt"
-                        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
                         android:id="@+id/pb_reg_merge_sign_in_spinner"
@@ -115,7 +115,7 @@
                         android:layout_height="@dimen/reg_btn_height"
                         android:background="@drawable/reg_btn_forgot_rect"
                         android:text="@string/TraditionalSignIn_ForgotPwd_btntxt"
-                        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
                         android:id="@+id/pb_reg_forgot_spinner"

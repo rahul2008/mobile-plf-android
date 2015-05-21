@@ -32,7 +32,7 @@
                     android:id="@+id/reg_welcome_id"
                     style="@style/reg_textStyle"
                     android:text="@string/TraditionalSignIn_SignInWithMyPhilips_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XEmail
                     android:id="@+id/rl_reg_email_field"
@@ -70,7 +70,7 @@
                         style="@style/reg_style_btn"
                         android:enabled="false"
                         android:text="@string/TraditionalSignIn_SignIn_btntxt"
-                        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
                         android:id="@+id/pb_reg_sign_in_spinner"
@@ -93,7 +93,7 @@
                         android:layout_height="@dimen/reg_btn_height"
                         android:background="@drawable/reg_btn_forgot_rect"
                         android:text="@string/TraditionalSignIn_ForgotPwd_btntxt"
-                        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
                         android:id="@+id/pb_reg_forgot_spinner"
@@ -113,7 +113,7 @@
                     android:background="@drawable/reg_btn_resend_rect"
                     android:text="@string/TraditionalSignIn_Resend_btntxt"
                     android:visibility="gone"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </RelativeLayout>
 
             <com.philips.cl.di.reg.ui.customviews.XRegError

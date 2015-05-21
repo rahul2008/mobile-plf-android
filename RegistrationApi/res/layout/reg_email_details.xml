@@ -13,18 +13,18 @@
         style="@style/reg_textStyle"
         android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/VerifyEmail_EmailSentto_lbltxt"
-        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
         style="@style/reg_textStyle"
         android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/VerifyEmail_ActivateInfo_lbltxt"
-        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView
         style="@style/reg_textStyle"
         android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/continue_use_app"
-        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
 </LinearLayout>

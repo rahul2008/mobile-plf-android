@@ -24,7 +24,7 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:text="@string/VerifyEmail_VerifyEmail_lbltxt"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <View style="@style/reg_line" />
 
@@ -40,12 +40,12 @@
                     android:id="@+id/tv_reg_email"
                     style="@style/reg_textStyle"
                     android:text="@string/VerifyEmail_EmailSentto_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     style="@style/reg_textStyle"
                     android:text="@string/VerifyEmail_ActivateInfo_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <LinearLayout
@@ -58,7 +58,7 @@
                     android:id="@+id/tv_reg_resend_details"
                     style="@style/reg_text_description"
                     android:text="@string/VerifyEmail_ResendErrorMsg_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <RelativeLayout
@@ -80,7 +80,7 @@
                         style="@style/reg_style_btn"
                         android:enabled="true"
                         android:text="@string/VerifyEmail_Activated_btntxt"
-                        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
                         android:id="@+id/pb_reg_activate_spinner"
@@ -110,7 +110,7 @@
                         style="@style/reg_btn_resend"
                         android:background="@drawable/reg_btn_resend_rect"
                         android:text="@string/VerifyEmail_Resend_btntxt"
-                        reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar
                         android:id="@+id/pb_reg_resend_spinner"

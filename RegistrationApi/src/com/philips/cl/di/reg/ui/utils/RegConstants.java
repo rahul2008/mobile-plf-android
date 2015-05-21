@@ -98,4 +98,6 @@ public class RegConstants {
 
 	public static final int DI_PROFILE_NULL_ERROR_CODE = -1;
 
+	public static final String FONT_PATH = "registration/fonts/";
+
 }

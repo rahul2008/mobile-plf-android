@@ -20,7 +20,7 @@
                 android:id="@+id/tv_reg_welcome"
                 style="@style/reg_titleTextStyle"
                 android:text="@string/RegWelcomeText"
-                reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+                reglib:fontAssetName="CentraleSans-Light.otf" />
 
             <LinearLayout
                 android:id="@+id/rl_reg_welcome_container"
@@ -30,7 +30,7 @@
                     android:id="@+id/tv_reg_welcome_desc"
                     style="@style/reg_text_description"
                     android:text="@string/LegalNoticeText"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <LinearLayout
@@ -46,14 +46,14 @@
                     style="@style/reg_textStyle"
                     android:layout_marginTop="@dimen/reg_common_margin_top"
                     android:text="@string/Welcome_needAccountto_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_create_account"
                     style="@style/reg_style_btn"
                     android:enabled="false"
                     android:text="@string/Welcome_Create_MyPhilips_btntxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <View style="@style/reg_line" />
@@ -70,7 +70,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="@string/Welcome_Alternate_SignInAccount_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
                     android:id="@+id/btn_reg_my_philips"

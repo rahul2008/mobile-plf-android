@@ -146,7 +146,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
 		FontLoader.getInstance().setTypeface(mCbTerms,
-				"fonts/CentraleSans-Light.otf");
+				"CentraleSans-Light.otf");
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
 		mEtEmail.setOnUpdateListener(this);

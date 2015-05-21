@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.ui.utils.FontLoader;
 
 public class XTextView extends TextView {
+
 	private static final String XMLNS = "http://reg.lib/schema";
 
 	public XTextView(Context context) {
@@ -24,17 +25,15 @@ public class XTextView extends TextView {
 	public XTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		String fontAssetName = attrs.getAttributeValue(XTextView.XMLNS,
-				"fontAssetName");
+		String fontAssetName = attrs.getAttributeValue(XTextView.XMLNS, "fontAssetName");
 		applyAttributes(this, context, fontAssetName);
 	}
 
-	private void applyAttributes(TextView view, Context context,
-			String fontAssetName) {
+	private void applyAttributes(TextView view, Context context, String fontAssetName) {
 		FontLoader.getInstance().setTypeface(view, fontAssetName);
 	}
 
 	public void setTypeface(String fontAssetName) {
-		FontLoader.getInstance().setTypeface(this, fontAssetName);
+		FontLoader.getInstance().setTypeface(this, "registration/" + fontAssetName);
 	}
 }

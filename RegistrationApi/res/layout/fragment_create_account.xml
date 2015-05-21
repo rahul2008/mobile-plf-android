@@ -56,7 +56,7 @@
                     android:id="@+id/tv_reg_password_details"
                     style="@style/reg_text_description"
                     android:text="@string/Create_Account_Hint_Password_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,7 +98,7 @@
                     style="@style/reg_style_btn"
                     android:enabled="false"
                     android:text="@string/Welcome_Create_MyPhilips_btntxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <ProgressBar
                     android:id="@+id/pb_reg_activate_spinner"

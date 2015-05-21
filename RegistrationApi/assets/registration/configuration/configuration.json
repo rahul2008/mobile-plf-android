@@ -1,0 +1,27 @@
+{
+   "JanRainConfiguration":{
+      "RegistrationClientID":{
+         "Development":"ad7nn99y2mv5berw5jxewzagazafbyhu",
+         "Evaluation":"4r36zdbeycca933nufcknn2hnpsz6gxu",
+         "Production":"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3"
+      }
+   },
+   "PILConfiguration":{
+      "MicrositeID":77000,
+      "RegistrationEnvironment":"EVAL",
+      "CampaignID":"COPPA-SONICARE"
+   },
+   "SocialProviders":{
+      "NL":[
+         "googleplus",
+         "facebook"
+      ],
+      "US":[
+         "twitter",
+         "facebook"
+      ],
+      "default":[
+         "facebook"
+      ]
+   }
+}

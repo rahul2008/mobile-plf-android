@@ -23,7 +23,7 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:text="@string/RegWelcomeText"
-                reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+                reglib:fontAssetName="CentraleSans-Light.otf" />
 
             <View style="@style/reg_line" />
 
@@ -41,7 +41,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="@string/InitialSignedIn_SignedInUsing_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <include layout="@layout/reg_email_details" />
             </LinearLayout>
@@ -62,7 +62,7 @@
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:enabled="true"
                     android:text="@string/SignInSuccess_Continue_btntxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_sign_out"
@@ -70,7 +70,7 @@
                     android:layout_height="@dimen/reg_btn_height"
                     android:background="@drawable/reg_btn_forgot_rect"
                     android:text="@string/SignInSuccess_SignOut_btntxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <View
                     android:layout_width="wrap_content"

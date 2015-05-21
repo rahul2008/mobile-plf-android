@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.settings;
 
+import java.util.Date;
 import java.util.Locale;
 
 import android.content.BroadcastReceiver;
@@ -37,7 +38,7 @@ public class RegistrationHelper {
 		INITIALIZE(true), REINITIALIZE(false);
 
 		private final boolean value;
-
+		
 		Janrain(boolean value) {
 			this.value = value;
 		}
@@ -70,6 +71,7 @@ public class RegistrationHelper {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			System.out.println("Initialization time : "+(new Date().getSeconds()-date.getSeconds()));
 			if (intent != null) {
 				Bundle extras = intent.getExtras();
 				RLog.i(RLog.ACTIVITY_LIFECYCLE,
@@ -91,42 +93,67 @@ public class RegistrationHelper {
 			}
 		}
 	};
+	Date date ;
 
 	/*
 	 * Initialize Janrain
 	 * @param isInitialized true for initialize and false for reinitialize
 	 * Janrain
 	 */
-	public void intializeRegistrationSettings(Janrain isInitialized, Context context, Locale locale) {
-		mJanrainIntialized = false;
-		mContext = context.getApplicationContext();
-		NetworkUtility.getInstance().checkIsOnline(mContext);
+	public void intializeRegistrationSettings(final Janrain isInitialized, final Context context, final Locale locale) {
+		//parse configuration data
+		// must be in thread 
+		 
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				//process the configuration 
+				
+				 date = new Date();
+				 System.out.println("brfore sleep "+ date.toString());
+				 try {
+	                Thread.sleep(5000);
+                } catch (InterruptedException e) {
+	                // TODO Auto-generated catch block
+	                e.printStackTrace();
+                }
+				 System.out.println("brfore sleep "+ new Date().toString());
+				 
+				mJanrainIntialized = false;
+				mContext = context.getApplicationContext();
+				NetworkUtility.getInstance().checkIsOnline(mContext);
 
-		IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-		flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-		LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
-		        flowFilter);
+				IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+				flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+				LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
+				        flowFilter);
 
-		String mClientId = mContext.getResources().getString(R.string.client_id);
-		String mMicrositeId = mContext.getResources().getString(R.string.microsite_id);
-		String mRegistrationType = mContext.getResources().getString(R.string.registration_type);
-		boolean mIsInitialize = isInitialized.getValue();
-		String mLocale = locale.toString();
+				String mClientId = mContext.getResources().getString(R.string.client_id);
+				String mMicrositeId = mContext.getResources().getString(R.string.microsite_id);
+				String mRegistrationType = mContext.getResources().getString(R.string.registration_type);
+				boolean mIsInitialize = isInitialized.getValue();
+				String mLocale = locale.toString();
 
-		if (NetworkUtility.getInstance().isOnline()) {
+				if (NetworkUtility.getInstance().isOnline()) {
 
-			if (mRegistrationType.equalsIgnoreCase("EVAL"))
-				initEvalSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
-				        mIsInitialize, mLocale);
+					if (mRegistrationType.equalsIgnoreCase("EVAL"))
+						initEvalSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
+						        mIsInitialize, mLocale);
 
-			else if (mRegistrationType.equalsIgnoreCase("PROD"))
-				initProdSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
-				        mIsInitialize, mLocale);
+					else if (mRegistrationType.equalsIgnoreCase("PROD"))
+						initProdSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
+						        mIsInitialize, mLocale);
 
-			else if (mRegistrationType.equalsIgnoreCase("DEV"))
-				initDevSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
-				        mIsInitialize, mLocale);
-		}
+					else if (mRegistrationType.equalsIgnoreCase("DEV"))
+						initDevSettings(mContext, mClientId, mMicrositeId, mRegistrationType,
+						        mIsInitialize, mLocale);
+				}
+			}
+		}).start();
+		
+		
 
 	}
 

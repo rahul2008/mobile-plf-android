@@ -29,6 +29,6 @@
         android:text="@string/Welcome_MyPhilips_btntxt"
         android:textColor="@android:color/white"
         android:textSize="@dimen/btn_reg_text_size"
-        reglib:fontAssetName="fonts/CentraleSans-Light.otf" />
+        reglib:fontAssetName="CentraleSans-Light.otf" />
 
 </FrameLayout>

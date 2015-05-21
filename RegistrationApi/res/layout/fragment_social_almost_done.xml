@@ -24,7 +24,7 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
                 android:text="@string/RegSignWith_Lbltxt"
-                reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <View style="@style/reg_line" />
 
@@ -40,7 +40,7 @@
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="@string/Social_SignIn_AlmostDone_lbltxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XEmail
                     android:id="@+id/rl_reg_email_field"
@@ -90,7 +90,7 @@
                     style="@style/reg_style_btn"
                     android:enabled="true"
                     android:text="@string/Continue_Btntxt"
-                    reglib:fontAssetName="fonts/CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <ProgressBar
                     android:id="@+id/pb_reg_social_almost_done_spinner"

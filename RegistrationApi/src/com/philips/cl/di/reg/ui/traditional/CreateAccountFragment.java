@@ -124,7 +124,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
 		FontLoader.getInstance().setTypeface(mCbTerms,
-				"fonts/CentraleSans-Light.otf");
+				"CentraleSans-Light.otf");
 
 		mBtnCreateAccount.setOnClickListener(this);
 
