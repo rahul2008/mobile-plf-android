@@ -66,11 +66,28 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin" >
 
-                <com.philips.cl.di.reg.ui.customviews.XTextView
-                    style="@style/reg_textStyle"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="@string/Welcome_Alternate_SignInAccount_lbltxt"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/reg_margin_bottom" >
+
+                    <com.philips.cl.di.reg.ui.customviews.XTextView
+                        android:id="@+id/tv_reg_or_sign_with"
+                        style="@style/reg_textStyle"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:text="@string/Welcome_Alternate_SignInAccount_lbltxt"
+                        reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                    <ProgressBar
+                        android:id="@+id/pb_reg_janrain_init"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/reg_btn_height"
+                        android:layout_toRightOf="@+id/tv_reg_or_sign_with"
+                        android:padding="@dimen/reg_pb_padding"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
                     android:id="@+id/btn_reg_my_philips"
@@ -107,7 +124,6 @@
                         android:visibility="gone" />
                 </FrameLayout>
 
-            
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/reg_btn_height"

@@ -31,6 +31,7 @@ import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
+import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XProviderButton;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
@@ -66,6 +67,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	private ProgressBar mPbFaceBookSpinner;
 
 	private ProgressBar mPbTwiterSpinner;
+	
+	private ProgressBar mPbJanrainInit;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,11 +138,27 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				.findViewById(R.id.pb_reg_twitter_spinner);
 		mPbTwiterSpinner.setClickable(false);
 		mPbTwiterSpinner.setEnabled(false);
-
+		
+		mPbJanrainInit = (ProgressBar) view
+				.findViewById(R.id.pb_reg_janrain_init);
+		mPbJanrainInit.setClickable(false);
+		mPbJanrainInit.setEnabled(false);
+		
 		setViewParams(getResources().getConfiguration());
 		linkifyTermAndPolicy(mTvWelcomeDesc);
+		handleJanrainInitPb();
 		enableControls(false);
 		handleUiState();
+	}
+	
+	private void handleJanrainInitPb(){
+		if(NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()){
+			mPbJanrainInit.setVisibility(View.GONE);
+		}else if(NetworkUtility.getInstance().isOnline() && !RegistrationHelper.isJanrainIntialized()){
+			mPbJanrainInit.setVisibility(View.VISIBLE);
+		}else{
+			mPbJanrainInit.setVisibility(View.GONE);
+		}
 	}
 
 	private void showFaceBookSpinner() {
@@ -215,10 +234,13 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
 			handleUiState();
+			handleJanrainInitPb();
 		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			enableControls(true);
+			handleJanrainInitPb();
 		} else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
 			enableControls(false);
+			handleJanrainInitPb();
 		}
 	}
 
@@ -227,8 +249,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 				enableControls(true);
-			} else {
-				mRegError.setError(getString(R.string.NoNetworkConnection));
+			}else{
+				mRegError.hideError();
 			}
 		} else {
 			mRegError.setError(getString(R.string.NoNetworkConnection));
