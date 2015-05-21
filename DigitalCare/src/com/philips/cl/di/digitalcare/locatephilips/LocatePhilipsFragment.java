@@ -115,7 +115,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private int mLocateSearchLayoutMargin = 0;
 
 	private AlertDialog.Builder mdialogBuilder = null;
-	private AlertDialog malertDialog = null;
+	private AlertDialog mAlertDialog = null;
 
 	// "http://www.philips.com/search/search?q=FC5830/81&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=";
@@ -224,9 +224,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void initView() {
 		mHandler.postDelayed(mMapViewRunnable, 1000l);
-		if(mMap == null){
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-					.getMap();
+		if (mMap == null) {
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(
+					R.id.map)).getMap();
 		}
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
@@ -431,7 +431,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mGetDirectionResponse = new MapDirectionResponse() {
 				@Override
 				public void onReceived(ArrayList<LatLng> arrayList) {
-					if(arrayList==null){
+					if (arrayList == null) {
 						return;
 					}
 					traceOfMe = arrayList;
@@ -638,8 +638,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (mdialogBuilder != null) {
 			mdialogBuilder = null;
 		}
-		if (malertDialog != null) {
-			malertDialog = null;
+		if (mAlertDialog != null && mAlertDialog.isShowing()) {
+			mAlertDialog.dismiss();
+			mAlertDialog = null;
 		}
 
 	}
@@ -810,11 +811,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 								}
 							}).setIcon(android.R.drawable.ic_dialog_alert);
 
-			malertDialog = mdialogBuilder.create();
-			malertDialog.show();
+			mAlertDialog = mdialogBuilder.create();
+			if (!(getActivity().isFinishing()))
+				mAlertDialog.show();
 
-			
-			
 		}
 
 	}
