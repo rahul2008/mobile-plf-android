@@ -603,8 +603,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onStop() {
 		super.onStop();
-		locationMgr.removeUpdates(mLocationListener);
-		mHandler.removeCallbacks(mMapViewRunnable);
+		if (locationMgr != null) {
+			locationMgr.removeUpdates(mLocationListener);
+		}
+		if (mHandler != null) {
+			mHandler.removeCallbacks(mMapViewRunnable);
+		}
+
+		locationMgr = null;
 		mHandler = null;
 	}
 
