@@ -62,6 +62,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private OutdoorPagerAdapter outdoorPagerAdapter;
 	private IndoorPagerAdapter indoorPagerAdapter;
 	
+	private ViewGroup indoorLayoutDashboard;
+	private ViewGroup outdoorLayoutDashboard;
+	
 	private LinearLayout takeATourPopup;
 
 	private CirclePageIndicator indicator;
@@ -117,12 +120,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		indoorDetailContainer.setVisibility(View.GONE);
 		
 		outdoorDetailContainer = 
-				(LinearLayout) view.findViewById(R.id.home_fragment_outdoor_detail_container);
+				(RelativeLayout) view.findViewById(R.id.home_fragment_outdoor_detail_container);
 		outdoorDetailContainer.setVisibility(View.GONE);
 		
-		ViewGroup indoorLayout = 
+		indoorLayoutDashboard = 
 				(RelativeLayout) view.findViewById(R.id.home_fragment_indoor_viewpager_rl);
-		ViewGroup outdoorLayout = 
+		outdoorLayoutDashboard = 
 				(RelativeLayout) view.findViewById(R.id.home_fragment_outdoor_viewpager_rl);
 		
 		share = (ImageView) view.findViewById(R.id.share_iv);
@@ -130,13 +133,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 		screenHeight = MainActivity.getScreenHeight();
 		ALog.i(ALog.DASHBOARD, "Before delay screenHeight Height=  " + screenHeight);
-		LayoutParams params1 = indoorLayout.getLayoutParams();
+		LayoutParams params1 = indoorLayoutDashboard.getLayoutParams();
 		params1.height = screenHeight / 2;
 		
-		LayoutParams params2 = outdoorLayout.getLayoutParams();
+		LayoutParams params2 = outdoorLayoutDashboard.getLayoutParams();
 		params2.height = screenHeight / 2;
 		
-		reSetViewPagerHeight(view, indoorLayout, outdoorLayout);
+		reSetViewPagerHeight(view, indoorLayoutDashboard, outdoorLayoutDashboard);
 		
 		return view;
 	}
@@ -341,8 +344,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		case R.id.heading_back_imgbtn:
 			removeIndoorDetails();
 			removeOutdoorDetails();
-			titleLayout.setVisibility(View.GONE);
-			shadowView.setVisibility(View.GONE);
+			setTitleVisibility(View.GONE);
 			break;
 		case R.id.heading_close_imgbtn:
 			activity.showFragment(new AboutFragment());
@@ -495,7 +497,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	public void toggleOutdoorDetailFragment(String cityName, OutdoorAQI outdoorAQI, int provider) {
 		if (isLoadingOutdoorDetail) return;
 		isLoadingOutdoorDetail = true;
-		if (!removeOutdoorDetails()) {
+		if (outdoorDetailContainer.getVisibility() != View.VISIBLE) {
+			
 			OutdoorDetailFragment fragment = new OutdoorDetailFragment();
 			Bundle bundle = new Bundle();
 			bundle.putString(AppConstants.OUTDOOR_CITY_NAME, cityName);
@@ -503,21 +506,43 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			bundle.putInt(AppConstants.OUTDOOR_DATAPROVIDER, provider) ;
 			fragment.setArguments(bundle);
 			addFragment(fragment, R.id.home_fragment_outdoor_detail_container, OUTDOOR_DEATAIL_FTAG) ;
-			outdoorDetailContainer.setVisibility(View.VISIBLE);
-			setTitleBarVisibity();
-			scrollScrollView(true) ;
+			
+			setTitleVisibility(View.VISIBLE);
+			setOutdoorVisibility(View.VISIBLE);
+			setIndoorVisibility(View.GONE);
 		}
 		isLoadingOutdoorDetail = false;
 	}
 	
 	public void toggleIndoorDetailFragment() {
-		if (!removeIndoorDetails()) {
+		if (indoorDetailContainer.getVisibility() != View.VISIBLE) {
 			IndoorDetailFragment fragment = new IndoorDetailFragment();
 			addFragment(fragment, R.id.home_fragment_indoor_detail_container, INDOOR_DETAIL_FTAG);
-			indoorDetailContainer.setVisibility(View.VISIBLE);
-			setTitleBarVisibity();
+			setTitleVisibility(View.VISIBLE);
+			setIndoorVisibility(View.VISIBLE);
+			setOutdoorVisibility(View.GONE);
 		}
-		scrollScrollView(false);
+	}
+	
+	private void setTitleVisibility(int visibility) {
+		titleLayout.setVisibility(visibility);
+		shadowView.setVisibility(visibility);
+	}
+	
+	private void setIndoorVisibility(int visibility) {
+		indoorLayoutDashboard.setVisibility(visibility);
+		indoorDetailContainer.setVisibility(visibility);
+	}
+	
+	private void setOutdoorVisibility(int visibility) {
+		outdoorLayoutDashboard.setVisibility(visibility);
+		outdoorDetailContainer.setVisibility(visibility);
+	}
+	
+	private void showDashboard() {
+		indoorLayoutDashboard.setVisibility(View.VISIBLE);
+		outdoorLayoutDashboard.setVisibility(View.VISIBLE);
+		setTitleVisibility(View.GONE);
 	}
 	
 	private void addFragment(Fragment fragment, int containerId, String tag) {
@@ -549,8 +574,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 						fragmentTransaction.remove(prevFragmentMap);
 					}
 					fragmentTransaction.commit();
+					
 					outdoorDetailContainer.setVisibility(View.GONE);
-					setTitleBarVisibity();
+					showDashboard();
 					return true;
 				}
 			} catch (IllegalStateException e) {
@@ -572,7 +598,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 					fragmentTransaction.remove(prevFragment);
 					fragmentTransaction.commit();
 					indoorDetailContainer.setVisibility(View.GONE);
-					setTitleBarVisibity();
+					showDashboard();
 					return true;
 				}
 			} catch (IllegalStateException e) {
@@ -582,39 +608,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		return false;
 	}
 	
-	/**
-	 * Scroll to outdoor detail, normal case outdoor detail does not added,
-	 *  that why given delay 100 milli sec.
-	 */
-	private void scrollScrollView(final boolean srcollUp) {
-		scrollView.postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				int scrollY = 0;
-				
-				if (srcollUp) {
-					int indoorDetailHeight = indoorDetailContainer.getHeight();
-					if (indoorDetailContainer.getVisibility() == View.GONE) {
-						indoorDetailHeight = 0;
-					}
-					scrollY = (screenHeight / 2) + indoorDetailHeight;
-				}
-				scrollView.scrollTo(0, scrollY);
-			}
-		}, 100); //100 millisecond
-	}
-	
-	private void setTitleBarVisibity() {
-		if (indoorDetailContainer.getVisibility() == View.GONE  
-				&& outdoorDetailContainer.getVisibility() == View.GONE) {
-			titleLayout.setVisibility(View.GONE);
-			shadowView.setVisibility(View.GONE);
-		} else {
-			titleLayout.setVisibility(View.VISIBLE);
-			shadowView.setVisibility(View.VISIBLE);
-		}
-	}
-
 	@Override
 	public void onImagesave() {
 		share.setClickable(true); 
@@ -640,6 +633,14 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		if (imagesavingProgressDialog != null) {
 			imagesavingProgressDialog.dismiss();
 		}
+	}
+	
+	public boolean isTitleVisible() {
+		boolean visible = false;
+		if (titleLayout.getVisibility() == View.VISIBLE) {
+			visible = true;
+		}
+		return visible;
 	}
 
 }

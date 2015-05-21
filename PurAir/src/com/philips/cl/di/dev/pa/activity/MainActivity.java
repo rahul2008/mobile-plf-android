@@ -330,8 +330,17 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
 		} else {
-			clearFinishCheckGPS();
+			showDashboardFromDetail(fragment);
+			
 		}
+	}
+	
+	private void showDashboardFromDetail(Fragment fragment) {
+		if (fragment instanceof HomeFragment && ((HomeFragment) fragment).isTitleVisible()) {
+			showFirstFragment();
+			return;
+		}
+		clearFinishCheckGPS();
 	}
 
 	private void clearFinishCheckGPS(){
