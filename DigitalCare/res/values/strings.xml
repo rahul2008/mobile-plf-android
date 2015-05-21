@@ -34,6 +34,7 @@
     <string name="get_directions">Get Directions</string>
     <string name="call">Call</string>
     <string name="search">search&#8230;</string>
+    <string name="enableNetwork">Enable Network</string>
 
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>

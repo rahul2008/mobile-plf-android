@@ -431,7 +431,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mGetDirectionResponse = new MapDirectionResponse() {
 				@Override
 				public void onReceived(ArrayList<LatLng> arrayList) {
-					if(arrayList==null){
+					if (arrayList == null) {
 						return;
 					}
 					traceOfMe = arrayList;
@@ -787,7 +787,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mdialogBuilder = new AlertDialog.Builder(getActivity())
 					.setTitle("Alert")
 					.setMessage("No Network")
-					.setPositiveButton(android.R.string.yes,
+					.setPositiveButton(R.string.enableNetwork,
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
@@ -812,9 +812,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			malertDialog = mdialogBuilder.create();
 			malertDialog.show();
+		} else {
+			if (malertDialog != null) {
+				malertDialog.dismiss();
+			}
 
-			
-			
 		}
 
 	}
