@@ -66,8 +66,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-
-		EventHelper.getInstance().registerEventNotification(RegConstants.PARSING_COMPLETED, this);
 		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
 		initUI(view);
 		return view;
@@ -87,7 +85,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
 		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.PARSING_COMPLETED, this);
 		super.onDestroy();
 	}
 

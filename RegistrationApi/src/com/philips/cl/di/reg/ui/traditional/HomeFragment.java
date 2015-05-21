@@ -1,5 +1,6 @@
 package com.philips.cl.di.reg.ui.traditional;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.json.JSONObject;
@@ -31,7 +32,6 @@ import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
-import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XProviderButton;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
@@ -67,7 +67,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	private ProgressBar mPbFaceBookSpinner;
 
 	private ProgressBar mPbTwiterSpinner;
-	
+
 	private ProgressBar mPbJanrainInit;
 
 	@Override
@@ -79,6 +79,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance().registerEventNotification(
 				RegConstants.JANRAIN_INIT_FAILURE, this);
+		EventHelper.getInstance().registerEventNotification(
+				RegConstants.PARSING_COMPLETED, this);
 		mUser = new User(getRegistrationMainActivity().getApplicationContext());
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -102,6 +104,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance().unregisterEventNotification(
 				RegConstants.JANRAIN_INIT_FAILURE, this);
+		EventHelper.getInstance().unregisterEventNotification(
+				RegConstants.PARSING_COMPLETED, this);
 		super.onDestroy();
 	}
 
@@ -138,25 +142,27 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				.findViewById(R.id.pb_reg_twitter_spinner);
 		mPbTwiterSpinner.setClickable(false);
 		mPbTwiterSpinner.setEnabled(false);
-		
+
 		mPbJanrainInit = (ProgressBar) view
 				.findViewById(R.id.pb_reg_janrain_init);
 		mPbJanrainInit.setClickable(false);
 		mPbJanrainInit.setEnabled(false);
-		
+
 		setViewParams(getResources().getConfiguration());
 		linkifyTermAndPolicy(mTvWelcomeDesc);
 		handleJanrainInitPb();
 		enableControls(false);
 		handleUiState();
 	}
-	
-	private void handleJanrainInitPb(){
-		if(NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()){
+
+	private void handleJanrainInitPb() {
+		if (NetworkUtility.getInstance().isOnline()
+				&& RegistrationHelper.isJanrainIntialized()) {
 			mPbJanrainInit.setVisibility(View.GONE);
-		}else if(NetworkUtility.getInstance().isOnline() && !RegistrationHelper.isJanrainIntialized()){
+		} else if (NetworkUtility.getInstance().isOnline()
+				&& !RegistrationHelper.isJanrainIntialized()) {
 			mPbJanrainInit.setVisibility(View.VISIBLE);
-		}else{
+		} else {
 			mPbJanrainInit.setVisibility(View.GONE);
 		}
 	}
@@ -241,7 +247,15 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		} else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
 			enableControls(false);
 			handleJanrainInitPb();
+		}else if(RegConstants.PARSING_COMPLETED.equals(event)){
+			handleSocialProvider();
 		}
+	}
+
+	private void handleSocialProvider() {
+	  
+		RegistrationHelper.getInstance().getSocialProviders()	;
+		
 	}
 
 	private void handleUiState() {
@@ -249,7 +263,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			if (RegistrationHelper.isJanrainIntialized()) {
 				mRegError.hideError();
 				enableControls(true);
-			}else{
+			} else {
 				mRegError.hideError();
 			}
 		} else {
@@ -427,7 +441,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				mUser.loginUserUsingSocialProvider(getActivity(),
 						existingProvider, this, mergeToken);
 			}
-			
+
 		}
 
 	}
@@ -441,7 +455,6 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		getRegistrationMainActivity().addFragment(new WelcomeFragment());
 	}
 
-	
 	@Override
 	public void onContinueSocialProviderLoginFailure(
 			UserRegistrationFailureInfo userRegistrationFailureInfo) {
