@@ -40,6 +40,8 @@ public class RegConstants {
 
 	public static final String JANRAIN_INIT_FAILURE = "JANRAIN_FAILURE";
 
+	public static final String PARSING_COMPLETED = "PARSING_COMPLETED";
+
 	public static final String REGISTER_GIVEN_NAME = "givenName";
 
 	public static final String REGISTER_DISPLAY_NAME = "displayName";

@@ -132,6 +132,9 @@ public class RegistrationHelper {
 				RegistrationConfiguration registrationConfiguration = parseConfigurationJson(mContext);
 				if (null != registrationConfiguration) {
 					mSocialProivder = registrationConfiguration.getSocialProviders();
+					EventHelper.getInstance().notifyEventOccurred(
+					        RegConstants.PARSING_COMPLETED);
+
 					IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
 					flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
 					LocalBroadcastManager.getInstance(context).registerReceiver(
