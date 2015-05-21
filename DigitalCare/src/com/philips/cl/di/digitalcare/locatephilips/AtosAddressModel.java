@@ -37,7 +37,7 @@ public class AtosAddressModel {
 	}
 
 	public String getPhone() {
-		return mPhone;
+		return mPhoneList.get(0);
 	}
 
 	public void setPhone(String phone) {

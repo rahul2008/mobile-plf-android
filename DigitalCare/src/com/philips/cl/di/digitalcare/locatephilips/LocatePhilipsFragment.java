@@ -759,7 +759,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mDestinationLat = Double.parseDouble(locationModel.getLatitude());
 		mDestinationLng = Double.parseDouble(locationModel.getLongitude());
 
-		mPhoneNumber = addressModel.getPhone();
+		// mPhoneNumber = addressModel.getPhone();
 
 		mShowTxtTitle.setText(resultModel.getTitle());
 		mShowTxtAddress.setText(addressModel.getAddress1() + "\n"
@@ -767,9 +767,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		// mImgListRightArrow.setVisibility(View.GONE);
 
-		String phoneNumbers[] = addressModel.getPhone().split(",");
+		// String phoneNumbers[] = addressModel.getPhone().split(",");
+
+		ArrayList<String> phoneNumbers = addressModel.getPhoneList();
+
 		mButtonCall.setText(getResources().getString(R.string.call) + " "
-				+ phoneNumbers[0]);
+				+ phoneNumbers.get(0));
 
 		mListView.setVisibility(View.GONE);
 		mLinearLayout.setVisibility(View.VISIBLE);
@@ -796,6 +799,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 											new Intent(
 													android.provider.Settings.ACTION_SETTINGS),
 											0);
+									backstackFragment();
 									SupportHomeFragmentisInLayout();
 
 								}
@@ -804,7 +808,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
-
+									backstackFragment();
 									SupportHomeFragmentisInLayout();
 								}
 							}).setIcon(android.R.drawable.ic_dialog_alert);
@@ -814,17 +818,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else {
 			if (malertDialog != null) {
 				malertDialog.dismiss();
-
+				// backstackFragment();
 				SupportHomeFragmentisInLayout();
-
+			} else {
+				// do nothiing
 			}
 		}
 
 	}
 
-	void SupportHomeFragmentisInLayout() {
+	private void SupportHomeFragmentisInLayout() {
 		final SupportHomeFragment supporthomeFragment = new SupportHomeFragment();
-		backstackFragment();
+
 		if (!supporthomeFragment.isInLayout()) {
 			showFragment(supporthomeFragment);
 		}
