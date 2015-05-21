@@ -230,8 +230,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mShowTxtAddress = (TextView) getActivity().findViewById(
 				R.id.show_place_address);
 
-//		mImgListRightArrow = (ImageView) getActivity().findViewById(
-//				R.id.imgListRightArrow);
+		// mImgListRightArrow = (ImageView) getActivity().findViewById(
+		// R.id.imgListRightArrow);
 		mLocateLayout = (RelativeLayout) getActivity().findViewById(
 				R.id.locate_layout);
 		mLocateSearchLayout = (RelativeLayout) getActivity().findViewById(
@@ -640,7 +640,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else {
 			mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin
 					+ mLeftRightMarginLand / 2;
-			mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateSearchLayoutMargin
+			mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateLayoutMargin
 					+ mLeftRightMarginLand / 2;
 		}
 		mLocateLayout.setLayoutParams(mLocateLayoutParentParams);
@@ -664,10 +664,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString();
-			if (constrain.length() > 1) {
-				new UITask().execute(constrain);
-			} else {
-			}
+			
+			// if (constrain.length() > 1) {
+			// new UITask().execute(constrain);
+			// } else {
+			// }
+			new UITask().execute(constrain);
+
 		} else if (v.getId() == R.id.getdirection) {
 			trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
 					mDestinationLat, mDestinationLng));
@@ -715,9 +718,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			super.onPostExecute(result);
 
 			if (adapter != null) {
-				mListView.setVisibility(View.VISIBLE);
+
 				adapter.getFilter().filter(result);
 				mListView.setAdapter(adapter);
+
+				mListView.setVisibility(View.VISIBLE);
 				mLinearLayout.setVisibility(View.GONE);
 				mMarkerIcon.setVisibility(View.VISIBLE);
 			}
