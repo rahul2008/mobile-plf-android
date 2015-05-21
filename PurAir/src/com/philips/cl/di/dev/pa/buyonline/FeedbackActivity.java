@@ -11,12 +11,9 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -41,8 +38,6 @@ public class FeedbackActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feedback_activity);
 		
-		ViewGroup container = (LinearLayout) findViewById(R.id.containerLL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		setTitleBack();
 		setTitleText(getString(R.string.send_us_feedback));

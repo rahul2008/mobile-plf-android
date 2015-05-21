@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
     style="@style/parent_container"
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/head_include"
         style="@style/titlebar"
         layout="@layout/titlebar_basic" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head_include"
+         >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -124,8 +126,8 @@
                     android:layout_width="51dp"
                     android:layout_height="51dp"
                     android:layout_marginLeft="5dp"
-                    android:src="@drawable/calendar_metro_icon"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/calendar_metro_icon" />
             </LinearLayout>
 
             <LinearLayout
@@ -149,8 +151,8 @@
                     android:layout_height="109dp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/nopic"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/nopic" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -163,4 +165,10 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

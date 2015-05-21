@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/parent_container"
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/head_include"
         style="@style/titlebar"
         layout="@layout/titlebar_basic_back" />
 
     <ScrollView
         android:id="@+id/scrollView"
         style="@style/fillParent"
+        android:layout_below="@+id/head_include"
         android:scrollbars="vertical" >
 
         <LinearLayout
@@ -33,13 +35,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_1"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_1" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_2" 
-                    android:contentDescription="@string/img_description"/>
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_2" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -54,13 +56,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_3"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_3" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_4" 
-                    android:contentDescription="@string/img_description"/>
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_4" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -75,13 +77,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_5" 
-                    android:contentDescription="@string/img_description"/>
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_5" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_6"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_6" />
             </LinearLayout>
             <!-- part2 -->
 
@@ -98,13 +100,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_7"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_7" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_8" 
-                    android:contentDescription="@string/img_description"/>
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_8" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -119,13 +121,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_9" 
-                    android:contentDescription="@string/img_description"/>
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_9" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_10" 
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_10" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -140,13 +142,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_11" 
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_11" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_12" 
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_12" />
             </LinearLayout>
 
             <!-- part3 -->
@@ -164,13 +166,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_13" 
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_13" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_14"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_14" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -185,13 +187,13 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_15"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_15" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_16"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_16" />
             </LinearLayout>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -206,18 +208,19 @@
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_17"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_17" />
 
                 <ImageView
                     style="@style/expression_share_img"
-                    android:src="@drawable/expression_18"
-                    android:contentDescription="@string/img_description" />
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/expression_18" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
+        android:layout_below="@+id/scrollView"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -227,4 +230,10 @@
         android:textSize="14sp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

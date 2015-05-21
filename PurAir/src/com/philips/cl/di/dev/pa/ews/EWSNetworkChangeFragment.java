@@ -1,17 +1,16 @@
 package com.philips.cl.di.dev.pa.ews;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
-public class EWSNetworkChangeFragment extends EWSBaseFragment {
+public class EWSNetworkChangeFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,9 +25,6 @@ public class EWSNetworkChangeFragment extends EWSBaseFragment {
 		MetricsTracker.trackPage(TrackPageConstants.EWS_NETWORK_CHANGE);
 		((EWSActivity) getActivity())
 				.setActionBarHeading(EWSConstant.EWS_STEP_CHANGE_NETWORK);
-		
-		ViewGroup scrollView = (ScrollView) getView().findViewById(R.id.scrollView);
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 }

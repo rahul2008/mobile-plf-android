@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -48,8 +46,6 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.SETTINGS);
-		ViewGroup container = (RelativeLayout) getView().findViewById(R.id.containerRL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 	private void initViews(View view) {

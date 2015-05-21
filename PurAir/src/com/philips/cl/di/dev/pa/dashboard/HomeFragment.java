@@ -75,7 +75,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private ViewGroup indoorDetailContainer;
 	private ViewGroup titleLayout;
 	private int screenHeight;// Without status bar height
-	private LinearLayout parentLayout;
+	private View shadowView;
 	private ImageView share;
 	
 	private ProgressDialog imagesavingProgressDialog;
@@ -104,6 +104,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		titleLayout = (RelativeLayout) view.findViewById(R.id.home_fragment_title);
 		titleLayout.setVisibility(View.GONE);
 		
+		shadowView = (View) view.findViewById(R.id.home_fragment_shadowView);
+		shadowView.setVisibility(View.GONE);
+		
 		initTitleView(view);
 		
 		scrollView = (ScrollView)view.findViewById(R.id.home_fragment_scroll_view);
@@ -112,8 +115,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		indoorDetailContainer = 
 				(LinearLayout) view.findViewById(R.id.home_fragment_indoor_detail_container);
 		indoorDetailContainer.setVisibility(View.GONE);
-		
-		parentLayout = (LinearLayout) view.findViewById(R.id.containerll);
 		
 		outdoorDetailContainer = 
 				(LinearLayout) view.findViewById(R.id.home_fragment_outdoor_detail_container);
@@ -341,6 +342,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			removeIndoorDetails();
 			removeOutdoorDetails();
 			titleLayout.setVisibility(View.GONE);
+			shadowView.setVisibility(View.GONE);
 			break;
 		case R.id.heading_close_imgbtn:
 			activity.showFragment(new AboutFragment());
@@ -606,8 +608,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		if (indoorDetailContainer.getVisibility() == View.GONE  
 				&& outdoorDetailContainer.getVisibility() == View.GONE) {
 			titleLayout.setVisibility(View.GONE);
+			shadowView.setVisibility(View.GONE);
 		} else {
 			titleLayout.setVisibility(View.VISIBLE);
+			shadowView.setVisibility(View.VISIBLE);
 		}
 	}
 

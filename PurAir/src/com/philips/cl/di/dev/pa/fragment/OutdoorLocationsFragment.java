@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +17,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -109,8 +107,6 @@ OnConnectionFailedListener, CurrentCityAreaIdReceivedListener {
 			});
 		}
 
-		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containLL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .2F);
 	}
 
 	@Override

@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -70,7 +69,6 @@ public class TutorialPagerActivity extends BaseActivity {
 			}
 		});
 		
-		setBackground(mPager, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	

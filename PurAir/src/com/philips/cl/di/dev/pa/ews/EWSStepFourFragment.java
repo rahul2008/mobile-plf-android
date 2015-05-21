@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -21,7 +22,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -33,7 +33,7 @@ import com.philips.cl.di.dev.pa.util.UnicodeSpecialCharacter;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EWSStepFourFragment extends EWSBaseFragment {
+public class EWSStepFourFragment extends Fragment {
 
 	public static final String EXTRA_PASSWORD = "password";
 	public static final String EXTRA_ADV_SETTING = "adv_setting";
@@ -67,9 +67,6 @@ public class EWSStepFourFragment extends EWSBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.EWS_CONNECT_TO_HOME_WIFI);
-		
-		ViewGroup scrollView = (ScrollView) getView().findViewById(R.id.scrollView);
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		Bundle bundle = getArguments();
 		if (bundle != null) {

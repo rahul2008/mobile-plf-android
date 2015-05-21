@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EWSSupportFragment extends EWSBaseFragment {
+public class EWSSupportFragment extends Fragment {
 	
 	private ButtonClickListener buttonClickListener;
 	private FontTextView helpWebsiteAC4373, helpWebsiteAC4375;
@@ -54,8 +54,6 @@ public class EWSSupportFragment extends EWSBaseFragment {
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_SUPPORT);
 		
 		scrollView = (ScrollView) getView().findViewById(R.id.contact_philips_support_scrollview);
-		
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		/*((RelativeLayout) getView().findViewById
 				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener); */

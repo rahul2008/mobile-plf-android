@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +43,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.HELP_AND_DOCUMENTATION);
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
+//		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	private void initializeView(View rootView) {
 		ImageButton backButton = (ImageButton) rootView.findViewById(R.id.heading_back_imgbtn);

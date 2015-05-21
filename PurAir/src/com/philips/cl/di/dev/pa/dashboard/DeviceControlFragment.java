@@ -62,15 +62,15 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		isTimerMenuVisible = false;
 		mainActivity = (MainActivity) getActivity();
 		initViews(getView());
-		ViewGroup scrollView = (ViewGroup) getView().findViewById(R.id.scrollView);
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	@Override
 	public void onResume() {
 		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		updateButtonState(currentPurifier.getAirPort().getAirPortInfo());
+		if (currentPurifier != null) { 
+			updateButtonState(currentPurifier.getAirPort().getAirPortInfo());
+		}
 		super.onResume();
 	}
 	

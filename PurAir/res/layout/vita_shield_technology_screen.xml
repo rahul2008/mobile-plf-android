@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@android:color/white">
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <include
+        android:id="@+id/head_include"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         layout="@layout/heading" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/head_include" >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,8 +68,8 @@
                 android:id="@+id/sieving_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_intro_1"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
@@ -93,8 +96,8 @@
                 android:id="@+id/inertial_impaction_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_intro_2"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
@@ -121,8 +124,8 @@
                 android:id="@+id/interception_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_intro_3"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
@@ -149,8 +152,8 @@
                 android:id="@+id/diffusion_absorbtion_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="2dp"
                 android:layout_marginBottom="16dp"
+                android:lineSpacingExtra="2dp"
                 android:text="@string/vistashield_intro_4"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_small"
@@ -166,7 +169,7 @@
                 android:text="@string/vistashield_nanometer_ques"
                 android:textColor="@color/blue_title"
                 android:textSize="@dimen/title_text_size_small"
-                custom:fontAssetName="fonts/centralesanslight.ttf"  />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -185,7 +188,7 @@
                 android:text="@string/vistashield_performance_subheading"
                 android:textColor="@color/blue_title"
                 android:textSize="@dimen/title_text_size_small"
-                custom:fontAssetName="fonts/centralesanslight.ttf"  />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -199,4 +202,10 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

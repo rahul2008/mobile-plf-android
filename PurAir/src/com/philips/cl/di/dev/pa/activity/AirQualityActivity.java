@@ -1,12 +1,10 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -25,8 +23,6 @@ public class AirQualityActivity extends BaseActivity implements OnClickListener 
 		MetricsTracker.trackPage(TrackPageConstants.AIR_QUALITY_EXPLAINED);
 		setContentView(R.layout.air_quality_fragment);
 		initializeView();
-		ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	private void initializeView() {

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/head_include"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         layout="@layout/heading" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head_include" >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -29,8 +32,8 @@
                 android:background="@drawable/clickable_image_bg_selector"
                 android:contentDescription="@string/img_description"
                 android:padding="12dp"
-                android:visibility="gone"
-                android:src="@drawable/cross_close" />
+                android:src="@drawable/cross_close"
+                android:visibility="gone" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -384,4 +387,10 @@
         </RelativeLayout>
     </ScrollView>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -95,8 +93,6 @@ AlertDialogBtnInterface, OnClickListener {
 		Activity parent = this.getActivity();
 		if (parent == null)	return;
 		
-		ScrollView scrollView = (ScrollView) getView().findViewById(R.id.scrollView);
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 
 		MetricsTracker.trackPage(TrackPageConstants.PUSH_NOTIFICATION);
 //		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "

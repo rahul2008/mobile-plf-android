@@ -1,13 +1,11 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -46,8 +44,6 @@ public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedL
 		listView.setAdapter(fanSpeedAdapter);
 		((SchedulerActivity)getActivity()).setFanSpeed(getFanspeed(selectItemPosition));
 		
-		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	private void initViews(View view) {

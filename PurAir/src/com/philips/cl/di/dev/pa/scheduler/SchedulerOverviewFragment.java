@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -58,8 +56,6 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 		setListData();
 		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE_OVERVIEW);
 		
-		ViewGroup conatiner = (RelativeLayout) getView().findViewById(R.id.containerRL);
-		setBackground(conatiner, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	@Override

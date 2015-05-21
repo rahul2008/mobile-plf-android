@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.fragment;
 import java.util.HashMap;
 import java.util.List;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -83,8 +81,6 @@ public class ManagePurifierFragment extends BaseFragment implements
 			});
 		}
         
-        ViewGroup container = (LinearLayout) getView().findViewById(R.id.containLL);
-        setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .2F);
 	}
 	
 	private void saveLastPageCurrentPage() {

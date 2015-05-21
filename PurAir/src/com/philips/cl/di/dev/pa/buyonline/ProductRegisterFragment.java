@@ -7,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -54,9 +52,6 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 	public void onActivityCreated(Bundle savedInstanceState) {
 		MetricsTracker.trackPage("ProductRegistration:RegisteredProducts");
 		initView();
-		
-		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		isUpdate = true;
 		super.onActivityCreated(savedInstanceState);

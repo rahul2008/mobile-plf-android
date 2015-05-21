@@ -29,8 +29,8 @@
             android:layout_centerInParent="true"
             android:lineSpacingExtra="2dp"
             android:padding="8dp"
-            android:textColor="@color/blue_title"
             android:text="@string/add_new_purifier"
+            android:textColor="@color/blue_title"
             android:textSize="@dimen/text_size_large_dp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
 
@@ -45,12 +45,6 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/info" />
     </RelativeLayout>
-    <LinearLayout 
-        android:id="@+id/dropShadowView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/titleRL"
-        android:orientation="vertical"/>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -81,5 +75,11 @@
         android:textColor="#ffffff"
         android:textSize="@dimen/text_size_large_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/titleRL"
+        android:background="@drawable/actionbar_shadow" />
 
 </RelativeLayout>

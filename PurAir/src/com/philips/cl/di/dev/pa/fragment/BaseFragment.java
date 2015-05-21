@@ -2,26 +2,18 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.lang.reflect.Field;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.philips.cl.di.dev.pa.IBackgroundDrawable;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
-import com.philips.cl.di.dev.pa.util.Utils;
 
-public class BaseFragment extends Fragment implements IBackgroundDrawable {
+public class BaseFragment extends Fragment {
 
 	private static final Field sChildFragmentManagerField;
 	
@@ -106,7 +98,7 @@ public class BaseFragment extends Fragment implements IBackgroundDrawable {
 		startActivity(Intent.createChooser(intent,"")); 
 	}
 	
-	@SuppressWarnings("deprecation")
+	/*@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")
 	@Override
 	public void setBackgroundDrawable(ViewGroup view, Drawable drawable) {
@@ -128,5 +120,5 @@ public class BaseFragment extends Fragment implements IBackgroundDrawable {
 			
 			setBackgroundDrawable(view, drawable);
 		}
-	}
+	}*/
 }

@@ -1,15 +1,13 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.view.FontTextView;
-
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
+
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AirAnalysisExplainActivity extends BaseActivity {
 	
@@ -45,7 +43,6 @@ public class AirAnalysisExplainActivity extends BaseActivity {
 		setContentView(layoutId);
 		FontTextView title = (FontTextView) findViewById(R.id.heading_name_tv);
 		ImageButton backBtn = (ImageButton) findViewById(R.id.heading_back_imgbtn);
-		ScrollView scrollView = (ScrollView) findViewById(R.id.scrollView);
 		
 		title.setText(getString(titleId));
 		backBtn.setVisibility(View.VISIBLE);
@@ -56,7 +53,6 @@ public class AirAnalysisExplainActivity extends BaseActivity {
 				finish();
 			}
 		});
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 }

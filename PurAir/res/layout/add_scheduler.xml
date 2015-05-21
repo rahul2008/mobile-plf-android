@@ -1,18 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <include
+        android:id="@+id/schedule_heading_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         layout="@layout/schedule_heading" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/white" >
+        android:layout_below="@+id/schedule_heading_rl"
+        android:background="@color/white" > 
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -77,9 +82,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider4"
-                android:minHeight="100dp"
-                android:clickable="true"
                 android:background="@drawable/list_item_selector"
+                android:clickable="true"
+                android:minHeight="100dp"
                 android:paddingBottom="16dp" >
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
@@ -101,9 +106,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/repeat"
+                    android:lineSpacingExtra="2dp"
                     android:paddingLeft="16dp"
                     android:paddingRight="32dp"
-                    android:lineSpacingExtra="2dp"
                     android:text="@string/onetime"
                     android:textColor="@color/blue_list_item"
                     android:textSize="16sp"
@@ -186,4 +191,10 @@
         </RelativeLayout>
     </ScrollView>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/schedule_heading_rl"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -10,9 +10,10 @@
         android:id="@+id/user_reg_heading_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@drawable/ews_nav_bar_2x"
-        android:minHeight="40dp"
         android:gravity="center"
+        android:minHeight="40dp"
         android:text="@string/create_account"
         android:textColor="@color/blue_title"
         android:textSize="@dimen/heading_text_size_dp"
@@ -21,7 +22,8 @@
     <RelativeLayout
         android:id="@+id/containerRL"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_reg_heading_tv" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -69,4 +71,10 @@
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/user_reg_heading_tv"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

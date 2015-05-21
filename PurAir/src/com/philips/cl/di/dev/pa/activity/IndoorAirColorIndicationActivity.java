@@ -1,14 +1,12 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import android.annotation.TargetApi;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -87,8 +85,6 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 			}
 		});
 		
-		LinearLayout linearLayout = (LinearLayout) findViewById(R.id.containLL);
-		setBackground(linearLayout, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	
 	@Override

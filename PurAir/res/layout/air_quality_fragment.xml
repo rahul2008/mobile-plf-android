@@ -1,18 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white" >
+    android:background="@color/white"
+    android:orientation="vertical" >
 
     <include
+        android:id="@+id/head_include"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         layout="@layout/heading" />
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/head_include" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -113,10 +116,10 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
+                    android:background="@drawable/list_item_selector"
                     android:drawableLeft="@drawable/indoor_pollutants"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
-                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -138,10 +141,10 @@
                     android:id="@+id/lbl_vistashield"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/list_item_selector"
                     android:drawableLeft="@drawable/vistashield"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
-                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -163,10 +166,10 @@
                     android:id="@+id/lbl_outdoor_colors_explained"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/list_item_selector"
                     android:drawableLeft="@drawable/outdoor_air_quality"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
-                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -188,9 +191,9 @@
                     android:id="@+id/lbl_indoor_colors_explained"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/list_item_selector"
                     android:drawableLeft="@drawable/indoor_air_quality"
                     android:drawableRight="@drawable/right_arrow_list_item"
-                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -212,10 +215,10 @@
                     android:id="@+id/lbl_guard_environment"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/list_item_selector"
                     android:drawableLeft="@drawable/guard_environment"
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/right_arrow_list_item"
-                    android:background="@drawable/list_item_selector"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
@@ -235,4 +238,10 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

@@ -37,18 +37,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ScrollView;
 
-import com.philips.cl.di.dev.pa.activity.ShareBaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
@@ -75,7 +71,7 @@ import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 
-public class WBShareActivity extends ShareBaseActivity implements OnClickListener, IWeiboHandler.Response {
+public class WBShareActivity extends Activity implements OnClickListener, IWeiboHandler.Response {
 	@SuppressWarnings("unused")
 	private static final String TAG = "WBShareActivity";
 
@@ -115,9 +111,6 @@ public class WBShareActivity extends ShareBaseActivity implements OnClickListene
 		shareTitle = getIntent().getStringExtra("share_title");
 
 		initPage();
-		
-		ViewGroup container = (ScrollView) findViewById(R.id.scrollView);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, AppConstants.APP_KEY);
 		mWeiboShareAPI.registerApp();

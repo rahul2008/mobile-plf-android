@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.demo;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,14 +13,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.ews.EWSBaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class DemoModeSupportFragment extends EWSBaseFragment {
+public class DemoModeSupportFragment extends Fragment {
 	
 	private ButtonClickListener buttonClickListener;
 	private FontTextView helpWebsiteAC4373, helpWebsiteAC4375;
@@ -55,8 +54,6 @@ public class DemoModeSupportFragment extends EWSBaseFragment {
 		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_SUPPORT);
 		
 		scrollView = (ScrollView) getView().findViewById(R.id.contact_philips_support_scrollview);
-		
-		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 		
 		((TextView) getView().findViewById
 				(R.id.contact_support_phone)).setOnClickListener(buttonClickListener); 

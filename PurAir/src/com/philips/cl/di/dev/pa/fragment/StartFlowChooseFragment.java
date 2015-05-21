@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
@@ -96,8 +94,6 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 			showLocationServiceTurnedOffDialog();
 		}
 		MetricsTracker.trackPage(TrackPageConstants.ADD_PURIFIER);
-		ViewGroup container = (LinearLayout) getView().findViewById(R.id.containerLL);
-		setBackground(container, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 
 	private void showLocationServiceTurnedOffDialog() {

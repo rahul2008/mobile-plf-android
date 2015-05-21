@@ -22,11 +22,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.util.Log;
@@ -992,18 +987,4 @@ public class Utils {
 		return countryCode;
 	}
 	
-	public static Bitmap getShadow(int dstHeight, int dstWidth, int color, float height) {
-		final Bitmap bitmap = Bitmap.createBitmap(dstWidth, dstHeight, Config.ALPHA_8);
-
-		Canvas canvas = new Canvas(bitmap);
-		Paint paint = new Paint();
-		paint.setStyle(Style.FILL);
-		paint.setAntiAlias(true);
-		paint.setFilterBitmap(true);
-		paint.setDither(true);
-		paint.setColor(color);
-
-		canvas.drawRect(0, 0, dstWidth, height, paint);
-		return bitmap;
-	}
 }

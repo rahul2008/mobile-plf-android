@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/headTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@drawable/ews_nav_bar_2x"
         android:gravity="center"
         android:minHeight="40dp"
@@ -19,10 +21,11 @@
     <LinearLayout
         android:id="@+id/containerLL"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/intro_indoor_2x" 
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/headTV"
+        android:layout_above="@+id/start_flow_bottom_bar_include"
+        android:background="@drawable/intro_indoor_2x"
+        android:orientation="vertical" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             android:layout_width="match_parent"
@@ -68,6 +71,13 @@
         android:id="@+id/start_flow_bottom_bar_include"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         layout="@layout/start_flow_bottom_bar" />
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/headTV"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

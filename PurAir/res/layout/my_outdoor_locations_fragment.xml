@@ -1,12 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/add_location_bg"
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/headRL"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@drawable/ews_nav_bar_2x"
         android:minHeight="40dp"
         android:visibility="visible" >
@@ -44,6 +46,7 @@
         android:id="@+id/containLL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/headRL"
         android:orientation="vertical" >
 
         <ListView
@@ -62,4 +65,10 @@
             android:contentDescription="@string/img_description" />
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/headRL"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

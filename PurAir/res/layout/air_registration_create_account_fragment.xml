@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
 
     <RelativeLayout
+        android:id="@+id/headRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@drawable/ews_nav_bar_2x"
         android:minHeight="40dp" >
 
@@ -40,6 +42,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/headRL"
         android:background="@color/white"
         android:paddingBottom="20dp" >
 
@@ -192,7 +195,6 @@
             <com.philips.cl.di.dev.pa.view.FontButton
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/btnCreateAccount"
-                android:minWidth="160dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/llPassword"
@@ -200,6 +202,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/blue_button_selector"
+                android:minWidth="160dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@string/create_your_account"
@@ -225,7 +228,6 @@
             <com.philips.cl.di.dev.pa.view.FontButton
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/btnMyPhilips"
-                android:minWidth="160dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tvSignInWith"
@@ -234,6 +236,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/blue_button_selector"
+                android:minWidth="160dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@string/my_philips"
@@ -343,4 +346,10 @@
         </RelativeLayout>
     </ScrollView>
 
-</LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/headRL"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>
