@@ -420,15 +420,19 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				updateMyPurifiersListener.onUpdate();
 			}
 			
-			if (position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-				share.setVisibility(View.VISIBLE);
-			} else {
-				share.setVisibility(View.GONE);
-			}
-			
+			shareIconVisibility(position);
 			prevPositionIndoor = position;
 		}
 	};
+	
+	
+	private void shareIconVisibility(int position) {
+		if (position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+			share.setVisibility(View.VISIBLE);
+		} else {
+			share.setVisibility(View.GONE);
+		}
+	}
 	
 	private OnPageChangeListener outdoorPageChangeListener = new OnPageChangeListener() {
 		
@@ -527,6 +531,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private void setTitleVisibility(int visibility) {
 		titleLayout.setVisibility(visibility);
 		shadowView.setVisibility(visibility);
+		if (visibility == View.VISIBLE) {
+			share.setVisibility(View.GONE);
+		} else {
+			shareIconVisibility(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
+		}
 	}
 	
 	private void setIndoorVisibility(int visibility) {
