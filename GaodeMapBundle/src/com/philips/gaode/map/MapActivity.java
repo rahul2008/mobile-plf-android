@@ -214,7 +214,7 @@ public class MapActivity extends Activity implements OnMarkerClickListener,
 		return bm;
 	}
 
-	protected Marker createMarker(int imageResource) {
+	protected synchronized Marker createMarker(int imageResource) {
 		Bitmap mBitMap = null;
 
 		if (imageResource == DEFAULT_IMAGE_RESOURCE) {
