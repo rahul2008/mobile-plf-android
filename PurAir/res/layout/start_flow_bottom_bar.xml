@@ -18,7 +18,7 @@
         android:textSize="20sp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/start_flow_bottom_tv_text"
         android:layout_width="match_parent"
