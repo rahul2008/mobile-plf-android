@@ -25,6 +25,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 	public static final String KEY_LAST_PAIRED = "last_paired";
 	public static final String KEY_IP_ADDRESS = "ip_address";
 	public static final String KEY_MODEL_NAME = "model_name";
+	public static final String KEY_MODEL_TYPE = "model_type";
 
 	/**
 	 * Instantiates a new dB helper.
@@ -74,6 +75,7 @@ public class NetworkNodeDatabaseHelper extends SQLiteOpenHelper {
 				+ KEY_LAST_PAIRED + " NUMERIC,"
 				+ KEY_IP_ADDRESS + " TEXT,"
 				+ KEY_MODEL_NAME + " TEXT,"
+				+ KEY_MODEL_TYPE + " TEXT,"
 				+ "PRIMARY KEY(" + KEY_ID + ")"
 				+ ");";
 
