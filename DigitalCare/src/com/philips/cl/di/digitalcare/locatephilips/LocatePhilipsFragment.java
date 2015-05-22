@@ -940,7 +940,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 							new DialogInterface.OnClickListener() {
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// continue with delete
 
 									backstackFragment();
 
