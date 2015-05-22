@@ -76,7 +76,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		OnItemClickListener, onMapReadyListener, OnMarkerClickListener {
-	private static GoogleMap mMap = null;
+	private GoogleMap mMap = null;
 	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
 	private AtosResponseParser mCdlsResponseParser = null;
