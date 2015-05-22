@@ -14,6 +14,7 @@
     <color name="cancel_button_bg">@color/actionbar_title_text_color</color>
     <color name="button_bg_pressed">#005A8B</color>
     <color name="button_prodReg_bg_pressed">#005AAB</color>
+    <color name="button_call_bg">#5B8F22</color>
 
     <!-- Text on the screen -->
     <color name="text_header_color">@color/button_bg</color>

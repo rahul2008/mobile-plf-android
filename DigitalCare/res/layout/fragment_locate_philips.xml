@@ -86,7 +86,7 @@
                 <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/call"
                     style="@style/fontButton"
-                    android:background="#5B8F22"
+                    android:background="@drawable/selector_call_button_bg"
                     android:text="@string/call" />
 
                 <TextView
