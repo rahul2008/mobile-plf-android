@@ -26,7 +26,7 @@
         android:layout_marginTop="20dp"
         android:contentDescription="@string/img_description"
         android:lineSpacingExtra="2dp"
-        android:src="@drawable/separator"
+        android:src="@drawable/seperator_line_2x"
         android:textColor="@color/title_gray" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
@@ -67,7 +67,7 @@
         android:layout_marginTop="6dp"
         android:contentDescription="@string/img_description"
         android:lineSpacingExtra="2dp"
-        android:src="@drawable/separator"
+        android:src="@drawable/seperator_line_2x"
         android:textColor="@color/title_gray" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
