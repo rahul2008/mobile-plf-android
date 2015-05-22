@@ -352,9 +352,28 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				mHandler.removeCallbacks(mMapViewRunnable);
 				mMap.setMyLocationEnabled(true);
 				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+				resetMyButtonPosition();
 			}
 		}
 	};
+
+	/**
+	 * Move my position button at the bottom of map
+	 */
+	private void resetMyButtonPosition() {
+		View mapView = ((MapFragment) getFragmentManager().findFragmentById(
+				R.id.map)).getView();
+		View btnMyLocation = ((View) mapView.findViewById(1).getParent())
+				.findViewById(2);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				80, 80); // size of button in dp
+		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+		params.setMargins(20, 0, 0, 40);
+		btnMyLocation.setLayoutParams(params);
+	}
 
 	public void zoomToOnClick(View v) {
 		mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 3000, null);
@@ -413,6 +432,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		// markerMe = mMap.addMarker(markerOpt);
 		mMap.setMyLocationEnabled(true);
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		resetMyButtonPosition();
 	}
 
 	private void cameraFocusOnMe(double lat, double lng) {
