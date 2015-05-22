@@ -80,14 +80,14 @@ public class MarkerActivity extends MapActivity implements
 		super.onResume();
 		MetricsTracker.startCollectLifecycleData(this);
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_MAP);
-		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
+		OutdoorManager.getInstance().addOutdoorDetailsListener(this);
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
 		MetricsTracker.stopCollectLifecycleData();
-		OutdoorManager.getInstance().removeOutdoorDetailsListener();
+		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
 	}
 	
 	private void populateAllMarkers() {

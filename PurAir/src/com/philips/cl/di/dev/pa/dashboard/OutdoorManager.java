@@ -47,7 +47,7 @@ public class OutdoorManager implements OutdoorDataListener {
 
 	private OutdoorDataChangeListener outdoorDataChangeListener;
 	private AllOutdoorDataListener allOutdoorDataListener;
-	private OutdoorDetailsListener outdoorDetailsListener ;
+	private List<OutdoorDetailsListener> outdoorDetailsListenerList ;
 
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; //TODO : Remove in next version.
 	private long lastUpdatedTime ;
@@ -133,6 +133,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		insertDataAndGetShortListCities();
 		
 		nearbyCities = new ArrayList<String>();
+		outdoorDetailsListenerList = new ArrayList<OutdoorDetailsListener>();
 
 		WeatherIcon.populateWeatherIconMap();
 		
@@ -312,16 +313,20 @@ public class OutdoorManager implements OutdoorDataListener {
 		outdoorDataChangeListener = listener;
 	}
 	
-	public void removeOutdoorDetailsListener() {
-		outdoorDetailsListener = null;
+	public void removeOutdoorDetailsListener(OutdoorDetailsListener listener) {
+		if(outdoorDetailsListenerList.contains(listener)) {
+			outdoorDetailsListenerList.remove(listener);
+		}	
 	}
 	
-	public void setOutdoorDetailsListener(OutdoorDetailsListener listener) {
-		outdoorDetailsListener = listener;
+	public void addOutdoorDetailsListener(OutdoorDetailsListener listener) {
+		if(!outdoorDetailsListenerList.contains(listener)) {
+			outdoorDetailsListenerList.add(listener);
+		}
 	}
 	
 	public void removeAllOutdoorDataListener(AllOutdoorDataListener listener) {
-		allOutdoorDataListener = null;
+		allOutdoorDataListener = null ;
 	}
 	
 	public void setAllOutdoorDataListener(AllOutdoorDataListener listener) {
@@ -364,20 +369,23 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	@Override
 	public void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis, String areaId) {
-		if( outdoorDetailsListener != null )
-			outdoorDetailsListener.onAQIHistoricalDataReceived(aqis, areaId);
+		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
+			listener.onAQIHistoricalDataReceived(aqis, areaId);
+		}
 	}
 	
 	@Override
 	public void outdoorOneDayForecastDataReceived(List<Weatherdto> weatherdtos) {
-		if( outdoorDetailsListener != null )
-			outdoorDetailsListener.onOneDayWeatherForecastReceived(weatherdtos);
+		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
+			listener.onOneDayWeatherForecastReceived(weatherdtos);
+		}
 	}
 
 	@Override
 	public void outdoorFourDayForecastDataReceived(List<ForecastWeatherDto> weatherDtos) {
-		if( outdoorDetailsListener != null )
-			outdoorDetailsListener.onFourDayWeatherForecastReceived(weatherDtos);
+		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
+			listener.onFourDayWeatherForecastReceived(weatherDtos);
+		}
 	}
 
 	public List<String> getNearbyCitiesList(float latitudePlus,
@@ -516,8 +524,8 @@ public class OutdoorManager implements OutdoorDataListener {
 
 	@Override
 	public void nearbyLocationsAQIReceived(List<OutdoorAQI> aqis) {
-		if(outdoorDetailsListener != null) {
-			outdoorDetailsListener.onNearbyLocationsDataReceived(aqis);
+		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
+			listener.onNearbyLocationsDataReceived(aqis);
 		}
 	}
 }
