@@ -10,6 +10,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.subscription.UDPReceivingThread;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 import com.philips.cl.di.dicomm.util.MockitoTestCase;
 
@@ -29,6 +30,7 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
 	private DISecurity mDISecurity;
+	private UDPReceivingThread mUDPReceivingThread;
 
 	private WrappedHandler mSubscriptionEventResponseHandler;
 
@@ -44,6 +46,8 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 
 		mDISecurity = new DISecurity();
 		mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
+
+		mUDPReceivingThread = mock(UDPReceivingThread.class);
 
 		mLocalSubscriptionHandler = new LocalSubscriptionHandlerImpl();
 
@@ -119,7 +123,7 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 private class LocalSubscriptionHandlerImpl extends LocalSubscriptionHandler {
 
 		public LocalSubscriptionHandlerImpl() {
-			super(mDISecurity);
+			super(mDISecurity, mUDPReceivingThread);
 	    }
 
 		@Override

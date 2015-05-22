@@ -7,11 +7,13 @@ import com.philips.cdp.dicommclient.util.DLog;
 public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEventListener{
 
 	private SubscriptionEventListener mSubscriptionEventListener;
+	private UDPReceivingThread mUDPReceivingThread;
 	private NetworkNode mNetworkNode;
 	private final DISecurity mDISecurity;
 
-	public LocalSubscriptionHandler(DISecurity diSecurity){
+	public LocalSubscriptionHandler(DISecurity diSecurity, UDPReceivingThread udpReceivingThread){
 		mDISecurity = diSecurity;
+		mUDPReceivingThread = udpReceivingThread;
 	}
 
 	@Override
@@ -20,9 +22,9 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 		mNetworkNode = networkNode;
 		mSubscriptionEventListener = subscriptionEventListener;
 
-		UDPReceivingThread.getInstance().addUDPEventListener(this) ;
-		if (! UDPReceivingThread.getInstance().isAlive()) {
-			UDPReceivingThread.getInstance().start();
+		mUDPReceivingThread.addUDPEventListener(this) ;
+		if (! mUDPReceivingThread.isAlive()) {
+			mUDPReceivingThread.start();
 		}
 	}
 
@@ -30,9 +32,9 @@ public class LocalSubscriptionHandler extends SubscribeHandler implements UDPEve
 	public void disableSubscription() {
 		DLog.i(DLog.LOCAL_SUBSCRIPTION, "Disabling local subscription (stop udp)");
 		mSubscriptionEventListener = null;
-		UDPReceivingThread.getInstance().removeUDPEventListener(this);
-		if (UDPReceivingThread.getInstance().isAlive()) {
-			UDPReceivingThread.getInstance().stopUDPListener();
+		mUDPReceivingThread.removeUDPEventListener(this);
+		if (mUDPReceivingThread.isAlive()) {
+			mUDPReceivingThread.stopUDPListener();
 		}
 	}
 

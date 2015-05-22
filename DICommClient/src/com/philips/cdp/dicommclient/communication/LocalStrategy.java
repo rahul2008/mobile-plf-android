@@ -15,6 +15,7 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.subscription.UDPReceivingThread;
 
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;
@@ -26,7 +27,7 @@ public class LocalStrategy extends CommunicationStrategy {
 		mDISecurity = diSecurity;
 		mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = new RequestQueue();
-        mLocalSubscriptionHandler = new LocalSubscriptionHandler(mDISecurity);
+        mLocalSubscriptionHandler = new LocalSubscriptionHandler(mDISecurity, UDPReceivingThread.getInstance());
 	}
 
 	@Override
