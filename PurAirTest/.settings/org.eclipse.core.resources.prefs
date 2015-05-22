@@ -1,7 +1,4 @@
 eclipse.preferences.version=1
-encoding//src/com/philips/cdp/dicommclient/port/common/FirmwarePortTest.java=UTF-8
-encoding//src/com/philips/cdp/dicommclient/port/common/ScheduleListPortTest.java=UTF-8
-encoding//src/com/philips/cdp/dicommclient/port/common/WifiPortTest.java=UTF-8
 encoding//src/com/philips/cl/di/dev/pa/outdoorlocations/test/CMACityDataTest.java=UTF-8
 encoding//src/com/philips/cl/di/dev/pa/outdoorlocations/test/NearbyCitiesDataTest.java=UTF-8
 encoding//src/com/philips/cl/di/dev/pa/outdoorlocations/test/OutdoorDetailHelperTest.java=UTF-8
