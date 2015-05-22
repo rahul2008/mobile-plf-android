@@ -134,6 +134,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			.getSimpleName();
 	private static View mView = null;
 	private static HashMap<String, AtosResultsModel> mHashMapResults = null;
+	private static boolean isLollypopSdk = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -244,6 +245,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				initView();
 		} catch (NullPointerException e) {
 			DLog.v(TAG, "Googlev2 Map Compatibility Enabled");
+			isLollypopSdk = true;
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
@@ -396,11 +398,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void resetMyButtonPosition() {
 		View mapView = null;
 		View btnMyLocation = null;
-		MapFragment mMapFragment = ((MapFragment) getFragmentManager()
-				.findFragmentById(R.id.map));
-		if (mMapFragment != null)
-			mapView = ((MapFragment) mMapFragment).getView();
-
+		if (!isLollypopSdk) {
+			MapFragment mapFragment = ((MapFragment) getFragmentManager()
+					.findFragmentById(R.id.map));
+			mapView = ((MapFragment) mapFragment).getView();
+		} else {
+			mapView = mMapFragment.getView();
+		}
 		if (mapView != null) {
 			btnMyLocation = ((View) mapView.findViewById(1).getParent())
 					.findViewById(2);
