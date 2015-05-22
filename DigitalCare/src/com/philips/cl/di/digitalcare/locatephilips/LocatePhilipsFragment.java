@@ -156,14 +156,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initGoogleMapv2();
-		// initMap();
 		checkGooglePlayServices();
-		if (initLocationProvider()) {
-			whereAmI();
-		} else {
-
-		}
+		initGoogleMapv2();
 		createBitmap();
 	}
 
@@ -231,7 +225,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@SuppressLint("NewApi")
 	private void initGoogleMapv2() {
 
-		Log.d(TAG, "Initializing Google Maps");
+		Log.v(TAG, "Initializing Google Maps");
 
 		try {
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
@@ -243,13 +237,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
+			mMap = mMapFragment.getMap();
 		}
 
 	}
 
 	private void initView() {
+		if (initLocationProvider()) {
+			whereAmI();
+			Log.v(TAG, "WhereAmI Method");
+		}
+		Log.d(TAG, "initView is initialized");
 		mHandler.postDelayed(mMapViewRunnable, 1000l);
-
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
