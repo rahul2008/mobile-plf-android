@@ -679,13 +679,16 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
-			String constrain = mSearchBox.getText().toString();
+			String constrain = mSearchBox.getText().toString().trim();
 
-			// if (constrain.length() > 1) {
+			if (constrain.length() > 1) {
+				new UITask().execute(constrain);
+			} else {
+
+				Toast.makeText(getActivity(), "Enter Text To Search...",
+						Toast.LENGTH_SHORT).show();
+			}
 			// new UITask().execute(constrain);
-			// } else {
-			// }
-			new UITask().execute(constrain);
 
 		} else if (v.getId() == R.id.getdirection) {
 			trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
@@ -735,12 +738,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			if (adapter != null) {
 
-				adapter.getFilter().filter(result);
-				mListView.setAdapter(adapter);
-
-				mListView.setVisibility(View.VISIBLE);
 				mLinearLayout.setVisibility(View.GONE);
 				mMarkerIcon.setVisibility(View.VISIBLE);
+				adapter.getFilter().filter(result);
+				mListView.setAdapter(adapter);
+				mListView.setVisibility(View.VISIBLE);
 			}
 
 		}
@@ -787,42 +789,59 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		// Checking Network
 		if (!Utils.isNetworkConnected(getActivity())) {
 
-			mdialogBuilder = new AlertDialog.Builder(getActivity())
-					.setTitle("Alert")
-					.setMessage("No Network")
-					.setPositiveButton(R.string.enableNetwork,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									// launch setting Activity
-									startActivityForResult(
-											new Intent(
-													android.provider.Settings.ACTION_SETTINGS),
-											0);
-									backstackFragment();
-									SupportHomeFragmentisInLayout();
+			if (mdialogBuilder == null) {
+				mdialogBuilder = new AlertDialog.Builder(getActivity());
 
-								}
-							})
-					.setNegativeButton(android.R.string.no,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-									backstackFragment();
-									SupportHomeFragmentisInLayout();
-								}
-							}).setIcon(android.R.drawable.ic_dialog_alert);
+				mdialogBuilder.setTitle("Alert");
+				mdialogBuilder.setMessage("No Network");
 
-			malertDialog = mdialogBuilder.create();
-			malertDialog.show();
+				mdialogBuilder.setPositiveButton(R.string.enableNetwork,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// launch setting Activity
+								startActivityForResult(
+										new Intent(
+												android.provider.Settings.ACTION_SETTINGS),
+										0);
+
+								mdialogBuilder = null;
+								// backstackFragment();
+								// SupportHomeFragmentisInLayout();
+
+							}
+						});
+
+				mdialogBuilder.setNegativeButton(android.R.string.no,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								backstackFragment();
+								SupportHomeFragmentisInLayout();
+							}
+						}).setIcon(android.R.drawable.ic_dialog_alert);
+
+				malertDialog = mdialogBuilder.create();
+				malertDialog.show();
+			}
+
 		} else {
+
 			if (malertDialog != null) {
 				malertDialog.dismiss();
-				// backstackFragment();
+
+				backstackFragment();
 				SupportHomeFragmentisInLayout();
-			} else {
-				// do nothiing
 			}
+
+			// if (malertDialog != null) {
+			// malertDialog.dismiss();
+			// backstackFragment();
+			// SupportHomeFragmentisInLayout();
+			// } else {
+			// // do nothiing
+			// }
+
 		}
 
 	}
