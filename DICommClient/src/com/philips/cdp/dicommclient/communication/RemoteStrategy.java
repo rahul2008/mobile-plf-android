@@ -2,6 +2,7 @@ package com.philips.cdp.dicommclient.communication;
 
 import java.util.Map;
 
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.RemoteRequest;
@@ -17,7 +18,7 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 
 	public RemoteStrategy(){
 		mRequestQueue = new RequestQueue();
-		mRemoteSuscriptionHandler = new RemoteSubscriptionHandler();
+		mRemoteSuscriptionHandler = new RemoteSubscriptionHandler(CppController.getInstance());
 	}
 
 	@Override
