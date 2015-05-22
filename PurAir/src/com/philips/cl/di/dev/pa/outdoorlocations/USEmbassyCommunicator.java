@@ -24,7 +24,7 @@ public class USEmbassyCommunicator implements DataCommunicator {
 	@Override
 	public void requestAQIData(List<String> cities) {
 		for (String cityName : cities) {
-			TaskGetHttp requestAQITask = new TaskGetHttp(US_EMBASSY_CITY_AQI_URL + cityName, RequestType.CITIES_AQI.getRequestTypeString(), cityName, PurAirApplication.getAppContext(), this);
+			TaskGetHttp requestAQITask = new TaskGetHttp(US_EMBASSY_CITY_HISTORICAL_AQI_URL + cityName, RequestType.CITIES_AQI.getRequestTypeString(), cityName, PurAirApplication.getAppContext(), this);
 			requestAQITask.start();
 		}
 	}

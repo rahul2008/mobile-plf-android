@@ -462,34 +462,40 @@ public class DataParser {
 
 	public static List<OutdoorAQI> parseUSEmbassyLocationAQI(String dataToParse, String areaID) {
 		ALog.i(ALog.PARSER, "parseUSEmbassyLocationAQI dataToParse " + dataToParse);
-		if( dataToParse == null ) return null ;
-
-		List<OutdoorAQI> aqis = new ArrayList<OutdoorAQI>();
-
+		
 		try {
-			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("result");
-			if(responseObject == null) return null;
+			JSONObject historicalAQIObject = new JSONObject(dataToParse);
+			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("result");
+			if(historicalAQIs == null) return null;
 
-			JSONObject cityData = responseObject.getJSONObject(0);
-			if(cityData == null) return null;
+			JSONObject AQIData = historicalAQIs.getJSONObject(0);
+			if(AQIData == null) return null;
 
-			String regex = "[-: ]";
-		//	String cityName = cityData.optString("city"); //Area codes
-			int pm25 = cityData.optInt("PM2.5");
-			int aqi = cityData.optInt("AQI");
-			int pm10 = 	cityData.optInt("PM10");
-			int so2 = cityData.optInt("SO2");
-			int no2 = cityData.optInt("NO2");
-			String timeStamp = cityData.optString("time");
-			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
+			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
+			
+			JSONObject cityNow= AQIData.getJSONObject("citynow");
+			String timeStamp = cityNow.getString("date");
+			JSONObject lastMoniData= AQIData.getJSONObject("lastMoniData");
+			int aqi = 0;
+			int pm25 = 0;
+			if (lastMoniData != null) {
+				for (int j = 0; j < lastMoniData.length() ; j++) {
+					JSONObject individualAQIData = lastMoniData.getJSONObject(String.valueOf(j + 1));
+					if(("美国领事馆".equals(individualAQIData.get("city"))) || ("美国大使馆".equals(individualAQIData.get("city")))) {
+						aqi = individualAQIData.getInt("America_AQI");
+						pm25 = individualAQIData.getInt("PM2.5Hour");
+					}
+				}
+			}
 
-			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
-			return aqis;
+			outdoorAQIs.add(new OutdoorAQI(pm25, aqi, 0, 0, 0, areaID.toLowerCase(), timeStamp));
+			return outdoorAQIs;
+
 		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "JSONException parseUSEmbassyLocationAQI");
-			return null;
+			e.printStackTrace();
 		}
+
+		return null;
 	}
 
 	public static List<OutdoorAQI> parseUSEmbassyHistoricalAQIData(String dataToParse) {

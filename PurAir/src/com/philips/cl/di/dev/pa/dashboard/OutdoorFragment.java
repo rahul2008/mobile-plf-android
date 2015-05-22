@@ -167,7 +167,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	private String getFormattedDate(String inputDate, int dataProvider) {
 		
 		SimpleDateFormat cmaDateFormat = new SimpleDateFormat("yyyyMMddHHmm");
-		SimpleDateFormat usEmbassyDateFormat = new SimpleDateFormat("yyyyMMddHHmmss"); 
+		SimpleDateFormat usEmbassyDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm"); 
 		
 		SimpleDateFormat requiredDateFormat = new SimpleDateFormat("HH:mm");
 		String dateString = "";
