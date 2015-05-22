@@ -44,6 +44,8 @@ public class RegistrationHelper {
 
 	private SocialProviders mSocialProivder;
 
+	private String countryCode;
+
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
 
@@ -124,6 +126,7 @@ public class RegistrationHelper {
 		mContext = context.getApplicationContext();
 		NetworkUtility.getInstance().checkIsOnline(mContext);
 		mSocialProivder = null;
+		setCountryCode(locale.getCountry());
 		new Thread(new Runnable() {
 
 			@Override
@@ -132,8 +135,7 @@ public class RegistrationHelper {
 				RegistrationConfiguration registrationConfiguration = parseConfigurationJson(mContext);
 				if (null != registrationConfiguration) {
 					mSocialProivder = registrationConfiguration.getSocialProviders();
-					EventHelper.getInstance().notifyEventOccurred(
-					        RegConstants.PARSING_COMPLETED);
+					EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
 
 					IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
 					flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
@@ -248,5 +250,13 @@ public class RegistrationHelper {
 	public RegistrationSettings getRegistrationSettings() {
 		return mRegistrationSettings;
 	}
+
+	public String getCountryCode() {
+	    return countryCode;
+    }
+
+	public void setCountryCode(String countryCode) {
+	    this.countryCode = countryCode;
+    }
 
 }

@@ -92,7 +92,7 @@
                     android:id="@+id/btn_reg_my_philips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom"
+               
                     android:enabled="false"
                     reglib:providerBackground="@drawable/reg_philips_bg_rect"
                     reglib:providerLogo="@drawable/reg_philips_ic"
@@ -100,31 +100,10 @@
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
                 <LinearLayout
-                    android:id="@+id/ll_social_provider_container"
+                    android:id="@+id/ll_reg_social_provider_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <com.philips.cl.di.reg.ui.customviews.XProviderButton
-                        android:id="@+id/btn_reg_facebook"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/reg_margin_bottom"
-                        reglib:providerBackground="@drawable/reg_facebook_bg_rect"
-                        reglib:providerLogo="@drawable/reg_facebook_ic"
-                        reglib:providerName="@string/Welcome_Facebook_btntxt"
-                        reglib:providerTextColor="@color/reg_provider_text_color" />
-
-                    <com.philips.cl.di.reg.ui.customviews.XProviderButton
-                        android:id="@+id/btn_reg_twitter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/reg_margin_bottom"
-                        reglib:providerBackground="@drawable/reg_twitter_bg_rect"
-                        reglib:providerLogo="@drawable/reg_twitter_ic"
-                        reglib:providerName="@string/Welcome_Twitter_btntxt"
-                        reglib:providerTextColor="@color/reg_provider_text_color" />
-                </LinearLayout>
+                    android:orientation="vertical" />
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"

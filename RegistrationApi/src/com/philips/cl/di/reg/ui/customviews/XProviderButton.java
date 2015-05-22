@@ -25,15 +25,21 @@ public class XProviderButton extends RelativeLayout {
 
 	private Context mContext;
 
-	private int mProviderNameStringID;
+	private int mProviderNameStringID = -1;
 
-	private int mProviderLogoID;
+	private int mProviderLogoID = -1;
 
-	private int mProviderBackgroundID;
+	private int mProviderBackgroundID = -1;
 
-	private int mProviderTextColorID;
+	private int mProviderTextColorID = -1;
 
 	private ProgressBar mPbSpinner;
+
+	private FrameLayout mFlProvider;
+
+	private ImageView mIvProviderLogo;
+
+	private TextView mTvProvider;
 
 	public XProviderButton(Context context) {
 		super(context);
@@ -62,24 +68,24 @@ public class XProviderButton extends RelativeLayout {
 		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
 
-		FrameLayout flProvider = (FrameLayout) findViewById(R.id.fl_reg_provider_bg);
-		ImageView ivProviderLogo = (ImageView) findViewById(R.id.iv_reg_provider_logo);
-		TextView tvProvider = (TextView) findViewById(R.id.tv_reg_provider_name);
+		mFlProvider = (FrameLayout) findViewById(R.id.fl_reg_provider_bg);
+		mIvProviderLogo = (ImageView) findViewById(R.id.iv_reg_provider_logo);
+		mTvProvider = (TextView) findViewById(R.id.tv_reg_provider_name);
 		mPbSpinner = (ProgressBar) findViewById(R.id.pb_reg_spinner);
 		if (mProviderNameStringID != -1) {
-			tvProvider.setText(mContext.getResources().getString(mProviderNameStringID));
+			mTvProvider.setText(mContext.getResources().getString(mProviderNameStringID));
 		}
 
 		if (mProviderLogoID != -1) {
-			ivProviderLogo.setImageResource(mProviderLogoID);
+			mIvProviderLogo.setImageResource(mProviderLogoID);
 		}
 
 		if (mProviderBackgroundID != -1) {
-			flProvider.setBackgroundResource(mProviderBackgroundID);
+			mFlProvider.setBackgroundResource(mProviderBackgroundID);
 		}
 
 		if (mProviderTextColorID != -1) {
-			tvProvider.setTextColor(mContext.getResources().getColor(mProviderTextColorID));
+			mTvProvider.setTextColor(mContext.getResources().getColor(mProviderTextColorID));
 		}
 	}
 
@@ -89,6 +95,22 @@ public class XProviderButton extends RelativeLayout {
 
 	public void hideProgressBar() {
 		mPbSpinner.setVisibility(INVISIBLE);
+	}
+
+	public void setProviderBackgroundID(int providerBackgroundID) {
+		mFlProvider.setBackgroundResource(providerBackgroundID);
+	}
+
+	public void setProviderName(int stringId) {
+		mTvProvider.setText(mContext.getResources().getString(stringId));
+	}
+
+	public void setProviderLogoID(int providerLogoID) {
+		mIvProviderLogo.setImageResource(providerLogoID);
+	}
+
+	public void setProviderTextColor(int providerTextColorID) {
+		mTvProvider.setTextColor(mContext.getResources().getColor(providerTextColorID));
 	}
 
 }

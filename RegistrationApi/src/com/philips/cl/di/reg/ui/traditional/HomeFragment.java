@@ -1,10 +1,12 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -46,10 +48,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	private XProviderButton mBtnMyPhilips;
 
-//	private XProviderButton mBtnFacebook;
-//
-//	private XProviderButton mBtnTwitter;
-
 	private TextView mTvWelcome;
 
 	private TextView mTvWelcomeDesc;
@@ -58,12 +56,13 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	private LinearLayout mLlLoginBtnContainer;
 
+	private LinearLayout mLlSocialProviderBtnContainer;
+
 	private XRegError mRegError;
 
 	private User mUser;
 
 	private String mProvider;
-
 
 	private ProgressBar mPbJanrainInit;
 
@@ -79,7 +78,60 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
+
 		return view;
+	}
+
+	private void handleSocialProviders(String countryCode) {
+		if (null != RegistrationHelper.getInstance().getSocialProviders()) {
+			ArrayList<String> providers = new ArrayList<String>();
+			providers = RegistrationHelper.getInstance().getSocialProviders()
+			        .getSocialProvidersForCountry(countryCode);
+			if (null != providers) {
+				mLlSocialProviderBtnContainer.removeAllViews();
+				for (int i = 0; i < providers.size(); i++) {
+					inflateEachProviderButton(providers.get(i));
+				}
+			}
+		}
+	}
+
+	@SuppressLint("ResourceAsColor")
+	private void inflateEachProviderButton(String provider) {
+		if (SocialProvider.FACEBOOK.equals(provider)) {
+			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
+			        R.string.Welcome_Facebook_btntxt, R.drawable.reg_facebook_ic,
+			        R.drawable.reg_facebook_bg_rect, R.color.reg_btn_text_enable_color));
+
+		} else if (SocialProvider.TWITTER.equals(provider)) {
+			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
+			        R.string.Welcome_Twitter_btntxt, R.drawable.reg_twitter_ic,
+			        R.drawable.reg_twitter_bg_rect, R.color.reg_btn_text_enable_color));
+		} else if (SocialProvider.GOOGLE_PLUS.equals(provider)) {
+			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
+			        R.string.GooglePlus_btntxt, R.drawable.reg_google_plus_ic,
+			        R.drawable.reg_google_plus_bg_rect, R.color.reg_btn_text_enable_color));
+		}
+	}
+
+	private XProviderButton getProviderBtn(final String providerName, int providerNameStringId,
+	        int providerLogoDrawableId, int providerBgDrawableId, int providerTextColorId) {
+		final XProviderButton providerBtn = new XProviderButton(getRegistrationMainActivity()
+		        .getApplicationContext());
+		providerBtn.setProviderName(providerNameStringId);
+		providerBtn.setProviderLogoID(providerLogoDrawableId);
+		providerBtn.setProviderBackgroundID(providerBgDrawableId);
+		providerBtn.setProviderTextColor(providerTextColorId);
+		providerBtn.setTag(providerName);
+		providerBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				callSocialProvider(providerName);
+				providerBtn.showProgressBar();
+			}
+		});
+		return providerBtn;
 	}
 
 	@Override
@@ -112,18 +164,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
 		mBtnMyPhilips.setOnClickListener(this);
 
-//		mBtnFacebook = (XProviderButton) view.findViewById(R.id.btn_reg_facebook);
-//		mBtnFacebook.setOnClickListener(this);
-//
-//		mBtnTwitter = (XProviderButton) view.findViewById(R.id.btn_reg_twitter);
-//		mBtnTwitter.setOnClickListener(this);
-
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-
 
 		mPbJanrainInit = (ProgressBar) view.findViewById(R.id.pb_reg_janrain_init);
 		mPbJanrainInit.setClickable(false);
 		mPbJanrainInit.setEnabled(false);
+		mLlSocialProviderBtnContainer = (LinearLayout) view
+		        .findViewById(R.id.ll_reg_social_provider_container);
+
+		handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 
 		setViewParams(getResources().getConfiguration());
 		linkifyTermAndPolicy(mTvWelcomeDesc);
@@ -143,19 +192,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		}
 	}
 
-	private void showFaceBookSpinner() {
-		//mPbFaceBookSpinner.setVisibility(View.VISIBLE);
-	}
-
-	private void showTwitterSpinner() {
-		//mPbTwiterSpinner.setVisibility(View.VISIBLE);
-	}
-
-	private void hideSpinner() {
-		//mPbFaceBookSpinner.setVisibility(View.INVISIBLE);
-		//mPbTwiterSpinner.setVisibility(View.INVISIBLE);
-	}
-
 	@Override
 	public void onClick(View v) {
 		/**
@@ -166,14 +202,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 			getRegistrationMainActivity().addFragment(new CreateAccountFragment());
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
 			getRegistrationMainActivity().addFragment(new SignInAccountFragment());
-		} else if (v.getId() == R.id.btn_reg_facebook) {
-			showFaceBookSpinner();
-			enableControls(false);
-			callSocialProvider(SocialProvider.FACEBOOK);
-		} else if (v.getId() == R.id.btn_reg_twitter) {
-			showTwitterSpinner();
-			enableControls(false);
-			callSocialProvider(SocialProvider.TWITTER);
 		}
 	}
 
@@ -225,13 +253,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void handleSocialProvider() {
-
-		// inflate UI as list available
-		// Change enable and disable logic of button
 		RegistrationHelper.getInstance().getSocialProviders();
-		
-		
-
+		handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 	}
 
 	private void handleUiState() {
@@ -252,22 +275,25 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		if (state && NetworkUtility.getInstance().isOnline()) {
 			handleBtnClickableStates(state);
 			setAlphaForView(mBtnMyPhilips, 1);
-//			setAlphaForView(mBtnFacebook, 1);
-//			setAlphaForView(mBtnTwitter, 1);
+			setAlphaForView(mLlSocialProviderBtnContainer, 1);
 			mRegError.hideError();
 		} else {
 			handleBtnClickableStates(state);
 			setAlphaForView(mBtnMyPhilips, 0.75f);
-//			setAlphaForView(mBtnFacebook, 0.75f);
-//			setAlphaForView(mBtnTwitter, 0.75f);
+			setAlphaForView(mLlSocialProviderBtnContainer, 0.75f);
 		}
 	}
 
 	private void handleBtnClickableStates(boolean state) {
 		mBtnCreateAccount.setEnabled(state);
 		mBtnMyPhilips.setEnabled(state);
-//		mBtnFacebook.setEnabled(state);
-//		mBtnTwitter.setEnabled(state);
+		enableSocialProviders(state);
+	}
+
+	private void enableSocialProviders(boolean enableState) {
+		for (int i = 0; i < mLlSocialProviderBtnContainer.getChildCount(); i++) {
+			mLlSocialProviderBtnContainer.getChildAt(i).setEnabled(enableState);
+		}
 	}
 
 	private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
@@ -328,11 +354,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		}
 	}
 
-	private void setAlphaForView(View v, float alpha) {
+	private void setAlphaForView(View view, float alpha) {
 		AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
 		animation.setDuration(0);
 		animation.setFillAfter(true);
-		v.startAnimation(animation);
+		view.startAnimation(animation);
 	}
 
 	private void handlePrivacyPolicy() {
@@ -349,24 +375,34 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onLoginSuccess() {
-		hideSpinner();
-		hideSpinner();
+		hideProviderProgress();
 		RLog.i("HomeFragment", "social login success");
 		enableControls(true);
-
 		User user = new User(getRegistrationMainActivity().getApplicationContext());
 		if (user.getEmailVerificationStatus(getRegistrationMainActivity().getApplicationContext())) {
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
 		} else {
 			getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 		}
+	}
 
+	private void hideProviderProgress() {
+		if (null != getView().findViewWithTag(mProvider)) {
+			XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
+			providerButton.hideProgressBar();
+		}
+	}
+
+	private void showProviderProgress() {
+		if (null != getView().findViewWithTag(mProvider)) {
+			XProviderButton providerButton = (XProviderButton) getView().findViewWithTag(mProvider);
+			providerButton.showProgressBar();
+		}
 	}
 
 	@Override
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		hideSpinner();
-		hideSpinner();
+		hideProviderProgress();
 		RLog.i("HomeFragment", "login failed");
 		enableControls(true);
 
@@ -375,8 +411,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	@Override
 	public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
 	        String socialRegistrationToken) {
-		hideSpinner();
-		hideSpinner();
+		hideProviderProgress();
 		enableControls(true);
 		RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
 		        + prefilledRecord);
@@ -388,21 +423,15 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
 	        String conflictingIdentityProvider, String conflictingIdpNameLocalized,
 	        String existingIdpNameLocalized) {
-		hideSpinner();
-		hideSpinner();
+		hideProviderProgress();
 		enableControls(true);
 		RLog.i("HomeFragment", "login failed with merge flow");
 		if (mUser.handleMergeFlowError(existingProvider)) {
 			getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
 		} else {
 			if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
-
-				if (SocialProvider.FACEBOOK.equals(existingProvider)) {
-					showFaceBookSpinner();
-				}
-				if (SocialProvider.TWITTER.equals(existingProvider)) {
-					showTwitterSpinner();
-				}
+				mProvider = existingProvider;
+				showProviderProgress();
 				mUser.loginUserUsingSocialProvider(getActivity(), existingProvider, this,
 				        mergeToken);
 			}
@@ -413,8 +442,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onContinueSocialProviderLoginSuccess() {
-		hideSpinner();
-		hideSpinner();
+		hideProviderProgress();
 		RLog.i("HomeFragment", "onContinueSocialProviderLoginSuccess");
 		enableControls(true);
 		getRegistrationMainActivity().addFragment(new WelcomeFragment());
@@ -423,8 +451,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	@Override
 	public void onContinueSocialProviderLoginFailure(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		hideSpinner();
-		hideSpinner();
+		hideProviderProgress();
 		enableControls(true);
 		RLog.i("HomeFragment", "onContinueSocialProviderLoginFailure");
 	}
