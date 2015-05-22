@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+            android:paddingTop="16dp" >
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -39,6 +39,7 @@
                 android:layout_alignParentTop="true"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/register_products"
                 android:textColor="#444444"
                 android:textSize="15sp"
