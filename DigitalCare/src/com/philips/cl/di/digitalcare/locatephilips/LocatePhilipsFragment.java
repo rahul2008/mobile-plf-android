@@ -58,6 +58,7 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.contactus.CdlsRequestTask;
 import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
+import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -73,8 +74,9 @@ import com.philips.cl.di.digitalcare.util.Utils;
  */
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
-		OnItemClickListener {
+		OnItemClickListener, onMapReadyListener {
 	private static GoogleMap mMap = null;
+	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
 	private AtosResponseParser mCdlsResponseParser = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
@@ -154,7 +156,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initView();
+		initGoogleMapv2();
 		// initMap();
 		checkGooglePlayServices();
 		if (initLocationProvider()) {
@@ -226,12 +228,28 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		super.onPause();
 	}
 
-	private void initView() {
-		mHandler.postDelayed(mMapViewRunnable, 1000l);
-		if (mMap == null) {
+	@SuppressLint("NewApi")
+	private void initGoogleMapv2() {
+
+		Log.d(TAG, "Initializing Google Maps");
+
+		try {
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
+			if (mMap != null)
+				initView();
+		} catch (NullPointerException e) {
+			Log.v(TAG, "Googlev2 Map Compatibility Enabled");
+			mMapFragment = GoogleMapFragment.newInstance();
+			getChildFragmentManager().beginTransaction()
+					.replace(R.id.map, mMapFragment).commit();
 		}
+
+	}
+
+	private void initView() {
+		mHandler.postDelayed(mMapViewRunnable, 1000l);
+
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -362,17 +380,27 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	 * Move my position button at the bottom of map
 	 */
 	private void resetMyButtonPosition() {
-		View mapView = ((MapFragment) getFragmentManager().findFragmentById(
-				R.id.map)).getView();
-		View btnMyLocation = ((View) mapView.findViewById(1).getParent())
-				.findViewById(2);
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				80, 80); // size of button in dp
-		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
-		params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-		params.setMargins(20, 0, 0, 40);
-		btnMyLocation.setLayoutParams(params);
+		View mapView = null;
+		View btnMyLocation = null;
+		MapFragment mMapFragment = ((MapFragment) getFragmentManager()
+				.findFragmentById(R.id.map));
+		if (mMapFragment != null)
+			mapView = ((MapFragment) mMapFragment).getView();
+
+		if (mapView != null) {
+			btnMyLocation = ((View) mapView.findViewById(1).getParent())
+					.findViewById(2);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					80, 80); // size of button in dp
+			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+					RelativeLayout.TRUE);
+			params.addRule(RelativeLayout.CENTER_HORIZONTAL,
+					RelativeLayout.TRUE);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+					RelativeLayout.TRUE);
+			params.setMargins(20, 0, 0, 40);
+			btnMyLocation.setLayoutParams(params);
+		}
 	}
 
 	public void zoomToOnClick(View v) {
@@ -836,6 +864,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (!supporthomeFragment.isInLayout()) {
 			showFragment(supporthomeFragment);
 		}
+	}
+
+	@Override
+	public void onMapReady() {
+		mMap = mMapFragment.getMap();
+		initView();
+		Log.v(TAG, "onMAP Ready Callback : " + mMap);
 	}
 
 }
