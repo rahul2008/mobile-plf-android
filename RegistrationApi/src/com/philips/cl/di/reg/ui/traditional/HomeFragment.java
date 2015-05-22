@@ -1,6 +1,6 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 import org.json.JSONObject;
@@ -39,16 +39,16 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class HomeFragment extends RegistrationBaseFragment implements
-		OnClickListener, EventListener, SocialProviderLoginHandler {
+public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
+        EventListener, SocialProviderLoginHandler {
 
 	private Button mBtnCreateAccount;
 
 	private XProviderButton mBtnMyPhilips;
 
-	private XProviderButton mBtnFacebook;
-
-	private XProviderButton mBtnTwitter;
+//	private XProviderButton mBtnFacebook;
+//
+//	private XProviderButton mBtnTwitter;
 
 	private TextView mTvWelcome;
 
@@ -64,23 +64,17 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	private String mProvider;
 
-	private ProgressBar mPbFaceBookSpinner;
-
-	private ProgressBar mPbTwiterSpinner;
 
 	private ProgressBar mPbJanrainInit;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.JANRAIN_INIT_FAILURE, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.PARSING_COMPLETED, this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
+		EventHelper.getInstance().registerEventNotification(RegConstants.PARSING_COMPLETED, this);
 		mUser = new User(getRegistrationMainActivity().getApplicationContext());
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -91,21 +85,18 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserSignInFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
 	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.JANRAIN_INIT_FAILURE, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.PARSING_COMPLETED, this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
+		        this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
+		        this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.PARSING_COMPLETED, this);
 		super.onDestroy();
 	}
 
@@ -114,37 +105,23 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
 		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_welcome_desc);
 		mLlCreateBtnContainer = (LinearLayout) view
-				.findViewById(R.id.ll_reg_create_account_container);
-		mLlLoginBtnContainer = (LinearLayout) view
-				.findViewById(R.id.rl_reg_singin_options);
-		mBtnCreateAccount = (Button) view
-				.findViewById(R.id.btn_reg_create_account);
+		        .findViewById(R.id.ll_reg_create_account_container);
+		mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
+		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_create_account);
 		mBtnCreateAccount.setOnClickListener(this);
-		mBtnMyPhilips = (XProviderButton) view
-				.findViewById(R.id.btn_reg_my_philips);
+		mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
 		mBtnMyPhilips.setOnClickListener(this);
 
-		mBtnFacebook = (XProviderButton) view
-				.findViewById(R.id.btn_reg_facebook);
-		mBtnFacebook.setOnClickListener(this);
-
-		mBtnTwitter = (XProviderButton) view.findViewById(R.id.btn_reg_twitter);
-		mBtnTwitter.setOnClickListener(this);
+//		mBtnFacebook = (XProviderButton) view.findViewById(R.id.btn_reg_facebook);
+//		mBtnFacebook.setOnClickListener(this);
+//
+//		mBtnTwitter = (XProviderButton) view.findViewById(R.id.btn_reg_twitter);
+//		mBtnTwitter.setOnClickListener(this);
 
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 
-		mPbFaceBookSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_reg_facebook_spinner);
-		mPbFaceBookSpinner.setClickable(false);
-		mPbFaceBookSpinner.setEnabled(false);
 
-		mPbTwiterSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_reg_twitter_spinner);
-		mPbTwiterSpinner.setClickable(false);
-		mPbTwiterSpinner.setEnabled(false);
-
-		mPbJanrainInit = (ProgressBar) view
-				.findViewById(R.id.pb_reg_janrain_init);
+		mPbJanrainInit = (ProgressBar) view.findViewById(R.id.pb_reg_janrain_init);
 		mPbJanrainInit.setClickable(false);
 		mPbJanrainInit.setEnabled(false);
 
@@ -156,11 +133,10 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	}
 
 	private void handleJanrainInitPb() {
-		if (NetworkUtility.getInstance().isOnline()
-				&& RegistrationHelper.isJanrainIntialized()) {
+		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
 			mPbJanrainInit.setVisibility(View.GONE);
 		} else if (NetworkUtility.getInstance().isOnline()
-				&& !RegistrationHelper.isJanrainIntialized()) {
+		        && !RegistrationHelper.isJanrainIntialized()) {
 			mPbJanrainInit.setVisibility(View.VISIBLE);
 		} else {
 			mPbJanrainInit.setVisibility(View.GONE);
@@ -168,16 +144,16 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	}
 
 	private void showFaceBookSpinner() {
-		mPbFaceBookSpinner.setVisibility(View.VISIBLE);
+		//mPbFaceBookSpinner.setVisibility(View.VISIBLE);
 	}
 
 	private void showTwitterSpinner() {
-		mPbTwiterSpinner.setVisibility(View.VISIBLE);
+		//mPbTwiterSpinner.setVisibility(View.VISIBLE);
 	}
 
 	private void hideSpinner() {
-		mPbFaceBookSpinner.setVisibility(View.INVISIBLE);
-		mPbTwiterSpinner.setVisibility(View.INVISIBLE);
+		//mPbFaceBookSpinner.setVisibility(View.INVISIBLE);
+		//mPbTwiterSpinner.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
@@ -187,11 +163,9 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		 * :http://tools.android.com/tips/non-constant-fields
 		 */
 		if (v.getId() == R.id.btn_reg_create_account) {
-			getRegistrationMainActivity().addFragment(
-					new CreateAccountFragment());
+			getRegistrationMainActivity().addFragment(new CreateAccountFragment());
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
-			getRegistrationMainActivity().addFragment(
-					new SignInAccountFragment());
+			getRegistrationMainActivity().addFragment(new SignInAccountFragment());
 		} else if (v.getId() == R.id.btn_reg_facebook) {
 			showFaceBookSpinner();
 			enableControls(false);
@@ -207,10 +181,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		mProvider = providerName;
 		if (null == mUser)
 			return;
-		if (NetworkUtility.getInstance().isOnline()
-				&& RegistrationHelper.isJanrainIntialized()) {
-			mUser.loginUserUsingSocialProvider(getActivity(), providerName,
-					this, null);
+		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
+			mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
 		}
 	}
 
@@ -247,15 +219,19 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		} else if (RegConstants.JANRAIN_INIT_FAILURE.equals(event)) {
 			enableControls(false);
 			handleJanrainInitPb();
-		}else if(RegConstants.PARSING_COMPLETED.equals(event)){
+		} else if (RegConstants.PARSING_COMPLETED.equals(event)) {
 			handleSocialProvider();
 		}
 	}
 
 	private void handleSocialProvider() {
-	  
-		RegistrationHelper.getInstance().getSocialProviders()	;
+
+		// inflate UI as list available
+		// Change enable and disable logic of button
+		RegistrationHelper.getInstance().getSocialProviders();
 		
+		
+
 	}
 
 	private void handleUiState() {
@@ -276,34 +252,32 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		if (state && NetworkUtility.getInstance().isOnline()) {
 			handleBtnClickableStates(state);
 			setAlphaForView(mBtnMyPhilips, 1);
-			setAlphaForView(mBtnFacebook, 1);
-			setAlphaForView(mBtnTwitter, 1);
+//			setAlphaForView(mBtnFacebook, 1);
+//			setAlphaForView(mBtnTwitter, 1);
 			mRegError.hideError();
 		} else {
 			handleBtnClickableStates(state);
 			setAlphaForView(mBtnMyPhilips, 0.75f);
-			setAlphaForView(mBtnFacebook, 0.75f);
-			setAlphaForView(mBtnTwitter, 0.75f);
+//			setAlphaForView(mBtnFacebook, 0.75f);
+//			setAlphaForView(mBtnTwitter, 0.75f);
 		}
 	}
 
 	private void handleBtnClickableStates(boolean state) {
 		mBtnCreateAccount.setEnabled(state);
 		mBtnMyPhilips.setEnabled(state);
-		mBtnFacebook.setEnabled(state);
-		mBtnTwitter.setEnabled(state);
+//		mBtnFacebook.setEnabled(state);
+//		mBtnTwitter.setEnabled(state);
 	}
 
 	private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
-		String termAndPrivacy = getResources().getString(
-				R.string.LegalNoticeText);
-		String terms = getResources()
-				.getString(R.string.TermsAndConditionsText);
+		String termAndPrivacy = getResources().getString(R.string.LegalNoticeText);
+		String terms = getResources().getString(R.string.TermsAndConditionsText);
 		String privacy = getResources().getString(R.string.PrivacyPolicyText);
-		int termStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault())
-				.indexOf(terms.toLowerCase(Locale.getDefault()));
-		int privacyStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault())
-				.indexOf(privacy.toLowerCase(Locale.getDefault()));
+		int termStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault()).indexOf(
+		        terms.toLowerCase(Locale.getDefault()));
+		int privacyStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault()).indexOf(
+		        privacy.toLowerCase(Locale.getDefault()));
 
 		SpannableString spanableString = new SpannableString(termAndPrivacy);
 		spanableString.setSpan(new ClickableSpan() {
@@ -312,8 +286,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			public void onClick(View widget) {
 				handleTermsCondition();
 			}
-		}, termStartIndex, termStartIndex + terms.length(),
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}, termStartIndex, termStartIndex + terms.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		spanableString.setSpan(new ClickableSpan() {
 
@@ -323,21 +296,20 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			}
 
 		}, privacyStartIndex, privacyStartIndex + privacy.length(),
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		removeUnderlineFromLink(spanableString);
 
 		pTvPrivacyPolicy.setText(spanableString);
 		pTvPrivacyPolicy.setMovementMethod(LinkMovementMethod.getInstance());
 		pTvPrivacyPolicy.setLinkTextColor(getResources().getColor(
-				R.color.reg_hyperlink_highlight_color));
-		pTvPrivacyPolicy.setHighlightColor(getResources().getColor(
-				android.R.color.transparent));
+		        R.color.reg_hyperlink_highlight_color));
+		pTvPrivacyPolicy.setHighlightColor(getResources().getColor(android.R.color.transparent));
 	}
 
 	private void removeUnderlineFromLink(SpannableString spanableString) {
-		for (ClickableSpan u : spanableString.getSpans(0,
-				spanableString.length(), ClickableSpan.class)) {
+		for (ClickableSpan u : spanableString.getSpans(0, spanableString.length(),
+		        ClickableSpan.class)) {
 			spanableString.setSpan(new UnderlineSpan() {
 
 				public void updateDrawState(TextPaint tp) {
@@ -346,8 +318,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 			}, spanableString.getSpanStart(u), spanableString.getSpanEnd(u), 0);
 		}
 
-		for (URLSpan u : spanableString.getSpans(0, spanableString.length(),
-				URLSpan.class)) {
+		for (URLSpan u : spanableString.getSpans(0, spanableString.length(), URLSpan.class)) {
 			spanableString.setSpan(new UnderlineSpan() {
 
 				public void updateDrawState(TextPaint tp) {
@@ -365,14 +336,14 @@ public class HomeFragment extends RegistrationBaseFragment implements
 	}
 
 	private void handlePrivacyPolicy() {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(getResources().getString(R.string.PrivacyPolicyURL)));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
+		        R.string.PrivacyPolicyURL)));
 		startActivity(browserIntent);
 	}
 
 	private void handleTermsCondition() {
-		Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse(getResources().getString(R.string.PrivacyPolicyURL)));
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
+		        R.string.PrivacyPolicyURL)));
 		startActivity(browserIntent);
 	}
 
@@ -383,21 +354,17 @@ public class HomeFragment extends RegistrationBaseFragment implements
 		RLog.i("HomeFragment", "social login success");
 		enableControls(true);
 
-		User user = new User(getRegistrationMainActivity()
-				.getApplicationContext());
-		if (user.getEmailVerificationStatus(getRegistrationMainActivity()
-				.getApplicationContext())) {
+		User user = new User(getRegistrationMainActivity().getApplicationContext());
+		if (user.getEmailVerificationStatus(getRegistrationMainActivity().getApplicationContext())) {
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
 		} else {
-			getRegistrationMainActivity().addFragment(
-					new AccountActivationFragment());
+			getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 		}
 
 	}
 
 	@Override
-	public void onLoginFailedWithError(
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		hideSpinner();
 		hideSpinner();
 		RLog.i("HomeFragment", "login failed");
@@ -407,30 +374,28 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
-			String socialRegistrationToken) {
+	        String socialRegistrationToken) {
 		hideSpinner();
 		hideSpinner();
 		enableControls(true);
-		RLog.i("HomeFragment", "Login failed with two step error"
-				+ "JSON OBJECT :" + prefilledRecord);
-		getRegistrationMainActivity().addAlmostDoneFragment(prefilledRecord,
-				mProvider, socialRegistrationToken);
+		RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
+		        + prefilledRecord);
+		getRegistrationMainActivity().addAlmostDoneFragment(prefilledRecord, mProvider,
+		        socialRegistrationToken);
 	}
 
 	@Override
-	public void onLoginFailedWithMergeFlowError(String mergeToken,
-			String existingProvider, String conflictingIdentityProvider,
-			String conflictingIdpNameLocalized, String existingIdpNameLocalized) {
+	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
+	        String conflictingIdentityProvider, String conflictingIdpNameLocalized,
+	        String existingIdpNameLocalized) {
 		hideSpinner();
 		hideSpinner();
 		enableControls(true);
 		RLog.i("HomeFragment", "login failed with merge flow");
 		if (mUser.handleMergeFlowError(existingProvider)) {
-			getRegistrationMainActivity().addMergeAccountFragment(mergeToken,
-					existingProvider);
+			getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
 		} else {
-			if (NetworkUtility.getInstance().isOnline()
-					&& RegistrationHelper.isJanrainIntialized()) {
+			if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
 
 				if (SocialProvider.FACEBOOK.equals(existingProvider)) {
 					showFaceBookSpinner();
@@ -438,8 +403,8 @@ public class HomeFragment extends RegistrationBaseFragment implements
 				if (SocialProvider.TWITTER.equals(existingProvider)) {
 					showTwitterSpinner();
 				}
-				mUser.loginUserUsingSocialProvider(getActivity(),
-						existingProvider, this, mergeToken);
+				mUser.loginUserUsingSocialProvider(getActivity(), existingProvider, this,
+				        mergeToken);
 			}
 
 		}
@@ -457,7 +422,7 @@ public class HomeFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onContinueSocialProviderLoginFailure(
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		hideSpinner();
 		hideSpinner();
 		enableControls(true);

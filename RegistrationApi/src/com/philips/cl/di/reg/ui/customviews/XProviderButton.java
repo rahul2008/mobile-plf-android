@@ -13,6 +13,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,8 @@ public class XProviderButton extends RelativeLayout {
 	private int mProviderBackgroundID;
 
 	private int mProviderTextColorID;
+
+	private ProgressBar mPbSpinner;
 
 	public XProviderButton(Context context) {
 		super(context);
@@ -62,6 +65,7 @@ public class XProviderButton extends RelativeLayout {
 		FrameLayout flProvider = (FrameLayout) findViewById(R.id.fl_reg_provider_bg);
 		ImageView ivProviderLogo = (ImageView) findViewById(R.id.iv_reg_provider_logo);
 		TextView tvProvider = (TextView) findViewById(R.id.tv_reg_provider_name);
+		mPbSpinner = (ProgressBar) findViewById(R.id.pb_reg_spinner);
 		if (mProviderNameStringID != -1) {
 			tvProvider.setText(mContext.getResources().getString(mProviderNameStringID));
 		}
@@ -77,7 +81,14 @@ public class XProviderButton extends RelativeLayout {
 		if (mProviderTextColorID != -1) {
 			tvProvider.setTextColor(mContext.getResources().getColor(mProviderTextColorID));
 		}
+	}
 
+	public void showProgressBar() {
+		mPbSpinner.setVisibility(VISIBLE);
+	}
+
+	public void hideProgressBar() {
+		mPbSpinner.setVisibility(INVISIBLE);
 	}
 
 }

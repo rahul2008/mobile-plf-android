@@ -74,8 +74,8 @@
                     <com.philips.cl.di.reg.ui.customviews.XTextView
                         android:id="@+id/tv_reg_or_sign_with"
                         style="@style/reg_textStyle"
-                        android:layout_centerVertical="true"
                         android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
                         android:text="@string/Welcome_Alternate_SignInAccount_lbltxt"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
@@ -86,7 +86,6 @@
                         android:layout_toRightOf="@+id/tv_reg_or_sign_with"
                         android:padding="@dimen/reg_pb_padding"
                         android:visibility="visible" />
-
                 </RelativeLayout>
 
                 <com.philips.cl.di.reg.ui.customviews.XProviderButton
@@ -100,52 +99,32 @@
                     reglib:providerName="@string/Welcome_MyPhilips_btntxt"
                     reglib:providerTextColor="@color/reg_provider_text_color" />
 
-                <FrameLayout
-                    android:id="@+id/fl_reg_sign_in"
+                <LinearLayout
+                    android:id="@+id/ll_social_provider_container"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/reg_btn_height"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom" >
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
 
                     <com.philips.cl.di.reg.ui.customviews.XProviderButton
                         android:id="@+id/btn_reg_facebook"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/reg_margin_bottom"
                         reglib:providerBackground="@drawable/reg_facebook_bg_rect"
                         reglib:providerLogo="@drawable/reg_facebook_ic"
                         reglib:providerName="@string/Welcome_Facebook_btntxt"
                         reglib:providerTextColor="@color/reg_provider_text_color" />
 
-                    <ProgressBar
-                        android:id="@+id/pb_reg_facebook_spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="@dimen/reg_pb_padding"
-                        android:visibility="gone" />
-                </FrameLayout>
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/reg_btn_height"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom" >
-
                     <com.philips.cl.di.reg.ui.customviews.XProviderButton
                         android:id="@+id/btn_reg_twitter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/reg_margin_bottom"
                         reglib:providerBackground="@drawable/reg_twitter_bg_rect"
                         reglib:providerLogo="@drawable/reg_twitter_ic"
                         reglib:providerName="@string/Welcome_Twitter_btntxt"
                         reglib:providerTextColor="@color/reg_provider_text_color" />
-
-                    <ProgressBar
-                        android:id="@+id/pb_reg_twitter_spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="@dimen/reg_pb_padding"
-                        android:visibility="gone" />
-                </FrameLayout>
+                </LinearLayout>
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"
