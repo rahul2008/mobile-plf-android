@@ -131,12 +131,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private static final String TAG = LocatePhilipsFragment.class
 			.getSimpleName();
+	private static View mView = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = null;
 		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formAtosURL(),
 				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
@@ -145,12 +145,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 		mHandler = new Handler();
 		try {
-			view = inflater.inflate(R.layout.fragment_locate_philips,
+			mView = inflater.inflate(R.layout.fragment_locate_philips,
 					container, false);
 		} catch (InflateException e) {
 		}
 
-		return view;
+		return mView;
 	}
 
 	@Override
@@ -677,7 +677,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (malertDialog != null) {
 			malertDialog = null;
 		}
-
 	}
 
 	@Override
