@@ -58,7 +58,6 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.contactus.CdlsRequestTask;
 import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
-import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -74,9 +73,8 @@ import com.philips.cl.di.digitalcare.util.Utils;
  */
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
-		OnItemClickListener, onMapReadyListener {
+		OnItemClickListener {
 	private static GoogleMap mMap = null;
-	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
 	private AtosResponseParser mCdlsResponseParser = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
@@ -134,12 +132,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			Bundle savedInstanceState) {
 
 		View view = null;
-		/*
-		 * mCdlsRequestTask = new CdlsRequestTask(getActivity(), formAtosURL(),
-		 * mCdlsResponseCallback); if (!(mCdlsRequestTask.getStatus() ==
-		 * AsyncTask.Status.RUNNING || mCdlsRequestTask .getStatus() ==
-		 * AsyncTask.Status.FINISHED)) { mCdlsRequestTask.execute(); }
-		 */
+		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formAtosURL(),
+				mCdlsResponseCallback);
+		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
+				.getStatus() == AsyncTask.Status.FINISHED)) {
+			mCdlsRequestTask.execute();
+		}
 		mHandler = new Handler();
 		try {
 			view = inflater.inflate(R.layout.fragment_locate_philips,
@@ -162,16 +160,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		}
 		createBitmap();
-	}
-
-	@SuppressLint("NewApi")
-	private void initGoogleMapv2() {
-
-		Log.v(TAG, "Googlev2 Map Compatibility Enabled");
-		mMapFragment = GoogleMapFragment.newInstance();
-		getChildFragmentManager().beginTransaction()
-				.replace(R.id.map, mMapFragment).commit();
-
 	}
 
 	/*
@@ -238,13 +226,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void initView() {
 		mHandler.postDelayed(mMapViewRunnable, 1000l);
 		if (mMap == null) {
-			try {
-				mMap = ((MapFragment) getFragmentManager().findFragmentById(
-						R.id.map)).getMap();
-			} catch (NullPointerException exception) {
-				Log.d(TAG, "initView Exception Handler : " + exception);
-				initGoogleMapv2();
-			}
+			mMap = ((MapFragment) getFragmentManager().findFragmentById(
+					R.id.map)).getMap();
 		}
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
@@ -850,12 +833,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (!supporthomeFragment.isInLayout()) {
 			showFragment(supporthomeFragment);
 		}
-	}
-
-	@Override
-	public void onMapReady() {
-		mMap = mMapFragment.getMap();
-		Log.v(TAG, "onMAP Ready Callback : " + mMap);
 	}
 
 }
