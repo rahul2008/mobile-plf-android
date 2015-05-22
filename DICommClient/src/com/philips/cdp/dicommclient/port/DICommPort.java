@@ -145,7 +145,7 @@ public abstract class DICommPort<T> {
 		mPortListeners.remove(listener);
     }
 
-    private void notifyPortListenersOnUpdate(boolean isSubscription) {
+    private void notifyPortListenersOnUpdate() {
         ArrayList<DICommPortListener> copyListeners = new ArrayList<DICommPortListener>(mPortListeners);
 		for (DICommPortListener listener : copyListeners) {
 			ListenerRegistration registration = listener.onPortUpdate(this);
@@ -219,16 +219,10 @@ public abstract class DICommPort<T> {
     	tryToPerformNextRequest();
     }
 
-    private void handleResponse(String data) {
+    public void handleResponse(String data) {
 		mGetPropertiesRequested = false;
 		processResponse(data);
-		notifyPortListenersOnUpdate(false);
-	}
-
-    public void handleSubscription(String data) {
-		mGetPropertiesRequested = false;
-		processResponse(data);
-		notifyPortListenersOnUpdate(true);
+		notifyPortListenersOnUpdate();
 	}
 
     private void performPutProperties() {

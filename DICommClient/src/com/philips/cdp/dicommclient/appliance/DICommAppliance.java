@@ -148,7 +148,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 
 		for (DICommPort<?> port : portList) {
 		    if (port.isResponseForThisPort(data)) {
-		        port.handleSubscription(data);
+		        port.handleResponse(data);
 		    }
 		}
 	}
