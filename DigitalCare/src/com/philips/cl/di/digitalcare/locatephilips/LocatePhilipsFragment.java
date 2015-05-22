@@ -1,6 +1,7 @@
 package com.philips.cl.di.digitalcare.locatephilips;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -22,7 +23,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -121,6 +121,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private AlertDialog.Builder mdialogBuilder = null;
 	private AlertDialog malertDialog = null;
 
+	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
+	private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
+
 	// "http://www.philips.com/search/search?q=FC5830/81&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=";
 	private static final String ATOS_BASE_URL_SUBCATEGORY = "&subcategory=";
@@ -130,6 +133,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private static final String TAG = LocatePhilipsFragment.class
 			.getSimpleName();
 	private static View mView = null;
+	private static HashMap<String, AtosResultsModel> mHashMapResults = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -178,7 +182,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				+ ATOS_BASE_URL_COUNTRY + /*
 										 * DigitalCareConfigManager.getCountry().
 										 * toLowerCase()
-										 */"us" + ATOS_BASE_URL_POSTFIX;
+										 */"in" + ATOS_BASE_URL_POSTFIX;
 	}
 
 	private CdlsResponseCallback mCdlsResponseCallback = new CdlsResponseCallback() {
@@ -321,8 +325,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
+		int resultsetSize = resultModelSet.size();
+		mHashMapResults = new HashMap<String, AtosResultsModel>(
+				resultsetSize);
+		mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
 
-		for (int i = 0; i < resultModelSet.size(); i++) {
+		for (int i = 0; i < resultsetSize; i++) {
 			AtosResultsModel resultModel = resultModelSet.get(i);
 			AtosLocationModel locationModel = resultModel.getLocationModel();
 			AtosAddressModel addressModel = resultModel.getmAddressModel();
@@ -332,14 +340,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			MarkerOptions markerOpt = new MarkerOptions();
 			markerOpt.position(latLng);
-			markerOpt.title(resultModel.getTitle());
-			markerOpt.snippet(addressModel.getCityState());
 			markerOpt.draggable(false);
 			markerOpt.visible(true);
 			markerOpt.anchor(0.5f, 0.5f);
 			markerOpt.icon(BitmapDescriptorFactory.fromBitmap(mBitmapMarker));
 
-			mMap.addMarker(markerOpt);
+			Marker marker = mMap.addMarker(markerOpt);
+			mHashMapResults.put(marker.getId(), resultModel);
 		}
 		// zoomInOnClick();
 
@@ -378,6 +385,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				mHandler.removeCallbacks(mMapViewRunnable);
 				mMap.setMyLocationEnabled(true);
 				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+				resetMyButtonPosition();
 			}
 		}
 	};
@@ -461,14 +470,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		MarkerOptions markerOpt = new MarkerOptions();
 		markerOpt.position(new LatLng(lat, lng));
-		markerOpt.title("testing");
-		markerOpt.snippet("testing");
 		// markerMe = mMap.addMarker(markerOpt);
 		mMap.setMyLocationEnabled(true);
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-		Toast.makeText(getActivity(), "lat:" + lat + ",lng:" + lng,
-				Toast.LENGTH_SHORT).show();
+		resetMyButtonPosition();
 	}
 
 	private void cameraFocusOnMe(double lat, double lng) {
@@ -557,7 +562,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else {
 			where = "No location found.";
 		}
-		Toast.makeText(getActivity(), where, Toast.LENGTH_SHORT).show();
+		DLog.i(TAG, where);
 	}
 
 	private GpsStatus.Listener mGpsListener = new GpsStatus.Listener() {
@@ -566,25 +571,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		public void onGpsStatusChanged(int event) {
 			switch (event) {
 			case GpsStatus.GPS_EVENT_STARTED:
-				Log.d(TAG, "GPS_EVENT_STARTED");
-				Toast.makeText(getActivity(), "GPS_EVENT_STARTED",
-						Toast.LENGTH_SHORT).show();
+				DLog.d(TAG, "GPS_EVENT_STARTED");
 				break;
 
 			case GpsStatus.GPS_EVENT_STOPPED:
-				Log.d(TAG, "GPS_EVENT_STOPPED");
-				Toast.makeText(getActivity(), "GPS_EVENT_STOPPED",
-						Toast.LENGTH_SHORT).show();
+				DLog.d(TAG, "GPS_EVENT_STOPPED");
 				break;
 
 			case GpsStatus.GPS_EVENT_FIRST_FIX:
-				Log.d(TAG, "GPS_EVENT_FIRST_FIX");
-				Toast.makeText(getActivity(), "GPS_EVENT_FIRST_FIX",
-						Toast.LENGTH_SHORT).show();
+				DLog.d(TAG, "GPS_EVENT_FIRST_FIX");
 				break;
 
 			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				Log.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
+				DLog.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
 				break;
 			}
 		}
@@ -611,20 +610,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			switch (status) {
 			case LocationProvider.OUT_OF_SERVICE:
-				Log.v(TAG, "Status Changed: Out of Service");
-				Toast.makeText(getActivity(), "Status Changed: Out of Service",
-						Toast.LENGTH_SHORT).show();
+				DLog.v(TAG, "Status Changed: Out of Service");
 				break;
 			case LocationProvider.TEMPORARILY_UNAVAILABLE:
-				Log.v(TAG, "Status Changed: Temporarily Unavailable");
-				Toast.makeText(getActivity(),
-						"Status Changed: Temporarily Unavailable",
-						Toast.LENGTH_SHORT).show();
+				DLog.v(TAG, "Status Changed: Temporarily Unavailable");
 				break;
 			case LocationProvider.AVAILABLE:
-				Log.v(TAG, "Status Changed: Available");
-				Toast.makeText(getActivity(), "Status Changed: Available",
-						Toast.LENGTH_SHORT).show();
+				DLog.v(TAG, "Status Changed: Available");
 				break;
 			}
 		}
@@ -698,10 +690,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (malertDialog != null) {
 			malertDialog = null;
 		}
+		if (mHashMapResults != null && mHashMapResults.size() <= 0) {
+			mHashMapResults.clear();
+			mHashMapResults = null;
+		}
 	}
-
-	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
-	private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
 
 	@Override
 	public void setViewParams(Configuration config) {
@@ -755,13 +748,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
 			if (mPhoneNumber != null && !mCdlsParsedResponse.getSuccess()) {
-				Toast.makeText(
-						getActivity(),
-						mCdlsParsedResponse.getCdlsErrorModel()
-								.getErrorMessage(), Toast.LENGTH_SHORT).show();
+				DLog.i(TAG, mCdlsParsedResponse.getCdlsErrorModel()
+						.getErrorMessage());
 			} else if (Utils.isSimAvailable(getActivity())) {
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
+				DLog.i(TAG, "Check the SIM");
 				Toast.makeText(getActivity(), "Check the SIM",
 						Toast.LENGTH_SHORT).show();
 			}
@@ -793,16 +785,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			if (adapter != null) {
 
-				mLinearLayout.setVisibility(View.GONE);
-				mMarkerIcon.setVisibility(View.VISIBLE);
 				adapter.getFilter().filter(result);
 				mListView.setAdapter(adapter);
 				mListView.setVisibility(View.VISIBLE);
-
-				Toast.makeText(getActivity(),
-						"Result Size : " + mResultModelSet.size(),
-						Toast.LENGTH_SHORT).show();
-
+				mLinearLayout.setVisibility(View.GONE);
+				mMarkerIcon.setVisibility(View.VISIBLE);
 			}
 
 		}
@@ -814,7 +801,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		AtosResultsModel resultModel = (AtosResultsModel) adapter
 				.getItem(position);
+		showServiceCentreDetails(resultModel);
+	}
 
+	private void showServiceCentreDetails(AtosResultsModel resultModel) {
 		AtosAddressModel addressModel = resultModel.getmAddressModel();
 		AtosLocationModel locationModel = resultModel.getLocationModel();
 
@@ -839,7 +829,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mListView.setVisibility(View.GONE);
 		mLinearLayout.setVisibility(View.VISIBLE);
 		mMarkerIcon.setVisibility(View.GONE);
-		// linearLayout.setVisibility(View.GONE);// ritesh testing
 	}
 
 	@Override
@@ -921,10 +910,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public boolean onMarkerClick(Marker marker) {
-
-		Toast.makeText(getActivity(), "Marker CLicked", Toast.LENGTH_SHORT)
-				.show();
-
+		AtosResultsModel resultModel = mHashMapResults.get(marker.getId());
+		showServiceCentreDetails(resultModel);
 		return true;
 	}
 
