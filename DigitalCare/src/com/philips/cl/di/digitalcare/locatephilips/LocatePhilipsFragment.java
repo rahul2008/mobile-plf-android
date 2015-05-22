@@ -326,8 +326,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
 		int resultsetSize = resultModelSet.size();
-		mHashMapResults = new HashMap<String, AtosResultsModel>(
-				resultsetSize);
+		mHashMapResults = new HashMap<String, AtosResultsModel>(resultsetSize);
 		mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
 
 		for (int i = 0; i < resultsetSize; i++) {
@@ -728,16 +727,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
-
-			if (constrain.length() > 1) {
-				new UITask().execute(constrain);
-			} else {
-
-				Toast.makeText(getActivity(), "Enter Text To Search...",
-						Toast.LENGTH_SHORT).show();
-			}
-			// new UITask().execute(constrain);
-
+			new UITask().execute(constrain);
 		} else if (v.getId() == R.id.getdirection) {
 			trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
 					mDestinationLat, mDestinationLng));
