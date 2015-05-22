@@ -6,16 +6,12 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.R;
-import com.philips.cl.di.digitalcare.Call.test.CallFeature;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.digitalcare.util.Utils;
 import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 /**
@@ -111,7 +107,7 @@ public class DigitalCareActivityTest extends
 	 * actual); }
 	 */
 
-	@SmallTest
+	/*@SmallTest
 	public void testSimAvailabilityLogic() {
 		CallFeature mCall = new CallFeature();
 		boolean isAvailable = Utils.isSimAvailable(mActivity), expected = mCall
@@ -119,7 +115,7 @@ public class DigitalCareActivityTest extends
 		assertEquals(" \n \n Please try by inserting SIM \n \n", expected,
 				isAvailable);
 
-	}
+	}*/
 //
 //	/**
 //	 * Twitter Testing

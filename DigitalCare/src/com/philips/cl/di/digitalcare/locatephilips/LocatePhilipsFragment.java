@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -187,7 +186,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		@Override
 		public void onCdlsResponseReceived(String response) {
-			Log.i(TAG, "response : " + response);
+			DLog.i(TAG, "response : " + response);
 			if (response != null && isAdded()) {
 				mCdlsResponseParser = AtosResponseParser
 						.getParserControllInstance(getActivity());
@@ -225,7 +224,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@SuppressLint("NewApi")
 	private void initGoogleMapv2() {
 
-		Log.v(TAG, "Initializing Google Maps");
+		DLog.v(TAG, "Initializing Google Maps");
 
 		try {
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
@@ -233,7 +232,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			if (mMap != null)
 				initView();
 		} catch (NullPointerException e) {
-			Log.v(TAG, "Googlev2 Map Compatibility Enabled");
+			DLog.v(TAG, "Googlev2 Map Compatibility Enabled");
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
@@ -245,9 +244,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void initView() {
 		if (initLocationProvider()) {
 			whereAmI();
-			Log.v(TAG, "WhereAmI Method");
+			DLog.v(TAG, "WhereAmI Method");
 		}
-		Log.d(TAG, "initView is initialized");
+		DLog.d(TAG, "initView is initialized");
 		mHandler.postDelayed(mMapViewRunnable, 1000l);
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
@@ -613,30 +612,30 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				.isGooglePlayServicesAvailable(getActivity());
 		switch (result) {
 		case ConnectionResult.SUCCESS:
-			Log.d(TAG, "SUCCESS");
+			DLog.d(TAG, "SUCCESS");
 			return true;
 
 		case ConnectionResult.SERVICE_INVALID:
-			Log.d(TAG, "SERVICE_INVALID");
+			DLog.d(TAG, "SERVICE_INVALID");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_INVALID, getActivity(), 0).show();
 			break;
 
 		case ConnectionResult.SERVICE_MISSING:
-			Log.d(TAG, "SERVICE_MISSING");
+			DLog.d(TAG, "SERVICE_MISSING");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_MISSING, getActivity(), 0).show();
 			break;
 
 		case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-			Log.d(TAG, "SERVICE_VERSION_UPDATE_REQUIRED");
+			DLog.d(TAG, "SERVICE_VERSION_UPDATE_REQUIRED");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
 					getActivity(), 0).show();
 			break;
 
 		case ConnectionResult.SERVICE_DISABLED:
-			Log.d(TAG, "SERVICE_DISABLED");
+			DLog.d(TAG, "SERVICE_DISABLED");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_DISABLED, getActivity(), 0).show();
 			break;
@@ -868,7 +867,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onMapReady() {
 		mMap = mMapFragment.getMap();
 		initView();
-		Log.v(TAG, "onMAP Ready Callback : " + mMap);
+		DLog.v(TAG, "onMAP Ready Callback : " + mMap);
 	}
 
 }
