@@ -43,6 +43,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -58,6 +59,7 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.contactus.CdlsRequestTask;
 import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
+import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -73,8 +75,9 @@ import com.philips.cl.di.digitalcare.util.Utils;
  */
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
-		OnItemClickListener {
+		OnItemClickListener, onMapReadyListener, OnMarkerClickListener {
 	private static GoogleMap mMap = null;
+	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
 	private AtosResponseParser mCdlsResponseParser = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
@@ -126,12 +129,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private static final String TAG = LocatePhilipsFragment.class
 			.getSimpleName();
+	private static View mView = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = null;
 		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formAtosURL(),
 				mCdlsResponseCallback);
 		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
@@ -140,25 +143,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 		mHandler = new Handler();
 		try {
-			view = inflater.inflate(R.layout.fragment_locate_philips,
+			mView = inflater.inflate(R.layout.fragment_locate_philips,
 					container, false);
 		} catch (InflateException e) {
 		}
 
-		return view;
+		return mView;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		initView();
-		// initMap();
 		checkGooglePlayServices();
-		if (initLocationProvider()) {
-			whereAmI();
-		} else {
-
-		}
+		initGoogleMapv2();
 		createBitmap();
 	}
 
@@ -181,7 +178,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				+ ATOS_BASE_URL_COUNTRY + /*
 										 * DigitalCareConfigManager.getCountry().
 										 * toLowerCase()
-										 */"in" + ATOS_BASE_URL_POSTFIX;
+										 */"us" + ATOS_BASE_URL_POSTFIX;
 	}
 
 	private CdlsResponseCallback mCdlsResponseCallback = new CdlsResponseCallback() {
@@ -203,12 +200,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 						ArrayList<AtosResultsModel> resultModelSet = mCdlsParsedResponse
 								.getResultsModel();
 						if (resultModelSet.size() <= 0) {
+							showAlertBox();
 							return;
 						}
 
 						// mBuilder = new LatLngBounds.Builder();
 						addMarkers(resultModelSet);
 					}
+
+					else {
+						// response is false
+						showAlertBox();
+
+					}
+
 				}
 			}
 		}
@@ -223,12 +228,36 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		super.onPause();
 	}
 
-	private void initView() {
-		mHandler.postDelayed(mMapViewRunnable, 1000l);
-		if (mMap == null) {
+	@SuppressLint("NewApi")
+	private void initGoogleMapv2() {
+
+		Log.v(TAG, "Initializing Google Maps");
+
+		try {
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
+			if (mMap != null)
+				initView();
+		} catch (NullPointerException e) {
+			Log.v(TAG, "Googlev2 Map Compatibility Enabled");
+			mMapFragment = GoogleMapFragment.newInstance();
+			getChildFragmentManager().beginTransaction()
+					.replace(R.id.map, mMapFragment).commit();
+			mMap = mMapFragment.getMap();
+
+			// Set Marker click listener
+
 		}
+
+	}
+
+	private void initView() {
+		if (initLocationProvider()) {
+			whereAmI();
+			Log.v(TAG, "WhereAmI Method");
+		}
+		Log.d(TAG, "initView is initialized");
+		mHandler.postDelayed(mMapViewRunnable, 1000l);
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -352,6 +381,33 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			}
 		}
 	};
+
+	/**
+	 * Move my position button at the bottom of map
+	 */
+	private void resetMyButtonPosition() {
+		View mapView = null;
+		View btnMyLocation = null;
+		MapFragment mMapFragment = ((MapFragment) getFragmentManager()
+				.findFragmentById(R.id.map));
+		if (mMapFragment != null)
+			mapView = ((MapFragment) mMapFragment).getView();
+
+		if (mapView != null) {
+			btnMyLocation = ((View) mapView.findViewById(1).getParent())
+					.findViewById(2);
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+					80, 80); // size of button in dp
+			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+					RelativeLayout.TRUE);
+			params.addRule(RelativeLayout.CENTER_HORIZONTAL,
+					RelativeLayout.TRUE);
+			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+					RelativeLayout.TRUE);
+			params.setMargins(20, 0, 0, 40);
+			btnMyLocation.setLayoutParams(params);
+		}
+	}
 
 	public void zoomToOnClick(View v) {
 		mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 3000, null);
@@ -642,7 +698,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (malertDialog != null) {
 			malertDialog = null;
 		}
-
 	}
 
 	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
@@ -743,6 +798,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				adapter.getFilter().filter(result);
 				mListView.setAdapter(adapter);
 				mListView.setVisibility(View.VISIBLE);
+
+				Toast.makeText(getActivity(),
+						"Result Size : " + mResultModelSet.size(),
+						Toast.LENGTH_SHORT).show();
+
 			}
 
 		}
@@ -789,7 +849,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		// Checking Network
 		if (!Utils.isNetworkConnected(getActivity())) {
 
-			if(mdialogBuilder==null){
+			if (mdialogBuilder == null) {
 				mdialogBuilder = new AlertDialog.Builder(getActivity());
 
 				mdialogBuilder.setTitle("Alert");
@@ -797,10 +857,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 				mdialogBuilder.setPositiveButton(R.string.enableNetwork,
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(DialogInterface dialog,
+									int which) {
 								// launch setting Activity
-								startActivityForResult(new Intent(
-										android.provider.Settings.ACTION_SETTINGS),
+								startActivityForResult(
+										new Intent(
+												android.provider.Settings.ACTION_SETTINGS),
 										0);
 								// backstackFragment();
 								// SupportHomeFragmentisInLayout();
@@ -810,7 +872,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 				mdialogBuilder.setNegativeButton(android.R.string.no,
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(DialogInterface dialog,
+									int which) {
 								backstackFragment();
 								SupportHomeFragmentisInLayout();
 							}
@@ -819,8 +882,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				malertDialog = mdialogBuilder.create();
 				malertDialog.show();
 			}
-			
-			
+
 		} else {
 
 			if (malertDialog != null) {
@@ -850,4 +912,43 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
+	@Override
+	public void onMapReady() {
+		mMap = mMapFragment.getMap();
+		initView();
+		Log.v(TAG, "onMAP Ready Callback : " + mMap);
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker marker) {
+
+		Toast.makeText(getActivity(), "Marker CLicked", Toast.LENGTH_SHORT)
+				.show();
+
+		return true;
+	}
+
+	private void showAlertBox() {
+
+		AlertDialog alertDialog = null;
+		if (alertDialog == null) {
+
+			alertDialog = new AlertDialog.Builder(getActivity())
+					.setTitle("Alert")
+					.setMessage("No Data")
+					.setPositiveButton(android.R.string.yes,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// continue with delete
+
+									backstackFragment();
+
+								}
+							}).setIcon(android.R.drawable.ic_dialog_alert)
+					.show();
+
+		}
+
+	}
 }
