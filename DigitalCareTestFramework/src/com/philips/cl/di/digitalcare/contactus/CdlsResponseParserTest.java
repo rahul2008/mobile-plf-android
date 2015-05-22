@@ -19,8 +19,6 @@ import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 public class CdlsResponseParserTest extends
 		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
 
-	private final String mCdlsResponse = "";
-
 	public CdlsResponseParserTest() {
 		super(LaunchDigitalCare.class);
 	}
@@ -52,9 +50,9 @@ public class CdlsResponseParserTest extends
 		assertNotNull(result);
 	}
 
-
 	/**
 	 * Needs to improve this testCase
+	 * 
 	 * @throws Exception
 	 */
 	@Test
@@ -67,6 +65,7 @@ public class CdlsResponseParserTest extends
 		fixture.processCdlsResponse(response);
 
 	}
+
 	@After
 	public void tearDown() throws Exception {
 	}
