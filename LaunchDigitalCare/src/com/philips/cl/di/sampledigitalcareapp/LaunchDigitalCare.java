@@ -37,6 +37,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		mLaunchProduct = (Button) findViewById(R.id.launchproduct);
 		mLaunchContact = (Button) findViewById(R.id.launch_contact);
 		mLaunchLocate = (Button) findViewById(R.id.launch_locate);
+		mLaunchLocate.setVisibility(View.GONE);
 		mLaunchRate = (Button) findViewById(R.id.launchrate);
 		mLaunchProductRegister = (Button) findViewById(R.id.launchproductregister);
 
