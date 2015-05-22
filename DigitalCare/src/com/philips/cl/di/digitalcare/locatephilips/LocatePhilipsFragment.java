@@ -118,9 +118,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private AlertDialog.Builder mdialogBuilder = null;
 	private AlertDialog malertDialog = null;
 
-	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
-	private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
-
 	// "http://www.philips.com/search/search?q=FC5830/81&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
 	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=";
 	private static final String ATOS_BASE_URL_SUBCATEGORY = "&subcategory=";
@@ -413,6 +410,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		// markerMe = mMap.addMarker(markerOpt);
 		mMap.setMyLocationEnabled(true);
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+		Toast.makeText(getActivity(), "lat:" + lat + ",lng:" + lng,
+				Toast.LENGTH_SHORT).show();
 	}
 
 	private void cameraFocusOnMe(double lat, double lng) {
@@ -501,7 +501,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else {
 			where = "No location found.";
 		}
-		DLog.i(TAG, where);
+		Toast.makeText(getActivity(), where, Toast.LENGTH_SHORT).show();
 	}
 
 	private GpsStatus.Listener mGpsListener = new GpsStatus.Listener() {
@@ -510,19 +510,25 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		public void onGpsStatusChanged(int event) {
 			switch (event) {
 			case GpsStatus.GPS_EVENT_STARTED:
-				DLog.d(TAG, "GPS_EVENT_STARTED");
+				Log.d(TAG, "GPS_EVENT_STARTED");
+				Toast.makeText(getActivity(), "GPS_EVENT_STARTED",
+						Toast.LENGTH_SHORT).show();
 				break;
 
 			case GpsStatus.GPS_EVENT_STOPPED:
-				DLog.d(TAG, "GPS_EVENT_STOPPED");
+				Log.d(TAG, "GPS_EVENT_STOPPED");
+				Toast.makeText(getActivity(), "GPS_EVENT_STOPPED",
+						Toast.LENGTH_SHORT).show();
 				break;
 
 			case GpsStatus.GPS_EVENT_FIRST_FIX:
-				DLog.d(TAG, "GPS_EVENT_FIRST_FIX");
+				Log.d(TAG, "GPS_EVENT_FIRST_FIX");
+				Toast.makeText(getActivity(), "GPS_EVENT_FIRST_FIX",
+						Toast.LENGTH_SHORT).show();
 				break;
 
 			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				DLog.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
+				Log.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
 				break;
 			}
 		}
@@ -549,13 +555,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			switch (status) {
 			case LocationProvider.OUT_OF_SERVICE:
-				DLog.v(TAG, "Status Changed: Out of Service");
+				Log.v(TAG, "Status Changed: Out of Service");
+				Toast.makeText(getActivity(), "Status Changed: Out of Service",
+						Toast.LENGTH_SHORT).show();
 				break;
 			case LocationProvider.TEMPORARILY_UNAVAILABLE:
-				DLog.v(TAG, "Status Changed: Temporarily Unavailable");
+				Log.v(TAG, "Status Changed: Temporarily Unavailable");
+				Toast.makeText(getActivity(),
+						"Status Changed: Temporarily Unavailable",
+						Toast.LENGTH_SHORT).show();
 				break;
 			case LocationProvider.AVAILABLE:
-				DLog.v(TAG, "Status Changed: Available");
+				Log.v(TAG, "Status Changed: Available");
+				Toast.makeText(getActivity(), "Status Changed: Available",
+						Toast.LENGTH_SHORT).show();
 				break;
 			}
 		}
@@ -632,6 +645,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	}
 
+	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
+	private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
+
 	@Override
 	public void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -684,12 +700,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
 			if (mPhoneNumber != null && !mCdlsParsedResponse.getSuccess()) {
-				DLog.i(TAG, mCdlsParsedResponse.getCdlsErrorModel()
-						.getErrorMessage());
+				Toast.makeText(
+						getActivity(),
+						mCdlsParsedResponse.getCdlsErrorModel()
+								.getErrorMessage(), Toast.LENGTH_SHORT).show();
 			} else if (Utils.isSimAvailable(getActivity())) {
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
-				DLog.i(TAG, "Check the SIM");
 				Toast.makeText(getActivity(), "Check the SIM",
 						Toast.LENGTH_SHORT).show();
 			}
@@ -772,7 +789,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		// Checking Network
 		if (!Utils.isNetworkConnected(getActivity())) {
 
-			if (mdialogBuilder == null) {
+			if(mdialogBuilder==null){
 				mdialogBuilder = new AlertDialog.Builder(getActivity());
 
 				mdialogBuilder.setTitle("Alert");
@@ -780,15 +797,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 				mdialogBuilder.setPositiveButton(R.string.enableNetwork,
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
+							public void onClick(DialogInterface dialog, int which) {
 								// launch setting Activity
-								startActivityForResult(
-										new Intent(
-												android.provider.Settings.ACTION_SETTINGS),
+								startActivityForResult(new Intent(
+										android.provider.Settings.ACTION_SETTINGS),
 										0);
-
-								mdialogBuilder = null;
 								// backstackFragment();
 								// SupportHomeFragmentisInLayout();
 
@@ -797,8 +810,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 				mdialogBuilder.setNegativeButton(android.R.string.no,
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int which) {
+							public void onClick(DialogInterface dialog, int which) {
 								backstackFragment();
 								SupportHomeFragmentisInLayout();
 							}
@@ -807,7 +819,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				malertDialog = mdialogBuilder.create();
 				malertDialog.show();
 			}
-
+			
+			
 		} else {
 
 			if (malertDialog != null) {
