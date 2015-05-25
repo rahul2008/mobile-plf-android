@@ -31,14 +31,6 @@
         android:layout_width="match_parent"
         android:layout_height="320dp" >
 
-        <ProgressBar
-            android:id="@+id/rdcpDownloadProgressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:indeterminateDrawable="@drawable/progress_circle" />
-
         <LinearLayout
             android:id="@+id/trendsOutdoorlayoutGraph"
             android:layout_width="match_parent"
@@ -48,6 +40,13 @@
             android:layout_margin="16dp"
             android:orientation="vertical" >
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/rdcpDownloadProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/progress_circle" />
     </RelativeLayout>
 
     <!-- Bottom Bottom -->
@@ -67,7 +66,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
-    
+
     <!-- First Message -->
 
     <com.philips.cl.di.dev.pa.view.FontTextView

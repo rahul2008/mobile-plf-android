@@ -82,7 +82,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 
 	private boolean isdownloadErrorDisplay = false;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -99,6 +99,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 		Coordinates.getInstance(getMainActivity());//Initialize all trend density independent pixel co-ordinate
 		currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		init();
+		addAqiReading();
 		//Purifier current city good air quality historic data download
 		PurifierCurrentCityData.getInstance().setListener(this);
 		if (currentPurifier != null) {
@@ -315,7 +316,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 	private synchronized void showAlertDialogHistoryDoawnload(String title, String message) {
 		if (getMainActivity() == null) return;
 		if (PurAirApplication.isDemoModeEnable()
-				 && OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
+				&& OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
 			addDummyDataForDemoMode();
 		} else if (!isdownloadErrorDisplay){
 			try {

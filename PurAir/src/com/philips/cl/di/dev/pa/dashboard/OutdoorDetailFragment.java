@@ -121,7 +121,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		OutdoorManager.getInstance().resetNeighborhoodCitiesData();
 		OutdoorManager.getInstance().saveNearbyCityData();
 		initializeUI();
-		setClickEvent(false);
+		setClickEvent(true);
+		showGraphView();
+		
 		getDataFromDashboard();
 
 		requestAQIAndWeatherData();
@@ -809,6 +811,14 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.ERROR, "IllegalStateException");
 		}
+	}
+	
+	//Display empty graph view
+	private void showGraphView() {
+		lastDayRDCPValuesMap.put(Color.RED, lastDayAQIHistoricArr);
+		last7daysRDCPValuesMap.put(Color.RED, last7dayAQIHistoricArr);
+		last4weeksRDCPValuesMap.put(Color.RED, last4weekAQIHistoricArr);
+		setViewlastDayAQIReadings();
 	}
 
 }
