@@ -24,7 +24,7 @@
             android:id="@+id/tv_privacy_policy_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="2dp"
+            android:lineSpacingExtra="5dp"
             android:autoLink="all"
             android:text="@string/privacy_policy_text"
             android:textColor="@color/blue_list_item"
