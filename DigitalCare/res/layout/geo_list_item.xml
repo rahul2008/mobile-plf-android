@@ -15,6 +15,7 @@
         style="@style/locateNearText"
         android:paddingRight="50dp"
         android:text=""
+        
         android:textStyle="bold"
         custom:fontAssetName="fonts/centralesans-book.otf" />
 

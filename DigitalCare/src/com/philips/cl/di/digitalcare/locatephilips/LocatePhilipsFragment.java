@@ -284,8 +284,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
 
 		mButtonCall = (Button) getActivity().findViewById(R.id.call);
+		mButtonCall.setTransformationMethod(null);
 		mButtonDirection = (Button) getActivity().findViewById(
 				R.id.getdirection);
+		mButtonDirection.setTransformationMethod(null);
 
 		mButtonCall.setOnClickListener(this);
 		mSearchIcon.setOnClickListener(this);
@@ -835,8 +837,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		ArrayList<String> phoneNumbers = addressModel.getPhoneList();
 
+		mPhoneNumber = phoneNumbers.get(0);
+
 		mButtonCall.setText(getResources().getString(R.string.call) + " "
-				+ phoneNumbers.get(0));
+				+ mPhoneNumber);
 
 		mListView.setVisibility(View.GONE);
 		mLinearLayout.setVisibility(View.VISIBLE);
