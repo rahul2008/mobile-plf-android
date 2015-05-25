@@ -55,7 +55,7 @@ public class DetailTest extends ActivityInstrumentationTestCase2<MainActivity> {
 				
 				@Override
 				public void run() {
-					OutdoorAQI outdoorAQI = new OutdoorAQI(123, 150, 100, 3, 11, "101010100", "201411121905");
+					OutdoorAQI outdoorAQI = new OutdoorAQI(123, 150, "100", "3", "11", "101010100", "201411121905");
 					((HomeFragment) fragment).toggleOutdoorDetailFragment("Bangalore", outdoorAQI, 0);
 					ViewGroup outdoorDetailContainer = (LinearLayout) 
 							fragment.getView().findViewById(R.id.home_fragment_outdoor_detail_container);

@@ -7,7 +7,6 @@ import java.util.Locale;
 import android.os.Bundle;
 
 import com.amap.api.maps2d.AMap.OnMapLoadedListener;
-import com.amap.api.maps2d.AMap.OnMarkerClickListener;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
@@ -39,8 +38,7 @@ import com.philips.gaode.map.MapActivity;
  * Author : Ritesh.jha@philips.com Date : 4 Aug 2014
  * 
  */
-public class MarkerActivity extends MapActivity implements
-		OnMarkerClickListener, OnMapLoadedListener, OutdoorDetailsListener {
+public class MarkerActivity extends MapActivity implements OnMapLoadedListener, OutdoorDetailsListener {
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
 	private List<String> mCitiesListAll = null;
@@ -184,9 +182,10 @@ public class MarkerActivity extends MapActivity implements
 		String cityCode = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCity.getOutdoorCityInfo());
 //		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
 		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
-		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
-		int so2 = outdoorCity.getOutdoorAQI().getSo2();
-		int no2 = outdoorCity.getOutdoorAQI().getNo2();
+		String pm10 = outdoorCity.getOutdoorAQI().getPm10();
+		String no2 = outdoorCity.getOutdoorAQI().getNo2() ;
+		String so2 = String.valueOf(outdoorCity.getOutdoorAQI().getSo2());
+		
 		String cityName = null;
 
 		// added to support traditional and simplified Chinese in map
@@ -212,6 +211,7 @@ public class MarkerActivity extends MapActivity implements
 			textView.setTextSize(10);
 		}
 
+		
 		setMarkerSnippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2
 				+ ", NO2: " + no2);
 		
@@ -255,16 +255,14 @@ public class MarkerActivity extends MapActivity implements
 	}
 
 	@Override
-	public void onFourDayWeatherForecastReceived(
-			List<ForecastWeatherDto> weatherList) {
+	public void onFourDayWeatherForecastReceived(List<ForecastWeatherDto> weatherList) {
 		//NOP	
 		
 	}
 
 	@Override
-	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory, String areaId) {
-		//NOP	
-		
+	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory,	String areaId) {
+		// NOP
 	}
 
 	@Override
@@ -307,9 +305,9 @@ public class MarkerActivity extends MapActivity implements
 		}
 
 		int pm25 = outdooraqi.getPM25();
-		int pm10 = outdooraqi.getPm10();
-		int so2 = outdooraqi.getSo2();
-		int no2 = outdooraqi.getNo2();
+		String pm10 = outdooraqi.getPm10();
+		String so2 = outdooraqi.getSo2();
+		String no2 = outdooraqi.getNo2();
 		String cityName = OutdoorManager.getInstance().getLocalityNameFromAreaId(parentId, outdooraqi.getAreaID());
 
 		LatLng latLng = new LatLng(latitude, longitude);
@@ -322,4 +320,5 @@ public class MarkerActivity extends MapActivity implements
 		setMarkerPositionLatLng(latLng);
 		mArrayListMarker.add(createMarker(DEFAULT_IMAGE_RESOURCE));
 	}
+	
 }

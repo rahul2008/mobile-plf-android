@@ -12,14 +12,14 @@ public class OutdoorAQI implements  Serializable {
 	private static final long serialVersionUID = 1L;
 	private int p1;
 	private int p2;
-	private int p3;
-	private int p4;
-	private int p5;
+	private String p3;
+	private String p4;
+	private String p5;
 	private String timeStamp;
 	private String areaID;
 
-	public OutdoorAQI(int p1, int p2, int pm10, int so2, 
-			int no2, String areaID, String timeStamp) {
+	public OutdoorAQI(int p1, int p2, String pm10, String so2, 
+			String no2, String areaID, String timeStamp) {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = pm10;
@@ -43,15 +43,15 @@ public class OutdoorAQI implements  Serializable {
 		return areaID;
 	}
 	
-	public int getPm10() {
+	public String getPm10() {
 		return p3;
 	}
 
-	public int getSo2() {
+	public String getSo2() {
 		return p4;
 	}
 
-	public int getNo2() {
+	public String getNo2() {
 		return p5;
 	}
 	
