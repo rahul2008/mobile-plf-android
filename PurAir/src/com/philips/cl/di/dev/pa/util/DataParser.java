@@ -270,9 +270,9 @@ public class DataParser {
 				JSONObject cityData = observeObject.getJSONObject(areaID); //Area codes
 				int pm25 = cityData.optInt("p1");
 				int aqi = cityData.optInt("p2");
-				int pm10 = 	cityData.optInt("p3");
-				int so2 = cityData.optInt("p4");
-				int no2 = cityData.optInt("p5");
+				String pm10 = 	cityData.optString("p3");
+				String so2 = cityData.optString("p4");
+				String no2 = cityData.optString("p5");
 				String timeStamp = cityData.optString("updatetime");
 				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
 				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
@@ -422,9 +422,9 @@ public class DataParser {
 			for (int i = 0; i < historicalAQIs.length(); i++) {
 				int pm25 = historicalAQIs.getJSONObject(i).optInt("p1");
 				int aqi = historicalAQIs.getJSONObject(i).optInt("p2");
-				int pm10 = historicalAQIs.getJSONObject(i).optInt("p3");
-				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
-				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
+				String pm10 = historicalAQIs.getJSONObject(i).optString("p3");
+				String so2 = historicalAQIs.getJSONObject(i).optString("p4");
+				String no2 = historicalAQIs.getJSONObject(i).optString("p5");
 				String timeStamp = historicalAQIs.getJSONObject(i).optString("updatetime");
 				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			}
@@ -460,8 +460,7 @@ public class DataParser {
 	}
 
 	public static List<OutdoorAQI> parseUSEmbassyLocationAQI(String dataToParse, String areaID) {
-		ALog.i(ALog.PARSER, "parseUSEmbassyLocationAQI dataToParse " + dataToParse);
-		
+		if(dataToParse == null) return null;
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
 			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("result");
@@ -477,17 +476,19 @@ public class DataParser {
 			JSONObject lastMoniData= AQIData.getJSONObject("lastMoniData");
 			int aqi = 0;
 			int pm25 = 0;
+			String pm10 = "—";
 			if (lastMoniData != null) {
 				for (int j = 0; j < lastMoniData.length() ; j++) {
 					JSONObject individualAQIData = lastMoniData.getJSONObject(String.valueOf(j + 1));
 					if(("ç¾Žå›½é¢†äº‹é¦†".equals(individualAQIData.get("city"))) || ("ç¾Žå›½å¤§ä½¿é¦†".equals(individualAQIData.get("city")))) {
 						aqi = individualAQIData.getInt("America_AQI");
 						pm25 = individualAQIData.getInt("PM2.5Hour");
+						pm10 = individualAQIData.getString("PM10Hour") ;
 					}
 				}
 			}
 
-			outdoorAQIs.add(new OutdoorAQI(pm25, aqi, 0, 0, 0, areaID.toLowerCase(), timeStamp));
+			outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, "—", "—", areaID.toLowerCase(), timeStamp));
 			return outdoorAQIs;
 
 		} catch (JSONException e) {
@@ -591,7 +592,8 @@ public class DataParser {
 		String quality = jsonObject.optString("quality");
 		String timeStamp = jsonObject.optString("date");
 
-		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
+		System.out.println("quality: " + quality);
+		return new OutdoorAQI(0, aqi, "—", "—", "—", city.toLowerCase(), timeStamp);
 	}
 
 }
