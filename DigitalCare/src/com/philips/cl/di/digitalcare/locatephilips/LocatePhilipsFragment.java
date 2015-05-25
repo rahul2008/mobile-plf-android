@@ -31,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -732,6 +733,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
 			new UITask().execute(constrain);
+			mSearchBox.setText(null);
+
+			// new UITask().execute(constrain);
+
 		} else if (v.getId() == R.id.getdirection) {
 			trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
 					mDestinationLat, mDestinationLng));
@@ -779,11 +784,24 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			if (adapter != null) {
 
-				adapter.getFilter().filter(result);
-				mListView.setAdapter(adapter);
-				mListView.setVisibility(View.VISIBLE);
-				mLinearLayout.setVisibility(View.GONE);
-				mMarkerIcon.setVisibility(View.VISIBLE);
+				// adapter.getFilter().filter(result);
+
+				adapter.getFilter().filter(result, new Filter.FilterListener() {
+					public void onFilterComplete(int count) {
+						// show the listView content again;
+						mListView.setAdapter(adapter);
+						mListView.setVisibility(View.VISIBLE);
+						mLinearLayout.setVisibility(View.GONE);
+						mMarkerIcon.setVisibility(View.VISIBLE);
+
+					}
+				});
+
+				// mListView.setAdapter(adapter);
+				// mListView.setVisibility(View.VISIBLE);
+				// mLinearLayout.setVisibility(View.GONE);
+				// mMarkerIcon.setVisibility(View.VISIBLE);
+
 			}
 
 		}

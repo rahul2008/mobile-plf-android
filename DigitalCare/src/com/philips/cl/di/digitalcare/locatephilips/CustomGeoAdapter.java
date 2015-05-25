@@ -50,6 +50,14 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 		return mResultModelSet.indexOf(getItem(position));
 	}
 
+	private class ViewHolder {
+
+		TextView txtTitle = null;
+		TextView txtAddress = null;
+		TextView txtPhone = null;
+
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -59,20 +67,20 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 			convertView = mInflater.inflate(R.layout.geo_list_item, null);
 		}
 
-		TextView txtTitle = (TextView) convertView
-				.findViewById(R.id.place_title);
-		TextView txtAddress = (TextView) convertView
+		ViewHolder holder = new ViewHolder();
+
+		holder.txtTitle = (TextView) convertView.findViewById(R.id.place_title);
+		holder.txtAddress = (TextView) convertView
 				.findViewById(R.id.place_address);
-		TextView txtPhone = (TextView) convertView
-				.findViewById(R.id.place_phone);
+		holder.txtPhone = (TextView) convertView.findViewById(R.id.place_phone);
 
 		AtosResultsModel resultModel = mResultModelSet.get(position);
 		AtosAddressModel addressModel = resultModel.getmAddressModel();
 
-		txtTitle.setText(resultModel.getTitle());
-		txtAddress.setText(addressModel.getAddress1() + "\n"
+		holder.txtTitle.setText(resultModel.getTitle());
+		holder.txtAddress.setText(addressModel.getAddress1() + "\n"
 				+ addressModel.getCityState());
-		txtPhone.setText(addressModel.getPhone());
+		holder.txtPhone.setText(addressModel.getPhone());
 		return convertView;
 	}
 
