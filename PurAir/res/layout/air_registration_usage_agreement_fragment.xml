@@ -20,7 +20,7 @@
             android:layout_height="32dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/blue_button_selector"
             android:text="@string/decline"
             android:textColor="@color/white"

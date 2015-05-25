@@ -15,8 +15,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textColor="@color/blue_list_item"
-        android:textSize="@dimen/text_size_medium"
+        android:textColor="@color/agreement_head_item_color"
+        android:textSize="@dimen/agreement_head"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageView

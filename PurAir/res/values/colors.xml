@@ -170,6 +170,9 @@
     <color name="scroll_bar_thumb">#4891BA</color>
     <color name="weather_bg_color">#FAFAFA</color>
     <color name="help_doc_bg_color">#FAFAFC</color>
+    <color name="agreement_child_item_bg">#FAFAFB</color>
+    <color name="agreement_child_item_color">#888888</color>
+    <color name="agreement_head_item_color">#0D5695</color>
     
 
 </resources>

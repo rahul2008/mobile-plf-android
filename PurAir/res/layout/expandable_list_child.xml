@@ -7,18 +7,18 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="10dp"
-    android:background="@color/white" >
+    android:background="@color/agreement_child_item_bg" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/expandable_list_child_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="2dp"
+        android:lineSpacingExtra="5dp"
         android:autoLink="all"
         android:text=""
-        android:textColor="@color/blue_list_item"
-        android:textSize="@dimen/text_size_small"
+        android:textColor="@color/agreement_child_item_color"
+        android:textSize="@dimen/agreement_item"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
 </LinearLayout>
