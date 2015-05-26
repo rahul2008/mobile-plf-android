@@ -140,11 +140,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 		}
 
-		if (!Utils.isNetworkConnected(getActivity())) {
+		/*if (!Utils.isNetworkConnected(getActivity())) {
 			return;
-		}
+		}*/
 		config = getResources().getConfiguration();
-		
 	}
 	
 	
