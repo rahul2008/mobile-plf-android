@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -101,6 +102,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private ListView mListView;
 	private TextView mShowTxtAddress = null;
 	private TextView mShowTxtTitle = null;
+
+	private ScrollView mLocationDetailScroll;
 
 	// private ImageView mImgListRightArrow = null;
 	private ArrayList<AtosResultsModel> mResultModelSet = null;
@@ -282,6 +285,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mSearchBox = (EditText) getActivity().findViewById(R.id.search_box);
 		mSearchIcon = (ImageView) getActivity().findViewById(R.id.search_icon);
 		mMarkerIcon = (ImageView) getActivity().findViewById(R.id.marker_icon);
+		mLocationDetailScroll = (ScrollView) getActivity().findViewById(
+				R.id.locationDetailScroll);
+
+		// mLocationDetailScroll.fullScroll(ScrollView.FOCUS_UP);
 
 		mButtonCall = (Button) getActivity().findViewById(R.id.call);
 		mButtonCall.setTransformationMethod(null);
@@ -735,16 +742,24 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
 			new UITask().execute(constrain);
-			mSearchBox.setText(null);
+			// mSearchBox.setText(null);
 
 			// new UITask().execute(constrain);
 
 		} else if (v.getId() == R.id.getdirection) {
-			trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
-					mDestinationLat, mDestinationLng));
-			mLinearLayout.setVisibility(View.GONE);
+
+			if (Utils.isNetworkConnected(getActivity())) {
+				trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
+						mDestinationLat, mDestinationLng));
+				mLinearLayout.setVisibility(View.GONE);
+				// Toast.makeText(getActivity(), "get direction clicked",
+				// Toast.LENGTH_SHORT)
+				// .show();
+			}
+
 		} else if (v.getId() == R.id.marker_icon) {
 			mListView.setVisibility(View.GONE);
+			mMarkerIcon.setVisibility(View.GONE);
 			mSearchBox.setText(null);
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
@@ -813,6 +828,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
+		mLocationDetailScroll.fullScroll(ScrollView.FOCUS_UP);
 		AtosResultsModel resultModel = (AtosResultsModel) adapter
 				.getItem(position);
 		showServiceCentreDetails(resultModel);
@@ -869,9 +885,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 										new Intent(
 												android.provider.Settings.ACTION_SETTINGS),
 										0);
-								// backstackFragment();
-								// SupportHomeFragmentisInLayout();
-
 							}
 						});
 
@@ -892,7 +905,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			if (malertDialog != null) {
 				malertDialog.dismiss();
-
 				backstackFragment();
 				SupportHomeFragmentisInLayout();
 			}
@@ -953,4 +965,5 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 
 	}
+
 }
