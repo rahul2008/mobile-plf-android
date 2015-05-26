@@ -48,6 +48,7 @@ public class DLog {
 	public static final String LOCAL_SUBSCRIPTION = "LocalSubscription" ;
 	public static final String REMOTE_SUBSCRIPTION = "RemoteSubscription" ;
 	public static final String APPLIANCE_MANAGER = "ApplianceManager" ;
+	public static final String UDPRECEIVER = "UdpEventReceiver" ;
 
 	private static boolean isLoggingEnabled = true;
 

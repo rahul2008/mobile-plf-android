@@ -30,7 +30,7 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
 	private DISecurity mDISecurity;
-	private UDPReceivingThread mUDPReceivingThread;
+	private UdpEventReceiver mUdpEventReceiver;
 
 	private WrappedHandler mSubscriptionEventResponseHandler;
 
@@ -47,7 +47,7 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 		mDISecurity = new DISecurity();
 		mSubscriptionEventResponseHandler = mock(WrappedHandler.class);
 
-		mUDPReceivingThread = mock(UDPReceivingThread.class);
+		mUdpEventReceiver = mock(UdpEventReceiver.class);
 
 		mLocalSubscriptionHandler = new LocalSubscriptionHandlerImpl();
 
@@ -123,7 +123,7 @@ public class LocalSubscriptionHandlerTest extends MockitoTestCase {
 private class LocalSubscriptionHandlerImpl extends LocalSubscriptionHandler {
 
 		public LocalSubscriptionHandlerImpl() {
-			super(mDISecurity, mUDPReceivingThread);
+			super(mDISecurity, mUdpEventReceiver);
 	    }
 
 		@Override
