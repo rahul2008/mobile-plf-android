@@ -7,7 +7,7 @@
     <uses-sdk android:minSdkVersion="9" />
 
     <instrumentation
-        android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
+        android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="com.philips.cdp.dicommclientsample" />
 
     <application
