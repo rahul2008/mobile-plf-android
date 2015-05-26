@@ -9,17 +9,17 @@ import java.util.Set;
  * Created by 310188215 on 07/05/15.
  */
 public class SHNLogItem {
-    private final Calendar timestamp;
+    private final Date timestamp;
     private final Set<SHNDataType> containedDataTypes;
     private final Map<SHNDataType, SHNData> dataByDataTypeMap;
 
-    public SHNLogItem(Calendar timestamp, Set<SHNDataType> containedDataTypes, Map<SHNDataType, SHNData> dataByDataTypeMap) {
+    public SHNLogItem(Date timestamp, Set<SHNDataType> containedDataTypes, Map<SHNDataType, SHNData> dataByDataTypeMap) {
         this.timestamp = timestamp;
         this.containedDataTypes = containedDataTypes;
         this.dataByDataTypeMap = dataByDataTypeMap;
     }
 
-    public Calendar getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 

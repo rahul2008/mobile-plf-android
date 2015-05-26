@@ -13,13 +13,13 @@ import java.util.Set;
  * Created by 310188215 on 07/05/15.
  */
 public class SHNLog {
-    private final Calendar startDate;
-    private final Calendar endDate;
+    private final Date startDate;
+    private final Date endDate;
     private final String associatedDeviceAddress;
     private final List<SHNLogItem> logItems;
     private final Set<SHNDataType> containedDataTypes;
 
-    public SHNLog(Calendar startDate, Calendar endDate, String associatedDeviceAddress, List<SHNLogItem> logItems, Set<SHNDataType> containedDataTypes) {
+    public SHNLog(Date startDate, Date endDate, String associatedDeviceAddress, List<SHNLogItem> logItems, Set<SHNDataType> containedDataTypes) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.associatedDeviceAddress = associatedDeviceAddress;
@@ -27,16 +27,16 @@ public class SHNLog {
         this.containedDataTypes = containedDataTypes;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public Calendar getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
     public long getDurationMS() { // milli seconds between end and start
-        return endDate.getTimeInMillis() - startDate.getTimeInMillis();
+        return endDate.getTime() - startDate.getTime();
     }
 
     public String getAssociatedDeviceAddress() {
@@ -67,7 +67,7 @@ public class SHNLog {
         Comparator<? super Object> comparator = new Comparator<Object>() {
             @Override
             public int compare(Object lhs, Object rhs) {
-                long diff = ((SHNLogItem)rhs).getTimestamp().getTimeInMillis() - ((SHNLogItem)lhs).getTimestamp().getTimeInMillis();
+                long diff = ((SHNLogItem)rhs).getTimestamp().getTime() - ((SHNLogItem)lhs).getTimestamp().getTime();
                 if (diff > 0) {
                     return 1;
                 } else if (diff < 0) {
