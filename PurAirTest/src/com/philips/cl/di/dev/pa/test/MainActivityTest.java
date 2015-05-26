@@ -8,6 +8,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
@@ -47,7 +48,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			verify(discManager, never()).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
 		} else {
 			assertFalse(false);
 		}
@@ -69,7 +70,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			verify(discManager).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
 		} else {
 			assertFalse(false);
 		}

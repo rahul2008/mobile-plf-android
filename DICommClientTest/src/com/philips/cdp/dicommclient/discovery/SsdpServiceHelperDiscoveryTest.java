@@ -15,6 +15,7 @@ import java.util.LinkedHashSet;
 import android.os.Handler.Callback;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
@@ -353,7 +354,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 		verify(discMan, never()).cancelSyncLocalAppliancesWithSsdpStack();
 
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -372,7 +373,7 @@ public class SsdpServiceHelperDiscoveryTest extends MockitoTestCase {
 		verify(discMan).cancelSyncLocalAppliancesWithSsdpStack();
 
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(DICommApplianceFactory.class));
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
 	}
 
 	// ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****

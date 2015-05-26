@@ -14,6 +14,7 @@ import android.os.Handler;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
+import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
@@ -36,11 +37,12 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		super.setUp();
 
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), new TestApplianceFactory());
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), new TestApplianceFactory());
 
 		mDiscMan = DiscoveryManager.getInstance();
 		mListener = mock(DiscoveryEventListener.class);
 		mDiscMan.setDummyDiscoveryEventListenerForTesting(mListener);
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
 		mNetwork = mock(NetworkMonitor.class);
 		mDiscMan.setDummyNetworkMonitorForTesting(mNetwork);
 	}
@@ -49,7 +51,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	protected void tearDown() throws Exception {
 		// Clean up resources
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), new TestApplianceFactory());
+		DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), new TestApplianceFactory());
 		super.tearDown();
 	}
 
@@ -72,7 +74,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 // ***** START TESTS FOR START/STOP METHODS *****
 	public void testOnStartNoNetwork() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 		NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -94,7 +96,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 	public void testOnStartMobile() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 		NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -116,7 +118,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 	public void testOnStartWifi() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 		NetworkMonitor monitor = mock(NetworkMonitor.class);
@@ -138,7 +140,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 	public void testOnStop() {
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
-		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), new TestApplianceFactory());
+		DiscoveryManager.createSharedInstance(getInstrumentation().getContext(), mock(CppController.class), new TestApplianceFactory());
 		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
 		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
 

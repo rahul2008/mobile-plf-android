@@ -42,7 +42,7 @@ public class PurAirApplication extends Application {
 		setApplication(this);
 
 		CppController.createSharedInstance(getAppContext(), new PurAirKPSConfiguration());
-		DiscoveryManager.createSharedInstance(getApplicationContext(), new AirPurifierFactory(), new PurifierDatabase());
+		DiscoveryManager.createSharedInstance(getApplicationContext(),CppController.getInstance(), new AirPurifierFactory(), new PurifierDatabase());
 	}
 
 	private void initImageLoader() {
