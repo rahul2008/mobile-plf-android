@@ -71,7 +71,7 @@ public class ExpressionShareActivity extends BaseActivity {
 		}else{
 			intent.putExtra("share_title", "飞利浦净化士");
 		}
-		intent.putExtra("type", "2");
+		intent.putExtra("type", 2);
 		startActivity(intent);
 		finish();
 	}

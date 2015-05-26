@@ -86,9 +86,11 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 
 	public static final String APP_ID = "wxdd5f3d69cdf95dbd";
 	private String url = null;
-	
+
 	private String shareImgName = "";
-	private String shareType;
+	private int shareType;
+	
+	private int SHARE_PROMOTIONS = 2 ;
 
 	/**
 	 * @see {@link Activity#onCreate}
@@ -104,17 +106,17 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 
 		FontTextView heading=(FontTextView) findViewById(R.id.heading_name_tv);
 		heading.setText(getString(R.string.share));
-		
-		
+
+
 		url = getIntent().getStringExtra("url");
-		shareType = getIntent().getStringExtra("type");
+		shareType = getIntent().getIntExtra("type",0);
 		shareImgName = getIntent().getStringExtra("shareImgName");
 
 		initPage();
-		
+
 		mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(this, AppConstants.APP_KEY);
 		mWeiboShareAPI.registerApp();
-		
+
 		if (savedInstanceState != null) {
 			mWeiboShareAPI.handleWeiboResponse(getIntent(), this);
 		}
@@ -139,21 +141,23 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 
 	@Override
 	public void onResponse(BaseResponse baseResp) {
-		
+
 	}
 
 	@Override
 	public void onClick(View v) {
 
 		Bitmap bitmap = null;
-		if("2".equals(shareType)) {
+		String shareContent = "";
+		if( shareType == SHARE_PROMOTIONS) {
 			bitmap = getExpressionBitmap();
 		} else {
 			bitmap = BitmapFactory.decodeFile(AppConstants.CACHEDIR_IMG + "PhilipsAir.png");
+			shareContent = getShareContent();
 		}
-		
+
 		SHARE_MEDIA media;
-		String shareContent = getShareContent();
+
 		if (url == null || url.isEmpty()) {
 			url = AppConstants.QR_CODE_LINK;
 		}
@@ -202,21 +206,21 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			mController.setShareMedia(weixinContent);
 			mController.postShare(this, media, null);
 			break;
-			
+
 		case R.id.share_menu_3:
-				sendMultiMessage();
+			sendMultiMessage();
 			break;
 
 		case R.id.share_menu_4:
-			if("2".equals(shareType)) {
-				bitmap = getExpressionBitmap();
+			if(shareType == SHARE_PROMOTIONS) {
+				//bitmap = getExpressionBitmap();
 				saveImageToSD(bitmap, AppConstants.CACHEDIR_IMG+MD5Util.getMD5String(shareImgName)+".png");
 				openEmailApp(this, "","",new File(AppConstants.CACHEDIR_IMG+MD5Util.getMD5String(shareImgName)+".png"));
 			} else {
 				openEmailApp(this, "","", new File(AppConstants.CACHEDIR_IMG + "PhilipsAir.png"));
 			}
 			break;
-		
+
 		default:
 			break;
 		}
@@ -286,12 +290,12 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			data.put("AQI", outdoorAQI.getAqiTitle());
 			data.put("tips", outdoorAQI.getAqiSummary()[1]);
 			data.put("weather", String.valueOf(weather.getTemperature()));
-			url = getParamsUrl("www.philips-smartairpurifier.com/?", data);
+			url = getParamsUrl("http://www.philips-smartairpurifier.com/?", data);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		if (url == null || url.isEmpty()) {
 			url = AppConstants.QR_CODE_LINK;
 		}
@@ -314,45 +318,51 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		address += URLEncodedUtils.format(params, "UTF-8");
 		return address;
 	}
-	
-	 private void sendMultiMessage() {
-	        
-	        WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-	            weiboMessage.textObject = getTextObj();
-	            weiboMessage.imageObject = getImageObj();
-	            
-	        
-	        SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-	        request.transaction = String.valueOf(System.currentTimeMillis());
-	        request.multiMessage = weiboMessage;
-	        
-	       
-	            AuthInfo authInfo = new AuthInfo(this, AppConstants.APP_KEY, AppConstants.REDIRECT_URL, AppConstants.SCOPE);
-	            Oauth2AccessToken accessToken = AccessTokenKeeper.readAccessToken(getApplicationContext());
-	            String token = "";
-	            if (accessToken != null) {
-	                token = accessToken.getToken();
-	            }
-	            mWeiboShareAPI.sendRequest(this, request, authInfo, token, new WeiboAuthListener() {
-	                
-	                @Override
-	                public void onWeiboException( WeiboException arg0 ) {
-	                }
-	                
-	                @Override
-	                public void onComplete( Bundle bundle ) {
-	                    Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
-	                    AccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
-	                }
-	                
-	                @Override
-	                public void onCancel() {
-	                }
-	            });
-	    }
+
+	private void sendMultiMessage() {
+
+		WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+
+		if (shareType != SHARE_PROMOTIONS) {
+			weiboMessage.textObject = getTextObj();
+		} 
+
+		weiboMessage.imageObject = getImageObj();
+
+
+		SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
+		request.transaction = String.valueOf(System.currentTimeMillis());
+		request.multiMessage = weiboMessage;
+
+
+		AuthInfo authInfo = new AuthInfo(this, AppConstants.APP_KEY, AppConstants.REDIRECT_URL, AppConstants.SCOPE);
+		Oauth2AccessToken accessToken = AccessTokenKeeper.readAccessToken(getApplicationContext());
+		String token = "";
+		if (accessToken != null) {
+			token = accessToken.getToken();
+		}
+		mWeiboShareAPI.sendRequest(this, request, authInfo, token, new WeiboAuthListener() {
+
+			@Override
+			public void onWeiboException( WeiboException arg0 ) {
+			}
+
+			@Override
+			public void onComplete( Bundle bundle ) {
+				Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
+				AccessTokenKeeper.writeAccessToken(getApplicationContext(), newToken);
+			}
+
+			@Override
+			public void onCancel() {
+			}
+		});
+	}
 
 	private TextObject getTextObj() {
 		TextObject textObject = new TextObject();
+
+
 		textObject.text = getShareContent();
 		return textObject;
 	}
@@ -369,11 +379,11 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		}
 		return null;
 	}
-	
+
 	private ImageObject getImageObj() {
 		ImageObject imageObject = new ImageObject();
 		Bitmap bitmap = null;
-		if ("2".equals(shareType)) {
+		if (shareType == SHARE_PROMOTIONS) {
 			if (!TextUtils.isEmpty(shareImgName)) {
 				try {
 					bitmap = BitmapFactory.decodeStream(getAssets().open(shareImgName));
@@ -386,7 +396,7 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			}
 			return imageObject;
 		}
-		
+
 		bitmap = BitmapFactory.decodeFile(AppConstants.CACHEDIR_IMG + "PhilipsAir.png");
 		if (bitmap != null) {
 			imageObject.setImageObject(bitmap);
@@ -394,35 +404,35 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		return imageObject;
 	}
 
-	
-	
+
+
 	public static void saveImageToSD(Bitmap bitmap, String filePath) {
-        if (!isHaveSDCard()) {
-            return;
-        }
-        if (null == bitmap) {
-            return;
-        }
-        File imageFile = new File(filePath);
-        if (!imageFile.getParentFile().exists()) {
-        	imageFile.getParentFile().mkdirs();
-        }
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(imageFile));
-            if (bitmap != null) {
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
-                bos.flush();
-                bos.close();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-	
+		if (!isHaveSDCard()) {
+			return;
+		}
+		if (null == bitmap) {
+			return;
+		}
+		File imageFile = new File(filePath);
+		if (!imageFile.getParentFile().exists()) {
+			imageFile.getParentFile().mkdirs();
+		}
+		try {
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(imageFile));
+			if (bitmap != null) {
+				bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+				bos.flush();
+				bos.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private static boolean isHaveSDCard() {
-        return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
-    }
+		return Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED);
+	}
 
 }
