@@ -65,7 +65,6 @@ import com.sina.weibo.sdk.api.share.WeiboShareSDK;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
 import com.sina.weibo.sdk.auth.WeiboAuthListener;
-import com.sina.weibo.sdk.constant.WBConstants;
 import com.sina.weibo.sdk.exception.WeiboException;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
@@ -156,7 +155,7 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		SHARE_MEDIA media;
 		String shareContent = getShareContent();
 		if (url == null || url.isEmpty()) {
-			url = AppConstants.URL_PRODUCT_SHARE;
+			url = AppConstants.QR_CODE_LINK;
 		}
 
 		switch (v.getId()) {
@@ -287,14 +286,14 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 			data.put("AQI", outdoorAQI.getAqiTitle());
 			data.put("tips", outdoorAQI.getAqiSummary()[1]);
 			data.put("weather", String.valueOf(weather.getTemperature()));
-			url = getParamsUrl("http://philipsair.sinaapp.com/air/?", data);
+			url = getParamsUrl("www.philips-smartairpurifier.com/?", data);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		if (url == null || url.isEmpty()) {
-			url = AppConstants.URL_PRODUCT_SHARE;
+			url = AppConstants.QR_CODE_LINK;
 		}
 		//To open URL link put space before and after url
 		shareContent.append(getString(R.string.share_info)+" "+url+" "+getString(R.string.download));
