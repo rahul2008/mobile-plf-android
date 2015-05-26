@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.registration;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -133,7 +134,8 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 			View view = infalInflater.inflate(R.layout.expandable_list_child,	null);
 			
 			FontTextView childTV = (FontTextView) view.findViewById(R.id.expandable_list_child_tv);
-			childTV.setText(mListChildData[groupPosition][childPosition]);
+			String text = getString(mListChildData[groupPosition][childPosition]);
+			childTV.setText(Html.fromHtml(text));
 			return view;
 		}
 

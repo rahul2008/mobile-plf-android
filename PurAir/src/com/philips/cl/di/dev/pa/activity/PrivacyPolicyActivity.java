@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -21,11 +22,11 @@ public class PrivacyPolicyActivity extends BaseActivity {
 		
 		TextView policyText= (TextView) findViewById(R.id.tv_privacy_policy_full);
 		if(activity== AppConstants.PRIVACY_POLICY_SCREEN){
-			policyText.setText(R.string.privacy_policy_text);
+			policyText.setText(Html.fromHtml(getString(R.string.privacy_policy_text)));
 		}else if(activity== AppConstants.EULA_SCREEN){
-			policyText.setText(R.string.eula_text);
+			policyText.setText(Html.fromHtml(getString(R.string.eula_text)));
 		}else if(activity== AppConstants.TERMS_AND_CONDITIONS_SCREEN){
-			policyText.setText(R.string.terms_and_conditions_text);
+			policyText.setText(Html.fromHtml(getString(R.string.terms_and_conditions_text)));
 		}
 		
 		ImageButton closePrivacyPolicy= (ImageButton) findViewById(R.id.close_privacy_policy);

@@ -27,7 +27,7 @@
             android:lineSpacingExtra="5dp"
             android:autoLink="all"
             android:text="@string/privacy_policy_text"
-            android:textColor="@color/blue_list_item"
+            android:textColor="@color/agreement_child_item_color"
             android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
