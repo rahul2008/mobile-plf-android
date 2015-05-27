@@ -114,8 +114,7 @@ public class SsdpService extends HandlerThread {
 				
 				for (final String usn : lostDevices) {
 					Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + usn);
-					mMessageController.sendInternalMessage(
-							DiscoveryMessageID.DEVICE_LOST, new DeviceModel(usn));
+					mMessageController.sendInternalMessage(DiscoveryMessageID.DEVICE_LOST, mDeviceListModel.getDevice(usn));
 					mDeviceListModel.removeDevice(usn);
 					mDeviceDiscoverdCounterMap.remove(usn);
 				}
@@ -214,11 +213,11 @@ public class SsdpService extends HandlerThread {
 			} else if ((null != device.getNts()) 
 					&& device.getNts().contains(ConnectionLibContants.SSDP_BYEBYE)) {
 				Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + device.getUsn() +":" + device.getNts());
+				DeviceModel lostDevice = mDeviceListModel.getDevice(device.getUsn());
 				mDeviceDiscoverdCounterMap.remove(device.getUsn());
 				mDiscoveredDevicesSet.remove(device.getUsn());
 				mDeviceListModel.removeDevice(device);
-				mMessageController.sendInternalMessage(
-						DiscoveryMessageID.DEVICE_LOST, new DeviceModel(device.getUsn()));
+				mMessageController.sendInternalMessage(DiscoveryMessageID.DEVICE_LOST, lostDevice);
 			}
 		}
 	}

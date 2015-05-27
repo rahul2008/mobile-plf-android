@@ -51,6 +51,10 @@ public class DeviceListModel {
 		return mAliveDevices;
 	}
 
+	public DeviceModel getDevice(String usn) {
+		return mAliveDevicesMap.get(usn);
+	}
+
 	/**
 	 * @return the mAliveDevicesMap
 	 */
