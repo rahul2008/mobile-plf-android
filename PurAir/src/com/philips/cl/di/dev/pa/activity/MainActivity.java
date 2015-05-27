@@ -52,7 +52,6 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
-import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
@@ -316,16 +315,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			clearFinishCheckGPS();
 		} else if (fragment instanceof CongratulationFragment) {
 			return;
-		} else if (fragment instanceof ProductRegistrationStepsFragment) {
-			manager.popBackStack();
-		} else if (fragment instanceof HelpAndDocFragment || fragment instanceof SettingsFragment) {
+		} else if (fragment instanceof HelpAndDocFragment 
+				|| fragment instanceof SettingsFragment
+				|| fragment instanceof BuyOnlineFragment
+				|| fragment instanceof PromotionsFragment) {
 			showFragment(new AboutFragment());
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
-		} else if (fragment instanceof BuyOnlineFragment) {
-			showFragment(new AboutFragment());
-		} else if (fragment instanceof PromotionsFragment) {
-			showFragment(new AboutFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
