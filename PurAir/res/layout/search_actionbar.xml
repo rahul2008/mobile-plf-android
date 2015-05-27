@@ -25,8 +25,10 @@
         android:ems="10"
         android:hint="@string/outdoor_search_hint"
         android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:singleLine="true"
         android:textColor="@color/title_gray"
+        android:background="@drawable/edit_text_bg"
         android:textSize="@dimen/text_size_small_dp" />
 
     <com.philips.cl.di.dev.pa.view.FontButton

@@ -129,10 +129,10 @@ public class EWSStepFourFragment extends Fragment {
 		if (((EWSActivity) getActivity()).getEWSServiceObject()
 				.isNoPasswordSSID()) {
 			passwordStep3.setEnabled(false);
-			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg_gray);
+			passwordStep3.setBackgroundResource(R.drawable.edit_txt_bg_disable);
 		} else {
 			passwordStep3.setEnabled(true);
-			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
+			passwordStep3.setBackgroundResource(R.drawable.edit_text_bg);
 			passwordStep3.setText(password);
 		}
 
@@ -287,7 +287,7 @@ public class EWSStepFourFragment extends Fragment {
 	private void editPurifierNameClickEvent() {
 		if (editSavePlaceNameBtnStep3.getText().toString()
 				.equals(getResources().getString(R.string.edit))) {
-			deviceNameStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
+			deviceNameStep3.setBackgroundResource(R.drawable.edit_text_bg);
 			deviceNameStep3.setEnabled(true);
 			Editable editable = deviceNameStep3.getText();
 			Selection.setSelection(editable, deviceNameStep3.length());
