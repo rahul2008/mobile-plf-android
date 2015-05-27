@@ -29,6 +29,7 @@ import cn.jpush.android.api.JPushInterface;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.buyonline.ProductRegisterFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
@@ -318,7 +319,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		} else if (fragment instanceof HelpAndDocFragment 
 				|| fragment instanceof SettingsFragment
 				|| fragment instanceof BuyOnlineFragment
-				|| fragment instanceof PromotionsFragment) {
+				|| fragment instanceof PromotionsFragment
+				|| fragment instanceof ProductRegisterFragment) {
 			showFragment(new AboutFragment());
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
