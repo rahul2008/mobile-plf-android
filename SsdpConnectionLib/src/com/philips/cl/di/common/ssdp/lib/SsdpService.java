@@ -337,13 +337,13 @@ public class SsdpService extends HandlerThread {
 	 */
 	protected void ssdpCallback(
 			final String pNts, String pUsn, final String pLocation,final String pServer, final String bootId) {
-		//Server name does not contains AirPurifier, return
-		if (pServer == null || !pServer.contains(ConnectionLibContants.SERVER_NAME)) {
-			Log.i(ConnectionLibContants.LOG_TAG, "Not a prufier - Not fetching xml");
+		if (pServer == null) {
+			Log.i(ConnectionLibContants.LOG_TAG, "Not fetching xml - Server name is null");
 			return;
 		}
 		synchronized (SsdpService.class) {
-			
+			Log.i(ConnectionLibContants.LOG_TAG, "Fetching xml for device with server name: " + pServer);
+
 			if ((pLocation != null) && (!pLocation.isEmpty())) {
 				if ((null != pUsn) && pUsn.isEmpty()) {
 					pUsn = pUsn.replace(ConnectionLibContants.SSDP_ROOT_DEVICE, "");
