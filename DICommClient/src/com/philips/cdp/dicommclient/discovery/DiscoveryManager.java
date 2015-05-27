@@ -299,7 +299,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		NetworkNode networkNode = createNetworkNode(deviceModel);
 		if (networkNode == null) return false;
-		DLog.i(DLog.SSDP, "Discovered appliance name: " + networkNode.getName());
+		DLog.i(DLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   modelname: " + networkNode.getModelName());
 		if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
 			updateExistingAppliance(networkNode);
 		} else {

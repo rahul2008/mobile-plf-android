@@ -34,6 +34,7 @@ import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.dicomm.communication.NullStrategy;
 
 public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {
