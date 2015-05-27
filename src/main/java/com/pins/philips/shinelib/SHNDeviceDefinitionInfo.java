@@ -18,7 +18,7 @@ public interface SHNDeviceDefinitionInfo {
 
     String getDeviceTypeName();
     Set<UUID> getPrimaryServiceUUIDs();
-    SHNDeviceAssociation getShnDeviceAssociation();
+    SHNDeviceAssociation createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener);
 
     SHNDeviceDefinition getSHNDeviceDefinition(); // no other way to enforce a no arguments constructor
 }

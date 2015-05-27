@@ -10,16 +10,30 @@ public class SHNDeviceAssociation {
         SHNDeviceAssociationStateIdle, SHNDeviceAssociationStateAssociating
     }
     public interface SHNDeviceAssociationListener {
-        void onAssociationStarted(SHNDeviceAssociationProcedure shnDeviceAssociationProcedure);
+        void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure);
         void onAssociationStopped();
         void onAssociationSucceeded(SHNDevice shnDevice);
         void onAssociationFailed(SHNResult shnError); // The iOS version uses NSError
     }
 
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
+
     private SHNDeviceAssociationState shnDeviceAssociationState = SHNDeviceAssociationState.SHNDeviceAssociationStateIdle;
     private List<SHNDevice> associatedDevices;
 
-    public void startAssociationForDeviceType(String deviceTypeName) { throw new UnsupportedOperationException(); }
-    public void stopAssociation() { throw new UnsupportedOperationException(); }
+    public void setShnDeviceAssociationListener(SHNDeviceAssociationListener shnDeviceAssociationListener) {
+        this.shnDeviceAssociationListener = shnDeviceAssociationListener;
+    }
+
+    public SHNDeviceAssociationState getShnDeviceAssociationState() {
+        return shnDeviceAssociationState;
+    }
+
+    public void startAssociationForDeviceType(String deviceTypeName) {
+        throw new UnsupportedOperationException();
+    }
+
+    public void stopAssociation() {
+        throw new UnsupportedOperationException();
+    }
 }
