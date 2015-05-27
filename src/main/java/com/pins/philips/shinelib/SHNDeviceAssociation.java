@@ -63,7 +63,7 @@ public class SHNDeviceAssociation {
     }
 
     public void startAssociationForDeviceType(String deviceTypeName) {
-        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
         if (shnDeviceDefinitionInfo != null) {
             shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
             if (shnAssociationProcedure.getShouldScan()) {
@@ -78,15 +78,5 @@ public class SHNDeviceAssociation {
 
     public void stopAssociation() {
         throw new UnsupportedOperationException();
-    }
-
-    private SHNDeviceDefinitionInfo getSHNDeviceDefinitionInfoForDeviceTypeName(String deviceTypeName) {
-        List<SHNDeviceDefinitionInfo> associations = shnCentral.getRegisteredDeviceDefinitions();
-        for (SHNDeviceDefinitionInfo shnDeviceDefinitionInfo: associations) {
-            if (shnDeviceDefinitionInfo.getDeviceTypeName().equals(deviceTypeName)) {
-                return shnDeviceDefinitionInfo;
-            }
-        }
-        return null;
     }
 }

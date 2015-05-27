@@ -138,9 +138,9 @@ public class SHNCentral {
     private SHNDeviceScanner shnDeviceScanner;
     private SHNDeviceAssociation shnDeviceAssociation;
     private SHNCentralState shnCentralState = SHNCentralState.SHNCentralStateError;
-    private List<SHNDeviceDefinitionInfo> registeredDeviceDefinitions;
     private BTAdapter btAdapter;
     private Handler internalHandler;
+    private SHNDeviceDefinitions shnDeviceDefinitions;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -166,8 +166,8 @@ public class SHNCentral {
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         applicationContext.registerReceiver(bluetoothBroadcastReceiver, filter);
 
-        registeredDeviceDefinitions = new ArrayList<>();
-        shnDeviceScanner = new SHNDeviceScanner(this, getRegisteredDeviceDefinitions());
+        shnDeviceDefinitions = new SHNDeviceDefinitions();
+        shnDeviceScanner = new SHNDeviceScanner(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
 
         HandlerThread thread = new HandlerThread("InternalShineLibraryThread");
         thread.start();
@@ -208,12 +208,13 @@ public class SHNCentral {
     }
 
     public String getVersion() { throw new UnsupportedOperationException(); }
+
     public boolean registerDeviceDefinition(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
-        return registeredDeviceDefinitions.add(shnDeviceDefinitionInfo);
+        return shnDeviceDefinitions.add(shnDeviceDefinitionInfo);
     }
 
-    public List<SHNDeviceDefinitionInfo> getRegisteredDeviceDefinitions() {
-        return Collections.unmodifiableList(registeredDeviceDefinitions);
+    public SHNDeviceDefinitions getSHNDeviceDefinitions() {
+        return shnDeviceDefinitions;
     }
 
     // Getters and setters

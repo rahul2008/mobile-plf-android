@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
@@ -35,6 +36,7 @@ public class SHNDeviceAssociationTest {
     private SHNDeviceDefinitionInfo.SHNDeviceDefinition mockedSHNDeviceDefinition;
     private SHNAssociationProcedure mockedSHNAssociationProcedure;
     private UUID mockedPrimaryServiceUUID;
+    private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
 
     @Before
     public void setUp() {
@@ -43,6 +45,7 @@ public class SHNDeviceAssociationTest {
         mockedSHNCentral = (SHNCentral) Utility.makeThrowingMock(SHNCentral.class);
         mockedSHNDeviceDefinitionInfo = (SHNDeviceDefinitionInfo) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
         mockedSHNDeviceDefinition = (SHNDeviceDefinitionInfo.SHNDeviceDefinition) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
+        mockedSHNDeviceDefinitions = (SHNDeviceDefinitions) Utility.makeThrowingMock(SHNDeviceDefinitions.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
 
         // mockedSHNDeviceAssociationListener
@@ -59,12 +62,17 @@ public class SHNDeviceAssociationTest {
         // mockedSHNCentral
         List<SHNDeviceDefinitionInfo> shnDeviceDefinitionInfos = new ArrayList<>();
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
-        doReturn(shnDeviceDefinitionInfos).when(mockedSHNCentral).getRegisteredDeviceDefinitions();
+        doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNCentral.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
+        doReturn("mockedSHNAssociationProcedure").when(mockedSHNAssociationProcedure).toString();
 
+        // mockedSHNDeviceDefinitions
+        doReturn(shnDeviceDefinitionInfos).when(mockedSHNDeviceDefinitions).getRegisteredDeviceDefinitions();
+        doReturn(null).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(anyString());
+        doReturn(mockedSHNDeviceDefinitionInfo).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(DEVICE_TYPE_NAME);
 
         shnDeviceAssociation = new SHNDeviceAssociation(mockedSHNCentral);
 
