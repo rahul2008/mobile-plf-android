@@ -84,6 +84,10 @@ public class User {
 	private String LOG_TAG = "User Registration";
 
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
+	
+	public User() {
+		super();
+	}
 
 	public User(Context context) {
 		mContext = context;

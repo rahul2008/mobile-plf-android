@@ -1,21 +1,12 @@
 package com.philips.cl.di.reg.settings;
 
-import com.janrain.android.Jump;
-import com.janrain.android.JumpConfig;
-import com.philips.cl.di.localematch.LocaleMatchListener;
-import com.philips.cl.di.localematch.LocaleMatchNotifier;
-import com.philips.cl.di.localematch.PILLocale;
-import com.philips.cl.di.localematch.PILLocaleManager;
-import com.philips.cl.di.localematch.enums.Catalog;
-import com.philips.cl.di.localematch.enums.LocaleMatchError;
-import com.philips.cl.di.localematch.enums.Platform;
-import com.philips.cl.di.localematch.enums.Sector;
-import com.philips.cl.di.reg.errormapping.CheckLocale;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
+
+import com.janrain.android.Jump;
+import com.janrain.android.JumpConfig;
 
 public class ProdRegistrationSettings extends RegistrationSettings {
 

@@ -28,7 +28,13 @@ import com.philips.cl.di.reg.handlers.RefreshLoginSessionHandler;
 import com.philips.cl.di.reg.settings.RegistrationSettings;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 
-public class UserWithProduct implements LocaleMatchListener {
+public class UserWithProduct extends User implements LocaleMatchListener {
+	
+	public UserWithProduct() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	private String LOG_TAG = "UserWithProduct";
 	private ProductRegistrationInfo mProdInfo = null;
 	private ProductRegistrationHandler mProdRegHandler = null;
@@ -204,13 +210,12 @@ public class UserWithProduct implements LocaleMatchListener {
 		private void refreshAccessTokenAndRegister() {
 			// Refresh access token and proceed for
 			// registration
-			final User user = new User(mContext);
-			Log.i(LOG_TAG, "Current access token : " + user.getAccessToken());
-			user.refreshLoginSession(new RefreshLoginSessionHandler() {
+			Log.i(LOG_TAG, "Current access token : " + getAccessToken());
+			refreshLoginSession(new RefreshLoginSessionHandler() {
 				@Override
 				public void onRefreshLoginSessionSuccess() {
 					Log.i(LOG_TAG,
-							"Latest access token : " + user.getAccessToken());
+							"Latest access token : " + getAccessToken());
 					registerProduct(prodRegInfo, productRegister, locale,
 							mContext);
 				}
