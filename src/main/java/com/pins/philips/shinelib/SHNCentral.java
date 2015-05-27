@@ -90,8 +90,10 @@ import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by 310188215 on 02/03/15.
@@ -101,6 +103,9 @@ public class SHNCentral {
 
     public enum SHNCentralState {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
+    }
+    public enum ScannerSettingDuplicates {
+        DuplicatesNotAllowed, DuplicatesAllowed
     }
     public interface SHNCentralListener {
         void onStateUpdated(SHNCentral shnCentral);
@@ -234,5 +239,9 @@ public class SHNCentral {
 
     public BTDevice getBTDevice(String address) {
         return btAdapter.getRemoteDevice(address);
+    }
+
+    public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+        return false;
     }
 }

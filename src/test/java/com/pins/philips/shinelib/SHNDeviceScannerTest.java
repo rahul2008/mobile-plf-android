@@ -80,7 +80,7 @@ public class SHNDeviceScannerTest {
             }
 
             @Override
-            public SHNDeviceAssociation createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener) {
+            public SHNAssociationProcedure createSHNAssociationProcedure(SHNCentral central, SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener) {
                 return null;
             }
 
