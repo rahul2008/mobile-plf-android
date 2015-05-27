@@ -20,7 +20,7 @@ public abstract class Request {
     public abstract Response execute();
 
 	@SuppressWarnings("unchecked")
-	protected String convertKeyValuesToJson(Map<String, Object> dataMap) {
+	protected static String convertKeyValuesToJson(Map<String, Object> dataMap) {
 		if (dataMap == null || dataMap.size() <= 0) return "{}";
 
 		StringBuilder builder = new StringBuilder("{");
@@ -31,7 +31,7 @@ public abstract class Request {
 
 			// TODO DICOMM REFACTOR add support for all DIComm datatypes
 			if (value instanceof String) {
-				builder.append("\"").append(key).append("\":\"").append(value).append("\"");
+				builder.append("\"").append(key).append("\":").append(wrapIfNotJsonObject((String) value));
 			} else if (value instanceof Integer) {
 				builder.append("\"").append(key).append("\":").append(value);
 			} else if (value instanceof Boolean) {
@@ -54,14 +54,19 @@ public abstract class Request {
 		return builder.toString();
 	}
 
-    private void appendStringArray(StringBuilder builder, String[] array) {
+    private static void appendStringArray(StringBuilder builder, String[] array) {
        builder.append("[");
         for (int index = 0; index < array.length; index++) {
-            builder.append("\"").append(array[index]).append("\"");
+            builder.append(wrapIfNotJsonObject(array[index]));
             if (index < ((String[]) array).length-1) {
                 builder.append(",");
             }
         }
         builder.append("]");
+    }
+
+    private static String wrapIfNotJsonObject(String value) {
+    	if (value.startsWith("{")) return value;
+    	return String.format("\"%s\"", value);
     }
 }

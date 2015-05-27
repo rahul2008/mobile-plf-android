@@ -49,7 +49,7 @@ public class LocalRequest extends Request {
 	private String createDataToSend(NetworkNode networkNode, Map<String,Object> dataMap){
 		if (dataMap == null || dataMap.size() <= 0) return null;
 
-		String data = convertKeyValuesToJson(dataMap);
+		String data = Request.convertKeyValuesToJson(dataMap);
 		DLog.i(DLog.LOCALREQUEST, "Data to send: "+ data);
 
 		if (mDISecurity != null) {

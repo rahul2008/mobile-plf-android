@@ -36,7 +36,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 	}
 
 	private String createDataToSend(NetworkNode networkNode, String portName, int productId, Map<String,Object> dataMap){
-		String data = convertKeyValuesToJson(dataMap);
+		String data = Request.convertKeyValuesToJson(dataMap);
 		String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
 
 		DLog.i(DLog.REMOTEREQUEST, "Data to send: "+ dataToSend);
