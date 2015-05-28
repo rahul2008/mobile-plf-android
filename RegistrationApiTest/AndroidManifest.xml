@@ -7,14 +7,14 @@
     <uses-sdk android:minSdkVersion="10" />
 
     <!-- Eclipse Testing -->
-    <instrumentation
+<!--     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.philips.cl.di.regsample.app" />
+        android:targetPackage="com.philips.cl.di.regsample.app" /> -->
     
     <!-- Jenkin Testing -->
-<!--      <instrumentation
+      <instrumentation
         android:name="com.zutubi.android.junitreport.JUnitReportTestRunner"
-        android:targetPackage="com.philips.cl.di.regsample.app" /> -->
+        android:targetPackage="com.philips.cl.di.regsample.app" /> 
 
     <application
         android:icon="@drawable/ic_launcher"
