@@ -48,8 +48,11 @@ public class SHNAssociationProcedureNearestDeviceTest {
     private void discoverMockedDevices(Integer[] locations) {
         for (Integer location : locations) {
             assert (location < mockedDevicesAndAssociatedRSSI.size());
+
             AbstractMap.SimpleEntry<SHNDevice, Integer> entry = (AbstractMap.SimpleEntry<SHNDevice, Integer>) mockedDevicesAndAssociatedRSSI.get(location);
-            associationProcedure.deviceDiscovered(entry.getKey(), null, entry.getValue());
+            SHNDeviceFoundInfo mockedDeviceFoundInfo = mock(SHNDeviceFoundInfo.class);
+            when(mockedDeviceFoundInfo.getRssi()).thenReturn(entry.getValue());
+            associationProcedure.deviceDiscovered(entry.getKey(), mockedDeviceFoundInfo);
         }
     }
 
@@ -120,6 +123,19 @@ public class SHNAssociationProcedureNearestDeviceTest {
     }
 
     @Test
+    public void shouldIgnoreDevicesForWhichRSSIIsZeroAndCallAssociationFailed()
+    {
+        createMockedDevices(new Integer[] { 0 });
+        for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i)
+        {
+            discoverMockedDevice(0);
+            iterationTimeoutTimerRunnable.getValue().run();
+        }
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null);
+        verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
+    }
+
+    @Test
     public void shouldCallAssociationSucceededWhenDeviceIsImmediatelyDeemedNearestEnoughTimesSuccessively()
     {
         createMockedDevices(new Integer[] { -20 });
@@ -156,5 +172,15 @@ public class SHNAssociationProcedureNearestDeviceTest {
         }
         verifyAssociationSuccess(4);
         verify(mockedSHNAssociationProcedureListener, never()).onAssociationFailed(any(SHNDevice.class));
+    }
+
+    @Test
+    public void shouldCallAssociationFailedAndStopTheTimeoutTimerWhenScannerTimesOut()
+    {
+        associationProcedure.scannerTimeout();
+
+        verify(mockedIterationTimeoutTimer).stop();
+        verify(mockedSHNAssociationProcedureListener).onAssociationFailed(null);
+        verify(mockedSHNAssociationProcedureListener, never()).onAssociationSuccess(any(SHNDevice.class));
     }
 }

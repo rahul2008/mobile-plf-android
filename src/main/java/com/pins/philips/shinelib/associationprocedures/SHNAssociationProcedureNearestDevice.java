@@ -1,12 +1,10 @@
 package com.pins.philips.shinelib.associationprocedures;
 
-import android.os.Handler;
 import android.util.Log;
 
 import com.pins.philips.shinelib.SHNAssociationProcedure;
-import com.pins.philips.shinelib.SHNBLEAdvertisementData;
-import com.pins.philips.shinelib.SHNCentral;
 import com.pins.philips.shinelib.SHNDevice;
+import com.pins.philips.shinelib.SHNDeviceFoundInfo;
 import com.pins.philips.shinelib.framework.Timer;
 
 import java.util.SortedMap;
@@ -85,11 +83,17 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     }
 
     @Override
-    public void deviceDiscovered(SHNDevice shnDevice, SHNBLEAdvertisementData shnbleAdvertisementData, int rssi) {
-        if (rssi != 0) {
-            discoveredDevices.put(rssi, shnDevice);
+    public void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        if (shnDeviceFoundInfo.getRssi() != 0) {
+            discoveredDevices.put(shnDeviceFoundInfo.getRssi(), shnDevice);
         } else {
             if (LOGGING) Log.i(TAG, String.format("Ignoring discovered device '%s'; rssi = 0", shnDevice.toString()));
         }
+    }
+
+    @Override
+    public void scannerTimeout() {
+        nearestDeviceIterationTimer.stop();
+        listener.onAssociationFailed(null);
     }
 }

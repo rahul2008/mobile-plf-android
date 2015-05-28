@@ -20,6 +20,8 @@ public class SHNDeviceFoundInfo {
         this.shnDeviceDefinitionInfo = shnDeviceDefinitionInfo;
     }
 
+    public int getRssi() { return rssi; }
+
     @Override
     public String toString() {
         return deviceName + " [" + deviceAddress + "]" + " (" + rssi + ")";
