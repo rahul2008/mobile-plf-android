@@ -80,7 +80,7 @@ public class UdpEventReceiver {
 	private void notifyAllEventListeners(String data, String fromIp) {
 		ArrayList<UdpEventListener> udpEventListeners;
 		synchronized (mUdpEventListenersSet) {
-			udpEventListeners = new ArrayList<>(mUdpEventListenersSet);
+			udpEventListeners = new ArrayList<UdpEventListener>(mUdpEventListenersSet);
 		}
 
 		DLog.d(DLog.UDPRECEIVER, String.format("Notifying %d listeners of UDP event", udpEventListeners.size()));
