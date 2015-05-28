@@ -20,6 +20,10 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private static final String TAG = SHNDeviceScanner.class.getSimpleName();
     private static final boolean LOGGING = false;
 
+    public enum ScannerSettingDuplicates {
+        DuplicatesNotAllowed, DuplicatesAllowed
+    }
+
     private Set<String> macAddressesOfFoundDevices = new HashSet<>();
     private LeScanCallbackProxy leScanCallbackProxy;
     private SHNDeviceScannerListener shnDeviceScannerListener;
@@ -98,7 +102,7 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
                                 }
                             }
                         };
-                        shnCentral.runOnHandlerThread(runnable);
+                        shnCentral.runOnUserHandlerThread(runnable);
                     }
                 }
             }

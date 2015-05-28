@@ -59,7 +59,7 @@ public class SHNDeviceScannerTest {
                 ((Runnable)invocation.getArguments()[0]).run();
                 return null;
             }
-        }).when(mockedSHNCentral).runOnHandlerThread(any(Runnable.class));
+        }).when(mockedSHNCentral).runOnUserHandlerThread(any(Runnable.class));
         doReturn(mockedBluetoothManager).when(mockedContext).getSystemService(Context.BLUETOOTH_SERVICE);
         doReturn(mockedBluetoothAdapter).when(mockedBluetoothManager).getAdapter();
         doReturn(true).when(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));

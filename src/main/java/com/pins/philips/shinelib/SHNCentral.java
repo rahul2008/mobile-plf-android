@@ -104,9 +104,6 @@ public class SHNCentral {
     public enum SHNCentralState {
         SHNCentralStateError, SHNCentralStateNotReady, SHNCentralStateReady
     }
-    public enum ScannerSettingDuplicates {
-        DuplicatesNotAllowed, DuplicatesAllowed
-    }
     public interface SHNCentralListener {
         void onStateUpdated(SHNCentral shnCentral);
     }
@@ -114,6 +111,7 @@ public class SHNCentral {
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
+    private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener;
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -199,7 +197,7 @@ public class SHNCentral {
         return applicationContext;
     }
 
-    public void runOnHandlerThread(Runnable runnable) {
+    public void runOnUserHandlerThread(Runnable runnable) {
         userHandler.post(runnable);
     }
 
@@ -242,7 +240,13 @@ public class SHNCentral {
         return btAdapter.getRemoteDevice(address);
     }
 
-    public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+    public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+//        if (this.shnDeviceScannerListener == null) {
+//            // currently not scanning
+//            this.shnDeviceScannerListener = shnDeviceScannerListener;
+//            shnDeviceScanner.startScanning(shnDeviceScannerListener, 30000l);
+//            return true;
+//        }
         return false;
     }
 }

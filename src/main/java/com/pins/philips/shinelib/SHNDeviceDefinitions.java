@@ -17,7 +17,10 @@ public class SHNDeviceDefinitions {
     public boolean add(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
         for (SHNDeviceDefinitionInfo registeredDeviceDefinition: registeredDeviceDefinitions) {
             if (registeredDeviceDefinition.getDeviceTypeName().equals(shnDeviceDefinitionInfo.getDeviceTypeName())) {
-                throw new IllegalStateException("SHNDeviceDefinition for DeviceTypeName: " + shnDeviceDefinitionInfo.getDeviceTypeName() + " already registered");
+                throw new IllegalStateException("A SHNDeviceDefinition for DeviceTypeName: " + shnDeviceDefinitionInfo.getDeviceTypeName() + " is already registered");
+            }
+            if (registeredDeviceDefinition.getPrimaryServiceUUIDs().equals(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs())) {
+                throw new IllegalStateException("A SHNDeviceDefinition with the same Primary Service UUIDs is already registered");
             }
         }
         return registeredDeviceDefinitions.add(shnDeviceDefinitionInfo);

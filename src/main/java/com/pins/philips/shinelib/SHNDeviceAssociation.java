@@ -67,7 +67,7 @@ public class SHNDeviceAssociation {
         if (shnDeviceDefinitionInfo != null) {
             shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
             if (shnAssociationProcedure.getShouldScan()) {
-                shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNCentral.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+                shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
             }
             shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
         } else {

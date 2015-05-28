@@ -63,7 +63,7 @@ public class SHNDeviceAssociationTest {
         List<SHNDeviceDefinitionInfo> shnDeviceDefinitionInfos = new ArrayList<>();
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
-        doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNCentral.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
@@ -103,12 +103,12 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
         ArgumentCaptor<Collection> uuidCollectionArgumentCaptor = ArgumentCaptor.forClass(Collection.class);
-        ArgumentCaptor<SHNCentral.ScannerSettingDuplicates> duplicatesArgumentCaptor = ArgumentCaptor.forClass(SHNCentral.ScannerSettingDuplicates.class);
+        ArgumentCaptor<SHNDeviceScanner.ScannerSettingDuplicates> duplicatesArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.ScannerSettingDuplicates.class);
         ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
         verify(mockedSHNCentral).startScanningForDevices(uuidCollectionArgumentCaptor.capture(), duplicatesArgumentCaptor.capture(), scannerListenerArgumentCaptor.capture());
         assertEquals(1, uuidCollectionArgumentCaptor.getValue().size());
         assertTrue(uuidCollectionArgumentCaptor.getValue().contains(mockedPrimaryServiceUUID));
-        assertEquals(SHNCentral.ScannerSettingDuplicates.DuplicatesAllowed, duplicatesArgumentCaptor.getValue());
+        assertEquals(SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, duplicatesArgumentCaptor.getValue());
         assertNotNull(scannerListenerArgumentCaptor.getValue());
     }
 
@@ -118,7 +118,7 @@ public class SHNDeviceAssociationTest {
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
-        verify(mockedSHNCentral, never()).startScanningForDevices(any(Collection.class), any(SHNCentral.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        verify(mockedSHNCentral, never()).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
     }
 
     @Test
