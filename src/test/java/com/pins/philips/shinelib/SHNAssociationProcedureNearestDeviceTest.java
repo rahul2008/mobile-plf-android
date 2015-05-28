@@ -89,6 +89,11 @@ public class SHNAssociationProcedureNearestDeviceTest {
     }
 
     @Test
+    public void shouldScanShouldReturnTrue() {
+        assertTrue(associationProcedure.getShouldScan());
+    }
+
+    @Test
     public void shouldKeepRestartingTimerAfterAnIterationUntilMaxIterationCountWasReached()
     {
         for (int i = 0; i < SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT; ++i)
