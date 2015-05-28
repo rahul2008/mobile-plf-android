@@ -39,6 +39,7 @@ import static org.powermock.api.mockito.PowerMockito.doReturn;
  */
 @RunWith(PowerMockRunner.class)
 public class SHNDeviceTest {
+    public static final String TEST_DEVICE_TYPE = "TEST_DEVICE_TYPE";
     private SHNDeviceImpl shnDevice;
     private BTDevice mockedBTDevice;
     private SHNCentral mockedSHNCentral;
@@ -116,7 +117,7 @@ public class SHNDeviceTest {
 
         doNothing().when(mockedSHNDeviceListener).onStateUpdated(any(SHNDevice.class));
 
-        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral);
+        shnDevice = new SHNDeviceImpl(mockedBTDevice, mockedSHNCentral, TEST_DEVICE_TYPE);
         shnDevice.setSHNDeviceListener(mockedSHNDeviceListener);
         shnDevice.registerService(mockedSHNService);
     }
@@ -126,6 +127,7 @@ public class SHNDeviceTest {
     public void aSHNDeviceObjectCanBeCreated() {
         assertNotNull(shnDevice);
         verify(mockedSHNCentral).getApplicationContext();
+        assertEquals(TEST_DEVICE_TYPE, shnDevice.getDeviceTypeName());
     }
 
     @Test

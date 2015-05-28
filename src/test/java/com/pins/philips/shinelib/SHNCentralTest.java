@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 
@@ -20,6 +21,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 
 /**
@@ -33,6 +36,7 @@ public class SHNCentralTest {
     private PackageManager mockedPackageManager;
     private BluetoothManager mockedBluetoothManager;
     private BluetoothAdapter mockedBluetoothAdapter;
+    private SharedPreferences mockedSharedPreferences;
 
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException {
@@ -41,6 +45,7 @@ public class SHNCentralTest {
         mockedPackageManager = (PackageManager) Utility.makeThrowingMock(PackageManager.class);
         mockedBluetoothManager = (BluetoothManager) Utility.makeThrowingMock(BluetoothManager.class);
         mockedBluetoothAdapter = (BluetoothAdapter) Utility.makeThrowingMock(BluetoothAdapter.class);
+        mockedSharedPreferences = (SharedPreferences) Utility.makeThrowingMock(SharedPreferences.class);
 
         doReturn(mockedContext).when(mockedContext).getApplicationContext();
         doReturn(mockedPackageManager).when(mockedContext).getPackageManager();
@@ -49,6 +54,7 @@ public class SHNCentralTest {
         doReturn(mockedBluetoothAdapter).when(mockedBluetoothManager).getAdapter();
         doReturn(true).when(mockedBluetoothAdapter).isEnabled();
         doReturn(null).when(mockedContext).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+        doReturn(mockedSharedPreferences).when(mockedContext).getSharedPreferences(anyString(), anyInt());
 
         shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext);
     }

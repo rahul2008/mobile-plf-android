@@ -48,6 +48,11 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     }
 
     @Override
+    public String getDeviceTypeName() {
+        return shnDevice.getDeviceTypeName();
+    }
+
+    @Override
     public void connect() {
         Runnable runnable = new Runnable() {
             @Override

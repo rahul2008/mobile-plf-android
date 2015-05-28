@@ -2,6 +2,9 @@ package com.pins.philips.shinelib;
 
 import android.util.Log;
 
+import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,9 +14,10 @@ public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
     private static final boolean LOGGING  = false;
     private SHNAssociationProcedure shnAssociationProcedure;
+    private final List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos;
 
-    public enum SHNDeviceAssociationState {
-        SHNDeviceAssociationStateIdle, SHNDeviceAssociationStateAssociating
+    public enum State {
+        Idle, Associating
     }
     public interface SHNDeviceAssociationListener {
         void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure);
@@ -23,7 +27,6 @@ public class SHNDeviceAssociation {
     }
 
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
-    private SHNDeviceAssociationState shnDeviceAssociationState = SHNDeviceAssociationState.SHNDeviceAssociationStateIdle;
     private List<SHNDevice> associatedDevices;
     private final SHNCentral shnCentral;
     private SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedure.SHNAssociationProcedureListener() {
@@ -59,18 +62,21 @@ public class SHNDeviceAssociation {
     };
 
     private void addAssociatedDevice(SHNDevice shnDevice) {
+        associatedDeviceInfos.add(new ShinePreferenceWrapper.AssociatedDeviceInfo(shnDevice.getAddress(), shnDevice.getDeviceTypeName()));
+        shnCentral.getShinePreferenceWrapper().storeAssociatedDeviceInfos(associatedDeviceInfos);
     }
 
     public SHNDeviceAssociation(SHNCentral shnCentral) {
         this.shnCentral = shnCentral;
+        associatedDeviceInfos = shnCentral.getShinePreferenceWrapper().readAssociatedDeviceInfos();
+    }
+
+    public State getState() {
+        return (shnAssociationProcedure != null) ? State.Associating : State.Idle;
     }
 
     public void setShnDeviceAssociationListener(SHNDeviceAssociationListener shnDeviceAssociationListener) {
         this.shnDeviceAssociationListener = shnDeviceAssociationListener;
-    }
-
-    public SHNDeviceAssociationState getShnDeviceAssociationState() {
-        return shnDeviceAssociationState;
     }
 
     public void startAssociationForDeviceType(String deviceTypeName) {

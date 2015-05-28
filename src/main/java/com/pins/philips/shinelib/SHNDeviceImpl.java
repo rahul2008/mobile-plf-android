@@ -33,15 +33,17 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
     private Timer connectTimer;
     private SHNDeviceListener shnDeviceListener;
     private State state = State.Disconnected;
+    private String deviceTypeName;
 //    private String name;
 //    private String type;
 //    private UUID identifier;
 //    private int rssiWhenDiscovered; // How is that usefull?
 
-    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral) {
+    public SHNDeviceImpl(BTDevice btDevice, SHNCentral shnCentral, String deviceTypeName) {
         this.state = State.Disconnected;
         this.btDevice = btDevice;
         this.shnCentral = shnCentral;
+        this.deviceTypeName = deviceTypeName;
         this.applicationContext = shnCentral.getApplicationContext();
         this.connectTimer = new Timer(shnCentral.getInternalHandler(), new Runnable() {
             @Override
@@ -64,6 +66,11 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
     @Override
     public String getName() {
         return btDevice.getName();
+    }
+
+    @Override
+    public String getDeviceTypeName() {
+        return deviceTypeName;
     }
 
     @Override

@@ -88,6 +88,7 @@ import com.pins.philips.shinelib.bluetoothwrapper.BTAdapter;
 import com.pins.philips.shinelib.bluetoothwrapper.BTDevice;
 import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
+import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -139,6 +140,7 @@ public class SHNCentral {
     private BTAdapter btAdapter;
     private Handler internalHandler;
     private SHNDeviceDefinitions shnDeviceDefinitions;
+    private ShinePreferenceWrapper shinePreferenceWrapper;
 
     public SHNCentral(Handler handler, Context context) throws SHNBluetoothHardwareUnavailableException {
         applicationContext = context.getApplicationContext();
@@ -176,6 +178,8 @@ public class SHNCentral {
         }
 
         btAdapter = new BTAdapter(applicationContext, internalHandler);
+
+        shinePreferenceWrapper = new ShinePreferenceWrapper(applicationContext);
     }
 
     public Handler getInternalHandler() {
@@ -238,6 +242,10 @@ public class SHNCentral {
 
     public BTDevice getBTDevice(String address) {
         return btAdapter.getRemoteDevice(address);
+    }
+
+    public ShinePreferenceWrapper getShinePreferenceWrapper() {
+        return shinePreferenceWrapper;
     }
 
     public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {

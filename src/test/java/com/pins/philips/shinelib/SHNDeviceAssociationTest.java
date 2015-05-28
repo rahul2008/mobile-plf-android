@@ -1,6 +1,7 @@
 package com.pins.philips.shinelib;
 
 import com.pins.philips.shinelib.helper.Utility;
+import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +39,7 @@ public class SHNDeviceAssociationTest {
     private SHNAssociationProcedure mockedSHNAssociationProcedure;
     private UUID mockedPrimaryServiceUUID;
     private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
+    private ShinePreferenceWrapper mockedShinePreferenceWrapper;
 
     @Before
     public void setUp() {
@@ -46,6 +49,7 @@ public class SHNDeviceAssociationTest {
         mockedSHNDeviceDefinitionInfo = (SHNDeviceDefinitionInfo) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.class);
         mockedSHNDeviceDefinition = (SHNDeviceDefinitionInfo.SHNDeviceDefinition) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
         mockedSHNDeviceDefinitions = (SHNDeviceDefinitions) Utility.makeThrowingMock(SHNDeviceDefinitions.class);
+        mockedShinePreferenceWrapper = (ShinePreferenceWrapper) Utility.makeThrowingMock(ShinePreferenceWrapper.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
 
         // mockedSHNDeviceAssociationListener
@@ -64,6 +68,7 @@ public class SHNDeviceAssociationTest {
         shnDeviceDefinitionInfos.add(mockedSHNDeviceDefinitionInfo);
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
+        doReturn(mockedShinePreferenceWrapper).when(mockedSHNCentral).getShinePreferenceWrapper();
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
@@ -74,14 +79,24 @@ public class SHNDeviceAssociationTest {
         doReturn(null).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(anyString());
         doReturn(mockedSHNDeviceDefinitionInfo).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(DEVICE_TYPE_NAME);
 
+        // mockedShinePreferenceWrapper
+        doReturn(Collections.emptyList()).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+
         shnDeviceAssociation = new SHNDeviceAssociation(mockedSHNCentral);
 
         shnDeviceAssociation.setShnDeviceAssociationListener(mockedSHNDeviceAssociationListener);
     }
 
     @Test
-    public void canCreateInstance() {
+    public void whenCreatedThenTheInstanceIsInIdleState() {
         assertNotNull(shnDeviceAssociation);
+        assertEquals(SHNDeviceAssociation.State.Idle, shnDeviceAssociation.getState());
+    }
+
+    @Test
+    public void whenCreatedThenTheAssociationsAreRead() {
+        assertNotNull(shnDeviceAssociation);
+        verify(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
     }
 
     @Test

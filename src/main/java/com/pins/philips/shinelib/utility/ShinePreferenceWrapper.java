@@ -16,7 +16,8 @@ public class ShinePreferenceWrapper {
     private static final String SHINELIB_PREFERENCES_FILE_KEY = ShinePreferenceWrapper.class.getCanonicalName() + ".SHINELIBPLUGINMOONSHINE_PREFERENCES_FILE_KEY";
     public static final String ASSOCIATED_DEVICES = "ASSOCIATED_DEVICES";
     private final SharedPreferences sharedPreferences;
-    public class AssociatedDeviceInfo {
+
+    public static class AssociatedDeviceInfo {
         public final String macAddress;
         public final String deviceTypeName;
 

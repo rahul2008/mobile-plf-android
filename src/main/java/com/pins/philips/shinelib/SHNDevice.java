@@ -12,6 +12,8 @@ public interface SHNDevice {
 
     String getName();
 
+    String getDeviceTypeName();
+
     void connect();
 
     void disconnect();
