@@ -29,6 +29,7 @@ public class SHNDeviceAssociation {
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
     private List<SHNDevice> associatedDevices;
     private final SHNCentral shnCentral;
+    private String associationDeviceTypeName;
     private SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedure.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
@@ -52,7 +53,7 @@ public class SHNDeviceAssociation {
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            SHNDevice shnDevice = null;
+            SHNDevice shnDevice = shnCentral.creatSHNDeviceForAddress(shnDeviceFoundInfo.deviceAddress, shnDeviceFoundInfo.shnDeviceDefinitionInfo);
             shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
         }
 
@@ -85,6 +86,7 @@ public class SHNDeviceAssociation {
     public void startAssociationForDeviceType(String deviceTypeName) {
         if (shnAssociationProcedure == null) {
             SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+            associationDeviceTypeName = deviceTypeName;
             if (shnDeviceDefinitionInfo != null) {
                 shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
                 if (shnAssociationProcedure.getShouldScan()) {

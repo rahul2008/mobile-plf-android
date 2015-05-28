@@ -1,5 +1,6 @@
 package com.pins.philips.shinelib;
 
+import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 
 import com.pins.philips.shinelib.helper.Utility;
@@ -22,8 +23,10 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
@@ -46,6 +49,7 @@ public class SHNDeviceAssociationTest {
     private UUID mockedPrimaryServiceUUID;
     private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
     private ShinePreferenceWrapper mockedShinePreferenceWrapper;
+    private SHNDevice mockedSHNDevice;
 
     @Before
     public void setUp() {
@@ -57,11 +61,13 @@ public class SHNDeviceAssociationTest {
         mockedSHNDeviceDefinition = (SHNDeviceDefinitionInfo.SHNDeviceDefinition) Utility.makeThrowingMock(SHNDeviceDefinitionInfo.SHNDeviceDefinition.class);
         mockedSHNDeviceDefinitions = (SHNDeviceDefinitions) Utility.makeThrowingMock(SHNDeviceDefinitions.class);
         mockedShinePreferenceWrapper = (ShinePreferenceWrapper) Utility.makeThrowingMock(ShinePreferenceWrapper.class);
+        mockedSHNDevice = (SHNDevice) Utility.makeThrowingMock(SHNDevice.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
 
         // mockedSHNDeviceAssociationListener
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationFailed(any(SHNResult.class));
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
+        doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStopped();
 
         // mockedSHNDeviceDefinitionInfo
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDeviceDefinitionInfo).getDeviceTypeName();
@@ -76,9 +82,12 @@ public class SHNDeviceAssociationTest {
         doReturn(mockedSHNDeviceDefinitions).when(mockedSHNCentral).getSHNDeviceDefinitions();
         doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
         doReturn(mockedShinePreferenceWrapper).when(mockedSHNCentral).getShinePreferenceWrapper();
+        doNothing().when(mockedSHNCentral).stopScanning();
+        doReturn(mockedSHNDevice).when(mockedSHNCentral).creatSHNDeviceForAddress(anyString(), any(SHNDeviceDefinitionInfo.class));
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();
+        doNothing().when(mockedSHNAssociationProcedure).deviceDiscovered(any(SHNDevice.class), any(SHNDeviceFoundInfo.class));
         doReturn("mockedSHNAssociationProcedure").when(mockedSHNAssociationProcedure).toString();
 
         // mockedSHNDeviceDefinitions
@@ -158,12 +167,50 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void testStartAssociationForDeviceType() {
+    public void whenAssociationIsInProgressThenAdditionalCallsToStartAssociationShouldBeIgnored() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociationStarted(mockedSHNAssociationProcedure);
     }
 
     @Test
-    public void testStopAssociation() {
+    public void whenAssociationIsInProgressAndStopAssociationIsCalledThenOnAssociationStopIsCalled() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+//        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
 
+        shnDeviceAssociation.stopAssociation();
+        verify(mockedSHNDeviceAssociationListener).onAssociationStopped();
+    }
+
+    @Test
+    public void whenAssociationIsInProgressAndADeviceIsDiscoveredThenOnDeviceDiscoveredIsCalled() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+//        reset(mockedSHNDeviceAssociationListener); // clears the doReturn functions
+
+        ArgumentCaptor<SHNDeviceScanner.SHNDeviceScannerListener> scannerListenerArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceScanner.SHNDeviceScannerListener.class);
+        verify(mockedSHNCentral).startScanningForDevices(anyCollection(), any(SHNDeviceScanner.ScannerSettingDuplicates.class), scannerListenerArgumentCaptor.capture());
+
+        BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
+        doReturn("11:22:33:44:55:66").when(mockedBluetoothDevice).getAddress();
+        doReturn("MoonshineTest").when(mockedBluetoothDevice).getName();
+
+        byte[] mockedScanRecord = new byte[] {0x00, 0x0A};
+        SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 321, mockedScanRecord, mockedSHNDeviceDefinitionInfo);
+
+        // Call the device scanner listener
+        scannerListenerArgumentCaptor.getValue().deviceFound(null, shnDeviceFoundInfo);
+
+        ArgumentCaptor<SHNDeviceFoundInfo> shnDeviceFoundInfoArgumentCaptor = ArgumentCaptor.forClass(SHNDeviceFoundInfo.class);
+        ArgumentCaptor<SHNDevice> shnDeviceArgumentCaptor = ArgumentCaptor.forClass(SHNDevice.class);
+        verify(mockedSHNAssociationProcedure).deviceDiscovered(shnDeviceArgumentCaptor.capture(), shnDeviceFoundInfoArgumentCaptor.capture());
+
+        assertNotNull(shnDeviceFoundInfoArgumentCaptor.getValue());
+        assertEquals(shnDeviceFoundInfo, shnDeviceFoundInfoArgumentCaptor.getValue());
+        assertEquals("11:22:33:44:55:66", shnDeviceFoundInfoArgumentCaptor.getValue().deviceAddress);
+        assertEquals("MoonshineTest", shnDeviceFoundInfoArgumentCaptor.getValue().deviceName);
+
+        assertEquals(mockedSHNDevice, shnDeviceArgumentCaptor.getValue());
     }
 }

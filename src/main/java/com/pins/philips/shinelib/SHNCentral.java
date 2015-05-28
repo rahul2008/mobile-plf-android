@@ -264,4 +264,9 @@ public class SHNCentral {
     public void stopScanning() {
         // TODO Implement this
     }
+
+    public SHNDevice creatSHNDeviceForAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+        SHNDevice shnDevice = shnDeviceDefinitionInfo.getSHNDeviceDefinition().createDeviceFromDeviceAddress(deviceAddress, shnDeviceDefinitionInfo, this);
+        return shnDevice;
+    }
 }
