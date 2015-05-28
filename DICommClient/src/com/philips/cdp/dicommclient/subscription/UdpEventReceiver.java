@@ -28,7 +28,7 @@ public class UdpEventReceiver {
 				notifyAllEventListeners(data, fromIp);
 			}
 		};
-		mUdpEventListenersSet = new HashSet<>();
+		mUdpEventListenersSet = new HashSet<UdpEventListener>();
 	}
 
 	public void startReceivingEvents(UdpEventListener udpEventListener) {
