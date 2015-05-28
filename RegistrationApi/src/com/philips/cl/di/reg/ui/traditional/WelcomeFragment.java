@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
-import com.philips.cl.di.reg.events.EventHelper;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
@@ -36,7 +36,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	private LinearLayout mLlEmailDetails;
 
 	private boolean isfromVerification;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
@@ -91,8 +91,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
-			EventHelper.getInstance().notifyEventOccurred(RegConstants.USER_LOGIN_SUCCESS);
-			getRegistrationMainActivity().handleContinue();
+			RegistrationHelper.getInstance().getUserRegistrationListener().onUserRegistrationComplete();
+			getRegistrationMainActivity().
+			//EventHelper.getInstance().notifyEventOccurred(RegConstants.USER_LOGIN_SUCCESS);
+			//getRegistrationMainActivity().handleContinue();
 		}
 
 	}

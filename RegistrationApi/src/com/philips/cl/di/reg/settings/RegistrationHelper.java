@@ -22,6 +22,7 @@ import com.philips.cl.di.reg.configuration.ConfigurationParser;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.configuration.SocialProviders;
 import com.philips.cl.di.reg.events.EventHelper;
+import com.philips.cl.di.reg.listener.UserRegistrationListener;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
@@ -45,6 +46,8 @@ public class RegistrationHelper {
 	private SocialProviders mSocialProivder;
 
 	private String countryCode;
+	
+	private UserRegistrationListener mUserRegistrationListener;
 
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
@@ -250,7 +253,20 @@ public class RegistrationHelper {
 	public RegistrationSettings getRegistrationSettings() {
 		return mRegistrationSettings;
 	}
+	
+	public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener){
+		mUserRegistrationListener = userRegistrationListener;
+	}
+	
+	public void unRegisterUserRegistrationListener(){
+		mUserRegistrationListener = null;
+	}
 
+	public UserRegistrationListener getUserRegistrationListener(){
+		
+		return mUserRegistrationListener;
+	}
+	
 	public String getCountryCode() {
 	    return countryCode;
     }
