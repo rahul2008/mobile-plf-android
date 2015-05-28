@@ -52,12 +52,15 @@ public class SHNDeviceAssociation {
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
-            throw new UnsupportedOperationException();
+            SHNDevice shnDevice = null;
+            shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
         }
 
         @Override
         public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-            throw new UnsupportedOperationException();
+            if (shnAssociationProcedure != null) {
+                shnAssociationProcedure.scannerTimeout();
+            }
         }
     };
 

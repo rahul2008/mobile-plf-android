@@ -1,5 +1,7 @@
 package com.pins.philips.shinelib;
 
+import android.util.Log;
+
 import com.pins.philips.shinelib.helper.Utility;
 import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
 
@@ -7,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
@@ -24,11 +27,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Created by 310188215 on 27/05/15.
  */
 @RunWith(PowerMockRunner.class)
+@PrepareForTest({Log.class, SHNDeviceAssociation.class})
 public class SHNDeviceAssociationTest {
     public static final String DEVICE_TYPE_NAME = "Moonshine";
     private SHNDeviceAssociation shnDeviceAssociation;
@@ -43,6 +49,7 @@ public class SHNDeviceAssociationTest {
 
     @Before
     public void setUp() {
+        mockStatic(Log.class);
         mockedSHNDeviceAssociationListener = (SHNDeviceAssociation.SHNDeviceAssociationListener) Utility.makeThrowingMock(SHNDeviceAssociation.SHNDeviceAssociationListener.class);
         mockedSHNAssociationProcedure = (SHNAssociationProcedure) Utility.makeThrowingMock(SHNAssociationProcedure.class);
         mockedSHNCentral = (SHNCentral) Utility.makeThrowingMock(SHNCentral.class);
@@ -137,8 +144,17 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
-    public void testGetShnDeviceAssociationState() {
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProgresThenTheStateChangesToAssociating() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
+        assertEquals(SHNDeviceAssociation.State.Associating, shnDeviceAssociation.getState());
+    }
+
+    @Test
+    public void whenCallingStopAssociationWhenIdleThenAssociationStoppedShouldNotBeCalled() {
+        shnDeviceAssociation.stopAssociation();
+
+        verify(mockedSHNDeviceAssociationListener, never()).onAssociationStopped();
     }
 
     @Test

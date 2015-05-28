@@ -4,6 +4,7 @@ package com.pins.philips.shinelib;
  * Created by 310188215 on 02/03/15.
  */
 public interface SHNAssociationProcedure {
+
     public interface SHNAssociationProcedureListener {
         void onStopScanRequest();
         void onAssociationSuccess(SHNDevice shnDevice);
@@ -11,5 +12,6 @@ public interface SHNAssociationProcedure {
     }
 
     boolean getShouldScan();
-    void deviceDiscovered(SHNDevice shnDevice, SHNBLEAdvertisementData shnbleAdvertisementData, int rssi);
+    void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
+    void scannerTimeout();
 }
