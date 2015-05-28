@@ -87,8 +87,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 			ArrayList<String> providers = new ArrayList<String>();
 			providers = RegistrationHelper.getInstance().getSocialProviders()
 			        .getSocialProvidersForCountry(countryCode);
+			
 			if (null != providers) {
-				mLlSocialProviderBtnContainer.removeAllViews();
+				new Thread(){
+					public void run() {
+						mLlSocialProviderBtnContainer.removeAllViews();
+					};
+				};
+				
 				for (int i = 0; i < providers.size(); i++) {
 					inflateEachProviderButton(providers.get(i));
 				}
@@ -435,7 +441,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 				mUser.loginUserUsingSocialProvider(getActivity(), existingProvider, this,
 				        mergeToken);
 			}
-
+			
 		}
 
 	}

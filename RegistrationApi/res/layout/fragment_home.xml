@@ -107,6 +107,7 @@
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" >
                 </com.philips.cl.di.reg.ui.customviews.XRegError>
