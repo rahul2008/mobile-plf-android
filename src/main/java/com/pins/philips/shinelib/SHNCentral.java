@@ -241,6 +241,7 @@ public class SHNCentral {
     }
 
     public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
+        // TODO Implement this
 //        if (this.shnDeviceScannerListener == null) {
 //            // currently not scanning
 //            this.shnDeviceScannerListener = shnDeviceScannerListener;
@@ -248,5 +249,9 @@ public class SHNCentral {
 //            return true;
 //        }
         return false;
+    }
+
+    public void stopScanning() {
+        // TODO Implement this
     }
 }

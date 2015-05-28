@@ -1,11 +1,15 @@
 package com.pins.philips.shinelib;
 
+import android.util.Log;
+
 import java.util.List;
 
 /**
  * Created by 310188215 on 02/03/15.
  */
 public class SHNDeviceAssociation {
+    private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
+    private static final boolean LOGGING  = false;
     private SHNAssociationProcedure shnAssociationProcedure;
 
     public enum SHNDeviceAssociationState {
@@ -25,19 +29,23 @@ public class SHNDeviceAssociation {
     private SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedure.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
-            throw new UnsupportedOperationException();
+            shnCentral.stopScanning();
         }
 
         @Override
         public void onAssociationSuccess(SHNDevice shnDevice) {
-            throw new UnsupportedOperationException();
+            handleStopAssociation();
+            addAssociatedDevice(shnDevice);
+            shnDeviceAssociationListener.onAssociationSucceeded(shnDevice);
         }
 
         @Override
         public void onAssociationFailed(SHNDevice shnDevice) {
-            throw new UnsupportedOperationException();
+            handleStopAssociation();
+            shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNAssociationError);
         }
     };
+
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
@@ -49,6 +57,9 @@ public class SHNDeviceAssociation {
             throw new UnsupportedOperationException();
         }
     };
+
+    private void addAssociatedDevice(SHNDevice shnDevice) {
+    }
 
     public SHNDeviceAssociation(SHNCentral shnCentral) {
         this.shnCentral = shnCentral;
@@ -63,20 +74,33 @@ public class SHNDeviceAssociation {
     }
 
     public void startAssociationForDeviceType(String deviceTypeName) {
-        SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
-        if (shnDeviceDefinitionInfo != null) {
-            shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
-            if (shnAssociationProcedure.getShouldScan()) {
-                shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+        if (shnAssociationProcedure == null) {
+            SHNDeviceDefinitionInfo shnDeviceDefinitionInfo = shnCentral.getSHNDeviceDefinitions().getSHNDeviceDefinitionInfoForDeviceTypeName(deviceTypeName);
+            if (shnDeviceDefinitionInfo != null) {
+                shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
+                if (shnAssociationProcedure.getShouldScan()) {
+                    shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+                }
+                shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
+            } else {
+                shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
             }
-            shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
         } else {
-            shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
+            Log.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
         }
-
     }
 
     public void stopAssociation() {
-        throw new UnsupportedOperationException();
+        if (shnAssociationProcedure != null) {
+            handleStopAssociation();
+            shnDeviceAssociationListener.onAssociationStopped();
+        } else {
+            Log.w(TAG, "stopAssociation: association not stopped: it is already stopped!");
+        }
+    }
+
+    private void handleStopAssociation() {
+        shnCentral.stopScanning();
+        shnAssociationProcedure = null;
     }
 }
