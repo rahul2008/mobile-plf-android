@@ -51,6 +51,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	private NetworkNodeDatabase mNetworkNodeDatabase;
 	private DICommApplianceDatabase<DICommAppliance> mApplianceDatabase;
 
+	private CppController mCppController;
+
 	private static final Object mDiscoveryLock = new Object();
 	private NetworkMonitor mNetwork;
 	private SsdpServiceHelper mSsdpHelper;
@@ -78,20 +80,20 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		};
 	};
 
-	public static synchronized void createSharedInstance(Context applicationContext, DICommApplianceFactory<? extends DICommAppliance> applianceFactory) {
+	public static synchronized void createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<? extends DICommAppliance> applianceFactory) {
 		if (mInstance != null) {
 			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
 		DICommContext.initialize(applicationContext);
-		mInstance = new DiscoveryManager(applianceFactory, new NullApplianceDatabase());
+		mInstance = new DiscoveryManager(cppController, applianceFactory, new NullApplianceDatabase());
 	}
 
-	public static synchronized void createSharedInstance(Context applicationContext, DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
+	public static synchronized void createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
 		if (mInstance != null) {
-			throw new RuntimeException("CPPController can only be initialized once");
+			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
 		DICommContext.initialize(applicationContext);
-		mInstance = new DiscoveryManager(applianceFactory, applianceDatabase);
+		mInstance = new DiscoveryManager(cppController, applianceFactory, applianceDatabase);
 	}
 
 	public static synchronized DiscoveryManager getInstance() {
@@ -99,7 +101,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	@SuppressWarnings("unchecked")
-	private DiscoveryManager(DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
+	private DiscoveryManager(CppController cppController, DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
 		mApplianceFactory = (DICommApplianceFactory<DICommAppliance>) applianceFactory;
 
 		mApplianceDatabase = (DICommApplianceDatabase<DICommAppliance>) applianceDatabase;
@@ -107,7 +109,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
-		mCppHelper = new CppDiscoveryHelper(CppController.getInstance(), this);
+		mCppHelper = new CppDiscoveryHelper(cppController, this);
+
+		mCppController = cppController;
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(DICommContext.getContext(), this);
@@ -295,7 +299,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 		NetworkNode networkNode = createNetworkNode(deviceModel);
 		if (networkNode == null) return false;
-		DLog.i(DLog.SSDP, "Discovered appliance name: " + networkNode.getName());
+		DLog.i(DLog.SSDP, "Discovered appliance - name: " + networkNode.getName() + "   modelname: " + networkNode.getModelName());
 		if (mAllAppliancesMap.containsKey(networkNode.getCppId())) {
 			updateExistingAppliance(networkNode);
 		} else {

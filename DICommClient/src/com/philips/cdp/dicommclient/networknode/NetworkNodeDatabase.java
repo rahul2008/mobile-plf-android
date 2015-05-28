@@ -9,6 +9,7 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LASTKNOWN_NETWORK;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_LAST_PAIRED;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_NAME;
+import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.KEY_MODEL_TYPE;
 import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper.TABLE_NETWORK_NODE;
 
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class NetworkNodeDatabase {
 					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
 					String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
 					String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
+					String modelType = cursor.getString(cursor.getColumnIndex(KEY_MODEL_TYPE));
 
 					NetworkNode networkNode = new NetworkNode();
 					networkNode.setConnectionState(ConnectionState.DISCONNECTED);
@@ -65,6 +67,7 @@ public class NetworkNodeDatabase {
 					networkNode.setLastPairedTime(lastPairedTime);
 					networkNode.setIpAddress(ipAddress);
 					networkNode.setModelName(modelName);
+					networkNode.setModelType(modelType);
 
 					result.add(networkNode);
 					DLog.d(DLog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
@@ -111,6 +114,7 @@ public class NetworkNodeDatabase {
 
 			values.put(KEY_IP_ADDRESS, networkNode.getIpAddress());
 			values.put(KEY_MODEL_NAME, networkNode.getModelName());
+			values.put(KEY_MODEL_TYPE, networkNode.getModelType());
 
 			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 			DLog.d(DLog.DATABASE, "Saved NetworkNode in db: " + networkNode);

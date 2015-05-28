@@ -12,8 +12,8 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 	private NetworkNode mNetworkNode;
 	private CppController mCppController;
 
-	public RemoteSubscriptionHandler(){
-		mCppController = CppController.getInstance();
+	public RemoteSubscriptionHandler(CppController cppController){
+		mCppController = cppController;
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package com.philips.cdp.dicommclient.subscription;
 
-public interface UDPEventListener {
+public interface UdpEventListener {
 	
 	void onUDPEventReceived(String data, String fromIp) ;
 }

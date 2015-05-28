@@ -15,6 +15,7 @@ import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.security.DISecurity.EncryptionDecryptionFailedListener;
 import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
+import com.philips.cdp.dicommclient.subscription.UdpEventReceiver;
 
 public class LocalStrategy extends CommunicationStrategy {
 	private final RequestQueue mRequestQueue;
@@ -26,7 +27,7 @@ public class LocalStrategy extends CommunicationStrategy {
 		mDISecurity = diSecurity;
 		mDISecurity.setEncryptionDecryptionFailedListener(mEncryptionDecryptionFailedListener);
         mRequestQueue = new RequestQueue();
-        mLocalSubscriptionHandler = new LocalSubscriptionHandler(mDISecurity);
+        mLocalSubscriptionHandler = new LocalSubscriptionHandler(mDISecurity, UdpEventReceiver.getInstance());
 	}
 
 	@Override
@@ -99,12 +100,12 @@ public class LocalStrategy extends CommunicationStrategy {
 
     private void doKeyExchange(final NetworkNode networkNode) {
         ExchangeKeyRequest request = new ExchangeKeyRequest(networkNode, new ResponseHandler() {
-            
+
             @Override
             public void onSuccess(String data) {
                 isKeyExchangeOngoing = false;
             }
-            
+
             @Override
             public void onError(Error error, String errorData) {
                 isKeyExchangeOngoing = false;
