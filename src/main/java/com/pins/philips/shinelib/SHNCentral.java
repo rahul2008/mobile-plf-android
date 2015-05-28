@@ -89,6 +89,7 @@ import com.pins.philips.shinelib.bluetoothwrapper.BTDevice;
 import com.pins.philips.shinelib.bluetoothwrapper.BleUtilities;
 import com.pins.philips.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
+import com.pins.philips.shinelib.framework.Timer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -173,6 +174,7 @@ public class SHNCentral {
         thread.start();
         try {
             internalHandler = new Handler(thread.getLooper());
+            Timer.SetHandler(internalHandler);
         } catch (RuntimeException e) {
             // Added for testing support. The HandlerThread is not mocked in the mockedAndroidJar :-(
         }
