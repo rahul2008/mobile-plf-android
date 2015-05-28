@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,9 @@ import com.philips.cl.di.dev.pa.activity.DiagnosticShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
+import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.buyonline.ProductRegisterFragment;
+import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.SupportUtil;
@@ -55,6 +59,11 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		FontTextView lblFAQ= (FontTextView) rootView.findViewById(R.id.faq);
 		FontTextView lblUserManual=(FontTextView) rootView.findViewById(R.id.lbl_user_manual);
 		FontTextView qrCode=(FontTextView) rootView.findViewById(R.id.qr_Code);
+		FontTextView buyOnline=(FontTextView) rootView.findViewById(R.id.buy_online);
+		FontTextView promotionalVideo=(FontTextView) rootView.findViewById(R.id.promotional_video);
+		FontTextView productRegistration=(FontTextView) rootView.findViewById(R.id.product_registration);
+		FontTextView about=(FontTextView) rootView.findViewById(R.id.about);
+		FontTextView rateandFeedback=(FontTextView) rootView.findViewById(R.id.rate_feedback);
 		FontTextView lblOpensource = (FontTextView) rootView.findViewById(R.id.opensource_lb);
 		FontTextView diagnosticLabel = (FontTextView)rootView.findViewById(R.id.lbl_email_us) ;
 		diagnosticLabel.setText(getString(R.string.diagnostics) +":");
@@ -84,6 +93,11 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		lblFAQ.setOnClickListener(this);
 		lblUserManual.setOnClickListener(this);
 		qrCode.setOnClickListener(this);
+		buyOnline.setOnClickListener(this);
+		promotionalVideo.setOnClickListener(this);
+		productRegistration.setOnClickListener(this);
+		about.setOnClickListener(this);
+		rateandFeedback.setOnClickListener(this);
 		
 		RelativeLayout diagnostics = (RelativeLayout) rootView.findViewById(R.id.layout_email_us);
 		diagnostics.setOnClickListener(this);
@@ -103,12 +117,12 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		
+		MainActivity activity = (MainActivity) getActivity();
+		if (activity == null) return;
 		switch (v.getId()) {
 		case R.id.heading_back_imgbtn:
-			MainActivity activity = (MainActivity) getActivity();
-			if (activity != null) {
 				activity.showFragment(new AboutFragment());
-			}
 			break;
 		case R.id.phone_number_one:
 			MetricsTracker.trackActionServiceRequest("phone");
@@ -182,13 +196,22 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			MetricsTracker.trackActionServiceRequest("QR_Code");
 			SupportUtil.gotoWebsite(getActivity(), AppConstants.QR_CODE_LINK );
 			break;
+		case R.id.rate_feedback:
+			if (getActivity() == null) return;
+			break;
+		case R.id.buy_online:
+             activity.showFragment(new BuyOnlineFragment());			
+			break;
+		case R.id.promotional_video:
+			activity.showFragment(new PromotionsFragment());
+			break;
+		case R.id.product_registration:
+			activity.showFragment(new ProductRegisterFragment());
+		case R.id.about:
+			break;
 		default:
 			break;
 		}
 	}
-	
-	
-
-	
 	
 }

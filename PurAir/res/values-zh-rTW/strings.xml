@@ -756,5 +756,6 @@
     <string name="cloud_service_not_available">對不起，飛利浦雲端暫時未能提供服務，請稍後再次嘗試。</string>
     <string name="enable_internet_access">未能與網絡連線，請啟用網絡連線。</string>
     <string name="communication_error">Communication error</string>
+    <string name="rate_feedback">評分和意見</string>
     
 </resources>

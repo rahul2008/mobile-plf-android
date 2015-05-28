@@ -744,5 +744,7 @@
     <string name="cloud_service_not_available">对不起，飞利浦云服务暂时不可用，请稍后再试。</string>
     <string name="enable_internet_access">无法连接至网络，请打开网络连接。</string>
     <string name="communication_error">Communication error</string>
+    
+    <string name="rate_feedback">评分和意见</string>
 
 </resources>
