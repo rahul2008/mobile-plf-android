@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
  * @since : 19 Jan 2015
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
-		TwitterAuthenticationCallback, OnClickListener {
+		TwitterAuthenticationCallback, OnClickListener, CdlsResponseCallback {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private DigitalCareFontButton mFacebook = null;
@@ -57,11 +56,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private String mCdlsResponseStr = null;
 	private View mView = null;
 	private Handler mTwitterProgresshandler = null;
-	private ProgressDialog mPostProgress = null;
+	private ProgressDialog mPostProgress, mDialog = null;
 	Configuration config = null;
 
-	// CDLS related
-	private CdlsRequestTask mCdlsRequestTask = null;
 	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/prx/cdls/B2C/";
 	private static final String CDLS_BASE_URL_POSTFIX = ".querytype.(fallback)";
 
@@ -71,13 +68,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DLog.i(TAG, "ContactUsFragment : onCreate");
-		mCdlsRequestTask = new CdlsRequestTask(getActivity(), formCdlsURL(),
-				mCdlsResponseCallback);
-		mTwitterProgresshandler = new Handler();
-		if (!(mCdlsRequestTask.getStatus() == AsyncTask.Status.RUNNING || mCdlsRequestTask
-				.getStatus() == AsyncTask.Status.FINISHED)) {
-			mCdlsRequestTask.execute();
-		}
+	    mTwitterProgresshandler = new Handler();	
+		if (Utils.isNetworkConnected(getActivity()))
+			requestCDLSData();
+		
 	}
 
 	@Override
@@ -140,27 +134,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 		}
 
-		/*if (!Utils.isNetworkConnected(getActivity())) {
-			return;
-		}*/
+		/*
+		 * if (!Utils.isNetworkConnected(getActivity())) { return; }
+		 */
 		config = getResources().getConfiguration();
 	}
-	
-	
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		setViewParams(config);
-	}
-
-	/*
-	 * Forming CDLS url. This url will be different for US and other countries.
-	 */
-	private String formCdlsURL() {
-		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
-				+ DigitalCareConfigManager.getCdlsPrimarySubCategory()
-				+ CDLS_BASE_URL_POSTFIX;
 	}
 
 	@Override
@@ -183,58 +166,98 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		showFragment(new TwitterSupportFragment());
 	}
 
-	private CdlsResponseCallback mCdlsResponseCallback = new CdlsResponseCallback() {
+	protected void requestCDLSData() {
+		DLog.d(TAG, "CDLS Request Thread is started");
+		startProgressDialog();
+		new RequestCdlsData(formCdlsURL(), this).start();
+	}
 
-		@Override
-		public void onCdlsResponseReceived(String response) {
-			DLog.i(TAG, "response : " + response);
-			if (response != null && isAdded()) {
-				mCdlsResponseStr = response;
-				mCdlsResponseParser = CdlsResponseParser
-						.getParserControllInstance(getActivity());
-				mCdlsResponseParser.processCdlsResponse(response);
-				mCdlsParsedResponse = mCdlsResponseParser.getCdlsBean();
-				if (mCdlsParsedResponse != null) {
-					if (mCdlsParsedResponse.getSuccess()) {
-						enableBottomText();
-						mCallPhilips.setText(getResources().getString(
-								R.string.call_number)
-								+ " "
-								+ mCdlsParsedResponse.getPhone()
-										.getPhoneNumber());
-						mFirstRowText.setText(mCdlsParsedResponse.getPhone()
-								.getOpeningHoursWeekdays());
-						if (Utils.isEmpty(mCdlsParsedResponse.getPhone()
-								.getOpeningHoursSaturday())) {
-							mSecondRowText.setText(mCdlsParsedResponse
-									.getPhone().getOpeningHoursSunday());
-						} else {
-							mSecondRowText.setText(mCdlsParsedResponse
-									.getPhone().getOpeningHoursSaturday());
-						}
-						if (hasEmptyChatContent(mCdlsParsedResponse)) {
-							mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-							mChat.setEnabled(false);
-						}
+	@Override
+	public void onCdlsResponseReceived(String response) {
+		closeProgressDialog();
+		DLog.i(TAG, "response : " + response);
+		if (response != null && isAdded()) {
+			mCdlsResponseStr = response;
+			parseCDLSResponse();
+		} else {
+			fadeoutButtons();
+		}
+	}
 
-					} else {
-						fadeoutButtons();
-					}
-				} else {
-					fadeoutButtons();
+	protected void parseCDLSResponse() {
+		DLog.d(TAG, "Parsing CDLS Response");
+		mCdlsResponseParser = CdlsResponseParser
+				.getParserControllInstance(getActivity());
+		mCdlsResponseParser.processCdlsResponse(mCdlsResponseStr);
+		mCdlsParsedResponse = mCdlsResponseParser.getCdlsBean();
+		if (mCdlsParsedResponse != null) {
+			getActivity().runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					updateContactInformation();
 				}
+			});
+		} else {
+			fadeoutButtons();
+		}
+	}
+
+	private void updateContactInformation() {
+		DLog.d(TAG, "Updating Contact Information");
+
+		if (mCdlsParsedResponse.getSuccess()) {
+			enableBottomText();
+			mCallPhilips.setText(getResources().getString(R.string.call_number)
+					+ " " + mCdlsParsedResponse.getPhone().getPhoneNumber());
+			mFirstRowText.setText(mCdlsParsedResponse.getPhone()
+					.getOpeningHoursWeekdays());
+			if (Utils.isEmpty(mCdlsParsedResponse.getPhone()
+					.getOpeningHoursSaturday())) {
+				mSecondRowText.setText(mCdlsParsedResponse.getPhone()
+						.getOpeningHoursSunday());
 			} else {
-				fadeoutButtons();
+				mSecondRowText.setText(mCdlsParsedResponse.getPhone()
+						.getOpeningHoursSaturday());
 			}
+			if (hasEmptyChatContent(mCdlsParsedResponse)) {
+				mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+				mChat.setEnabled(false);
+			}
+
+		} else {
+			fadeoutButtons();
 		}
 
-		private boolean hasEmptyChatContent(CdlsResponseModel cdlsResponseModel) {
-			return cdlsResponseModel.getChat() == null
-					|| cdlsResponseModel.getChat().getContent() == null
-					|| cdlsResponseModel.getChat().getContent()
-							.equalsIgnoreCase("");
+	}
+
+	protected boolean hasEmptyChatContent(CdlsResponseModel cdlsResponseModel) {
+		return cdlsResponseModel.getChat() == null
+				|| cdlsResponseModel.getChat().getContent() == null
+				|| cdlsResponseModel.getChat().getContent()
+						.equalsIgnoreCase("");
+	}
+
+	protected void closeProgressDialog() {
+		DLog.v(TAG, "Progress Dialog Cancelled");
+
+		if (mDialog != null && mDialog.isShowing()) {
+			mDialog.dismiss();
+			mDialog.cancel();
+			mDialog = null;
 		}
-	};
+	}
+
+	protected void startProgressDialog() {
+		DLog.v(TAG, "Progress Dialog Started");
+		if (mDialog == null)
+			mDialog = new ProgressDialog(getActivity());
+		mDialog.setMessage("Loading...");
+		mDialog.setCancelable(false);
+		if (!(getActivity().isFinishing())) {
+			mDialog.show();
+		}
+	}
 
 	private void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
@@ -321,7 +344,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			if (!(getActivity().isFinishing()))
 				mPostProgress.show();
 			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);
-			
+
 		} else if (id == R.id.contactUsEmail) {
 			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_EMAIL);
 			sendEmail();
@@ -336,10 +359,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 		super.onPause();
 	}
-	
-	
+
 	Runnable mTwitteroAuthRunnable = new Runnable() {
-		
+
 		@Override
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
@@ -347,8 +369,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				mPostProgress = null;
 			}
 		}
-	}; 
-	
+	};
+
 	private void tagServiceRequest(String serviceChannel) {
 		AnalyticsTracker.trackAction(
 				AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
@@ -359,6 +381,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
 				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
 				AnalyticsConstants.TECHNICAL_ERROR_RESPONSE_CDLS);
+	}
+
+	protected String formCdlsURL() {
+		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
+				+ DigitalCareConfigManager.getCdlsPrimarySubCategory()
+				+ CDLS_BASE_URL_POSTFIX;
 	}
 
 	/*
