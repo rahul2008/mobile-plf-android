@@ -170,7 +170,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		else {
 			startDiscovery() ;
 		}
-    	checkForCrashesHockeyApp();
+//    	checkForCrashesHockeyApp();
 	}
 	
 	private void startDiscovery() {
