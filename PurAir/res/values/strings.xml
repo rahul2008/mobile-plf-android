@@ -170,7 +170,7 @@
     <string name="reg_step1_title">You are registering the purifier \'Kitchen\'</string>
     <string name="next_step">Next Step</string>
     <!-- Buy Online -->
-    <string name="buy_online_lbl">Buy Online</string>
+    <string name="buy_online_lbl">Buy online</string>
     <string name="buy_hepa_filter">HEPA filter</string>
     <string name="buy_active_carbon_filter">Active carbon filter</string>
     <string name="buy_multi_care_filter">Multi-care filter</string>
@@ -661,7 +661,7 @@
     <!-- About -->
     <string name="about">About</string>
     <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
-    <string name="promotional_videos">Promotional Videos</string>
+    <string name="promotional_videos">Promotional videos</string>
     <!-- Share -->
     <string name="share">Share</string>
     <string name="wechat_moments">Share to WeChat Moments</string>
