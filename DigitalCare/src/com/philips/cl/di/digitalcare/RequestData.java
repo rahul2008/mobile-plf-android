@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.contactus;
+package com.philips.cl.di.digitalcare;
 
 import java.io.IOException;
 import java.io.InputStream;
