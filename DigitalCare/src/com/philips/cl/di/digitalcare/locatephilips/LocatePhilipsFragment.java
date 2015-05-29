@@ -59,8 +59,8 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
-import com.philips.cl.di.digitalcare.contactus.CdlsResponseCallback;
-import com.philips.cl.di.digitalcare.contactus.RequestCdlsData;
+import com.philips.cl.di.digitalcare.contactus.RequestData;
+import com.philips.cl.di.digitalcare.contactus.ResponseCallback;
 import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -78,13 +78,13 @@ import com.philips.cl.di.digitalcare.util.Utils;
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
-		CdlsResponseCallback {
+		ResponseCallback {
 	private GoogleMap mMap = null;
 	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
-	private AtosResponseParser mCdlsResponseParser = null;
-	private AtosResponseModel mCdlsParsedResponse = null;
-	private ProgressDialog mPostProgress = null;
+	private AtosResponseParser mAtosResponseParser = null;
+	private AtosResponseModel mAtosResponse = null;
+	private ProgressDialog mProgressDialog = null;
 	private ArrayList<LatLng> traceOfMe = null;
 	private Bitmap mBitmapMarker = null;
 	private Polyline mPolyline = null;
@@ -188,7 +188,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	protected void requestATOSResponseData() {
 		DLog.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
-		new RequestCdlsData(formAtosURL(), this).start();
+		new RequestData(formAtosURL(), this).start();
 	}
 
 	protected void startProgressDialog() {
@@ -213,15 +213,15 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	@Override
-	public void onCdlsResponseReceived(String response) {
+	public void onResponseReceived(String response) {
 		DLog.i(TAG, "response : " + response);
 		closeProgressDialog();
 		if (response != null && isAdded()) {
-			mCdlsResponseParser = AtosResponseParser
+			mAtosResponseParser = AtosResponseParser
 					.getParserControllInstance(getActivity());
-			mCdlsResponseParser.processCdlsResponse(response);
-			mCdlsParsedResponse = mCdlsResponseParser.getCdlsBean();
-			if (mCdlsParsedResponse != null) {
+			mAtosResponseParser.processAtosResponse(response);
+			mAtosResponse = mAtosResponseParser.getAtosResponse();
+			if (mAtosResponse != null) {
 
 				getActivity().runOnUiThread(new Runnable() {
 
@@ -237,8 +237,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	protected void parseGeoInformation() {
 
-		if (mCdlsParsedResponse.getSuccess()) {
-			ArrayList<AtosResultsModel> resultModelSet = mCdlsParsedResponse
+		if (mAtosResponse.getSuccess()) {
+			ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
 					.getResultsModel();
 			if (resultModelSet.size() <= 0) {
 				showAlertBox();
@@ -254,9 +254,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onPause() {
-		if (mPostProgress != null && mPostProgress.isShowing()) {
-			mPostProgress.dismiss();
-			mPostProgress = null;
+		if (mProgressDialog != null && mProgressDialog.isShowing()) {
+			mProgressDialog.dismiss();
+			mProgressDialog = null;
 		}
 		super.onPause();
 	}
@@ -339,24 +339,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		setViewParams(config);
 	}
 
-	private class MarkerRunnable implements Runnable {
-		private AtosResponseModel atosResponseModel = null;
-
-		public MarkerRunnable(AtosResponseModel atosResponseModel) {
-			this.atosResponseModel = atosResponseModel;
-		}
-
-		@Override
-		public void run() {
-			ArrayList<AtosResultsModel> resultModelSet = atosResponseModel
-					.getResultsModel();
-			if (resultModelSet.size() <= 0) {
-				return;
-			}
-			addMarkers(resultModelSet);
-		}
-	}
-
 	private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
 		int resultsetSize = resultModelSet.size();
 		mHashMapResults = new HashMap<String, AtosResultsModel>(resultsetSize);
@@ -365,7 +347,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		for (int i = 0; i < resultsetSize; i++) {
 			AtosResultsModel resultModel = resultModelSet.get(i);
 			AtosLocationModel locationModel = resultModel.getLocationModel();
-			AtosAddressModel addressModel = resultModel.getmAddressModel();
+			// AtosAddressModel addressModel = resultModel.getmAddressModel();
 			double lat = Double.parseDouble(locationModel.getLatitude());
 			double lng = Double.parseDouble(locationModel.getLongitude());
 			LatLng latLng = new LatLng(lat, lng);
@@ -784,9 +766,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mSearchBox.setText(null);
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
-			if (mPhoneNumber != null && !mCdlsParsedResponse.getSuccess()) {
-				DLog.i(TAG, mCdlsParsedResponse.getCdlsErrorModel()
-						.getErrorMessage());
+			if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
+				DLog.i(TAG, mAtosResponse.getCdlsErrorModel().getErrorMessage());
 			} else if (Utils.isSimAvailable(getActivity())) {
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {

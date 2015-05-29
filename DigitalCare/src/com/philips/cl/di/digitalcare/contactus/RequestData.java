@@ -15,17 +15,17 @@ import android.os.Looper;
 
 import com.philips.cl.di.digitalcare.util.DLog;
 
-public class RequestCdlsData extends Thread {
+public class RequestData extends Thread {
 
-	private final String TAG = RequestCdlsData.class.getSimpleName();
+	private final String TAG = RequestData.class.getSimpleName();
 
-	private CdlsResponseCallback mResponseCallback = null;
+	private ResponseCallback mResponseCallback = null;
 	private String mResponse = null;
 	private String mUrl = null;
 
-	public RequestCdlsData(String url, CdlsResponseCallback responseCallback) {
-		this.mUrl = url;
-		this.mResponseCallback = responseCallback;
+	public RequestData(String url, ResponseCallback responseCallback) {
+		mUrl = url;
+		mResponseCallback = responseCallback;
 		setPriority(Thread.MAX_PRIORITY);
 	}
 
@@ -41,12 +41,17 @@ public class RequestCdlsData extends Thread {
 			mResponse = getASCIIContentFromEntity(entity);
 		} catch (Exception e) {
 			DLog.e(TAG,
-					"Failed to fetch Cdls Data : " + e.getLocalizedMessage());
+					"Failed to fetch Response Data : " + e.getLocalizedMessage());
 		} finally {
-			if (mResponse != null)
-				mResponseCallback.onCdlsResponseReceived(mResponse);
+			notifyResponseHandler();
 		}
 		Looper.loop();
+	}
+	
+	protected void notifyResponseHandler(){
+		if (mResponse != null){
+			mResponseCallback.onResponseReceived(mResponse);
+		}
 	}
 
 	protected String getASCIIContentFromEntity(HttpEntity entity)

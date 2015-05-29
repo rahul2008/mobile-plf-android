@@ -10,47 +10,44 @@ import twitter4j.auth.AccessToken;
 import twitter4j.conf.ConfigurationBuilder;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
- * Background Task for posting Twitter tweets along with Product Image.
+ * Thread Task for posting Twitter tweets along with Product Image.
  * 
  * @author naveen@philips.com
  * @since 11/feb/2015
  */
-public class TwitterPost extends AsyncTask<String, String, Void> {
+public class TwitterPost extends Thread {
 
 	private String TAG = TwitterPost.class.getSimpleName();
 	private Context mContext = null;
 	private String mConsumerKey = null;
 	private String mConsumerSecret = null;
 	private File mFile = null;
+	private String mStatus = null;
 	private PostCallback mPostCallback = null;
 	private static final String PREF_KEY_OAUTH_TOKEN = "oauth_token";
 	private static final String PREF_KEY_OAUTH_SECRET = "oauth_token_secret";
 	public static final String PREF_NAME = "sample_twitter_pref";
 
-
-	public TwitterPost(Context c, File f, PostCallback callback) {
+	public TwitterPost(Context c, File f, PostCallback callback, String text) {
 		mContext = c;
 		mFile = f;
+		mStatus = text;
 		mPostCallback = callback;
-		DLog.d(TAG, "TwitterPost Constructor");
+		setPriority(Thread.MAX_PRIORITY);
+		DLog.d(TAG, "TwitterPost Thread Started");
+		start();
 	}
 
 	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
+	public void run() {
+		super.run();
 
-	}
-
-	protected Void doInBackground(String... args) {
-		DLog.d(TAG, "Twitter POst DoIN backGround++");
-		String status = args[0];
 		try {
 			mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
 			mConsumerSecret = DigitalCareConfigManager
@@ -73,7 +70,7 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 					access_token_secret);
 			Twitter twitter = new TwitterFactory(builder.build())
 					.getInstance(accessToken);
-			StatusUpdate statusUpdate = new StatusUpdate(status);
+			StatusUpdate statusUpdate = new StatusUpdate(mStatus);
 			if (mFile != null)
 				statusUpdate.setMedia(mFile);
 
@@ -88,12 +85,6 @@ public class TwitterPost extends AsyncTask<String, String, Void> {
 			DLog.d(TAG, "Failed to post : " + e);
 
 		}
-		return null;
 	}
 
-	@Override
-	protected void onPostExecute(Void result) {
-		super.onPostExecute(result);
-
-	}
 }

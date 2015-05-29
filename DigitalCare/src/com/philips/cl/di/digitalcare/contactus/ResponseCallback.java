@@ -1,7 +1,7 @@
 package com.philips.cl.di.digitalcare.contactus;
 
 /**
- * CdlsResponseCallback is interface for Aysnc task CdlsRequestAsyncTask class. Once 
+ * ResponseCallback is interface for Aysnc task RequestThread class. Once 
  * data has been fetched(response received) from server then this will be invoked programmetically. 
  * 
  * @author : Ritesh.jha@philips.com
@@ -9,6 +9,6 @@ package com.philips.cl.di.digitalcare.contactus;
  * @since : 16 Dec 2014
  */
 
-public interface CdlsResponseCallback {
-	void onCdlsResponseReceived(String response);
+public interface ResponseCallback {
+	void onResponseReceived(String response);
 }

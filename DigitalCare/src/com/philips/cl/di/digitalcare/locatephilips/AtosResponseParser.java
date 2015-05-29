@@ -38,14 +38,14 @@ public class AtosResponseParser {
 	/*
 	 * Returning CDLS BEAN instance
 	 */
-	public AtosResponseModel getCdlsBean() {
+	public AtosResponseModel getAtosResponse() {
 		return mCdlsParsedResponse;
 	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
-	public void processCdlsResponse(String response) {
+	public void processAtosResponse(String response) {
 		Log.i(TAG, "response : " + response);
 		JSONObject jsonObject = null;
 

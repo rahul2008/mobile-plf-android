@@ -40,7 +40,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
  * @since : 19 Jan 2015
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
-		TwitterAuthenticationCallback, OnClickListener, CdlsResponseCallback {
+		TwitterAuthenticationCallback, OnClickListener, ResponseCallback {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private DigitalCareFontButton mFacebook = null;
@@ -169,11 +169,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	protected void requestCDLSData() {
 		DLog.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
-		new RequestCdlsData(formCdlsURL(), this).start();
+		new RequestData(formCdlsURL(), this).start();
 	}
 
 	@Override
-	public void onCdlsResponseReceived(String response) {
+	public void onResponseReceived(String response) {
 		closeProgressDialog();
 		DLog.i(TAG, "response : " + response);
 		if (response != null && isAdded()) {

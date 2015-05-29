@@ -170,8 +170,9 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void sendMessage() {
-		new TwitterPost(getActivity(), mFile, this).execute(mEditText.getText()
-				.toString());
+		/*new TwitterPost(getActivity(), mFile, this).execute(mEditText.getText()
+				.toString());*/
+		new TwitterPost(getActivity().getBaseContext(), mFile, this, mEditText.getText().toString());
 		mPostProgress = new ProgressDialog(getActivity());
 		mPostProgress.setMessage(getActivity().getResources().getString(
 				R.string.twitter_post_progress_message));
