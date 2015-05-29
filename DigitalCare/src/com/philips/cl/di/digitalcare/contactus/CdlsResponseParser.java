@@ -69,9 +69,18 @@ public class CdlsResponseParser {
 
 				JSONObject jsonObjectDataPhone = (JSONObject) jsonArrayDataPhone
 						.opt(FIRST_INDEX_VALUE);
-				JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
-						.opt(FIRST_INDEX_VALUE);
-				if(jsonArrayDataEmail != null){
+				if (jsonArrayDataChat != null) {
+					JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
+							.opt(FIRST_INDEX_VALUE);
+					cdlsChatModel = new CdlsChatModel();
+					cdlsChatModel.setContent(jsonObjectDataChat
+							.optString("content"));
+					cdlsChatModel.setOpeningHoursWeekdays(jsonObjectDataChat
+							.optString("openingHoursWeekdays"));
+					cdlsChatModel.setOpeningHoursSaturday(jsonObjectDataChat
+							.optString("openingHoursSaturday"));
+				}
+				if (jsonArrayDataEmail != null) {
 					JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
 							.opt(FIRST_INDEX_VALUE);
 					cdlsEmailModel = new CdlsEmailModel();
@@ -89,13 +98,10 @@ public class CdlsResponseParser {
 						.optString("openingHoursSaturday"));
 				cdlsPhoneModel.setOpeningHoursSunday(jsonObjectDataPhone
 						.optString("openingHoursSunday"));
-
-				cdlsChatModel = new CdlsChatModel();
-				cdlsChatModel.setContent(jsonObjectDataChat.optString("content"));
-				cdlsChatModel.setOpeningHoursWeekdays(jsonObjectDataChat
-						.optString("openingHoursWeekdays"));
-				cdlsChatModel.setOpeningHoursSaturday(jsonObjectDataChat
-						.optString("openingHoursSaturday"));
+				cdlsPhoneModel.setOptionalData1(jsonObjectDataPhone
+						.optString("optionalData1"));
+				cdlsPhoneModel.setOptionalData2(jsonObjectDataPhone
+						.optString("optionalData2"));
 			} else {
 				cdlsErrorModel = new CdlsErrorModel();
 				JSONObject jsonObjectData = jsonObject.optJSONObject("error");

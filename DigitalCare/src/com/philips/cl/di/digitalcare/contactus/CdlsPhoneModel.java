@@ -12,6 +12,8 @@ public class CdlsPhoneModel {
 	private String mOpeningHoursWeekdays = null;
 	private String mOpeningHoursSaturday = null;
 	private String mOpeningHoursSunday = null;
+	private String mOptionalData1 = null;
+	private String mOptionalData2 = null;
 
 	public String getPhoneNumber() {
 		return mPhoneNumber;
@@ -27,7 +29,8 @@ public class CdlsPhoneModel {
 	}
 
 	public String getOpeningHoursWeekdays() {
-		return mOpeningHoursWeekdays;
+		return mOpeningHoursWeekdays.isEmpty() ? mOpeningHoursWeekdays
+				: mOpeningHoursWeekdays + '\n';
 	}
 
 	public void setOpeningHoursWeekdays(String mOpeningHoursWeekdays) {
@@ -35,7 +38,8 @@ public class CdlsPhoneModel {
 	}
 
 	public String getOpeningHoursSaturday() {
-		return mOpeningHoursSaturday;
+		return mOpeningHoursSaturday.isEmpty() ? mOpeningHoursSaturday
+				: mOpeningHoursSaturday + '\n';
 	}
 
 	public void setOpeningHoursSaturday(String mOpeningHoursSunday) {
@@ -43,10 +47,29 @@ public class CdlsPhoneModel {
 	}
 
 	public String getOpeningHoursSunday() {
-		return mOpeningHoursSunday;
+		return mOpeningHoursSunday.isEmpty() ? mOpeningHoursSunday
+				: mOpeningHoursSunday + '\n';
 	}
 
 	public void setOpeningHoursSunday(String mOpeningHoursSunday) {
 		this.mOpeningHoursSunday = mOpeningHoursSunday;
+	}
+
+	public String getOptionalData1() {
+		return mOptionalData1.isEmpty() ? mOptionalData1
+				: mOptionalData1 + '\n';
+	}
+
+	public void setOptionalData1(String optionalData) {
+		this.mOptionalData1 = optionalData;
+	}
+
+	public String getOptionalData2() {
+		return mOptionalData2.isEmpty() ? mOptionalData2
+				: mOptionalData2 + '\n';
+	}
+
+	public void setOptionalData2(String optionalData) {
+		this.mOptionalData2 = optionalData;
 	}
 }

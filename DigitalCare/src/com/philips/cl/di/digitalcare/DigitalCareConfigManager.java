@@ -31,7 +31,7 @@ public class DigitalCareConfigManager {
 	private static String mTwitterConsumerKey = null;
 	private static String mTwitterConsumerSecret = null;
 	private static DigitalCareConfigManager mDigitalCareInstance = null;
-	private static String mCTN = "itsNullOnly";
+	private static ConsumerProductInfo mConsumerProductInfo = null;
 
 	private static final String DEFAULT_LANGAUGE = "en";
 	private static final String DEFAULT_COUNTRY = "GB";
@@ -52,25 +52,28 @@ public class DigitalCareConfigManager {
 	 * Hosting app, which will integrate this DigitalCare, has to pass app
 	 * context.
 	 */
-	public DigitalCareConfigManager(Context context) {
+	private DigitalCareConfigManager() {
+	}
+
+	/*
+	 * Singleton pattern.
+	 */
+	public static DigitalCareConfigManager getInstance(Context context) {
 		if (mDigitalCareInstance == null) {
 			mContext = context;
-			initializeConfigManager();
+			mDigitalCareInstance = new DigitalCareConfigManager();
 			initializeTaggin(context);
+			initializeFeaturesSupported();
 		}
+		return mDigitalCareInstance;
 	}
 
-	private DigitalCareConfigManager() {
-		setConfigParametrs();
+	public ConsumerProductInfo getConsumerProductInfo() {
+		return mConsumerProductInfo;
 	}
 
-	private void initializeConfigManager() {
-		mDigitalCareInstance = new DigitalCareConfigManager();
-	}
-
-	private static void initializeTaggin(Context context) {
-		AnalyticsTracker.isEnable(true);
-		AnalyticsTracker.initContext(context);
+	public void setConsumerProductInfo(ConsumerProductInfo info) {
+		mConsumerProductInfo = info;
 	}
 
 	/*
@@ -95,17 +98,10 @@ public class DigitalCareConfigManager {
 	}
 
 	/*
-	 * Initializing values at first time.
-	 */
-	private void setConfigParametrs() {
-		initializeFeaturesSupported();
-	}
-
-	/*
 	 * This method will parse, how many features are available at DigitalCare
 	 * level.
 	 */
-	private void initializeFeaturesSupported() {
+	private static void initializeFeaturesSupported() {
 		Resources mResources = mContext.getResources();
 		String[] featuresAvailable = mResources
 				.getStringArray(R.array.supported_features);
@@ -146,48 +142,6 @@ public class DigitalCareConfigManager {
 		// return mContext.getApplicationContext().getPackageName();
 
 		return "com.philips.cl.di.kitchenappliances.airfryer";
-	}
-
-	/*
-	 * CDLS category.
-	 * 
-	 * Primary Category(Sub Category):
-	 * http://www.philips.com/prx/cdls/B2C/en_US/CARE/MENS_SHAVING_CA.querytype
-	 * .(fallback)
-	 * 
-	 * Secondary category(Base category):
-	 * http://www.philips.com/prx/cdls/B2C/en_GB/CARE/PERSONAL_CARE_GR
-	 * .querytype.(fallback)
-	 * 
-	 * TODO: Later on FallBack scenario can be added for CDLS. i.e, First time
-	 * CDLS will be try to primary category and if its not available then only
-	 * it will try for secondary sub category(one dipper category);
-	 */
-	public static String getCdlsPrimarySubCategory() {
-		return mContext.getResources()
-				.getString(R.string.cdls_category_primary);
-	}
-
-	public static String getCdlsSecondaryCategory() {
-		return mContext.getResources().getString(
-				R.string.cdls_category_secondry);
-	}
-
-	/*
-	 * Getting subCategory for Locate Near You (Atos cloud request).
-	 */
-	public static String getSubCategory() {
-		return mContext.getResources().getString(R.string.atos_subcategory);
-	}
-
-	/* Locate Near You. Setting CTN Number(Product ID). */
-	public static void setCTN(String ctn) {
-		mCTN = ctn;
-	}
-
-	/* Locate Near You. Getting CTN Number(Product ID). */
-	public static String getCTN() {
-		return mCTN;
 	}
 
 	/*
@@ -261,5 +215,10 @@ public class DigitalCareConfigManager {
 
 	public static void setTwitterConsumerSecret(String twitterConsumerSecret) {
 		mTwitterConsumerSecret = twitterConsumerSecret;
+	}
+
+	private static void initializeTaggin(Context context) {
+		AnalyticsTracker.isEnable(true);
+		AnalyticsTracker.initContext(context);
 	}
 }

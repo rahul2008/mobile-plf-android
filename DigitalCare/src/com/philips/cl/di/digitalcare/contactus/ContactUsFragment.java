@@ -1,5 +1,7 @@
 package com.philips.cl.di.digitalcare.contactus;
 
+import java.io.File;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
+import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
@@ -51,7 +54,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private CdlsResponseParser mCdlsResponseParser = null;
 	private CdlsResponseModel mCdlsParsedResponse = null;
 	private TextView mFirstRowText = null;
-	private TextView mSecondRowText = null;
+	// private TextView mSecondRowText = null;
 	private TextView mContactUsOpeningHours = null;
 	private String mCdlsResponseStr = null;
 	private View mView = null;
@@ -108,8 +111,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					R.id.contactUsOpeningHours);
 			mFirstRowText = (TextView) getActivity().findViewById(
 					R.id.firstRowText);
-			mSecondRowText = (TextView) getActivity().findViewById(
-					R.id.secondRowText);
+			// mSecondRowText = (TextView) getActivity().findViewById(
+			// R.id.secondRowText);
 			mFacebook.setOnClickListener(this);
 
 			/*
@@ -144,6 +147,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onResume() {
 		super.onResume();
 		setViewParams(config);
+	}
+
+	/*
+	 * Forming CDLS url. This url will be different for US and other countries.
+	 */
+	private String formCdlsURL() {
+		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
+				.getInstance(getActivity().getApplicationContext())
+				.getConsumerProductInfo();
+		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
+				+ File.separator + consumerProductInfo.getSector()
+				+ File.separator + consumerProductInfo.getSubCategory()
+				+ CDLS_BASE_URL_POSTFIX;
 	}
 
 	@Override
@@ -208,18 +224,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		if (mCdlsParsedResponse.getSuccess()) {
 			enableBottomText();
-			mCallPhilips.setText(getResources().getString(R.string.call_number)
-					+ " " + mCdlsParsedResponse.getPhone().getPhoneNumber());
-			mFirstRowText.setText(mCdlsParsedResponse.getPhone()
-					.getOpeningHoursWeekdays());
-			if (Utils.isEmpty(mCdlsParsedResponse.getPhone()
-					.getOpeningHoursSaturday())) {
-				mSecondRowText.setText(mCdlsParsedResponse.getPhone()
-						.getOpeningHoursSunday());
-			} else {
-				mSecondRowText.setText(mCdlsParsedResponse.getPhone()
-						.getOpeningHoursSaturday());
-			}
+		StringBuilder stringBuilder = new StringBuilder();
+						CdlsPhoneModel phoneModel = mCdlsParsedResponse
+								.getPhone();
+						stringBuilder
+								.append(phoneModel.getOpeningHoursWeekdays())
+								.append(phoneModel.getOpeningHoursSaturday())
+								.append(phoneModel.getOpeningHoursSunday())
+								.append(phoneModel.getOptionalData1())
+								.append(phoneModel.getOptionalData2());
+						enableBottomText();
+						mCallPhilips.setText(getResources().getString(
+								R.string.call_number)
+								+ " "
+								+ mCdlsParsedResponse.getPhone()
+										.getPhoneNumber());
+						mFirstRowText.setText(stringBuilder);
+
 			if (hasEmptyChatContent(mCdlsParsedResponse)) {
 				mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 				mChat.setEnabled(false);
@@ -383,19 +404,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				AnalyticsConstants.TECHNICAL_ERROR_RESPONSE_CDLS);
 	}
 
-	protected String formCdlsURL() {
-		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
-				+ DigitalCareConfigManager.getCdlsPrimarySubCategory()
-				+ CDLS_BASE_URL_POSTFIX;
-	}
-
 	/*
 	 * If CDLS response received then enable to bottom text.
 	 */
 	private void enableBottomText() {
 		mContactUsOpeningHours.setVisibility(View.VISIBLE);
 		mFirstRowText.setVisibility(View.VISIBLE);
-		mSecondRowText.setVisibility(View.VISIBLE);
+		// mSecondRowText.setVisibility(View.VISIBLE);
 	}
 
 	/*

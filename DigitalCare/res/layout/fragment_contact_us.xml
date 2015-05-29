@@ -68,13 +68,13 @@
             android:visibility="gone"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
-        <TextView
+        <!-- <TextView
             android:id="@+id/secondRowText"
             style="@style/contactUsBottomText"
             android:layout_marginBottom="10dp"
             android:text="@string/opening_hours_second_row"
             android:visibility="gone"
-            custom:fontAssetName="fonts/centralesans-book.otf" />
+            custom:fontAssetName="fonts/centralesans-book.otf" /> -->
     </LinearLayout>
 
 </ScrollView>

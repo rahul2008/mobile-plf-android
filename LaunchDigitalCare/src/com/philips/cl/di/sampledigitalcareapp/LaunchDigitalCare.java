@@ -27,6 +27,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 	private Spinner mLanguage_spinner, mCountry_spinner;
 
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
+	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,11 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		ArrayAdapter<String> mLanguage_adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_list_item_1, mLanguage);
 		mLanguage_spinner.setAdapter(mLanguage_adapter);
+
+		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
+		DigitalCareConfigManager.getInstance(this).setConsumerProductInfo(
+				mConsumerProductInfoDemo);
+
 		mLanguage_spinner
 				.setOnItemSelectedListener(new OnItemSelectedListener() {
 

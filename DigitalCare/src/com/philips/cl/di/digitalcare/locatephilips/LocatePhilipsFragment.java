@@ -55,6 +55,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
@@ -171,18 +172,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	 * will fallback to all server centres.
 	 */
 	private String formAtosURL() {
-		/*
-		 * TODO : Since airfryer app has 10 locales and ServiceCentres are not
-		 * supporting for all those 10 locales. So fixing country only "in" as
-		 * of now.
-		 */
-		return ATOS_BASE_URL_PREFIX + DigitalCareConfigManager.getCTN()
+		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
+				.getInstance(getActivity().getApplicationContext())
+				.getConsumerProductInfo();
+		return ATOS_BASE_URL_PREFIX + consumerProductInfo.getCtn()
 				+ ATOS_BASE_URL_SUBCATEGORY
-				+ DigitalCareConfigManager.getSubCategory()
-				+ ATOS_BASE_URL_COUNTRY + /*
-										 * DigitalCareConfigManager.getCountry().
-										 * toLowerCase()
-										 */"in" + ATOS_BASE_URL_POSTFIX;
+				+ consumerProductInfo.getSubCategory() + ATOS_BASE_URL_COUNTRY
+				+ DigitalCareConfigManager.getCountry().toLowerCase()
+				+ ATOS_BASE_URL_POSTFIX;
 	}
 
 	protected void requestATOSResponseData() {
