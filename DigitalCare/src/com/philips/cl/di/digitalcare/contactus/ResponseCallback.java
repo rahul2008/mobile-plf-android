@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare;
+package com.philips.cl.di.digitalcare.contactus;
 
 /**
  * ResponseCallback is interface for Aysnc task RequestThread class. Once 
