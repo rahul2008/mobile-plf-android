@@ -4,6 +4,7 @@
 
     <!-- Language -->
     <string-array name="Language">
+        <item>India (en)</item>
         <item>English (en)</item>
         <item>French (fr)</item>
         <item>Arabic (ar)</item>
@@ -18,6 +19,7 @@
 
     <!-- Country -->
     <string-array name="country">
+         <item>India (in)</item>
         <item>United States(US)</item>
         <item>French(FR)</item>
         <item>Egypt(EG)</item>
@@ -46,6 +48,7 @@
 
     <!-- country code -->
     <string-array name="country_code">
+        <item>IN</item>
         <item>US</item>
         <item>FR</item>
         <item>EG</item>
