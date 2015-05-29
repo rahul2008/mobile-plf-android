@@ -146,7 +146,7 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	@Override
 	public void onEventReceived(String event) {
 		if (RegConstants.IS_ONLINE.equals(event)) {
-			if (!RegistrationHelper.isJanrainIntialized()) {
+			if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
 				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
 				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
 				        Locale.getDefault());

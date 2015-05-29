@@ -188,10 +188,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void handleJanrainInitPb() {
-		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
+		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mPbJanrainInit.setVisibility(View.GONE);
 		} else if (NetworkUtility.getInstance().isOnline()
-		        && !RegistrationHelper.isJanrainIntialized()) {
+		        && !RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mPbJanrainInit.setVisibility(View.VISIBLE);
 		} else {
 			mPbJanrainInit.setVisibility(View.GONE);
@@ -215,7 +215,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		mProvider = providerName;
 		if (null == mUser)
 			return;
-		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
+		if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
 		}
 	}
@@ -265,7 +265,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	private void handleUiState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationHelper.isJanrainIntialized()) {
+			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 				enableControls(true);
 			} else {
@@ -435,7 +435,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		if (mUser.handleMergeFlowError(existingProvider)) {
 			getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
 		} else {
-			if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.isJanrainIntialized()) {
+			if (NetworkUtility.getInstance().isOnline() && RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mProvider = existingProvider;
 				showProviderProgress();
 				mUser.loginUserUsingSocialProvider(getActivity(), existingProvider, this,

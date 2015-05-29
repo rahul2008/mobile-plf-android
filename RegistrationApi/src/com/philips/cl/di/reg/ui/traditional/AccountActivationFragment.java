@@ -144,7 +144,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	private void handleUiState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationHelper.isJanrainIntialized()) {
+			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 				mBtnActivate.setEnabled(true);
 				mBtnResend.setEnabled(true);

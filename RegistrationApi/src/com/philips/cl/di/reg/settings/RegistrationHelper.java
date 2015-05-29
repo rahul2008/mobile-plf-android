@@ -29,9 +29,9 @@ import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class RegistrationHelper {
 
-	private static Context mContext;
+	private Context mContext;
 
-	public static boolean mJanrainIntialized = false;
+	public boolean mJanrainIntialized = false;
 
 	private static RegistrationHelper mRegistrationHelper = null;
 
@@ -72,11 +72,11 @@ public class RegistrationHelper {
 		String PROD = "PROD";
 	}
 
-	public static boolean isJanrainIntialized() {
+	public boolean isJanrainIntialized() {
 		return mJanrainIntialized;
 	}
 
-	public static void setJanrainIntialized(boolean janrainIntializationStatus) {
+	public void setJanrainIntialized(boolean janrainIntializationStatus) {
 		mJanrainIntialized = janrainIntializationStatus;
 	}
 
@@ -202,6 +202,14 @@ public class RegistrationHelper {
 		try {
 			JSONObject configurationJson = new JSONObject(
 			        convertStreamToString(assetManager.open(RegConstants.CONFIGURATION_JSON_PATH)));
+			/**
+			 * TODO 
+			 * For now suppressing the Jenkin high priority warning. We can try with below code.
+			 * 
+			 * JSONObject configurationJson = new JSONObject(
+			        assetManager.open(RegConstants.CONFIGURATION_JSON_PATH).toString());
+			 */
+			
 			ConfigurationParser configurationParser = new ConfigurationParser();
 			registrationConfiguration = configurationParser.parse(configurationJson);
 

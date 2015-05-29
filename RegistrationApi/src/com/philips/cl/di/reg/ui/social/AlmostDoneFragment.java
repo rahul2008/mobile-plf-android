@@ -168,7 +168,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 
 	private void handleUiErrorState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationHelper.isJanrainIntialized()) {
+			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
 				mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -180,7 +180,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment
 
 	private void updateUiStatus() {
 		if (mEtEmail.isValidEmail() && NetworkUtility.getInstance().isOnline()
-				&& RegistrationHelper.isJanrainIntialized()) {
+				&& RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnContinue.setEnabled(true);
 			mRegError.hideError();
 		} else {

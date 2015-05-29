@@ -156,7 +156,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void handleUiErrorState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationHelper.isJanrainIntialized()) {
+			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
 				mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -211,7 +211,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	private void updateUiStatus() {
 		if (mEtName.isValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
 		        && NetworkUtility.getInstance().isOnline()
-		        && RegistrationHelper.isJanrainIntialized()) {
+		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();
 		} else {

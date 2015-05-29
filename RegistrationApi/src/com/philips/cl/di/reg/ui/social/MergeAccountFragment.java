@@ -188,7 +188,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	
 	private void handleUiErrorState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationHelper.isJanrainIntialized()) {
+			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
 				mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -202,7 +202,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		if (mEtEmail.isValidEmail()
 				&& mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
-				&& RegistrationHelper.isJanrainIntialized()) {
+				&& RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnMerge.setEnabled(true);
 			mBtnForgotPassword.setEnabled(true);
 			mRegError.hideError();

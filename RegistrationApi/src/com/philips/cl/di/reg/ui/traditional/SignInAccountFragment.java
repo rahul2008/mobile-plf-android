@@ -162,7 +162,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void handleUiState() {
 		if (NetworkUtility.getInstance().isOnline()) {
-			if (RegistrationHelper.isJanrainIntialized()) {
+			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
 				mRegError.setError(getString(R.string.NoNetworkConnection));
@@ -290,7 +290,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	private void updateUiStatus() {
 		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
 				&& NetworkUtility.getInstance().isOnline()
-				&& RegistrationHelper.isJanrainIntialized()) {
+				&& RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnSignInAccount.setEnabled(true);
 			mRegError.hideError();
 		} else {
