@@ -17,13 +17,9 @@ public class NetworkUtility {
 	/**
 	 * @return NetworkUtility sigle ton object.
 	 */
-	public static NetworkUtility getInstance() {
+	public static synchronized NetworkUtility getInstance() {
 		if (mNetworkUtility == null) {
-			synchronized (NetworkUtility.class) {
-				if (mNetworkUtility == null) {
-					mNetworkUtility = new NetworkUtility();
-				}
-			}
+			mNetworkUtility = new NetworkUtility();
 		}
 		return mNetworkUtility;
 	}

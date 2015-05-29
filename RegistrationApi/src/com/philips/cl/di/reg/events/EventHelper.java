@@ -18,13 +18,9 @@ public class EventHelper {
 	 * 
 	 * @return EventHelper
 	 */
-	public static EventHelper getInstance() {
+	public static synchronized EventHelper getInstance() {
 		if (eventHelper == null) {
-			synchronized (EventHelper.class) {
-				if (eventHelper == null) {
-					eventHelper = new EventHelper();
-				}
-			}
+			eventHelper = new EventHelper();
 		}
 		return eventHelper;
 	}
