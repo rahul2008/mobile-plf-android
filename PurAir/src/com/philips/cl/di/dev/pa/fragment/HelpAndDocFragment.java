@@ -1,17 +1,20 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
 import com.philips.cl.di.dev.pa.activity.DiagnosticShareActivity;
@@ -22,24 +25,26 @@ import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.buyonline.ProductRegisterFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.demo.DemoModeController;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
-	
+public class HelpAndDocFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
+
 	//private char lineSeparator='\n';
 	private FontTextView faqAC4373, faqAC4375;
 	private FontTextView userManualAC4373, userManualAC4375;
 	private FontTextView websiteAC4373, websiteAC4375;
 	private ScrollView scrollView;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.help_and_doc_fragment, container, false);
 		initializeView(view);
+		initDemoMode(view);
 		return view;
 	}
 
@@ -47,7 +52,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.HELP_AND_DOCUMENTATION);
-//		setBackground(scrollView, R.drawable.ews_nav_bar_2x, Color.BLACK, .1F);
 	}
 	private void initializeView(View rootView) {
 		ImageButton backButton = (ImageButton) rootView.findViewById(R.id.heading_back_imgbtn);
@@ -73,23 +77,23 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		userManualAC4375 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4375);
 		websiteAC4373 = (FontTextView) rootView.findViewById(R.id.help_contact_website_ac4373);
 		websiteAC4375 = (FontTextView) rootView.findViewById(R.id.help_contact_website_ac4375);
-		
+
 		lblAppTutorial.setOnClickListener(this);
 		lblAppAirQualityExplain.setOnClickListener(this);
-		
+
 		TextView phoneNumber1= (TextView) rootView.findViewById(R.id.phone_number_one);
 		TextView phoneNumber2= (TextView) rootView.findViewById(R.id.phone_number_two);
-		
+
 		phoneNumber2.setText(" / "+getString(R.string.contact_philips_support_phone_num_2));
 		phoneNumber1.setOnClickListener(this);
 		phoneNumber2.setOnClickListener(this);
-		
+
 		RelativeLayout contactUs = (RelativeLayout) rootView.findViewById(R.id.layout_help);
 		contactUs.setOnClickListener(this);
-		
+
 		RelativeLayout weChat = (RelativeLayout) rootView.findViewById(R.id.layout_we_chat);
 		weChat.setOnClickListener(this);
-		
+
 		lblFAQ.setOnClickListener(this);
 		lblUserManual.setOnClickListener(this);
 		qrCode.setOnClickListener(this);
@@ -98,31 +102,43 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		productRegistration.setOnClickListener(this);
 		about.setOnClickListener(this);
 		rateandFeedback.setOnClickListener(this);
-		
+
 		RelativeLayout diagnostics = (RelativeLayout) rootView.findViewById(R.id.layout_email_us);
 		diagnostics.setOnClickListener(this);
 		lblOpensource.setOnClickListener(this);
-		
+
 		scrollView = (ScrollView) rootView.findViewById(R.id.help_documentation_scrollview);
-		
+
+		setListener();
+
+		backButton.setOnClickListener(this);
+	}	
+	
+	private void initDemoMode(View view) {
+		ToggleButton demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
+
+		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());
+		demoModeTButton.setOnCheckedChangeListener(this);
+	}
+
+	private void setListener() {
 		faqAC4373.setOnClickListener(this);
 		faqAC4375.setOnClickListener(this);
 		userManualAC4373.setOnClickListener(this);
 		userManualAC4375.setOnClickListener(this);
 		websiteAC4373.setOnClickListener(this);
 		websiteAC4375.setOnClickListener(this);
-		backButton.setOnClickListener(this);
-	}	
-	
+	}
+
 
 	@Override
 	public void onClick(View v) {
-		
+
 		MainActivity activity = (MainActivity) getActivity();
 		if (activity == null) return;
 		switch (v.getId()) {
 		case R.id.heading_back_imgbtn:
-				activity.showFragment(new AboutFragment());
+			activity.showFirstFragment();
 			break;
 		case R.id.phone_number_one:
 			MetricsTracker.trackActionServiceRequest("phone");
@@ -201,7 +217,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			activity.showFragment(new RateAndFeedbackFragment());
 			break;
 		case R.id.buy_online:
-             activity.showFragment(new BuyOnlineFragment());			
+			activity.showFragment(new BuyOnlineFragment());			
 			break;
 		case R.id.promotional_video:
 			activity.showFragment(new PromotionsFragment());
@@ -214,5 +230,14 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			break;
 		}
 	}
-	
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (getActivity() == null) return;
+		MainActivity mainActivity = (MainActivity) getActivity();
+		if (buttonView.getId() == R.id.settings_demo_mode_toggle) {
+			new DemoModeController().toggleShopDemoMode(isChecked, mainActivity);
+		}
+	}
+
 }
