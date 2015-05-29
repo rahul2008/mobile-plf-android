@@ -198,6 +198,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			break;
 		case R.id.rate_feedback:
 			if (getActivity() == null) return;
+			activity.showFragment(new RateAndFeedbackFragment());
 			break;
 		case R.id.buy_online:
              activity.showFragment(new BuyOnlineFragment());			
