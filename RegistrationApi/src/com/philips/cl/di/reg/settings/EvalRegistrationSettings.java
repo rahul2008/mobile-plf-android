@@ -60,6 +60,7 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
 		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext,
 				mLanguageCode, mCountryCode);
+		Log.i("registration", ""+localeMatchHelper);
 	}
 
 	@Override

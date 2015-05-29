@@ -58,6 +58,7 @@ public class ProdRegistrationSettings extends RegistrationSettings {
 
 		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext,
 				mLanguageCode, mCountryCode);
+		Log.i("registration", ""+localeMatchHelper);
 
 	}
 
