@@ -1,0 +1,93 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white" >
+
+    <include
+        android:id="@+id/settings_heading_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/heading" />
+
+    <RelativeLayout
+        android:id="@+id/containerRL"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/settings_heading_rl" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/rate_this_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="14dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
+            android:text="@string/rate_this_app"
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+        
+        <ImageView
+            android:id="@+id/iv_rate_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="14dp"
+            android:paddingRight="15dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/rate_and_feedback"
+            android:contentDescription="@string/img_description" />
+
+        <ImageView
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/rate_this_app"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/share_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider3"
+            android:background="@drawable/list_item_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="14dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="14dp"
+            android:text="@string/send_us_feedback"
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+        
+        <ImageView
+            android:id="@+id/iv_feedback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider3"
+            android:paddingTop="14dp"
+            android:paddingRight="15dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/faq"
+            android:contentDescription="@string/img_description" />
+
+        <ImageView
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/share_feedback"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/settings_heading_rl"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>
