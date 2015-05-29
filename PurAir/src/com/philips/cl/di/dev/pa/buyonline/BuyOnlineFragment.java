@@ -132,22 +132,26 @@ public class BuyOnlineFragment extends BaseFragment {
 	}
 	
 	private void showErrorDialog() {
-		downloadFailedDialog = AlertDialogFragment.newInstance(R.string.no_network_connection, R.string.ok);
-		downloadFailedDialog.show(getActivity().getSupportFragmentManager(), getTag());
-		downloadFailedDialog.setOnClickListener(new AlertDialogBtnInterface() {
-			
-			@Override
-			public void onPositiveButtonClicked() {
-				cancelProgressDialog();
-				downloadFailedDialog.dismiss();
-				mainActivity.onBackPressed();
-			}
-			
-			@Override
-			public void onNegativeButtonClicked() {
-				//NOP
-			}
-		});
+		try {
+			downloadFailedDialog = AlertDialogFragment.newInstance(R.string.no_network_connection, R.string.ok);
+			downloadFailedDialog.show(getActivity().getSupportFragmentManager(), getTag());
+			downloadFailedDialog.setOnClickListener(new AlertDialogBtnInterface() {
+				
+				@Override
+				public void onPositiveButtonClicked() {
+					cancelProgressDialog();
+					downloadFailedDialog.dismiss();
+					mainActivity.onBackPressed();
+				}
+				
+				@Override
+				public void onNegativeButtonClicked() {
+					//NOP
+				}
+			});
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.ERROR, "ProductRegistrationError " + e.getMessage());
+		}
 	}
 	
 //	public void requestToParse(final String url, final RequestCallback callback) {

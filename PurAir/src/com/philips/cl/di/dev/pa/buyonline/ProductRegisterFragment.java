@@ -302,19 +302,23 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 			fragmentTransaction.remove(fragment);
 			fragmentTransaction.commitAllowingStateLoss();
 		}*/
-		downloadFailedDialog = AlertDialogFragment.newInstance(R.string.no_network_connection, R.string.ok);
-		downloadFailedDialog.show(getActivity().getSupportFragmentManager(), ERROR_DIALOG_TAG);
-		downloadFailedDialog.setOnClickListener(new AlertDialogBtnInterface() {
-			
-			@Override
-			public void onPositiveButtonClicked() {
-				cancelProgressDialog();
-				downloadFailedDialog.dismiss();
-			}
-			
-			@Override
-			public void onNegativeButtonClicked() {/**NOP*/}
-		});
+		try {
+			downloadFailedDialog = AlertDialogFragment.newInstance(R.string.no_network_connection, R.string.ok);
+			downloadFailedDialog.show(getActivity().getSupportFragmentManager(), ERROR_DIALOG_TAG);
+			downloadFailedDialog.setOnClickListener(new AlertDialogBtnInterface() {
+				
+				@Override
+				public void onPositiveButtonClicked() {
+					cancelProgressDialog();
+					downloadFailedDialog.dismiss();
+				}
+				
+				@Override
+				public void onNegativeButtonClicked() {/**NOP*/}
+			});
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.ERROR, "ProductRegistrationError " + e.getMessage());
+		}
 	}
 	
 	private void showProgressDialog() {

@@ -273,21 +273,25 @@ public class ProductRegActivity extends BaseActivity{
 	}
 	
 	private void showErrorDialog(int stringId) {
-		downloadFailedDialog = AlertDialogFragment.newInstance(stringId, R.string.ok);
-		downloadFailedDialog.show(getSupportFragmentManager(), "dialog");
-		downloadFailedDialog.setOnClickListener(new AlertDialogBtnInterface() {
-			
-			@Override
-			public void onPositiveButtonClicked() {
-				cancelProgressDialog();
-				downloadFailedDialog.dismiss();
-			}
-			
-			@Override
-			public void onNegativeButtonClicked() {
-				//NOP
-			}
-		});
+		try {
+			downloadFailedDialog = AlertDialogFragment.newInstance(stringId, R.string.ok);
+			downloadFailedDialog.show(getSupportFragmentManager(), "dialog");
+			downloadFailedDialog.setOnClickListener(new AlertDialogBtnInterface() {
+				
+				@Override
+				public void onPositiveButtonClicked() {
+					cancelProgressDialog();
+					downloadFailedDialog.dismiss();
+				}
+				
+				@Override
+				public void onNegativeButtonClicked() {
+					//NOP
+				}
+			});
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.ERROR, "ProductRegistrationError " + e.getMessage());
+		}
 	}
 
 }
