@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
@@ -527,7 +528,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 		case R.id.connecting_info_img_btn:
 			if (activity != null) {
-				activity.showFragment(new AboutFragment());
+				activity.showFragment(new HelpAndDocFragment());
 			}
 			break;
 		case R.id.filters:

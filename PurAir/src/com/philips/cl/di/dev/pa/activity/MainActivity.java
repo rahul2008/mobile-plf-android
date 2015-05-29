@@ -53,6 +53,7 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
+import com.philips.cl.di.dev.pa.fragment.RateAndFeedbackFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
@@ -170,7 +171,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		else {
 			startDiscovery() ;
 		}
-    	checkForCrashesHockeyApp();
+
+   	checkForCrashesHockeyApp();
 	}
 	
 	private void startDiscovery() {
@@ -316,12 +318,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			clearFinishCheckGPS();
 		} else if (fragment instanceof CongratulationFragment) {
 			return;
-		} else if (fragment instanceof HelpAndDocFragment 
-				|| fragment instanceof SettingsFragment
-				|| fragment instanceof BuyOnlineFragment
+		} else if (fragment instanceof HelpAndDocFragment) {
+			showFirstFragment();
+		} else if ( fragment instanceof BuyOnlineFragment
 				|| fragment instanceof PromotionsFragment
-				|| fragment instanceof ProductRegisterFragment) {
-			showFragment(new AboutFragment());
+				|| fragment instanceof ProductRegisterFragment
+				|| fragment instanceof RateAndFeedbackFragment) {
+			showFragment(new HelpAndDocFragment());
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
@@ -329,7 +332,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			showFirstFragment();
 		} else {
 			showDashboardFromDetail(fragment);
-			
+
 		}
 	}
 	

@@ -32,6 +32,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
@@ -339,7 +340,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			showTutorialDialog();
 			break;
 		case R.id.home_fragment_info_img_btn:
-			activity.showFragment(new AboutFragment());
+			activity.showFragment(new HelpAndDocFragment());
 			break;
 		case R.id.heading_back_imgbtn:
 			removeIndoorDetails();
