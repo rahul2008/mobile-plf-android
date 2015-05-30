@@ -50,7 +50,7 @@ public class NetworkAlertView {
 		mTextView.setTextColor(mContext.getResources().getColor(
 				R.color.NetworkAlertView_text_color));
 		mTextView.setText(mContext.getResources().getString(
-				R.string.NetworkAlertView_text));
+				R.string.no_internet));
 		// TODO: This is giving jenkins crash.
 		// Typeface mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
 		// "fonts/centralesans-book.otf");

@@ -104,7 +104,7 @@ public class DigitalCareConfigManager {
 	private static void initializeFeaturesSupported() {
 		Resources mResources = mContext.getResources();
 		String[] featuresAvailable = mResources
-				.getStringArray(R.array.supported_features);
+				.getStringArray(R.array.main_menu_title);
 		mFeatureKeys = new int[featuresAvailable.length];
 
 		for (int i = 0; i < featuresAvailable.length; i++) {

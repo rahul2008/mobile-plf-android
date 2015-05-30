@@ -89,7 +89,7 @@ public class ProductImageHelper {
 		Drawable mPointerImage = mActivity.getResources().getDrawable(
 				android.R.drawable.arrow_up_float);
 		mPointerImage.setColorFilter(
-				mActivity.getResources().getColor(R.color.activity_bg),
+				mActivity.getResources().getColor(R.color.activity_background_color),
 				Mode.LIGHTEN);
 		mPointerView.setPointerImageDrawable(mPointerImage);
 	}

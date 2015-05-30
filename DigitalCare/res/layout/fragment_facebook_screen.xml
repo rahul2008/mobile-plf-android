@@ -3,7 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/activity_bg" >
+    android:background="@color/activity_background_color" >
 
     <LinearLayout
         android:id="@+id/fbPostContainer"
@@ -152,7 +152,7 @@
                     android:layout_marginTop="0dp"
                     android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/cancel"
-                    android:textColor="@color/button_bg"
+                    android:textColor="@color/button_background"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
         </LinearLayout>
@@ -176,7 +176,7 @@
                     android:layout_marginTop="0dp"
                     android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/cancel"
-                    android:textColor="@color/button_bg"
+                    android:textColor="@color/button_background"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
 

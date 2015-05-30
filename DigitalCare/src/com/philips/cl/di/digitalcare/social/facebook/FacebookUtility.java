@@ -77,15 +77,13 @@ public class FacebookUtility {
 		DLog.d(TAG, "Session Object : " + mSession);
 		if (mSession.isOpened()) {
 			String mDestinationPage = mActivity.getResources().getString(
-					R.string.facebook_support_page);
-			String mDestinationRollbackPage = mActivity.getResources()
-					.getString(R.string.facebook_support_page_rollback);
+					R.string.facebook_product_page);
+			String mDestinationRollbackPage = "Philips";
 			DLog.d(TAG, "Destination Page from xml : " + mDestinationPage);
 			DLog.d(TAG, "RollbackPage from xml : " + mDestinationRollbackPage);
 			mFaceBookPage = mDestinationRollbackPage;
 			checkPageAvailability(mDestinationPage);
 		}
-
 	}
 
 	protected void setImageToUpload(Bitmap imageToUpload) {

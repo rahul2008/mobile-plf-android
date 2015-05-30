@@ -7,7 +7,7 @@
         android:id="@+id/prodRegParent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/activity_bg"
+        android:background="@color/activity_background_color"
         android:orientation="vertical" >
 
         <LinearLayout

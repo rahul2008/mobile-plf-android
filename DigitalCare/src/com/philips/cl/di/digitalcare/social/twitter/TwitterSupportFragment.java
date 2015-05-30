@@ -91,7 +91,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				TwitterAuthentication.PREF_USER_NAME, "");
 		mTwitter_to = "@"
 				+ getActivity().getResources().getString(
-						R.string.twitter_support_to_address) + " ";
+						R.string.twitter_page) + " ";
 		mProductInformation = getActivity().getResources().getString(
 				R.string.support_productinformation)
 				+ " ";

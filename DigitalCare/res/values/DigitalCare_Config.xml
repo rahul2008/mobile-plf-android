@@ -1,51 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
-    <!-- Color Start -->
-    <!-- Actionbar related -->
-    <color name="actionbar_bg_start_color">#003478</color>
-    <color name="actionbar_bg_end_color">#0066A1</color>
-    <color name="actionbar_menu_bg_color">#B9BBC7</color>
-    <color name="actionbar_title_text_color">#FFFFFF</color>
+    <!-- UiTheme Start -->
 
-    <!-- Standard Button -->
-    <color name="button_text_color">@color/actionbar_title_text_color</color>
-    <color name="button_bg">#003478</color>
-    <color name="cancel_button_bg">@color/actionbar_title_text_color</color>
-    <color name="button_bg_pressed">#005A8B</color>
-    <color name="button_prodReg_bg_pressed">#005AAB</color>
-    <color name="button_call_bg">#5B8F22</color>
-
-    <!-- Text on the screen -->
-    <color name="text_header_color">@color/button_bg</color>
-    <color name="text_sub_header_color">#2E5F94</color>
 
     <!-- Activity -->
-    <color name="activity_bg">#F0F4F9</color>
+    <color name="activity_background_color">#F0F4F9</color>
 
-    <!-- Chat Screen -->
-    <color name="chat_can_we_help_you_title">@color/actionbar_title_text_color</color>
+    <!-- Actionbar related -->
+    <color name="actionbar_background_start_color">#003478</color>
+    <color name="actionbar_background_end_color">#0066A1</color>
+    <color name="actionbar_title_color">#FFFFFF</color>
 
-    <!-- Color End -->
-
-
-    <!-- email id for philips support -->
-    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
-
-    <!-- Action bar hamburger arrow(back) drawables is the part of below style -->
-    <style name="actionbarIconArrowImageViewParent">
+    <!-- Action bar back arrow button -->
+    <style name="actionbar_back_button">
         <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_back_arrow_white</item>
     </style>
 
-    <!-- Action bar hamburger menu(home) drawables is the part of below style -->
-    <style name="actionbarIconHomeImageViewParent">
+    <!-- Action bar hamburger menu icon -->
+    <style name="actionbar_hamburger_menu">
         <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
     </style>
 
-    <!-- Suppport page contains these fetaures -->
-    <string-array name="supported_features">
+    <bool name="actionbar_required">true</bool>
+
+    <!-- Text color -->
+    <color name="text_header_color">@color/button_background</color>
+    <color name="text_sub_header_color">#2E5F94</color>
+
+    <!-- Standard Button. Common buttons used through out the component -->
+    <color name="button_text_color">@color/actionbar_title_color</color>
+    <color name="button_background">#003478</color>
+    <color name="button_background_pressed">#005A8B</color>
+
+    <!-- Register Button -->
+    <color name="button_register_background">#005AAB</color>
+    <color name="button_register_background_pressed">#005AAB</color>
+
+    <!-- UiTheme End -->
+
+
+    <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
+    <string-array name="main_menu_title">
         <item name="VIEW PRODUCT DETAILS"> 1 </item>
         <item name="FAQ"> 2 </item>
         <item name="CONTACT US "> 3 </item>
@@ -54,36 +52,30 @@
         <item name="REGISTER MY PRODUCT"> 6 </item>
     </string-array>
 
+    <!-- Chat Screen -->
+    <color name="chat_can_we_help_you_title">@color/actionbar_title_color</color>
+
+    <!-- email id for philips support -->
+    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+
     <!-- Product Information to appen in Social Support feature -->
     <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
-
-    <!-- Facebook APPID, replace app id in app authority string -->
-    <string name="facebook_app_id" translatable="false">1537018913230025</string>
-    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-    
-
-    <!-- Twitter Support page Username -->
-    <string name="twitter_support_to_address" translatable="false">PhilipsCare</string>
-
-    <!-- Do you want Live Chat Option -->
-    <bool name="live_chat_required">true</bool>
-
-    <!-- please specify client id depending on the registration type -->
-    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
-    <!-- please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
-    <string name="registration_type" translatable="false">EVAL</string>
-    <string name="microsite_id" translatable="false">81376</string>
 
     <!-- NetworkAlert Input Credentials -->
     <color name="NetworkAlertView_background_color">#b2b2b2</color>
     <color name="NetworkAlertView_text_color">#ffffff</color>
-    <string name="NetworkAlertView_text">@string/no_internet</string>
-    
-    <!-- Post to Facebook Support page: DigitalCare horizontal component supports rollback page hitting feature.
-           i,e Core application can use "facebook_support_page" to send the product relevent queries. If that 
-           page is not reachable with respect to certain scenario's then the support query will automatically send to global
-           Philips page(i,e facebook_support_page_rollback)  -->
-    <string name="facebook_support_page" translatable="false">PhilipsHomeLiving</string>
-    <string name="facebook_support_page_rollback" translatable="false">Philips</string>
+
+    <!-- Facebook APPID, replace app id in app authority string -->
+    <string name="facebook_app_id" translatable="false">1537018913230025</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+
+    <!-- Facebook product support page -->
+    <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
+
+    <!-- Twitter product support page -->
+    <string name="twitter_page" translatable="false">PhilipsCare</string>
+
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
 
 </resources>

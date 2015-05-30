@@ -266,9 +266,9 @@ public class ProductImageSelectorView {
 		// button.setTextColor(Color.parseColor("#3BB9FF"));
 		GradientDrawable mBackground = new GradientDrawable();
 		mBackground.setColor(mContext.getResources().getColor(
-				R.color.activity_bg));
+				R.color.activity_background_color));
 		button.setBackgroundDrawable(mBackground);
-		button.setTextColor(mContext.getResources().getColor(R.color.button_bg));
+		button.setTextColor(mContext.getResources().getColor(R.color.button_background));
 	}
 
 	/**
@@ -283,7 +283,7 @@ public class ProductImageSelectorView {
 			int buttonHeight, int ID) {
 		GradientDrawable mBackground = new GradientDrawable();
 		mBackground.setColor(mContext.getResources().getColor(
-				R.color.activity_bg));
+				R.color.activity_background_color));
 
 		switch (ID) {
 		case CANCEL_BUTTON:
