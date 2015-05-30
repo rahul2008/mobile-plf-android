@@ -31,7 +31,7 @@ public class DigitalCareConfigManager {
 	private static String mTwitterConsumerKey = null;
 	private static String mTwitterConsumerSecret = null;
 	private static DigitalCareConfigManager mDigitalCareInstance = null;
-	private static ConsumerProductInfo mConsumerProductInfo = null;
+	private ConsumerProductInfo mConsumerProductInfo = null;
 
 	private static final String DEFAULT_LANGAUGE = "en";
 	private static final String DEFAULT_COUNTRY = "GB";
