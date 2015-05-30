@@ -93,21 +93,21 @@ public class CdlsResponseModelTest extends
 		assertEquals(null, result.getErrorCode());
 	}
 
-	@Test
-	public void testGetPhone() throws Exception {
-		CdlsResponseModel fixture = new CdlsResponseModel(true,
-				new CdlsPhoneModel(), new CdlsChatModel(),
-				new CdlsEmailModel(), new CdlsErrorModel());
-
-		CdlsPhoneModel result = fixture.getPhone();
-
-		// add additional test code here
-		assertNotNull(result);
-		assertEquals(null, result.getOpeningHoursSaturday());
-		assertEquals(null, result.getOpeningHoursSunday());
-		assertEquals(null, result.getOpeningHoursWeekdays());
-		assertEquals(null, result.getPhoneNumber());
-	}
+//	@Test
+//	public void testGetPhone() throws Exception {
+//		CdlsResponseModel fixture = new CdlsResponseModel(true,
+//				new CdlsPhoneModel(), new CdlsChatModel(),
+//				new CdlsEmailModel(), new CdlsErrorModel());
+//
+//		CdlsPhoneModel result = fixture.getPhone();
+//
+//		// add additional test code here
+//		assertNotNull(result);
+//		assertEquals(null, result.getOpeningHoursSaturday());
+//		assertEquals(null, result.getOpeningHoursSunday());
+//		assertEquals(null, result.getOpeningHoursWeekdays());
+//		assertEquals(null, result.getPhoneNumber());
+//	}
 
 	@Test
 	public void testGetSuccess() throws Exception {

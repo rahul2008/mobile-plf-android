@@ -43,24 +43,24 @@ public class CdlsPhoneModelTest extends
 		String result = fixture.getPhoneNumber();
 		assertEquals(mPhoneNumber, result);
 	}
-
-	@Test
-	public void testSaturdayOpenHourMethod() throws Exception {
-		String result = fixture.getOpeningHoursSaturday();
-		assertEquals(mOpeningHoursSaturday, result);
-	}
-
-	@Test
-	public void testSundayOpenHourMethod() throws Exception {
-		String result = fixture.getOpeningHoursSunday();
-		assertEquals(mOpeningHoursSunday, result);
-	}
-
-	@Test
-	public void testWeekdayOpenHourMethod() throws Exception {
-		String result = fixture.getOpeningHoursWeekdays();
-		assertEquals(mOpeningHoursWeekdays, result);
-	}
+//
+//	@Test
+//	public void testSaturdayOpenHourMethod() throws Exception {
+//		String result = fixture.getOpeningHoursSaturday();
+//		assertEquals(mOpeningHoursSaturday, result);
+//	}
+//
+//	@Test
+//	public void testSundayOpenHourMethod() throws Exception {
+//		String result = fixture.getOpeningHoursSunday();
+//		assertEquals(mOpeningHoursSunday, result);
+//	}
+//
+//	@Test
+//	public void testWeekdayOpenHourMethod() throws Exception {
+//		String result = fixture.getOpeningHoursWeekdays();
+//		assertEquals(mOpeningHoursWeekdays, result);
+//	}
 
 	@Before
 	public void setUp() throws Exception {
