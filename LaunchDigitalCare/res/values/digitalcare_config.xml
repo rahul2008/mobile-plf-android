@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- UiTheme Start -->
+
+
+    <!-- Activity -->
+    <color name="activity_background_color">#F0F4F9</color>
+
+    <!-- Actionbar related -->
+    <color name="actionbar_background_start_color">#003478</color>
+    <color name="actionbar_background_end_color">#0066A1</color>
+    <color name="actionbar_title_color">#FFFFFF</color>
+
+    <!-- Action bar back arrow button -->
+    <style name="actionbar_back_button">
+        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:src">@drawable/actionbar_back_arrow_white</item>
+    </style>
+
+    <!-- Action bar hamburger menu icon -->
+    <style name="actionbar_hamburger_menu">
+        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
+    </style>
+
+    <bool name="actionbar_required">true</bool>
+
+    <!-- Text color -->
+    <color name="text_header_color">@color/button_background</color>
+    <color name="text_sub_header_color">#2E5F94</color>
+
+    <!-- Standard Button. Common buttons used through out the component -->
+    <color name="button_text_color">@color/actionbar_title_color</color>
+    <color name="button_background">#003478</color>
+    <color name="button_background_pressed">#005A8B</color>
+
+    <!-- Register Button -->
+    <color name="button_register_background">#005AAB</color>
+    <color name="button_register_background_pressed">#005AAB</color>
+
+    <!-- UiTheme End -->
+
+
+    <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
+    <string-array name="main_menu_title">
+        <item>view_product_details</item>
+        <item>view_faq</item>
+        <item>contact_us</item>
+        <item>find_philips_near_you</item>
+        <item>feedback</item>
+        <item>registration</item>
+    </string-array>
+
+    <!-- List of main menu image names, please follow naming conventions -->
+    <string-array name="main_menu_resources">
+        <item>view_product_details</item>
+        <item>view_faq</item>
+        <item>contact_us</item>
+        <item>find_philips_near_you</item>
+        <item>feedback</item>
+        <item>registration</item>
+    </string-array>
+
+    <!-- Chat Screen -->
+    <color name="chat_can_we_help_you_title">@color/actionbar_title_color</color>
+
+    <!-- email id for philips support -->
+    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+
+    <!-- Product Information to appen in Social Support feature -->
+    <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
+
+    <!-- NetworkAlert Input Credentials -->
+    <color name="NetworkAlertView_background_color">#b2b2b2</color>
+    <color name="NetworkAlertView_text_color">#ffffff</color>
+
+    <!-- Facebook APPID, replace app id in app authority string -->
+    <string name="facebook_app_id" translatable="false">1537018913230025</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+
+    <!-- Facebook product support page -->
+    <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
+
+    <!-- Twitter product support page -->
+    <string name="twitter_page" translatable="false">PhilipsCare</string>
+
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
+
+</resources>

@@ -7,12 +7,12 @@
 
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
-    <string name="opt_contact_us">Contact us</string>
-    <string name="opt_view_product_details">View product details</string>
-    <string name="opt_view_faq">View FAQs</string>
-    <string name="opt_find_philips_near_you">Find Philips near you</string>
-    <string name="opt_what_you_think">Tell us what you think</string>
-    <string name="opt_register_my_product">Register my product</string>
+    <string name="contact_us">Contact us</string>
+    <string name="view_product_details">View product details</string>
+    <string name="view_faq">View FAQs</string>
+    <string name="find_philips_near_you">Find Philips near you</string>
+    <string name="feedback">Tell us what you think</string>
+    <string name="registration">Register my product</string>
     <string name="actionbar_title_support">Support</string>
 
     <!-- values for Product Registration Screen -->
@@ -38,7 +38,7 @@
 
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>
-    <string name="contact_us">Contact us:</string>
+    <string name="contact_us_text">Contact us:</string>
     <string name="opening_hours">Opening hours</string>
     <string name="opening_hours_first_row">Monday - Friday: 7:30 AM - 8:00 PM</string>
     <string name="opening_hours_second_row">Saturday: 7:30 AM - 8:00 PM</string>

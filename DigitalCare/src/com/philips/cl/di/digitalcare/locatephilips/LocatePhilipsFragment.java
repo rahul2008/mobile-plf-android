@@ -732,7 +732,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.opt_find_philips_near_you);
+		return getResources().getString(R.string.find_philips_near_you);
 	}
 
 	@Override

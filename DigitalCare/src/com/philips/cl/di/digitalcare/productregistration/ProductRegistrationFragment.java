@@ -98,6 +98,6 @@ public class ProductRegistrationFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.opt_register_my_product);
+		return getResources().getString(R.string.registration);
 	}
 }

@@ -3,12 +3,12 @@
 
     <string name="img_description">描述</string>
     <string name="how_can_we_help">需要什麼協助？</string>
-    <string name="opt_contact_us">與我們聯絡</string>
-    <string name="opt_view_product_details">檢視產品資訊</string>
-    <string name="opt_view_faq">閱讀常見問答集</string>
-    <string name="opt_find_philips_near_you">尋找附近的飛利浦服務中心</string>
-    <string name="opt_what_you_think">分享您的想法</string>
-    <string name="opt_register_my_product">註冊您的產品</string>
+    <string name="contact_us">與我們聯絡</string>
+    <string name="view_product_details">檢視產品資訊</string>
+    <string name="view_faq">閱讀常見問答集</string>
+    <string name="find_philips_near_you">尋找附近的飛利浦服務中心</string>
+    <string name="feedback">分享您的想法</string>
+    <string name="registration">註冊您的產品</string>
     <string name="product_info">產品資訊</string>
     <string name="actionbar_title_support">支援</string>
     <string name="faq">常見問答集</string>
@@ -39,7 +39,7 @@
     <string name="loading">正在載入</string>
     <string name="please_wait">請稍候 &#8230;</string>
     <string name="leave_us_a_message">請留言：</string>
-    <string name="contact_us">與我們聯絡：</string>
+    <string name="contact_us_text">與我們聯絡：</string>
     <string name="opening_hours">營業時間</string>
     <string name="live_chat">即時對話</string>
     <string name="send_email">傳送電子郵件</string>

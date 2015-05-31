@@ -3,12 +3,12 @@
 
 <string name="img_description">説明</string>
 <string name="how_can_we_help">お問い合わせ／サポート</string>
-<string name="opt_contact_us">お問い合わせ</string>
-<string name="opt_view_product_details">製品情報を表示</string>
-<string name="opt_view_faq">FAQ を表示</string>
-<string name="opt_find_philips_near_you">お近くのフィリップス</string>
-<string name="opt_what_you_think">ご意見をお聞かせください</string>
-<string name="opt_register_my_product">製品を登録</string>
+<string name="contact_us">お問い合わせ</string>
+<string name="view_product_details">製品情報を表示</string>
+<string name="view_faq">FAQ を表示</string>
+<string name="find_philips_near_you">お近くのフィリップス</string>
+<string name="feedback">ご意見をお聞かせください</string>
+<string name="registration">製品を登録</string>
 <string name="product_info">製品情報</string>
 <string name="actionbar_title_support">サポート</string>
 <string name="faq">よく寄せられるご質問</string>
@@ -39,7 +39,7 @@
 <string name="loading">ロード中</string>
 <string name="please_wait">お待ちください&#8230;</string>
 <string name="leave_us_a_message">ご意見をお寄せください：</string>
-<string name="contact_us">お問い合わせ先：</string>
+<string name="contact_us_text">お問い合わせ先：</string>
 <string name="opening_hours">営業時間</string>
 <string name="live_chat">ライブチャット</string>
 <string name="send_email">メールを送信</string>

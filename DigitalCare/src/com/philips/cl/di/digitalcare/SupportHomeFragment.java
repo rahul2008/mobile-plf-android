@@ -1,6 +1,7 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,7 +23,6 @@ import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
@@ -36,15 +36,17 @@ import com.philips.cl.di.digitalcare.util.Utils;
 
 public class SupportHomeFragment extends DigitalCareBaseFragment {
 
-	private RelativeLayout mContactUsLayout = null;
-	private RelativeLayout mProdDetailsLayout = null;
-	private RelativeLayout mFaqLayout = null;
-	private RelativeLayout mPhilipsNearByLayout = null;
-	private RelativeLayout mRateThisAppLayout = null;
-	private RelativeLayout mProductRegistrationLayout = null;
+	// private RelativeLayout mContactUsLayout = null;
+	// private RelativeLayout mProdDetailsLayout = null;
+	// private RelativeLayout mFaqLayout = null;
+	// private RelativeLayout mPhilipsNearByLayout = null;
+	// private RelativeLayout mRateThisAppLayout = null;
+	// private RelativeLayout mProductRegistrationLayout = null;
 
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
+	private String[] mFeatureKeys = null;
+	private String[] mFeatureDwawableKey = null;
 
 	private static final String TAG = SupportHomeFragment.class.getSimpleName();
 
@@ -54,6 +56,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
 		DLog.i(TAG, "onCreateView");
+		initializeFeaturesSupported();
 		return view;
 	}
 
@@ -67,9 +70,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 
-		for (int btnOption : DigitalCareConfigManager.getFeatureListKeys()) {
-			enableOptionButtons(btnOption);
+		for (int i = 0; i < mFeatureKeys.length; i++) {
+			enableOptionButtons(mFeatureKeys[i], mFeatureDwawableKey[i]);
 		}
+
+		// for (String btnOption : mFeatureKeys) {
+		// enableOptionButtons(btnOption);
+		// }
 
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
@@ -90,59 +97,33 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		mOptionParent.setLayoutParams(mParams);
 	}
 
-	private void enableOptionButtons(int option) {
-		switch (option) {
-		case DigitalCareContants.OPTION_CONTACT_US:
-
-			mContactUsLayout = createButtonLayout(
-					getString(R.string.opt_contact_us),
-					R.drawable.support_btn_contact_us);
-			break;
-		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
-			mProdDetailsLayout = createButtonLayout(
-					getString(R.string.opt_view_product_details),
-					R.drawable.support_btn_product_info);
-			break;
-		case DigitalCareContants.OPTION_FAQ:
-			mFaqLayout = createButtonLayout(getString(R.string.opt_view_faq),
-					R.drawable.support_btn_read_faq);
-			break;
-		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
-			mPhilipsNearByLayout = createButtonLayout(
-					getString(R.string.opt_find_philips_near_you),
-					R.drawable.support_btn_find_philips);
-			break;
-		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
-			mRateThisAppLayout = createButtonLayout(
-					getString(R.string.opt_what_you_think),
-					R.drawable.support_btn_tell_us);
-			break;
-		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
-			mProductRegistrationLayout = createButtonLayout(
-					getString(R.string.opt_register_my_product),
-					R.drawable.support_btn_register_product);
-			break;
-		default:
-			break;
-		}
+	private void enableOptionButtons(String buttonTitle, String buttonDrawable) {
+		String PACKAGE_NAME = getActivity().getPackageName();
+		int title = getResources().getIdentifier(
+				PACKAGE_NAME + ":string/" + buttonTitle, null, null);
+		int drawable = getResources().getIdentifier(
+				PACKAGE_NAME + ":drawable/" + buttonTitle, null, null);
+		createButtonLayout(title, drawable);
 	}
 
 	@Override
 	public void onClick(View view) {
-		if (view == mContactUsLayout) {
+		
+		Integer tag = (Integer) view.getTag();
+		if (tag == R.string.contact_us) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new ContactUsFragment());
-		} else if (view == mProdDetailsLayout) {
+		} else if (tag == R.string.view_product_details) {
 			showFragment(new ProductDetailsFragment());
-		} else if (view == mPhilipsNearByLayout) {
+		} else if (tag == R.string.find_philips_near_you) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new LocatePhilipsFragment());
-		} else if (view == mFaqLayout) {
+		} else if (tag == R.string.view_faq) {
 
-		} else if (view == mRateThisAppLayout) {
+		} else if (tag == R.string.feedback) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new RateThisAppFragment());
-		} else if (view == mProductRegistrationLayout) {
+		} else if (tag == R.string.registration) {
 			showFragment(new ProductRegistrationFragment());
 		}
 	}
@@ -156,14 +137,14 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	 * Create RelativeLayout at runTime. RelativeLayout will have button and
 	 * image together.
 	 */
-	private RelativeLayout createButtonLayout(String buttonTitle, int resId) {
+	private void createButtonLayout(int buttonTitle, int resId) {
 		float density = getResources().getDisplayMetrics().density;
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 		relativeLayout.setLayoutParams(params);
 
-		if (resId == R.drawable.support_btn_register_product) {
+		if (resId == R.drawable.registration) {
 			relativeLayout
 					.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
 		} else {
@@ -176,6 +157,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
 
 		fontButton.setText(buttonTitle);
+		//Setting tag because we need to get String title for this view.
+		relativeLayout.setTag(buttonTitle);
+		
 		relativeLayout.addView(fontButton);
 
 		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
@@ -190,7 +174,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		ImageView img = new ImageView(getActivity(), null,
 				R.style.supportHomeImageButton);
 		img.setPadding(0, 0, 0, 0);
-		img.setContentDescription(buttonTitle);
+		// img.setContentDescription(buttonTitle);
 		img.setImageDrawable(getDrawable(resId));
 		relativeLayout.addView(img);
 
@@ -208,7 +192,18 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		param.topMargin = (int) (15 * density);
 		relativeLayout.setLayoutParams(param);
 		relativeLayout.setOnClickListener(this);
-		return relativeLayout;
+		// return relativeLayout;
+	}
+
+	/*
+	 * This method will parse, how many features are available at DigitalCare
+	 * level.
+	 */
+	private void initializeFeaturesSupported() {
+		Resources mResources = getActivity().getResources();
+		mFeatureKeys = mResources.getStringArray(R.array.main_menu_title);
+		mFeatureDwawableKey = mResources
+				.getStringArray(R.array.main_menu_resources);
 	}
 
 	private Drawable getDrawable(int resId) {

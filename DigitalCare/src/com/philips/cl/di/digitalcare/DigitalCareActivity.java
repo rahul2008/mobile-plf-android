@@ -44,36 +44,33 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	}
 
 	private void showScreen() {
-		int screenChoice = DigitalCareConfigManager.getLaunchingScreen();
-		switch (screenChoice) {
-		case DigitalCareContants.OPTION_PRODUCS_DETAILS:
-			showFragment(new ProductDetailsFragment());
-			break;
-
-		case DigitalCareContants.OPTION_FAQ:
-			//TODO: Add proper FAQ screen.
-			break;
-
-		case DigitalCareContants.OPTION_CONTACT_US:
-			showFragment(new ContactUsFragment());
-			break;
-
-		case DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY:
-			showFragment(new LocatePhilipsFragment());
-			break;
-
-		case DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING:
-			showFragment(new RateThisAppFragment());
-			break;
-
-		case DigitalCareContants.OPTION_REGISTER_PRODUCT:
-			showFragment(new ProductRegistrationFragment());
-			break;
-
-		default:
+		String screenChoice = DigitalCareConfigManager.getLaunchingScreen();
+		if (screenChoice
+				.equalsIgnoreCase(DigitalCareContants.OPTION_SUPPORT_SCREEN)) {
 			showFragment(new SupportHomeFragment());
 			enableActionBarHome();
-			break;
+		}
+		else if (screenChoice
+				.equalsIgnoreCase(DigitalCareContants.OPTION_REGISTER_PRODUCT)) {
+			showFragment(new ProductRegistrationFragment());
+		}
+		
+		else if (screenChoice
+				.equalsIgnoreCase(DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING)) {
+			showFragment(new RateThisAppFragment());
+		}
+		else if (screenChoice
+				.equalsIgnoreCase(DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY)) {
+			showFragment(new LocatePhilipsFragment());
+		}
+		
+		else if (screenChoice
+				.equalsIgnoreCase(DigitalCareContants.OPTION_CONTACT_US)) {
+			showFragment(new ContactUsFragment());
+		}
+		else if (screenChoice
+				.equalsIgnoreCase(DigitalCareContants.OPTION_PRODUCS_DETAILS)) {
+			showFragment(new ProductDetailsFragment());
 		}
 	}
 

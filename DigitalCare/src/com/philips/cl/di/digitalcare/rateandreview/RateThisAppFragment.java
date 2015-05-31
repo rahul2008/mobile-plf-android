@@ -125,6 +125,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.opt_what_you_think);
+		return getResources().getString(R.string.feedback);
 	}
 }

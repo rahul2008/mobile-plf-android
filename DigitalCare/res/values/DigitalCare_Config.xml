@@ -44,12 +44,22 @@
 
     <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
     <string-array name="main_menu_title">
-        <item name="VIEW PRODUCT DETAILS"> 1 </item>
-        <item name="FAQ"> 2 </item>
-        <item name="CONTACT US "> 3 </item>
-        <item name="FIND PHILIPS NEARBY"> 4 </item>
-        <item name="TELL US YOUR THINKING"> 5 </item>
-        <item name="REGISTER MY PRODUCT"> 6 </item>
+        <item>view_product_details</item>
+        <item>view_faq</item>
+        <item>contact_us</item>
+        <item>find_philips_near_you</item>
+        <!-- <item>feedback</item> -->
+        <item>registration</item>
+    </string-array>
+
+    <!-- List of main menu image names, please follow naming conventions -->
+    <string-array name="main_menu_resources">
+        <item>view_product_details</item>
+        <item>view_faq</item>
+        <item>contact_us</item>
+        <item>find_philips_near_you</item>
+       <!--  <item>feedback</item> -->
+        <item>registration</item>
     </string-array>
 
     <!-- Chat Screen -->

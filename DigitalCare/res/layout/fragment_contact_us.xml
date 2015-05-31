@@ -30,7 +30,7 @@
         <TextView
             android:id="@+id/contactUsTitle"
             style="@style/contactUsHelpText"
-            android:text="@string/contact_us"
+            android:text="@string/contact_us_text"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton

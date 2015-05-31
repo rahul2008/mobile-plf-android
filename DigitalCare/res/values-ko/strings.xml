@@ -3,12 +3,12 @@
 
 <string name="img_description">설명</string>
 <string name="how_can_we_help">무엇을 도와 드릴까요?</string>
-<string name="opt_contact_us">문의처</string>
-<string name="opt_view_product_details">제품 정보 보기</string>
-<string name="opt_view_faq">FAQ 읽기</string>
-<string name="opt_find_philips_near_you">가까운 필립스 찾기</string>
-<string name="opt_what_you_think">의견 남기기</string>
-<string name="opt_register_my_product">제품 등록하기</string>
+<string name="contact_us">문의처</string>
+<string name="view_product_details">제품 정보 보기</string>
+<string name="view_faq">FAQ 읽기</string>
+<string name="find_philips_near_you">가까운 필립스 찾기</string>
+<string name="feedback">의견 남기기</string>
+<string name="registration">제품 등록하기</string>
 <string name="product_info">제품 정보</string>
 <string name="actionbar_title_support">지원</string>
 <string name="faq">자주 묻는 질문 (FAQ)</string>
@@ -39,7 +39,7 @@
 <string name="loading">로딩중</string>
 <string name="please_wait">잠시 기다려 주십시오. &#8230;</string>
 <string name="leave_us_a_message">메시지 남기기:</string>
-<string name="contact_us">문의처:</string>
+<string name="contact_us_text">문의처:</string>
 <string name="opening_hours">시작 시간</string>
 <string name="live_chat">실시간 채팅</string>
 <string name="send_email">이메일 보내기</string>

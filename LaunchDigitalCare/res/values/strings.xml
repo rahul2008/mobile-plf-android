@@ -34,6 +34,7 @@
 
     <!-- Language code -->
     <string-array name="Language_code">
+         <item>en</item>
         <item>en</item>
         <item>fr</item>
         <item>ar</item>

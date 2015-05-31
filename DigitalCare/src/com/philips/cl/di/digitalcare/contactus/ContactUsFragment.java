@@ -467,7 +467,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public String getActionbarTitle() {
-		return getResources().getString(R.string.opt_contact_us);
+		return getResources().getString(R.string.contact_us);
 	}
 
 	private void startFacebookSession() {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Resources;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DLog;
@@ -23,7 +22,6 @@ import com.philips.cl.di.digitalcare.util.Utils;
  */
 public class DigitalCareConfigManager {
 
-	private static int[] mFeatureKeys = null;
 	private static String mCountry = null;
 	private static String mLanguage = null;
 	private static int mAnimationStart = 0;
@@ -43,7 +41,7 @@ public class DigitalCareConfigManager {
 	private static final String DEFAULT_TWITTER_SECRET_KEY = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
 
 	// Launching Screen
-	private static int mLaunchingScreen = DigitalCareContants.OPTION_SUPPORT_SCREEN;
+	private static String mLaunchingScreen = DigitalCareContants.OPTION_SUPPORT_SCREEN;
 
 	private static Context mContext = null;
 
@@ -63,7 +61,6 @@ public class DigitalCareConfigManager {
 			mContext = context;
 			mDigitalCareInstance = new DigitalCareConfigManager();
 			initializeTaggin(context);
-			initializeFeaturesSupported();
 		}
 		return mDigitalCareInstance;
 	}
@@ -75,11 +72,21 @@ public class DigitalCareConfigManager {
 	public void setConsumerProductInfo(ConsumerProductInfo info) {
 		mConsumerProductInfo = info;
 	}
+//
+//	private MainMenuListener mMainMenuListener = null;
+//
+//	public void registerMainMenuListener(MainMenuListener mainMenuListener) {
+//		mMainMenuListener = mainMenuListener;
+//	}
+//
+//	public void unRegisterMainMenuListener() {
+//		mMainMenuListener = null;
+//	}
 
 	/*
 	 * Setting user defined screen. User can access any screen which they want.
 	 */
-	public static void setLaunchingScreen(Context context, int launchScreen) {
+	public static void setLaunchingScreen(Context context, String launchScreen) {
 		mLaunchingScreen = launchScreen;
 		launchComponent(context);
 	}
@@ -93,27 +100,8 @@ public class DigitalCareConfigManager {
 	/*
 	 * Getting User defined screen.
 	 */
-	public static int getLaunchingScreen() {
+	public static String getLaunchingScreen() {
 		return mLaunchingScreen;
-	}
-
-	/*
-	 * This method will parse, how many features are available at DigitalCare
-	 * level.
-	 */
-	private static void initializeFeaturesSupported() {
-		Resources mResources = mContext.getResources();
-		String[] featuresAvailable = mResources
-				.getStringArray(R.array.main_menu_title);
-		mFeatureKeys = new int[featuresAvailable.length];
-
-		for (int i = 0; i < featuresAvailable.length; i++) {
-			try {
-				mFeatureKeys[i] = Integer.parseInt(featuresAvailable[i]);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	public static int getAppVersion() {
@@ -142,13 +130,6 @@ public class DigitalCareConfigManager {
 		// return mContext.getApplicationContext().getPackageName();
 
 		return "com.philips.cl.di.kitchenappliances.airfryer";
-	}
-
-	/*
-	 * This will give list of all buttons(features) on the Support Screen.
-	 */
-	public static int[] getFeatureListKeys() {
-		return mFeatureKeys;
 	}
 
 	public static String getCountry() {

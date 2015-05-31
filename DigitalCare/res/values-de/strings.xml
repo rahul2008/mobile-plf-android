@@ -3,12 +3,12 @@
 
     <string name="img_description">Beschreibung</string>
     <string name="how_can_we_help">Wie können wir Ihnen helfen?</string>
-    <string name="opt_contact_us">Kontaktieren Sie uns.</string>
-    <string name="opt_view_product_details">Produktinformationen anzeigen</string>
-    <string name="opt_view_faq">Häufig gestellte Fragen (FAQs) lesen</string>
-    <string name="opt_find_philips_near_you">Finden Sie einen Philips Händler in Ihrer Nähe</string>
-    <string name="opt_what_you_think">Sagen Sie uns Ihre Meinung</string>
-    <string name="opt_register_my_product">Produkt registrieren</string>
+    <string name="contact_us">Kontaktieren Sie uns.</string>
+    <string name="view_product_details">Produktinformationen anzeigen</string>
+    <string name="view_faq">Häufig gestellte Fragen (FAQs) lesen</string>
+    <string name="find_philips_near_you">Finden Sie einen Philips Händler in Ihrer Nähe</string>
+    <string name="feedback">Sagen Sie uns Ihre Meinung</string>
+    <string name="registration">Produkt registrieren</string>
     <string name="product_info">Produktinformationen</string>
     <string name="actionbar_title_support">Support</string>
     <string name="faq">Häufig gestellte Fragen (FAQ)</string>
@@ -39,7 +39,7 @@
     <string name="loading">Laden</string>
     <string name="please_wait">Bitte warten &#8230;</string>
     <string name="leave_us_a_message">Hinterlassen Sie uns eine Nachricht:</string>
-    <string name="contact_us">Kontaktieren Sie uns:</string>
+    <string name="contact_us_text">Kontaktieren Sie uns:</string>
     <string name="opening_hours">Öffnungszeiten</string>
     <string name="live_chat">Live-Chat</string>
     <string name="send_email">E-Mail senden</string>

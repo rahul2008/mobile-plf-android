@@ -3,12 +3,12 @@
 
     <string name="img_description">описание</string>
     <string name="how_can_we_help">Как Вам помочь?</string>
-    <string name="opt_contact_us">Контакты</string>
-    <string name="opt_view_product_details">См. данные о продукте</string>
-    <string name="opt_view_faq">См. FAQ</string>
-    <string name="opt_find_philips_near_you">Ближ. центр Philips</string>
-    <string name="opt_what_you_think">Выскажите свое мнение</string>
-    <string name="opt_register_my_product">Регистрация продукта</string>
+    <string name="contact_us">Контакты</string>
+    <string name="view_product_details">См. данные о продукте</string>
+    <string name="view_faq">См. FAQ</string>
+    <string name="find_philips_near_you">Ближ. центр Philips</string>
+    <string name="feedback">Выскажите свое мнение</string>
+    <string name="registration">Регистрация продукта</string>
     <string name="product_info">сведения о продукте</string>
     <string name="actionbar_title_support">Помощь</string>
     <string name="faq">Часто задаваемые вопросы</string>
@@ -39,7 +39,7 @@
     <string name="loading">Загр.</string>
     <string name="please_wait">Подождите &#8230;</string>
     <string name="leave_us_a_message">Отправьте сообщ.:</string>
-    <string name="contact_us">Контакты:</string>
+    <string name="contact_us_text">Контакты:</string>
     <string name="opening_hours">Часы работы</string>
     <string name="live_chat">Чат</string>
     <string name="send_email">Отпр. письмо</string>
