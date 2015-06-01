@@ -103,7 +103,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		float density = getResources().getDisplayMetrics().density;
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+				LayoutParams.MATCH_PARENT, (int) getResources().getDimension(
+						R.dimen.support_btn_height));
 		relativeLayout.setLayoutParams(params);
 
 		if (resId == R.drawable.registration) {
