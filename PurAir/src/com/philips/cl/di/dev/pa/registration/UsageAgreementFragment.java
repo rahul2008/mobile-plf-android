@@ -67,11 +67,6 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 		mListAdapter = new CustomExpandableListAdapter(getActivity(), ARR_GROUP_ELEMENTS, ARR_CHILD_ELEMENTS);
 		mExpListView.setAdapter(mListAdapter);
 		
-		// Expand all items by default
-		for (int i=0; i < ARR_GROUP_ELEMENTS.length; i++) {
-			mExpListView.expandGroup(i);
-		}
-		
 		// Remove default group indicator because we use our own
 		mExpListView.setGroupIndicator(null);
 		return view;
