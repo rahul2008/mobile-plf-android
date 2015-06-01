@@ -1,8 +1,6 @@
 package com.philips.cl.di.dev.pa.registration;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,16 +9,15 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.fragment.CustomExpandableListAdapter;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 import com.philips.cl.di.dev.pa.view.FontButton;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.errormapping.Error;
 
 public class UsageAgreementFragment extends BaseFragment implements OnClickListener {
@@ -28,7 +25,7 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 	/**
 	 * strings for group elements
 	 */
-	private static final int ARR_GROUP_ELEMENTS[] ={
+	public static final int ARR_GROUP_ELEMENTS[] ={
 		R.string.privacy_policy,
 		R.string.terms_and_conditions,
 		R.string.eula
@@ -37,7 +34,7 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 	/**
 	 * strings for child elements
 	 */
-	private static final int ARR_CHILD_ELEMENTS[][] =
+	public static final int ARR_CHILD_ELEMENTS[][] =
 		{
 		{
 			R.string.privacy_policy_text
@@ -97,98 +94,6 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 		
 	}
 
-	private class CustomExpandableListAdapter extends BaseExpandableListAdapter {
-
-		private Context mContext;
-		private int[] mListHeader; // header titles
-	    // child data in format of header title, child title
-	    private int[][] mListChildData;
-		
-		private CustomExpandableListAdapter(Context context, int[] listHeaderData,
-	            int [][] listChildData) {
-			mContext = context;
-			mListHeader = listHeaderData;
-			mListChildData = listChildData;
-		}
-		
-		@Override
-		public Object getChild(int groupPosition, int childPosition) {
-			return null;
-		}
-
-		@Override
-		public long getChildId(int groupPosition, int childPosition) {
-			return childPosition;
-		}
-
-		@Override
-		public View getChildView(int groupPosition, int childPosition,
-	            boolean isLastChild, View convertView, ViewGroup parent) {
-	    	LayoutInflater infalInflater = 
-	    			(LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = infalInflater.inflate(R.layout.expandable_list_child,	null);
-			
-			FontTextView childTV = (FontTextView) view.findViewById(R.id.expandable_list_child_tv);
-			String text = getString(mListChildData[groupPosition][childPosition]);
-			childTV.setText(Html.fromHtml(text));
-			return view;
-		}
-
-		@Override
-		public int getChildrenCount(int groupPosition) {
-			return mListChildData[groupPosition].length;
-		}
-
-		@Override
-		public Object getGroup(int groupPosition) {
-			return null;
-		}
-
-		@Override
-		public int getGroupCount() {
-			return mListHeader.length;
-		}
-
-		@Override
-		public long getGroupId(int groupPosition) {
-			return groupPosition;
-		}
-
-		@Override
-		public View getGroupView(int groupPosition, boolean isExpanded,
-	            View convertView, ViewGroup parent) {
-	        if (convertView == null) {
-	            LayoutInflater infalInflater = (LayoutInflater) mContext
-	                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-	            convertView = infalInflater.inflate(R.layout.air_registration_agreement_item, null);
-	        }
-	 
-	        ImageView imgView =  (ImageView) convertView.findViewById(R.id.iv_agreement_icon);
-	        
-	        if (expandCollapse[groupPosition]) {
-	        	imgView.setImageResource(R.drawable.up_arrow_list_item);
-	        } else {
-	        	imgView.setImageResource(R.drawable.down_arrow_list_item);
-	        }
-	        
-	        FontTextView lblListHeader = (FontTextView) convertView.findViewById(R.id.tv_agreement_description);
-	        lblListHeader.setText(mListHeader[groupPosition]);
-	        
-	        return convertView;
-		}
-
-		@Override
-		public boolean hasStableIds() {
-			return false;
-		}
-
-		@Override
-		public boolean isChildSelectable(int groupPosition, int childPosition) {
-			return false;
-		}
-		
-	}
-
 	@Override
 	public void onClick(View view) {
 		UserRegistrationActivity activity = (UserRegistrationActivity) getActivity();
@@ -210,3 +115,4 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 		
 	}
 }
+ 

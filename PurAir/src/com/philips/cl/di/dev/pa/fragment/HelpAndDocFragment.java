@@ -225,6 +225,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 		case R.id.product_registration:
 			activity.showFragment(new ProductRegisterFragment());
 		case R.id.about:
+			activity.showFragment(new AboutFragment());
+			
 			break;
 		default:
 			break;

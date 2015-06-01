@@ -47,6 +47,7 @@ import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
+import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -55,6 +56,7 @@ import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.RateAndFeedbackFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
+import com.philips.cl.di.dev.pa.fragment.TermsAndConditionsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
@@ -321,16 +323,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		} else if ( fragment instanceof BuyOnlineFragment
 				|| fragment instanceof PromotionsFragment
 				|| fragment instanceof ProductRegisterFragment
-				|| fragment instanceof RateAndFeedbackFragment) {
+				|| fragment instanceof RateAndFeedbackFragment
+				|| fragment instanceof AboutFragment) {
 			showFragment(new HelpAndDocFragment());
 		} else if (fragment instanceof NotificationsFragment) {
 			showFragment(new DeviceControlFragment());
+		} else if (fragment instanceof TermsAndConditionsFragment) {
+			showFragment(new AboutFragment());
 		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
 		} else {
 			showDashboardFromDetail(fragment);
-
 		}
 	}
 	
