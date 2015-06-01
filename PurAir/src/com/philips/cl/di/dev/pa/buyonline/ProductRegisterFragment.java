@@ -125,9 +125,6 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 			
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				if (getView() == null || getActivity() == null) {
-					return;
-				}
 				ImageView adImgView = (ImageView)getView().findViewById(R.id.productreg_ad_view);
 				adImgView.setVisibility(View.VISIBLE);
 				adImgView.setImageBitmap(loadedImage);

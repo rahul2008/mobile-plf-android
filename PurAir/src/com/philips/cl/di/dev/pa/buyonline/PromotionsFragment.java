@@ -63,7 +63,7 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 		MetricsTracker.trackPage("Promotions");
 		mainActivity = (MainActivity) getActivity();
 		initView();
-		
+		showProgressDialog();
 		process();
 		super.onActivityCreated(savedInstanceState);
 	}
@@ -73,7 +73,6 @@ public class PromotionsFragment extends BaseFragment implements View.OnClickList
 		backImage = (ImageView) getView().findViewById(R.id.title_left_btn);
 		backImage.setOnClickListener(backButtonListener);
 		listView = (ListView)getView().findViewById(R.id.promotions_lv);
-		showProgressDialog();
 	}
 
 	protected void setTitle(String title) {
