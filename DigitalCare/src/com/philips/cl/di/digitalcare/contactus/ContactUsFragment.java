@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -56,7 +55,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private CdlsResponseParser mCdlsResponseParser = null;
 	private CdlsResponseModel mCdlsParsedResponse = null;
 	private TextView mFirstRowText = null;
-	// private TextView mSecondRowText = null;
 	private TextView mContactUsOpeningHours = null;
 	private String mCdlsResponseStr = null;
 	private View mView = null;
@@ -73,10 +71,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DLog.i(TAG, "ContactUsFragment : onCreate");
-	    mTwitterProgresshandler = new Handler();	
+		mTwitterProgresshandler = new Handler();
 		if (Utils.isNetworkConnected(getActivity()))
 			requestCDLSData();
-		
+
 	}
 
 	@Override
@@ -113,8 +111,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					R.id.contactUsOpeningHours);
 			mFirstRowText = (TextView) getActivity().findViewById(
 					R.id.firstRowText);
-			// mSecondRowText = (TextView) getActivity().findViewById(
-			// R.id.secondRowText);
 			mFacebook.setOnClickListener(this);
 
 			/*
@@ -154,7 +150,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	/*
 	 * Forming CDLS url. This url will be different for US and other countries.
 	 */
-	private String formCdlsURL() {
+	protected String formCdlsURL() {
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
 				.getInstance(getActivity().getApplicationContext())
 				.getConsumerProductInfo();
@@ -179,8 +175,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTwitterLoginSuccessful() {
 		mTwitter.setClickable(true);
-		Toast.makeText(getActivity(), "Logged in Successfully",
-				Toast.LENGTH_SHORT).show();
+		Utils.showToast(getActivity(), "Logged in Successfully");
 		showFragment(new TwitterSupportFragment());
 	}
 
@@ -221,27 +216,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
-	private void updateContactInformation() {
+	protected void updateContactInformation() {
 		DLog.d(TAG, "Updating Contact Information");
 
 		if (mCdlsParsedResponse.getSuccess()) {
 			enableBottomText();
-		StringBuilder stringBuilder = new StringBuilder();
-						CdlsPhoneModel phoneModel = mCdlsParsedResponse
-								.getPhone();
-						stringBuilder
-								.append(phoneModel.getOpeningHoursWeekdays())
-								.append(phoneModel.getOpeningHoursSaturday())
-								.append(phoneModel.getOpeningHoursSunday())
-								.append(phoneModel.getOptionalData1())
-								.append(phoneModel.getOptionalData2());
-						enableBottomText();
-						mCallPhilips.setText(getResources().getString(
-								R.string.call_number)
-								+ " "
-								+ mCdlsParsedResponse.getPhone()
-										.getPhoneNumber());
-						mFirstRowText.setText(stringBuilder);
+			StringBuilder stringBuilder = new StringBuilder();
+			CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
+			stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
+					.append(phoneModel.getOpeningHoursSaturday())
+					.append(phoneModel.getOpeningHoursSunday())
+					.append(phoneModel.getOptionalData1())
+					.append(phoneModel.getOptionalData2());
+			enableBottomText();
+			mCallPhilips.setText(getResources().getString(R.string.call_number)
+					+ " " + mCdlsParsedResponse.getPhone().getPhoneNumber());
+			mFirstRowText.setText(stringBuilder);
 
 			if (hasEmptyChatContent(mCdlsParsedResponse)) {
 				mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
@@ -282,7 +272,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
-	private void callPhilips() {
+	protected void callPhilips() {
 		Intent myintent = new Intent(Intent.ACTION_CALL);
 		myintent.setData(Uri.parse("tel:"
 				+ mCdlsParsedResponse.getPhone().getPhoneNumber()));
@@ -295,35 +285,30 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		int id = view.getId();
 		if (id == R.id.contactUsChat && Utils.isNetworkConnected(getActivity())) {
 			if (mCdlsResponseStr == null) {
-				Toast.makeText(getActivity(), "No server response",
-						Toast.LENGTH_SHORT).show();
+				Utils.showToast(getActivity(), "No server response");
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
-				Toast.makeText(getActivity(),
-						mCdlsParsedResponse.getError().getErrorMessage(),
-						Toast.LENGTH_SHORT).show();
+				Utils.showToast(getActivity(), mCdlsParsedResponse.getError()
+						.getErrorMessage());
 				return;
 			}
 			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CHAT);
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
-				Toast.makeText(getActivity(), "No server response",
-						Toast.LENGTH_SHORT).show();
+				Utils.showToast(getActivity(), "No server response");
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
-				Toast.makeText(getActivity(),
-						mCdlsParsedResponse.getError().getErrorMessage(),
-						Toast.LENGTH_SHORT).show();
+				Utils.showToast(getActivity(), mCdlsParsedResponse.getError()
+						.getErrorMessage());
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
 				tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CALL);
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
-				Toast.makeText(getActivity(), "Check the SIM",
-						Toast.LENGTH_SHORT).show();
+				Utils.showToast(getActivity(), "Check the SIM");
 			}
 		} else if (id == R.id.socialLoginFacebookBtn
 				&& Utils.isNetworkConnected(getActivity())) {
@@ -409,16 +394,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	/*
 	 * If CDLS response received then enable to bottom text.
 	 */
-	private void enableBottomText() {
+	protected void enableBottomText() {
 		mContactUsOpeningHours.setVisibility(View.VISIBLE);
 		mFirstRowText.setVisibility(View.VISIBLE);
-		// mSecondRowText.setVisibility(View.VISIBLE);
 	}
 
 	/*
 	 * If feature is not available then fade it out.
 	 */
-	private void fadeoutButtons() {
+	protected void fadeoutButtons() {
 		tagTechnicalError();
 		if (mCallPhilips != null) {
 			mCallPhilips
@@ -450,7 +434,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 * 
 	 * Wouter is working on In-App messaging.
 	 */
-	private void sendEmail() {
+	protected void sendEmail() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
 		intent.setType("message/rfc822");
 		intent.putExtra(Intent.EXTRA_EMAIL, new String[] { getResources()
@@ -470,7 +454,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		return getResources().getString(R.string.contact_us);
 	}
 
-	private void startFacebookSession() {
+	protected void startFacebookSession() {
 		FacebookHelper mHelper = FacebookHelper.getInstance(getActivity());
 		mHelper.openFacebookSession(new FacebookAuthenticate() {
 			@Override

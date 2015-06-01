@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
@@ -82,5 +83,9 @@ public class Utils {
 		default:
 			return true;
 		}
+	}
+
+	public static void showToast(Context context, String message) {
+		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 	}
 }
