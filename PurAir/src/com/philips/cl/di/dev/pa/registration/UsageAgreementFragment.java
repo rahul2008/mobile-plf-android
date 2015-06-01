@@ -52,7 +52,7 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 
 	private ExpandableListView mExpListView;
 	private BaseExpandableListAdapter mListAdapter;
-	private boolean[] expandCollapse = {true, true, true};
+	private boolean[] expandCollapse = {false, false, false};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
