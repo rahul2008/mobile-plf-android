@@ -35,6 +35,8 @@ public class DigitalCareConfigManager {
 	private static final String DEFAULT_COUNTRY = "GB";
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
+	
+	private MainMenuListener mMainMenuListener = null;
 
 	// Twitter APP SDK API KEYS
 	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
@@ -64,6 +66,10 @@ public class DigitalCareConfigManager {
 		}
 		return mDigitalCareInstance;
 	}
+	
+	public static Context getContext(){
+		return mContext;
+	}
 
 	public ConsumerProductInfo getConsumerProductInfo() {
 		return mConsumerProductInfo;
@@ -72,16 +78,14 @@ public class DigitalCareConfigManager {
 	public void setConsumerProductInfo(ConsumerProductInfo info) {
 		mConsumerProductInfo = info;
 	}
-//
-//	private MainMenuListener mMainMenuListener = null;
-//
-//	public void registerMainMenuListener(MainMenuListener mainMenuListener) {
-//		mMainMenuListener = mainMenuListener;
-//	}
-//
-//	public void unRegisterMainMenuListener() {
-//		mMainMenuListener = null;
-//	}
+
+	public void registerMainMenuListener(MainMenuListener mainMenuListener) {
+		mMainMenuListener = mainMenuListener;
+	}
+
+	public MainMenuListener getMainMenuListener() {
+		return mMainMenuListener;
+	}
 
 	/*
 	 * Setting user defined screen. User can access any screen which they want.

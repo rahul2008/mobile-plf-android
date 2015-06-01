@@ -1,6 +1,7 @@
 package com.philips.cl.di.sampledigitalcareapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
+import com.philips.cl.di.digitalcare.MainMenuListener;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 public class LaunchDigitalCare extends Activity implements OnClickListener {
@@ -28,6 +30,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
 	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
+	private ImplementButtonClickListner mButtonClickListner = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,10 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
 		DigitalCareConfigManager.getInstance(this).setConsumerProductInfo(
 				mConsumerProductInfoDemo);
+
+		mButtonClickListner = new ImplementButtonClickListner();
+		DigitalCareConfigManager.getInstance(this).registerMainMenuListener(
+				mButtonClickListner);
 
 		mLanguage_spinner
 				.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -104,7 +111,20 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 					}
 				});
+	}
 
+	private class ImplementButtonClickListner implements MainMenuListener {
+
+		@Override
+		public boolean onMainMenuItemClickListener(int buttonTitle) {
+			if (buttonTitle == R.string.registration || buttonTitle == R.string.view_faq) {
+				Intent intent = new Intent(LaunchDigitalCare.this,
+						DummyScreen.class);
+				startActivity(intent);
+				return true;
+			}
+			return false;
+		}
 	}
 
 	@Override

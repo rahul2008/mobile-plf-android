@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
@@ -35,13 +36,6 @@ import com.philips.cl.di.digitalcare.util.Utils;
  */
 
 public class SupportHomeFragment extends DigitalCareBaseFragment {
-
-	// private RelativeLayout mContactUsLayout = null;
-	// private RelativeLayout mProdDetailsLayout = null;
-	// private RelativeLayout mFaqLayout = null;
-	// private RelativeLayout mPhilipsNearByLayout = null;
-	// private RelativeLayout mRateThisAppLayout = null;
-	// private RelativeLayout mProductRegistrationLayout = null;
 
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
@@ -73,11 +67,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		for (int i = 0; i < mFeatureKeys.length; i++) {
 			enableOptionButtons(mFeatureKeys[i], mFeatureDwawableKey[i]);
 		}
-
-		// for (String btnOption : mFeatureKeys) {
-		// enableOptionButtons(btnOption);
-		// }
-
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
 
@@ -106,33 +95,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		createButtonLayout(title, drawable);
 	}
 
-	@Override
-	public void onClick(View view) {
-		
-		Integer tag = (Integer) view.getTag();
-		if (tag == R.string.contact_us) {
-			if (Utils.isNetworkConnected(getActivity()))
-				showFragment(new ContactUsFragment());
-		} else if (tag == R.string.view_product_details) {
-			showFragment(new ProductDetailsFragment());
-		} else if (tag == R.string.find_philips_near_you) {
-			if (Utils.isNetworkConnected(getActivity()))
-				showFragment(new LocatePhilipsFragment());
-		} else if (tag == R.string.view_faq) {
-
-		} else if (tag == R.string.feedback) {
-			if (Utils.isNetworkConnected(getActivity()))
-				showFragment(new RateThisAppFragment());
-		} else if (tag == R.string.registration) {
-			showFragment(new ProductRegistrationFragment());
-		}
-	}
-
-	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.actionbar_title_support);
-	}
-
 	/**
 	 * Create RelativeLayout at runTime. RelativeLayout will have button and
 	 * image together.
@@ -157,9 +119,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
 
 		fontButton.setText(buttonTitle);
-		//Setting tag because we need to get String title for this view.
-		relativeLayout.setTag(buttonTitle);
-		
 		relativeLayout.addView(fontButton);
 
 		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
@@ -191,8 +150,49 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 				.getLayoutParams();
 		param.topMargin = (int) (15 * density);
 		relativeLayout.setLayoutParams(param);
+
+		/*
+		 * Setting tag because we need to get String title for this view which
+		 * needs to be handled at button click.
+		 */
+		relativeLayout.setTag(buttonTitle);
 		relativeLayout.setOnClickListener(this);
-		// return relativeLayout;
+	}
+
+	@Override
+	public void onClick(View view) {
+
+		Integer tag = (Integer) view.getTag();
+
+		boolean actionTaken = DigitalCareConfigManager
+				.getInstance(DigitalCareConfigManager.getContext())
+				.getMainMenuListener().onMainMenuItemClickListener(tag);
+
+		if (actionTaken) {
+			return;
+		}
+
+		if (tag == R.string.contact_us) {
+			if (Utils.isNetworkConnected(getActivity()))
+				showFragment(new ContactUsFragment());
+		} else if (tag == R.string.view_product_details) {
+			showFragment(new ProductDetailsFragment());
+		} else if (tag == R.string.find_philips_near_you) {
+			if (Utils.isNetworkConnected(getActivity()))
+				showFragment(new LocatePhilipsFragment());
+		} else if (tag == R.string.view_faq) {
+
+		} else if (tag == R.string.feedback) {
+			if (Utils.isNetworkConnected(getActivity()))
+				showFragment(new RateThisAppFragment());
+		} else if (tag == R.string.registration) {
+			showFragment(new ProductRegistrationFragment());
+		}
+	}
+
+	@Override
+	public String getActionbarTitle() {
+		return getResources().getString(R.string.actionbar_title_support);
 	}
 
 	/*
