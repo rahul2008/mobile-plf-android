@@ -35,7 +35,7 @@ public class ContactUsFragmentTest extends
 				.getTargetContext().getCacheDir().getPath());
 		fixture = new ContactUsFragment();
 		mActivity = getActivity();
-		mActionBarTitle = mActivity.getString(R.string.opt_contact_us);
+		mActionBarTitle = mActivity.getString(R.string.contact_us);
 	}
 
 	@Test
