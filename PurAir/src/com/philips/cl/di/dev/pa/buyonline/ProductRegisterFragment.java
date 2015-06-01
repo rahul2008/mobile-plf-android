@@ -26,9 +26,9 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment.RequestCallback;
 import com.philips.cl.di.dev.pa.buyonline.Response.ResponseState;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -288,7 +288,7 @@ public class ProductRegisterFragment extends BaseFragment implements View.OnClic
 	private void onBack() {
 		MainActivity mainActivity = (MainActivity) getActivity();
 		if (mainActivity != null) {
-			mainActivity.showFragment(new AboutFragment());
+			mainActivity.showFragment(new HelpAndDocFragment());
 		}
 	}
 	
