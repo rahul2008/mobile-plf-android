@@ -87,11 +87,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	}
 
 	private void enableOptionButtons(String buttonTitle, String buttonDrawable) {
-		String PACKAGE_NAME = getActivity().getPackageName();
+		String packageName = getActivity().getPackageName();
 		int title = getResources().getIdentifier(
-				PACKAGE_NAME + ":string/" + buttonTitle, null, null);
+				packageName + ":string/" + buttonTitle, null, null);
 		int drawable = getResources().getIdentifier(
-				PACKAGE_NAME + ":drawable/" + buttonTitle, null, null);
+				packageName + ":drawable/" + buttonDrawable, null, null);
 		createButtonLayout(title, drawable);
 	}
 

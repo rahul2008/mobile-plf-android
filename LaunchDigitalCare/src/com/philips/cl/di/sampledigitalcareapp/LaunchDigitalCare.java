@@ -117,7 +117,9 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 		@Override
 		public boolean onMainMenuItemClickListener(int buttonTitle) {
-			if (buttonTitle == R.string.registration || buttonTitle == R.string.view_faq) {
+			if (buttonTitle == R.string.registration
+					|| buttonTitle == R.string.view_faq
+					|| buttonTitle == R.string.actionbar_title_support) {
 				Intent intent = new Intent(LaunchDigitalCare.this,
 						DummyScreen.class);
 				startActivity(intent);

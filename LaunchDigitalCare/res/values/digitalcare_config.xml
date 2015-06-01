@@ -3,7 +3,6 @@
 
     <!-- UiTheme Start -->
 
-
     <!-- Activity -->
     <color name="activity_background_color">#F0F4F9</color>
 
@@ -50,6 +49,7 @@
         <item>find_philips_near_you</item>
         <item>feedback</item>
         <item>registration</item>
+        <item>actionbar_title_support</item>
     </string-array>
 
     <!-- List of main menu image names, please follow naming conventions -->
@@ -60,6 +60,7 @@
         <item>find_philips_near_you</item>
         <item>feedback</item>
         <item>registration</item>
+        <item>contact_us</item>
     </string-array>
 
     <!-- Chat Screen -->
