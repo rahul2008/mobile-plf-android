@@ -29,7 +29,6 @@ import com.philips.cl.di.dev.pa.WBShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -348,7 +347,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			setTitleVisibility(View.GONE);
 			break;
 		case R.id.heading_close_imgbtn:
-			activity.showFragment(new AboutFragment());
+			activity.showFragment(new HelpAndDocFragment());
 			break;
 		case R.id.share_iv:
 			share.setClickable(false); 

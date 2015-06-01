@@ -255,7 +255,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		if (view.getId() == R.id.manage_purifier_info_img_btn) {
 			MainActivity activity = (MainActivity) getActivity();
 			if (activity != null) {
-				activity.showFragment(new AboutFragment());
+				activity.showFragment(new HelpAndDocFragment());
 			}
 		}
 	}

@@ -30,7 +30,6 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
-import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
