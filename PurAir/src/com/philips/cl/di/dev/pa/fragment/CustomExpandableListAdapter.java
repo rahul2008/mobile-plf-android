@@ -13,8 +13,6 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class CustomExpandableListAdapter extends BaseExpandableListAdapter{
 
-	private boolean[] expandCollapse = {true, true, true};
-
 	private Context mContext;
 	private int[] mListHeader; // header titles
     // child data in format of header title, child title
@@ -81,7 +79,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter{
  
         ImageView imgView =  (ImageView) convertView.findViewById(R.id.iv_agreement_icon);
         
-        if (expandCollapse[groupPosition]) {
+        if (isExpanded) {
         	imgView.setImageResource(R.drawable.up_arrow_list_item);
         } else {
         	imgView.setImageResource(R.drawable.down_arrow_list_item);

@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,8 +41,11 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		appNameTV = (FontTextView) getView().findViewById(R.id.about_app_name_tv);
 		appVersionTV = (FontTextView) getView().findViewById(R.id.about_app_version_tv);
 		FontTextView termsAndcondition = (FontTextView) getView().findViewById(R.id.terms_and_conditions);
-		termsAndcondition.setText(getString(R.string.terms_and_conditions)+", " + getString(R.string.eula) + ", " + getString(R.string.privacy_policy) + " >");
+		String arrow=getString(R.string.terms_and_conditions)+", " + getString(R.string.eula) + ", " + getString(R.string.privacy_policy) + "<b> > <\b>";
+		termsAndcondition.setText(Html.fromHtml(arrow));
+		
 		termsAndcondition.setOnClickListener(this);
+		
 	} 
 
 	private void setAppInformation() {

@@ -21,7 +21,7 @@ import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.reg.errormapping.Error;
 
 public class UsageAgreementFragment extends BaseFragment implements OnClickListener {
-
+ 
 	/**
 	 * strings for group elements
 	 */
@@ -49,7 +49,7 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 
 	private ExpandableListView mExpListView;
 	private BaseExpandableListAdapter mListAdapter;
-	private boolean[] expandCollapse = {false, false, false};
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,23 +74,6 @@ public class UsageAgreementFragment extends BaseFragment implements OnClickListe
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.USAGE_AGREEMENT);
 		
-		mExpListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-			
-			@Override
-			public void onGroupCollapse(int groupPosition) {
-				expandCollapse[groupPosition] = false;
-				mListAdapter.notifyDataSetChanged();
-			}
-		});
-		
-		mExpListView.setOnGroupExpandListener(new OnGroupExpandListener() {
-			
-			@Override
-			public void onGroupExpand(int groupPosition) {
-				expandCollapse[groupPosition] = true;
-				mListAdapter.notifyDataSetChanged();
-			}
-		});
 		
 	}
 

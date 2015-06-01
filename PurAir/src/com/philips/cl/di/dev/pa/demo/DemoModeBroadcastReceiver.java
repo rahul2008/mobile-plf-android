@@ -97,8 +97,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	public void connectToDeviceAP() {
 		ALog.i(ALog.DEMO_MODE, "connecttoDevice AP");
 		keyInitializeState = KeyInitializeState.NONE;
-		WifiManager wifiManager = (WifiManager) PurAirApplication
-				.getAppContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
 		new Thread(new Runnable() {
 
