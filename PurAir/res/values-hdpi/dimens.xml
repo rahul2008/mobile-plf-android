@@ -26,7 +26,7 @@
     <dimen name="heading_text_size_dp">16dp</dimen>
     <dimen name="view_pager_indicator_padding_bottom">8dp</dimen>
     <dimen name="outdoor_circle_text_size_dp">28dp</dimen>
-    <dimen name="agreement_head">14sp</dimen>
-    <dimen name="agreement_item">12sp</dimen>
+    <dimen name="agreement_head">16sp</dimen>
+    <dimen name="agreement_item">14sp</dimen>
 
 </resources>
