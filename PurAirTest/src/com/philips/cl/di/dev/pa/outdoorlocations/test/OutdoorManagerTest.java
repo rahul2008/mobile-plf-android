@@ -33,7 +33,7 @@ public class OutdoorManagerTest extends InstrumentationTestCase {
 		outdoorManager.saveNearbyCityData();
 		
 		outdoorDetailsListener = mock(OutdoorDetailsListener.class);
-		outdoorManager.addOutdoorDetailsListener(outdoorDetailsListener);
+		outdoorManager.setOutdoorDetailsListener(outdoorDetailsListener);
 		
 		super.setUp();
 	}

@@ -47,7 +47,7 @@ public class OutdoorManager implements OutdoorDataListener {
 
 	private OutdoorDataChangeListener outdoorDataChangeListener;
 	private AllOutdoorDataListener allOutdoorDataListener;
-	private List<OutdoorDetailsListener> outdoorDetailsListenerList ;
+	private OutdoorDetailsListener outdoorDetailsListener,  outdoorDetailsListenerForMap;
 
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; //TODO : Remove in next version.
 	private long lastUpdatedTime ;
@@ -133,7 +133,6 @@ public class OutdoorManager implements OutdoorDataListener {
 		insertDataAndGetShortListCities();
 		
 		nearbyCities = new ArrayList<String>();
-		outdoorDetailsListenerList = new ArrayList<OutdoorDetailsListener>();
 
 		WeatherIcon.populateWeatherIconMap();
 		
@@ -313,16 +312,20 @@ public class OutdoorManager implements OutdoorDataListener {
 		outdoorDataChangeListener = listener;
 	}
 	
-	public void removeOutdoorDetailsListener(OutdoorDetailsListener listener) {
-		if(outdoorDetailsListenerList.contains(listener)) {
-			outdoorDetailsListenerList.remove(listener);
-		}	
+	public void removeOutdoorDetailsListener() {
+		outdoorDetailsListener = null;
 	}
 	
-	public void addOutdoorDetailsListener(OutdoorDetailsListener listener) {
-		if(!outdoorDetailsListenerList.contains(listener)) {
-			outdoorDetailsListenerList.add(listener);
-		}
+	public void setOutdoorDetailsListener(OutdoorDetailsListener outdoorDetailsListener) {
+		this.outdoorDetailsListener = outdoorDetailsListener;
+	}
+	
+	public void removeOutdoorDetailsListenerForMap() {
+		outdoorDetailsListenerForMap = null;
+	}
+	
+	public void setOutdoorDetailsListenerForMap(OutdoorDetailsListener outdoorDetailsListenerForMap) {
+		this.outdoorDetailsListenerForMap = outdoorDetailsListenerForMap;
 	}
 	
 	public void removeAllOutdoorDataListener(AllOutdoorDataListener listener) {
@@ -369,25 +372,35 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	@Override
 	public void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis, String areaId) {
-		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
-			listener.onAQIHistoricalDataReceived(aqis, areaId);
+		if (outdoorDetailsListener != null) {
+			outdoorDetailsListener.onAQIHistoricalDataReceived(aqis, areaId);
+		}
+		if (outdoorDetailsListenerForMap != null) {
+			outdoorDetailsListenerForMap.onAQIHistoricalDataReceived(aqis, areaId);
 		}
 	}
 	
 	@Override
 	public void outdoorOneDayForecastDataReceived(List<Weatherdto> weatherdtos) {
-		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
-			listener.onOneDayWeatherForecastReceived(weatherdtos);
+		if (outdoorDetailsListener != null) {
+			outdoorDetailsListener.onOneDayWeatherForecastReceived(weatherdtos);
+		}
+		
+		if (outdoorDetailsListenerForMap != null) {
+			outdoorDetailsListenerForMap.onOneDayWeatherForecastReceived(weatherdtos);
 		}
 	}
 
 	@Override
 	public void outdoorFourDayForecastDataReceived(List<ForecastWeatherDto> weatherDtos) {
-		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
-			listener.onFourDayWeatherForecastReceived(weatherDtos);
+		if (outdoorDetailsListener != null) {
+			outdoorDetailsListener.onFourDayWeatherForecastReceived(weatherDtos);
+		}
+		if (outdoorDetailsListenerForMap != null) {
+			outdoorDetailsListenerForMap.onFourDayWeatherForecastReceived(weatherDtos);
 		}
 	}
-
+	
 	public List<String> getNearbyCitiesList(float latitudePlus,
 			float latitudeMinus, float longitudePlus, float longitudeMinus) {
 		nearbyCities.clear();
@@ -524,8 +537,12 @@ public class OutdoorManager implements OutdoorDataListener {
 
 	@Override
 	public void nearbyLocationsAQIReceived(List<OutdoorAQI> aqis) {
-		for(OutdoorDetailsListener listener: outdoorDetailsListenerList) {
-			listener.onNearbyLocationsDataReceived(aqis);
+		if (outdoorDetailsListener != null) {
+			outdoorDetailsListener.onNearbyLocationsDataReceived(aqis);
+		}
+		
+		if (outdoorDetailsListenerForMap != null) {
+			outdoorDetailsListenerForMap.onNearbyLocationsDataReceived(aqis);
 		}
 	}
 }

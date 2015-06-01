@@ -114,7 +114,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		OutdoorManager.getInstance().addOutdoorDetailsListener(this);
+		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
 		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		Coordinates.getInstance(getMainActivity());
 
@@ -444,7 +444,7 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onDestroy() {
-		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
+		OutdoorManager.getInstance().removeOutdoorDetailsListener();
 		super.onDestroy();
 	}
 
