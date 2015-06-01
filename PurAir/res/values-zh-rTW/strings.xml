@@ -244,7 +244,7 @@
     <string name="aqi_message_last_day">過去的一天中，您呼吸了多少新鮮空氣？</string>
     <string name="aqi_message_last7day">過去的一周內，您呼吸了多少新鮮空氣？</string>
     <string name="aqi_message_last4week">過去的一月內，您呼吸了多少新鮮空氣？</string>
-    <string name="outdoor_aiq_analysis_head1">空氣分析 已解釋</string>
+    <string name="outdoor_aiq_analysis_head1">空氣質量分析說明</string>
     <string name="outdoor_aiq_analysis_head2">室內空氣質量水平和 PM 2.5</string>
     <string name="outdoor_aiq_analysis_head3">室內和室外空氣水平的關係，以及它們是如何測量出來的</string>
     <string name="outdoor_aiq_analysis_head4">室內空氣質素 已解釋</string>
