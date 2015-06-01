@@ -174,7 +174,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/dash_dash"
-                android:textColor="@color/green"
+                android:textColor="@color/philips_dark_green"
                 android:textSize="14sp" />
 
             <ProgressBar
@@ -208,7 +208,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:text="@string/dash_dash"
-                android:textColor="@color/blue"
+                android:textColor="@color/philips_bright_blue"
                 android:textSize="14sp" />
 
             <ProgressBar

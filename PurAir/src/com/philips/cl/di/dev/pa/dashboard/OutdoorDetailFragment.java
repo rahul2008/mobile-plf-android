@@ -395,13 +395,13 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		city3rdPB = (ProgressBar) view.findViewById(R.id.city_3_progressBar); 
 		city4thPB = (ProgressBar) view.findViewById(R.id.city_4_progressBar);
 		city1stIMGR = (ImageRound) view.findViewById(R.id.city_1_iv);
-		city1stIMGR.color(Color.RED);
+		city1stIMGR.color(GraphConst.PHILIPS_RED_COLOR);
 		city2ndIMGR = (ImageRound) view.findViewById(R.id.city_2_iv);
-		city2ndIMGR.color(Color.GREEN);
+		city2ndIMGR.color(GraphConst.PHILIPS_DARK_GREEN_COLOR);
 		city3rdIMGR = (ImageRound) view.findViewById(R.id.city_3_iv); 
-		city3rdIMGR.color(Color.BLUE);
+		city3rdIMGR.color(GraphConst.PHILIPS_BRIFHT_BLUE_COLOR);
 		city4thIMGR = (ImageRound) view.findViewById(R.id.city_4_iv);
-		city4thIMGR.color(Color.BLACK);
+		city4thIMGR.color(GraphConst.BLACK_COLOR);
 		
 		multiCityTrendTB = (ToggleButton) view.findViewById(R.id.multi_city_trends_toggle);
 		multiCityTrendTB.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -416,8 +416,8 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 				
 				if (isChecked) {
 					setMultipleCityVisibility(View.VISIBLE);
-					city1stTV.setTextColor(Color.RED);
-					city1stIMGR.color(Color.RED);
+					city1stTV.setTextColor(GraphConst.PHILIPS_RED_COLOR);
+					city1stIMGR.color(GraphConst.PHILIPS_RED_COLOR);
 				} else {
 					setMultipleCityVisibility(View.GONE);
 					city1stTV.setTextColor(Color.GRAY);
@@ -608,11 +608,11 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		currentCityHourOfDay = calenderGMTChinese.get(Calendar.HOUR_OF_DAY);
 		currentCityDayOfWeek = calenderGMTChinese.get(Calendar.DAY_OF_WEEK);
 		lastDayAQIHistoricArr = DummyData.getInstance().getLastDayAqis(selectedCityAreaId);
-		lastDayRDCPValuesMap.put(Color.RED, lastDayAQIHistoricArr);
+		lastDayRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, lastDayAQIHistoricArr);
 		last7dayAQIHistoricArr = DummyData.getInstance().getLastWeekAqis(selectedCityAreaId);
-		last7daysRDCPValuesMap.put(Color.RED, last7dayAQIHistoricArr);
+		last7daysRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, last7dayAQIHistoricArr);
 		last4weekAQIHistoricArr = DummyData.getInstance().getLastMonthAqis(selectedCityAreaId);
-		last4weeksRDCPValuesMap.put(Color.RED, last4weekAQIHistoricArr);
+		last4weeksRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, last4weekAQIHistoricArr);
 
 		setTrentView(aqiHistoricSate);
 		setClickEvent(true);
@@ -815,9 +815,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 	
 	//Display empty graph view
 	private void showGraphView() {
-		lastDayRDCPValuesMap.put(Color.RED, lastDayAQIHistoricArr);
-		last7daysRDCPValuesMap.put(Color.RED, last7dayAQIHistoricArr);
-		last4weeksRDCPValuesMap.put(Color.RED, last4weekAQIHistoricArr);
+		lastDayRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, lastDayAQIHistoricArr);
+		last7daysRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, last7dayAQIHistoricArr);
+		last4weeksRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, last4weekAQIHistoricArr);
 		setViewlastDayAQIReadings();
 	}
 

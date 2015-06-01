@@ -199,17 +199,17 @@ public class DashboardUtil {
 
 	//For multiple graph
 	public static int getColorWithRespectToIndex(String areaId, List<String> topThreeCityAreaIds) {
-		int color = Color.RED;
+		int color = GraphConst.PHILIPS_RED_COLOR;
 		if (topThreeCityAreaIds != null ) {
 			switch (topThreeCityAreaIds.indexOf(areaId)) {
 			case 0:
-				color = Color.GREEN;
+				color = GraphConst.PHILIPS_DARK_GREEN_COLOR;
 				break;
 			case 1:
-				color = Color.BLUE;
+				color = GraphConst.PHILIPS_BRIFHT_BLUE_COLOR;
 				break;
 			case 2:
-				color = Color.BLACK;
+				color = GraphConst.BLACK_COLOR;
 				break;
 			default:
 				//NOP

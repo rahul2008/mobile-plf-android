@@ -75,7 +75,7 @@ public class DrawTrendPaths {
 	
 	/**Get color for indoor*/
 	public int getColorIndoor (float y) {
-		int color = Color.RED;
+		int color = GraphConst.COLOR_RED;
 		if (y > coordinates.getIdY2()) {
 			/**Blue color circle*/
 			color = GraphConst.COLOR_STATE_BLUE; 

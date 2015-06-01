@@ -173,6 +173,9 @@
     <color name="agreement_child_item_bg">#FAFAFB</color>
     <color name="agreement_child_item_color">#888888</color>
     <color name="agreement_head_item_color">#0D5695</color>
+    <color name="philips_red">#cd202c</color>
+    <color name="philips_dark_green">#00693c</color>
+    <color name="philips_bright_blue">#0066a1</color>
     
 
 </resources>

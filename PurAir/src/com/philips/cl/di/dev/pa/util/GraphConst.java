@@ -10,6 +10,11 @@ public class GraphConst {
 	public static final String CMA_BASEURL_4 = "mNuL2RhdGEv" ;
 	
 	/** The Graph constants.*/
+	
+	public static final int PHILIPS_RED_COLOR = Color.rgb(205,32,44);
+	public static final int PHILIPS_BRIFHT_BLUE_COLOR = Color.rgb(0, 102, 161);
+	public static final int PHILIPS_DARK_GREEN_COLOR = Color.rgb(0, 105, 60);
+	public static final int BLACK_COLOR = Color.rgb(0, 0, 0);
  	
 	public static final int COLOR_TITLE_GRAY = Color.rgb(93,101,119);
 	public static final int COLOR_ROYAL_BLUE = Color.rgb(59, 108, 180);

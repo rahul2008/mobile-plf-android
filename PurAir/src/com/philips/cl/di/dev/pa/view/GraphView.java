@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.view;
 
 import java.util.HashMap;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
-
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DrawTrend;
@@ -42,6 +41,7 @@ public class GraphView extends View {
 	}
 
 	//Outdoor detail trends
+	@SuppressLint("UseSparseArrays")
 	public GraphView(Context context, HashMap<Integer, float[]> yCoordinatesMap, boolean multipleTrend ) {
 		super(context);
 
@@ -64,7 +64,7 @@ public class GraphView extends View {
 			HashMap<Integer, float[]> yCoordinatesMapTemp = new HashMap<Integer, float[]>();
 			if (!multipleTrend) {
 				for (int key : yCoordinatesMap.keySet()) {
-					if (key == Color.RED) {
+					if (key == GraphConst.PHILIPS_RED_COLOR) {
 						yCoordinatesMapTemp.put(key, yCoordinatesMap.get(key));
 						break;
 					}
