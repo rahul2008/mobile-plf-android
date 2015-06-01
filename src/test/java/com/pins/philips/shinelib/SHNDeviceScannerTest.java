@@ -95,14 +95,14 @@ public class SHNDeviceScannerTest {
 
     @Test
     public void whenScanningThenStartLeScanOnTheBluetoothAdapterIsCalled() {
-        assertTrue(shnDeviceScanner.startScanning(null, STOP_SCANNING_AFTER_10_SECONDS));
+        assertTrue(shnDeviceScanner.startScanning(null, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
         verify(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
     }
 
     @Test
     public void whenScanningThenStartingANextScanReturnsFalse() {
-        shnDeviceScanner.startScanning(null, STOP_SCANNING_AFTER_10_SECONDS);
-        assertFalse(shnDeviceScanner.startScanning(null, STOP_SCANNING_AFTER_10_SECONDS));
+        shnDeviceScanner.startScanning(null, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
+        assertFalse(shnDeviceScanner.startScanning(null, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
         verify(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
     }
 
@@ -110,7 +110,7 @@ public class SHNDeviceScannerTest {
     public void whenStopScanningIsCalledThenStopLeScanOnTheBluetoothAdapterIsCalledWithTheSameParameterAsInStart() {
         // Start scanning and capture the scancallback object
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        assertTrue(shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS));
+        assertTrue(shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
         ArgumentCaptor<BluetoothAdapter.LeScanCallback> leScanCallbackStartArgumentCaptor = ArgumentCaptor.forClass(BluetoothAdapter.LeScanCallback.class);
         verify(mockedBluetoothAdapter).startLeScan(leScanCallbackStartArgumentCaptor.capture());
 
@@ -125,7 +125,7 @@ public class SHNDeviceScannerTest {
     @Test
     public void whenStopScanningIsCalledThenScanStoppedOnTheListenerIsCalled() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
         shnDeviceScanner.stopScanning();
 
         verify(mockedSHNDeviceScannerListener).scanStopped(shnDeviceScanner);
@@ -134,7 +134,7 @@ public class SHNDeviceScannerTest {
     @Test
     public void whenScanningThenScanningIsStoppedAutomaticallyAfterTheMaxScanTime() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        assertTrue(shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS));
+        assertTrue(shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS));
         verify(mockedBluetoothAdapter).startLeScan(any(BluetoothAdapter.LeScanCallback.class));
 
         mockedHandler.executeFirstScheduledExecution(); // Assumes that no other timers are running...
@@ -144,7 +144,7 @@ public class SHNDeviceScannerTest {
     @Test
     public void whenDuringScanningADeviceIsFoundWithMatchingPrimaryServiceUUID16ThenItIsReported() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
@@ -158,7 +158,7 @@ public class SHNDeviceScannerTest {
     @Test
     public void whenDuringScanningADeviceIsFoundWithMatchingPrimaryServiceUUID128ThenItIsReported() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
@@ -180,7 +180,7 @@ public class SHNDeviceScannerTest {
     @Test
     public void whenDuringScanningADeviceIsFoundMultipleTimesWithMatchingPrimaryServiceUUID16ThenItIsReportedOnlyOnce() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();
@@ -197,7 +197,7 @@ public class SHNDeviceScannerTest {
     @Test
     public void whenDuringScanningADeviceIsFoundWithNOTMatchingPrimaryServiceUUID16ThenItIsNotReported() {
         SHNDeviceScanner.SHNDeviceScannerListener mockedSHNDeviceScannerListener = mock(SHNDeviceScanner.SHNDeviceScannerListener.class);
-        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, STOP_SCANNING_AFTER_10_SECONDS);
+        shnDeviceScanner.startScanning(mockedSHNDeviceScannerListener, SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesNotAllowed, STOP_SCANNING_AFTER_10_SECONDS);
 
         BluetoothDevice mockedBluetoothDevice = (BluetoothDevice) Utility.makeThrowingMock(BluetoothDevice.class);
         doReturn("12:34:56:78:90:AB").when(mockedBluetoothDevice).getAddress();

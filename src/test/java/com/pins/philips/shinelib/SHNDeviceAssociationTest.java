@@ -3,6 +3,7 @@ package com.pins.philips.shinelib;
 import android.bluetooth.BluetoothDevice;
 import android.util.Log;
 
+import com.pins.philips.shinelib.helper.MockedHandler;
 import com.pins.philips.shinelib.helper.Utility;
 import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
 
@@ -50,6 +51,8 @@ public class SHNDeviceAssociationTest {
     private SHNDeviceDefinitions mockedSHNDeviceDefinitions;
     private ShinePreferenceWrapper mockedShinePreferenceWrapper;
     private SHNDevice mockedSHNDevice;
+    private MockedHandler mockedInternalHandler;
+    private MockedHandler mockedUserHandler;
 
     @Before
     public void setUp() {
@@ -63,6 +66,8 @@ public class SHNDeviceAssociationTest {
         mockedShinePreferenceWrapper = (ShinePreferenceWrapper) Utility.makeThrowingMock(ShinePreferenceWrapper.class);
         mockedSHNDevice = (SHNDevice) Utility.makeThrowingMock(SHNDevice.class);
         mockedPrimaryServiceUUID = UUID.randomUUID();
+        mockedInternalHandler = new MockedHandler();
+        mockedUserHandler = new MockedHandler();
 
         // mockedSHNDeviceAssociationListener
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationFailed(any(SHNResult.class));
@@ -84,6 +89,8 @@ public class SHNDeviceAssociationTest {
         doReturn(mockedShinePreferenceWrapper).when(mockedSHNCentral).getShinePreferenceWrapper();
         doNothing().when(mockedSHNCentral).stopScanning();
         doReturn(mockedSHNDevice).when(mockedSHNCentral).creatSHNDeviceForAddress(anyString(), any(SHNDeviceDefinitionInfo.class));
+        doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
+        doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
 
         // mockedSHNAssociationProcedure
         doReturn(true).when(mockedSHNAssociationProcedure).getShouldScan();

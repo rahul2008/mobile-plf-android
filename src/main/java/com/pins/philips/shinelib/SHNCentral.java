@@ -113,7 +113,6 @@ public class SHNCentral {
     private final Handler userHandler;
     private final Context applicationContext;
     private boolean bluetoothAdapterEnabled;
-    private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener;
     private final BroadcastReceiver bluetoothBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -251,18 +250,11 @@ public class SHNCentral {
     }
 
     public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
-        // TODO Implement this
-//        if (this.shnDeviceScannerListener == null) {
-//            // currently not scanning
-//            this.shnDeviceScannerListener = shnDeviceScannerListener;
-//            shnDeviceScanner.startScanning(shnDeviceScannerListener, 30000l);
-//            return true;
-//        }
-        return false;
+        return shnDeviceScanner.startScanning(shnDeviceScannerListener, scannerSettingDuplicates, 30000l);
     }
 
     public void stopScanning() {
-        // TODO Implement this
+        shnDeviceScanner.stopScanning();
     }
 
     public SHNDevice creatSHNDeviceForAddress(String deviceAddress, SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {

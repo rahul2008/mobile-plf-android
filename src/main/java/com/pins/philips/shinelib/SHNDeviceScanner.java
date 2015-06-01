@@ -19,6 +19,7 @@ import java.util.UUID;
 public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
     private static final String TAG = SHNDeviceScanner.class.getSimpleName();
     private static final boolean LOGGING = false;
+    private ScannerSettingDuplicates scannerSettingDuplicates;
 
     public enum ScannerSettingDuplicates {
         DuplicatesNotAllowed, DuplicatesAllowed
@@ -42,10 +43,11 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
         this.registeredDeviceDefinitions = registeredDeviceDefinitions;
     }
 
-    public boolean startScanning(SHNDeviceScannerListener shnDeviceScannerListener, long stopScanningAfterMS) {
+    public boolean startScanning(SHNDeviceScannerListener shnDeviceScannerListener, ScannerSettingDuplicates scannerSettingDuplicates, long stopScanningAfterMS) {
         if (scanning) {
             return false;
         }
+        this.scannerSettingDuplicates = scannerSettingDuplicates;
         macAddressesOfFoundDevices.clear();
         this.shnDeviceScannerListener = shnDeviceScannerListener;
         leScanCallbackProxy = new LeScanCallbackProxy();
@@ -86,8 +88,10 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
 
     private void handleDeviceFoundEvent(BleDeviceFoundInfo bleDeviceFoundInfo) {
 
-        if (!macAddressesOfFoundDevices.contains(bleDeviceFoundInfo.getDeviceAddress())) {
-            macAddressesOfFoundDevices.add(bleDeviceFoundInfo.getDeviceAddress());
+        if (scannerSettingDuplicates == ScannerSettingDuplicates.DuplicatesAllowed || !macAddressesOfFoundDevices.contains(bleDeviceFoundInfo.getDeviceAddress())) {
+            if (scannerSettingDuplicates == ScannerSettingDuplicates.DuplicatesNotAllowed) {
+                macAddressesOfFoundDevices.add(bleDeviceFoundInfo.getDeviceAddress());
+            }
 
             List<UUID> UUIDs = parseUUIDs(bleDeviceFoundInfo.scanRecord);
             for (UUID uuid: UUIDs) {
