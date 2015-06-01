@@ -145,12 +145,12 @@ public class ProductRegActivity extends BaseActivity{
 					File file = new File(AppConstants.TMP_OUTPUT_CORP_JPG);
 					String result = httpSender.sendFile(maps, file,
 							"http://222.73.255.34/philips_new/regproducts.php");
+					ProductRegisterFragment.isUpdate =  true;
 					JSONObject jsonObject= new JSONObject(result);
 					final String msg = jsonObject.optString("msg");
 					handler.post(new Runnable() {
 						@Override
 						public void run() {
-							ProductRegisterFragment.isUpdate =  true;
 							new AlertDialog.Builder(ProductRegActivity.this).setMessage(msg).setTitle(
 									getString(R.string.tips)).setPositiveButton(
 											getString(R.string.know), new DialogInterface.OnClickListener() {
