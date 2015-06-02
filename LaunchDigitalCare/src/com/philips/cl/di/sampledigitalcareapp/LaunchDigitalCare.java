@@ -147,12 +147,12 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 		@Override
 		public boolean onSocialProviderItemClickListener(int buttonTitle) {
-			if (buttonTitle == R.string.facebook) {
-				Intent intent = new Intent(LaunchDigitalCare.this,
-						DummyScreen.class);
-				startActivity(intent);
-				return true;
-			}
+//			if (buttonTitle == R.string.facebook) {
+//				Intent intent = new Intent(LaunchDigitalCare.this,
+//						DummyScreen.class);
+//				startActivity(intent);
+//				return true;
+//			}
 			return false;
 		}
 	}
