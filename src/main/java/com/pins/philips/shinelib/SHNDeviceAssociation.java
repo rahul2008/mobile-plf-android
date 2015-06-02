@@ -64,7 +64,9 @@ public class SHNDeviceAssociation {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
             SHNDevice shnDevice = shnCentral.creatSHNDeviceForAddress(shnDeviceFoundInfo.deviceAddress, shnDeviceFoundInfo.shnDeviceDefinitionInfo);
-            shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
+            if (shnAssociationProcedure != null) {
+                shnAssociationProcedure.deviceDiscovered(shnDevice, shnDeviceFoundInfo);
+            }
         }
 
         @Override
