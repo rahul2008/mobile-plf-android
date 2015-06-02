@@ -284,7 +284,8 @@ public class AppConstants {
 	
 	public static final  String TMP_OUTPUT_JPG = Environment
 			.getExternalStorageDirectory().getPath() + "/philips/air/imgs/tmp_output.jpg";
-	public static final String QR_CODE_LINK = "http://www.philips-smartairpurifier.com";
+	public static final String APP_DOWNLOAD_LINK = "www.philips-smartairpurifier.com";
+	public static final String APP_DOWNLOAD_LINK_WITH_HTTP = "http://" + APP_DOWNLOAD_LINK;
 	
 	public static final String TMP_OUTPUT_CORP_JPG = Environment
 			.getExternalStorageDirectory().getPath()

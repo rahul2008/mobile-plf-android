@@ -210,7 +210,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 		case R.id.qr_Code:
 			if (getActivity() == null) return;
 			MetricsTracker.trackActionServiceRequest("QR_Code");
-			SupportUtil.gotoWebsite(getActivity(), AppConstants.QR_CODE_LINK );
+			SupportUtil.gotoWebsite(getActivity(), AppConstants.APP_DOWNLOAD_LINK );
 			break;
 		case R.id.rate_feedback:
 			if (getActivity() == null) return;

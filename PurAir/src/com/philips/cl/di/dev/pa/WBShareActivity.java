@@ -159,7 +159,7 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		SHARE_MEDIA media;
 
 		if (url == null || url.isEmpty()) {
-			url = AppConstants.QR_CODE_LINK;
+			url = AppConstants.APP_DOWNLOAD_LINK_WITH_HTTP;
 		}
 
 		switch (v.getId()) {
@@ -297,7 +297,7 @@ public class WBShareActivity extends Activity implements OnClickListener, IWeibo
 		}
 
 		if (url == null || url.isEmpty()) {
-			url = AppConstants.QR_CODE_LINK;
+			url = AppConstants.APP_DOWNLOAD_LINK_WITH_HTTP;
 		}
 		//To open URL link put space before and after url
 		shareContent.append(getString(R.string.share_info)+" "+url+" "+getString(R.string.download));
