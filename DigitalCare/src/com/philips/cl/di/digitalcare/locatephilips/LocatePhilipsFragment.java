@@ -79,7 +79,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
-		ResponseCallback {
+		ResponseCallback, GpsStatus.Listener {
 	private GoogleMap mMap = null;
 	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
@@ -95,7 +95,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private double mDestinationLat = 0;
 	private double mDestinationLng = 0;
 	private String mPhoneNumber = null;
-	private LocationManager locationMgr = null;
+	private LocationManager mLocationManager = null;
 	private String provider = null;
 	private LinearLayout mLinearLayout;
 	private ListView mListView;
@@ -261,9 +261,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@SuppressLint("NewApi")
 	private void initGoogleMapv2() {
 
-		DLog.v(TAG, "Initializing Google Maps");
-
 		try {
+			DLog.v(TAG, "Initializing Google Maps");
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
 			if (mMap != null)
@@ -280,9 +279,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void initView() {
-		if (initLocationProvider()) {
-			whereAmI();
-			DLog.v(TAG, "WhereAmI Method");
+		if (isProviderAvailable() && (provider != null)) {
+			DLog.i(TAG, "Provider is [" + provider + "]");
+			locateCurrentPosition();
 		}
 		DLog.d(TAG, "initView is initialized");
 		mHandler.postDelayed(mMapViewRunnable, 1000l);
@@ -435,8 +434,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 3000, null);
 	}
 
-	private boolean initLocationProvider() {
-		locationMgr = (LocationManager) getActivity().getSystemService(
+	private boolean isProviderAvailable() {
+		mLocationManager = (LocationManager) getActivity().getSystemService(
 				Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -445,34 +444,38 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		criteria.setCostAllowed(true);
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 
-		provider = locationMgr.getBestProvider(criteria, true);
+		provider = mLocationManager.getBestProvider(criteria, true);
 
 		if (provider != null) {
+			DLog.v(TAG, "Provider is received");
 			return true;
 		}
 
-		if (locationMgr.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			provider = LocationManager.GPS_PROVIDER;
+			DLog.v(TAG, "GPS provider enabled");
 			return true;
 		}
 
-		if (locationMgr.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+		if (mLocationManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
+			DLog.v(TAG, "Network is enabled");
 			return true;
 		}
 
 		return false;
 	}
 
-	private void whereAmI() {
-		Location location = locationMgr.getLastKnownLocation(provider);
+	private void locateCurrentPosition() {
+		Location location = mLocationManager.getLastKnownLocation(provider);
 		updateWithNewLocation(location);
 		// GPS Listener
-		locationMgr.addGpsStatusListener(mGpsListener);
+		mLocationManager.addGpsStatusListener(this);
 		// Location Listener
 		long minTime = 5000;// ms
 		float minDist = 5.0f;// meter
-		locationMgr.requestLocationUpdates(provider, minTime, minDist,
+		mLocationManager.requestLocationUpdates(provider, minTime, minDist,
 				mLocationListener);
 	}
 
@@ -578,29 +581,26 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		DLog.i(TAG, where);
 	}
 
-	private GpsStatus.Listener mGpsListener = new GpsStatus.Listener() {
+	@Override
+	public void onGpsStatusChanged(int event) {
+		switch (event) {
+		case GpsStatus.GPS_EVENT_STARTED:
+			DLog.d(TAG, "GPS_EVENT_STARTED");
+			break;
 
-		@Override
-		public void onGpsStatusChanged(int event) {
-			switch (event) {
-			case GpsStatus.GPS_EVENT_STARTED:
-				DLog.d(TAG, "GPS_EVENT_STARTED");
-				break;
+		case GpsStatus.GPS_EVENT_STOPPED:
+			DLog.d(TAG, "GPS_EVENT_STOPPED");
+			break;
 
-			case GpsStatus.GPS_EVENT_STOPPED:
-				DLog.d(TAG, "GPS_EVENT_STOPPED");
-				break;
+		case GpsStatus.GPS_EVENT_FIRST_FIX:
+			DLog.d(TAG, "GPS_EVENT_FIRST_FIX");
+			break;
 
-			case GpsStatus.GPS_EVENT_FIRST_FIX:
-				DLog.d(TAG, "GPS_EVENT_FIRST_FIX");
-				break;
-
-			case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-				DLog.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
-				break;
-			}
+		case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
+			DLog.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
+			break;
 		}
-	};
+	}
 
 	private LocationListener mLocationListener = new LocationListener() {
 
@@ -679,7 +679,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mHandler.removeCallbacks(mMapViewRunnable);
 		}
 
-		locationMgr = null;
+		mLocationManager = null;
 		mHandler = null;
 	}
 
@@ -695,7 +695,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mResultModelSet = null;
 		}
 		mLocationListener = null;
-		mGpsListener = null;
 
 		if (mdialogBuilder != null) {
 			mdialogBuilder = null;
