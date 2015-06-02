@@ -2,16 +2,7 @@ package com.philips.cl.di.digitalcare.contactus;
 
 import org.junit.Test;
 
-import android.accounts.AccountAuthenticatorActivity;
-import android.content.ContextWrapper;
-import android.content.MutableContextWrapper;
-import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
 
 import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 

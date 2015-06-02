@@ -1,6 +1,5 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
  * CdlsEmailModel is bean class for email.
