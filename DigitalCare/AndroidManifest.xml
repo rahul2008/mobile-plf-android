@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     package="com.philips.cl.di.digitalcare"
-    android:versionCode="101"
-    android:versionName="1.0.1" >
+    android:versionCode="102"
+    android:versionName="1.0.1.1" >
 
     <uses-sdk
         android:minSdkVersion="15"
