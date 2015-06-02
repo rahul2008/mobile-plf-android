@@ -93,8 +93,7 @@ public class AnalyticsTracker {
 		if (!trackMetrics)
 			return;
 		DLog.i(TAG, "TrackAction : actionName : " + actionName);
-		Analytics.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
-				getContextData(mapKey, mapValue));
+		Analytics.trackAction(actionName, getContextData(mapKey, mapValue));
 	}
 
 	private static Map<String, Object> getContextData(String mapKey,
