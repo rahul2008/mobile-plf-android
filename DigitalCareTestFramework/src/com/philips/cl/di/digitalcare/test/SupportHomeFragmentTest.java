@@ -7,11 +7,9 @@ import android.os.Bundle;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.Utility.test.Log;
-import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
 
 public class SupportHomeFragmentTest extends

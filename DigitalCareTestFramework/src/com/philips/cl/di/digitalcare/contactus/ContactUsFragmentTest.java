@@ -3,11 +3,7 @@ package com.philips.cl.di.digitalcare.contactus;
 import org.junit.Test;
 
 import android.app.Activity;
-import android.content.ContextWrapper;
-import android.content.MutableContextWrapper;
 import android.test.ActivityInstrumentationTestCase2;
-import android.view.ContextThemeWrapper;
-import android.view.View;
 
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
