@@ -83,8 +83,24 @@ public class CdlsResponseParser {
 				JSONArray jsonArrayDataEmail = jsonObjectData
 						.optJSONArray("email");
 
-				JSONObject jsonObjectDataPhone = (JSONObject) jsonArrayDataPhone
-						.opt(FIRST_INDEX_VALUE);
+				if (jsonArrayDataPhone != null) {
+					JSONObject jsonObjectDataPhone = (JSONObject) jsonArrayDataPhone
+							.opt(FIRST_INDEX_VALUE);
+					cdlsPhoneModel = new CdlsPhoneModel();
+
+					cdlsPhoneModel.setPhoneNumber(jsonObjectDataPhone
+							.optString("phoneNumber"));
+					cdlsPhoneModel.setOpeningHoursWeekdays(jsonObjectDataPhone
+							.optString("openingHoursWeekdays"));
+					cdlsPhoneModel.setOpeningHoursSaturday(jsonObjectDataPhone
+							.optString("openingHoursSaturday"));
+					cdlsPhoneModel.setOpeningHoursSunday(jsonObjectDataPhone
+							.optString("openingHoursSunday"));
+					cdlsPhoneModel.setOptionalData1(jsonObjectDataPhone
+							.optString("optionalData1"));
+					cdlsPhoneModel.setOptionalData2(jsonObjectDataPhone
+							.optString("optionalData2"));
+				}
 				if (jsonArrayDataChat != null) {
 					JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
 							.opt(FIRST_INDEX_VALUE);
@@ -105,20 +121,6 @@ public class CdlsResponseParser {
 					cdlsEmailModel.setContentPath(jsonObjectDataEmail
 							.optString("contentPath"));
 				}
-				cdlsPhoneModel = new CdlsPhoneModel();
-
-				cdlsPhoneModel.setPhoneNumber(jsonObjectDataPhone
-						.optString("phoneNumber"));
-				cdlsPhoneModel.setOpeningHoursWeekdays(jsonObjectDataPhone
-						.optString("openingHoursWeekdays"));
-				cdlsPhoneModel.setOpeningHoursSaturday(jsonObjectDataPhone
-						.optString("openingHoursSaturday"));
-				cdlsPhoneModel.setOpeningHoursSunday(jsonObjectDataPhone
-						.optString("openingHoursSunday"));
-				cdlsPhoneModel.setOptionalData1(jsonObjectDataPhone
-						.optString("optionalData1"));
-				cdlsPhoneModel.setOptionalData2(jsonObjectDataPhone
-						.optString("optionalData2"));
 			} else {
 				cdlsErrorModel = new CdlsErrorModel();
 				JSONObject jsonObjectData = jsonObject.optJSONObject("error");

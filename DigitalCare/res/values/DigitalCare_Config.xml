@@ -64,14 +64,14 @@
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
     <string-array name="social_service_provider_menu_title">
-        <item>facebook</item>
         <item>twitter</item>
+        <item>facebook</item>
     </string-array>
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources">
-        <item>facebook</item>
         <item>twitter</item>
+        <item>facebook</item>
     </string-array>
 
     <!-- Chat Screen -->

@@ -63,6 +63,9 @@ public class AtosResponseParser {
 			if (success) {
 				JSONObject centerMap = jsonObjectData
 						.optJSONObject("centerMap");
+				if(centerMap == null){
+					return;
+				}
 				String latitude = centerMap.optString("latitude");
 				String longitude = centerMap.optString("longitude");
 				currentLocationModel = new AtosLocationModel();

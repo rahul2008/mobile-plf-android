@@ -257,24 +257,29 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DLog.d(TAG, "Updating Contact Information");
 
 		if (mCdlsParsedResponse.getSuccess()) {
-			enableBottomText();
-			StringBuilder stringBuilder = new StringBuilder();
 			CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
-			stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
-					.append(phoneModel.getOpeningHoursSaturday())
-					.append(phoneModel.getOpeningHoursSunday())
-					.append(phoneModel.getOptionalData1())
-					.append(phoneModel.getOptionalData2());
-			enableBottomText();
-			mCallPhilips.setText(getResources().getString(R.string.call_number)
-					+ " " + mCdlsParsedResponse.getPhone().getPhoneNumber());
-			mFirstRowText.setText(stringBuilder);
+
+			if (phoneModel != null) {
+				enableBottomText();
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
+						.append(phoneModel.getOpeningHoursSaturday())
+						.append(phoneModel.getOpeningHoursSunday())
+						.append(phoneModel.getOptionalData1())
+						.append(phoneModel.getOptionalData2());
+				enableBottomText();
+				mCallPhilips
+						.setText(getResources().getString(R.string.call_number)
+								+ " "
+								+ mCdlsParsedResponse.getPhone()
+										.getPhoneNumber());
+				mFirstRowText.setText(stringBuilder);
+			}
 
 			if (hasEmptyChatContent(mCdlsParsedResponse)) {
 				mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 				mChat.setEnabled(false);
 			}
-
 		} else {
 			fadeoutButtons();
 		}
