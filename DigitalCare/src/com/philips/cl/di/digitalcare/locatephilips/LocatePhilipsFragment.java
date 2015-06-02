@@ -416,9 +416,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		View btnMyLocation = null;
 
 		if (!isLollypopSdk) {
-			MapFragment mapFragment = ((MapFragment) getFragmentManager()
-					.findFragmentById(R.id.map));
 			try {
+				MapFragment mapFragment = ((MapFragment) getFragmentManager()
+						.findFragmentById(R.id.map));
+
 				mapView = ((MapFragment) mapFragment).getView();
 			} catch (NullPointerException e) {
 
@@ -553,7 +554,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					} else {
 						DLog.i(TAG, "MAP is null, So unable to polyline");
 					}
-					mPolyline.setWidth(12);
+					if (mPolyline != null)
+						mPolyline.setWidth(12);
 				}
 			};
 			new MapDirections(mGetDirectionResponse, currentLocation,
