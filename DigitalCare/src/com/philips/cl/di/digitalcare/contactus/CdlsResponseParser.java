@@ -22,6 +22,11 @@ public class CdlsResponseParser {
 	private CdlsResponseModel mCdlsParsedResponse = null;
 	private static final int FIRST_INDEX_VALUE = 0;
 
+	private CdlsPhoneModel cdlsPhoneModel = null;
+	private CdlsEmailModel cdlsEmailModel = null;
+	private CdlsChatModel cdlsChatModel = null;
+	private CdlsErrorModel cdlsErrorModel = null;
+
 	private CdlsResponseParser(Context context) {
 		mContext = context;
 		DLog.i(TAG, "ParserController constructor : " + mContext.toString());
@@ -41,6 +46,22 @@ public class CdlsResponseParser {
 		return mCdlsParsedResponse;
 	}
 
+	public CdlsPhoneModel getCdlsPhoneModel() {
+		return cdlsPhoneModel;
+	}
+
+	public CdlsEmailModel getCdlsEmailModel() {
+		return cdlsEmailModel;
+	}
+
+	public CdlsChatModel getCdlsChatModel() {
+		return cdlsChatModel;
+	}
+
+	public CdlsErrorModel getCdlsErrorModel() {
+		return cdlsErrorModel;
+	}
+
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
@@ -52,11 +73,6 @@ public class CdlsResponseParser {
 			boolean success = jsonObject.optBoolean("success");
 
 			DLog.i(TAG, "response : " + response);
-			CdlsPhoneModel cdlsPhoneModel = null;
-			CdlsEmailModel cdlsEmailModel = null;
-			CdlsChatModel cdlsChatModel = null;
-			CdlsErrorModel cdlsErrorModel = null;
-
 			if (success) {
 				JSONObject jsonObjectData = jsonObject.optJSONObject("data");
 
@@ -84,7 +100,8 @@ public class CdlsResponseParser {
 					JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
 							.opt(FIRST_INDEX_VALUE);
 					cdlsEmailModel = new CdlsEmailModel();
-					cdlsEmailModel.setLabel(jsonObjectDataEmail.optString("label"));
+					cdlsEmailModel.setLabel(jsonObjectDataEmail
+							.optString("label"));
 					cdlsEmailModel.setContentPath(jsonObjectDataEmail
 							.optString("contentPath"));
 				}
@@ -105,13 +122,15 @@ public class CdlsResponseParser {
 			} else {
 				cdlsErrorModel = new CdlsErrorModel();
 				JSONObject jsonObjectData = jsonObject.optJSONObject("error");
-				cdlsErrorModel.setErrorCode(jsonObjectData.optString("errorCode"));
+				cdlsErrorModel.setErrorCode(jsonObjectData
+						.optString("errorCode"));
 				cdlsErrorModel.setErrorMessage(jsonObjectData
 						.optString("errorMessage"));
 			}
 			// creating CDLS instance.
-			mCdlsParsedResponse = new CdlsResponseModel(success, cdlsPhoneModel,
-					cdlsChatModel, cdlsEmailModel, cdlsErrorModel);
+			mCdlsParsedResponse = new CdlsResponseModel(success,
+					cdlsPhoneModel, cdlsChatModel, cdlsEmailModel,
+					cdlsErrorModel);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
