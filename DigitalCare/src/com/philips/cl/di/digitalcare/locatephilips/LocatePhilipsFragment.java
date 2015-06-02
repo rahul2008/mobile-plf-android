@@ -498,7 +498,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void cameraFocusOnMe(double lat, double lng) {
 		CameraPosition camPosition = new CameraPosition.Builder()
 				.target(new LatLng(lat, lng)).zoom(2).build();
-		if (mMap != null)
+		if (mMap != null && camPosition != null)
 			mMap.animateCamera(CameraUpdateFactory
 					.newCameraPosition(camPosition));
 	}
