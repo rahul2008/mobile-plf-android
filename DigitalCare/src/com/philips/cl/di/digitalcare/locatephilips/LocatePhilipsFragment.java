@@ -23,7 +23,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,9 +48,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -119,7 +118,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private Button mButtonDirection = null;
 
 	private CustomGeoAdapter adapter = null;
-	private Handler mHandler = null;
 	private int mLocateLayoutMargin = 0;
 	private int mLocateSearchLayoutMargin = 0;
 
@@ -140,7 +138,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			.getSimpleName();
 	private static View mView = null;
 	private static HashMap<String, AtosResultsModel> mHashMapResults = null;
-	private static boolean isLollypopSdk = false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -154,7 +151,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		if (Utils.isNetworkConnected(getActivity()))
 			requestATOSResponseData();
-		mHandler = new Handler();
 		try {
 			mView = inflater.inflate(R.layout.fragment_locate_philips,
 					container, false);
@@ -215,6 +211,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mDialog.cancel();
 			mDialog = null;
 		}
+	}
+
+	private void addBoundaryToCurrentPosition(double lat, double lang) {
+
+		MarkerOptions mMarkerOptions = new MarkerOptions();
+		mMarkerOptions.position(new LatLng(lat, lang));
+		mMarkerOptions.anchor(0.5f, 0.5f);
+
+		CircleOptions mOptions = new CircleOptions()
+				.center(new LatLng(lat, lang)).radius(10000)
+				.strokeColor(0x110000FF).strokeWidth(1).fillColor(0x110000FF);
+		mMap.addCircle(mOptions);
+		mMap.addMarker(mMarkerOptions);
 	}
 
 	@Override
@@ -279,7 +288,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			}
 		} catch (NullPointerException e) {
 			DLog.v(TAG, "Googlev2 Map Compatibility Enabled");
-			isLollypopSdk = true;
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
@@ -295,7 +303,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			locateCurrentPosition();
 		}
 		DLog.d(TAG, "initView is initialized");
-		mHandler.postDelayed(mMapViewRunnable, 1000l);
+		// mHandler.postDelayed(mMapViewRunnable, 1000l);
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -389,74 +397,30 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	// mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(BANGALORE, 15));
 	// }
 
-	private Runnable mMapViewRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-
-			if (mMap == null) {
-				mHandler.postDelayed(mMapViewRunnable, 1000l);
-			} else {
-				mMap.setTrafficEnabled(true);
-
-				UiSettings settings = mMap.getUiSettings();
-				settings.setAllGesturesEnabled(true);
-				settings.setCompassEnabled(true);
-				settings.setMyLocationButtonEnabled(true);
-				settings.setRotateGesturesEnabled(true);
-				settings.setScrollGesturesEnabled(true);
-				settings.setTiltGesturesEnabled(true);
-				settings.setZoomControlsEnabled(true);
-				settings.setZoomGesturesEnabled(true);
-				mHandler.removeCallbacks(mMapViewRunnable);
-				mMap.setMyLocationEnabled(true);
-				mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-
-				resetMyButtonPosition();
-			}
-		}
-	};
+	/*
+	 * private Runnable mMapViewRunnable = new Runnable() {
+	 * 
+	 * @Override public void run() {
+	 * 
+	 * if (mMap == null) { mHandler.postDelayed(mMapViewRunnable, 1000l); } else
+	 * { mMap.setTrafficEnabled(true);
+	 * 
+	 * UiSettings settings = mMap.getUiSettings();
+	 * settings.setAllGesturesEnabled(true); settings.setCompassEnabled(true);
+	 * settings.setMyLocationButtonEnabled(true);
+	 * settings.setRotateGesturesEnabled(true);
+	 * settings.setScrollGesturesEnabled(true);
+	 * settings.setTiltGesturesEnabled(true);
+	 * settings.setZoomControlsEnabled(true);
+	 * settings.setZoomGesturesEnabled(true);
+	 * mHandler.removeCallbacks(mMapViewRunnable);
+	 * mMap.setMyLocationEnabled(true);
+	 * mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL); } } };
+	 */
 
 	/**
 	 * Move my position button at the bottom of map
 	 */
-	private void resetMyButtonPosition() {
-		View mapView = null;
-		View btnMyLocation = null;
-
-		if (!isLollypopSdk) {
-			try {
-				MapFragment mapFragment = ((MapFragment) getFragmentManager()
-						.findFragmentById(R.id.map));
-
-				mapView = ((MapFragment) mapFragment).getView();
-			} catch (NullPointerException e) {
-
-			}
-		} else {
-			try {
-				mapView = mMapFragment.getView();
-			} catch (NullPointerException e) {
-
-			}
-		}
-
-		if (mapView != null) {
-			btnMyLocation = ((View) mapView.findViewById(1).getParent())
-					.findViewById(2);
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					80, 80); // size of button in dp
-			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-					RelativeLayout.TRUE);
-			params.addRule(RelativeLayout.CENTER_HORIZONTAL,
-					RelativeLayout.TRUE);
-			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
-					RelativeLayout.TRUE);
-			params.setMargins(20, 0, 0, 40);
-			btnMyLocation.setLayoutParams(params);
-		}
-
-	}
 
 	public void zoomToOnClick(View v) {
 		mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 3000, null);
@@ -466,7 +430,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mLocationManager = (LocationManager) getActivity().getSystemService(
 				Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
-		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setAccuracy(Criteria.ACCURACY_COARSE);
 		criteria.setAltitudeRequired(false);
 		criteria.setBearingRequired(false);
 		criteria.setCostAllowed(true);
@@ -474,8 +438,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		provider = mLocationManager.getBestProvider(criteria, true);
 
-		if (provider != null) {
-			DLog.v(TAG, "Provider is received");
+		if (mLocationManager
+				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			provider = LocationManager.NETWORK_PROVIDER;
+			DLog.v(TAG, "Network is enabled");
 			return true;
 		}
 
@@ -485,10 +451,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			return true;
 		}
 
-		if (mLocationManager
-				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			provider = LocationManager.NETWORK_PROVIDER;
-			DLog.v(TAG, "Network is enabled");
+		if (provider != null) {
+			DLog.v(TAG, "Provider is received");
 			return true;
 		}
 
@@ -516,21 +480,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		markerOpt.position(new LatLng(lat, lng));
 		// markerMe = mMap.addMarker(markerOpt);
 		if (mMap != null) {
-			mMap.setMyLocationEnabled(true);
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+			addBoundaryToCurrentPosition(lat, lng);
 		} else {
 			DLog.i(TAG, "MAP is null Failed to update Maptype");
 		}
-		resetMyButtonPosition();
 	}
 
-	private void cameraFocusOnMe(double lat, double lng) {
-		CameraPosition camPosition = new CameraPosition.Builder()
-				.target(new LatLng(lat, lng)).zoom(2).build();
-		if (mMap != null && camPosition != null)
-			mMap.animateCamera(CameraUpdateFactory
-					.newCameraPosition(camPosition));
-	}
+	/*
+	 * private void cameraFocusOnMe(double lat, double lng) { CameraPosition
+	 * camPosition = new CameraPosition.Builder() .target(new LatLng(lat,
+	 * lng)).zoom(21).build(); if (mMap != null && camPosition != null)
+	 * mMap.animateCamera(CameraUpdateFactory .newCameraPosition(camPosition));
+	 * }
+	 */
 
 	private void trackToMe(final LatLng currentLocation,
 			final LatLng markerPosition) {
@@ -597,21 +560,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					+ "\n speed: " + speed + "\nProvider: " + provider;
 			DLog.i(TAG, where);
 			showMarkerMe(lat, lng);
-			cameraFocusOnMe(lat, lng);
 			mSourceLat = lat;
 			mSourceLng = lng;
 
-			CameraPosition cameraPosition = new CameraPosition.Builder()
-					.target(new LatLng(lat, lng)).zoom(2) // Sets the zoom
-					.bearing(90) // Sets the orientation of the camera to east
-					.tilt(30) // Sets the tilt of the camera to 30 degrees
-					.build(); // Creates a CameraPosition from the builder
-			if (mMap != null)
-				mMap.animateCamera(CameraUpdateFactory
-						.newCameraPosition(cameraPosition));
-
 			CameraPosition camPosition = new CameraPosition.Builder()
-					.target(new LatLng(lat, lng)).zoom(6).build();
+					.target(new LatLng(lat, lng)).zoom(10f).build();
 
 			if (mMap != null)
 				mMap.animateCamera(CameraUpdateFactory
@@ -716,12 +669,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onStop() {
 		super.onStop();
 
-		if (mHandler != null) {
-			mHandler.removeCallbacks(mMapViewRunnable);
-		}
-
 		mLocationManager = null;
-		mHandler = null;
 	}
 
 	@Override
