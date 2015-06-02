@@ -9,7 +9,6 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
@@ -50,11 +49,6 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			showFragment(new SupportHomeFragment());
 			enableActionBarHome();
 		}
-		else if (screenChoice
-				.equalsIgnoreCase(DigitalCareContants.OPTION_REGISTER_PRODUCT)) {
-			showFragment(new ProductRegistrationFragment());
-		}
-		
 		else if (screenChoice
 				.equalsIgnoreCase(DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING)) {
 			showFragment(new RateThisAppFragment());

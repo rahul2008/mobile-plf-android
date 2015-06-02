@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.MainMenuListener;
+import com.philips.cl.di.digitalcare.SocialProviderListener;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 public class LaunchDigitalCare extends Activity implements OnClickListener {
@@ -30,7 +31,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
 	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
-	private ImplementButtonClickListner mButtonClickListner = null;
+	private MainMenuButtonClickListner mButtonClickListner = null;
+	private SocialProviderButtonClickListner mSocialProviderButtonClickListner = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +67,20 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		DigitalCareConfigManager.getInstance(this).setConsumerProductInfo(
 				mConsumerProductInfoDemo);
 
-		mButtonClickListner = new ImplementButtonClickListner();
+		/*
+		 * DigitalCare Home Screen custom button listeners.
+		 */
+		mButtonClickListner = new MainMenuButtonClickListner();
 		DigitalCareConfigManager.getInstance(this).registerMainMenuListener(
 				mButtonClickListner);
+
+		/*
+		 * DigitalCare Social Provider Button listeners.
+		 */
+		mSocialProviderButtonClickListner = new SocialProviderButtonClickListner();
+		DigitalCareConfigManager.getInstance(this)
+				.registerSocialProviderListener(
+						mSocialProviderButtonClickListner);
 
 		mLanguage_spinner
 				.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -113,7 +126,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 				});
 	}
 
-	private class ImplementButtonClickListner implements MainMenuListener {
+	private class MainMenuButtonClickListner implements MainMenuListener {
 
 		@Override
 		public boolean onMainMenuItemClickListener(int buttonTitle) {
@@ -125,6 +138,21 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 				startActivity(intent);
 				return true;
 			}
+			return false;
+		}
+	}
+
+	private class SocialProviderButtonClickListner implements
+			SocialProviderListener {
+
+		@Override
+		public boolean onSocialProviderItemClickListener(int buttonTitle) {
+//			if (buttonTitle == R.string.facebook) {
+//				Intent intent = new Intent(LaunchDigitalCare.this,
+//						DummyScreen.class);
+//				startActivity(intent);
+//				return true;
+//			}
 			return false;
 		}
 	}

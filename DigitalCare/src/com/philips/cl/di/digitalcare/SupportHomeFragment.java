@@ -14,14 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cl.di.digitalcare.productregistration.ProductRegistrationFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -40,7 +38,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private String[] mFeatureKeys = null;
-	private String[] mFeatureDwawableKey = null;
+	private String[] mFeatureDrawableKey = null;
 
 	private static final String TAG = SupportHomeFragment.class.getSimpleName();
 
@@ -65,7 +63,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		setViewParams(config);
 
 		for (int i = 0; i < mFeatureKeys.length; i++) {
-			enableOptionButtons(mFeatureKeys[i], mFeatureDwawableKey[i]);
+			enableOptionButtons(mFeatureKeys[i], mFeatureDrawableKey[i]);
 		}
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
@@ -103,8 +101,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		float density = getResources().getDisplayMetrics().density;
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) getResources().getDimension(
-						R.dimen.support_btn_height));
+				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
+						.getDimension(R.dimen.support_btn_height));
 		relativeLayout.setLayoutParams(params);
 
 		if (resId == R.drawable.registration) {
@@ -186,8 +184,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		} else if (tag == R.string.feedback) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new RateThisAppFragment());
-		} else if (tag == R.string.registration) {
-			showFragment(new ProductRegistrationFragment());
 		}
 	}
 
@@ -203,7 +199,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	private void initializeFeaturesSupported() {
 		Resources mResources = getActivity().getResources();
 		mFeatureKeys = mResources.getStringArray(R.array.main_menu_title);
-		mFeatureDwawableKey = mResources
+		mFeatureDrawableKey = mResources
 				.getStringArray(R.array.main_menu_resources);
 	}
 

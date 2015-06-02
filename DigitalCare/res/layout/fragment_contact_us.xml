@@ -12,15 +12,21 @@
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin" >
 
-        <TextView
-            android:id="@+id/leaveMsgTitle"
-            style="@style/contactUsHelpText"
-            android:text="@string/leave_us_a_message"
-            custom:fontAssetName="fonts/centralesans-book.otf" />
+        <LinearLayout
+            android:id="@+id/contactUsSocialParent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-        <include layout="@layout/common_view_social_login" />
+            <TextView
+                android:id="@+id/leaveMsgTitle"
+                style="@style/contactUsHelpText"
+                android:text="@string/leave_us_a_message"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+        </LinearLayout>
 
         <View
+            android:id="@+id/socialDivider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="30dp"
@@ -49,8 +55,8 @@
             android:id="@+id/contactUsCall"
             style="@style/fontButton"
             android:layout_marginBottom="10dp"
-            android:text="@string/call_number"
             android:background="@drawable/selector_call_button_bg"
+            android:text="@string/call_number"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <TextView
@@ -67,14 +73,6 @@
             android:text="@string/opening_hours_first_row"
             android:visibility="gone"
             custom:fontAssetName="fonts/centralesans-book.otf" />
-
-        <!-- <TextView
-            android:id="@+id/secondRowText"
-            style="@style/contactUsBottomText"
-            android:layout_marginBottom="10dp"
-            android:text="@string/opening_hours_second_row"
-            android:visibility="gone"
-            custom:fontAssetName="fonts/centralesans-book.otf" /> -->
     </LinearLayout>
 
 </ScrollView>

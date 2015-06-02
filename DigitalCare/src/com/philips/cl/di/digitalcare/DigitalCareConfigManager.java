@@ -35,8 +35,9 @@ public class DigitalCareConfigManager {
 	private static final String DEFAULT_COUNTRY = "GB";
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
-	
+
 	private MainMenuListener mMainMenuListener = null;
+	private SocialProviderListener mSocialProviderListener = null;
 
 	// Twitter APP SDK API KEYS
 	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
@@ -85,6 +86,15 @@ public class DigitalCareConfigManager {
 
 	public MainMenuListener getMainMenuListener() {
 		return mMainMenuListener;
+	}
+
+	public void registerSocialProviderListener(
+			SocialProviderListener socialProviderListener) {
+		mSocialProviderListener = socialProviderListener;
+	}
+
+	public SocialProviderListener getSocialProviderListener() {
+		return mSocialProviderListener;
 	}
 
 	/*

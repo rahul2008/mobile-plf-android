@@ -48,7 +48,7 @@
         <item>view_faq</item>
         <item>contact_us</item>
         <item>find_philips_near_you</item>
-        <!-- <item>feedback</item> -->
+        <item>feedback</item>
         <item>registration</item>
     </string-array>
 
@@ -58,8 +58,20 @@
         <item>view_faq</item>
         <item>contact_us</item>
         <item>find_philips_near_you</item>
-       <!--  <item>feedback</item> -->
+        <item>feedback</item>
         <item>registration</item>
+    </string-array>
+
+    <!-- List of social service providers localised resource keys, please follow naming conventions -->
+    <string-array name="social_service_provider_menu_title">
+        <item>facebook</item>
+        <item>twitter</item>
+    </string-array>
+
+    <!-- List of social service providers image names, please follow naming conventions -->
+    <string-array name="social_service_provider_menu_resources">
+        <item>facebook</item>
+        <item>twitter</item>
     </string-array>
 
     <!-- Chat Screen -->
