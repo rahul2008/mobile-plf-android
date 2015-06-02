@@ -16,6 +16,7 @@ import java.util.UUID;
  * As an extra the class is used to provide a general purpose parameter in the device detected callback.
  */
 public class LeScanCallbackProxy implements BluetoothAdapter.LeScanCallback {
+
     public interface LeScanCallback {
         void onLeScan(BluetoothDevice device, int rssi, byte[] scanRecord);
     }

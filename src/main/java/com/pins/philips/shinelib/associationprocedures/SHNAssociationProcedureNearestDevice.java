@@ -46,11 +46,12 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     private void associateWithNearestDeviceIfPossible() {
         nearestDeviceIterationCount++;
         SHNDevice nearestDevice = discoveredDevices.isEmpty() ? null : discoveredDevices.get(discoveredDevices.lastKey());
-        if (LOGGING) Log.i(TAG, String.format("[ %d ] Nearest device: '%s'", nearestDeviceIterationCount, (nearestDevice != null) ? nearestDevice.toString() : "NONE"));
+        if (LOGGING) Log.i(TAG, String.format("[ %d ] Nearest device: '%s'", nearestDeviceIterationCount, (nearestDevice != null) ? nearestDevice.getAddress() : "NONE"));
         discoveredDevices.clear();
         boolean finished = false;
 
-        if ((nearestDevice != null) && (nearestDevice == nearestDeviceInPreviousIteration)) {
+        if ((nearestDevice != null) && (nearestDeviceInPreviousIteration != null) && (nearestDevice.getAddress().equals(nearestDeviceInPreviousIteration.getAddress()))) {
+            if (LOGGING) Log.i(TAG, "associateWithNearestDeviceIfPossible address matched with previous iteration");
             if (++successivelyNearestDeviceCount == ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT) {
                 nearestDeviceInPreviousIteration = null;
                 listener.onStopScanRequest();
@@ -58,6 +59,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
                 finished = true;
             }
         } else {
+            if (LOGGING) Log.i(TAG, "associateWithNearestDeviceIfPossible address NOT matched with previous iteration");
             nearestDeviceInPreviousIteration = nearestDevice;
             successivelyNearestDeviceCount = 1;
         }
@@ -84,6 +86,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
 
     @Override
     public void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo) {
+        if (LOGGING) Log.i(TAG, String.format("deviceDiscovered '%s'; rssi = %d", shnDevice.getAddress(), shnDeviceFoundInfo.getRssi()));
         if (shnDeviceFoundInfo.getRssi() != 0) {
             discoveredDevices.put(shnDeviceFoundInfo.getRssi(), shnDevice);
         } else {

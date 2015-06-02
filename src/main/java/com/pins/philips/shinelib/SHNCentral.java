@@ -234,6 +234,9 @@ public class SHNCentral {
     }
 
     public SHNDeviceAssociation getShnDeviceAssociation() {
+        if (shnDeviceAssociation == null) {
+            shnDeviceAssociation = new SHNDeviceAssociation(this);
+        }
         return shnDeviceAssociation;
     }
 
@@ -250,7 +253,7 @@ public class SHNCentral {
     }
 
     public boolean startScanningForDevices(Collection<UUID> serviceUUIDs, SHNDeviceScanner.ScannerSettingDuplicates scannerSettingDuplicates, SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener) {
-        return shnDeviceScanner.startScanning(shnDeviceScannerListener, scannerSettingDuplicates, 30000l);
+        return shnDeviceScanner.startScanning(shnDeviceScannerListener, scannerSettingDuplicates, 90000l);
     }
 
     public void stopScanning() {

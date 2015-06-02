@@ -1,6 +1,7 @@
 package com.pins.philips.shinelib;
 
 import android.bluetooth.BluetoothDevice;
+import android.util.Log;
 
 import com.pins.philips.shinelib.framework.BleDeviceFoundInfo;
 import com.pins.philips.shinelib.framework.LeScanCallbackProxy;
@@ -66,13 +67,13 @@ public class SHNDeviceScanner implements LeScanCallbackProxy.LeScanCallback {
 
     public void stopScanning() {
         if (scanning) {
+            scanning = false;
             shnCentral.getInternalHandler().removeCallbacks(scanningTimer);
             scanningTimer = null;
             leScanCallbackProxy.stopLeScan(this);
             leScanCallbackProxy = null;
             shnDeviceScannerListener.scanStopped(this);
             shnDeviceScannerListener = null;
-            scanning = false;
         }
     }
 

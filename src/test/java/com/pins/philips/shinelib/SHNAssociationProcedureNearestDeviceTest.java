@@ -41,7 +41,9 @@ public class SHNAssociationProcedureNearestDeviceTest {
         mockedDevicesAndAssociatedRSSI = new ArrayList<>();
         for (Integer rssi : RSSIs)
         {
-            mockedDevicesAndAssociatedRSSI.add(new AbstractMap.SimpleEntry<>(mock(SHNDevice.class), rssi));
+            SHNDevice mockedSHNDevice = mock(SHNDevice.class);
+            when(mockedSHNDevice.getAddress()).thenReturn("fake-mac-address-" + mockedDevicesAndAssociatedRSSI.size());
+            mockedDevicesAndAssociatedRSSI.add(new AbstractMap.SimpleEntry<>(mockedSHNDevice, rssi));
         }
     }
 

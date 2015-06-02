@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,7 +32,7 @@ public class SHNDeviceAssociation {
     private SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedure.SHNAssociationProcedureListener() {
         @Override
         public void onStopScanRequest() {
-            shnCentral.stopScanning();
+            stopScanning();
         }
 
         @Override
@@ -60,6 +59,7 @@ public class SHNDeviceAssociation {
         }
     };
 
+    private boolean scanStoppedIndicatesScanTimeout;
     private SHNDeviceScanner.SHNDeviceScannerListener shnDeviceScannerListener = new SHNDeviceScanner.SHNDeviceScannerListener() {
         @Override
         public void deviceFound(SHNDeviceScanner shnDeviceScanner, SHNDeviceFoundInfo shnDeviceFoundInfo) {
@@ -69,7 +69,7 @@ public class SHNDeviceAssociation {
 
         @Override
         public void scanStopped(SHNDeviceScanner shnDeviceScanner) {
-            if (shnAssociationProcedure != null) {
+            if (shnAssociationProcedure != null && scanStoppedIndicatesScanTimeout) {
                 shnAssociationProcedure.scannerTimeout();
             }
         }
@@ -98,11 +98,21 @@ public class SHNDeviceAssociation {
                     if (shnDeviceDefinitionInfo != null) {
                         shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
                         if (shnAssociationProcedure.getShouldScan()) {
-                            shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
+                            startScanning(shnDeviceDefinitionInfo);
                         }
-                        shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
+                        shnCentral.getUserHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
+                            }
+                        });
                     } else {
-                        shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
+                        shnCentral.getUserHandler().post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
+                            }
+                        });
                     }
                 } else {
                     Log.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
@@ -117,7 +127,12 @@ public class SHNDeviceAssociation {
             public void run() {
                 if (shnAssociationProcedure != null) {
                     handleStopAssociation();
-                    shnDeviceAssociationListener.onAssociationStopped();
+                    shnCentral.getUserHandler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            shnDeviceAssociationListener.onAssociationStopped();
+                        }
+                    });
                 } else {
                     Log.w(TAG, "stopAssociation: association not stopped: it is already stopped!");
                 }
@@ -131,7 +146,17 @@ public class SHNDeviceAssociation {
     }
 
     private void handleStopAssociation() {
-        shnCentral.stopScanning();
+        stopScanning();
         shnAssociationProcedure = null;
+    }
+
+    private void stopScanning() {
+        scanStoppedIndicatesScanTimeout = false;
+        shnCentral.stopScanning();
+    }
+
+    private void startScanning(SHNDeviceDefinitionInfo shnDeviceDefinitionInfo) {
+        scanStoppedIndicatesScanTimeout = true;
+        shnCentral.startScanningForDevices(shnDeviceDefinitionInfo.getPrimaryServiceUUIDs(), SHNDeviceScanner.ScannerSettingDuplicates.DuplicatesAllowed, shnDeviceScannerListener);
     }
 }
