@@ -2,6 +2,8 @@ package com.pins.philips.shinelib.datatypes;
 
 import android.util.Log;
 
+import com.pins.philips.shinelib.utility.ShinePreferenceWrapper;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -15,6 +17,7 @@ public class SHNUserConfiguration {
         Female, Male
     }
 
+    private final ShinePreferenceWrapper shinePreferenceWrapper;
     private Sex sex;
     private Integer maxHeartRate;
     private Integer restingHeartRate;
@@ -22,17 +25,18 @@ public class SHNUserConfiguration {
     private Double weightInKg;
     private Date dateOfBirth;
 
-    public SHNUserConfiguration() {
-        // Create an object with the defaults
+    public static SHNUserConfiguration getNewDefaultInstance(ShinePreferenceWrapper shinePreferenceWrapper) {
+        SHNUserConfiguration shnUserConfiguration = new SHNUserConfiguration(shinePreferenceWrapper);
+        shinePreferenceWrapper.readUserConfiguration(shnUserConfiguration);
+        return shnUserConfiguration;
     }
 
-    public SHNUserConfiguration(Sex sex, int maxHeartRate, int restingHeartRate, int heightInCm, double weightInKg, Date dateOfBirth) {
-        this.sex = sex;
-        this.maxHeartRate = maxHeartRate;
-        this.restingHeartRate = restingHeartRate;
-        this.heightInCm = heightInCm;
-        this.weightInKg = weightInKg;
-        this.dateOfBirth = dateOfBirth;
+    private SHNUserConfiguration(ShinePreferenceWrapper shinePreferenceWrapper) {
+        this.shinePreferenceWrapper = shinePreferenceWrapper;
+    }
+
+    private void saveToPreferences() {
+        shinePreferenceWrapper.storeUserConfiguration(this);
     }
 
     public Sex getSex() {
@@ -53,6 +57,7 @@ public class SHNUserConfiguration {
 
     public void setMaxHeartRate(Integer maxHeartRate) {
         this.maxHeartRate = maxHeartRate;
+        saveToPreferences();
     }
 
     public Integer getRestingHeartRate() {
@@ -61,6 +66,7 @@ public class SHNUserConfiguration {
 
     public void setRestingHeartRate(Integer restingHeartRate) {
         this.restingHeartRate = restingHeartRate;
+        saveToPreferences();
     }
 
     public Integer getHeightInCm() {
@@ -69,6 +75,7 @@ public class SHNUserConfiguration {
 
     public void setHeightInCm(Integer heightInCm) {
         this.heightInCm = heightInCm;
+        saveToPreferences();
     }
 
     public Double getWeightInKg() {
@@ -77,6 +84,7 @@ public class SHNUserConfiguration {
 
     public void setWeightInKg(Double weightInKg) {
         this.weightInKg = weightInKg;
+        saveToPreferences();
     }
 
     public Date getDateOfBirth() {
@@ -85,6 +93,7 @@ public class SHNUserConfiguration {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+        saveToPreferences();
     }
 
     /* return null when birthdate not set */

@@ -14,7 +14,7 @@ import java.util.TreeMap;
  * Created by code1_310170470 on 28/05/15.
  */
 public class SHNAssociationProcedureNearestDevice implements SHNAssociationProcedure {
-    public static final long NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS      = 2000L;
+    public static final long NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS      = 10000L;
     public static final int ASSOCIATE_WHEN_DEVICE_IS_SUCCESSIVELY_NEAREST_COUNT = 3;
     public static final int NEAREST_DEVICE_DETERMINATION_MAX_ITERATION_COUNT    = 5;
 
