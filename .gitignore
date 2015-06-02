@@ -15,3 +15,4 @@ LocaleMatch/.settings/org.eclipse.jdt.core.prefs
 LocaleMatch/.classpath
 RegistrationApiTest/lint.xml
 LocaleMatch/.project
+RegistrationApi/res/drawable-hdpi/reg_back_press.png

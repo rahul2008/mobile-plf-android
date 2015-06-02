@@ -25,15 +25,15 @@ public class NetworkClassTest extends ActivityInstrumentationTestCase2<Registrat
 		mNetworkUtility = mock(NetworkUtility.class);
 	}
 
-	/*public void testisNetworkUtilityClass() {
+	public void testisNetworkUtilityClass() {
 		assertNotNull(mNetworkUtility);
-	}*/
+	}
 
-	public void testDemocase() {
+	/*public void testDemocase() {
 		String mReceived = "Please Pass dear";
 		String mExpected = mReceived;
 
 		assertEquals(mExpected, mReceived);
-	}
+	}*/
 
 }
