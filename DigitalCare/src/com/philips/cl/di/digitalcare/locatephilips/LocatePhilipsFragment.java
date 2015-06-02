@@ -407,27 +407,26 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void resetMyButtonPosition() {
 		View mapView = null;
 		View btnMyLocation = null;
-		if (!isLollypopSdk) {
-			MapFragment mapFragment = ((MapFragment) getFragmentManager()
-					.findFragmentById(R.id.map));
-			mapView = ((MapFragment) mapFragment).getView();
-		} else {
-			mapView = mMapFragment.getView();
-		}
-		if (mapView != null) {
-			btnMyLocation = ((View) mapView.findViewById(1).getParent())
-					.findViewById(2);
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-					80, 80); // size of button in dp
-			params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-					RelativeLayout.TRUE);
-			params.addRule(RelativeLayout.CENTER_HORIZONTAL,
-					RelativeLayout.TRUE);
-			params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
-					RelativeLayout.TRUE);
-			params.setMargins(20, 0, 0, 40);
-			btnMyLocation.setLayoutParams(params);
-		}
+		/*
+		 * if (!isLollypopSdk) { MapFragment mapFragment = ((MapFragment)
+		 * getFragmentManager() .findFragmentById(R.id.map)); mapView =
+		 * ((MapFragment) mapFragment).getView(); } else {
+		 */
+		mapView = mMapFragment.getView();
+		// }
+		/*
+		 * if (mapView != null) { btnMyLocation = ((View)
+		 * mapView.findViewById(1).getParent()) .findViewById(2);
+		 * RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+		 * 80, 80); // size of button in dp
+		 * params.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+		 * RelativeLayout.TRUE);
+		 * params.addRule(RelativeLayout.CENTER_HORIZONTAL,
+		 * RelativeLayout.TRUE);
+		 * params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,
+		 * RelativeLayout.TRUE); params.setMargins(20, 0, 0, 40);
+		 * btnMyLocation.setLayoutParams(params); }
+		 */
 	}
 
 	public void zoomToOnClick(View v) {
@@ -499,8 +498,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void cameraFocusOnMe(double lat, double lng) {
 		CameraPosition camPosition = new CameraPosition.Builder()
 				.target(new LatLng(lat, lng)).zoom(2).build();
-
-		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(camPosition));
+		if (mMap != null)
+			mMap.animateCamera(CameraUpdateFactory
+					.newCameraPosition(camPosition));
 	}
 
 	private void trackToMe(final LatLng currentLocation,
@@ -750,7 +750,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
 			new UITask().execute(constrain);
-			
 
 		} else if (v.getId() == R.id.getdirection) {
 
