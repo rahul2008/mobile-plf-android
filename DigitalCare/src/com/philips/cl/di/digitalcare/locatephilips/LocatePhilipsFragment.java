@@ -583,14 +583,16 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					.bearing(90) // Sets the orientation of the camera to east
 					.tilt(30) // Sets the tilt of the camera to 30 degrees
 					.build(); // Creates a CameraPosition from the builder
-			mMap.animateCamera(CameraUpdateFactory
-					.newCameraPosition(cameraPosition));
+			if (mMap != null)
+				mMap.animateCamera(CameraUpdateFactory
+						.newCameraPosition(cameraPosition));
 
 			CameraPosition camPosition = new CameraPosition.Builder()
 					.target(new LatLng(lat, lng)).zoom(6).build();
 
-			mMap.animateCamera(CameraUpdateFactory
-					.newCameraPosition(camPosition));
+			if (mMap != null)
+				mMap.animateCamera(CameraUpdateFactory
+						.newCameraPosition(camPosition));
 		} else {
 			where = "No location found.";
 		}
