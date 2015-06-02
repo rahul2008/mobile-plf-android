@@ -59,7 +59,7 @@
     <string name="clean_today">Clean Soon</string>
     <string name="clean_now">Clean Now</string>
     <string name="filter_tip">Remember to clean the Philips Smart Air Purifier\'s sensor every 2 months.</string>
-    <string name="replace_filter_text">Multi-Care Filter,\n Active Carbon Filter and HEPA Filter</string>
+    <string name="replace_filter_text">Multi-Care Filter,\nActive Carbon Filter and HEPA Filter</string>
     <string name="replace_filter_title">How to Replace Filters</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">Indoor Air Level Status</string>
