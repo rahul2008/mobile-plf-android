@@ -21,6 +21,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.InflateException;
@@ -143,6 +144,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+
+		try {
+			if (Build.VERSION.SDK_INT >= 11)
+				getActivity().getWindow().setFlags(16777216, 16777216);
+		} catch (Exception e) {
+		}
 
 		if (Utils.isNetworkConnected(getActivity()))
 			requestATOSResponseData();
