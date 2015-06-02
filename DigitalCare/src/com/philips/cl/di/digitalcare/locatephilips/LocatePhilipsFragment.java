@@ -81,7 +81,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
 @SuppressLint({ "SetJavaScriptEnabled", "DefaultLocale" })
 public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		OnItemClickListener, onMapReadyListener, OnMarkerClickListener,
-		ResponseCallback, GpsStatus.Listener {
+		ResponseCallback, GpsStatus.Listener, OnMapClickListener {
 	private GoogleMap mMap = null;
 	private GoogleMapFragment mMapFragment = null;
 	private Marker markerMe = null;
@@ -273,8 +273,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			DLog.v(TAG, "Initializing Google Maps");
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
-			if (mMap != null)
+			if (mMap != null) {
 				initView();
+
+			}
 		} catch (NullPointerException e) {
 			DLog.v(TAG, "Googlev2 Map Compatibility Enabled");
 			isLollypopSdk = true;
@@ -284,20 +286,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mMap = mMapFragment.getMap();
 
 		}
-
-		mMap.setOnMapClickListener(new OnMapClickListener() {
-			@Override
-			public void onMapClick(LatLng arg0) {
-				// hide Locate layout on map click
-				if (mLocateLayout != null
-						&& View.VISIBLE == mLocateLayout.getVisibility()) {
-					mLocateLayout.setVisibility(View.GONE);
-					if (mMarkerIcon.getVisibility() == View.VISIBLE)
-						mMarkerIcon.setVisibility(View.GONE);
-
-				}
-			}
-		});
 
 	}
 
@@ -342,6 +330,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mListView.setTextFilterEnabled(true);
 		mListView.setOnItemClickListener(this);
 		mButtonDirection.setOnClickListener(this);
+		mMap.setOnMapClickListener(this);
 
 		mLocateLayoutMargin = (int) getActivity().getResources().getDimension(
 				R.dimen.locate_layout_margin);
@@ -1009,6 +998,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					.show();
 
 		}
+
+	}
+
+	@Override
+	public void onMapClick(LatLng arg0) {
+
+		if (mListView.getVisibility() == View.VISIBLE)
+			mListView.setVisibility(View.GONE);
+
+		if (mMarkerIcon.getVisibility() == View.VISIBLE)
+			mMarkerIcon.setVisibility(View.GONE);
+
+		if (mLinearLayout.getVisibility() == View.VISIBLE)
+			mLinearLayout.setVisibility(View.GONE);
 
 	}
 
