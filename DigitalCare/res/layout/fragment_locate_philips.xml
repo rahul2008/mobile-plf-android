@@ -39,7 +39,7 @@
             android:background="@color/white"
             android:divider="#cccccc"
             android:dividerHeight="1dp"
-            android:visibility="gone" >
+            >
         </ListView>
 
         <ScrollView

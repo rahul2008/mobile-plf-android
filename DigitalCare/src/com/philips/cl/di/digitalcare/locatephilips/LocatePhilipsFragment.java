@@ -46,6 +46,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -281,7 +282,22 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
 			mMap = mMapFragment.getMap();
+
 		}
+
+		mMap.setOnMapClickListener(new OnMapClickListener() {
+			@Override
+			public void onMapClick(LatLng arg0) {
+				// hide Locate layout on map click
+				if (mLocateLayout != null
+						&& View.VISIBLE == mLocateLayout.getVisibility()) {
+					mLocateLayout.setVisibility(View.GONE);
+					if (mMarkerIcon.getVisibility() == View.VISIBLE)
+						mMarkerIcon.setVisibility(View.GONE);
+
+				}
+			}
+		});
 
 	}
 
@@ -337,6 +353,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		mLocateSearchLayoutParentParams = (FrameLayout.LayoutParams) mLocateSearchLayout
 				.getLayoutParams();
+
+		mListView.setVisibility(View.GONE);
+		mLinearLayout.setVisibility(View.GONE);
+		mMarkerIcon.setVisibility(View.GONE);
 
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
@@ -814,7 +834,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			if (mResultModelSet != null) {
 				adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
+
 			}
+
 			return params[0];
 
 		}
@@ -831,17 +853,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					public void onFilterComplete(int count) {
 						// show the listView content again;
 						mListView.setAdapter(adapter);
+
 						mListView.setVisibility(View.VISIBLE);
 						mLinearLayout.setVisibility(View.GONE);
 						mMarkerIcon.setVisibility(View.VISIBLE);
 
+						// showView(mListView);
+						// showView(mMarkerIcon);
+						// hideView(mLinearLayout);
+
 					}
 				});
-
-				// mListView.setAdapter(adapter);
-				// mListView.setVisibility(View.VISIBLE);
-				// mLinearLayout.setVisibility(View.GONE);
-				// mMarkerIcon.setVisibility(View.VISIBLE);
 
 			}
 
