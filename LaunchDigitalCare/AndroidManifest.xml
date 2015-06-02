@@ -35,6 +35,11 @@
         <activity
             android:name="com.philips.cl.di.sampledigitalcareapp.DummyScreen"
             android:configChanges="orientation|screenSize" >
+            <intent-filter>
+                <action android:name="android.intent.action.dummyScreen" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare"

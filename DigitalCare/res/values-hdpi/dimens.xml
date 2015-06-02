@@ -13,7 +13,6 @@
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="font_button_text_margin_left">65dp</dimen>
     <dimen name="support_btn_height">50dp</dimen>
-    <dimen name="prod_reg_btn_height">@dimen/support_btn_height</dimen>
     <dimen name="actionbar_height">@dimen/support_btn_height</dimen>
     <dimen name="social_support_closebutton">16dp</dimen>
 

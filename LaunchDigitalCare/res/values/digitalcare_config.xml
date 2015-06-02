@@ -3,6 +3,7 @@
 
     <!-- UiTheme Start -->
 
+
     <!-- Activity -->
     <color name="activity_background_color">#F0F4F9</color>
 
@@ -49,7 +50,7 @@
         <item>find_philips_near_you</item>
         <item>feedback</item>
         <item>registration</item>
-        <item>actionbar_title_support</item>
+        <!-- <item>actionbar_title_support</item> -->
     </string-array>
 
     <!-- List of main menu image names, please follow naming conventions -->
@@ -60,7 +61,19 @@
         <item>find_philips_near_you</item>
         <item>feedback</item>
         <item>registration</item>
-        <item>contact_us</item>
+        <!-- <item>contact_us</item> -->
+    </string-array>
+
+    <!-- List of social service providers localised resource keys, please follow naming conventions -->
+    <string-array name="social_service_provider_menu_title">
+        <item>facebook</item>
+        <item>twitter</item>
+    </string-array>
+
+    <!-- List of social service providers image names, please follow naming conventions -->
+    <string-array name="social_service_provider_menu_resources">
+        <item>facebook</item>
+        <item>twitter</item>
     </string-array>
 
     <!-- Chat Screen -->
