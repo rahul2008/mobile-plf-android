@@ -46,7 +46,7 @@ public class SupportHomeFragmentTest extends
 		assertTrue(validate);
 	}
 
-	@SmallTest
+	/*@SmallTest
 	public void testFragmentViewContainer() {
 
 		RelativeLayout mContainer = new RelativeLayout(mContext);
@@ -56,7 +56,7 @@ public class SupportHomeFragmentTest extends
 				.getLayoutInflater(), mContainer, null);
 		DLog.d(TAG, "Received " + mReceivedView);
 		assertNotNull(mReceivedView);
-	}
+	}*/
 
 	@SmallTest
 	public void testFragmentCreation() {

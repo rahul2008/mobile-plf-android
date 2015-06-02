@@ -487,8 +487,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		MarkerOptions markerOpt = new MarkerOptions();
 		markerOpt.position(new LatLng(lat, lng));
 		// markerMe = mMap.addMarker(markerOpt);
-		mMap.setMyLocationEnabled(true);
-		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		if (mMap != null) {
+			mMap.setMyLocationEnabled(true);
+			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+		} else {
+			DLog.i(TAG, "MAP is null Failed to update Maptype");
+		}
 		resetMyButtonPosition();
 	}
 
@@ -524,7 +528,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 						mPolyline.remove();
 						mPolyline = null;
 					}
-					mPolyline = mMap.addPolyline(polylineOpt);
+
+					if (mMap != null) {
+						mPolyline = mMap.addPolyline(polylineOpt);
+					} else {
+						DLog.i(TAG, "MAP is null, So unable to polyline");
+					}
 					mPolyline.setWidth(12);
 				}
 			};
@@ -585,19 +594,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onGpsStatusChanged(int event) {
 		switch (event) {
 		case GpsStatus.GPS_EVENT_STARTED:
-			DLog.d(TAG, "GPS_EVENT_STARTED");
+			DLog.v(TAG, "GPS_EVENT_STARTED");
 			break;
 
 		case GpsStatus.GPS_EVENT_STOPPED:
-			DLog.d(TAG, "GPS_EVENT_STOPPED");
+			DLog.v(TAG, "GPS_EVENT_STOPPED");
 			break;
 
 		case GpsStatus.GPS_EVENT_FIRST_FIX:
-			DLog.d(TAG, "GPS_EVENT_FIRST_FIX");
+			DLog.v(TAG, "GPS_EVENT_FIRST_FIX");
 			break;
 
 		case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
-			DLog.d(TAG, "GPS_EVENT_SATELLITE_STATUS");
+			// DLog.v(TAG, "GPS_EVENT_SATELLITE_STATUS");
 			break;
 		}
 	}
@@ -741,9 +750,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
 			new UITask().execute(constrain);
-			// mSearchBox.setText(null);
-
-			// new UITask().execute(constrain);
+			
 
 		} else if (v.getId() == R.id.getdirection) {
 
@@ -751,9 +758,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
 						mDestinationLat, mDestinationLng));
 				mLinearLayout.setVisibility(View.GONE);
-				// Toast.makeText(getActivity(), "get direction clicked",
-				// Toast.LENGTH_SHORT)
-				// .show();
 			}
 
 		} else if (v.getId() == R.id.marker_icon) {
