@@ -307,7 +307,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DLog.v(TAG, "Progress Dialog Started");
 		if (mDialog == null)
 			mDialog = new ProgressDialog(getActivity());
-		mDialog.setMessage("Loading...");
+		mDialog.setMessage(getActivity().getResources().getString(
+				R.string.loading));
 		mDialog.setCancelable(false);
 		if (!(getActivity().isFinishing())) {
 			mDialog.show();
@@ -327,11 +328,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		int id = view.getId();
 		Integer tag = (Integer) view.getTag();
 
-		boolean actionTaken = DigitalCareConfigManager
-				.getInstance(DigitalCareConfigManager.getContext())
-				.getSocialProviderListener()
-				.onSocialProviderItemClickListener(tag);
+		boolean actionTaken = false;
 
+		if (tag != null) {
+			actionTaken = DigitalCareConfigManager
+					.getInstance(DigitalCareConfigManager.getContext())
+					.getSocialProviderListener()
+					.onSocialProviderItemClickListener(tag);
+		}
 		if (actionTaken) {
 			return;
 		}
@@ -363,7 +367,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				Utils.showToast(getActivity(), "Check the SIM");
 			}
-		} else if (tag == R.string.facebook
+		} else if (tag != null && tag == R.string.facebook
 				&& Utils.isNetworkConnected(getActivity())) {
 
 			Session mFacebookSession = Session.getActiveSession();
@@ -393,14 +397,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			// "user_birthday", "user_hometown", "user_location"));
 			// FacebookHelper mHelper = new FacebookHelper(getActivity());
 
-		} else if (tag == R.string.twitter
+		} else if (tag != null && tag == R.string.twitter
 				&& Utils.isNetworkConnected(getActivity())) {
 			// mTwitter.setClickable(false);
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
 			mPostProgress = new ProgressDialog(getActivity());
-			mPostProgress.setMessage("Loading...");
+			mPostProgress.setMessage(getActivity().getResources().getString(
+					R.string.loading));
 			mPostProgress.setCancelable(false);
 			if (!(getActivity().isFinishing()))
 				mPostProgress.show();

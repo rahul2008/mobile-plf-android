@@ -44,15 +44,16 @@
 
         <!-- Buttons -->
 
-        <RelativeLayout
-            android:id="@+id/prodbuttons"
+        <LinearLayout
+            android:id="@+id/prodbuttonsParent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin" >
-
+            android:paddingRight="@dimen/activity_margin" 
+            android:orientation="vertical">
+<!-- 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/manual_open"
                 style="@style/fontButton"
@@ -62,7 +63,6 @@
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/manual_download"
                 style="@style/fontButton"
-                android:layout_below="@+id/manual_open"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_download_manual"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
@@ -70,11 +70,10 @@
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/prodinfo_button"
                 style="@style/fontButton"
-                android:layout_below="@+id/manual_download"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_information"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
-        </RelativeLayout>
+                custom:fontAssetName="fonts/centralesans-book.otf" /> -->
+        </LinearLayout>
 
         <!-- Video Ads -->
 

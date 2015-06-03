@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.productdetails.ProductMenuButtonClickListner;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.Utils;
@@ -37,6 +38,7 @@ public class DigitalCareConfigManager {
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
 
 	private MainMenuListener mMainMenuListener = null;
+	private ProductMenuButtonClickListner mProductMenuListener = null;
 	private SocialProviderListener mSocialProviderListener = null;
 
 	// Twitter APP SDK API KEYS
@@ -67,8 +69,8 @@ public class DigitalCareConfigManager {
 		}
 		return mDigitalCareInstance;
 	}
-	
-	public static Context getContext(){
+
+	public static Context getContext() {
 		return mContext;
 	}
 
@@ -86,6 +88,15 @@ public class DigitalCareConfigManager {
 
 	public MainMenuListener getMainMenuListener() {
 		return mMainMenuListener;
+	}
+
+	public void registerProductMenuListener(
+			ProductMenuButtonClickListner productMenuListener) {
+		mProductMenuListener = productMenuListener;
+	}
+
+	public ProductMenuButtonClickListner getProductMenuListener() {
+		return mProductMenuListener;
 	}
 
 	public void registerSocialProviderListener(
