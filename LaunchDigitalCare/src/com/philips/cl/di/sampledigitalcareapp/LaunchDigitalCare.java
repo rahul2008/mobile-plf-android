@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.MainMenuListener;
 import com.philips.cl.di.digitalcare.SocialProviderListener;
+import com.philips.cl.di.digitalcare.productdetails.ProductMenuButtonClickListner;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 public class LaunchDigitalCare extends Activity implements OnClickListener {
@@ -32,6 +33,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
 	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
 	private MainMenuButtonClickListner mButtonClickListner = null;
+	private ProductMenuClickListner mProductButtonClickListner = null;
 	private SocialProviderButtonClickListner mSocialProviderButtonClickListner = null;
 
 	@Override
@@ -73,6 +75,13 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		mButtonClickListner = new MainMenuButtonClickListner();
 		DigitalCareConfigManager.getInstance(this).registerMainMenuListener(
 				mButtonClickListner);
+
+		/*
+		 * DigitalCare "View Product Details" Screen custom button listeners.
+		 */
+		mProductButtonClickListner = new ProductMenuClickListner();
+		DigitalCareConfigManager.getInstance(this).registerProductMenuListener(
+				mProductButtonClickListner);
 
 		/*
 		 * DigitalCare Social Provider Button listeners.
@@ -142,17 +151,32 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		}
 	}
 
+	private class ProductMenuClickListner implements
+			ProductMenuButtonClickListner {
+
+		@Override
+		public boolean onProductMenuItemClickListener(int buttonTitle) {
+			if (buttonTitle == R.string.product_download_manual) {
+				Intent intent = new Intent(LaunchDigitalCare.this,
+						DummyScreen.class);
+				startActivity(intent);
+				return true;
+			}
+			return false;
+		}
+	}
+
 	private class SocialProviderButtonClickListner implements
 			SocialProviderListener {
 
 		@Override
 		public boolean onSocialProviderItemClickListener(int buttonTitle) {
-//			if (buttonTitle == R.string.facebook) {
-//				Intent intent = new Intent(LaunchDigitalCare.this,
-//						DummyScreen.class);
-//				startActivity(intent);
-//				return true;
-//			}
+			// if (buttonTitle == R.string.facebook) {
+			// Intent intent = new Intent(LaunchDigitalCare.this,
+			// DummyScreen.class);
+			// startActivity(intent);
+			// return true;
+			// }
 			return false;
 		}
 	}

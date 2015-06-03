@@ -62,6 +62,13 @@
         <item>registration</item>
     </string-array>
 
+    <!-- List of product menu localised resource keys, please follow naming conventions -->
+    <string-array name="product_menu_title">
+        <item>product_open_manual</item>
+        <item>product_download_manual</item>
+        <item>product_information</item>
+    </string-array>
+
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
     <string-array name="social_service_provider_menu_title">
         <item>twitter</item>
