@@ -42,7 +42,9 @@ public class SHNDeviceAssociation {
             shnCentral.getUserHandler().post(new Runnable() {
                 @Override
                 public void run() {
-                    shnDeviceAssociationListener.onAssociationSucceeded(shnDevice);
+                    if (shnDeviceAssociationListener != null) {
+                        shnDeviceAssociationListener.onAssociationSucceeded(shnDevice);
+                    }
                 }
             });
         }
@@ -53,7 +55,9 @@ public class SHNDeviceAssociation {
             shnCentral.getUserHandler().post(new Runnable() {
                 @Override
                 public void run() {
-                    shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNAssociationError);
+                    if (shnDeviceAssociationListener != null) {
+                        shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNAssociationError);
+                    }
                 }
             });
         }
