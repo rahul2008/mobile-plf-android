@@ -818,23 +818,31 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void showServiceCentreDetails(AtosResultsModel resultModel) {
-		AtosAddressModel addressModel = resultModel.getmAddressModel();
-		AtosLocationModel locationModel = resultModel.getLocationModel();
 
-		mDestinationLat = Double.parseDouble(locationModel.getLatitude());
-		mDestinationLng = Double.parseDouble(locationModel.getLongitude());
+		AtosLocationModel mGeoData = null;
+		AtosAddressModel mAddressModel = null;
+		try {
+			mAddressModel = resultModel.getmAddressModel();
+			mGeoData = resultModel.getLocationModel();
+		} catch (NullPointerException e) {
+			DLog.d(TAG, " " + e);
+			return;
+		}
+
+		mDestinationLat = Double.parseDouble(mGeoData.getLatitude());
+		mDestinationLng = Double.parseDouble(mGeoData.getLongitude());
 
 		// mPhoneNumber = addressModel.getPhone();
 
 		mShowTxtTitle.setText(resultModel.getTitle());
-		mShowTxtAddress.setText(addressModel.getAddress1() + "\n"
-				+ addressModel.getCityState() + "\n" + addressModel.getUrl());
+		mShowTxtAddress.setText(mAddressModel.getAddress1() + "\n"
+				+ mAddressModel.getCityState() + "\n" + mAddressModel.getUrl());
 
 		// mImgListRightArrow.setVisibility(View.GONE);
 
 		// String phoneNumbers[] = addressModel.getPhone().split(",");
 
-		ArrayList<String> phoneNumbers = addressModel.getPhoneList();
+		ArrayList<String> phoneNumbers = mAddressModel.getPhoneList();
 
 		mPhoneNumber = phoneNumbers.get(0);
 
