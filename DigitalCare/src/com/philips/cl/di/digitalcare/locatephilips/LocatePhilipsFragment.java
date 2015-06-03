@@ -48,6 +48,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -83,7 +84,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		ResponseCallback, GpsStatus.Listener, OnMapClickListener {
 	private GoogleMap mMap = null;
 	private GoogleMapFragment mMapFragment = null;
-	private Marker markerMe = null;
+	private Marker mCurrentPosition = null;
 	private AtosResponseParser mAtosResponseParser = null;
 	private AtosResponseModel mAtosResponse = null;
 	private ProgressDialog mProgressDialog = null;
@@ -217,13 +218,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		MarkerOptions mMarkerOptions = new MarkerOptions();
 		mMarkerOptions.position(new LatLng(lat, lang));
+		mMarkerOptions.icon(BitmapDescriptorFactory
+				.fromResource(R.drawable.marker_current));
 		mMarkerOptions.anchor(0.5f, 0.5f);
 
 		CircleOptions mOptions = new CircleOptions()
 				.center(new LatLng(lat, lang)).radius(10000)
 				.strokeColor(0x110000FF).strokeWidth(1).fillColor(0x110000FF);
 		mMap.addCircle(mOptions);
-		mMap.addMarker(mMarkerOptions);
+		if (mCurrentPosition != null)
+			mCurrentPosition.remove();
+		mCurrentPosition = mMap.addMarker(mMarkerOptions);
+
 	}
 
 	@Override
@@ -471,14 +477,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				mLocationListener);
 	}
 
-	private void showMarkerMe(double lat, double lng) {
-		if (markerMe != null) {
-			markerMe.remove();
-		}
+	private void setMapType(double lat, double lng) {
 
-		MarkerOptions markerOpt = new MarkerOptions();
-		markerOpt.position(new LatLng(lat, lng));
-		// markerMe = mMap.addMarker(markerOpt);
 		if (mMap != null) {
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			addBoundaryToCurrentPosition(lat, lng);
@@ -559,7 +559,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			where = "latitude : " + lat + "\n longitude : " + lng
 					+ "\n speed: " + speed + "\nProvider: " + provider;
 			DLog.i(TAG, where);
-			showMarkerMe(lat, lng);
+			setMapType(lat, lng);
 			mSourceLat = lat;
 			mSourceLng = lng;
 
@@ -600,17 +600,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		@Override
 		public void onLocationChanged(Location location) {
+			DLog.v(TAG, "LocationListener Changed..");
 			updateWithNewLocation(location);
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
+			DLog.v(TAG, "Location Listener Disabled");
 			updateWithNewLocation(null);
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-
+			DLog.v(TAG, "Location Listener Enabled");
 		}
 
 		@Override
