@@ -117,12 +117,12 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		getBaseContext().getResources().updateConfiguration(config,
 				getBaseContext().getResources().getDisplayMetrics());
 
-		Toast.makeText(
-				getApplicationContext(),
-				"Language set to " + DigitalCareConfigManager.getLanguage()
-						+ "\n Country set to"
-						+ DigitalCareConfigManager.getCountry(),
-				Toast.LENGTH_SHORT).show();
+//		Toast.makeText(
+//				getApplicationContext(),
+//				"Language set to " + DigitalCareConfigManager.getLanguage()
+//						+ "\n Country set to"
+//						+ DigitalCareConfigManager.getCountry(),
+//				Toast.LENGTH_SHORT).show();
 	}
 
 	private boolean backstackFragment() {

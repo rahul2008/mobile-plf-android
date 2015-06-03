@@ -3,7 +3,6 @@
 
     <!-- UiTheme Start -->
 
-
     <!-- Activity -->
     <color name="activity_background_color">#F0F4F9</color>
 
@@ -40,7 +39,6 @@
     <color name="button_register_background_pressed">#005AAB</color>
 
     <!-- UiTheme End -->
-
 
     <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
     <string-array name="main_menu_title">
@@ -80,9 +78,22 @@
         <item>twitter</item>
         <item>facebook</item>
     </string-array>
+    
+    
+    <!-- Facebook APPID, replace app id in app authority string -->
+    <string name="facebook_app_id" translatable="false">1537018913230025</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+    
+    
+    <!-- Facebook product support page -->
+    <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
 
-    <!-- Chat Screen -->
-    <color name="chat_can_we_help_you_title">@color/actionbar_title_color</color>
+    <!-- Twitter product support page -->
+    <string name="twitter_page" translatable="false">PhilipsCare</string>
+
+    <!-- Do you want Live Chat Option -->
+    <bool name="live_chat_required">true</bool>
+    
 
     <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
@@ -94,17 +105,5 @@
     <color name="NetworkAlertView_background_color">#b2b2b2</color>
     <color name="NetworkAlertView_text_color">#ffffff</color>
 
-    <!-- Facebook APPID, replace app id in app authority string -->
-    <string name="facebook_app_id" translatable="false">1537018913230025</string>
-    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-
-    <!-- Facebook product support page -->
-    <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
-
-    <!-- Twitter product support page -->
-    <string name="twitter_page" translatable="false">PhilipsCare</string>
-
-    <!-- Do you want Live Chat Option -->
-    <bool name="live_chat_required">true</bool>
 
 </resources>
