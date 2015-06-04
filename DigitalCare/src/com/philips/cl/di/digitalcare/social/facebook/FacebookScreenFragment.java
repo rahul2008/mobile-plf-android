@@ -306,7 +306,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
-	Runnable mRunnable = new Runnable() {
+	private Runnable mRunnable = new Runnable() {
 
 		@Override
 		public void run() {
