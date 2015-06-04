@@ -50,4 +50,34 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		assertNull(received);
 	}
 
+	public void testEmailLabel1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		Log.d("Naveen", "Chat Email Object .." + mCdlsObject);
+		try {
+			received = mCdlsObject.getContentPath().toString();
+		} catch (Exception e) {
+			Log.d("Naveen", "Chat Email Content .." + received);
+		}
+		assertNull(received);
+	}
+
+	public void testEmailContent1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		try {
+			received = mCdlsObject.getContentPath().toString();
+		} catch (Exception e) {
+			// Log.d("Naveen", "Chat Email Content .." + received);
+		}
+
+		assertNull(received);
+	}
+
 }
