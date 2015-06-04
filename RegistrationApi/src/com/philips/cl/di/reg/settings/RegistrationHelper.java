@@ -22,6 +22,7 @@ import com.philips.cl.di.reg.configuration.ConfigurationParser;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.configuration.SocialProviders;
 import com.philips.cl.di.reg.events.EventHelper;
+import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.listener.UserRegistrationListener;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -48,6 +49,8 @@ public class RegistrationHelper {
 	private String countryCode;
 	
 	private UserRegistrationListener mUserRegistrationListener;
+	
+	private NetworStateListener mNetworStateListener;
 
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
@@ -127,7 +130,7 @@ public class RegistrationHelper {
 	        final Locale locale) {
 		mJanrainIntialized = false;
 		mContext = context.getApplicationContext();
-		NetworkUtility.getInstance().checkIsOnline(mContext);
+		NetworkUtility.isNetworkAvailable(mContext);
 		mSocialProivder = null;
 		setCountryCode(locale.getCountry());
 		new Thread(new Runnable() {
@@ -158,7 +161,7 @@ public class RegistrationHelper {
 					boolean mIsInitialize = isInitialized.getValue();
 					String mLocale = locale.toString();
 
-					if (NetworkUtility.getInstance().isOnline()) {
+					if (NetworkUtility.isNetworkAvailable(mContext)) {
 
 						if (RegistrationEnvironment.EVAL.equalsIgnoreCase(mRegistrationType)) {
 							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
@@ -282,5 +285,18 @@ public class RegistrationHelper {
 	public void setCountryCode(String countryCode) {
 	    this.countryCode = countryCode;
     }
+	
+	public void registerNetworkStateListener(NetworStateListener networStateListener){
+		mNetworStateListener = networStateListener;
+	}
+	
+	public void unRegisterNetworkListener(){
+		mNetworStateListener = null;
+	}
+
+	public NetworStateListener getNetworkStateListener(){
+		return mNetworStateListener;
+	}
+
 
 }

@@ -18,17 +18,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.events.EventHelper;
-import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.social.AlmostDoneFragment;
 import com.philips.cl.di.reg.ui.social.MergeAccountFragment;
-import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class RegistrationActivity extends FragmentActivity implements EventListener,
+public class RegistrationActivity extends FragmentActivity implements NetworStateListener,
         OnClickListener {
 
 	private FragmentManager mFragmentManager = null;
@@ -40,8 +38,6 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		NetworkUtility.getInstance().checkIsOnline(getApplicationContext());
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
 		setContentView(R.layout.activity_registration);
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
@@ -91,7 +87,8 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 	public void addFragment(Fragment fragment) {
 		try {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+			fragmentTransaction
+			        .replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
@@ -143,16 +140,18 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 		addFragment(mergeAccountFragment);
 	}
 
-	@Override
-	public void onEventReceived(String event) {
-		if (RegConstants.IS_ONLINE.equals(event)) {
-			if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
-				RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
-				registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
-				        Locale.getDefault());
-			}
-		}
-	}
+	/*
+	 * @Override
+	 * public void onEventReceived(String event) {
+	 * if (RegConstants.IS_ONLINE.equals(event)) {
+	 * if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
+	 * RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
+	 * registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
+	 * Locale.getDefault());
+	 * }
+	 * }
+	 * }
+	 */
 
 	private void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -171,6 +170,16 @@ public class RegistrationActivity extends FragmentActivity implements EventListe
 		if (v.getId() == R.id.iv_reg_back) {
 			onBackPressed();
 		}
+	}
+
+	@Override
+	public void onNetWorkStateReceived(boolean isOnline) {
+		if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
+			RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
+			registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
+			        Locale.getDefault());
+		}
+
 	}
 
 }

@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XEmail;
@@ -32,7 +34,7 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, onUpdateListener, EventListener {
+        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener {
 
 	private LinearLayout mLlCreateAccountFields;
 
@@ -58,10 +60,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private ProgressBar mPbSpinner;
 
+	private Context mContext;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onCreateView");
-		EventHelper.getInstance().registerEventNotification(RegConstants.IS_ONLINE, this);
+		mContext = getRegistrationMainActivity().getApplicationContext();
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
@@ -79,8 +83,20 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	@Override
+	public void onResume() {
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
+		handleUiState();
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RegistrationHelper.getInstance().unRegisterNetworkListener();
+	}
+
+	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.IS_ONLINE, this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
@@ -129,10 +145,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mPbSpinner.setClickable(false);
 		mPbSpinner.setEnabled(true);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-
 		setViewParams(getResources().getConfiguration());
-		handleUiErrorState();
-		mUser = new User(getActivity().getApplicationContext());
+		handleUiState();
+		mUser = new User(mContext);
 	}
 
 	private void register() {
@@ -154,15 +169,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mBtnCreateAccount.setEnabled(true);
 	}
 
-	private void handleUiErrorState() {
-		if (NetworkUtility.getInstance().isOnline()) {
+	private void handleUiState() {
+		if (NetworkUtility.isNetworkAvailable(mContext)) {
 			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
-				mRegError.setError(getString(R.string.NoNetworkConnection));
+				mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
 			}
 		} else {
-			mRegError.setError(getString(R.string.NoNetworkConnection));
+			mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
 		}
 	}
 
@@ -210,7 +225,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void updateUiStatus() {
 		if (mEtName.isValidName() && mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-		        && NetworkUtility.getInstance().isOnline()
+		        && NetworkUtility.isNetworkAvailable(mContext)
 		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnCreateAccount.setEnabled(true);
 			mRegError.hideError();
@@ -221,12 +236,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onEventReceived(String event) {
-		if (RegConstants.IS_ONLINE.equals(event)) {
-			handleUiErrorState();
-			updateUiStatus();
-		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			updateUiStatus();
 		}
+	}
+
+	@Override
+	public void onNetWorkStateReceived(boolean isOnline) {
+		handleUiState();
+		updateUiStatus();
 	}
 
 }

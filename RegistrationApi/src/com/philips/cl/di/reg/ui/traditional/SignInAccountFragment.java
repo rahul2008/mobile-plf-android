@@ -1,5 +1,6 @@
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
@@ -29,9 +31,9 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class SignInAccountFragment extends RegistrationBaseFragment implements
-		OnClickListener, TraditionalLoginHandler, ForgotPasswordHandler,
-		onUpdateListener, EventListener {
+public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
+        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener,
+        NetworStateListener {
 
 	private LinearLayout mLlCreateAccountFields;
 
@@ -55,17 +57,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private XRegError mRegError;
 
+	private Context mContext;
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserPhilipsAccountSignInFragment : onCreateView");
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.JANRAIN_INIT_FAILURE, this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserPhilipsAccountSignInFragment : onCreateView");
+
+		mContext = getRegistrationMainActivity().getApplicationContext();
+
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		View view = inflater.inflate(R.layout.fragment_sign_in_account, null);
 		initUI(view);
 		return view;
@@ -74,8 +77,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserPhilipsAccountSignInFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserPhilipsAccountSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
@@ -87,13 +89,24 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		handleUiState();
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RegistrationHelper.getInstance().unRegisterNetworkListener();
+	}
+
+	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.JANRAIN_INIT_FAILURE, this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
+		        this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
+		        this);
 		super.onDestroy();
 	}
 
@@ -108,8 +121,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		} else if (id == R.id.btn_reg_resend) {
 			mEtEmail.clearFocus();
 			mEtPassword.clearFocus();
-			getRegistrationMainActivity().addFragment(
-					new AccountActivationFragment());
+			getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 		}
 	}
 
@@ -122,9 +134,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
 		mBtnResend.setOnClickListener(this);
 		mLlCreateAccountFields = (LinearLayout) view
-				.findViewById(R.id.ll_reg_create_account_fields);
-		mRlSignInBtnContainer = (RelativeLayout) view
-				.findViewById(R.id.rl_reg_welcome_container);
+		        .findViewById(R.id.ll_reg_create_account_fields);
+		mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
 		mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
 		mEtEmail.setOnClickListener(this);
@@ -136,11 +147,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		setViewParams(getResources().getConfiguration());
 		handleUiState();
-		mUser = new User(getActivity().getApplicationContext());
-		mPbSignInSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_reg_sign_in_spinner);
-		mPbForgotPasswdSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_reg_forgot_spinner);
+
+		mUser = new User(mContext);
+		mPbSignInSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_sign_in_spinner);
+		mPbForgotPasswdSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_forgot_spinner);
 
 	}
 
@@ -156,12 +166,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		mEtPassword.clearFocus();
 		mBtnForgot.setEnabled(false);
 		mBtnResend.setEnabled(false);
-		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(),
-				mEtPassword.getPassword().toString(), this);
+		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
+		        .toString(), this);
 	}
 
 	private void handleUiState() {
-		if (NetworkUtility.getInstance().isOnline()) {
+		if (NetworkUtility.isNetworkAvailable(mContext)) {
 			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 			} else {
@@ -181,33 +191,28 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 		if (mUser.getEmailVerificationStatus(getActivity())) {
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
 		} else {
-			mRegError
-					.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
+			mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
 			mBtnResend.setVisibility(View.VISIBLE);
 		}
 	}
 
 	@Override
-	public void onLoginFailedWithError(
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		mBtnForgot.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		hideSignInSpinner();
-		
+
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo
-					.getEmailErrorMessage());
+			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
 		}
 
 		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-			mEtPassword.setErrDescription(userRegistrationFailureInfo
-					.getPasswordErrorMessage());
+			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
 			mEtPassword.showInvalidAlert();
 		}
 
-		mRegError.setError(userRegistrationFailureInfo
-					.getErrorDescription());
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 	}
 
 	@Override
@@ -221,26 +226,23 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onSendForgotPasswordFailedWithError(
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
-		
-		if(null != userRegistrationFailureInfo.getSocialOnlyError()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo
-					.getSocialOnlyError());
+
+		if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
+			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
-			mRegError.setError(userRegistrationFailureInfo
-					.getSocialOnlyError());
-			
-			return ;
+			mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
+
+			return;
 		}
-		
+
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo
-					.getEmailErrorMessage());
+			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
 		}
-			
+
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 
 	}
@@ -266,12 +268,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 	}
 
 	private void resetPassword() {
-		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail
-				.getEmailId().toString());
+		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail.getEmailId().toString());
 		if (!validatorResult) {
 			mEtEmail.showInvalidAlert();
 		} else {
-			if (NetworkUtility.getInstance().isOnline()) {
+			if (NetworkUtility.isNetworkAvailable(mContext)) {
 				if (mUser != null) {
 					showForgotPasswordSpinner();
 					mEtEmail.clearFocus();
@@ -289,8 +290,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	private void updateUiStatus() {
 		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-				&& NetworkUtility.getInstance().isOnline()
-				&& RegistrationHelper.getInstance().isJanrainIntialized()) {
+		        && NetworkUtility.isNetworkAvailable(mContext)
+		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnSignInAccount.setEnabled(true);
 			mRegError.hideError();
 		} else {
@@ -305,13 +306,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements
 
 	@Override
 	public void onEventReceived(String event) {
-		if (RegConstants.IS_ONLINE.equals(event)) {
-			handleUiState();
-			updateUiStatus();
-		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			System.out.println("reint");
 			updateUiStatus();
 		}
+	}
+
+	@Override
+	public void onNetWorkStateReceived(boolean isOnline) {
+		handleUiState();
+		updateUiStatus();
 	}
 
 }

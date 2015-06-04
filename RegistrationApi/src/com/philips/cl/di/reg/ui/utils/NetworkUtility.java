@@ -1,65 +1,51 @@
+
 package com.philips.cl.di.reg.ui.utils;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.philips.cl.di.reg.settings.RegistrationHelper;
+
 public class NetworkUtility {
-
-	private static NetworkUtility mNetworkUtility;
-
-	private boolean mIsOnline;
-
-	/** Network Utility */
-	private NetworkUtility() {
-	}
-
-	/**
-	 * @return NetworkUtility sigle ton object.
-	 */
-	public static synchronized NetworkUtility getInstance() {
-		if (mNetworkUtility == null) {
-			mNetworkUtility = new NetworkUtility();
-		}
-		return mNetworkUtility;
-	}
-
-	/**
-	 * @return the isOnline
-	 */
-	public boolean isOnline() {
-		return mIsOnline;
-	}
-
-	/**
-	 * @param isOnline
-	 *            the isOnline to set
-	 */
-	public void setOnline(boolean isOnline) {
-		this.mIsOnline = isOnline;
-	}
-
-	/**
-	 * Called on start of app.
-	 * 
-	 * @param context
-	 *            {@link Context}
-	 */
-	public void checkIsOnline(Context context) {
+	
+	public static boolean isNetworkAvailable(Context context) {
 		ConnectivityManager connectivity = (ConnectivityManager) context
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		        .getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connectivity != null) {
 			NetworkInfo[] info = connectivity.getAllNetworkInfo();
-
+			int size = info.length;
 			if (info != null) {
-				for (int i = 0; i < info.length; i++) {
+				for (int i = 0; i < size; i++) {
 					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
-						setOnline(true);
-						return;
+						return true;
 					}
 				}
 			}
 		}
-		setOnline(false);
+		return false;
+	}
+	
+	public static class NetworkStateReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (NetworkUtility.isNetworkAvailable(context)) {
+				RLog.d(RLog.NETWORK_STATE, "Network state : true");
+				if(null!=RegistrationHelper.getInstance().getNetworkStateListener()){
+					RegistrationHelper.getInstance().getNetworkStateListener()
+			        .onNetWorkStateReceived(true);
+				}
+				
+			} else {
+				RLog.d(RLog.NETWORK_STATE, "Network state : false");
+				if(null!=RegistrationHelper.getInstance().getNetworkStateListener()){
+					RegistrationHelper.getInstance().getNetworkStateListener()
+			        .onNetWorkStateReceived(false);
+				}
+			}
+		}
 	}
 }

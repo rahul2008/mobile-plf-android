@@ -15,7 +15,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.ui.utils.RLog;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 

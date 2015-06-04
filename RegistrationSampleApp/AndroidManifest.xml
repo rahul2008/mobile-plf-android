@@ -4,17 +4,6 @@
     android:versionCode="3"
     android:versionName="1.1.2" >
 
-    <!-- Janrain specific permission start -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- Janrain specific permission End -->
-
     <uses-sdk
         android:minSdkVersion="10"
         android:targetSdkVersion="21" />
@@ -32,39 +21,9 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+				<category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- Regitration Api start -->
-        <activity
-            android:name="com.philips.cl.di.reg.ui.traditional.RegistrationActivity"
-            android:configChanges="orientation|screenSize" >
-        </activity>
-
-        <!-- Janrain specific  start -->
-        <activity
-            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
-            android:theme="@style/Theme.Janrain.Dialog.Light"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
-            android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
-            android:theme="@style/Theme.Janrain"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <!-- Janrain specific end -->
-
-
-        <!-- Network state change receiver -->
-        <receiver android:name="com.philips.cl.di.reg.receiver.NetworkStateReceiver" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <!-- Regitration Api End -->
     </application>
 
 </manifest>

@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.Context;
@@ -19,6 +20,7 @@ import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
+import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
@@ -27,59 +29,76 @@ import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class AccountActivationFragment extends RegistrationBaseFragment
-		implements OnClickListener, RefreshUserHandler,
-		ResendVerificationEmailHandler, EventListener {
+public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
+        RefreshUserHandler, ResendVerificationEmailHandler, EventListener, NetworStateListener {
 
 	private Button mBtnActivate;
+
 	private Button mBtnResend;
+
 	private TextView mTvVerifyEmail;
+
 	private LinearLayout mLlWelcomeContainer;
+
 	private TextView mTvResendDetails;
+
 	private RelativeLayout mRlSingInOptions;
+
 	private ProgressBar mPbActivateSpinner;
+
 	private ProgressBar mPbResendSpinner;
+
 	private User mUser;
+
 	private Context mContext;
+
 	private XRegError mRegError;
+
 	private XRegError mEMailVerifiedError;
+
 	private String mEmailId;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"ActivateAccountFragment : onCreateView");
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance().registerEventNotification(
-				RegConstants.JANRAIN_INIT_FAILURE, this);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
+
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+		EventHelper.getInstance()
+		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		mUser = new User(mContext);
-		View view = inflater
-				.inflate(R.layout.fragment_account_activation, null);
+		View view = inflater.inflate(R.layout.fragment_account_activation, null);
 		initUI(view);
 		return view;
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
+		handleUiState();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RegistrationHelper.getInstance().unRegisterNetworkListener();
+	}
+
+	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE,
-				"UserSignInFragment : onConfigurationChanged");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
 
 	@Override
 	public void onDestroy() {
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.IS_ONLINE, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance().unregisterEventNotification(
-				RegConstants.JANRAIN_INIT_FAILURE, this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
+		        this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
+		        this);
 		super.onDestroy();
 	}
 
@@ -113,37 +132,30 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 	private void initUI(View view) {
 		consumeTouch(view);
 		mTvVerifyEmail = (TextView) view.findViewById(R.id.tv_reg_veify_email);
-		mLlWelcomeContainer = (LinearLayout) view
-				.findViewById(R.id.ll_reg_welcome_container);
-		mTvResendDetails = (TextView) view
-				.findViewById(R.id.tv_reg_resend_details);
-		mRlSingInOptions = (RelativeLayout) view
-				.findViewById(R.id.rl_reg_singin_options);
+		mLlWelcomeContainer = (LinearLayout) view.findViewById(R.id.ll_reg_welcome_container);
+		mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
+		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
 		mBtnActivate = (Button) view.findViewById(R.id.btn_reg_activate_acct);
 		mBtnResend = (Button) view.findViewById(R.id.btn_reg_resend);
 		mBtnActivate.setOnClickListener(this);
 		mBtnResend.setOnClickListener(this);
 
-		mPbActivateSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_reg_activate_spinner);
-		mPbResendSpinner = (ProgressBar) view
-				.findViewById(R.id.pb_reg_resend_spinner);
+		mPbActivateSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
+		mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
 
 		TextView tvEmail = (TextView) view.findViewById(R.id.tv_reg_email);
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mEmailId = userProfile.getEmail();
-		tvEmail.setText(getString(R.string.VerifyEmail_EmailSentto_lbltxt)
-				+ mEmailId);
+		tvEmail.setText(getString(R.string.VerifyEmail_EmailSentto_lbltxt) + mEmailId);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-		mEMailVerifiedError = (XRegError) view
-				.findViewById(R.id.reg_email_verified_error);
+		mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
 		setViewParams(getResources().getConfiguration());
 		handleUiState();
 	}
 
 	private void handleUiState() {
-		if (NetworkUtility.getInstance().isOnline()) {
+		if (NetworkUtility.isNetworkAvailable(mContext)) {
 			if (RegistrationHelper.getInstance().isJanrainIntialized()) {
 				mRegError.hideError();
 				mBtnActivate.setEnabled(true);
@@ -195,7 +207,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 			mEMailVerifiedError.setVisibility(View.VISIBLE);
 			mEMailVerifiedError.setError(getResources().getString(
-					R.string.Janrain_Error_Need_Email_Verification));
+			        R.string.Janrain_Error_Need_Email_Verification));
 		}
 	}
 
@@ -236,21 +248,23 @@ public class AccountActivationFragment extends RegistrationBaseFragment
 
 	@Override
 	public void onResendVerificationEmailFailedWithError(
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		updateResendUIState();
 
-		mRegError.setError(userRegistrationFailureInfo.getErrorDescription()
-				+ "\n" + userRegistrationFailureInfo.getEmailErrorMessage());
-		
+		mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
+		        + userRegistrationFailureInfo.getEmailErrorMessage());
+
 	}
 
 	@Override
 	public void onEventReceived(String event) {
-		if (RegConstants.IS_ONLINE.equals(event)) {
-			handleUiState();
-		} else if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
+		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			System.out.println("reint");
 		}
+	}
 
+	@Override
+	public void onNetWorkStateReceived(boolean isOnline) {
+		handleUiState();
 	}
 }
