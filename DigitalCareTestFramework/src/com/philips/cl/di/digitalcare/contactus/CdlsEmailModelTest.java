@@ -105,7 +105,7 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 			Log.d(TAG, "Chat Email Content .." + received);
 		}
 
-		assertNull(received);
+		assertNotNull(received);
 	}
 
 }

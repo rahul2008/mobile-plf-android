@@ -18,6 +18,7 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
  * ChatNowFragment will help to inflate chat webpage on the screen.
@@ -43,7 +44,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		/* CdlsBean cdlsBean = */cdlsResponseParserHelper.getCdlsBean();
 		// mUrl = cdlsBean.getChat().getContent();
 
-		mUrl = "http://ph-india.livecom.net/5g/ch/?___________________________________________________________=&aid=WuF95jlNIAA%3D&gid=3&skill=undefined&tag=PHILIPS_GEN_GR&cat=&chan=LWC;LVC;LVI&fields=&customattr=Group%3APHILIPS_GEN_GR%3B%20Category%3A%3B%20Sub-category%3A%3B%20CTN%3A%3B%20Country%3AIN%3B%20Language%3AEN&sID=1mOYTHel%2BAI%3D&cID=uENOfpmJKAA%3D&lcId=SMS_IN_EN&url=http%3A%2F%2Fwww.support.philips.com%2Fsupport%2Fcontact%2Ffragments%2Fchat_now_fragment.jsp%3FparentId%3DPB_IN_1%26userCountry%3Din%26userLanguage%3Den&ref=http%3A%2F%2Fwww.support.philips.com%2Fsupport%2Fcontact%2Fcontact_page.jsp%3FuserLanguage%3Den%26userCountry%3Din";
+		setChatEndPoint(DigitalCareContants.CHAT_LINK);
 		return view;
 	}
 
@@ -51,7 +52,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
-				AnalyticsConstants.MAP_KEY_EXIT_LINK, mUrl);
+				AnalyticsConstants.MAP_KEY_EXIT_LINK, getChatEndPoint());
 
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
@@ -70,7 +71,12 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		// String url = "<html><body>"+mUrl+"</body></html>";
 		// mWebView.loadData(Html.fromHtml(url).toString(), "text/html",
 		// "UTF-8");
-		mWebView.loadUrl(mUrl);
+		if (getChatEndPoint() != null)
+			setupWebView();
+	}
+
+	protected void setupWebView() {
+		mWebView.loadUrl(getChatEndPoint());
 		mWebView.setWebViewClient(new MyWebViewClient());
 		WebSettings websettings = mWebView.getSettings();
 		websettings.setJavaScriptEnabled(true);
@@ -100,13 +106,13 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
 			view.loadUrl(url);
-			mDialog.show();
+			showDialog();
 			return true;
 		}
 
 		@Override
 		public void onPageFinished(WebView view, String url) {
-			mDialog.dismiss();
+			dismissDialog();
 			super.onPageFinished(view, url);
 		}
 	}
@@ -115,12 +121,30 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.webViewParent) {
-			mDialog.dismiss();
+			dismissDialog();
 		}
+	}
+
+	protected void dismissDialog() {
+		mDialog.dismiss();
+	}
+
+	protected void showDialog() {
+		mDialog.show();
 	}
 
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.chat_with_philips);
+	}
+
+	protected void setChatEndPoint(final String url) {
+
+		if (url.startsWith("http://") || url.startsWith("https://"))
+			mUrl = url;
+	}
+
+	protected String getChatEndPoint() {
+		return mUrl;
 	}
 }

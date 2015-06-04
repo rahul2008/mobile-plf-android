@@ -66,7 +66,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mResponseModel.getEmail();
 		Log.d("Naveen", "Response:"+ response);
-		assertNull(mEmailObject);
+		assertNotNull(mEmailObject);
 	}
 	
 	
@@ -138,7 +138,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mResponseModel.getEmail();
 		Log.d("Naveen", "Response:"+ response);
-		assertNull(mEmailObject);
+		assertNotNull(mEmailObject);
 	}
 	
 	
