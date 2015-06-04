@@ -138,10 +138,13 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 	private class MainMenuButtonClickListner implements MainMenuListener {
 
 		@Override
-		public boolean onMainMenuItemClickListener(int buttonTitle) {
-			if (buttonTitle == R.string.registration
-					|| buttonTitle == R.string.view_faq
-					|| buttonTitle == R.string.actionbar_title_support) {
+		public boolean onMainMenuItemClickListener(String buttonTitle) {
+			if (buttonTitle
+					.equalsIgnoreCase(getStringKey(R.drawable.registration))
+					|| buttonTitle
+							.equalsIgnoreCase(getStringKey(R.drawable.registration))
+					|| buttonTitle
+							.equalsIgnoreCase(getStringKey(R.drawable.registration))) {
 				Intent intent = new Intent(LaunchDigitalCare.this,
 						DummyScreen.class);
 				startActivity(intent);
@@ -151,17 +154,21 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		}
 	}
 
+	private String getStringKey(int resId) {
+		return getResources().getResourceEntryName(resId);
+	}
+
 	private class ProductMenuClickListner implements
 			ProductMenuButtonClickListner {
 
 		@Override
 		public boolean onProductMenuItemClickListener(int buttonTitle) {
-			if (buttonTitle == R.string.product_download_manual) {
-				Intent intent = new Intent(LaunchDigitalCare.this,
-						DummyScreen.class);
-				startActivity(intent);
-				return true;
-			}
+//			if (buttonTitle == R.string.product_download_manual) {
+//				Intent intent = new Intent(LaunchDigitalCare.this,
+//						DummyScreen.class);
+//				startActivity(intent);
+//				return true;
+//			}
 			return false;
 		}
 	}

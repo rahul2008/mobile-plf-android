@@ -37,8 +37,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	private LinearLayout mOptionParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private String[] mFeatureKeys = null;
-	private String[] mFeatureDrawableKey = null;
 
 	private static final String TAG = SupportHomeFragment.class.getSimpleName();
 
@@ -48,7 +46,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
 		DLog.i(TAG, "onCreateView");
-		initializeFeaturesSupported();
 		return view;
 	}
 
@@ -62,9 +59,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 
-		for (int i = 0; i < mFeatureKeys.length; i++) {
-			enableOptionButtons(mFeatureKeys[i], mFeatureDrawableKey[i]);
-		}
+		createMainMenu();
+
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
 	}
 
@@ -84,71 +80,28 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		mOptionParent.setLayoutParams(mParams);
 	}
 
-	private void enableOptionButtons(String buttonTitle, String buttonDrawable) {
+	/**
+	 * Create RelativeLayout at runTime. RelativeLayout will have button and
+	 * image together.
+	 */
+	private void createButtonLayout(String buttonTitle, String buttonDrawable) {
+		float density = getResources().getDisplayMetrics().density;
 		String packageName = getActivity().getPackageName();
 		int title = getResources().getIdentifier(
 				packageName + ":string/" + buttonTitle, null, null);
 		int drawable = getResources().getIdentifier(
 				packageName + ":drawable/" + buttonDrawable, null, null);
-		createButtonLayout(title, drawable);
-	}
 
-	/**
-	 * Create RelativeLayout at runTime. RelativeLayout will have button and
-	 * image together.
-	 */
-	private void createButtonLayout(int buttonTitle, int resId) {
-		float density = getResources().getDisplayMetrics().density;
-		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-						.getDimension(R.dimen.support_btn_height));
-		relativeLayout.setLayoutParams(params);
+		RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
 
-		if (resId == R.drawable.registration) {
-			relativeLayout
-					.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
-		} else {
-			relativeLayout
-					.setBackgroundResource(R.drawable.selector_option_button_bg);
-		}
-		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
-		fontButton.setGravity(Gravity.START | Gravity.CENTER);
-		fontButton.setPadding((int) (80 * density), 0, 0, 0);
-		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
-
-		fontButton.setText(buttonTitle);
-		relativeLayout.addView(fontButton);
-
-		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
-				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
-
-		fontButton.setLayoutParams(buttonParams);
-
-		ImageView img = new ImageView(getActivity(), null,
-				R.style.supportHomeImageButton);
-		img.setPadding(0, 0, 0, 0);
-		// img.setContentDescription(buttonTitle);
-		img.setImageDrawable(getDrawable(resId));
-		relativeLayout.addView(img);
-
-		LayoutParams imgParams = (LayoutParams) img.getLayoutParams();
-		imgParams.height = (int) (35 * density);
-		imgParams.width = (int) (35 * density);
-		imgParams.topMargin = imgParams.bottomMargin = imgParams.rightMargin = (int) (10 * density);
-		imgParams.leftMargin = (int) (19 * density);
-		img.setLayoutParams(imgParams);
-
+		Button button = createButton(density, title);
+		relativeLayout.addView(button);
+		setButtonParams(button);
+		ImageView imageView = createImageView(density, drawable);
+		relativeLayout.addView(imageView);
+		setImageParams(imageView, density);
 		mOptionParent.addView(relativeLayout);
-
-		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
-				.getLayoutParams();
-		param.topMargin = (int) (15 * density);
-		relativeLayout.setLayoutParams(param);
+		setRelativeLayoutParams(relativeLayout, density);
 
 		/*
 		 * Setting tag because we need to get String title for this view which
@@ -158,30 +111,97 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		relativeLayout.setOnClickListener(this);
 	}
 
+	private RelativeLayout createRelativeLayout(String buttonTitle) {
+		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
+						.getDimension(R.dimen.support_btn_height));
+		relativeLayout.setLayoutParams(params);
+
+		if (buttonTitle.equalsIgnoreCase(getStringKey(R.string.registration))) {
+			relativeLayout
+					.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+		} else {
+			relativeLayout
+					.setBackgroundResource(R.drawable.selector_option_button_bg);
+		}
+
+		return relativeLayout;
+	}
+
+	private void setRelativeLayoutParams(RelativeLayout relativeLayout,
+			float density) {
+		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
+				.getLayoutParams();
+		param.topMargin = (int) (15 * density);
+		relativeLayout.setLayoutParams(param);
+	}
+
+	private void setImageParams(ImageView imageView, float density) {
+		LayoutParams imageViewParams = (LayoutParams) imageView
+				.getLayoutParams();
+		imageViewParams.height = (int) (35 * density);
+		imageViewParams.width = (int) (35 * density);
+		imageViewParams.topMargin = imageViewParams.bottomMargin = imageViewParams.rightMargin = (int) (10 * density);
+		imageViewParams.leftMargin = (int) (19 * density);
+		imageView.setLayoutParams(imageViewParams);
+	}
+
+	private void setButtonParams(Button button) {
+		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+				.getLayoutParams();
+		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+				RelativeLayout.TRUE);
+		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+				RelativeLayout.TRUE);
+		button.setLayoutParams(buttonParams);
+	}
+
+	private ImageView createImageView(float density, int drawable) {
+		ImageView imageView = new ImageView(getActivity(), null,
+				R.style.supportHomeImageButton);
+		imageView.setPadding(0, 0, 0, 0);
+		imageView.setImageDrawable(getDrawable(drawable));
+
+		return imageView;
+	}
+
+	private Button createButton(float density, int title) {
+		Button button = new Button(getActivity(), null, R.style.fontButton);
+		button.setGravity(Gravity.START | Gravity.CENTER);
+		button.setPadding((int) (80 * density), 0, 0, 0);
+		button.setTextAppearance(getActivity(), R.style.fontButton);
+		button.setText(title);
+		return button;
+	}
+
 	@Override
 	public void onClick(View view) {
 
-		Integer tag = (Integer) view.getTag();
+		String tag = (String) view.getTag();
 
 		boolean actionTaken = DigitalCareConfigManager
 				.getInstance(DigitalCareConfigManager.getContext())
-				.getMainMenuListener().onMainMenuItemClickListener(tag);
+				.getMainMenuListener()
+				.onMainMenuItemClickListener(tag.toString());
 
 		if (actionTaken) {
 			return;
 		}
 
-		if (tag == R.string.contact_us) {
+		if (tag.equalsIgnoreCase(getStringKey(R.string.contact_us))) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new ContactUsFragment());
-		} else if (tag == R.string.view_product_details) {
+		} else if (tag
+				.equalsIgnoreCase(getStringKey(R.string.view_product_details))) {
 			showFragment(new ProductDetailsFragment());
-		} else if (tag == R.string.find_philips_near_you) {
+		} else if (tag
+				.equalsIgnoreCase(getStringKey(R.string.find_philips_near_you))) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new LocatePhilipsFragment());
-		} else if (tag == R.string.view_faq) {
+		} else if (tag.equalsIgnoreCase(getStringKey(R.string.view_faq))) {
 
-		} else if (tag == R.string.feedback) {
+		} else if (tag.equalsIgnoreCase(getStringKey(R.string.feedback))) {
 			if (Utils.isNetworkConnected(getActivity()))
 				showFragment(new RateThisAppFragment());
 		}
@@ -196,14 +216,22 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	 * This method will parse, how many features are available at DigitalCare
 	 * level.
 	 */
-	private void initializeFeaturesSupported() {
+	private void createMainMenu() {
 		Resources mResources = getActivity().getResources();
-		mFeatureKeys = mResources.getStringArray(R.array.main_menu_title);
-		mFeatureDrawableKey = mResources
+		String[] menuTitleKeys = mResources
+				.getStringArray(R.array.main_menu_title);
+		String[] menuDrawableKeys = mResources
 				.getStringArray(R.array.main_menu_resources);
+		for (int i = 0; i < menuTitleKeys.length; i++) {
+			createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);
+		}
 	}
 
 	private Drawable getDrawable(int resId) {
 		return getResources().getDrawable(resId);
+	}
+
+	private String getStringKey(int resId) {
+		return getResources().getResourceEntryName(resId);
 	}
 }
