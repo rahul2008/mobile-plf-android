@@ -522,6 +522,13 @@ public class OutdoorManager implements OutdoorDataListener {
 		}
 	}
 	
+	@Override
+	public void noDataReceived() {
+		if(outdoorDetailsListener != null) {
+			outdoorDetailsListener.noDataReceived();
+		}
+	}
+	
 	public Map<String, OutdoorCity> getCitiesMap() {
 		return citiesMap;
 	}

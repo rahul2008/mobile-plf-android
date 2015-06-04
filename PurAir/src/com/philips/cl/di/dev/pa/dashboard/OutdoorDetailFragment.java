@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -582,7 +583,9 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		};
 	};
 
-	private void showAlertDialog(String title, String message) {
+	private boolean isErrorDialogShown = false;
+	
+	private synchronized void showAlertDialog(String title, String message) {
 		if (getMainActivity() == null) return;
 		if (PurAirApplication.isDemoModeEnable() 
 				&& OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
@@ -596,8 +599,11 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 					fragTransaction.remove(prevFrag);
 				}
 
-				fragTransaction.add(DownloadAlerDialogFragement.
-						newInstance(title, message), "outdoor_download_failed").commitAllowingStateLoss();
+				if(!isErrorDialogShown) {
+					fragTransaction.add(DownloadAlerDialogFragement.newInstance(title, message), "outdoor_download_failed");
+					isErrorDialogShown = true;
+				}
+				fragTransaction.commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 			}
@@ -745,7 +751,6 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		});
 	}
 
-	//TODO : Show error message when no data is shown. handler.sendEmptyMessage(2);
 	@Override
 	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory, String areaId) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor onAQIHistoricalDataReceived: "+areaId) ;
@@ -819,6 +824,11 @@ public class OutdoorDetailFragment extends BaseFragment implements OnClickListen
 		last7daysRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, last7dayAQIHistoricArr);
 		last4weeksRDCPValuesMap.put(GraphConst.PHILIPS_RED_COLOR, last4weekAQIHistoricArr);
 		setViewlastDayAQIReadings();
+	}
+
+	@Override
+	public void noDataReceived() {
+		handler.sendEmptyMessage(2);
 	}
 
 }

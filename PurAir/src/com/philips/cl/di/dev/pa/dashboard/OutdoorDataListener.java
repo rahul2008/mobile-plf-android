@@ -10,8 +10,8 @@ public interface OutdoorDataListener {
 	void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID);
 	void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis, String areaID);
 	void nearbyLocationsAQIReceived(List<OutdoorAQI> aqis);
-	//void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID);
 	void outdoorWeatherDataReceived(List<OutdoorWeather> outdoorWeatherList);
 	void outdoorOneDayForecastDataReceived(List<Weatherdto> weatherdtos);
 	void outdoorFourDayForecastDataReceived(List<ForecastWeatherDto> weatherDtos);
+	void noDataReceived();
 }

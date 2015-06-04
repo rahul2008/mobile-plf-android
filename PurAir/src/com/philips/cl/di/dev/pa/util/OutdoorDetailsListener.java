@@ -11,4 +11,5 @@ public interface OutdoorDetailsListener {
 	void onFourDayWeatherForecastReceived(List<ForecastWeatherDto> weatherList);
 	void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory, String areaId);
 	void onNearbyLocationsDataReceived(List<OutdoorAQI> nearbyLocationAQIs);
+	void noDataReceived();
 }

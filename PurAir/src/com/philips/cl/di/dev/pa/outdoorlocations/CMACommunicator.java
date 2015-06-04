@@ -112,6 +112,8 @@ public class CMACommunicator implements DataCommunicator {
 		ALog.i(ALog.OUTDOOR_LOCATION, "CMACommunicator : response " + responseData);
 		if(isResponseValid(responseCode, responseData, type)) {
 			notifyListeners(responseData, RequestType.valueOf(type), null);
+		} else {
+			outdoorDataListener.noDataReceived();
 		}
 	}
 

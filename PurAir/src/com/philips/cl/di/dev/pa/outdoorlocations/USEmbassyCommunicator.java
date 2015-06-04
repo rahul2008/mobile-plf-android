@@ -11,7 +11,7 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 
 public class USEmbassyCommunicator implements DataCommunicator {
 
-	private static final String US_EMBASSY_CITY_AQI_URL = "http://222.73.255.34/pm.php?city=";
+//	private static final String US_EMBASSY_CITY_AQI_URL = "http://222.73.255.34/pm.php?city=";
 	private static final String US_EMBASSY_CITY_HISTORICAL_AQI_URL = "http://222.73.255.34/?city=";
 	
 	private OutdoorDataListener outdoorDataListener;
@@ -51,6 +51,8 @@ public class USEmbassyCommunicator implements DataCommunicator {
 	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {
 		if(isResponseValid(responseCode, responseData, type)) {
 			notifyListeners(responseData, RequestType.valueOf(type), areaId);
+		} else {
+			outdoorDataListener.noDataReceived();
 		}
 	}
 

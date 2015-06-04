@@ -320,5 +320,8 @@ public class MarkerActivity extends MapActivity implements OnMapLoadedListener, 
 		setMarkerPositionLatLng(latLng);
 		mArrayListMarker.add(createMarker(DEFAULT_IMAGE_RESOURCE));
 	}
+
+	@Override
+	public void noDataReceived() { /**NOP*/ }
 	
 }
