@@ -28,11 +28,12 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		mParser.processCdlsResponse(response);
 		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
 		try {
-			received = mCdlsObject.getContentPath().toString();
+			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
 			Log.d(TAG, "Chat Email Content .." + received);
 		}
-		assertNull(received);
+		Log.d("Naveen", "Chat Email Content .." + received);
+		assertNotNull(received);
 	}
 
 	public void testEmailContent() {
@@ -53,16 +54,15 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 	public void testEmailLabel1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
 				context);
+		Log.d("Naveen", response);
 		String received = null;
 		mParser.processCdlsResponse(response);
 		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
-		Log.d("Naveen", "Chat Email Object .." + mCdlsObject);
 		try {
-			received = mCdlsObject.getContentPath().toString();
+			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
-			Log.d("Naveen", "Chat Email Content .." + received);
 		}
-		assertNull(received);
+		assertNotNull(received);
 	}
 
 	public void testEmailContent1() {
@@ -72,12 +72,10 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		mParser.processCdlsResponse(response);
 		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
 		try {
-			received = mCdlsObject.getContentPath().toString();
+			received = mCdlsObject.getContentPath();
 		} catch (Exception e) {
-			// Log.d("Naveen", "Chat Email Content .." + received);
 		}
-
-		assertNull(received);
+		assertNotNull(received);
 	}
 
 }

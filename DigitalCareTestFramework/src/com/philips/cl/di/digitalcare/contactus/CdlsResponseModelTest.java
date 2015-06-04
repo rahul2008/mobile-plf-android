@@ -33,18 +33,6 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 
 	}
 
-	public void testResponseValidation1() {
-		String response = CdlsParserUtils.loadJSONFromAsset("cdls1.json",
-				context);
-		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsResponseModel mResponseModel = null;
-		mResponseModel = mParser.getCdlsResponseModel();
-		CdlsErrorModel mErrorObject = mResponseModel.getError();
-		assertNotNull(mErrorObject);
-
-	}
-
 	public void testChatBeanResponse() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
@@ -56,7 +44,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		Log.d(TAG, "Chat Response : " + mChatModel);
 		assertNotNull(mChatModel);
 	}
-
+	
 	public void testErrorBeanResponse() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
@@ -68,7 +56,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		Log.d(TAG, "Model Error : " + mErrorObject);
 		assertNull(mErrorObject);
 	}
-
+	
 	public void testEmailBeanResponse() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
@@ -77,10 +65,11 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		CdlsResponseModel mResponseModel = null;
 		mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mResponseModel.getEmail();
-		Log.d(TAG, "Email Response : " + mEmailObject);
+		Log.d("Naveen", "Response:"+ response);
 		assertNull(mEmailObject);
 	}
-
+	
+	
 	public void testPhoneBeanResponse() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
@@ -92,7 +81,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		Log.d(TAG, "Phone Response : " + mPhoneObject);
 		assertNotNull(mPhoneObject);
 	}
-
+	
 	public void testJSONResponse() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
