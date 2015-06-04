@@ -1,82 +1,91 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 
-import android.test.ActivityInstrumentationTestCase2;
+import com.philips.cl.di.digitalcare.util.DLog;
 
-import com.philips.cl.di.digitalcare.contactus.CdlsPhoneModel;
-import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
+public class CdlsPhoneModelTest extends InstrumentationTestCase {
 
+	private final String TAG = CdlsPhoneModelTest.class.getSimpleName();
 
-/**
- * 
- * @author naveen@philips.com
- *
- */
-public class CdlsPhoneModelTest extends
-		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
+	private Context mContext, context = null;
+	private CdlsResponseParser mParser = null;
 
-	/*
-	 * "phone":[ { "phoneNumber":"1-800-243-3050", "phoneTariff":"",
-	 * "openingHoursWeekdays":"Monday - Saturday: 9:00 AM - 9:00 PM EST",
-	 * "openingHoursSaturday":"",
-	 * "openingHoursSunday":"Sunday: 9:00 AM - 6:00 PM EST",
-	 * "optionalData1":"Excluding Major Holidays",
-	 * "optionalData2":"For faster service, please have your product on-hand." }
-	 * ],
-	 */
-
-	CdlsPhoneModel fixture = null;
-	private String mPhoneNumber = "1-800-243-3050";
-	private String mOpeningHoursWeekdays = "Monday - Saturday: 9:00 AM - 9:00 PM EST";
-	private String mOpeningHoursSaturday = "Monday - Saturday: 9:00 AM - 9:00 PM EST";
-	private String mOpeningHoursSunday = "Sunday: 9:00 AM - 6:00 PM EST";
-
-	public CdlsPhoneModelTest() {
-		super(LaunchDigitalCare.class);
-	}
-
-	@Test
-	public void testPhoneNumberMethod() throws Exception {
-		String result = fixture.getPhoneNumber();
-		assertEquals(mPhoneNumber, result);
-	}
-//
-//	@Test
-//	public void testSaturdayOpenHourMethod() throws Exception {
-//		String result = fixture.getOpeningHoursSaturday();
-//		assertEquals(mOpeningHoursSaturday, result);
-//	}
-//
-//	@Test
-//	public void testSundayOpenHourMethod() throws Exception {
-//		String result = fixture.getOpeningHoursSunday();
-//		assertEquals(mOpeningHoursSunday, result);
-//	}
-//
-//	@Test
-//	public void testWeekdayOpenHourMethod() throws Exception {
-//		String result = fixture.getOpeningHoursWeekdays();
-//		assertEquals(mOpeningHoursWeekdays, result);
-//	}
-
-	@Before
-	public void setUp() throws Exception {
-
+	@Override
+	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation()
-				.getTargetContext().getCacheDir().getPath());
-		fixture = new CdlsPhoneModel();
-		fixture.setPhoneNumber(mPhoneNumber);
-		fixture.setOpeningHoursWeekdays(mOpeningHoursWeekdays);
-		fixture.setOpeningHoursSaturday(mOpeningHoursSaturday);
-		fixture.setOpeningHoursSunday(mOpeningHoursSunday);
+		Log.d(TAG, "setUp..");
+		mContext = getInstrumentation().getTargetContext();
+		context = getInstrumentation().getContext();
+
+		mParser = CdlsResponseParser.getParserControllInstance(mContext);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	public void testContactUsWeekDaysBean() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		String received = mCdlsObject.getOpeningHoursWeekdays();
+		String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
+		DLog.d(TAG, "Weekdays Bean : [" + received + "]");
+		assertNotNull(received);
+	}
+
+	public void testContactUsSaturdayDayBean() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		String received = mCdlsObject.getOpeningHoursSaturday();
+		Log.d(TAG, "Saturday :" + received);
+		assertNotNull(received);
+	}
+
+	public void testContactUsSundayBean() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		String received = mCdlsObject.getOpeningHoursSunday();
+		String expected = "Sunday: 9:00 AM - 6:00 PM EST";
+		assertNotNull(received);
+		Log.d(TAG, "Sunday :" + received);
+	}
+
+	public void testContactUsOptionOneBean() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		String received = mCdlsObject.getOptionalData1();
+		String expected = "Excluding Major Holidays";
+
+		assertNotNull(received);
+	}
+
+	public void testContactUsOptionTwoBean() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		String received = mCdlsObject.getOptionalData2();
+		String expected = "For faster service, please have your product on-hand.";
+		assertNotNull(received);
+		Log.d(TAG, "Option2 :" + received);
+	}
+
+	public void testContactUsContactNumberBean() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		String received = mCdlsObject.getPhoneNumber();
+		String expected = "1-800-243-3050";
+		assertEquals(expected, received);
+		Log.d(TAG, "PhoneNumber :" + received);
 	}
 
 }

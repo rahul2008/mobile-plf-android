@@ -1,6 +1,5 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-
 /**
  * CdlsEmailModel is bean class for email.
  * 
@@ -31,14 +30,16 @@ public class CdlsEmailModel {
 	}
 
 	private boolean validateEmailLink(String response) {
-		if (response.startsWith("http://"))
-			return true;
-		else if (response.startsWith("https://"))
+
+		if (response.startsWith("https://"))
 			return true;
 		else if (!(response.startsWith("@")))
 			return true;
 		else if (!(response.endsWith("@")))
 			return true;
+		else if (response.startsWith("http://"))
+			return true;
+
 		return false;
 	}
 

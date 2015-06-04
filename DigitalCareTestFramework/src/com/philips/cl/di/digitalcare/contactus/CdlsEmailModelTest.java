@@ -1,55 +1,53 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import android.content.Context;
+import android.test.InstrumentationTestCase;
+import android.util.Log;
 
-import android.test.ActivityInstrumentationTestCase2;
+public class CdlsEmailModelTest extends InstrumentationTestCase {
 
-import com.philips.cl.di.digitalcare.contactus.CdlsEmailModel;
-import com.philips.cl.di.sampledigitalcareapp.LaunchDigitalCare;
+	private final String TAG = CdlsEmailModelTest.class.getSimpleName();
 
-/**
- * 
- * @author naveen@philips.com
- * 
- */
-public class CdlsEmailModelTest extends
-		ActivityInstrumentationTestCase2<LaunchDigitalCare> {
+	private Context mContext, context = null;
+	private CdlsResponseParser mParser = null;
 
-	CdlsEmailModel fixture = null;
-	private final String EMAIL = "philips@philips.com";
-	private final String DESCRIPTION = "Content description sends to Philips Support Team";
-
-	public CdlsEmailModelTest() {
-		super(LaunchDigitalCare.class);
-	}
-
-	@Test
-	public void testEmailLogic() throws Exception {
-		String result = fixture.getLabel();
-		assertEquals(EMAIL, result);
-	}
-
-	@Test
-	public void testEmailContentLogic() throws Exception {
-		String result = fixture.getContentPath();
-		assertEquals(DESCRIPTION, result);
-	}
-
-	@Before
-	public void setUp() throws Exception {
-
+	@Override
+	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("dexmaker.dexcache", getInstrumentation()
-				.getTargetContext().getCacheDir().getPath());
-		fixture = new CdlsEmailModel();
-		fixture.setLabel(EMAIL);
-		fixture.setContentPath(DESCRIPTION);
+		Log.d(TAG, "setUp..");
+		mContext = getInstrumentation().getTargetContext();
+		context = getInstrumentation().getContext();
+
+		mParser = CdlsResponseParser.getParserControllInstance(mContext);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	public void testEmailLabel() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		try {
+			received = mCdlsObject.getContentPath().toString();
+		} catch (Exception e) {
+			Log.d(TAG, "Chat Email Content .." + received);
+		}
+		assertNull(received);
+	}
+
+	public void testEmailContent() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		try {
+			received = mCdlsObject.getContentPath().toString();
+		} catch (Exception e) {
+			Log.d(TAG, "Chat Email Content .." + received);
+		}
+
+		assertNull(received);
 	}
 
 }

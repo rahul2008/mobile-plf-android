@@ -62,6 +62,10 @@ public class CdlsResponseParser {
 		return cdlsErrorModel;
 	}
 
+	public CdlsResponseModel getCdlsResponseModel() {
+		return mCdlsParsedResponse;
+	}
+
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
