@@ -50,5 +50,36 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 
 		assertNull(received);
 	}
+	
+	public void testErrorCodeFromCdlsResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsErrorModel mCdlsObject = mParser.getCdlsErrorModel();
+		try {
+			received = mCdlsObject.getErrorCode();
+		} catch (NullPointerException e) {
+			Log.d(TAG, "Error Code response : " + received);
+		}
+
+		assertNull(received);
+	}
+
+	public void testErrorMessageFromCdlsResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsErrorModel mCdlsObject = mParser.getCdlsErrorModel();
+		try {
+			received = mCdlsObject.getErrorMessage();
+		} catch (NullPointerException e) {
+			Log.d(TAG, "Error Code response : " + received);
+		}
+
+		assertNull(received);
+	}
+
 
 }

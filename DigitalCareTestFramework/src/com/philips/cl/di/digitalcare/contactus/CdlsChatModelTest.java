@@ -48,6 +48,34 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 		String received = mCdlsObject.getContent();
 		assertNotNull(received);
 	}
+	
+	public void testWeekDaysBean2() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		String received = mCdlsObject.getOpeningHoursWeekdays();
+
+		assertNotNull(received);
+	}
+
+	public void testSaturdayBean2() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		String received = mCdlsObject.getOpeningHoursSaturday();
+		assertNotNull(received);
+	}
+
+	public void testChatScriptContent2() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		String received = mCdlsObject.getContent();
+		assertNotNull(received);
+	}
 
 	@Override
 	protected void tearDown() throws Exception {

@@ -92,4 +92,76 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		Log.d(TAG, " Response key : " + mResponseKey);
 		assertTrue(mResponseKey);
 	}
+	
+	public void testResponseValidation1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsResponseModel mResponseModel = null;
+		mResponseModel = mParser.getCdlsResponseModel();
+		Log.d(TAG, "Response : " + mResponseModel);
+		assertNotNull(mResponseModel);
+
+	}
+
+	public void testChatBeanResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsResponseModel mResponseModel = null;
+		mResponseModel = mParser.getCdlsResponseModel();
+		CdlsChatModel mChatModel = mResponseModel.getChat();
+		Log.d(TAG, "Chat Response : " + mChatModel);
+		assertNotNull(mChatModel);
+	}
+	
+	public void testErrorBeanResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsResponseModel mResponseModel = null;
+		mResponseModel = mParser.getCdlsResponseModel();
+		CdlsErrorModel mErrorObject = mResponseModel.getError();
+		Log.d(TAG, "Model Error : " + mErrorObject);
+		assertNull(mErrorObject);
+	}
+	
+	public void testEmailBeanResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsResponseModel mResponseModel = null;
+		mResponseModel = mParser.getCdlsResponseModel();
+		CdlsEmailModel mEmailObject = mResponseModel.getEmail();
+		Log.d("Naveen", "Response:"+ response);
+		assertNull(mEmailObject);
+	}
+	
+	
+	public void testPhoneBeanResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		String received = null;
+		mParser.processCdlsResponse(response);
+		CdlsResponseModel mResponseModel = null;
+		mResponseModel = mParser.getCdlsResponseModel();
+		CdlsPhoneModel mPhoneObject = mResponseModel.getPhone();
+		Log.d(TAG, "Phone Response : " + mPhoneObject);
+		assertNotNull(mPhoneObject);
+	}
+	
+	public void testJSONResponse1() {
+		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
+				context);
+		mParser.processCdlsResponse(response);
+		CdlsResponseModel mResponseModel = null;
+		mResponseModel = mParser.getCdlsResponseModel();
+		Boolean mResponseKey = mResponseModel.getSuccess();
+		Log.d(TAG, " Response key : " + mResponseKey);
+		assertTrue(mResponseKey);
+	}
 }
