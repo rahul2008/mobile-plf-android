@@ -43,7 +43,7 @@
         android:layout_below="@+id/divider3"
         android:background="@drawable/list_item_selector"
         android:drawablePadding="4dp"
-        android:drawableRight="@drawable/faq"
+        android:drawableRight="@drawable/tutorials"
         android:gravity="center_vertical"
         android:minHeight="48dp"
         android:paddingLeft="24dp"
