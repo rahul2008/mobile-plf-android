@@ -70,6 +70,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreateView");
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
@@ -81,20 +82,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		RegistrationHelper.getInstance().unRegisterNetworkListener();
-	}
-
-	@Override
 	public void onDestroy() {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDestroy");
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,

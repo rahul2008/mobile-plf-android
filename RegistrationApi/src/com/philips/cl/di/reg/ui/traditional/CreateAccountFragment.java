@@ -66,6 +66,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onCreateView");
 		mContext = getRegistrationMainActivity().getApplicationContext();
+		
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
@@ -83,20 +85,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	@Override
-	public void onResume() {
-		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		handleUiState();
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		RegistrationHelper.getInstance().unRegisterNetworkListener();
-	}
-
-	@Override
 	public void onDestroy() {
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
@@ -184,10 +174,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onRegisterSuccess() {
 		hideSpinner();
-		/*
-		 * Toast.makeText(getActivity(), "Registration Success",
-		 * Toast.LENGTH_LONG) .show();
-		 */
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 	}
 

@@ -79,36 +79,30 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		EventHelper.getInstance().registerEventNotification(RegConstants.PARSING_COMPLETED, this);
 
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onCreateView");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
 		return view;
 	}
 
-	@Override
-	public void onResume() {
-		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		handleUiState();
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		RegistrationHelper.getInstance().unRegisterNetworkListener();
-	}
-
-	private void handleSocialProviders(String countryCode) {
+	private void handleSocialProviders(final String countryCode) {
 		if (null != RegistrationHelper.getInstance().getSocialProviders()) {
-			ArrayList<String> providers = new ArrayList<String>();
-			providers = RegistrationHelper.getInstance().getSocialProviders()
-			        .getSocialProvidersForCountry(countryCode);
-			if (null != providers) {
-				mLlSocialProviderBtnContainer.removeAllViews();
-				for (int i = 0; i < providers.size(); i++) {
-					inflateEachProviderButton(providers.get(i));
+			mLlSocialProviderBtnContainer.post(new Runnable() {
+
+				@Override
+				public void run() {
+					mLlSocialProviderBtnContainer.removeAllViews();
+					ArrayList<String> providers = new ArrayList<String>();
+					providers = RegistrationHelper.getInstance().getSocialProviders()
+					        .getSocialProvidersForCountry(countryCode);
+					if (null != providers) {
+						for (int i = 0; i < providers.size(); i++) {
+							inflateEachProviderButton(providers.get(i));
+						}
+					}
 				}
-			}
+			});
 		}
 	}
 
@@ -138,6 +132,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		providerBtn.setProviderBackgroundID(providerBgDrawableId);
 		providerBtn.setProviderTextColor(providerTextColorId);
 		providerBtn.setTag(providerName);
+		if (NetworkUtility.isNetworkAvailable(mContext)) {
+			providerBtn.setEnabled(true);
+		} else {
+			providerBtn.setEnabled(false);
+		}
 		providerBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -158,6 +157,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onDestroy() {
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
@@ -188,7 +188,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 		handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 		mUser = new User(mContext);
-
 		setViewParams(getResources().getConfiguration());
 		linkifyTermAndPolicy(mTvWelcomeDesc);
 		handleJanrainInitPb();
@@ -476,7 +475,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		RLog.i("HomeFragment", "onNetWorkStateReceived");
 		handleUiState();
 		handleJanrainInitPb();
-
 	}
 
 }

@@ -77,7 +77,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
-
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
@@ -91,20 +91,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		RegistrationHelper.getInstance().unRegisterNetworkListener();
-	}
-
-	@Override
 	public void onDestroy() {
 
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);

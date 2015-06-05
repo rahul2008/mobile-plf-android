@@ -64,7 +64,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserPhilipsAccountSignInFragment : onCreateView");
 
 		mContext = getRegistrationMainActivity().getApplicationContext();
-
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
@@ -87,22 +87,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		applyParams(config, mRlSignInBtnContainer);
 		applyParams(config, mRegError);
 	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		handleUiState();
-		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		RegistrationHelper.getInstance().unRegisterNetworkListener();
-	}
-
+	
 	@Override
 	public void onDestroy() {
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+		
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,

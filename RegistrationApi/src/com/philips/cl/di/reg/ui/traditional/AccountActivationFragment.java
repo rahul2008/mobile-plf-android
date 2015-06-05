@@ -61,7 +61,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
-
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
@@ -72,20 +72,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 		initUI(view);
 		return view;
 	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		handleUiState();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		RegistrationHelper.getInstance().unRegisterNetworkListener();
-	}
-
+	
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
@@ -95,6 +82,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
 	@Override
 	public void onDestroy() {
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,

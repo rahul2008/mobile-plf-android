@@ -39,9 +39,16 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
+		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
 		loadFirstFragment();
+	}
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+	    super.onPostCreate(savedInstanceState);
+		
 	}
 
 	@Override
@@ -50,12 +57,10 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		handleBackStack();
 	}
 
-	/*
-	 * @see android.support.v4.app.FragmentActivity#onDestroy()
-	 */
 	@Override
 	protected void onDestroy() {
 		RegistrationHelper.getInstance().unregisterListener(getApplicationContext());
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		super.onDestroy();
 	}
 
@@ -88,7 +93,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		try {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction
-			        .replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+			        .add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
@@ -139,19 +144,6 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		mergeAccountFragment.setArguments(mergeFragmentBundle);
 		addFragment(mergeAccountFragment);
 	}
-
-	/*
-	 * @Override
-	 * public void onEventReceived(String event) {
-	 * if (RegConstants.IS_ONLINE.equals(event)) {
-	 * if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
-	 * RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
-	 * registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
-	 * Locale.getDefault());
-	 * }
-	 * }
-	 * }
-	 */
 
 	private void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

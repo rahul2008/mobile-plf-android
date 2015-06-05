@@ -91,7 +91,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
-			RegistrationHelper.getInstance().getUserRegistrationListener().onUserRegistrationComplete();
+			RegistrationHelper.getInstance().getUserRegistrationListener().notifyEventOccurred();
 		}
 
 	}

@@ -34,8 +34,6 @@ public class RegConstants {
 
 	public static final String USER_INFORMATION_FORM = "userInformationForm";
 
-	//public static final String IS_ONLINE = "IS_ONLINE";
-
 	public static final String JANRAIN_INIT_SUCCESS = "JANRAIN_SUCCESS";
 
 	public static final String JANRAIN_INIT_FAILURE = "JANRAIN_FAILURE";

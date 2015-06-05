@@ -23,6 +23,8 @@ import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.configuration.SocialProviders;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.NetworStateListener;
+import com.philips.cl.di.reg.events.NetworkStateHelper;
+import com.philips.cl.di.reg.events.UserRegistrationHelper;
 import com.philips.cl.di.reg.listener.UserRegistrationListener;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -50,7 +52,7 @@ public class RegistrationHelper {
 	
 	private UserRegistrationListener mUserRegistrationListener;
 	
-	private NetworStateListener mNetworStateListener;
+
 
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
@@ -90,6 +92,7 @@ public class RegistrationHelper {
 	public static RegistrationHelper getInstance() {
 		if (mRegistrationHelper == null) {
 			mRegistrationHelper = new RegistrationHelper();
+	
 		}
 		return mRegistrationHelper;
 	}
@@ -133,11 +136,12 @@ public class RegistrationHelper {
 		NetworkUtility.isNetworkAvailable(mContext);
 		mSocialProivder = null;
 		setCountryCode(locale.getCountry());
+		
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-
+				
 				RegistrationConfiguration registrationConfiguration = parseConfigurationJson(mContext);
 				if (null != registrationConfiguration) {
 					mSocialProivder = registrationConfiguration.getSocialProviders();
@@ -265,19 +269,6 @@ public class RegistrationHelper {
 		return mRegistrationSettings;
 	}
 	
-	public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener){
-		mUserRegistrationListener = userRegistrationListener;
-	}
-	
-	public void unRegisterUserRegistrationListener(){
-		mUserRegistrationListener = null;
-	}
-
-	public UserRegistrationListener getUserRegistrationListener(){
-		
-		return mUserRegistrationListener;
-	}
-	
 	public String getCountryCode() {
 	    return countryCode;
     }
@@ -286,17 +277,30 @@ public class RegistrationHelper {
 	    this.countryCode = countryCode;
     }
 	
-	public void registerNetworkStateListener(NetworStateListener networStateListener){
-		mNetworStateListener = networStateListener;
+	public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener){
+		UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
 	}
 	
-	public void unRegisterNetworkListener(){
-		mNetworStateListener = null;
+	public void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener){
+		UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
 	}
 
-	public NetworStateListener getNetworkStateListener(){
-		return mNetworStateListener;
+	public UserRegistrationHelper getUserRegistrationListener(){
+		return UserRegistrationHelper.getInstance();
 	}
-
+	
+	
+	
+	
+	public void registerNetworkStateListener(NetworStateListener networStateListener){
+		NetworkStateHelper.getInstance().registerEventNotification(networStateListener); 
+	}
+	
+	public void unRegisterNetworkListener(NetworStateListener networStateListener ){
+		NetworkStateHelper.getInstance().unregisterEventNotification(networStateListener);
+	}
+	public NetworkStateHelper getNetworkStateListener(){
+		return NetworkStateHelper.getInstance();
+	}
 
 }
