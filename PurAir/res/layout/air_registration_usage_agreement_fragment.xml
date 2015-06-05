@@ -85,7 +85,9 @@
         <ExpandableListView
             android:id="@+id/elv_usage_agreement"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@drawable/seperator_line_2x"
+            android:dividerHeight="0dp"  />
     </LinearLayout>
 
     <View
