@@ -1,6 +1,9 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import java.util.List;
+
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +20,6 @@ import android.widget.ToggleButton;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
-import com.philips.cl.di.dev.pa.activity.DiagnosticShareActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
@@ -25,11 +27,18 @@ import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.buyonline.ProductRegisterFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.demo.DemoModeController;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.SupportUtil;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.DIUserProfile;
 
 public class HelpAndDocFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
 
@@ -38,6 +47,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 	private FontTextView userManualAC4373, userManualAC4375;
 	private FontTextView websiteAC4373, websiteAC4375;
 	private ScrollView scrollView;
+	private char lineSeparator='\n';
+	private String userEmail="";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,6 +140,15 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 		websiteAC4373.setOnClickListener(this);
 		websiteAC4375.setOnClickListener(this);
 	}
+	
+	private void sendMail(String message, String sendTo, String userEmail) {
+		Intent email = new Intent(Intent.ACTION_SEND);
+		email.putExtra(Intent.EXTRA_EMAIL, new String[] { sendTo });
+		email.putExtra(Intent.EXTRA_SUBJECT, "AC4373/75 diagnostics for "+userEmail);
+		email.putExtra(Intent.EXTRA_TEXT, message);
+		email.setType("message/rfc822");
+		startActivity(Intent.createChooser(email, "Send this mail via:"));
+	}
 
 
 	@Override
@@ -151,8 +171,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 		case R.id.layout_email_us:
 			MetricsTracker.trackActionServiceRequest("email");
 			MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_email));
-			//diagnosticData();
-			startActivity(new Intent(getActivity(), DiagnosticShareActivity.class));
+			sendMail(getDiagnosticDataForEmail(), getString(R.string.contact_philips_support_email), userEmail);
+			//startActivity(new Intent(getActivity(), DiagnosticShareActivity.class));
 			break;
 		case R.id.layout_help:
 			SupportUtil.setVisibility(websiteAC4373, websiteAC4375);
@@ -240,6 +260,56 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 		if (buttonView.getId() == R.id.settings_demo_mode_toggle) {
 			new DemoModeController().toggleShopDemoMode(isChecked, mainActivity);
 		}
+	}
+	
+	/**
+	 * Fetches all required diagnostic data
+	 */
+	private String getDiagnosticDataForEmail(){
+
+		String jainRainUser="App not registered";
+		if(UserRegistrationController.getInstance().isUserLoggedIn())
+		{
+			User user = new User(PurAirApplication.getAppContext());
+			DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());
+			userEmail=profile.getEmail();
+			jainRainUser= getString(R.string.janrain_user)+ userEmail ;
+		}
+		String appVersion= getString(R.string.app_version)+Utils.getVersionNumber();
+		String platform= getString(R.string.mobile_platform) +"Android";
+		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
+		String appEui64 = getString(R.string.app_eui64) + CPPController.getInstance(PurAirApplication.getAppContext()).getAppCppId();
+		
+		List<AirPurifier> purifiers= DiscoveryManager.getInstance().getStoreDevices();
+
+		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
+		data.append(lineSeparator);
+		data.append(lineSeparator);
+		data.append(jainRainUser);
+		data.append(lineSeparator);
+		data.append(appVersion);
+		data.append(lineSeparator);
+		data.append(platform);
+		data.append(lineSeparator);
+		data.append(osVersion);
+		data.append(lineSeparator);
+		data.append(appEui64);
+		data.append(lineSeparator);
+		data.append(lineSeparator);
+		for(int i=0; i<purifiers.size(); i++){
+			data.append(getString(R.string.purifier)).append(i+1).append(":");
+			data.append(lineSeparator);
+			data.append(getString(R.string.purifier_name)).append(purifiers.get(i).getName());
+			data.append(lineSeparator);
+			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getNetworkNode().getCppId());
+			data.append(lineSeparator);
+			if(purifiers.get(i).getFirmwarePort().getFirmwarePortInfo()!=null){
+			data.append(getString(R.string.purifier_firmware_version)).append(purifiers.get(i).getFirmwarePort().getFirmwarePortInfo().getVersion());
+			data.append(lineSeparator);
+			}
+			data.append(lineSeparator);
+		}
+		return data.toString();
 	}
 
 }
