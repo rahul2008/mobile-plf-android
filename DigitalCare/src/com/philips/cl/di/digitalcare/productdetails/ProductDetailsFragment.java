@@ -1,7 +1,7 @@
 package com.philips.cl.di.digitalcare.productdetails;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,7 +32,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		OnClickListener {
 
 	private static String TAG = ProductDetailsFragment.class.getSimpleName();
-	private String[] mFeatureKeys = null;
 
 	private RelativeLayout mFirstContainer = null;
 	private LinearLayout.LayoutParams mFirstContainerParams = null;
@@ -45,7 +44,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		DLog.d(TAG, "onCreateView");
 		View mView = inflater.inflate(R.layout.fragment_view_product,
 				container, false);
-		initializeFeaturesSupported();
 		return mView;
 	}
 
@@ -65,10 +63,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 
-		for (int i = 0; i < mFeatureKeys.length; i++) {
-			enableOptionButtons(mFeatureKeys[i]);
-		}
+		createProductDetailsMenu();
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS);
+	}
+
+	private void createProductDetailsMenu() {
+		String[] mProductOptionKeys = getResources().getStringArray(
+				R.array.product_menu_title);
+		for (int i = 0; i < mProductOptionKeys.length; i++) {
+			createButtonLayout(mProductOptionKeys[i]);
+		}
 	}
 
 	@Override
@@ -80,7 +84,6 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void setViewParams(Configuration config) {
-		// if (isTablet()) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mFirstContainerParams.leftMargin = mFirstContainerParams.rightMargin = mLeftRightMarginPort;
 			mSecondContainerParams.leftMargin = mSecondContainerParams.rightMargin = mLeftRightMarginPort;
@@ -92,50 +95,23 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		mProdButtonsParent.setLayoutParams(mSecondContainerParams);
 	}
 
-	private void enableOptionButtons(String buttonTitle) {
-		String packageName = getActivity().getPackageName();
-		int title = getResources().getIdentifier(
-				packageName + ":string/" + buttonTitle, null, null);
-		createButtonLayout(title);
-	}
-
 	/**
 	 * Create RelativeLayout at runTime. RelativeLayout will have button and
 	 * image together.
 	 */
-	private void createButtonLayout(int buttonTitle) {
+	private void createButtonLayout(String buttonTitle) {
 		float density = getResources().getDisplayMetrics().density;
-		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-						.getDimension(R.dimen.support_btn_height));
-		relativeLayout.setLayoutParams(params);
-		relativeLayout
-				.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
-		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
-		fontButton.setGravity(Gravity.START | Gravity.CENTER);
-		fontButton.setPadding((int) 0, 0, 0, 0);
-		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
+		String packageName = getActivity().getPackageName();
 
-		fontButton.setText(buttonTitle);
-		relativeLayout.addView(fontButton);
+		int title = getResources().getIdentifier(
+				packageName + ":string/" + buttonTitle, null, null);
 
-		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
-				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
-
-		fontButton.setLayoutParams(buttonParams);
-
+		RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
+		Button button = createButton(density, title);
+		relativeLayout.addView(button);
+		setButtonParams(button);
 		mProdButtonsParent.addView(relativeLayout);
-
-		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
-				.getLayoutParams();
-		param.topMargin = (int) (15 * density);
-		relativeLayout.setLayoutParams(param);
-
+		setRelativeLayoutParams(relativeLayout, density);
 		/*
 		 * Setting tag because we need to get String title for this view which
 		 * needs to be handled at button click.
@@ -144,10 +120,50 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		relativeLayout.setOnClickListener(this);
 	}
 
+	@SuppressLint("NewApi")
+	private RelativeLayout createRelativeLayout(String buttonTitle) {
+		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
+						.getDimension(R.dimen.support_btn_height));
+		relativeLayout.setLayoutParams(params);
+		relativeLayout
+				.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+
+		return relativeLayout;
+	}
+
+	private void setRelativeLayoutParams(RelativeLayout relativeLayout,
+			float density) {
+		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
+				.getLayoutParams();
+		param.topMargin = (int) (15 * density);
+		relativeLayout.setLayoutParams(param);
+	}
+
+	private Button createButton(float density, int title) {
+		Button button = new Button(getActivity(), null, R.style.fontButton);
+		button.setGravity(Gravity.START | Gravity.CENTER);
+		button.setPadding((int) (20 * density), 0, 0, 0);
+		button.setTextAppearance(getActivity(), R.style.fontButton);
+		button.setText(title);
+		return button;
+	}
+
+	private void setButtonParams(Button button) {
+		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+				.getLayoutParams();
+		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+				RelativeLayout.TRUE);
+		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+				RelativeLayout.TRUE);
+		button.setLayoutParams(buttonParams);
+	}
+
 	@Override
 	public void onClick(View view) {
 
-		Integer tag = (Integer) view.getTag();
+		String tag = (String) view.getTag();
 
 		boolean actionTaken = DigitalCareConfigManager
 				.getInstance(DigitalCareConfigManager.getContext())
@@ -157,13 +173,16 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 			return;
 		}
 
-		if (tag == R.string.product_open_manual) {
+		if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
+				R.string.product_open_manual))) {
 			Toast.makeText(getActivity(), AnalyticsConstants.PAGE_HOME,
 					Toast.LENGTH_SHORT).show();
-		} else if (tag == R.string.product_download_manual) {
+		} else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
+				R.string.product_download_manual))) {
 			Toast.makeText(getActivity(), AnalyticsConstants.PAGE_HOME,
 					Toast.LENGTH_SHORT).show();
-		} else if (tag == R.string.product_information) {
+		} else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
+				R.string.product_information))) {
 			Toast.makeText(getActivity(), AnalyticsConstants.PAGE_HOME,
 					Toast.LENGTH_SHORT).show();
 		}
@@ -172,14 +191,5 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.product_info);
-	}
-
-	/*
-	 * This method will parse, how many features are available at DigitalCare
-	 * level.
-	 */
-	private void initializeFeaturesSupported() {
-		Resources mResources = getActivity().getResources();
-		mFeatureKeys = mResources.getStringArray(R.array.product_menu_title);
 	}
 }

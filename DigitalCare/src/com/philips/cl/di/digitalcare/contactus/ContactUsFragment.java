@@ -55,8 +55,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private LinearLayout mContactUsParent = null;
 	private LinearLayout mSocialProviderParent = null;
 	private FrameLayout.LayoutParams mParams = null;
-	// private DigitalCareFontButton mFacebook = null;
-	// private DigitalCareFontButton mTwitter = null;
 	private DigitalCareFontButton mChat = null;
 	private DigitalCareFontButton mEmail = null;
 	private DigitalCareFontButton mCallPhilips = null;
@@ -109,10 +107,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					R.id.contactUsParent);
 			mChat = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.contactUsChat);
-			// mFacebook = (DigitalCareFontButton) getActivity().findViewById(
-			// R.id.socialLoginFacebookBtn);
-			// mTwitter = (DigitalCareFontButton) getActivity().findViewById(
-			// R.id.socialLoginTwitterBtn);
 			mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
 					R.id.contactUsCall);
 			mEmail = (DigitalCareFontButton) getActivity().findViewById(
@@ -138,11 +132,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 			mChat.setOnClickListener(this);
 			mChat.setTransformationMethod(null);
-			// mFacebook.setTransformationMethod(null);
 			mCallPhilips.setOnClickListener(this);
 			mCallPhilips.setTransformationMethod(null);
-			// mTwitter.setOnClickListener(this);
-			// mTwitter.setTransformationMethod(null);
 			mEmail.setOnClickListener(this);
 			mEmail.setTransformationMethod(null);
 			mParams = (FrameLayout.LayoutParams) mContactUsParent
@@ -150,10 +141,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
 		}
-
-		/*
-		 * if (!Utils.isNetworkConnected(getActivity())) { return; }
-		 */
 		config = getResources().getConfiguration();
 	}
 
@@ -203,12 +190,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTwitterLoginFailed() {
 		DLog.d(TAG, "Twitter Authentication Failed");
-		// mTwitter.setClickable(true);
 	}
 
 	@Override
 	public void onTwitterLoginSuccessful() {
-		// mTwitter.setClickable(true);
 		Utils.showToast(getActivity(), "Logged in Successfully");
 		showFragment(new TwitterSupportFragment());
 	}
@@ -389,12 +374,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				DLog.d(TAG, "Session is not null");
 
 			}
-			// showFragment(new FacebookScreenFragment());
-			// mFacebook.setLoginBehavior(SessionLoginBehavior.SSO_ONLY);
-			// mFacebook.setReadPermissions(Arrays.asList("email",
-			// "user_birthday", "user_hometown", "user_location"));
-			// FacebookHelper mHelper = new FacebookHelper(getActivity());
-
 		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& Utils.isNetworkConnected(getActivity())) {
@@ -527,6 +506,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				packageName + ":drawable/" + buttonDrawable, null, null);
 		float density = getResources().getDisplayMetrics().density;
 
+		RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
+		Button button = createButton(density, title, drawable);
+		relativeLayout.addView(button);
+		setButtonParams(button);
+		mSocialProviderParent.addView(relativeLayout);
+		setRelativeLayoutParams(relativeLayout, density);
+		/*
+		 * Setting tag because we need to get String title for this view which
+		 * needs to be handled at button click.
+		 */
+		relativeLayout.setTag(buttonTitle);
+		relativeLayout.setOnClickListener(this);
+	}
+
+	@SuppressLint("NewApi")
+	private RelativeLayout createRelativeLayout(String buttonTitle) {
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
@@ -535,58 +530,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		relativeLayout
 				.setBackground(getDrawable(R.drawable.prod_reg_social_border_btn));
 
-		Button button = createButton(density, title, drawable);
-
-		// Button fontButton = new Button(getActivity(), null,
-		// R.style.fontButton);
-		// fontButton.setGravity(Gravity.START | Gravity.CENTER);
-		// fontButton.setPadding((int) (80 * density), 0, 0, 0);
-		// fontButton.setTextAppearance(getActivity(), R.style.fontButton);
-
-		// fontButton.setText(buttonTitle);
-		// fontButton.setBackground(getDrawable(resId));
-		relativeLayout.addView(button);
-		setButtonParams(button);
-		//
-		// RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
-		// .getLayoutParams();
-		// buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-		// RelativeLayout.TRUE);
-		// buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-		// RelativeLayout.TRUE);
-		//
-		// fontButton.setLayoutParams(buttonParams);
-
-		// ImageView img = new ImageView(getActivity(), null,
-		// R.style.supportHomeImageButton);
-		// img.setPadding(0, 0, 0, 0);
-		// img.setContentDescription(buttonTitle);
-		// img.setImageDrawable(getDrawable(resId));
-		// relativeLayout.addView(img);
-		//
-		// LayoutParams imgParams = (LayoutParams) img.getLayoutParams();
-		// imgParams.height = (int) (35 * density);
-		// imgParams.width = (int) (35 * density);
-		// imgParams.topMargin = imgParams.bottomMargin = imgParams.rightMargin
-		// = (int) (10 * density);
-		// imgParams.leftMargin = (int) (19 * density);
-		// img.setLayoutParams(imgParams);
-
-		mSocialProviderParent.addView(relativeLayout);
-		setRelativeLayoutParams(relativeLayout, density);
-
-		// LinearLayout.LayoutParams param = (LinearLayout.LayoutParams)
-		// relativeLayout
-		// .getLayoutParams();
-		// param.topMargin = (int) (15 * density);
-		// relativeLayout.setLayoutParams(param);
-
-		/*
-		 * Setting tag because we need to get String title for this view which
-		 * needs to be handled at button click.
-		 */
-		relativeLayout.setTag(buttonTitle);
-		relativeLayout.setOnClickListener(this);
+		return relativeLayout;
 	}
 
 	private void setRelativeLayoutParams(RelativeLayout relativeLayout,

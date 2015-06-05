@@ -9,5 +9,5 @@ package com.philips.cl.di.digitalcare.productdetails;
  * @since : 1 June 2015
  */
 public interface ProductMenuButtonClickListener {
-	public boolean onProductMenuItemClickListener(int buttonTitle);
+	public boolean onProductMenuItemClickListener(String buttonTitle);
 }

@@ -160,13 +160,14 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 			ProductMenuButtonClickListener {
 
 		@Override
-		public boolean onProductMenuItemClickListener(int buttonTitle) {
-			// if (buttonTitle == R.string.product_download_manual) {
-			// Intent intent = new Intent(LaunchDigitalCare.this,
-			// DummyScreen.class);
-			// startActivity(intent);
-			// return true;
-			// }
+		public boolean onProductMenuItemClickListener(String buttonTitle) {
+			if (buttonTitle.equalsIgnoreCase(getResources()
+					.getResourceEntryName(R.string.product_download_manual))) {
+				Intent intent = new Intent(LaunchDigitalCare.this,
+						DummyScreen.class);
+				startActivity(intent);
+				return true;
+			}
 			return false;
 		}
 	}
@@ -176,13 +177,13 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 
 		@Override
 		public boolean onSocialProviderItemClickListener(String buttonTitle) {
-//			if (buttonTitle.equalsIgnoreCase(getResources()
-//					.getResourceEntryName(R.string.twitter))) {
-//				Intent intent = new Intent(LaunchDigitalCare.this,
-//						DummyScreen.class);
-//				startActivity(intent);
-//				return true;
-//			}
+			// if (buttonTitle.equalsIgnoreCase(getResources()
+			// .getResourceEntryName(R.string.twitter))) {
+			// Intent intent = new Intent(LaunchDigitalCare.this,
+			// DummyScreen.class);
+			// startActivity(intent);
+			// return true;
+			// }
 			return false;
 		}
 	}
