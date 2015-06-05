@@ -37,8 +37,8 @@ public class TutorialPagerActivity extends BaseActivity {
 		indicator.setSnap(true);
 
 		final float density = getResources().getDisplayMetrics().density;
-		indicator.setPageColor(0xFF5D6577);
-		indicator.setFillColor(0xFFB9BBC7);
+		indicator.setPageColor(getResources().getColor(R.color.philip_light_blue));
+		indicator.setFillColor(getResources().getColor(R.color.philips_blue));
 		indicator.setStrokeWidth(0.1f * density);
 
 		mPager.setCurrentItem(mCurrentItemId);

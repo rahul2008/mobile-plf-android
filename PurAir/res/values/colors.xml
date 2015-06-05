@@ -150,6 +150,7 @@
     <color name="aqi_fair">#DF4989</color>
     <color name="aqi_bad">#E73129</color>
     <color name="philips_blue">#0065A0</color>
+    <color name="philips_light_blue">#7FB2D0</color>
     <color name="philips_blue_dark">#213A74</color>
     <color name="subtitle_gray">#ABABAB</color>
     <color name="title_gray">#5D6577</color>
