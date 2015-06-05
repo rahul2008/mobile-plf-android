@@ -70,8 +70,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private ProgressDialog mPostProgress = null;
 	private ProgressDialog mDialog = null;
 	private Configuration config = null;
-	private String[] mSocialProviderKeys = null;
-	private String[] mSocialProviderDrawableKey = null;
 	private View mSocialDivider = null;
 
 	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/prx/cdls/B2C/";
@@ -129,17 +127,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 					R.id.socialDivider);
 			// mFacebook.setOnClickListener(this);
 
-			initializeSocialProviderView();
-
-			if (mSocialProviderKeys.length == 0) {
-				mSocialProviderParent.setVisibility(View.GONE);
-				mSocialDivider.setVisibility(View.GONE);
-			} else {
-				for (int i = 0; i < mSocialProviderKeys.length; i++) {
-					enableOptionButtons(mSocialProviderKeys[i],
-							mSocialProviderDrawableKey[i]);
-				}
-			}
+			createSocialProviderMenu();
 
 			/*
 			 * Live chat is configurable parameter. Developer can enable/disable
@@ -169,19 +157,28 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		config = getResources().getConfiguration();
 	}
 
+	private void createSocialProviderMenu() {
+		Resources mResources = getActivity().getResources();
+		String[] mSocialProviderKeys = mResources
+				.getStringArray(R.array.social_service_provider_menu_title);
+		String[] mSocialProviderDrawableKey = mResources
+				.getStringArray(R.array.social_service_provider_menu_resources);
+
+		if (mSocialProviderKeys.length == 0) {
+			mSocialProviderParent.setVisibility(View.GONE);
+			mSocialDivider.setVisibility(View.GONE);
+		} else {
+			for (int i = 0; i < mSocialProviderKeys.length; i++) {
+				createButtonLayout(mSocialProviderKeys[i],
+						mSocialProviderDrawableKey[i]);
+			}
+		}
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		setViewParams(config);
-	}
-
-	private void enableOptionButtons(String buttonTitle, String buttonDrawable) {
-		String packageName = getActivity().getPackageName();
-		int title = getResources().getIdentifier(
-				packageName + ":string/" + buttonTitle, null, null);
-		int drawable = getResources().getIdentifier(
-				packageName + ":drawable/" + buttonDrawable, null, null);
-		createButtonLayout(title, drawable);
 	}
 
 	/*
@@ -326,7 +323,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onClick(View view) {
 		int id = view.getId();
-		Integer tag = (Integer) view.getTag();
+		String tag = (String) view.getTag();
 
 		boolean actionTaken = false;
 
@@ -334,7 +331,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			actionTaken = DigitalCareConfigManager
 					.getInstance(DigitalCareConfigManager.getContext())
 					.getSocialProviderListener()
-					.onSocialProviderItemClickListener(tag);
+					.onSocialProviderItemClickListener(tag.toString());
 		}
 		if (actionTaken) {
 			return;
@@ -367,7 +364,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				Utils.showToast(getActivity(), "Check the SIM");
 			}
-		} else if (tag != null && tag == R.string.facebook
+		} else if (tag != null
+				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))
 				&& Utils.isNetworkConnected(getActivity())) {
 
 			Session mFacebookSession = Session.getActiveSession();
@@ -397,7 +395,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			// "user_birthday", "user_hometown", "user_location"));
 			// FacebookHelper mHelper = new FacebookHelper(getActivity());
 
-		} else if (tag != null && tag == R.string.twitter
+		} else if (tag != null
+				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& Utils.isNetworkConnected(getActivity())) {
 			// mTwitter.setClickable(false);
 			TwitterAuthentication mTwitter = TwitterAuthentication
@@ -507,20 +506,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		getActivity().startActivity(intent);
 	}
 
-	/*
-	 * This method will parse, how many features are available at DigitalCare
-	 * level.
-	 */
-	private void initializeSocialProviderView() {
-		Resources mResources = getActivity().getResources();
-		mSocialProviderKeys = mResources
-				.getStringArray(R.array.social_service_provider_menu_title);
-		mSocialProviderDrawableKey = mResources
-				.getStringArray(R.array.social_service_provider_menu_resources);
-	}
-
 	private Drawable getDrawable(int resId) {
 		return getResources().getDrawable(resId);
+	}
+
+	private String getStringKey(int resId) {
+		return getResources().getResourceEntryName(resId);
 	}
 
 	/**
@@ -528,8 +519,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 * image together.
 	 */
 	@SuppressLint("NewApi")
-	private void createButtonLayout(int buttonTitle, int resId) {
+	private void createButtonLayout(String buttonTitle, String buttonDrawable) {
+		String packageName = getActivity().getPackageName();
+		int title = getResources().getIdentifier(
+				packageName + ":string/" + buttonTitle, null, null);
+		int drawable = getResources().getIdentifier(
+				packageName + ":drawable/" + buttonDrawable, null, null);
 		float density = getResources().getDisplayMetrics().density;
+
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
@@ -538,23 +535,27 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		relativeLayout
 				.setBackground(getDrawable(R.drawable.prod_reg_social_border_btn));
 
-		Button fontButton = new Button(getActivity(), null, R.style.fontButton);
-		fontButton.setGravity(Gravity.START | Gravity.CENTER);
-		fontButton.setPadding((int) (80 * density), 0, 0, 0);
-		fontButton.setTextAppearance(getActivity(), R.style.fontButton);
+		Button button = createButton(density, title, drawable);
 
-		fontButton.setText(buttonTitle);
-		fontButton.setBackground(getDrawable(resId));
-		relativeLayout.addView(fontButton);
+		// Button fontButton = new Button(getActivity(), null,
+		// R.style.fontButton);
+		// fontButton.setGravity(Gravity.START | Gravity.CENTER);
+		// fontButton.setPadding((int) (80 * density), 0, 0, 0);
+		// fontButton.setTextAppearance(getActivity(), R.style.fontButton);
 
-		RelativeLayout.LayoutParams buttonParams = (LayoutParams) fontButton
-				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
-
-		fontButton.setLayoutParams(buttonParams);
+		// fontButton.setText(buttonTitle);
+		// fontButton.setBackground(getDrawable(resId));
+		relativeLayout.addView(button);
+		setButtonParams(button);
+		//
+		// RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+		// .getLayoutParams();
+		// buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+		// RelativeLayout.TRUE);
+		// buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+		// RelativeLayout.TRUE);
+		//
+		// fontButton.setLayoutParams(buttonParams);
 
 		// ImageView img = new ImageView(getActivity(), null,
 		// R.style.supportHomeImageButton);
@@ -572,11 +573,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		// img.setLayoutParams(imgParams);
 
 		mSocialProviderParent.addView(relativeLayout);
+		setRelativeLayoutParams(relativeLayout, density);
 
-		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
-				.getLayoutParams();
-		param.topMargin = (int) (15 * density);
-		relativeLayout.setLayoutParams(param);
+		// LinearLayout.LayoutParams param = (LinearLayout.LayoutParams)
+		// relativeLayout
+		// .getLayoutParams();
+		// param.topMargin = (int) (15 * density);
+		// relativeLayout.setLayoutParams(param);
 
 		/*
 		 * Setting tag because we need to get String title for this view which
@@ -584,6 +587,35 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		 */
 		relativeLayout.setTag(buttonTitle);
 		relativeLayout.setOnClickListener(this);
+	}
+
+	private void setRelativeLayoutParams(RelativeLayout relativeLayout,
+			float density) {
+		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
+				.getLayoutParams();
+		param.topMargin = (int) (15 * density);
+		relativeLayout.setLayoutParams(param);
+	}
+
+	@SuppressLint("NewApi")
+	private Button createButton(float density, int title, int resId) {
+		Button button = new Button(getActivity(), null, R.style.fontButton);
+		button.setGravity(Gravity.START | Gravity.CENTER);
+		button.setPadding((int) (80 * density), 0, 0, 0);
+		button.setTextAppearance(getActivity(), R.style.fontButton);
+		button.setText(title);
+		button.setBackground(getDrawable(resId));
+		return button;
+	}
+
+	private void setButtonParams(Button button) {
+		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+				.getLayoutParams();
+		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+				RelativeLayout.TRUE);
+		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+				RelativeLayout.TRUE);
+		button.setLayoutParams(buttonParams);
 	}
 
 	@Override
