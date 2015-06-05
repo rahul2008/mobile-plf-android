@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.UTFConstant;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -41,7 +42,7 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 		appNameTV = (FontTextView) getView().findViewById(R.id.about_app_name_tv);
 		appVersionTV = (FontTextView) getView().findViewById(R.id.about_app_version_tv);
 		FontTextView termsAndcondition = (FontTextView) getView().findViewById(R.id.terms_and_conditions);
-		String angle_arrow_txt = "<big><b><font face=\"CentraleSans-Bold\"> ›</font></b></big>";
+		String angle_arrow_txt = "<big><b><font face=\"CentraleSans-Bold\"> "+UTFConstant.RIGHT_ANGLE_BRACKET_BOLD+"</font></b></big>";
 		String termConditionTxt=getString(R.string.terms_and_conditions)+", " + getString(R.string.eula) + ", " + getString(R.string.privacy_policy) + angle_arrow_txt;
 		termsAndcondition.setText(Html.fromHtml(termConditionTxt));
 		
