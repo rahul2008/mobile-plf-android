@@ -140,11 +140,9 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		@Override
 		public boolean onMainMenuItemClickListener(String buttonTitle) {
 			if (buttonTitle
-					.equalsIgnoreCase(getStringKey(R.drawable.registration))
+					.equalsIgnoreCase(getStringKey(R.string.registration))
 					|| buttonTitle
-							.equalsIgnoreCase(getStringKey(R.drawable.registration))
-					|| buttonTitle
-							.equalsIgnoreCase(getStringKey(R.drawable.registration))) {
+							.equalsIgnoreCase(getStringKey(R.string.view_faq))) {
 				Intent intent = new Intent(LaunchDigitalCare.this,
 						DummyScreen.class);
 				startActivity(intent);
