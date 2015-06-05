@@ -73,29 +73,17 @@
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
     <string-array name="social_service_provider_menu_title">
-        <item>facebook</item>
         <item>twitter</item>
+        <item>facebook</item>
     </string-array>
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources">
-        <item>facebook</item>
         <item>twitter</item>
+        <item>facebook</item>
     </string-array>
-
-    <!-- Chat Screen -->
-    <color name="chat_can_we_help_you_title">@color/actionbar_title_color</color>
-
-    <!-- email id for philips support -->
-    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
-
-    <!-- Product Information to appen in Social Support feature -->
-    <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
-
-    <!-- NetworkAlert Input Credentials -->
-    <color name="NetworkAlertView_background_color">#b2b2b2</color>
-    <color name="NetworkAlertView_text_color">#ffffff</color>
-
+    
+    
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id" translatable="false">1537018913230025</string>
     <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
@@ -107,6 +95,8 @@
     <string name="twitter_page" translatable="false">PhilipsCare</string>
 
     <!-- Do you want Live Chat Option -->
-    <bool name="live_chat_required">true</bool>
+    <bool name="live_chat_required">false</bool>
 
+    <!-- email id for philips support -->
+    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
 </resources>

@@ -92,6 +92,7 @@
     <string name="social_post_failed">Failed to post..</string>
     <string name="social_post_success">Posted Successfully!!</string>
     <string name="social_post_editor_alert">No description to send</string>
+    <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
 
     <!-- Social Login -->
     <string name="social_login_cancel">Cancel</string>
