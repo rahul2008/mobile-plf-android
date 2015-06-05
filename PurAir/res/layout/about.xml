@@ -55,12 +55,12 @@
             android:id="@+id/about_app_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="24dp"
             android:layout_marginTop="16dp"
             android:text="@string/app_name"
             android:textColor="@color/white"
             android:textSize="@dimen/title_text_size_medium"
-            custom:fontAssetName="fonts/centralesanslight.ttf" />
+            custom:fontAssetName="fonts/centralesansbold.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/about_app_name_tv"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="24dp"
             android:layout_marginTop="8dp"
             android:text="@string/version_number"
             android:textColor="@color/white"
@@ -81,7 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/about_app_version_tv"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="24dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/copy_right"
@@ -98,7 +98,7 @@
             android:background="@drawable/list_item_selector"
             android:paddingBottom="12dp"
             android:paddingTop="12dp"
-            android:paddingLeft="16dp"
+            android:layout_marginLeft="24dp"
             android:text=""
             android:layout_marginTop="24dp"
             android:gravity="center"
