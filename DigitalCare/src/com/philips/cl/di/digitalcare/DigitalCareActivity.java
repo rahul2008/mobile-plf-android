@@ -27,7 +27,7 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
  * @since : 5 Dec 2014
  */
 public class DigitalCareActivity extends DigitalCareBaseActivity {
-	private static final String TAG = "DigitalCareActivity";
+	private static final String TAG = DigitalCareActivity.class.getSimpleName();
 	private ProductImageHelper mImage = null;
 
 	@Override
@@ -48,21 +48,18 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 				.equalsIgnoreCase(DigitalCareContants.OPTION_SUPPORT_SCREEN)) {
 			showFragment(new SupportHomeFragment());
 			enableActionBarHome();
-		}
-		else if (screenChoice
+		} else if (screenChoice
 				.equalsIgnoreCase(DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING)) {
 			showFragment(new RateThisAppFragment());
-		}
-		else if (screenChoice
+		} else if (screenChoice
 				.equalsIgnoreCase(DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY)) {
 			showFragment(new LocatePhilipsFragment());
 		}
-		
+
 		else if (screenChoice
 				.equalsIgnoreCase(DigitalCareContants.OPTION_CONTACT_US)) {
 			showFragment(new ContactUsFragment());
-		}
-		else if (screenChoice
+		} else if (screenChoice
 				.equalsIgnoreCase(DigitalCareContants.OPTION_PRODUCS_DETAILS)) {
 			showFragment(new ProductDetailsFragment());
 		}
@@ -73,29 +70,18 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		DLog.i(TAG, "DigitalCareActivity onActivityResult");
 
-		if (requestCode == 64206) {
-			FacebookScreenFragment fbFrag = new FacebookScreenFragment();
-			fbFrag.onFaceBookCallback(this, requestCode, resultCode, data);
+		if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
 
-			FacebookHelper mFacebookHelper = FacebookHelper.getInstance();
-			mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode,
-					data);
-			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
-					AnalyticsConstants.ACTION_KEY_PHOTO,
-					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
+			startFaceBookSDK(requestCode, resultCode, data);
+
 		}
 		if (resultCode == Activity.RESULT_CANCELED
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
-			TwitterAuthentication mTwitter = TwitterAuthentication
-					.getInstance();
-			mTwitter.onFailedToAuthenticate();
+			stopTwitterSDK();
 		}
 		if (resultCode == Activity.RESULT_OK
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
-			TwitterAuthentication mTwitter = TwitterAuthentication
-					.getInstance();
-			mTwitter.onActivityResult(data);
+			startTwitterSDK(data);
 		} else if (resultCode == Activity.RESULT_OK) {
 			AnalyticsTracker.trackAction(
 					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
@@ -103,15 +89,42 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
 
 			if (requestCode == DigitalCareContants.IMAGE_PICK) {
-				if (mImage == null)
-					mImage = ProductImageHelper.getInstance();
+				startImageParse(requestCode, data);
 
-				mImage.processProductImage(data, requestCode);
 			} else if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
-				if (mImage == null)
-					mImage = ProductImageHelper.getInstance();
-				mImage.processProductImage(data, requestCode);
+				startImageParse(requestCode, data);
 			}
 		}
+	}
+
+	protected void startTwitterSDK(Intent data) {
+		TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
+		mTwitter.onActivityResult(data);
+	}
+
+	protected void stopTwitterSDK() {
+		TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
+		mTwitter.onFailedToAuthenticate();
+	}
+
+	protected void startFaceBookSDK(int requestCode, int resultCode, Intent data) {
+		FacebookScreenFragment fbFrag = new FacebookScreenFragment();
+		fbFrag.onFaceBookCallback(this, requestCode, resultCode, data);
+
+		FacebookHelper mFacebookHelper = FacebookHelper.getInstance();
+		mFacebookHelper.onFaceBookCallback(this, requestCode, resultCode, data);
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+				AnalyticsConstants.ACTION_KEY_PHOTO,
+				AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
+	}
+
+	protected void startImageParse(int requestCode, Intent data) {
+
+		if (mImage == null)
+			mImage = ProductImageHelper.getInstance();
+
+		mImage.processProductImage(data, requestCode);
+
 	}
 }

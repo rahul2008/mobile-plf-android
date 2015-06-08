@@ -19,6 +19,7 @@ public class DigitalCareContants {
 	public static final int IMAGE_CAPTURE = 1001;
 	public static final int DEVICE_SUPPORTS_SIM = 1011;
 	public static final int DEVICE_NOT_SUPPORTS_SIM = 1111;
+	public static final int FACEBOOK_REQUESTC0DE = 64206;
 
 	public static final String PHILIPS_PRODUCT_IMAGE = "Philips_Product.png";
 

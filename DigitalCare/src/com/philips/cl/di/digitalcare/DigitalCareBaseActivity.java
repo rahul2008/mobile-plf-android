@@ -34,7 +34,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	private DigitalCareFontTextView mActionBarTitle = null;
 	private FragmentManager fragmentManager = null;
 	private DigitalCareConfigManager mDigitalCareConfigManager = null;
-	private static String TAG = "DigitalCareBaseActivity";
+	private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -28,7 +28,7 @@ import com.philips.cl.di.digitalcare.util.DLog;
 public abstract class DigitalCareBaseFragment extends Fragment implements
 		OnClickListener {
 
-	private static String TAG = "DigitalCareBaseFragment";
+	private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
 	private static final Field sChildFragmentManagerField;
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
