@@ -53,13 +53,13 @@ public class Utils {
 	}
 
 	public static boolean isEmpty(String value) {
-		if (value == null || value.isEmpty()) {
+		if (value == null) {
 			return true;
 		}
 		return false;
 	}
 
-	public static boolean isSimAvailable(Activity mContext) {
+	public static boolean isSimAvailable(Context mContext) {
 		TelephonyManager mTelephonyService = (TelephonyManager) mContext
 				.getSystemService(Context.TELEPHONY_SERVICE);
 		// int state = mTelephonyService.getPhoneType();
