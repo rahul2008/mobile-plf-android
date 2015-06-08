@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.controller;
 
 import org.json.JSONException;
@@ -10,14 +11,18 @@ import com.janrain.android.capture.CaptureRecord;
 import com.philips.cl.di.reg.handlers.UpdateReceiveMarketingEmailHandler;
 
 public class UpdateReceiveMarketingEmail implements CaptureApiRequestCallback {
+
 	private UpdateReceiveMarketingEmailHandler mUpdateReceiveMarketingEmailHandler;
+
 	private Context mContext;
+
 	private boolean mReceiveMarketingEmail;
+
 	private String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
 
 	public UpdateReceiveMarketingEmail(
-			UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmailHandler,
-			Context context, boolean receiveMarketingEmail) {
+	        UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmailHandler, Context context,
+	        boolean receiveMarketingEmail) {
 		mUpdateReceiveMarketingEmailHandler = updateReceiveMarketingEmailHandler;
 		mContext = context;
 		mReceiveMarketingEmail = receiveMarketingEmail;
@@ -33,13 +38,12 @@ public class UpdateReceiveMarketingEmail implements CaptureApiRequestCallback {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		mUpdateReceiveMarketingEmailHandler
-				.onUpdateReceiveMarketingEmailSuccess();
+		mUpdateReceiveMarketingEmailHandler.onUpdateReceiveMarketingEmailSuccess();
 
 	}
 
 	public void onFailure(CaptureApiError error) {
 		mUpdateReceiveMarketingEmailHandler
-				.onUpdateReceiveMarketingEmailFailedWithError(error.code);
+		        .onUpdateReceiveMarketingEmailFailedWithError(error.code);
 	}
 }

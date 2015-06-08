@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg;
 
 import java.io.BufferedReader;
@@ -20,20 +21,19 @@ import org.apache.http.params.HttpParams;
 import android.util.Log;
 
 public class HttpClient {
+
 	final int TIME_OUT = 30000;
-	
+
 	private String ACCESS_TOKEN_HEADER = "x-accessToken";
-	
+
 	private String CONTENT_TYPE_HEADER = "Content-Type";
-	
+
 	private String CONTENT_TYPE = "application/x-www-form-urlencoded";
-	
+
 	private String LOG_TAG = "HttpClient";
 
 	// ----- Post Method
-	public String postData(String url, List<NameValuePair> nameValuePairs,
-			String accessToken) {
-		
+	public String postData(String url, List<NameValuePair> nameValuePairs, String accessToken) {
 
 		DefaultHttpClient httpClient = new DefaultHttpClient();
 		try {
@@ -44,18 +44,16 @@ public class HttpClient {
 			HttpResponse httpResponse = httpClient.execute(httppost);
 			InputStream inputStream = httpResponse.getEntity().getContent();
 
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					inputStream);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 			StringBuilder stringBuilder = new StringBuilder();
 			String bufferedStrChunk = null;
 
 			while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
 				stringBuilder.append(bufferedStrChunk);
 			}
-			Log.i(LOG_TAG,"Returninge of doInBackground :"+ stringBuilder.toString());
+			Log.i(LOG_TAG, "Returninge of doInBackground :" + stringBuilder.toString());
 			return stringBuilder.toString();
 		} catch (ClientProtocolException cpe) {
 			cpe.printStackTrace();
@@ -77,23 +75,21 @@ public class HttpClient {
 		try {
 			HttpResponse httpResponse = httpClient.execute(httpGet);
 			InputStream inputStream = httpResponse.getEntity().getContent();
-			InputStreamReader inputStreamReader = new InputStreamReader(
-					inputStream);
-			BufferedReader bufferedReader = new BufferedReader(
-					inputStreamReader);
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 			StringBuilder stringBuilder = new StringBuilder();
 			String bufferedStrChunk = null;
 
 			while ((bufferedStrChunk = bufferedReader.readLine()) != null) {
 				stringBuilder.append(bufferedStrChunk);
 			}
-			Log.i(LOG_TAG,"Returninge of doInBackground :"+ stringBuilder.toString());
+			Log.i(LOG_TAG, "Returninge of doInBackground :" + stringBuilder.toString());
 			return stringBuilder.toString();
 
 		} catch (ClientProtocolException cpe) {
-			Log.e(LOG_TAG,"Exception related to httpResponse :"+ cpe);
+			Log.e(LOG_TAG, "Exception related to httpResponse :" + cpe);
 		} catch (IOException ioe) {
-			Log.e(LOG_TAG, "IOException related to httpResponse :"+ ioe);
+			Log.e(LOG_TAG, "IOException related to httpResponse :" + ioe);
 		}
 
 		return null;

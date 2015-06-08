@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.controller;
 
 import org.json.JSONArray;
@@ -14,8 +15,7 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 
 	private ResendVerificationEmailHandler mResendVerificationEmail;
 
-	public ResendVerificationEmail(
-			ResendVerificationEmailHandler resendVerificationEmail) {
+	public ResendVerificationEmail(ResendVerificationEmailHandler resendVerificationEmail) {
 		mResendVerificationEmail = resendVerificationEmail;
 	}
 
@@ -31,24 +31,21 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 		handleInvalidCredentials(error, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.code);
 		mResendVerificationEmail
-				.onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
+		        .onResendVerificationEmailFailedWithError(userRegistrationFailureInfo);
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
-				&& error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
+		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
 				JSONObject object = error.raw_response;
-				JSONObject jsonObject = (JSONObject) object
-						.get(RegConstants.INVALID_FIELDS);
+				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
-					if (!jsonObject
-							.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-						userRegistrationFailureInfo
-								.setEmailErrorMessage(getErrorMessage(jsonObject
-										.getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
+					if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
+						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						        .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
 					}
 
 				}
@@ -59,20 +56,17 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 	}
 
 	private void handleInvalidCredentials(CaptureApiError error,
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
-				&& error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
+		        && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
 			try {
 				JSONObject object = error.raw_response;
-				JSONObject jsonObject = (JSONObject) object
-						.get(RegConstants.INVALID_FIELDS);
+				JSONObject jsonObject = (JSONObject) object.get(RegConstants.INVALID_FIELDS);
 				if (jsonObject != null) {
 
-					if (!jsonObject
-							.isNull(RegConstants.RESEND_VERIFICATION_FORM)) {
-						userRegistrationFailureInfo
-								.setEmailErrorMessage(getErrorMessage(jsonObject
-										.getJSONArray(RegConstants.RESEND_VERIFICATION_FORM)));
+					if (!jsonObject.isNull(RegConstants.RESEND_VERIFICATION_FORM)) {
+						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						        .getJSONArray(RegConstants.RESEND_VERIFICATION_FORM)));
 					}
 				}
 			} catch (JSONException e) {
@@ -82,7 +76,8 @@ public class ResendVerificationEmail implements CaptureApiRequestCallback {
 		}
 	}
 
-	private String getErrorMessage(JSONArray jsonArray) throws JSONException {
+	private String getErrorMessage(JSONArray jsonArray)
+	        throws JSONException {
 		if (null == jsonArray) {
 			return null;
 		}

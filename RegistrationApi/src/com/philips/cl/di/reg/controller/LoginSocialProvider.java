@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.controller;
 
 import org.json.JSONObject;
@@ -12,15 +13,18 @@ import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
-public class LoginSocialProvider implements Jump.SignInResultHandler,
-		Jump.SignInCodeHandler {
+public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
+
 	private Context mContext;
+
 	private SocialProviderLoginHandler mSocialLoginHandler;
+
 	private String mMergeToken;
+
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-	public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler,
-			Context context, UpdateUserRecordHandler updateUserRecordHandler) {
+	public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler, Context context,
+	        UpdateUserRecordHandler updateUserRecordHandler) {
 		mSocialLoginHandler = socialLoginHandler;
 		mContext = context;
 		mUpdateUserRecordHandler = updateUserRecordHandler;
@@ -41,38 +45,34 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,
 	@Override
 	public void onFailure(SignInError error) {
 		if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-				&& error.captureApiError.isMergeFlowError()) {
+		        && error.captureApiError.isMergeFlowError()) {
 
 			mMergeToken = error.captureApiError.getMergeToken();
 			final String existingProvider = error.captureApiError
-					.getExistingAccountIdentityProvider();
+			        .getExistingAccountIdentityProvider();
 			String conflictingIdentityProvider = error.captureApiError
-					.getConflictingIdentityProvider();
+			        .getConflictingIdentityProvider();
 			String conflictingIdpNameLocalized = JRProvider
-					.getLocalizedName(conflictingIdentityProvider);
+			        .getLocalizedName(conflictingIdentityProvider);
 			String existingIdpNameLocalized = JRProvider
-					.getLocalizedName(conflictingIdentityProvider);
-			mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken,
-					existingProvider, conflictingIdentityProvider,
-					conflictingIdpNameLocalized, existingIdpNameLocalized);
+			        .getLocalizedName(conflictingIdentityProvider);
+			mSocialLoginHandler.onLoginFailedWithMergeFlowError(mMergeToken, existingProvider,
+			        conflictingIdentityProvider, conflictingIdpNameLocalized,
+			        existingIdpNameLocalized);
 		} else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
-				&& error.captureApiError.isTwoStepRegFlowError()) {
+		        && error.captureApiError.isTwoStepRegFlowError()) {
 
-			JSONObject prefilledRecord = error.captureApiError
-					.getPreregistrationRecord();
-			String socialRegistrationToken = error.captureApiError
-					.getSocialRegistrationToken();
+			JSONObject prefilledRecord = error.captureApiError.getPreregistrationRecord();
+			String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
 			mSocialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord,
-					socialRegistrationToken);
+			        socialRegistrationToken);
 
 		} else {
-			
+
 			UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
-			userRegistrationFailureInfo
-					.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
-			mSocialLoginHandler
-			.onLoginFailedWithError(userRegistrationFailureInfo);
-			
+			userRegistrationFailureInfo.setErrorCode(RegConstants.DI_PROFILE_NULL_ERROR_CODE);
+			mSocialLoginHandler.onLoginFailedWithError(userRegistrationFailureInfo);
+
 		}
 	}
 }

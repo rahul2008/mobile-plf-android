@@ -51,7 +51,7 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
 		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
@@ -66,13 +66,15 @@ public class RegisterTraditional implements Jump.SignInResultHandler, Jump.SignI
 					}
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)) {
-						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)));
+						userRegistrationFailureInfo
+						        .setEmailErrorMessage(getErrorMessage(jsonObject
+						                .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_EMAIL_ADDRESS)));
 					}
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)) {
-						userRegistrationFailureInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)));
+						userRegistrationFailureInfo
+						        .setPasswordErrorMessage(getErrorMessage(jsonObject
+						                .getJSONArray(RegConstants.TRADITIONAL_REGISTRATION_PASSWORD)));
 					}
 				}
 			} catch (JSONException e) {

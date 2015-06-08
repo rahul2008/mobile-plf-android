@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.controller;
 
 import org.json.JSONArray;
@@ -14,15 +15,16 @@ import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
-		Jump.SignInCodeHandler {
-	
+        Jump.SignInCodeHandler {
+
 	private SocialProviderLoginHandler mSocialProviderLoginHandler;
+
 	private Context mContext;
+
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
 
-	public ContinueSocialProviderLogin(
-			SocialProviderLoginHandler socialProviderLoginHandler,
-			Context context,UpdateUserRecordHandler updateUserRecordHandler) {
+	public ContinueSocialProviderLogin(SocialProviderLoginHandler socialProviderLoginHandler,
+	        Context context, UpdateUserRecordHandler updateUserRecordHandler) {
 		mSocialProviderLoginHandler = socialProviderLoginHandler;
 		mContext = context;
 		mUpdateUserRecordHandler = updateUserRecordHandler;
@@ -37,17 +39,17 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 	public void onCode(String code) {
 	}
 
-	public void onFailure(SignInError error) 
-	{
+	public void onFailure(SignInError error) {
 		UserRegistrationFailureInfo userRegistrationFailureInfo = new UserRegistrationFailureInfo();
 		userRegistrationFailureInfo.setError(error.captureApiError);
 		handleInvalidInputs(error.captureApiError, userRegistrationFailureInfo);
 		userRegistrationFailureInfo.setErrorCode(error.captureApiError.code);
-		mSocialProviderLoginHandler.onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
+		mSocialProviderLoginHandler
+		        .onContinueSocialProviderLoginFailure(userRegistrationFailureInfo);
 	}
-	
+
 	private void handleInvalidInputs(CaptureApiError error,
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
 		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
@@ -61,8 +63,8 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 					}
 					if (!jsonObject.isNull(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)) {
 						userRegistrationFailureInfo
-								.setDisplayNameErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)));
+						        .setDisplayNameErrorMessage(getErrorMessage(jsonObject
+						                .getJSONArray(RegConstants.SOCIAL_REGISTRATION_DISPLAY_NAME)));
 					}
 				}
 			} catch (JSONException e) {
@@ -71,7 +73,7 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 
 		}
 	}
-	
+
 	private String getErrorMessage(JSONArray jsonArray)
 	        throws JSONException {
 		if (null == jsonArray) {

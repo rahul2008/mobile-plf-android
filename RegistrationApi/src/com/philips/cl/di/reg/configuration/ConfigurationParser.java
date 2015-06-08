@@ -57,7 +57,7 @@ public class ConfigurationParser {
 		return registrationConfiguration;
 	}
 
-	private SocialProviders parseSocialProviders(JSONObject socialProviders) 
+	private SocialProviders parseSocialProviders(JSONObject socialProviders)
 	        throws JSONException {
 		SocialProviders providers = new SocialProviders();
 		HashMap<String, ArrayList<String>> socialProviderMap = new HashMap<String, ArrayList<String>>();

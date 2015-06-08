@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.controller;
 
 import com.janrain.android.capture.Capture.CaptureApiRequestCallback;

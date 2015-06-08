@@ -1,8 +1,6 @@
 
 package com.philips.cl.di.reg.configuration;
 
-import java.util.ArrayList;
-
 public class RegistrationConfiguration {
 
 	private JanRainConfiguration janRainConfiguration;

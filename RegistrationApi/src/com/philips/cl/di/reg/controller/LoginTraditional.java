@@ -52,7 +52,7 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 	}
 
 	private void handleInvalidInputs(CaptureApiError error,
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
 		        && error.error.equals(RegConstants.INVALID_FORM_FIELDS)) {
 			try {
@@ -61,9 +61,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 				if (jsonObject != null) {
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)) {
-						userRegistrationFailureInfo
-						        .setEmailErrorMessage(getErrorMessage(jsonObject
-						                .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
+						userRegistrationFailureInfo.setEmailErrorMessage(getErrorMessage(jsonObject
+						        .getJSONArray(RegConstants.TRADITIONAL_SIGN_IN_EMAIL_ADDRESS)));
 					}
 
 					if (!jsonObject.isNull(RegConstants.TRADITIONAL_SIGN_IN_PASSWORD)) {
@@ -77,9 +76,9 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 			}
 		}
 	}
-	
+
 	private void handleInvalidCredentials(CaptureApiError error,
-			UserRegistrationFailureInfo userRegistrationFailureInfo) {
+	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		if (null != error && null != error.error
 		        && error.error.equals(RegConstants.INVALID_CREDENTIALS)) {
 			try {
@@ -93,8 +92,9 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 					}
 
 					if (!jsonObject.isNull(RegConstants.USER_INFORMATION_FORM)) {
-						userRegistrationFailureInfo.setPasswordErrorMessage(getErrorMessage(jsonObject
-						        .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
+						userRegistrationFailureInfo
+						        .setPasswordErrorMessage(getErrorMessage(jsonObject
+						                .getJSONArray(RegConstants.USER_INFORMATION_FORM)));
 					}
 				}
 			} catch (JSONException e) {
