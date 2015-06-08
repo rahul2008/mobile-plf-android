@@ -27,14 +27,14 @@ public class AtosResponseModelTest extends InstrumentationTestCase {
 	}
 
 	public void testSuccess() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel();
+		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
 		boolean recieved = atosResponseModel.getSuccess();
 
 		assertTrue(recieved);
 	}
 
 	public void testCdlsErrorModel() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel();
+		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
 		AtosErrorModel mCdlsErrorModel = atosResponseModel.getCdlsErrorModel();
 
 		// object should be null for passing testcase
@@ -43,7 +43,7 @@ public class AtosResponseModelTest extends InstrumentationTestCase {
 	}
 
 	public void testResultModel() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel();
+		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
 		ArrayList<AtosResultsModel> mResultsModel = atosResponseModel
 				.getResultsModel();
 
@@ -51,16 +51,15 @@ public class AtosResponseModelTest extends InstrumentationTestCase {
 	}
 
 	public void testCurrentLocation() {
-		AtosResponseModel atosResponseModel = getAtosResultsModel();
+		AtosResponseModel atosResponseModel = getAtosResultsModel("atos.json");
 		AtosLocationModel mCurrentLocation = atosResponseModel
 				.getCurrentLocation();
 
 		assertNotNull(mCurrentLocation);
 	}
 
-	private AtosResponseModel getAtosResultsModel() {
-		String response = AtosParserUtils.loadJSONFromAsset("atos.json",
-				context);
+	private AtosResponseModel getAtosResultsModel(String jsonfile) {
+		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
 		mParser.processAtosResponse(response);
 		AtosResponseModel atosResponseModel = mParser.getAtosResponse();
 		return atosResponseModel;

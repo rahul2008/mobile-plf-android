@@ -28,16 +28,15 @@ public class AtosResponseParserTest extends InstrumentationTestCase {
 
 	public void testprocessAtosResponse() {
 
-		mParser.processAtosResponse(getResponse());
+		mParser.processAtosResponse(getResponse("atos.json"));
 		AtosResponseModel Received = mParser.getAtosResponse();
 
 		assertNotNull(Received);
 
 	}
 
-	private String getResponse() {
-		String response = AtosParserUtils.loadJSONFromAsset("atos.json",
-				context);
+	private String getResponse(String jsonfile) {
+		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
 		return response;
 	}
 

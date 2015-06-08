@@ -10,7 +10,7 @@ public class AtosParserUtils {
 	public static String loadJSONFromAsset(String assetPath, Context context) {
 		String json = null;
 		try {
-			InputStream is = context.getAssets().open(assetPath);
+			InputStream is = context.getAssets().open("atos/" + assetPath);
 			int size = is.available();
 			byte[] buffer = new byte[size];
 			is.read(buffer);
@@ -22,7 +22,5 @@ public class AtosParserUtils {
 		}
 		return json;
 	}
-
-
 
 }

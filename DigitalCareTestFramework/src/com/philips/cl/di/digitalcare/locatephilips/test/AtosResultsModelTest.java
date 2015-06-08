@@ -34,7 +34,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 	}
 
 	public void testId() {
-		ArrayList<AtosResultsModel> resultList = getResultModelList();
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			String received = resultList.get(i).getId();
 			assertNotNull(received);
@@ -43,7 +43,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 
 	public void testTitle() {
 
-		ArrayList<AtosResultsModel> resultList = getResultModelList();
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			String received = resultList.get(i).getTitle();
 			assertNotNull(received);
@@ -52,7 +52,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 
 	public void testInfoType() {
 
-		ArrayList<AtosResultsModel> resultList = getResultModelList();
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			String received = resultList.get(i).getInfoType();
 			assertNotNull(received);
@@ -61,7 +61,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 
 	public void testAddressModel() {
 
-		ArrayList<AtosResultsModel> resultList = getResultModelList();
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			AtosAddressModel received = resultList.get(i).getmAddressModel();
 			assertNotNull(received);
@@ -70,16 +70,15 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 
 	public void testAtosLocationModel() {
 
-		ArrayList<AtosResultsModel> resultList = getResultModelList();
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			AtosLocationModel received = resultList.get(i).getLocationModel();
 			assertNotNull(received);
 		}
 	}
 
-	private ArrayList<AtosResultsModel> getResultModelList() {
-		String response = AtosParserUtils.loadJSONFromAsset("atos.json",
-				context);
+	private ArrayList<AtosResultsModel> getResultModelList(String jsonfile) {
+		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
 		mParser.processAtosResponse(response);
 		AtosResponseModel atosResponseModel = mParser.getAtosResponse();
 		ArrayList<AtosResultsModel> resultList = atosResponseModel

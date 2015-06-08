@@ -28,7 +28,7 @@ public class AtosLocationModelTest extends InstrumentationTestCase {
 	}
 
 	public void testLatitude() {
-		AtosLocationModel atosLocationModel = getAtosLocationModel();
+		AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
 		String received = atosLocationModel.getLatitude();
 
 		assertNotNull(received);
@@ -36,15 +36,14 @@ public class AtosLocationModelTest extends InstrumentationTestCase {
 	}
 
 	public void testLongitude() {
-		AtosLocationModel atosLocationModel = getAtosLocationModel();
+		AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
 		String received = atosLocationModel.getLongitude();
 
 		assertNotNull(received);
 	}
 
-	private AtosLocationModel getAtosLocationModel() {
-		String response = AtosParserUtils.loadJSONFromAsset("atos.json",
-				context);
+	private AtosLocationModel getAtosLocationModel(String jsonfile) {
+		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
 		mParser.processAtosResponse(response);
 		AtosResponseModel atosResponseModel = mParser.getAtosResponse();
 		ArrayList<AtosResultsModel> resultList = atosResponseModel
