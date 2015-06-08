@@ -1,5 +1,7 @@
 package com.pins.philips.shinelib.services.healththermometer;
 
+import com.pins.philips.shinelib.utility.ScalarConverters;
+
 import java.nio.ByteBuffer;
 
 /**
@@ -9,7 +11,7 @@ public class SHNTemperatureMeasurementInterval {
     private final int seconds;
 
     public SHNTemperatureMeasurementInterval(ByteBuffer byteBuffer) {
-        throw new UnsupportedOperationException();
+        seconds = ScalarConverters.ushortToInt(byteBuffer.getShort());
     }
 
     public int getSeconds() {

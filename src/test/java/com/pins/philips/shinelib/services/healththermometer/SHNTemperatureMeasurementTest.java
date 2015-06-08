@@ -22,6 +22,8 @@ public class SHNTemperatureMeasurementTest {
     private static final byte TEMPTYPE = 0x04;
     private SimpleDateFormat simpleDateFormat;
 
+    // TODO decompose tests to test a unique item per test.
+
     @Before
     public void setUp() {
         simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
@@ -45,6 +47,8 @@ public class SHNTemperatureMeasurementTest {
         assertEquals(SHNTemperatureUnit.Celsius, shnTemperatureMeasurement.getFlags().getShnTemperatureUnit());
         assertFalse(shnTemperatureMeasurement.getFlags().hasTimestamp());
         assertFalse(shnTemperatureMeasurement.getFlags().hasTemperatureType());
+        assertNull(shnTemperatureMeasurement.getTimestamp());
+        assertNull(shnTemperatureMeasurement.getSHNTemperatureType());
         assertEquals(1f, shnTemperatureMeasurement.getTemperature(), 0.01f);
     }
 
@@ -110,6 +114,6 @@ public class SHNTemperatureMeasurementTest {
 
         assertEquals("2015-06-08 18:34:45", simpleDateFormat.format(shnTemperatureMeasurement.getTimestamp()));
 
-        assertEquals(SHNTemperatureType.Armpit, shnTemperatureMeasurement.getShnTemperatureType());
+        assertEquals(SHNTemperatureType.Armpit, shnTemperatureMeasurement.getSHNTemperatureType());
     }
 }

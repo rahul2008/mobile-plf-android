@@ -48,7 +48,7 @@ public class SHNTemperatureMeasurement {
         return timestamp;
     }
 
-    public SHNTemperatureType getShnTemperatureType() {
+    public SHNTemperatureType getSHNTemperatureType() {
         return shnTemperatureType;
     }
 
