@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.customviews;
 
 import android.content.Context;
@@ -16,17 +17,25 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.ui.utils.EmailValidator;
 
-public class XUserName extends RelativeLayout implements TextWatcher,
-		OnFocusChangeListener, OnClickListener {
+public class XUserName extends RelativeLayout implements TextWatcher, OnFocusChangeListener,
+        OnClickListener {
 
 	private Context mContext;
+
 	private ImageView mIvErrAlert;
+
 	private ImageView mIvValidAlert;
+
 	private EditText mEtUserName;
+
 	private boolean mValidName;
+
 	private onUpdateListener mUpdateStatusListener;
+
 	private RelativeLayout mRlEtName;
+
 	private TextView mTvErrDescriptionView;
+
 	private ImageView mIvArrowUpView;
 
 	public XUserName(Context context) {
@@ -101,8 +110,7 @@ public class XUserName extends RelativeLayout implements TextWatcher,
 	}
 
 	private boolean validateName() {
-		if (!EmailValidator
-				.isValidName(mEtUserName.getText().toString().trim())) {
+		if (!EmailValidator.isValidName(mEtUserName.getText().toString().trim())) {
 			setValidName(false);
 			return false;
 		}
@@ -155,8 +163,7 @@ public class XUserName extends RelativeLayout implements TextWatcher,
 	}
 
 	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 		if (validateName()) {
 			mIvValidAlert.setVisibility(View.VISIBLE);
 		}
@@ -169,8 +176,7 @@ public class XUserName extends RelativeLayout implements TextWatcher,
 			mIvErrAlert.setVisibility(View.GONE);
 		} else {
 			if (mEtUserName.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(
-						R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			}
 			mIvErrAlert.setVisibility(View.VISIBLE);
 			mIvValidAlert.setVisibility(View.GONE);

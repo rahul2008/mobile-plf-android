@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.utils;
 
 import java.util.regex.Matcher;
@@ -13,7 +14,7 @@ public class EmailValidator {
 
 		return false;
 	}
-	
+
 	public static boolean isValidEmail(String email) {
 		if (email == null)
 			return false;
@@ -28,7 +29,7 @@ public class EmailValidator {
 	public static boolean isValidPassword(String password) {
 		if (password == null)
 			return false;
-		
+
 		if (password.length() < 8)
 			return false;
 

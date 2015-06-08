@@ -66,7 +66,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onCreateView");
 		mContext = getRegistrationMainActivity().getApplicationContext();
-		
+
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);

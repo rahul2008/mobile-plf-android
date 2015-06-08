@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.settings;
 
 import android.content.Context;
@@ -16,15 +17,16 @@ import com.philips.cl.di.reg.errormapping.CheckLocale;
 public class LocaleMatchHelper implements LocaleMatchListener {
 
 	private String mCountryCode;
+
 	private String mLanguageCode;
+
 	private Context mContext = null;
 
 	private String LOG_TAG = "RegistrationAPI";
 
 	RegistrationHelper mHelper = RegistrationHelper.getInstance();
 
-	public LocaleMatchHelper(Context mContext, String mLanguageCode,
-			String mCountryCode) {
+	public LocaleMatchHelper(Context mContext, String mLanguageCode, String mCountryCode) {
 		super();
 		this.mCountryCode = mCountryCode;
 		this.mLanguageCode = mLanguageCode;
@@ -43,27 +45,23 @@ public class LocaleMatchHelper implements LocaleMatchListener {
 	public void onLocaleMatchRefreshed(String locale) {
 
 		PILLocaleManager manager = new PILLocaleManager();
-		PILLocale pilLocaleInstance = manager
-				.currentLocaleWithLanguageFallbackForPlatform(locale,
-						Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
+		PILLocale pilLocaleInstance = manager.currentLocaleWithLanguageFallbackForPlatform(locale,
+		        Platform.JANRAIN, Sector.B2C, Catalog.MOBILE);
 
 		if (null != pilLocaleInstance) {
 			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = "
-							+ pilLocaleInstance.getCountrycode()
-							+ pilLocaleInstance.getLanguageCode()
-							+ pilLocaleInstance.getLocaleCode());
+			        "REGAPI, onLocaleMatchRefreshed from app RESULT = "
+			                + pilLocaleInstance.getCountrycode()
+			                + pilLocaleInstance.getLanguageCode()
+			                + pilLocaleInstance.getLocaleCode());
 
 			mHelper.getRegistrationSettings().initialiseConfigParameters(
-					pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
-							+ pilLocaleInstance.getCountrycode().toUpperCase());
+			        pilLocaleInstance.getLanguageCode().toLowerCase() + "-"
+			                + pilLocaleInstance.getCountrycode().toUpperCase());
 		} else {
-			Log.i(LOG_TAG,
-					"REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
-			String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-					+ mCountryCode);
-			mHelper.getRegistrationSettings().initialiseConfigParameters(
-					verifiedLocale);
+			Log.i(LOG_TAG, "REGAPI, onLocaleMatchRefreshed from app RESULT = NULL");
+			String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
+			mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
 		}
 
 		unRegisterLocaleMatchListener();
@@ -75,11 +73,9 @@ public class LocaleMatchHelper implements LocaleMatchListener {
 
 		Log.i(LOG_TAG, "REGAPI, onErrorOccurredForLocaleMatch error = " + error);
 		unRegisterLocaleMatchListener();
-		String verifiedLocale = verifyInputLocale(mLanguageCode + "-"
-				+ mCountryCode);
+		String verifiedLocale = verifyInputLocale(mLanguageCode + "-" + mCountryCode);
 
-		mHelper.getRegistrationSettings().initialiseConfigParameters(
-				verifiedLocale);
+		mHelper.getRegistrationSettings().initialiseConfigParameters(verifiedLocale);
 
 	}
 

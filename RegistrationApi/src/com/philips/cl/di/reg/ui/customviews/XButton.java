@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.ui.utils.FontLoader;
 
 public class XButton extends Button {
+
 	private static final String XMLNS = "http://reg.lib/schema";
 
 	public XButton(Context context) {
@@ -25,13 +26,11 @@ public class XButton extends Button {
 	public XButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		String fontAssetName = attrs.getAttributeValue(XButton.XMLNS,
-				"fontAssetName");
+		String fontAssetName = attrs.getAttributeValue(XButton.XMLNS, "fontAssetName");
 		applyAttributes(this, context, fontAssetName);
 	}
 
-	private void applyAttributes(TextView view, Context context,
-			String fontAssetName) {
+	private void applyAttributes(TextView view, Context context, String fontAssetName) {
 		FontLoader.getInstance().setTypeface(view, fontAssetName);
 	}
 

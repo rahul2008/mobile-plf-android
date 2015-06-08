@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.utils;
 
 import android.app.Activity;
@@ -11,29 +12,24 @@ import com.philips.cl.di.reg.R;
 
 public class RegAlertDialog {
 
-	
 	public static void showResetPasswordDialog(Activity activity) {
-		
-		final AlertDialog alertDialogBuilder = new AlertDialog.Builder(activity)
-				.create();
+
+		final AlertDialog alertDialogBuilder = new AlertDialog.Builder(activity).create();
 		alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		alertDialogBuilder.setCancelable(true);
 		LayoutInflater myLayoutInflater = activity.getLayoutInflater();
-		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password,
-				null);
-		Button continueBtn = (Button) myView
-				.findViewById(R.id.btn_reg_continue);
+		View myView = myLayoutInflater.inflate(R.layout.dialog_reset_password, null);
+		Button continueBtn = (Button) myView.findViewById(R.id.btn_reg_continue);
 
 		continueBtn.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				alertDialogBuilder.dismiss();
-				
 			}
 		});
 
 		alertDialogBuilder.setView(myView);
 		alertDialogBuilder.show();
 	}
-	
+
 }

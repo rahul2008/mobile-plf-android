@@ -36,7 +36,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	private LinearLayout mLlEmailDetails;
 
 	private boolean isfromVerification;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");

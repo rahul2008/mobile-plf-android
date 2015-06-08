@@ -1,18 +1,22 @@
+
 package com.philips.cl.di.reg.dao;
 
 public class ConsumerInterest {
 
 	private String mCampaignName;
+
 	private String mSubjectArea;
+
 	private String mTopicCommunicationKey;
+
 	private String mTopicValue;
 
 	public ConsumerInterest() {
 
 	}
 
-	public ConsumerInterest(String campaignName, String subjectArea,
-			String topicCommunicationKey, String topicValue) {
+	public ConsumerInterest(String campaignName, String subjectArea, String topicCommunicationKey,
+	        String topicValue) {
 
 		mCampaignName = campaignName;
 		mSubjectArea = subjectArea;

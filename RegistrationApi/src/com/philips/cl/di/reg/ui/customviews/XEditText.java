@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.ui.utils.FontLoader;
 
 public class XEditText extends EditText {
+
 	private static final String XMLNS = "http://reg.lib/schema";
 
 	public XEditText(Context context) {
@@ -25,13 +26,11 @@ public class XEditText extends EditText {
 	public XEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		String fontAssetName = attrs.getAttributeValue(XEditText.XMLNS,
-				"fontAssetName");
+		String fontAssetName = attrs.getAttributeValue(XEditText.XMLNS, "fontAssetName");
 		applyAttributes(this, context, fontAssetName);
 	}
 
-	private void applyAttributes(TextView view, Context context,
-			String fontAssetName) {
+	private void applyAttributes(TextView view, Context context, String fontAssetName) {
 		FontLoader.getInstance().setTypeface(view, fontAssetName);
 	}
 

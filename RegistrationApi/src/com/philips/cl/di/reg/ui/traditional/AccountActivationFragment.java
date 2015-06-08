@@ -72,7 +72,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 		initUI(view);
 		return view;
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);

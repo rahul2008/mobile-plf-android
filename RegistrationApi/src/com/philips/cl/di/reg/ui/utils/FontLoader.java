@@ -17,9 +17,6 @@ public class FontLoader {
 		mFonts = new HashMap<String, Typeface>();
 	}
 
-	/**
-	 * @return returns singleton instance of FontLoader
-	 */
 	public static FontLoader getInstance() {
 		if (mInstance == null) {
 			mInstance = new FontLoader();
@@ -28,10 +25,6 @@ public class FontLoader {
 		return mInstance;
 	}
 
-	/**
-	 * @param tv
-	 * @param fontName
-	 */
 	public void setTypeface(TextView tv, String fontName) {
 		if (fontName == null || fontName.isEmpty()) {
 			return;

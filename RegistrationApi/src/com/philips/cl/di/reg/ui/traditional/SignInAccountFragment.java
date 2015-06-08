@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.content.Context;
@@ -87,11 +88,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		applyParams(config, mRlSignInBtnContainer);
 		applyParams(config, mRegError);
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-		
+
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,

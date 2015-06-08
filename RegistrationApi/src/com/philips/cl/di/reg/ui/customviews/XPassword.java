@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.customviews;
 
 import android.content.Context;
@@ -16,17 +17,25 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.ui.utils.EmailValidator;
 
-public class XPassword extends RelativeLayout implements TextWatcher,
-		OnClickListener, OnFocusChangeListener {
+public class XPassword extends RelativeLayout implements TextWatcher, OnClickListener,
+        OnFocusChangeListener {
 
 	private Context mContext;
+
 	private ImageView mIvPasswordErrAlert;
+
 	private ImageView mIvValidPasswordAlert;
+
 	private ImageView mIvArrowUpView;
+
 	private TextView mTvErrDescriptionView;
+
 	private EditText mEtPassword;
+
 	private boolean mValidPassword;
+
 	private onUpdateListener mUpdateStatusListener;
+
 	private RelativeLayout mRlEtPassword;
 
 	public XPassword(Context context) {
@@ -104,8 +113,7 @@ public class XPassword extends RelativeLayout implements TextWatcher,
 	}
 
 	private boolean validatePassword() {
-		if (!EmailValidator.isValidPassword(mEtPassword.getText().toString()
-				.trim())) {
+		if (!EmailValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
 			setValidPassword(false);
 			return false;
 		}
@@ -160,8 +168,7 @@ public class XPassword extends RelativeLayout implements TextWatcher,
 	}
 
 	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
 	}
 
@@ -172,11 +179,9 @@ public class XPassword extends RelativeLayout implements TextWatcher,
 			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
 		} else {
 			if (mEtPassword.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(
-						R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			} else {
-				setErrDescription(getResources().getString(
-						R.string.InValid_PwdErrorMsg));
+				setErrDescription(getResources().getString(R.string.InValid_PwdErrorMsg));
 			}
 			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
 			mIvValidPasswordAlert.setVisibility(View.GONE);

@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.dao;
 
 import com.janrain.android.Jump.SignInResultHandler.SignInError;
@@ -9,9 +10,9 @@ public class SignInSocialFailureInfo {
 	private String emailErrorMessage;
 
 	private SignInError error;
-	
+
 	private String displayNameErrorMessage;
-	
+
 	public String getDisplayNameErrorMessage() {
 		return displayNameErrorMessage;
 	}

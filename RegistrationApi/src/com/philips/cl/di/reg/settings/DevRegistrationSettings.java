@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.settings;
 
 import android.content.Context;
@@ -11,18 +12,27 @@ import com.janrain.android.JumpConfig;
 public class DevRegistrationSettings extends RegistrationSettings {
 
 	private String DEVICE_ENGAGE_APP_ID = "bdbppnbjfcibijknnfkk";
+
 	private String DEVICE_CAPTURE_DOMAIN = "philips.dev.janraincapture.com";
+
 	private String DEVICE_CAPTURE_FLOW_VERSION = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
+
 	private String DEVICE_CAPTURE_APP_ID = "eupac7ugz25x8dwahvrbpmndf8";
+
 	private String DEVICE_REGISTER_ACTIVATION_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
+
 	private String DEVICE_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
 	private String mCountryCode;
+
 	private String mLanguageCode;
 
 	String mCaptureClientId = null;
+
 	String mLocale = null;
+
 	boolean mIsIntialize = false;
+
 	private Context mContext = null;
 
 	private String LOG_TAG = "RegistrationAPI";
@@ -32,11 +42,9 @@ public class DevRegistrationSettings extends RegistrationSettings {
 	private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
 	@Override
-	public void intializeRegistrationSettings(Context context,
-			String captureClientId, String microSiteId,
-			String registrationType, boolean isintialize, String locale) {
-		SharedPreferences pref = context.getSharedPreferences(
-				REGISTRATION_API_PREFERENCE, 0);
+	public void intializeRegistrationSettings(Context context, String captureClientId,
+	        String microSiteId, String registrationType, boolean isintialize, String locale) {
+		SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
 		Editor editor = pref.edit();
 		editor.putString(MICROSITE_ID, microSiteId);
 		editor.commit();
@@ -56,9 +64,9 @@ public class DevRegistrationSettings extends RegistrationSettings {
 			mCountryCode = "US";
 		}
 
-		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext,
-				mLanguageCode, mCountryCode);
-		Log.i("registration", ""+localeMatchHelper);
+		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext, mLanguageCode,
+		        mCountryCode);
+		Log.i("registration", "" + localeMatchHelper);
 	}
 
 	@Override
@@ -98,12 +106,10 @@ public class DevRegistrationSettings extends RegistrationSettings {
 			countryCode = "US";
 		}
 
-		jumpConfig.captureRedirectUri = DEVICE_REGISTER_ACTIVATION_URL
-				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
-				+ langCode;
-		jumpConfig.captureRecoverUri = DEVICE_REGISTER_FORGOT_MAIL_URL
-				+ "?country=" + countryCode + "&catalogType=CONSUMER&language="
-				+ langCode;
+		jumpConfig.captureRedirectUri = DEVICE_REGISTER_ACTIVATION_URL + "?country=" + countryCode
+		        + "&catalogType=CONSUMER&language=" + langCode;
+		jumpConfig.captureRecoverUri = DEVICE_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
+		        + "&catalogType=CONSUMER&language=" + langCode;
 		jumpConfig.captureLocale = locale;
 
 		mPreferredCountryCode = countryCode;

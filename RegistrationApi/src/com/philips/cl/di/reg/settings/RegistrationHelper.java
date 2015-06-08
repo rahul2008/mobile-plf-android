@@ -49,10 +49,8 @@ public class RegistrationHelper {
 	private SocialProviders mSocialProivder;
 
 	private String countryCode;
-	
-	private UserRegistrationListener mUserRegistrationListener;
-	
 
+	private UserRegistrationListener mUserRegistrationListener;
 
 	public enum Janrain {
 		INITIALIZE(true), REINITIALIZE(false);
@@ -92,7 +90,7 @@ public class RegistrationHelper {
 	public static RegistrationHelper getInstance() {
 		if (mRegistrationHelper == null) {
 			mRegistrationHelper = new RegistrationHelper();
-	
+
 		}
 		return mRegistrationHelper;
 	}
@@ -136,12 +134,12 @@ public class RegistrationHelper {
 		NetworkUtility.isNetworkAvailable(mContext);
 		mSocialProivder = null;
 		setCountryCode(locale.getCountry());
-		
+
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				
+
 				RegistrationConfiguration registrationConfiguration = parseConfigurationJson(mContext);
 				if (null != registrationConfiguration) {
 					mSocialProivder = registrationConfiguration.getSocialProviders();
@@ -210,13 +208,12 @@ public class RegistrationHelper {
 			JSONObject configurationJson = new JSONObject(
 			        convertStreamToString(assetManager.open(RegConstants.CONFIGURATION_JSON_PATH)));
 			/**
-			 * TODO 
+			 * TODO
 			 * For now suppressing the Jenkin high priority warning. We can try with below code.
-			 * 
 			 * JSONObject configurationJson = new JSONObject(
-			        assetManager.open(RegConstants.CONFIGURATION_JSON_PATH).toString());
+			 * assetManager.open(RegConstants.CONFIGURATION_JSON_PATH).toString());
 			 */
-			
+
 			ConfigurationParser configurationParser = new ConfigurationParser();
 			registrationConfiguration = configurationParser.parse(configurationJson);
 
@@ -268,38 +265,36 @@ public class RegistrationHelper {
 	public RegistrationSettings getRegistrationSettings() {
 		return mRegistrationSettings;
 	}
-	
+
 	public String getCountryCode() {
-	    return countryCode;
-    }
+		return countryCode;
+	}
 
 	public void setCountryCode(String countryCode) {
-	    this.countryCode = countryCode;
-    }
-	
-	public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener){
+		this.countryCode = countryCode;
+	}
+
+	public void registerUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
 		UserRegistrationHelper.getInstance().registerEventNotification(userRegistrationListener);
 	}
-	
-	public void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener){
+
+	public void unRegisterUserRegistrationListener(UserRegistrationListener userRegistrationListener) {
 		UserRegistrationHelper.getInstance().unregisterEventNotification(userRegistrationListener);
 	}
 
-	public UserRegistrationHelper getUserRegistrationListener(){
+	public UserRegistrationHelper getUserRegistrationListener() {
 		return UserRegistrationHelper.getInstance();
 	}
-	
-	
-	
-	
-	public void registerNetworkStateListener(NetworStateListener networStateListener){
-		NetworkStateHelper.getInstance().registerEventNotification(networStateListener); 
+
+	public void registerNetworkStateListener(NetworStateListener networStateListener) {
+		NetworkStateHelper.getInstance().registerEventNotification(networStateListener);
 	}
-	
-	public void unRegisterNetworkListener(NetworStateListener networStateListener ){
+
+	public void unRegisterNetworkListener(NetworStateListener networStateListener) {
 		NetworkStateHelper.getInstance().unregisterEventNotification(networStateListener);
 	}
-	public NetworkStateHelper getNetworkStateListener(){
+
+	public NetworkStateHelper getNetworkStateListener() {
 		return NetworkStateHelper.getInstance();
 	}
 

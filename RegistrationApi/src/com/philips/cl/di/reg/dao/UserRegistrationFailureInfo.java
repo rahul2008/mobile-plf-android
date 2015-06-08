@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.dao;
 
 import com.janrain.android.capture.CaptureApiError;
@@ -7,6 +8,7 @@ public class UserRegistrationFailureInfo {
 	private int errorCode;
 
 	private String errorDescription;
+
 	private String firstNameErrorMessage;
 
 	private String emailErrorMessage;
@@ -41,8 +43,6 @@ public class UserRegistrationFailureInfo {
 		}
 		return null;
 	}
-
-
 
 	public int getErrorCode() {
 		return errorCode;

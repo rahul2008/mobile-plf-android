@@ -1,13 +1,20 @@
+
 package com.philips.cl.di.reg.dao;
 
 public class DIUserProfile {
 
 	private String mEmail;
+
 	private String mGivenName;
+
 	private String mFamilyName;
+
 	private String mPassword;
+
 	private String mDisplayName;
+
 	private boolean mIsOlderThanAgeLimit;
+
 	private boolean mIsReceiveMarketingEmail;
 
 	// For Traditional Registration
@@ -16,7 +23,7 @@ public class DIUserProfile {
 	}
 
 	public DIUserProfile(String email, String givenName, String password,
-			boolean isOlderThanAgeLimit, boolean isReceiveMarketingEmail) {
+	        boolean isOlderThanAgeLimit, boolean isReceiveMarketingEmail) {
 
 		mEmail = email;
 		mGivenName = givenName;

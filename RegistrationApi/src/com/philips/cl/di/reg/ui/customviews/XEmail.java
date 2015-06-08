@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.reg.ui.customviews;
 
 import com.philips.cl.di.reg.R;
@@ -16,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class XEmail extends RelativeLayout implements TextWatcher,
-		OnClickListener, OnFocusChangeListener {
+public class XEmail extends RelativeLayout implements TextWatcher, OnClickListener,
+        OnFocusChangeListener {
 
 	private Context mContext;
 
@@ -62,7 +63,7 @@ public class XEmail extends RelativeLayout implements TextWatcher,
 		mIvEmailErrAlert.setOnClickListener(this);
 		mIvValidEmailAlert = (ImageView) findViewById(R.id.iv_reg_valid_email_alert);
 		mIvArrowUpView = (ImageView) findViewById(R.id.iv_reg_up_arrow);
-		
+
 	}
 
 	public String getEmailId() {
@@ -164,8 +165,7 @@ public class XEmail extends RelativeLayout implements TextWatcher,
 	}
 
 	@Override
-	public void beforeTextChanged(CharSequence s, int start, int count,
-			int after) {
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
 	}
 
@@ -177,11 +177,9 @@ public class XEmail extends RelativeLayout implements TextWatcher,
 			mValidEmail = true;
 		} else {
 			if (mEtEmail.getText().toString().trim().length() == 0) {
-				setErrDescription(getResources().getString(
-						R.string.EmptyField_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
 			} else {
-				setErrDescription(getResources().getString(
-						R.string.InvalidEmailAdddress_ErrorMsg));
+				setErrDescription(getResources().getString(R.string.InvalidEmailAdddress_ErrorMsg));
 			}
 			mIvEmailErrAlert.setVisibility(View.VISIBLE);
 			mIvValidEmailAlert.setVisibility(View.GONE);
