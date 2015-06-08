@@ -36,6 +36,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -138,6 +139,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			.getSimpleName();
 	private static View mView = null;
 	private static HashMap<String, AtosResultsModel> mHashMapResults = null;
+
+	private ProgressBar mLocateNearProgressBar;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -360,6 +363,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mLinearLayout.setVisibility(View.GONE);
 		mMarkerIcon.setVisibility(View.GONE);
 
+		mLocateNearProgressBar = (ProgressBar) getActivity().findViewById(
+				R.id.locate_near_progress);
+		mLocateNearProgressBar.setVisibility(View.GONE);
+
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 	}
@@ -501,9 +508,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			traceOfMe = null;
 		}
 		if (traceOfMe == null) {
+			mLocateNearProgressBar.setVisibility(View.VISIBLE);
+			mLocateNearProgressBar.setClickable(false);
+	
 			mGetDirectionResponse = new MapDirectionResponse() {
+
 				@Override
 				public void onReceived(ArrayList<LatLng> arrayList) {
+
 					if (arrayList == null) {
 						return;
 					}
@@ -522,15 +534,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 					if (mMap != null) {
 						mPolyline = mMap.addPolyline(polylineOpt);
+						mLocateNearProgressBar.setVisibility(View.GONE);
 					} else {
 						DLog.i(TAG, "MAP is null, So unable to polyline");
 					}
 					if (mPolyline != null)
 						mPolyline.setWidth(12);
+
 				}
 			};
+
 			new MapDirections(mGetDirectionResponse, currentLocation,
 					markerPosition);
+
 		}
 
 		// PolylineOptions polylineOpt = new PolylineOptions();
