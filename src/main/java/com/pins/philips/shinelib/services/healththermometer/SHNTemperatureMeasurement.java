@@ -60,7 +60,7 @@ public class SHNTemperatureMeasurement {
         float result = Float.NaN;
         int value = byteBuffer.getInt();
         if (value != 0x007FFFFF) { // Literal value for NaN in IEEE 11073
-            int exponent = (value >> 24) & 0xFF;
+            int exponent = (int)(byte)((value >> 24) & 0xFF);
             int mantissa = (value & 0x00FFFFFF);
             result = (float) (mantissa * Math.pow(10, exponent));
         }
