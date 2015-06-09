@@ -8,12 +8,14 @@ public class RLog {
 	public static final String FRAGMENT_LIFECYCLE = "FragmentLifecycle";
 
 	public static final String ACTIVITY_LIFECYCLE = "ActivityLifecycle";
+	
+	public static final String EVENT_LISTENERS = "EventListeners";
 
 	public static final String APPLICATION = "RegistrationApplication";
 
 	public static final String NETWORK_STATE = "NetworkState";
 
-	public static final String JANRAIN_INITIALIZE = "Janrain Initialize";
+	public static final String JANRAIN_INITIALIZE = "JanrainInitialize";
 
 	private static boolean isLoggingEnabled = true;
 

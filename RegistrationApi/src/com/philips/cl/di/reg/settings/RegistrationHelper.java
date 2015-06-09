@@ -13,6 +13,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -296,6 +298,19 @@ public class RegistrationHelper {
 
 	public NetworkStateHelper getNetworkStateListener() {
 		return NetworkStateHelper.getInstance();
+	}
+
+	public String getAppVersion() {
+		String appVersion = null;
+		try {
+			PackageInfo packageInfo = mContext.getPackageManager().getPackageInfo(
+			        mContext.getPackageName(), 0);
+
+			appVersion = packageInfo.versionName;
+		} catch (NameNotFoundException e) {
+			
+		}
+		return appVersion;
 	}
 
 }

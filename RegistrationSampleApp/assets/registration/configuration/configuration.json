@@ -17,10 +17,11 @@
          "facebook"
       ],
       "US":[
-         "twitter",
+         "googleplus",
          "facebook"
       ],
       "default":[
+         "googleplus",
          "facebook"
       ]
    }

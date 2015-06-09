@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.adobe.mobile.Config;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
@@ -31,39 +31,62 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 
 	private FragmentManager mFragmentManager = null;
 
-	private final String TAG = TextView.class.getSimpleName();
-
 	private static final boolean VERIFICATION_SUCCESS = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onCreate");
 		setContentView(R.layout.activity_registration);
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
+		RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
 		mFragmentManager = getSupportFragmentManager();
 		initUI();
 		loadFirstFragment();
 	}
-
+	
 	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-
+	protected void onStart() {
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStart");
+	    super.onStart();
+	}
+	
+	@Override
+	protected void onResume() {
+		Config.collectLifecycleData();
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onResume");
+	    super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		Config.pauseCollectingLifecycleData();
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onPause");
+	    super.onPause();
+	}
+	
+	@Override
+	protected void onStop() {
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStop");
+	    super.onStop();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
+		RegistrationHelper.getInstance().unregisterListener(getApplicationContext());
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+		RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener,janrain initialization listener");
+		super.onDestroy();
 	}
 
 	@Override
 	public void onBackPressed() {
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onBackPressed");
 		hideKeyBoard();
 		handleBackStack();
 	}
-
-	@Override
-	protected void onDestroy() {
-		RegistrationHelper.getInstance().unregisterListener(getApplicationContext());
-		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-		super.onDestroy();
-	}
-
+	
 	private void handleBackStack() {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		int count = fragmentManager.getBackStackEntryCount();
@@ -85,7 +108,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
+			RLog.e(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity :FragmentTransaction Exception occured in loadFirstFragment  :" + e);
 		}
 	}
 
@@ -96,7 +119,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			RLog.e(TAG, "FragmentTransaction Exception occured :" + e);
+			RLog.e(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :" + e);
 		}
 		hideKeyBoard();
 	}
@@ -151,11 +174,6 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		}
 	}
 
-	public void handleContinue() {
-		this.finish();
-		// TODO: need to notify app onSuccessful login
-	}
-
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.iv_reg_back) {
@@ -166,6 +184,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
 		if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
+			RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity :onNetWorkStateReceived : Janrain REINITIALIZING");
 			RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
 			registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
 			        Locale.getDefault());
