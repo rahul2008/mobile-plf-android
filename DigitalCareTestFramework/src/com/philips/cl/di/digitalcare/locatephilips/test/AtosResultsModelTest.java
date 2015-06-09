@@ -13,6 +13,7 @@ import com.philips.cl.di.digitalcare.locatephilips.AtosLocationModel;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResponseModel;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResponseParser;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResultsModel;
+import com.philips.cl.di.digitalcare.util.DLog;
 
 public class AtosResultsModelTest extends InstrumentationTestCase {
 
@@ -27,8 +28,6 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 		// mContext = getInstrumentation().getTargetContext();
 		mContext = Mockito.mock(Context.class);
 		context = getInstrumentation().getContext();
-		// context = Mockito.mock(Context.class);
-
 		mParser = AtosResponseParser.getParserControllInstance(mContext);
 
 	}
@@ -41,8 +40,15 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testTitle() {
+	public void testwithoutId() {
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_id.json");
+		for (int i = 0; i < resultList.size(); i++) {
+			String received = resultList.get(i).getId();
+			assertTrue(received.isEmpty());
+		}
+	}
 
+	public void testTitle() {
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			String received = resultList.get(i).getTitle();
@@ -50,12 +56,28 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testInfoType() {
+	public void testwithoutTitle() {
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_title.json");
+		for (int i = 0; i < resultList.size(); i++) {
+			String received = resultList.get(i).getTitle();
+			assertTrue(received.isEmpty());
+		}
+	}
 
+	public void testInfoType() {
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			String received = resultList.get(i).getInfoType();
 			assertNotNull(received);
+		}
+	}
+
+	public void testwithoutInfoType() {
+
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_infotype.json");
+		for (int i = 0; i < resultList.size(); i++) {
+			String received = resultList.get(i).getInfoType();
+			assertTrue(received.isEmpty());
 		}
 	}
 
@@ -68,12 +90,30 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 		}
 	}
 
-	public void testAtosLocationModel() {
+	public void testwithoutAddressModel() {
 
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_address.json");
+		for (int i = 0; i < resultList.size(); i++) {
+			AtosAddressModel received = resultList.get(i).getmAddressModel();
+			assertNull(received);
+		}
+	}
+	
+	public void testAtosLocationModel() {
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			AtosLocationModel received = resultList.get(i).getLocationModel();
 			assertNotNull(received);
+		}
+	}
+	
+	
+	public void testwithoutAtosLocationModel() {
+		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_location.json");
+		for (int i = 0; i < resultList.size(); i++) {
+			AtosLocationModel received = resultList.get(i).getLocationModel();
+			// assertNotNull(received);
+			assertNull(received);
 		}
 	}
 

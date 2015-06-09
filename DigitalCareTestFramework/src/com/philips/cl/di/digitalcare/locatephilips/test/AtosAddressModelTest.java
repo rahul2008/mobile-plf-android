@@ -33,10 +33,22 @@ public class AtosAddressModelTest extends InstrumentationTestCase {
 		assertNotNull(received);
 	}
 
+	public void testwithoutZip() {
+		AtosAddressModel atosAddressModel = getAtosAddressModel("atos_no_zip.json");
+		String received = atosAddressModel.getZip();
+		assertTrue(received.isEmpty());
+	}
+
 	public void testPhone() {
 		AtosAddressModel atosAddressModel = getAtosAddressModel("atos.json");
 		String received = atosAddressModel.getPhone();
 		assertNotNull(received);
+	}
+
+	public void testwithoutPhone() {
+		AtosAddressModel atosAddressModel = getAtosAddressModel("atos_no_phone.json");
+		String received = atosAddressModel.getPhone();
+		assertTrue(received.isEmpty());
 	}
 
 	public void testAddress1() {
@@ -59,6 +71,18 @@ public class AtosAddressModelTest extends InstrumentationTestCase {
 
 	public void testCityState() {
 		AtosAddressModel atosAddressModel = getAtosAddressModel("atos.json");
+		String received = atosAddressModel.getCityState();
+		assertNotNull(received);
+	}
+
+	public void testCityState_withoutstate() {
+		AtosAddressModel atosAddressModel = getAtosAddressModel("atos_no_state.json");
+		String received = atosAddressModel.getCityState();
+		assertNotNull(received);
+	}
+
+	public void testCityState_withoutcity() {
+		AtosAddressModel atosAddressModel = getAtosAddressModel("atos_no_city.json");
 		String received = atosAddressModel.getCityState();
 		assertNotNull(received);
 	}

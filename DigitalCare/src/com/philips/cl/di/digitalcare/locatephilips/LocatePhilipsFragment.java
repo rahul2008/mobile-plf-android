@@ -510,7 +510,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (traceOfMe == null) {
 			mLocateNearProgressBar.setVisibility(View.VISIBLE);
 			mLocateNearProgressBar.setClickable(false);
-	
+
 			mGetDirectionResponse = new MapDirectionResponse() {
 
 				@Override

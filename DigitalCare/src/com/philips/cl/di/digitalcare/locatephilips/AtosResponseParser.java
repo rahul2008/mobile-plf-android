@@ -63,7 +63,7 @@ public class AtosResponseParser {
 			if (success) {
 				JSONObject centerMap = jsonObjectData
 						.optJSONObject("centerMap");
-				if(centerMap == null){
+				if (centerMap == null) {
 					return;
 				}
 				String latitude = centerMap.optString("latitude");
@@ -97,43 +97,49 @@ public class AtosResponseParser {
 	}
 
 	private void parseResult(JSONObject jsonObj) {
+		String id = jsonObj.optString("id");
 		String title = jsonObj.optString("title");
 		String infoType = jsonObj.optString("infoType");
 
-		JSONObject jsonAddress = jsonObj.optJSONObject("address");
-
 		/* Location */
-		String id = jsonObj.optString("id");
 		JSONObject location = jsonObj.optJSONObject("location");
-		String latitude = location.optString("latitude");
-		String longitude = location.optString("longitude");
-		AtosLocationModel locationModel = new AtosLocationModel();
-		locationModel.setLatitude(latitude);
-		locationModel.setLongitude(longitude);
+		AtosLocationModel locationModel = null;
 
-//		Log.i("testing", "title : " + title);
-//		Log.i("testing", "jsonAddress : " + jsonAddress);
+		if (location != null) {
+			String latitude = location.optString("latitude");
+			String longitude = location.optString("longitude");
+			locationModel = new AtosLocationModel();
+			locationModel.setLatitude(latitude);
+			locationModel.setLongitude(longitude);
+		}
+
+		// Log.i("testing", "title : " + title);
+		// Log.i("testing", "jsonAddress : " + jsonAddress);
 
 		/* Address */
-		String zip = jsonAddress.optString("zip");
-		String phone = jsonAddress.optString("phone");
-		// String state = jsonAddress.optString("state");
-		String address1 = jsonAddress.optString("address1");
-		String address2 = jsonAddress.optString("address2");
-		String url = jsonAddress.optString("url");
-		// String city = jsonAddress.optString("city");
-		String cityState = jsonAddress.optString("city") + " "
-				+ jsonAddress.optString("state");
+		JSONObject jsonAddress = jsonObj.optJSONObject("address");
+		AtosAddressModel addressModel = null;
+		if (jsonAddress != null) {
+			String zip = jsonAddress.optString("zip");
+			String phone = jsonAddress.optString("phone");
+			// String state = jsonAddress.optString("state");
+			String address1 = jsonAddress.optString("address1");
+			String address2 = jsonAddress.optString("address2");
+			String url = jsonAddress.optString("url");
+			// String city = jsonAddress.optString("city");
+			String cityState = jsonAddress.optString("city") + " "
+					+ jsonAddress.optString("state");
 
-		AtosAddressModel addressModel = new AtosAddressModel();
-		addressModel.setZip(zip);
-		addressModel.setPhone(phone);
-		// addressModel.setState(state);
-		addressModel.setAddress1(address1);
-		addressModel.setAddress2(address2);
-		addressModel.setUrl(url);
-		// addressModel.setCity(city);
-		addressModel.setCityState(cityState);
+			addressModel = new AtosAddressModel();
+			addressModel.setZip(zip);
+			addressModel.setPhone(phone);
+			// addressModel.setState(state);
+			addressModel.setAddress1(address1);
+			addressModel.setAddress2(address2);
+			addressModel.setUrl(url);
+			// addressModel.setCity(city);
+			addressModel.setCityState(cityState);
+		}
 
 		/* Result */
 		AtosResultsModel resultModel = new AtosResultsModel();

@@ -30,16 +30,27 @@ public class AtosLocationModelTest extends InstrumentationTestCase {
 	public void testLatitude() {
 		AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
 		String received = atosLocationModel.getLatitude();
-
 		assertNotNull(received);
+	}
 
+	public void testwithoutLatitude() {
+		AtosLocationModel atosLocationModel = getAtosLocationModel("atos_no_latitude.json");
+		String received = atosLocationModel.getLatitude();
+		// assertNotNull(received);
+		assertTrue(received.isEmpty());
 	}
 
 	public void testLongitude() {
 		AtosLocationModel atosLocationModel = getAtosLocationModel("atos.json");
 		String received = atosLocationModel.getLongitude();
-
 		assertNotNull(received);
+	}
+
+	public void testwithoutLongitude() {
+		AtosLocationModel atosLocationModel = getAtosLocationModel("atos_no_longitude.json");
+		String received = atosLocationModel.getLongitude();
+		// assertNotNull(received);
+		assertTrue(received.isEmpty());
 	}
 
 	private AtosLocationModel getAtosLocationModel(String jsonfile) {
@@ -50,7 +61,6 @@ public class AtosLocationModelTest extends InstrumentationTestCase {
 				.getResultsModel();
 		AtosLocationModel atosLocationModel = resultList.get(0)
 				.getLocationModel();
-
 		return atosLocationModel;
 	}
 }
