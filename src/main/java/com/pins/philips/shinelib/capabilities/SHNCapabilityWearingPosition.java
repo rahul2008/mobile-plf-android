@@ -17,6 +17,6 @@ public interface SHNCapabilityWearingPosition extends SHNCapability {
         Waist        
     }
 
-    void getSupportedWearingPositions(SHNSetResultListener shnSetResultListener);
+    void getSupportedWearingPositions(SHNSetResultListener<SHNWearingPosition> shnSetResultListener);
     void setWearingPosition(SHNWearingPosition shnWearingPosition, SHNResultListener shnResultListener);
 }

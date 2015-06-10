@@ -9,6 +9,6 @@ import com.pins.philips.shinelib.datatypes.SHNDataType;
  * Created by 310188215 on 10/06/15.
  */
 public interface SHNCapabilityTargets extends SHNCapability {
-    void getSupportedTargets(SHNSetResultListener shnSetResultListener);
+    void getSupportedTargets(SHNSetResultListener<SHNDataType> shnSetResultListener);
     void setTarget(SHNDataType shnDataType, double target, SHNResultListener shnResultListener);
 }
