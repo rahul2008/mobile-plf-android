@@ -18,52 +18,19 @@ import com.philips.cl.di.digitalcare.util.DLog;
 public class CdlsResponseParser {
 	private static final String TAG = CdlsResponseParser.class.getSimpleName();
 	private Context mContext = null;
-	private static CdlsResponseParser mParserController = null;
-	private CdlsResponseModel mCdlsParsedResponse = null;
 	private static final int FIRST_INDEX_VALUE = 0;
 
 	private CdlsPhoneModel cdlsPhoneModel = null;
 	private CdlsEmailModel cdlsEmailModel = null;
 	private CdlsChatModel cdlsChatModel = null;
 	private CdlsErrorModel cdlsErrorModel = null;
+	private CdlsParsingCallback mParsingCompletedCallback = null;
 
-	private CdlsResponseParser(Context context) {
+	public CdlsResponseParser(Context context,
+			CdlsParsingCallback parsingCompletedCallback) {
 		mContext = context;
+		mParsingCompletedCallback = parsingCompletedCallback;
 		DLog.i(TAG, "ParserController constructor : " + mContext.toString());
-	}
-
-	public static CdlsResponseParser getParserControllInstance(Context context) {
-		if (mParserController == null) {
-			mParserController = new CdlsResponseParser(context);
-		}
-		return mParserController;
-	}
-
-	/*
-	 * Returning CDLS BEAN instance
-	 */
-	public CdlsResponseModel getCdlsBean() {
-		return mCdlsParsedResponse;
-	}
-
-	public CdlsPhoneModel getCdlsPhoneModel() {
-		return cdlsPhoneModel;
-	}
-
-	public CdlsEmailModel getCdlsEmailModel() {
-		return cdlsEmailModel;
-	}
-
-	public CdlsChatModel getCdlsChatModel() {
-		return cdlsChatModel;
-	}
-
-	public CdlsErrorModel getCdlsErrorModel() {
-		return cdlsErrorModel;
-	}
-
-	public CdlsResponseModel getCdlsResponseModel() {
-		return mCdlsParsedResponse;
 	}
 
 	/*
@@ -134,9 +101,10 @@ public class CdlsResponseParser {
 						.optString("errorMessage"));
 			}
 			// creating CDLS instance.
-			mCdlsParsedResponse = new CdlsResponseModel(success,
-					cdlsPhoneModel, cdlsChatModel, cdlsEmailModel,
+			CdlsResponseModel cdlsParsedResponse = new CdlsResponseModel(
+					success, cdlsPhoneModel, cdlsChatModel, cdlsEmailModel,
 					cdlsErrorModel);
+			mParsingCompletedCallback.onParsingDone(cdlsParsedResponse);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
