@@ -19,13 +19,15 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
-	protected int mLeftRightMarginPort = 0;
+	protected int mLeftRightMarginPort;
 
-	protected int mLeftRightMarginLand = 0;
+	protected int mLeftRightMarginLand;
 
 	public abstract void setViewParams(Configuration config);
 
-	public abstract String getActionbarTitle();
+	public abstract int getTitleResourceId();
+
+	private int mPrevTitleResourceId = -99;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -62,7 +64,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	public void onResume() {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
 		super.onResume();
-		setActionbarTitle();
+		setCurrentTitle();
 	}
 
 	@Override
@@ -86,7 +88,16 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	@Override
 	public void onDestroy() {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
+		setPrevTiltle();
 		super.onDestroy();
+	}
+
+	private void setPrevTiltle() {
+		TextView tvTitle = ((TextView) getActivity().findViewById(R.id.tv_reg_header_title));
+		if (mPrevTitleResourceId != -99) {
+			tvTitle.setText(getString(mPrevTitleResourceId));
+			tvTitle.setTag(mPrevTitleResourceId);
+		}
 	}
 
 	@Override
@@ -95,9 +106,13 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
 	}
 
-	private void setActionbarTitle() {
-		((TextView) getActivity().findViewById(R.id.tv_reg_header_title))
-		        .setText(getActionbarTitle());
+	private void setCurrentTitle() {
+		TextView tvTitle = ((TextView) getActivity().findViewById(R.id.tv_reg_header_title));
+		if (null != tvTitle.getTag()) {
+			mPrevTitleResourceId = (Integer) tvTitle.getTag();
+		}
+		tvTitle.setText(getString(getTitleResourceId()));
+		tvTitle.setTag(getTitleResourceId());
 	}
 
 	public RegistrationActivity getRegistrationMainActivity() {

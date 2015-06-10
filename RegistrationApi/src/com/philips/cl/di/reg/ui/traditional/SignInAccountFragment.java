@@ -203,8 +203,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.SigIn_TitleTxt);
+	public int getTitleResourceId() {
+		return R.string.SigIn_TitleTxt;
 	}
 
 	private void signIn() {

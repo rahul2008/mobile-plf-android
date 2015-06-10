@@ -326,8 +326,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.SigIn_TitleTxt);
+	public int getTitleResourceId() {
+		return R.string.SigIn_TitleTxt;
 	}
 
 	@Override

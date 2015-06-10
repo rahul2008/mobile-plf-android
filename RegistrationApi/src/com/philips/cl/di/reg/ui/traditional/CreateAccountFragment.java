@@ -263,8 +263,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.RegCreateAccount_NavTitle);
+	public int getTitleResourceId() {
+		return R.string.RegCreateAccount_NavTitle;
 	}
 
 	@Override

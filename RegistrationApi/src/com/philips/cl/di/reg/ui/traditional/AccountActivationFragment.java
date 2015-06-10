@@ -255,8 +255,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	}
 
 	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.SigIn_TitleTxt);
+	public int getTitleResourceId() {
+		return R.string.SigIn_TitleTxt;
 	}
 
 	@Override
