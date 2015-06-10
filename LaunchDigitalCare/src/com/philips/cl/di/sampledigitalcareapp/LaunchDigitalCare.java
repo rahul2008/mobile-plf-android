@@ -10,13 +10,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
+import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.MainMenuListener;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuButtonClickListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
-import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 public class LaunchDigitalCare extends Activity implements OnClickListener {
 
@@ -192,7 +191,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 	public void onClick(View view) {
 
 		switch (view.getId()) {
-		case R.id.launchproduct:
+		/*case R.id.launchproduct:
 			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
 					DigitalCareContants.OPTION_PRODUCS_DETAILS);
 			Toast.makeText(getApplicationContext(), "product detail clicked",
@@ -230,7 +229,12 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		default:
 			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
 					DigitalCareContants.OPTION_SUPPORT_SCREEN);
-			break;
+			break;*/
+		
+		default:
+			Intent intent = new Intent(this, DigitalCareActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
 		}
 	}
 }

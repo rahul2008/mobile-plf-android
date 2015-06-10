@@ -84,18 +84,30 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mTwitterView = inflater.inflate(R.layout.fragment_facebook_screen,
 				container, false);
 		mTwitterPostHandler = new Handler();
-		mSharedPreferences = getActivity().getSharedPreferences(
-				TwitterAuthentication.PREF_NAME, 0);
+		mSharedPreferences = getPrefrence();
 		mUsername = mSharedPreferences.getString(
 				TwitterAuthentication.PREF_USER_NAME, "");
-		mTwitter_to = "@"
-				+ getActivity().getResources().getString(R.string.twitter_page)
-				+ " ";
-		mProductInformation = getActivity().getResources().getString(
-				R.string.support_productinformation)
-				+ " ";
+		mTwitter_to = getUsername();
+		mProductInformation = getProductInformation();
 		DLog.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
 		return mTwitterView;
+	}
+
+	protected SharedPreferences getPrefrence() {
+		return getActivity().getSharedPreferences(
+				TwitterAuthentication.PREF_NAME, 0);
+	}
+
+	protected String getUsername() {
+		return "@"
+				+ getActivity().getResources().getString(R.string.twitter_page)
+				+ " ";
+	}
+
+	protected String getProductInformation() {
+		return getActivity().getResources().getString(
+				R.string.support_productinformation)
+				+ " ";
 	}
 
 	@Override
@@ -169,10 +181,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void sendMessage() {
-		/*
-		 * new TwitterPost(getActivity(), mFile,
-		 * this).execute(mEditText.getText() .toString());
-		 */
+
 		new TwitterPost(getActivity().getBaseContext(), mFile, this, mEditText
 				.getText().toString());
 		mPostProgress = new ProgressDialog(getActivity());
@@ -205,7 +214,6 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		String mContent = null;
 
 		if (isChecked) {
-			DLog.d(TAG, "Checked True+++++++");
 			mContent = mEditText.getText().toString() + " "
 					+ mProductInformation;
 			if (mContent.length() < mTwitterTextCounter) {
@@ -217,21 +225,15 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 						getActivity().getResources().getString(
 								R.string.twitter_post_char_limitation),
 						Toast.LENGTH_SHORT).show();
-				DLog.d(TAG, "After : " + mEditText.getText().toString());
 				mCheckBox.setChecked(false);
 			}
 		} else {
-			DLog.d(TAG, "Checked False++++++++");
-			DLog.d(TAG, "Before : " + mEditText.getText().toString());
 			mContent = mEditText.getText().toString();
 			if (mContent.contains(mProductInformation)) {
 				mContent = mContent.replace(mProductInformation, "").trim();
-
 			}
-
 			mEditText.setText(mContent);
 			mEditText.setSelection(mEditText.getText().toString().length());
-			DLog.d(TAG, "After : " + mEditText.getText().toString());
 		}
 	}
 
@@ -357,7 +359,6 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageDettach() {
 		mFile = null;
-		DLog.d(TAG, "Product Image Dettached");
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));
 		mProductImage.setScaleType(ScaleType.FIT_XY);

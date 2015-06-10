@@ -111,16 +111,16 @@ public class DigitalCareConfigManager {
 	/*
 	 * Setting user defined screen. User can access any screen which they want.
 	 */
-	public static void setLaunchingScreen(Context context, String launchScreen) {
+	/*public static void setLaunchingScreen(Context context, String launchScreen) {
 		mLaunchingScreen = launchScreen;
 		launchComponent(context);
-	}
+	}*/
 
-	private static void launchComponent(Context context) {
+/*	private static void launchComponent(Context context) {
 		Intent intent = new Intent(context, DigitalCareActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
-	}
+	}*/
 
 	/*
 	 * Getting User defined screen.
