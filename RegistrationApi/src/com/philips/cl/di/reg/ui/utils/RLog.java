@@ -23,6 +23,8 @@ public class RLog {
 	
 	public static final String CALLBACK = "CallBack";
 	
+	public static final String ANALYTICS = "Analytics";
+	
 	private static boolean isLoggingEnabled = true;
 
 	public static void enableLogging() {

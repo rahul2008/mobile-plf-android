@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +34,24 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 
 	private final boolean VERIFICATION_SUCCESS = true;
 
+	private Handler mSiteCatalistHandler = new Handler();
+
+	private Runnable mPauseSiteCatalystRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			Config.pauseCollectingLifecycleData();
+		}
+	};
+
+	private Runnable mResumeSiteCatalystRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			Config.collectLifecycleData();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,33 +63,35 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		initUI();
 		loadFirstFragment();
 	}
-	
+
 	@Override
 	protected void onStart() {
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStart");
-	    super.onStart();
+		super.onStart();
 	}
-	
+
 	@Override
 	protected void onResume() {
-		Config.collectLifecycleData();
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onResume");
-	    super.onResume();
+		mSiteCatalistHandler.removeCallbacksAndMessages(null);
+		mSiteCatalistHandler.post(mResumeSiteCatalystRunnable);
+		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
-		Config.pauseCollectingLifecycleData();
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onPause");
-	    super.onPause();
+		mSiteCatalistHandler.removeCallbacksAndMessages(null);
+		mSiteCatalistHandler.post(mPauseSiteCatalystRunnable);
+		super.onPause();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStop");
-	    super.onStop();
+		super.onStop();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
@@ -86,7 +107,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		hideKeyBoard();
 		handleBackStack();
 	}
-	
+
 	private void handleBackStack() {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		int count = fragmentManager.getBackStackEntryCount();
@@ -108,7 +129,9 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			RLog.e(RLog.EXCEPTION, "RegistrationActivity :FragmentTransaction Exception occured in loadFirstFragment  :" + e.getMessage());
+			RLog.e(RLog.EXCEPTION,
+			        "RegistrationActivity :FragmentTransaction Exception occured in loadFirstFragment  :"
+			                + e.getMessage());
 		}
 	}
 
@@ -119,7 +142,9 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			RLog.e(RLog.EXCEPTION, "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :" + e.getMessage());
+			RLog.e(RLog.EXCEPTION,
+			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+			                + e.getMessage());
 		}
 		hideKeyBoard();
 	}
@@ -188,7 +213,9 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
 			registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE, this,
 			        Locale.getDefault());
-			RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationActivity : Janrain reinitialization with locale : "+Locale.getDefault());
+			RLog.d(RLog.JANRAIN_INITIALIZE,
+			        "RegistrationActivity : Janrain reinitialization with locale : "
+			                + Locale.getDefault());
 		}
 	}
 }

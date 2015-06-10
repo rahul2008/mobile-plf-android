@@ -12,7 +12,7 @@ public interface AnalyticsConstants {
 	String CP_KEY = "sector";
 
 	String APPNAME_KEY = "app.name";
-	
+
 	String VERSION_KEY = "app.version";
 
 	String OS_KEY = "app.os";
@@ -20,7 +20,7 @@ public interface AnalyticsConstants {
 	String COUNTRY_KEY = "locale.country";
 
 	String LANGUAGE_KEY = "locale.language";
-	
+
 	String APPSID_KEY = "appsId";
 
 	String CURRENCY_KEY = "locale.currency";
@@ -30,41 +30,38 @@ public interface AnalyticsConstants {
 	String CP_VALUE = "CP";
 
 	String APPNAME_VALUE = "registration";
-	
+
 	String OS_ANDROID = "Android";
-	
-	/*keys*/
-	
+
+	/* keys */
+
 	String PREVIOUS_PAGE_NAME_KEY = "previousPagename";
-	
+
 	String INTERACTION = "interaction";
-	
+
 	String DESCRIPTION = "description";
-	
+
 	String REGISTRATION_CHANNEL = "registrationChannel";
-	
+
 	String SPECIAL_EVENTS = "specialEvents";
 
 	String USER_ERROR = "usererror";
-	
-	/*values*/
-	
-	String PAGE_HOME = "registration:home";
-	
+
+	/* values */
+
 	String START_SOCIAL_MERGE_VAL = "startSocialMerge";
-	
+
 	String MY_PHILIPS = "MyPhilips";
-	
+
 	String FACEBOOK = "facebook";
-	
+
 	String TWITTER = "twitter";
-	
+
 	String GOOGLE_PLUS = "googleplus";
-	
+
 	String START_USER_REGISTRATION = "startUserRegistration";
-	
+
 	String LOGIN_CHANNEL = "loginChannel";
 	
-	
-
+	String PREVIOUS_PAGENAME = "previousPagename";
 }

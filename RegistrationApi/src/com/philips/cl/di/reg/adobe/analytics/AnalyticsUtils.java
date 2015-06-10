@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.adobe.mobile.Analytics;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
+import com.philips.cl.di.reg.ui.utils.RLog;
 
 public class AnalyticsUtils {
 
@@ -25,9 +26,10 @@ public class AnalyticsUtils {
 	}
 
 	public static void trackPage(String state) {
+		RLog.i(RLog.ANALYTICS, " Page : " +state);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		Analytics.trackState(state, contextData);
-		Log.i("SiteCatalyst", "Track Page = " + contextData.toString());
+		
 
 	}
 

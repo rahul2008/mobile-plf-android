@@ -17,8 +17,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.NetworStateListener;
@@ -67,7 +66,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreate");
-		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -80,6 +78,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 		mUser = new User(mContext);
 		View view = inflater.inflate(R.layout.fragment_account_activation, null);
 		initUI(view);
+		trackCurrentPage(AnalyticsPages.ACCOUNT_ACTIVATION);
 		return view;
 	}
 
@@ -235,7 +234,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 			mBtnResend.setVisibility(View.GONE);
 			mEMailVerifiedError.hideError();
 			mRegError.hideError();
-			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+			launchWelcomeFragment();
 
 		} else {
 
@@ -243,6 +242,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 			mEMailVerifiedError.setError(getResources().getString(
 			        R.string.Janrain_Error_Need_Email_Verification));
 		}
+	}
+
+	private void launchWelcomeFragment() {
+		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		trackPreviousPage(AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	@Override

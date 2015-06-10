@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -49,7 +48,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onCreate");
-		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -65,6 +63,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		mUser = new User(mContext);
 		init(view);
+		trackCurrentPage(AnalyticsPages.WELCOME);
 		return view;
 	}
 
@@ -168,7 +167,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
 	@Override
 	public int getTitleResourceId() {
-		return R.string.RegCreateAccount_NavTitle;
+		return R.string.SigIn_TitleTxt;
 	}
 
 }

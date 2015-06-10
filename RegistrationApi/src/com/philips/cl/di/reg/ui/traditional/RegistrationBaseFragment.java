@@ -15,6 +15,8 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.ui.utils.RLog;
 
 public abstract class RegistrationBaseFragment extends Fragment {
@@ -135,7 +137,7 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		});
 	}
 
-	public void applyParams(Configuration config, View view) {
+	protected void applyParams(Configuration config, View view) {
 		LinearLayout.LayoutParams mParams = (LayoutParams) view.getLayoutParams();
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
@@ -143,6 +145,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
 		view.setLayoutParams(mParams);
+	}
+
+	protected void trackCurrentPage(String state) {
+		AnalyticsUtils.trackPage(state);
+	}
+
+	protected void trackPreviousPage(String state) {
+		AnalyticsUtils.trackPage(AnalyticsConstants.PREVIOUS_PAGENAME + ":" + state);
 	}
 
 }

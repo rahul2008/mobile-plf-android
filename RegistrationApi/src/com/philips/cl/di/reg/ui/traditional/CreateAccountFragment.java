@@ -18,8 +18,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -74,7 +73,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
-		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
 		super.onCreate(savedInstanceState);
 	}
 
@@ -90,6 +88,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
 		initUI(view);
+		trackCurrentPage(AnalyticsPages.CREATE_ACCOUNT);
 		return view;
 	}
 
@@ -235,14 +234,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onRegisterSuccess() {
-		RLog.i(RLog.CALLBACK,"CreateAccountFragment : onRegisterSuccess");
+		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
+		launchAccountActivateFragment();
+	}
+
+	private void launchAccountActivateFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+		trackPreviousPage(AnalyticsPages.CREATE_ACCOUNT);
 	}
 
 	@Override
 	public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		RLog.i(RLog.CALLBACK,"CreateAccountFragment : onRegisterFailedWithFailure");
+		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
@@ -282,7 +286,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			mBtnCreateAccount.setEnabled(false);
 		}
 	}
-  
+
 	@Override
 	public void onEventReceived(String event) {
 		RLog.i(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onEventReceived : " + event);

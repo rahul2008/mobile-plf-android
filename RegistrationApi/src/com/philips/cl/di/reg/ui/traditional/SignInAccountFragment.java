@@ -16,8 +16,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -62,18 +61,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private XRegError mRegError;
 
 	private Context mContext;
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
-	    super.onAttach(activity);
+		super.onAttach(activity);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreate");
-		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
@@ -84,64 +82,67 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		View view = inflater.inflate(R.layout.fragment_sign_in_account, null);
-		RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+		RLog.i(RLog.EVENT_LISTENERS,
+		        "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		initUI(view);
+		trackCurrentPage(AnalyticsPages.SIGN_IN_ACCOUNT);
 		return view;
 	}
 
-	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-	    super.onActivityCreated(savedInstanceState);
-	    RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onActivityCreated");
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onActivityCreated");
 	}
-	
+
 	@Override
 	public void onStart() {
-	    super.onStart();
-	    RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onStart");
-	}    
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onResume");
-    }
-    
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onPause");
-    }
-    
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onStop");
-    }
-    
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroyView");
-    }
-    
-    @Override
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroyView");
+	}
+
+	@Override
 	public void onDestroy() {
-    	RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroy");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDestroy");
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
-		RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+		RLog.i(RLog.EVENT_LISTENERS,
+		        "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		super.onDestroy();
 	}
-    
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDetach");
-    }
 
-    @Override
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onDetach");
+	}
+
+	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onConfigurationChanged");
@@ -159,18 +160,24 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_in) {
-			RLog.d(RLog.ONCLICK,"SignInAccountFragment : SignIn");
+			RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
 			signIn();
 		} else if (id == R.id.btn_reg_forgot_password) {
-			RLog.d(RLog.ONCLICK,"SignInAccountFragment : Forgot Password");
+			RLog.d(RLog.ONCLICK, "SignInAccountFragment : Forgot Password");
 			resetPassword();
 
 		} else if (id == R.id.btn_reg_resend) {
-			RLog.d(RLog.ONCLICK,"SignInAccountFragment : Resend");
+			RLog.d(RLog.ONCLICK, "SignInAccountFragment : Resend");
 			mEtEmail.clearFocus();
 			mEtPassword.clearFocus();
-			getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+			lauchAccountActivationFragment();
+
 		}
+	}
+
+	private void lauchAccountActivationFragment() {
+		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+		trackPreviousPage(AnalyticsPages.SIGN_IN_ACCOUNT);
 	}
 
 	private void initUI(View view) {
@@ -232,22 +239,27 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onLoginSuccess() {
-		RLog.i(RLog.CALLBACK,"SignInAccountFragment : onLoginSuccess");
+		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginSuccess");
 		hideSignInSpinner();
 		mBtnForgot.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		mRegError.hideError();
 		if (mUser.getEmailVerificationStatus(getActivity())) {
-			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+			launchWelcomeFragment();
 		} else {
 			mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
 			mBtnResend.setVisibility(View.VISIBLE);
 		}
 	}
 
+	private void launchWelcomeFragment() {
+		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		trackPreviousPage(AnalyticsPages.SIGN_IN_ACCOUNT);
+	}
+
 	@Override
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		RLog.i(RLog.CALLBACK,"SignInAccountFragment : onLoginFailedWithError");
+		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginFailedWithError");
 		mBtnForgot.setEnabled(true);
 		mBtnResend.setEnabled(true);
 		hideSignInSpinner();
@@ -267,7 +279,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
-		RLog.i(RLog.CALLBACK,"SignInAccountFragment : onSendForgotPasswordSuccess");
+		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
 		hideForgotPasswordSpinner();
 		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity());
 		hideForgotPasswordSpinner();
@@ -278,7 +290,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onSendForgotPasswordFailedWithError(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		RLog.i(RLog.CALLBACK,"SignInAccountFragment : onSendForgotPasswordFailedWithError");
+		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
 
@@ -358,7 +370,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onEventReceived(String event) {
-		RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment :onEventReceived is : "+event);
+		RLog.i(RLog.EVENT_LISTENERS, "SignInAccountFragment :onEventReceived is : " + event);
 		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			updateUiStatus();
 		}
@@ -366,7 +378,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
-		RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :"+isOnline);
+		RLog.i(RLog.NETWORK_STATE, "SignInAccountFragment : onNetWorkStateReceived state :"
+		        + isOnline);
 		handleUiState();
 		updateUiStatus();
 	}
