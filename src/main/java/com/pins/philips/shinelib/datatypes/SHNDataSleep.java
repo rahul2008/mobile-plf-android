@@ -6,9 +6,30 @@ import java.util.List;
 /**
  * Created by 310188215 on 07/05/15.
  */
-public abstract class SHNDataSleep extends SHNData {
+public class SHNDataSleep extends SHNData {
+    private final List<SleepPhase> sleepPhases;
+    private final long latency;
+    private final long timeInBed;
+    private final long sleepDuration;
+    private final Date startDate;
+    private final int interruptions;
+
+    @Override
+    public SHNDataType getSHNDataType() {
+        return SHNDataType.Sleep;
+    }
+
     public enum SleepState {
         Awake, Asleep
+    }
+
+    public SHNDataSleep(List<SleepPhase> sleepPhases, long latency, long timeInBed, long sleepDuration, Date startDate, int interruptions) {
+        this.sleepPhases = sleepPhases;
+        this.latency = latency;
+        this.timeInBed = timeInBed;
+        this.sleepDuration = sleepDuration;
+        this.startDate = startDate;
+        this.interruptions = interruptions;
     }
 
     public static class SleepPhase {
@@ -29,10 +50,27 @@ public abstract class SHNDataSleep extends SHNData {
         }
     }
 
-    public abstract List<SleepPhase> getSleepPhases();
-    public abstract long getOnSetLatency();
-    public abstract long getTimeInBed();
-    public abstract long getSleepDuration();
-    public abstract Date getStartDate();
-    public abstract int getInterruptions();
+    public List<SleepPhase> getSleepPhases() {
+        return sleepPhases;
+    }
+
+    public long getOnSetLatency() {
+        return latency;
+    }
+
+    public long getTimeInBed() {
+        return timeInBed;
+    }
+
+    public long getSleepDuration() {
+        return sleepDuration;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public int getInterruptions() {
+        return interruptions;
+    }
 }

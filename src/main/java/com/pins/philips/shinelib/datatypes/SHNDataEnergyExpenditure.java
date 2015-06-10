@@ -4,13 +4,13 @@ package com.pins.philips.shinelib.datatypes;
  * Created by 310188215 on 13/05/15.
  */
 public class SHNDataEnergyExpenditure extends SHNData {
-    private final int energyExpenditure;
+    private final double energyExpenditure;
 
-    public SHNDataEnergyExpenditure(int energyExpenditure) {
+    public SHNDataEnergyExpenditure(double energyExpenditure) {
         this.energyExpenditure = energyExpenditure;
     }
 
-    public int getEnergyExpenditure() {
+    public double getEnergyExpenditure() {
         return energyExpenditure;
     }
 
