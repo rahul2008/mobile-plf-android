@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
-import com.philips.cl.di.digitalcare.ParsingCompletedCallback;
 
 /**
  * AtosResponseParser will take care of parsing ATOS resonse(LocateNearYou).

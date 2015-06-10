@@ -60,7 +60,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
-import com.philips.cl.di.digitalcare.ParsingCompletedCallback;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.RequestData;
 import com.philips.cl.di.digitalcare.ResponseCallback;

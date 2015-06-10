@@ -1,6 +1,5 @@
-package com.philips.cl.di.digitalcare;
+package com.philips.cl.di.digitalcare.locatephilips;
 
-import com.philips.cl.di.digitalcare.locatephilips.AtosResponseModel;
 
 /**
  * ParsingCompletedCallback is interface, used when parseing is completed.
