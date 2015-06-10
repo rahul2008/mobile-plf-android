@@ -15,6 +15,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.ui.utils.RLog;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
@@ -27,22 +28,71 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	public abstract String getActionbarTitle();
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return super.onCreateView(inflater, container, savedInstanceState);
+	public void onAttach(Activity activity) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onAttach");
+		super.onAttach(activity);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onCreate");
 		mLeftRightMarginPort = (int) getResources().getDimension(R.dimen.reg_layout_margin_port);
 		mLeftRightMarginLand = (int) getResources().getDimension(R.dimen.reg_layout_margin_land);
 	}
 
 	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onActivityCreated");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStart");
+	}
+
+	@Override
 	public void onResume() {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onResume");
 		super.onResume();
 		setActionbarTitle();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroyView");
+	}
+
+	@Override
+	public void onDestroy() {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDestroy");
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationBaseFragment : onDetach");
 	}
 
 	private void setActionbarTitle() {

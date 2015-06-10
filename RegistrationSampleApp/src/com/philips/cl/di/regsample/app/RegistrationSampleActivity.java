@@ -17,16 +17,17 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
         UserRegistrationListener {
 
-	private Button mTestBtn;
+	private Button mBtnRegistration;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onCreate");
+		RLog.i(RLog.EVENT_LISTENERS, "RegistrationSampleActivity register: UserRegistrationListener");
 		setContentView(R.layout.activity_main);
-		
 		RegistrationHelper.getInstance().registerUserRegistrationListener(this);
-		mTestBtn = (Button) findViewById(R.id.button1);
-		mTestBtn.setOnClickListener(this);
+		mBtnRegistration = (Button) findViewById(R.id.btn_registration);
+		mBtnRegistration.setOnClickListener(this);
 
 	}
 	
@@ -67,7 +68,8 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.button1:
+			case R.id.btn_registration:
+				RLog.d(RLog.ONCLICK,"RegistrationSampleActivity : Registration");
 				startActivity(new Intent(this, RegistrationActivity.class));
 				break;
 
@@ -79,8 +81,6 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
 	@Override
 	public void onUserRegistrationComplete() {
-		Intent intent = new Intent(this, RegistrationSampleActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(intent);
+		RLog.d(RLog.EVENT_LISTENERS,"RegistrationSampleActivity : onUserRegistrationComplete");
 	}
 }

@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.ui.traditional;
 
 import java.util.ArrayList;
@@ -6,7 +5,6 @@ import java.util.Locale;
 
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -72,91 +70,94 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	private ProgressBar mPbJanrainInit;
 
 	private Context mContext;
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
-	    super.onAttach(activity);
+		super.onAttach(activity);
 	}
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreate");
 		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
-	    super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onCreateView");
+
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		EventHelper.getInstance().registerEventNotification(RegConstants.PARSING_COMPLETED, this);
-
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
+		RLog.i(RLog.EVENT_LISTENERS, "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-	    super.onActivityCreated(savedInstanceState);
-	    RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onActivityCreated");
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onActivityCreated");
 	}
-	
+
 	@Override
 	public void onStart() {
-	    super.onStart();
-	    RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onStart");
-	}    
-    @Override
-    public void onResume() {
-        super.onResume();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
-    }
-    
-    @Override
-    public void onPause() {
-        super.onPause();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onPause");
-    }
-    
-    @Override
-    public void onStop() {
-        super.onStop();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onStop");
-    }
-    
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDestroyView");
-    }
-    
-    @Override
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDestroyView");
+	}
+
+	@Override
 	public void onDestroy() {
-    	RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDestroy");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDestroy");
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.PARSING_COMPLETED, this);
+		RLog.i(RLog.EVENT_LISTENERS, "HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
 		super.onDestroy();
 	}
-    
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDetach");
-    }
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onDetach");
+	}
 
 	private void handleSocialProviders(final String countryCode) {
-		RLog.d("HomeFragment : ","call handleSocialProviders method : country code : "+countryCode);
+		RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
 		if (null != RegistrationHelper.getInstance().getSocialProviders()) {
 			mLlSocialProviderBtnContainer.post(new Runnable() {
 
@@ -168,17 +169,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 					        .getSocialProvidersForCountry(countryCode);
 					if (null != providers) {
 						for (int i = 0; i < providers.size(); i++) {
-							inflateEachProviderButton(providers.get(i));
-							RLog.d("HomeFragment","social providers are  : "+providers.get(i));
+							inflateEachProviderBtn(providers.get(i));
 						}
+						RLog.d("HomeFragment", "social providers : " + providers);
 					}
 				}
 			});
 		}
 	}
-
-	@SuppressLint("ResourceAsColor")
-	private void inflateEachProviderButton(String provider) {
+	
+	private void inflateEachProviderBtn(String provider) {
 		if (SocialProvider.FACEBOOK.equals(provider)) {
 			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
 			        R.string.Welcome_Facebook_btntxt, R.drawable.reg_facebook_ic,
@@ -208,10 +208,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		} else {
 			providerBtn.setEnabled(false);
 		}
+
 		providerBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
+				RLog.d(RLog.ONCLICK, "HomeFragment : " + providerName);
 				callSocialProvider(providerName);
 				providerBtn.showProgressBar();
 			}
@@ -227,7 +229,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void initUI(View view) {
-		RLog.d("HomeFragment",": initUI");
 		consumeTouch(view);
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
 		mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_welcome_desc);
@@ -275,19 +276,22 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		 * :http://tools.android.com/tips/non-constant-fields
 		 */
 		if (v.getId() == R.id.btn_reg_create_account) {
-			RLog.d("HomeFragment",": Create Account Button CLick");
-			AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION, AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-			AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION, AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+			RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
+			AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION,
+			        AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+			AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION,
+			        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
 			getRegistrationMainActivity().addFragment(new CreateAccountFragment());
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
-			RLog.d("HomeFragment",": My Philips Button CLick");
-			AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION, AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+			RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
+			AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION,
+			        AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
 			getRegistrationMainActivity().addFragment(new SignInAccountFragment());
 		}
 	}
 
 	private void callSocialProvider(String providerName) {
-		RLog.d("HomeFragment",": call callSocialProvider method : provider name :" +providerName);
+		RLog.d("HomeFragment", ": callSocialProvider method provider name :" + providerName);
 		mProvider = providerName;
 		if (null == mUser)
 			return;
@@ -308,7 +312,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void setViewParams(Configuration config) {
-		RLog.d("HomeFragment",": call setViewParams method ");
 		applyParams(config, mTvWelcome);
 		applyParams(config, mTvWelcomeDesc);
 		applyParams(config, mLlCreateBtnContainer);
@@ -317,12 +320,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public String getActionbarTitle() {
-		RLog.d("HomeFragment",": call getActionbarTitle method ");
 		return getResources().getString(R.string.SigIn_TitleTxt);
 	}
 
 	@Override
 	public void onEventReceived(String event) {
+		RLog.i(RLog.EVENT_LISTENERS, "HomeFragment :onEventReceived is : " + event);
 		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			enableControls(true);
 			handleJanrainInitPb();
@@ -354,7 +357,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void enableControls(boolean state) {
-		RLog.d("HomeFragment",": call enableControls method : state is : "+state);
 		if (state && NetworkUtility.isNetworkAvailable(mContext)) {
 			handleBtnClickableStates(state);
 			setAlphaForView(mBtnMyPhilips, 1);
@@ -458,8 +460,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onLoginSuccess() {
+		RLog.i(RLog.CALLBACK,"HomeFragment : onLoginSuccess");
 		hideProviderProgress();
-		RLog.i("HomeFragment", "social login success");
 		enableControls(true);
 		User user = new User(mContext);
 		if (user.getEmailVerificationStatus(mContext)) {
@@ -485,8 +487,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		RLog.i(RLog.CALLBACK,"HomeFragment : onLoginFailedWithError");
 		hideProviderProgress();
-		RLog.i("HomeFragment", "login failed");
 		enableControls(true);
 
 	}
@@ -494,6 +496,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	@Override
 	public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
 	        String socialRegistrationToken) {
+		RLog.i(RLog.CALLBACK,"HomeFragment : onLoginFailedWithTwoStepError");
 		hideProviderProgress();
 		enableControls(true);
 		RLog.i("HomeFragment", "Login failed with two step error" + "JSON OBJECT :"
@@ -506,9 +509,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
 	        String conflictingIdentityProvider, String conflictingIdpNameLocalized,
 	        String existingIdpNameLocalized) {
+		RLog.i(RLog.CALLBACK,"HomeFragment : onLoginFailedWithMergeFlowError");
 		hideProviderProgress();
 		enableControls(true);
-		RLog.i("HomeFragment", "login failed with merge flow");
 		if (mUser.handleMergeFlowError(existingProvider)) {
 			getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
 		} else {
@@ -526,8 +529,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onContinueSocialProviderLoginSuccess() {
+		RLog.i(RLog.CALLBACK,"HomeFragment : onContinueSocialProviderLoginSuccess");
 		hideProviderProgress();
-		RLog.i("HomeFragment", "onContinueSocialProviderLoginSuccess");
 		enableControls(true);
 		getRegistrationMainActivity().addFragment(new WelcomeFragment());
 	}
@@ -535,14 +538,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	@Override
 	public void onContinueSocialProviderLoginFailure(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		RLog.i(RLog.CALLBACK,"HomeFragment : onContinueSocialProviderLoginFailure");
 		hideProviderProgress();
 		enableControls(true);
-		RLog.i("HomeFragment", "onContinueSocialProviderLoginFailure");
 	}
 
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
-		RLog.i("HomeFragment", "onNetWorkStateReceived");
+		RLog.i(RLog.NETWORK_STATE, "HomeFragment :onNetWorkStateReceived state :"+isOnline);
 		handleUiState();
 		handleJanrainInitPb();
 	}

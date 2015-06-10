@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -38,9 +41,21 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	private boolean isfromVerification;
 
 	@Override
+	public void onAttach(Activity activity) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
+		super.onAttach(activity);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onCreate");
+		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
-
 		Bundle bundle = getArguments();
 		if (null != bundle) {
 			isfromVerification = bundle.getBoolean(RegConstants.VERIFICATIN_SUCCESS);
@@ -53,8 +68,55 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onActivityCreated");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroyView");
+	}
+
+	@Override
+	public void onDestroy() {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDestroy");
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onDetach");
+	}
+
 	private void init(View view) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onActivityCreated");
 		consumeTouch(view);
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
 		mLlEmailDetailsContainer = (LinearLayout) view.findViewById(R.id.ll_reg_email_details);
@@ -69,13 +131,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		if (isfromVerification) {
 			mLlEmailDetails.setVisibility(View.GONE);
 		}
-
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
-		/*
-		 * mTvWelcome.setText(getString(R.string.RegWelcomeText) + " [" +
-		 * userProfile.getGivenName() + "]");
-		 */
-
 		mTvWelcome.setText(getString(R.string.RegWelcomeText) + " " + userProfile.getGivenName());
 
 		String email = getString(R.string.InitialSignedIn_SigninEmailText);
@@ -86,14 +142,14 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
-
 		if (id == R.id.btn_reg_sign_out) {
+			RLog.d(RLog.ONCLICK, ": WelcomeFragment : Sign Out");
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
+			RLog.d(RLog.ONCLICK, ": WelcomeFragment : Continue");
 			RegistrationHelper.getInstance().getUserRegistrationListener().notifyEventOccurred();
 		}
-
 	}
 
 	@Override
@@ -105,7 +161,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
 	@Override
 	public void setViewParams(Configuration config) {
-
 		applyParams(config, mTvWelcome);
 		applyParams(config, mLlEmailDetailsContainer);
 		applyParams(config, mLlContinueBtnContainer);

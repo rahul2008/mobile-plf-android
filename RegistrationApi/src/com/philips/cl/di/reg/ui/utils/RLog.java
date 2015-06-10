@@ -16,7 +16,13 @@ public class RLog {
 	public static final String NETWORK_STATE = "NetworkState";
 
 	public static final String JANRAIN_INITIALIZE = "JanrainInitialize";
-
+	
+	public static final String EXCEPTION = "Exception";
+	
+	public static final String ONCLICK = "onClick";
+	
+	public static final String CALLBACK = "CallBack";
+	
 	private static boolean isLoggingEnabled = true;
 
 	public static void enableLogging() {

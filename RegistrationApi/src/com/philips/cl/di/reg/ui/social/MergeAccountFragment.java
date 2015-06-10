@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.ui.social;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -67,18 +70,65 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	private Context mContext;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onAttach(Activity activity) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onAttach");
+		super.onAttach(activity);
+	}
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreate");
+		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		View view = inflater.inflate(R.layout.fragment_social_merge_account, container, false);
+		RLog.i(RLog.EVENT_LISTENERS, "MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		initUI(view);
 		handleUiErrorState();
 		return view;
+	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onActivityCreated");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDestroyView");
 	}
 
 	@Override
@@ -87,9 +137,21 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-		        this);
+		RLog.i(RLog.EVENT_LISTENERS, "MergeAccountFragment unregister: JANRAIN_INIT_SUCCESS,NetworStateListener");
 		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDetach");
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration config) {
+		super.onConfigurationChanged(config);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onConfigurationChanged");
+		setViewParams(config);
 	}
 
 	private void initUI(View view) {
@@ -131,6 +193,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_reg_merg) {
+			RLog.d(RLog.ONCLICK,"MergeAccountFragment : Merge");
 			if (mEtEmail.hasFocus()) {
 				mEtEmail.clearFocus();
 			} else if (mEtPassword.hasFocus()) {
@@ -139,12 +202,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			getView().requestFocus();
 			mergeAccount();
 		} else if (v.getId() == R.id.btn_reg_forgot_password) {
+			RLog.d(RLog.ONCLICK,"MergeAccountFragment : Forgot Password");
 			resetPassword();
 		}
 	}
 
 	private void mergeAccount() {
-
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
 			showMergeSpinner();
 			mUser.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(),
@@ -207,6 +270,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	private void updateUiStatus() {
+		RLog.i("MergeAccountFragment", "updateUiStatus");
 		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
 		        && NetworkUtility.isNetworkAvailable(mContext)
 		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
@@ -220,17 +284,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	@Override
 	public void onEventReceived(String event) {
+		RLog.i(RLog.EVENT_LISTENERS, "MergeAccountFragment :onEventReceived is : "+event);
 		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			updateUiStatus();
 		}
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SocialMergeAccountFragment : onConfigurationChanged");
-		setViewParams(config);
-	}
 
 	@Override
 	public void setViewParams(Configuration config) {
@@ -253,14 +312,15 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	@Override
 	public void onLoginSuccess() {
+		RLog.i(RLog.CALLBACK,"MergeAccountFragment : onLoginSuccess");
 		hideMergeSpinner();
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
 	}
 
 	@Override
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		RLog.i(RLog.CALLBACK,"MergeAccountFragment : onLoginFailedWithError");
 		hideMergeSpinner();
-
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
@@ -273,11 +333,11 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		}
 
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-
 	}
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
+		RLog.i(RLog.CALLBACK,"MergeAccountFragment : onSendForgotPasswordSuccess");
 		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity());
 		hideForgotPasswordSpinner();
 		mRegError.hideError();
@@ -286,13 +346,13 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onSendForgotPasswordFailedWithError(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		RLog.i(RLog.CALLBACK,"MergeAccountFragment : onSendForgotPasswordFailedWithError");
 		hideForgotPasswordSpinner();
 
 		if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
 			mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
-
 			return;
 		}
 
@@ -306,6 +366,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
+		RLog.i(RLog.NETWORK_STATE, "MergeAccountFragment :onNetWorkStateReceived state :"+isOnline);
 		handleUiErrorState();
 		updateUiStatus();
 	}

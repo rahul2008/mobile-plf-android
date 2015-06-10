@@ -12,17 +12,17 @@ import com.philips.cl.di.reg.ui.utils.RLog;
 
 public class RegistrationApplication extends Application{
 	
-	private RegistrationHelper registrationHelper;
+	private RegistrationHelper mRegistrationHelper;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Config.setContext(getApplicationContext());
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-		RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Application INIT,LOCALE : "+Locale.getDefault());
+		RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : "+Locale.getDefault());
 		
-		registrationHelper = RegistrationHelper.getInstance();
-		registrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this,
+		mRegistrationHelper = RegistrationHelper.getInstance();
+		mRegistrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this,
 		        Locale.getDefault());
 	}
 }

@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -16,10 +17,10 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
-import com.philips.cl.di.reg.events.EventHelper;
-import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.RefreshUserHandler;
 import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
@@ -27,10 +28,9 @@ import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
-import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
-        RefreshUserHandler, ResendVerificationEmailHandler, EventListener, NetworStateListener {
+        RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener {
 
 	private Button mBtnActivate;
 
@@ -59,14 +59,24 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	private String mEmailId;
 
 	@Override
+	public void onAttach(Activity activity) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onAttach");
+		super.onAttach(activity);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreate");
+		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "ActivateAccountFragment : onCreateView");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		mContext = getRegistrationMainActivity().getApplicationContext();
+		RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
 		mUser = new User(mContext);
 		View view = inflater.inflate(R.layout.fragment_account_activation, null);
 		initUI(view);
@@ -74,35 +84,74 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserSignInFragment : onConfigurationChanged");
-		setViewParams(config);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onActivityCreated");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroyView");
 	}
 
 	@Override
 	public void onDestroy() {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDestroy");
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-		        this);
+		RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment unregister: NetworStateListener");
 		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onDetach");
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration config) {
+		super.onConfigurationChanged(config);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onConfigurationChanged");
+		setViewParams(config);
 	}
 
 	@Override
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.btn_reg_activate_acct) {
+			RLog.d(RLog.ONCLICK, "AccountActivationFragment : Activate Account");
 			handleActivate();
 		} else if (id == R.id.btn_reg_resend) {
+			RLog.d(RLog.ONCLICK, "AccountActivationFragment : Resend");
 			handleResend();
 		}
 	}
 
-	/**
-     * 
-     */
 	private void handleResend() {
 		showResendSpinner();
 		mBtnActivate.setEnabled(false);
@@ -176,9 +225,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 		mPbResendSpinner.setVisibility(View.GONE);
 	}
 
-	/**
-     * 
-     */
 	private void updateActivationUIState() {
 		hideActivateSpinner();
 		mBtnActivate.setEnabled(true);
@@ -215,16 +261,19 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
 	@Override
 	public void onRefreshUserSuccess() {
+		RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
 		updateActivationUIState();
 	}
 
 	@Override
 	public void onRefreshUserFailed(int error) {
+		RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
 		updateActivationUIState();
 	}
 
 	@Override
 	public void onResendVerificationEmailSuccess() {
+		RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
 		updateResendUIState();
 	}
 
@@ -237,6 +286,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	@Override
 	public void onResendVerificationEmailFailedWithError(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		RLog.i(RLog.CALLBACK,
+		        "AccountActivationFragment : onResendVerificationEmailFailedWithError");
 		updateResendUIState();
 
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
@@ -245,14 +296,9 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	}
 
 	@Override
-	public void onEventReceived(String event) {
-		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
-			System.out.println("reint");
-		}
-	}
-
-	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
+		RLog.i(RLog.NETWORK_STATE, "AccountActivationFragment :onNetWorkStateReceived state :"
+		        + isOnline);
 		handleUiState();
 	}
 }

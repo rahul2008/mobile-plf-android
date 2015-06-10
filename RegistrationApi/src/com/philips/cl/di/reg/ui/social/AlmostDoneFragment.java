@@ -4,6 +4,7 @@ package com.philips.cl.di.reg.ui.social;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -74,16 +77,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	private Context mContext;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public void onAttach(Activity activity) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onAttach");
+		super.onAttach(activity);
+	}
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreate");
+		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
-
 		parseRegistrationInfo();
+		RLog.i(RLog.EVENT_LISTENERS, "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
 		initUI(view);
 		handleUiState();
@@ -91,15 +104,61 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onActivityCreated");
+	}
 
-		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+	@Override
+	public void onStart() {
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroyView");
+	}
+
+	@Override
+	public void onDestroy() {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDestroy");
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-		        this);
-		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
-		        this);
+		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
+		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,this);
+		RLog.i(RLog.EVENT_LISTENERS, "AlmostDoneFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDetach");
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration config) {
+		super.onConfigurationChanged(config);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onConfigurationChanged");
+		setViewParams(config);
 	}
 
 	private void parseRegistrationInfo() {
@@ -145,7 +204,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 				}
 
 			} catch (JSONException e) {
-
+				RLog.e(RLog.EXCEPTION, "AlmostDoneFragment Exception : "+e.getMessage());
 			}
 		}
 	}
@@ -218,12 +277,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		mBtnContinue.setEnabled(true);
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onConfigurationChanged");
-		setViewParams(config);
-	}
 
 	@Override
 	public void setViewParams(Configuration config) {
@@ -236,6 +289,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	@Override
 	public void onEventReceived(String event) {
+		RLog.i(RLog.EVENT_LISTENERS, "AlmostDoneFragment :onEventReceived is : "+event);
 		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			updateUiStatus();
 		}
@@ -250,6 +304,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.reg_btn_continue) {
+			RLog.d(RLog.ONCLICK,"AlmostDoneFragment : Continue");
 			showSpinner();
 			mEtEmail.clearFocus();
 			register();
@@ -277,28 +332,26 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	@Override
 	public void onLoginSuccess() {
-		RLog.i("Almost Done", "success");
+		RLog.i(RLog.CALLBACK,"AlmostDoneFragment : onLoginSuccess");
 		hideSpinner();
 	}
 
 	@Override
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		RLog.i("Almost Done", "onLoginFailedWithError");
+		RLog.i(RLog.CALLBACK,"AlmostDoneFragment : onLoginFailedWithError");
 		hideSpinner();
 
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
 		}
-
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-
 	}
 
 	@Override
 	public void onLoginFailedWithTwoStepError(JSONObject prefilledRecord,
 	        String socialRegistrationToken) {
-		RLog.i("Almost Done", "onLoginFailedWithTwoStepError");
+		RLog.i(RLog.CALLBACK,"AlmostDoneFragment : onLoginFailedWithTwoStepError");
 		hideSpinner();
 
 	}
@@ -307,15 +360,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
 	        String conflictingIdentityProvider, String conflictingIdpNameLocalized,
 	        String existingIdpNameLocalized) {
+		RLog.i(RLog.CALLBACK,"AlmostDoneFragment : onLoginFailedWithMergeFlowError");
 		hideSpinner();
-		RLog.i("Almost Done", "onLoginFailedWithMergeFlowError");
 		getRegistrationMainActivity().addFragment(new MergeAccountFragment());
 
 	}
 
 	@Override
 	public void onContinueSocialProviderLoginSuccess() {
-		RLog.i("Almost Done", "onContinueSocialProviderLoginSuccess");
+		RLog.i(RLog.CALLBACK,"AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
 		User user = new User(mContext);
 		if (user.getEmailVerificationStatus(mContext)) {
 			getRegistrationMainActivity().addWelcomeFragmentOnVerification();
@@ -328,11 +381,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	@Override
 	public void onContinueSocialProviderLoginFailure(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
-		RLog.i("Almost Done", "onContinueSocialProviderLoginFailure");
+		RLog.i(RLog.CALLBACK,"AlmostDoneFragment : onContinueSocialProviderLoginFailure");
 		hideSpinner();
-		RLog.i("Almost Done **************************************  : ", " CODE :"
-		        + userRegistrationFailureInfo.getErrorCode());
-
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
@@ -352,8 +402,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
+		RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :"+isOnline);
 		handleUiState();
 		updateUiStatus();
 	}
-
 }

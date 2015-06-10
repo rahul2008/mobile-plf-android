@@ -1,6 +1,7 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -63,35 +66,93 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	private Context mContext;
 
 	@Override
+	public void onAttach(Activity activity) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onAttach");
+		super.onAttach(activity);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreate");
+		AnalyticsUtils.trackPage("FromApplication", AnalyticsConstants.PAGE_HOME);
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onCreateView");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
+		RLog.d(RLog.EVENT_LISTENERS,
+		        "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		mContext = getRegistrationMainActivity().getApplicationContext();
 
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
-		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_FAILURE, this);
 		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
 		initUI(view);
 		return view;
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration config) {
-		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserCreateAccountFragment : onConfigurationChanged");
-		super.onConfigurationChanged(config);
-		setViewParams(config);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onActivityCreated");
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStart");
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onResume");
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onPause");
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onStop");
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroyView");
 	}
 
 	@Override
 	public void onDestroy() {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDestroy");
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
 		        this);
+		RLog.d(RLog.EVENT_LISTENERS,
+		        "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onDetach");
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration config) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onConfigurationChanged");
+		super.onConfigurationChanged(config);
+		setViewParams(config);
 	}
 
 	@Override
@@ -106,6 +167,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_reg_register) {
+			RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
 			register();
 		}
 	}
@@ -173,13 +235,14 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onRegisterSuccess() {
+		RLog.i(RLog.CALLBACK,"CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 	}
 
 	@Override
 	public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
-
+		RLog.i(RLog.CALLBACK,"CreateAccountFragment : onRegisterFailedWithFailure");
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
@@ -219,9 +282,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			mBtnCreateAccount.setEnabled(false);
 		}
 	}
-
+  
 	@Override
 	public void onEventReceived(String event) {
+		RLog.i(RLog.EVENT_LISTENERS, "CreateAccoutFragment :onEventReceived : " + event);
 		if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
 			updateUiStatus();
 		}
@@ -229,6 +293,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
+		RLog.i(RLog.NETWORK_STATE, "CreateAccoutFragment :onNetWorkStateReceived : " + isOnline);
 		handleUiState();
 		updateUiStatus();
 	}
