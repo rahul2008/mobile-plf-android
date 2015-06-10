@@ -1,7 +1,5 @@
 package com.philips.cl.di.digitalcare.contactus;
 
-import java.io.File;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -70,9 +68,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private Configuration config = null;
 	private View mSocialDivider = null;
 
-	private static final String CDLS_BASE_URL_PREFIX = "http://www.philips.com/prx/cdls/B2C/";
-	private static final String CDLS_BASE_URL_POSTFIX = ".querytype.(fallback)";
-
+	private static final String CDLSURL_PORT = "http://www.philips.com/prx/cdls/B2C/%s/%s/%s.querytype.(fallback)";
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	@Override
@@ -82,7 +78,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mTwitterProgresshandler = new Handler();
 		if (isConnectionAvailable())
 			requestCDLSData();
-
 	}
 
 	@Override
@@ -175,10 +170,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
 				.getInstance(getActivity().getApplicationContext())
 				.getConsumerProductInfo();
-		return CDLS_BASE_URL_PREFIX + DigitalCareConfigManager.getLocale()
-				+ File.separator + consumerProductInfo.getSector()
-				+ File.separator + consumerProductInfo.getSubCategory()
-				+ CDLS_BASE_URL_POSTFIX;
+		return getCdlsUrl(DigitalCareConfigManager.getLocale(),
+				consumerProductInfo.getSector(),
+				consumerProductInfo.getSubCategory());
+	}
+
+	protected String getCdlsUrl(String locale, String sector, String subcategory) {
+		return String.format(CDLSURL_PORT, locale, sector, subcategory);
 	}
 
 	@Override
