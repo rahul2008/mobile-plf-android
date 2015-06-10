@@ -19,7 +19,6 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * RateThisAppFragment class is used to rate the app and review the product.
@@ -105,10 +104,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	public void onClick(View view) {
 		int id = view.getId();
 		if (id == R.id.tellus_PhilipsReviewButton) {
-			if (Utils.isNetworkConnected(getActivity()))
+			if (isConnectionAvailable())
 				rateProductReview();
 		} else if (id == R.id.tellus_PlayStoreReviewButton) {
-			if (Utils.isNetworkConnected(getActivity()))
+			if (isConnectionAvailable())
 				rateThisApp();
 		}
 	};

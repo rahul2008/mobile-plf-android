@@ -152,7 +152,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} catch (Exception e) {
 		}
 
-		if (Utils.isNetworkConnected(getActivity()))
+		if (isConnectionAvailable())
 			requestATOSResponseData();
 		try {
 			mView = inflater.inflate(R.layout.fragment_locate_philips,
@@ -750,7 +750,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		} else if (v.getId() == R.id.getdirection) {
 
-			if (Utils.isNetworkConnected(getActivity())) {
+			if (isConnectionAvailable()) {
 				trackToMe(new LatLng(mSourceLat, mSourceLng), new LatLng(
 						mDestinationLat, mDestinationLng));
 				mLinearLayout.setVisibility(View.GONE);
@@ -876,7 +876,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		super.onResume();
 
 		// Checking Network
-		if (!Utils.isNetworkConnected(getActivity())) {
+		if (!isConnectionAvailable()) {
 
 			if (mdialogBuilder == null) {
 				mdialogBuilder = new AlertDialog.Builder(getActivity());

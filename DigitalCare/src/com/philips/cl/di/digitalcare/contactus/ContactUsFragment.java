@@ -80,7 +80,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		super.onCreate(savedInstanceState);
 		DLog.i(TAG, "ContactUsFragment : onCreate");
 		mTwitterProgresshandler = new Handler();
-		if (Utils.isNetworkConnected(getActivity()))
+		if (isConnectionAvailable())
 			requestCDLSData();
 
 	}
@@ -322,7 +322,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			return;
 		}
 
-		if (id == R.id.contactUsChat && Utils.isNetworkConnected(getActivity())) {
+		if (id == R.id.contactUsChat && isConnectionAvailable()) {
 			if (mCdlsResponseStr == null) {
 				Utils.showToast(getActivity(), "No server response");
 				return;
@@ -351,7 +351,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))
-				&& Utils.isNetworkConnected(getActivity())) {
+				&& isConnectionAvailable()) {
 
 			Session mFacebookSession = Session.getActiveSession();
 
@@ -376,7 +376,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			}
 		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
-				&& Utils.isNetworkConnected(getActivity())) {
+				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());

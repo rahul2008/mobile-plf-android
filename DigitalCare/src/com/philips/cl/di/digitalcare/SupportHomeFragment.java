@@ -22,7 +22,6 @@ import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * SupportHomeFragment is the first screen of Support app. This class will give
@@ -190,19 +189,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		}
 
 		if (tag.equalsIgnoreCase(getStringKey(R.string.contact_us))) {
-			if (Utils.isNetworkConnected(getActivity()))
+			if (isConnectionAvailable())
 				showFragment(new ContactUsFragment());
 		} else if (tag
 				.equalsIgnoreCase(getStringKey(R.string.view_product_details))) {
 			showFragment(new ProductDetailsFragment());
 		} else if (tag
 				.equalsIgnoreCase(getStringKey(R.string.find_philips_near_you))) {
-			if (Utils.isNetworkConnected(getActivity()))
+			if (isConnectionAvailable())
 				showFragment(new LocatePhilipsFragment());
 		} else if (tag.equalsIgnoreCase(getStringKey(R.string.view_faq))) {
 
 		} else if (tag.equalsIgnoreCase(getStringKey(R.string.feedback))) {
-			if (Utils.isNetworkConnected(getActivity()))
+			if (isConnectionAvailable())
 				showFragment(new RateThisAppFragment());
 		}
 	}

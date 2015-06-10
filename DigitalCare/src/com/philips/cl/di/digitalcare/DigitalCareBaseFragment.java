@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,8 +17,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
+import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
 import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.NetworkUtility;
 
 /**
  * DigitalCareBaseFragment is super class for all fragments.
@@ -26,13 +31,15 @@ import com.philips.cl.di.digitalcare.util.DLog;
  * @since: Dec 5, 2014
  */
 public abstract class DigitalCareBaseFragment extends Fragment implements
-		OnClickListener {
+		OnClickListener, NetworkCallback {
 
 	private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
 	private static final Field sChildFragmentManagerField;
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
 	private Activity mFragmentActivityContext = null;
+	private NetworkUtility mNetworkutility = null;
+	private boolean isConnectionAvailable;
 	private FragmentManager fragmentManager = getFragmentManager();
 
 	static {
@@ -65,6 +72,16 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
 		mFragmentActivityContext = getActivity();
+		registerNetWorkReceiver();
+	}
+
+	private void registerNetWorkReceiver() {
+
+		IntentFilter mfilter = new IntentFilter(
+				"android.net.conn.CONNECTIVITY_CHANGE");
+		mNetworkutility = new NetworkUtility(this);
+		getActivity().registerReceiver(mNetworkutility, mfilter);
+
 	}
 
 	@Override
@@ -112,6 +129,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	@Override
 	public void onDestroy() {
 		DLog.d(DLog.FRAGMENT, "onDestroy on " + this.getClass().getSimpleName());
+		getActivity().unregisterReceiver(mNetworkutility);
 		super.onDestroy();
 	}
 
@@ -136,6 +154,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 						"Error setting mChildFragmentManager field");
 			}
 		}
+	}
+
+	protected boolean isConnectionAvailable() {
+		return isConnectionAvailable;
 	}
 
 	@Override
@@ -223,6 +245,21 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			inputManager.hideSoftInputFromWindow(view.getWindowToken(),
 					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
+	}
+
+	@Override
+	public void onConnectionChanged(boolean connection) {
+		if (connection)
+			isConnectionAvailable = true;
+		else {
+			isConnectionAvailable = false;
+			new NetworkAlertView().showNetworkAlert(getActivity());
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_SET_ERROR,
+					AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+					AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+		}
+
 	}
 
 }

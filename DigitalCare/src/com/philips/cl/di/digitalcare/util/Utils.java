@@ -1,16 +1,9 @@
 package com.philips.cl.di.digitalcare.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.widget.Toast;
-
-import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
 
 /**
  * Utils class contains common utility methods required across framework under
@@ -23,7 +16,7 @@ import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
  */
 public class Utils {
 
-	public static boolean isNetworkConnected(Activity activity) {
+	/*public static boolean isNetworkConnected(Activity activity) {
 		ConnectivityManager mConnectManager = (ConnectivityManager) activity
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (mConnectManager != null) {
@@ -34,11 +27,11 @@ public class Utils {
 			}
 		}
 
-		/*
+		
 		 * Toast toast = Toast.makeText(activity, activity.getResources()
 		 * .getString(R.string.no_internet), Toast.LENGTH_SHORT);
 		 * toast.setGravity(Gravity.CENTER, 0, 0); toast.show();
-		 */
+		 
 		new NetworkAlertView().showNetworkAlert(activity);
 
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
@@ -46,7 +39,7 @@ public class Utils {
 				AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
 
 		return false;
-	}
+	}*/
 
 	public static boolean isTablet(Context context) {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;

@@ -35,7 +35,6 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * This Screen helps endusers to send the product info/concern along with
@@ -90,8 +89,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mUsername = mSharedPreferences.getString(
 				TwitterAuthentication.PREF_USER_NAME, "");
 		mTwitter_to = "@"
-				+ getActivity().getResources().getString(
-						R.string.twitter_page) + " ";
+				+ getActivity().getResources().getString(R.string.twitter_page)
+				+ " ";
 		mProductInformation = getActivity().getResources().getString(
 				R.string.support_productinformation)
 				+ " ";
@@ -170,9 +169,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void sendMessage() {
-		/*new TwitterPost(getActivity(), mFile, this).execute(mEditText.getText()
-				.toString());*/
-		new TwitterPost(getActivity().getBaseContext(), mFile, this, mEditText.getText().toString());
+		/*
+		 * new TwitterPost(getActivity(), mFile,
+		 * this).execute(mEditText.getText() .toString());
+		 */
+		new TwitterPost(getActivity().getBaseContext(), mFile, this, mEditText
+				.getText().toString());
 		mPostProgress = new ProgressDialog(getActivity());
 		mPostProgress.setMessage(getActivity().getResources().getString(
 				R.string.twitter_post_progress_message));
@@ -187,7 +189,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		@Override
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
-				if (Utils.isNetworkConnected(getActivity())) {
+				if (isConnectionAvailable()) {
 					mPostProgress.setCancelable(false);
 					mTwitterPostHandler.postDelayed(mRunnable,
 							mPostProgressTrack);
@@ -243,7 +245,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			if (isDescriptionAvailable()) {
 				sendAlert();
 			} else {
-				if (Utils.isNetworkConnected(getActivity()))
+				if (isConnectionAvailable())
 					sendMessage();
 			}
 		} else if (id == R.id.facebookCancelLand) {
@@ -252,7 +254,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			if (isDescriptionAvailable()) {
 				sendAlert();
 			} else {
-				if (Utils.isNetworkConnected(getActivity()))
+				if (isConnectionAvailable())
 					sendMessage();
 			}
 		} else if (id == R.id.fb_Post_CheckBox) {

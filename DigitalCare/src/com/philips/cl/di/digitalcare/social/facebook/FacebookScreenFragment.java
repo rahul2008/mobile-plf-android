@@ -34,7 +34,6 @@ import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * @description: FacebookScreenFragment will help to post messages on Philips
@@ -286,7 +285,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 				sendAlert();
 			} else {
 
-				if (Utils.isNetworkConnected(getActivity())) {
+				if (isConnectionAvailable()) {
 
 					mPostProgress = new ProgressDialog(getActivity());
 					mPostProgress
@@ -312,7 +311,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		public void run() {
 			if (mPostProgress != null && mPostProgress.isShowing()) {
 
-				if (Utils.isNetworkConnected(getActivity())) {
+				if (isConnectionAvailable()) {
 					mPostHandler.postDelayed(mRunnable, mPostProgressTrack);
 					mPostProgress.setCancelable(false);
 				} else {
