@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.social;
+package com.philips.cl.di.digitalcare.customview;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -10,8 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 
-import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 

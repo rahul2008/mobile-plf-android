@@ -143,7 +143,7 @@ public class AnalyticsTracker {
 	}
 
 	
-	public static int getAppVersion() {
+	private static int getAppVersion() {
 		int appVersion = 0;
 		try {
 			PackageInfo packageInfo = mContext.getPackageManager()

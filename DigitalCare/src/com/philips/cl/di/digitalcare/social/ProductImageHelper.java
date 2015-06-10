@@ -25,6 +25,7 @@ import android.provider.MediaStore;
 import android.view.View;
 
 import com.philips.cl.di.digitalcare.R;
+import com.philips.cl.di.digitalcare.customview.ImagePhonePickerDialog;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
 import com.philips.cl.di.digitalcare.util.DLog;
