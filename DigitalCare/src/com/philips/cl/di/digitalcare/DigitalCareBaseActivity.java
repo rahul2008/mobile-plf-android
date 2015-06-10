@@ -7,7 +7,6 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -20,9 +19,7 @@ import android.widget.ImageView;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
-import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.NetworkUtility;
 
 /**
  * DigitalCareBaseActivity is the main super abstract class container for
@@ -31,13 +28,13 @@ import com.philips.cl.di.digitalcare.util.NetworkUtility;
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
  */
-public abstract class DigitalCareBaseActivity extends Activity  {
+public abstract class DigitalCareBaseActivity extends Activity {
 	private ImageView mActionBarMenuIcon = null;;
 	private ImageView mActionBarArrow = null;
 	private DigitalCareFontTextView mActionBarTitle = null;
 	private FragmentManager fragmentManager = null;
 	private DigitalCareConfigManager mDigitalCareConfigManager = null;
-	
+
 	private static String TAG = DigitalCareBaseActivity.class.getSimpleName();
 
 	@Override
@@ -45,15 +42,13 @@ public abstract class DigitalCareBaseActivity extends Activity  {
 		super.onCreate(savedInstanceState);
 		DLog.i(TAG, "onCreate");
 		setLocaleLanguage();
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
 				DigitalCareConfigManager.getAnimationStop());
 		DigitalCareConfigManager.getInstance(this);
 		fragmentManager = getFragmentManager();
 	}
-
-	
 
 	protected void initActionBar() throws ClassCastException {
 		mActionBarMenuIcon = (ImageView) findViewById(R.id.home_icon);
@@ -64,8 +59,6 @@ public abstract class DigitalCareBaseActivity extends Activity  {
 		mActionBarArrow.setOnClickListener(actionBarClickListener);
 		// enableActionBarHome();
 	}
-	
-	
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -106,7 +99,7 @@ public abstract class DigitalCareBaseActivity extends Activity  {
 
 	@Override
 	protected void onDestroy() {
-		
+
 		super.onDestroy();
 		if (mDigitalCareConfigManager != null) {
 			mDigitalCareConfigManager = null;
@@ -212,5 +205,4 @@ public abstract class DigitalCareBaseActivity extends Activity  {
 		}
 	}
 
-	
 }
