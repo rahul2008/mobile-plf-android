@@ -129,11 +129,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private FrameLayout.LayoutParams mLocateSearchLayoutParentParams = null;
 
 	// "http://www.philips.com/search/search?q=FC5830/81&subcategory=BAGLESS_VACUUM_CLEANERS_SU&country=in&type=servicers&sid=cp-dlr&output=json";
-	private static final String ATOS_BASE_URL_PREFIX = "http://www.philips.com/search/search?q=";
-	private static final String ATOS_BASE_URL_SUBCATEGORY = "&subcategory=";
-	private static final String ATOS_BASE_URL_COUNTRY = "&country=";
-	private static final String ATOS_BASE_URL_POSTFIX = "&type=servicers&sid=cp-dlr&output=json";
-
+	private static final String ATOS_URL_PORT = "http://www.philips.com/search/search?q=%s&subcategory=%s&country=%s&type=servicers&sid=cp-dlr&output=json";
 	private static final String TAG = LocatePhilipsFragment.class
 			.getSimpleName();
 	private static View mView = null;
@@ -180,11 +176,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
 				.getInstance(getActivity().getApplicationContext())
 				.getConsumerProductInfo();
-		return ATOS_BASE_URL_PREFIX + consumerProductInfo.getCtn()
-				+ ATOS_BASE_URL_SUBCATEGORY
-				+ consumerProductInfo.getSubCategory() + ATOS_BASE_URL_COUNTRY
-				+ DigitalCareConfigManager.getCountry().toLowerCase()
-				+ ATOS_BASE_URL_POSTFIX;
+		return getAtosUrl(consumerProductInfo.getCtn(),
+				consumerProductInfo.getSubCategory(), DigitalCareConfigManager
+						.getCountry().toLowerCase());
+	}
+
+	protected String getAtosUrl(String ctn, String subcategory, String country) {
+		return String.format(ATOS_URL_PORT, ctn, subcategory, country);
 	}
 
 	protected void requestATOSResponseData() {
