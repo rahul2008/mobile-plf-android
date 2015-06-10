@@ -970,7 +970,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mLinearLayout.setVisibility(View.GONE);
 	}
 
-	private ParsingCompletedCallback mParsingCompletedCallback = new ParsingCompletedCallback() {
+	private AtosParsingCallback mParsingCompletedCallback = new AtosParsingCallback() {
 		@Override
 		public void onParsingDone(final AtosResponseModel response) {
 			if (response != null) {

@@ -56,7 +56,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private DigitalCareFontButton mChat = null;
 	private DigitalCareFontButton mEmail = null;
 	private DigitalCareFontButton mCallPhilips = null;
-	private CdlsResponseParser mCdlsResponseParser = null;
 	private CdlsResponseModel mCdlsParsedResponse = null;
 	private TextView mFirstRowText = null;
 	private TextView mContactUsOpeningHours = null;
@@ -208,29 +207,35 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DLog.i(TAG, "response : " + response);
 		if (response != null && isAdded()) {
 			mCdlsResponseStr = response;
-			parseCDLSResponse();
+			parseCDLSResponse(response);
 		} else {
 			fadeoutButtons();
 		}
 	}
 
-	protected void parseCDLSResponse() {
-		DLog.d(TAG, "Parsing CDLS Response");
-		mCdlsResponseParser = CdlsResponseParser
-				.getParserControllInstance(getActivity());
-		mCdlsResponseParser.processCdlsResponse(mCdlsResponseStr);
-		mCdlsParsedResponse = mCdlsResponseParser.getCdlsBean();
-		if (mCdlsParsedResponse != null) {
-			getActivity().runOnUiThread(new Runnable() {
+	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+		@Override
+		public void onParsingDone(final CdlsResponseModel response) {
+			if (response != null) {
+				mCdlsParsedResponse = response;
+				getActivity().runOnUiThread(new Runnable() {
 
-				@Override
-				public void run() {
-					updateContactInformation();
-				}
-			});
-		} else {
-			fadeoutButtons();
+					@Override
+					public void run() {
+						updateContactInformation();
+					}
+				});
+			} else {
+				fadeoutButtons();
+			}
 		}
+	};
+
+	protected void parseCDLSResponse(String response) {
+		DLog.d(TAG, "Parsing CDLS Response");
+		CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
+				getActivity(), mParsingCompletedCallback);
+		cdlsResponseParser.processCdlsResponse(response);
 	}
 
 	protected void updateContactInformation() {

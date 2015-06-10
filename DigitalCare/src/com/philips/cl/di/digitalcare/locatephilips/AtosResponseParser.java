@@ -21,10 +21,10 @@ public class AtosResponseParser {
 	private static final String TAG = AtosResponseParser.class.getSimpleName();
 	private Context mContext = null;
 	private ArrayList<AtosResultsModel> mArrayListResultsModel = null;
-	private ParsingCompletedCallback mParsingCompletedCallback = null;
+	private AtosParsingCallback mParsingCompletedCallback = null;
 
 	protected AtosResponseParser(Context context,
-			ParsingCompletedCallback parsingCompletedCallback) {
+			AtosParsingCallback parsingCompletedCallback) {
 		mContext = context;
 		mParsingCompletedCallback = parsingCompletedCallback;
 		Log.i(TAG, "ParserController constructor : " + mContext.toString());
