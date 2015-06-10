@@ -9,6 +9,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
+import com.philips.cl.di.digitalcare.ParsingCompletedCallback;
+
 /**
  * AtosResponseParser will take care of parsing ATOS resonse(LocateNearYou).
  * 
@@ -19,19 +21,14 @@ import android.util.Log;
 public class AtosResponseParser {
 	private static final String TAG = AtosResponseParser.class.getSimpleName();
 	private Context mContext = null;
-	private AtosResponseModel mCdlsParsedResponse = null;
 	private ArrayList<AtosResultsModel> mArrayListResultsModel = null;
+	private ParsingCompletedCallback mParsingCompletedCallback = null;
 
-	protected AtosResponseParser(Context context) {
+	protected AtosResponseParser(Context context,
+			ParsingCompletedCallback parsingCompletedCallback) {
 		mContext = context;
+		mParsingCompletedCallback = parsingCompletedCallback;
 		Log.i(TAG, "ParserController constructor : " + mContext.toString());
-	}
-
-	/*
-	 * Returning CDLS BEAN instance
-	 */
-	public AtosResponseModel getAtosResponse() {
-		return mCdlsParsedResponse;
 	}
 
 	/*
@@ -80,9 +77,10 @@ public class AtosResponseParser {
 						.optString("errorMessage"));
 			}
 			// creating CDLS instance.
-			mCdlsParsedResponse = new AtosResponseModel(success,
-					currentLocationModel, mArrayListResultsModel,
+			AtosResponseModel cdlsParsedResponse = new AtosResponseModel(
+					success, currentLocationModel, mArrayListResultsModel,
 					cdlsErrorModel);
+			mParsingCompletedCallback.onParsingDone(cdlsParsedResponse);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

@@ -60,6 +60,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
+import com.philips.cl.di.digitalcare.ParsingCompletedCallback;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.RequestData;
 import com.philips.cl.di.digitalcare.ResponseCallback;
@@ -85,7 +86,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private GoogleMap mMap = null;
 	private GoogleMapFragment mMapFragment = null;
 	private Marker mCurrentPosition = null;
-	private AtosResponseParser mAtosResponseParser = null;
 	private AtosResponseModel mAtosResponse = null;
 	private ProgressDialog mProgressDialog = null;
 	private ArrayList<LatLng> traceOfMe = null;
@@ -159,7 +159,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 					container, false);
 		} catch (InflateException e) {
 		}
-
 		return mView;
 	}
 
@@ -231,7 +230,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (mCurrentPosition != null)
 			mCurrentPosition.remove();
 		mCurrentPosition = mMap.addMarker(mMarkerOptions);
-
 	}
 
 	@Override
@@ -239,22 +237,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		DLog.i(TAG, "response : " + response);
 		closeProgressDialog();
 		if (response != null && isAdded()) {
-			mAtosResponseParser = new AtosResponseParser(getActivity());
-			mAtosResponseParser.processAtosResponse(response);
-			mAtosResponse = mAtosResponseParser.getAtosResponse();
-			if (mAtosResponse != null) {
-				getActivity().runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						parseGeoInformation();
-					}
-				});
-			}
+			AtosResponseParser atosResponseParser = new AtosResponseParser(
+					getActivity(), mParsingCompletedCallback);
+			atosResponseParser.processAtosResponse(response);
 		}
 	}
 
-	protected void parseGeoInformation() {
-
+	private void parseGeoInformation(AtosResponseModel atosResponse) {
+		mAtosResponse = atosResponse;
 		if (mAtosResponse.getSuccess()) {
 			ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
 					.getResultsModel();
@@ -981,7 +971,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		if (mLinearLayout.getVisibility() == View.VISIBLE)
 			mLinearLayout.setVisibility(View.GONE);
-
 	}
 
+	private ParsingCompletedCallback mParsingCompletedCallback = new ParsingCompletedCallback() {
+		@Override
+		public void onParsingDone(final AtosResponseModel response) {
+			if (response != null) {
+				getActivity().runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						parseGeoInformation(response);
+					}
+				});
+			}
+		}
+	};
 }
