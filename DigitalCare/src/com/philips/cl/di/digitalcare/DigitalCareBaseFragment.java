@@ -22,7 +22,7 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
 import com.philips.cl.di.digitalcare.util.DLog;
-import com.philips.cl.di.digitalcare.util.NetworkUtility;
+import com.philips.cl.di.digitalcare.util.NetworkReceiver;
 
 /**
  * DigitalCareBaseFragment is super class for all fragments.
@@ -31,15 +31,15 @@ import com.philips.cl.di.digitalcare.util.NetworkUtility;
  * @since: Dec 5, 2014
  */
 public abstract class DigitalCareBaseFragment extends Fragment implements
-		OnClickListener, NetworkCallback {
+		OnClickListener, NetworkStateListener {
 
 	private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
 	private static final Field sChildFragmentManagerField;
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
 	private Activity mFragmentActivityContext = null;
-	private NetworkUtility mNetworkutility = null;
-	private boolean isConnectionAvailable;
+	private NetworkReceiver mNetworkutility = null;
+	private static boolean isConnectionAvailable;
 	private FragmentManager fragmentManager = getFragmentManager();
 
 	static {
@@ -79,7 +79,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 		IntentFilter mfilter = new IntentFilter(
 				"android.net.conn.CONNECTIVITY_CHANGE");
-		mNetworkutility = new NetworkUtility(this);
+		mNetworkutility = new NetworkReceiver(this);
 		getActivity().registerReceiver(mNetworkutility, mfilter);
 
 	}
@@ -257,7 +257,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	}
 
 	@Override
-	public void onConnectionChanged(boolean connection) {
+	public void onNetworkStateChanged(boolean connection) {
 		if (connection)
 			isConnectionAvailable = true;
 		else {

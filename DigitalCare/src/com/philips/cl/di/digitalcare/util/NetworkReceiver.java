@@ -6,17 +6,17 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cl.di.digitalcare.NetworkCallback;
+import com.philips.cl.di.digitalcare.NetworkStateListener;
 
-public class NetworkUtility extends BroadcastReceiver {
+public class NetworkReceiver extends BroadcastReceiver {
 
-	private final String TAG = NetworkUtility.class.getSimpleName();
-	private NetworkCallback mNetworkCallback = null;
+	private final String TAG = NetworkReceiver.class.getSimpleName();
+	private NetworkStateListener mNetworkCallback = null;
 
-	public NetworkUtility() {
+	public NetworkReceiver() {
 	}
 
-	public NetworkUtility(NetworkCallback callback) {
+	public NetworkReceiver(NetworkStateListener callback) {
 		this();
 		mNetworkCallback = callback;
 	}
@@ -32,12 +32,12 @@ public class NetworkUtility extends BroadcastReceiver {
 			if (mActiveNetwork != null) {
 				DLog.v(TAG, "Connection Available");
 				if (mNetworkCallback != null)
-					mNetworkCallback.onConnectionChanged(true);
+					mNetworkCallback.onNetworkStateChanged(true);
 			} else {
 				DLog.v(TAG, "Connection Not Available");
 
 				if (mNetworkCallback != null)
-					mNetworkCallback.onConnectionChanged(false);
+					mNetworkCallback.onNetworkStateChanged(false);
 
 			}
 		}
