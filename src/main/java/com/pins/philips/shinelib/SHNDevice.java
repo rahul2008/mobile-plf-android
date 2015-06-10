@@ -18,8 +18,6 @@ public interface SHNDevice {
 
     void disconnect();
 
-    void setSHNDeviceListener(SHNDeviceListener shnDeviceListener);
-
     void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener);
 
     void unregisterSHNDeviceListener(SHNDeviceListener shnDeviceListener);

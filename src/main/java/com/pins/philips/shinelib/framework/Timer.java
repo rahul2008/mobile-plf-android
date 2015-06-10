@@ -15,7 +15,7 @@ public class Timer {
         return new Timer(Timer.tempStaticHandler, runnable, timeoutTimeMS);
     }
 
-    public static void SetHandler(Handler handler) {
+    public static void setHandler(Handler handler) {
         Timer.tempStaticHandler = handler;
     }
 

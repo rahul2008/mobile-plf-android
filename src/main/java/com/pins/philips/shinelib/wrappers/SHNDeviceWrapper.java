@@ -19,15 +19,22 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
     private static final boolean LOGGING = false;
     private final SHNDevice shnDevice;
+    private static Handler tempInternalHandler;
+    private static Handler tempUserHandler;
     private final Handler internalHandler;
     private final Handler userHandler;
     private List<SHNDeviceListener> shnDeviceListeners;
 
-    public SHNDeviceWrapper(SHNDevice shnDevice, Handler internalHandler, Handler userHandler) {
+    public static void setHandlers(Handler internalHandler, Handler userHandler) {
+        tempInternalHandler = internalHandler;
+        tempUserHandler = userHandler;
+    }
+
+    public SHNDeviceWrapper(SHNDevice shnDevice) {
         this.shnDevice = shnDevice;
-        this.internalHandler = internalHandler;
-        this.userHandler = userHandler;
-        shnDevice.setSHNDeviceListener(this);
+        this.internalHandler = tempInternalHandler;
+        this.userHandler = tempUserHandler;
+        shnDevice.registerSHNDeviceListener(this);
         shnDeviceListeners = new ArrayList<>();
     }
 
@@ -72,11 +79,6 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
             }
         };
         internalHandler.post(runnable);
-    }
-
-    @Override
-    public void setSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        throw new UnsupportedOperationException("This operation is for internal use only");
     }
 
     @Override

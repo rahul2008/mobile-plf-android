@@ -109,13 +109,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
     }
 
     @Override
-    public void setSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        this.shnDeviceListener = shnDeviceListener;
-    }
-
-    @Override
     public void registerSHNDeviceListener(SHNDeviceListener shnDeviceListener) {
-        throw new UnsupportedOperationException("Intended for the external API");
+        this.shnDeviceListener = shnDeviceListener;
     }
 
     @Override

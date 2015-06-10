@@ -8,9 +8,9 @@ import java.util.List;
  */
 public class SHNDataSleep extends SHNData {
     private final List<SleepPhase> sleepPhases;
-    private final long latency;
-    private final long timeInBed;
-    private final long sleepDuration;
+    private final long latency;         // minutes
+    private final long timeInBed;       // minutes
+    private final long sleepDuration;   // minutes
     private final Date startDate;
     private final int interruptions;
 
