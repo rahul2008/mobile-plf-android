@@ -21,12 +21,13 @@ public class DigitalCareFontButton extends Button {
 
 	public DigitalCareFontButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		//applyAttributes(this, context, attrs);
+		applyAttributes(this, context, attrs);
 	}
 
-	public DigitalCareFontButton(Context context, AttributeSet attrs, int defStyle) {
+	public DigitalCareFontButton(Context context, AttributeSet attrs,
+			int defStyle) {
 		super(context, attrs, defStyle);
-	//	applyAttributes(this, context, attrs);
+		applyAttributes(this, context, attrs);
 	}
 
 	private void applyAttributes(Button view, Context context,

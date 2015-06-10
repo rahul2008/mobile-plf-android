@@ -1,14 +1,10 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuButtonClickListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
-import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**

@@ -22,28 +22,29 @@ public class DigitalCareFontTextView extends TextView {
 
 	public DigitalCareFontTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		//applyAttributes(this, context, attrs);
+		applyAttributes(this, context, attrs);
 	}
 
-	public DigitalCareFontTextView(Context context, AttributeSet attrs, int defStyle) {
+	public DigitalCareFontTextView(Context context, AttributeSet attrs,
+			int defStyle) {
 		super(context, attrs, defStyle);
-		//applyAttributes(this, context, attrs);
+		applyAttributes(this, context, attrs);
 	}
 
-	private void applyAttributes(TextView view, Context context, AttributeSet attrs) {
+	private void applyAttributes(TextView view, Context context,
+			AttributeSet attrs) {
 
 		if (attrs != null) {
 			final TypedArray a = context.obtainStyledAttributes(attrs,
 					R.styleable.DigitalCareFontTextView);
-			final String typeface =
-					a.getString(R.styleable.DigitalCareFontTextView_fontAssetName);
+			final String typeface = a
+					.getString(R.styleable.DigitalCareFontTextView_fontAssetName);
 			a.recycle();
 
-			//set the font using class DigitalCareFontLoader
-			DigitalCareFontLoader.getInstance().setTypeface(view, typeface);			
+			// set the font using class DigitalCareFontLoader
+			DigitalCareFontLoader.getInstance().setTypeface(view, typeface);
 		}
 	}
-
 
 	public void setTypeface(String typeface) {
 		DigitalCareFontLoader.getInstance().setTypeface(this, typeface);

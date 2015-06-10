@@ -1,12 +1,12 @@
 package com.philips.cl.di.digitalcare.util;
 
-import com.philips.cl.di.digitalcare.NetworkCallback;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
+import com.philips.cl.di.digitalcare.NetworkCallback;
 
 public class NetworkUtility extends BroadcastReceiver {
 
