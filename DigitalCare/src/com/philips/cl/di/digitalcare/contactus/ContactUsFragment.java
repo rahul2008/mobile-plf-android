@@ -222,7 +222,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 					@Override
 					public void run() {
-						updateContactInformation();
+						updateGui();
 					}
 				});
 			} else {
@@ -238,10 +238,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		cdlsResponseParser.parseCdlsResponse(response);
 	}
 
-	protected void updateContactInformation() {
+	protected void updateGui() {
 		DLog.d(TAG, "Updating Contact Information");
 
-		if (mCdlsParsedResponse.getSuccess()) {
+		if (mCdlsParsedResponse.getSuccess()
+				|| mCdlsParsedResponse.getError() != null) {
 			CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
 
 			if (phoneModel != null) {

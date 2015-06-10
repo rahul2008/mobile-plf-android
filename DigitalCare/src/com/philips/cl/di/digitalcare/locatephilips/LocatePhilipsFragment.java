@@ -242,7 +242,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void validateAtosResponse(AtosResponseModel atosResponse) {
 		mAtosResponse = atosResponse;
-		if (mAtosResponse.getSuccess()) {
+		if (mAtosResponse.getSuccess()
+				|| mAtosResponse.getCdlsErrorModel() != null) {
 			ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
 					.getResultsModel();
 			if (resultModelSet.size() <= 0) {
