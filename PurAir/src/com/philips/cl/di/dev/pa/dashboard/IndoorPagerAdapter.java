@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
@@ -41,7 +41,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 			}
 		} 
 		
-		if	(position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+		if	(position < DiscoveryManager.getInstance().getAddedAppliances().size()) {
 			MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_ADD_PURIFIER);
 			Bundle bundle = new Bundle();
 			bundle.putInt("position", position) ;
@@ -49,7 +49,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 			fragment.setArguments(bundle);
 			return fragment;
 		} else {
-            if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+            if (DiscoveryManager.getInstance().getAddedAppliances().size() > 0) {
                 return new ManagePurifierFragment();
             } else {
                 MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_ADD_PURIFIER);

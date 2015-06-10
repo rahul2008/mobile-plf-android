@@ -7,9 +7,11 @@ import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 
+import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -33,6 +35,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		super.setUp();
 	}
 
+	@SuppressWarnings("unchecked")
 	@UiThreadTest
 	public void testEnableDiscoveryInOnResume() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
@@ -45,13 +48,15 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			verify(discManager, never()).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
 		} else {
 			assertFalse(false);
 		}
 		
 		
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@UiThreadTest
 	public void testDisableDiscoveryInOnPause() {
 		
@@ -65,6 +70,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			verify(discManager).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+			DiscoveryManager.createSharedInstance(getInstrumentation().getTargetContext(), mock(CppController.class), mock(DICommApplianceFactory.class));
 		} else {
 			assertFalse(false);
 		}
@@ -75,14 +81,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	public void testRegisterSubscriptionInOnResume() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 			AirPurifierManager purManager = mock(AirPurifierManager.class);
-			AirPurifierManager.setDummyPurifierManagerForTesting(purManager);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(purManager);
 			
 			instrumentation.callActivityOnResume(activity);
 			
 			verify(purManager).addAirPurifierEventListener(activity);
 //			verify(purManager, never()).removeAirPurifierEventListener(activity);
 			
-			AirPurifierManager.setDummyPurifierManagerForTesting(null);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(null);
 		} else {
 			assertFalse(false);
 		}
@@ -93,14 +99,14 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	public void testUnRegisterSubscriptionInOnPause() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 			AirPurifierManager purManager = mock(AirPurifierManager.class);
-			AirPurifierManager.setDummyPurifierManagerForTesting(purManager);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(purManager);
 			
 			instrumentation.callActivityOnPause(activity);
 			
 			verify(purManager, never()).addAirPurifierEventListener(activity);
 			verify(purManager).removeAirPurifierEventListener(activity);
 			
-			AirPurifierManager.setDummyPurifierManagerForTesting(null);
+			AirPurifierManager.setDummyCurrentApplianceManagerForTesting(null);
 		
 		} else {
 			assertFalse(false);

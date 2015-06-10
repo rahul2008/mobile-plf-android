@@ -25,16 +25,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.PairingHandler;
+import com.philips.cdp.dicommclient.port.common.PermissionListener;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -43,7 +48,6 @@ import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class NotificationsFragment extends BaseFragment implements
 OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
@@ -71,12 +75,28 @@ AlertDialogBtnInterface, OnClickListener {
 
 	private ViewGroup lastConnectionLL;
 	private FontTextView lastConnectionTimeTV;
+	
+	private DICommPortListener mAirPortListener = new DICommPortListener() {
+		@Override
+		public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+			updateUI();
+            return ListenerRegistration.KEEP_REGISTERED;
+		}
+
+        @Override
+        public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
+            handleSetThresholdError(error);
+            return ListenerRegistration.KEEP_REGISTERED;
+        }
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		pairingHandler = new PairingHandler(null, mPurifier.getNetworkNode());
+		pairingHandler = new PairingHandler(null, mPurifier);
 	}
 
 	@Override
@@ -133,6 +153,24 @@ AlertDialogBtnInterface, OnClickListener {
 			}
 		}
 
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier!=null){
+		    currentPurifier.getAirPort().registerPortListener(mAirPortListener);
+		}
+	}
+	
+	@Override
+	public void onPause() {
+		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier!=null){
+		    currentPurifier.getAirPort().unregisterPortListener(mAirPortListener);
+		}
+		super.onPause();
 	}
 
 	private void showPairingProgressDialog(){
@@ -283,9 +321,9 @@ AlertDialogBtnInterface, OnClickListener {
 
 			// Enable UI and check if permission exists
 			pairingHandler.getPermission(
-					AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-					AppConstants.PAIRING_PUSH_PERMISSIONS
-					.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+					PairingHandler.PAIRING_NOTIFY_RELATIONSHIP,
+					PairingHandler.PAIRING_PUSH_PERMISSIONS
+					.toArray(new String[PairingHandler.PAIRING_PUSH_PERMISSIONS.size()]));
 		}
 	}
 
@@ -300,15 +338,15 @@ AlertDialogBtnInterface, OnClickListener {
 				showProgressDialog(R.string.notification_enabling_msg);
 				enableDetailedNotificationsLayout();
 				pairingHandler.addPermission(
-						AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-						AppConstants.PAIRING_PUSH_PERMISSIONS
-						.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+						PairingHandler.PAIRING_NOTIFY_RELATIONSHIP,
+						PairingHandler.PAIRING_PUSH_PERMISSIONS
+						.toArray(new String[PairingHandler.PAIRING_PUSH_PERMISSIONS.size()]));
 			} else {
 				showProgressDialog(R.string.notification_disabling_msg);
 				pairingHandler.removePermission(
-						AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-						AppConstants.PAIRING_PUSH_PERMISSIONS
-						.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+						PairingHandler.PAIRING_NOTIFY_RELATIONSHIP,
+						PairingHandler.PAIRING_PUSH_PERMISSIONS
+						.toArray(new String[PairingHandler.PAIRING_PUSH_PERMISSIONS.size()]));
 				disableDetailedNotificationsLayout();
 			}
 			MetricsTracker.trackActionNotification(isChecked);
@@ -326,9 +364,7 @@ AlertDialogBtnInterface, OnClickListener {
 		
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().setPurifierDetails(
-					ParserConstants.AQI_THRESHOLD, aqiThreshold,
-					Error.AQI_THRESHOLD);
+			currentPurifier.getAirPort().putProperties(ParserConstants.AQI_THRESHOLD, aqiThreshold);
 		}
 	}
 
@@ -361,8 +397,8 @@ AlertDialogBtnInterface, OnClickListener {
 					notificationToggleChecked(false);
 					disableDetailedNotificationsLayout();
 				}
-				if (mPurifier != null && mPurifier.getAirPort().getAirPortInfo() != null) {
-					setUIAqiThreshold(mPurifier.getAirPort().getAirPortInfo().getAqiThreshold());
+				if (mPurifier != null && mPurifier.getAirPort().getPortProperties() != null) {
+					setUIAqiThreshold(mPurifier.getAirPort().getPortProperties().getAqiThreshold());
 				}
 				indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
 			}
@@ -429,9 +465,8 @@ AlertDialogBtnInterface, OnClickListener {
 	/**
 	 * This method is called if the call to set AQI threshold via locally fails
 	 */
-	@Override
-	public void onErrorOccurred(Error purifierEventError) {
-		if (purifierEventError != Error.AQI_THRESHOLD) return;
+	public void handleSetThresholdError(Error error) {
+		// TODO:DICOMM Refactor, check error mapping
 		if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
 		if (aqiThresholdProgressDialog != null) aqiThresholdProgressDialog.dismiss();
 
@@ -439,35 +474,19 @@ AlertDialogBtnInterface, OnClickListener {
 		showError();
 	}
 
+	public void updateUI() {
+		//		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
+		if (mPurifier != null && ConnectionState.DISCONNECTED != mPurifier.getNetworkNode().getConnectionState()) {
+			lastConnectionLL.setVisibility(View.GONE);
+		}
+		if (aqiThresholdProgressDialog != null)	aqiThresholdProgressDialog.dismiss();
+		if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
+
+	}
+	
+
 	@Override
 	public void onNegativeButtonClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onAirPurifierChanged() {
-		updateUI();
-	}
-
-	@Override
-	public void onAirPurifierEventReceived() {
-		//		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
-		if (getActivity() == null) return;
-		getActivity().runOnUiThread(new Runnable() {
-
-			@Override
-			public void run() {
-				if (mPurifier != null && ConnectionState.DISCONNECTED != mPurifier.getNetworkNode().getConnectionState()) {
-					lastConnectionLL.setVisibility(View.GONE);
-				}
-				if (aqiThresholdProgressDialog != null)	aqiThresholdProgressDialog.dismiss();
-				if (aqiThresholdTimer != null) aqiThresholdTimer.cancel();
-			}
-		});
-	}
-
-	@Override
-	public void onFirmwareEventReceived() {
 		// NOP
 	}
 
@@ -541,7 +560,7 @@ AlertDialogBtnInterface, OnClickListener {
 		}
 	}
 
-	private void updateUI() {
+	private void updateUIConnectionState() {
 		if (getActivity() == null)	return;
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
@@ -591,5 +610,25 @@ AlertDialogBtnInterface, OnClickListener {
 		notificationToggleChecked(false);
 		notificationToggle.setEnabled(false);
 		disableDetailedNotificationsLayout();
+	}
+
+	@Override
+	public void onAirPurifierChanged() {
+		updateUIConnectionState();
+	}
+
+	@Override
+	public void onAirPurifierEventReceived() {
+		// TODO DIComm refactor remove when changing AirpurifierEventListener to CurrentPurifierListener
+	}
+
+	@Override
+	public void onFirmwareEventReceived() {
+		// TODO DIComm refactor remove when changing AirpurifierEventListener to CurrentPurifierListener
+	}
+
+	@Override
+	public void onErrorOccurred(Error purifierEventError) {
+		// TODO DIComm refactor remove when changing AirpurifierEventListener to CurrentPurifierListener
 	}
 }

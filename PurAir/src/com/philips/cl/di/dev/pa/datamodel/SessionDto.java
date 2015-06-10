@@ -3,6 +3,9 @@ package com.philips.cl.di.dev.pa.datamodel;
 import java.util.HashMap;
 import java.util.List;
 
+import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
+import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
+
 /**
  * This class will have the session objects required for the Air Purifier application
  * @author 310124914
@@ -17,8 +20,8 @@ public class SessionDto {
 	private IndoorTrendDto indoorTrendDto ;
 	private HashMap<String, IndoorTrendDto> indoorTrendsHashMap;
 	
-	private DeviceDto deviceDto ;
-	private DeviceWifiDto deviceWifiDto ;
+	private DevicePortProperties deviceDto ;
+	private WifiPortProperties deviceWifiDto ;
 	/**
 	 * Get the indoor trend from Hashmap using Purifier eui64
 	 * @param purifierEui64
@@ -36,19 +39,19 @@ public class SessionDto {
 		indoorTrendsHashMap.put(eui64, indoorTrendDto) ;
 	}
 
-	public DeviceDto getDeviceDto() {
+	public DevicePortProperties getDeviceDto() {
 		return deviceDto;
 	}
 
-	public void setDeviceDto(DeviceDto deviceDto) {
+	public void setDeviceDto(DevicePortProperties deviceDto) {
 		this.deviceDto = deviceDto;
 	}
 	
-	public DeviceWifiDto getDeviceWifiDto() {
+	public WifiPortProperties getDeviceWifiDto() {
 		return deviceWifiDto;
 	}
 
-	public void setDeviceWifiDto(DeviceWifiDto deviceWifiDto) {
+	public void setDeviceWifiDto(WifiPortProperties deviceWifiDto) {
 		this.deviceWifiDto = deviceWifiDto;
 	}
 

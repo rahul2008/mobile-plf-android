@@ -1,9 +1,6 @@
 package com.philips.cl.di.dev.pa.constant;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -17,8 +14,12 @@ public class AppConstants {
 	/** CONSTANTS FOR THE ICPCLIENT */
 	public static final String BOOT_STRAP_PRODUCT_ID = "AIR_KPSPROV";
 	public static final String CMA_APP_ID_1 = "MDI4M2" ;
+	
+	public static final String APP_ID = "1_com.philips.cl.di.air";
+	public static final String APP_TYPE="AC4373APP";
 	public static final String COMPONENT_ID = "AC4373-AND";
-
+	
+	public static final String DEVICE_PORT_URL="https://dp.cpp.philips.com.cn/DevicePortalICPRequestHandler/RequestHandler.ashx";
 	
 	/** URLS FOR WEATHER DATA. */	
 	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
@@ -29,7 +30,7 @@ public class AppConstants {
 
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
 	public static final String PURIFIERDB_NAME = "smart_air.db";
-	public static final int PURIFIERDB_VERSION = 10;
+	public static final int PURIFIERDB_VERSION = 11;
 	public static final String KEY_ID = "_id";
 
 	// City detail table
@@ -58,8 +59,9 @@ public class AppConstants {
 	public static final String KEY_INDOOR_AQI = "aqi" ;
 	public static final String KEY_LAST_SYNC_DATETIME = "lastsyncdatetime" ;
 	
-	// AirPurifier table
-	public static final String TABLE_AIRPUR_INFO = "device_info";
+	@Deprecated
+	public static final String TABLE_AIRPUR_INFO = "device_info"; // AirPurifier table (< DB version 11)
+	public static final String TABLE_AIRPUR_DEVICE = "AirPurifierDevice"; // AirPurifierDevice table (=> DB version 11)
 	public static final String KEY_AIRPUR_USN = "usn";
 	public static final String KEY_AIRPUR_CPP_ID = "cppid";
 	public static final String KEY_AIRPUR_BOOT_ID = "bootid";
@@ -137,7 +139,6 @@ public class AppConstants {
 	public static final String GET_PROPS = "GETPROPS" ;
 	public static final String ADD_PROPS = "ADDPROPS" ;
 	public static final String DEL_PROPS = "DELPROPS" ;
-	public static final String DISCOVER = "DISCOVER" ;
 	
 	
 	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
@@ -148,7 +149,6 @@ public class AppConstants {
 
 	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/%s/%s";
 	public static final String URL_GET_SCHEDULES = "http://%s/di/v1/products/0/schedules/%s" ;
-	public static final String OUT_OF_MEMORY = "out of memory" ;
 	public enum Port { 
 		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",1), FIRMWARE("firmware",0), DEVICE("device",1), PAIRING("pairing",0), 
 		SECURITY("security",0), LOG("log",0), SCHEDULES("schedules",0);
@@ -174,8 +174,6 @@ public class AppConstants {
 	public static final int CPP_SUBSCRIPTIONTIME = 5; // IN MIN
 	
 	/** CONSTANTS FOR NOTIFICATIONS */
-	public static final String NOTIFICATION_SERVICE_TAG="3pns";
-	public static final String NOTIFICATION_PROTOCOL="push";
 	public static final String NOTIFICATION_PROVIDER_GOOGLE="gcma";
 	public static final String NOTIFICATION_PROVIDER_JPUSH="jpush";
 	
@@ -187,27 +185,11 @@ public class AppConstants {
 	public static final String PROPERTY_APP_LOCALE = "appLocale";
 	public static final String PROPERTY_REG_ID = "registration_id";
 	public static final String PROPERTY_NOTIFICATION_PROVIDER = "provider";
-	
-	
-	/** PAIRING CONSTANTS */
-	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
-	public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
-	public static final String PAIRING_REFERENCETYPE = "883437300710";
-	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
-	public static final String PAIRING_DI_COMM_RELATIONSHIP="DI-COMM";
-	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
-	public static final String PAIRING_DATA_ACCESS_RELATIONSHIP = "DATAACCESS";
-	public static final String PAIRING_APP_REFERENCETYPE="AC4373APP";
-	
-	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
-	public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
-	
+
 	/** OTHER CONSTANTS */
 	public static final String PURIFIER_BUY_LINK = "http://shop.philips.com.cn/product/JY0002/detail.htm?origin=15_global_en_purifier-app_purifier-app";
-	public static final String APP_TYPE="AC4373APP";
+	
 	public static final String MODEL_NAME = "AirPurifier" ;
-	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
-	public static final String DISCOVERY_REQUEST = "DCS-REQUEST" ;
 
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 

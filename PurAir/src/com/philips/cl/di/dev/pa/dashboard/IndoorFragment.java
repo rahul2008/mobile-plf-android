@@ -21,14 +21,18 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties;
+import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -36,8 +40,6 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
@@ -47,7 +49,7 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
+import com.philips.cl.di.dicomm.port.AirPort;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
 	AlertDialogBtnInterface {
@@ -117,10 +119,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		String eui64 = "";
 		if(getArguments() != null) {
 			position = getArguments().getInt("position");
-			AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-			if (purifier == null) return;
-			
-			eui64 = purifier.getNetworkNode().getCppId() ;
+			DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(position);
+			if (appliance == null) return;
+
+			eui64 = appliance.getNetworkNode().getCppId() ;
 		}
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
@@ -151,7 +153,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		initFirmwareUpdatePopup();
 	}
-	
+
 	private void initFirmwareUpdatePopup() {
 		firmwareUpdatePopup = (RelativeLayout) getView().findViewById(R.id.firmware_update_available);
 		firmwareUpdatePopup.setOnClickListener(this);
@@ -171,7 +173,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		super.onResume();
 
 		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
-		
 		updateDashboardUI();
 		hideFirmwareUpdatePopup();
 	}
@@ -198,22 +199,26 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (PurAirApplication.isDemoModeEnable()) {
 			purifierNameTxt.setText(DemoModeConstant.DEMO);
 		} else if (purifier == null || !purifier.getNetworkNode().getCppId().equals(tempEui64)) {
-			purifier = DiscoveryManager.getInstance().getDeviceByEui64(tempEui64);
+			DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(tempEui64);
+			if (appliance instanceof AirPurifier) {
+				purifier = (AirPurifier) appliance;
+			}
 		}
 		
 		if (purifier == null) return;
 		
-		if(purifier.getFirmwarePort().getFirmwarePortInfo() == null || purifier.getFirmwarePort().getFirmwarePortInfo().getState() != FirmwareState.IDLE) {
+		if(purifier.getFirmwarePort().getPortProperties() == null || purifier.getFirmwarePort().getPortProperties().getState() != FirmwareState.IDLE) {
 			ALog.i(ALog.FIRMWARE, "IndoorFragment$updateDashboardUI hideFirmwareUpdatePopup ");
 			hideFirmwareUpdatePopup();
 		}
 		
 		purifierNameTxt.setText(purifier.getName());
 		
-		AirPortInfo airPortInfo = purifier.getAirPort().getAirPortInfo();
+		AirPort airPort = purifier.getAirPort();
+        AirPortProperties airPortInfo = airPort.getPortProperties();
 		if (airPortInfo == null) {
 			airPortInfo = DashboardUtil.getDefaultAirPortInfo() ;
-			purifier.getAirPort().setAirPortInfo(airPortInfo);
+			airPort.setDefaultPortProperties(airPortInfo);
 		}
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
@@ -262,7 +267,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 	}
 	
-	private boolean showAlertErrorAirPort(AirPortInfo airPortInfo, String pName) {
+	private boolean showAlertErrorAirPort(AirPortProperties airPortInfo, String pName) {
 		boolean errorMode = false;
 		String powerMode = airPortInfo.getPowerMode();
 		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
@@ -368,7 +373,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		AirPurifier purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		if (purifier == null) return;
-		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePort().getFirmwarePortInfo();
+		final FirmwarePortProperties firmwarePortInfo = purifier.getFirmwarePort().getPortProperties();
 		if(firmwarePortInfo == null) return;
 
 		updateFirmwareUI(purifier.getNetworkNode().getCppId(), firmwarePortInfo);
@@ -396,7 +401,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 	};
 	
-	private void updateFirmwareUI(String purifierEui64, FirmwarePortInfo firmwarePortInfo) {
+	private void updateFirmwareUI(String purifierEui64, FirmwarePortProperties firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
 		
 		int progressVisibility = View.INVISIBLE;

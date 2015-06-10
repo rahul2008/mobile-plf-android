@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import java.nio.charset.Charset;
+
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -9,8 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class AlertDialogFragment extends DialogFragment {
 
@@ -156,6 +164,20 @@ public class AlertDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
+	}
+
+	public static String getBootStrapID() {
+		String bootStrapID = AppConstants.EMPTY_STRING ;
+		StringBuilder bootStrapBuilder = new StringBuilder(TutorialPagerActivity.BOOT_STRAP_ID_1);
+		bootStrapBuilder.append(SchedulerConstants.BOOT_STRAP_ID_2).append(DrawerAdapter.BOOT_STRAP_ID_3) ;
+		bootStrapBuilder.append(Utils.BOOT_STRAP_ID_4) ;
+		try {
+			bootStrapID = new String(ByteUtil.decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return bootStrapID ;
 	}
 
 }

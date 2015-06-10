@@ -11,14 +11,15 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -26,7 +27,6 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class FilterStatusFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 
@@ -195,20 +195,20 @@ public class FilterStatusFragment extends BaseFragment implements AirPurifierEve
 
 	}
 
-	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
+	private AirPortProperties getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
-		return purifier.getAirPort().getAirPortInfo();
+		return purifier.getAirPort().getPortProperties();
 	}
 
 	private void updateFilterViews() {
 		ALog.i(ALog.FILTER_STATUS_FRAGMENT, "updateFilterStatus");
 		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(purifier == null || purifier.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED
-				|| purifier.getAirPort().getAirPortInfo() == null) {
+				|| purifier.getAirPort().getPortProperties() == null) {
 			disableFilterStatus();
 			return ;
 		}
-		final AirPortInfo info = getAirPortInfo(purifier);
+		final AirPortProperties info = getAirPortInfo(purifier);
 		updateFilterStatus(info.getPreFilterStatus(),
 				info.getMulticareFilterStatus(),
 				info.getActiveFilterStatus(),

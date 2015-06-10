@@ -26,23 +26,31 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import cn.jpush.android.api.JPushInterface;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
+import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.port.common.PairingHandler;
+import com.philips.cdp.dicommclient.port.common.PairingListener;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.buyonline.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.buyonline.ProductRegisterFragment;
 import com.philips.cl.di.dev.pa.buyonline.PromotionsFragment;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.CPPController.SignonState;
-import com.philips.cl.di.dev.pa.cpp.PairingHandler;
-import com.philips.cl.di.dev.pa.cpp.PairingListener;
-import com.philips.cl.di.dev.pa.cpp.SignonListener;
+
+import com.philips.cdp.dicommclient.cpp.CppController.SignonState;
+import com.philips.cl.di.dev.pa.cpp.AppUpdater;
 import com.philips.cl.di.dev.pa.dashboard.DeviceControlFragment;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
@@ -61,10 +69,6 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -77,9 +81,8 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
-import com.philips.cl.di.dicomm.communication.Error;
 
-public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
+public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener,
 PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectionListener {
 
 	private static int screenWidth, screenHeight, statusBarHeight;
@@ -103,7 +106,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
 		getMainContainerHeight();
-		CPPController.getInstance(this).setAppUpdateStatus(false);
+		
+		// DICOMM Refactor - check right place to instantiate appupdater
+		//CPPController.getInstance(this).setAppUpdateStatus(false);
+		AppUpdater appUpdater = AppUpdater.getInstance(getApplicationContext());
+		appUpdater.setAppUpdateStatus(false);
 		discoveryManagerIstance = DiscoveryManager.getInstance();
 		//Fetch database data
 		OutdoorManager.getInstance();
@@ -289,7 +296,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	@Override
 	protected void onDestroy() {
-		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
+		CppController.getInstance().removeSignOnListener(this);
 		clearObjects();
 		super.onDestroy();
 	}
@@ -420,9 +427,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	private void initializeCPPController() {
-			CPPController.getInstance(this).setDefaultDcsState() ;
-			CPPController.getInstance(this).addSignOnListener(this) ;
-		
+			CppController.getInstance().setDefaultDcsState() ;
+			CppController.getInstance().addSignOnListener(this) ;
+
 	}
 
 
@@ -522,16 +529,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			return ;
 		}
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getNetworkNode().getConnectionState());
-		final AirPortInfo info = getAirPortInfo(purifier);
+		final AirPortProperties info = getAirPortInfo(purifier);
 		if (info == null) {
 			return;
 		}
 		pairToPurifierIfNecessary();
 	}
 
-	private AirPortInfo getAirPortInfo(AirPurifier purifier) {
+	private AirPortProperties getAirPortInfo(AirPurifier purifier) {
 		if (purifier == null) return null;
-		return purifier.getAirPort().getAirPortInfo();
+		return purifier.getAirPort().getPortProperties();
 	}
 
 	public int getVisits() {
@@ -551,7 +558,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 
 	public void pairToPurifierIfNecessary() {
 		final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;
-		if( PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		if (PairingHandler.pairApplianceIfNecessary(purifier.getNetworkNode()) && PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
 			purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			checkInternetConnection() ;
@@ -635,19 +643,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		if (PurAirApplication.isDemoModeEnable()) return;
 
-		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
+		DiscoveryManager.getInstance().printDiscoveredAppliances(ALog.MAINACTIVITY);
 
-		ArrayList<AirPurifier> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-		if (devices.size() <= 0) return;
+		ArrayList<DICommAppliance> appliances = DiscoveryManager.getInstance().getAllDiscoveredAppliances();
+		if (appliances.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
-				+ devices.size() + " :: " + devices);
+				+ appliances.size() + " :: " + appliances);
 
 		AirPurifier current = getCurrentPurifier();
-		if( current != null && current.getAirPort().getAirPortInfo() != null) return ;
+		if( current != null && current.getAirPort().getPortProperties() != null) return ;
 		AirPurifierManager.getInstance().startSubscription() ;
 	}
 
@@ -662,7 +670,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		if (PurAirApplication.isDemoModeEnable()) {
 			updateUIInDemoMode();
 		} else {
-			CPPController.getInstance(this).signOnWithProvisioning();			
+			CppController.getInstance().signOnWithProvisioning();
 		}
 	}
 
@@ -692,18 +700,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	public void internetStatus(boolean internetAvailable) {
 		if ( internetAvailable ) {
 			internetState = InternetState.Connected;
-			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;		
+			final AirPurifier purifier = AirPurifierManager.getInstance().getCurrentPurifier() ;			
 			if( purifier == null) {
 				return ;
 			}
-			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
-				CPPController.getInstance(PurAirApplication.getAppContext()).signOnWithProvisioning() ;
-				CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(new SignonListener() {
+			if (!CppController.getInstance().isSignOn() || purifier==null) {
+				CppController.getInstance().signOnWithProvisioning() ;
+				CppController.getInstance().addSignOnListener(new SignonListener() {
 					@Override
 					public void signonStatus(boolean signon) {
 						if( signon ) {
 							ALog.i(ALog.PAIRING, "Start pairing process" ) ;
-							PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
+							PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 							pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 							pm.startPairing();
 						} else {
@@ -714,7 +722,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			}
 			else {
 				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getNetworkNode().getPairedState()+ " "+ purifier.getName());
-				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 				pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
 				pm.startPairing();
 			}
@@ -725,7 +733,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 			if (purifier != null) {
 				ALog.i(ALog.PAIRING, "In last if pairToPurifierIfNecessary()");
 				purifier.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
-				PairingHandler pm = new PairingHandler(MainActivity.this, purifier.getNetworkNode());
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 				// Sets the max pairing attempt for the Purifier to stop checking for internet connection
 				while(PairingHandler.getPairingAttempts(purifier.getNetworkNode().getCppId()) < AppConstants.MAX_RETRY) {
 					pm.setPairingAttempts(purifier.getNetworkNode().getCppId());
@@ -746,7 +754,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		communicationFailedMsgDisplayed = false;
 		internetState = InternetState.Connecting;
 		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$checkInternetWhenAppLaunch() internetState= " + internetState
-				+ "SignOnState= " + CPPController.getInstance(this).getSignOnState());
+				+ "SignOnState= " + CppController.getInstance().getSignOnState());
 		new InternetConnectionHandler(new InternetConnectionListener() {
 			
 			@Override
@@ -763,10 +771,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	}
 	
 	private synchronized void showCommunicationFailedMessage() {
-		SignonState signonState = CPPController.getInstance(PurAirApplication.getAppContext()).getSignOnState();
+		SignonState signonState = CppController.getInstance().getSignOnState();
 		ALog.i(ALog.APP_LAUNCH_CHEK_INTERNET, "MainActivity$showCommunicationFailedMessage() internetState= " + internetState
-				+ "; SignOnState= " + signonState + "; Added purifierlist size= " + DiscoveryManager.getInstance().getStoreDevices().size());
-		if (discoveryManagerIstance.getStoreDevices().isEmpty() || signonState == SignonState.SIGNED_ON) return;
+				+ "; SignOnState= " + signonState + "; Added purifierlist size= " + DiscoveryManager.getInstance().getAddedAppliances().size());
+		if (discoveryManagerIstance.getAddedAppliances().isEmpty() || signonState == SignonState.SIGNED_ON) return;
 		
 		if (internetState != InternetState.Connecting && signonState != SignonState.SIGNING) {
 			if (internetState == InternetState.Connected) {

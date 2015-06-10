@@ -34,6 +34,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -41,11 +46,6 @@ import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListen
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager.EWS_STATE;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -349,9 +349,9 @@ public class EWSActivity extends ActionBarActivity implements
 				current.setLatitude(String.valueOf(location.getLatitude()));
 				current.setLongitude(String.valueOf(location.getLongitude()));
 			}
-			new PurifierDatabase().insertPurAirDevice(current);
-			List<AirPurifier> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
-			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
+			DiscoveryManager.getInstance().insertApplianceToDatabase(current);
+			List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateAddedAppliances();
+			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(appliances.size() - 1);
 		}
 		
 		// STOP move code
@@ -702,13 +702,13 @@ public class EWSActivity extends ActionBarActivity implements
 	}
 	
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
-		AirPurifier ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
-		if (ewsPurifier == null) return;
-		if (ewsPurifier.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+		DICommAppliance ewsAppliance = DiscoveryManager.getInstance().getApplianceByCppId(cppId);
+		if (ewsAppliance == null || !(ewsAppliance instanceof AirPurifier)) return;
+		if (ewsAppliance.getNetworkNode().getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
-		AirPurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
+		AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier) ewsAppliance);
 		deviceDiscoveryCompleted();
 	}
 	

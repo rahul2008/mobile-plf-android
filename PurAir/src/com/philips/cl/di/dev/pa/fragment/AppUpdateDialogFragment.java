@@ -10,9 +10,9 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.AppUpdater;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
@@ -64,7 +64,8 @@ public class AppUpdateDialogFragment extends DialogFragment {
 
 			@Override
 			public void onClick(View v) {
-				CPPController.getInstance(PurAirApplication.getAppContext()).fetchICPComponents() ;
+				AppUpdater appUpdater = AppUpdater.getInstance(getActivity().getApplicationContext());
+				appUpdater.fetchComponents(AppConstants.COMPONENT_ID);
 				dismiss();
 			}
 		});

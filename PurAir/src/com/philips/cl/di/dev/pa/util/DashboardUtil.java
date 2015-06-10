@@ -22,15 +22,16 @@ import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 
 public class DashboardUtil {
 
@@ -108,12 +109,12 @@ public class DashboardUtil {
 		//For demo mode
 		if (PurAirApplication.isDemoModeEnable()) {
 			countIndoor = 1;
-		} else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
-			countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+		} else if (DiscoveryManager.getInstance().getAddedAppliances().size() > 0) {
+			countIndoor = DiscoveryManager.getInstance().getAddedAppliances().size() ;
 
-			AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
-			if(purifier != null) {
-				AirPurifierManager.getInstance().setCurrentPurifier(purifier);
+			DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(0);
+			if(appliance != null && (appliance instanceof AirPurifier)) {
+				AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier) appliance);
 			}
 		}
 		return countIndoor;
@@ -171,8 +172,8 @@ public class DashboardUtil {
 
 	}
 
-	public static AirPortInfo getDefaultAirPortInfo() {
-		AirPortInfo airPortInfo = new AirPortInfo() ;
+	    public static AirPortProperties getDefaultAirPortInfo() {
+			AirPortProperties airPortInfo = new AirPortProperties() ;
 		airPortInfo.setActiveFilterStatus(0) ;
 		airPortInfo.setActualFanSpeed("1") ;
 		airPortInfo.setAqiL(0) ;
@@ -218,7 +219,6 @@ public class DashboardUtil {
 		}
 		return color;
 	}
-	
 	public static synchronized OnTouchListener getListViewTouchListener(final ListView listView) {
 		//We have ListView inside scrollView, so in some of the device list is not scrolling
 		OnTouchListener listViewTouchListener = new OnTouchListener() {

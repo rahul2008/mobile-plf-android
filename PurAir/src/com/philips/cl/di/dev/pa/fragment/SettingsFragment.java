@@ -20,16 +20,11 @@ import com.philips.cl.di.dev.pa.activity.PrivacyPolicyActivity;
 import com.philips.cl.di.dev.pa.buyonline.AppUtils;
 import com.philips.cl.di.dev.pa.buyonline.FeedbackActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.demo.DemoModeTask;
-import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
@@ -128,10 +123,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				}
 				AirPurifier purAirDevice = AirPurifierManager.getInstance().getCurrentPurifier();
 				if (purAirDevice != null && purAirDevice.isDemoPurifier()) {
-					String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice.getNetworkNode());
-					DemoModeTask task = new DemoModeTask(
-							null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
-					task.start();
+				    purAirDevice.getWifiUIPort().disableDemoMode();
 				}
 				AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 				mainActivity.startNormalMode();
@@ -139,7 +131,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(1);
 				mainActivity.startDemoMode();
 			}
-			AirPurifierManager.getInstance().removeCurrentPurifier();
+			AirPurifierManager.getInstance().removeCurrentAppliance();
 //			((MainActivity) getActivity()).setActionBar(new SettingsFragment());
 			((MainActivity) getActivity()).onAirPurifierChanged();
 

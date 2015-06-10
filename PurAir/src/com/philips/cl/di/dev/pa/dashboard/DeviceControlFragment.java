@@ -14,39 +14,40 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontButton;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dicomm.communication.Error;
 
 public class DeviceControlFragment extends BaseFragment implements OnClickListener, AirPurifierEventListener{
-	
+
 	private MainActivity mainActivity;
-	
+
 	private boolean isFanSpeedAuto;
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible;
-	
+
 	private RelativeLayout fanSpeedLayout, timerLayout;
 	private ToggleButton power, fanSpeedAuto, indicatorLight, childLock, timer;
 	private FontButton fanSpeed;
 	private FontButton fanSpeedSilent, fanSpeedTurbo, fanSpeedOne, fanSpeedTwo, fanSpeedThree;
-	
+
 	private int [] timerButtonViewIds = {R.id.one_hour, R.id.four_hours, R.id.eight_hours};
 	private FontButton[] timerButtons = new FontButton[timerButtonViewIds.length];
 	private FontTextView setTimerText, timerState, powerStatusTextView, scheduleTV,notificationTV;
-	
+
 	private ProgressBar controlProgress;
 
 	@Override
@@ -54,7 +55,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		View view = inflater.inflate(R.layout.device_control_panel, null);
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -63,17 +64,17 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		mainActivity = (MainActivity) getActivity();
 		initViews(getView());
 	}
-	
+
 	@Override
 	public void onResume() {
-		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if (currentPurifier != null) { 
-			updateButtonState(currentPurifier.getAirPort().getAirPortInfo());
+		    updateButtonState(currentPurifier.getAirPort().getPortProperties());
 		}
+		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 		super.onResume();
 	}
-	
+
 	@Override
 	public void onPause() {
 		AirPurifierManager.getInstance().removeAirPurifierEventListener(this);
@@ -87,10 +88,10 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		FontTextView heading=(FontTextView) view.findViewById(R.id.heading_name_tv);
 		heading.setText(getString(R.string.controls));
 		power = (ToggleButton) view.findViewById(R.id.btn_rm_power);
-		
+
 		initFanSpeedButtons(view);
 		initTimerViews(view);
-		
+
 		indicatorLight = (ToggleButton) view.findViewById(R.id.btn_rm_indicator_light);
 		childLock = (ToggleButton) view.findViewById(R.id.btn_rm_child_lock);
 		timerLayout= (RelativeLayout) view.findViewById(R.id.layout_timer);
@@ -102,7 +103,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		indicatorLight.setOnClickListener(this);
 		childLock.setOnClickListener(this);
 		timer.setOnClickListener(this);
-		
+
 		controlProgress = (ProgressBar) view.findViewById(R.id.heading_progressbar);
 
 		scheduleTV = (FontTextView) view.findViewById(R.id.tv_rm_scheduler);
@@ -130,7 +131,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		fanSpeedOne= (FontButton) view.findViewById(R.id.fan_speed_one);
 		fanSpeedTwo= (FontButton) view.findViewById(R.id.fan_speed_two);
 		fanSpeedThree= (FontButton) view.findViewById(R.id.fan_speed_three);
-		
+
 		fanSpeed.setOnClickListener(this);
 		fanSpeedOne.setOnClickListener(this);
 		fanSpeedTwo.setOnClickListener(this);
@@ -146,7 +147,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		case R.id.btn_rm_power:
 			if (power.isChecked()) {
 				AirPurifier purifier = mainActivity.getCurrentPurifier();
-				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getAirPortInfo();
+				AirPortProperties airPortInfo = purifier == null ? null : purifier.getAirPort().getPortProperties();
 				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1");
 				MetricsTracker.trackActionTogglePower("Power on");
@@ -201,8 +202,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			} else {
 				String fspd = "1";
 				if (AirPurifierManager.getInstance().getCurrentPurifier() != null
-						&& AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getAirPortInfo() != null) {
-					fspd = AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getAirPortInfo().getActualFanSpeed();
+						&& AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getPortProperties() != null) {
+					fspd = AirPurifierManager.getInstance().getCurrentPurifier().getAirPort().getPortProperties().getActualFanSpeed();
 				}
 				controlDevice(ParserConstants.FAN_SPEED, fspd);
 				MetricsTracker.trackActionFanSpeed("auto_off");
@@ -263,8 +264,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 				controlDevice(ParserConstants.DEVICE_TIMER, "0");
 				MetricsTracker.trackActionTimerAdded("off");
 				break;
-			} 
-			
+			}
+
 		case R.id.one_hour:
 			timer.setChecked(true);
 			setTimerStatus();
@@ -298,7 +299,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			collapseTimerMenu(true);
 			mainActivity.showFragment(new NotificationsFragment());
 			break;
-		case R.id.heading_back_imgbtn: 
+		case R.id.heading_back_imgbtn:
 			mainActivity.onBackPressed();
 			break;
 		default:
@@ -308,7 +309,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private void setTimerStatus() {
 		AirPurifier purifier = mainActivity.getCurrentPurifier();
-		AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPort().getAirPortInfo();
+		AirPortProperties airPortInfo = purifier == null ? null : purifier.getAirPort().getPortProperties();
 		if(airPortInfo != null && airPortInfo.getDtrs() > 0) {
 			timerState.setText(getString(R.string.time) + "  " + getTimeRemaining(airPortInfo.getDtrs()));
 		} else {
@@ -318,18 +319,18 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	private String getTimeRemaining(int timeRemaining) {
 		int hours = timeRemaining / 3600;
-		int minutes = (timeRemaining % 3600) / 60; 
+		int minutes = (timeRemaining % 3600) / 60;
 		return String.format("%02d", hours) + " : " + String.format("%02d", minutes);
 //		return "" + hours + " : " + minutes;
 	}
-	
+
 	private void controlDevice(String key, String value) {
 		// Start the progress dialog
 		controlProgress.setVisibility(View.VISIBLE);
-		
+
 		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
 		if(currentPurifier!=null){
-		    currentPurifier.getAirPort().setPurifierDetails(key, value, Error.DEVICE_CONTROL);
+			currentPurifier.getAirPort().putProperties(key, value);
 		}
 	}
 
@@ -338,21 +339,22 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 	@Override
 	public void onAirPurifierEventReceived() {
-		AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		final AirPortInfo airPortInfo = currentPurifier.getAirPort().getAirPortInfo();
+		ALog.i("UPDATE", "onAirPurifierEventReceived");
+		final AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
+		final AirPortProperties airPortInfo = currentPurifier.getAirPort().getPortProperties();
 		mainActivity.runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// Dismiss the progress dialog
+				if (currentPurifier.getAirPort().isApplyingChanges()) return;
 				controlProgress.setVisibility(View.INVISIBLE);
 				updateButtonState(airPortInfo);
-				
 			}
 		});
 	}
 
-	private void updateButtonState(AirPortInfo airPortInfo) {
+	private void updateButtonState(AirPortProperties airPortInfo) {
 		if(airPortInfo == null || airPortInfo.getPowerMode() == null) return;
 		notificationTV.setClickable(true) ;
 		scheduleTV.setClickable(true);
@@ -396,12 +398,14 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				controlProgress.setVisibility(View.INVISIBLE);				
+				AirPurifier currentPurifier = mainActivity.getCurrentPurifier();
+				if (currentPurifier.getAirPort().isApplyingChanges()) return;
+				controlProgress.setVisibility(View.INVISIBLE);
 			}
 		});
 	}
-	
-	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
+
+	private void enableButtonsOnPowerOn(AirPortProperties airPurifierEventDto) {
 
 		if (airPurifierEventDto != null) {
 			fanSpeed.setClickable(true);
@@ -420,8 +424,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			timer.setClickable(false);
 		}
 	}
-	
-	private boolean getTimerStatus(AirPortInfo airPurifierEventDto) {
+
+	private boolean getTimerStatus(AirPortProperties airPurifierEventDto) {
 		return airPurifierEventDto.getDtrs() > 0;
 	}
 
@@ -444,14 +448,14 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 
 		collapseFanSpeedMenu(true);
 		collapseTimerMenu(true);
-		
+
 		disabledButton = null;
 	}
-	
+
 	private boolean getOnOffStatus(int status) {
 		return AppConstants.ON == status;
 	}
-	
+
 	private void collapseFanSpeedMenu(boolean collapse) {
 		isFanSpeedMenuVisible = !collapse;
 		if (!collapse) {
@@ -460,7 +464,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			fanSpeedLayout.setVisibility(View.GONE);
 		}
 	}
-	
+
 	private void collapseTimerMenu(boolean collapse) {
 		isTimerMenuVisible = !collapse;
 		if(!collapse) {
@@ -469,8 +473,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			timerLayout.setVisibility(View.GONE);
 		}
 	}
-	
-	private void setFanSpeed(AirPortInfo airPurifierEventDto) {
+
+	private void setFanSpeed(AirPortProperties airPurifierEventDto) {
 		FanSpeed fan = airPurifierEventDto.getFanSpeed();
 		String sActualFanSpeed = airPurifierEventDto.getActualFanSpeed();
 		int buttonImage = 0;
@@ -522,7 +526,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		}
 		fanSpeed.setBackgroundResource(buttonImage);
 	}
-	
+
 	private void toggleFanSpeedButtonBackground(int id) {
 		fanSpeedOne.setBackgroundResource((id == fanSpeedOne.getId()) ? R.drawable.fan_speed_one
 						: R.drawable.fan_speed_one_white);
@@ -539,7 +543,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 		fanSpeedTurbo.setTextColor((id == fanSpeedTurbo.getId()) ? Color.WHITE
 				: Color.rgb(109, 109, 109));
 	}
-	
+
 	private void toggleTimerButtonBackground(int id) {
 		for (int i = 0; i < timerButtons.length; i++) {
 			if (id == timerButtons[i].getId()) {
@@ -551,8 +555,8 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			}
 		}
 	}
-	
-	private String getTimerText(AirPortInfo airPurifierEventDto) {
+
+	private String getTimerText(AirPortProperties airPurifierEventDto) {
 		int timeRemaining = airPurifierEventDto.getDtrs();
 		if (timeRemaining > 0 && timeRemaining <= 3600) {
 			return mainActivity.getString(R.string.onehour);
@@ -564,7 +568,7 @@ public class DeviceControlFragment extends BaseFragment implements OnClickListen
 			return mainActivity.getString(R.string.off);
 		}
 	}
-	
+
 	private int getButtonToBeHighlighted(String timer) {
 		if (timer.equals(mainActivity.getString(R.string.onehour))) {
 			return R.id.one_hour;

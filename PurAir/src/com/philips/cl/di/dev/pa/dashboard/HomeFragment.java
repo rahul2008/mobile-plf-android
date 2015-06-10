@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.WBShareActivity;
@@ -35,7 +37,6 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -408,11 +409,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				return;
 			}
 			
-			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-				AirPurifier purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-				if (purifier == null) return;
-		
-				AirPurifierManager.getInstance().setCurrentPurifier(purifier) ;
+			if( position < DiscoveryManager.getInstance().getAddedAppliances().size()) {
+				DICommAppliance appliance = DiscoveryManager.getInstance().getAddedAppliances().get(position);
+				if (appliance == null || !(appliance instanceof AirPurifier)) return;
+
+				AirPurifierManager.getInstance().setCurrentAppliance((AirPurifier)appliance) ;
 			}
 			
 			
@@ -427,7 +428,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	
 	private void shareIconVisibility(int position) {
-		if (position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+			if (position < DiscoveryManager.getInstance().getAddedAppliances().size()) {
 			share.setVisibility(View.VISIBLE);
 		} else {
 			share.setVisibility(View.GONE);
@@ -457,7 +458,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	};
 
     public void notifyIndoorPager() {
-        countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+        countIndoor = DiscoveryManager.getInstance().getAddedAppliances().size() ;
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(countIndoor);
         indoorPagerAdapter.setCount(countIndoor) ;
         indoorPagerAdapter.notifyDataSetChanged();

@@ -4,12 +4,8 @@ import android.os.Build;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.util.JSONBuilder;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DemoModeController {
 	
@@ -28,10 +24,7 @@ public class DemoModeController {
 			}
 			AirPurifier purAirDevice = AirPurifierManager.getInstance().getCurrentPurifier();
 			if (purAirDevice != null && purAirDevice.isDemoPurifier()) {
-				String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice.getNetworkNode());
-				DemoModeTask task = new DemoModeTask(
-						null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
-				task.start();
+				purAirDevice.getWifiUIPort().disableDemoMode();
 			}
 			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 			activity.startNormalMode();
@@ -39,7 +32,7 @@ public class DemoModeController {
 			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(1);
 			activity.startDemoMode();
 		}
-		AirPurifierManager.getInstance().removeCurrentPurifier();
+		AirPurifierManager.getInstance().removeCurrentAppliance();
 		activity.onAirPurifierChanged();
 	}
 

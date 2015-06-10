@@ -23,14 +23,15 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.cpp.CppController.SignonState;
+import com.philips.cdp.dicommclient.cpp.ICPDownloadListener;
+import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
+import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirAnalysisExplainActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.CPPController.SignonState;
-import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData.PurifierCurrentCityPercentListener;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -38,7 +39,6 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -453,7 +453,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 		super.onDestroy();
 		PurifierCurrentCityData.getInstance().removeListener();
 		getCPPControllerInstance().removeSignOnListener(this);
-		CPPController.getInstance(getMainActivity()).removeDownloadDataListener();
+		CppController.getInstance().removeDownloadDataListener();
 		handlerDownload.removeMessages(DOWNLOAD_COMPLETE);
 		handlerDownload.removeMessages(DOWNLOAD_NA);
 		handlerDownload.removeMessages(DOWNLOAD_FAILED);
@@ -476,8 +476,8 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 		}
 	}
 
-	private CPPController getCPPControllerInstance() {
-		return CPPController.getInstance(getActivity());
+	private CppController getCPPControllerInstance() {
+		return CppController.getInstance();
 	}
 
 }

@@ -13,21 +13,22 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.communication.NullStrategy;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.port.common.PairingHandler;
+import com.philips.cdp.dicommclient.port.common.PairingListener;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.adapter.ManagePurifierArrayAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.PairingHandler;
-import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkNode;
 import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.util.DashboardUtil;
@@ -39,16 +40,14 @@ public class ManagePurifierFragment extends BaseFragment implements
         DashboardUpdateListener, PairingListener, OnClickListener {
 
 	private ManagePurifierArrayAdapter arrayAdapter;
-	private PurifierDatabase database;
 	private ListView listView;
-	private List<AirPurifier> purifiers;
+	private List<DICommAppliance> appliances;
 	private HashMap<String, Boolean> selectedItems;
     private FontTextView editTV;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		database = new PurifierDatabase();
 		selectedItems = new HashMap<String, Boolean>();
 
 	}
@@ -68,7 +67,7 @@ public class ManagePurifierFragment extends BaseFragment implements
         HomeFragment homeFragment = (HomeFragment) getParentFragment();
         if (homeFragment != null) {
 			homeFragment.setUpdateMyPurifiersListner(new UpdateMyPurifierListener() {
-				
+
 				@Override
 				public void onUpdate() {
 					if (getString(R.string.done).equals(editTV.getText().toString())) {
@@ -82,9 +81,9 @@ public class ManagePurifierFragment extends BaseFragment implements
 		}
         
 	}
-	
+
 	private void saveLastPageCurrentPage() {
-		int size = DiscoveryManager.getInstance().getStoreDevices().size() + 1;
+		int size = DiscoveryManager.getInstance().getAddedAppliances().size() + 1;
 		AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(size);
 	}
 
@@ -103,7 +102,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		super.onResume();
 		loadDataFromDatabase();
 	}
-	
+
 	@Override
 	public void onStop() {
 		HomeFragment homeFragment = (HomeFragment) getParentFragment();
@@ -114,18 +113,28 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	private void loadDataFromDatabase() {
-		purifiers = DiscoveryManager.getInstance().getStoreDevices();
-		AirPurifier addPurifierDevice = new AirPurifier("", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
-		purifiers.add(0, addPurifierDevice);
+		appliances = DiscoveryManager.getInstance().getAddedAppliances();
+
+        NullStrategy communicationStrategy = new NullStrategy();
+        NetworkNode networkNode = new NetworkNode();
+        networkNode.setBootId(0);
+        networkNode.setCppId("");
+        networkNode.setIpAddress("");
+        networkNode.setName(getString(R.string.add_purifier));
+        networkNode.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+        
+        AirPurifier addPurifierDevice = new AirPurifier(networkNode, communicationStrategy);
+
+		appliances.add(0, addPurifierDevice);
         AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(AirPurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection
 		arrayAdapter = new ManagePurifierArrayAdapter(getActivity(),
-				R.layout.simple_list_item, purifiers, editTV.getText().toString(), selectedItems, this);
+				R.layout.simple_list_item, appliances, editTV.getText().toString(), selectedItems, this);
 		listView.setOnItemClickListener(arrayAdapter.managePurifierItemClickListener);
 		listView.setAdapter(arrayAdapter);
 
-		if (purifiers.isEmpty()) {
-			AirPurifierManager.getInstance().removeCurrentPurifier();
+		if (appliances.isEmpty()) {
+			AirPurifierManager.getInstance().removeCurrentAppliance();
 		}
 	}
 
@@ -186,7 +195,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 		if (purifier.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			// Remove pairing
-			PairingHandler pairingHandler = new PairingHandler(this, purifier.getNetworkNode());
+			PairingHandler pairingHandler = new PairingHandler(this, purifier);
 			pairingHandler.initializeRelationshipRemoval();
 		}
 
@@ -205,13 +214,13 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
     private void setCurrentPage(AirPurifier purifier) {
-        int effectedRow = database.deletePurifier(purifier.getUsn());
-        if (effectedRow > 0) {
-            if (selectedItems.containsKey(purifier.getUsn())) {
-                selectedItems.remove(purifier.getUsn());
+        int rowsDeleted = DiscoveryManager.getInstance().deleteApplianceFromDatabase(purifier);
+        if (rowsDeleted > 0) {
+            if (selectedItems.containsKey(purifier.getNetworkNode().getCppId())) {
+                selectedItems.remove(purifier.getNetworkNode().getCppId());
             }
             // Updates store device from DB
-            DiscoveryManager.getInstance().updateStoreDevices();
+            DiscoveryManager.getInstance().updateAddedAppliances();
             saveLastPageCurrentPage();
             loadDataFromDatabase();
         }
@@ -230,7 +239,7 @@ public class ManagePurifierFragment extends BaseFragment implements
         AirPurifier currentPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
         if (currentPurifier == null) return;
         if (currentPurifier.getNetworkNode().getCppId().equals(purifier.getNetworkNode().getCppId())) {
-            AirPurifierManager.getInstance().removeCurrentPurifier();
+            AirPurifierManager.getInstance().removeCurrentAppliance();
         }
     }
 
@@ -242,8 +251,8 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	@Override
 	public void onItemClickGoToAddPurifier() {
-		List<AirPurifier> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
-		if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
+		List<DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateAddedAppliances();
+		if (addedAppliances.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 			showAlertDialog("",	getString(R.string.max_purifier_reached));
 		} else {
 			((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());

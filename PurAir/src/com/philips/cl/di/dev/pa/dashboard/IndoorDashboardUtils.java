@@ -5,7 +5,7 @@ import android.content.Context;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 
 public class IndoorDashboardUtils {
 	
@@ -43,7 +43,7 @@ public class IndoorDashboardUtils {
 		}
 	}
 
-	public static String getFilterStatus(AirPortInfo airPurifierEventDto) {
+	public static String getFilterStatus(AirPortProperties airPurifierEventDto) {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
 			Context context = PurAirApplication.getAppContext();

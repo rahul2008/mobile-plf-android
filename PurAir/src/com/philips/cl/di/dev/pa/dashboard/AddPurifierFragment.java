@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -24,8 +26,6 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
@@ -65,8 +65,7 @@ public class AddPurifierFragment extends BaseFragment implements
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				((MainActivity) getActivity()).startActivity(intent);
 			} else {
-				List<AirPurifier> storePurifiers = DiscoveryManager
-						.getInstance().updateStoreDevices();
+				List<DICommAppliance> storePurifiers = DiscoveryManager.getInstance().updateAddedAppliances();
 				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 					showAlertDialog("",	getString(R.string.max_purifier_reached));
 				} else {

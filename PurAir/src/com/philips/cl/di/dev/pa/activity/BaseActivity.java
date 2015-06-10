@@ -2,10 +2,7 @@ package com.philips.cl.di.dev.pa.activity;
 
 import net.hockeyapp.android.Tracking;
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -13,11 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.cpp.AppUpdateNotificationListener;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.AppUpdater;
+import com.philips.cl.di.dev.pa.cpp.AppUpdater.ShowAppUpdateDialogListener;
 import com.philips.cl.di.dev.pa.fragment.AppUpdateDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -28,20 +23,19 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
  * functionalities.
  */
 @SuppressLint("Registered")
-public class BaseActivity extends FragmentActivity implements AppUpdateNotificationListener {
+public class BaseActivity extends FragmentActivity implements ShowAppUpdateDialogListener {
 	
-	private NotificationManager notificationMan;
-	private final int NOTIFICATION_ID=45;
 	protected ConnectivityManager connectivityManager;
 	protected WifiManager wifiManager;
+	private AppUpdater mAppUpdater;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		ALog.d(ALog.ACTIVITY, "OnCreate on " + this.getClass().getSimpleName());
-		CPPController.getInstance(this).setAppUpdateNotificationListener(this) ;
+		
 		connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE) ;
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE) ;
-		notificationMan=(NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		mAppUpdater = AppUpdater.getInstance(getApplicationContext());
 		super.onCreate(savedInstanceState);
 	}
 
@@ -58,6 +52,7 @@ public class BaseActivity extends FragmentActivity implements AppUpdateNotificat
 		Tracking.startUsage(this);
 		MetricsTracker.startCollectLifecycleData(this);
 		NetworkReceiver.getInstance().registerNetworkReceiver();
+		mAppUpdater.registerShowAppUpdateDialogListener(this);
 	}
 
 	@Override
@@ -67,6 +62,7 @@ public class BaseActivity extends FragmentActivity implements AppUpdateNotificat
 		NetworkReceiver.getInstance().unregisterNetworkReceiver();
 		super.onPause();
 		MetricsTracker.stopCollectLifecycleData();
+		mAppUpdater.unregisterShowAppUpdateDialogListener();
 	}
 
 	@Override
@@ -82,7 +78,7 @@ public class BaseActivity extends FragmentActivity implements AppUpdateNotificat
 	}
 
 	@Override
-	public void onAppUpdate() {
+	public void showAppUpdateDialog() {
 		try {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -96,29 +92,9 @@ public class BaseActivity extends FragmentActivity implements AppUpdateNotificat
 			fragmentTransaction.commitAllowingStateLoss();
 		}catch(IllegalStateException i) {
 
-		}
+		}		
 	}
 
-	@Override
-	public void onAppUpdateFailed(final String message) {
-		showNotification(message);
-	}
-	
-	public void showNotification(String msg){
-		PendingIntent contentIntent = PendingIntent.getActivity(this,
-				0, new Intent(), 0);
-
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
-		mBuilder.setSmallIcon(R.drawable.purair_icon); // TODO change notification icon
-		mBuilder.setContentTitle(getString(R.string.app_update_failed));
-		mBuilder.setWhen(System.currentTimeMillis());
-		mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(msg));
-		mBuilder.setContentText(msg);
-		mBuilder.setAutoCancel(true);
-
-		mBuilder.setContentIntent(contentIntent);
-		notificationMan.notify(NOTIFICATION_ID, mBuilder.build());
-	}
 	
 	/*@SuppressWarnings("deprecation")
 	@SuppressLint("NewApi")

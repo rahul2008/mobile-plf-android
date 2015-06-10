@@ -1,30 +1,61 @@
-PurAir/bin/
-android-support-v7-appcompat/bin/
-PurAirTest/bin/
-PurAir/.idea/
-LocaleMatch/bin/
-PurAir/gen/
-LocaleMatch/gen/
-Janrain/gen/
-Janrain/bin/
-google_play_services_lib/bin/
-RegistrationApi/bin/
-SsdpConnectionLib/bin/
-GaodeMapBundle/bin/
-google_play_services_lib/gen/
-android-support-v7-appcompat/gen/
-SsdpConnectionLib/SsdpConnectionLib.iml
-RegistrationApi/gen/
-RegistrationApi/RegistrationApi.iml
-PurAirTest/gen/
-GaodeMapBundle/GaodeMapBundle.iml
-GaodeMapBundle/gen/
-Janrain/Janrain.iml
-PurAir.iml
-PurAir/PurAir-PurAir.iml
-PurAir/local.properties
-PurAirTest/PurAirTest.iml
-android-support-v7-appcompat/android-support-v7-appcompat.iml
-google_play_services_lib/google_play_services_lib.iml
-social_sdk_library_project/bin/
-social_sdk_library_project/gen/
+# =============== #
+# Android generated #
+# =============== #
+**/.settings/*
+**/bin/*
+**/gen/*
+local.properties
+
+
+**/outputs/*
+**/intermediates/*
+**/taskArtifacts/*
+
+**/.idea/.name
+**/.idea/compiler.xml
+**/.idea/copyright/profiles_settings.xml
+**/.idea/encodings.xml
+**/.idea/gradle.xml
+**/.idea/misc.xml
+**/.idea/modules.xml
+**/.idea/vcs.xml
+**/.idea/scopes/scope_settings.xml
+
+
+# =============== #
+# Unity generated #
+# =============== #
+Temp/
+Obj/
+UnityGenerated/
+Library/
+ 
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
+*.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
+*.unityproj
+*.booproj
+ 
+# ============ #
+# OS generated #
+# ============ #
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*.iml
+**/proguard/*
+.recommenders/
+.metadata/

@@ -21,15 +21,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cdp.dicommclient.port.common.DevicePortProperties;
+import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
-import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
-import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
+import com.philips.cl.di.dev.pa.datamodel.AirPortProperties;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
@@ -42,58 +41,6 @@ import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
  *
  */
 public class DataParser {
-
-	// TODO: DIComm refactor, remove this method after refactoring request architecture
-	public static AirPortInfo parseAirPurifierEventData(String dataToParse) {
-		AirPortInfo airPurifierEvent = null ;
-		try {			
-			if( dataToParse != null ) {
-				JSONObject jsonObj = new JSONObject(dataToParse) ;
-				JSONObject airPuriferJson = jsonObj.optJSONObject("data") ;
-				if( airPuriferJson != null ) {
-					jsonObj = airPuriferJson ;
-				}
-				airPurifierEvent = new AirPortInfo() ;			
-
-				airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
-				airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
-				airPurifierEvent.setPowerMode(jsonObj.getString(ParserConstants.POWER_MODE)) ;
-				String aqi = jsonObj.getString(ParserConstants.AQI) ;
-				if(aqi != null && !aqi.equals(""))
-					airPurifierEvent.setIndoorAQI(Integer.parseInt(aqi)) ;
-
-				airPurifierEvent.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
-				airPurifierEvent.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
-				airPurifierEvent.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
-				airPurifierEvent.setPreFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_1))) ;
-				airPurifierEvent.setMulticareFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_2))) ;
-				airPurifierEvent.setActiveFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_3))) ;
-				airPurifierEvent.setHepaFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_4))) ;
-				airPurifierEvent.setReplaceFilter1(jsonObj.getString(ParserConstants.CLEAN_FILTER_1)) ;
-				airPurifierEvent.setReplaceFilter2(jsonObj.getString(ParserConstants.REP_FILTER_2)) ;
-				airPurifierEvent.setReplaceFilter3(jsonObj.getString(ParserConstants.REP_FILTER_3)) ;
-				airPurifierEvent.setReplaceFilter4(jsonObj.getString(ParserConstants.REP_FILTER_4)) ;
-				airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CHILD_LOCK))) ;
-				airPurifierEvent.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
-				airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;	
-				airPurifierEvent.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
-			}
-		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "JSONException AirPortInfo") ;
-			return null;
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException AirPortInfo");
-			return null;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException AirPortInfo");
-			return null;
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception AirPortInfo");
-			return null;
-		}
-
-		return airPurifierEvent ;
-	}
 
 	public  static List<IndoorHistoryDto> parseHistoryData(String dataToParse) {
 		//Log.i("PARSE", "Parse History Data\n"+dataToParse) ;
@@ -165,7 +112,7 @@ public class DataParser {
 
 			JSONArray weatherArray = dataObj.getJSONArray(ParserConstants.WEATHER) ;
 
-			if ( weatherArray != null && weatherArray.length() > 0 ) {				
+			if ( weatherArray != null && weatherArray.length() > 0 ) {
 				int length = weatherArray.length() ;
 
 				for( int index = 0 ; index < length ; index ++ ) {
@@ -215,42 +162,6 @@ public class DataParser {
 			return null;
 		}
 		return weatherForecastList ;
-	}
-
-	public static DeviceDto getDeviceDetails(String data) {
-		if (data == null || data.isEmpty()) {
-			return null;
-		}
-		Gson gson = new GsonBuilder().create() ;
-		DeviceDto deviceDto = null;
-		try {
-			deviceDto = gson.fromJson(data, DeviceDto.class) ;
-		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-		}
-		return deviceDto;
-	}
-
-	public static DeviceWifiDto getDeviceWifiDetails(String data) {
-		if (data == null || data.isEmpty()) {
-			return null;
-		}
-		Gson gson = new GsonBuilder().create() ;
-		DeviceWifiDto deviceWifiDto = null;
-		try {
-			deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
-		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-		}
-		return deviceWifiDto;
 	}
 
 	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
@@ -308,11 +219,11 @@ public class DataParser {
 					weatherIcon = Integer.parseInt(cityJsonObject.getString("l5"));
 					windspeedID = Integer.parseInt(cityJsonObject.getString("l3"));
 					winddirectionID = Integer.parseInt(cityJsonObject.getString("l4"));
-					
+
 					
 					outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time, windspeedID, winddirectionID));
 				}catch(NumberFormatException nfe) {
-					
+
 				}
 				ALog.i(ALog.PARSER, "parseLocationWeather temp : " + temperature + " humidity " + humidity + " weatherIcon " + weatherIcon);
 			}
@@ -322,25 +233,6 @@ public class DataParser {
 			return null;
 		}catch(Exception e) {
 			return null ;
-		}
-	}
-
-
-	public static DiscoverInfo parseDiscoverInfo(String dataToParse) {
-		if (dataToParse== null || dataToParse.isEmpty()) return null;
-
-		try {
-			Gson gson = new GsonBuilder().create();
-			DiscoverInfo info =  gson.fromJson(dataToParse, DiscoverInfo.class);
-
-			if (!info.isValid()) return null;
-			return info;
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null;
 		}
 	}
 
@@ -359,7 +251,7 @@ public class DataParser {
 		JSONObject temp2 = temp.optJSONObject(areaID).optJSONObject("c");
 		Gson gson = new GsonBuilder().create();
 		ForecastCityDto cityDto =  gson.fromJson(temp2.toString(), ForecastCityDto.class);
-		if(cityDto == null) return null; 
+		if(cityDto == null) return null;
 
 		return cityDto;
 	}
@@ -380,7 +272,7 @@ public class DataParser {
 		if(iter.hasNext()) {
 			areaID = iter.next();
 		}
-		
+
 		if(temp == null || temp.isNull(areaID)) return null;
 		if(temp.optJSONObject(areaID) == null) return null;
 		if(temp.optJSONObject(areaID).optJSONObject("f") == null) return null;
@@ -509,7 +401,7 @@ public class DataParser {
 
 			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
 
-			JSONObject lastTwoWeeksData= AQIData.getJSONObject("lastTwoWeeks");			
+			JSONObject lastTwoWeeksData= AQIData.getJSONObject("lastTwoWeeks");
 			if (lastTwoWeeksData != null) {
 				for (int j = 0; j < lastTwoWeeksData.length() ; j++) {
 					JSONObject individualAQIData = lastTwoWeeksData.getJSONObject(String.valueOf(j + 1));
@@ -527,7 +419,7 @@ public class DataParser {
 
 		return null;
 	}
-	
+
 	public static CMACityData parseCMACityData(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
@@ -545,7 +437,7 @@ public class DataParser {
 		}
 		return cmaCityData;
 	}
-	
+
 	public static USEmbassyCityData parseUSEmbassyCityData(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
@@ -563,7 +455,7 @@ public class DataParser {
 		}
 		return usEmbassyCityData;
 	}
-	
+
 	public static NearbyCitiesData parseNearbyCitiesJson(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;

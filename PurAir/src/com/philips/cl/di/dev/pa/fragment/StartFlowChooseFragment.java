@@ -23,42 +23,41 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.discovery.NewApplianceDiscoveredListener;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.port.DICommPort;
+import com.philips.cdp.dicommclient.port.DICommPortListener;
+import com.philips.cdp.dicommclient.port.common.WifiPort;
+import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
-import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
+OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
 	private ListView discoveredPurifierListView;
 	private AirPurifier selectedPurifier;
-	private DemoModeTask connectTask;
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
-	private List<AirPurifier> appItems;
+	private List<DICommAppliance> appItems;
 	private ImageView seperatorupImgView;
 	private ImageView seperatordownImgView;
 	@Override
@@ -175,9 +174,6 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 
 		@Override
 		public void onFinish() {
-			if (connectTask != null) {
-				connectTask.stopTask();
-			}
 			showErrorOnConnectPurifier();
 		}
 	};
@@ -198,11 +194,23 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	private void getWifiDetails() {
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
-		if (selectedPurifier == null) return;
-		connectTimer.start();
-		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
-				selectedPurifier.getNetworkNode().getIpAddress()), "", "GET");
-		connectTask.start();
+		final WifiPort wifiPort = selectedPurifier.getWifiPort();
+		wifiPort.registerPortListener(new DICommPortListener() {
+            
+            @Override
+            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+                stopSSIDTimer();
+                onSuccessfullyConnected();
+                return ListenerRegistration.UNREGISTER;
+            }
+
+            @Override
+            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+                return ListenerRegistration.UNREGISTER;
+            }
+        });
+		// TODO DIComm Refactor - See if key exchange retries are necessary
+		wifiPort.getProperties();
 	}
 
 	private void onSuccessfullyConnected() {
@@ -219,7 +227,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 				selectedPurifier.setLongitude(String.valueOf(location.getLongitude()));
 			}
 
-			AirPurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
+			AirPurifierManager.getInstance().setCurrentAppliance(selectedPurifier);
 			
 			CongratulationFragment congratulationFragment = new CongratulationFragment();
 			Bundle bundle = new Bundle();
@@ -228,9 +236,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 
 			((MainActivity) getActivity()).showFragment(congratulationFragment);
 
-			PurifierDatabase purifierDatabase = new PurifierDatabase();
-			purifierDatabase.insertPurAirDevice(selectedPurifier);
-
+			DiscoveryManager.getInstance().insertApplianceToDatabase(selectedPurifier);
 		} else {
 			showAlertDialog(getString(R.string.purifier_add_fail_title),
 					getString(R.string.purifier_add_fail_msg));
@@ -246,31 +252,6 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		getWifiDetails();
 	}
 	
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
-
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData,
-			final String fromIp) {
-
-		final String decryptedResponse = new DISecurity(null).decryptData(responseData, selectedPurifier.getNetworkNode());
-
-		if (getActivity() != null) {
-			getActivity().runOnUiThread(new Runnable() {
-
-				@Override
-				public void run() {
-					if (decryptedResponse != null) {
-						ALog.i(ALog.MANAGE_PUR, decryptedResponse);
-
-						stopSSIDTimer();
-						onSuccessfullyConnected();
-					}
-				}
-			});
-		}
-	}
-
 	@Override
 	public void noWifiTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
@@ -288,8 +269,8 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 
 	private void showDiscoveredPurifier() {
 		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-		discoveryManager.setAddNewPurifierListener(this);
-		appItems = discoveryManager.getNewDevicesDiscovered();
+		discoveryManager.setNewApplianceDiscoveredListener(this);
+		appItems = discoveryManager.getNewAppliancesDiscovered();
 		listItemsArrayList = new ArrayList<String>();
 
 		for (int i = 0; i < appItems.size(); i++) {
@@ -317,13 +298,13 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	}
 
 	private void clearDiscoveredPurifierObject() {
-		DiscoveryManager.getInstance().removeAddNewPurifierListener();
+		DiscoveryManager.getInstance().clearNewApplianceDiscoveredListener();
 		appSelectorAdapter = null;
 		listItemsArrayList = null;
 	}
 
 	@Override
-	public void onNewPurifierDiscover() {
+	public void onNewApplianceDiscovered() {
 
 		if (getActivity() == null) return;
 		getActivity().runOnUiThread(new Runnable() {
@@ -331,7 +312,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 			@Override
 			public void run() {
 				if (appSelectorAdapter == null || listItemsArrayList == null) return;
-				appItems = DiscoveryManager.getInstance().getNewDevicesDiscovered();
+				appItems = DiscoveryManager.getInstance().getNewAppliancesDiscovered();
 				if (!listItemsArrayList.isEmpty()) {
 					listItemsArrayList.clear();
 				}
@@ -348,7 +329,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		AirPurifier currentPurifier = appItems.get(position);
+		AirPurifier currentPurifier = (AirPurifier) appItems.get(position);
 		onPurifierSelect(currentPurifier);
 	}
 }

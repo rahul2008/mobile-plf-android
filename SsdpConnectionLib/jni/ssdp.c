@@ -35,7 +35,7 @@ static char dataPacket_MX3[] =
     "M-SEARCH * HTTP/1.1\r\n"
     "HOST: 239.255.255.250:1900\r\n"
     "MAN: \"ssdp:discover\"\r\n"
-    "ST: urn:philips-com:device:DiProduct:1\r\n"    //Jeroen: Only look for AirPurifiers
+    "ST: urn:philips-com:device:DiProduct:1\r\n"
     "MX: 3\r\n"
     "\r\n";
 
@@ -43,7 +43,7 @@ static char dataPacket_MX5[] =
 	"M-SEARCH * HTTP/1.1\r\n"
 	"HOST: 239.255.255.250:1900\r\n"
 	"MAN: \"ssdp:discover\"\r\n"
-	"ST: urn:philips-com:device:DiProduct:1\r\n"    //Jeroen: Only look for AirPurifiers
+	"ST: urn:philips-com:device:DiProduct:1\r\n"
 	"MX: 5\r\n"
 	"\r\n";
 

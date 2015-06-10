@@ -31,12 +31,12 @@ import android.widget.ImageView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.philips.cdp.dicommclient.security.ByteUtil;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -45,7 +45,6 @@ import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
-import com.philips.cl.di.dev.pa.security.Util;
 
 
 /**
@@ -598,17 +597,6 @@ public class Utils {
 		return newTime;
 	}
 
-	public static long getDiffInDays(long pairedOn) {
-		Date currentDate = new Date();
-		long currenttimeInMillis = currentDate.getTime();
-
-		// Difference between current and previous timestamp
-		long diff = currenttimeInMillis - pairedOn;
-		long diffInDays = diff / (1000 * 60 * 60 * 24);
-
-		return diffInDays ;
-	}
-
 	public static String getMacAddressFromUsn(String usn){
 		if(usn==null || usn.isEmpty())return null;
 		String[] usnArray=usn.split("::");
@@ -699,7 +687,7 @@ public class Utils {
 		bootStrapBuilder.append(Fonts.BOOT_STRAP_KEY_4) ;
 		bootStrapBuilder.append(EWSConstant.BOOT_STRAP_KEY_5) ;
 		try {
-			bootStrapKey = new String(Util.decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
+			bootStrapKey = new String(ByteUtil.decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -713,7 +701,7 @@ public class Utils {
 		cmaAppIdBuilder.append(DemoModeConstant.CMA_APP_ID_3) ;
 		cmaAppIdBuilder.append(TrackPageConstants.CMA_APP_ID_4) ;
 		try {
-			cmaAppId = new String(Util.decodeFromBase64(cmaAppIdBuilder.toString()), Charset.defaultCharset()) ;
+			cmaAppId = new String(ByteUtil.decodeFromBase64(cmaAppIdBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -727,7 +715,7 @@ public class Utils {
 		cmaPrivateKeyBuilder.append(DemoModeConstant.CMA_PRIVATE_KEY_3) ;
 		cmaPrivateKeyBuilder.append(GraphConst.CMA_PRIVATE_KEY_4) ;
 		try {
-			cmaPrivateKey = new String(Util.decodeFromBase64(cmaPrivateKeyBuilder.toString()), Charset.defaultCharset()) ;
+			cmaPrivateKey = new String(ByteUtil.decodeFromBase64(cmaPrivateKeyBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -742,7 +730,7 @@ public class Utils {
 		cmaBaseURLBuilder.append(CMA_BASEURL_3) ;
 		cmaBaseURLBuilder.append(GraphConst.CMA_BASEURL_4) ;
 		try {
-			cmaBaseURL = new String(Util.decodeFromBase64(cmaBaseURLBuilder.toString()), Charset.defaultCharset()) ;
+			cmaBaseURL = new String(ByteUtil.decodeFromBase64(cmaBaseURLBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -844,41 +832,6 @@ public class Utils {
 			}
 		} catch (Exception ex) { } // for now eat exceptions
 		return "";
-	}
-
-	public static boolean isVersionChanged() {
-		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
-				getGCMPreferences();
-
-		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
-				Integer.MIN_VALUE);
-		int currentVersion = PurAirApplication.getAppVersion();
-		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
-
-		if (isGCMRegistrationExpired) {
-			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
-			return true;
-		}
-
-		return false;
-	}
-
-	public static boolean isLocaleChanged() {
-		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
-				getGCMPreferences();
-		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-
-		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
-				LanguageUtils.DEFAULT_LANGUAGE);
-		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
-
-		if (!isLocalChanged) {
-			ALog.d(ALog.NOTIFICATION,
-					"App Locale change happened");
-			return true;
-		}
-
-		return false;
 	}
 
 	public static String getVersionNumber() {

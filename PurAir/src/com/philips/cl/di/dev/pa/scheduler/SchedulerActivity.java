@@ -2,7 +2,9 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -17,23 +19,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
+import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
+import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.networknode.ConnectionState;
+import com.philips.cdp.dicommclient.port.common.ScheduleListPort;
+import com.philips.cdp.dicommclient.port.common.ScheduleListPortInfo;
+import com.philips.cdp.dicommclient.port.common.SchedulePortListener;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.ews.WifiNetworkCallback;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dicomm.port.AirPort;
 
-public class SchedulerActivity extends BaseActivity implements SchedulerListener, DiscoveryEventListener {
+public class SchedulerActivity extends BaseActivity implements SchedulePortListener, DiscoveryEventListener {
 
     private static boolean cancelled;
 	private String selectedDays = "";
@@ -46,7 +52,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
 	private SchedulerOverviewFragment schFragment;
 
-	private List<SchedulePortInfo> schedulesList;
+	private List<ScheduleListPortInfo> schedulesList;
 	private ProgressDialog progressDialog;
 	private int schedulerNumberSelected;
 	private int indexSelected;
@@ -60,10 +66,10 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		SchedulerMarked4Deletion.clear();
 		showSchedulerOverviewFragment();
 		purAirDevice = AirPurifierManager.getInstance().getCurrentPurifier();
-		if (purAirDevice != null)
+		if (purAirDevice != null) {
 			schedulesList = purAirDevice.getScheduleListPort().getSchedulePortInfoList();
-		AirPurifierManager.getInstance().setSchedulerListener(this);
-
+			purAirDevice.getScheduleListPort().setSchedulePortListener(this);
+		}
 	}
 
 	public void setSchedulerType(SCHEDULE_TYPE scheduleType) {
@@ -93,14 +99,23 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private void addScheduler() {
 		scheduleType = SCHEDULE_TYPE.ADD;
 		ALog.i(ALog.SCHEDULER, "createScheduler");
-		String addSchedulerJson = "";
-
+		
 		if (purAirDevice == null) return;
-		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
-				selectedFanspeed, selectedDays, enabled);
-		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(addSchedulerJson, scheduleType, -1);
+		AirPort airPort = purAirDevice.getAirPort();
+		purAirDevice.getScheduleListPort().addSchedule(airPort.getDICommPortName(), airPort.getDICommProductId(), selectedTime, selectedDays, enabled, createCommandMap());
 		showProgressDialog();
-		// TODO - Implement Add scheduler Via CPP
+	}
+
+	private Map<String, Object> createCommandMap() {
+		int pwr = 1;
+		if (selectedFanspeed.equals("0")) {
+			pwr = 0;
+		}
+		
+		Map<String, Object> commandMap = new HashMap<String, Object>();
+		commandMap.put(ParserConstants.POWER_MODE, pwr);
+		commandMap.put(ParserConstants.MACHINE_MODE, selectedFanspeed);
+		return commandMap;
 	}
 
 	/**
@@ -110,16 +125,14 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	public void updateScheduler() {
 
 		scheduleType = SCHEDULE_TYPE.EDIT;
-		String editSchedulerJson = "";
 		if (!selectedDays.equals(schedulesList.get(indexSelected).getDays())
 				|| !selectedFanspeed.equals(schedulesList.get(indexSelected).getMode())
 				|| !selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())
 				|| enabled != schedulesList.get(indexSelected).isEnabled()) {
 			showProgressDialog();
-			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime,
-					selectedFanspeed, selectedDays, enabled);
-			if(null!=purAirDevice){
-			    purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(editSchedulerJson,scheduleType, schedulerNumberSelected);
+			if(null!=purAirDevice) {
+				AirPort airPort = purAirDevice.getAirPort();
+			    purAirDevice.getScheduleListPort().updateSchedule(schedulerNumberSelected, airPort.getDICommPortName(), airPort.getDICommProductId(), selectedTime, selectedDays, enabled, createCommandMap());			
 			}
 		} else {
 			showSchedulerOverviewFragment();
@@ -136,10 +149,11 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		scheduleType = SCHEDULE_TYPE.DELETE;
 		schedulerNumberSelected = schedulesList.get(index).getScheduleNumber();
 		indexSelected = index;
-		if (purAirDevice == null
-				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
+		if (purAirDevice == null || purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			return;
-		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier("",scheduleType, schedulerNumberSelected);
+		}
+
+		purAirDevice.getScheduleListPort().deleteSchedule(schedulerNumberSelected);
 		showProgressDialog();
 	}
 
@@ -194,11 +208,11 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	private void getSchedulesFromPurifier() {
 		scheduleType = SCHEDULE_TYPE.GET;
 		showProgressDialog();
-		if (purAirDevice == null
-				|| purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED)
+		if (purAirDevice == null || purAirDevice.getNetworkNode().getConnectionState() == ConnectionState.DISCONNECTED) {
 			return;
-		String dataToSend = "";
-		purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(dataToSend,scheduleType, -1);
+		}
+
+		purAirDevice.getScheduleListPort().getSchedules();
 	}
 
 	private void showSchedulerOverviewFragment() {
@@ -244,9 +258,8 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		indexSelected = position;
 		if (schedulesList.get(position).getMode() == null) {
 			showProgressDialog();
-			String dataToSend = "";
 			if(null!=purAirDevice){
-			    purAirDevice.getScheduleListPort().sendScheduleDetailsToPurifier(dataToSend,scheduleType,	schedulerNumberSelected);
+			    purAirDevice.getScheduleListPort().getScheduleDetails(schedulerNumberSelected);
 			}
 		} else {
 			setFanSpeed(schedulesList.get(position).getMode());
@@ -256,7 +269,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		}
 	}
 
-	private void showEditFragment(SchedulePortInfo schedulePortInfo) {
+	private void showEditFragment(ScheduleListPortInfo schedulePortInfo) {
 		Bundle bundle = new Bundle();
 		bundle.putString(SchedulerConstants.TIME, schedulePortInfo.getScheduleTime());
 		bundle.putString(SchedulerConstants.DAYS, schedulePortInfo.getDays());
@@ -332,7 +345,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 		setCancelled(false);
 	}
 
-	public List<SchedulePortInfo> getSchedulerList() {
+	public List<ScheduleListPortInfo> getSchedulerList() {
 		return schedulesList;
 	}
 
@@ -344,7 +357,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	}
 
 	@Override
-	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) {
+	public void onSchedulesReceived(List<ScheduleListPortInfo> scheduleList) {
 		ALog.i(ALog.SCHEDULER, "onSchedulers list response");
 		if (scheduleList != null) {
 			Collections.sort(scheduleList);
@@ -365,7 +378,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	}
 
 	@Override
-	public void onScheduleReceived(SchedulePortInfo schedule) {
+	public void onScheduleReceived(ScheduleListPortInfo schedule) {
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -373,7 +386,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 			}
 		});
 
-		for (SchedulePortInfo schedulerPortInfo : schedulesList) {
+		for (ScheduleListPortInfo schedulerPortInfo : schedulesList) {
 			if (schedulerPortInfo.getScheduleNumber() == schedulerNumberSelected) {
 				selectedDays = schedule.getDays();
 				schedulerPortInfo.setDays(selectedDays);
@@ -395,12 +408,12 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	}
 
 	@Override
-	public void onErrorOccurred(final int errorType) {
+	public void onError(final int errorType) {
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				cancelProgressDialog();
-				if (errorType == SchedulerHandler.MAX_SCHEDULES_REACHED) {
+				if (errorType == ScheduleListPort.MAX_SCHEDULES_REACHED) {
 					showErrorDialog(getString(R.string.error_title),
 							getString(R.string.max_schedules_reached));
 				}
@@ -435,7 +448,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulerListener
 	}
 
 	@Override
-	public void onDiscoveredDevicesListChanged() {
+	public void onDiscoveredAppliancesListChanged() {
 
 	}
 

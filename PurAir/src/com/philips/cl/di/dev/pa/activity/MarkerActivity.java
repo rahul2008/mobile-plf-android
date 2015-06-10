@@ -144,8 +144,8 @@ public class MarkerActivity extends MapActivity implements OnMapLoadedListener, 
 		String purifierName = currentPurifier.getName();
 
 		int currentPurifierAQI = 0;
-		if (currentPurifier.getAirPort().getAirPortInfo() != null) {
-			currentPurifierAQI = currentPurifier.getAirPort().getAirPortInfo()
+		if (currentPurifier.getAirPort().getPortProperties() != null) {
+			currentPurifierAQI = currentPurifier.getAirPort().getPortProperties()
 					.getIndoorAQI();
 			setMarkerAqiValue(currentPurifierAQI);
 		}
