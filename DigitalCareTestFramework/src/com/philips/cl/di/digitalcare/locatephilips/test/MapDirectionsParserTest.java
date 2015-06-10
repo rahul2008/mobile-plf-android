@@ -10,14 +10,12 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cl.di.digitalcare.locatephilips.AtosResponseParser;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirectionsParser;
 
 public class MapDirectionsParserTest extends InstrumentationTestCase {
 
 	private final String TAG = MapDirectionsParserTest.class.getSimpleName();
-	private Context mContext, context = null;
-	private AtosResponseParser mParser = null;
+	private Context context = null;
 
 	MapDirectionsParser mMapDirectionParse;
 
@@ -25,9 +23,7 @@ public class MapDirectionsParserTest extends InstrumentationTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp..");
-		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
-
 		mMapDirectionParse = new MapDirectionsParser();
 	}
 
@@ -36,7 +32,6 @@ public class MapDirectionsParserTest extends InstrumentationTestCase {
 		String jsonString = MapDirectionParserUtils.loadJSONFromAsset(
 				"map_direction.json", context);
 		List<List<HashMap<String, String>>> mMapList = null;
-		
 		try {
 			JSONObject mapJson = new JSONObject(jsonString);
 			mMapList = mMapDirectionParse.parse(mapJson);
