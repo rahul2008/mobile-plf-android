@@ -47,7 +47,7 @@ public class DigitalCareFontLoader {
 
 			// if(!(getDeviceName().equalsIgnoreCase("Sony Ericsson LT18i") &&
 			// LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH"))){
-			// tv.setTypeface(typeface);
+			 tv.setTypeface(typeface);
 			// }
 		}
 	}
