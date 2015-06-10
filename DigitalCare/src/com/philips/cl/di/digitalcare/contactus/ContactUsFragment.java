@@ -215,7 +215,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
 		@Override
-		public void onParsingDone(final CdlsResponseModel response) {
+		public void onCdlsParsingComplete(final CdlsResponseModel response) {
 			if (response != null) {
 				mCdlsParsedResponse = response;
 				getActivity().runOnUiThread(new Runnable() {
@@ -234,8 +234,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	protected void parseCDLSResponse(String response) {
 		DLog.d(TAG, "Parsing CDLS Response");
 		CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
-				getActivity(), mParsingCompletedCallback);
-		cdlsResponseParser.processCdlsResponse(response);
+				mParsingCompletedCallback);
+		cdlsResponseParser.parseCdlsResponse(response);
 	}
 
 	protected void updateContactInformation() {

@@ -235,12 +235,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		closeProgressDialog();
 		if (response != null && isAdded()) {
 			AtosResponseParser atosResponseParser = new AtosResponseParser(
-					getActivity(), mParsingCompletedCallback);
-			atosResponseParser.processAtosResponse(response);
+					mParsingCompletedCallback);
+			atosResponseParser.parseAtosResponse(response);
 		}
 	}
 
-	private void parseGeoInformation(AtosResponseModel atosResponse) {
+	private void validateAtosResponse(AtosResponseModel atosResponse) {
 		mAtosResponse = atosResponse;
 		if (mAtosResponse.getSuccess()) {
 			ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
@@ -252,9 +252,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			addMarkers(resultModelSet);
 		} else {
 			showAlertBox();
-
 		}
-
 	}
 
 	@Override
@@ -972,12 +970,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private AtosParsingCallback mParsingCompletedCallback = new AtosParsingCallback() {
 		@Override
-		public void onParsingDone(final AtosResponseModel response) {
+		public void onAtosParsingComplete(final AtosResponseModel response) {
 			if (response != null) {
 				getActivity().runOnUiThread(new Runnable() {
 					@Override
 					public void run() {
-						parseGeoInformation(response);
+						validateAtosResponse(response);
 					}
 				});
 			}

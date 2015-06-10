@@ -10,5 +10,5 @@ package com.philips.cl.di.digitalcare.contactus;
  */
 
 public interface CdlsParsingCallback {
-	void onParsingDone(CdlsResponseModel response);
+	void onCdlsParsingComplete(CdlsResponseModel response);
 }

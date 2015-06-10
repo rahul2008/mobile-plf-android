@@ -4,8 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.philips.cl.di.digitalcare.util.DLog;
 
 /**
@@ -17,7 +15,6 @@ import com.philips.cl.di.digitalcare.util.DLog;
  */
 public class CdlsResponseParser {
 	private static final String TAG = CdlsResponseParser.class.getSimpleName();
-	private Context mContext = null;
 	private static final int FIRST_INDEX_VALUE = 0;
 
 	private CdlsPhoneModel cdlsPhoneModel = null;
@@ -26,17 +23,15 @@ public class CdlsResponseParser {
 	private CdlsErrorModel cdlsErrorModel = null;
 	private CdlsParsingCallback mParsingCompletedCallback = null;
 
-	public CdlsResponseParser(Context context,
-			CdlsParsingCallback parsingCompletedCallback) {
-		mContext = context;
+	public CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
-		DLog.i(TAG, "ParserController constructor : " + mContext.toString());
+		DLog.i(TAG, "ParserController constructor : ");
 	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
-	public void processCdlsResponse(String response) {
+	public void parseCdlsResponse(String response) {
 		DLog.i(TAG, "response : " + response);
 		JSONObject jsonObject = null;
 		try {
@@ -104,7 +99,7 @@ public class CdlsResponseParser {
 			CdlsResponseModel cdlsParsedResponse = new CdlsResponseModel(
 					success, cdlsPhoneModel, cdlsChatModel, cdlsEmailModel,
 					cdlsErrorModel);
-			mParsingCompletedCallback.onParsingDone(cdlsParsedResponse);
+			mParsingCompletedCallback.onCdlsParsingComplete(cdlsParsedResponse);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

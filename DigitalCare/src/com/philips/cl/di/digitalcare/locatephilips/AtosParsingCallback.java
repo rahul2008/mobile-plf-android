@@ -10,5 +10,5 @@ package com.philips.cl.di.digitalcare.locatephilips;
  */
 
 public interface AtosParsingCallback {
-	void onParsingDone(AtosResponseModel response);
+	void onAtosParsingComplete(AtosResponseModel response);
 }

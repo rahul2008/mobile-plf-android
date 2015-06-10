@@ -6,9 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.util.Log;
-
 
 /**
  * AtosResponseParser will take care of parsing ATOS resonse(LocateNearYou).
@@ -19,21 +17,18 @@ import android.util.Log;
  */
 public class AtosResponseParser {
 	private static final String TAG = AtosResponseParser.class.getSimpleName();
-	private Context mContext = null;
 	private ArrayList<AtosResultsModel> mArrayListResultsModel = null;
 	private AtosParsingCallback mParsingCompletedCallback = null;
 
-	protected AtosResponseParser(Context context,
-			AtosParsingCallback parsingCompletedCallback) {
-		mContext = context;
+	protected AtosResponseParser(AtosParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
-		Log.i(TAG, "ParserController constructor : " + mContext.toString());
+		Log.i(TAG, "ParserController constructor : ");
 	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
-	public void processAtosResponse(String response) {
+	public void parseAtosResponse(String response) {
 		Log.i(TAG, "response : " + response);
 		JSONObject jsonObject = null;
 
@@ -79,7 +74,7 @@ public class AtosResponseParser {
 			AtosResponseModel cdlsParsedResponse = new AtosResponseModel(
 					success, currentLocationModel, mArrayListResultsModel,
 					cdlsErrorModel);
-			mParsingCompletedCallback.onParsingDone(cdlsParsedResponse);
+			mParsingCompletedCallback.onAtosParsingComplete(cdlsParsedResponse);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
