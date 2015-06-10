@@ -8,6 +8,7 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:clickable">true</item>
         <item name="android:visibility">gone</item>
+         <item name="android:paddingLeft">10dp</item>
     </style>
 
     <style name="actionbarIconArrowImageView" parent="actionbar_back_button">
@@ -18,6 +19,7 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:clickable">true</item>
         <item name="android:visibility">gone</item>
+        <item name="android:paddingLeft">10dp</item>
     </style>
 
     <style name="actionbarFontTextView">

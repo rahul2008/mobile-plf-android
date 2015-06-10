@@ -13,13 +13,11 @@
 
     <!-- Action bar back arrow button -->
     <style name="actionbar_back_button">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_back_arrow_white</item>
     </style>
 
     <!-- Action bar hamburger menu icon -->
     <style name="actionbar_hamburger_menu">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
     </style>
 

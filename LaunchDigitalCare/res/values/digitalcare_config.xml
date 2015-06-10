@@ -3,7 +3,6 @@
 
     <!-- UiTheme Start -->
 
-
     <!-- Activity -->
     <color name="activity_background_color">#F0F4F9</color>
 
@@ -14,13 +13,11 @@
 
     <!-- Action bar back arrow button -->
     <style name="actionbar_back_button">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_back_arrow_white</item>
     </style>
 
     <!-- Action bar hamburger menu icon -->
     <style name="actionbar_hamburger_menu">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
     </style>
 
@@ -41,7 +38,6 @@
 
     <!-- UiTheme End -->
 
-
     <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
     <string-array name="main_menu_title">
         <item>view_product_details</item>
@@ -50,7 +46,6 @@
         <item>find_philips_near_you</item>
         <item>feedback</item>
         <item>registration</item>
-        <!-- <item>actionbar_title_support</item> -->
     </string-array>
 
     <!-- List of main menu image names, please follow naming conventions -->
@@ -61,7 +56,6 @@
         <item>find_philips_near_you</item>
         <item>feedback</item>
         <item>registration</item>
-        <!-- <item>contact_us</item> -->
     </string-array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
@@ -87,7 +81,8 @@
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id" translatable="false">1537018913230025</string>
     <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-
+    
+    
     <!-- Facebook product support page -->
     <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
 
@@ -96,6 +91,7 @@
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">false</bool>
+    
 
     <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
