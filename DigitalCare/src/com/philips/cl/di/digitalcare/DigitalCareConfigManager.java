@@ -10,7 +10,6 @@ import com.philips.cl.di.digitalcare.productdetails.ProductMenuButtonClickListen
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
 import com.philips.cl.di.digitalcare.util.DLog;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
-import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
  * DigitalCareConfigManager is Config class for DigitalCare app. Here we can
@@ -130,36 +129,17 @@ public class DigitalCareConfigManager {
 		return mLaunchingScreen;
 	}
 
-	public static int getAppVersion() {
-		int appVersion = 0;
-		try {
-			PackageInfo packageInfo = mContext.getPackageManager()
-					.getPackageInfo(mContext.getPackageName(), 0);
-			DLog.i(DLog.APPLICATION, "Application version: "
-					+ packageInfo.versionName + " (" + packageInfo.versionCode
-					+ ")");
-			appVersion = packageInfo.versionCode;
-		} catch (NameNotFoundException e) {
-			// should never happen
-			throw new RuntimeException("Could not get package name: " + e);
-		}
-		return appVersion;
-	}
 
 	/*
 	 * App's package name.
 	 */
 	public static String getAppPackageName() {
-		// TODO: We are putting hardcoded air fryer store link. Once integration
-		// will happen then we
-		// can remove this temp code.
 		return mContext.getApplicationContext().getPackageName();
 
-		// return "com.philips.cl.di.kitchenappliances.airfryer";
 	}
 
 	public static String getCountry() {
-		return Utils.isEmpty(mCountry) ? DEFAULT_COUNTRY : mCountry;
+		return (mCountry == null) ? DEFAULT_COUNTRY : mCountry;
 	}
 
 	public static void setCountry(String country) {
@@ -167,7 +147,7 @@ public class DigitalCareConfigManager {
 	}
 
 	public static String getLanguage() {
-		return Utils.isEmpty(mLanguage) ? DEFAULT_LANGAUGE : mLanguage;
+		return (mLanguage == null) ? DEFAULT_LANGAUGE : mLanguage;
 	}
 
 	public static void setLanguage(String language) {

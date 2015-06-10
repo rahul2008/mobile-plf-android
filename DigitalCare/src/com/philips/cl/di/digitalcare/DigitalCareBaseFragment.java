@@ -157,7 +157,16 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	}
 
 	protected boolean isConnectionAvailable() {
-		return isConnectionAvailable;
+		if (isConnectionAvailable)
+			return true;
+		else {
+			new NetworkAlertView().showNetworkAlert(getActivity());
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_KEY_SET_ERROR,
+					AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+					AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+			return false;
+		}
 	}
 
 	@Override
@@ -253,11 +262,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			isConnectionAvailable = true;
 		else {
 			isConnectionAvailable = false;
-			new NetworkAlertView().showNetworkAlert(getActivity());
-			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_KEY_SET_ERROR,
-					AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-					AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
 		}
 
 	}

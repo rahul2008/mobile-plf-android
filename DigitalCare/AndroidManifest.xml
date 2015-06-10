@@ -51,7 +51,7 @@
         <receiver
             android:name="com.philips.cl.di.digitalcare.util.NetworkUtility"
             android:exported="false" >
-            <intent-filter android:priority="1000" >
+            <intent-filter android:priority="999" >
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>

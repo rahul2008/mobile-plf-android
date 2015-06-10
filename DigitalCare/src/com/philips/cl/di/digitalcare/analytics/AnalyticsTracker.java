@@ -9,6 +9,8 @@ import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
@@ -27,6 +29,7 @@ public class AnalyticsTracker {
 
 	private static final String TAG = "DigitalCare:Analytics";
 	private static boolean trackMetrics = false;
+	private static Context mContext = null;
 
 	/**
 	 * Analytics: Tagging can be enabled disabled.
@@ -43,6 +46,7 @@ public class AnalyticsTracker {
 		if (!trackMetrics)
 			return;
 		Config.setContext(context);
+		mContext = context;
 	}
 
 	/**
@@ -113,7 +117,7 @@ public class AnalyticsTracker {
 		contextData.put(AnalyticsConstants.ACTION_KEY_APPNAME,
 				AnalyticsConstants.ACTION_VALUE_APPNAME);
 		contextData.put(AnalyticsConstants.ACTION_KEY_VERSION,
-				DigitalCareConfigManager.getAppVersion());
+				getAppVersion());
 		contextData
 				.put(AnalyticsConstants.ACTION_KEY_OS,
 						AnalyticsConstants.ACTION_VALUE_ANDROID
@@ -138,6 +142,22 @@ public class AnalyticsTracker {
 		return currencyCode;
 	}
 
+	
+	public static int getAppVersion() {
+		int appVersion = 0;
+		try {
+			PackageInfo packageInfo = mContext.getPackageManager()
+					.getPackageInfo(mContext.getPackageName(), 0);
+			DLog.i(DLog.APPLICATION, "Application version: "
+					+ packageInfo.versionName + " (" + packageInfo.versionCode
+					+ ")");
+			appVersion = packageInfo.versionCode;
+		} catch (NameNotFoundException e) {
+			throw new RuntimeException("Could not get package name: " + e);
+		}
+		return appVersion;
+	}
+	
 	@SuppressLint("SimpleDateFormat")
 	private static String getTimestamp() {
 		long timeMillis = System.currentTimeMillis();
