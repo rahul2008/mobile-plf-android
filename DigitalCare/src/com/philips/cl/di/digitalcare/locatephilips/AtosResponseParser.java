@@ -19,20 +19,12 @@ import android.util.Log;
 public class AtosResponseParser {
 	private static final String TAG = AtosResponseParser.class.getSimpleName();
 	private Context mContext = null;
-	private static AtosResponseParser mParserController = null;
 	private AtosResponseModel mCdlsParsedResponse = null;
 	private ArrayList<AtosResultsModel> mArrayListResultsModel = null;
 
-	private AtosResponseParser(Context context) {
+	protected AtosResponseParser(Context context) {
 		mContext = context;
 		Log.i(TAG, "ParserController constructor : " + mContext.toString());
-	}
-
-	public static AtosResponseParser getParserControllInstance(Context context) {
-		if (mParserController == null) {
-			mParserController = new AtosResponseParser(context);
-		}
-		return mParserController;
 	}
 
 	/*

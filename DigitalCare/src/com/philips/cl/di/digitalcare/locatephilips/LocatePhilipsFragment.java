@@ -239,20 +239,16 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		DLog.i(TAG, "response : " + response);
 		closeProgressDialog();
 		if (response != null && isAdded()) {
-			mAtosResponseParser = AtosResponseParser
-					.getParserControllInstance(getActivity());
+			mAtosResponseParser = new AtosResponseParser(getActivity());
 			mAtosResponseParser.processAtosResponse(response);
 			mAtosResponse = mAtosResponseParser.getAtosResponse();
 			if (mAtosResponse != null) {
-
 				getActivity().runOnUiThread(new Runnable() {
-
 					@Override
 					public void run() {
 						parseGeoInformation();
 					}
 				});
-
 			}
 		}
 	}
