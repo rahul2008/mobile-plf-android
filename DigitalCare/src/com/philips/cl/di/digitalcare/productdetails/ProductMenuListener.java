@@ -8,6 +8,6 @@ package com.philips.cl.di.digitalcare.productdetails;
  * 
  * @since : 1 June 2015
  */
-public interface ProductMenuButtonClickListener {
-	public boolean onProductMenuItemClickListener(String buttonTitle);
+public interface ProductMenuListener {
+	public boolean onProductMenuItemClicked(String productMenu);
 }

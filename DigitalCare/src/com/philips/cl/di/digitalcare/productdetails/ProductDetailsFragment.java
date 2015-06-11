@@ -167,7 +167,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 		boolean actionTaken = DigitalCareConfigManager
 				.getInstance(DigitalCareConfigManager.getContext())
-				.getProductMenuListener().onProductMenuItemClickListener(tag);
+				.getProductMenuListener().onProductMenuItemClicked(tag);
 
 		if (actionTaken) {
 			return;

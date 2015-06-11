@@ -6,10 +6,6 @@ import android.os.Bundle;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
-import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
-import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
-import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
@@ -29,6 +25,8 @@ import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 public class DigitalCareActivity extends DigitalCareBaseActivity {
 	private static final String TAG = DigitalCareActivity.class.getSimpleName();
 	private ProductImageHelper mImage = null;
+	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
+	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,30 +37,13 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		} catch (ClassCastException e) {
 			DLog.e(TAG, "Actionbar: " + e.getMessage());
 		}
-		showScreen();
-	}
-
-	private void showScreen() {
-		String screenChoice = DigitalCareConfigManager.getLaunchingScreen();
-		if (screenChoice
-				.equalsIgnoreCase(DigitalCareContants.OPTION_SUPPORT_SCREEN)) {
-			showFragment(new SupportHomeFragment());
-			enableActionBarHome();
-		} else if (screenChoice
-				.equalsIgnoreCase(DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING)) {
-			showFragment(new RateThisAppFragment());
-		} else if (screenChoice
-				.equalsIgnoreCase(DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY)) {
-			showFragment(new LocatePhilipsFragment());
-		}
-
-		else if (screenChoice
-				.equalsIgnoreCase(DigitalCareContants.OPTION_CONTACT_US)) {
-			showFragment(new ContactUsFragment());
-		} else if (screenChoice
-				.equalsIgnoreCase(DigitalCareContants.OPTION_PRODUCS_DETAILS)) {
-			showFragment(new ProductDetailsFragment());
-		}
+		Bundle bundleExtras = getIntent().getExtras();
+		int startAnimId = (Integer) bundleExtras.get("STARTANIMATIONID");
+		int endAnimId = (Integer) bundleExtras.get("ENDANIMATIONID");
+		overridePendingTransition(startAnimId,
+				endAnimId);
+		showFragment(new SupportHomeFragment());
+		enableActionBarHome();
 	}
 
 	@Override

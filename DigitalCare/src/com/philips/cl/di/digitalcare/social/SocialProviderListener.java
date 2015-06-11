@@ -10,5 +10,5 @@ package com.philips.cl.di.digitalcare.social;
  */
 
 public interface SocialProviderListener {
-	public boolean onSocialProviderItemClickListener(String buttonTitle);
+	public boolean onSocialProviderItemClicked(String socialProviderItem);
 }

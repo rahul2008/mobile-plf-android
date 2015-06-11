@@ -44,8 +44,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		setLocaleLanguage();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		overridePendingTransition(DigitalCareConfigManager.getAnimationStart(),
-				DigitalCareConfigManager.getAnimationStop());
+		
 		DigitalCareConfigManager.getInstance(this);
 		fragmentManager = getFragmentManager();
 	}

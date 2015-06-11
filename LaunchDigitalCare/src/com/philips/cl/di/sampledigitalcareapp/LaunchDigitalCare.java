@@ -14,10 +14,10 @@ import android.widget.Spinner;
 import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.MainMenuListener;
-import com.philips.cl.di.digitalcare.productdetails.ProductMenuButtonClickListener;
+import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
 
-public class LaunchDigitalCare extends Activity implements OnClickListener {
+public class LaunchDigitalCare extends Activity implements OnClickListener,MainMenuListener,ProductMenuListener, SocialProviderListener {
 
 	private Button mLaunchDigitalCare = null;
 
@@ -28,12 +28,14 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 	private Button mLaunchProductRegister = null;
 
 	private Spinner mLanguage_spinner, mCountry_spinner;
+	
+	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
+	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
 
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
 	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
-	private MainMenuButtonClickListner mButtonClickListner = null;
-	private ProductMenuClickListener mProductButtonClickListner = null;
-	private SocialProviderButtonClickListner mSocialProviderButtonClickListner = null;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,28 +69,16 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
 		DigitalCareConfigManager.getInstance(this).setConsumerProductInfo(
 				mConsumerProductInfoDemo);
-
-		/*
-		 * DigitalCare Home Screen custom button listeners.
-		 */
-		mButtonClickListner = new MainMenuButtonClickListner();
 		DigitalCareConfigManager.getInstance(this).registerMainMenuListener(
-				mButtonClickListner);
+				this);
 
-		/*
-		 * DigitalCare "View Product Details" Screen custom button listeners.
-		 */
-		mProductButtonClickListner = new ProductMenuClickListener();
+		
 		DigitalCareConfigManager.getInstance(this).registerProductMenuListener(
-				mProductButtonClickListner);
+				this);
 
-		/*
-		 * DigitalCare Social Provider Button listeners.
-		 */
-		mSocialProviderButtonClickListner = new SocialProviderButtonClickListner();
 		DigitalCareConfigManager.getInstance(this)
 				.registerSocialProviderListener(
-						mSocialProviderButtonClickListner);
+						this);
 
 		mLanguage_spinner
 				.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -134,14 +124,13 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 				});
 	}
 
-	private class MainMenuButtonClickListner implements MainMenuListener {
-
+	
 		@Override
-		public boolean onMainMenuItemClickListener(String buttonTitle) {
-			if (buttonTitle
-					.equalsIgnoreCase(getStringKey(R.string.registration))
-					|| buttonTitle
-							.equalsIgnoreCase(getStringKey(R.string.view_faq))) {
+		public boolean onMainMenuItemClicked(String mainMenuItem) {
+			if (mainMenuItem
+					.equals(getStringKey(R.string.registration))
+					|| mainMenuItem
+							.equals(getStringKey(R.string.view_faq))) {
 				Intent intent = new Intent(LaunchDigitalCare.this,
 						DummyScreen.class);
 				startActivity(intent);
@@ -149,18 +138,15 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 			}
 			return false;
 		}
-	}
 
 	private String getStringKey(int resId) {
 		return getResources().getResourceEntryName(resId);
 	}
 
-	private class ProductMenuClickListener implements
-			ProductMenuButtonClickListener {
 
 		@Override
-		public boolean onProductMenuItemClickListener(String buttonTitle) {
-			if (buttonTitle.equalsIgnoreCase(getResources()
+		public boolean onProductMenuItemClicked(String productMenu) {
+			if (productMenu.equals(getResources()
 					.getResourceEntryName(R.string.product_download_manual))) {
 				Intent intent = new Intent(LaunchDigitalCare.this,
 						DummyScreen.class);
@@ -169,71 +155,26 @@ public class LaunchDigitalCare extends Activity implements OnClickListener {
 			}
 			return false;
 		}
-	}
 
-	private class SocialProviderButtonClickListner implements
-			SocialProviderListener {
+
 
 		@Override
-		public boolean onSocialProviderItemClickListener(String buttonTitle) {
-			// if (buttonTitle.equalsIgnoreCase(getResources()
-			// .getResourceEntryName(R.string.twitter))) {
-			// Intent intent = new Intent(LaunchDigitalCare.this,
-			// DummyScreen.class);
-			// startActivity(intent);
-			// return true;
-			// }
+		public boolean onSocialProviderItemClicked(String socialProviderItem) {
+			// TODO Auto-generated method stub
 			return false;
 		}
-	}
+	
 
 	@Override
 	public void onClick(View view) {
 
-		switch (view.getId()) {
-		/*case R.id.launchproduct:
-			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_PRODUCS_DETAILS);
-			Toast.makeText(getApplicationContext(), "product detail clicked",
-					Toast.LENGTH_SHORT).show();
-			break;
-
-		case R.id.launch_contact:
-			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_CONTACT_US);
-			Toast.makeText(getApplicationContext(), "contact clicked",
-					Toast.LENGTH_SHORT).show();
-			break;
-
-		case R.id.launch_locate:
-			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_FIND_PHILIPS_NEARBY);
-			Toast.makeText(getApplicationContext(), "find philips clicked",
-					Toast.LENGTH_SHORT).show();
-			break;
-
-		case R.id.launchrate:
-			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_WHAT_ARE_YOU_THINKING);
-			Toast.makeText(getApplicationContext(), "tell us clicked",
-					Toast.LENGTH_SHORT).show();
-			break;
-
-		case R.id.launchproductregister:
-			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_REGISTER_PRODUCT);
-			Toast.makeText(getApplicationContext(),
-					"product register  clicked", Toast.LENGTH_SHORT).show();
-			break;
-
-		default:
-			DigitalCareConfigManager.setLaunchingScreen(LaunchDigitalCare.this,
-					DigitalCareContants.OPTION_SUPPORT_SCREEN);
-			break;*/
+		switch (view.getId()) {	
 		
 		default:
 			Intent intent = new Intent(this, DigitalCareActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.putExtra("STARTANIMATIONID", DEFAULT_ANIMATION_START);
+			intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
 			startActivity(intent);
 		}
 	}
