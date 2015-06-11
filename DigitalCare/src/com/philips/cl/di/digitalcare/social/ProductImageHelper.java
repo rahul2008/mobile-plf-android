@@ -74,7 +74,6 @@ public class ProductImageHelper {
 			DLog.d(TAG, "It is Tablet");
 			ImageTabletPick mImageTabletPick = new ImageTabletPick(mActivity);
 			mPopupMenu = mImageTabletPick.getPointerAlert();
-			// mPopupMenu.setPointerImageRes(android.R.drawable.arrow_up_float);
 			setBackgroundColorToPointerView(mPopupMenu);
 			mPopupMenu.showAsPointer(mProductImageView);
 			mPopupMenu.setAlignMode(AlignMode.CENTER_FIX);
@@ -90,8 +89,8 @@ public class ProductImageHelper {
 		Drawable mPointerImage = mActivity.getResources().getDrawable(
 				android.R.drawable.arrow_up_float);
 		mPointerImage.setColorFilter(
-				mActivity.getResources().getColor(R.color.activity_background_color),
-				Mode.LIGHTEN);
+				mActivity.getResources().getColor(
+						R.color.activity_background_color), Mode.LIGHTEN);
 		mPointerView.setPointerImageDrawable(mPointerImage);
 	}
 
@@ -105,7 +104,6 @@ public class ProductImageHelper {
 					pickImage();
 				}
 			} else {
-
 				if (mDialog.isShowing() && !(mActivity.isFinishing())) {
 					DLog.d(TAG, "Dialog is resetted");
 					mDialog.dismiss();
@@ -120,12 +118,11 @@ public class ProductImageHelper {
 		DLog.d(TAG, "Android Version is : " + Build.VERSION.SDK_INT);
 
 		if (requestCode == DigitalCareContants.IMAGE_PICK) {
-
 			DLog.d(TAG, "Image Picked From Gallery  with Data : " + data);
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
 
-			if (Build.VERSION.SDK_INT >= KITKAT ) {
+			if (Build.VERSION.SDK_INT >= KITKAT) {
 				DLog.d(TAG, "Android Version in 19+");
 
 				DLog.d(TAG, "PATH : " + getPath(mActivity, selectedImage));
@@ -146,7 +143,6 @@ public class ProductImageHelper {
 				Cursor cursor = mActivity.getContentResolver().query(
 						selectedImage, filePathColumn, null, null, null);
 				cursor.moveToFirst();
-
 				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 				String picturePath = cursor.getString(columnIndex);
 				DLog.d(TAG, "Gallery Image Path : " + picturePath);
@@ -162,8 +158,6 @@ public class ProductImageHelper {
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");
 			try {
 				f.createNewFile();
-
-				// Convert bitmap to byte array
 				Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 				ByteArrayOutputStream bos = new ByteArrayOutputStream();
 				bitmap.compress(CompressFormat.PNG, 0 /* ignored for PNG */, bos);
@@ -185,7 +179,7 @@ public class ProductImageHelper {
 	 * Get a file path from a Uri. This will get the the path for Storage Access
 	 * Framework Documents, as well as the _data field for the MediaStore and
 	 * other file-based ContentProviders.
-	 *
+	 * 
 	 * @param context
 	 *            The context.
 	 * @param uri
@@ -195,8 +189,6 @@ public class ProductImageHelper {
 	public static String getPath(final Context context, final Uri uri) {
 
 		final boolean isKitKat = Build.VERSION.SDK_INT >= KITKAT;
-
-		// DocumentProvider
 		if (isKitKat && DocumentsContract.isDocumentUri(uri)) {
 			// ExternalStorageProvider
 			if (isExternalStorageDocument(uri)) {
@@ -211,12 +203,10 @@ public class ProductImageHelper {
 			}
 			// DownloadsProvider
 			else if (isDownloadsDocument(uri)) {
-
 				final String id = DocumentsContract.getDocumentId(uri);
 				long mId = Long.parseLong(id);
 				Uri mUri = Uri.parse("content://downloads/public_downloads");
 				final Uri contentUri = ContentUris.withAppendedId(mUri, mId);
-
 				return getDataColumn(context, contentUri, null, null);
 			}
 			// MediaProvider
@@ -236,7 +226,6 @@ public class ProductImageHelper {
 
 				final String selection = "_id=?";
 				final String[] selectionArgs = new String[] { split[1] };
-
 				return getDataColumn(context, contentUri, selection,
 						selectionArgs);
 			}
@@ -249,14 +238,13 @@ public class ProductImageHelper {
 		else if ("file".equalsIgnoreCase(uri.getScheme())) {
 			return uri.getPath();
 		}
-
 		return null;
 	}
 
 	/**
 	 * Get the value of the data column for this Uri. This is useful for
 	 * MediaStore Uris, and other file-based ContentProviders.
-	 *
+	 * 
 	 * @param context
 	 *            The context.
 	 * @param uri

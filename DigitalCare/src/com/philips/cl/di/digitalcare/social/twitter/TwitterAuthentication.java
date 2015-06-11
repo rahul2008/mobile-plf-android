@@ -118,8 +118,6 @@ public class TwitterAuthentication {
 			DLog.d(TAG, "User : " + user.toString());
 
 			String username = user.getName();
-
-			/* Storing oAuth tokens to shared preferences */
 			Editor e = mSharedPreferences.edit();
 			e.putString(PREF_KEY_OAUTH_TOKEN, accessToken.getToken());
 			e.putString(PREF_KEY_OAUTH_SECRET, accessToken.getTokenSecret());
@@ -127,11 +125,9 @@ public class TwitterAuthentication {
 			e.putString(PREF_USER_NAME, username);
 			e.commit();
 			mContext.runOnUiThread(new Runnable() {
-
 				@Override
 				public void run() {
 					mTwitterAuth.onTwitterLoginSuccessful();
-
 				}
 			});
 
@@ -156,7 +152,6 @@ public class TwitterAuthentication {
 
 			try {
 				mRequestToken = mTwitter.getOAuthRequestToken(mCallbackUrl);
-
 				final Intent intent = new Intent(mContext,
 						TwitterAuthenticationActivity.class);
 				intent.putExtra(TwitterAuthenticationActivity.EXTRA_URL,

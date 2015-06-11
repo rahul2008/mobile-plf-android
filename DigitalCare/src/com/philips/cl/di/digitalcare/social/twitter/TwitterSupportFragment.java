@@ -263,7 +263,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		} else if (id == R.id.fb_post_camera) {
 			ProductImageHelper.getInstance(getActivity(), this, v).pickImage();
 		} else if (id == R.id.fb_Post_camera_close) {
-			onImageDettach();
+			onImageDettached();
 		}
 	}
 
@@ -357,7 +357,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	@Override
-	public void onImageDettach() {
+	public void onImageDettached() {
 		mFile = null;
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));

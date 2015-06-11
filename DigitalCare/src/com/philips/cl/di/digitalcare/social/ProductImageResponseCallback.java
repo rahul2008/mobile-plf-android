@@ -13,6 +13,6 @@ public interface ProductImageResponseCallback {
 
 	void onImageReceived(Bitmap image, String Uri);
 
-	void onImageDettach();
+	void onImageDettached();
 
 }
