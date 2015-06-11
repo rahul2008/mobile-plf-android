@@ -23,7 +23,7 @@ public class CdlsResponseParser {
 	private CdlsErrorModel cdlsErrorModel = null;
 	private CdlsParsingCallback mParsingCompletedCallback = null;
 
-	public CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
+	protected CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
 		DLog.i(TAG, "ParserController constructor : ");
 	}
