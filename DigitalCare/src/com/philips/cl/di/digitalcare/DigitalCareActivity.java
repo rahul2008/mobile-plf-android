@@ -40,8 +40,9 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		Bundle bundleExtras = getIntent().getExtras();
 		int startAnimId = (Integer) bundleExtras.get("STARTANIMATIONID");
 		int endAnimId = (Integer) bundleExtras.get("ENDANIMATIONID");
-		overridePendingTransition(startAnimId,
-				endAnimId);
+		overridePendingTransition(startAnimId != 0 ? startAnimId
+				: DEFAULT_ANIMATION_START, endAnimId != 0 ? endAnimId
+				: DEFAULT_ANIMATION_STOP);
 		showFragment(new SupportHomeFragment());
 		enableActionBarHome();
 	}

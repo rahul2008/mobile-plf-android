@@ -44,7 +44,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		setLocaleLanguage();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		DigitalCareConfigManager.getInstance(this);
 		fragmentManager = getFragmentManager();
 	}
@@ -106,8 +106,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 
 	private void setLocaleLanguage() {
 
-		Locale locale = new Locale(DigitalCareConfigManager.getLanguage(),
-				DigitalCareConfigManager.getCountry());
+		Locale locale = DigitalCareConfigManager.getLocale();
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;

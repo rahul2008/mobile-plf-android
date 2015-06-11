@@ -169,7 +169,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
 				.getInstance(getActivity().getApplicationContext())
 				.getConsumerProductInfo();
-		return getCdlsUrl(DigitalCareConfigManager.getLocale(),
+		return getCdlsUrl(DigitalCareConfigManager.getLocale().toString(),
 				consumerProductInfo.getSector(),
 				consumerProductInfo.getSubCategory());
 	}
@@ -320,7 +320,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			actionTaken = DigitalCareConfigManager
 					.getInstance(DigitalCareConfigManager.getContext())
 					.getSocialProviderListener()
-					.onSocialProviderItemClickListener(tag.toString());
+					.onSocialProviderItemClicked(tag.toString());
 		}
 		if (actionTaken) {
 			return;

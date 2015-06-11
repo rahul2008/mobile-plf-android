@@ -1,5 +1,7 @@
 package com.philips.cl.di.sampledigitalcareapp;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +19,8 @@ import com.philips.cl.di.digitalcare.MainMenuListener;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
 
-public class LaunchDigitalCare extends Activity implements OnClickListener,MainMenuListener,ProductMenuListener, SocialProviderListener {
+public class LaunchDigitalCare extends Activity implements OnClickListener,
+		MainMenuListener, ProductMenuListener, SocialProviderListener {
 
 	private Button mLaunchDigitalCare = null;
 
@@ -28,14 +31,12 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,MainM
 	private Button mLaunchProductRegister = null;
 
 	private Spinner mLanguage_spinner, mCountry_spinner;
-	
+
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
 
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
 	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
-	
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +73,11 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,MainM
 		DigitalCareConfigManager.getInstance(this).registerMainMenuListener(
 				this);
 
-		
 		DigitalCareConfigManager.getInstance(this).registerProductMenuListener(
 				this);
 
 		DigitalCareConfigManager.getInstance(this)
-				.registerSocialProviderListener(
-						this);
+				.registerSocialProviderListener(this);
 
 		mLanguage_spinner
 				.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -87,9 +86,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,MainM
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 
-						DigitalCareConfigManager
-								.setLanguage(mlanguageCode[position]);
-
+						setLocaleForTesting(mcountryCode[position],
+								mlanguageCode[position]);
 					}
 
 					@Override
@@ -112,8 +110,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,MainM
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 
-						DigitalCareConfigManager
-								.setCountry(mcountryCode[position]);
+						setLocaleForTesting(mcountryCode[position],
+								mlanguageCode[position]);
 
 					}
 
@@ -124,52 +122,44 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,MainM
 				});
 	}
 
-	
-		@Override
-		public boolean onMainMenuItemClicked(String mainMenuItem) {
-			if (mainMenuItem
-					.equals(getStringKey(R.string.registration))
-					|| mainMenuItem
-							.equals(getStringKey(R.string.view_faq))) {
-				Intent intent = new Intent(LaunchDigitalCare.this,
-						DummyScreen.class);
-				startActivity(intent);
-				return true;
-			}
-			return false;
+	@Override
+	public boolean onMainMenuItemClicked(String mainMenuItem) {
+		if (mainMenuItem.equals(getStringKey(R.string.registration))
+				|| mainMenuItem.equals(getStringKey(R.string.view_faq))) {
+			Intent intent = new Intent(LaunchDigitalCare.this,
+					DummyScreen.class);
+			startActivity(intent);
+			return true;
 		}
+		return false;
+	}
 
 	private String getStringKey(int resId) {
 		return getResources().getResourceEntryName(resId);
 	}
 
-
-		@Override
-		public boolean onProductMenuItemClicked(String productMenu) {
-			if (productMenu.equals(getResources()
-					.getResourceEntryName(R.string.product_download_manual))) {
-				Intent intent = new Intent(LaunchDigitalCare.this,
-						DummyScreen.class);
-				startActivity(intent);
-				return true;
-			}
-			return false;
+	@Override
+	public boolean onProductMenuItemClicked(String productMenu) {
+		if (productMenu.equals(getResources().getResourceEntryName(
+				R.string.product_download_manual))) {
+			Intent intent = new Intent(LaunchDigitalCare.this,
+					DummyScreen.class);
+			startActivity(intent);
+			return true;
 		}
+		return false;
+	}
 
-
-
-		@Override
-		public boolean onSocialProviderItemClicked(String socialProviderItem) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-	
+	@Override
+	public boolean onSocialProviderItemClicked(String socialProviderItem) {
+		return false;
+	}
 
 	@Override
 	public void onClick(View view) {
 
-		switch (view.getId()) {	
-		
+		switch (view.getId()) {
+
 		default:
 			Intent intent = new Intent(this, DigitalCareActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -177,5 +167,10 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,MainM
 			intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
 			startActivity(intent);
 		}
+	}
+
+	private void setLocaleForTesting(String country, String language) {
+		Locale mLocale = new Locale(language, country);
+		DigitalCareConfigManager.setLocale(mLocale);
 	}
 }
