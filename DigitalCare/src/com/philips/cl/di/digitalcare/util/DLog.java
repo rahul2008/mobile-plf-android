@@ -20,14 +20,6 @@ public class DLog {
 
 	private static boolean isLoggingEnabled = true;
 
-	// private static boolean isSaveToFileEnabled = false;
-
-	/*
-	 * public static void initLoggingToFile() { if (!isSaveToFileEnabled)
-	 * return; try { createFileOnDevice(true); } catch (IOException e) {
-	 * e.printStackTrace(); } }
-	 */
-
 	public static void enableLogging() {
 		isLoggingEnabled = true;
 	}

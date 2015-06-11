@@ -57,7 +57,6 @@ public abstract class DigitalCareBaseActivity extends Activity {
 
 		mActionBarMenuIcon.setOnClickListener(actionBarClickListener);
 		mActionBarArrow.setOnClickListener(actionBarClickListener);
-		// enableActionBarHome();
 	}
 
 	@Override
@@ -115,20 +114,12 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		config.locale = locale;
 		getBaseContext().getResources().updateConfiguration(config,
 				getBaseContext().getResources().getDisplayMetrics());
-
-		// Toast.makeText(
-		// getApplicationContext(),
-		// "Language set to " + DigitalCareConfigManager.getLanguage()
-		// + "\n Country set to"
-		// + DigitalCareConfigManager.getCountry(),
-		// Toast.LENGTH_SHORT).show();
 	}
 
 	private boolean backstackFragment() {
 
 		if (fragmentManager.getBackStackEntryCount() == 1) {
 			this.finish();
-			// overridePendingTransition(R.anim.left_in, R.anim.right_out);
 		}
 
 		else if (fragmentManager.getBackStackEntryCount() == 2) {
@@ -162,7 +153,6 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			int _id = view.getId();
 			if (_id == R.id.home_icon) {
 				finish();
-				// overridePendingTransition(R.anim.left_in, R.anim.right_out);
 			} else if (_id == R.id.back_to_home_img)
 				backstackFragment();
 		}
@@ -185,9 +175,6 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	protected void showFragment(Fragment fragment) {
 		try {
 			enableActionBarLeftArrow();
-
-			// getSupportFragmentManager().popBackStackImmediate(null,
-			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = fragmentManager
 					.beginTransaction();
 			fragmentTransaction.replace(R.id.mainContainer, fragment,

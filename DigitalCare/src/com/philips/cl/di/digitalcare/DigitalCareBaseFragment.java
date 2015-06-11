@@ -181,10 +181,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 				.findViewById(R.id.back_to_home_img);
 		ImageView homeIcon = (ImageView) mFragmentActivityContext
 				.findViewById(R.id.home_icon);
-		// DigitalCareFontTextView actionBarTitle = (DigitalCareFontTextView)
-		// mFragmentActivityContext.findViewById(R.id.action_bar_title);
 		homeIcon.setVisibility(View.GONE);
-		// homeIcon.setVisibility(View.INVISIBLE);
 		backToHome.setVisibility(View.VISIBLE);
 		backToHome.bringToFront();
 	}
@@ -192,8 +189,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	protected void showFragment(Fragment fragment) {
 		try {
 			enableActionBarLeftArrow();
-			// getSupportFragmentManager().popBackStackImmediate(null,
-			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = mFragmentActivityContext
 					.getFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.mainContainer, fragment,
@@ -237,14 +232,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 		transaction.commit();
 	}
-
-	// protected void startVideo() {
-	// Intent intent = new Intent(Intent.ACTION_VIEW);
-	// intent.setDataAndType(
-	// Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"),
-	// "video/mp4");
-	// startActivity(Intent.createChooser(intent, ""));
-	// }
 
 	protected void hideKeyboard() {
 		View view = getActivity().getCurrentFocus();

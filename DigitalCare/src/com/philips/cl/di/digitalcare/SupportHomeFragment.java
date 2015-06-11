@@ -1,7 +1,6 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -117,7 +116,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 						.getDimension(R.dimen.support_btn_height));
 		relativeLayout.setLayoutParams(params);
 
-		if (buttonTitle.equalsIgnoreCase(getStringKey(R.string.registration))) {
+		if (buttonTitle.equals(getStringKey(R.string.registration))) {
 			relativeLayout
 					.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
 		} else {
@@ -188,19 +187,19 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 			return;
 		}
 
-		if (tag.equalsIgnoreCase(getStringKey(R.string.contact_us))) {
+		if (tag.equals(getStringKey(R.string.contact_us))) {
 			if (isConnectionAvailable())
 				showFragment(new ContactUsFragment());
 		} else if (tag
-				.equalsIgnoreCase(getStringKey(R.string.view_product_details))) {
+				.equals(getStringKey(R.string.view_product_details))) {
 			showFragment(new ProductDetailsFragment());
 		} else if (tag
-				.equalsIgnoreCase(getStringKey(R.string.find_philips_near_you))) {
+				.equals(getStringKey(R.string.find_philips_near_you))) {
 			if (isConnectionAvailable())
 				showFragment(new LocatePhilipsFragment());
-		} else if (tag.equalsIgnoreCase(getStringKey(R.string.view_faq))) {
+		} else if (tag.equals(getStringKey(R.string.view_faq))) {
 
-		} else if (tag.equalsIgnoreCase(getStringKey(R.string.feedback))) {
+		} else if (tag.equals(getStringKey(R.string.feedback))) {
 			if (isConnectionAvailable())
 				showFragment(new RateThisAppFragment());
 		}
@@ -216,10 +215,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	 * level.
 	 */
 	private void createMainMenu() {
-		Resources mResources = getActivity().getResources();
-		String[] menuTitleKeys = mResources
+		String[] menuTitleKeys = getResources()
 				.getStringArray(R.array.main_menu_title);
-		String[] menuDrawableKeys = mResources
+		String[] menuDrawableKeys = getResources()
 				.getStringArray(R.array.main_menu_resources);
 		for (int i = 0; i < menuTitleKeys.length; i++) {
 			createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);
