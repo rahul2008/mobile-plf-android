@@ -2,34 +2,28 @@ package com.philips.cl.di.digitalcare.locatephilips.test;
 
 import java.util.ArrayList;
 
-import org.mockito.Mockito;
-
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.philips.cl.di.digitalcare.locatephilips.AtosAddressModel;
 import com.philips.cl.di.digitalcare.locatephilips.AtosLocationModel;
+import com.philips.cl.di.digitalcare.locatephilips.AtosParsingCallback;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResponseModel;
-import com.philips.cl.di.digitalcare.locatephilips.AtosResponseParser;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResultsModel;
-import com.philips.cl.di.digitalcare.util.DLog;
 
 public class AtosResultsModelTest extends InstrumentationTestCase {
 
 	private final String TAG = AtosResultsModelTest.class.getSimpleName();
-	private Context mContext, context = null;
-	private AtosResponseParser mParser = null;
+	private Context context = null;
+
+	private GetAtosInstance atosInstance = null;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp..");
-
-		// mContext = getInstrumentation().getTargetContext();
-		mContext = Mockito.mock(Context.class);
-		context = getInstrumentation().getContext();
-		mParser = AtosResponseParser.getParserControllInstance(mContext);
-
+		 context = getInstrumentation().getContext();
+		 atosInstance = new GetAtosInstance(mAtosParsing);
 	}
 
 	public void testId() {
@@ -98,7 +92,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 			assertNull(received);
 		}
 	}
-	
+
 	public void testAtosLocationModel() {
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
@@ -106,24 +100,29 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 			assertNotNull(received);
 		}
 	}
-	
-	
+
 	public void testwithoutAtosLocationModel() {
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_location.json");
 		for (int i = 0; i < resultList.size(); i++) {
 			AtosLocationModel received = resultList.get(i).getLocationModel();
-			// assertNotNull(received);
 			assertNull(received);
 		}
 	}
 
+	public ArrayList<AtosResultsModel> resultList = null;
+
 	private ArrayList<AtosResultsModel> getResultModelList(String jsonfile) {
+
 		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
-		mParser.processAtosResponse(response);
-		AtosResponseModel atosResponseModel = mParser.getAtosResponse();
-		ArrayList<AtosResultsModel> resultList = atosResponseModel
-				.getResultsModel();
+		atosInstance.parseAtosResponse(response);
 		return resultList;
 	}
+
+	private AtosParsingCallback mAtosParsing = new AtosParsingCallback() {
+		@Override
+		public void onAtosParsingComplete(AtosResponseModel atosResponseModel) {
+			resultList = atosResponseModel.getResultsModel();
+		}
+	};
 
 }

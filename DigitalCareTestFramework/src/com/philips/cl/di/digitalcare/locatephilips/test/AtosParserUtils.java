@@ -7,8 +7,10 @@ import android.content.Context;
 
 public class AtosParserUtils {
 
+	static String json = null;
+
 	public static String loadJSONFromAsset(String assetPath, Context context) {
-		String json = null;
+
 		try {
 			InputStream is = context.getAssets().open("atos/" + assetPath);
 			int size = is.available();

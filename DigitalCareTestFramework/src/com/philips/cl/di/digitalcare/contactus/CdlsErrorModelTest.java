@@ -11,6 +11,9 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 	private Context mContext, context = null;
 	private CdlsResponseParser mParser = null;
 
+	GetCdlsInstance mGetCdlsInstance = null;
+	CdlsResponseModel mCdlsResponseModel = null;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -18,15 +21,18 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
-		mParser = CdlsResponseParser.getParserControllInstance(mContext);
+		// mParser = CdlsResponseParser.getParserControllInstance(mContext);
+
+		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
 	}
 
 	public void testErrorCodeFromCdlsResponse() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mParser.getCdlsErrorModel();
+		// mParser.processCdlsResponse(response);
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
 		try {
 			received = mCdlsObject.getErrorCode();
 		} catch (NullPointerException e) {
@@ -40,8 +46,9 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mParser.getCdlsErrorModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+		
 		try {
 			received = mCdlsObject.getErrorMessage();
 		} catch (NullPointerException e) {
@@ -50,13 +57,14 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 
 		assertNull(received);
 	}
-	
+
 	public void testErrorCodeFromCdlsResponse1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mParser.getCdlsErrorModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+		
 		try {
 			received = mCdlsObject.getErrorCode();
 		} catch (NullPointerException e) {
@@ -70,8 +78,9 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsErrorModel mCdlsObject = mParser.getCdlsErrorModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsErrorModel mCdlsObject = mCdlsResponseModel.getError();
+		
 		try {
 			received = mCdlsObject.getErrorMessage();
 		} catch (NullPointerException e) {
@@ -81,5 +90,12 @@ public class CdlsErrorModelTest extends InstrumentationTestCase {
 		assertNull(received);
 	}
 
+	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+		@Override
+		public void onCdlsParsingComplete(final CdlsResponseModel response) {
+			mCdlsResponseModel = response;
+
+		}
+	};
 
 }

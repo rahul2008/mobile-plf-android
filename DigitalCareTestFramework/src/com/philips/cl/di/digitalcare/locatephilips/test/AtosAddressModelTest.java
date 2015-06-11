@@ -7,24 +7,21 @@ import android.test.InstrumentationTestCase;
 import android.util.Log;
 
 import com.philips.cl.di.digitalcare.locatephilips.AtosAddressModel;
+import com.philips.cl.di.digitalcare.locatephilips.AtosParsingCallback;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResponseModel;
-import com.philips.cl.di.digitalcare.locatephilips.AtosResponseParser;
 import com.philips.cl.di.digitalcare.locatephilips.AtosResultsModel;
 
 public class AtosAddressModelTest extends InstrumentationTestCase {
 
 	private final String TAG = AtosAddressModelTest.class.getSimpleName();
-	private Context mContext, context = null;
-	private AtosResponseParser mParser = null;
+	private Context context = null;
+	GetAtosInstance atosInstance=null;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		Log.d(TAG, "setUp..");
-		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
-
-		mParser = AtosResponseParser.getParserControllInstance(mContext);
-
+		atosInstance = new GetAtosInstance(mAtosParsing);
 	}
 
 	public void testZip() {
@@ -93,16 +90,21 @@ public class AtosAddressModelTest extends InstrumentationTestCase {
 		assertNotNull(received);
 	}
 
+	public AtosAddressModel atosAddressModel = null;
+
 	private AtosAddressModel getAtosAddressModel(String jsonfile) {
 		String response = AtosParserUtils.loadJSONFromAsset(jsonfile, context);
-		mParser.processAtosResponse(response);
-		AtosResponseModel atosResponseModel = mParser.getAtosResponse();
-		ArrayList<AtosResultsModel> resultList = atosResponseModel
-				.getResultsModel();
-		AtosAddressModel atosAddressModel = resultList.get(0)
-				.getmAddressModel();
-
+		atosInstance.parseAtosResponse(response);
 		return atosAddressModel;
 	}
+
+	private AtosParsingCallback mAtosParsing = new AtosParsingCallback() {
+		@Override
+		public void onAtosParsingComplete(AtosResponseModel atosResponseModel) {
+			ArrayList<AtosResultsModel> resultList = atosResponseModel
+					.getResultsModel();
+			atosAddressModel = resultList.get(0).getmAddressModel();
+		}
+	};
 
 }

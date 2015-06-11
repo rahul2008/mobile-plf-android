@@ -4,12 +4,20 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
+import com.philips.cl.di.digitalcare.locatephilips.AtosParsingCallback;
+import com.philips.cl.di.digitalcare.locatephilips.AtosResponseModel;
+import com.philips.cl.di.digitalcare.locatephilips.test.GetAtosInstance;
+
 public class CdlsChatModelTest extends InstrumentationTestCase {
 
 	private final String TAG = CdlsChatModelTest.class.getSimpleName();
 
 	private Context mContext, context = null;
-	private CdlsResponseParser mParser = null;
+
+	// private CdlsResponseParser mParser = null;
+
+	GetCdlsInstance mGetCdlsInstance = null;
+	CdlsResponseModel mCdlsResponseModel = null;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -18,14 +26,16 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
-		mParser = CdlsResponseParser.getParserControllInstance(mContext);
+		// mParser = CdlsResponseParser.getParserControllInstance(mContext);
+		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
 	}
 
 	public void testWeekDaysBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mCdlsResponseModel.getChat();
 		String received = mCdlsObject.getOpeningHoursWeekdays();
 
 		assertNotNull(received);
@@ -34,8 +44,8 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 	public void testSaturdayBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mCdlsResponseModel.getChat();
 		String received = mCdlsObject.getOpeningHoursSaturday();
 		assertNotNull(received);
 	}
@@ -43,17 +53,17 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 	public void testChatScriptContent() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mCdlsResponseModel.getChat();
 		String received = mCdlsObject.getContent();
 		assertNotNull(received);
 	}
-	
+
 	public void testWeekDaysBean2() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mCdlsResponseModel.getChat();
 		String received = mCdlsObject.getOpeningHoursWeekdays();
 
 		assertNotNull(received);
@@ -62,8 +72,8 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 	public void testSaturdayBean2() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mCdlsResponseModel.getChat();
 		String received = mCdlsObject.getOpeningHoursSaturday();
 		assertNotNull(received);
 	}
@@ -71,8 +81,8 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 	public void testChatScriptContent2() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsChatModel mCdlsObject = mParser.getCdlsChatModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsChatModel mCdlsObject = mCdlsResponseModel.getChat();
 		String received = mCdlsObject.getContent();
 		assertNotNull(received);
 	}
@@ -82,5 +92,21 @@ public class CdlsChatModelTest extends InstrumentationTestCase {
 		super.tearDown();
 		Log.d(TAG, "tearDown..");
 	}
+
+	// private AtosParsingCallback mAtosParsing = new AtosParsingCallback() {
+	//
+	// @Override
+	// public void onAtosParsingComplete(AtosResponseModel atosResponseModel) {
+	//
+	// }
+	// };
+
+	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+		@Override
+		public void onCdlsParsingComplete(final CdlsResponseModel response) {
+			mCdlsResponseModel = response;
+
+		}
+	};
 
 }

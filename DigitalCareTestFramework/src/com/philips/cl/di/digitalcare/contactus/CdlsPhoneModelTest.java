@@ -13,6 +13,9 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	private Context mContext, context = null;
 	private CdlsResponseParser mParser = null;
 
+	GetCdlsInstance mGetCdlsInstance = null;
+	CdlsResponseModel mCdlsResponseModel = null;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -20,14 +23,17 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
-		mParser = CdlsResponseParser.getParserControllInstance(mContext);
+		//mParser = CdlsResponseParser.getParserControllInstance(mContext);
+		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
+		
 	}
 
 	public void testContactUsWeekDaysBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		//mParser.processCdlsResponse(response);
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursWeekdays();
 		String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
 		DLog.d(TAG, "Weekdays Bean : [" + received + "]");
@@ -37,8 +43,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsSaturdayDayBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursSaturday();
 		Log.d(TAG, "Saturday :" + received);
 		assertNotNull(received);
@@ -47,8 +53,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsSundayBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursSunday();
 		String expected = "Sunday: 9:00 AM - 6:00 PM EST";
 		assertNotNull(received);
@@ -58,8 +64,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsOptionOneBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOptionalData1();
 		String expected = "Excluding Major Holidays";
 
@@ -69,8 +75,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsOptionTwoBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOptionalData2();
 		String expected = "For faster service, please have your product on-hand.";
 		assertNotNull(received);
@@ -80,18 +86,19 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsContactNumberBean() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getPhoneNumber();
 		String expected = "1-800-243-3050";
 		assertEquals(expected, received);
 		Log.d(TAG, "PhoneNumber :" + received);
 	}
+
 	public void testContactUsWeekDaysBean1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursWeekdays();
 		String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
 		DLog.d(TAG, "Weekdays Bean : [" + received + "]");
@@ -101,8 +108,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsSaturdayDayBean1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursSaturday();
 		Log.d(TAG, "Saturday :" + received);
 		assertNotNull(received);
@@ -111,8 +118,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsSundayBean1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursSunday();
 		String expected = "Sunday: 9:00 AM - 6:00 PM EST";
 		assertNotNull(received);
@@ -122,8 +129,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsOptionOneBean1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOptionalData1();
 		String expected = "Excluding Major Holidays";
 
@@ -133,8 +140,8 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsOptionTwoBean1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOptionalData2();
 		String expected = "For faster service, please have your product on-hand.";
 		assertNotNull(received);
@@ -144,12 +151,19 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 	public void testContactUsContactNumberBean1() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
-		mParser.processCdlsResponse(response);
-		CdlsPhoneModel mCdlsObject = mParser.getCdlsPhoneModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getPhoneNumber();
 		String expected = "1-800-243-3050";
 		assertEquals(expected, received);
 		Log.d(TAG, "PhoneNumber :" + received);
 	}
 
+	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+		@Override
+		public void onCdlsParsingComplete(final CdlsResponseModel response) {
+			mCdlsResponseModel = response;
+
+		}
+	};
 }

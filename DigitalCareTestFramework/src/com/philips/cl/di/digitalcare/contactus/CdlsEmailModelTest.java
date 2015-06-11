@@ -11,6 +11,9 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 	private Context mContext, context = null;
 	private CdlsResponseParser mParser = null;
 
+	GetCdlsInstance mGetCdlsInstance = null;
+	CdlsResponseModel mCdlsResponseModel = null;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -18,15 +21,19 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		mContext = getInstrumentation().getTargetContext();
 		context = getInstrumentation().getContext();
 
-		mParser = CdlsResponseParser.getParserControllInstance(mContext);
+		// mParser = CdlsResponseParser.getParserControllInstance(mContext);
+
+		mGetCdlsInstance = new GetCdlsInstance(mParsingCompletedCallback);
 	}
 
 	public void testEmailLabel() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		// mParser.processCdlsResponse(response);
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
+
 		try {
 			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
@@ -40,8 +47,8 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
 		try {
 			received = mCdlsObject.getContentPath().toString();
 		} catch (Exception e) {
@@ -56,8 +63,8 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 				context);
 		Log.d("Naveen", response);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
 		try {
 			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
@@ -69,21 +76,21 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls3.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
 		try {
 			received = mCdlsObject.getContentPath();
 		} catch (Exception e) {
 		}
 		assertNotNull(received);
 	}
-	
+
 	public void testEmailLabel2() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
 		try {
 			received = mCdlsObject.getLabel();
 		} catch (Exception e) {
@@ -97,8 +104,8 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
 		String received = null;
-		mParser.processCdlsResponse(response);
-		CdlsEmailModel mCdlsObject = mParser.getCdlsEmailModel();
+		mGetCdlsInstance.parseCdlsResponse(response);
+		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
 		try {
 			received = mCdlsObject.getContentPath().toString();
 		} catch (Exception e) {
@@ -107,5 +114,13 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 
 		assertNotNull(received);
 	}
+
+	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
+		@Override
+		public void onCdlsParsingComplete(final CdlsResponseModel response) {
+			mCdlsResponseModel = response;
+
+		}
+	};
 
 }
