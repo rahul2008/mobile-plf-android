@@ -96,7 +96,7 @@ public class ImagePhonePickerDialog extends Dialog implements
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			mContext.startActivityForResult(
-					Intent.createChooser(intent, "Complete action using"),
+					Intent.createChooser(intent, null),
 					DigitalCareContants.IMAGE_PICK);
 			
 			

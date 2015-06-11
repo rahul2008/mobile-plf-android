@@ -34,9 +34,7 @@ public class GoogleMapFragment extends MapFragment {
 		{
 			((onMapReadyListener)mFragment).onMapReady();
 		}
-		
 		Log.d(TAG, "GoogleMap Fragment : "+ mFragment);
-		
 		return mView;
 		
 	}
@@ -44,5 +42,4 @@ public class GoogleMapFragment extends MapFragment {
 	public static interface onMapReadyListener {
 		void onMapReady();
 	}
-
 }

@@ -80,7 +80,7 @@ public class ImageTabletPick implements OnClickListener {
 			intent.setType("image/*");
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			mContext.startActivityForResult(
-					Intent.createChooser(intent, "Complete action using"),
+					Intent.createChooser(intent, null),
 					DigitalCareContants.IMAGE_PICK);
 			mPointerAlert.dismiss();
 			break;
