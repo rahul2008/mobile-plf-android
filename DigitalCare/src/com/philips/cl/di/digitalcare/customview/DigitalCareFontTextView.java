@@ -38,7 +38,7 @@ public class DigitalCareFontTextView extends TextView {
 			final TypedArray a = context.obtainStyledAttributes(attrs,
 					R.styleable.DigitalCareFontTextView);
 			final String typeface = a
-					.getString(R.styleable.DigitalCareFontTextView_fontAssetName);
+					.getString(R.styleable.DigitalCareFontTextView_digitalcareFontAssetName);
 			a.recycle();
 
 			// set the font using class DigitalCareFontLoader
