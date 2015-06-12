@@ -28,7 +28,7 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.customview.ImagePhonePickerDialog;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow.AlignMode;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 import com.philips.cl.di.digitalcare.util.Utils;
 
@@ -71,14 +71,14 @@ public class ProductImageHelper {
 
 	public void pickImage() {
 		if (Utils.isTablet(mActivity) && (mProductImageView != null)) {
-			DLog.d(TAG, "It is Tablet");
+			DigiCareLogger.d(TAG, "It is Tablet");
 			ImageTabletPick mImageTabletPick = new ImageTabletPick(mActivity);
 			mPopupMenu = mImageTabletPick.getPointerAlert();
 			setBackgroundColorToPointerView(mPopupMenu);
 			mPopupMenu.showAsPointer(mProductImageView);
 			mPopupMenu.setAlignMode(AlignMode.CENTER_FIX);
 		} else {
-			DLog.d(TAG, "It is Mobile Phone");
+			DigiCareLogger.d(TAG, "It is Mobile Phone");
 			mDialog = new ImagePhonePickerDialog(mActivity);
 			mDialog.show();
 		}
@@ -105,7 +105,7 @@ public class ProductImageHelper {
 				}
 			} else {
 				if (mDialog.isShowing() && !(mActivity.isFinishing())) {
-					DLog.d(TAG, "Dialog is resetted");
+					DigiCareLogger.d(TAG, "Dialog is resetted");
 					mDialog.dismiss();
 					pickImage();
 				}
@@ -114,18 +114,18 @@ public class ProductImageHelper {
 	}
 
 	public void processProductImage(Intent data, int requestCode) {
-		DLog.d(TAG, "onActivity receiving the Intent");
-		DLog.d(TAG, "Android Version is : " + Build.VERSION.SDK_INT);
+		DigiCareLogger.d(TAG, "onActivity receiving the Intent");
+		DigiCareLogger.d(TAG, "Android Version is : " + Build.VERSION.SDK_INT);
 
 		if (requestCode == DigitalCareContants.IMAGE_PICK) {
-			DLog.d(TAG, "Image Picked From Gallery  with Data : " + data);
+			DigiCareLogger.d(TAG, "Image Picked From Gallery  with Data : " + data);
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
 
 			if (Build.VERSION.SDK_INT >= KITKAT) {
-				DLog.d(TAG, "Android Version in 19+");
+				DigiCareLogger.d(TAG, "Android Version in 19+");
 
-				DLog.d(TAG, "PATH : " + getPath(mActivity, selectedImage));
+				DigiCareLogger.d(TAG, "PATH : " + getPath(mActivity, selectedImage));
 				InputStream input;
 				Bitmap bitmap;
 				String picturePath = getPath(mActivity, selectedImage);
@@ -138,14 +138,14 @@ public class ProductImageHelper {
 
 				}
 			} else {
-				DLog.d(TAG, "Android Version is 18 below");
+				DigiCareLogger.d(TAG, "Android Version is 18 below");
 
 				Cursor cursor = mActivity.getContentResolver().query(
 						selectedImage, filePathColumn, null, null, null);
 				cursor.moveToFirst();
 				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 				String picturePath = cursor.getString(columnIndex);
-				DLog.d(TAG, "Gallery Image Path : " + picturePath);
+				DigiCareLogger.d(TAG, "Gallery Image Path : " + picturePath);
 				BitmapFactory.Options options = new BitmapFactory.Options();
 				options.inPreferredConfig = Bitmap.Config.ARGB_8888;
 				Bitmap bitmap = BitmapFactory.decodeFile(picturePath, options);
@@ -153,7 +153,7 @@ public class ProductImageHelper {
 				cursor.close();
 			}
 		} else if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
-			DLog.d(TAG, "Product Image receiving from Camera");
+			DigiCareLogger.d(TAG, "Product Image receiving from Camera");
 
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");
 			try {

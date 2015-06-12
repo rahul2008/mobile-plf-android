@@ -25,7 +25,7 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.PostCallback;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * @description: FacebookUtility will help to provide options for facebook
@@ -74,13 +74,13 @@ public class FacebookUtility {
 
 		Session mSession = openActiveSession(true,
 				Arrays.asList(EMAIL, BIRTHDAY, HOMETOWN, LOCATION), null);
-		DLog.d(TAG, "Session Object : " + mSession);
+		DigiCareLogger.d(TAG, "Session Object : " + mSession);
 		if (mSession.isOpened()) {
 			String mDestinationPage = mActivity.getResources().getString(
 					R.string.facebook_product_page);
 			String mDestinationRollbackPage = "Philips";
-			DLog.d(TAG, "Destination Page from xml : " + mDestinationPage);
-			DLog.d(TAG, "RollbackPage from xml : " + mDestinationRollbackPage);
+			DigiCareLogger.d(TAG, "Destination Page from xml : " + mDestinationPage);
+			DigiCareLogger.d(TAG, "RollbackPage from xml : " + mDestinationRollbackPage);
 			mFaceBookPage = mDestinationRollbackPage;
 			checkPageAvailability(mDestinationPage);
 		}
@@ -105,16 +105,16 @@ public class FacebookUtility {
 
 	private void checkPageAvailability(final String page) {
 		final String mUrlBuild = "/" + page + "/feed";
-		DLog.d(TAG, "Page Reachability Test");
+		DigiCareLogger.d(TAG, "Page Reachability Test");
 		new Request(Session.getActiveSession(), mUrlBuild, null,
 				HttpMethod.GET, new Request.Callback() {
 					public void onCompleted(Response response) {
-						DLog.d(TAG, "Page Name is : " + mUrlBuild);
-						DLog.d(TAG, "Error : " + response.getError());
+						DigiCareLogger.d(TAG, "Page Name is : " + mUrlBuild);
+						DigiCareLogger.d(TAG, "Error : " + response.getError());
 						if (response.getError() == null)
 							mFaceBookPage = page;
 
-						DLog.d(TAG, "FACE BOOK DESTINATION : " + mFaceBookPage);
+						DigiCareLogger.d(TAG, "FACE BOOK DESTINATION : " + mFaceBookPage);
 					}
 				}).executeAsync();
 	}
@@ -122,11 +122,11 @@ public class FacebookUtility {
 	public void performPublishAction(String description) {
 		this.mContentDescription = description;
 		if (getImageToUpload() != null) {
-			DLog.i(TAG, "FacebookUtility performPublishAction POST_PHOTO");
+			DigiCareLogger.i(TAG, "FacebookUtility performPublishAction POST_PHOTO");
 			performPublish(PendingAction.POST_PHOTO,
 					canPresentShareDialogWithPhotos);
 		} else {
-			DLog.i(TAG,
+			DigiCareLogger.i(TAG,
 					"FacebookUtility performPublishAction POST_STATUS_UPDATE");
 			performPublish(PendingAction.POST_STATUS_UPDATE,
 					canPresentShareDialog);
@@ -159,7 +159,7 @@ public class FacebookUtility {
 					session.requestNewPublishPermissions(new Session.NewPermissionsRequest(
 							mActivity, PERMISSION));
 				} catch (UnsupportedOperationException exception) {
-					DLog.i(TAG,
+					DigiCareLogger.i(TAG,
 							" UnsupportedOperationException "
 									+ exception.getMessage());
 				}
@@ -177,9 +177,9 @@ public class FacebookUtility {
 	}
 
 	private void shareImage() {
-		DLog.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
+		DigiCareLogger.i(TAG, "FacebookUtility shareImage image : " + mImageToUpload);
 		String mUrl = "/" + mFaceBookPage + "/photos";
-		DLog.d(TAG, "Posting to : " + mUrl);
+		DigiCareLogger.d(TAG, "Posting to : " + mUrl);
 		Bundle params = new Bundle();
 		params.putParcelable("source", mImageToUpload);
 		params.putString("message", mContentDescription);
@@ -254,11 +254,11 @@ public class FacebookUtility {
 		String url = "/" + mFaceBookPage + "/feed";
 		Bundle params = new Bundle();
 		params.putString("message", mContentDescription);
-		DLog.d(TAG, "Posting to : " + url);
+		DigiCareLogger.d(TAG, "Posting to : " + url);
 		new Request(Session.getActiveSession(), url, params, HttpMethod.POST,
 				new Request.Callback() {
 					public void onCompleted(Response response) {
-						DLog.d(TAG, "MEssage Response Callback : " + response);
+						DigiCareLogger.d(TAG, "MEssage Response Callback : " + response);
 						postResponse(response);
 					}
 				}).executeAsync();
@@ -293,7 +293,7 @@ public class FacebookUtility {
 	}
 
 	public void onResume() {
-		DLog.i(TAG,
+		DigiCareLogger.i(TAG,
 				"onResume contactUsFragment   Session.getActiveSession() : "
 						+ Session.getActiveSession());
 		mFbUiHelper.onResume();
@@ -325,16 +325,16 @@ public class FacebookUtility {
 									Response response) {
 								if (user != null) {
 									String mName = user.getName();
-									DLog.d(TAG, "User Name is : " + mName);
+									DigiCareLogger.d(TAG, "User Name is : " + mName);
 									if (mFaceBookAccCallback != null) {
 										mFaceBookAccCallback.setName(mName);
 
-										DLog.d(TAG,
+										DigiCareLogger.d(TAG,
 												"User Name After Null Check : "
 														+ mName);
 									}
 								} else {
-									DLog.d(TAG, "FaceBook Name is Null");
+									DigiCareLogger.d(TAG, "FaceBook Name is Null");
 								}
 							}
 						});
@@ -344,7 +344,7 @@ public class FacebookUtility {
 
 			if (pendingAction != PendingAction.NONE
 					&& (exception instanceof FacebookOperationCanceledException || exception instanceof FacebookAuthorizationException)) {
-				DLog.i(TAG, "Facebook session failure");
+				DigiCareLogger.i(TAG, "Facebook session failure");
 				pendingAction = PendingAction.NONE;
 			} else if (state == SessionState.OPENED_TOKEN_UPDATED) {
 				handlePendingAction();

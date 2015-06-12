@@ -13,7 +13,7 @@ import android.content.SharedPreferences;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.social.PostCallback;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * Thread Task for posting Twitter tweets along with Product Image.
@@ -40,7 +40,7 @@ public class TwitterPost extends Thread {
 		mStatus = text;
 		mPostCallback = callback;
 		setPriority(Thread.MAX_PRIORITY);
-		DLog.d(TAG, "TwitterPost Thread Started");
+		DigiCareLogger.d(TAG, "TwitterPost Thread Started");
 		start();
 	}
 
@@ -62,8 +62,8 @@ public class TwitterPost extends Thread {
 					PREF_KEY_OAUTH_TOKEN, "");
 			String access_token_secret = mSharedPreferences.getString(
 					PREF_KEY_OAUTH_SECRET, "");
-			DLog.d(TAG, "Consumer Key in Post Process : " + access_token);
-			DLog.d(TAG, "Consumer Secreat Key in post Process : "
+			DigiCareLogger.d(TAG, "Consumer Key in Post Process : " + access_token);
+			DigiCareLogger.d(TAG, "Consumer Secreat Key in post Process : "
 					+ access_token_secret);
 
 			AccessToken accessToken = new AccessToken(access_token,
@@ -76,13 +76,13 @@ public class TwitterPost extends Thread {
 
 			twitter4j.Status response = twitter.updateStatus(statusUpdate);
 
-			DLog.d(TAG, "Twitter Response" + response.getText());
+			DigiCareLogger.d(TAG, "Twitter Response" + response.getText());
 			if (mPostCallback != null)
 				mPostCallback.onTaskCompleted();
 
 		} catch (TwitterException e) {
 			mPostCallback.onTaskFailed();
-			DLog.d(TAG, "Failed to post : " + e);
+			DigiCareLogger.d(TAG, "Failed to post : " + e);
 
 		}
 	}

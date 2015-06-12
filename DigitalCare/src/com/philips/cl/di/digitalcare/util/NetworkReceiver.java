@@ -30,11 +30,11 @@ public class NetworkReceiver extends BroadcastReceiver {
 			NetworkInfo mActiveNetwork = mConnectionManager
 					.getActiveNetworkInfo();
 			if (mActiveNetwork != null) {
-				DLog.v(TAG, "Connection Available");
+				DigiCareLogger.v(TAG, "Connection Available");
 				if (mNetworkCallback != null)
 					mNetworkCallback.onNetworkStateChanged(true);
 			} else {
-				DLog.v(TAG, "Connection Not Available");
+				DigiCareLogger.v(TAG, "Connection Not Available");
 
 				if (mNetworkCallback != null)
 					mNetworkCallback.onNetworkStateChanged(false);

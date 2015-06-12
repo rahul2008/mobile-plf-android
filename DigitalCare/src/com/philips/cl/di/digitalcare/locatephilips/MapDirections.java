@@ -15,7 +15,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * MapDirections will help to get the end-to-end directions. It will hit google
@@ -99,7 +99,7 @@ public class MapDirections {
 			br.close();
 
 		} catch (Exception e) {
-			DLog.d(TAG, e.toString());
+			DigiCareLogger.d(TAG, e.toString());
 		} finally {
 			iStream.close();
 			urlConnection.disconnect();
@@ -121,7 +121,7 @@ public class MapDirections {
 				// Fetching the data from web service
 				data = downloadUrl(url[0]);
 			} catch (Exception e) {
-				DLog.d(TAG, "Background Task" + e.toString());
+				DigiCareLogger.d(TAG, "Background Task" + e.toString());
 			}
 			return data;
 		}

@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * DigitalCareBaseActivity is the main super abstract class container for
@@ -40,7 +40,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DLog.i(TAG, "onCreate");
+		DigiCareLogger.i(TAG, "onCreate");
 		setLocaleLanguage();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -61,7 +61,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		DLog.i(TAG, TAG + " : onConfigurationChanged ");
+		DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			DLog.e(TAG, e.getMessage());
+			DigiCareLogger.e(TAG, e.getMessage());
 		}
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

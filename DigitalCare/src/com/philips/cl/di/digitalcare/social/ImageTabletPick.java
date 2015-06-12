@@ -10,7 +10,7 @@ import android.view.View.OnClickListener;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cl.di.digitalcare.customview.TabletPopupWindow;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -34,7 +34,7 @@ public class ImageTabletPick implements OnClickListener {
 	TabletPopupWindow mPointerAlert = null;
 
 	public ImageTabletPick(Activity activity) {
-		DLog.i(TAG, "ImageTabletPick");
+		DigiCareLogger.i(TAG, "ImageTabletPick");
 		mContext = activity;
 		getPointerAlert();
 	}
@@ -69,12 +69,12 @@ public class ImageTabletPick implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case CANCEL_BUTTON:
-			DLog.d("IMAGE", "Cancel Button");
+			DigiCareLogger.d("IMAGE", "Cancel Button");
 			mPointerAlert.dismiss();
 
 			break;
 		case LIBRARY_BUTTON:
-			DLog.d("IMAGE", "Library Button");
+			DigiCareLogger.d("IMAGE", "Library Button");
 
 			Intent intent = new Intent();
 			intent.setType("image/*");
@@ -85,7 +85,7 @@ public class ImageTabletPick implements OnClickListener {
 			mPointerAlert.dismiss();
 			break;
 		case CAMERA_BUTTON:
-			DLog.d("IMAGE", "Camera Button");
+			DigiCareLogger.d("IMAGE", "Camera Button");
 
 			Intent mCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			mContext.startActivityForResult(mCameraIntent,

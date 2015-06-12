@@ -10,7 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -47,7 +47,7 @@ public class ImagePhonePickerDialog extends Dialog implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DLog.d(TAG, "onCreate");
+		DigiCareLogger.d(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
@@ -78,19 +78,19 @@ public class ImagePhonePickerDialog extends Dialog implements
 				.getMetrics(mDisplayMetrics);
 		mWidth = mDisplayMetrics.widthPixels;
 		mHeight = mDisplayMetrics.heightPixels;
-		DLog.d(TAG, "Weight : " + mWidth + " & Height is " + mHeight);
+		DigiCareLogger.d(TAG, "Weight : " + mWidth + " & Height is " + mHeight);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case CANCEL_BUTTON:
-			DLog.d("IMAGE", "Cancel Button");
+			DigiCareLogger.d("IMAGE", "Cancel Button");
 			dismiss();
 
 			break;
 		case LIBRARY_BUTTON:
-			DLog.d("IMAGE", "LIbrary Button");
+			DigiCareLogger.d("IMAGE", "LIbrary Button");
 
 		Intent intent = new Intent();
 			intent.setType("image/*");
@@ -109,7 +109,7 @@ public class ImagePhonePickerDialog extends Dialog implements
 			dismiss();
 			break;
 		case CAMERA_BUTTON:
-			DLog.d("IMAGE", "Camera Button");
+			DigiCareLogger.d("IMAGE", "Camera Button");
 
 			Intent mCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			mContext.startActivityForResult(mCameraIntent,

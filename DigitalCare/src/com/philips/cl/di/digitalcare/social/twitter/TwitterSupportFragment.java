@@ -34,7 +34,7 @@ import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * This Screen helps endusers to send the product info/concern along with
@@ -89,7 +89,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				TwitterAuthentication.PREF_USER_NAME, "");
 		mTwitter_to = getUsername();
 		mProductInformation = getProductInformation();
-		DLog.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
+		DigiCareLogger.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
 		return mTwitterView;
 	}
 
@@ -173,7 +173,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		DLog.d(TAG, "Configuration Changed");
+		DigiCareLogger.d(TAG, "Configuration Changed");
 		ProductImageHelper mProdImageHelper = ProductImageHelper.getInstance();
 		if (mProdImageHelper != null)
 			mProdImageHelper.resetDialog();
@@ -303,10 +303,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		StringBuilder mTwitterAddressBuilder = new StringBuilder(
 				mTwitterMessageContent);
 		mTwitterAddressBuilder.replace(0, mPost_AddressLength, mTwitter_to);
-		DLog.d(TAG, "Twitter String : [" + mTwitterAddressBuilder + "]");
+		DigiCareLogger.d(TAG, "Twitter String : [" + mTwitterAddressBuilder + "]");
 
 		if (!(s.toString().startsWith(mTwitter_to, 0))) {
-			DLog.d(TAG, "String from the Character S : " + s.toString());
+			DigiCareLogger.d(TAG, "String from the Character S : " + s.toString());
 			mEditText.setText(mTwitterAddressBuilder);
 		}
 
@@ -339,7 +339,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
 		mFile = new File(Uri);
-		DLog.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
+		DigiCareLogger.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductCloseButton.setVisibility(View.VISIBLE);

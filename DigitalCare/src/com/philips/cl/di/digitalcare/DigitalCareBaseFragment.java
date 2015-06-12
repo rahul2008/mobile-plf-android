@@ -21,7 +21,7 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.NetworkReceiver;
 
 /**
@@ -48,7 +48,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			f = Fragment.class.getDeclaredField("mChildFragmentManager");
 			f.setAccessible(true);
 		} catch (NoSuchFieldException e) {
-			DLog.e(DLog.FRAGMENT, "Error getting mChildFragmentManager field");
+			DigiCareLogger.e(DigiCareLogger.FRAGMENT, "Error getting mChildFragmentManager field");
 		}
 		sChildFragmentManagerField = f;
 	}
@@ -68,7 +68,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		DLog.d(DLog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
 		mFragmentActivityContext = getActivity();
@@ -96,46 +96,46 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		DLog.d(DLog.FRAGMENT, "OnCreateView on "
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnCreateView on "
 				+ this.getClass().getSimpleName());
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onStart() {
-		DLog.d(DLog.FRAGMENT, "OnStart on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStart on " + this.getClass().getSimpleName());
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		DLog.d(DLog.FRAGMENT, "OnResume on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnResume on " + this.getClass().getSimpleName());
 		super.onResume();
 		setActionbarTitle();
 	}
 
 	@Override
 	public void onPause() {
-		DLog.d(DLog.FRAGMENT, "OnPause on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnPause on " + this.getClass().getSimpleName());
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		DLog.d(DLog.FRAGMENT, "OnStop on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStop on " + this.getClass().getSimpleName());
 		super.onStop();
 	}
 
 	@Override
 	public void onDestroy() {
-		DLog.d(DLog.FRAGMENT, "onDestroy on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onDestroy on " + this.getClass().getSimpleName());
 		getActivity().unregisterReceiver(mNetworkutility);
 		super.onDestroy();
 	}
 
 	@Override
 	public void onDestroyView() {
-		DLog.d(DLog.FRAGMENT, "OnDestroyView on "
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnDestroyView on "
 				+ this.getClass().getSimpleName());
 		super.onDestroyView();
 
@@ -150,7 +150,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			try {
 				sChildFragmentManagerField.set(this, null);
 			} catch (Exception e) {
-				DLog.e(DLog.FRAGMENT,
+				DigiCareLogger.e(DigiCareLogger.FRAGMENT,
 						"Error setting mChildFragmentManager field");
 			}
 		}
@@ -172,7 +172,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		DLog.i(TAG, TAG + " : onConfigurationChanged ");
+		DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");
 	}
 
 	private void enableActionBarLeftArrow() {
@@ -196,7 +196,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			DLog.e(TAG, e.getMessage());
+			DigiCareLogger.e(TAG, e.getMessage());
 		}
 
 		InputMethodManager imm = (InputMethodManager) mFragmentActivityContext

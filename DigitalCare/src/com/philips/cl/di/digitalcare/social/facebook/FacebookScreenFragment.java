@@ -33,7 +33,7 @@ import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * @description: FacebookScreenFragment will help to post messages on Philips
@@ -86,15 +86,15 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mProductInformation = " "
 				+ getActivity().getResources().getString(
 						R.string.support_productinformation) + " ";
-		DLog.d(TAG, "onCreateView");
+		DigiCareLogger.d(TAG, "onCreateView");
 		return mView;
 	}
 
 	public void onFaceBookCallback(Activity activity, int requestCode,
 			int resultCode, Intent data) {
-		DLog.d(TAG, "onActivity Result received inside the...");
+		DigiCareLogger.d(TAG, "onActivity Result received inside the...");
 		if (mFacebookUtility != null) {
-			DLog.d(TAG,
+			DigiCareLogger.d(TAG,
 					"onActivity Result received when Facebook Utility is not null");
 			mFacebookUtility.onActivityResultFragment(activity, requestCode,
 					resultCode, data);
@@ -115,12 +115,12 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 
 		String mContent = null;
 		if (isChecked) {
-			DLog.d(TAG, "Checked ++");
+			DigiCareLogger.d(TAG, "Checked ++");
 			mContent = mEditText.getText().toString() + mProductInformation;
 			mEditText.setText(mContent);
 
 		} else {
-			DLog.d(TAG, "Checked --");
+			DigiCareLogger.d(TAG, "Checked --");
 			mContent = mEditText.getText().toString();
 			if (mContent.contains(mProductInformation)) {
 				mContent = mContent.replace(mProductInformation, "");
@@ -260,13 +260,13 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		mProductImage.setImageBitmap(image);
 		mProductImage.setScaleType(ScaleType.FIT_XY);
 		mProductImageClose.setVisibility(View.VISIBLE);
-		DLog.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
+		DigiCareLogger.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
 	}
 
 	@Override
 	public void onImageDettached() {
 		mFile = null;
-		DLog.d(TAG, "Product Image Dettached");
+		DigiCareLogger.d(TAG, "Product Image Dettached");
 		mFacebookUtility.setImageToUpload(null);
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));
@@ -346,7 +346,7 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		String mName = mPostFrom.getText().toString();
 		mName = mName + " @" + name;
 		mPostFrom.setText(mName);
-		DLog.d(TAG, "Callback received");
+		DigiCareLogger.d(TAG, "Callback received");
 	}
 
 	@Override

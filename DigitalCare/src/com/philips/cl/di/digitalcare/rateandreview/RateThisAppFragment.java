@@ -18,7 +18,7 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * RateThisAppFragment class is used to rate the app and review the product.
@@ -40,7 +40,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		DLog.d(TAG, "onCreateView");
+		DigiCareLogger.d(TAG, "onCreateView");
 		View mView = inflater.inflate(R.layout.fragment_tellus, container,
 				false);
 		mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
@@ -50,7 +50,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		DLog.d(TAG, "onActivityCreated");
+		DigiCareLogger.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 
 		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_EXIT_LINK,

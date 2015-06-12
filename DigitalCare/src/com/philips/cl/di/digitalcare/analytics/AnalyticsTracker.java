@@ -16,7 +16,7 @@ import android.os.Build;
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * AnalyticsTracker class is responsible for Adobe Analytics. Here all APIs has
@@ -78,7 +78,7 @@ public class AnalyticsTracker {
 	public static void trackPage(String pageName) {
 		if (!trackMetrics)
 			return;
-		DLog.i(TAG, "Track page :" + pageName);
+		DigiCareLogger.i(TAG, "Track page :" + pageName);
 		Analytics.trackState(pageName, addAnalyticsDataObject());
 	}
 
@@ -96,7 +96,7 @@ public class AnalyticsTracker {
 			String mapValue) {
 		if (!trackMetrics)
 			return;
-		DLog.i(TAG, "TrackAction : actionName : " + actionName);
+		DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
 		Analytics.trackAction(actionName, getContextData(mapKey, mapValue));
 	}
 
@@ -148,7 +148,7 @@ public class AnalyticsTracker {
 		try {
 			PackageInfo packageInfo = mContext.getPackageManager()
 					.getPackageInfo(mContext.getPackageName(), 0);
-			DLog.i(DLog.APPLICATION, "Application version: "
+			DigiCareLogger.i(DigiCareLogger.APPLICATION, "Application version: "
 					+ packageInfo.versionName + " (" + packageInfo.versionCode
 					+ ")");
 			appVersion = packageInfo.versionCode;

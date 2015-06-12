@@ -38,7 +38,7 @@ import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
@@ -73,7 +73,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DLog.i(TAG, "ContactUsFragment : onCreate");
+		DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
 		mTwitterProgresshandler = new Handler();
 		if (isConnectionAvailable())
 			requestCDLSData();
@@ -82,7 +82,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		DLog.i(TAG, "ContactUsFragment : onCreateView: mView - " + mView);
+		DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - " + mView);
 		if (mView == null) {
 			mView = inflater.inflate(R.layout.fragment_contact_us, container,
 					false);
@@ -93,7 +93,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		DLog.i(TAG,
+		DigiCareLogger.i(TAG,
 				"ContactUsFragment : onActivityCreated : mConactUsParent == "
 						+ mContactUsParent);
 		if (mContactUsParent == null) {
@@ -186,7 +186,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onTwitterLoginFailed() {
-		DLog.d(TAG, "Twitter Authentication Failed");
+		DigiCareLogger.d(TAG, "Twitter Authentication Failed");
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	}
 
 	protected void requestCDLSData() {
-		DLog.d(TAG, "CDLS Request Thread is started");
+		DigiCareLogger.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
 		new RequestData(formCdlsURL(), this).start();
 	}
@@ -204,7 +204,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onResponseReceived(String response) {
 		closeProgressDialog();
-		DLog.i(TAG, "response : " + response);
+		DigiCareLogger.i(TAG, "response : " + response);
 		if (response != null && isAdded()) {
 			mCdlsResponseStr = response;
 			parseCDLSResponse(response);
@@ -232,14 +232,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	};
 
 	protected void parseCDLSResponse(String response) {
-		DLog.d(TAG, "Parsing CDLS Response");
+		DigiCareLogger.d(TAG, "Parsing CDLS Response");
 		CdlsResponseParser cdlsResponseParser = new CdlsResponseParser(
 				mParsingCompletedCallback);
 		cdlsResponseParser.parseCdlsResponse(response);
 	}
 
 	protected void updateGui() {
-		DLog.d(TAG, "Updating Contact Information");
+		DigiCareLogger.d(TAG, "Updating Contact Information");
 
 		if (mCdlsParsedResponse.getSuccess()
 				|| mCdlsParsedResponse.getError() != null) {
@@ -280,7 +280,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	}
 
 	protected void closeProgressDialog() {
-		DLog.v(TAG, "Progress Dialog Cancelled");
+		DigiCareLogger.v(TAG, "Progress Dialog Cancelled");
 
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
@@ -290,7 +290,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	}
 
 	protected void startProgressDialog() {
-		DLog.v(TAG, "Progress Dialog Started");
+		DigiCareLogger.v(TAG, "Progress Dialog Started");
 		if (mDialog == null)
 			mDialog = new ProgressDialog(getActivity());
 		mDialog.setMessage(getActivity().getResources().getString(
@@ -359,23 +359,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 			Session mFacebookSession = Session.getActiveSession();
 
-			DLog.d(TAG, "Session - getSession from Facebook SDK "
+			DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK "
 					+ mFacebookSession);
 			if (mFacebookSession == null) {
-				DLog.d(TAG, "Session is null so Starting FacebookSession");
+				DigiCareLogger.d(TAG, "Session is null so Starting FacebookSession");
 				startFacebookSession();
 			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
-				DLog.d(TAG, "Session is state is CLOSED_LOGIN_FAILED"
+				DigiCareLogger.d(TAG, "Session is state is CLOSED_LOGIN_FAILED"
 						+ " so Starting Facebook Session");
 				startFacebookSession();
 			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.OPENED)) {
-				DLog.d(TAG,
+				DigiCareLogger.d(TAG,
 						"Session - getSession from Facebook SDK is not NULL  : "
 								+ mFacebookSession);
 				showFragment(new FacebookScreenFragment());
-				DLog.d(TAG, "Session is not null");
+				DigiCareLogger.d(TAG, "Session is not null");
 
 			}
 		} else if (tag != null

@@ -13,7 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * Activity component used for Twitter OAuthentication
@@ -40,7 +40,7 @@ public class TwitterAuthenticationActivity extends Activity {
 		setContentView(mgetView());
 		final String url = this.getIntent().getStringExtra(EXTRA_URL);
 		if (null == url) {
-			DLog.e(TAG, "URL cannot be null");
+			DigiCareLogger.e(TAG, "URL cannot be null");
 			finish();
 		}
 		mWebView.setWebViewClient(new MyWebViewClient());
@@ -119,7 +119,7 @@ public class TwitterAuthenticationActivity extends Activity {
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			super.onPageStarted(view, url, favicon);
-			DLog.d(TAG, "onPage Started");
+			DigiCareLogger.d(TAG, "onPage Started");
 			if (mDialog == null)
 				mDialog = new ProgressDialog(TwitterAuthenticationActivity.this);
 			mDialog.setMessage("Loading...");
@@ -132,8 +132,8 @@ public class TwitterAuthenticationActivity extends Activity {
 		@Override
 		public void onLoadResource(WebView view, String url) {
 
-			DLog.d(TAG, "Loading Resources");
-			DLog.d(TAG, "Resource Loading Progress : " + view.getProgress());
+			DigiCareLogger.d(TAG, "Loading Resources");
+			DigiCareLogger.d(TAG, "Resource Loading Progress : " + view.getProgress());
 
 			if(view.getProgress() >= 70)
 			{

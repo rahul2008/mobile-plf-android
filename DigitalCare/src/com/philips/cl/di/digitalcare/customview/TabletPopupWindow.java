@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 
 /**
@@ -130,7 +130,7 @@ public class TabletPopupWindow extends PopupWindow {
 					* getWidth() / 2);
 		} else*/ if (mAlignMode == AlignMode.CENTER_FIX) {
 			xoff = (anchor.getWidth() - getWidth()) / 2;
-			DLog.i(TAG, "XOff : "+ xoff);
+			DigiCareLogger.i(TAG, "XOff : "+ xoff);
 		}
 	/*	int left = loc[0] + xoff;
 		int right = left + getWidth();
@@ -142,7 +142,7 @@ public class TabletPopupWindow extends PopupWindow {
 			xoff = displayFrame.left + mMarginScreen - loc[0];
 		}*/
 		computePointerLocation(anchor, xoff);
-		DLog.i(TAG, "Compute Location Anchor : "+ anchor + " & xOff : "+ xoff);
+		DigiCareLogger.i(TAG, "Compute Location Anchor : "+ anchor + " & xOff : "+ xoff);
 		super.showAsDropDown(anchor, xoff, yoff);
 	}
 

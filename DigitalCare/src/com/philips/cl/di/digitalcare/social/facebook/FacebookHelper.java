@@ -11,7 +11,7 @@ import com.facebook.Session.OpenRequest;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 public class FacebookHelper {
 
@@ -57,7 +57,7 @@ public class FacebookHelper {
 		@Override
 		public void call(Session session, SessionState state,
 				Exception exception) {
-			DLog.d(TAG, "Call method called with state " + session.getState());
+			DigiCareLogger.d(TAG, "Call method called with state " + session.getState());
 
 			if ((session.isOpened()) && (session != null)) {
 				mSuccessCallback.onSuccess();
@@ -67,7 +67,7 @@ public class FacebookHelper {
 
 	public void onFaceBookCallback(Activity activity, int requestCode,
 			int resultCode, Intent data) {
-		DLog.d(TAG, "result code is : .." + resultCode);
+		DigiCareLogger.d(TAG, "result code is : .." + resultCode);
 
 		Session.getActiveSession().onActivityResult(activity, requestCode,
 				resultCode, data);

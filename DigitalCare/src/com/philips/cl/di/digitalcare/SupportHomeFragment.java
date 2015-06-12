@@ -20,7 +20,7 @@ import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * SupportHomeFragment is the first screen of Support app. This class will give
@@ -43,7 +43,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
-		DLog.i(TAG, "onCreateView");
+		DigiCareLogger.i(TAG, "onCreateView");
 		return view;
 	}
 

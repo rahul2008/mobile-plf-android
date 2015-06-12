@@ -19,7 +19,7 @@ import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * ProductDetailsFragment will help to show product details.
@@ -41,7 +41,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		DLog.d(TAG, "onCreateView");
+		DigiCareLogger.d(TAG, "onCreateView");
 		View mView = inflater.inflate(R.layout.fragment_view_product,
 				container, false);
 		return mView;
@@ -49,7 +49,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		DLog.d(TAG, "onActivityCreated");
+		DigiCareLogger.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 		mFirstContainer = (RelativeLayout) getActivity().findViewById(
 				R.id.toplayout);

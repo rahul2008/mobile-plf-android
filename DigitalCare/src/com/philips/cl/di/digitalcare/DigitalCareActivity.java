@@ -10,7 +10,7 @@ import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -35,7 +35,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			DLog.e(TAG, "Actionbar: " + e.getMessage());
+			DigiCareLogger.e(TAG, "Actionbar: " + e.getMessage());
 		}
 		Bundle bundleExtras = getIntent().getExtras();
 
@@ -55,7 +55,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		DLog.i(TAG, "DigitalCareActivity onActivityResult");
+		DigiCareLogger.i(TAG, "DigitalCareActivity onActivityResult");
 
 		if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
 

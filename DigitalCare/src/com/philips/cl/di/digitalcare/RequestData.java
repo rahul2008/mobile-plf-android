@@ -13,7 +13,7 @@ import org.apache.http.protocol.HttpContext;
 
 import android.os.Looper;
 
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 public class RequestData extends Thread {
 
@@ -40,7 +40,7 @@ public class RequestData extends Thread {
 			HttpEntity entity = response.getEntity();
 			mResponse = getASCIIContentFromEntity(entity);
 		} catch (Exception e) {
-			DLog.e(TAG,
+			DigiCareLogger.e(TAG,
 					"Failed to fetch Response Data : " + e.getLocalizedMessage());
 		} finally {
 			notifyResponseHandler();
@@ -57,7 +57,7 @@ public class RequestData extends Thread {
 	protected String getASCIIContentFromEntity(HttpEntity entity)
 			throws IllegalStateException, IOException {
 
-		DLog.d(TAG, "Getting String response from HTTPENTITY");
+		DigiCareLogger.d(TAG, "Getting String response from HTTPENTITY");
 		InputStream in = entity.getContent();
 		StringBuffer out = new StringBuffer();
 		int n = 1;

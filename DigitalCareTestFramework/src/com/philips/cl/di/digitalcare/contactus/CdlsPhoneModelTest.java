@@ -4,8 +4,6 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cl.di.digitalcare.util.DLog;
-
 public class CdlsPhoneModelTest extends InstrumentationTestCase {
 
 	private final String TAG = CdlsPhoneModelTest.class.getSimpleName();
@@ -36,7 +34,6 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursWeekdays();
 		String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
-		DLog.d(TAG, "Weekdays Bean : [" + received + "]");
 		assertNotNull(received);
 	}
 
@@ -101,7 +98,6 @@ public class CdlsPhoneModelTest extends InstrumentationTestCase {
 		CdlsPhoneModel mCdlsObject = mCdlsResponseModel.getPhone();
 		String received = mCdlsObject.getOpeningHoursWeekdays();
 		String expected = "Weekdays : Monday - Saturday: 9:00 AM - 9:00 PM EST";
-		DLog.d(TAG, "Weekdays Bean : [" + received + "]");
 		assertNotNull(received);
 	}
 

@@ -66,7 +66,7 @@ import com.philips.cl.di.digitalcare.ResponseCallback;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
 
 /**
@@ -182,13 +182,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	protected void requestATOSResponseData() {
-		DLog.d(TAG, "CDLS Request Thread is started");
+		DigiCareLogger.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
 		new RequestData(formAtosURL(), this).start();
 	}
 
 	protected void startProgressDialog() {
-		DLog.v(TAG, "Progress Dialog Started");
+		DigiCareLogger.v(TAG, "Progress Dialog Started");
 		if (mDialog == null)
 			mDialog = new ProgressDialog(getActivity());
 		mDialog.setMessage(getResources().getString(R.string.loading));
@@ -199,7 +199,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	protected void closeProgressDialog() {
-		DLog.v(TAG, "Progress Dialog Cancelled");
+		DigiCareLogger.v(TAG, "Progress Dialog Cancelled");
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
 			mDialog.cancel();
@@ -226,7 +226,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onResponseReceived(String response) {
-		DLog.i(TAG, "response : " + response);
+		DigiCareLogger.i(TAG, "response : " + response);
 		closeProgressDialog();
 		if (response != null && isAdded()) {
 			AtosResponseParser atosResponseParser = new AtosResponseParser(
@@ -264,7 +264,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void initGoogleMapv2() {
 
 		try {
-			DLog.v(TAG, "Initializing Google Maps");
+			DigiCareLogger.v(TAG, "Initializing Google Maps");
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
 			if (mMap != null) {
@@ -272,7 +272,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			}
 		} catch (NullPointerException e) {
-			DLog.v(TAG, "Googlev2 Map Compatibility Enabled");
+			DigiCareLogger.v(TAG, "Googlev2 Map Compatibility Enabled");
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
@@ -284,10 +284,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void initView() {
 		if (isProviderAvailable() && (provider != null)) {
-			DLog.i(TAG, "Provider is [" + provider + "]");
+			DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
 			locateCurrentPosition();
 		}
-		DLog.d(TAG, "initView is initialized");
+		DigiCareLogger.d(TAG, "initView is initialized");
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -388,18 +388,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (mLocationManager
 				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
-			DLog.v(TAG, "Network is enabled");
+			DigiCareLogger.v(TAG, "Network is enabled");
 			return true;
 		}
 
 		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			provider = LocationManager.GPS_PROVIDER;
-			DLog.v(TAG, "GPS provider enabled");
+			DigiCareLogger.v(TAG, "GPS provider enabled");
 			return true;
 		}
 
 		if (provider != null) {
-			DLog.v(TAG, "Provider is received");
+			DigiCareLogger.v(TAG, "Provider is received");
 			return true;
 		}
 		return false;
@@ -420,7 +420,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			addBoundaryToCurrentPosition(lat, lng);
 		} else {
-			DLog.i(TAG, "MAP is null Failed to update Maptype");
+			DigiCareLogger.i(TAG, "MAP is null Failed to update Maptype");
 		}
 	}
 
@@ -461,7 +461,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 						mPolyline = mMap.addPolyline(polylineOpt);
 						mLocateNearProgressBar.setVisibility(View.GONE);
 					} else {
-						DLog.i(TAG, "MAP is null, So unable to polyline");
+						DigiCareLogger.i(TAG, "MAP is null, So unable to polyline");
 					}
 					if (mPolyline != null)
 						mPolyline.setWidth(12);
@@ -483,7 +483,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			where = "latitude : " + lat + "\n longitude : " + lng
 					+ "\n speed: " + speed + "\nProvider: " + provider;
-			DLog.i(TAG, where);
+			DigiCareLogger.i(TAG, where);
 			setMapType(lat, lng);
 			mSourceLat = lat;
 			mSourceLng = lng;
@@ -497,22 +497,22 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else {
 			where = "No location found.";
 		}
-		DLog.i(TAG, where);
+		DigiCareLogger.i(TAG, where);
 	}
 
 	@Override
 	public void onGpsStatusChanged(int event) {
 		switch (event) {
 		case GpsStatus.GPS_EVENT_STARTED:
-			DLog.v(TAG, "GPS_EVENT_STARTED");
+			DigiCareLogger.v(TAG, "GPS_EVENT_STARTED");
 			break;
 
 		case GpsStatus.GPS_EVENT_STOPPED:
-			DLog.v(TAG, "GPS_EVENT_STOPPED");
+			DigiCareLogger.v(TAG, "GPS_EVENT_STOPPED");
 			break;
 
 		case GpsStatus.GPS_EVENT_FIRST_FIX:
-			DLog.v(TAG, "GPS_EVENT_FIRST_FIX");
+			DigiCareLogger.v(TAG, "GPS_EVENT_FIRST_FIX");
 			break;
 
 		case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
@@ -524,32 +524,32 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		@Override
 		public void onLocationChanged(Location location) {
-			DLog.v(TAG, "LocationListener Changed..");
+			DigiCareLogger.v(TAG, "LocationListener Changed..");
 			updateWithNewLocation(location);
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			DLog.v(TAG, "Location Listener Disabled");
+			DigiCareLogger.v(TAG, "Location Listener Disabled");
 			updateWithNewLocation(null);
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			DLog.v(TAG, "Location Listener Enabled");
+			DigiCareLogger.v(TAG, "Location Listener Enabled");
 		}
 
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			switch (status) {
 			case LocationProvider.OUT_OF_SERVICE:
-				DLog.v(TAG, "Status Changed: Out of Service");
+				DigiCareLogger.v(TAG, "Status Changed: Out of Service");
 				break;
 			case LocationProvider.TEMPORARILY_UNAVAILABLE:
-				DLog.v(TAG, "Status Changed: Temporarily Unavailable");
+				DigiCareLogger.v(TAG, "Status Changed: Temporarily Unavailable");
 				break;
 			case LocationProvider.AVAILABLE:
-				DLog.v(TAG, "Status Changed: Available");
+				DigiCareLogger.v(TAG, "Status Changed: Available");
 				break;
 			}
 		}
@@ -560,30 +560,30 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				.isGooglePlayServicesAvailable(getActivity());
 		switch (result) {
 		case ConnectionResult.SUCCESS:
-			DLog.d(TAG, "SUCCESS");
+			DigiCareLogger.d(TAG, "SUCCESS");
 			return true;
 
 		case ConnectionResult.SERVICE_INVALID:
-			DLog.d(TAG, "SERVICE_INVALID");
+			DigiCareLogger.d(TAG, "SERVICE_INVALID");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_INVALID, getActivity(), 0).show();
 			break;
 
 		case ConnectionResult.SERVICE_MISSING:
-			DLog.d(TAG, "SERVICE_MISSING");
+			DigiCareLogger.d(TAG, "SERVICE_MISSING");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_MISSING, getActivity(), 0).show();
 			break;
 
 		case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
-			DLog.d(TAG, "SERVICE_VERSION_UPDATE_REQUIRED");
+			DigiCareLogger.d(TAG, "SERVICE_VERSION_UPDATE_REQUIRED");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED,
 					getActivity(), 0).show();
 			break;
 
 		case ConnectionResult.SERVICE_DISABLED:
-			DLog.d(TAG, "SERVICE_DISABLED");
+			DigiCareLogger.d(TAG, "SERVICE_DISABLED");
 			GooglePlayServicesUtil.getErrorDialog(
 					ConnectionResult.SERVICE_DISABLED, getActivity(), 0).show();
 			break;
@@ -672,11 +672,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
 			if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
-				DLog.i(TAG, mAtosResponse.getCdlsErrorModel().getErrorMessage());
+				DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel().getErrorMessage());
 			} else if (Utils.isSimAvailable(getActivity())) {
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
-				DLog.i(TAG, "Check the SIM");
+				DigiCareLogger.i(TAG, "Check the SIM");
 				Toast.makeText(getActivity(), "Check the SIM",
 						Toast.LENGTH_SHORT).show();
 			}
@@ -739,7 +739,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mAddressModel = resultModel.getmAddressModel();
 			mGeoData = resultModel.getLocationModel();
 		} catch (NullPointerException e) {
-			DLog.d(TAG, " " + e);
+			DigiCareLogger.d(TAG, " " + e);
 			return;
 		}
 
@@ -814,7 +814,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onMapReady() {
 		mMap = mMapFragment.getMap();
 		initView();
-		DLog.v(TAG, "onMAP Ready Callback : " + mMap);
+		DigiCareLogger.v(TAG, "onMAP Ready Callback : " + mMap);
 	}
 
 	@Override

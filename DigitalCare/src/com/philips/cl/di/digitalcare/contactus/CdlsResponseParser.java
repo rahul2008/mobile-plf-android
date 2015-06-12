@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 /**
@@ -26,21 +26,21 @@ public class CdlsResponseParser {
 
 	protected CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
-		DLog.i(TAG, "ParserController constructor : ");
+		DigiCareLogger.i(TAG, "ParserController constructor : ");
 	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
 	public void parseCdlsResponse(String response) {
-		DLog.i(TAG, "response : " + response);
+		DigiCareLogger.i(TAG, "response : " + response);
 		JSONObject jsonObject = null;
 		try {
 			jsonObject = new JSONObject(response);
 			boolean success = jsonObject
 					.optBoolean(DigitalCareContants.CDLS_SUCCESS_KEY);
 
-			DLog.i(TAG, "response : " + response);
+			DigiCareLogger.i(TAG, "response : " + response);
 			if (success) {
 				JSONObject jsonObjectData = jsonObject
 						.optJSONObject(DigitalCareContants.CDLS_DATA_KEY);

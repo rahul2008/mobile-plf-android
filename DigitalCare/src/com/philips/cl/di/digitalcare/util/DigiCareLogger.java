@@ -10,7 +10,7 @@ import android.util.Log;
  * 
  * @since: 5 Dec 2015
  */
-public class DLog {
+public class DigiCareLogger {
 
 	public static final String ERROR = "Error"; // Use to log errors
 	public static final String APPLICATION = "DigitalCareApp";

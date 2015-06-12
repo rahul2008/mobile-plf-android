@@ -16,7 +16,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * TwitterAuthentication.
@@ -70,7 +70,7 @@ public class TwitterAuthentication {
 
 		if (TextUtils.isEmpty(mConsumerKey)
 				|| TextUtils.isEmpty(mConsumerSecret)) {
-			DLog.d(TAG, "Invalid ConsumerKey & ConsumerSecreat key");
+			DigiCareLogger.d(TAG, "Invalid ConsumerKey & ConsumerSecreat key");
 			return;
 		}
 		mSharedPreferences = mContext.getSharedPreferences(PREF_NAME, 0);
@@ -78,10 +78,10 @@ public class TwitterAuthentication {
 				PREF_KEY_TWITTER_LOGIN, false);
 
 		if (isLoggedIn) {
-			DLog.d(TAG, "Already LoggedIn");
+			DigiCareLogger.d(TAG, "Already LoggedIn");
 			mTwitterAuth.onTwitterLoginSuccessful();
 		} else {
-			DLog.d(TAG, "Logging inti Twitter");
+			DigiCareLogger.d(TAG, "Logging inti Twitter");
 			Thread mLoginThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
@@ -100,7 +100,7 @@ public class TwitterAuthentication {
 					saveTwitterInformation(accessToken);
 					mTwitterAuth.onTwitterLoginSuccessful();
 				} catch (Exception e) {
-					DLog.e("Failed to login Twitter!!", e.getMessage());
+					DigiCareLogger.e("Failed to login Twitter!!", e.getMessage());
 					mTwitterAuth.onTwitterLoginFailed();
 				}
 			}
@@ -108,14 +108,14 @@ public class TwitterAuthentication {
 	}
 
 	private void saveTwitterInformation(AccessToken accessToken) {
-		DLog.d(TAG, "Save Twitter Information");
+		DigiCareLogger.d(TAG, "Save Twitter Information");
 		long userID = accessToken.getUserId();
-		DLog.d(TAG, "USer ID : " + userID);
+		DigiCareLogger.d(TAG, "USer ID : " + userID);
 
 		User user;
 		try {
 			user = mTwitter.showUser(userID);
-			DLog.d(TAG, "User : " + user.toString());
+			DigiCareLogger.d(TAG, "User : " + user.toString());
 
 			String username = user.getName();
 			Editor e = mSharedPreferences.edit();
@@ -165,10 +165,10 @@ public class TwitterAuthentication {
 
 	public void onActivityResult(Intent data) {
 
-		DLog.d(TAG, "Received Twitter session from DigitalCare Activity");
+		DigiCareLogger.d(TAG, "Received Twitter session from DigitalCare Activity");
 		if (data != null)
 			mTwitterVerifier = data.getExtras().getString(mAuthVerifier);
-		DLog.d(TAG, "Verifier : " + mTwitterVerifier);
+		DigiCareLogger.d(TAG, "Verifier : " + mTwitterVerifier);
 
 		new Thread(new Runnable() {
 
@@ -178,11 +178,11 @@ public class TwitterAuthentication {
 				try {
 					accessToken = mTwitter.getOAuthAccessToken(mRequestToken,
 							mTwitterVerifier);
-					DLog.d(TAG, "AccessToken : " + accessToken);
+					DigiCareLogger.d(TAG, "AccessToken : " + accessToken);
 					if (accessToken != null)
 						saveTwitterInformation(accessToken);
 				} catch (Exception e) {
-					DLog.e("Twitter Login Failed", "" + e);
+					DigiCareLogger.e("Twitter Login Failed", "" + e);
 					mTwitterAuth.onTwitterLoginFailed();
 				}
 			}

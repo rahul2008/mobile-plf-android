@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.R;
-import com.philips.cl.di.digitalcare.util.DLog;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * 
@@ -239,7 +239,7 @@ public class ProductImageSelectorView {
 				.getMetrics(mDisplayMetrics);
 		mWidth = mDisplayMetrics.widthPixels;
 		mHeight = mDisplayMetrics.heightPixels;
-		DLog.d(TAG, "Weight : " + mWidth + " & Height is " + mHeight);
+		DigiCareLogger.d(TAG, "Weight : " + mWidth + " & Height is " + mHeight);
 	}
 
 	/**
