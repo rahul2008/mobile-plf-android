@@ -33,35 +33,28 @@ public interface AnalyticsConstants {
 
 	String OS_ANDROID = "Android";
 
-	/* keys */
+	String SEND_DATA = "senddata";
 
-	String PREVIOUS_PAGE_NAME_KEY = "previousPagename";
+	String REGISTRATION_CHANNEL = "registrationchannel";
 
-	String INTERACTION = "interaction";
+	String SPECIAL_EVENTS = "specialevents";
 
-	String DESCRIPTION = "description";
+	String MY_PHILIPS = "myphilips";
 
-	String REGISTRATION_CHANNEL = "registrationChannel";
+	String START_USER_REGISTRATION = "startuserregistration";
 
-	String SPECIAL_EVENTS = "specialEvents";
+	String LOGIN_CHANNEL = "loginchannel";
 
-	String USER_ERROR = "usererror";
-
-	/* values */
-
-	String START_SOCIAL_MERGE_VAL = "startSocialMerge";
-
-	String MY_PHILIPS = "MyPhilips";
-
-	String FACEBOOK = "facebook";
-
-	String TWITTER = "twitter";
-
-	String GOOGLE_PLUS = "googleplus";
-
-	String START_USER_REGISTRATION = "startUserRegistration";
-
-	String LOGIN_CHANNEL = "loginChannel";
+	String SUCCESS_USER_CREATION = "successusercreation";
 	
-	String PREVIOUS_PAGENAME = "previousPagename";
+	String SUCCESS_USER_REGISTRATION = "successuserregistration";
+	
+	String REMARKETING_OPTION = "remarketingoptin";
+	
+	String SUCCESS_LOGIN = "successlogin";
+	
+	String START_SOCIAL_MERGE = "startsocialmerge";
+	
+	String PREVIOUS_PAGE_NAME = "previouspagename";
+	
 }

@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -90,7 +92,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		RLog.i(RLog.EVENT_LISTENERS,
 		        "MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		initUI(view);
-		trackCurrentPage(AnalyticsPages.MERGE_ACCOUNT);
 		handleUiErrorState();
 		return view;
 	}
@@ -202,17 +203,25 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			}
 			getView().requestFocus();
 			mergeAccount();
+
 		} else if (v.getId() == R.id.btn_reg_forgot_password) {
 			RLog.d(RLog.ONCLICK, "MergeAccountFragment : Forgot Password");
 			resetPassword();
 		}
 	}
 
+	private void trackActionForMergeAccount(String state, String specialEvents,
+	        String startSocialMerge) {
+		AnalyticsUtils.trackAction(state, specialEvents, startSocialMerge);
+	}
+
 	private void mergeAccount() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			showMergeSpinner();
+			trackActionForMergeAccount(AnalyticsConstants.SEND_DATA,
+					AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_SOCIAL_MERGE);
 			mUser.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(),
 			        mMergeToken, this);
+			showMergeSpinner();
 		} else {
 			mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
 		}
@@ -319,7 +328,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private void launchWelcomeFragment() {
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-		trackPreviousPage(AnalyticsPages.MERGE_ACCOUNT);
+		trackPage(AnalyticsPages.MERGE_ACCOUNT, AnalyticsPages.WELCOME);
 	}
 
 	@Override

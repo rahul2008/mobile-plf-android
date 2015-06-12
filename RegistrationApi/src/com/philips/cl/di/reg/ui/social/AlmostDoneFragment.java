@@ -1,6 +1,8 @@
 
 package com.philips.cl.di.reg.ui.social;
 
+import java.util.Locale;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +22,9 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -98,7 +102,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		        "AlmostDoneFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		View view = inflater.inflate(R.layout.fragment_social_almost_done, container, false);
 		initUI(view);
-		trackCurrentPage(AnalyticsPages.ALMOST_DONE);
 		handleUiState();
 		return view;
 	}
@@ -315,6 +318,11 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void register() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
+			trackActionForSocialProvider(AnalyticsConstants.SEND_DATA,
+		            AnalyticsConstants.REGISTRATION_CHANNEL,mProvider);
+			trackActionForStartForRegisterAccount(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+			        AnalyticsConstants.START_USER_REGISTRATION);
+			
 			User user = new User(mContext);
 			if (isEmailExist) {
 				user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
@@ -325,6 +333,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 			}
 		}
 	}
+	
+	private void trackActionForSocialProvider(String state, String registrationChannel, String providerName) {
+		AnalyticsUtils.trackAction(state,
+				registrationChannel ,providerName.toLowerCase(Locale.getDefault()));
+    }
+	
+	private void trackActionForStartForRegisterAccount(String state, String specialEvents, String startUserRegistration) {
+		AnalyticsUtils.trackAction(state,specialEvents,startUserRegistration);
+    }
+	
+	private void trackActionForRegisterSuccess(String state, String specialEvents, String succesCreation) {
+		AnalyticsUtils.trackAction(state,specialEvents, succesCreation);
+    }
 
 	@Override
 	public int getTitleResourceId() {
@@ -369,12 +390,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void addMergeAccountFragment() {
 		getRegistrationMainActivity().addFragment(new MergeAccountFragment());
-		trackPreviousPage(AnalyticsPages.ALMOST_DONE);
+		trackPage(AnalyticsPages.ALMOST_DONE,AnalyticsPages.MERGE_ACCOUNT);
 	}
 
 	@Override
 	public void onContinueSocialProviderLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
+		trackActionForRegisterSuccess(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_CREATION);
 		User user = new User(mContext);
 		if (user.getEmailVerificationStatus(mContext)) {
 			launchWelcomeFragment();
@@ -386,12 +409,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void launchAccountActivateFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPreviousPage(AnalyticsPages.ALMOST_DONE);
+		trackPage(AnalyticsPages.ALMOST_DONE,AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-		trackPreviousPage(AnalyticsPages.ALMOST_DONE);
+		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.WELCOME);
 	}
 
 	@Override

@@ -8,39 +8,25 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import android.util.Log;
-
 import com.adobe.mobile.Analytics;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.ui.utils.RLog;
 
 public class AnalyticsUtils {
 
-	public static void trackPage(String previousPage, String state) {
-
+	public static void trackPage(String prevPage, String currPage) {
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put("previousPageName", previousPage);
-
-		Analytics.trackState(state, contextData);
-		Log.i("SiteCatalyst", "Track Page = " + contextData.toString());
-	}
-
-	public static void trackPage(String state) {
-		RLog.i(RLog.ANALYTICS, " Page : " +state);
-		Map<String, Object> contextData = addAnalyticsDataObject();
-		Analytics.trackState(state, contextData);
-		
-
+		contextData.put(AnalyticsConstants.PREVIOUS_PAGE_NAME, prevPage);
+		Analytics.trackState(currPage, contextData);
 	}
 
 	public static void trackAction(String state, String key, Object value) {
-		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(key, value);
-
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		if(null!=key){
+			contextData.put(key, value);
+		}
 		Analytics.trackAction(state, contextData);
-
 	}
-
+	
 	private static Map<String, Object> addAnalyticsDataObject() {
 
 		Map<String, Object> contextData = new HashMap<String, Object>();

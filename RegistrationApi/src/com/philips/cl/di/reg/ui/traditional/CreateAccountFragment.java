@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -88,7 +90,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		View view = inflater.inflate(R.layout.fragment_create_account, container, false);
 		initUI(view);
-		trackCurrentPage(AnalyticsPages.CREATE_ACCOUNT);
 		return view;
 	}
 
@@ -171,6 +172,19 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		}
 	}
 
+
+	private void trackActionForRegisterAccount(String state, String registrationChannel, String myPhilips) {
+		AnalyticsUtils.trackAction(state,registrationChannel,myPhilips);
+	}
+
+	private void trackActionForStartForRegisterAccount(String state, String specialEvents, String startUserRegistration) {
+		AnalyticsUtils.trackAction(state,specialEvents,startUserRegistration);
+    }
+	
+	private void trackActionForRemarkettingOption(String state) {
+		AnalyticsUtils.trackAction(state,null,null);
+    }
+
 	private void initUI(View view) {
 		consumeTouch(view);
 		mLlCreateAccountFields = (LinearLayout) view
@@ -202,6 +216,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void register() {
+		trackActionForRegisterAccount(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+		trackActionForStartForRegisterAccount(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.START_USER_REGISTRATION);
+		trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION);
 		showSpinner();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
@@ -237,11 +256,17 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
 		launchAccountActivateFragment();
+		trackActionForRegisterSuccess(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_CREATION);
 	}
+
+	private void trackActionForRegisterSuccess(String state, String specialEvents, String succesCreation) {
+		AnalyticsUtils.trackAction(state,specialEvents, succesCreation);
+    }
 
 	private void launchAccountActivateFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPreviousPage(AnalyticsPages.CREATE_ACCOUNT);
+		trackPage(AnalyticsPages.CREATE_ACCOUNT,AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	@Override

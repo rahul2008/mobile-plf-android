@@ -16,7 +16,9 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -85,7 +87,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		RLog.i(RLog.EVENT_LISTENERS,
 		        "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		initUI(view);
-		trackCurrentPage(AnalyticsPages.SIGN_IN_ACCOUNT);
 		return view;
 	}
 
@@ -171,13 +172,17 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mEtEmail.clearFocus();
 			mEtPassword.clearFocus();
 			lauchAccountActivationFragment();
-
 		}
+	}
+
+	private void trackActionForSignInAccount(String state, String specialEvents,
+	        String startUserRegistration) {
+		AnalyticsUtils.trackAction(state, specialEvents, startUserRegistration);
 	}
 
 	private void lauchAccountActivationFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPreviousPage(AnalyticsPages.SIGN_IN_ACCOUNT);
+		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void initUI(View view) {
@@ -215,8 +220,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void signIn() {
-		if (mUser != null)
+		trackActionForSignInAccount(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		if (mUser != null){
 			showSignInSpinner();
+		}	
 		mEtEmail.clearFocus();
 		mEtPassword.clearFocus();
 		mBtnForgot.setEnabled(false);
@@ -240,6 +248,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginSuccess");
+		trackActionForLoginSuccess(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.SUCCESS_LOGIN);
 		hideSignInSpinner();
 		mBtnForgot.setEnabled(true);
 		mBtnResend.setEnabled(true);
@@ -252,9 +262,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		}
 	}
 
+	private void trackActionForLoginSuccess(String state, String specialEvents, String successLogin) {
+		AnalyticsUtils.trackAction(state, specialEvents, successLogin);
+	}
+
 	private void launchWelcomeFragment() {
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-		trackPreviousPage(AnalyticsPages.SIGN_IN_ACCOUNT);
+		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.WELCOME);
 	}
 
 	@Override

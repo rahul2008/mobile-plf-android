@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -63,7 +62,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		mContext = getRegistrationMainActivity().getApplicationContext();
 		mUser = new User(mContext);
 		init(view);
-		trackCurrentPage(AnalyticsPages.WELCOME);
 		return view;
 	}
 

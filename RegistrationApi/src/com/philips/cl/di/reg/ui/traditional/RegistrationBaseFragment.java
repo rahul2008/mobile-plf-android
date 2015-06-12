@@ -147,12 +147,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		view.setLayoutParams(mParams);
 	}
 
-	protected void trackCurrentPage(String state) {
-		AnalyticsUtils.trackPage(state);
-	}
-
-	protected void trackPreviousPage(String state) {
-		AnalyticsUtils.trackPage(AnalyticsConstants.PREVIOUS_PAGENAME + ":" + state);
+	protected void trackPage(String prevPage, String currPage) {
+		AnalyticsUtils.trackPage(prevPage,currPage);
 	}
 
 }

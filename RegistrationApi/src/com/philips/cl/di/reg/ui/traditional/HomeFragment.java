@@ -31,11 +31,14 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.events.NetworStateListener;
+import com.philips.cl.di.reg.events.SocialProvider;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XProviderButton;
@@ -97,7 +100,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		        "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
-		trackCurrentPage(AnalyticsPages.HOME);
 		return view;
 	}
 
@@ -204,7 +206,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		providerBtn.setProviderBackgroundID(providerBgDrawableId);
 		providerBtn.setProviderTextColor(providerTextColorId);
 		providerBtn.setTag(providerName);
-		if (NetworkUtility.isNetworkAvailable(mContext)) {
+		
+		if (NetworkUtility.isNetworkAvailable(mContext) && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			providerBtn.setEnabled(true);
 		} else {
 			providerBtn.setEnabled(false);
@@ -278,37 +281,40 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		 */
 		if (v.getId() == R.id.btn_reg_create_account) {
 			RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
-
-			/*
-			 * AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION,
-			 * AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-			 * AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION,
-			 * AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-			 */
+			trackActionForMyPhilipsAccount(AnalyticsConstants.SEND_DATA,
+			        AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
 			launchCreateAccountFragment();
 
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
 			RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
-			/*
-			 * AnalyticsUtils.trackAction(AnalyticsConstants.INTERACTION,
-			 * AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-			 */
+			trackActionForMyPhilipsAccount(AnalyticsConstants.SEND_DATA,
+			        AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
 			launchSignInFragment();
 		}
 	}
 
+	private void trackActionForMyPhilipsAccount(String state, String loginChannel, String myPhilips) {
+	 	AnalyticsUtils.trackAction(state,loginChannel, myPhilips);    
+    }
+	
+	private void trackActionForSocialProvider(String state, String loginChannel, String providerName) {
+	 	AnalyticsUtils.trackAction(state,loginChannel, providerName.toLowerCase(Locale.getDefault()));    
+    }
+
 	private void launchSignInFragment() {
 		getRegistrationMainActivity().addFragment(new SignInAccountFragment());
-		trackPreviousPage(AnalyticsPages.HOME);
+		trackPage(AnalyticsPages.HOME,AnalyticsPages.SIGN_IN_ACCOUNT);
 	}
 
 	private void launchCreateAccountFragment() {
 		getRegistrationMainActivity().addFragment(new CreateAccountFragment());
-		trackPreviousPage(AnalyticsPages.HOME);
+		trackPage(AnalyticsPages.HOME,AnalyticsPages.CREATE_ACCOUNT);
 	}
 
 	private void callSocialProvider(String providerName) {
 		RLog.d("HomeFragment", ": callSocialProvider method provider name :" + providerName);
+		trackActionForSocialProvider(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.LOGIN_CHANNEL,providerName);
 		mProvider = providerName;
 		if (null == mUser)
 			return;
@@ -316,15 +322,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
 		}
-	}
-
-	public interface SocialProvider {
-
-		public String FACEBOOK = "facebook";
-
-		public String TWITTER = "twitter";
-
-		public String GOOGLE_PLUS = "googleplus";
 	}
 
 	@Override
@@ -477,6 +474,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onLoginSuccess() {
+		trackActionForSocialLoginSucces(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_LOGIN);
 		RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
 		hideProviderProgress();
 		enableControls(true);
@@ -488,14 +487,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		}
 	}
 
+	private void trackActionForSocialLoginSucces(String state, String specialEvents, String successLogin) {
+    	AnalyticsUtils.trackAction(state,specialEvents, successLogin);
+    }
+
 	private void launchAccountActivationFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPreviousPage(AnalyticsPages.HOME);
+		trackPage(AnalyticsPages.HOME,AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-		trackPreviousPage(AnalyticsPages.HOME);
+		trackPage(AnalyticsPages.HOME,AnalyticsPages.WELCOME);
 	}
 
 	private void hideProviderProgress() {
@@ -534,7 +537,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
 		getRegistrationMainActivity().addAlmostDoneFragment(prefilledRecord, mProvider,
 		        socialRegistrationToken);
-		trackPreviousPage(AnalyticsPages.HOME);
+		trackPage(AnalyticsPages.HOME,AnalyticsPages.ALMOST_DONE);
 	}
 
 	@Override
@@ -556,12 +559,11 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 			}
 
 		}
-
 	}
 
 	private void launchMergeAccountFragment(String mergeToken, String existingProvider) {
 		getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
-		trackPreviousPage(AnalyticsPages.HOME);
+		trackPage(AnalyticsPages.HOME,AnalyticsPages.MERGE_ACCOUNT);
 	}
 
 	@Override
@@ -586,5 +588,4 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		handleUiState();
 		handleJanrainInitPb();
 	}
-
 }
