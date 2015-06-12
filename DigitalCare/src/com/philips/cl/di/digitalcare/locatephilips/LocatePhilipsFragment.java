@@ -184,7 +184,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	protected void requestATOSResponseData() {
 		DigiCareLogger.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
-		new RequestData(formAtosURL(), this).start();
+		new RequestData(formAtosURL(), this).getReponse();
 	}
 
 	protected void startProgressDialog() {

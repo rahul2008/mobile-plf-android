@@ -198,7 +198,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	protected void requestCDLSData() {
 		DigiCareLogger.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
-		new RequestData(formCdlsURL(), this).start();
+		new RequestData(formCdlsURL(), this).getReponse();
 	}
 
 	@Override

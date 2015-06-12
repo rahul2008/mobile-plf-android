@@ -1,21 +1,16 @@
 package com.philips.cl.di.digitalcare;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import android.os.Looper;
+import android.util.Log;
 
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
-public class RequestData extends Thread {
+public class RequestData {
 
 	private final String TAG = RequestData.class.getSimpleName();
 
@@ -26,47 +21,51 @@ public class RequestData extends Thread {
 	public RequestData(String url, ResponseCallback responseCallback) {
 		mUrl = url;
 		mResponseCallback = responseCallback;
-		setPriority(Thread.MAX_PRIORITY);
 	}
 
-	@Override
-	public void run() {
-		Looper.prepare();
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpContext localContext = new BasicHttpContext();
-		HttpGet httpGet = new HttpGet(mUrl);
-		try {
-			HttpResponse response = httpClient.execute(httpGet, localContext);
-			HttpEntity entity = response.getEntity();
-			mResponse = getASCIIContentFromEntity(entity);
-		} catch (Exception e) {
-			DigiCareLogger.e(TAG,
-					"Failed to fetch Response Data : " + e.getLocalizedMessage());
-		} finally {
-			notifyResponseHandler();
-		}
-		Looper.loop();
+	public void getReponse() {
+		NetworkThread mNetworkThread = new NetworkThread();
+		mNetworkThread.setPriority(Thread.MAX_PRIORITY);
+		mNetworkThread.start();
 	}
-	
-	protected void notifyResponseHandler(){
-		if (mResponse != null){
+
+	class NetworkThread extends Thread {
+
+		@Override
+		public void run() {
+			Looper.prepare();
+			try {
+				URL obj = new URL(mUrl);
+				HttpURLConnection mHttpURLConnection = (HttpURLConnection) obj
+						.openConnection();
+				mHttpURLConnection.setRequestMethod("GET");
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						mHttpURLConnection.getInputStream()));
+				String inputLine;
+				StringBuffer response = new StringBuffer();
+
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+				mResponse = response.toString();
+			} catch (Exception e) {
+				DigiCareLogger.e(
+						TAG,
+						"Failed to fetch Response Data : "
+								+ e.getLocalizedMessage());
+			} finally {
+				Log.d(TAG, "Response: [" + mResponse + "]");
+				notifyResponseHandler();
+			}
+			Looper.loop();
+		}
+	}
+
+	protected void notifyResponseHandler() {
+		if (mResponse != null) {
+
 			mResponseCallback.onResponseReceived(mResponse);
 		}
-	}
-
-	protected String getASCIIContentFromEntity(HttpEntity entity)
-			throws IllegalStateException, IOException {
-
-		DigiCareLogger.d(TAG, "Getting String response from HTTPENTITY");
-		InputStream in = entity.getContent();
-		StringBuffer out = new StringBuffer();
-		int n = 1;
-		while (n > 0) {
-			byte[] b = new byte[4096];
-			n = in.read(b);
-			if (n > 0)
-				out.append(new String(b, 0, n, "UTF-8"));
-		}
-		return out.toString().trim();
 	}
 }
