@@ -75,7 +75,7 @@
                     style="@style/locateNearText"
                     android:text=""
                     android:textStyle="bold"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
 
                 <!-- Address -->
 
@@ -83,7 +83,7 @@
                     android:id="@+id/show_place_address"
                     style="@style/locateNearText"
                     android:text=""
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
 
                 <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/getdirection"
@@ -100,20 +100,20 @@
                     android:id="@+id/contactUsOpeningHours"
                     style="@style/contactUsHelpText"
                     android:layout_marginBottom="0dp"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
 
                 <TextView
                     android:id="@+id/firstRowText"
                     style="@style/contactUsBottomText"
                     android:visibility="gone"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
 
                 <TextView
                     android:id="@+id/secondRowText"
                     style="@style/contactUsBottomText"
                     android:layout_marginBottom="10dp"
                     android:visibility="gone"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

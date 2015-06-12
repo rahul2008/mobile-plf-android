@@ -25,14 +25,14 @@
             <TextView
                 android:id="@+id/helpText"
                 style="@style/chatNowHelpText"
-                custom:fontAssetName="fonts/centralesans-book.otf" />
+                custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/chatDesc"
             style="@style/chatNowDesc"
             android:text="@string/chat_desc"
-            custom:fontAssetName="fonts/centralesans-book.otf" />
+            custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
 
         <LinearLayout
             android:id="@+id/chatNowParentPort"
@@ -48,7 +48,7 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:text="@string/chat_now"
-                custom:fontAssetName="fonts/centralesans-bold.otf" />
+                custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
 
             <RelativeLayout
                 android:id="@+id/chatNoThanksParent"
@@ -65,7 +65,7 @@
                     android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/cancel"
                     android:textColor="@color/button_background"
-                    custom:fontAssetName="fonts/centralesans-bold.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -91,7 +91,7 @@
                     android:text="@string/cancel"
                     android:layout_marginTop="0dp"
                     android:textColor="@color/button_background"
-                    custom:fontAssetName="fonts/centralesans-bold.otf" />
+                    custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
@@ -101,7 +101,7 @@
                 android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:text="@string/chat_now"
-                custom:fontAssetName="fonts/centralesans-bold.otf" />
+                custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
         </LinearLayout>
     </LinearLayout>
 
