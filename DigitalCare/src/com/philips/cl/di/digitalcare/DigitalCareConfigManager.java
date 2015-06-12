@@ -94,8 +94,13 @@ public class DigitalCareConfigManager {
 		return mSocialProviderListener;
 	}
 
-	public static void setLocale(Locale locale) {
-		mLocale = locale;
+	public void setLocale(String locale) {
+		String[] mtemp;
+		if (locale != null) {
+			mtemp = locale.split("_");
+			Locale mLocale = new Locale(mtemp[0], mtemp[1]);
+			DigitalCareConfigManager.mLocale = mLocale;
+		}
 	}
 
 	public static Locale getLocale() {

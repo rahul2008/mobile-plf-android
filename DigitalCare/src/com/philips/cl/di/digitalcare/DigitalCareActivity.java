@@ -38,8 +38,13 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			DLog.e(TAG, "Actionbar: " + e.getMessage());
 		}
 		Bundle bundleExtras = getIntent().getExtras();
-		int startAnimId = (Integer) bundleExtras.get("STARTANIMATIONID");
-		int endAnimId = (Integer) bundleExtras.get("ENDANIMATIONID");
+
+		int startAnimId = 0;
+		int endAnimId = 0;
+		if (bundleExtras != null) {
+			startAnimId = (Integer) bundleExtras.get("STARTANIMATIONID");
+			endAnimId = (Integer) bundleExtras.get("ENDANIMATIONID");
+		}
 		overridePendingTransition(startAnimId != 0 ? startAnimId
 				: DEFAULT_ANIMATION_START, endAnimId != 0 ? endAnimId
 				: DEFAULT_ANIMATION_STOP);

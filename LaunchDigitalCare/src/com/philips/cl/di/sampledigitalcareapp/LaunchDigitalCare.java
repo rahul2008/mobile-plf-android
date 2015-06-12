@@ -1,7 +1,5 @@
 package com.philips.cl.di.sampledigitalcareapp;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -169,8 +167,10 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 		}
 	}
 
+	@SuppressWarnings("static-access")
 	private void setLocaleForTesting(String country, String language) {
-		Locale mLocale = new Locale(language, country);
-		DigitalCareConfigManager.setLocale(mLocale);
+		DigitalCareConfigManager mDigitalCareConfigManager = DigitalCareConfigManager
+				.getInstance(this);
+		mDigitalCareConfigManager.setLocale(language + "_" + country);
 	}
 }
