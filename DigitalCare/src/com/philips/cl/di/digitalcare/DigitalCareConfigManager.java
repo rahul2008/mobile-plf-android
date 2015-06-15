@@ -94,7 +94,7 @@ public class DigitalCareConfigManager {
 		return mSocialProviderListener;
 	}
 
-	public void setLocale(String locale) {
+	public static void setLocale(String locale) {
 		String[] mtemp;
 		if (locale != null) {
 			mtemp = locale.split("_");
