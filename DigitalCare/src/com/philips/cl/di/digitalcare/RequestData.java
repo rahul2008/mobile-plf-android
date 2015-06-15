@@ -42,7 +42,7 @@ public class RequestData {
 						.openConnection();
 				mHttpURLConnection.setRequestMethod("GET");
 				InputStream mInputStream = mHttpURLConnection.getInputStream();
-				Reader mReader = new InputStreamReader(mInputStream);
+				Reader mReader = new InputStreamReader(mInputStream, "UTF-8");
 				/*
 				 * BufferedReader in = new BufferedReader(new Reader(
 				 * mHttpURLConnection.getInputStream()));

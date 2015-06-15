@@ -48,7 +48,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			f = Fragment.class.getDeclaredField("mChildFragmentManager");
 			f.setAccessible(true);
 		} catch (NoSuchFieldException e) {
-			DigiCareLogger.e(DigiCareLogger.FRAGMENT, "Error getting mChildFragmentManager field");
+			DigiCareLogger.e(DigiCareLogger.FRAGMENT,
+					"Error getting mChildFragmentManager field");
 		}
 		sChildFragmentManagerField = f;
 	}
@@ -68,7 +69,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnCreate on "
+				+ this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
 		mFragmentActivityContext = getActivity();
@@ -103,32 +105,37 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	@Override
 	public void onStart() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStart on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStart on "
+				+ this.getClass().getSimpleName());
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnResume on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnResume on "
+				+ this.getClass().getSimpleName());
 		super.onResume();
 		setActionbarTitle();
 	}
 
 	@Override
 	public void onPause() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnPause on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnPause on "
+				+ this.getClass().getSimpleName());
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStop on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStop on "
+				+ this.getClass().getSimpleName());
 		super.onStop();
 	}
 
 	@Override
 	public void onDestroy() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onDestroy on " + this.getClass().getSimpleName());
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onDestroy on "
+				+ this.getClass().getSimpleName());
 		getActivity().unregisterReceiver(mNetworkutility);
 		super.onDestroy();
 	}
@@ -243,14 +250,17 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		}
 	}
 
-	@Override
-	public void onNetworkStateChanged(boolean connection) {
+	public synchronized static void setStatus(boolean connection) {
 		if (connection)
 			isConnectionAvailable = true;
 		else {
 			isConnectionAvailable = false;
 		}
+	}
 
+	@Override
+	public void onNetworkStateChanged(boolean connection) {
+		setStatus(connection);
 	}
 
 }
