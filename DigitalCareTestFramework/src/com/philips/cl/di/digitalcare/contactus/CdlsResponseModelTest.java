@@ -75,7 +75,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mCdlsResponseModel.getEmail();
 		Log.d("Naveen", "Response:" + response);
-		assertNotNull(mEmailObject);
+		assertNull(mEmailObject);
 	}
 
 	public void testPhoneBeanResponse() {
@@ -152,7 +152,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsEmailModel mEmailObject = mCdlsResponseModel.getEmail();
 		Log.d("Naveen", "Response:" + response);
-		assertNotNull(mEmailObject);
+		assertNull(mEmailObject);
 	}
 
 	public void testPhoneBeanResponse1() {
@@ -165,7 +165,7 @@ public class CdlsResponseModelTest extends InstrumentationTestCase {
 		// mResponseModel = mParser.getCdlsResponseModel();
 		CdlsPhoneModel mPhoneObject = mCdlsResponseModel.getPhone();
 		Log.d(TAG, "Phone Response : " + mPhoneObject);
-		assertNotNull(mPhoneObject);
+		assertNull(mPhoneObject);
 	}
 
 	public void testJSONResponse1() {

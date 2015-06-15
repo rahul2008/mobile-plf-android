@@ -40,7 +40,7 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 			Log.d(TAG, "Chat Email Content .." + received);
 		}
 		Log.d("Naveen", "Chat Email Content .." + received);
-		assertNotNull(received);
+		assertNull(received);
 	}
 
 	public void testEmailContent() {
@@ -97,12 +97,13 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 			Log.d(TAG, "Chat Email Content .." + received);
 		}
 		Log.d("Naveen", "Chat Email Content .." + received);
-		assertNotNull(received);
+		assertNull(received);
 	}
 
 	public void testEmailContent2() {
 		String response = CdlsParserUtils.loadJSONFromAsset("cdls2.json",
 				context);
+		Log.v(TAG, "response emailcontent 2 : " + response);
 		String received = null;
 		mGetCdlsInstance.parseCdlsResponse(response);
 		CdlsEmailModel mCdlsObject = mCdlsResponseModel.getEmail();
@@ -112,7 +113,7 @@ public class CdlsEmailModelTest extends InstrumentationTestCase {
 			Log.d(TAG, "Chat Email Content .." + received);
 		}
 
-		assertNotNull(received);
+		assertNull(received);
 	}
 
 	private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {

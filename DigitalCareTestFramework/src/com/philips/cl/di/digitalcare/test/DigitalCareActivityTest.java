@@ -134,7 +134,7 @@ public class DigitalCareActivityTest extends
 //		assertEquals("ConsumerSecreat is invalid", expected, received);
 //	}
 
-	@MediumTest
+	/*@MediumTest
 	public void testCDLSPrefixLink() throws NoSuchFieldException,
 			IllegalArgumentException, IllegalAccessException {
 		String received = null, expected = "http://www.philips.com/prx/cdls/B2C/";
@@ -156,7 +156,7 @@ public class DigitalCareActivityTest extends
 		received = (String) mVariable.get(mFragment);
 
 		assertEquals(expected, received);
-	}
+	}*/
 
 	@SmallTest
 	public void testFaceBookID() {
