@@ -461,7 +461,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 						mPolyline = mMap.addPolyline(polylineOpt);
 						mLocateNearProgressBar.setVisibility(View.GONE);
 					} else {
-						DigiCareLogger.i(TAG, "MAP is null, So unable to polyline");
+						DigiCareLogger.i(TAG,
+								"MAP is null, So unable to polyline");
 					}
 					if (mPolyline != null)
 						mPolyline.setWidth(12);
@@ -546,7 +547,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				DigiCareLogger.v(TAG, "Status Changed: Out of Service");
 				break;
 			case LocationProvider.TEMPORARILY_UNAVAILABLE:
-				DigiCareLogger.v(TAG, "Status Changed: Temporarily Unavailable");
+				DigiCareLogger
+						.v(TAG, "Status Changed: Temporarily Unavailable");
 				break;
 			case LocationProvider.AVAILABLE:
 				DigiCareLogger.v(TAG, "Status Changed: Available");
@@ -655,7 +657,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
-			new UITask().execute(constrain);
+			
+				if (mResultModelSet != null) {
+					adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
+					adapter.getFilter().filter(constrain,
+							new Filter.FilterListener() {
+								public void onFilterComplete(int count) {
+									mListView.setAdapter(adapter);
+									mListView.setVisibility(View.VISIBLE);
+									mLinearLayout.setVisibility(View.GONE);
+									mMarkerIcon.setVisibility(View.VISIBLE);
+								}
+							});
+				}
 
 		} else if (v.getId() == R.id.getdirection) {
 
@@ -672,7 +686,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
 			if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
-				DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel().getErrorMessage());
+				DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()
+						.getErrorMessage());
 			} else if (Utils.isSimAvailable(getActivity())) {
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
@@ -689,37 +704,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(myintent);
 	};
-
-	private class UITask extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-
-			if (mResultModelSet != null) {
-				adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
-
-			}
-
-			return params[0];
-
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-
-			if (adapter != null) {
-				adapter.getFilter().filter(result, new Filter.FilterListener() {
-					public void onFilterComplete(int count) {
-						mListView.setAdapter(adapter);
-						mListView.setVisibility(View.VISIBLE);
-						mLinearLayout.setVisibility(View.GONE);
-						mMarkerIcon.setVisibility(View.VISIBLE);
-					}
-				});
-			}
-		}
-	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
