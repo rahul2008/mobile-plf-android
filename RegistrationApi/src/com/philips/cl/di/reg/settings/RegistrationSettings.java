@@ -5,6 +5,10 @@ import android.content.Context;
 
 public abstract class RegistrationSettings {
 
+	private static final String FLOW_STANDARD = "standard";
+
+	private static final String FLOW_COPPA = "coppa";
+
 	protected String mProductRegisterUrl = null;
 
 	protected String mProductRegisterListUrl = null;
@@ -44,4 +48,12 @@ public abstract class RegistrationSettings {
 		return mPreferredLangCode;
 	}
 
+	public String getFlowName() {
+		if (RegistrationHelper.getInstance().isCoppaFlow()) {
+			return FLOW_COPPA;
+		} else {
+			return FLOW_STANDARD;
+		}
+
+	}
 }

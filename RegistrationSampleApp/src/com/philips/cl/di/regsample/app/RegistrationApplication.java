@@ -10,8 +10,8 @@ import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.utils.RLog;
 
-public class RegistrationApplication extends Application{
-	
+public class RegistrationApplication extends Application {
+
 	private RegistrationHelper mRegistrationHelper;
 
 	@Override
@@ -19,9 +19,12 @@ public class RegistrationApplication extends Application{
 		super.onCreate();
 		Config.setContext(getApplicationContext());
 		RLog.d(RLog.APPLICATION, "RegistrationApplication : onCreate");
-		RLog.d(RLog.JANRAIN_INITIALIZE, "RegistrationApplication : Janrain initialization with locale : "+Locale.getDefault());
-		
+		RLog.d(RLog.JANRAIN_INITIALIZE,
+		        "RegistrationApplication : Janrain initialization with locale : "
+		                + Locale.getDefault());
+
 		mRegistrationHelper = RegistrationHelper.getInstance();
+		mRegistrationHelper.setCoppaFlow(false);
 		mRegistrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this,
 		        Locale.getDefault());
 	}

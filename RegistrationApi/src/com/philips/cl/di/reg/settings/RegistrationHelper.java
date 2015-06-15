@@ -52,6 +52,8 @@ public class RegistrationHelper {
 
 	private String countryCode;
 
+	private boolean isCoppaFlow;
+
 	private UserRegistrationListener mUserRegistrationListener;
 
 	public enum Janrain {
@@ -308,9 +310,17 @@ public class RegistrationHelper {
 
 			appVersion = packageInfo.versionName;
 		} catch (NameNotFoundException e) {
-			
+
 		}
 		return appVersion;
+	}
+
+	public boolean isCoppaFlow() {
+		return isCoppaFlow;
+	}
+
+	public void setCoppaFlow(boolean isCoppaFlow) {
+		this.isCoppaFlow = isCoppaFlow;
 	}
 
 }
