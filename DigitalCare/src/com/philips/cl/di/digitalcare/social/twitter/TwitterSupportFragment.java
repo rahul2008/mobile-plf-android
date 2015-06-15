@@ -375,7 +375,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	public void onTaskCompleted() {
 
 		if (getActivity() != null) {
-			getActivity().runOnUiThread(new Runnable() {
+			updateUI(new Runnable() {
 				@Override
 				public void run() {
 					String socialType = "Twitter";
@@ -399,7 +399,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	public void onTaskFailed() {
 
 		if (getActivity() != null) {
-			getActivity().runOnUiThread(new Runnable() {
+			updateUI(new Runnable() {
 				@Override
 				public void run() {
 					Toast.makeText(

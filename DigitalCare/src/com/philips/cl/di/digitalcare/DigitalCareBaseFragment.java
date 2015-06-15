@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +43,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private NetworkReceiver mNetworkutility = null;
 	private static boolean isConnectionAvailable;
 	private FragmentManager fragmentManager = getFragmentManager();
+	private Thread mUiThread = Looper.getMainLooper().getThread();
+	private final Handler mHandler = new Handler();
 
 	static {
 		Field f = null;
@@ -261,6 +265,14 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	@Override
 	public void onNetworkStateChanged(boolean connection) {
 		setStatus(connection);
+	}
+
+	protected final void updateUI(Runnable runnable) {
+		if (Thread.currentThread() != mUiThread) {
+			mHandler.post(runnable);
+		} else {
+			runnable.run();
+		}
 	}
 
 }
