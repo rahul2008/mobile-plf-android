@@ -2,25 +2,17 @@ package com.philips.pins.shinelib;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import com.philips.pins.shinelib.exceptions.SHNBluetoothHardwareUnavailableException;
 import com.philips.pins.shinelib.helper.MockedHandler;
-import com.philips.pins.shinelib.helper.Utility;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.powermock.api.mockito.PowerMockito.doReturn;
 
 /**
  * Created by 310188215 on 06/05/15.
@@ -37,23 +29,23 @@ public class SHNCentralTest {
 
     @Before
     public void setUp() throws SHNBluetoothHardwareUnavailableException {
-        mockedContext = (Context) Utility.makeThrowingMock(Context.class);
-        mockedUserHandler = new MockedHandler();
-        mockedPackageManager = (PackageManager) Utility.makeThrowingMock(PackageManager.class);
-        mockedBluetoothManager = (BluetoothManager) Utility.makeThrowingMock(BluetoothManager.class);
-        mockedBluetoothAdapter = (BluetoothAdapter) Utility.makeThrowingMock(BluetoothAdapter.class);
-        mockedSharedPreferences = (SharedPreferences) Utility.makeThrowingMock(SharedPreferences.class);
-
-        doReturn(mockedContext).when(mockedContext).getApplicationContext();
-        doReturn(mockedPackageManager).when(mockedContext).getPackageManager();
-        doReturn(true).when(mockedPackageManager).hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
-        doReturn(mockedBluetoothManager).when(mockedContext).getSystemService(Context.BLUETOOTH_SERVICE);
-        doReturn(mockedBluetoothAdapter).when(mockedBluetoothManager).getAdapter();
-        doReturn(true).when(mockedBluetoothAdapter).isEnabled();
-        doReturn(null).when(mockedContext).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
-        doReturn(mockedSharedPreferences).when(mockedContext).getSharedPreferences(anyString(), anyInt());
-
-        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext);
+//        mockedContext = (Context) Utility.makeThrowingMock(Context.class);
+//        mockedUserHandler = new MockedHandler();
+//        mockedPackageManager = (PackageManager) Utility.makeThrowingMock(PackageManager.class);
+//        mockedBluetoothManager = (BluetoothManager) Utility.makeThrowingMock(BluetoothManager.class);
+//        mockedBluetoothAdapter = (BluetoothAdapter) Utility.makeThrowingMock(BluetoothAdapter.class);
+//        mockedSharedPreferences = (SharedPreferences) Utility.makeThrowingMock(SharedPreferences.class);
+//
+//        doReturn(mockedContext).when(mockedContext).getApplicationContext();
+//        doReturn(mockedPackageManager).when(mockedContext).getPackageManager();
+//        doReturn(true).when(mockedPackageManager).hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE);
+//        doReturn(mockedBluetoothManager).when(mockedContext).getSystemService(Context.BLUETOOTH_SERVICE);
+//        doReturn(mockedBluetoothAdapter).when(mockedBluetoothManager).getAdapter();
+//        doReturn(true).when(mockedBluetoothAdapter).isEnabled();
+//        doReturn(null).when(mockedContext).registerReceiver(any(BroadcastReceiver.class), any(IntentFilter.class));
+//        doReturn(mockedSharedPreferences).when(mockedContext).getSharedPreferences(anyString(), anyInt());
+//
+//        shnCentral = new SHNCentral(mockedUserHandler.getMock(), mockedContext);
     }
 
     @Test
