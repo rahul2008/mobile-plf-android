@@ -1,7 +1,9 @@
 package com.philips.cl.di.digitalcare;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -39,8 +41,13 @@ public class RequestData {
 				HttpURLConnection mHttpURLConnection = (HttpURLConnection) obj
 						.openConnection();
 				mHttpURLConnection.setRequestMethod("GET");
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						mHttpURLConnection.getInputStream()));
+				InputStream mInputStream = mHttpURLConnection.getInputStream();
+				Reader mReader = new InputStreamReader(mInputStream);
+				/*
+				 * BufferedReader in = new BufferedReader(new Reader(
+				 * mHttpURLConnection.getInputStream()));
+				 */
+				BufferedReader in = new BufferedReader(mReader);
 				String inputLine;
 				StringBuffer response = new StringBuffer();
 
