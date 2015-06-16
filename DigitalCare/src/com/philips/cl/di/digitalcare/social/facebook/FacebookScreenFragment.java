@@ -349,34 +349,28 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTaskCompleted() {
 
-		if (getActivity() != null) {
-
-			getActivity().runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					showAlert(getActivity().getResources().getString(
-							R.string.social_post_success));
-					closeProgress();
-					backstackFragment();
-				}
-			});
-		}
+		updateUI(new Runnable() {
+			@Override
+			public void run() {
+				showAlert(getActivity().getResources().getString(
+						R.string.social_post_success));
+				closeProgress();
+				backstackFragment();
+			}
+		});
 	}
 
 	@Override
 	public void onTaskFailed() {
 
-		if (getActivity() != null) {
-			getActivity().runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					showAlert(getActivity().getResources().getString(
-							R.string.social_post_failed));
-					closeProgress();
-				}
-			});
-
-		}
+		updateUI(new Runnable() {
+			@Override
+			public void run() {
+				showAlert(getActivity().getResources().getString(
+						R.string.social_post_failed));
+				closeProgress();
+			}
+		});
 	}
 
 	private void enableCheckBoxonOpen() {

@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
@@ -44,7 +45,6 @@ public class TwitterAuthenticationActivity extends Activity {
 			finish();
 		}
 		mWebView.setWebViewClient(new MyWebViewClient());
-		// mWebView.setWebChromeClient(new TwitterWebCromeClient());
 		mWebView.loadUrl(url);
 	}
 
@@ -86,22 +86,6 @@ public class TwitterAuthenticationActivity extends Activity {
 		this.onRestart();
 	}
 
-	/*
-	 * private class TwitterWebCromeClient extends WebChromeClient {
-	 * 
-	 * @Override public void onProgressChanged(WebView view, int newProgress) {
-	 * super.onProgressChanged(view, newProgress); DLog.d(TAG,
-	 * "onProgressChanged : " + newProgress); if (newProgress > 40) { try { if
-	 * (mDialog != null && mDialog.isShowing()) { mDialog.dismiss(); mDialog =
-	 * null; } } catch (Exception exception) { exception.printStackTrace(); } }
-	 * }
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
-
 	private class MyWebViewClient extends WebViewClient {
 
 		@Override
@@ -112,17 +96,17 @@ public class TwitterAuthenticationActivity extends Activity {
 					mDialog = null;
 				}
 			} catch (Exception exception) {
-				exception.printStackTrace();
+				DigiCareLogger.e(TAG, "PageFinished : " + exception);
 			}
 		}
 
 		@Override
 		public void onPageStarted(WebView view, String url, Bitmap favicon) {
 			super.onPageStarted(view, url, favicon);
-			DigiCareLogger.d(TAG, "onPage Started");
+			DigiCareLogger.i(TAG, "onPage Started");
 			if (mDialog == null)
 				mDialog = new ProgressDialog(TwitterAuthenticationActivity.this);
-			mDialog.setMessage("Loading...");
+			mDialog.setMessage(getResources().getString(R.string.loading));
 
 			if (!(mActivity.isFinishing())) {
 				mDialog.show();
@@ -132,11 +116,11 @@ public class TwitterAuthenticationActivity extends Activity {
 		@Override
 		public void onLoadResource(WebView view, String url) {
 
-			DigiCareLogger.d(TAG, "Loading Resources");
-			DigiCareLogger.d(TAG, "Resource Loading Progress : " + view.getProgress());
+			DigiCareLogger.i(TAG, "Loading Resources");
+			DigiCareLogger.i(TAG,
+					"Resource Loading Progress : " + view.getProgress());
 
-			if(view.getProgress() >= 70)
-			{
+			if (view.getProgress() >= 70) {
 				cancelProgressDialog();
 			}
 		}

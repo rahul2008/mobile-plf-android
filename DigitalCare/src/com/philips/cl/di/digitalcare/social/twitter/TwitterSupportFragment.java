@@ -370,37 +370,32 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTaskCompleted() {
 
-		if (getActivity() != null) {
-			updateUI(new Runnable() {
-				@Override
-				public void run() {
-					String socialType = "Twitter";
-					AnalyticsTracker.trackAction(
-							AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
-							AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
-							socialType);
-					showAlert(getActivity().getResources().getString(
-							R.string.social_post_success));
-					closeProgress();
-					backstackFragment();
-				}
-			});
-		}
+		updateUI(new Runnable() {
+			@Override
+			public void run() {
+				String socialType = "Twitter";
+				AnalyticsTracker.trackAction(
+						AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
+						AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, socialType);
+				showAlert(getActivity().getResources().getString(
+						R.string.social_post_success));
+				closeProgress();
+				backstackFragment();
+			}
+		});
 	}
 
 	@Override
 	public void onTaskFailed() {
 
-		if (getActivity() != null) {
-			updateUI(new Runnable() {
-				@Override
-				public void run() {
-					showAlert(getActivity().getResources().getString(
-									R.string.social_post_failed));
-					closeProgress();
-				}
-			});
-		}
+		updateUI(new Runnable() {
+			@Override
+			public void run() {
+				showAlert(getActivity().getResources().getString(
+						R.string.social_post_failed));
+				closeProgress();
+			}
+		});
 	}
 
 	private void closeProgress() {

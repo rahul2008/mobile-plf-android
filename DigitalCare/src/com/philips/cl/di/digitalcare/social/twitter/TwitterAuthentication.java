@@ -74,12 +74,9 @@ public class TwitterAuthentication {
 			return;
 		}
 		mSharedPreferences = mContext.getSharedPreferences(PREF_NAME, 0);
-		boolean isLoggedIn = mSharedPreferences.getBoolean(
-				PREF_KEY_TWITTER_LOGIN, false);
-
-		if (isLoggedIn) {
+		if (isAuthenticated()) {
 			DigiCareLogger.d(TAG, "Already LoggedIn");
-			mTwitterAuth.onTwitterLoginSuccessful();
+			setSuccessCallback();
 		} else {
 			DigiCareLogger.d(TAG, "Logging inti Twitter");
 			Thread mLoginThread = new Thread(new Runnable() {
@@ -98,13 +95,26 @@ public class TwitterAuthentication {
 					AccessToken accessToken = mTwitter.getOAuthAccessToken(
 							mRequestToken, verifier);
 					saveTwitterInformation(accessToken);
-					mTwitterAuth.onTwitterLoginSuccessful();
+					setSuccessCallback();
 				} catch (Exception e) {
-					DigiCareLogger.e("Failed to login Twitter!!", e.getMessage());
-					mTwitterAuth.onTwitterLoginFailed();
+					setFailureCallback();
+					DigiCareLogger.e("Failed to login Twitter!!",
+							e.getMessage());
 				}
 			}
 		}
+	}
+
+	protected boolean isAuthenticated() {
+		return mSharedPreferences.getBoolean(PREF_KEY_TWITTER_LOGIN, false);
+	}
+
+	protected void setSuccessCallback() {
+		mTwitterAuth.onTwitterLoginSuccessful();
+	}
+
+	protected void setFailureCallback() {
+		mTwitterAuth.onTwitterLoginFailed();
 	}
 
 	private void saveTwitterInformation(AccessToken accessToken) {
@@ -127,13 +137,13 @@ public class TwitterAuthentication {
 			mContext.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					mTwitterAuth.onTwitterLoginSuccessful();
+					setSuccessCallback();
 				}
 			});
 
 		} catch (TwitterException e1) {
 			e1.printStackTrace();
-			mTwitterAuth.onTwitterLoginFailed();
+			setFailureCallback();
 		}
 	}
 
@@ -149,29 +159,32 @@ public class TwitterAuthentication {
 			final Configuration configuration = builder.build();
 			final TwitterFactory factory = new TwitterFactory(configuration);
 			mTwitter = factory.getInstance();
-
 			try {
 				mRequestToken = mTwitter.getOAuthRequestToken(mCallbackUrl);
-				final Intent intent = new Intent(mContext,
-						TwitterAuthenticationActivity.class);
-				intent.putExtra(TwitterAuthenticationActivity.EXTRA_URL,
-						mRequestToken.getAuthenticationURL());
-				mContext.startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
+				startWebAuthentication();
 			} catch (TwitterException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
+	protected void startWebAuthentication() {
+		final Intent intent = new Intent(mContext,
+				TwitterAuthenticationActivity.class);
+		intent.putExtra(TwitterAuthenticationActivity.EXTRA_URL,
+				mRequestToken.getAuthenticationURL());
+		mContext.startActivityForResult(intent, WEBVIEW_REQUEST_CODE);
+	}
+
 	public void onActivityResult(Intent data) {
 
-		DigiCareLogger.d(TAG, "Received Twitter session from DigitalCare Activity");
+		DigiCareLogger.d(TAG,
+				"Received Twitter session from DigitalCare Activity");
 		if (data != null)
 			mTwitterVerifier = data.getExtras().getString(mAuthVerifier);
 		DigiCareLogger.d(TAG, "Verifier : " + mTwitterVerifier);
 
 		new Thread(new Runnable() {
-
 			@Override
 			public void run() {
 				AccessToken accessToken;
