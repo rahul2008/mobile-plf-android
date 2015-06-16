@@ -160,13 +160,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		createBitmap();
 	}
 
-	/*
-	 * Forming ATOS url to hit cloud and get JSON response. This url will be
-	 * different for countries. So making this URL dynamic.
-	 * 
-	 * Combination of CTN and Subcategory is mandatory otherwise ATOS server
-	 * will fallback to all server centres.
-	 */
 	private String formAtosURL() {
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
 				.getInstance(getActivity().getApplicationContext())
@@ -183,11 +176,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	protected void requestATOSResponseData() {
 		DigiCareLogger.d(TAG, "CDLS Request Thread is started");
 		startProgressDialog();
+		DigiCareLogger.d(TAG, "ATOS URL : " + formAtosURL());
 		new RequestData(formAtosURL(), this).getReponse();
 	}
 
 	protected void startProgressDialog() {
-		DigiCareLogger.v(TAG, "Progress Dialog Started");
 		if (mDialog == null)
 			mDialog = new ProgressDialog(getActivity());
 		mDialog.setMessage(getResources().getString(R.string.loading));
@@ -198,7 +191,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	}
 
 	protected void closeProgressDialog() {
-		DigiCareLogger.v(TAG, "Progress Dialog Cancelled");
 		if (mDialog != null && mDialog.isShowing()) {
 			mDialog.dismiss();
 			mDialog.cancel();
@@ -225,7 +217,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onResponseReceived(String response) {
-		DigiCareLogger.i(TAG, "response : " + response);
+		DigiCareLogger.i(TAG, "Response : " + response);
 		closeProgressDialog();
 		if (response != null && isAdded()) {
 			AtosResponseParser atosResponseParser = new AtosResponseParser(
@@ -263,7 +255,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private void initGoogleMapv2() {
 
 		try {
-			DigiCareLogger.v(TAG, "Initializing Google Maps");
+			DigiCareLogger.v(TAG, "Initializing Google Map");
 			mMap = ((MapFragment) getFragmentManager().findFragmentById(
 					R.id.map)).getMap();
 			if (mMap != null) {
@@ -271,7 +263,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			}
 		} catch (NullPointerException e) {
-			DigiCareLogger.v(TAG, "Googlev2 Map Compatibility Enabled");
+			DigiCareLogger.v(TAG, "Failed to get GoogleMap so so enabling Google v2 Map Compatibility Enabled");
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
@@ -286,7 +278,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			DigiCareLogger.i(TAG, "Provider is [" + provider + "]");
 			locateCurrentPosition();
 		}
-		DigiCareLogger.d(TAG, "initView is initialized");
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.showlayout);
 		mListView = (ListView) getActivity().findViewById(R.id.placelistview);
@@ -387,18 +378,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (mLocationManager
 				.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			provider = LocationManager.NETWORK_PROVIDER;
-			DigiCareLogger.v(TAG, "Network is enabled");
+			DigiCareLogger.v(TAG, "Network provider is enabled");
 			return true;
 		}
 
 		if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			provider = LocationManager.GPS_PROVIDER;
-			DigiCareLogger.v(TAG, "GPS provider enabled");
+			DigiCareLogger.v(TAG, "GPS provider is enabled");
 			return true;
 		}
 
 		if (provider != null) {
-			DigiCareLogger.v(TAG, "Provider is received");
 			return true;
 		}
 		return false;
@@ -419,7 +409,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			addBoundaryToCurrentPosition(lat, lng);
 		} else {
-			DigiCareLogger.i(TAG, "MAP is null Failed to update Maptype");
+			DigiCareLogger.i(TAG, "MAP is null Failed to update GoogleMap.MAP_TYPE_NORMAL Maptype");
 		}
 	}
 
@@ -701,6 +691,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		Intent myintent = new Intent(Intent.ACTION_CALL);
 		myintent.setData(Uri.parse("tel:" + mPhoneNumber));
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		DigiCareLogger.d(TAG, "Contact Number : "+ mPhoneNumber);
 		startActivity(myintent);
 	};
 

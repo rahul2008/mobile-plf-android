@@ -47,7 +47,7 @@ public class ImagePhonePickerDialog extends Dialog implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DigiCareLogger.d(TAG, "onCreate");
+		DigiCareLogger.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
@@ -85,12 +85,12 @@ public class ImagePhonePickerDialog extends Dialog implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case CANCEL_BUTTON:
-			DigiCareLogger.d("IMAGE", "Cancel Button");
+			DigiCareLogger.d("IMAGE", "Clicked on Cancel Button");
 			dismiss();
 
 			break;
 		case LIBRARY_BUTTON:
-			DigiCareLogger.d("IMAGE", "LIbrary Button");
+			DigiCareLogger.d("IMAGE", "Clicked on Library Button");
 
 		Intent intent = new Intent();
 			intent.setType("image/*");
@@ -98,18 +98,10 @@ public class ImagePhonePickerDialog extends Dialog implements
 			mContext.startActivityForResult(
 					Intent.createChooser(intent, null),
 					DigitalCareContants.IMAGE_PICK);
-			
-			
-			/*Intent galleryIntent = new Intent(Intent.ACTION_PICK,
-			        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-			// Start the Intent
-			mContext.startActivityForResult(galleryIntent, DigitalCareContants.IMAGE_PICK);*/
-			
-			
 			dismiss();
 			break;
 		case CAMERA_BUTTON:
-			DigiCareLogger.d("IMAGE", "Camera Button");
+			DigiCareLogger.d("IMAGE", "Clicekd on Camera Button");
 
 			Intent mCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			mContext.startActivityForResult(mCameraIntent,

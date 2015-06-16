@@ -113,7 +113,7 @@ public class CdlsResponseParser {
 					cdlsErrorModel);
 			mParsingCompletedCallback.onCdlsParsingComplete(cdlsParsedResponse);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			DigiCareLogger.e(TAG, "JSONException : "+ e);
 		}
 	}
 }

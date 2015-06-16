@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * AtosResponseParser will take care of parsing ATOS resonse(LocateNearYou).
@@ -22,14 +22,13 @@ public class AtosResponseParser {
 
 	protected AtosResponseParser(AtosParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
-		Log.i(TAG, "ParserController constructor : ");
+		DigiCareLogger.i(TAG, "ParserController constructor : ");
 	}
 
 	/*
 	 * This method will create CDLS bean object and pass back to calling class.
 	 */
 	public void parseAtosResponse(String response) {
-		Log.i(TAG, "response : " + response);
 		JSONObject jsonObject = null;
 
 		try {
@@ -37,9 +36,6 @@ public class AtosResponseParser {
 			boolean success = jsonObject.optBoolean("success");
 
 			JSONObject jsonObjectData = jsonObject.optJSONObject("data");
-
-			Log.i(TAG, "response jsonObjectData : " + jsonObjectData);
-
 			AtosLocationModel currentLocationModel = null;
 			AtosErrorModel cdlsErrorModel = null;
 
@@ -76,7 +72,7 @@ public class AtosResponseParser {
 					cdlsErrorModel);
 			mParsingCompletedCallback.onAtosParsingComplete(cdlsParsedResponse);
 		} catch (JSONException e) {
-			e.printStackTrace();
+			DigiCareLogger.e(TAG, "JSON Exception : "+ e);
 		}
 	}
 

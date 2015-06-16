@@ -99,7 +99,7 @@ public class MapDirections {
 			br.close();
 
 		} catch (Exception e) {
-			DigiCareLogger.d(TAG, e.toString());
+			DigiCareLogger.e(TAG, e.toString());
 		} finally {
 			iStream.close();
 			urlConnection.disconnect();
@@ -121,7 +121,7 @@ public class MapDirections {
 				// Fetching the data from web service
 				data = downloadUrl(url[0]);
 			} catch (Exception e) {
-				DigiCareLogger.d(TAG, "Background Task" + e.toString());
+				DigiCareLogger.e(TAG, "Background Task" + e.toString());
 			}
 			return data;
 		}

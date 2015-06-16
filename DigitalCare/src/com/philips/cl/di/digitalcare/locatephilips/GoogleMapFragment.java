@@ -3,12 +3,12 @@ package com.philips.cl.di.digitalcare.locatephilips;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.maps.MapFragment;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * 
@@ -34,7 +34,7 @@ public class GoogleMapFragment extends MapFragment {
 		{
 			((onMapReadyListener)mFragment).onMapReady();
 		}
-		Log.d(TAG, "GoogleMap Fragment : "+ mFragment);
+		DigiCareLogger.d(TAG, "GoogleMap Fragment : "+ mFragment);
 		return mView;
 		
 	}
