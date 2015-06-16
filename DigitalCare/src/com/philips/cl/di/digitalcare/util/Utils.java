@@ -3,7 +3,6 @@ package com.philips.cl.di.digitalcare.util;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.telephony.TelephonyManager;
-import android.widget.Toast;
 
 /**
  * Utils class contains common utility methods required across framework under
@@ -31,9 +30,5 @@ public class Utils {
 		default:
 			return true;
 		}
-	}
-
-	public static void showToast(Context context, String message) {
-		Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
 	}
 }

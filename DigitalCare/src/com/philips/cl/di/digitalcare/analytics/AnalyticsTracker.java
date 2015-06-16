@@ -116,8 +116,7 @@ public class AnalyticsTracker {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(AnalyticsConstants.ACTION_KEY_APPNAME,
 				AnalyticsConstants.ACTION_VALUE_APPNAME);
-		contextData.put(AnalyticsConstants.ACTION_KEY_VERSION,
-				getAppVersion());
+		contextData.put(AnalyticsConstants.ACTION_KEY_VERSION, getAppVersion());
 		contextData
 				.put(AnalyticsConstants.ACTION_KEY_OS,
 						AnalyticsConstants.ACTION_VALUE_ANDROID
@@ -142,22 +141,21 @@ public class AnalyticsTracker {
 		return currencyCode;
 	}
 
-	
 	private static int getAppVersion() {
 		int appVersion = 0;
 		try {
 			PackageInfo packageInfo = mContext.getPackageManager()
 					.getPackageInfo(mContext.getPackageName(), 0);
-			DigiCareLogger.i(DigiCareLogger.APPLICATION, "Application version: "
-					+ packageInfo.versionName + " (" + packageInfo.versionCode
-					+ ")");
+			DigiCareLogger.i(DigiCareLogger.APPLICATION,
+					"Application version: " + packageInfo.versionName + " ("
+							+ packageInfo.versionCode + ")");
 			appVersion = packageInfo.versionCode;
 		} catch (NameNotFoundException e) {
 			throw new RuntimeException("Could not get package name: " + e);
 		}
 		return appVersion;
 	}
-	
+
 	@SuppressLint("SimpleDateFormat")
 	private static String getTimestamp() {
 		long timeMillis = System.currentTimeMillis();

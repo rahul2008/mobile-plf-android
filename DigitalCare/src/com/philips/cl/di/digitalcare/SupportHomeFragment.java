@@ -20,7 +20,6 @@ import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
-//import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
@@ -180,8 +179,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		boolean actionTaken = DigitalCareConfigManager
 				.getInstance(DigitalCareConfigManager.getContext())
-				.getMainMenuListener()
-				.onMainMenuItemClicked(tag.toString());
+				.getMainMenuListener().onMainMenuItemClicked(tag.toString());
 
 		if (actionTaken) {
 			return;
@@ -190,11 +188,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		if (tag.equals(getStringKey(R.string.contact_us))) {
 			if (isConnectionAvailable())
 				showFragment(new ContactUsFragment());
-		} else if (tag
-				.equals(getStringKey(R.string.view_product_details))) {
+		} else if (tag.equals(getStringKey(R.string.view_product_details))) {
 			showFragment(new ProductDetailsFragment());
-		} else if (tag
-				.equals(getStringKey(R.string.find_philips_near_you))) {
+		} else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
 			if (isConnectionAvailable())
 				showFragment(new LocatePhilipsFragment());
 		} else if (tag.equals(getStringKey(R.string.view_faq))) {
@@ -215,10 +211,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 	 * level.
 	 */
 	private void createMainMenu() {
-		String[] menuTitleKeys = getResources()
-				.getStringArray(R.array.main_menu_title);
-		String[] menuDrawableKeys = getResources()
-				.getStringArray(R.array.main_menu_resources);
+		String[] menuTitleKeys = getResources().getStringArray(
+				R.array.main_menu_title);
+		String[] menuDrawableKeys = getResources().getStringArray(
+				R.array.main_menu_resources);
 		for (int i = 0; i < menuTitleKeys.length; i++) {
 			DigiCareLogger.i(TAG, "Button " + i + " added");
 			createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);

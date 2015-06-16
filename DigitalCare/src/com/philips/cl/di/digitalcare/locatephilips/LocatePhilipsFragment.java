@@ -39,7 +39,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -263,7 +262,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 			}
 		} catch (NullPointerException e) {
-			DigiCareLogger.v(TAG, "Failed to get GoogleMap so so enabling Google v2 Map Compatibility Enabled");
+			DigiCareLogger
+					.v(TAG,
+							"Failed to get GoogleMap so so enabling Google v2 Map Compatibility Enabled");
 			mMapFragment = GoogleMapFragment.newInstance();
 			getChildFragmentManager().beginTransaction()
 					.replace(R.id.map, mMapFragment).commit();
@@ -409,7 +410,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 			addBoundaryToCurrentPosition(lat, lng);
 		} else {
-			DigiCareLogger.i(TAG, "MAP is null Failed to update GoogleMap.MAP_TYPE_NORMAL Maptype");
+			DigiCareLogger
+					.i(TAG,
+							"MAP is null Failed to update GoogleMap.MAP_TYPE_NORMAL Maptype");
 		}
 	}
 
@@ -646,19 +649,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
-			
-				if (mResultModelSet != null) {
-					adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
-					adapter.getFilter().filter(constrain,
-							new Filter.FilterListener() {
-								public void onFilterComplete(int count) {
-									mListView.setAdapter(adapter);
-									mListView.setVisibility(View.VISIBLE);
-									mLinearLayout.setVisibility(View.GONE);
-									mMarkerIcon.setVisibility(View.VISIBLE);
-								}
-							});
-				}
+
+			if (mResultModelSet != null) {
+				adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
+				adapter.getFilter().filter(constrain,
+						new Filter.FilterListener() {
+							public void onFilterComplete(int count) {
+								mListView.setAdapter(adapter);
+								mListView.setVisibility(View.VISIBLE);
+								mLinearLayout.setVisibility(View.GONE);
+								mMarkerIcon.setVisibility(View.VISIBLE);
+							}
+						});
+			}
 
 		} else if (v.getId() == R.id.getdirection) {
 
@@ -681,8 +684,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				DigiCareLogger.i(TAG, "Check the SIM");
-				Toast.makeText(getActivity(), "Check the SIM",
-						Toast.LENGTH_SHORT).show();
+				showAlert("Check the SIM");
 			}
 		}
 	}
@@ -691,7 +693,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		Intent myintent = new Intent(Intent.ACTION_CALL);
 		myintent.setData(Uri.parse("tel:" + mPhoneNumber));
 		myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		DigiCareLogger.d(TAG, "Contact Number : "+ mPhoneNumber);
+		DigiCareLogger.d(TAG, "Contact Number : " + mPhoneNumber);
 		startActivity(myintent);
 	};
 

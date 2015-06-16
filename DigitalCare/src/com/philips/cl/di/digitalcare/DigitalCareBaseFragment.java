@@ -41,7 +41,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private static boolean isConnectionAvailable;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private Thread mUiThread = Looper.getMainLooper().getThread();
-	private final Handler mHandler = new Handler();
+	private final Handler mHandler = new Handler(Looper.getMainLooper());
 
 	public abstract void setViewParams(Configuration config);
 
@@ -147,13 +147,50 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		if (isConnectionAvailable)
 			return true;
 		else {
-			new NetworkAlertView().showNetworkAlert(getActivity());
-			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_KEY_SET_ERROR,
-					AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-					AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+			// new NetworkAlertView().showNetworkAlert(getActivity());
+			mHandler.postAtFrontOfQueue(new Runnable() {
+
+				@Override
+				public void run() {
+					new NetworkAlertView().showAlertBox(
+							getActivity(),
+							"Alert",
+							getActivity().getResources().getString(
+									R.string.no_internet),
+							getActivity().getResources().getString(
+									android.R.string.yes));
+					AnalyticsTracker
+							.trackAction(
+									AnalyticsConstants.ACTION_KEY_SET_ERROR,
+									AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+									AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+
+				}
+			});
 			return false;
+
 		}
+	}
+
+	protected void showAlert(final String message) {
+		mHandler.postAtFrontOfQueue(new Runnable() {
+
+			@Override
+			public void run() {
+				new NetworkAlertView().showAlertBox(
+						getActivity(),
+						getActivity().getResources().getString(
+								android.R.string.dialog_alert_title),
+						message,
+						getActivity().getResources().getString(
+								android.R.string.yes));
+				AnalyticsTracker.trackAction(
+						AnalyticsConstants.ACTION_KEY_SET_ERROR,
+						AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+						AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+
+			}
+		});
 	}
 
 	@Override

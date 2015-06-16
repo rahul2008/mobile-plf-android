@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
@@ -175,16 +174,13 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 		if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
 				R.string.product_open_manual))) {
-			Toast.makeText(getActivity(), AnalyticsConstants.PAGE_HOME,
-					Toast.LENGTH_SHORT).show();
+			showAlert(AnalyticsConstants.PAGE_HOME);
 		} else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
 				R.string.product_download_manual))) {
-			Toast.makeText(getActivity(), AnalyticsConstants.PAGE_HOME,
-					Toast.LENGTH_SHORT).show();
+			showAlert(AnalyticsConstants.PAGE_HOME);
 		} else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
 				R.string.product_information))) {
-			Toast.makeText(getActivity(), AnalyticsConstants.PAGE_HOME,
-					Toast.LENGTH_SHORT).show();
+			showAlert(AnalyticsConstants.PAGE_HOME);
 		}
 	}
 

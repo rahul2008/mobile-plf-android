@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -94,8 +93,9 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			int resultCode, Intent data) {
 		DigiCareLogger.d(TAG, "onActivity Result received inside the...");
 		if (mFacebookUtility != null) {
-			DigiCareLogger.d(TAG,
-					"onActivity Result received when Facebook Utility is not null");
+			DigiCareLogger
+					.d(TAG,
+							"onActivity Result received when Facebook Utility is not null");
 			mFacebookUtility.onActivityResultFragment(activity, requestCode,
 					resultCode, data);
 		}
@@ -329,11 +329,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void sendAlert() {
-		Toast.makeText(
-				getActivity(),
-				getActivity().getResources().getString(
-						R.string.social_post_editor_alert), Toast.LENGTH_SHORT)
-				.show();
+		showAlert(getActivity().getResources().getString(
+				R.string.social_post_editor_alert));
 	}
 
 	@Override
@@ -357,11 +354,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.social_post_success),
-							Toast.LENGTH_SHORT).show();
+					showAlert(getActivity().getResources().getString(
+							R.string.social_post_success));
 					closeProgress();
 					backstackFragment();
 				}
@@ -376,11 +370,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.social_post_failed),
-							Toast.LENGTH_SHORT).show();
+					showAlert(getActivity().getResources().getString(
+							R.string.social_post_failed));
 					closeProgress();
 				}
 			});

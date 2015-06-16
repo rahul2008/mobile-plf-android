@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -89,7 +88,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				TwitterAuthentication.PREF_USER_NAME, "");
 		mTwitter_to = getUsername();
 		mProductInformation = getProductInformation();
-		DigiCareLogger.d(TAG, "Twitter UI Created with Uname value.." + mUsername);
+		DigiCareLogger.d(TAG, "Twitter UI Created with Uname value.."
+				+ mUsername);
 		return mTwitterView;
 	}
 
@@ -220,11 +220,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				mEditText.setText(mContent);
 				mEditText.setSelection(mEditText.getText().toString().length());
 			} else {
-				Toast.makeText(
-						getActivity(),
-						getActivity().getResources().getString(
-								R.string.twitter_post_char_limitation),
-						Toast.LENGTH_SHORT).show();
+				showAlert(getActivity().getResources().getString(
+						R.string.twitter_post_char_limitation));
 				mCheckBox.setChecked(false);
 			}
 		} else {
@@ -277,11 +274,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void sendAlert() {
-		Toast.makeText(
-				getActivity(),
-				getActivity().getResources().getString(
-						R.string.social_post_editor_alert), Toast.LENGTH_SHORT)
-				.show();
+		showAlert(getActivity().getResources().getString(
+				R.string.social_post_editor_alert));
 	}
 
 	@Override
@@ -303,10 +297,12 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		StringBuilder mTwitterAddressBuilder = new StringBuilder(
 				mTwitterMessageContent);
 		mTwitterAddressBuilder.replace(0, mPost_AddressLength, mTwitter_to);
-		DigiCareLogger.d(TAG, "Twitter String : [" + mTwitterAddressBuilder + "]");
+		DigiCareLogger.d(TAG, "Twitter String : [" + mTwitterAddressBuilder
+				+ "]");
 
 		if (!(s.toString().startsWith(mTwitter_to, 0))) {
-			DigiCareLogger.d(TAG, "String from the Character S : " + s.toString());
+			DigiCareLogger.d(TAG,
+					"String from the Character S : " + s.toString());
 			mEditText.setText(mTwitterAddressBuilder);
 		}
 
@@ -383,11 +379,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 							AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
 							AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE,
 							socialType);
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.social_post_success),
-							Toast.LENGTH_SHORT).show();
+					showAlert(getActivity().getResources().getString(
+							R.string.social_post_success));
 					closeProgress();
 					backstackFragment();
 				}
@@ -402,11 +395,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			updateUI(new Runnable() {
 				@Override
 				public void run() {
-					Toast.makeText(
-							getActivity(),
-							getActivity().getResources().getString(
-									R.string.social_post_failed),
-							Toast.LENGTH_SHORT).show();
+					showAlert(getActivity().getResources().getString(
+									R.string.social_post_failed));
 					closeProgress();
 				}
 			});

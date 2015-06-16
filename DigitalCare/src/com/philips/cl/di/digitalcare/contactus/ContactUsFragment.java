@@ -82,7 +82,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - " + mView);
+		DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
+				+ mView);
 		if (mView == null) {
 			mView = inflater.inflate(R.layout.fragment_contact_us, container,
 					false);
@@ -191,7 +192,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onTwitterLoginSuccessful() {
-		Utils.showToast(getActivity(), "Logged in Successfully");
 		showFragment(new TwitterSupportFragment());
 	}
 
@@ -218,13 +218,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		public void onCdlsParsingComplete(final CdlsResponseModel response) {
 			if (response != null) {
 				mCdlsParsedResponse = response;
-				getActivity().runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						updateGui();
-					}
-				});
+				/*
+				 * getActivity().runOnUiThread(new Runnable() {
+				 * 
+				 * @Override public void run() {
+				 */
+				updateGui();
+				/*
+				 * } });
+				 */
 			} else {
 				fadeoutButtons();
 			}
@@ -328,11 +330,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		if (id == R.id.contactUsChat && isConnectionAvailable()) {
 			if (mCdlsResponseStr == null) {
-				Utils.showToast(getActivity(), "No server response");
+				showAlert("No server response");
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
-				Utils.showToast(getActivity(), mCdlsParsedResponse.getError()
+				showAlert(mCdlsParsedResponse.getError()
 						.getErrorMessage());
 				return;
 			}
@@ -340,18 +342,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
-				Utils.showToast(getActivity(), "No server response");
+				showAlert("No server response");
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
-				Utils.showToast(getActivity(), mCdlsParsedResponse.getError()
+				showAlert(mCdlsParsedResponse.getError()
 						.getErrorMessage());
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
 				tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CALL);
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
-				Utils.showToast(getActivity(), "Check the SIM");
+				showAlert("Check the SIM");
 			}
 		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))
@@ -362,7 +364,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK "
 					+ mFacebookSession);
 			if (mFacebookSession == null) {
-				DigiCareLogger.d(TAG, "Session is null so Starting FacebookSession");
+				DigiCareLogger.d(TAG,
+						"Session is null so Starting FacebookSession");
 				startFacebookSession();
 			} else if ((mFacebookSession != null)
 					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
