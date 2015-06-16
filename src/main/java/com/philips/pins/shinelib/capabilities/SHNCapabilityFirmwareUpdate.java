@@ -4,9 +4,17 @@ import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
 
 /**
- * Created by 310188215 on 03/03/15.
+ * Created by 310188215 on 16/06/15.
  */
-public class SHNCapabilityFirmwareUpdate {
+public interface SHNCapabilityFirmwareUpdate {
+    void uploadFirmware(byte[] firmwareData);
+
+    void abortFirmwareUpload();
+
+    void deployFirmware();
+
+    void getUploadedFirmwareInfo(SHNFirmwareInfoResultListener shnFirmwareInfoResultListener);
+
     public enum SHNFirmwareUpdateState {
         SHNFirmwareUpdateStateIdle,
         SHNFirmwareUpdateStatePreparing,
@@ -14,6 +22,7 @@ public class SHNCapabilityFirmwareUpdate {
         SHNFirmwareUpdateStateVerifying,
         SHNFirmwareUpdateStateDeploying,
     }
+
     public interface SHNCapabilityFirmwareUpdateListener {
         void onStateChanged(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
         void onProgressUpdate(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, float progress);
@@ -22,12 +31,4 @@ public class SHNCapabilityFirmwareUpdate {
         void onDeployFailed(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate, SHNResult shnResult);
         void onDeployFinished(SHNCapabilityFirmwareUpdate shnCapabilityFirmwareUpdate);
     }
-
-    private SHNFirmwareUpdateState shnFirmwareUpdateState = SHNFirmwareUpdateState.SHNFirmwareUpdateStateIdle;
-    private SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener;
-
-    public void uploadFirmware(byte[] firmwareData) { throw new UnsupportedOperationException(); }
-    public void abortFirmwareUpload()  { throw new UnsupportedOperationException(); }
-    public void deployFirmware() { throw new UnsupportedOperationException(); }
-    public void getUploadedFirmwareInfo(SHNFirmwareInfoResultListener shnFirmwareInfoResultListener) { throw new UnsupportedOperationException(); }
 }
