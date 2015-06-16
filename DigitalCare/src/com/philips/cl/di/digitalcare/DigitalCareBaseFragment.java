@@ -1,7 +1,5 @@
 package com.philips.cl.di.digitalcare;
 
-import java.lang.reflect.Field;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -27,7 +25,7 @@ import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.NetworkReceiver;
 
 /**
- * DigitalCareBaseFragment is super class for all fragments.
+ * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
  * 
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
@@ -36,7 +34,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		OnClickListener, NetworkStateListener {
 
 	private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
-	private static final Field sChildFragmentManagerField;
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
 	private Activity mFragmentActivityContext = null;
@@ -45,18 +42,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private FragmentManager fragmentManager = getFragmentManager();
 	private Thread mUiThread = Looper.getMainLooper().getThread();
 	private final Handler mHandler = new Handler();
-
-	static {
-		Field f = null;
-		try {
-			f = Fragment.class.getDeclaredField("mChildFragmentManager");
-			f.setAccessible(true);
-		} catch (NoSuchFieldException e) {
-			DigiCareLogger.e(DigiCareLogger.FRAGMENT,
-					"Error getting mChildFragmentManager field");
-		}
-		sChildFragmentManagerField = f;
-	}
 
 	public abstract void setViewParams(Configuration config);
 
@@ -73,7 +58,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnCreate on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnCreate on "
 				+ this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
@@ -102,21 +87,21 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnCreateView on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnCreateView on "
 				+ this.getClass().getSimpleName());
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
 	@Override
 	public void onStart() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStart on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnStart on "
 				+ this.getClass().getSimpleName());
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnResume on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnResume on "
 				+ this.getClass().getSimpleName());
 		super.onResume();
 		setActionbarTitle();
@@ -124,21 +109,21 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	@Override
 	public void onPause() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnPause on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnPause on "
 				+ this.getClass().getSimpleName());
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnStop on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnStop on "
 				+ this.getClass().getSimpleName());
 		super.onStop();
 	}
 
 	@Override
 	public void onDestroy() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onDestroy on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "onDestroy on "
 				+ this.getClass().getSimpleName());
 		getActivity().unregisterReceiver(mNetworkutility);
 		super.onDestroy();
@@ -146,7 +131,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 	@Override
 	public void onDestroyView() {
-		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "OnDestroyView on "
+		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnDestroyView on "
 				+ this.getClass().getSimpleName());
 		super.onDestroyView();
 
@@ -156,15 +141,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
-		if (sChildFragmentManagerField != null) {
-			try {
-				sChildFragmentManagerField.set(this, null);
-			} catch (Exception e) {
-				DigiCareLogger.e(DigiCareLogger.FRAGMENT,
-						"Error setting mChildFragmentManager field");
-			}
-		}
 	}
 
 	protected boolean isConnectionAvailable() {

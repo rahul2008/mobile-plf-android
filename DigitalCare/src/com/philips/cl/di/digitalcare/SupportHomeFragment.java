@@ -20,6 +20,7 @@ import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
+//import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
@@ -43,7 +44,6 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
-		DigiCareLogger.i(TAG, "onCreateView");
 		return view;
 	}
 
@@ -220,6 +220,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		String[] menuDrawableKeys = getResources()
 				.getStringArray(R.array.main_menu_resources);
 		for (int i = 0; i < menuTitleKeys.length; i++) {
+			DigiCareLogger.i(TAG, "Button " + i + " added");
 			createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);
 		}
 	}

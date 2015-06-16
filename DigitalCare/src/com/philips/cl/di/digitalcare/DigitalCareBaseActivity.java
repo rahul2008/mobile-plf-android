@@ -22,7 +22,7 @@ import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
- * DigitalCareBaseActivity is the main super abstract class container for
+ * DigitalCareBaseActivity is the parent abstract class for
  * DigitalCare Activity.
  * 
  * @author: ritesh.jha@philips.com
@@ -42,9 +42,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		DigiCareLogger.i(TAG, "onCreate");
 		setLocaleLanguage();
-
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		DigitalCareConfigManager.getInstance(this);
 		fragmentManager = getFragmentManager();
 	}
@@ -91,7 +89,6 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		} else if (keyCode == KeyEvent.KEYCODE_MENU) {
 			return true;
 		}
-
 		return super.onKeyDown(keyCode, event);
 	}
 
@@ -105,7 +102,6 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	}
 
 	private void setLocaleLanguage() {
-
 		Locale locale = DigitalCareConfigManager.getLocale();
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();

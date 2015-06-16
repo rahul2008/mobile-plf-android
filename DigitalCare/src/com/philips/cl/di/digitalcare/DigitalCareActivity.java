@@ -62,16 +62,18 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		DigiCareLogger.i(TAG, "DigitalCareActivity onActivityResult");
 
 		if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
-
+			DigiCareLogger.e(TAG, "Facebook Authentication..");
 			startFaceBookSDK(requestCode, resultCode, data);
 
 		}
 		if (resultCode == Activity.RESULT_CANCELED
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
+			DigiCareLogger.e(TAG, "Twitter failed to authenticate");
 			stopTwitterSDK();
 		}
 		if (resultCode == Activity.RESULT_OK
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
+			DigiCareLogger.i(TAG, "Twitter Authenticated successfully");
 			startTwitterSDK(data);
 		} else if (resultCode == Activity.RESULT_OK) {
 			AnalyticsTracker.trackAction(
