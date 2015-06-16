@@ -12,6 +12,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import android.os.Handler;
 import android.os.Looper;
 
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
@@ -23,13 +24,15 @@ public class RequestData {
 	private ResponseCallback mResponseCallback = null;
 	private String mResponse = null;
 	private String mUrl = null;
+	private Handler mHandler = null;
 
 	public RequestData(String url, ResponseCallback responseCallback) {
 		mUrl = url;
 		mResponseCallback = responseCallback;
+		mHandler = new Handler(Looper.getMainLooper());
 	}
 
-	public void getReponse() {
+	public void execute() {
 		NetworkThread mNetworkThread = new NetworkThread();
 		mNetworkThread.setPriority(Thread.MAX_PRIORITY);
 		mNetworkThread.start();
@@ -39,7 +42,6 @@ public class RequestData {
 
 		@Override
 		public void run() {
-			Looper.prepare();
 			try {
 				URL obj = new URL(mUrl);
 				HttpURLConnection mHttpURLConnection = (HttpURLConnection) obj
@@ -65,14 +67,20 @@ public class RequestData {
 				DigiCareLogger.d(TAG, "Response: [" + mResponse + "]");
 				notifyResponseHandler();
 			}
-			Looper.loop();
 		}
 	}
 
 	protected void notifyResponseHandler() {
 		if (mResponse != null) {
 
-			mResponseCallback.onResponseReceived(mResponse);
+			mHandler.postAtFrontOfQueue(new Runnable() {
+				@Override
+				public void run() {
+					mResponseCallback.onResponseReceived(mResponse);
+				}
+			});
+
 		}
 	}
+
 }
