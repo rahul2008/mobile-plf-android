@@ -24,8 +24,8 @@ import java.util.UUID;
  */
 public class SHNServiceBattery implements SHNService.SHNServiceListener{
 
-    public static final String SERVICE_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180F);
-    public static final String SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A19);
+    public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180F));
+    public static final UUID SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A19));
 
     private static final String TAG = SHNServiceBattery.class.getSimpleName();
     private static final boolean LOGGING = false;
@@ -37,13 +37,13 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
     private SHNService shnService;
 
     public SHNServiceBattery(SHNFactory shnFactory) {
-        shnService = shnFactory.createNewSHNService(UUID.fromString(SERVICE_UUID), getRequiredCharacteristics(), getOptionalCharacteristics());
+        shnService = shnFactory.createNewSHNService(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
         shnService.registerSHNServiceListener(this);
     }
 
     private static Set<UUID> getRequiredCharacteristics() {
         Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
-        requiredCharacteristicUUIDs.add(UUID.fromString(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID));
+        requiredCharacteristicUUIDs.add(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
         return requiredCharacteristicUUIDs;
     }
 
@@ -53,16 +53,20 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
 
     public void getBatteryLevel(final SHNIntegerResultListener listener) {
         if (LOGGING) Log.i(TAG, "getBatteryLevel");
-        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(UUID.fromString(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID));
+        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getBatteryLevel reportResult");
-                int value = 0;
+                int value = -1;
                 if (shnResult == SHNResult.SHNOk) {
                     ByteBuffer buffer = ByteBuffer.wrap(data);
                     buffer.order(ByteOrder.LITTLE_ENDIAN);
                     value = ScalarConverters.ubyteToInt(buffer.get());
+                    if(value > 100) {
+                        shnResult = SHNResult.SHNErrorWhileParsing;
+                        value = -1;
+                    }
                 }
 
                 if (listener != null) {
@@ -76,7 +80,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
 
     public void setBatteryLevelNotification(boolean enabled, final SHNResultListener listener) {
         if (LOGGING) Log.i(TAG, "setBatteryLevelNotification");
-        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(UUID.fromString(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID));
+        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
