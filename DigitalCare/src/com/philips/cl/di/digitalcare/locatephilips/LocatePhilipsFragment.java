@@ -118,8 +118,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	private int mLocateLayoutMargin = 0;
 	private int mLocateSearchLayoutMargin = 0;
 
-	private AlertDialog.Builder mdialogBuilder = null;
-	private AlertDialog malertDialog = null;
 	private ProgressDialog mDialog = null;
 
 	private FrameLayout.LayoutParams mLocateLayoutParentParams = null;
@@ -232,12 +230,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
 					.getResultsModel();
 			if (resultModelSet.size() <= 0) {
-				showAlertBox();
+				showAlert("Geo Data not found");
 				return;
 			}
 			addMarkers(resultModelSet);
 		} else {
-			showAlertBox();
+			showAlert("Geo Data not found");
 		}
 	}
 
@@ -605,12 +603,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		}
 		mLocationListener = null;
 
-		if (mdialogBuilder != null) {
-			mdialogBuilder = null;
-		}
-		if (malertDialog != null) {
-			malertDialog = null;
-		}
 		if (mHashMapResults != null && mHashMapResults.size() <= 0) {
 			mHashMapResults.clear();
 			mHashMapResults = null;
@@ -733,6 +725,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		mMarkerIcon.setVisibility(View.GONE);
 	}
 
+	AlertDialog.Builder mdialogBuilder = null;
+	AlertDialog malertDialog = null;
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -798,29 +793,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		AtosResultsModel resultModel = mHashMapResults.get(marker.getId());
 		showServiceCentreDetails(resultModel);
 		return true;
-	}
-
-	private void showAlertBox() {
-
-		AlertDialog alertDialog = null;
-		if (alertDialog == null) {
-
-			alertDialog = new AlertDialog.Builder(getActivity())
-					.setTitle("Alert")
-					.setMessage("No Data")
-					.setPositiveButton(android.R.string.yes,
-							new DialogInterface.OnClickListener() {
-								public void onClick(DialogInterface dialog,
-										int which) {
-
-									backstackFragment();
-
-								}
-							}).setIcon(android.R.drawable.ic_dialog_alert)
-					.show();
-
-		}
-
 	}
 
 	@Override

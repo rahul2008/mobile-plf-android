@@ -23,13 +23,14 @@ public class RequestData {
 
 	private ResponseCallback mResponseCallback = null;
 	private String mResponse = null;
-	private String mUrl = null;
-	private Handler mHandler = null;
+	private String mRequestUrl = null;
+	private Handler mResponseHandler = null;
 
+	
 	public RequestData(String url, ResponseCallback responseCallback) {
-		mUrl = url;
+		mRequestUrl = url;
 		mResponseCallback = responseCallback;
-		mHandler = new Handler(Looper.getMainLooper());
+		mResponseHandler = new Handler(Looper.getMainLooper());
 	}
 
 	public void execute() {
@@ -43,7 +44,7 @@ public class RequestData {
 		@Override
 		public void run() {
 			try {
-				URL obj = new URL(mUrl);
+				URL obj = new URL(mRequestUrl);
 				HttpURLConnection mHttpURLConnection = (HttpURLConnection) obj
 						.openConnection();
 				mHttpURLConnection.setRequestMethod("GET");
@@ -73,7 +74,7 @@ public class RequestData {
 	protected void notifyResponseHandler() {
 		if (mResponse != null) {
 
-			mHandler.postAtFrontOfQueue(new Runnable() {
+			mResponseHandler.post(new Runnable() {
 				@Override
 				public void run() {
 					mResponseCallback.onResponseReceived(mResponse);

@@ -218,15 +218,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		public void onCdlsParsingComplete(final CdlsResponseModel response) {
 			if (response != null) {
 				mCdlsParsedResponse = response;
-				/*
-				 * getActivity().runOnUiThread(new Runnable() {
-				 * 
-				 * @Override public void run() {
-				 */
-				updateGui();
-				/*
-				 * } });
-				 */
+				updateUi();
 			} else {
 				fadeoutButtons();
 			}
@@ -240,7 +232,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		cdlsResponseParser.parseCdlsResponse(response);
 	}
 
-	protected void updateGui() {
+	protected void updateUi() {
 		DigiCareLogger.d(TAG, "Updating Contact Information");
 
 		if (mCdlsParsedResponse.getSuccess()

@@ -173,7 +173,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	}
 
 	protected void showAlert(final String message) {
-		mHandler.postAtFrontOfQueue(new Runnable() {
+		mHandler.post(new Runnable() {
 
 			@Override
 			public void run() {
