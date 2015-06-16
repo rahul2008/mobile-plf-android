@@ -1,7 +1,7 @@
 package com.philips.cl.di.digitalcare;
 
 /**
- * ConsumerProductInfo is the abstract class. Vertical must have to extend this
+ * ConsumerProductInfo is the abstract class. Vertical applications must have to extend this
  * class and pass all the required information, required by DigitalCare to hit
  * several cloud servers like ATOS, CDLS, PRX etc.
  * 

@@ -27,6 +27,8 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	private ProductImageHelper mImage = null;
 	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
 	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
+	private final String START_ANIMATION_ID = "STARTANIMATIONID";
+	private final String END_ANIMATION_ID = "ENDANIMATIONID";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,10 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		int startAnimId = 0;
 		int endAnimId = 0;
 		if (bundleExtras != null) {
-			startAnimId = (Integer) bundleExtras.get("STARTANIMATIONID");
-			endAnimId = (Integer) bundleExtras.get("ENDANIMATIONID");
+			if (bundleExtras.containsKey(START_ANIMATION_ID))
+				startAnimId = (Integer) bundleExtras.get(START_ANIMATION_ID);
+			if (bundleExtras.containsKey(END_ANIMATION_ID))
+				endAnimId = (Integer) bundleExtras.get(END_ANIMATION_ID);
 		}
 		overridePendingTransition(startAnimId != 0 ? startAnimId
 				: DEFAULT_ANIMATION_START, endAnimId != 0 ? endAnimId
