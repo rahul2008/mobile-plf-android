@@ -13,5 +13,6 @@ public enum SHNCapabilityType {
     TargetHeartrateZone,
     Targets,
     UserConfiguration,
-    WearingPosition
+    WearingPosition,
+    Battery
 }

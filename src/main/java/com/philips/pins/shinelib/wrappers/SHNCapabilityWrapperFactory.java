@@ -4,6 +4,7 @@ import android.os.Handler;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNCapabilityType;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityBattery;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
@@ -37,6 +38,12 @@ public class SHNCapabilityWrapperFactory {
             case LogSynchronization:
                 shnCapabilityWrapper = new SHNCapabilityLogSynchronizationWrapper(
                         (SHNCapabilityLogSynchronization)shnCapability,
+                        internalHandler,
+                        userHandler);
+                break;
+            case Battery:
+                shnCapabilityWrapper = new SHNCapabilityBatteryWrapper(
+                        (SHNCapabilityBattery)shnCapability,
                         internalHandler,
                         userHandler);
                 break;
