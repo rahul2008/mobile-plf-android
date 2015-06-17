@@ -54,9 +54,9 @@
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
 
     <!-- View Product Details -->
-    <string name="product_info">Product Information</string>
+    <string name="product_info" translatable="false">Product Information</string>
     <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
-    <string name="product_variant">s9721/84</string>
+    <string name="product_variant" translatable="false">s9721/84</string>
     <string name="product_open_manual">Open interactive manual</string>
     <string name="product_download_manual">Download Product  manual</string>
     <string name="product_information">Products information(on philips.com)</string>
@@ -70,9 +70,9 @@
 
     <!-- ContactUS - Twitter  Login -->
     <string name="twitter_login_header">Log in to Twitter</string>
-    <string name="twitter_login_button">Log in</string>
-    <string name="twitter_login_forgotPassword">I forgot my password</string>
-    <string name="twitter_login_createAccount">Create Account</string>
+    <string name="twitter_login_button" translatable="false">Log in</string>
+    <string name="twitter_login_forgotPassword" translatable="false">I forgot my password</string>
+    <string name="twitter_login_createAccount" translatable="false">Create Account</string>
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
@@ -95,7 +95,6 @@
     <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
 
     <!-- Social Login -->
-    <string name="social_login_cancel">Cancel</string>
     <string name="post">Post</string>
     <string name="send">Send</string>
     <string name="facebook_login_header">Log in to Facebook</string>
