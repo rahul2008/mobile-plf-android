@@ -34,6 +34,7 @@ import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -161,14 +162,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	private void handleSocialProviders(final String countryCode) {
 		RLog.d("HomeFragment : ", "handleSocialProviders method country code : " + countryCode);
-		if (null != RegistrationHelper.getInstance().getSocialProviders()) {
+		if (null != RegistrationConfiguration.getInstance().getSocialProviders()) {
 			mLlSocialProviderBtnContainer.post(new Runnable() {
 
 				@Override
 				public void run() {
 					mLlSocialProviderBtnContainer.removeAllViews();
 					ArrayList<String> providers = new ArrayList<String>();
-					providers = RegistrationHelper.getInstance().getSocialProviders()
+					providers = RegistrationConfiguration.getInstance().getSocialProviders()
 					        .getSocialProvidersForCountry(countryCode);
 					if (null != providers) {
 						for (int i = 0; i < providers.size(); i++) {
@@ -349,7 +350,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void handleSocialProvider() {
-		RegistrationHelper.getInstance().getSocialProviders();
+		RegistrationConfiguration.getInstance().getSocialProviders();
 		handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 	}
 

@@ -22,7 +22,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.janrain.android.Jump;
 import com.philips.cl.di.reg.configuration.ConfigurationParser;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
-import com.philips.cl.di.reg.configuration.SocialProviders;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.events.NetworkStateHelper;
@@ -47,8 +46,6 @@ public class RegistrationHelper {
 	private ProdRegistrationSettings mProdRegistrationSettings;
 
 	private RegistrationSettings mRegistrationSettings;
-
-	private SocialProviders mSocialProivder;
 
 	private String countryCode;
 
@@ -136,7 +133,7 @@ public class RegistrationHelper {
 		mJanrainIntialized = false;
 		mContext = context.getApplicationContext();
 		NetworkUtility.isNetworkAvailable(mContext);
-		mSocialProivder = null;
+		RegistrationConfiguration.getInstance().setSocialProviders(null);
 		setCountryCode(locale.getCountry());
 
 		new Thread(new Runnable() {
@@ -144,89 +141,71 @@ public class RegistrationHelper {
 			@Override
 			public void run() {
 
-				RegistrationConfiguration registrationConfiguration = parseConfigurationJson(mContext);
-				if (null != registrationConfiguration) {
-					mSocialProivder = registrationConfiguration.getSocialProviders();
-					EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
+				parseConfigurationJson(mContext);
+				EventHelper.getInstance().notifyEventOccurred(RegConstants.PARSING_COMPLETED);
 
-					IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
-					flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
-					LocalBroadcastManager.getInstance(context).registerReceiver(
-					        janrainStatusReceiver, flowFilter);
+				IntentFilter flowFilter = new IntentFilter(Jump.JR_DOWNLOAD_FLOW_SUCCESS);
+				flowFilter.addAction(Jump.JR_FAILED_TO_DOWNLOAD_FLOW);
+				LocalBroadcastManager.getInstance(context).registerReceiver(janrainStatusReceiver,
+				        flowFilter);
 
-					String mMicrositeId = registrationConfiguration.getPilConfiguration()
-					        .getMicrositeId();
+				String mMicrositeId = RegistrationConfiguration.getInstance().getPilConfiguration()
+				        .getMicrositeId();
 
-					RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + mMicrositeId);
+				RLog.i(RLog.JANRAIN_INITIALIZE, "Mixrosite ID : " + mMicrositeId);
 
-					String mRegistrationType = registrationConfiguration.getPilConfiguration()
-					        .getRegistrationEnvironment();
-					RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : "
-					        + mRegistrationType);
+				String mRegistrationType = RegistrationConfiguration.getInstance()
+				        .getPilConfiguration().getRegistrationEnvironment();
+				RLog.i(RLog.JANRAIN_INITIALIZE, "Registration Environment : " + mRegistrationType);
 
-					boolean mIsInitialize = isInitialized.getValue();
-					String mLocale = locale.toString();
+				boolean mIsInitialize = isInitialized.getValue();
+				String mLocale = locale.toString();
 
-					if (NetworkUtility.isNetworkAvailable(mContext)) {
+				if (NetworkUtility.isNetworkAvailable(mContext)) {
 
-						if (RegistrationEnvironment.EVAL.equalsIgnoreCase(mRegistrationType)) {
-							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-							        + registrationConfiguration.getJanRainConfiguration()
-							                .getClientIds().getEvaluationId());
-							initEvalSettings(mContext, registrationConfiguration
-							        .getJanRainConfiguration().getClientIds().getEvaluationId(),
-							        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
-						}
-						if (RegistrationEnvironment.PROD.equalsIgnoreCase(mRegistrationType)) {
-							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-							        + registrationConfiguration.getJanRainConfiguration()
-							                .getClientIds().getProductionId());
-							initProdSettings(mContext, registrationConfiguration
-							        .getJanRainConfiguration().getClientIds().getProductionId(),
-							        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+					if (RegistrationEnvironment.EVAL.equalsIgnoreCase(mRegistrationType)) {
+						RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+						        + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+						                .getClientIds().getEvaluationId());
+						initEvalSettings(mContext, RegistrationConfiguration.getInstance()
+						        .getJanRainConfiguration().getClientIds().getEvaluationId(),
+						        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+					}
+					if (RegistrationEnvironment.PROD.equalsIgnoreCase(mRegistrationType)) {
+						RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+						        + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+						                .getClientIds().getProductionId());
+						initProdSettings(mContext, RegistrationConfiguration.getInstance()
+						        .getJanRainConfiguration().getClientIds().getProductionId(),
+						        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
 
-						}
-						if (RegistrationEnvironment.DEV.equalsIgnoreCase(mRegistrationType)) {
-							RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
-							        + registrationConfiguration.getJanRainConfiguration()
-							                .getClientIds().getDevelopmentId());
-							initDevSettings(mContext, registrationConfiguration
-							        .getJanRainConfiguration().getClientIds().getDevelopmentId(),
-							        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
-						}
-
+					}
+					if (RegistrationEnvironment.DEV.equalsIgnoreCase(mRegistrationType)) {
+						RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+						        + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+						                .getClientIds().getDevelopmentId());
+						initDevSettings(mContext, RegistrationConfiguration.getInstance()
+						        .getJanRainConfiguration().getClientIds().getDevelopmentId(),
+						        mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
 					}
 				}
 			}
 		}).start();
 	}
 
-	public SocialProviders getSocialProviders() {
-		return mSocialProivder;
-	}
-
-	private RegistrationConfiguration parseConfigurationJson(Context context) {
-		RegistrationConfiguration registrationConfiguration = null;
+	private void parseConfigurationJson(Context context) {
 		AssetManager assetManager = context.getAssets();
 		try {
 			JSONObject configurationJson = new JSONObject(
 			        convertStreamToString(assetManager.open(RegConstants.CONFIGURATION_JSON_PATH)));
-			/**
-			 * TODO
-			 * For now suppressing the Jenkin high priority warning. We can try with below code.
-			 * JSONObject configurationJson = new JSONObject(
-			 * assetManager.open(RegConstants.CONFIGURATION_JSON_PATH).toString());
-			 */
-
 			ConfigurationParser configurationParser = new ConfigurationParser();
-			registrationConfiguration = configurationParser.parse(configurationJson);
+			configurationParser.parse(configurationJson);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return registrationConfiguration;
 	}
 
 	public static String convertStreamToString(InputStream is) {

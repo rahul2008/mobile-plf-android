@@ -32,8 +32,13 @@ public class ConfigurationParser {
 
 	private final String JAN_RAIN_CONFIGURATION = "JanRainConfiguration";
 
-	public RegistrationConfiguration parse(JSONObject configurationJson) {
-		RegistrationConfiguration registrationConfiguration = new RegistrationConfiguration();
+	private final String FLOW = "Flow";
+
+	private final String EMAIL_VERIFICATION_REQUIRED = "EmailVerificationRequired";
+
+	public void parse(JSONObject configurationJson) {
+		RegistrationConfiguration registrationConfiguration = RegistrationConfiguration
+		        .getInstance();
 		try {
 			if (!configurationJson.isNull(JAN_RAIN_CONFIGURATION)) {
 				JSONObject janRainConfiguration = configurationJson
@@ -49,12 +54,15 @@ public class ConfigurationParser {
 			if (!configurationJson.isNull(SOCIAL_PROVIDERS)) {
 				JSONObject socialProviders = configurationJson.getJSONObject(SOCIAL_PROVIDERS);
 				registrationConfiguration.setSocialProviders(parseSocialProviders(socialProviders));
+			}
 
+			if (!configurationJson.isNull(FLOW)) {
+				JSONObject flowConfiguartion = configurationJson.getJSONObject(FLOW);
+				registrationConfiguration.setFlow(parseFlowConfiguration(flowConfiguartion));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return registrationConfiguration;
 	}
 
 	private SocialProviders parseSocialProviders(JSONObject socialProviders)
@@ -89,6 +97,19 @@ public class ConfigurationParser {
 
 		if (!pILConfiguration.isNull(CAMPAIGN_ID)) {
 			configuration.setCampaignID(pILConfiguration.getString(CAMPAIGN_ID));
+		}
+		return configuration;
+	}
+
+	private Flow parseFlowConfiguration(JSONObject flowConfiguration)
+	        throws JSONException {
+		Flow configuration = new Flow();
+		configuration.setEmailVerificationRequired(true);
+		if (!flowConfiguration.isNull(EMAIL_VERIFICATION_REQUIRED)) {
+			if (!flowConfiguration.getString(EMAIL_VERIFICATION_REQUIRED).equals("null")) {
+				configuration.setEmailVerificationRequired(Boolean.parseBoolean(flowConfiguration
+				        .getString(EMAIL_VERIFICATION_REQUIRED).toLowerCase(Locale.getDefault())));
+			}
 		}
 		return configuration;
 	}

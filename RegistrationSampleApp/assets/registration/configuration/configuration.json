@@ -11,6 +11,9 @@
       "RegistrationEnvironment":"EVAL",
       "CampaignID":"COPPA-SONICARE"
    },
+   "Flow":{
+        "EmailVerificationRequired" : "true"
+    },
    "SocialProviders":{
       "NL":[
          "googleplus",

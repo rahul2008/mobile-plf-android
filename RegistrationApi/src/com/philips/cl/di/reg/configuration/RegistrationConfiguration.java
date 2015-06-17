@@ -9,6 +9,21 @@ public class RegistrationConfiguration {
 
 	private SocialProviders socialProviders;
 
+	private Flow flow;
+
+	private static RegistrationConfiguration registrationConfiguration;
+
+	private RegistrationConfiguration() {
+
+	}
+
+	public static RegistrationConfiguration getInstance() {
+		if (registrationConfiguration == null) {
+			registrationConfiguration = new RegistrationConfiguration();
+		}
+		return registrationConfiguration;
+	}
+
 	public JanRainConfiguration getJanRainConfiguration() {
 		return janRainConfiguration;
 	}
@@ -31,6 +46,14 @@ public class RegistrationConfiguration {
 
 	public void setSocialProviders(SocialProviders socialProviders) {
 		this.socialProviders = socialProviders;
+	}
+
+	public Flow getFlow() {
+		return flow;
+	}
+
+	public void setFlow(Flow flow) {
+		this.flow = flow;
 	}
 
 }
