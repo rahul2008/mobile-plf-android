@@ -170,7 +170,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
 				.getInstance(getActivity().getApplicationContext())
 				.getConsumerProductInfo();
-		return getCdlsUrl(DigitalCareConfigManager.getLocale().toString(),
+		return getCdlsUrl(
+				DigitalCareConfigManager
+						.getInstance(getActivity().getBaseContext())
+						.getLocale().toString(),
 				consumerProductInfo.getSector(),
 				consumerProductInfo.getSubCategory());
 	}
@@ -312,8 +315,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		if (tag != null) {
 			actionTaken = DigitalCareConfigManager
-					.getInstance(DigitalCareConfigManager.getContext())
-					.getSocialProviderListener()
+					.getInstance(
+							DigitalCareConfigManager.getInstance(
+									getActivity().getBaseContext())
+									.getContext()).getSocialProviderListener()
 					.onSocialProviderItemClicked(tag.toString());
 		}
 		if (actionTaken) {
@@ -326,8 +331,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
-				showAlert(mCdlsParsedResponse.getError()
-						.getErrorMessage());
+				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			}
 			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CHAT);
@@ -338,8 +342,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
-				showAlert(mCdlsParsedResponse.getError()
-						.getErrorMessage());
+				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
 				tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CALL);

@@ -20,9 +20,9 @@ import com.philips.cl.di.digitalcare.social.SocialProviderListener;
  */
 public class DigitalCareConfigManager {
 
-	private static Locale mLocale = null;
-	private static String mTwitterConsumerKey = null;
-	private static String mTwitterConsumerSecret = null;
+	private Locale mLocale = null;
+	private String mTwitterConsumerKey = null;
+	private String mTwitterConsumerSecret = null;
 	private static DigitalCareConfigManager mDigitalCareInstance = null;
 	private ConsumerProductInfo mConsumerProductInfo = null;
 
@@ -56,7 +56,7 @@ public class DigitalCareConfigManager {
 		return mDigitalCareInstance;
 	}
 
-	public static Context getContext() {
+	public Context getContext() {
 		return mContext;
 	}
 
@@ -94,38 +94,38 @@ public class DigitalCareConfigManager {
 		return mSocialProviderListener;
 	}
 
-	public static void setLocale(String locale) {
+	public void setLocale(String locale) {
 		String[] mtemp;
 		if (locale != null) {
 			mtemp = locale.split("_");
 			Locale mLocale = new Locale(mtemp[0], mtemp[1]);
-			DigitalCareConfigManager.mLocale = mLocale;
+			DigitalCareConfigManager.getInstance(mContext).mLocale = mLocale;
 		}
 	}
 
-	public static Locale getLocale() {
+	public Locale getLocale() {
 		return mLocale;
 	}
 
 	// If the consumer key is not set from Hosting(Parent) app then we can use
 	// the dummy/default.
-	public static String getTwitterConsumerKey() {
+	public String getTwitterConsumerKey() {
 		return mTwitterConsumerKey == null ? DEFAULT_TWITTER_CONSUMER_KEY
 				: mTwitterConsumerKey;
 	}
 
-	public static void setTwitterConsumerKey(String twitterConsumerKey) {
+	public void setTwitterConsumerKey(String twitterConsumerKey) {
 		mTwitterConsumerKey = twitterConsumerKey;
 	}
 
 	// If the consumer key is not set from Hosting(Parent) app then we can use
 	// the dummy/default.
-	public static String getTwitterConsumerSecret() {
+	public String getTwitterConsumerSecret() {
 		return mTwitterConsumerSecret == null ? DEFAULT_TWITTER_SECRET_KEY
 				: mTwitterConsumerSecret;
 	}
 
-	public static void setTwitterConsumerSecret(String twitterConsumerSecret) {
+	public void setTwitterConsumerSecret(String twitterConsumerSecret) {
 		mTwitterConsumerSecret = twitterConsumerSecret;
 	}
 

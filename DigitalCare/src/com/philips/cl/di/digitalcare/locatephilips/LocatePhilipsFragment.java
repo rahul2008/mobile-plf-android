@@ -163,6 +163,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				.getConsumerProductInfo();
 		return getAtosUrl(consumerProductInfo.getCtn(),
 				consumerProductInfo.getSubCategory(), DigitalCareConfigManager
+						.getInstance(getActivity().getBaseContext())
 						.getLocale().getCountry().toLowerCase());
 	}
 
@@ -727,7 +728,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	AlertDialog.Builder mdialogBuilder = null;
 	AlertDialog malertDialog = null;
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();

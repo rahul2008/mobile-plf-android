@@ -44,7 +44,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		View mView = inflater.inflate(R.layout.fragment_tellus, container,
 				false);
 		mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
-				+ DigitalCareConfigManager.getContext().getPackageName());
+				+ DigitalCareConfigManager
+						.getInstance(getActivity().getBaseContext())
+						.getContext().getPackageName());
 		return mView;
 	}
 
@@ -82,7 +84,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	private void rateThisApp() {
 		Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL
-				+ DigitalCareConfigManager.getContext().getPackageName());
+				+ DigitalCareConfigManager.getInstance(getActivity()).getContext().getPackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
 			startActivity(goToMarket);

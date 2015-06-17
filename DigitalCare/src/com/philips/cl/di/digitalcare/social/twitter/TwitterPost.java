@@ -49,8 +49,9 @@ public class TwitterPost extends Thread {
 		super.run();
 
 		try {
-			mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
-			mConsumerSecret = DigitalCareConfigManager
+			mConsumerKey = DigitalCareConfigManager.getInstance(mContext)
+					.getTwitterConsumerKey();
+			mConsumerSecret = DigitalCareConfigManager.getInstance(mContext)
 					.getTwitterConsumerSecret();
 			ConfigurationBuilder builder = new ConfigurationBuilder();
 			builder.setOAuthConsumerKey(mConsumerKey);
@@ -62,7 +63,8 @@ public class TwitterPost extends Thread {
 					PREF_KEY_OAUTH_TOKEN, "");
 			String access_token_secret = mSharedPreferences.getString(
 					PREF_KEY_OAUTH_SECRET, "");
-			DigiCareLogger.d(TAG, "Consumer Key in Post Process : " + access_token);
+			DigiCareLogger.d(TAG, "Consumer Key in Post Process : "
+					+ access_token);
 			DigiCareLogger.d(TAG, "Consumer Secreat Key in post Process : "
 					+ access_token_secret);
 

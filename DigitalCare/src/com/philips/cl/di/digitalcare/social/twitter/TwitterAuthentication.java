@@ -64,8 +64,10 @@ public class TwitterAuthentication {
 
 	public void initSDK(TwitterAuthenticationCallback auth) {
 		this.mTwitterAuth = auth;
-		mConsumerKey = DigitalCareConfigManager.getTwitterConsumerKey();
-		mConsumerSecret = DigitalCareConfigManager.getTwitterConsumerSecret();
+		mConsumerKey = DigitalCareConfigManager.getInstance(mContext)
+				.getTwitterConsumerKey();
+		mConsumerSecret = DigitalCareConfigManager.getInstance(mContext)
+				.getTwitterConsumerSecret();
 		mAuthVerifier = "oauth_verifier";
 
 		if (TextUtils.isEmpty(mConsumerKey)

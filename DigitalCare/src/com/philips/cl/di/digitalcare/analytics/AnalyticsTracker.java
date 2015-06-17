@@ -122,9 +122,9 @@ public class AnalyticsTracker {
 						AnalyticsConstants.ACTION_VALUE_ANDROID
 								+ Build.VERSION.RELEASE);
 		contextData.put(AnalyticsConstants.ACTION_KEY_COUNTRY,
-				DigitalCareConfigManager.getLocale().getCountry());
+				DigitalCareConfigManager.getInstance(mContext).getLocale().getCountry());
 		contextData.put(AnalyticsConstants.ACTION_KEY_LANGUAGE,
-				DigitalCareConfigManager.getLocale().getLanguage());
+				DigitalCareConfigManager.getInstance(mContext).getLocale().getLanguage());
 		contextData.put(AnalyticsConstants.ACTION_KEY_CURRENCY, getCurrency());
 		contextData.put(AnalyticsConstants.ACTION_KEY_TIME_STAMP,
 				getTimestamp());

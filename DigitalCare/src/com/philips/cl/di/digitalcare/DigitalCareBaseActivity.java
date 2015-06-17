@@ -102,7 +102,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	}
 
 	private void setLocaleLanguage() {
-		Locale locale = DigitalCareConfigManager.getLocale();
+		Locale locale = DigitalCareConfigManager.getInstance(getApplicationContext()).getLocale();
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
