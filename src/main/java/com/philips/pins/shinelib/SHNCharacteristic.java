@@ -93,6 +93,10 @@ public class SHNCharacteristic {
         if (state == State.Active) {
             if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
                 BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
+                if(descriptor==null){
+                    resultReporter.reportResult(SHNResult.SHNUnsupportedOperation, null);
+                    return false;
+                }
                 btGatt.writeDescriptor(descriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
                 pendingCompletions.add(resultReporter);
                 return true;
