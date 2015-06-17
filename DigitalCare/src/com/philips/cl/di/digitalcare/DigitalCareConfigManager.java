@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.content.Context;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
 
@@ -100,6 +101,9 @@ public class DigitalCareConfigManager {
 			mtemp = locale.split("_");
 			Locale mLocale = new Locale(mtemp[0], mtemp[1]);
 			DigitalCareConfigManager.getInstance(mContext).mLocale = mLocale;
+			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(mContext);
+			mLocaleMatchHandler.initializeLocaleMatchService();
+			
 		}
 	}
 
