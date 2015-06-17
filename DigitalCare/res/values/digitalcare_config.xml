@@ -3,6 +3,7 @@
 
     <!-- UiTheme Start -->
 
+
     <!-- Activity -->
     <color name="activity_background_color">#F0F4F9</color>
 
@@ -38,8 +39,9 @@
 
     <!-- UiTheme End -->
 
+
     <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
-    <string-array name="main_menu_title">
+    <string-array name="main_menu_title" translatable="false">
         <item>view_product_details</item>
         <item>view_faq</item>
         <item>contact_us</item>
@@ -49,7 +51,7 @@
     </string-array>
 
     <!-- List of main menu image names, please follow naming conventions -->
-    <string-array name="main_menu_resources">
+    <string-array name="main_menu_resources" translatable="false">
         <item>view_product_details</item>
         <item>view_faq</item>
         <item>contact_us</item>
@@ -59,30 +61,28 @@
     </string-array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
-    <string-array name="product_menu_title">
+    <string-array name="product_menu_title" translatable="false">
         <item>product_open_manual</item>
         <item>product_download_manual</item>
         <item>product_information</item>
     </string-array>
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
-    <string-array name="social_service_provider_menu_title">
+    <string-array name="social_service_provider_menu_title" translatable="false">
         <item>twitter</item>
         <item>facebook</item>
     </string-array>
 
     <!-- List of social service providers image names, please follow naming conventions -->
-    <string-array name="social_service_provider_menu_resources">
+    <string-array name="social_service_provider_menu_resources" translatable="false">
         <item>twitter</item>
         <item>facebook</item>
     </string-array>
-    
-    
+
     <!-- Facebook APPID, replace app id in app authority string -->
     <string name="facebook_app_id" translatable="false">1537018913230025</string>
     <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-    
-    
+
     <!-- Facebook product support page -->
     <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
 
@@ -91,8 +91,8 @@
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">false</bool>
-    
 
     <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+
 </resources>
