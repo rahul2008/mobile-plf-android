@@ -108,7 +108,7 @@
                     <com.philips.cl.di.reg.ui.customviews.XButton
                         android:id="@+id/btn_reg_resend"
                         style="@style/reg_btn_resend"
-                        android:background="@drawable/reg_btn_resend_rect"
+                        android:background="@drawable/reg_btn_resend_selector"
                         android:text="@string/VerifyEmail_Resend_btntxt"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 

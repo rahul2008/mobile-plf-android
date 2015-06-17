@@ -37,7 +37,7 @@
         android:layout_height="2dp"
         android:layout_above="@android:id/tabs"
         android:layout_below="@+id/rl_reg_header"
-        android:background="@drawable/tab_bottom_bar" />
+        android:background="@drawable/reg_tab_bottom_bar" />
 
     <FrameLayout
         android:id="@+id/fl_reg_fragment_container"

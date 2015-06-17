@@ -222,9 +222,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private void signIn() {
 		trackActionForSignInAccount(AnalyticsConstants.SEND_DATA,
 		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-		if (mUser != null){
+		if (mUser != null) {
 			showSignInSpinner();
-		}	
+		}
 		mEtEmail.clearFocus();
 		mEtPassword.clearFocus();
 		mBtnForgot.setEnabled(false);

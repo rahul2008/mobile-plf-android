@@ -90,8 +90,8 @@
                     <com.philips.cl.di.reg.ui.customviews.XButton
                         android:id="@+id/btn_reg_forgot_password"
                         style="@style/reg_forgot_password"
+                        android:background="@drawable/reg_btn_forgot_selector"
                         android:layout_height="@dimen/reg_btn_height"
-                        android:background="@drawable/reg_btn_forgot_rect"
                         android:text="@string/TraditionalSignIn_ForgotPwd_btntxt"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
@@ -110,7 +110,7 @@
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_below="@+id/fl_reg_forgot_password"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
-                    android:background="@drawable/reg_btn_resend_rect"
+                    android:background="@drawable/reg_btn_resend_selector"
                     android:text="@string/TraditionalSignIn_Resend_btntxt"
                     android:visibility="gone"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />

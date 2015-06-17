@@ -1,65 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
-    <!-- Framework specific start -->
-    <!-- Error message -->
-    <color name="reg_error_box_color">#E88200</color>
-    <color name="reg_err_msg_color">#E88200</color>
-    <!-- Framework specific End -->
-
-
-    <!-- Framework specific -->
-
-
-    <!-- User configuration start -->
-
-
-    <!-- Application Microsite ID -->
-    <string name="microsite_id" translatable="false">81376</string>
-
-    <!-- Registartion environment : please specify registration type as EVAL, DEV or PROD, follow these naming conventions -->
-    <string name="registration_type" translatable="false">EVAL</string>
-
-    <!-- Registration client ID: please specify client id depending on the registration type -->
-    <string name="client_id" translatable="false">6v3yzffu6uxq4k9ctcw4jtd498k8zmtz</string>
-
-    <!-- Background of each layout -->
-    <color name="reg_layout_bg">#FFFFFF</color>
-
-    <!-- Action bar header -->
-    <!-- Strating color of Header:background  start gradient color -->
-    <color name="reg_header_bg_start_color">#28558D</color>
-    <!-- Ending color of Header:background end gradient color -->
-    <color name="reg_header_bg_end_color">#287EB0</color>
-    <!-- Header title text color -->
-    <color name="reg_header_text_color">#FFFFFF</color>
-
-    <!-- Page heading text color -->
-    <color name="reg_text_heading_one_color">#003377</color>
-
-    <!-- Description text color -->
-    <color name="reg_text_desc_color">#252525</color>
-    <!-- Description text background color -->
-    <color name="reg_text_desc_bg">#EBF1F9</color>
-
-    <!-- Common Button -->
-    <!-- Common button enabled color -->
-    <color name="reg_btn_bg_enabled_color">#003478</color>
-    <!-- Common button disabled color -->
+    <!-- 1 .Primary Color -->
+    <!-- All primary buttons -->
+    <!-- Primary button enabled color -->
+    <color name="reg_btn_bg_enabled_color">#013378</color>
+    <!-- Primary button disabled color -->
     <color name="reg_btn_bg_disabled_color">#EFEFEF</color>
-    <!-- Common button enabled text color -->
+    <!-- Primary button pressed color -->
+    <color name="reg_btn_pressed_color">#0F204B</color>
+    <!-- Primary button enabled text color -->
     <color name="reg_btn_text_enable_color">#FFFFFF</color>
-    <!-- Common button disabled text color -->
+    <!-- Primary button disabled text color -->
     <color name="reg_btn_text_disabled_color">#DDDDDD</color>
 
-    <!-- Edit Text -->
-    <!-- Text box border disabled color -->
+    <!-- Edge of selected input field -->
+    <!-- Edit Text box border disabled color -->
     <color name="reg_et_border_disable_color">#A6A6A7</color>
-    <!-- Text box background color -->
+    <!-- Edit Text box background color -->
     <color name="reg_et_bg_color">#FFFFFF</color>
-    <!-- Text box border enabled color -->
-    <color name="reg_et_enabled_color">#000000</color>
+    <!-- TEdit ext box border highlight color -->
+    <color name="reg_et_highlight_color">#28558D</color>
 
+    <!-- Secondary buttons (forgot password) -->
     <!-- Forgot password button -->
     <!-- Forgot password buton border color -->
     <color name="reg_btn_forgot_border">#7793B9</color>
@@ -67,26 +30,67 @@
     <color name="reg_btn_forgot_bg">#FFFFFF</color>
     <!-- Forgot password buton textcolor -->
     <color name="reg_forgot_text_color">#003377</color>
+    <!-- Forgot password highlight border color -->
+    <color name="reg_highlight_forgot_bg">#7793B9</color>
 
+    <!-- 2. Attention block color -->
+    <!-- Description text background color -->
+    <color name="reg_text_desc_bg">#EBF1F9</color>
+
+    <!-- 3. Link color -->
+    <color name="reg_hyperlink_highlight_color">#1470AA</color>
+
+    <!-- 4.Secondary color -->
     <!-- Resend email button -->
-    <!-- Resend email button border color -->
-    <color name="reg_btn_resend_border">#EBBB7D</color>
+    <!-- Resend email button Border color -->
+    <color name="reg_btn_resend_border">#EFC57D</color>
     <!-- Resend email button background color -->
     <color name="reg_btn_resend_bg">#FFFFFF</color>
-    <!-- resend buton textcolor -->
-    <color name="reg_btn_resend_text_color">#003377</color>
-    
+    <!-- Resend email button highlight color -->
+    <color name="reg_btn_resend_highlight_color">#EFC57D</color>
+    <!-- Resend email button text color -->
+    <color name="reg_btn_resend_text_color">#EA8302</color>
+
+    <!-- 5. Navigation bar background -->
+    <!-- Strating color of Header:background start gradient color -->
+    <color name="reg_header_bg_start_color">#28558D</color>
+    <!-- Ending color of Header:background end gradient color -->
+    <color name="reg_header_bg_end_color">#287EB0</color>
+
+    <!-- 6. Navigation bar font color -->
+    <!-- Header title text color -->
+    <color name="reg_header_text_color">#FFFFFF</color>
+
+    <!-- 7.Back icon navigation bar -->
+    <!-- Require Asset -->
+
+
+    <!-- 8.Font color explanatory texts -->
+    <!-- Description text color -->
+    <color name="reg_text_desc_color">#252525</color>
+
+    <!-- 9. Background -->
+    <color name="reg_layout_bg">#FFFFFF</color>
+
+    <!-- 10.Primary text color -->
+    <color name="reg_text_heading_one_color">#003377</color>
+
+    <!-- 11.Warning color -->
+    <color name="reg_error_box_color">#E88200</color>
+    <color name="reg_err_msg_color">#E88200</color>
+
+    <!-- 12. Social buttons color -->
+    <!-- Social button enabled color -->
+    <color name="reg_btn_social_bg_enabled_color">#0E66A1</color>
+    <!-- Social button pressed color -->
+    <color name="reg_btn_social_highlight_color">#033D78</color>
 
     <!-- Line devider color -->
     <color name="reg_devider_color">#E4EAFD</color>
 
     <!-- Provider button text color -->
     <color name="reg_provider_text_color">#FFFFFF</color>
-    
-    <!-- privacy policy and Terms and condition hyper link color --> 
-	 <color name="reg_hyperlink_highlight_color">#1470AA</color>
-	 
+
     <!-- User configuration end -->
-   
-    
+
 </resources>

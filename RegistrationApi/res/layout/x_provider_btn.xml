@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/reg_margin_bottom"
-    android:background="@drawable/reg_philips_bg_rect" >
+    android:background="@drawable/reg_btn_social_selector" >
 
     <ImageView
         android:id="@+id/iv_reg_provider_logo"

@@ -28,7 +28,8 @@
     <dimen name="reg_x_edit_field_margin">2dip</dimen>
     <dimen name="reg_x_edit_field_margin_right">5dip</dimen>
     <dimen name="reg_arrow_up_width">20dip</dimen>
-    <dimen name="reg_arrow_margin_right">9dip</dimen>
+    <dimen name="reg_top_arrow_margin_right">5dip</dimen>
+    <dimen name="reg_up_arrow_margin_top">-13dip</dimen>
     <dimen name="reg_edit_fields_margin_top">-5dip</dimen>
     <dimen name="reg_edit_fields_padding">10dip</dimen>
     <dimen name="reg_home_tiltle_padding">10dip</dimen>
@@ -61,6 +62,9 @@
     <dimen name="reg_err_mapping_mergin_top">4dip</dimen>
     <dimen name="reg_left_arrow_width">6dip</dimen>
     <dimen name="reg_left_arrow_height">15dip</dimen>
+    <dimen name="reg_left_arrow_margin_top">4dip</dimen>
+    <dimen name="reg_left_arrow_margin_left">-14dip</dimen>
+    <dimen name="reg_left_arrow_margin_right">-5dip</dimen>
 
     <!-- button -->
     <dimen name="btn_reg_text_size">15sp</dimen>

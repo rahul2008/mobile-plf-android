@@ -54,12 +54,13 @@
 
     <ImageView
         android:id="@+id/iv_reg_up_arrow"
-        android:layout_width="@dimen/reg_arrow_up_width"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/reg_err_alert_width"
+        android:layout_height="@dimen/reg_err_alert_width"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/reg_up_arrow_margin_top"
+        android:layout_marginRight="@dimen/reg_top_arrow_margin_right"
         android:layout_below="@+id/rl_reg_email_verified_field"
-        android:layout_marginRight="@dimen/reg_arrow_margin_right"
-        android:src="@drawable/reg_up_arrow"
+        android:src="@drawable/reg_arrow_up"
         android:visibility="gone" />
 
     <com.philips.cl.di.reg.ui.customviews.XTextView

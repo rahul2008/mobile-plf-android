@@ -6,7 +6,5 @@
     <stroke
         android:width="2dp"
         android:color="@color/reg_btn_forgot_border" />
-
     <corners android:radius="3dp" />
-
 </shape>

@@ -92,9 +92,8 @@
                     android:id="@+id/btn_reg_my_philips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-               
                     android:enabled="false"
-                    reglib:providerBackground="@drawable/reg_philips_bg_rect"
+                    reglib:providerBackground="@drawable/reg_btn_selector"
                     reglib:providerLogo="@drawable/reg_philips_ic"
                     reglib:providerName="@string/Welcome_MyPhilips_btntxt"
                     reglib:providerTextColor="@color/reg_provider_text_color" />

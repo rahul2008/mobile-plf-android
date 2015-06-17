@@ -184,35 +184,31 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	private void inflateEachProviderBtn(String provider) {
 		if (SocialProvider.FACEBOOK.equals(provider)) {
 			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
-			        R.string.Welcome_Facebook_btntxt, R.drawable.reg_facebook_ic,
-			        R.drawable.reg_facebook_bg_rect, R.color.reg_btn_text_enable_color));
+			        R.string.Welcome_Facebook_btntxt, R.drawable.reg_facebook_ic));
 
 		} else if (SocialProvider.TWITTER.equals(provider)) {
 			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
-			        R.string.Welcome_Twitter_btntxt, R.drawable.reg_twitter_ic,
-			        R.drawable.reg_twitter_bg_rect, R.color.reg_btn_text_enable_color));
+			        R.string.Welcome_Twitter_btntxt, R.drawable.reg_twitter_ic));
 		} else if (SocialProvider.GOOGLE_PLUS.equals(provider)) {
 			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
-			        R.string.GooglePlus_btntxt, R.drawable.reg_google_plus_ic,
-			        R.drawable.reg_google_plus_bg_rect, R.color.reg_btn_text_enable_color));
+			        R.string.GooglePlus_btntxt, R.drawable.reg_google_plus_ic));
 		}
 	}
 
 	private XProviderButton getProviderBtn(final String providerName, int providerNameStringId,
-	        int providerLogoDrawableId, int providerBgDrawableId, int providerTextColorId) {
+	        int providerLogoDrawableId) {
 		final XProviderButton providerBtn = new XProviderButton(mContext);
 		providerBtn.setProviderName(providerNameStringId);
 		providerBtn.setProviderLogoID(providerLogoDrawableId);
-		providerBtn.setProviderBackgroundID(providerBgDrawableId);
-		providerBtn.setProviderTextColor(providerTextColorId);
 		providerBtn.setTag(providerName);
-		
-		if (NetworkUtility.isNetworkAvailable(mContext) && RegistrationHelper.getInstance().isJanrainIntialized()) {
+
+		providerBtn.setEnabled(true);
+		if (NetworkUtility.isNetworkAvailable(mContext)
+		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
 			providerBtn.setEnabled(true);
 		} else {
 			providerBtn.setEnabled(false);
 		}
-
 		providerBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -294,27 +290,28 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void trackActionForMyPhilipsAccount(String state, String loginChannel, String myPhilips) {
-	 	AnalyticsUtils.trackAction(state,loginChannel, myPhilips);    
-    }
-	
+		AnalyticsUtils.trackAction(state, loginChannel, myPhilips);
+	}
+
 	private void trackActionForSocialProvider(String state, String loginChannel, String providerName) {
-	 	AnalyticsUtils.trackAction(state,loginChannel, providerName.toLowerCase(Locale.getDefault()));    
-    }
+		AnalyticsUtils.trackAction(state, loginChannel,
+		        providerName.toLowerCase(Locale.getDefault()));
+	}
 
 	private void launchSignInFragment() {
 		getRegistrationMainActivity().addFragment(new SignInAccountFragment());
-		trackPage(AnalyticsPages.HOME,AnalyticsPages.SIGN_IN_ACCOUNT);
+		trackPage(AnalyticsPages.HOME, AnalyticsPages.SIGN_IN_ACCOUNT);
 	}
 
 	private void launchCreateAccountFragment() {
 		getRegistrationMainActivity().addFragment(new CreateAccountFragment());
-		trackPage(AnalyticsPages.HOME,AnalyticsPages.CREATE_ACCOUNT);
+		trackPage(AnalyticsPages.HOME, AnalyticsPages.CREATE_ACCOUNT);
 	}
 
 	private void callSocialProvider(String providerName) {
-		RLog.d("HomeFragment", ": callSocialProvider method provider name :" + providerName);
+		RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
 		trackActionForSocialProvider(AnalyticsConstants.SEND_DATA,
-		        AnalyticsConstants.LOGIN_CHANNEL,providerName);
+		        AnalyticsConstants.LOGIN_CHANNEL, providerName);
 		mProvider = providerName;
 		if (null == mUser)
 			return;
@@ -487,18 +484,19 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		}
 	}
 
-	private void trackActionForSocialLoginSucces(String state, String specialEvents, String successLogin) {
-    	AnalyticsUtils.trackAction(state,specialEvents, successLogin);
-    }
+	private void trackActionForSocialLoginSucces(String state, String specialEvents,
+	        String successLogin) {
+		AnalyticsUtils.trackAction(state, specialEvents, successLogin);
+	}
 
 	private void launchAccountActivationFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.HOME,AnalyticsPages.ACCOUNT_ACTIVATION);
+		trackPage(AnalyticsPages.HOME, AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.HOME,AnalyticsPages.WELCOME);
+		trackPage(AnalyticsPages.HOME, AnalyticsPages.WELCOME);
 	}
 
 	private void hideProviderProgress() {
@@ -537,7 +535,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
 		getRegistrationMainActivity().addAlmostDoneFragment(prefilledRecord, mProvider,
 		        socialRegistrationToken);
-		trackPage(AnalyticsPages.HOME,AnalyticsPages.ALMOST_DONE);
+		trackPage(AnalyticsPages.HOME, AnalyticsPages.ALMOST_DONE);
 	}
 
 	@Override
@@ -563,7 +561,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	private void launchMergeAccountFragment(String mergeToken, String existingProvider) {
 		getRegistrationMainActivity().addMergeAccountFragment(mergeToken, existingProvider);
-		trackPage(AnalyticsPages.HOME,AnalyticsPages.MERGE_ACCOUNT);
+		trackPage(AnalyticsPages.HOME, AnalyticsPages.MERGE_ACCOUNT);
 	}
 
 	@Override
