@@ -76,7 +76,7 @@ private final RemoteSubscriptionHandler mRemoteSuscriptionHandler;
 	@Override
 	public void enableSubscription(
 			SubscriptionEventListener subscriptionEventListener, NetworkNode networkNode) {
-		mRemoteSuscriptionHandler.enableSubscription(networkNode, null);
+		mRemoteSuscriptionHandler.enableSubscription(networkNode, subscriptionEventListener);
 	}
 
 	@Override

@@ -18,8 +18,6 @@ local.properties
 **/.idea/gradle.xml
 **/.idea/misc.xml
 **/.idea/modules.xml
-**/wear/wear.iml
-**/mobile/mobile.iml
 **/.idea/vcs.xml
 **/.idea/scopes/scope_settings.xml
 
@@ -58,8 +56,17 @@ Icon?
 ehthumbs.db
 Thumbs.db
 *.iml
-PurAir/.idea/
-social_sdk_library_project/.project
-PurAir/proguard/
+**/proguard/*
 .recommenders/
 .metadata/
+PurAir
+PurAirTest
+android-support-v7-appcompat
+GaodeMapBundle
+google_play_services_lib
+Janrain
+LocaleMatch
+RegistrationApi
+SsdpConnectionLib
+social_sdk_library_project
+WeiboSDK

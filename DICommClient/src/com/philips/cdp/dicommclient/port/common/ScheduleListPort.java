@@ -49,7 +49,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 	@Override
 	public void processResponse(String response) {
 		//TODO: DIComm Refactor, implement
-        throw new RuntimeException("Method Not Implemented, SchedulerActivity should be refactored");
+       DLog.e(DLog.SCHEDULELISTPORT, "Method Not Implemented, SchedulerActivity should be refactored");
 	}
 
 	@Override

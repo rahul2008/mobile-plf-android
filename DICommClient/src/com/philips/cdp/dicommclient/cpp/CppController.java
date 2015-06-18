@@ -94,8 +94,15 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		PROVISIONING,
 		PROVISIONED
 	}
-
 	private KEY_PROVISION mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+	
+	public enum SignonState {
+		NOT_SIGON,
+		SIGNING,
+		SIGNED_ON
+	}	
+	private SignonState mSignonState = SignonState.NOT_SIGON;
+
 	private static KpsConfigurationInfo mKpsConfigurationInfo;
 	private Params mKpsConfiguration;
 
@@ -172,7 +179,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 			prv.setApplicationInfo(appID, mKpsConfigurationInfo.getAppType(), appVersion);
 
 			rv = prv.executeCommand();
-			if (rv != Errors.SUCCESS) {
+			if (rv != Errors.REQUEST_PENDING) {
 				DLog.i(DLog.KPS, "PROVISION-FAILED");
 				try {
 					Thread.sleep(1000);
@@ -180,7 +187,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 					e.printStackTrace();
 				}
 				rv = prv.executeCommand();
-				if(rv != Errors.SUCCESS ) {
+				if(rv != Errors.REQUEST_PENDING ) {
 					mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 				}
 		}
@@ -230,7 +237,8 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		if(! mIsSignOn ) {
 			DLog.i(DLog.ICPCLIENT, "onSignOn");
 			mIsSignOn = true ;
-
+			mSignonState = SignonState.SIGNING;
+			
 			if( mICPCallbackHandler == null) {
 				mICPCallbackHandler = new ICPCallbackHandler();
 				mICPCallbackHandler.setHandler(this);
@@ -239,8 +247,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 			mSignon.setIsFirstTime(true);
 			DLog.i(DLog.ICPCLIENT,"Version: "+mSignon.clientVersion()) ;
 			int rv = mSignon.executeCommand();
-			if( rv != Errors.SUCCESS ) {
+			if( rv != Errors.REQUEST_PENDING ) {
 				mIsSignOn = false ;
+				mSignonState = SignonState.NOT_SIGON;
 			}
 		}
 	}
@@ -472,7 +481,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		thirdParty.setProtocolDetails(NOTIFICATION_PROTOCOL, mProvider, gcmRegistrationId);
 
 		int retStatus =  thirdParty.executeCommand();
-		if (Errors.SUCCESS != retStatus)	{
+		if (Errors.REQUEST_PENDING != retStatus)	{
 			DLog.e(DLog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
 			return false;
 		}
@@ -488,15 +497,11 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
-		DLog.i(DLog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + mIsSignOn);
+		DLog.i(DLog.CPPCONTROLLER, "downloadDataFromCPP query: " + query +", isSignOn: " + mIsSignOn + ", state: " + mSignonState);
 		try {
-			if (mIsSignOn) {
-				mDownloadData = new DownloadData(mICPCallbackHandler);
-				mDownloadData.setDownloadDataDetails(query, 2048, 0, 0);
-				mDownloadData.executeCommand();
-			} else {
-				notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
-			}
+			mDownloadData = new DownloadData(mICPCallbackHandler);
+			mDownloadData.setDownloadDataDetails(query, 2048, 0, 0);
+			mDownloadData.executeCommand();
 		} catch (IllegalArgumentException e) {
 			notifyDownloadDataListener(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
@@ -534,10 +539,12 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 			if (status == Errors.SUCCESS) {
 				DLog.i(DLog.ICPCLIENT, "SIGNON-SUCCESSFUL") ;
 				mIsSignOn = true;
+				mSignonState = SignonState.SIGNED_ON;
 				notifySignOnListeners(true);
 			} else {
 				DLog.e(DLog.ICPCLIENT, "SIGNON-FAILED") ;
 				mIsSignOn = false ;
+				mSignonState = SignonState.NOT_SIGON;
 				notifySignOnListeners(false);
 			}
 			break;
@@ -723,7 +730,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		fileDownload.setOffset(mCntOffset);
 
 		int rv = fileDownload.executeCommand();
-		if (rv == Errors.SUCCESS) {
+		if (rv == Errors.REQUEST_PENDING) {
 			DLog.i(DLog.ICPCLIENT, "File download parameters are correct");
 		}
 
@@ -811,7 +818,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		ComponentDetails componentDetails = new ComponentDetails(mICPCallbackHandler, componentInfo);
 
 		int responseCode = componentDetails.executeCommand();
-		if (responseCode == Errors.SUCCESS) {
+		if (responseCode == Errors.REQUEST_PENDING) {
 			DLog.i(DLog.CPPCONTROLLER, "fetchICPComponentDetails success");
 		} else {
 			//downloadFailed() ;
@@ -927,5 +934,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
 	private String generateTemporaryAppCppId() {
 		return String.format("deadbeef%08x",new Random().nextInt());
+	}
+	
+	public SignonState getSignOnState() {
+		return mSignonState;
 	}
 }
