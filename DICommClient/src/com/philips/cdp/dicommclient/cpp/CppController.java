@@ -179,7 +179,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 			prv.setApplicationInfo(appID, mKpsConfigurationInfo.getAppType(), appVersion);
 
 			rv = prv.executeCommand();
-			if (rv != Errors.SUCCESS) {
+			if (rv != Errors.REQUEST_PENDING) {
 				DLog.i(DLog.KPS, "PROVISION-FAILED");
 				try {
 					Thread.sleep(1000);
@@ -187,7 +187,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 					e.printStackTrace();
 				}
 				rv = prv.executeCommand();
-				if(rv != Errors.SUCCESS ) {
+				if(rv != Errors.REQUEST_PENDING ) {
 					mKeyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 				}
 		}
@@ -247,7 +247,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 			mSignon.setIsFirstTime(true);
 			DLog.i(DLog.ICPCLIENT,"Version: "+mSignon.clientVersion()) ;
 			int rv = mSignon.executeCommand();
-			if( rv != Errors.SUCCESS ) {
+			if( rv != Errors.REQUEST_PENDING ) {
 				mIsSignOn = false ;
 				mSignonState = SignonState.NOT_SIGON;
 			}
@@ -481,7 +481,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		thirdParty.setProtocolDetails(NOTIFICATION_PROTOCOL, mProvider, gcmRegistrationId);
 
 		int retStatus =  thirdParty.executeCommand();
-		if (Errors.SUCCESS != retStatus)	{
+		if (Errors.REQUEST_PENDING != retStatus)	{
 			DLog.e(DLog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
 			return false;
 		}
@@ -730,7 +730,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		fileDownload.setOffset(mCntOffset);
 
 		int rv = fileDownload.executeCommand();
-		if (rv == Errors.SUCCESS) {
+		if (rv == Errors.REQUEST_PENDING) {
 			DLog.i(DLog.ICPCLIENT, "File download parameters are correct");
 		}
 
@@ -818,7 +818,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		ComponentDetails componentDetails = new ComponentDetails(mICPCallbackHandler, componentInfo);
 
 		int responseCode = componentDetails.executeCommand();
-		if (responseCode == Errors.SUCCESS) {
+		if (responseCode == Errors.REQUEST_PENDING) {
 			DLog.i(DLog.CPPCONTROLLER, "fetchICPComponentDetails success");
 		} else {
 			//downloadFailed() ;

@@ -130,7 +130,7 @@ public class PairingHandler implements ICPEventListener {
 			return;
 		}
 		retValue = getRelations.executeCommand();
-		if (Errors.SUCCESS != retValue) {
+		if (Errors.REQUEST_PENDING != retValue) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retValue);
 		}
 	}
@@ -207,7 +207,7 @@ public class PairingHandler implements ICPEventListener {
 
 		addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
 		status = addPSRelation.executeCommand();
-		if (Errors.SUCCESS != status) {
+		if (Errors.REQUEST_PENDING != status) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: ");
 		}
 	}
@@ -238,7 +238,7 @@ public class PairingHandler implements ICPEventListener {
 		}
 		removeRelationship.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
 		retStatus = removeRelationship.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
+		if (Errors.REQUEST_PENDING != retStatus) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 		}
 	}
@@ -561,17 +561,15 @@ public class PairingHandler implements ICPEventListener {
 		if (!cppController.isSignOn())
 			return;
 		PairingService addPermission = new PairingService(callbackHandler);
-		int retStatus;
-		retStatus = addPermission.addPermissionsRequest(getDICommApplianceEntity(),
+		int retStatus = addPermission.addPermissionsRequest(null, getDICommApplianceEntity(),
 				relationType, permission);
 		if (Errors.SUCCESS != retStatus) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 			return;
 		}
-		addPermission
-		.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
+		addPermission.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
 		retStatus = addPermission.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
+		if (Errors.REQUEST_PENDING != retStatus) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 		}
 	}
@@ -603,7 +601,7 @@ public class PairingHandler implements ICPEventListener {
 			}
 			getPermission.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
 			retStatus = getPermission.executeCommand();
-			if (Errors.SUCCESS != retStatus) {
+			if (Errors.REQUEST_PENDING != retStatus) {
 				permissionListener.onCallFailed();
 				DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 
@@ -623,18 +621,15 @@ public class PairingHandler implements ICPEventListener {
 		if (!cppController.isSignOn())
 			return;
 		PairingService removePermissions = new PairingService(callbackHandler);
-		int retStatus;
-
-		retStatus = removePermissions.removePermissionsRequest(getDICommApplianceEntity(),
+		int retStatus = removePermissions.removePermissionsRequest(null, getDICommApplianceEntity(),
 				relationType, permission);
 		if (Errors.SUCCESS != retStatus) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 			return;
 		}
-		removePermissions
-		.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
+		removePermissions.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
 		retStatus = removePermissions.executeCommand();
-		if (Errors.SUCCESS != retStatus) {
+		if (Errors.REQUEST_PENDING != retStatus) {
 			DLog.d(DLog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
 		}
 	}
