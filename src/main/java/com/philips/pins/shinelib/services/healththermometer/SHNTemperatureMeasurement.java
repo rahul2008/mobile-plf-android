@@ -1,5 +1,7 @@
 package com.philips.pins.shinelib.services.healththermometer;
 
+import com.philips.pins.shinelib.datatypes.SHNData;
+import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNTemperatureType;
 import com.philips.pins.shinelib.datatypes.SHNTemperatureUnit;
 import com.philips.pins.shinelib.utility.ScalarConverters;
@@ -11,7 +13,7 @@ import java.util.Date;
 /**
  * Created by 310188215 on 04/06/15.
  */
-public class SHNTemperatureMeasurement {
+public class SHNTemperatureMeasurement extends SHNData{
     private final Flags flags;
     private final float temperature;
     private final Date timestamp;
@@ -124,6 +126,11 @@ public class SHNTemperatureMeasurement {
                 return SHNTemperatureType.Tympanum;
         }
         return SHNTemperatureType.Unknown;
+    }
+
+    @Override
+    public SHNDataType getSHNDataType() {
+        return SHNDataType.BodyTemperature;
     }
 
     public static class Flags {

@@ -15,6 +15,7 @@ public enum SHNDataType {
     HeartRateResting,
     HeartRateRecovery,
     Sleep,
+    BodyTemperature,
     ActivityTypeCM3Deprecated,
     ActivityType,
     ActiveEnergyExpenditure
