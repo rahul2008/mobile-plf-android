@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DigitalCare</string>
+    <string name="app_name" translatable="false">DigitalCare</string>
     <string name="img_description">description</string>
     <string name="no_internet">Please connect to internet</string>
 
@@ -33,15 +33,15 @@
     <string name="please_wait">Please wait &#8230;</string>
     <string name="get_directions">Get Directions</string>
     <string name="call">Call</string>
-    <string name="search">search&#8230;</string>
+    <!-- <string name="search">search&#8230;</string> -->
     <string name="enableNetwork">Enable Network</string>
 
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>
     <string name="contact_us_text">Contact us:</string>
     <string name="opening_hours">Opening hours</string>
-    <string name="opening_hours_first_row">Monday - Friday: 7:30 AM - 8:00 PM</string>
-    <string name="opening_hours_second_row">Saturday: 7:30 AM - 8:00 PM</string>
+    <string name="opening_hours_first_row" translatable="false"></string>
+    <string name="opening_hours_second_row" translatable="false"></string>
     <string name="live_chat">Live chat</string>
     <string name="send_email">Send email</string>
     <string name="call_number">Call</string>
@@ -55,7 +55,7 @@
 
     <!-- View Product Details -->
     <string name="product_info" translatable="false">Product Information</string>
-    <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
+    <string name="product_name" translatable = "false">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant" translatable="false">s9721/84</string>
     <string name="product_open_manual">Open interactive manual</string>
     <string name="product_download_manual">Download Product  manual</string>
@@ -92,7 +92,7 @@
     <string name="social_post_failed">Failed to post..</string>
     <string name="social_post_success">Posted Successfully!!</string>
     <string name="social_post_editor_alert">No description to send</string>
-    <string name="support_productinformation"> Product information data is configurable as well as localized.</string>
+    <string name="support_productinformation" translatable = "false"> Can you help me with my Airfryer HD9220/20</string>
 
     <!-- Social Login -->
     <string name="post">Post</string>
