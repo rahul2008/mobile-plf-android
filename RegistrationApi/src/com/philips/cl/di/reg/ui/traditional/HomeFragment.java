@@ -39,7 +39,6 @@ import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.events.NetworStateListener;
-import com.philips.cl.di.reg.events.SocialProvider;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XProviderButton;
@@ -183,17 +182,14 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 	}
 
 	private void inflateEachProviderBtn(String provider) {
-		if (SocialProvider.FACEBOOK.equals(provider)) {
-			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
-			        R.string.Welcome_Facebook_btntxt, R.drawable.reg_facebook_ic));
-
-		} else if (SocialProvider.TWITTER.equals(provider)) {
-			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
-			        R.string.Welcome_Twitter_btntxt, R.drawable.reg_twitter_ic));
-		} else if (SocialProvider.GOOGLE_PLUS.equals(provider)) {
-			mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,
-			        R.string.GooglePlus_btntxt, R.drawable.reg_google_plus_ic));
-		}
+		
+		String providerTempName = provider.substring(0,1).toUpperCase() + provider.substring(1).toLowerCase();
+		String providerName = "Welcome_"+providerTempName+"_btntxt";
+		String providerDrawable = "reg_"+provider+"_ic";
+		
+		int resourceId = this.getResources().getIdentifier(providerName, "string",getRegistrationMainActivity().getPackageName());
+		int drawableId = this.getResources().getIdentifier(providerDrawable, "drawable", getRegistrationMainActivity().getPackageName());
+		mLlSocialProviderBtnContainer.addView(getProviderBtn(provider,resourceId,drawableId));
 	}
 
 	private XProviderButton getProviderBtn(final String providerName, int providerNameStringId,

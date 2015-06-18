@@ -88,6 +88,6 @@
     <string name="continue_use_app">You can continue to use the app in the meantime</string>
     <string name="resend_email_faild">Resend email failed</string>
     <string name="PrivacyPolicyURL">http://www.philips.co.in/</string>
-    <string name="GooglePlus_btntxt">Google+</string>
+    <string name="Welcome_Googleplus_btntxt">Google+</string>
 
 </resources>

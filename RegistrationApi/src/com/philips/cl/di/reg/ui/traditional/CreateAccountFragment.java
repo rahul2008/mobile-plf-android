@@ -21,6 +21,7 @@ import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -255,9 +256,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	public void onRegisterSuccess() {
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
-		launchAccountActivateFragment();
 		trackActionForRegisterSuccess(AnalyticsConstants.SEND_DATA,
 		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_CREATION);
+		if(RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+			launchAccountActivateFragment();
+		}else{
+			launchWelcomeFragment();
+		}
 	}
 
 	private void trackActionForRegisterSuccess(String state, String specialEvents, String succesCreation) {
@@ -267,6 +272,11 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	private void launchAccountActivateFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 		trackPage(AnalyticsPages.CREATE_ACCOUNT,AnalyticsPages.ACCOUNT_ACTIVATION);
+	}
+	
+	private void launchWelcomeFragment() {
+		getRegistrationMainActivity().addFragment(new WelcomeFragment());
+		trackPage(AnalyticsPages.CREATE_ACCOUNT,AnalyticsPages.WELCOME);
 	}
 
 	@Override
