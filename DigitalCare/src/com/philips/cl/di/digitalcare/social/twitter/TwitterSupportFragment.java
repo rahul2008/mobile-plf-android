@@ -71,10 +71,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
 	private ImageView mTwitterIcon = null;
-	private Handler mTwitterPostHandler = null;
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
-	private final long mPostProgressTrack = 1000 * 3l;
 	private int mTwitterTextCounter = TWITTER_TEXT;
 
 	@Override
@@ -83,7 +81,6 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 		mTwitterView = inflater.inflate(R.layout.fragment_facebook_screen,
 				container, false);
-		mTwitterPostHandler = new Handler();
 		mSharedPreferences = getPrefrence();
 		mUsername = mSharedPreferences.getString(
 				TwitterAuthentication.PREF_USER_NAME, "");

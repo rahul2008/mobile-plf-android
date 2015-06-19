@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">DigitalCare</string>
     <string name="img_description">description</string>
     <string name="no_internet">Please connect to internet</string>
     <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
@@ -42,8 +41,6 @@
     <string name="leave_us_a_message">Leave us a message:</string>
     <string name="contact_us_text">Contact us:</string>
     <string name="opening_hours">Opening hours</string>
-    <string name="opening_hours_first_row" translatable="false"></string>
-    <string name="opening_hours_second_row" translatable="false"></string>
     <string name="live_chat">Live chat</string>
     <string name="send_email">Send email</string>
     <string name="call_number">Call</string>
@@ -56,9 +53,6 @@
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
 
     <!-- View Product Details -->
-    <string name="product_info" translatable="false">Product Information</string>
-    <string name="product_name" translatable="false">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
-    <string name="product_variant" translatable="false">s9721/84</string>
     <string name="product_open_manual">Open interactive manual</string>
     <string name="product_download_manual">Download Product  manual</string>
     <string name="product_information">Products information(on philips.com)</string>
@@ -72,18 +66,10 @@
 
     <!-- ContactUS - Twitter  Login -->
     <string name="twitter_login_header">Log in to Twitter</string>
-    <string name="twitter_login_button" translatable="false">Log in</string>
-    <string name="twitter_login_forgotPassword" translatable="false">I forgot my password</string>
-    <string name="twitter_login_createAccount" translatable="false">Create Account</string>
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
-    <string name="twitter_post_char_limitation">Twitter message has characters limitation</string>
-    <string name="twitter_post_progress_message">Posting to Philips Twitter Support...</string>
-
-    <!-- ContactUS - Facebook Login -->
-    <string name="facebook_post_progress_message">Posting to Philips Facebook Support...</string>
-
+    
     <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
     <string name="social_post_desc_text">Include product information</string>
@@ -94,7 +80,6 @@
     <string name="social_post_failed">Failed to post..</string>
     <string name="social_post_success">Posted Successfully!!</string>
     <string name="social_post_editor_alert">No description to send</string>
-    <string name="support_productinformation" translatable="false"> Can you help me with my</string>
 
     <!-- Social Login -->
     <string name="post">Post</string>
