@@ -85,6 +85,8 @@ public class SHNCapabilityHealthThermometerLogSync implements SHNCapabilityLogSy
             });
             if (shnCapabilityListener != null) shnCapabilityListener.onProgressUpdate(this, 0.0f);
             timer.restart();
+        }else{
+            Log.w(TAG,"Unable to start synchronization; Already running!");
         }
     }
 
@@ -95,6 +97,8 @@ public class SHNCapabilityHealthThermometerLogSync implements SHNCapabilityLogSy
             timer.stop();
             finishLoggingResult(SHNResult.SHNAborted);
             setState(State.Idle);
+        }else{
+            Log.w(TAG,"Unable to abort synchronization, already in an idle state!");
         }
     }
 
