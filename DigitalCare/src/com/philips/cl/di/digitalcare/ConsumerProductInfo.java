@@ -14,6 +14,8 @@ public abstract class ConsumerProductInfo {
 	public abstract String getSector();
 
 	public abstract String getCategory();
+	
+	public abstract String getCatalog();
 
 	public abstract String getSubCategory();
 

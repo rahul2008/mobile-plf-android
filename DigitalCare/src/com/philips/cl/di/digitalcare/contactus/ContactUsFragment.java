@@ -67,7 +67,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private Configuration config = null;
 	private View mSocialDivider = null;
 
-	private static final String CDLSURL_PORT = "http://www.philips.com/prx/cdls/B2C/%s/%s/%s.querytype.(fallback)";
+	private static final String CDLS_URL_PORT = "http://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
 	private static final String TAG = ContactUsFragment.class.getSimpleName();
 
 	@Override
@@ -171,15 +171,18 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				.getInstance(getActivity().getApplicationContext())
 				.getConsumerProductInfo();
 		return getCdlsUrl(
+				consumerProductInfo.getSector(),
 				DigitalCareConfigManager
 						.getInstance(getActivity().getBaseContext())
 						.getLocale().toString(),
-				consumerProductInfo.getSector(),
+				consumerProductInfo.getCatalog(),
 				consumerProductInfo.getSubCategory());
 	}
 
-	protected String getCdlsUrl(String locale, String sector, String subcategory) {
-		return String.format(CDLSURL_PORT, locale, sector, subcategory);
+	protected String getCdlsUrl(String sector, String locale, String catalog,
+			String subcategory) {
+		return String.format(CDLS_URL_PORT, sector, locale, catalog,
+				subcategory);
 	}
 
 	@Override
