@@ -4,7 +4,8 @@ import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 
 public class ConsumerProductInfoDemo extends ConsumerProductInfo {
 	private static String mGroup = "PERSONAL_CARE_GR";
-	private static String mSector = "CARE";
+	private static String mSector = "B2C";
+	private static String mCatalog = "CARE";
 	private static String mCategory = "MENS_SHAVING_CA";
 	private static String mSubCategory = "HAIR_STYLERS_SU";
 	private static String mCtn = "*";
@@ -18,6 +19,11 @@ public class ConsumerProductInfoDemo extends ConsumerProductInfo {
 	@Override
 	public String getSector() {
 		return mSector;
+	}
+	
+	@Override
+	public String getCatalog() {
+		return mCatalog;
 	}
 
 	@Override
