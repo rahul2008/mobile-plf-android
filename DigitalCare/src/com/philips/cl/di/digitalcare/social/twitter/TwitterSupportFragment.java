@@ -189,32 +189,14 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	}
 
 	private void tweetMessage() {
-		new TwitterPost(getActivity().getBaseContext(), mFile, this, mEditText
-				.getText().toString());
+		new TweetPost(getActivity().getBaseContext(), mFile, this, mEditText
+				.getText().toString()).execute();
 		mPostProgress = new ProgressDialog(getActivity());
 		mPostProgress.setMessage(getActivity().getResources().getString(
 				R.string.twitter_post_progress_message));
 		mPostProgress.setCancelable(false);
 		mPostProgress.show();
-		mTwitterPostHandler.postDelayed(mRunnable, mPostProgressTrack);
-
 	}
-
-	Runnable mRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-			if (mPostProgress != null && mPostProgress.isShowing()) {
-				if (isConnectionAvailable()) {
-					mPostProgress.setCancelable(false);
-					mTwitterPostHandler.postDelayed(mRunnable,
-							mPostProgressTrack);
-				} else {
-					mPostProgress.setCancelable(true);
-				}
-			}
-		}
-	};
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
