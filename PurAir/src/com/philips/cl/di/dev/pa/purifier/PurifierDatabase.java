@@ -1,11 +1,11 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
-import com.philips.cdp.dicommclient.util.DICommContext;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -17,8 +17,20 @@ public class PurifierDatabase implements DICommApplianceDatabase<AirPurifier> {
 	 *
 	 * @param context
 	 */
-	public PurifierDatabase() {
-		dbHelper = new PurifierDatabaseHelper(DICommContext.getContext());
+	public PurifierDatabase(Context context) {
+		dbHelper = new PurifierDatabaseHelper(context);
+	}
+
+	public void triggerOnDatabaseUpdateIfNeeded() {
+		SQLiteDatabase writableDatabase = null;
+		try {
+			writableDatabase = dbHelper.getWritableDatabase();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeDb(writableDatabase);
+		}
+
 	}
 
 	@Override

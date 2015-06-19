@@ -105,7 +105,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mApplianceFactory = (DICommApplianceFactory<DICommAppliance>) applianceFactory;
 
 		mApplianceDatabase = (DICommApplianceDatabase<DICommAppliance>) applianceDatabase;
-		mNetworkNodeDatabase = new NetworkNodeDatabase();
+		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommContext.getContext());
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);

@@ -16,19 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 import com.philips.cdp.dicommclient.util.DLog;
-import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkNodeDatabase {
 
 	private NetworkNodeDatabaseHelper dbHelper;
 
-	public NetworkNodeDatabase() {
-		dbHelper = new NetworkNodeDatabaseHelper(DICommContext.getContext());
+	public NetworkNodeDatabase(Context context) {
+		dbHelper = new NetworkNodeDatabaseHelper(context);
 	}
 
 	public List<NetworkNode> getAll() {

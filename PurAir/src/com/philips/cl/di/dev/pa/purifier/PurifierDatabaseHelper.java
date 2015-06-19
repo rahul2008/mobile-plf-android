@@ -13,6 +13,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
+import com.philips.cdp.dicommclient.util.DLog;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -24,7 +25,8 @@ import static com.philips.cdp.dicommclient.networknode.NetworkNodeDatabaseHelper
 public class PurifierDatabaseHelper extends SQLiteOpenHelper {
 	
 	private static final String COMMA = ", ";
-	
+	private Context mContext;
+
 	/**
 	 * Instantiates a new dB helper.
 	 * 
@@ -33,6 +35,7 @@ public class PurifierDatabaseHelper extends SQLiteOpenHelper {
 	 */
 	public PurifierDatabaseHelper(Context context) {
 		super(context, AppConstants.PURIFIERDB_NAME, null, AppConstants.PURIFIERDB_VERSION);
+		mContext = context;
 	}
 
 	/**
@@ -212,7 +215,12 @@ public class PurifierDatabaseHelper extends SQLiteOpenHelper {
 						long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_LAST_PAIRED));
 						String ipAddress = cursor.getString(cursor.getColumnIndex(KEY_IP_ADDRESS));
 						String modelName = cursor.getString(cursor.getColumnIndex(KEY_MODEL_NAME));
-						
+
+						if (modelName == null) {
+							// Fallback because modelname was not previously stored into database
+							modelName = AppConstants.MODEL_NAME;
+						}
+
 						NetworkNode networkNode = new NetworkNode();
 						networkNode.setConnectionState(ConnectionState.DISCONNECTED);
 						networkNode.setCppId(cppId);
@@ -236,8 +244,8 @@ public class PurifierDatabaseHelper extends SQLiteOpenHelper {
 			} finally {
 				closeCursor(cursor);
 			}
-			
-			NetworkNodeDatabase networkNodeDatabase = new NetworkNodeDatabase();
+
+			NetworkNodeDatabase networkNodeDatabase = new NetworkNodeDatabase(mContext);
 			for (NetworkNode networkNode : result) {
 				networkNodeDatabase.save(networkNode);
 			}
