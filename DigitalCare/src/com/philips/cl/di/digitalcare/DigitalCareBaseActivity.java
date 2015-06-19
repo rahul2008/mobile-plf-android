@@ -22,8 +22,8 @@ import com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
- * DigitalCareBaseActivity is the parent abstract class for
- * DigitalCare Activity.
+ * DigitalCareBaseActivity is the parent abstract class for DigitalCare
+ * Activity.
  * 
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
@@ -102,7 +102,8 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	}
 
 	private void setLocaleLanguage() {
-		Locale locale = DigitalCareConfigManager.getInstance(getApplicationContext()).getLocale();
+		Locale locale = DigitalCareConfigManager.getInstance(
+				getApplicationContext()).getLocale();
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;
@@ -112,15 +113,11 @@ public abstract class DigitalCareBaseActivity extends Activity {
 
 	private boolean backstackFragment() {
 
-		if (fragmentManager.getBackStackEntryCount() == 1) {
+		if (this.getClass().getSimpleName()
+				.equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
 			this.finish();
-		}
-
-		else if (fragmentManager.getBackStackEntryCount() == 2) {
-			enableActionBarHome();
-			fragmentManager.popBackStack();
-			removeCurrentFragment();
 		} else {
+			enableActionBarHome();
 			fragmentManager.popBackStack();
 			removeCurrentFragment();
 		}

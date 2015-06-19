@@ -2,6 +2,9 @@ package com.philips.cl.di.digitalcare;
 
 import java.util.Locale;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
@@ -59,6 +62,13 @@ public class DigitalCareConfigManager {
 
 	public Context getContext() {
 		return mContext;
+	}
+	
+		public void invokeDigitalCareAsFragment(Activity context,
+			int parentContainerResId, ActionbarUpdateListner actionbarUpdateListner, 
+			String enterAnim, String exitAnim) {
+		SupportHomeFragment supportFrag = new SupportHomeFragment();
+		supportFrag.showFragment(context, parentContainerResId, supportFrag, actionbarUpdateListner, enterAnim, exitAnim);
 	}
 
 	public ConsumerProductInfo getConsumerProductInfo() {

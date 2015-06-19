@@ -39,22 +39,16 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private Activity mFragmentActivityContext = null;
 	private NetworkReceiver mNetworkutility = null;
 	private static boolean isConnectionAvailable;
+	private static int mContainerId = 0;
+	private Activity mActivityContext = null;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private Thread mUiThread = Looper.getMainLooper().getThread();
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
+	private static ActionbarUpdateListner mActionbarUpdateListner = null;
 
 	public abstract void setViewParams(Configuration config);
 
 	public abstract String getActionbarTitle();
-
-	/**
-	 * Updating action bar title. The text has to be updated at each fragment
-	 * seletion/creation.
-	 */
-	private void setActionbarTitle() {
-		((DigitalCareFontTextView) getActivity().findViewById(
-				R.id.action_bar_title)).setText(getActionbarTitle());
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -211,50 +205,94 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	}
 
 	protected void showFragment(Fragment fragment) {
-		try {
+		int containerId = R.id.mainContainer;
+
+		if (mContainerId != 0) {
+			containerId = mContainerId;
+			mFragmentActivityContext = mActivityContext;
+		} else {
 			enableActionBarLeftArrow();
+			InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
+					.getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (mFragmentActivityContext.getWindow() != null
+					&& mFragmentActivityContext.getWindow().getCurrentFocus() != null) {
+				imm.hideSoftInputFromWindow(mFragmentActivityContext
+						.getWindow().getCurrentFocus().getWindowToken(), 0);
+			}
+		}
+		try {
 			FragmentTransaction fragmentTransaction = mFragmentActivityContext
 					.getFragmentManager().beginTransaction();
-			fragmentTransaction.replace(R.id.mainContainer, fragment,
+			// fragmentTransaction.setCustomAnimations(mEnter, mExit,
+			// mPopEnter, mPopExit);
+			fragmentTransaction.add(containerId, fragment, fragment.getTag());
+			fragmentTransaction.hide(this);
+			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			DigiCareLogger.e(TAG, "");
+		}
+	}
+
+	@Override
+	public void onHiddenChanged(boolean hidden) {
+		super.onHiddenChanged(hidden);
+		DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onHiddenChanged : " + hidden
+				+ " ---class " + this.getClass().getSimpleName());
+		if (mContainerId != 0) {
+			updateActionbar();
+		}
+	}
+
+	/*
+	 * This method can be called directly from outside and helps to invoke the
+	 * fragments, instead of full screen activity. DigitalCare fragments will be
+	 * added in the root container of hosting app. Integrating app has to pass
+	 * some parameters in order to do smooth operations.
+	 */
+
+	private static String mEnterAnimation = null;
+	private static String mExitAnimation = null;
+
+	protected void showFragment(Activity context, int parentContainer,
+			Fragment fragment, ActionbarUpdateListner actionbarUpdateListner,
+			String enterAnim, String exitAnim) {
+		mContainerId = parentContainer;
+		mActivityContext = context;
+		mActionbarUpdateListner = actionbarUpdateListner;
+		mEnterAnimation = enterAnim;
+		mExitAnimation = exitAnim;
+
+		// String packageName = context.getPackageName();
+		// int enter = context.getResources().getIdentifier(
+		// packageName + ":anim/" + mEnterAnimation, null, null);
+		// int exit = context.getResources().getIdentifier(
+		// packageName + ":anim/" + mExitAnimation, null, null);
+
+		try {
+			FragmentTransaction fragmentTransaction = context
+					.getFragmentManager().beginTransaction();
+			// fragmentTransaction.setCustomAnimations(enter, exit, enter,
+			// exit);
+			fragmentTransaction.replace(mContainerId, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
 			DigiCareLogger.e(TAG, e.getMessage());
 		}
-
-		InputMethodManager imm = (InputMethodManager) mFragmentActivityContext
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (mFragmentActivityContext.getWindow() != null
-				&& mFragmentActivityContext.getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(mFragmentActivityContext.getWindow()
-					.getCurrentFocus().getWindowToken(), 0);
-		}
 	}
 
 	protected boolean backstackFragment() {
 		fragmentManager = getFragmentManager();
-		if (fragmentManager.getBackStackEntryCount() == 2) {
-			fragmentManager.popBackStack();
-			removeCurrentFragment();
-		} else {
-			fragmentManager.popBackStack();
-			removeCurrentFragment();
-		}
+		// if (fragmentManager.getBackStackEntryCount() == 2) {
+		// fragmentManager.popBackStack();
+		// removeCurrentFragment();
+		// } else {
+		fragmentManager.popBackStack();
+		// removeCurrentFragment();
+		// }
 		return false;
-	}
-
-	private void removeCurrentFragment() {
-		FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-		Fragment currentFrag = fragmentManager
-				.findFragmentById(R.id.mainContainer);
-
-		if (currentFrag != null) {
-			transaction.remove(currentFrag);
-		}
-
-		transaction.commit();
 	}
 
 	protected void hideKeyboard() {
@@ -285,6 +323,28 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			mHandler.post(runnable);
 		} else {
 			runnable.run();
+		}
+	}
+
+	/**
+	 * Updating action bar title. The text has to be updated at each fragment
+	 * seletion/creation.
+	 */
+	private void setActionbarTitle() {
+		if (mContainerId == 0) {
+			((DigitalCareFontTextView) getActivity().findViewById(
+					R.id.action_bar_title)).setText(getActionbarTitle());
+		} else {
+			updateActionbar();
+		}
+	}
+
+	private void updateActionbar() {
+		if (this.getClass().getSimpleName()
+				.equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
+			mActionbarUpdateListner.updateActionbar(getActionbarTitle(), true);
+		} else {
+			mActionbarUpdateListner.updateActionbar(getActionbarTitle(), false);
 		}
 	}
 
