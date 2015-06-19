@@ -3,8 +3,6 @@ package com.philips.cl.di.digitalcare;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;

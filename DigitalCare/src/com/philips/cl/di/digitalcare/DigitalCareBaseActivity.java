@@ -113,8 +113,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 
 	private boolean backstackFragment() {
 
-		if (this.getClass().getSimpleName()
-				.equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
+		if (getFragmentManager().getBackStackEntryCount() == 1) {
 			this.finish();
 		} else {
 			enableActionBarHome();

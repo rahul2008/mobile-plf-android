@@ -75,8 +75,8 @@
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources" translatable="false">
-        <item>twitter</item>
-        <item>facebook</item>
+        <item>dc_twitter</item>
+        <item>dc_facebook</item>
     </string-array>
 
     <!-- Facebook APPID, replace app id in app authority string -->

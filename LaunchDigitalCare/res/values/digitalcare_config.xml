@@ -73,8 +73,8 @@
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources">
-        <item>twitter</item>
-        <item>facebook</item>
+        <item>dc_twitter</item>
+        <item>dc_facebook</item>
     </string-array>
     
     
