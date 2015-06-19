@@ -25,7 +25,7 @@ public class FacebookAuthenticateTest extends
 		mFaceBookAuthCallback = mock(FacebookAuthenticate.class);
 	}
 
-	@SmallTest
+	/*@SmallTest
 	public void testFacebookAuthenticateObjectIsMocked() {
 		boolean validate = false;
 		Log.d("Naveen", "FaceBookAuthentication : "+ mFaceBookAuthCallback.getClass().getSimpleName());
@@ -33,6 +33,6 @@ public class FacebookAuthenticateTest extends
 		if (received.equalsIgnoreCase("$Proxy0"))
 			validate = true;
 		assertTrue(validate);
-	}
+	}*/
 
 }

@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
@@ -107,7 +108,14 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	protected String getProductInformation() {
 		return getActivity().getResources().getString(
 				R.string.support_productinformation)
-				+ " ";
+				+ " "
+				+ DigitalCareConfigManager
+						.getInstance(getActivity().getApplicationContext())
+						.getConsumerProductInfo().getProductTitle()
+				+ " "
+				+ DigitalCareConfigManager
+						.getInstance(getActivity().getApplicationContext())
+						.getConsumerProductInfo().getCtn();
 	}
 
 	@Override
@@ -180,8 +188,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		setViewParams(newConfig);
 	}
 
-	private void sendMessage() {
-
+	private void tweetMessage() {
 		new TwitterPost(getActivity().getBaseContext(), mFile, this, mEditText
 				.getText().toString());
 		mPostProgress = new ProgressDialog(getActivity());
@@ -242,19 +249,19 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			backstackFragment();
 		} else if (id == R.id.facebookSendPort) {
 			if (isDescriptionAvailable()) {
-				sendAlert();
+				sendNoDescriptionAlert();
 			} else {
 				if (isConnectionAvailable())
-					sendMessage();
+					tweetMessage();
 			}
 		} else if (id == R.id.facebookCancelLand) {
 			backstackFragment();
 		} else if (id == R.id.facebookSendLand) {
 			if (isDescriptionAvailable()) {
-				sendAlert();
+				sendNoDescriptionAlert();
 			} else {
 				if (isConnectionAvailable())
-					sendMessage();
+					tweetMessage();
 			}
 		} else if (id == R.id.fb_Post_CheckBox) {
 		} else if (id == R.id.fb_post_camera) {
@@ -273,7 +280,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		return false;
 	}
 
-	private void sendAlert() {
+	private void sendNoDescriptionAlert() {
 		showAlert(getActivity().getResources().getString(
 				R.string.social_post_editor_alert));
 	}
