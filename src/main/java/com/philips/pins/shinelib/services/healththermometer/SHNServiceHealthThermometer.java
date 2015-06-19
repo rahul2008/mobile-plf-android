@@ -38,6 +38,10 @@ public class SHNServiceHealthThermometer implements SHNService.SHNServiceListene
         void onMeasurementIntervalChanged(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurementInterval shnTemperatureMeasurementInterval);
     }
 
+    public SHNService getShnService(){
+        return shnService;
+    }
+
     public SHNServiceHealthThermometer(SHNFactory shnFactory) {
         shnService = shnFactory.createNewSHNService(SERVICE_HEALTH_THERMOMETER_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID);
