@@ -138,7 +138,9 @@ public abstract class DICommPort<T> {
     }
 
     public void registerPortListener(DICommPortListener listener) {
-		mPortListeners.add(listener);
+    	if (!mPortListeners.contains(listener)) {
+    		mPortListeners.add(listener);
+    	}
     }
 
     public void unregisterPortListener(DICommPortListener listener) {

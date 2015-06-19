@@ -356,7 +356,7 @@ public class DICommPortTest extends MockitoTestCase{
 
         verifySubscribeCalled(true);
     }
-
+    
     public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
         mDICommPort.unsubscribe();
 
@@ -465,6 +465,47 @@ public class DICommPortTest extends MockitoTestCase{
 	public void testGetPropertiesWhenPortInfoNull() {
 		mDICommPort.getPortProperties();
 		verifyGetPropertiesCalled(true);
+	}
+	
+	public void testRegisterListener() {
+		DICommPortListener listener = mock(DICommPortListener.class);
+		
+		mDICommPort.registerPortListener(listener);
+		mDICommPort.handleResponse("");
+		
+		verify(listener, times(1)).onPortUpdate(mDICommPort);
+	}
+
+	public void testUnregisterListener() {
+		DICommPortListener listener = mock(DICommPortListener.class);
+		
+		mDICommPort.registerPortListener(listener);
+		mDICommPort.unregisterPortListener(listener);
+		mDICommPort.handleResponse("");
+		
+		verify(listener, times(0)).onPortUpdate(mDICommPort);
+	}
+	
+    public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
+		DICommPortListener listener = mock(DICommPortListener.class);
+		
+		mDICommPort.registerPortListener(listener);
+		mDICommPort.unregisterPortListener(listener);
+		mDICommPort.unregisterPortListener(listener);
+
+    	mDICommPort.handleResponse("");
+		
+		verify(listener, times(0)).onPortUpdate(mDICommPort);
+    }
+    
+	public void testListenerShouldNotBeRegisteredTwice() {
+		DICommPortListener listener = mock(DICommPortListener.class);
+		
+		mDICommPort.registerPortListener(listener);
+		mDICommPort.registerPortListener(listener);
+		mDICommPort.handleResponse("");
+		
+		verify(listener, times(1)).onPortUpdate(mDICommPort);
 	}
 
 	private void verifyPutPropertiesCalled(boolean invoked) {
