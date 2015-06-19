@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.philips.cl.di.digitalcare.DigitalCareActivity;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.MainMenuListener;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
@@ -159,11 +158,14 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 		switch (view.getId()) {
 
 		default:
-			Intent intent = new Intent(this, DigitalCareActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intent.putExtra("STARTANIMATIONID", DEFAULT_ANIMATION_START);
-			intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
-			startActivity(intent);
+			DigitalCareConfigManager.getInstance(this)
+					.invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
+							R.anim.slide_out_bottom);
+//			Intent intent = new Intent(this, DigitalCareActivity.class);
+//			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//			intent.putExtra("STARTANIMATIONID", DEFAULT_ANIMATION_START);
+//			intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
+//			startActivity(intent);
 		}
 	}
 
