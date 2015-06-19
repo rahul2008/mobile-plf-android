@@ -23,6 +23,8 @@ import com.philips.cl.di.reg.controller.RegisterTraditional;
 import com.philips.cl.di.reg.controller.ResendVerificationEmail;
 import com.philips.cl.di.reg.controller.UpdateReceiveMarketingEmail;
 import com.philips.cl.di.reg.controller.UpdateUserRecord;
+import com.philips.cl.di.reg.coppa.Consent;
+import com.philips.cl.di.reg.coppa.CoppaConfiguration;
 import com.philips.cl.di.reg.dao.ConsumerArray;
 import com.philips.cl.di.reg.dao.ConsumerInterest;
 import com.philips.cl.di.reg.dao.DIUserProfile;
@@ -433,6 +435,7 @@ public class User {
 
 	// For Log out
 	public void logout() {
+		CoppaConfiguration.clearConfiguration();
 		Jump.signOutCaptureUser(mContext);
 		CaptureRecord.deleteFromDisk(mContext);
 	}
@@ -463,6 +466,7 @@ public class User {
 			@Override
 			public void onSuccess(JSONObject response) {
 				Jump.saveToDisk(context);
+				buildCoppaConfiguration();
 				handler.onRefreshUserSuccess();
 			}
 
@@ -471,5 +475,11 @@ public class User {
 				handler.onRefreshUserFailed(0);
 			}
 		});
+	}
+
+	public void buildCoppaConfiguration() {
+		if (Jump.getSignedInUser() != null) {
+			CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
+		}
 	}
 }

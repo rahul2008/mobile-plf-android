@@ -9,6 +9,7 @@ import android.content.Context;
 
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
+import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
@@ -32,6 +33,8 @@ public class ContinueSocialProviderLogin implements Jump.SignInResultHandler,
 
 	public void onSuccess() {
 		Jump.saveToDisk(mContext);
+		User user = new User(mContext);
+		user.buildCoppaConfiguration();
 		mUpdateUserRecordHandler.updateUserRecordRegister();
 		mSocialProviderLoginHandler.onContinueSocialProviderLoginSuccess();
 	}
