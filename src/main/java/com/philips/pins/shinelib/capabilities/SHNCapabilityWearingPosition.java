@@ -3,6 +3,7 @@ package com.philips.pins.shinelib.capabilities;
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNSetResultListener;
+import com.philips.pins.shinelib.SHNWearingPositionResultListener;
 
 /**
  * Created by 310188215 on 10/06/15.
