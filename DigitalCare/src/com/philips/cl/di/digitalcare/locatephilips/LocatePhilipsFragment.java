@@ -39,6 +39,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -62,6 +63,7 @@ import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.RequestData;
 import com.philips.cl.di.digitalcare.ResponseCallback;
 import com.philips.cl.di.digitalcare.SupportHomeFragment;
+import com.philips.cl.di.digitalcare.customview.NetworkAlertView;
 import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
@@ -648,6 +650,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				adapter.getFilter().filter(constrain,
 						new Filter.FilterListener() {
 							public void onFilterComplete(int count) {
+
 								mListView.setAdapter(adapter);
 								mListView.setVisibility(View.VISIBLE);
 								mLinearLayout.setVisibility(View.GONE);
@@ -733,11 +736,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onResume() {
 		super.onResume();
 		if (!isConnectionAvailable()) {
+
 			if (mdialogBuilder == null) {
 				mdialogBuilder = new AlertDialog.Builder(getActivity());
 
 				mdialogBuilder.setTitle("Alert");
-				mdialogBuilder.setMessage("No Network");
+				mdialogBuilder.setMessage(getActivity().getResources()
+						.getString(R.string.no_internet));
 
 				mdialogBuilder.setPositiveButton(R.string.enableNetwork,
 						new DialogInterface.OnClickListener() {
@@ -770,6 +775,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				backstackFragment();
 				SupportHomeFragmentisInLayout();
 			}
+		}
+
+		// checking gps enabled or disbled
+		final LocationManager manager = (LocationManager) getActivity()
+				.getSystemService(Context.LOCATION_SERVICE);
+
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+			new NetworkAlertView().showAlertBox(
+					getActivity(),
+					"Alert",
+					getActivity().getResources().getString(
+							R.string.gps_disabled), getActivity()
+							.getResources().getString(android.R.string.yes));
 		}
 
 	}
