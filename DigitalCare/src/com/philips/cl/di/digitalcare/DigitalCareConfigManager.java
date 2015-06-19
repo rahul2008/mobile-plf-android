@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
@@ -61,12 +62,23 @@ public class DigitalCareConfigManager {
 	public Context getContext() {
 		return mContext;
 	}
-	
-		public void invokeDigitalCareAsFragment(Activity context,
-			int parentContainerResId, ActionbarUpdateListner actionbarUpdateListner, 
-			String enterAnim, String exitAnim) {
+
+	public void invokeDigitalCareAsFragment(Activity context,
+			int parentContainerResId,
+			ActionbarUpdateListner actionbarUpdateListner, String enterAnim,
+			String exitAnim) {
 		SupportHomeFragment supportFrag = new SupportHomeFragment();
-		supportFrag.showFragment(context, parentContainerResId, supportFrag, actionbarUpdateListner, enterAnim, exitAnim);
+		supportFrag.showFragment(context, parentContainerResId, supportFrag,
+				actionbarUpdateListner, enterAnim, exitAnim);
+	}
+
+	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
+		int defaultAnimationStart = R.anim.slide_in_bottom;
+		int defaultAnimationStop = R.anim.slide_out_bottom;
+		Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
+		intent.putExtra("STARTANIMATIONID", defaultAnimationStart);
+		intent.putExtra("ENDANIMATIONID", defaultAnimationStop);
+		getContext().startActivity(intent);
 	}
 
 	public ConsumerProductInfo getConsumerProductInfo() {
@@ -109,9 +121,10 @@ public class DigitalCareConfigManager {
 			mtemp = locale.split("_");
 			Locale mLocale = new Locale(mtemp[0], mtemp[1]);
 			DigitalCareConfigManager.getInstance(mContext).mLocale = mLocale;
-			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(mContext);
+			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
+					mContext);
 			mLocaleMatchHandler.initializeLocaleMatchService();
-			
+
 		}
 	}
 
