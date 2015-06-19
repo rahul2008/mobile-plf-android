@@ -4,6 +4,7 @@
     <string name="app_name" translatable="false">DigitalCare</string>
     <string name="img_description">description</string>
     <string name="no_internet">Please connect to internet</string>
+    <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
 
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
@@ -35,6 +36,7 @@
     <string name="call">Call</string>
     <!-- <string name="search">search&#8230;</string> -->
     <string name="enableNetwork">Enable Network</string>
+    <string name="no_data_available">No data available</string>
 
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>
@@ -55,7 +57,7 @@
 
     <!-- View Product Details -->
     <string name="product_info" translatable="false">Product Information</string>
-    <string name="product_name" translatable = "false">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
+    <string name="product_name" translatable="false">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant" translatable="false">s9721/84</string>
     <string name="product_open_manual">Open interactive manual</string>
     <string name="product_download_manual">Download Product  manual</string>
@@ -92,7 +94,7 @@
     <string name="social_post_failed">Failed to post..</string>
     <string name="social_post_success">Posted Successfully!!</string>
     <string name="social_post_editor_alert">No description to send</string>
-    <string name="support_productinformation" translatable = "false"> Can you help me with my Airfryer HD9220/20</string>
+    <string name="support_productinformation" translatable="false"> Can you help me with my Airfryer HD9220/20</string>
 
     <!-- Social Login -->
     <string name="post">Post</string>
