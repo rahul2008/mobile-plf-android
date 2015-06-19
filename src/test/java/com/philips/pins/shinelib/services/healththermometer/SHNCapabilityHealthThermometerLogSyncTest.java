@@ -269,6 +269,13 @@ public class SHNCapabilityHealthThermometerLogSyncTest {
         verify(mockedTimeoutTimer).restart();
     }
 
+    @Test
+    public void whenOnTemperatureMeasurementReceivedInStateIdleThenProgressIsNotUpdated() {
+        generateDataAndSendIt(new Date[]{new Date()});
+
+        verify(mockedShnCapabilityListener,  never()).onProgressUpdate(any(SHNCapabilityHealthThermometerLogSync.class), anyFloat());
+    }
+
     private SHNTemperatureMeasurement[] generateDataAndSendIt(Date[] dates) {
         SHNTemperatureMeasurement[] measurements = new SHNTemperatureMeasurement[dates.length];
         for (int i = 0; i < dates.length; i++) {

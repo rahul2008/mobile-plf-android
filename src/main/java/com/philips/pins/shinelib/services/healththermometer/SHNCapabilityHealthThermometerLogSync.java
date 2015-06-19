@@ -202,12 +202,9 @@ public class SHNCapabilityHealthThermometerLogSync implements SHNCapabilityLogSy
     private class SHNTemperatureMeasurementComparator implements Comparator<SHNData> {
         @Override
         public int compare(SHNData o1, SHNData o2) {
-            if (o1.getSHNDataType() == SHNDataType.BodyTemperature && o2.getSHNDataType() == SHNDataType.BodyTemperature) {
-                SHNTemperatureMeasurement meas1 = (SHNTemperatureMeasurement) o1;
-                SHNTemperatureMeasurement meas2 = (SHNTemperatureMeasurement) o2;
-                return meas1.getTimestamp().compareTo(meas2.getTimestamp());
-            }
-            return 0;
+            SHNTemperatureMeasurement meas1 = (SHNTemperatureMeasurement) o1;
+            SHNTemperatureMeasurement meas2 = (SHNTemperatureMeasurement) o2;
+            return meas1.getTimestamp().compareTo(meas2.getTimestamp());
         }
     }
 }
