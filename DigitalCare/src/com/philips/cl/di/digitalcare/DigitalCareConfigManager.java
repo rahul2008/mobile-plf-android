@@ -21,7 +21,7 @@ import com.philips.cl.di.digitalcare.social.SocialProviderListener;
  * 
  * @since : 5 Dec 2014
  */
-public class DigitalCareConfigManager {
+public class DigitalCareConfigManager implements LocationMatchCallback {
 
 	private Locale mLocale = null;
 	private String mTwitterConsumerKey = null;
@@ -120,9 +120,8 @@ public class DigitalCareConfigManager {
 		if (locale != null) {
 			mtemp = locale.split("_");
 			Locale mLocale = new Locale(mtemp[0], mtemp[1]);
-			DigitalCareConfigManager.getInstance(mContext).mLocale = mLocale;
 			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
-					mContext);
+					mContext, mLocale, this);
 			mLocaleMatchHandler.initializeLocaleMatchService();
 
 		}
@@ -157,5 +156,15 @@ public class DigitalCareConfigManager {
 	private static void initializeTaggin(Context context) {
 		AnalyticsTracker.isEnable(true);
 		AnalyticsTracker.initContext(context);
+	}
+
+	@Override
+	public void onCountryFallbackLocaleReceive(Locale locale) {
+		DigitalCareConfigManager.getInstance(mContext).mLocale = locale;
+	}
+
+	@Override
+	public void onLocaleLocaleReceive(Locale locale) {
+		DigitalCareConfigManager.getInstance(mContext).mLocale = locale;
 	}
 }
