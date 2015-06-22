@@ -65,7 +65,6 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 	private Bundle mSaveInstanceState = null;
 	private View mView = null;
 	private ProgressDialog mPostProgress = null;
-	private Handler mPostHandler = null;
 	private static String mProductInformation = null;
 	private final long mPostProgressTrack = 1000 * 3l;
 
@@ -81,7 +80,6 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			mFacebookUtility = new FacebookUtility(getActivity(),
 					mSaveInstanceState, mView, this, this);
 		}
-		mPostHandler = new Handler();
 		mProductInformation = " "
 				+ getActivity().getResources().getString(
 						R.string.support_productinformation) + " ";
@@ -291,9 +289,8 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 					mPostProgress
 							.setMessage(getActivity().getResources().getString(
 									R.string.facebook_post_progress_message));
-					mPostProgress.setCancelable(false);
+					mPostProgress.setCancelable(true);
 					mPostProgress.show();
-					mPostHandler.postDelayed(mRunnable, mPostProgressTrack);
 					mFacebookUtility.performPublishAction(mEditText.getText()
 							.toString());
 				}
@@ -304,22 +301,6 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 			onImageDettached();
 		}
 	}
-
-	private Runnable mRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-			if (mPostProgress != null && mPostProgress.isShowing()) {
-
-				if (isConnectionAvailable()) {
-					mPostHandler.postDelayed(mRunnable, mPostProgressTrack);
-					mPostProgress.setCancelable(false);
-				} else {
-					mPostProgress.setCancelable(true);
-				}
-			}
-		}
-	};
 
 	private boolean isDescriptionAvailable() {
 		String s = mEditText.getText().toString().trim();
