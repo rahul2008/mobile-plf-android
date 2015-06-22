@@ -148,7 +148,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 				public void run() {
 					new NetworkAlertView().showAlertBox(
 							getActivity(),
-							"Alert",
+							null,
 							getActivity().getResources().getString(
 									R.string.no_internet),
 							getActivity().getResources().getString(
@@ -173,8 +173,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 			public void run() {
 				new NetworkAlertView().showAlertBox(
 						getActivity(),
-						getActivity().getResources().getString(
-								android.R.string.dialog_alert_title),
+						null,
 						message,
 						getActivity().getResources().getString(
 								android.R.string.yes));

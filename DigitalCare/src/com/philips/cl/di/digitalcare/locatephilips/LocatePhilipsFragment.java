@@ -61,7 +61,6 @@ import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.RequestData;
 import com.philips.cl.di.digitalcare.ResponseCallback;
-import com.philips.cl.di.digitalcare.SupportHomeFragment;
 import com.philips.cl.di.digitalcare.customview.GpsAlertView;
 import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
@@ -755,69 +754,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onResume() {
 		super.onResume();
-		// if (!isConnectionAvailable()) {
-		//
-		// if (mdialogBuilder == null) {
-		// mdialogBuilder = new AlertDialog.Builder(getActivity());
-		//
-		// mdialogBuilder.setTitle("Alert");
-		// mdialogBuilder.setMessage(getActivity().getResources()
-		// .getString(R.string.no_internet));
-		//
-		// mdialogBuilder.setPositiveButton(R.string.enableNetwork,
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog,
-		// int which) {
-		// startActivityForResult(
-		// new Intent(
-		// android.provider.Settings.ACTION_SETTINGS),
-		// 0);
-		// }
-		// });
-		//
-		// mdialogBuilder.setNegativeButton(android.R.string.no,
-		// new DialogInterface.OnClickListener() {
-		// public void onClick(DialogInterface dialog,
-		// int which) {
-		// backstackFragment();
-		// SupportHomeFragmentisInLayout();
-		// }
-		// }).setIcon(android.R.drawable.ic_dialog_alert);
-		//
-		// malertDialog = mdialogBuilder.create();
-		// malertDialog.show();
-		// }
-		//
-		// } else {
-		//
-		// if (malertDialog != null) {
-		// malertDialog.dismiss();
-		// backstackFragment();
-		// SupportHomeFragmentisInLayout();
-		// }
-		// }
 
 		// checking gps enabled or disbled
-
 		final LocationManager manager = (LocationManager) getActivity()
 				.getSystemService(Context.LOCATION_SERVICE);
-		// gpsAlertView = GpsAlertView.getInstance();
-		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			gpsAlertView.showAlert(getActivity(), -1,
-					R.string.gps_disabled, android.R.string.yes,
-					android.R.string.no);
+		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+				&& !manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+			gpsAlertView.showAlert(getActivity(), -1, R.string.gps_disabled,
+					android.R.string.yes, android.R.string.no);
 		} else {
 			gpsAlertView.removeAlert();
 		}
 
-	}
-
-	private void SupportHomeFragmentisInLayout() {
-		final SupportHomeFragment supporthomeFragment = new SupportHomeFragment();
-
-		if (!supporthomeFragment.isInLayout()) {
-			showFragment(supporthomeFragment);
-		}
 	}
 
 	@Override
