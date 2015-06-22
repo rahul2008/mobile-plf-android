@@ -30,9 +30,6 @@
     <string name="please_wait">Please wait &#8230;</string>
     <string name="get_directions">Get Directions</string>
 
-    <!-- <string name="search">search&#8230;</string> -->
-
-
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>
     <string name="contact_us_text">Contact us:</string>

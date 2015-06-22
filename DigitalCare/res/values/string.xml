@@ -32,4 +32,7 @@
     <string name="social_post_success" translatable="false">Posted Successfully!!</string>
     <string name="social_post_editor_alert" translatable="false">No description to send</string>
 
+    <!-- Locate Philips -->
+\    <string name="search" translatable="false">search&#8230;</string>
+
 </resources>
