@@ -23,7 +23,7 @@
                 android:id="@+id/leaveMsgTitle"
                 style="@style/contactUsHelpText"
                 android:text="@string/leave_us_a_message"
-                custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
         </LinearLayout>
 
         <View
@@ -38,19 +38,19 @@
             android:id="@+id/contactUsTitle"
             style="@style/contactUsHelpText"
             android:text="@string/contact_us_text"
-            custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
 
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsChat"
             style="@style/fontButton"
             android:text="@string/live_chat"
-            custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsEmail"
             style="@style/fontButton"
             android:text="@string/send_email"
-            custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsCall"
@@ -58,7 +58,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/selector_call_button_bg"
             android:text="@string/call_number"
-            custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
         <TextView
             android:id="@+id/contactUsOpeningHours"
@@ -66,14 +66,14 @@
             android:layout_marginBottom="0dp"
             android:text="@string/opening_hours"
             android:visibility="gone"
-            custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
 
         <TextView
             android:id="@+id/firstRowText"
             style="@style/contactUsBottomText"
             android:text="@string/opening_hours_first_row"
             android:visibility="gone"
-            custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
     </LinearLayout>
 
 </ScrollView>

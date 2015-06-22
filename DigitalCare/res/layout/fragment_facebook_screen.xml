@@ -138,7 +138,7 @@
                 style="@style/fontButton"
                 android:layout_weight="1"
                 android:text="@string/send"
-                custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
             <RelativeLayout
                 android:id="@+id/facebookCancelParentPort"
@@ -153,7 +153,7 @@
                     android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/cancel"
                     android:textColor="@color/button_background"
-                    custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+                    custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -177,7 +177,7 @@
                     android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/cancel"
                     android:textColor="@color/button_background"
-                    custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+                    custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
             </RelativeLayout>
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
@@ -186,7 +186,7 @@
                 android:layout_marginLeft="@dimen/marginTopButton"
                 android:layout_weight="1"
                 android:text="@string/send"
-                custom:digitalcareFontAssetName="fonts/centralesans-bold.otf" />
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
         </LinearLayout>
     </LinearLayout>
 
