@@ -2,9 +2,6 @@
 <resources>
 
     <string name="img_description">description</string>
-    <string name="no_internet">Please connect to internet</string>
-    <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
-
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
     <string name="contact_us">Contact us</string>
@@ -32,10 +29,9 @@
     <string name="loading">Loading</string>
     <string name="please_wait">Please wait &#8230;</string>
     <string name="get_directions">Get Directions</string>
-    <string name="call">Call</string>
+
     <!-- <string name="search">search&#8230;</string> -->
-    <string name="enableNetwork">Enable Network</string>
-    <string name="no_data_available">No data available</string>
+
 
     <!-- values for Contact Us Screen -->
     <string name="leave_us_a_message">Leave us a message:</string>
@@ -69,17 +65,13 @@
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
-    
+
     <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
     <string name="social_post_desc_text">Include product information</string>
     <string name="cancel">Cancel</string>
-    <string name="social_post_from">From</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_from_library">Choose from Library</string>
-    <string name="social_post_failed">Failed to post..</string>
-    <string name="social_post_success">Posted Successfully!!</string>
-    <string name="social_post_editor_alert">No description to send</string>
 
     <!-- Social Login -->
     <string name="post">Post</string>
