@@ -28,8 +28,8 @@ public class GpsAlertView {
 		if (mdialogBuilder == null) {
 			mdialogBuilder = new AlertDialog.Builder(activity);
 
-			mdialogBuilder.setTitle(activity.getResources().getString(
-					title_res_id));
+			// mdialogBuilder.setTitle(activity.getResources().getString(
+			// title_res_id));
 			mdialogBuilder.setMessage(activity.getResources().getString(
 					message_res_id));
 
@@ -66,7 +66,6 @@ public class GpsAlertView {
 		if (malertDialog != null) {
 			malertDialog.dismiss();
 			malertDialog = null;
-
 			mdialogBuilder = null;
 		}
 	}
