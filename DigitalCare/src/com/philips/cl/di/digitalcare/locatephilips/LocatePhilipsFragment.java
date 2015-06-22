@@ -38,6 +38,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -650,6 +651,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				adapter.getFilter().filter(constrain,
 						new Filter.FilterListener() {
 							public void onFilterComplete(int count) {
+
+								if (count == 0) {
+									Toast.makeText(
+											getActivity(),
+											getResources().getString(
+													R.string.no_data_available),
+											Toast.LENGTH_SHORT).show();
+								}
 
 								mListView.setAdapter(adapter);
 								mListView.setVisibility(View.VISIBLE);
