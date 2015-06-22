@@ -156,6 +156,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		checkGooglePlayServices();
 		initGoogleMapv2();
 		createBitmap();
+		gpsAlertView = GpsAlertView.getInstance();
 	}
 
 	private String formAtosURL() {
