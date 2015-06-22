@@ -24,6 +24,7 @@
     <string name="support_productinformation" translatable="false"> Can you help me with my</string>
     <string name="no_internet" translatable="false">Please connect to internet</string>
     <string name="gps_disabled" translatable="false">GPS is disabled in your device. Would you like to enable it?</string>
+    <string name="alert">Alert</string>
     <string name="call" translatable="false">Call</string>
     <string name="enableNetwork" translatable="false">Enable Network</string>
     <string name="no_data_available" translatable="false">No data available</string>
@@ -33,6 +34,6 @@
     <string name="social_post_editor_alert" translatable="false">No description to send</string>
 
     <!-- Locate Philips -->
-\    <string name="search" translatable="false">search&#8230;</string>
+    <string name="search" translatable="false">search&#8230;</string>
 
 </resources>
