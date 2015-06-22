@@ -23,6 +23,10 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
 	private String DEVICE_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
 
+	private static String DEV_PRX_RESEND_CONSENT_URL = "http://10.128.41.113:4503/registration/resendConsentMail";
+
+	private static String DEV_REGISTER_COPPA_ACTIVATION_URL = "http://10.128.41.111:4503/content/B2C/en_US/user-registration/coppa-consent.html";
+
 	private String mCountryCode;
 
 	private String mLanguageCode;
@@ -94,6 +98,9 @@ public class DevRegistrationSettings extends RegistrationSettings {
 		mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
 		mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
 
+		mResendConsentUrl = DEV_PRX_RESEND_CONSENT_URL;
+		mRegisterCoppaActivationUrl = DEV_REGISTER_COPPA_ACTIVATION_URL;
+
 		String localeArr[] = locale.split("-");
 		String langCode = null;
 		String countryCode = null;
@@ -106,8 +113,14 @@ public class DevRegistrationSettings extends RegistrationSettings {
 			countryCode = "US";
 		}
 
-		jumpConfig.captureRedirectUri = DEVICE_REGISTER_ACTIVATION_URL + "?country=" + countryCode
-		        + "&catalogType=CONSUMER&language=" + langCode;
+		if (RegistrationHelper.getInstance().isCoppaFlow()) {
+			jumpConfig.captureRedirectUri = DEV_REGISTER_COPPA_ACTIVATION_URL + "?country="
+			        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		} else {
+			jumpConfig.captureRedirectUri = DEVICE_REGISTER_ACTIVATION_URL + "?country="
+			        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		}
+
 		jumpConfig.captureRecoverUri = DEVICE_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
 		        + "&catalogType=CONSUMER&language=" + langCode;
 		jumpConfig.captureLocale = locale;

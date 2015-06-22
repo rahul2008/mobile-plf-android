@@ -17,6 +17,10 @@ public abstract class RegistrationSettings {
 
 	protected String mPreferredLangCode = null;
 
+	protected String mResendConsentUrl = null;
+
+	protected String mRegisterCoppaActivationUrl = null;
+
 	public String REGISTRATION_USE_PRODUCTION = "REGISTRATION_USE_PRODUCTION";
 
 	public String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
@@ -56,4 +60,13 @@ public abstract class RegistrationSettings {
 		}
 
 	}
+
+	public String getRegisterCoppaActivationUrl() {
+		return mRegisterCoppaActivationUrl;
+	}
+
+	public String getResendConsentUrl() {
+		return mResendConsentUrl;
+	}
+
 }

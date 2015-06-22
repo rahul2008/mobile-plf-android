@@ -57,12 +57,17 @@ public class CoppaConfiguration {
 
 	public static void getCoopaConfigurationFlields(JSONObject jsonObject) {
 
+	
+		
 		if (!jsonObject.isNull(COPPA_COMMUNICATION_SENT_AT)) {
 			coppaCommunicationSentAt = (String) jsonObject.opt(COPPA_COMMUNICATION_SENT_AT);
+			System.out.println("consent sent @ : "+coppaCommunicationSentAt);
 		}
 
 		if (!jsonObject.isNull(CONSENTS)) {
+			
 			JSONArray consents = (JSONArray) Jump.getSignedInUser().opt(CONSENTS);
+			System.out.println("consent : "+consents);
 			consent = new Consent();
 			for (int i = 0; i < consents.length(); i++) {
 				JSONObject consentObj;

@@ -9,6 +9,6 @@ public interface CoppaExtensionHandler {
 
 	void fetchCoppaEmailConsentStatus(Context context, FetchCoppaEmailConsentStatusHandler handler);
 
-	void resendCoppaEmailConsentForUserEmail(String email);
+	void resendCoppaEmailConsentForUserEmail(String email,ResendCoppaEmailConsentHandler resendCoppaEmailConsentHandler);
 
 }

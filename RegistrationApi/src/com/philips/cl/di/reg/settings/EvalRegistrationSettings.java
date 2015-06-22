@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
+import com.philips.cl.di.reg.coppa.CoppaConfiguration;
 
 public class EvalRegistrationSettings extends RegistrationSettings {
 
@@ -28,6 +29,10 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 	private static String DEV_EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
 	private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+
+	private static String EVAL_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
+
+	private static String EVAL_REGISTER_COPPA_ACTIVATION_URL = "https://acc.philips.com/ps/user-registration/consent.html";
 
 	private String EVAL_ENGAGE_APP_ID = "jgehpoggnhbagolnihge";
 
@@ -96,6 +101,9 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 		mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
 		mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
 
+		mResendConsentUrl = EVAL_PRX_RESEND_CONSENT_URL;
+		mRegisterCoppaActivationUrl = EVAL_REGISTER_COPPA_ACTIVATION_URL;
+
 		String localeArr[] = locale.split("-");
 		String langCode = null;
 		String countryCode = null;
@@ -108,8 +116,14 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 			countryCode = "US";
 		}
 
-		jumpConfig.captureRedirectUri = EVAL_REGISTER_ACTIVATION_URL + "?country=" + countryCode
-		        + "&catalogType=CONSUMER&language=" + langCode;
+		if (RegistrationHelper.getInstance().isCoppaFlow()) {
+			jumpConfig.captureRedirectUri = EVAL_REGISTER_COPPA_ACTIVATION_URL + "?country="
+			        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		} else {
+			jumpConfig.captureRedirectUri = EVAL_REGISTER_ACTIVATION_URL + "?country="
+			        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+		}
+
 		jumpConfig.captureRecoverUri = EVAL_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
 		        + "&catalogType=CONSUMER&language=" + langCode;
 		jumpConfig.captureLocale = locale;

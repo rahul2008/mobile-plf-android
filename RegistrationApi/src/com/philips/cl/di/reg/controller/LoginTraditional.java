@@ -10,9 +10,12 @@ import android.content.Context;
 import com.janrain.android.Jump;
 import com.janrain.android.capture.CaptureApiError;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.coppa.CoppaConfiguration;
+import com.philips.cl.di.reg.coppa.CoppaExtension;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
@@ -22,6 +25,8 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 	private TraditionalLoginHandler mTraditionalLoginHandler;
 
 	private UpdateUserRecordHandler mUpdateUserRecordHandler;
+	
+	
 
 	public LoginTraditional(TraditionalLoginHandler traditionalLoginHandler, Context context,
 	        UpdateUserRecordHandler updateUserRecordHandler, String email, String password) {
@@ -35,6 +40,10 @@ public class LoginTraditional implements Jump.SignInResultHandler, Jump.SignInCo
 		Jump.saveToDisk(mContext);
 		User user = new User(mContext);
 		user.buildCoppaConfiguration();
+		if(CoppaConfiguration.getCoppaCommunicationSentAt()!=null&& RegistrationHelper.getInstance().isCoppaFlow()){
+			CoppaExtension coppaExtension = new CoppaExtension();
+			coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
+		}
 		mUpdateUserRecordHandler.updateUserRecordLogin();
 		mTraditionalLoginHandler.onLoginSuccess();
 	}

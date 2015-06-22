@@ -5,18 +5,39 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 
 import android.util.Log;
 
@@ -35,7 +56,8 @@ public class HttpClient {
 	// ----- Post Method
 	public String postData(String url, List<NameValuePair> nameValuePairs, String accessToken) {
 
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		DefaultHttpClient httpClient = getHttpClient();
+
 		try {
 			HttpPost httppost = new HttpPost(url);
 			httppost.setHeader(ACCESS_TOKEN_HEADER, accessToken);
@@ -43,7 +65,6 @@ public class HttpClient {
 			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			HttpResponse httpResponse = httpClient.execute(httppost);
 			InputStream inputStream = httpResponse.getEntity().getContent();
-
 			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
 			BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -67,7 +88,7 @@ public class HttpClient {
 	// ---- Get Method
 	public String connectWithHttpGet(String url, String accessToken) {
 
-		DefaultHttpClient httpClient = new DefaultHttpClient();
+		DefaultHttpClient httpClient = getHttpClient();
 
 		HttpGet httpGet = new HttpGet(url);
 		httpGet.setHeader(ACCESS_TOKEN_HEADER, accessToken);
@@ -95,11 +116,68 @@ public class HttpClient {
 		return null;
 	}
 
-	private HttpParams getHttpParams(int timeout) {
-		HttpParams httpparams = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(httpparams, 10000);
-		HttpConnectionParams.setSoTimeout(httpparams, timeout);
-		return httpparams;
+	public DefaultHttpClient getHttpClient() {
+		try {
+			KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			trustStore.load(null, null);
+
+			SSLSocketFactory sf = new HttpsSocketFactory(trustStore);
+
+			sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+
+			HttpParams params = new BasicHttpParams();
+			HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+			HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
+
+			SchemeRegistry registry = new SchemeRegistry();
+			registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+			registry.register(new Scheme("https", sf, 443));
+
+			ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
+
+			return new DefaultHttpClient(ccm, params);
+		} catch (Exception e) {
+			return new DefaultHttpClient();
+		}
+	}
+
+	class HttpsSocketFactory extends SSLSocketFactory {
+
+		private SSLContext mSslContext = SSLContext.getInstance("TLS");
+
+		public HttpsSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException,
+		        KeyManagementException, KeyStoreException, UnrecoverableKeyException {
+			super(truststore);
+
+			TrustManager tm = new X509TrustManager() {
+
+				public void checkClientTrusted(X509Certificate[] chain, String authType)
+				        throws CertificateException {
+				}
+
+				public void checkServerTrusted(X509Certificate[] chain, String authType)
+				        throws CertificateException {
+				}
+
+				public X509Certificate[] getAcceptedIssuers() {
+					return null;
+				}
+			};
+
+			mSslContext.init(null, new TrustManager[] { tm }, null);
+		}
+
+		@Override
+		public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
+		        throws IOException, UnknownHostException {
+			return mSslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
+		}
+
+		@Override
+		public Socket createSocket()
+		        throws IOException {
+			return mSslContext.getSocketFactory().createSocket();
+		}
 	}
 
 	public String request(HttpResponse response) {
