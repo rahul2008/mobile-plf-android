@@ -9,9 +9,12 @@ import com.janrain.android.Jump;
 import com.janrain.android.engage.session.JRProvider;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.coppa.CoppaConfiguration;
+import com.philips.cl.di.reg.coppa.CoppaExtension;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
 import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
+import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignInCodeHandler {
@@ -36,6 +39,10 @@ public class LoginSocialProvider implements Jump.SignInResultHandler, Jump.SignI
 		Jump.saveToDisk(mContext);
 		User user = new User(mContext);
 		user.buildCoppaConfiguration();
+		if(CoppaConfiguration.getCoppaCommunicationSentAt()!=null&& RegistrationHelper.getInstance().isCoppaFlow()){
+			CoppaExtension coppaExtension = new CoppaExtension();
+			coppaExtension.triggerSendCoppaMailAfterLogin(user.getUserInstance(mContext).getEmail());
+		}
 		mUpdateUserRecordHandler.updateUserRecordLogin();
 		mSocialLoginHandler.onLoginSuccess();
 	}
