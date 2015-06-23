@@ -15,6 +15,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
+import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierManager;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -47,8 +48,9 @@ public class CongratulationFragment extends BaseFragment {
 
 				Utils.saveAppFirstUse(false);
 				
-				DiscoveryManager.getInstance().insertApplianceToDatabase(AirPurifierManager.getInstance().getCurrentPurifier());
-				List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateAddedAppliances();
+				DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+				discoveryManager.insertApplianceToDatabase(AirPurifierManager.getInstance().getCurrentPurifier());
+				List<AirPurifier> appliances = discoveryManager.updateAddedAppliances();
 				AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(appliances.size() - 1);
 			}
 		});

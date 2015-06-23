@@ -40,18 +40,16 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDiscoverEventListener {
+public class DiscoveryManager<T extends DICommAppliance> implements Callback, NetworkChangedCallback, CppDiscoverEventListener {
 
-	private static DiscoveryManager mInstance;
+	private static DiscoveryManager<? extends DICommAppliance> mInstance;
 
-	private LinkedHashMap<String, DICommAppliance> mAllAppliancesMap;
+	private LinkedHashMap<String, T> mAllAppliancesMap;
 	private List<NetworkNode> mAddedAppliances;
 
-	private DICommApplianceFactory<DICommAppliance> mApplianceFactory;
+	private DICommApplianceFactory<T> mApplianceFactory;
 	private NetworkNodeDatabase mNetworkNodeDatabase;
-	private DICommApplianceDatabase<DICommAppliance> mApplianceDatabase;
-
-	private CppController mCppController;
+	private DICommApplianceDatabase<T> mApplianceDatabase;
 
 	private static final Object mDiscoveryLock = new Object();
 	private NetworkMonitor mNetwork;
@@ -65,7 +63,9 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
 	private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
 	private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
+	
 	private static Handler mDiscoveryTimeoutHandler = new Handler() {
+		
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
@@ -80,38 +80,37 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		};
 	};
 
-	public static synchronized void createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<? extends DICommAppliance> applianceFactory) {
+	public static synchronized <U extends DICommAppliance> void createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
 		if (mInstance != null) {
 			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
 		DICommContext.initialize(applicationContext);
-		mInstance = new DiscoveryManager(cppController, applianceFactory, new NullApplianceDatabase());
+		mInstance = new DiscoveryManager<U>(cppController, applianceFactory, new NullApplianceDatabase<U>());
 	}
 
-	public static synchronized void createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
+	public static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
 		if (mInstance != null) {
 			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
 		DICommContext.initialize(applicationContext);
-		mInstance = new DiscoveryManager(cppController, applianceFactory, applianceDatabase);
+		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppController, applianceFactory, applianceDatabase);
+		mInstance = discoveryManager;
+		return discoveryManager;
 	}
 
-	public static synchronized DiscoveryManager getInstance() {
+	public static synchronized DiscoveryManager<? extends DICommAppliance> getInstance() {
 		return mInstance;
 	}
 
-	@SuppressWarnings("unchecked")
-	private DiscoveryManager(CppController cppController, DICommApplianceFactory<? extends DICommAppliance> applianceFactory, DICommApplianceDatabase<? extends DICommAppliance> applianceDatabase) {
-		mApplianceFactory = (DICommApplianceFactory<DICommAppliance>) applianceFactory;
-
-		mApplianceDatabase = (DICommApplianceDatabase<DICommAppliance>) applianceDatabase;
+	private DiscoveryManager(CppController cppController, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase) {
+		mApplianceFactory = applianceFactory;
+		mApplianceDatabase = applianceDatabase;
+		
 		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommContext.getContext());
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
 		mCppHelper = new CppDiscoveryHelper(cppController, this);
-
-		mCppController = cppController;
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(DICommContext.getContext(), this);
@@ -143,12 +142,12 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		this.mNewApplianceDiscoveredListener = null;
 	}
 
-	public ArrayList<DICommAppliance> getAllDiscoveredAppliances() {
-		return new ArrayList<DICommAppliance>(mAllAppliancesMap.values());
+	public ArrayList<T> getAllDiscoveredAppliances() {
+		return new ArrayList<T>(mAllAppliancesMap.values());
 	}
 
-	public List<DICommAppliance> getAddedAppliances() {
-		List<DICommAppliance> appliances = new ArrayList<DICommAppliance>();
+	public List<T> getAddedAppliances() {
+		List<T> appliances = new ArrayList<T>();
 		for (NetworkNode addedAppliance : mAddedAppliances) {
 			appliances.add(mAllAppliancesMap.get(addedAppliance.getCppId()));
 		}
@@ -156,7 +155,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: this method should be removed completely
-	public List<DICommAppliance> updateAddedAppliances() {
+	public List<T> updateAddedAppliances() {
 		mAddedAppliances = mNetworkNodeDatabase.getAll();
 		return getAddedAppliances();
 	}
@@ -178,20 +177,20 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		}
 	}
 
-	public List<DICommAppliance> getNewAppliancesDiscovered() {
+	public List<T> getNewAppliancesDiscovered() {
 		boolean addToNewApplianceList = true ;
-		List<DICommAppliance> discoveredAppliances = getAllDiscoveredAppliances() ;
-		List<DICommAppliance> addedAppliances = getAddedAppliances() ;
-		List<DICommAppliance> newAppliances = new ArrayList<DICommAppliance>() ;
+		List<T> discoveredAppliances = getAllDiscoveredAppliances() ;
+		List<T> addedAppliances = getAddedAppliances() ;
+		List<T> newAppliances = new ArrayList<T>() ;
 
-		for(DICommAppliance appliance: discoveredAppliances) {
-			for( DICommAppliance addedAppliance: addedAppliances) {
-				if( appliance.getNetworkNode().getCppId().equals(addedAppliance.getNetworkNode().getCppId())) {
+		for (T appliance: discoveredAppliances) {
+			for (T addedAppliance: addedAppliances) {
+				if (appliance.getNetworkNode().getCppId().equals(addedAppliance.getNetworkNode().getCppId())) {
 					addToNewApplianceList = false;
 					break;
 				}
 			}
-			if(addToNewApplianceList) {
+			if (addToNewApplianceList) {
 				//Add connected appliance only, ignore disconnected
 				if (appliance.getNetworkNode().getConnectionState() != ConnectionState.DISCONNECTED) {
 					appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.NOT_PAIRED);
@@ -203,7 +202,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		return newAppliances ;
 	}
 
-	public DICommAppliance getApplianceByCppId(String cppId) {
+	public T getApplianceByCppId(String cppId) {
 		if (cppId == null || cppId.isEmpty()) return null;
 		return mAllAppliancesMap.get(cppId);
 	}
@@ -313,8 +312,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		if (deviceModel == null || deviceModel.getSsdpDevice() == null) return false;
 		String lostApplianceCppId = deviceModel.getSsdpDevice().getCppId();
 
-		ArrayList<DICommAppliance> discoveredAppliances = getAllDiscoveredAppliances();
-		for (DICommAppliance appliance : discoveredAppliances) {
+		ArrayList<T> discoveredAppliances = getAllDiscoveredAppliances();
+		for (T appliance : discoveredAppliances) {
 			if (appliance.getNetworkNode().getCppId().equals(lostApplianceCppId)) {
 				DLog.d(DLog.DISCOVERY, "Lost appliance - marking as DISCONNECTED: " + appliance);
 				// TODO: DIComm Refactor check if can be removed
@@ -330,7 +329,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	private void updateExistingAppliance(NetworkNode networkNode) {
-		DICommAppliance existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
+		T existingAppliance = mAllAppliancesMap.get(networkNode.getCppId());
 		boolean notifyListeners = true;
 
 		if (networkNode.getHomeSsid() != null && !networkNode.getHomeSsid().equals(existingAppliance.getNetworkNode().getHomeSsid())) {
@@ -374,7 +373,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 			DLog.d(DLog.DISCOVERY, "Cannot create appliance for networknode: " + networkNode);
 			return;
 		}
-		final DICommAppliance appliance = mApplianceFactory.createApplianceForNode(networkNode);
+		final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
 		appliance.getNetworkNode().setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
 	    	@Override
 	    	public void onKeyUpdate() {
@@ -660,11 +659,11 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 
 	private void initializeAppliancesMapFromDataBase() {
 		DLog.i(DLog.DISCOVERY, "Initializing appliances from database") ;
-		mAllAppliancesMap = new LinkedHashMap<String, DICommAppliance>();
+		mAllAppliancesMap = new LinkedHashMap<String, T>();
 
-		List<DICommAppliance> allAppliances = loadAllAddedAppliancesFromDatabase();
+		List<T> allAppliances = loadAllAddedAppliancesFromDatabase();
 		List<NetworkNode> addedAppliances = new ArrayList<NetworkNode>();
-		for (DICommAppliance appliance : allAppliances) {
+		for (T appliance : allAppliances) {
 			mAllAppliancesMap.put(appliance.getNetworkNode().getCppId(), appliance);
 			addedAppliances.add(appliance.getNetworkNode());
 		}
@@ -711,8 +710,8 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		DLog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
 	}
 
-	private List<DICommAppliance> loadAllAddedAppliancesFromDatabase() {
-		List<DICommAppliance> result = new ArrayList<DICommAppliance>();
+	private List<T> loadAllAddedAppliancesFromDatabase() {
+		List<T> result = new ArrayList<T>();
 
 		List<NetworkNode> networkNodes = mNetworkNodeDatabase.getAll();
 
@@ -722,7 +721,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 				continue;
 			}
 
-			final DICommAppliance appliance = mApplianceFactory.createApplianceForNode(networkNode);
+			final T appliance = mApplianceFactory.createApplianceForNode(networkNode);
 			mApplianceDatabase.loadDataForAppliance(appliance);
 			networkNode.setEncryptionKeyUpdatedListener(new EncryptionKeyUpdatedListener() {
 				@Override
@@ -736,7 +735,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: improve interface
-	public long insertApplianceToDatabase(DICommAppliance appliance) {
+	public long insertApplianceToDatabase(T appliance) {
 		long rowId = mNetworkNodeDatabase.save(appliance.getNetworkNode());
 		mApplianceDatabase.save(appliance);
 
@@ -744,7 +743,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: improve interface
-	public long updateApplianceInDatabase(DICommAppliance appliance) {
+	public long updateApplianceInDatabase(T appliance) {
 		if (!mNetworkNodeDatabase.contains(appliance.getNetworkNode())) {
 			DLog.d(DLog.DISCOVERY, "Not updating NetworkNode database - not yet in database");
 			return -1;
@@ -757,7 +756,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// TODO DIComm refactor: improve interface
-	public int deleteApplianceFromDatabase(DICommAppliance appliance) {
+	public int deleteApplianceFromDatabase(T appliance) {
 		int rowsDeleted = mNetworkNodeDatabase.delete(appliance.getNetworkNode());
 		mApplianceDatabase.delete(appliance);
 
@@ -765,7 +764,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 	}
 
 	// ********** START TEST METHODS ************
-	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager dummyManager) {
+	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager<? extends DICommAppliance> dummyManager) {
 		mInstance = dummyManager;
 	}
 
@@ -784,7 +783,7 @@ public class DiscoveryManager implements Callback, NetworkChangedCallback, CppDi
 		mCppHelper = dummyHelper;
 	}
 
-	public void setAppliancesListForTesting(LinkedHashMap<String, DICommAppliance> testMap) {
+	public void setAppliancesListForTesting(LinkedHashMap<String, T> testMap) {
 		mAllAppliancesMap = testMap;
 	}
 

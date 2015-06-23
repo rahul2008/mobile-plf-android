@@ -41,7 +41,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	private ManagePurifierArrayAdapter arrayAdapter;
 	private ListView listView;
-	private List<DICommAppliance> appliances;
+	private List<AirPurifier> appliances;
 	private HashMap<String, Boolean> selectedItems;
     private FontTextView editTV;
 
@@ -113,7 +113,8 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	private void loadDataFromDatabase() {
-		appliances = DiscoveryManager.getInstance().getAddedAppliances();
+		DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+		appliances = discoveryManager.getAddedAppliances();
 
         NullStrategy communicationStrategy = new NullStrategy();
         NetworkNode networkNode = new NetworkNode();
@@ -195,7 +196,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 		if (purifier.getNetworkNode().getPairedState() == NetworkNode.PAIRED_STATUS.PAIRED) {
 			// Remove pairing
-			PairingHandler pairingHandler = new PairingHandler(this, purifier);
+			PairingHandler<AirPurifier> pairingHandler = new PairingHandler<AirPurifier>(this, purifier);
 			pairingHandler.initializeRelationshipRemoval();
 		}
 
@@ -214,7 +215,8 @@ public class ManagePurifierFragment extends BaseFragment implements
     }
 
     private void setCurrentPage(AirPurifier purifier) {
-        int rowsDeleted = DiscoveryManager.getInstance().deleteApplianceFromDatabase(purifier);
+    	DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
+        int rowsDeleted = discoveryManager.deleteApplianceFromDatabase(purifier);
         if (rowsDeleted > 0) {
             if (selectedItems.containsKey(purifier.getNetworkNode().getCppId())) {
                 selectedItems.remove(purifier.getNetworkNode().getCppId());
@@ -251,7 +253,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 
 	@Override
 	public void onItemClickGoToAddPurifier() {
-		List<DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateAddedAppliances();
+		List<? extends DICommAppliance> addedAppliances = DiscoveryManager.getInstance().updateAddedAppliances();
 		if (addedAppliances.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
 			showAlertDialog("",	getString(R.string.max_purifier_reached));
 		} else {

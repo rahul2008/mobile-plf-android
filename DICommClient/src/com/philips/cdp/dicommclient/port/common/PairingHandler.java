@@ -28,7 +28,7 @@ import com.philips.icpinterface.data.PairingReceivedRelationships;
 import com.philips.icpinterface.data.PairingReceivedRelationships.PairingEntity;
 import com.philips.icpinterface.data.PairingRelationship;
 
-public class PairingHandler implements ICPEventListener {
+public class PairingHandler<T extends DICommAppliance> implements ICPEventListener {
 
 	/** PAIRING CONSTANTS */
 	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
@@ -58,7 +58,7 @@ public class PairingHandler implements ICPEventListener {
 	};
 
 	private ENTITY entity_state;
-    private DICommAppliance mAppliance;
+    private T mAppliance;
 
 	/**
 	 * Constructor for Pairinghandler.
@@ -70,8 +70,8 @@ public class PairingHandler implements ICPEventListener {
 	 * @param purifierEui64
 	 *            String
 	 */
-	public PairingHandler(PairingListener iPairingListener,	DICommAppliance appliance) {
-	    if(appliance==null)return;
+	public PairingHandler(PairingListener iPairingListener,	T appliance) {
+	    if (appliance==null) return;
 		this.mAppliance = appliance;
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
@@ -409,11 +409,11 @@ public class PairingHandler implements ICPEventListener {
 				mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
 				//TODO better solution
-				DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
-
 				//TODO verify with Jeroen: implementation correct this way?
+				DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
+				T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
 				appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-				DiscoveryManager.getInstance().updateApplianceInDatabase(appliance);
+				discoveryManager.updateApplianceInDatabase(appliance);
 			}
 		}
 
@@ -480,11 +480,11 @@ public class PairingHandler implements ICPEventListener {
 					mAppliance.getNetworkNode().setLastPairedTime(new Date().getTime());
 
 					//TODO better solution
-					DICommAppliance appliance = DiscoveryManager.getInstance().getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
-
 					//TODO verify with Jeroen: implementation correct this way?
+					DiscoveryManager<T> discoveryManager = (DiscoveryManager<T>) DiscoveryManager.getInstance();
+					T appliance = discoveryManager.getApplianceByCppId(mAppliance.getNetworkNode().getCppId());
 					appliance.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-					DiscoveryManager.getInstance().updateApplianceInDatabase(appliance);
+					discoveryManager.updateApplianceInDatabase(appliance);
 
 					notifyListenerSuccess();
 				}

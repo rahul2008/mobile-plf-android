@@ -79,7 +79,7 @@ public class AirPurifier extends DICommAppliance {
 		if (location != null && getNetworkNode().getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY)) {
 			setLatitude(String.valueOf(location.getLatitude()));
 			setLongitude(String.valueOf(location.getLongitude()));
-			DiscoveryManager.getInstance().updateApplianceInDatabase(this);
+			((DiscoveryManager<AirPurifier>)DiscoveryManager.getInstance()).updateApplianceInDatabase(this);
 		}
 	}
 

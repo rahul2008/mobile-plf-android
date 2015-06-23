@@ -349,8 +349,9 @@ public class EWSActivity extends ActionBarActivity implements
 				current.setLatitude(String.valueOf(location.getLatitude()));
 				current.setLongitude(String.valueOf(location.getLongitude()));
 			}
-			DiscoveryManager.getInstance().insertApplianceToDatabase(current);
-			List<DICommAppliance> appliances = DiscoveryManager.getInstance().updateAddedAppliances();
+			DiscoveryManager<AirPurifier> discoveryManager = (DiscoveryManager<AirPurifier>)DiscoveryManager.getInstance();
+			discoveryManager.insertApplianceToDatabase(current);
+			List<AirPurifier> appliances = discoveryManager.updateAddedAppliances();
 			AirPurifierManager.getInstance().setCurrentIndoorViewPagerPosition(appliances.size() - 1);
 		}
 		

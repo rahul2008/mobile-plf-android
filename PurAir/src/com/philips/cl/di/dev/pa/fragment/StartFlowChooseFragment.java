@@ -57,7 +57,7 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 	private AirPurifier selectedPurifier;
 	private ArrayAdapter<String> appSelectorAdapter;
 	private ArrayList<String> listItemsArrayList;
-	private List<DICommAppliance> appItems;
+	private List<? extends DICommAppliance> appItems;
 	private ImageView seperatorupImgView;
 	private ImageView seperatordownImgView;
 	@Override
@@ -236,7 +236,7 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 
 			((MainActivity) getActivity()).showFragment(congratulationFragment);
 
-			DiscoveryManager.getInstance().insertApplianceToDatabase(selectedPurifier);
+			((DiscoveryManager<AirPurifier>)DiscoveryManager.getInstance()).insertApplianceToDatabase(selectedPurifier);
 		} else {
 			showAlertDialog(getString(R.string.purifier_add_fail_title),
 					getString(R.string.purifier_add_fail_msg));

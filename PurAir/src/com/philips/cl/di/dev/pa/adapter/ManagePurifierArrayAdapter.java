@@ -20,9 +20,9 @@ import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class ManagePurifierArrayAdapter extends ArrayAdapter<DICommAppliance> {
+public class ManagePurifierArrayAdapter extends ArrayAdapter<AirPurifier> {
 
-	private List<DICommAppliance> purifiers;
+	private List<AirPurifier> purifiers;
 	private Context context;
 	private int resource;
 	private HashMap<String, Boolean> selectedItems;
@@ -30,7 +30,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<DICommAppliance> {
     private String edit;
 
 	public ManagePurifierArrayAdapter(Context context, int resource,
-			List<DICommAppliance> purifiers, String edit,
+			List<AirPurifier> purifiers, String edit,
 			HashMap<String, Boolean> selectedItems, DashboardUpdateListener listener) {
 		super(context, resource, purifiers);
 		this.purifiers = purifiers;
@@ -58,7 +58,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<DICommAppliance> {
 
         setEditableIconVisibility(deleteSign);
 
-		final AirPurifier purifier = (AirPurifier) purifiers.get(position);
+		final AirPurifier purifier = purifiers.get(position);
 		final String purifierName = purifier.getName();
 		final String usn = purifier.getNetworkNode().getCppId();
 

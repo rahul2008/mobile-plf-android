@@ -17,8 +17,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
-
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -112,7 +110,7 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
 		String appEui64 = getString(R.string.app_eui64) + CppController.getInstance().getAppCppId();
 		
-		List<DICommAppliance> appliances= DiscoveryManager.getInstance().getAddedAppliances();
+		List<? extends DICommAppliance> appliances= DiscoveryManager.getInstance().getAddedAppliances();
 
 		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
 		data.append(lineSeparator);
@@ -150,7 +148,7 @@ public class DiagnosticShareActivity extends Activity implements OnClickListener
 		String platform= "Android " + Build.VERSION.RELEASE ;
 		String appEui64 = "EUI64:" + CppController.getInstance().getAppCppId();
 		
-		List<DICommAppliance> appliances= DiscoveryManager.getInstance().getAddedAppliances();
+		List<? extends DICommAppliance> appliances= DiscoveryManager.getInstance().getAddedAppliances();
 
 		StringBuilder data= new StringBuilder("App- ") ;
 		data.append(appVersion);

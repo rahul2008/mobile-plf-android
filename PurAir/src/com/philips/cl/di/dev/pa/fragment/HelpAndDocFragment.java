@@ -280,7 +280,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener,
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
 		String appEui64 = getString(R.string.app_eui64) + CppController.getInstance().getAppCppId();
 
-		List<DICommAppliance> appliances = DiscoveryManager.getInstance().getAddedAppliances();
+		List<? extends DICommAppliance> appliances = DiscoveryManager.getInstance().getAddedAppliances();
 
 		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
 		data.append(lineSeparator);
