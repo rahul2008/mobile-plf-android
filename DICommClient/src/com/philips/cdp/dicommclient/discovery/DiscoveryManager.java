@@ -40,7 +40,7 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager<T extends DICommAppliance> implements Callback, NetworkChangedCallback, CppDiscoverEventListener {
+public class DiscoveryManager<T extends DICommAppliance> implements Callback, CppDiscoverEventListener {
 
 	private static DiscoveryManager<? extends DICommAppliance> mInstance;
 
@@ -80,12 +80,8 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Ne
 		};
 	};
 
-	public static synchronized <U extends DICommAppliance> void createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
-		if (mInstance != null) {
-			throw new RuntimeException("DiscoveryManager can only be initialized once");
-		}
-		DICommContext.initialize(applicationContext);
-		mInstance = new DiscoveryManager<U>(cppController, applianceFactory, new NullApplianceDatabase<U>());
+	public static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
+		return createSharedInstance(applicationContext, cppController, applianceFactory, new NullApplianceDatabase<U>());
 	}
 
 	public static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
@@ -93,7 +89,8 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Ne
 			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
 		DICommContext.initialize(applicationContext);
-		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppController, applianceFactory, applianceDatabase);
+		NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
+		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppController, applianceFactory, applianceDatabase, networkMonitor);
 		mInstance = discoveryManager;
 		return discoveryManager;
 	}
@@ -102,7 +99,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Ne
 		return mInstance;
 	}
 
-	private DiscoveryManager(CppController cppController, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase) {
+	/* package, for testing */ DiscoveryManager(CppController cppController, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
 		mApplianceFactory = applianceFactory;
 		mApplianceDatabase = applianceDatabase;
 		
@@ -112,8 +109,8 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Ne
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
 		mCppHelper = new CppDiscoveryHelper(cppController, this);
 
-		// Starting network monitor will ensure a fist callback.
-		mNetwork = new NetworkMonitor(DICommContext.getContext(), this);
+		mNetwork = networkMonitor;
+		mNetwork.setListener(mNetworkChangedCallback);
 	}
 
 	public void start(DiscoveryEventListener listener) {
@@ -207,34 +204,37 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Ne
 		return mAllAppliancesMap.get(cppId);
 	}
 
-	@Override
-	public void onNetworkChanged(NetworkState networkState, String networkSsid) {
-		// REMARK: Wifi switch will go through the none state
-		cancelConnectViaCppAfterLocalAttempt();
-		synchronized (mDiscoveryLock) {
-			switch(networkState) {
-			case NONE :
-				markAllAppliancesOffline();
-				mSsdpHelper.stopDiscoveryImmediate();
-				DLog.d(DLog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
-				break;
-			case MOBILE:
-				markAllAppliancesRemote();
-				mSsdpHelper.stopDiscoveryImmediate();;
-				DLog.d(DLog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
-				break;
-			case WIFI_WITH_INTERNET:
-				markOtherNetworkAppliancesRemote(networkSsid);
-				connectViaCppAfterLocalAttemptDelayed();
-				mSsdpHelper.startDiscoveryAsync();
-				DLog.d(DLog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
-				break;
-			default:
-				break;
+	private NetworkChangedCallback mNetworkChangedCallback = new NetworkChangedCallback() {
+		
+		@Override
+		public void onNetworkChanged(NetworkState networkState, String networkSsid) {
+			// REMARK: Wifi switch will go through the none state
+			cancelConnectViaCppAfterLocalAttempt();
+			synchronized (mDiscoveryLock) {
+				switch(networkState) {
+				case NONE :
+					markAllAppliancesOffline();
+					mSsdpHelper.stopDiscoveryImmediate();
+					DLog.d(DLog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
+					break;
+				case MOBILE:
+					markAllAppliancesRemote();
+					mSsdpHelper.stopDiscoveryImmediate();;
+					DLog.d(DLog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
+					break;
+				case WIFI_WITH_INTERNET:
+					markOtherNetworkAppliancesRemote(networkSsid);
+					connectViaCppAfterLocalAttemptDelayed();
+					mSsdpHelper.startDiscoveryAsync();
+					DLog.d(DLog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
+					break;
+				default:
+					break;
+				}
 			}
-		}
 
-	}
+		}
+	};
 
 	// TODO DIComm Refactor: investigate and fix commented code
 	@Override
@@ -433,7 +433,8 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Ne
 		for (DICommAppliance appliance : mAllAppliancesMap.values()) {
 			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (appliance.getNetworkNode().getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED || !appliance.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
+			if (appliance.getNetworkNode().getPairedState() != NetworkNode.PAIRED_STATUS.PAIRED) continue;
+			if (!appliance.getNetworkNode().isOnlineViaCpp()) continue; // not online via cpp
 
 			appliance.getNetworkNode().setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;

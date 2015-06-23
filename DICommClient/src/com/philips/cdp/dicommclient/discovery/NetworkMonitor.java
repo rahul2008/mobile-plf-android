@@ -33,15 +33,15 @@ public class NetworkMonitor {
 		WIFI_WITH_INTERNET,
 		NONE
 	}
+	
 	private LooperThread mLooper;
 
-	public NetworkMonitor(Context context, NetworkChangedCallback listener) {
+	public NetworkMonitor(Context context) {
 		mConnectivityManager = (ConnectivityManager) context
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		mWifiManager = (WifiManager) context
 				.getSystemService(Context.WIFI_SERVICE);
 
-		mNetworkChangedCallback = listener;
 
 		mNetworkChangedReceiver = new BroadcastReceiver() {
 
@@ -51,6 +51,10 @@ public class NetworkMonitor {
 				updateNetworkStateAsync();
 			};
 		};
+	}
+	
+	public void setListener(NetworkChangedCallback listener) {
+		mNetworkChangedCallback = listener;
 	}
 
 	public void startNetworkChangedReceiver(Context context) {
@@ -102,23 +106,24 @@ public class NetworkMonitor {
 
 		if (mLastKnownState == newState && !isLastKnowSsid(newSsid)) {
 			DLog.d(DLog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
-			updateListener(NetworkState.NONE, null);
+			notifyListener(NetworkState.NONE, null);
 		}
 
 		if (mLastKnownState == NetworkState.MOBILE && newState == NetworkState.WIFI_WITH_INTERNET
 				|| mLastKnownState == NetworkState.WIFI_WITH_INTERNET && newState == NetworkState.MOBILE) {
 			DLog.d(DLog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
-			updateListener(NetworkState.NONE, null);
+			notifyListener(NetworkState.NONE, null);
 		}
 
 		DLog.d(DLog.NETWORKMONITOR, "NetworkState Changed");
 		mLastKnownState = newState;
 		mLastKnownSsid = newSsid;
-		updateListener(newState, newSsid);
+		notifyListener(newState, newSsid);
 	}
 
-	private void updateListener(NetworkState state, String ssid) {
+	private void notifyListener(NetworkState state, String ssid) {
 		if (mNetworkChangedCallback == null) return;
+		
 		DLog.v(DLog.NETWORKMONITOR, "Updating listener");
 		mNetworkChangedCallback.onNetworkChanged(state, ssid);
 	}
