@@ -18,7 +18,6 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -51,7 +50,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private Button mBtnResend;
 
 	private XEmail mEtEmail;
-
+ 
 	private XPassword mEtPassword;
 
 	private User mUser;
@@ -175,11 +174,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		}
 	}
 
-	private void trackActionForSignInAccount(String state, String specialEvents,
-	        String startUserRegistration) {
-		AnalyticsUtils.trackAction(state, specialEvents, startUserRegistration);
-	}
-
 	private void lauchAccountActivationFragment() {
 		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
 		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.ACCOUNT_ACTIVATION);
@@ -220,7 +214,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void signIn() {
-		trackActionForSignInAccount(AnalyticsConstants.SEND_DATA,
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
 		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
 		if (mUser != null) {
 			showSignInSpinner();
@@ -248,7 +242,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginSuccess");
-		trackActionForLoginSuccess(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
 		        AnalyticsConstants.SUCCESS_LOGIN);
 		hideSignInSpinner();
 		mBtnForgot.setEnabled(true);
@@ -260,10 +254,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
 			mBtnResend.setVisibility(View.VISIBLE);
 		}
-	}
-
-	private void trackActionForLoginSuccess(String state, String specialEvents, String successLogin) {
-		AnalyticsUtils.trackAction(state, specialEvents, successLogin);
 	}
 
 	private void launchWelcomeFragment() {
@@ -287,15 +277,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
 			mEtPassword.showInvalidAlert();
 		}
-
+        trackActionLoginError(userRegistrationFailureInfo.getError().code);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		System.out.println("*********************** NetWork Failure code :  "+userRegistrationFailureInfo.getError().code);
 	}
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
+		        AnalyticsConstants.STATUS_NOTIFICATION, AnalyticsConstants.RESET_PASSWORD_SUCCESS);
 		hideForgotPasswordSpinner();
-		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity());
+		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity(),AnalyticsConstants.SIGN_IN);
 		hideForgotPasswordSpinner();
 		mBtnResend.setEnabled(true);
 		mRegError.hideError();
@@ -312,7 +305,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
 			mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
-
 			return;
 		}
 
@@ -322,7 +314,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		}
 
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-
+		trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 
 	private void showSignInSpinner() {

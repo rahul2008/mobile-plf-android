@@ -1,6 +1,8 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.adobe.analytics.TrackActionErrors;
 import com.philips.cl.di.reg.ui.utils.RLog;
 
 public abstract class RegistrationBaseFragment extends Fragment {
@@ -144,11 +147,28 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		} else {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
+
 		view.setLayoutParams(mParams);
 	}
 
 	protected void trackPage(String prevPage, String currPage) {
-		AnalyticsUtils.trackPage(prevPage,currPage);
+		AnalyticsUtils.trackPage(prevPage, currPage);
+	}
+
+	protected void trackActionStatus(String state, String key,String value) {
+		AnalyticsUtils.trackAction(state, key, value);
+	}
+	
+	protected void trackActionForRemarkettingOption(String state) {
+		AnalyticsUtils.trackAction(state, null, null);
+	}
+
+	protected void trackActionRegisterError(int errorCode) {
+		TrackActionErrors.trackActionRegisterError(errorCode);
+	}
+
+	protected void trackActionLoginError(int errorCode) {
+		TrackActionErrors.trackActionLoginError(errorCode);
 	}
 
 }

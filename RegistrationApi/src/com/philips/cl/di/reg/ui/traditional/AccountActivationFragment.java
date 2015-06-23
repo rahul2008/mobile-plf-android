@@ -19,7 +19,6 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.NetworStateListener;
@@ -206,6 +205,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 			mBtnActivate.setEnabled(false);
 			mBtnResend.setEnabled(false);
+			trackActionRegisterError(AnalyticsConstants.NETWORK_ERROR_CODE);
 		}
 	}
 
@@ -235,7 +235,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 			mBtnResend.setVisibility(View.GONE);
 			mEMailVerifiedError.hideError();
 			mRegError.hideError();
-			trackActionForActivationSuccess(AnalyticsConstants.SEND_DATA,
+			trackActionStatus(AnalyticsConstants.SEND_DATA,
 			        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_REGISTRATION);
 			launchWelcomeFragment();
 
@@ -244,16 +244,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 			mEMailVerifiedError.setVisibility(View.VISIBLE);
 			mEMailVerifiedError.setError(getResources().getString(
 			        R.string.Janrain_Error_Need_Email_Verification));
+			trackActionRegisterError(AnalyticsConstants.EMAIL_NOT_VERIFIED);
 		}
 	}
 
-	private void trackActionForActivationSuccess(String state, String specialEvents, String successUserRegistration) {
-		AnalyticsUtils.trackAction(state,specialEvents, successUserRegistration);
-    }
-
 	private void launchWelcomeFragment() {
 		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION,AnalyticsPages.WELCOME);
+		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION, AnalyticsPages.WELCOME);
 	}
 
 	@Override
@@ -300,7 +297,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 		RLog.i(RLog.CALLBACK,
 		        "AccountActivationFragment : onResendVerificationEmailFailedWithError");
 		updateResendUIState();
-
+		trackActionRegisterError(userRegistrationFailureInfo.getError().code);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + "\n"
 		        + userRegistrationFailureInfo.getEmailErrorMessage());
 

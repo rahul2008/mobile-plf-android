@@ -9,10 +9,12 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 
 public class RegAlertDialog {
 
-	public static void showResetPasswordDialog(Activity activity) {
+	public static void showResetPasswordDialog(Activity activity, final String typeName) {
 
 		final AlertDialog alertDialogBuilder = new AlertDialog.Builder(activity).create();
 		alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -24,6 +26,11 @@ public class RegAlertDialog {
 		continueBtn.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
+				if(typeName.equals(AnalyticsConstants.SIGN_IN)){
+					trackActionForResetPasswordNotification(AnalyticsConstants.ACCEPT_MESSAGE,
+					        AnalyticsConstants.STATUS_NOTIFICATION, AnalyticsConstants.CONTINUE);
+
+				}
 				alertDialogBuilder.dismiss();
 			}
 		});
@@ -31,5 +38,10 @@ public class RegAlertDialog {
 		alertDialogBuilder.setView(myView);
 		alertDialogBuilder.show();
 	}
+
+	private static void trackActionForResetPasswordNotification(String state,
+            String statusNotification, String continueStatus) {
+		AnalyticsUtils.trackAction(state, statusNotification, continueStatus);
+    }
 
 }

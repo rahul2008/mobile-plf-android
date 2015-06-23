@@ -33,7 +33,6 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
@@ -274,25 +273,16 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		 */
 		if (v.getId() == R.id.btn_reg_create_account) {
 			RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
-			trackActionForMyPhilipsAccount(AnalyticsConstants.SEND_DATA,
+			trackActionStatus(AnalyticsConstants.SEND_DATA,
 			        AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
 			launchCreateAccountFragment();
 
 		} else if (v.getId() == R.id.btn_reg_my_philips) {
 			RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
-			trackActionForMyPhilipsAccount(AnalyticsConstants.SEND_DATA,
+			trackActionStatus(AnalyticsConstants.SEND_DATA,
 			        AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
 			launchSignInFragment();
 		}
-	}
-
-	private void trackActionForMyPhilipsAccount(String state, String loginChannel, String myPhilips) {
-		AnalyticsUtils.trackAction(state, loginChannel, myPhilips);
-	}
-
-	private void trackActionForSocialProvider(String state, String loginChannel, String providerName) {
-		AnalyticsUtils.trackAction(state, loginChannel,
-		        providerName.toLowerCase(Locale.getDefault()));
 	}
 
 	private void launchSignInFragment() {
@@ -307,7 +297,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	private void callSocialProvider(String providerName) {
 		RLog.d("HomeFragment", "callSocialProvider method provider name :" + providerName);
-		trackActionForSocialProvider(AnalyticsConstants.SEND_DATA,
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
 		        AnalyticsConstants.LOGIN_CHANNEL, providerName);
 		mProvider = providerName;
 		if (null == mUser)
@@ -361,6 +351,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		} else {
 			mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
 			enableControls(false);
+			trackActionLoginError(AnalyticsConstants.NETWORK_ERROR_CODE);
 		}
 	}
 
@@ -468,7 +459,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
 	@Override
 	public void onLoginSuccess() {
-		trackActionForSocialLoginSucces(AnalyticsConstants.SEND_DATA,
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
 		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_LOGIN);
 		RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
 		hideProviderProgress();
@@ -479,11 +470,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		} else {
 			launchAccountActivationFragment();
 		}
-	}
-
-	private void trackActionForSocialLoginSucces(String state, String specialEvents,
-	        String successLogin) {
-		AnalyticsUtils.trackAction(state, specialEvents, successLogin);
 	}
 
 	private void launchAccountActivationFragment() {
@@ -515,7 +501,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError");
 		hideProviderProgress();
 		enableControls(true);
-
+		trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 
 	@Override
@@ -575,6 +561,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginFailure");
 		hideProviderProgress();
 		enableControls(true);
+		trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		
 	}
 
 	@Override

@@ -19,6 +19,10 @@ import android.widget.ImageView;
 
 import com.adobe.mobile.Config;
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
+import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
@@ -125,12 +129,40 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 
 	public void loadFirstFragment() {
 		try {
-			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
-			fragmentTransaction.commit();
+			handleUserLoginStateFragments();
+
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
 			        "RegistrationActivity :FragmentTransaction Exception occured in loadFirstFragment  :"
+			                + e.getMessage());
+		}
+	}
+
+	private void handleUserLoginStateFragments() {
+		if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
+			User mUser = new User(this.getApplicationContext());
+			if (mUser.getEmailVerificationStatus(this.getApplicationContext())) {
+				replaceWithWelcomeFragment();
+				trackPage("", AnalyticsPages.WELCOME);
+				return;
+			}
+		}
+		trackPage("", AnalyticsPages.HOME);
+		replaceWithHomeFragment();
+	}
+
+	private void trackPage(String prevPage, String currPage) {
+		AnalyticsUtils.trackPage(prevPage, currPage);
+    }
+
+	private void replaceWithHomeFragment() {
+		try {
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
+			fragmentTransaction.commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			RLog.e(RLog.EXCEPTION,
+			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
 			                + e.getMessage());
 		}
 	}
@@ -140,7 +172,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
 			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
@@ -168,6 +200,24 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
 		welcomeFragment.setArguments(welcomeFragmentBundle);
 		addFragment(welcomeFragment);
+	}
+
+	private void replaceWithWelcomeFragment() {
+		try {
+			WelcomeFragment welcomeFragment = new WelcomeFragment();
+			Bundle welcomeFragmentBundle = new Bundle();
+			welcomeFragmentBundle
+			        .putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
+			welcomeFragmentBundle.putBoolean(RegConstants.IS_FROM_BEGINING, true);
+			welcomeFragment.setArguments(welcomeFragmentBundle);
+			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+			fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
+			fragmentTransaction.commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			RLog.e(RLog.EXCEPTION,
+			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+			                + e.getMessage());
+		}
 	}
 
 	public void addAlmostDoneFragment(JSONObject preFilledRecord, String provider,

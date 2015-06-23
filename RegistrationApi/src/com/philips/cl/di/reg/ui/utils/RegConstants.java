@@ -68,6 +68,8 @@ public class RegConstants {
 
 	public static final String VERIFICATIN_SUCCESS = "VERIFICATIN_SUCCESS";
 
+	public static final String IS_FROM_BEGINING = "IS_FROM_BEGINING";
+
 	public static final int INVALID_CREDENTIALS_ERROR_CODE = 210;
 
 	public static final int INVALID_FIELDS_ERROR_CODE = 390;

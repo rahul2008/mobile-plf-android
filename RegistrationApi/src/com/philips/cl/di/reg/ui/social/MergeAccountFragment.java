@@ -18,7 +18,6 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -210,14 +209,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		}
 	}
 
-	private void trackActionForMergeAccount(String state, String specialEvents,
-	        String startSocialMerge) {
-		AnalyticsUtils.trackAction(state, specialEvents, startSocialMerge);
-	}
-
 	private void mergeAccount() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			trackActionForMergeAccount(AnalyticsConstants.SEND_DATA,
+			trackActionStatus(AnalyticsConstants.SEND_DATA,
 					AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_SOCIAL_MERGE);
 			mUser.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(),
 			        mMergeToken, this);
@@ -276,6 +270,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			}
 		} else {
 			mRegError.setError(getString(R.string.NoNetworkConnection));
+			trackActionLoginError(AnalyticsConstants.NETWORK_ERROR_CODE);
 		}
 	}
 
@@ -347,12 +342,13 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		}
 
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
-		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity());
+		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity(),AnalyticsConstants.MERGE_ACCOUNT);
 		hideForgotPasswordSpinner();
 		mRegError.hideError();
 	}
