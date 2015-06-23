@@ -673,7 +673,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				// check sourcelat and sourcelng
 				if (mSourceLat == 0 && mSourceLng == 0) {
 
-					gpsAlertView.showAlert(getActivity(), -1,
+					gpsAlertView.showAlert(this, -1,
 							R.string.gps_disabled, android.R.string.yes,
 							android.R.string.no);
 
@@ -760,7 +760,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 				.getSystemService(Context.LOCATION_SERVICE);
 		if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 				&& !manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			gpsAlertView.showAlert(getActivity(), -1, R.string.gps_disabled,
+			gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
 					android.R.string.yes, android.R.string.no);
 		} else {
 			gpsAlertView.removeAlert();

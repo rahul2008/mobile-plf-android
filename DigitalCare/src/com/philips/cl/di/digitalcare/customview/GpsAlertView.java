@@ -1,5 +1,8 @@
 package com.philips.cl.di.digitalcare.customview;
 
+import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
+import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -22,23 +25,26 @@ public class GpsAlertView {
 		return gpsAlertView;
 	}
 
-	public void showAlert(final Activity activity, int title_res_id,
-			int message_res_id, int positiveButtonText_res_id,
-			int negativeButtonText_res_id) {
+	public void showAlert(
+			final DigitalCareBaseFragment digitalCareBaseFragment,
+			int title_res_id, int message_res_id,
+			int positiveButtonText_res_id, int negativeButtonText_res_id) {
 		if (mDialogBuilder == null) {
-			mDialogBuilder = new AlertDialog.Builder(activity);
+			mDialogBuilder = new AlertDialog.Builder(
+					digitalCareBaseFragment.getActivity());
 
-			mDialogBuilder.setMessage(activity.getResources().getString(
-					message_res_id));
+			mDialogBuilder.setMessage(digitalCareBaseFragment.getResources()
+					.getString(message_res_id));
 
 			mDialogBuilder.setPositiveButton(positiveButtonText_res_id,
 					new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int which) {
 
-							activity.startActivityForResult(
-									new Intent(
-											android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),
-									0);
+							digitalCareBaseFragment
+									.startActivityForResult(
+											new Intent(
+													android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+											0);
 
 							dialog.dismiss();
 							mDialogBuilder = null;
