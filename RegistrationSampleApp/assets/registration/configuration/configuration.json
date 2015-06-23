@@ -12,7 +12,7 @@
       "CampaignID":"COPPA-SONICARE"
    },
    "Flow":{
-        "EmailVerificationRequired" : "true"
+        "EmailVerificationRequired" : "false"
     },
    "SocialProviders":{
       "NL":[

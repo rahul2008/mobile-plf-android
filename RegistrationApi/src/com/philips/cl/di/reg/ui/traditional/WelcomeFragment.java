@@ -202,15 +202,16 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	public void onClick(View v) {
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_out) {
-			RLog.d(RLog.ONCLICK, ": WelcomeFragment : Sign Out");
+			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
 			if (isfromBegining) {
-				RLog.d(RLog.ONCLICK, ": WelcomeFragment : Continue Sign out");
+				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
 				mUser.logout();
+				getRegistrationMainActivity().replaceWithHomeFragment();
 			} else {
-				RLog.d(RLog.ONCLICK, ": WelcomeFragment : Continue");
+				RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
 				RegistrationHelper.getInstance().getUserRegistrationListener()
 				        .notifyEventOccurred();
 			}
@@ -250,9 +251,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	@Override
 	public void onUpdateReceiveMarketingEmailSuccess() {
 		hideProgressBar();
-		if(mCbTerms.isChecked()){
+		if (mCbTerms.isChecked()) {
 			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
-		}else{
+		} else {
 			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
 		}
 	}

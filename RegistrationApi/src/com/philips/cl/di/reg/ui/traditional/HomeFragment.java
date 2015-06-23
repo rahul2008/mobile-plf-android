@@ -501,7 +501,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithError");
 		hideProviderProgress();
 		enableControls(true);
-		trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		if(null!=userRegistrationFailureInfo && null!=userRegistrationFailureInfo.getError()){
+			trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		}
 	}
 
 	@Override
@@ -561,7 +563,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		RLog.i(RLog.CALLBACK, "HomeFragment : onContinueSocialProviderLoginFailure");
 		hideProviderProgress();
 		enableControls(true);
-		trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		if(null!=userRegistrationFailureInfo && null!=userRegistrationFailureInfo.getError()){
+			trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		}
 		
 	}
 

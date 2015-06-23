@@ -139,27 +139,24 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 	}
 
 	private void handleUserLoginStateFragments() {
-		if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
-			User mUser = new User(this.getApplicationContext());
-			if (mUser.getEmailVerificationStatus(this.getApplicationContext())) {
-				replaceWithWelcomeFragment();
-				trackPage("", AnalyticsPages.WELCOME);
-				return;
-			}
+		User mUser = new User(this.getApplicationContext());
+		if (mUser.getEmailVerificationStatus(this.getApplicationContext())) {
+			replaceWithWelcomeFragment();
+			return;
 		}
-		trackPage("", AnalyticsPages.HOME);
 		replaceWithHomeFragment();
 	}
 
 	private void trackPage(String prevPage, String currPage) {
 		AnalyticsUtils.trackPage(prevPage, currPage);
-    }
+	}
 
-	private void replaceWithHomeFragment() {
+	public void replaceWithHomeFragment() {
 		try {
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
 			fragmentTransaction.commitAllowingStateLoss();
+			trackPage("", AnalyticsPages.HOME);
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
 			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
@@ -188,7 +185,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			fragmentManager.popBackStack();
 		}
 	}
-
+	
 	private void initUI() {
 		ImageView ivBack = (ImageView) findViewById(R.id.iv_reg_back);
 		ivBack.setOnClickListener(this);
@@ -213,6 +210,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
 			fragmentTransaction.commitAllowingStateLoss();
+			trackPage("", AnalyticsPages.WELCOME);
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
 			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
