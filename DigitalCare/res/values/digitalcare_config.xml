@@ -22,7 +22,7 @@
         <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
     </style>
 
-    <bool name="actionbar_required">true</bool>
+    <bool name="actionbar_title_required">true</bool>
 
     <!-- Text color -->
     <color name="text_header_color">@color/button_background</color>
@@ -93,6 +93,6 @@
     <bool name="live_chat_required">false</bool>
 
     <!-- email id for philips support -->
-    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+    <string name="support_email_id" translatable="false">philipscare@philips.com</string>
 
 </resources>
