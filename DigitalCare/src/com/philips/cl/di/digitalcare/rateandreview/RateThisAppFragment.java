@@ -55,8 +55,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		DigiCareLogger.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 
-		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
-				AnalyticsConstants.MAP_KEY_EXIT_LINK, mStoreUri.toString());
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+				AnalyticsConstants.ACTION_KEY_EXIT_LINK, mStoreUri.toString());
 
 		mRatePlayStoreBtn = (DigitalCareFontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
@@ -73,6 +73,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
+				getPreviousName());
 	}
 
 	@Override
@@ -84,7 +86,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	private void rateThisApp() {
 		Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL
-				+ DigitalCareConfigManager.getInstance(getActivity()).getContext().getPackageName());
+				+ DigitalCareConfigManager.getInstance(getActivity())
+						.getContext().getPackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
 			startActivity(goToMarket);
@@ -127,5 +130,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.feedback);
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_RATE_THIS_APP;
 	}
 }

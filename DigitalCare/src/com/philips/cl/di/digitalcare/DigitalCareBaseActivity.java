@@ -67,7 +67,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		super.onResume();
 		AnalyticsTracker.startCollectLifecycleData();
 		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_KEY_SET_APP_STATUS,
+				AnalyticsConstants.ACTION_SET_APP_STATUS,
 				AnalyticsConstants.ACTION_KEY_APP_STATUS,
 				AnalyticsConstants.ACTION_VALUE_FOREGROUND);
 	}
@@ -76,7 +76,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_KEY_SET_APP_STATUS,
+				AnalyticsConstants.ACTION_SET_APP_STATUS,
 				AnalyticsConstants.ACTION_KEY_APP_STATUS,
 				AnalyticsConstants.ACTION_VALUE_BACKGROUND);
 		AnalyticsTracker.stopCollectLifecycleData();

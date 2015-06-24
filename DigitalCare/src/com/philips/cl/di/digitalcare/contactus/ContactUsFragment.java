@@ -134,7 +134,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mParams = (FrameLayout.LayoutParams) mContactUsParent
 					.getLayoutParams();
 
-			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US);
+			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
+					getPreviousName());
 		}
 		config = getResources().getConfiguration();
 	}
@@ -337,7 +338,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			}
-			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CHAT);
+			tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CHAT);
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
@@ -348,7 +349,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			} else if (Utils.isSimAvailable(getActivity())) {
-				tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_CALL);
+				tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				showAlert("Check the SIM");
@@ -395,7 +396,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);
 
 		} else if (id == R.id.contactUsEmail) {
-			tagServiceRequest(AnalyticsConstants.SERVICE_CHANNEL_EMAIL);
+			tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
 			sendEmail();
 		}
 	}
@@ -422,14 +423,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	private void tagServiceRequest(String serviceChannel) {
 		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_KEY_SERVICE_REQUEST,
+				AnalyticsConstants.ACTION_SERVICE_REQUEST,
 				AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
 	}
 
 	private void tagTechnicalError() {
-		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_SET_ERROR,
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_ERROR,
 				AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-				AnalyticsConstants.TECHNICAL_ERROR_RESPONSE_CDLS);
+				AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS);
 	}
 
 	/*
@@ -572,6 +573,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		return getResources().getString(R.string.contact_us);
 	}
 
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_CONTACT_US;
+	}
+	
 	
 	/*protected void startFacebookSession() {
 		FacebookHelper mHelper = FacebookHelper.getInstance(getActivity());

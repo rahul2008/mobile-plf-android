@@ -83,7 +83,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName());
 	}
 
 	@Override
@@ -124,5 +124,10 @@ public class ChatFragment extends DigitalCareBaseFragment {
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.chat_with_philips);
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
 	}
 }

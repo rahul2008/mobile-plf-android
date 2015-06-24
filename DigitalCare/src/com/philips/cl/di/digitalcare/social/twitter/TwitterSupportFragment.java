@@ -171,7 +171,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
+				getPreviousName());
 	}
 
 	@Override
@@ -360,7 +361,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 			public void run() {
 				String socialType = "Twitter";
 				AnalyticsTracker.trackAction(
-						AnalyticsConstants.ACTION_KEY_SOCIAL_SHARE,
+						AnalyticsConstants.ACTION_SOCIAL_SHARE,
 						AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, socialType);
 				showAlert(getActivity().getResources().getString(
 						R.string.social_post_success));
@@ -408,5 +409,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	private void enableCheckBoxonOpen() {
 		mCheckBox.setChecked(true);
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_CONTACTUS_TWITTER;
 	}
 }

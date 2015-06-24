@@ -77,7 +77,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 			startTwitterSDK(data);
 		} else if (resultCode == Activity.RESULT_OK) {
 			AnalyticsTracker.trackAction(
-					AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
+					AnalyticsConstants.ACTION_RECEIPT_PHOTO,
 					AnalyticsConstants.ACTION_KEY_PHOTO,
 					AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
 

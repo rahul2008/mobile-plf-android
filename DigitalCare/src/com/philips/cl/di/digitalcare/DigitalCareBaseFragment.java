@@ -45,10 +45,13 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private Thread mUiThread = Looper.getMainLooper().getThread();
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
 	private static ActionbarUpdateListner mActionbarUpdateListner = null;
+	private String mPreviousPageName = null;
 
 	public abstract void setViewParams(Configuration config);
 
 	public abstract String getActionbarTitle();
+
+	public abstract String setPreviousPageName();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -128,7 +131,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		DigiCareLogger.i(DigiCareLogger.FRAGMENT, "OnDestroyView on "
 				+ this.getClass().getSimpleName());
 		super.onDestroyView();
-
+		mPreviousPageName = setPreviousPageName();
 		hideKeyboard();
 	}
 
@@ -155,9 +158,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 									android.R.string.yes));
 					AnalyticsTracker
 							.trackAction(
-									AnalyticsConstants.ACTION_KEY_SET_ERROR,
+									AnalyticsConstants.ACTION_SET_ERROR,
 									AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-									AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+									AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
 
 				}
 			});
@@ -178,9 +181,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 						getActivity().getResources().getString(
 								android.R.string.yes));
 				AnalyticsTracker.trackAction(
-						AnalyticsConstants.ACTION_KEY_SET_ERROR,
+						AnalyticsConstants.ACTION_SET_ERROR,
 						AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-						AnalyticsConstants.TECHNICAL_ERROR_NETWORK_CONNECITON);
+						AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
 
 			}
 		});
@@ -345,6 +348,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		} else {
 			mActionbarUpdateListner.updateActionbar(getActionbarTitle(), false);
 		}
+	}
+
+	public String getPreviousName() {
+		return mPreviousPageName;
 	}
 
 }

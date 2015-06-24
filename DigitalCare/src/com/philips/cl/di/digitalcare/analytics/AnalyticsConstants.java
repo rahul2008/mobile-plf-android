@@ -25,51 +25,61 @@ public class AnalyticsConstants {
 
 	/* ACTION KEY CONSTANTS */
 	/***************** Page Context Data start **************/
-	public static final String ACTION_KEY_APPNAME = "app.name";
-	public static final String ACTION_KEY_VERSION = "app.version";
-	public static final String ACTION_KEY_OS = "app.os";
-	public static final String ACTION_KEY_LANGUAGE = "locale.language";
-	public static final String ACTION_KEY_CURRENCY = "locale.currency";
-	public static final String ACTION_KEY_COUNTRY = "locale.country";
-	public static final String ACTION_KEY_TIME_STAMP = "timestamp";
-	public static final String ACTION_KEY_APP_ID = "appsId";
+	public static final String KEY_APPNAME = "app.name";
+	public static final String KEY_VERSION = "app.version";
+	public static final String KEY_OS = "app.os";
+	public static final String KEY_LANGUAGE = "locale.language";
+	public static final String KEY_CURRENCY = "locale.currency";
+	public static final String KEY_COUNTRY = "locale.country";
+	public static final String KEY_TIME_STAMP = "timestamp";
+	public static final String KEY_APP_ID = "appsId";
+	public static final String KEY_PREVIOUS_PAGENAME = "previousPagename";
+
 	/***************** Page Context Data End **************/
 
+	/***************** Action Names **************/
+	public static final String ACTION_SET_ERROR = "setError";
+	public static final String ACTION_RECEIPT_PHOTO = "receiptPhoto";
+	public static final String ACTION_SOCIAL_SHARE = "socialShare";
+	public static final String ACTION_EXIT_LINK = "exit link";
+	public static final String ACTION_SET_APP_STATUS = "setAppStatus";
+	public static final String ACTION_SERVICE_REQUEST = "serviceRequest";
+	/* ACTION KEY FOR LOCATE PHILIPS */
+	public static final String ACTION_LOCATE_PHILIPS_SEND_DATA = "sendData";
+
+	/***************** Action Keys **************/
 	public static final String ACTION_KEY_USER_ERROR = "userError";
-	public static final String ACTION_KEY_SET_ERROR = "setError";
 	public static final String ACTION_KEY_TECHNICAL_ERROR = "technicalError";
-	public static final String ACTION_KEY_EXIT_LINK = "exit link";
-	public static final String ACTION_KEY_RECEIPT_PHOTO = "receiptPhoto";
 	public static final String ACTION_KEY_APP_STATUS = "appStatus";
-	public static final String ACTION_KEY_SET_APP_STATUS = "setAppStatus";
-	public static final String ACTION_KEY_SOCIAL_SHARE = "socialShare";
 	public static final String ACTION_KEY_SOCIAL_TYPE = "socialType";
 	public static final String ACTION_KEY_SERVICE_CHANNEL = "serviceChannel";
-	public static final String ACTION_KEY_SERVICE_REQUEST = "serviceRequest";
 	public static final String ACTION_KEY_PHOTO = "photo"; // TODO: Has to be
-															// confirmed.
+	// confirmed.
+	public static final String ACTION_KEY_EXIT_LINK = "exitLinkName";
 
-	/* ACTION KEY FOR MAP */
-	public static final String MAP_KEY_EXIT_LINK = "exitLinkName";
+	/* Locate Near To You */
+	public static final String ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM = "searchTerm";
+	public static final String ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS = "numberOfSearchResults";
+	public static final String ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW = "locationView";
+	public static final String ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS = "specialEvents";
 
-	/* ACTION VALUE CONSTANTS */
+	/***************** Action Values **************/
 	public static final String ACTION_VALUE_APPNAME = "DigitalCare";
 	public static final String ACTION_VALUE_ANDROID = "Android ";
 	public static final String ACTION_VALUE_FACEBOOK = "Facebook";
 	public static final String ACTION_VALUE_BACKGROUND = "Background";
 	public static final String ACTION_VALUE_FOREGROUND = "Foreground";
-	public static final String ACTION_VALUE_PHOTO_VALUE = "productimage"; // TODO:
-																			// Has
-																			// to
-																			// be
-																			// confirmed.
+	public static final String ACTION_VALUE_PHOTO_VALUE = "productimage";
+	public static final String ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS = "getLocationDirections";
+	public static final String ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION = "callLocation";
+
 	/* Error text */
-	public static final String TECHNICAL_ERROR_NETWORK_CONNECITON = "Error connecting to network";
-	public static final String TECHNICAL_ERROR_RESPONSE_CDLS = "Error response from CDLS server";
-	public static final String TECHNICAL_ERROR_LOADING = "Error in loading";
+	public static final String ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON = "Error connecting to network";
+	public static final String ACTION_VALUE_TECHNICAL_ERROR_RESPONSE_CDLS = "Error response from CDLS server";
+	public static final String ACTION_VALUE_TECHNICAL_ERROR_LOADING = "Error in loading";
 
 	/* Service Channel */
-	public static final String SERVICE_CHANNEL_CHAT = "chat";
-	public static final String SERVICE_CHANNEL_EMAIL = "email";
-	public static final String SERVICE_CHANNEL_CALL = "call";
+	public static final String ACTION_VALUE_SERVICE_CHANNEL_CHAT = "chat";
+	public static final String ACTION_VALUE_SERVICE_CHANNEL_EMAIL = "email";
+	public static final String ACTION_VALUE_SERVICE_CHANNEL_CALL = "call";
 }

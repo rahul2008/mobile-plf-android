@@ -103,7 +103,7 @@ public class AtosAddressModelTest extends InstrumentationTestCase {
 		public void onAtosParsingComplete(AtosResponseModel atosResponseModel) {
 			ArrayList<AtosResultsModel> resultList = atosResponseModel
 					.getResultsModel();
-			atosAddressModel = resultList.get(0).getmAddressModel();
+			atosAddressModel = resultList.get(0).getAddressModel();
 		}
 	};
 

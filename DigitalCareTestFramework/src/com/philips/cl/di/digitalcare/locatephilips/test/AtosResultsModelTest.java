@@ -79,7 +79,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos.json");
 		for (int i = 0; i < resultList.size(); i++) {
-			AtosAddressModel received = resultList.get(i).getmAddressModel();
+			AtosAddressModel received = resultList.get(i).getAddressModel();
 			assertNotNull(received);
 		}
 	}
@@ -88,7 +88,7 @@ public class AtosResultsModelTest extends InstrumentationTestCase {
 
 		ArrayList<AtosResultsModel> resultList = getResultModelList("atos_no_address.json");
 		for (int i = 0; i < resultList.size(); i++) {
-			AtosAddressModel received = resultList.get(i).getmAddressModel();
+			AtosAddressModel received = resultList.get(i).getAddressModel();
 			assertNull(received);
 		}
 	}

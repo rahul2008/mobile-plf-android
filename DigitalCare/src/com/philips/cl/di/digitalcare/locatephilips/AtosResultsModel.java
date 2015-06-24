@@ -46,7 +46,7 @@ public class AtosResultsModel {
 		this.mLocationModel = locationModel;
 	}
 
-	public AtosAddressModel getmAddressModel() {
+	public AtosAddressModel getAddressModel() {
 		return mAddressModel;
 	}
 

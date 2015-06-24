@@ -51,8 +51,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_KEY_EXIT_LINK,
-				AnalyticsConstants.MAP_KEY_EXIT_LINK, getChatEndPoint());
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+				AnalyticsConstants.ACTION_KEY_EXIT_LINK, getChatEndPoint());
 
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
@@ -146,5 +146,10 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 
 	protected String getChatEndPoint() {
 		return mUrl;
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_CONTACTUS_CHATNOW;
 	}
 }

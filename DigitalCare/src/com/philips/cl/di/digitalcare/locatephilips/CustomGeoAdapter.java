@@ -9,6 +9,7 @@ package com.philips.cl.di.digitalcare.locatephilips;
  */
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.digitalcare.R;
 
+@SuppressLint("DefaultLocale")
 public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 	private Context context;
 	private ArrayList<AtosResultsModel> mResultModelSet;
@@ -75,7 +77,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 		holder.txtPhone = (TextView) convertView.findViewById(R.id.place_phone);
 
 		AtosResultsModel resultModel = mResultModelSet.get(position);
-		AtosAddressModel addressModel = resultModel.getmAddressModel();
+		AtosAddressModel addressModel = resultModel.getAddressModel();
 
 		holder.txtTitle.setText(resultModel.getTitle());
 		holder.txtAddress.setText(addressModel.getAddress1() + "\n"
@@ -102,7 +104,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 				for (int i = 0; i < mOriginalSet.size(); i++) {
 					AtosResultsModel resultModel = mOriginalSet.get(i);
 					AtosAddressModel addressModel = resultModel
-							.getmAddressModel();
+							.getAddressModel();
 					if ((addressModel.getCityState().toUpperCase())
 							.contains(constraint.toString().toUpperCase())) {
 
@@ -115,7 +117,7 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 						filteredResultModel.setLocationModel(resultModel
 								.getLocationModel());
 						filteredResultModel.setAddressModel(resultModel
-								.getmAddressModel());
+								.getAddressModel());
 						FilteredResultModelSet.add(filteredResultModel);
 					} // if
 

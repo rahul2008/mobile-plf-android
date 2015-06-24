@@ -75,11 +75,11 @@ public class AnalyticsTracker {
 		};
 	}
 
-	public static void trackPage(String pageName) {
+	public static void trackPage(String pageName, String previousPageName) {
 		if (!trackMetrics)
 			return;
 		DigiCareLogger.i(TAG, "Track page :" + pageName);
-		Analytics.trackState(pageName, addAnalyticsDataObject());
+		Analytics.trackState(pageName, addAnalyticsDataObject(previousPageName));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class AnalyticsTracker {
 	private static Map<String, Object> getContextData(String mapKey,
 			String mapValue) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(AnalyticsConstants.ACTION_KEY_TIME_STAMP,
+		contextData.put(AnalyticsConstants.KEY_TIME_STAMP,
 				getTimestamp());
 		contextData.put(mapKey, mapValue);
 		return contextData;
@@ -112,23 +112,25 @@ public class AnalyticsTracker {
 	/*
 	 * This context data will be called for every page track.
 	 */
-	private static Map<String, Object> addAnalyticsDataObject() {
+	private static Map<String, Object> addAnalyticsDataObject(String previousPageName) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(AnalyticsConstants.ACTION_KEY_APPNAME,
+		contextData.put(AnalyticsConstants.KEY_APPNAME,
 				AnalyticsConstants.ACTION_VALUE_APPNAME);
-		contextData.put(AnalyticsConstants.ACTION_KEY_VERSION, getAppVersion());
+		contextData.put(AnalyticsConstants.KEY_VERSION, getAppVersion());
 		contextData
-				.put(AnalyticsConstants.ACTION_KEY_OS,
+				.put(AnalyticsConstants.KEY_OS,
 						AnalyticsConstants.ACTION_VALUE_ANDROID
 								+ Build.VERSION.RELEASE);
-		contextData.put(AnalyticsConstants.ACTION_KEY_COUNTRY,
+		contextData.put(AnalyticsConstants.KEY_COUNTRY,
 				DigitalCareConfigManager.getInstance(mContext).getLocale().getCountry());
-		contextData.put(AnalyticsConstants.ACTION_KEY_LANGUAGE,
+		contextData.put(AnalyticsConstants.KEY_LANGUAGE,
 				DigitalCareConfigManager.getInstance(mContext).getLocale().getLanguage());
-		contextData.put(AnalyticsConstants.ACTION_KEY_CURRENCY, getCurrency());
-		contextData.put(AnalyticsConstants.ACTION_KEY_TIME_STAMP,
+		contextData.put(AnalyticsConstants.KEY_CURRENCY, getCurrency());
+		contextData.put(AnalyticsConstants.KEY_PREVIOUS_PAGENAME,
+				previousPageName);
+		contextData.put(AnalyticsConstants.KEY_TIME_STAMP,
 				getTimestamp());
-		contextData.put(AnalyticsConstants.ACTION_KEY_APP_ID,
+		contextData.put(AnalyticsConstants.KEY_APP_ID,
 				Analytics.getTrackingIdentifier());
 		return contextData;
 	}
@@ -137,7 +139,7 @@ public class AnalyticsTracker {
 		Currency currency = Currency.getInstance(Locale.getDefault());
 		String currencyCode = currency.getCurrencyCode();
 		if (currencyCode == null)
-			currencyCode = AnalyticsConstants.ACTION_KEY_CURRENCY;
+			currencyCode = AnalyticsConstants.KEY_CURRENCY;
 		return currencyCode;
 	}
 

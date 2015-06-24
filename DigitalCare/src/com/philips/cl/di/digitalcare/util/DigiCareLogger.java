@@ -34,31 +34,31 @@ public class DigiCareLogger {
 
 	public static void d(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.d(tag, message);
+			Log.d(tag, message + "");
 		}
 	}
 
 	public static void e(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.e(tag, message);
+			Log.e(tag, message + "");
 		}
 	}
 
 	public static void i(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.i(tag, message);
+			Log.i(tag, message + "");
 		}
 	}
 
 	public static void v(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.v(tag, message);
+			Log.v(tag, message + "");
 		}
 	}
 
 	public static void w(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.w(tag, message);
+			Log.w(tag, message + "");
 		}
 	}
 }

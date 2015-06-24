@@ -63,7 +63,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		setViewParams(config);
 
 		createProductDetailsMenu();
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_PRODCUT_DETAILS,
+				getPreviousName());
 	}
 
 	private void createProductDetailsMenu() {
@@ -189,5 +190,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public String getActionbarTitle() {
 		return getResources().getString(R.string.product_info);
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_PRODCUT_DETAILS;
 	}
 }

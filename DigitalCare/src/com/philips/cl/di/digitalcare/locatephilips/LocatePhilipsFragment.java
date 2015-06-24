@@ -61,6 +61,8 @@ import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.RequestData;
 import com.philips.cl.di.digitalcare.ResponseCallback;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.GpsAlertView;
 import com.philips.cl.di.digitalcare.locatephilips.GoogleMapFragment.onMapReadyListener;
 import com.philips.cl.di.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
@@ -156,6 +158,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		checkGooglePlayServices();
 		initGoogleMapv2();
 		createBitmap();
+		AnalyticsTracker.trackPage(
+				AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
+				getPreviousName());
 		gpsAlertView = GpsAlertView.getInstance();
 	}
 
@@ -644,13 +649,21 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (v.getId() == R.id.search_icon) {
 			hideKeyboard();
 			String constrain = mSearchBox.getText().toString().trim();
+			AnalyticsTracker.trackAction(
+					AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+					AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SEARCH_TERM,
+					constrain);
 
 			if (mResultModelSet != null) {
 				adapter = new CustomGeoAdapter(getActivity(), mResultModelSet);
 				adapter.getFilter().filter(constrain,
 						new Filter.FilterListener() {
 							public void onFilterComplete(int count) {
-
+								AnalyticsTracker
+										.trackAction(
+												AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+												AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SEARCH_RESULTS,
+												String.valueOf(count));
 								if (count == 0) {
 									Toast.makeText(
 											getActivity(),
@@ -668,14 +681,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			}
 
 		} else if (v.getId() == R.id.getdirection) {
+			AnalyticsTracker
+					.trackAction(
+							AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+							AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS,
+							AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS);
 
 			if (isConnectionAvailable()) {
 				// check sourcelat and sourcelng
 				if (mSourceLat == 0 && mSourceLng == 0) {
 
-					gpsAlertView.showAlert(this, -1,
-							R.string.gps_disabled, android.R.string.yes,
-							android.R.string.no);
+					gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
+							android.R.string.yes, android.R.string.no);
 
 				} else {
 					gpsAlertView.removeAlert();
@@ -692,6 +709,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			mSearchBox.setText(null);
 		} else if (v.getId() == R.id.call) {
 			mLinearLayout.setVisibility(View.GONE);
+			AnalyticsTracker
+					.trackAction(
+							AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+							AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS,
+							AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
 			if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
 				DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()
 						.getErrorMessage());
@@ -724,10 +746,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private void showServiceCentreDetails(AtosResultsModel resultModel) {
 
+		AnalyticsTracker.trackAction(
+				AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
+				AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_LOCATION_VIEW,
+				resultModel.getAddressModel().getPhone() + '|'
+						+ resultModel.getAddressModel().getAddress1() + '|'
+						+ resultModel.getAddressModel().getAddress2());
+
 		AtosLocationModel mGeoData = null;
 		AtosAddressModel mAddressModel = null;
 		try {
-			mAddressModel = resultModel.getmAddressModel();
+			mAddressModel = resultModel.getAddressModel();
 			mGeoData = resultModel.getLocationModel();
 		} catch (NullPointerException e) {
 			DigiCareLogger.d(TAG, " " + e);
@@ -793,6 +822,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		if (mLinearLayout.getVisibility() == View.VISIBLE)
 			mLinearLayout.setVisibility(View.GONE);
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU;
 	}
 
 	private AtosParsingCallback mParsingCompletedCallback = new AtosParsingCallback() {

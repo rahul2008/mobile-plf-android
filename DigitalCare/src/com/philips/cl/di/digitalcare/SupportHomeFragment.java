@@ -58,7 +58,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		createMainMenu();
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME);
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME, getPreviousName());
 	}
 
 	@Override
@@ -229,5 +229,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 	private String getStringKey(int resId) {
 		return getResources().getResourceEntryName(resId);
+	}
+
+	@Override
+	public String setPreviousPageName() {
+		return AnalyticsConstants.PAGE_HOME;
 	}
 }
