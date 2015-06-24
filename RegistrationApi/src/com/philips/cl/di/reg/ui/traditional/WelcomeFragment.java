@@ -19,13 +19,10 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
-
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
-
 import com.philips.cl.di.reg.coppa.CoppaExtension;
 import com.philips.cl.di.reg.coppa.CoppaResendError;
 import com.philips.cl.di.reg.coppa.ResendCoppaEmailConsentHandler;
-
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.UpdateReceiveMarketingEmailHandler;
@@ -42,8 +39,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	private TextView mTvWelcome;
 
 	private TextView mTvSignInEmail;
-
-	private LinearLayout mLlEmailDetailsContainer;
 
 	private CheckBox mCbTerms;
 
@@ -155,32 +150,32 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	@Override
 	public void setViewParams(Configuration config) {
 		applyParams(config, mTvWelcome);
-		applyParams(config, mLlEmailDetailsContainer);
+		applyParams(config, mLlEmailDetails);
 		applyParams(config, mLlContinueBtnContainer);
 		applyParams(config, mCbTerms);
 		applyParams(config, mRegError);
+		applyParams(config, mTvSignInEmail);
+		
 	}
 
 	private void init(View view) {
 		consumeTouch(view);
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
-		mLlEmailDetailsContainer = (LinearLayout) view.findViewById(R.id.ll_reg_email_details);
 		mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.ll_reg_continue_id);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
+		mLlEmailDetails = (LinearLayout) view.findViewById(R.id.ll_reg_email_details_container);
+		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
 		setViewParams(getResources().getConfiguration());
 		mBtnSignOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
 		mBtnSignOut.setOnClickListener(this);
 		mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
 		mBtnContinue.setOnClickListener(this);
-		mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
-		mLlEmailDetails = (LinearLayout) view.findViewById(R.id.email_details);
 		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
 		if (isfromVerification) {
 			mCbTerms.setVisibility(view.GONE);
 			mLlEmailDetails.setVisibility(View.GONE);
-
 		}
 
 		if (isfromBegining) {

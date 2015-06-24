@@ -92,7 +92,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		initUI(view);
 		return view;
 	}
-
+	
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);

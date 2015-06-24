@@ -44,7 +44,6 @@ public class TrackActionErrors {
 				trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
 				        AnalyticsConstants.SPECIAL_EVENTS, FAILURE_USERCREATION);
 				break;
-
 		}
 	}
 
