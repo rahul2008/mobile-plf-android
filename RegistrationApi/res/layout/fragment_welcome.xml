@@ -109,6 +109,16 @@
                     android:background="@drawable/reg_btn_forgot_rect"
                     android:text="@string/SignInSuccess_SignOut_btntxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <Button
+                    android:id="@+id/btn_resend_consent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Resend Consent" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/reg_scroll_margin" />
             </LinearLayout>
 
             <com.philips.cl.di.reg.ui.customviews.XRegError

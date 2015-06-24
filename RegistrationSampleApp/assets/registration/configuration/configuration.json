@@ -1,15 +1,15 @@
 {
    "JanRainConfiguration":{
       "RegistrationClientID":{
-         "Development":"ad7nn99y2mv5berw5jxewzagazafbyhu",
-         "Evaluation":"4r36zdbeycca933nufcknn2hnpsz6gxu",
-         "Production":"mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3"
+         "Development":"fgpfgkdmwnkkqya2bjsk43fvt2y7vr9x",
+         "Evaluation":"rtzauc7my4pdrmvfuhpusa4xprwt4bxd",
+         "Production":"8ksbmshunmccyynzrh5bajdg33em3ypv"
       }
    },
    "PILConfiguration":{
       "MicrositeID":77000,
       "RegistrationEnvironment":"EVAL",
-      "CampaignID":"COPPA-SONICARE"
+      "CampaignID":"CL20150501_PC_TB_COPPA"
    },
    "Flow":{
         "EmailVerificationRequired" : "false"
@@ -32,3 +32,5 @@
       ]
    }
 }
+
+

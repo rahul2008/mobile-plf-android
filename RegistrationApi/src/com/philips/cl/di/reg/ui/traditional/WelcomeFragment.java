@@ -19,7 +19,13 @@ import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
+
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+
+import com.philips.cl.di.reg.coppa.CoppaExtension;
+import com.philips.cl.di.reg.coppa.CoppaResendError;
+import com.philips.cl.di.reg.coppa.ResendCoppaEmailConsentHandler;
+
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.UpdateReceiveMarketingEmailHandler;
@@ -191,12 +197,20 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		}
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
+
+		userProfile = mUser.getUserInstance(mContext);
+
 		mTvWelcome.setText(getString(R.string.RegWelcomeText) + " " + userProfile.getGivenName());
 
 		String email = getString(R.string.InitialSignedIn_SigninEmailText);
 		email = String.format(email, userProfile.getEmail());
 		mTvSignInEmail.setText(email);
+
+		Button btnFetchConsent = (Button) view.findViewById(R.id.btn_resend_consent);
+		btnFetchConsent.setOnClickListener(this);
 	}
+
+	DIUserProfile userProfile;
 
 	@Override
 	public void onClick(View v) {
@@ -206,6 +220,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			mUser.logout();
 			getRegistrationMainActivity().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
+
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
 				mUser.logout();
@@ -216,7 +231,30 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 				        .notifyEventOccurred();
 			}
 
+			RLog.d(RLog.ONCLICK, ": WelcomeFragment : Continue");
+			RegistrationHelper.getInstance().getUserRegistrationListener().notifyEventOccurred();
+		} else if (id == R.id.btn_resend_consent) {
+			resendCoppaMail();
 		}
+	}
+
+	private void resendCoppaMail() {
+		CoppaExtension coppaExtension = new CoppaExtension();
+		coppaExtension.resendCoppaEmailConsentForUserEmail(userProfile.getEmail(),
+		        new ResendCoppaEmailConsentHandler() {
+
+			        @Override
+			        public void didResendCoppaEmailConsentSucess() {
+
+			        }
+
+			        @Override
+			        public void didResendCoppaEmailConsentFailedWithError(
+			                CoppaResendError coppaResendError) {
+
+			        }
+		        });
+
 	}
 
 	@Override

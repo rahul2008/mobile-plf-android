@@ -24,7 +24,7 @@ public class RegistrationApplication extends Application {
 		                + Locale.getDefault());
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
-		mRegistrationHelper.setCoppaFlow(false);
+		mRegistrationHelper.setCoppaFlow(true);
 		mRegistrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this,
 		        Locale.getDefault());
 	}
