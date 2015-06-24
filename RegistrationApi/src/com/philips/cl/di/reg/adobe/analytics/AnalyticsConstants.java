@@ -80,5 +80,7 @@ public interface AnalyticsConstants {
 	String TECHNICAL_REGISTRATION_ERROR = "we're having trouble registring user";
 
 	String TECHNICAL_LOGIN_ERROR = "we're having trouble logining user";
+	
+	String COUNTRY_KEY = "locale.country";
 
 }

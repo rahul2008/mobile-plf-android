@@ -21,12 +21,12 @@ public class AnalyticsUtils {
 
 	public static void trackAction(String state, String key, Object value) {
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		if(null!=key){
+		if (null != key) {
 			contextData.put(key, value);
 		}
 		Analytics.trackAction(state, contextData);
 	}
-	
+
 	private static Map<String, Object> addAnalyticsDataObject() {
 
 		Map<String, Object> contextData = new HashMap<String, Object>();
@@ -35,10 +35,10 @@ public class AnalyticsUtils {
 		contextData.put(AnalyticsConstants.VERSION_KEY, RegistrationHelper.getInstance()
 		        .getAppVersion());
 		contextData.put(AnalyticsConstants.OS_KEY, AnalyticsConstants.OS_ANDROID);
-		/*contextData.put(AnalyticsConstants.COUNTRY_KEY, RegistrationHelper.getInstance()
+		contextData.put(AnalyticsConstants.COUNTRY_KEY, RegistrationHelper.getInstance()
 		        .getRegistrationSettings().getPreferredCountryCode());
 		contextData.put(AnalyticsConstants.LANGUAGE_KEY, RegistrationHelper.getInstance()
-		        .getRegistrationSettings().getPreferredLangCode());*/
+		        .getRegistrationSettings().getPreferredLangCode());
 		contextData.put(AnalyticsConstants.CURRENCY_KEY, getCurrency());
 		contextData.put(AnalyticsConstants.APPSID_KEY, Analytics.getTrackingIdentifier());
 		contextData.put(AnalyticsConstants.TIMESTAMP_KEY, getTimestamp());

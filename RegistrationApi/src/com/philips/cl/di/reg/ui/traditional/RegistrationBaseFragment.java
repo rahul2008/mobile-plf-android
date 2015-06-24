@@ -1,8 +1,6 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
-import java.util.Locale;
-
 import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
-import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.adobe.analytics.TrackActionErrors;
 import com.philips.cl.di.reg.ui.utils.RLog;

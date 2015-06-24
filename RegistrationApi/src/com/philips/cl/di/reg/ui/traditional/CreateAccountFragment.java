@@ -285,7 +285,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		}
 
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-		System.out.println("*********************** Email Already in use Failure code :  "+userRegistrationFailureInfo.getError().code);
 		trackActionRegisterError(userRegistrationFailureInfo.getError().code);
 		hideSpinner();
 	}

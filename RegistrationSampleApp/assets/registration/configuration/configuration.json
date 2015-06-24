@@ -17,15 +17,18 @@
    "SocialProviders":{
       "NL":[
          "googleplus",
-         "facebook"
+         "facebook",
+         "twitter"
       ],
       "US":[
          "googleplus",
-         "facebook"
+         "facebook",
+         "twitter"
       ],
       "default":[
          "googleplus",
-         "facebook"
+         "facebook",
+         "twitter"
       ]
    }
 }
