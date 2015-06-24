@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.social.facebook;
+/*package com.philips.cl.di.digitalcare.social.facebook;
 
 import java.io.File;
 
@@ -34,12 +34,12 @@ import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
-/**
+*//**
  * @description: FacebookScreenFragment will help to post messages on Philips
  *               facebook wall.
  * @author: ritesh.jha@philips.com
  * @since: Feb 5, 2015
- */
+ *//*
 public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback,
 		FBAccountCallback, PostCallback {
@@ -186,9 +186,9 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK);
 	}
 
-	/**
+	*//**
 	 * onPause of fragment.
-	 */
+	 *//*
 	public void onPause() {
 		super.onPause();
 		if (mFacebookUtility != null) {
@@ -196,9 +196,9 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
-	/**
+	*//**
 	 * onResume of fragment.
-	 */
+	 *//*
 	public void onDestroy() {
 		super.onDestroy();
 		if (mFacebookUtility != null) {
@@ -206,12 +206,12 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 		}
 	}
 
-	/**
+	*//**
 	 * onSaveInstanceState fragment.
 	 * 
 	 * @param outState
 	 *            Bundle Object
-	 */
+	 *//*
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
@@ -368,3 +368,4 @@ public class FacebookScreenFragment extends DigitalCareBaseFragment implements
 interface FBAccountCallback {
 	void setName(String name);
 }
+*/

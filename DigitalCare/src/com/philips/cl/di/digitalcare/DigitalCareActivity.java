@@ -7,11 +7,11 @@ import android.os.Bundle;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
+/*import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;*/
 
 /**
  * DigitalCareActivity is the main container class for Digital Care fragments.
@@ -61,11 +61,11 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		super.onActivityResult(requestCode, resultCode, data);
 		DigiCareLogger.i(TAG, "DigitalCareActivity onActivityResult");
 
-		if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
+		/*if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
 			DigiCareLogger.e(TAG, "Facebook Authentication..");
 			startFaceBookSDK(requestCode, resultCode, data);
 
-		}
+		}*/
 		if (resultCode == Activity.RESULT_CANCELED
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
 			DigiCareLogger.e(TAG, "Twitter failed to authenticate");
@@ -100,7 +100,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		mTwitter.onFailedToAuthenticate();
 	}
 
-	protected void startFaceBookSDK(int requestCode, int resultCode, Intent data) {
+	/*protected void startFaceBookSDK(int requestCode, int resultCode, Intent data) {
 		FacebookScreenFragment fbFrag = new FacebookScreenFragment();
 		fbFrag.onFaceBookCallback(this, requestCode, resultCode, data);
 
@@ -110,7 +110,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 				AnalyticsConstants.ACTION_KEY_RECEIPT_PHOTO,
 				AnalyticsConstants.ACTION_KEY_PHOTO,
 				AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE);
-	}
+	}*/
 
 	protected void startImageParse(int requestCode, Intent data) {
 

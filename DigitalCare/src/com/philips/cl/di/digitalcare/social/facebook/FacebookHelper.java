@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.social.facebook;
+/*package com.philips.cl.di.digitalcare.social.facebook;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +13,10 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
+*//**
+ * 
+ * @author naveen@philips.com
+ *//*
 public class FacebookHelper {
 
 	private static Activity mActivity = null;
@@ -57,7 +61,8 @@ public class FacebookHelper {
 		@Override
 		public void call(Session session, SessionState state,
 				Exception exception) {
-			DigiCareLogger.d(TAG, "Call method called with state " + session.getState());
+			DigiCareLogger.d(TAG,
+					"Call method called with state " + session.getState());
 
 			if ((session.isOpened()) && (session != null)) {
 				mSuccessCallback.onSuccess();
@@ -85,3 +90,4 @@ public class FacebookHelper {
 	}
 
 }
+*/

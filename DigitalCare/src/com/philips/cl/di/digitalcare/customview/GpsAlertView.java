@@ -1,12 +1,10 @@
 package com.philips.cl.di.digitalcare.customview;
 
-import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
-import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+
+import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 
 public class GpsAlertView {
 

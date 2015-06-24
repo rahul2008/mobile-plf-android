@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.social.facebook;
+/*package com.philips.cl.di.digitalcare.social.facebook;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,12 +27,12 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
-/**
+*//**
  * @description: FacebookUtility will help to provide options for facebook
  *               utility.
  * @author: ritesh.jha@philips.com
  * @since: Feb 5, 2015
- */
+ *//*
 public class FacebookUtility {
 	private static Activity mActivity = null;
 
@@ -99,7 +99,7 @@ public class FacebookUtility {
 
 		Session.getActiveSession().onActivityResult(activity, requestCode,
 				resultCode, data);
-		/* new Session.OpenRequest(activity); */
+		 new Session.OpenRequest(activity); 
 
 	}
 
@@ -140,12 +140,12 @@ public class FacebookUtility {
 				&& session.getPermissions().contains("publish_actions");
 	}
 
-	/**
+	*//**
 	 * perform publish action of facebook sharing.
 	 * 
 	 * @param action
 	 * @param allowNoSession
-	 */
+	 *//*
 	private void performPublish(PendingAction action, boolean allowNoSession) {
 		Session session = Session.getActiveSession();
 		if (session != null) {
@@ -203,9 +203,9 @@ public class FacebookUtility {
 		request.executeAsync();
 	}
 
-	/**
+	*//**
 	 * Handle pending action.
-	 */
+	 *//*
 	private void handlePendingAction() {
 		PendingAction previouslyPendingAction = pendingAction;
 		pendingAction = PendingAction.NONE;
@@ -222,7 +222,7 @@ public class FacebookUtility {
 		}
 	}
 
-	/**
+	*//**
 	 * Open and set FB session.
 	 * 
 	 * @param activity
@@ -231,7 +231,7 @@ public class FacebookUtility {
 	 * @param permissions
 	 * @param callback
 	 * @return Session object.
-	 */
+	 *//*
 	public Session openActiveSession(boolean allowLoginUI,
 			List<String> permissions, StatusCallback callback) {
 		OpenRequest openRequest = new OpenRequest(mActivity)
@@ -247,9 +247,9 @@ public class FacebookUtility {
 		return null;
 	}
 
-	/**
+	*//**
 	 * Sharing text in facebook.
-	 */
+	 *//*
 	private void shareStatusUpdate() {
 		String url = "/" + mFaceBookPage + "/feed";
 		Bundle params = new Bundle();
@@ -265,26 +265,26 @@ public class FacebookUtility {
 
 	}
 
-	/**
+	*//**
 	 * onPause of fragment.
-	 */
+	 *//*
 	public void onPause() {
 		mFbUiHelper.onPause();
 	}
 
-	/**
+	*//**
 	 * onResume of fragment.
-	 */
+	 *//*
 	public void onDestroy() {
 		mFbUiHelper.onDestroy();
 	}
 
-	/**
+	*//**
 	 * onSaveInstanceState fragment.
 	 * 
 	 * @param outState
 	 *            Bundle Object
-	 */
+	 *//*
 	public void onSaveInstanceState(Bundle outState) {
 		Session session = Session.getActiveSession();
 		Session.saveSession(session, outState);
@@ -353,3 +353,4 @@ public class FacebookUtility {
 	};
 
 }
+*/

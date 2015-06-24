@@ -21,8 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
 import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
@@ -32,14 +30,16 @@ import com.philips.cl.di.digitalcare.ResponseCallback;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
+/*import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
+import com.facebook.Session;
+import com.facebook.SessionState;*/
 
 /**
  * ContactUsFragment will help to provide options to contact Philips.
@@ -353,7 +353,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				showAlert("Check the SIM");
 			}
-		} else if (tag != null
+		} /*else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))
 				&& isConnectionAvailable()) {
 
@@ -379,7 +379,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				DigiCareLogger.d(TAG, "Session is not null");
 
 			}
-		} else if (tag != null
+		} */else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
@@ -572,7 +572,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		return getResources().getString(R.string.contact_us);
 	}
 
-	protected void startFacebookSession() {
+	
+	/*protected void startFacebookSession() {
 		FacebookHelper mHelper = FacebookHelper.getInstance(getActivity());
 		mHelper.openFacebookSession(new FacebookAuthenticate() {
 			@Override
@@ -580,5 +581,5 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				showFragment(new FacebookScreenFragment());
 			}
 		});
-	}
+	}*/
 }
