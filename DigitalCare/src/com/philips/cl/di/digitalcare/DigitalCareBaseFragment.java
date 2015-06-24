@@ -45,7 +45,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private Thread mUiThread = Looper.getMainLooper().getThread();
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
 	private static ActionbarUpdateListner mActionbarUpdateListner = null;
-	private String mPreviousPageName = null;
+	private static String mPreviousPageName = null;
 
 	public abstract void setViewParams(Configuration config);
 
@@ -180,10 +180,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 						message,
 						getActivity().getResources().getString(
 								android.R.string.yes));
-				AnalyticsTracker.trackAction(
-						AnalyticsConstants.ACTION_SET_ERROR,
-						AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
-						AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
+				AnalyticsTracker
+						.trackAction(
+								AnalyticsConstants.ACTION_SET_ERROR,
+								AnalyticsConstants.ACTION_KEY_TECHNICAL_ERROR,
+								AnalyticsConstants.ACTION_VALUE_TECHNICAL_ERROR_NETWORK_CONNECITON);
 
 			}
 		});
@@ -227,7 +228,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 					.getFragmentManager().beginTransaction();
 			// fragmentTransaction.setCustomAnimations(mEnter, mExit,
 			// mPopEnter, mPopExit);
-			fragmentTransaction.add(containerId, fragment, fragment.getTag());
+			fragmentTransaction.replace(containerId, fragment,
+					fragment.getTag());
 			fragmentTransaction.hide(this);
 			fragmentTransaction.addToBackStack(fragment.getTag());
 			fragmentTransaction.commit();
@@ -350,8 +352,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		}
 	}
 
-	public String getPreviousName() {
+	protected String getPreviousName() {
+		DigiCareLogger.i("testing", "getPreviousPageName : "
+				+ mPreviousPageName);
 		return mPreviousPageName;
 	}
-
 }
