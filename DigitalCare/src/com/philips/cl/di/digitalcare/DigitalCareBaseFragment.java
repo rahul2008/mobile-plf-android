@@ -353,8 +353,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	}
 
 	protected String getPreviousName() {
-		DigiCareLogger.i("testing", "getPreviousPageName : "
-				+ mPreviousPageName);
 		return mPreviousPageName;
 	}
 }
