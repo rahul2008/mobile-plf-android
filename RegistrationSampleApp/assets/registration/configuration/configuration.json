@@ -12,7 +12,7 @@
       "CampaignID":"CL20150501_PC_TB_COPPA"
    },
    "Flow":{
-        "EmailVerificationRequired" : "false"
+        "EmailVerificationRequired" : "true"
     },
    "SocialProviders":{
       "NL":[
