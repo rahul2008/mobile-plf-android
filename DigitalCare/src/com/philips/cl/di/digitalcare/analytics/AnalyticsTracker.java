@@ -103,8 +103,8 @@ public class AnalyticsTracker {
 	private static Map<String, Object> getContextData(String mapKey,
 			String mapValue) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(AnalyticsConstants.KEY_TIME_STAMP,
-				getTimestamp());
+//		contextData.put(AnalyticsConstants.KEY_TIME_STAMP,
+//				getTimestamp());
 		contextData.put(mapKey, mapValue);
 		return contextData;
 	}
