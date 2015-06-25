@@ -3,7 +3,7 @@ package com.philips.cdp.dicommclient.discovery;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 
-public class NullApplianceDatabase<T extends DICommAppliance> implements DICommApplianceDatabase<T> {
+class NullApplianceDatabase<T extends DICommAppliance> implements DICommApplianceDatabase<T> {
 
 	@Override
 	public long save(T appliance) {
