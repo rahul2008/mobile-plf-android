@@ -79,7 +79,7 @@ public class AnalyticsTracker {
 		if (!trackMetrics)
 			return;
 		DigiCareLogger.i(TAG, "Track page :" + pageName);
-		Analytics.trackState(pageName, addAnalyticsDataObject(previousPageName));
+		Analytics.trackState(pageName, addPageContextData(previousPageName));
 	}
 
 	/**
@@ -97,14 +97,14 @@ public class AnalyticsTracker {
 		if (!trackMetrics)
 			return;
 		DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
-		Analytics.trackAction(actionName, getContextData(mapKey, mapValue));
+		Analytics.trackAction(actionName,
+				addActionContextData(mapKey, mapValue));
 	}
 
-	private static Map<String, Object> getContextData(String mapKey,
+	private static Map<String, Object> addActionContextData(String mapKey,
 			String mapValue) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-//		contextData.put(AnalyticsConstants.KEY_TIME_STAMP,
-//				getTimestamp());
+		contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
 		contextData.put(mapKey, mapValue);
 		return contextData;
 	}
@@ -112,7 +112,8 @@ public class AnalyticsTracker {
 	/*
 	 * This context data will be called for every page track.
 	 */
-	private static Map<String, Object> addAnalyticsDataObject(String previousPageName) {
+	private static Map<String, Object> addPageContextData(
+			String previousPageName) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(AnalyticsConstants.KEY_APPNAME,
 				AnalyticsConstants.ACTION_VALUE_APPNAME);
@@ -122,14 +123,15 @@ public class AnalyticsTracker {
 						AnalyticsConstants.ACTION_VALUE_ANDROID
 								+ Build.VERSION.RELEASE);
 		contextData.put(AnalyticsConstants.KEY_COUNTRY,
-				DigitalCareConfigManager.getInstance(mContext).getLocale().getCountry());
+				DigitalCareConfigManager.getInstance(mContext).getLocale()
+						.getCountry());
 		contextData.put(AnalyticsConstants.KEY_LANGUAGE,
-				DigitalCareConfigManager.getInstance(mContext).getLocale().getLanguage());
+				DigitalCareConfigManager.getInstance(mContext).getLocale()
+						.getLanguage());
 		contextData.put(AnalyticsConstants.KEY_CURRENCY, getCurrency());
 		contextData.put(AnalyticsConstants.KEY_PREVIOUS_PAGENAME,
 				previousPageName);
-		contextData.put(AnalyticsConstants.KEY_TIME_STAMP,
-				getTimestamp());
+		contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
 		contextData.put(AnalyticsConstants.KEY_APP_ID,
 				Analytics.getTrackingIdentifier());
 		return contextData;
