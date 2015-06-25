@@ -13,7 +13,6 @@ import android.os.Message;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
-import com.philips.cdp.dicommclient.appliance.NullApplianceDatabase;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
