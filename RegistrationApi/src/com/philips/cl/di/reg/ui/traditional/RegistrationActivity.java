@@ -239,7 +239,7 @@ public class RegistrationActivity extends FragmentActivity implements NetworStat
 		addFragment(mergeAccountFragment);
 	}
 
-	private void hideKeyBoard() {
+	public void hideKeyBoard() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);

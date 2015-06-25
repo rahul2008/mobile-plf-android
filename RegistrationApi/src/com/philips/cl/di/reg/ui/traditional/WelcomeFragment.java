@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.coppa.CoppaExtension;
 import com.philips.cl.di.reg.coppa.CoppaResendError;
 import com.philips.cl.di.reg.coppa.ResendCoppaEmailConsentHandler;
@@ -199,9 +200,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		String email = getString(R.string.InitialSignedIn_SigninEmailText);
 		email = String.format(email, userProfile.getEmail());
 		mTvSignInEmail.setText(email);
-
+		
 		Button btnFetchConsent = (Button) view.findViewById(R.id.btn_resend_consent);
-		btnFetchConsent.setOnClickListener(this);
+		
+		if(RegistrationHelper.getInstance().isCoppaFlow()){
+			btnFetchConsent.setVisibility(View.VISIBLE);
+			btnFetchConsent.setOnClickListener(this);
+		}else{
+			btnFetchConsent.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

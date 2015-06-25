@@ -38,6 +38,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
 	private RelativeLayout mRlEtPassword;
 
+	private boolean isValidatePassword = true;
+
 	public XPassword(Context context) {
 		super(context);
 		this.mContext = context;
@@ -48,13 +50,11 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 		super(context, attrs);
 		this.mContext = context;
 		initUi(R.layout.x_password);
-
 	}
 
 	public final void initUi(int resourceId) {
 		LayoutInflater li = LayoutInflater.from(mContext);
 		li.inflate(resourceId, this, true);
-
 		mIvPasswordErrAlert = (ImageView) findViewById(R.id.iv_reg_password_error_alert);
 		mIvPasswordErrAlert.setOnClickListener(this);
 		mIvValidPasswordAlert = (ImageView) findViewById(R.id.iv_reg_valid_password_alert);
@@ -72,7 +72,6 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	}
 
 	private void fireUpdateStatusEvent() {
-
 		if (null != mUpdateStatusListener) {
 			mUpdateStatusListener.onUpadte();
 		}
@@ -114,6 +113,15 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
 	private boolean validatePassword() {
 		if (!EmailValidator.isValidPassword(mEtPassword.getText().toString().trim())) {
+			setValidPassword(false);
+			return false;
+		}
+		setValidPassword(true);
+		return true;
+	}
+
+	private boolean validatePasswordWithoutPattern() {
+		if (!EmailValidator.isValidName(mEtPassword.getText().toString().trim())) {
 			setValidPassword(false);
 			return false;
 		}
@@ -174,6 +182,14 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 
 	@Override
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		if (isValidatePassword) {
+			handleValidPasswordWithPattern();
+		} else {
+			handleValidPasswordWithoutPattern();
+		}
+	}
+
+	private void handleValidPasswordWithPattern() {
 		if (validatePassword()) {
 			mIvPasswordErrAlert.setVisibility(View.GONE);
 			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
@@ -188,15 +204,34 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 		}
 	}
 
-	@Override
-	public void afterTextChanged(Editable s) {
-		fireUpdateStatusEvent();
-		if (validatePassword()) {
+	private void handleValidPasswordWithoutPattern() {
+		if (validatePasswordWithoutPattern()) {
 			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
-			mIvArrowUpView.setVisibility(View.GONE);
-			mTvErrDescriptionView.setVisibility(View.GONE);
-
+			mIvPasswordErrAlert.setVisibility(View.GONE);
+		} else {
+			if (mEtPassword.getText().toString().trim().length() == 0) {
+				setErrDescription(getResources().getString(R.string.EmptyField_ErrorMsg));
+			}
+			mIvPasswordErrAlert.setVisibility(View.VISIBLE);
+			mIvValidPasswordAlert.setVisibility(View.GONE);
 		}
 	}
 
+	@Override
+	public void afterTextChanged(Editable s) {
+		fireUpdateStatusEvent();
+		if (isValidatePassword && validatePassword()) {
+			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
+			mIvArrowUpView.setVisibility(View.GONE);
+			mTvErrDescriptionView.setVisibility(View.GONE);
+		} else if (validatePasswordWithoutPattern() && !isValidatePassword) {
+			mIvValidPasswordAlert.setVisibility(View.VISIBLE);
+			mIvArrowUpView.setVisibility(View.GONE);
+			mTvErrDescriptionView.setVisibility(View.GONE);
+		}
+	}
+
+	public void isValidatePassword(boolean isValidatePassword) {
+		this.isValidatePassword = isValidatePassword;
+	}
 }

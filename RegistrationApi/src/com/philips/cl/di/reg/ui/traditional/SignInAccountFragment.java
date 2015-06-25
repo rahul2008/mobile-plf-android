@@ -62,7 +62,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private XRegError mRegError;
 
 	private Context mContext;
-
+	
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -198,6 +198,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnClickListener(this);
 		mEtPassword.setOnUpdateListener(this);
+		mEtPassword.isValidatePassword(false);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		setViewParams(getResources().getConfiguration());
 		handleUiState();
@@ -225,6 +226,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mBtnResend.setEnabled(false);
 		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
 		        .toString(), this);
+		getRegistrationMainActivity().hideKeyBoard();
 	}
 
 	private void handleUiState() {
