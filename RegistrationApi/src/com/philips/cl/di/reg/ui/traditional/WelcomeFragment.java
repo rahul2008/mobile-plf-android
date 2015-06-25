@@ -62,6 +62,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
 	private ProgressBar mPbWelcomeCheck;
 
+	private DIUserProfile userProfile;
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, " WelcomeFragment : onAttach");
@@ -173,6 +175,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
 		mBtnContinue.setOnClickListener(this);
 		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+		userProfile = mUser.getUserInstance(mContext);
 		if (isfromVerification) {
 			mCbTerms.setVisibility(view.GONE);
 			mLlEmailDetails.setVisibility(View.GONE);
@@ -191,10 +194,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			regLineView.setVisibility(View.GONE);
 		}
 
-		DIUserProfile userProfile = mUser.getUserInstance(mContext);
-
-		userProfile = mUser.getUserInstance(mContext);
-
 		mTvWelcome.setText(getString(R.string.RegWelcomeText) + " " + userProfile.getGivenName());
 
 		String email = getString(R.string.InitialSignedIn_SigninEmailText);
@@ -204,8 +203,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		Button btnFetchConsent = (Button) view.findViewById(R.id.btn_resend_consent);
 		btnFetchConsent.setOnClickListener(this);
 	}
-
-	DIUserProfile userProfile;
 
 	@Override
 	public void onClick(View v) {
