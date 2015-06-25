@@ -32,7 +32,6 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.PairingHandler;
 import com.philips.cdp.dicommclient.port.common.PermissionListener;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -63,7 +62,7 @@ AlertDialogBtnInterface, OnClickListener {
 	private FontTextView radioButtonLable0, radioButtonLable1,
 	radioButtonLable2, radioButtonLable3;
 
-	private PairingHandler pairingHandler;
+	private PairingHandler<AirPurifier> pairingHandler;
 	private ProgressDialog aqiThresholdProgressDialog;
 	private ProgressDialog getRelationProgressDialog;
 
@@ -78,17 +77,15 @@ AlertDialogBtnInterface, OnClickListener {
 	
 	private DICommPortListener mAirPortListener = new DICommPortListener() {
 		@Override
-		public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+		public void onPortUpdate(DICommPort<?> port) {
 			//TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
 			updateUI();
-            return ListenerRegistration.KEEP_REGISTERED;
 		}
 
         @Override
-        public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+        public void onPortError(DICommPort<?> port, Error error, String errorData) {
             //TODO:DICOMM Refactor, define new method after purifiereventlistener is removed
             handleSetThresholdError(error);
-            return ListenerRegistration.KEEP_REGISTERED;
         }
 	};
 
@@ -96,7 +93,7 @@ AlertDialogBtnInterface, OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mPurifier = AirPurifierManager.getInstance().getCurrentPurifier();
-		pairingHandler = new PairingHandler(null, mPurifier);
+		pairingHandler = new PairingHandler<AirPurifier>(null, mPurifier);
 	}
 
 	@Override

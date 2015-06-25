@@ -31,7 +31,6 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.request.Error;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -198,15 +197,15 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 		wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+            public void onPortUpdate(DICommPort<?> port) {
                 stopSSIDTimer();
                 onSuccessfullyConnected();
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
 
             @Override
-            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
-                return ListenerRegistration.UNREGISTER;
+            public void onPortError(DICommPort<?> port, Error error, String errorData) {
+            	port.unregisterPortListener(this);
             }
         });
 		// TODO DIComm Refactor - See if key exchange retries are necessary

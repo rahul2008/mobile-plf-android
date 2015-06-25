@@ -13,7 +13,6 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.util.DLog;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 
 public abstract class DICommPort<T> {
@@ -150,20 +149,14 @@ public abstract class DICommPort<T> {
     private void notifyPortListenersOnUpdate() {
         ArrayList<DICommPortListener> copyListeners = new ArrayList<DICommPortListener>(mPortListeners);
 		for (DICommPortListener listener : copyListeners) {
-			ListenerRegistration registration = listener.onPortUpdate(this);
-			if(registration == ListenerRegistration.UNREGISTER){
-			    mPortListeners.remove(listener);
-			}
+			listener.onPortUpdate(this);
 		}
     }
 
     private void notifyPortListenersOnError(Error error, String errorData) {
         ArrayList<DICommPortListener> copyListeners = new ArrayList<DICommPortListener>(mPortListeners);
 		for (DICommPortListener listener : copyListeners) {
-		    ListenerRegistration registration = listener.onPortError(this, error, errorData);
-			if(registration == ListenerRegistration.UNREGISTER){
-                mPortListeners.remove(listener);
-            }
+		    listener.onPortError(this, error, errorData);
 		}
     }
 

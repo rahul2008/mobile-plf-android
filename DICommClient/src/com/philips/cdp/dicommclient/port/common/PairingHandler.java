@@ -17,7 +17,6 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DLog;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.PairingService;
 import com.philips.icpinterface.data.Commands;
@@ -157,17 +156,17 @@ public class PairingHandler<T extends DICommAppliance> implements ICPEventListen
 			pairingPort.registerPortListener(new DICommPortListener() {
 
                 @Override
-                public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+                public void onPortUpdate(DICommPort<?> port) {
                     DLog.i(DLog.PAIRING, "PairingPort call-SUCCESS");
                     addRelationship(currentRelationshipType, secretKey);
-                    return ListenerRegistration.UNREGISTER;
+                    port.unregisterPortListener(this);
                 }
 
                 @Override
-                public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+                public void onPortError(DICommPort<?> port, Error error, String errorData) {
                     DLog.e(DLog.PAIRING, "PairingPort call-FAILED");
                     notifyListenerFailed(true);
-                    return ListenerRegistration.UNREGISTER;
+                    port.unregisterPortListener(this);
                 }
             });
             pairingPort.triggerPairing(CppController.getInstance().getAppType(), appEui64, secretKey);

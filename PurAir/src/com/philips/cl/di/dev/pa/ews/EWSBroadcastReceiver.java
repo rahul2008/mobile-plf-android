@@ -27,7 +27,6 @@ import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.security.DISecurity;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -127,15 +126,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         devicePort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+            public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
+                port.unregisterPortListener(this);
             }
 
             @Override
-            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
         });
         
@@ -151,15 +151,15 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+            public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
 
             @Override
-            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
         });
         
@@ -175,15 +175,15 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         devicePort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+            public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
 
             @Override
-            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
         });
         
@@ -201,15 +201,15 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         wifiPort.registerPortListener(new DICommPortListener() {
             
             @Override
-            public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+            public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
 
             @Override
-            public ListenerRegistration onPortError(DICommPort<?> port, Error error, String errorData) {
+            public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                return ListenerRegistration.UNREGISTER;
+                port.unregisterPortListener(this);
             }
         });
 

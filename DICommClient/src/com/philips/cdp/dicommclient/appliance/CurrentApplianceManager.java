@@ -10,7 +10,6 @@ import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.util.DLog;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 
 public class CurrentApplianceManager implements Observer {
 
@@ -25,16 +24,14 @@ public class CurrentApplianceManager implements Observer {
 	private DICommPortListener mDICommAppliancePortListener = new DICommPortListener() {
 
 		@Override
-		public ListenerRegistration onPortUpdate(DICommPort<?> port) {
+		public void onPortUpdate(DICommPort<?> port) {
 			notifyApplianceListenersOnSuccess(port);
-			return ListenerRegistration.KEEP_REGISTERED;
 		}
 
 		@Override
-		public ListenerRegistration onPortError(DICommPort<?> port, Error error,
+		public void onPortError(DICommPort<?> port, Error error,
 				String errorData) {
 			notifyApplianceListenersOnErrorOccurred(port, error);
-			return ListenerRegistration.KEEP_REGISTERED;
 		}
 	};
 

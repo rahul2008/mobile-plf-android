@@ -7,7 +7,6 @@ import java.util.Map;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.ListenerRegistration;
 
 abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPort<Object>{
 
@@ -77,20 +76,14 @@ abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPo
     private void notifyListenersOnEntryPortAdded(DICommListEntryPort<?> addedEntryPort) {
         ArrayList<DICommListPortChangedListener> copyListeners = new ArrayList<DICommListPortChangedListener>(mListPortChangedListeners);
 		for (DICommListPortChangedListener listener : copyListeners) {
-			ListenerRegistration registration = listener.onListEntryPortAdded(addedEntryPort);
-			if (registration == ListenerRegistration.UNREGISTER) {
-			    mListPortChangedListeners.remove(listener);
-			}
+			listener.onListEntryPortAdded(addedEntryPort);
 		}
     }
 
     private void notifyListenersOnEntryPortRemoved(DICommListEntryPort<?> removedEntryPort) {
     	ArrayList<DICommListPortChangedListener> copyListeners = new ArrayList<DICommListPortChangedListener>(mListPortChangedListeners);
 		for (DICommListPortChangedListener listener : copyListeners) {
-			ListenerRegistration registration = listener.onListEntryPortRemoved(removedEntryPort);
-			if (registration == ListenerRegistration.UNREGISTER) {
-                mListPortChangedListeners.remove(listener);
-            }
+			listener.onListEntryPortRemoved(removedEntryPort);
 		}
     }
 }
