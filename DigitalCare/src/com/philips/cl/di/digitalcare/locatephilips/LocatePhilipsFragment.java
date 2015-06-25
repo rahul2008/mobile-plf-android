@@ -46,7 +46,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -261,8 +261,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		try {
 			DigiCareLogger.v(TAG, "Initializing Google Map");
-			mMap = ((MapFragment) getFragmentManager().findFragmentById(
-					R.id.map)).getMap();
+			mMap = ((SupportMapFragment) this.getFragmentManager()
+					.findFragmentById(R.id.map)).getMap();
 			if (mMap != null) {
 				initView();
 

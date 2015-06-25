@@ -2,13 +2,13 @@ package com.philips.cl.di.digitalcare;
 
 import java.util.Locale;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +28,7 @@ import com.philips.cl.di.digitalcare.util.DigiCareLogger;
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
  */
-public abstract class DigitalCareBaseActivity extends Activity {
+public abstract class DigitalCareBaseActivity extends FragmentActivity {
 	private ImageView mActionBarMenuIcon = null;;
 	private ImageView mActionBarArrow = null;
 	private DigitalCareFontTextView mActionBarTitle = null;
@@ -44,7 +44,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 		setLocaleLanguage();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		DigitalCareConfigManager.getInstance(this);
-		fragmentManager = getFragmentManager();
+		fragmentManager = getSupportFragmentManager();
 	}
 
 	protected void initActionBar() throws ClassCastException {
@@ -66,8 +66,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		AnalyticsTracker.startCollectLifecycleData();
-		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_SET_APP_STATUS,
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_APP_STATUS,
 				AnalyticsConstants.ACTION_KEY_APP_STATUS,
 				AnalyticsConstants.ACTION_VALUE_FOREGROUND);
 	}
@@ -75,8 +74,7 @@ public abstract class DigitalCareBaseActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_SET_APP_STATUS,
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_APP_STATUS,
 				AnalyticsConstants.ACTION_KEY_APP_STATUS,
 				AnalyticsConstants.ACTION_VALUE_BACKGROUND);
 		AnalyticsTracker.stopCollectLifecycleData();

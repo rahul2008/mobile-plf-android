@@ -2,9 +2,9 @@ package com.philips.cl.di.digitalcare;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
@@ -63,7 +63,7 @@ public class DigitalCareConfigManager implements LocationMatchCallback {
 		return mContext;
 	}
 
-	public void invokeDigitalCareAsFragment(Activity context,
+	public void invokeDigitalCareAsFragment(FragmentActivity context,
 			int parentContainerResId,
 			ActionbarUpdateListner actionbarUpdateListner, String enterAnim,
 			String exitAnim) {
@@ -71,7 +71,7 @@ public class DigitalCareConfigManager implements LocationMatchCallback {
 		supportFrag.showFragment(context, parentContainerResId, supportFrag,
 				actionbarUpdateListner, enterAnim, exitAnim);
 	}
-
+	
 	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;

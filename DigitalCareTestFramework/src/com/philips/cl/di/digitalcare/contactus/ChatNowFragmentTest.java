@@ -1,8 +1,6 @@
 package com.philips.cl.di.digitalcare.contactus;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;

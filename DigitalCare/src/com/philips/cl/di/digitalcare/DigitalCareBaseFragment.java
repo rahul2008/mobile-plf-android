@@ -1,15 +1,15 @@
 package com.philips.cl.di.digitalcare;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,11 +36,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private static String TAG = DigitalCareBaseFragment.class.getSimpleName();
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
-	private Activity mFragmentActivityContext = null;
+	private FragmentActivity mFragmentActivityContext = null;
 	private NetworkReceiver mNetworkutility = null;
 	private static boolean isConnectionAvailable;
 	private static int mContainerId = 0;
-	private Activity mActivityContext = null;
+	private FragmentActivity mActivityContext = null;
 	private FragmentManager fragmentManager = getFragmentManager();
 	private Thread mUiThread = Looper.getMainLooper().getThread();
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
@@ -225,7 +225,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 		}
 		try {
 			FragmentTransaction fragmentTransaction = mFragmentActivityContext
-					.getFragmentManager().beginTransaction();
+					.getSupportFragmentManager().beginTransaction();
 			// fragmentTransaction.setCustomAnimations(mEnter, mExit,
 			// mPopEnter, mPopExit);
 			fragmentTransaction.replace(containerId, fragment,
@@ -258,7 +258,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private static String mEnterAnimation = null;
 	private static String mExitAnimation = null;
 
-	protected void showFragment(Activity context, int parentContainer,
+	protected void showFragment(FragmentActivity context, int parentContainer,
 			Fragment fragment, ActionbarUpdateListner actionbarUpdateListner,
 			String enterAnim, String exitAnim) {
 		mContainerId = parentContainer;
@@ -275,7 +275,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
 		try {
 			FragmentTransaction fragmentTransaction = context
-					.getFragmentManager().beginTransaction();
+					.getSupportFragmentManager().beginTransaction();
 			// fragmentTransaction.setCustomAnimations(enter, exit, enter,
 			// exit);
 			fragmentTransaction.replace(mContainerId, fragment,
