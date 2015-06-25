@@ -9,7 +9,7 @@ import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.util.ListenerRegistration;
 
-public abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPort<Object>{
+abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPort<Object>{
 
 	private Map<String, T> mListEntryPorts;
 	private List<DICommListPortChangedListener> mListPortChangedListeners;

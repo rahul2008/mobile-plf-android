@@ -3,7 +3,7 @@ package com.philips.cdp.dicommclient.port;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-public abstract class DICommListEntryPort<T> extends DICommPort<T> {
+abstract class DICommListEntryPort<T> extends DICommPort<T> {
 
 	private String mParentPortName;
 	private int mParentPortProductId;
