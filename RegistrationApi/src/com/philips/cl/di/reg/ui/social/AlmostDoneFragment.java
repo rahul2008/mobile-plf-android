@@ -247,7 +247,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
 		mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
 		        + mProvider);
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getActivity().getApplicationContext();
 
 		if (isEmailExist) {
 			mEtEmail.setVisibility(View.GONE);
@@ -375,7 +375,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	private void addMergeAccountFragment() {
-		getRegistrationMainActivity().addFragment(new MergeAccountFragment());
+		getRegistrationFragment().addFragment(new MergeAccountFragment());
 		trackPage(AnalyticsPages.ALMOST_DONE,AnalyticsPages.MERGE_ACCOUNT);
 	}
 
@@ -394,12 +394,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	private void launchAccountActivateFragment() {
-		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+		getRegistrationFragment().addFragment(new AccountActivationFragment());
 		trackPage(AnalyticsPages.ALMOST_DONE,AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
-		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		getRegistrationFragment().addWelcomeFragmentOnVerification();
 		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.WELCOME);
 	}
 

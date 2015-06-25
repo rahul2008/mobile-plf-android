@@ -50,7 +50,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private Button mBtnResend;
 
 	private XEmail mEtEmail;
- 
+
 	private XPassword mEtPassword;
 
 	private User mUser;
@@ -62,7 +62,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private XRegError mRegError;
 
 	private Context mContext;
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -78,7 +78,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "SignInAccountFragment : onCreateView");
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
@@ -175,7 +175,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void lauchAccountActivationFragment() {
-		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
+		getRegistrationFragment().addFragment(new AccountActivationFragment());
 		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
@@ -215,8 +215,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void signIn() {
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		((RegistrationFragment) getParentFragment()).hideKeyBoard();
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.START_USER_REGISTRATION);
 		if (mUser != null) {
 			showSignInSpinner();
 		}
@@ -226,7 +227,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mBtnResend.setEnabled(false);
 		mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
 		        .toString(), this);
-		getRegistrationMainActivity().hideKeyBoard();
 	}
 
 	private void handleUiState() {
@@ -259,7 +259,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void launchWelcomeFragment() {
-		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		getRegistrationFragment().addWelcomeFragmentOnVerification();
 		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.WELCOME);
 	}
 
@@ -279,17 +279,18 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
 			mEtPassword.showInvalidAlert();
 		}
-        trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		trackActionLoginError(userRegistrationFailureInfo.getError().code);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 	}
 
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-		        AnalyticsConstants.STATUS_NOTIFICATION, AnalyticsConstants.RESET_PASSWORD_SUCCESS);
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.STATUS_NOTIFICATION,
+		        AnalyticsConstants.RESET_PASSWORD_SUCCESS);
 		hideForgotPasswordSpinner();
-		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity(),AnalyticsConstants.SIGN_IN);
+		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity(),
+		        AnalyticsConstants.SIGN_IN);
 		hideForgotPasswordSpinner();
 		mBtnResend.setEnabled(true);
 		mRegError.hideError();

@@ -12,7 +12,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
@@ -95,10 +94,17 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	}
 
 	private void setPrevTiltle() {
-		TextView tvTitle = ((TextView) getActivity().findViewById(R.id.tv_reg_header_title));
-		if (mPrevTitleResourceId != -99) {
-			tvTitle.setText(getString(mPrevTitleResourceId));
-			tvTitle.setTag(mPrevTitleResourceId);
+		RegistrationFragment fragment = (RegistrationFragment) getParentFragment();
+
+		if (null != fragment && null != fragment.getUpdateTitleListener()
+		        && mPrevTitleResourceId != -99) {
+			if (fragment.getFragmentCount() > 2) {
+				fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
+				        getTitleResourceId());
+			} else {
+				fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+			}
+			fragment.setResourceID(mPrevTitleResourceId);
 		}
 	}
 
@@ -109,18 +115,24 @@ public abstract class RegistrationBaseFragment extends Fragment {
 	}
 
 	private void setCurrentTitle() {
-		TextView tvTitle = ((TextView) getActivity().findViewById(R.id.tv_reg_header_title));
-		if (null != tvTitle.getTag()) {
-			mPrevTitleResourceId = (Integer) tvTitle.getTag();
+
+		RegistrationFragment fragment = (RegistrationFragment) getParentFragment();
+		if (null != fragment && null != fragment.getUpdateTitleListener()
+		        && -99 != fragment.getResourceID()) {
+			mPrevTitleResourceId = (Integer) fragment.getResourceID();
 		}
-		tvTitle.setText(getString(getTitleResourceId()));
-		tvTitle.setTag(getTitleResourceId());
+		if (fragment.getFragmentCount() > 1) {
+			fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(getTitleResourceId());
+		} else {
+			fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+		}
+		fragment.setResourceID(getTitleResourceId());
 	}
 
-	public RegistrationActivity getRegistrationMainActivity() {
-		Activity activity = getActivity();
-		if (activity != null && (activity instanceof RegistrationActivity)) {
-			return (RegistrationActivity) activity;
+	public RegistrationFragment getRegistrationFragment() {
+		Fragment fragment = getParentFragment();
+		if (fragment != null && (fragment instanceof RegistrationFragment)) {
+			return (RegistrationFragment) fragment;
 		}
 		return null;
 	}
@@ -152,10 +164,10 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		AnalyticsUtils.trackPage(prevPage, currPage);
 	}
 
-	protected void trackActionStatus(String state, String key,String value) {
+	protected void trackActionStatus(String state, String key, String value) {
 		AnalyticsUtils.trackAction(state, key, value);
 	}
-	
+
 	protected void trackActionForRemarkettingOption(String state) {
 		AnalyticsUtils.trackAction(state, null, null);
 	}
