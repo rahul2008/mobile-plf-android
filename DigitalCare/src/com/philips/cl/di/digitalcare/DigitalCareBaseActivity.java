@@ -109,15 +109,14 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
 	}
 
 	private boolean backstackFragment() {
-
-		if (getFragmentManager().getBackStackEntryCount() == 1) {
-			this.finish();
+		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+			finish();
 		} else {
 			enableActionBarHome();
 			fragmentManager.popBackStack();
 			removeCurrentFragment();
 		}
-		return false;
+		return true;
 	}
 
 	private void removeCurrentFragment() {
