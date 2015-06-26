@@ -123,10 +123,10 @@ public class AnalyticsTracker {
 						AnalyticsConstants.ACTION_VALUE_ANDROID
 								+ Build.VERSION.RELEASE);
 		contextData.put(AnalyticsConstants.KEY_COUNTRY,
-				DigitalCareConfigManager.getInstance(mContext).getLocale()
+				DigitalCareConfigManager.getInstance().getLocale()
 						.getCountry());
 		contextData.put(AnalyticsConstants.KEY_LANGUAGE,
-				DigitalCareConfigManager.getInstance(mContext).getLocale()
+				DigitalCareConfigManager.getInstance().getLocale()
 						.getLanguage());
 		contextData.put(AnalyticsConstants.KEY_CURRENCY, getCurrency());
 		contextData.put(AnalyticsConstants.KEY_PREVIOUS_PAGENAME,

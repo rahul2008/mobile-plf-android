@@ -43,7 +43,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
 		DigiCareLogger.i(TAG, "onCreate");
 		setLocaleLanguage();
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		DigitalCareConfigManager.getInstance(this);
+		DigitalCareConfigManager.getInstance();
 		fragmentManager = getSupportFragmentManager();
 	}
 
@@ -100,8 +100,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
 	}
 
 	private void setLocaleLanguage() {
-		Locale locale = DigitalCareConfigManager.getInstance(
-				getApplicationContext()).getLocale();
+		Locale locale = DigitalCareConfigManager.getInstance().getLocale();
 		Locale.setDefault(locale);
 		Configuration config = new Configuration();
 		config.locale = locale;

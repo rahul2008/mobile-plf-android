@@ -21,9 +21,9 @@ import com.philips.cl.di.digitalcare.social.SocialProviderListener;
  * 
  * @since : 5 Dec 2014
  */
-public class DigitalCareConfigManager implements LocationMatchCallback {
+public class DigitalCareConfigManager {
 
-	private Locale mLocale = null;
+	public Locale mLocale = null;
 	private String mTwitterConsumerKey = null;
 	private String mTwitterConsumerSecret = null;
 	private static DigitalCareConfigManager mDigitalCareInstance = null;
@@ -50,11 +50,9 @@ public class DigitalCareConfigManager implements LocationMatchCallback {
 	/*
 	 * Singleton pattern.
 	 */
-	public static DigitalCareConfigManager getInstance(Context context) {
+	public static DigitalCareConfigManager getInstance() {
 		if (mDigitalCareInstance == null) {
-			mContext = context;
 			mDigitalCareInstance = new DigitalCareConfigManager();
-			initializeTaggin(context);
 		}
 		return mDigitalCareInstance;
 	}
@@ -67,12 +65,17 @@ public class DigitalCareConfigManager implements LocationMatchCallback {
 			int parentContainerResId,
 			ActionbarUpdateListner actionbarUpdateListner, String enterAnim,
 			String exitAnim) {
+		mContext = context;
+		initializeTaggingContext(mContext);
 		SupportHomeFragment supportFrag = new SupportHomeFragment();
 		supportFrag.showFragment(context, parentContainerResId, supportFrag,
 				actionbarUpdateListner, enterAnim, exitAnim);
 	}
-	
-	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
+
+	public void invokeDigitalCareAsActivity(Context applicationContext,
+			int startAnimation, int endAnimation) {
+		mContext = applicationContext;
+		initializeTaggingContext(mContext);
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;
 		Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
@@ -115,15 +118,12 @@ public class DigitalCareConfigManager implements LocationMatchCallback {
 		return mSocialProviderListener;
 	}
 
-	public void setLocale(String locale) {
-		String[] mtemp;
-		if (locale != null) {
-			mtemp = locale.split("_");
-			Locale mLocale = new Locale(mtemp[0], mtemp[1]);
+	public void setLocale(Context context, String langCode, String countryCode) {
+		DigitalCareConfigManager.mContext = context;
+		if (langCode != null && countryCode != null) {
 			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
-					mContext, mLocale, this);
+					mContext, langCode, countryCode);
 			mLocaleMatchHandler.initializeLocaleMatchService();
-
 		}
 	}
 
@@ -153,18 +153,9 @@ public class DigitalCareConfigManager implements LocationMatchCallback {
 		mTwitterConsumerSecret = twitterConsumerSecret;
 	}
 
-	private static void initializeTaggin(Context context) {
+	private static void initializeTaggingContext(Context context) {
 		AnalyticsTracker.isEnable(true);
 		AnalyticsTracker.initContext(context);
 	}
 
-	@Override
-	public void onCountryFallbackLocaleReceive(Locale locale) {
-		DigitalCareConfigManager.getInstance(mContext).mLocale = locale;
-	}
-
-	@Override
-	public void onLocaleLocaleReceive(Locale locale) {
-		DigitalCareConfigManager.getInstance(mContext).mLocale = locale;
-	}
 }

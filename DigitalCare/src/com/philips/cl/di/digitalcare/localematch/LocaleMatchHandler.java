@@ -5,7 +5,6 @@ import java.util.Locale;
 import android.content.Context;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
-import com.philips.cl.di.digitalcare.LocationMatchCallback;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.localematch.LocaleMatchListener;
 import com.philips.cl.di.localematch.PILLocale;
@@ -27,31 +26,33 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 	private Context mContext = null;
 	private final String TAG = LocaleMatchHandler.class.getSimpleName();
 	private DigitalCareConfigManager mConfigManager = null;
-	private LocationMatchCallback mLocationMatchCallback = null;
+	private String mLanguageCode = null;
+	private String mCountryCode = null;
 	private Locale mLocale = null;
 
-	public LocaleMatchHandler(Context context, Locale locale,
-			LocationMatchCallback listener) {
+	public LocaleMatchHandler(Context context, String langCode,String countryCode) {
 		mContext = context;
-		mLocale = locale;
-		mLocationMatchCallback = listener;
-		mConfigManager = DigitalCareConfigManager.getInstance(mContext);
+		mLanguageCode = langCode;
+		mCountryCode = countryCode;
+		mLocale = new Locale(mLanguageCode, mCountryCode);
+		mConfigManager = DigitalCareConfigManager.getInstance();
 		DigiCareLogger.v(TAG, "Contructor..");
 	}
 
 	public void initializeLocaleMatchService() {
-		DigiCareLogger.v(TAG, "initializing the Service");
+		DigiCareLogger.v(TAG, "initializing the Service  "+mLanguageCode + " " + mCountryCode);
 		PILLocaleManager mPLocaleManager = new PILLocaleManager();
 		mPLocaleManager.init(mContext, this);
-		mPLocaleManager.refresh(mContext, mLocale.getLanguage(),
-				mLocale.getCountry());
+		mPLocaleManager.refresh(mContext, mLanguageCode,
+				mCountryCode);
+		DigiCareLogger.v(TAG, "Country : "+ mLanguageCode + " Language : "+ mLanguageCode);
 	}
 
 	@Override
 	public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
 		DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
 				"piLocale received on ErrorLIstener");
-		mLocationMatchCallback.onLocaleLocaleReceive(mLocale);
+		DigitalCareConfigManager.getInstance().mLocale = mLocale;
 	}
 
 	@Override
@@ -76,18 +77,16 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 								+ mPilLocale.getLanguageCode()
 								+ " & Locale is : "
 								+ mPilLocale.getLocaleCode());
-				// mConfigManager.setLocale(mPilLocale.getLocaleCode());
-				mLocationMatchCallback
-						.onCountryFallbackLocaleReceive(new Locale(mPilLocale
-								.getLanguageCode(), mPilLocale.getCountrycode()));
+				Locale locale = new Locale(mPilLocale.getLanguageCode(), mPilLocale.getCountrycode());
+				DigitalCareConfigManager.getInstance().mLocale = locale;
 			} else {
 				DigiCareLogger.v(TAG, "PILocale received null");
-				mLocationMatchCallback.onLocaleLocaleReceive(mLocale);
+				DigitalCareConfigManager.getInstance().mLocale = mLocale;
 			}
 
 		} else {
 			DigiCareLogger.v(TAG, "Sector Not exists");
-			mLocationMatchCallback.onLocaleLocaleReceive(mLocale);
+			DigitalCareConfigManager.getInstance().mLocale = mLocale;
 		}
 	}
 

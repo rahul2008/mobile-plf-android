@@ -3,6 +3,7 @@ package com.philips.cl.di.sampledigitalcareapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -65,15 +66,15 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 		mLanguage_spinner.setAdapter(mLanguage_adapter);
 
 		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
-		DigitalCareConfigManager.getInstance(this).setConsumerProductInfo(
+		DigitalCareConfigManager.getInstance().setConsumerProductInfo(
 				mConsumerProductInfoDemo);
-		DigitalCareConfigManager.getInstance(this).registerMainMenuListener(
+		DigitalCareConfigManager.getInstance().registerMainMenuListener(
 				this);
 
-		DigitalCareConfigManager.getInstance(this).registerProductMenuListener(
+		DigitalCareConfigManager.getInstance().registerProductMenuListener(
 				this);
 
-		DigitalCareConfigManager.getInstance(this)
+		DigitalCareConfigManager.getInstance()
 				.registerSocialProviderListener(this);
 
 		mLanguage_spinner
@@ -121,8 +122,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onMainMenuItemClicked(String mainMenuItem) {
-		if (mainMenuItem.equals(getStringKey(R.string.registration))
-				|| mainMenuItem.equals(getStringKey(R.string.view_faq))) {
+		if (mainMenuItem.equals(getStringKey(R.string.registration))) {
 			Intent intent = new Intent(LaunchDigitalCare.this,
 					DummyScreen.class);
 			startActivity(intent);
@@ -158,21 +158,22 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 		switch (view.getId()) {
 
 		default:
-			DigitalCareConfigManager.getInstance(this)
-					.invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
+			DigitalCareConfigManager.getInstance()
+					.invokeDigitalCareAsActivity(this,R.anim.slide_in_bottom,
 							R.anim.slide_out_bottom);
-//			Intent intent = new Intent(this, DigitalCareActivity.class);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//			intent.putExtra("STARTANIMATIONID", DEFAULT_ANIMATION_START);
-//			intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
-//			startActivity(intent);
+			// Intent intent = new Intent(this, DigitalCareActivity.class);
+			// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			// intent.putExtra("STARTANIMATIONID", DEFAULT_ANIMATION_START);
+			// intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
+			// startActivity(intent);
 		}
 	}
 
 	@SuppressWarnings("static-access")
 	private void setLocaleForTesting(String country, String language) {
+		Log.i("Deepthi","setlocale = "+country + language);
 		DigitalCareConfigManager mDigitalCareConfigManager = DigitalCareConfigManager
-				.getInstance(this);
-		mDigitalCareConfigManager.setLocale(language + "_" + country);
+				.getInstance();
+		mDigitalCareConfigManager.setLocale(this, language, country);
 	}
 }

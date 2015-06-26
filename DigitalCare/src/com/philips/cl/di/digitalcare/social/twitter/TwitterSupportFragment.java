@@ -106,11 +106,11 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.string.support_productinformation)
 				+ " "
 				+ DigitalCareConfigManager
-						.getInstance(getActivity().getApplicationContext())
+						.getInstance()
 						.getConsumerProductInfo().getProductTitle()
 				+ " "
 				+ DigitalCareConfigManager
-						.getInstance(getActivity().getApplicationContext())
+						.getInstance()
 						.getConsumerProductInfo().getCtn();
 	}
 

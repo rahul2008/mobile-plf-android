@@ -169,12 +169,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 */
 	protected String formCdlsURL() {
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-				.getInstance(getActivity().getApplicationContext())
+				.getInstance()
 				.getConsumerProductInfo();
 		return getCdlsUrl(
 				consumerProductInfo.getSector(),
 				DigitalCareConfigManager
-						.getInstance(getActivity().getBaseContext())
+						.getInstance()
 						.getLocale().toString(),
 				consumerProductInfo.getCatalog(),
 				consumerProductInfo.getSubCategory());
@@ -319,10 +319,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		if (tag != null) {
 			actionTaken = DigitalCareConfigManager
-					.getInstance(
-							DigitalCareConfigManager.getInstance(
-									getActivity().getBaseContext())
-									.getContext()).getSocialProviderListener()
+					.getInstance().getSocialProviderListener()
 					.onSocialProviderItemClicked(tag.toString());
 		}
 		if (actionTaken) {

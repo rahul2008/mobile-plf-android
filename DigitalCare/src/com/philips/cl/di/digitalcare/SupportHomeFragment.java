@@ -17,6 +17,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.contactus.ContactUsFragment;
+import com.philips.cl.di.digitalcare.faq.FaqFragment;
 import com.philips.cl.di.digitalcare.locatephilips.LocatePhilipsFragment;
 import com.philips.cl.di.digitalcare.productdetails.ProductDetailsFragment;
 import com.philips.cl.di.digitalcare.rateandreview.RateThisAppFragment;
@@ -58,7 +59,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		createMainMenu();
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME, getPreviousName());
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+				getPreviousName());
 	}
 
 	@Override
@@ -178,9 +180,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		String tag = (String) view.getTag();
 
 		boolean actionTaken = DigitalCareConfigManager
-				.getInstance(
-						DigitalCareConfigManager.getInstance(getActivity())
-								.getContext()).getMainMenuListener()
+				.getInstance().getMainMenuListener()
 				.onMainMenuItemClicked(tag.toString());
 
 		if (actionTaken) {
@@ -196,7 +196,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 			if (isConnectionAvailable())
 				showFragment(new LocatePhilipsFragment());
 		} else if (tag.equals(getStringKey(R.string.view_faq))) {
-
+			if (isConnectionAvailable())
+				showFragment(new FaqFragment());
 		} else if (tag.equals(getStringKey(R.string.feedback))) {
 			if (isConnectionAvailable())
 				showFragment(new RateThisAppFragment());

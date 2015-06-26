@@ -8,7 +8,7 @@ public class ConsumerProductInfoDemo extends ConsumerProductInfo {
 	private static String mCatalog = "CARE";
 	private static String mCategory = "MENS_SHAVING_CA";
 	private static String mSubCategory = "HAIR_STYLERS_SU";
-	private static String mCtn = "*";
+	private static String mCtn = "HD8967_01";
 	private static String mProductTitle = "PRODCUT TITLE";
 
 	@Override
@@ -20,7 +20,7 @@ public class ConsumerProductInfoDemo extends ConsumerProductInfo {
 	public String getSector() {
 		return mSector;
 	}
-	
+
 	@Override
 	public String getCatalog() {
 		return mCatalog;

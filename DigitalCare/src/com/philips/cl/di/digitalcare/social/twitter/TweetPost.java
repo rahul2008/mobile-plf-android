@@ -55,10 +55,10 @@ public class TweetPost {
 			super.run();
 
 			try {
-				mConsumerKey = DigitalCareConfigManager.getInstance(mContext)
+				mConsumerKey = DigitalCareConfigManager.getInstance()
 						.getTwitterConsumerKey();
 				mConsumerSecret = DigitalCareConfigManager
-						.getInstance(mContext).getTwitterConsumerSecret();
+						.getInstance().getTwitterConsumerSecret();
 				ConfigurationBuilder builder = new ConfigurationBuilder();
 				builder.setOAuthConsumerKey(mConsumerKey);
 				builder.setOAuthConsumerSecret(mConsumerSecret);

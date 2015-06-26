@@ -166,11 +166,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private String formAtosURL() {
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-				.getInstance(getActivity().getApplicationContext())
+				.getInstance()
 				.getConsumerProductInfo();
 		return getAtosUrl(consumerProductInfo.getCtn(),
 				consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-						.getInstance(getActivity().getBaseContext())
+						.getInstance()
 						.getLocale().getCountry().toLowerCase());
 	}
 
