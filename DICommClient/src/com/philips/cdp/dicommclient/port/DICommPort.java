@@ -248,10 +248,10 @@ public abstract class DICommPort<T> {
 			}
 
 			public void onError(Error error, String errorData) {
-				notifyPortListenersOnError(error, errorData);
 				if (!isPutPropertiesRequested()) {
 					setIsApplyingChanges(false);
 				}
+				notifyPortListenersOnError(error, errorData);
 				requestCompleted();
 				DLog.e(LOG_TAG, "End putProperties - error");
 			}

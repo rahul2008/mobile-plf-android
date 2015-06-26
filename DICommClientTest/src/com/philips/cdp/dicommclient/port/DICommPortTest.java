@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
@@ -330,6 +331,48 @@ public class DICommPortTest extends MockitoTestCase{
 		verifyGetPropertiesCalled(false);
 	}
 
+	public void testIsApplyingChangesAfterPutProperties() {
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		DICommPortListenerImpl listener = new DICommPortListenerImpl();
+		ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
+
+		responseHandler.onSuccess(null);
+
+		assertFalse(listener.isApplyingChangesOnCallback);
+	}
+
+	public void testIsApplyingChangesAfterPutPropertiesError() {
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		DICommPortListenerImpl listener = new DICommPortListenerImpl();
+		ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
+
+		responseHandler.onError(Error.NOTCONNECTED, null);
+
+		assertFalse(listener.isApplyingChangesOnCallback);
+	}
+
+	public void testIsApplyingChangesBetweenTwoPutProperties() {
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		DICommPortListenerImpl listener = new DICommPortListenerImpl();
+		ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+
+		responseHandler.onSuccess(null);
+
+		assertTrue(listener.isApplyingChangesOnCallback);
+	}
+
+	public void testIsApplyingChangesBetweenTwoPutPropertiesError() {
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+		DICommPortListenerImpl listener = new DICommPortListenerImpl();
+		ResponseHandler responseHandler = addListenerAndGetResponseHandler(listener);
+		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
+
+		responseHandler.onError(Error.NOTCONNECTED, null);
+
+		assertTrue(listener.isApplyingChangesOnCallback);
+	}
+
     public void test_ShouldPostRunnable_WhenSubscribeIsCalled() throws Exception {
         mDICommPort.subscribe();
 
@@ -361,7 +404,7 @@ public class DICommPortTest extends MockitoTestCase{
 
         verifySubscribeCalled(true);
     }
-    
+
     public void test_ShouldUnsubscribeFromCommunicationStrategy_WhenUnsubscribeIsCalled() throws Exception {
         mDICommPort.unsubscribe();
 
@@ -471,45 +514,45 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.getPortProperties();
 		verifyGetPropertiesCalled(true);
 	}
-	
+
 	public void testRegisterListener() {
 		DICommPortListener listener = mock(DICommPortListener.class);
-		
+
 		mDICommPort.registerPortListener(listener);
 		mDICommPort.handleResponse("");
-		
+
 		verify(listener, times(1)).onPortUpdate(mDICommPort);
 	}
 
 	public void testUnregisterListener() {
 		DICommPortListener listener = mock(DICommPortListener.class);
-		
+
 		mDICommPort.registerPortListener(listener);
 		mDICommPort.unregisterPortListener(listener);
 		mDICommPort.handleResponse("");
-		
+
 		verify(listener, times(0)).onPortUpdate(mDICommPort);
 	}
-	
+
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
 		DICommPortListener listener = mock(DICommPortListener.class);
-		
+
 		mDICommPort.registerPortListener(listener);
 		mDICommPort.unregisterPortListener(listener);
 		mDICommPort.unregisterPortListener(listener);
 
     	mDICommPort.handleResponse("");
-		
+
 		verify(listener, times(0)).onPortUpdate(mDICommPort);
     }
-    
+
 	public void testListenerShouldNotBeRegisteredTwice() {
 		DICommPortListener listener = mock(DICommPortListener.class);
-		
+
 		mDICommPort.registerPortListener(listener);
 		mDICommPort.registerPortListener(listener);
 		mDICommPort.handleResponse("");
-		
+
 		verify(listener, times(1)).onPortUpdate(mDICommPort);
 	}
 
@@ -543,6 +586,13 @@ public class DICommPortTest extends MockitoTestCase{
 		} else {
 			verify(mCommunicationStrategy,never()).unsubscribe(eq(PORT_NAME), eq(PORT_PRODUCTID) ,eq(mNetworkNode), mResponseHandlerCaptor.capture());
 		}
+	}
+
+	private ResponseHandler addListenerAndGetResponseHandler(DICommPortListenerImpl listener) {
+		mDICommPort.registerPortListener(listener);
+		verifyPutPropertiesCalled(true);
+		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
+		return responseHandler;
 	}
 
 
@@ -585,5 +635,21 @@ public class DICommPortTest extends MockitoTestCase{
         public boolean supportsSubscription() {
             return false;
         }
+	}
+
+	public class DICommPortListenerImpl implements DICommPortListener {
+
+		public boolean isApplyingChangesOnCallback = false;
+
+		@Override
+		public void onPortUpdate(DICommPort<?> port) {
+			isApplyingChangesOnCallback = port.isApplyingChanges();
+		}
+
+		@Override
+		public void onPortError(DICommPort<?> port, Error error, String errorData) {
+			isApplyingChangesOnCallback = port.isApplyingChanges();
+		}
+
 	}
 }
