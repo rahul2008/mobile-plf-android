@@ -158,11 +158,11 @@ public class DigitalCareActivityTest extends
 		assertEquals(expected, received);
 	}*/
 
-	@SmallTest
-	public void testFaceBookID() {
-		String expected = "1537018913230025";
-		String actual = mActivity.getString(R.string.facebook_app_id);
-		assertEquals(expected, actual);
-	}
+//	@SmallTest
+//	public void testFaceBookID() {
+//		String expected = "1537018913230025";
+//		String actual = mActivity.getString(R.string.facebook_app_id);
+//		assertEquals(expected, actual);
+//	}
 
 }
