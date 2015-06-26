@@ -1,3 +1,8 @@
+/*
+ * © Koninklijke Philips N.V., 2015.
+ *   All rights reserved.
+ */
+
 package com.philips.cdp.dicommclient.port.common;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;

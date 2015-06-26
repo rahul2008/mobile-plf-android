@@ -1,20 +1,7 @@
-/*----------------------------------------------------------------------------
-Copyright(c) Philips Electronics India Ltd
-All rights reserved. Reproduction in whole or in part is prohibited without
-the written consent of the copyright holder.
-
-Project           : Android Demo ICP App
-
-File Name         : EventPublisherServiceActivity.java
-
-Description       :
-
-Revision History:
-Version 1:
-    Date: 02-Aug-2013
-    Original author: Haranadh Kaki
-    Description: Updated version
-----------------------------------------------------------------------------*/
+/*
+ * © Koninklijke Philips N.V., 2015.
+ *   All rights reserved.
+ */
 package com.philips.cdp.dicommclient.cpp;
 
 import android.os.Handler;

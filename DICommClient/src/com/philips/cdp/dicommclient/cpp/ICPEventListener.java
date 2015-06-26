@@ -1,3 +1,8 @@
+/*
+ * © Koninklijke Philips N.V., 2015.
+ *   All rights reserved.
+ */
+
 package com.philips.cdp.dicommclient.cpp;
 
 import com.philips.icpinterface.ICPClient;
