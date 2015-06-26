@@ -145,8 +145,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		if (isConnectionAvailable())
 			requestATOSResponseData();
 		try {
+			if (mView != null) {
+				((ViewGroup) mView.getParent()).removeView(mView);
+			}
 			mView = inflater.inflate(R.layout.fragment_locate_philips,
 					container, false);
+
 		} catch (InflateException e) {
 		}
 		return mView;
@@ -166,12 +170,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 	private String formAtosURL() {
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-				.getInstance()
-				.getConsumerProductInfo();
+				.getInstance().getConsumerProductInfo();
 		return getAtosUrl(consumerProductInfo.getCtn(),
 				consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-						.getInstance()
-						.getLocale().getCountry().toLowerCase());
+						.getInstance().getLocale().getCountry().toLowerCase());
 	}
 
 	protected String getAtosUrl(String ctn, String subcategory, String country) {
