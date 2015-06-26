@@ -217,7 +217,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private void signIn() {
 		((RegistrationFragment) getParentFragment()).hideKeyBoard();
 		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.START_USER_REGISTRATION);
+		        AnalyticsConstants.LOGIN_STARTS);
 		if (mUser != null) {
 			showSignInSpinner();
 		}
@@ -237,6 +237,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
+			trackActionLoginError(AnalyticsConstants.NETWORK_ERROR_CODE);
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}
 	}

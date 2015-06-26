@@ -2,6 +2,7 @@
 package com.philips.cl.di.reg.ui.traditional;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.adobe.mobile.Config;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.listener.RegistrationTitleBarListener;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -18,6 +20,24 @@ import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
+
+	private Handler mSiteCatalistHandler = new Handler();
+
+	private Runnable mPauseSiteCatalystRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			Config.pauseCollectingLifecycleData();
+		}
+	};
+
+	private Runnable mResumeSiteCatalystRunnable = new Runnable() {
+
+		@Override
+		public void run() {
+			Config.collectLifecycleData();
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +56,16 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 	@Override
 	protected void onResume() {
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onResume");
+		mSiteCatalistHandler.removeCallbacksAndMessages(null);
+		mSiteCatalistHandler.post(mResumeSiteCatalystRunnable);
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onPause");
+		mSiteCatalistHandler.removeCallbacksAndMessages(null);
+		mSiteCatalistHandler.post(mPauseSiteCatalystRunnable);
 		super.onPause();
 	}
 
@@ -108,14 +132,14 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
 	@Override
 	public void updateRegistrationTitle(int titleResourceID) {
-		// Update title only and show hamberger
+		// Update title and show hamberger
 		TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
 		tvTitle.setText(getString(titleResourceID));
 	}
 
 	@Override
 	public void updateRegistrationTitleWithBack(int titleResourceID) {
-		// update title only and show back
+		// update title and show back
 		TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
 		tvTitle.setText(getString(titleResourceID));
 	}

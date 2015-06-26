@@ -1,14 +1,11 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
-import java.util.Locale;
-
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,7 +15,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import com.adobe.mobile.Config;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
@@ -38,32 +34,15 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
 	private final boolean VERIFICATION_SUCCESS = true;
 
-	private Handler mSiteCatalistHandler = new Handler();
-
 	private Activity mActivity;
 
 	private RegistrationTitleBarListener mRegistrationUpdateTitleListener;
 
 	private int titleResourceID = -99;
 
-	private Runnable mPauseSiteCatalystRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-			Config.pauseCollectingLifecycleData();
-		}
-	};
-
-	private Runnable mResumeSiteCatalystRunnable = new Runnable() {
-
-		@Override
-		public void run() {
-			Config.collectLifecycleData();
-		}
-	};
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
 		super.onCreate(savedInstanceState);
 
 	}
@@ -72,9 +51,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mActivity = getActivity();
 		View view = inflater.inflate(R.layout.fragment_registration, container, false);
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onCreate");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
+		RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment  Register: NetworStateListener");
 		mFragmentManager = getChildFragmentManager();
 		loadFirstFragment();
 		return view;
@@ -82,44 +61,42 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
 	@Override
 	public void onStart() {
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStart");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onStart");
 		super.onStart();
 	}
 
 	@Override
 	public void onResume() {
 		mActivity = getActivity();
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onResume");
-		mSiteCatalistHandler.removeCallbacksAndMessages(null);
-		mSiteCatalistHandler.post(mResumeSiteCatalystRunnable);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onResume");
+
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onPause");
-		mSiteCatalistHandler.removeCallbacksAndMessages(null);
-		mSiteCatalistHandler.post(mPauseSiteCatalystRunnable);
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onPause");
+
 		super.onPause();
 	}
 
 	@Override
 	public void onStop() {
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onStop");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onStop");
 		super.onStop();
 	}
 
 	@Override
 	public void onDestroy() {
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onDestroy");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onDestroy");
 		RegistrationHelper.getInstance().unregisterListener(mActivity.getApplicationContext());
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
-		RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity Unregister: NetworStateListener,Context");
+		RLog.i(RLog.EVENT_LISTENERS, "RegistrationFragment Unregister: NetworStateListener,Context");
 		super.onDestroy();
 	}
 
 	public boolean onBackPressed() {
-		RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onBackPressed");
+		RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onBackPressed");
 		hideKeyBoard();
 		return handleBackStack();
 	}
@@ -144,7 +121,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
-			        "RegistrationActivity :FragmentTransaction Exception occured in loadFirstFragment  :"
+			        "RegistrationFragment :FragmentTransaction Exception occured in loadFirstFragment  :"
 			                + e.getMessage());
 		}
 	}
@@ -152,9 +129,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 	private void handleUserLoginStateFragments() {
 		User mUser = new User(mActivity.getApplicationContext());
 		if (mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
+			trackPage("", AnalyticsPages.HOME);
 			replaceWithWelcomeFragment();
 			return;
 		}
+		trackPage("", AnalyticsPages.HOME);
 		replaceWithHomeFragment();
 	}
 
@@ -167,10 +146,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.fl_reg_fragment_container, new HomeFragment());
 			fragmentTransaction.commitAllowingStateLoss();
-			trackPage("", AnalyticsPages.HOME);
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
-			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+			        "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
 			                + e.getMessage());
 		}
 	}
@@ -183,7 +161,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
-			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+			        "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
 			                + e.getMessage());
 		}
 		hideKeyBoard();
@@ -216,10 +194,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 			FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
 			fragmentTransaction.replace(R.id.fl_reg_fragment_container, welcomeFragment);
 			fragmentTransaction.commitAllowingStateLoss();
-			trackPage("", AnalyticsPages.WELCOME);
 		} catch (IllegalStateException e) {
 			RLog.e(RLog.EXCEPTION,
-			        "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+			        "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
 			                + e.getMessage());
 		}
 	}
@@ -264,13 +241,14 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
 		if (!RegistrationHelper.getInstance().isJanrainIntialized()) {
-			RLog.d(RLog.NETWORK_STATE, "RegistrationActivity :onNetWorkStateReceived");
+			RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
 			RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
-			registrationSettings.intializeRegistrationSettings(Janrain.REINITIALIZE,
-			        mActivity.getApplicationContext(), Locale.getDefault());
+			registrationSettings
+			        .intializeRegistrationSettings(Janrain.REINITIALIZE, mActivity
+			                .getApplicationContext(), RegistrationHelper.getInstance().getLocale());
 			RLog.d(RLog.JANRAIN_INITIALIZE,
-			        "RegistrationActivity : Janrain reinitialization with locale : "
-			                + Locale.getDefault());
+			        "RegistrationFragment : Janrain reinitialization with locale : "
+			                + RegistrationHelper.getInstance().getLocale());
 		}
 	}
 

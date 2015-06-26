@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.coppa.CoppaExtension;
 import com.philips.cl.di.reg.coppa.CoppaResendError;
 import com.philips.cl.di.reg.coppa.ResendCoppaEmailConsentHandler;
@@ -215,12 +216,13 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_out) {
 			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
+			trackPage(AnalyticsPages.WELCOME,AnalyticsPages.HOME);
 			mUser.logout();
 			getRegistrationFragment().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
-
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
+				trackPage(AnalyticsPages.WELCOME,AnalyticsPages.HOME);
 				mUser.logout();
 				getRegistrationFragment().replaceWithHomeFragment();
 			} else {

@@ -317,6 +317,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginSuccess");
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
+				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_SOCIAL_MERGE);
 		hideMergeSpinner();
 		launchWelcomeFragment();
 	}
