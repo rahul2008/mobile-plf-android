@@ -165,8 +165,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 		String tag = (String) view.getTag();
 
-		boolean actionTaken = DigitalCareConfigManager
-				.getInstance()
+		boolean actionTaken = DigitalCareConfigManager.getInstance()
 				.getProductMenuListener().onProductMenuItemClicked(tag);
 
 		if (actionTaken) {
@@ -175,13 +174,10 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 		if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
 				R.string.product_open_manual))) {
-			showAlert(AnalyticsConstants.PAGE_HOME);
 		} else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
 				R.string.product_download_manual))) {
-			showAlert(AnalyticsConstants.PAGE_HOME);
 		} else if (tag.equalsIgnoreCase(getResources().getResourceEntryName(
 				R.string.product_information))) {
-			showAlert(AnalyticsConstants.PAGE_HOME);
 		}
 	}
 
