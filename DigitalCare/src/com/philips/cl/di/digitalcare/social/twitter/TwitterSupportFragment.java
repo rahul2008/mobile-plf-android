@@ -105,12 +105,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		return getActivity().getResources().getString(
 				R.string.support_productinformation)
 				+ " "
-				+ DigitalCareConfigManager
-						.getInstance()
+				+ DigitalCareConfigManager.getInstance()
 						.getConsumerProductInfo().getProductTitle()
 				+ " "
-				+ DigitalCareConfigManager
-						.getInstance()
+				+ DigitalCareConfigManager.getInstance()
 						.getConsumerProductInfo().getCtn();
 	}
 
@@ -320,17 +318,21 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
-		mFile = new File(Uri);
-		DigiCareLogger.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
-		mProductImage.setImageBitmap(image);
-		mProductImage.setScaleType(ScaleType.FIT_XY);
-		mProductCloseButton.setVisibility(View.VISIBLE);
-		setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
-		mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
+		DigiCareLogger.v(TAG, "IMage received URI : " + Uri);
+		if (Uri != null) {
+			mFile = new File(Uri);
+			DigiCareLogger
+					.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
+			mProductImage.setImageBitmap(image);
+			mProductImage.setScaleType(ScaleType.FIT_XY);
+			mProductCloseButton.setVisibility(View.VISIBLE);
+			setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
+			mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
 
-		if (getCharacterCount() <= mTwitterTextCounter) {
-			int mTextCounter = mTwitterTextCounter - getCharacterCount();
-			mCharacterCount.setText(String.valueOf(mTextCounter));
+			if (getCharacterCount() <= mTwitterTextCounter) {
+				int mTextCounter = mTwitterTextCounter - getCharacterCount();
+				mCharacterCount.setText(String.valueOf(mTextCounter));
+			}
 		}
 	}
 
