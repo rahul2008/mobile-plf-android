@@ -65,7 +65,7 @@ public class DigitalCareConfigManager {
 			int parentContainerResId,
 			ActionbarUpdateListner actionbarUpdateListner, String enterAnim,
 			String exitAnim) {
-		mContext = context;
+		DigitalCareConfigManager.mContext = context;
 		initializeTaggingContext(mContext);
 		SupportHomeFragment supportFrag = new SupportHomeFragment();
 		supportFrag.showFragment(context, parentContainerResId, supportFrag,
@@ -74,7 +74,7 @@ public class DigitalCareConfigManager {
 
 	public void invokeDigitalCareAsActivity(Context applicationContext,
 			int startAnimation, int endAnimation) {
-		mContext = applicationContext;
+		DigitalCareConfigManager.mContext = applicationContext;
 		initializeTaggingContext(mContext);
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;
