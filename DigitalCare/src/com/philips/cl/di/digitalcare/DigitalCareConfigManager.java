@@ -65,7 +65,8 @@ public class DigitalCareConfigManager {
 			int parentContainerResId,
 			ActionbarUpdateListner actionbarUpdateListner, String enterAnim,
 			String exitAnim) {
-		DigitalCareConfigManager.mContext = context;
+		if (mContext == null)
+			DigitalCareConfigManager.mContext = context;
 		initializeTaggingContext(mContext);
 		SupportHomeFragment supportFrag = new SupportHomeFragment();
 		supportFrag.showFragment(context, parentContainerResId, supportFrag,
@@ -74,7 +75,8 @@ public class DigitalCareConfigManager {
 
 	public void invokeDigitalCareAsActivity(Context applicationContext,
 			int startAnimation, int endAnimation) {
-		DigitalCareConfigManager.mContext = applicationContext;
+		if (mContext == null)
+			DigitalCareConfigManager.mContext = applicationContext;
 		initializeTaggingContext(mContext);
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;
@@ -119,7 +121,8 @@ public class DigitalCareConfigManager {
 	}
 
 	public void setLocale(Context context, String langCode, String countryCode) {
-		DigitalCareConfigManager.mContext = context;
+		if (mContext == null)
+			DigitalCareConfigManager.mContext = context;
 		if (langCode != null && countryCode != null) {
 			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
 					mContext, langCode, countryCode);
