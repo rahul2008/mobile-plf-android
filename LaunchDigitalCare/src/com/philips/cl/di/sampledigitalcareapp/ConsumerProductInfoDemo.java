@@ -9,7 +9,7 @@ public class ConsumerProductInfoDemo extends ConsumerProductInfo {
 	private static String mCategory = "MENS_SHAVING_CA";
 	private static String mSubCategory = "HAIR_STYLERS_SU";
 	private static String mCtn = "HD8967_01";
-	private static String mProductTitle = "PRODCUT TITLE";
+	private static String mProductTitle = "PRODUCT TITLE";
 
 	@Override
 	public String getGroup() {
