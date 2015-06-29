@@ -1,10 +1,8 @@
 package com.philips.cl.di.digitalcare.social.facebook;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.webkit.WebViewClient;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
-import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 public class FacebookWebFragment extends DigitalCareBaseFragment {
 
