@@ -30,16 +30,18 @@ import com.philips.cl.di.digitalcare.ResponseCallback;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cl.di.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
+
 /*import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
-import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
-import com.facebook.Session;
-import com.facebook.SessionState;*/
+ import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
+ import com.philips.cl.di.digitalcare.social.facebook.FacebookScreenFragment;
+ import com.facebook.Session;
+ import com.facebook.SessionState;*/
 
 /**
  * ContactUsFragment will help to provide options to contact Philips.
@@ -169,13 +171,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 */
 	protected String formCdlsURL() {
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-				.getInstance()
-				.getConsumerProductInfo();
-		return getCdlsUrl(
-				consumerProductInfo.getSector(),
-				DigitalCareConfigManager
-						.getInstance()
-						.getLocale().toString(),
+				.getInstance().getConsumerProductInfo();
+		return getCdlsUrl(consumerProductInfo.getSector(),
+				DigitalCareConfigManager.getInstance().getLocale().toString(),
 				consumerProductInfo.getCatalog(),
 				consumerProductInfo.getSubCategory());
 	}
@@ -318,8 +316,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		boolean actionTaken = false;
 
 		if (tag != null) {
-			actionTaken = DigitalCareConfigManager
-					.getInstance().getSocialProviderListener()
+			actionTaken = DigitalCareConfigManager.getInstance()
+					.getSocialProviderListener()
 					.onSocialProviderItemClicked(tag.toString());
 		}
 		if (actionTaken) {
@@ -351,33 +349,33 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			} else if (!Utils.isSimAvailable(getActivity())) {
 				showAlert("Check the SIM");
 			}
-		} /*else if (tag != null
+		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))
 				&& isConnectionAvailable()) {
 
-			Session mFacebookSession = Session.getActiveSession();
+			launchFacebookFeature();
 
-			DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK "
-					+ mFacebookSession);
-			if (mFacebookSession == null) {
-				DigiCareLogger.d(TAG,
-						"Session is null so Starting FacebookSession");
-				startFacebookSession();
-			} else if ((mFacebookSession != null)
-					&& (mFacebookSession.getState() == SessionState.CLOSED_LOGIN_FAILED)) {
-				DigiCareLogger.d(TAG, "Session is state is CLOSED_LOGIN_FAILED"
-						+ " so Starting Facebook Session");
-				startFacebookSession();
-			} else if ((mFacebookSession != null)
-					&& (mFacebookSession.getState() == SessionState.OPENED)) {
-				DigiCareLogger.d(TAG,
-						"Session - getSession from Facebook SDK is not NULL  : "
-								+ mFacebookSession);
-				showFragment(new FacebookScreenFragment());
-				DigiCareLogger.d(TAG, "Session is not null");
-
-			}
-		} */else if (tag != null
+			/*
+			 * Session mFacebookSession = Session.getActiveSession();
+			 * 
+			 * DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK " +
+			 * mFacebookSession); if (mFacebookSession == null) {
+			 * DigiCareLogger.d(TAG,
+			 * "Session is null so Starting FacebookSession");
+			 * startFacebookSession(); } else if ((mFacebookSession != null) &&
+			 * (mFacebookSession.getState() ==
+			 * SessionState.CLOSED_LOGIN_FAILED)) { DigiCareLogger.d(TAG,
+			 * "Session is state is CLOSED_LOGIN_FAILED" +
+			 * " so Starting Facebook Session"); startFacebookSession(); } else
+			 * if ((mFacebookSession != null) && (mFacebookSession.getState() ==
+			 * SessionState.OPENED)) { DigiCareLogger.d(TAG,
+			 * "Session - getSession from Facebook SDK is not NULL  : " +
+			 * mFacebookSession); showFragment(new FacebookScreenFragment());
+			 * DigiCareLogger.d(TAG, "Session is not null");
+			 * 
+			 * }
+			 */
+		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
@@ -396,6 +394,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
 			sendEmail();
 		}
+	}
+
+	private void launchFacebookFeature() {
+
+		try {
+			getActivity().getApplicationContext().getPackageManager()
+					.getPackageInfo("com.facebook.katana", 0);
+			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/"
+					+ getActivity().getResources().getString(
+							R.string.facebook_product_pageID))));
+			DigiCareLogger.v(TAG, "Launced Installed Facebook Application");
+		} catch (Exception e) {
+			DigiCareLogger.v(TAG, "Launching Facebook Webpage");
+			showFragment(new FacebookWebFragment());
+		}
+
 	}
 
 	@Override
@@ -419,8 +433,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	};
 
 	private void tagServiceRequest(String serviceChannel) {
-		AnalyticsTracker.trackAction(
-				AnalyticsConstants.ACTION_SERVICE_REQUEST,
+		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SERVICE_REQUEST,
 				AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, serviceChannel);
 	}
 
@@ -574,15 +587,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public String setPreviousPageName() {
 		return AnalyticsConstants.PAGE_CONTACT_US;
 	}
-	
-	
-	/*protected void startFacebookSession() {
-		FacebookHelper mHelper = FacebookHelper.getInstance(getActivity());
-		mHelper.openFacebookSession(new FacebookAuthenticate() {
-			@Override
-			public void onSuccess() {
-				showFragment(new FacebookScreenFragment());
-			}
-		});
-	}*/
+
+	/*
+	 * protected void startFacebookSession() { FacebookHelper mHelper =
+	 * FacebookHelper.getInstance(getActivity());
+	 * mHelper.openFacebookSession(new FacebookAuthenticate() {
+	 * 
+	 * @Override public void onSuccess() { showFragment(new
+	 * FacebookScreenFragment()); } }); }
+	 */
 }

@@ -37,9 +37,7 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/textView3"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/textView3"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -65,7 +63,6 @@
             android:id="@+id/gridlayout1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/textView3"
             android:layout_marginTop="10dp"
             android:columnCount="2"
             android:orientation="horizontal"
@@ -112,71 +109,57 @@
             android:text="Launch Particular Component:"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="18dp"
-            android:visibility="gone"
             android:textStyle="bold"
-            />
+            android:visibility="gone" />
 
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_below="@id/textView6"
-            android:visibility="gone"
+            android:orientation="vertical"
             android:padding="30dp"
-           >
-                <Button
-          
-            android:id="@+id/launchproduct"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            
-            android:background="@drawable/blue_button"
-            android:text="Product Detail"
-         
-            android:layout_marginTop="10dp"/>
+            android:visibility="gone" >
 
-        <Button
-            android:id="@+id/launch_locate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           
-            android:background="@drawable/blue_button"
-            android:text="Find Philips"
-          
-            android:layout_marginTop="10dp" />
+            <Button
+                android:id="@+id/launchproduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_button"
+                android:text="Product Detail" />
 
-        <Button
-            android:id="@+id/launchrate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           
-            android:background="@drawable/blue_button"
-            android:text="Tell Us"
-           
-            android:layout_marginTop="10dp" />
+            <Button
+                android:id="@+id/launch_locate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_button"
+                android:text="Find Philips" />
 
-        <Button
-            android:id="@+id/launchproductregister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/blue_button"
-            android:text="Register My Product"
-           />
+            <Button
+                android:id="@+id/launchrate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_button"
+                android:text="Tell Us" />
 
-        <Button
-            android:id="@+id/launch_contact"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           android:layout_marginTop="10dp"
-            android:background="@drawable/blue_button"
-            android:text="Contact"
-           />
-            
-            
-            
+            <Button
+                android:id="@+id/launchproductregister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_button"
+                android:text="Register My Product" />
+
+            <Button
+                android:id="@+id/launch_contact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/blue_button"
+                android:text="Contact" />
         </LinearLayout>
-        
-    
     </RelativeLayout>
 
 </ScrollView>
