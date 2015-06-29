@@ -1,8 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent" 
-    android:background="@color/activity_background_color">
+    android:layout_height="fill_parent"
+    android:background="@color/activity_background_color" >
 
     <LinearLayout
         android:id="@+id/optionParent"
@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/activity_background_color"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_margin"
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin" >
 
