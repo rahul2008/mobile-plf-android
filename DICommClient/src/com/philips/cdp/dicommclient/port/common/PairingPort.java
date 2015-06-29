@@ -58,8 +58,8 @@ public class PairingPort extends DICommPort<Object> {
         putProperties(dataMap);
     }
 
-    public void triggerPairing(String appType, String appEui64, String secretKey) {
-        String[] dataArray = {appType, appEui64, secretKey};
+    public void triggerPairing(String appType, String appCppId, String secretKey) {
+        String[] dataArray = {appType, appCppId, secretKey};
         HashMap<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("Pair", dataArray);
         putProperties(dataMap);
