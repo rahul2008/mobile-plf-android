@@ -24,7 +24,7 @@
     <TextView
         android:id="@+id/place_address"
         style="@style/locateNearText"
-        android:layout_below="@+id/place_title"
+        android:layout_below="@id/place_title"
         android:paddingRight="50dp"
         android:text=""
         custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
@@ -34,7 +34,7 @@
     <TextView
         android:id="@+id/place_phone"
         style="@style/locateNearText"
-        android:layout_below="@+id/place_address"
+        android:layout_below="@id/place_address"
         android:paddingRight="50dp"
         android:text=""
         custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />

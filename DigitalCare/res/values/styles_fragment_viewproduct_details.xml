@@ -23,7 +23,7 @@
         <item name="android:textColor">@color/button_background</item>
         <item name="android:layout_alignParentTop">true</item>
         <item name="android:textSize">@dimen/title_text_size_small</item>
-        <item name="android:layout_toRightOf">@+id/productimage</item>
+        <item name="android:layout_toRightOf">@id/productimage</item>
     </style>
 
     <style name="viewProductDetails_Product_Variant">
@@ -32,8 +32,8 @@
         <item name="android:layout_gravity">left</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:paddingLeft">10dp</item>
-        <item name="android:layout_below">@+id/name</item>
-        <item name="android:layout_alignLeft">@+id/name</item>
+        <item name="android:layout_below">@id/name</item>
+        <item name="android:layout_alignLeft">@id/name</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/text_sub_header_color</item>
@@ -63,7 +63,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">165dp</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_below">@+id/prodbuttons</item>
+        <item name="android:layout_below">@id/prodbuttons</item>
     </style>
 
     <style name="viewProductDetails_Ads_Image">

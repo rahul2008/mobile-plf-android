@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/name"
                 style="@style/viewProductDetails_Product_Header"
-                android:layout_alignTop="@+id/productimage"
+                android:layout_alignTop="@id/productimage"
                 android:text="@string/product_name"
                 custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
 
