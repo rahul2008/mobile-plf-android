@@ -64,7 +64,7 @@
     <string name="twitter_login_hint_username">ユーザー名</string>
     <string name="twitter_login_hint_password">パスワード</string>
     <string name="twiiter_login_logo_description">Twitter ロゴ</string>
-    <string name="social_post_to">フィリップスにメッセージを送信</string>
+    <string name="social_post_to">メッセージを送信 </string>
     <string name="social_post_desc_text">製品情報を含む</string>
     <string name="from">送信元</string>
     <string name="cancel">キャンセル</string>
@@ -80,7 +80,12 @@
     <string name="check_sim">SIM カードが検出されません。正しく挿入されていることを確認してください</string>
     <string name="no_internet">インターネットに接続されていません。携帯電話の Wi-Fi 設定またはデータ設定で接続が機能していることを確認してください</string>
     <string name="twitter_post_progress_message">お客様のメッセージをフィリップス Twitter サポートに送信しています...</string>
-	<string name="social_post_failed">問題が発生しました...</string>
-	<string name="gps_disabled">お使いのデバイスで GPS が無効になっています。有効にしていただけますか？</string>
-<string name="search">検索</string>
+    <string name="social_post_failed">問題が発生しました...</string>
+    <string name="gps_disabled">お使いのデバイスで GPS が無効になっています。有効にしていただけますか？</string>
+    <string name="search">検索</string>
+    <string name="twitter_post_char_limitation">メッセージの長さは 140 文字以内に収めてください</string>
+    <string name="support_productinformation">アドバイス求む：</string>
+    <string name="social_post_success">お客様のメッセージを受信しました</string>
+    <string name="no_data_available">利用可能なデータなし</string>
+
 </resources>

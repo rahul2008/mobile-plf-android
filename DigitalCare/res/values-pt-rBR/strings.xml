@@ -64,7 +64,7 @@
     <string name="twitter_login_hint_username">Nome de usuário</string>
     <string name="twitter_login_hint_password">Senha</string>
     <string name="twiiter_login_logo_description">Logotipo do Twitter</string>
-    <string name="social_post_to">Envie uma mensagem para a Philips</string>
+    <string name="social_post_to">Envie uma mensagem para </string>
     <string name="social_post_desc_text">Incluir informações sobre o produto</string>
     <string name="from">De</string>
     <string name="cancel">Cancelar</string>
@@ -83,4 +83,8 @@
 	<string name="social_post_failed">Algo deu errado.</string>
 	<string name="gps_disabled">O GPS está desabilitado em seu dispositivo. Deseja habilitá-lo?</string>
 <string name="search">Pesquisar</string>
+<string name="twitter_post_char_limitation">Nota: sua mensagem não pode conter mais do que 140 caracteres</string>
+<string name="support_productinformation">você pode me ajudar com meu</string>
+<string name="social_post_success">Sua mensagem foi recebida!</string>
+<string name="no_data_available">Nenhum dado disponível</string>
 </resources>

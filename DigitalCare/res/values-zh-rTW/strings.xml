@@ -64,7 +64,7 @@
     <string name="twitter_login_hint_username">使用者名稱</string>
     <string name="twitter_login_hint_password">密碼</string>
     <string name="twiiter_login_logo_description">Twitter 標誌</string>
-    <string name="social_post_to">傳訊給飛利浦</string>
+    <string name="social_post_to">傳訊給 </string>
     <string name="social_post_desc_text">納入產品資訊</string>
     <string name="from">寄件者</string>
     <string name="cancel">取消</string>
@@ -83,5 +83,9 @@
     <string name="social_post_failed">發生問題..</string>
     <string name="gps_disabled">您裝置上的 GPS 已停用。是否要啟用？</string>
     <string name="search">搜尋</string>
+	<string name="twitter_post_char_limitation">請注意您的訊息長度不得超過 140 個字元</string>
+	<string name="support_productinformation">能否協助我處理</string>
+	<string name="social_post_success">收到您的訊息！</string>
+	<string name="no_data_available">無資料可供使用</string>
 
 </resources>

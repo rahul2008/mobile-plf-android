@@ -64,7 +64,7 @@
     <string name="twitter_login_hint_username">اسم المستخدم</string>
     <string name="twitter_login_hint_password">كلمة المرور</string>
     <string name="twiiter_login_logo_description">شعار Twitter</string>
-    <string name="social_post_to">إرسال رسالة إلى Philips</string>
+    <string name="social_post_to">إرسال رسالة إلى </string>
     <string name="social_post_desc_text">يتضمن معلومات عن المنتج</string>
     <string name="from">من</string>
     <string name="cancel">إلغاء</string>
@@ -83,4 +83,8 @@
 	<string name="social_post_failed">حدث خطأ ما..</string>
 	<string name="gps_disabled">إن نظام تحديد الموقع العالمي (GPS) معطّل في جهازك. هل تريد تمكينه؟</string>
 <string name="search">البحث</string>
+<string name="twitter_post_char_limitation">تجدر الإشارة إلى أن طول الرسالة لا يمكن أن يتخطى 140 حرفًا</string>
+<string name="support_productinformation">هل يمكنك مساعدتي في</string>
+<string name="social_post_success">تم استلام رسالتك!</string>
+<string name="no_data_available">ما من بيانات متوفرة</string>
 </resources>

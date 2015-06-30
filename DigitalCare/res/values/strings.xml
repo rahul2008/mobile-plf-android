@@ -40,6 +40,7 @@
     <string name="call_number">Call</string>
     <string name="chat_with_philips">Chat with Philips</string>
     <string name="check_sim">No SIM card detected. Please check if it is inserted correctly</string>
+	    <string name="no_data_available">No data available</string>
 
     <!-- values for Live Chat Screen -->
     <string name="can_we_help_you">Can we help you?</string>
@@ -67,12 +68,15 @@
     <string name="twitter_post_progress_message">Sending your message to Philips Twitter Support…</string>
 
     <!-- Contact US - Social Post -->
-    <string name="social_post_to">Send a message to @PhilipsCare</string>
+    <string name="social_post_to">Send a message to </string>
     <string name="social_post_desc_text">Include product information</string>
     <string name="cancel">Cancel</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_from_library">Choose from Library</string>
     <string name="social_post_failed">Something went wrong..</string>
+	<string name="support_productinformation">can you help me with my</string>
+	<string name="social_post_success">Your message was received!</string>
+	
     <!-- Social Login -->
     <string name="post">Post</string>
     <string name="send">Send</string>
@@ -82,5 +86,6 @@
 	<!-- Locate Philips -->
     <string name="search">Search</string>
 	 <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
+	 <string name="twitter_post_char_limitation">Please note that your message cannot be longer than 140 characters</string>
 
 </resources>

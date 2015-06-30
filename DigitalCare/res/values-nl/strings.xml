@@ -64,7 +64,7 @@
     <string name="twitter_login_hint_username">Gebruikersnaam</string>
     <string name="twitter_login_hint_password">Wachtwoord</string>
     <string name="twiiter_login_logo_description">Twitter-logo</string>
-    <string name="social_post_to">Stuur een bericht naar Philips</string>
+    <string name="social_post_to">Stuur een bericht naar </string>
     <string name="social_post_desc_text">Voeg productinformatie toe</string>
     <string name="from">Van</string>
     <string name="cancel">Annuleren</string>
@@ -83,4 +83,8 @@
 	<string name="social_post_failed">Er is iets misgegaan.</string>
 	<string name="gps_disabled">GPS is uitgeschakeld op uw apparaat. Wilt u dit inschakelen?</string>
 <string name="search">Zoeken</string>
+<string name="twitter_post_char_limitation">Uw bericht mag niet meer dan 140 tekens bevatten</string>
+<string name="support_productinformation">ik zoek hulp voor mijn</string>
+<string name="social_post_success">Uw bericht is ontvangen!</string>
+<string name="no_data_available">Geen gegevens beschikbaar</string>
 </resources>
