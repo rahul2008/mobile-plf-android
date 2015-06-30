@@ -37,7 +37,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	private View mDividerView = null;
 	private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
 	private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
-	private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk%Sreviewandawards";
+	private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk/%s/reviewandawards";
 	private FrameLayout.LayoutParams mLayoutParams = null;
 	private Uri mStoreUri = null;
 
