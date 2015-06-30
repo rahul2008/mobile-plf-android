@@ -4,6 +4,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,11 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	private Button mRatePlayStoreBtn = null;;
 	private Button mRatePhilipsBtn = null;
 	private LinearLayout mLayoutParent = null;
+	private LinearLayout mProductReviewView = null;
+	private View mDividerView = null;
 	private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
 	private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
+	private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk%Sreviewandawards";
 	private FrameLayout.LayoutParams mLayoutParams = null;
 	private Uri mStoreUri = null;
 
@@ -44,9 +48,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		View mView = inflater.inflate(R.layout.fragment_tellus, container,
 				false);
 		mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
-				+ DigitalCareConfigManager
-						.getInstance()
-						.getContext().getPackageName());
+				+ DigitalCareConfigManager.getInstance().getContext()
+						.getPackageName());
 		return mView;
 	}
 
@@ -64,6 +67,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 				R.id.tellus_PhilipsReviewButton);
 		mLayoutParent = (LinearLayout) getActivity().findViewById(
 				R.id.parentLayout);
+		mProductReviewView = (LinearLayout) getActivity().findViewById(
+				R.id.secondParent);
+		mDividerView = (View) getActivity().findViewById(R.id.divider);
 		mRatePlayStoreBtn.setOnClickListener(this);
 		mRatePhilipsBtn.setTransformationMethod(null);
 		mRatePlayStoreBtn.setTransformationMethod(null);
@@ -72,9 +78,33 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
 				.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
+		if (null == getProductReviewPRXUrl())
+			hideProductReviewView();
+		else
+			setProductReviewUrl();
+
 		setViewParams(config);
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
 				getPreviousName());
+	}
+
+	protected String getProductReviewPRXUrl() {
+		return DigitalCareConfigManager.getInstance().getConsumerProductInfo()
+				.getProductReviewUrl();
+	}
+
+	protected void hideProductReviewView() {
+		mProductReviewView.setVisibility(View.GONE);
+		mDividerView.setVisibility(View.GONE);
+	}
+
+	protected void setProductReviewUrl() {
+
+	}
+
+	protected Uri getUri() {
+		return Uri.parse(String.format(PRODUCT_REVIEW_URL,
+				getProductReviewPRXUrl()));
 	}
 
 	@Override
@@ -86,8 +116,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
 	private void rateThisApp() {
 		Uri uri = Uri.parse(APPRATER_PLAYSTORE_APP_BASEURL
-				+ DigitalCareConfigManager.getInstance()
-						.getContext().getPackageName());
+				+ DigitalCareConfigManager.getInstance().getContext()
+						.getPackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 		try {
 			startActivity(goToMarket);
@@ -99,9 +129,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	private void rateProductReview() {
 		// TODO: We need to integrate BazaarVocie SDK. Below implementation is
 		// temprory.
-		String url = "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
+		// String url =
+		// "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
 		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(url));
+		i.setData(getUri());
 		startActivity(i);
 	}
 

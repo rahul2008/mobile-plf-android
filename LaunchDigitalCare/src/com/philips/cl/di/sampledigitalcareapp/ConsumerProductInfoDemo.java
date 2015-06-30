@@ -45,4 +45,9 @@ public class ConsumerProductInfoDemo extends ConsumerProductInfo {
 	public String getProductTitle() {
 		return mProductTitle;
 	}
+
+	@Override
+	public String getProductReviewUrl() {
+		return "c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide";
+	}
 }
