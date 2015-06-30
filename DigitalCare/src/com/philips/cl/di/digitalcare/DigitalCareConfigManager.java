@@ -121,7 +121,8 @@ public class DigitalCareConfigManager {
 	}
 
 	public void initializeDigitalCareLibrary(Context applicationContext) {
-		DigitalCareConfigManager.mContext = applicationContext;
+		if (mContext == null)
+			DigitalCareConfigManager.mContext = applicationContext;
 		initializeTaggingContext(mContext);
 	}
 
