@@ -1,0 +1,14 @@
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\classes\test\debug
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\support-annotations-21.0.0-dd80f5f807b98569f143e82ddc6117fcfdb4d90b.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\dexmaker-mockito-1.0-ecde051dba3a77466949fa351ac3588355de1c2e.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\localematch-00be38d36530ade882dbf2251a34a2ae005d4734.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\classes-ceac31df9ebe8dab5f82d21fb829fe3b2c83ca99.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\internal_impl-21.0.0-1774f2a17fde7598067a20386a0cfe5793bf07c0.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\adobeMobileLibrary-1fbee3d21ef92a310c9157e431606d3bf6cbcafd.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\junit-4.12-1a273857f838e9b1f653918e8128638b4689faf7.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\twitter4j-core-4.0.3-7056c9322d98f7cc40e0cb9cbe01335d2f06dabe.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\classes-e47240e651ba9faaf8d8561f65e8d2936e9bb5c8.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\dexmaker-1.0-c9d270ed2454468cea2e195a9a4f4c6652b9eb83.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\classes-73386412bada3798dba51838b571a8b6b93071bf.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\mockito-all-1.10.8-f8e53e6497a46ef3e479eed51bdfe5b244a8170c.jar
+D:\GitHub\LaunchDigitalCare1\digitalCare\build\intermediates\pre-dexed\test\debug\classes-4b1ab35e5f4e83d946747a5894fa5ceaf8c60568.jar

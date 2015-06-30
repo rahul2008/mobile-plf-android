@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/values-ar/strings.xml -->
+    <eat-comment/>
+    <string name="SocialSharingPostTemplateText">هل يمكنك مساعدتي في</string>
+    <string name="actionbar_title_support">الدعم</string>
+    <string name="back_to_support">العودة إلى الدعم</string>
+    <string name="call_number">المكالمة</string>
+    <string name="can_we_help_you">أيمكننا مساعدتك؟</string>
+    <string name="cancel">إلغاء</string>
+    <string name="chat_desc">ابدأ دردشة مباشرة مع متخصص المنتجات المتوفر على مدار الساعة وطيلة أيام الأسبوع باللغة الإنجليزية</string>
+    <string name="chat_now">دردش الآن</string>
+    <string name="chat_with_philips">الدردشة مع Philips</string>
+    <string name="choose_from_library">الاختيار من المكتبة</string>
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/res/values-ar/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="473679118463211576" name="common_android_wear_notification_needs_update_text">"‏يتطلب أحد التطبيقات تحديثًا لتطبيق Android Wear."</string>
+    <string msgid="3046420540094071256" name="common_android_wear_update_text">"‏لن يتم تشغيل هذا التطبيق ما لم تحدِّث تطبيق Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"‏تحديث Android Wear"</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"‏تمكين خدمات Google Play"</string>
+    <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"‏لن يعمل هذا التطبيق ما لم يتم تمكين خدمات Google Play."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"‏تمكين خدمات Google Play"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"تم الطلب عن طريق <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"‏الحصول على خدمات Google Play"</string>
+    <string msgid="8685301130651051380" name="common_google_play_services_install_text_phone">"‏لن يتم تشغيل هذا التطبيق بدون خدمات Google Play، والتي لا تتوفر في هاتفك."</string>
+    <string msgid="1589957570365247855" name="common_google_play_services_install_text_tablet">"‏لن يتم تشغيل هذا التطبيق بدون خدمات Google Play، والتي لا تتوفر في جهازك اللوحي."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"‏الحصول على خدمات Google Play"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"الحساب الذي تمّ تحديده غير موجود على الجهاز. يُرجى اختيار حساب آخر."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"حساب غير صالح"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"‏يتطلب أحد التطبيقات تمكين خدمات Google Play."</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"‏يتطلب الاتصال بخدمات Google Play وجود اتصال بيانات."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"خطأ في الشبكة"</string>
+    <string msgid="8120534356798772974" name="common_google_play_services_notification_needs_installation_title">"‏يتطلب أحد التطبيقات تثبيت خدمات Google Play."</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"‏يتطلب أحد التطبيقات تحديث خدمات Google Play."</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"‏خطأ في خدمات Google Play"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"‏حدثت مشكلة غير معروفة في خدمات Google Play."</string>
+    <string msgid="3542578567569488671" name="common_google_play_services_unsupported_text">"‏خدمات Google Play التي تستجيب لها بعض تطبيقاتك لا تعمل على جهازك. يُرجى الاتصال بجهة التصنيع للحصول على المساعدة."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"‏خدمات Google Play"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"تحديث"</string>
+    <string msgid="448354684997260580" name="common_google_play_services_update_text">"‏لن يتم تشغيل هذا التطبيق ما لم تحدِّث خدمات Google Play."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"‏تحديث خدمات Google Play"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"فتح على الهاتف"</string>
+    <string msgid="9071884888741449141" name="common_signin_button_text">"تسجيل الدخول"</string>
+    <string msgid="2429381841831957106" name="common_signin_button_text_long">"‏تسجيل الدخول باستخدام Google"</string>
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/values-ar/strings.xml -->
+    <eat-comment/>
+    <string name="contact_us">اتصل بنا</string>
+    <string name="contact_us_text">اتصل بنا:</string>
+    <string name="create_account">إنشاء حساب ></string>
+    <string name="date_of_purchase">تاريخ الشراء</string>
+    <string name="day">اليوم</string>
+    <string name="email">عنوان البريد الإلكتروني</string>
+    <string name="enjoy_extended_warranty">استمتع بفترة الضمان الممددة</string>
+    <string name="facebook">على Facebook</string>
+    <string name="facebook_login_header">تسجيل الدخول إلى Facebook</string>
+    <string name="faq">الأسئلة المتداولة</string>
+    <string name="feedback">أطلعنا على رأيك</string>
+    <string name="find_philips_near_you">اعثر على Philips بالقرب منك</string>
+    <string name="forgot_my_password">لقد نسيت كلمة المرور > </string>
+    <string name="forward">إعادة توجيه</string>
+    <string name="from">من</string>
+    <string name="get_directions">الحصول على الاتجاهات</string>
+    <string name="googleplus">على Google Plus</string>
+    <string name="how_can_we_help">كيف يمكننا مساعدتك؟</string>
+    <string name="img_description">الوصف</string>
+    <string name="leave_us_a_message">أرسل لنا رسالة:</string>
+    <string name="linkedin">على LinkedIn</string>
+    <string name="live_chat">دردشة مباشرة</string>
+    <string name="loading">تحميل</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="login_to_social_media">هل تريد تسجيل الدخول باستخدام حسابك على شبكات التواصل الاجتماعي؟</string>
+    <string name="login_with_philips_account">أو تسجيل الدخول باستخدام حساب My Philips</string>
+    <string name="message_sent_to_philips">تم إرسال رسالتك إلى Philips</string>
+    <string name="month">الشهر</string>
+    <string name="no_thanks">لا، شكرًا</string>
+    <string name="opening_hours">ساعات العمل</string>
+    <string name="password">كلمة المرور</string>
+    <string name="please_wait">يُرجى الانتظار …</string>
+    <string name="post">نشر</string>
+    <string name="print">طباعة</string>
+    <string name="product_download_manual">تنزيل دليل المنتج</string>
+    <string name="product_info">معلومات عن المنتج</string>
+    <string name="product_information">معلومات عن المنتجات (على موقع philips.com)</string>
+    <string name="product_open_manual">فتح الدليل التفاعلي</string>
+    <string name="product_registered">تم تسجيل منتجك</string>
+    <string name="product_view_videos">مقاطع فيديو حول المنتج</string>
+    <string name="rate_philips_buttontext">تسجيل الدخول إلى My Philips</string>
+    <string name="rate_philips_description">اكتب تعليقًا وساعد الآخرين في اختيار ما يناسبهم</string>
+    <string name="rate_philips_headertext">إرسال تعليق حول التطبيق</string>
+    <string name="rate_playstore_buttontext">كتابة تعليق حول التطبيق</string>
+    <string name="rate_playstore_headertext">كيف تصنّف هذا التطبيق؟</string>
+    <string name="receipt">إيصال بالدفع</string>
+    <string name="register">التسجيل</string>
+    <string name="registration">تسجيل منتجك</string>
+    <string name="reply">رد</string>
+    <string name="send">إرسال</string>
+    <string name="send_email">إرسال بريد إلكتروني</string>
+    <string name="serial_number">الرقم التسلسلي</string>
+    <string name="sign_into_my_philips">تسجيل الدخول إلى My Philips</string>
+    <string name="social_post_desc_text">يتضمن معلومات عن المنتج</string>
+    <string name="social_post_to">إرسال رسالة إلى Philips</string>
+    <string name="take_a_photo">التقاط صورة</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="thank_you">شكراً لك</string>
+    <string name="twiiter_login_logo_description">شعار Twitter</string>
+    <string name="twitter">على Twitter</string>
+    <string name="twitter_login_header">تسجيل الدخول إلى Twitter</string>
+    <string name="twitter_login_hint_password">كلمة المرور</string>
+    <string name="twitter_login_hint_username">اسم المستخدم</string>
+    <string name="view_faq">قراءة الأسئلة والأجوبة</string>
+    <string name="view_product_details">عرض معلومات المنتج</string>
+    <string name="year">السنة</string>
+</resources>

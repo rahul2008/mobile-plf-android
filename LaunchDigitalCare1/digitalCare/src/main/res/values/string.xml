@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">DigitalCare</string>
+    <string name="opening_hours_first_row" translatable="false"></string>
+    <string name="opening_hours_second_row" translatable="false"></string>
+
+    <!-- View Product Details -->
+    <string name="product_info" translatable="false">Product Information</string>
+    <string name="product_name" translatable="false">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
+    <string name="product_variant" translatable="false">s9721/84</string>
+
+    <!-- Twitter login -->
+    <string name="twitter_login_button" translatable="false">Log in</string>
+    <string name="twitter_login_forgotPassword" translatable="false">I forgot my password</string>
+    <string name="twitter_login_createAccount" translatable="false">Create Account</string>
+    <string name="twitter_post_progress_message" translatable="false">Posting to Philips Twitter Support...</string>
+    <string name="twitter_post_char_limitation" translatable="false">Twitter message has characters limitation</string>
+
+    <!-- ContactUS - Facebook Login -->
+    <string name="facebook_post_progress_message" translatable="false">Posting to Philips Facebook Support...</string>
+
+    <!-- Social Post Login -->
+    <string name="support_productinformation" translatable="false"> Can you help me with my</string>
+    <string name="no_internet" translatable="false">Please connect to internet</string>
+    <string name="gps_disabled" translatable="false">GPS is disabled in your device. Would you like to enable it?</string>
+   
+    <string name="call" translatable="false">Call</string>
+    <string name="enableNetwork" translatable="false">Enable Network</string>
+    <string name="no_data_available" translatable="false">No data available</string>
+    <string name="social_post_from" translatable="false">From</string>
+    <string name="social_post_failed" translatable="false">Failed to post..</string>
+    <string name="social_post_success" translatable="false">Posted Successfully!!</string>
+    <string name="social_post_editor_alert" translatable="false">No description to send</string>
+
+    <!-- Locate Philips -->
+    <string name="search" translatable="false">search&#8230;</string>
+
+</resources>

@@ -1,0 +1,19 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_background_color"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:id="@+id/webViewParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</ScrollView><!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/layout/common_webview.xml --><!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/build/intermediates/bundles/debug/res/layout/common_webview.xml -->

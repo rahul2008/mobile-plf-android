@@ -1,0 +1,114 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/activity_background_color" >
+
+    <LinearLayout
+        android:id="@+id/products_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/toplayout"
+            style="@style/viewProductDetails_TopContainer"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin" >
+
+            <ImageView
+                android:id="@+id/productimage"
+                style="@style/viewProductDetails_ProdImage"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_productimage" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/viewProductDetails_Product_Header"
+                android:layout_alignTop="@id/productimage"
+                android:text="@string/product_name"
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+
+            <TextView
+                android:id="@+id/variant"
+                style="@style/viewProductDetails_Product_Variant"
+                android:text="@string/product_variant"
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/topline"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc" />
+
+        <!-- Buttons -->
+
+        <LinearLayout
+            android:id="@+id/prodbuttonsParent"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin" 
+            android:orientation="vertical">
+<!-- 
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/manual_open"
+                style="@style/fontButton"
+                android:contentDescription="@string/product_name"
+                android:text="@string/product_open_manual" />
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/manual_download"
+                style="@style/fontButton"
+                android:contentDescription="@string/product_name"
+                android:text="@string/product_download_manual"
+                custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/prodinfo_button"
+                style="@style/fontButton"
+                android:contentDescription="@string/product_name"
+                android:text="@string/product_information"
+                custom:digitalcareFontAssetName="fonts/centralesans-book.otf" /> -->
+        </LinearLayout>
+
+        <!-- Video Ads -->
+
+
+        <!--
+             <RelativeLayout
+            android:id="@+id/prodads_layout"
+            style="@style/viewProductDetails_Ads_Container" >
+
+            <ImageView
+                android:id="@+id/adimage"
+                style="@style/viewProductDetails_Ads_Image"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_video_image_phone" />
+
+            <ImageView
+                android:id="@+id/leftarrow"
+                style="@style/viewProductDetails_Ads_LeftArrow"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_video_leftarrow" />
+
+            <ImageView
+                android:id="@+id/rightarrow"
+                style="@style/viewProductDetails_Ads_RightArrow"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_videorightarrow" />
+
+            <ImageButton
+                android:id="@+id/button1"
+               style="@style/viewProductDetails_Ads_PlayButton"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_video_play" />
+        </RelativeLayout>
+        -->
+    </LinearLayout>
+
+</ScrollView><!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/layout/fragment_view_product.xml --><!-- From: file:/D:/GitHub/LaunchDigitalCare1/launchDigitalCare/build/intermediates/exploded-aar/LaunchDigitalCare1/digitalCare/unspecified/res/layout/fragment_view_product.xml -->

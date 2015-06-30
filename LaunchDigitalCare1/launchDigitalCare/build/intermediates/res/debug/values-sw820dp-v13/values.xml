@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/launchDigitalCare/build/intermediates/exploded-aar/LaunchDigitalCare1/digitalCare/unspecified/res/values-sw820dp-v13/values.xml -->
+    <eat-comment/>
+    <dimen name="locate_layout_margin">130dp</dimen>
+    <dimen name="marginTopButton">24dp</dimen>
+</resources>
