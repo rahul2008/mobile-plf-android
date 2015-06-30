@@ -15,7 +15,13 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
-
+/**
+ *FaqFragment Webview
+ * 
+ * @author : pawan.kumar.deshpande@philips.com
+ * 
+ * @since : 25 june 2015
+ */
 public class FaqFragment extends DigitalCareBaseFragment {
 
 	private View mView = null;

@@ -14,8 +14,7 @@
     <ImageView
         android:id="@+id/back_to_home_img"
         style="@style/actionbarIconArrowImageView"
-        android:contentDescription="@string/img_description"
-        />
+        android:contentDescription="@string/img_description" />
 
     <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
         android:id="@+id/action_bar_title"
