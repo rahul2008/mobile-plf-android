@@ -77,5 +77,10 @@
     <string name="reply">رد</string>
     <string name="forward">إعادة توجيه</string>
     <string name="print">طباعة</string>
-
+    <string name="check_sim">لم يتم الكشف عن أي بطاقة SIM. يرجى التحقق مما إذا تم إدخالها بشكل صحيح</string>
+    <string name="no_internet">ما من اتصال بالإنترنت. يرجى التحقق من توفر اتصال في إعدادات wifi أو إعدادات البيانات على الهاتف</string>
+    <string name="twitter_post_progress_message">إرسال الرسالة إلى قسم الدعم الخاص بـ Philips Twitter…</string>
+	<string name="social_post_failed">حدث خطأ ما..</string>
+	<string name="gps_disabled">إن نظام تحديد الموقع العالمي (GPS) معطّل في جهازك. هل تريد تمكينه؟</string>
+<string name="search">البحث</string>
 </resources>

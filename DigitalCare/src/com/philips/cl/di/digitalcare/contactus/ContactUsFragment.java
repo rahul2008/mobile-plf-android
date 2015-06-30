@@ -111,50 +111,47 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DigiCareLogger.i(TAG,
 				"ContactUsFragment : onActivityCreated : mConactUsParent == "
 						+ mContactUsParent);
-		//if (mContactUsParent == null) {
-			mTwitterProgresshandler = new Handler();
-			if (isConnectionAvailable())
-				requestCDLSData();
+		// if (mContactUsParent == null) {
+		mTwitterProgresshandler = new Handler();
+		if (isConnectionAvailable())
+			requestCDLSData();
 
-			mContactUsParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsParent);
-			mChat = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsChat);
-			mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsCall);
-			mEmail = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsEmail);
-			mContactUsOpeningHours = (TextView) getActivity().findViewById(
-					R.id.contactUsOpeningHours);
-			mFirstRowText = (TextView) getActivity().findViewById(
-					R.id.firstRowText);
-			mSocialProviderParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsSocialParent);
-			mSocialDivider = (View) getActivity().findViewById(
-					R.id.socialDivider);
-			// mFacebook.setOnClickListener(this);
+		mContactUsParent = (LinearLayout) getActivity().findViewById(
+				R.id.contactUsParent);
+		mChat = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsChat);
+		mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsCall);
+		mEmail = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsEmail);
+		mContactUsOpeningHours = (TextView) getActivity().findViewById(
+				R.id.contactUsOpeningHours);
+		mFirstRowText = (TextView) getActivity()
+				.findViewById(R.id.firstRowText);
+		mSocialProviderParent = (LinearLayout) getActivity().findViewById(
+				R.id.contactUsSocialParent);
+		mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
+		// mFacebook.setOnClickListener(this);
 
-			createSocialProviderMenu();
+		createSocialProviderMenu();
 
-			/*
-			 * Live chat is configurable parameter. Developer can enable/disable
-			 * it.
-			 */
-			if (!getResources().getBoolean(R.bool.live_chat_required)) {
-				mChat.setVisibility(View.GONE);
-			}
-			mChat.setOnClickListener(this);
-			mChat.setTransformationMethod(null);
-			mCallPhilips.setOnClickListener(this);
-			mCallPhilips.setTransformationMethod(null);
-			mEmail.setOnClickListener(this);
-			mEmail.setTransformationMethod(null);
-			mParams = (FrameLayout.LayoutParams) mContactUsParent
-					.getLayoutParams();
+		/*
+		 * Live chat is configurable parameter. Developer can enable/disable it.
+		 */
+		if (!getResources().getBoolean(R.bool.live_chat_required)) {
+			mChat.setVisibility(View.GONE);
+		}
+		mChat.setOnClickListener(this);
+		mChat.setTransformationMethod(null);
+		mCallPhilips.setOnClickListener(this);
+		mCallPhilips.setTransformationMethod(null);
+		mEmail.setOnClickListener(this);
+		mEmail.setTransformationMethod(null);
+		mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
 
-			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
-					getPreviousName());
-		//}
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
+				getPreviousName());
+		// }
 		config = getResources().getConfiguration();
 	}
 
@@ -363,7 +360,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
-				showAlert("Check the SIM");
+				showAlert(getString(R.string.check_sim));
 			}
 		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))

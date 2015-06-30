@@ -2,6 +2,7 @@
 <resources>
 
     <string name="img_description">description</string>
+    <string name="no_internet">No internet connection. Please check if your connection is working in your phone’s wifi settings or data settings</string>
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
     <string name="contact_us">Contact us</string>
@@ -38,6 +39,7 @@
     <string name="send_email">Send email</string>
     <string name="call_number">Call</string>
     <string name="chat_with_philips">Chat with Philips</string>
+    <string name="check_sim">No SIM card detected. Please check if it is inserted correctly</string>
 
     <!-- values for Live Chat Screen -->
     <string name="can_we_help_you">Can we help you?</string>
@@ -62,6 +64,7 @@
     <string name="twitter_login_hint_username">Username</string>
     <string name="twitter_login_hint_password">Password</string>
     <string name="twiiter_login_logo_description">Twitter Logo</string>
+    <string name="twitter_post_progress_message">Sending your message to Philips Twitter Support…</string>
 
     <!-- Contact US - Social Post -->
     <string name="social_post_to">Send a message to @PhilipsCare</string>
@@ -69,11 +72,15 @@
     <string name="cancel">Cancel</string>
     <string name="take_photo">Take Photo</string>
     <string name="choose_from_library">Choose from Library</string>
-
+    <string name="social_post_failed">Something went wrong..</string>
     <!-- Social Login -->
     <string name="post">Post</string>
     <string name="send">Send</string>
     <string name="facebook_login_header">Log in to Facebook</string>
     <string name="SocialSharingPostTemplateText">I made another delicious %1$s with my Saeco GranBaristo Avanti coffee machine! %2$s.</string>
+	
+	<!-- Locate Philips -->
+    <string name="search">Search</string>
+	 <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
 
 </resources>
