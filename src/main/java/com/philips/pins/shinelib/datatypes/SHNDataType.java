@@ -19,6 +19,5 @@ public enum SHNDataType {
     ActivityTypeCM3Deprecated,
     ActivityType,
     ActiveEnergyExpenditure,
-    WeightMeasurement,
-    WeightScaleFeatures
+    WeightMeasurement
 }
