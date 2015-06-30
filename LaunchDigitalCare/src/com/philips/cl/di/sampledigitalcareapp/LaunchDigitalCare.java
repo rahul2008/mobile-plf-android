@@ -36,18 +36,27 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 
 		// Initializing DigitalCare Component.
-		DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(this);
+		DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
+				this);
+
+		// Passing Locale to DigitalCare Library
+		DigitalCareConfigManager.getInstance().setLocale("en", "IN");
 
 		// Set ConsumerProductInfo
 		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
-		DigitalCareConfigManager.getInstance().setConsumerProductInfo(mConsumerProductInfoDemo);
+		DigitalCareConfigManager.getInstance().setConsumerProductInfo(
+				mConsumerProductInfoDemo);
 
 		// Set DigitalCareLibrary Listeners
 		DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
-		DigitalCareConfigManager.getInstance().registerProductMenuListener(this);
-		DigitalCareConfigManager.getInstance().registerSocialProviderListener(this);
+		DigitalCareConfigManager.getInstance()
+				.registerProductMenuListener(this);
+		DigitalCareConfigManager.getInstance().registerSocialProviderListener(
+				this);
 
-		
+		// Twitter Support Feature.
+		setTwitterCredentials();
+
 		setContentView(R.layout.activity_digital_care);
 
 		mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
@@ -161,7 +170,14 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
 	private void setLocaleForTesting(String language, String country) {
 
-		// Passing Locale to DigitalCare Library
 		DigitalCareConfigManager.getInstance().setLocale(language, country);
+	}
+
+	private void setTwitterCredentials() {
+		DigitalCareConfigManager.getInstance().setTwitterConsumerKey(
+				"qgktZw1ffdoreBjbiYfvnIPJe");
+		DigitalCareConfigManager.getInstance().setTwitterConsumerSecret(
+				"UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3");
+
 	}
 }
