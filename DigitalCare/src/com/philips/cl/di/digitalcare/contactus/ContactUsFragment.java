@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,9 +77,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
-		mTwitterProgresshandler = new Handler();
-		if (isConnectionAvailable())
-			requestCDLSData();
+		// mTwitterProgresshandler = new Handler();
+		// if (isConnectionAvailable())
+		// requestCDLSData();
 	}
 
 	@Override
@@ -86,10 +87,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			Bundle savedInstanceState) {
 		DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
 				+ mView);
-		if (mView == null) {
+		// if (mView == null) {
+		// mView = inflater.inflate(R.layout.fragment_contact_us, container,
+		// false);
+		// }
+
+		try {
+			if (mView != null) {
+				((ViewGroup) mView.getParent()).removeView(mView);
+			}
 			mView = inflater.inflate(R.layout.fragment_contact_us, container,
 					false);
+
+		} catch (InflateException e) {
 		}
+
 		return mView;
 	}
 
@@ -99,7 +111,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DigiCareLogger.i(TAG,
 				"ContactUsFragment : onActivityCreated : mConactUsParent == "
 						+ mContactUsParent);
-		if (mContactUsParent == null) {
+		//if (mContactUsParent == null) {
+			mTwitterProgresshandler = new Handler();
+			if (isConnectionAvailable())
+				requestCDLSData();
+
 			mContactUsParent = (LinearLayout) getActivity().findViewById(
 					R.id.contactUsParent);
 			mChat = (DigitalCareFontButton) getActivity().findViewById(
@@ -138,7 +154,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
 					getPreviousName());
-		}
+		//}
 		config = getResources().getConfiguration();
 	}
 

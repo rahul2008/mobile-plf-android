@@ -1,14 +1,15 @@
 package com.philips.cl.di.digitalcare.social.facebook;
 
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -18,7 +19,8 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
 
 	private View mView = null;
 	private WebView mWebView = null;
-	private ProgressDialog mProgressDialog = null;
+	// private ProgressDialog mProgressDialog = null;
+	private ProgressBar mProgressBar = null;
 	private final String TAG = FacebookWebFragment.class.getSimpleName();
 	private String FacebookURL = "http://www.facebook.com/";
 
@@ -26,8 +28,13 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		if (mView == null) {
+		try {
+			if (mView != null) {
+				((ViewGroup) mView.getParent()).removeView(mView);
+			}
 			mView = inflater.inflate(R.layout.common_webview, container, false);
+
+		} catch (InflateException e) {
 		}
 		return mView;
 	}
@@ -54,13 +61,13 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
-				startProgressDialog();
+				mProgressBar.setVisibility(View.VISIBLE);
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				closeProgressDialog();
+				mProgressBar.setVisibility(View.GONE);
 			}
 
 		});
@@ -68,31 +75,14 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
 
 	private void initView() {
 		mWebView = (WebView) mView.findViewById(R.id.webView);
+		mProgressBar = (ProgressBar) mView
+				.findViewById(R.id.common_webview_progress);
+		mProgressBar.setVisibility(View.GONE);
 	}
 
 	private String getFacebookUrl() {
 		return FacebookURL
 				+ getActivity().getString(R.string.facebook_product_page);
-	}
-
-	protected void closeProgressDialog() {
-
-		if (mProgressDialog != null && mProgressDialog.isShowing()) {
-			mProgressDialog.dismiss();
-			mProgressDialog.cancel();
-			mProgressDialog = null;
-		}
-	}
-
-	protected void startProgressDialog() {
-		if (mProgressDialog == null)
-			mProgressDialog = new ProgressDialog(getActivity());
-		mProgressDialog.setMessage(getActivity().getResources().getString(
-				R.string.loading));
-		mProgressDialog.setCancelable(false);
-		if (!(getActivity().isFinishing())) {
-			mProgressDialog.show();
-		}
 	}
 
 	@Override
