@@ -33,10 +33,6 @@ public class DigitalCareConfigManager {
 	private ProductMenuListener mProductMenuListener = null;
 	private SocialProviderListener mSocialProviderListener = null;
 
-	// Twitter APP SDK API KEYS
-	private static final String DEFAULT_TWITTER_CONSUMER_KEY = "qgktZw1ffdoreBjbiYfvnIPJe";
-	private static final String DEFAULT_TWITTER_SECRET_KEY = "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3";
-
 	private static Context mContext = null;
 
 	/*
@@ -73,11 +69,7 @@ public class DigitalCareConfigManager {
 				actionbarUpdateListner, enterAnim, exitAnim);
 	}
 
-	public void invokeDigitalCareAsActivity(Context applicationContext,
-			int startAnimation, int endAnimation) {
-		if (mContext == null)
-			DigitalCareConfigManager.mContext = applicationContext;
-		initializeTaggingContext(mContext);
+	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;
 		Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
@@ -120,9 +112,7 @@ public class DigitalCareConfigManager {
 		return mSocialProviderListener;
 	}
 
-	public void setLocale(Context context, String langCode, String countryCode) {
-		if (mContext == null)
-			DigitalCareConfigManager.mContext = context;
+	public void setLocale(String langCode, String countryCode) {
 		if (langCode != null && countryCode != null) {
 			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
 					mContext, langCode, countryCode);
@@ -130,26 +120,25 @@ public class DigitalCareConfigManager {
 		}
 	}
 
+	public void initializeDigitalCareLibrary(Context applicationContext) {
+		DigitalCareConfigManager.mContext = applicationContext;
+		initializeTaggingContext(mContext);
+	}
+
 	public Locale getLocale() {
 		return mLocale;
 	}
 
-	// If the consumer key is not set from Hosting(Parent) app then we can use
-	// the dummy/default.
 	public String getTwitterConsumerKey() {
-		return mTwitterConsumerKey == null ? DEFAULT_TWITTER_CONSUMER_KEY
-				: mTwitterConsumerKey;
+		return mTwitterConsumerKey;
 	}
 
 	public void setTwitterConsumerKey(String twitterConsumerKey) {
 		mTwitterConsumerKey = twitterConsumerKey;
 	}
 
-	// If the consumer key is not set from Hosting(Parent) app then we can use
-	// the dummy/default.
 	public String getTwitterConsumerSecret() {
-		return mTwitterConsumerSecret == null ? DEFAULT_TWITTER_SECRET_KEY
-				: mTwitterConsumerSecret;
+		return mTwitterConsumerSecret;
 	}
 
 	public void setTwitterConsumerSecret(String twitterConsumerSecret) {
