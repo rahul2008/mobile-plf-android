@@ -573,21 +573,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@SuppressLint("NewApi")
 	private Button createButton(float density, int title, int resId) {
 		Button button = new Button(getActivity(), null, R.style.fontButton);
-		button.setGravity(Gravity.START | Gravity.CENTER);
+		button.setGravity(Gravity.CENTER);
 		button.setPadding((int) (80 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
 		button.setText(title);
-		button.setBackground(getDrawable(resId));
+		//button.setBackground(getDrawable(resId));
 		return button;
 	}
 
 	private void setButtonParams(Button button) {
 		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
 				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+		buttonParams.addRule(RelativeLayout.CENTER_IN_PARENT,
 				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
+
+		// buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+		// RelativeLayout.TRUE);
 		button.setLayoutParams(buttonParams);
 	}
 
