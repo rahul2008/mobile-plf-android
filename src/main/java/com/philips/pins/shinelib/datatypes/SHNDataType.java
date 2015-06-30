@@ -18,5 +18,7 @@ public enum SHNDataType {
     BodyTemperature,
     ActivityTypeCM3Deprecated,
     ActivityType,
-    ActiveEnergyExpenditure
+    ActiveEnergyExpenditure,
+    WeightMeasurement,
+    WeightScaleFeatures
 }
