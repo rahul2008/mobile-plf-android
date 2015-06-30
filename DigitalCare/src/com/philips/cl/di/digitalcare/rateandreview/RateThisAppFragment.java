@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +36,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	private View mDividerView = null;
 	private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
 	private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
-	private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk/%s/reviewandawards";
+	private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk%s/reviewandawards";
 	private FrameLayout.LayoutParams mLayoutParams = null;
 	private Uri mStoreUri = null;
 
@@ -80,8 +79,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 		Configuration config = getResources().getConfiguration();
 		if (null == getProductReviewPRXUrl())
 			hideProductReviewView();
-		else
-			setProductReviewUrl();
 
 		setViewParams(config);
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
@@ -96,10 +93,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	protected void hideProductReviewView() {
 		mProductReviewView.setVisibility(View.GONE);
 		mDividerView.setVisibility(View.GONE);
-	}
-
-	protected void setProductReviewUrl() {
-
 	}
 
 	protected Uri getUri() {
@@ -127,10 +120,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 	}
 
 	private void rateProductReview() {
-		// TODO: We need to integrate BazaarVocie SDK. Below implementation is
-		// temprory.
-		// String url =
-		// "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(getUri());
 		startActivity(i);
