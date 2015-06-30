@@ -342,7 +342,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		if (id == R.id.contactUsChat && isConnectionAvailable()) {
 			if (mCdlsResponseStr == null) {
-				showAlert("No server response");
+				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
@@ -353,7 +353,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
-				showAlert("No server response");
+				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
