@@ -574,10 +574,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private Button createButton(float density, int title, int resId) {
 		Button button = new Button(getActivity(), null, R.style.fontButton);
 		button.setGravity(Gravity.CENTER);
-		button.setPadding((int) (80 * density), 0, 0, 0);
+//		button.setPadding((int) (80 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
 		button.setText(title);
-		//button.setBackground(getDrawable(resId));
+		button.setBackground(getDrawable(resId));
 		return button;
 	}
 
