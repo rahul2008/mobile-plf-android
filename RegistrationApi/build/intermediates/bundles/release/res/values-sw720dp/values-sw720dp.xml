@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationApi/src/main/res/values-sw720dp/dimens.xml -->
+    <eat-comment/>
+    <dimen name="reg_layout_margin">25dp</dimen>
+    <dimen name="reg_layout_margin_land">410dp</dimen>
+    <dimen name="reg_layout_margin_port">190dp</dimen>
+</resources>

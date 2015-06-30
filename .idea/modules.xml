@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Registration.iml" filepath="$PROJECT_DIR$/Registration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jump/jump.iml" filepath="$PROJECT_DIR$/jump/jump.iml" />
+      <module fileurl="file://$PROJECT_DIR$/localeMatch/localeMatch.iml" filepath="$PROJECT_DIR$/localeMatch/localeMatch.iml" />
+      <module fileurl="file://$PROJECT_DIR$/registrationApi/registrationApi.iml" filepath="$PROJECT_DIR$/registrationApi/registrationApi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/registrationSampleApp/registrationSampleApp.iml" filepath="$PROJECT_DIR$/registrationSampleApp/registrationSampleApp.iml" />
     </modules>
   </component>
 </project>

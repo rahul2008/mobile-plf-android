@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.philips.cl.di.regsample.app.test.EmailValidatorTest" tests="40" failures="0" errors="0" skipped="0" time="4.749" timestamp="2015-06-29T12:01:47" hostname="localhost">
+  <properties>
+    <property name="device" value="XT1068 - 5.0.2" />
+    <property name="flavor" value="" />
+    <property name="project" value="registrationSampleApp" />
+  </properties>
+  <testcase name="testValidatEmailIsNull" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.5" />
+  <testcase name="testValidatPasswordIsNull" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmail" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase1" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase10" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidateEmailCase11" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.125" />
+  <testcase name="testValidateEmailCase12" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidateEmailCase2" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase3" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase4" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase5" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidateEmailCase6" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase7" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase8" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateEmailCase9" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.137" />
+  <testcase name="testValidateEmailIsEmpty" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateName" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateNameCase2" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.094" />
+  <testcase name="testValidateNameCase3" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.103" />
+  <testcase name="testValidateNameCase4" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidateNameCase5" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidateNameIsEmpty" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.101" />
+  <testcase name="testValidateNameIsNull" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePassword" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase1" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidatePasswordCase10" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase11" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase2" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidatePasswordCase3" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase4" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase5" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase6" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testValidatePasswordCase7" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase8" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordCase9" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.1" />
+  <testcase name="testValidatePasswordIsEmpty" classname="com.philips.cl.di.regsample.app.test.EmailValidatorTest" time="0.075" />
+  <testcase name="testisNetworkUtilityClass" classname="com.philips.cl.di.regsample.app.test.NetworkClassTest" time="0.2" />
+  <testcase name="testRegisterUserInfoForSocialIsOnSuccess" classname="com.philips.cl.di.regsample.app.test.UserTest" time="0.475" />
+  <testcase name="testRegisterUserInfoForTraditionalIsOnSuccess" classname="com.philips.cl.di.regsample.app.test.UserTest" time="0.1" />
+  <testcase name="testUser" classname="com.philips.cl.di.regsample.app.test.UserTest" time="0.101" />
+</testsuite>

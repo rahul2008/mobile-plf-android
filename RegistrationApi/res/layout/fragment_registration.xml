@@ -1,5 +1,0 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:reglib="http://reg.lib/schema"
-    android:id="@+id/fl_reg_fragment_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\exploded-aar\RegistrationSampleApp\jump\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f79e98a2b1dca3833268fcd1e489901fec07e6a3">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\debug\classes-b6bfcf4ec5bbd374656b1a873bb55f0ea828c7a4.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\pre-dexed\androidTest\debug\internal_impl-21.0.3-aefc6aef572b39369c003a54874b31a103605221.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\exploded-aar\RegistrationSampleApp\localeMatch\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b07d927d2c62c4da282298dd2bcaf0c55e695bd5">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\pre-dexed\androidTest\debug\classes-beaabb8f21d72027e3456c1fa935592f13f47192.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\exploded-aar\RegistrationSampleApp\localeMatch\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b07d927d2c62c4da282298dd2bcaf0c55e695bd5">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\pre-dexed\androidTest\debug\classes-6004720e286f8332d3039a95ace34eac27832fa8.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\libs\android-junit-report-1.5.8.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="bddcb7be8b20da9701a5dde399952c667ab05866">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\androidTest\debug\android-junit-report-1.5.8-279e3757bfb6ae88d7040498ec14a26b0d6970ff.jar" />
+    </item>
+    <item
+        jar="D:\Studio_SDK\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\pre-dexed\androidTest\debug\support-annotations-21.0.3-7d4b340d19ef9e2c8ebc1b0f0b889da46e08566d.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\debug\classes-af2afc511394ad5c06cd6fb038a2838c6dcab107.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\pre-dexed\androidTest\debug\internal_impl-21.0.3-3ee51d5fe9b50a1107c55b5d11ed6fede49a93de.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\exploded-aar\RegistrationSampleApp\jump\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f79e98a2b1dca3833268fcd1e489901fec07e6a3">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\pre-dexed\androidTest\debug\classes-ced919c9f8e7f33af382710568b8af617c93eeea.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\libs\dexmaker-1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="03ea903290418a0cb63ad25327eee43878a9e31f">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\androidTest\debug\dexmaker-1.0-d4af07b6aa7b061b03ffdce14c55e6b708c76035.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\exploded-aar\RegistrationSampleApp\localeMatch\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b07d927d2c62c4da282298dd2bcaf0c55e695bd5">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\debug\classes-1ba093a5df9f9ce3719b7a74157e2e5ea30c6439.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\pre-dexed\androidTest\debug\classes-e60e0b0503e9e02584e8c42c554beaf7c8814c73.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\libs\mockito-all-1.10.8.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="290232467869e43983cb6f269268aea2920c21b8">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\androidTest\debug\mockito-all-1.10.8-3bc01e0b9cf24f999bc2cfe629561dfb0a0f42ec.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\bundles\debug\libs\adobeMobileLibrary.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="91d98ac41859f8e66c5881e275ce436a6ada48c7">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\pre-dexed\androidTest\debug\adobeMobileLibrary-c0a38d35a8e68d01379a11a75d1797b3d683d86e.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-7b4e027fb525815335a6b333023dfbb3b107e2c7.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\libs\dexmaker-mockito-1.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="dd2b6c014265dbec06f8059088d917a6be21826c">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\androidTest\debug\dexmaker-mockito-1.0-b0e382f78e32d47a4848633819e5a452c84fbf64.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\bundles\debug\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="27247d98d2f9ac29c4c1d9b212c40f658c06e627">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationApi\build\intermediates\pre-dexed\androidTest\debug\classes-fa7638b7f3ba9eff06e44d52c0d96ede2200e60d.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\exploded-aar\RegistrationSampleApp\registrationApi\unspecified\jars\libs\adobeMobileLibrary.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="91d98ac41859f8e66c5881e275ce436a6ada48c7">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\debug\adobeMobileLibrary-e385b2388691affe9c976024dd6fa5d178374b81.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\exploded-aar\RegistrationSampleApp\registrationApi\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ff98c184a0fb952597a81f7528ec4f83f5dba24d">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\registrationSampleApp\build\intermediates\pre-dexed\debug\classes-82b6cbfde0c70b25b59a52957ad9d11150037638.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\localeMatch\build\intermediates\bundles\debug\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c0663333efbefb65fa244b751429799948977dec">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\localeMatch\build\intermediates\pre-dexed\androidTest\debug\classes-7f40b22c213ea61c8c151a273a14f2868d73be39.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\pre-dexed\androidTest\debug\classes-4beb305119efec8636b37dff0ba6dcb7799fd41e.jar" />
+    </item>
+    <item
+        jar="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\bundles\debug\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="55e0573354afbad47ed7954aca9b85c68d8efd2e">
+        <dex dex="D:\GIT_NEW\RegistrationSampleApp\jump\build\intermediates\pre-dexed\androidTest\debug\classes-47a676f66348d8007d8587ef1b86cbe9e87e68c2.jar" />
+    </item>
+
+</items>

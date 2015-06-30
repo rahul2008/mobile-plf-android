@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.philips.cl.di.regsample.app"
+        minSdkVersion 10
+        targetSdkVersion 21
+
+        testApplicationId "com.philips.cl.di.regsample.app.test"
+        testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':registrationApi')
+    compile 'com.android.support:support-v4:21.0.3'
+    androidTestCompile files('libs/android-junit-report-1.5.8.jar')
+    androidTestCompile files('libs/dexmaker-1.0.jar')
+    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
+    androidTestCompile files('libs/mockito-all-1.10.8.jar')
+}

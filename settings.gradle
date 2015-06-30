@@ -1,0 +1,4 @@
+include ':localeMatch'
+include ':jump'
+include ':registrationApi'
+include ':registrationSampleApp'

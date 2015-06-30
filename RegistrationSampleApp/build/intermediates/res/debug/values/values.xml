@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/jump/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <attr format="reference" name="jrCustomLandingRootViewStyle"/>
+    <attr format="reference" name="jrCustomLandingStyle"/>
+    <attr format="reference" name="jrPublishTriangleResource"/>
+    <attr format="integer" name="jrPublishTriangleVisibility">
+        <enum name="visible" value="0"/>
+        <enum name="invisible" value="1"/>
+        <enum name="gone" value="2"/>
+    </attr>
+    <color name="jr_janrain_darkblue">#FF074764</color>
+    <color name="jr_janrain_darkblue_lightened">#FFcddae0</color>
+    <color name="jr_janrain_darkblue_medium">#ff1a557c</color>
+    <color name="jr_janrain_lightblue">#ff08b1f5</color>
+    <color name="jr_janrain_mediumblue_100percent">#FF053044</color>
+    <color name="jr_medium_grey">#ff666666</color>
+    <color name="jr_powered_by_text">#ff666666</color>
+    <color name="jr_preview_label">#ff666666</color>
+    <color name="jr_preview_outer_grey_bg_rect">#1a7f7f7f</color>
+    <color name="jr_some_other_blue">#44248bc0</color>
+    <color name="jr_text_color_hint">#cccccc</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_btn_bg_disabled_color">#EFEFEF</color>
+    <color name="reg_btn_bg_enabled_color">#013378</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_btn_forgot_bg">#FFFFFF</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_btn_forgot_border">#7793B9</color>
+    <color name="reg_btn_pressed_color">#0F204B</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_btn_resend_bg">#FFFFFF</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_btn_resend_border">#EFC57D</color>
+    <color name="reg_btn_resend_highlight_color">#EFC57D</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_btn_resend_text_color">#EA8302</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_btn_social_bg_disabled_color">#EFEFEF</color>
+    <color name="reg_btn_social_bg_enabled_color">#0E66A1</color>
+    <color name="reg_btn_social_highlight_color">#033D78</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_btn_text_disabled_color">#DDDDDD</color>
+    <color name="reg_btn_text_enable_color">#FFFFFF</color>
+    <color name="reg_devider_color">#E4EAFD</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_err_msg_color">#E88200</color>
+    <color name="reg_error_box_color">#E88200</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_et_bg_color">#FFFFFF</color>
+    <color name="reg_et_border_disable_color">#A6A6A7</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_et_highlight_color">#28558D</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_forgot_text_color">#003377</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_header_bg_end_color">#287EB0</color>
+    <color name="reg_header_bg_start_color">#28558D</color>
+    <color name="reg_header_text_color">#FFFFFF</color>
+    <color name="reg_highlight_forgot_bg">#7793B9</color>
+    <color name="reg_hyperlink_highlight_color">#1470AA</color>
+    <color name="reg_layout_bg">#FFFFFF</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <color name="reg_provider_text_color">#FFFFFF</color>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/registration_config.xml -->
+    <eat-comment/>
+    <color name="reg_text_desc_bg">#EBF1F9</color>
+    <color name="reg_text_desc_color">#252525</color>
+    <color name="reg_text_heading_one_color">#003377</color>
+    <declare-styleable name="ColorButton"><attr format="color" name="jr_color"/></declare-styleable>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <dimen name="btn_reg_text_size">15sp</dimen>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/jump/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <dimen name="jr_button_text_size">20sp</dimen>
+    <dimen name="jr_character_count_size">10sp</dimen>
+    <dimen name="jr_edit_text_size">20sp</dimen>
+    <dimen name="jr_media_content_description_size">12sp</dimen>
+    <dimen name="jr_media_content_title_size">16sp</dimen>
+    <dimen name="jr_media_icon_size">45dip</dimen>
+    <dimen name="jr_powered_by_text_size">12sp</dimen>
+    <dimen name="jr_preview_border_padding">8dp</dimen>
+    <dimen name="jr_preview_box_border_inset">6sp</dimen>
+    <dimen name="jr_preview_box_border_padding_top">0dp</dimen>
+    <dimen name="jr_preview_label_padding">4sp</dimen>
+    <dimen name="jr_preview_label_paddingLeft">12dp</dimen>
+    <dimen name="jr_preview_label_size">10sp</dimen>
+    <dimen name="jr_preview_text_size">12sp</dimen>
+    <dimen name="jr_profile_pic_size">45dip</dimen>
+    <dimen name="jr_provider_icon_size">20dip</dimen>
+    <dimen name="jr_share_button_size">20dip</dimen>
+    <dimen name="jr_shared_text_size">20sp</dimen>
+    <dimen name="jr_signout_button_text_size">10sp</dimen>
+    <dimen name="jr_tagline_size">12sp</dimen>
+    <dimen name="jr_username_text_size">14sp</dimen>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <dimen name="reg_account_margin_bottom">30dp</dimen>
+    <dimen name="reg_actionbar_title_text_size">21dp</dimen>
+    <dimen name="reg_alert_margin">2dp</dimen>
+    <dimen name="reg_arrow_height">20dp</dimen>
+    <dimen name="reg_arrow_up_width">20dip</dimen>
+    <dimen name="reg_arrow_width">16dp</dimen>
+    <dimen name="reg_back_arrow_padding">7dip</dimen>
+    <dimen name="reg_back_arrow_width">60dip</dimen>
+    <dimen name="reg_btn_height">47dip</dimen>
+    <dimen name="reg_btn_padding_left">15dip</dimen>
+    <dimen name="reg_btn_padding_top">5dip</dimen>
+    <dimen name="reg_check_box_margin">15dip</dimen>
+    <dimen name="reg_check_content_size">15sp</dimen>
+    <dimen name="reg_common_margin_top">15dip</dimen>
+    <dimen name="reg_edit_fields_margin_top">-5dip</dimen>
+    <dimen name="reg_edit_fields_padding">10dip</dimen>
+    <dimen name="reg_edit_margin_bottom">20dp</dimen>
+    <dimen name="reg_err_alert_margin">5dp</dimen>
+    <dimen name="reg_err_alert_width">28dp</dimen>
+    <dimen name="reg_err_mapping_margin_right">2dip</dimen>
+    <dimen name="reg_err_mapping_mergin_top">4dip</dimen>
+    <dimen name="reg_err_mapping_padding">10dip</dimen>
+    <dimen name="reg_err_msg">14sp</dimen>
+    <dimen name="reg_err_msg_width">390dp</dimen>
+    <dimen name="reg_et_height">40dip</dimen>
+    <dimen name="reg_et_hint_size">16sp</dimen>
+    <dimen name="reg_font_button_text_margin_left">80dp</dimen>
+    <dimen name="reg_header_height">47dip</dimen>
+    <dimen name="reg_header_iv_back_padding">11dip</dimen>
+    <dimen name="reg_header_margin_top">29dip</dimen>
+    <dimen name="reg_header_title_margin_right">33dip</dimen>
+    <dimen name="reg_header_title_size">21sp</dimen>
+    <dimen name="reg_home_tiltle_padding">10dip</dimen>
+    <dimen name="reg_input_length">5dp</dimen>
+    <dimen name="reg_layout_margin">30dp</dimen>
+    <dimen name="reg_layout_margin_land">100dp</dimen>
+    <dimen name="reg_layout_margin_port">0dp</dimen>
+    <dimen name="reg_left_arrow_height">15dip</dimen>
+    <dimen name="reg_left_arrow_margin_left">-14dip</dimen>
+    <dimen name="reg_left_arrow_margin_right">-5dip</dimen>
+    <dimen name="reg_left_arrow_margin_top">4dip</dimen>
+    <dimen name="reg_left_arrow_width">6dip</dimen>
+    <dimen name="reg_marginTopButton">12dp</dimen>
+    <dimen name="reg_margin_bottom">11dp</dimen>
+    <dimen name="reg_pb_height">32dp</dimen>
+    <dimen name="reg_pb_padding">5dip</dimen>
+    <dimen name="reg_prod_reg_btn_height">55dp</dimen>
+    <dimen name="reg_scroll_margin">15dip</dimen>
+    <dimen name="reg_support_btn_height">60dp</dimen>
+    <dimen name="reg_title_text_size">22sp</dimen>
+    <dimen name="reg_title_text_size_medium">15sp</dimen>
+    <dimen name="reg_title_text_size_small">12sp</dimen>
+    <dimen name="reg_top_arrow_margin_right">5dip</dimen>
+    <dimen name="reg_top_arrow_width">17dp</dimen>
+    <dimen name="reg_up_arrow_margin_top">-13dip</dimen>
+    <dimen name="reg_x_edit_field_margin">2dip</dimen>
+    <dimen name="reg_x_edit_field_margin_right">5dip</dimen>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/jump/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <item name="jr_publish_fragment" type="id"/>
+    <item name="jr_signin_fragment" type="id"/>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <integer name="reg_et_email_max_length">128</integer>
+    <integer name="reg_et_name_max_length">1000</integer>
+    <integer name="reg_et_password_max_length">100</integer>
+    <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">Enter email address</string>
+    <string name="Account_Merge_EnterPassword_Placeholder_txtFiled">Enter password</string>
+    <string name="Account_Merge_EnterPassword_lbltxt">Please enter your MyPhilips password to merge your account.</string>
+    <string name="Account_Merge_ForgotPassword_btntxt">Forgot Password</string>
+    <string name="Account_Merge_Merge_btntxt">Merge</string>
+    <string name="Account_Merge_SignIn_lbltxt">Sign in with Facebook</string>
+    <string name="Account_Merge_UsedEmail_Error_lbltxt">You have used this email address before. For creating a MyPhilips account.</string>
+    <string name="Continue_Btntxt">Continue</string>
+    <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">Choose a password</string>
+    <string name="Create_Account_CreateMyPhilips_btntxt">Create MyPhilips Account</string>
+    <string name="Create_Account_EnterEmail_PlaceHolder_txtField">Enter e-mail</string>
+    <string name="Create_Account_FirstName__Placeholder_txtFiled">Enter first name</string>
+    <string name="Create_Account_ForgotPwd_btntxt">Forgot Password</string>
+    <string name="Create_Account_Hint_Password_lbltxt">Your password can contain:\n  -  Minimum of 8 characters\n  -  At least 2 out of 3 types of characters: Letters (a-z) or (A-Z), digits (0-9) or symbols (*^%)</string>
+    <string name="Create_Account_PeridicOffers_lbltxt">I would like to receive periodic offers and updates from Philips</string>
+    <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a MyPhilips or a social media account.\nPlease go back to sign in, or use an other email address.</string>
+    <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg"> Email address is already in use</string>
+    <string name="EmptyField_ErrorMsg">Field cannot be empty</string>
+    <string name="ForgotPwdEmailResendMsg"> A link is sent to your email to reset the password of your Philips Account</string>
+    <string name="ForgotPwdEmailResendMsg_Title">Reset Password</string>
+    <string name="InValidFirstName_ErrorMsg"> Invalid first name</string>
+    <string name="InValid_PwdErrorMsg">The password is not valid, please choose another password </string>
+    <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
+    <string name="InitialSignedIn_Periodic_lbltxt">I would like to receive periodic offers and updates from Philips</string>
+    <string name="InitialSignedIn_SignOut_btntxt">Sign out</string>
+    <string name="InitialSignedIn_SignedInUsing_lbltxt">You have signed in using:</string>
+    <string name="InitialSignedIn_SigninEmailText">You have signed in using: %s</string>
+    <string name="InitialSignedIn_Welcome_User_lbltxt">Welcome [Name User]</string>
+    <string name="InvalidEmailAdddress_ErrorMsg">Invalid email address</string>
+    <string name="JanRain_Error_Check_Internet">Problem in network connection.</string>
+    <string name="JanRain_Invalid_Credentials">The email or password you entered is incorrect.</string>
+    <string name="JanRain_Invalid_Input">Invalid input ,Please check and enter correct details.</string>
+    <string name="JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
+    <string name="Janrain_Error_Need_Email_Verification">Please verify your email or reset you password through the activation link sent to you email</string>
+    <string name="LegalNoticeText">By creating an account or signning in you certify that you are 16 years or older and you agree to our Privacy Policy and Terms and Conditions.</string>
+    <string name="NameField_ErrorText">Please enter first name.</string>
+    <string name="NoNetworkConnection">Registration is not available because you are offline</string>
+    <string name="PrivacyPolicyText">Privacy Policy</string>
+    <string name="PrivacyPolicyURL">http://www.philips.co.in/</string>
+    <string name="RegBaseViewNav_TitleTxt">Account</string>
+    <string name="RegCreateAccount_NavTitle">Create Account</string>
+    <string name="RegEmailNotVerified_AlertPopupErrorText">You have not verified your account yet . Check your email and click the link to activate your account.</string>
+    <string name="RegMerge_MergeLbltxt">Please enter your MyPhilips password for %s, to merge your account</string>
+    <string name="RegSignWith_Lbltxt">Sign in with</string>
+    <string name="RegVerifyEmailView_NavTitleTxt">Sign In</string>
+    <string name="RegVerifyEmailView_VerificationEmailText">We have sent an email to: %s</string>
+    <string name="RegWelcomeText">Welcome</string>
+    <string name="RegWelcomeView_NavTitleTxt">Sign In</string>
+    <string name="SigIn_TitleTxt">Sign In</string>
+    <string name="SignInSuccess_Continue_btntxt">Continue</string>
+    <string name="SignInSuccess_SignOut_btntxt">Sign Out</string>
+    <string name="SignInSuccess_Welcome_lbltxt">Welcome</string>
+    <string name="SocialAccountMerger_ErrorMsg">You have already registered with another %1$s account, please sign in to %2$s account.</string>
+    <string name="Social_ReciveOffers_lbltxt">I would like to reiceive periodic offers and updates from philips</string>
+    <string name="Social_SignIn_AlmostDone_lbltxt">Almost done !</string>
+    <string name="Social_SignIn_Continue_btntxt">Continue</string>
+    <string name="Social_SignIn_Email_PlaceHolder_txtFiled">Please enter email</string>
+    <string name="Social_SocialSignIn_lbltxt">Sign in with [Social Account]</string>
+    <string name="TermsAndConditionsText">Terms and Conditions</string>
+    <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">Enter email address</string>
+    <string name="TraditionalSignIn_ForgotPwd_btntxt">Forgot Password</string>
+    <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Enter password</string>
+    <string name="TraditionalSignIn_Resend_btntxt">Resend</string>
+    <string name="TraditionalSignIn_Resend_lbltxt">Press \Resend\ button if you have not recived an email</string>
+    <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Sign with My Philips</string>
+    <string name="TraditionalSignIn_SignIn_btntxt">Sign In</string>
+    <string name="VerifyEmail_ActivateInfo_lbltxt">When you are ready, please check your email to activate your account.</string>
+    <string name="VerifyEmail_Activated_btntxt">I have activated my account</string>
+    <string name="VerifyEmail_EmailSenttoEmailInfo_lbltxt">email@email.net</string>
+    <string name="VerifyEmail_EmailSentto_lbltxt">We have sent an email to:</string>
+    <string name="VerifyEmail_ResendErrorMsg_lbltxt">Press “Resend” button if you have not received an email.</string>
+    <string name="VerifyEmail_Resend_btntxt">Resend</string>
+    <string name="VerifyEmail_VerifyEmail_lbltxt">Please verify your email</string>
+    <string name="Welcome_Alternate_SignInAccount_lbltxt">Or Sign in with</string>
+    <string name="Welcome_Create_MyPhilips_btntxt">Create MyPhilips Account</string>
+    <string name="Welcome_Facebook_btntxt">Facebook</string>
+    <string name="Welcome_Googleplus_btntxt">Google+</string>
+    <string name="Welcome_MyPhilips_btntxt">MyPhilips</string>
+    <string name="Welcome_Twitter_btntxt">Twitter</string>
+    <string name="Welcome_Welcome_lbltxt">Welcome!</string>
+    <string name="Welcome_needAccountto_lbltxt">You will need an account to [related content]</string>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="action_settings">Settings</string>
+    <string name="app_name">RegistrationApp</string>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <string name="content_desc">ContentDesc</string>
+    <string name="continue_use_app">You can continue to use the app in the meantime</string>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string name="hello_world">Hello world!</string>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/jump/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <string name="jr_about_URL">www.janrain.com</string>
+    <string name="jr_about_menu_item">About Janrain Engage</string>
+    <string name="jr_about_title">Janrain Engage for Android Library</string>
+    <string name="jr_calculating_remaining_characters">Calculating Remaining Characters</string>
+    <string name="jr_capture_forgotpassword_dialog_header">Confirm Your Email Address</string>
+    <string name="jr_capture_forgotpassword_dismiss_button">Dismiss</string>
+    <string name="jr_capture_forgotpassword_error_msg">Incorrect Email or Password</string>
+    <string name="jr_capture_forgotpassword_forgotpass_button">Forgot Password</string>
+    <string name="jr_capture_forgotpassword_link_text">Forgot your password ?</string>
+    <string name="jr_capture_forgotpassword_reset_error_msg">Could Not Reset Password</string>
+    <string name="jr_capture_forgotpassword_send_button">Send</string>
+    <string name="jr_capture_forgotpassword_success_msg">Reset Password Email Sent</string>
+    <string name="jr_capture_forgotpassword_user_displaymsg">
+        We will send you a link to create a new password
+    </string>
+    <string name="jr_capture_forgotpassword_view_failuremsg">Could Not Reset Password</string>
+    <string name="jr_capture_signin_view_button_title">Sign in</string>
+    <string name="jr_capture_signin_view_password_hint">Password</string>
+    <string name="jr_capture_signin_view_signing_in">Signing In …</string>
+    <string name="jr_capture_signin_view_username_hint">Email</string>
+    <string name="jr_capture_trad_signin_bad_password">Invalid username / password</string>
+    <string name="jr_capture_trad_signin_dialog_title">Sign In</string>
+    <string name="jr_capture_trad_signin_unrecognized_error">Sorry, there was an error signing in</string>
+    <string name="jr_choose_email_handler">Choose...</string>
+    <string name="jr_connect_share_button_text">Connect and Share</string>
+    <string name="jr_default_email_share_subject">Check it out...</string>
+    <string name="jr_desktop_browser_ua">Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.24 (KHTML, like Gecko)
+        Chrome/11.0.696.34 Safari/534.24
+    </string>
+    <string name="jr_dialog_dismiss">Dismiss</string>
+    <string name="jr_dialog_network_error">A network error occurred, please try again.</string>
+    <string name="jr_dialog_ok">OK</string>
+    <string name="jr_email_button_text">Email</string>
+    <string name="jr_error_generic_sharing">There was an error while sharing.</string>
+    <string name="jr_error_linkedin_too_long">This message is too long for LinkedIn.</string>
+    <string name="jr_error_twitter_no_duplicates_allowed">Twitter does not allow duplicate status updates.</string>
+    <string name="jr_getconfig_network_failure_message">There was a problem communicating with the Janrain server.
+    </string>
+    <string name="jr_getconfig_parse_error_message">There was a problem communicating with the Janrain server
+        while configuring authentication.
+    </string>
+    <string name="jr_git_describe">v5.0.0</string>
+    <string name="jr_landing_bad_input_long">The input you have entered is not valid. Please try again.</string>
+    <string name="jr_landing_bad_user_input">Invalid Input</string>
+    <string name="jr_landing_default_custom_title">Welcome Back!</string>
+    <string name="jr_landing_signin_button_text">Sign In</string>
+    <string name="jr_landing_switch_account_button_text">Switch Accounts</string>
+    <string name="jr_menu_item_refresh">Refresh</string>
+    <string name="jr_merge_flow_default_dialog_message">The %1$s account that you signed in with has the same
+        email address as an existing user. Sign in with %2$s to continue.
+    </string>
+    <string name="jr_merge_flow_default_dialog_title">Email Address Conflict</string>
+    <string name="jr_merge_flow_default_merge_button">Merge</string>
+    <string name="jr_no_configured_social_providers">No configured social sharing providers.</string>
+    <string name="jr_no_social_providers">No social sharing providers are configured.</string>
+    <string name="jr_please_enter_text">Please enter text</string>
+    <string name="jr_powered_by">Powered by Janrain \</string>
+    <string name="jr_preview">Preview</string>
+    <string name="jr_problem_sharing">There was a problem while sharing.</string>
+    <string name="jr_progress_loading">Loading. Please wait…</string>
+    <string name="jr_progress_sharing">Sharing. Please wait…</string>
+    <string name="jr_provider_list_empty">No configured sign-in providers</string>
+    <string name="jr_provider_list_title">Sign in with…</string>
+    <string name="jr_provider_sign_in_with">Sign in with…</string>
+    <string name="jr_provider_spinner_prompt">Select a provider</string>
+    <string name="jr_provider_unknown">Unknown provider</string>
+    <string name="jr_publish_activity_title">Share</string>
+    <string name="jr_share_button_text">Share</string>
+    <string name="jr_shared">Shared</string>
+    <string name="jr_shortening_url">shortening URL...</string>
+    <string name="jr_sign_out_button">Sign out</string>
+    <string name="jr_sign_out_dialog">Would you like to sign out of</string>
+    <string name="jr_sms_button_text">SMS</string>
+    <string name="jr_traditional_account_name">traditional</string>
+    <string name="jr_user_profile_default_name">You</string>
+    <string name="jr_webview_bad_user_input_message">The %1$s you entered was not valid. Please try again.</string>
+    <string name="jr_webview_bad_user_input_title">Invalid Input</string>
+    <string name="jr_webview_error_dialog_msg">An error occurred while attempting to sign in.</string>
+    <string name="jr_webview_error_dialog_title">Sign-in failed</string>
+    <string name="jr_webview_generic_auth_error_message">There was a problem authenticating. Please try again.
+    </string>
+    <string name="jr_welcome_back_message">Welcome back</string>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <string name="kemailFieldErrorText">Please enter valid email address.</string>
+    <string name="resend_email_faild">Resend email failed</string>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/src/main/res/values/styles.xml -->
+    <eat-comment/>
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="MyApp.Theme.Light.NoTitleBar" parent="@android:style/Theme.Light.NoTitleBar">
+     <item name="android:textColorPrimaryInverse">@android:color/primary_text_light
+     </item>
+</style>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/jump/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <style name="Theme.Janrain" parent="android:style/Theme">
+        <item name="jrPublishTriangleVisibility">invisible</item>
+        <item name="jrPublishTriangleResource">@drawable/jr_triangle_icon</item>
+    </style>
+    <style name="Theme.Janrain.Dialog" parent="@android:style/Theme.Dialog">
+        <item name="jrPublishTriangleVisibility">invisible</item>
+        <item name="jrPublishTriangleResource">@drawable/jr_triangle_icon</item>
+    </style>
+    <style name="Theme.Janrain.Dialog.Light" parent="@android:style/Theme.Dialog">
+        <item name="jrPublishTriangleVisibility">visible</item>
+        <item name="jrPublishTriangleResource">@drawable/jr_triangle_icon</item>
+    </style>
+    <style name="Theme.Janrain.Light" parent="android:style/Theme.Light">
+        <item name="jrPublishTriangleVisibility">visible</item>
+        <item name="jrPublishTriangleResource">@drawable/jr_triangle_icon</item>
+    </style>
+    <style name="jr_about_dialog_text">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+    <style name="jr_dialog" parent="Theme.Janrain.Dialog"/>
+    <style name="jr_dialog_dark" parent="Theme.Janrain.Dialog"/>
+    <style name="jr_fullscreen" parent="Theme.Janrain.Light"/>
+    <style name="jr_fullscreen_dark" parent="Theme.Janrain"/>
+    <style name="jr_fullscreen_no_title" parent="Theme.Janrain.Light"/>
+    <style name="jr_fullscreen_no_title_dark" parent="Theme.Janrain"/>
+    <style name="jr_progress_dialog_style" parent="@android:Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/values/values.xml -->
+    <eat-comment/>
+    <style name="reg_btn_resend">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/reg_btn_resend_text_color</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
+    <style name="reg_error_textStyle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+    </style>
+    <style name="reg_forgot_password">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/reg_forgot_text_color</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
+    <style name="reg_line">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/reg_devider_color</item>
+        <item name="android:layout_marginTop">@dimen/reg_margin_bottom</item>
+        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+    </style>
+    <style name="reg_style_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/reg_btn_selector</item>
+        <item name="android:paddingBottom">@dimen/reg_btn_padding_top</item>
+        <item name="android:paddingTop">@dimen/reg_btn_padding_top</item>
+        <item name="android:paddingLeft">@dimen/reg_btn_padding_left</item>
+        <item name="android:paddingRight">@dimen/reg_btn_padding_left</item>
+        <item name="android:minHeight">@dimen/reg_btn_height</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textColor">@drawable/reg_btn_text_selector</item>
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+    </style>
+    <style name="reg_style_homescreen_title">
+        <item name="android:textSize">@dimen/reg_header_title_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="reg_style_tab_hint">
+        <item name="android:textSize">@dimen/btn_reg_text_size</item>
+        <item name="android:paddingLeft">@dimen/reg_home_tiltle_padding</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="reg_textStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:layout_marginBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:textColor">@color/reg_text_heading_one_color</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_medium</item>
+    </style>
+    <style name="reg_text_background">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/reg_text_desc_bg</item>
+        <item name="android:layout_marginTop">@dimen/reg_common_margin_top</item>
+    </style>
+    <style name="reg_text_description">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/reg_text_desc_color</item>
+        <item name="android:paddingTop">@dimen/reg_margin_bottom</item>
+        <item name="android:paddingBottom">@dimen/reg_margin_bottom</item>
+        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
+        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
+        <item name="android:textSize">@dimen/reg_title_text_size_small</item>
+    </style>
+    <style name="reg_titleTextStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:textColor">@color/reg_text_heading_one_color</item>
+        <item name="android:textSize">@dimen/reg_title_text_size</item>
+        <item name="android:layout_marginTop">@dimen/reg_header_margin_top</item>
+        <item name="android:paddingLeft">@dimen/reg_layout_margin</item>
+        <item name="android:paddingRight">@dimen/reg_layout_margin</item>
+    </style>
+</resources>
