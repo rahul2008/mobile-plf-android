@@ -77,5 +77,11 @@
     <string name="reply">Répondre</string>
     <string name="forward">Transférer</string>
     <string name="print">Imprimer</string>
+    <string name="check_sim">Aucune carte SIM détectée. Vérifiez qu\'elle est bien insérée.</string>
+    <string name="no_internet">Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone.</string>
+    <string name="twitter_post_progress_message">Envoi du message à l\'assistance Philips via Twitter…</string>
+    <string name="social_post_failed">Un problème est survenu...</string>
+    <string name="gps_disabled">GPS désactivé sur votre appareil. Souhaitez-vous l\'activer ?</string>
+    <string name="search">Recherche</string>
 
 </resources>

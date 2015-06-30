@@ -77,5 +77,11 @@
     <string name="reply">回覆</string>
     <string name="forward">轉寄</string>
     <string name="print">列印</string>
+    <string name="check_sim">偵測不到 SIM 卡。請檢查是否正確插入</string>
+    <string name="no_internet">沒有網際網路連線。請檢查您手機 wifi 設定或數據 設定是否運作正常</string>
+    <string name="twitter_post_progress_message">向飛利浦 Twitter 支援傳送您的訊息…</string>
+    <string name="social_post_failed">發生問題..</string>
+    <string name="gps_disabled">您裝置上的 GPS 已停用。是否要啟用？</string>
+    <string name="search">搜尋</string>
 
 </resources>
