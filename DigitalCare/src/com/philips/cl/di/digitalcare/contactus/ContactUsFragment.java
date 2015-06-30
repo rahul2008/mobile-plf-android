@@ -111,50 +111,47 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DigiCareLogger.i(TAG,
 				"ContactUsFragment : onActivityCreated : mConactUsParent == "
 						+ mContactUsParent);
-		//if (mContactUsParent == null) {
-			mTwitterProgresshandler = new Handler();
-			if (isConnectionAvailable())
-				requestCDLSData();
+		// if (mContactUsParent == null) {
+		mTwitterProgresshandler = new Handler();
+		if (isConnectionAvailable())
+			requestCDLSData();
 
-			mContactUsParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsParent);
-			mChat = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsChat);
-			mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsCall);
-			mEmail = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsEmail);
-			mContactUsOpeningHours = (TextView) getActivity().findViewById(
-					R.id.contactUsOpeningHours);
-			mFirstRowText = (TextView) getActivity().findViewById(
-					R.id.firstRowText);
-			mSocialProviderParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsSocialParent);
-			mSocialDivider = (View) getActivity().findViewById(
-					R.id.socialDivider);
-			// mFacebook.setOnClickListener(this);
+		mContactUsParent = (LinearLayout) getActivity().findViewById(
+				R.id.contactUsParent);
+		mChat = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsChat);
+		mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsCall);
+		mEmail = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsEmail);
+		mContactUsOpeningHours = (TextView) getActivity().findViewById(
+				R.id.contactUsOpeningHours);
+		mFirstRowText = (TextView) getActivity()
+				.findViewById(R.id.firstRowText);
+		mSocialProviderParent = (LinearLayout) getActivity().findViewById(
+				R.id.contactUsSocialParent);
+		mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
+		// mFacebook.setOnClickListener(this);
 
-			createSocialProviderMenu();
+		createSocialProviderMenu();
 
-			/*
-			 * Live chat is configurable parameter. Developer can enable/disable
-			 * it.
-			 */
-			if (!getResources().getBoolean(R.bool.live_chat_required)) {
-				mChat.setVisibility(View.GONE);
-			}
-			mChat.setOnClickListener(this);
-			mChat.setTransformationMethod(null);
-			mCallPhilips.setOnClickListener(this);
-			mCallPhilips.setTransformationMethod(null);
-			mEmail.setOnClickListener(this);
-			mEmail.setTransformationMethod(null);
-			mParams = (FrameLayout.LayoutParams) mContactUsParent
-					.getLayoutParams();
+		/*
+		 * Live chat is configurable parameter. Developer can enable/disable it.
+		 */
+		if (!getResources().getBoolean(R.bool.live_chat_required)) {
+			mChat.setVisibility(View.GONE);
+		}
+		mChat.setOnClickListener(this);
+		mChat.setTransformationMethod(null);
+		mCallPhilips.setOnClickListener(this);
+		mCallPhilips.setTransformationMethod(null);
+		mEmail.setOnClickListener(this);
+		mEmail.setTransformationMethod(null);
+		mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
 
-			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
-					getPreviousName());
-		//}
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
+				getPreviousName());
+		// }
 		config = getResources().getConfiguration();
 	}
 
@@ -576,21 +573,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@SuppressLint("NewApi")
 	private Button createButton(float density, int title, int resId) {
 		Button button = new Button(getActivity(), null, R.style.fontButton);
-		button.setGravity(Gravity.START | Gravity.CENTER);
+		button.setGravity(Gravity.CENTER);
 		button.setPadding((int) (80 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
 		button.setText(title);
-		button.setBackground(getDrawable(resId));
+		//button.setBackground(getDrawable(resId));
 		return button;
 	}
 
 	private void setButtonParams(Button button) {
 		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
 				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+		buttonParams.addRule(RelativeLayout.CENTER_IN_PARENT,
 				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
+
+		// buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+		// RelativeLayout.TRUE);
 		button.setLayoutParams(buttonParams);
 	}
 
