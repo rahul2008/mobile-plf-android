@@ -13,6 +13,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.R;
@@ -32,7 +33,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	private WebView mWebView = null;
 	private String mUrl = null;
 	private ProgressDialog mDialog = null;
-	private LinearLayout mLinearLayout = null;
+	private RelativeLayout mLinearLayout = null;
 	private FrameLayout.LayoutParams mParams = null;
 
 	@Override
@@ -55,7 +56,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 				AnalyticsConstants.ACTION_KEY_EXIT_LINK, getChatEndPoint());
 
 		Resources resource = getActivity().getResources();
-		mLinearLayout = (LinearLayout) getActivity().findViewById(
+		mLinearLayout = (RelativeLayout) getActivity().findViewById(
 				R.id.webViewParent);
 		mParams = (FrameLayout.LayoutParams) mLinearLayout.getLayoutParams();
 		mLinearLayout.setOnClickListener(this);
