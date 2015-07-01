@@ -3,6 +3,8 @@ package com.philips.cl.di.digitalcare.contactus;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -392,6 +394,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
+			//launchTwitterFeature();
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
@@ -423,6 +426,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			showFragment(new FacebookWebFragment());
 		}
 
+	}
+	
+	private void launchTwitterFeature()
+	{
+		/*try {
+			PackageInfo mTwitterPackageInfo = getActivity().getApplicationContext().getPackageManager().getPackageInfo
+					("com.twitter.android", 0);
+			mTwitterPackageInfo.
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		String url = "https://twitter.com/intent/tweet?source=webclient&text=TWEET+THIS!";
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setType("application/twitter");
+		i.setData(Uri.parse(url));
+		startActivity(i);
 	}
 
 	@Override
