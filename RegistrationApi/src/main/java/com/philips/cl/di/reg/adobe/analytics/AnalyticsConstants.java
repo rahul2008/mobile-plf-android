@@ -1,4 +1,3 @@
-
 package com.philips.cl.di.reg.adobe.analytics;
 
 public interface AnalyticsConstants {
@@ -27,7 +26,7 @@ public interface AnalyticsConstants {
 
 	String CURRENCY_KEY = "locale.currency";
 
-	String TIMESTAMP_KEY = "timestamp";
+	String TIMESTAMP_KEY = "timeStamp";
 
 	String CP_VALUE = "CP";
 
@@ -39,35 +38,39 @@ public interface AnalyticsConstants {
 
 	String ACCEPT_MESSAGE = "acceptmessage";
 
-	String REGISTRATION_CHANNEL = "registrationchannel";
+	String REGISTRATION_CHANNEL = "registrationChannel";
 
-	String SPECIAL_EVENTS = "specialevents";
+	String SPECIAL_EVENTS = "specialeEvents";
 
 	String STATUS_NOTIFICATION = "statusNotification";
 
 	String MY_PHILIPS = "myphilips";
 
-	String START_USER_REGISTRATION = "startuserregistration";
+	String START_USER_REGISTRATION = "startUserRegistration";
 
-	String LOGIN_CHANNEL = "loginchannel";
+	String LOGIN_STARTS = "loginStarts";
 
-	String SUCCESS_USER_CREATION = "successusercreation";
+	String LOGIN_CHANNEL = "loginChannel";
 
-	String SUCCESS_USER_REGISTRATION = "successuserregistration";
+	String SUCCESS_USER_CREATION = "successUserCreation";
 
-	String REMARKETING_OPTION_IN = "remarketingoptin";
+	String SUCCESS_USER_REGISTRATION = "successUserRegistration";
 
-	String REMARKETING_OPTION_OUT = "remarketingoptout";
+	String SUCCESS_SOCIAL_MERGE = "successSocialMerge";
 
-	String SUCCESS_LOGIN = "successlogin";
+	String REMARKETING_OPTION_IN = "remarketingOptIn";
 
-	String START_SOCIAL_MERGE = "startsocialmerge";
+	String REMARKETING_OPTION_OUT = "remarketingOptOut";
 
-	String PREVIOUS_PAGE_NAME = "previouspagename";
+	String SUCCESS_LOGIN = "successLogin";
 
-	String TECHNICAL_ERROR = "technicalerror";
+	String START_SOCIAL_MERGE = "startSocialmerge";
 
-	String USER_ERROR = "usererror";
+	String PREVIOUS_PAGE_NAME = "previousPageName";
+
+	String TECHNICAL_ERROR = "technicalError";
+
+	String USER_ERROR = "userError";
 
 	String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
 
@@ -80,7 +83,7 @@ public interface AnalyticsConstants {
 	String TECHNICAL_REGISTRATION_ERROR = "we're having trouble registring user";
 
 	String TECHNICAL_LOGIN_ERROR = "we're having trouble logining user";
-	
+
 	String COUNTRY_KEY = "locale.country";
 
 }

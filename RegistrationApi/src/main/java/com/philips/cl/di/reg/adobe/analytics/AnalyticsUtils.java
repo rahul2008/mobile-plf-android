@@ -27,6 +27,12 @@ public class AnalyticsUtils {
 		Analytics.trackAction(state, contextData);
 	}
 
+	public static void trackMultipleActions(String state, Map<String, Object> map) {
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.putAll(map);
+		Analytics.trackAction(state, contextData);
+	}
+
 	private static Map<String, Object> addAnalyticsDataObject() {
 
 		Map<String, Object> contextData = new HashMap<String, Object>();
@@ -35,8 +41,10 @@ public class AnalyticsUtils {
 		contextData.put(AnalyticsConstants.VERSION_KEY, RegistrationHelper.getInstance()
 		        .getAppVersion());
 		contextData.put(AnalyticsConstants.OS_KEY, AnalyticsConstants.OS_ANDROID);
-		contextData.put(AnalyticsConstants.COUNTRY_KEY, RegistrationHelper.getInstance().getRegistrationSettings().getPreferredCountryCode());
-		contextData.put(AnalyticsConstants.LANGUAGE_KEY,RegistrationHelper.getInstance().getRegistrationSettings().getPreferredLangCode());
+		contextData.put(AnalyticsConstants.COUNTRY_KEY, RegistrationHelper.getInstance()
+		        .getLocale().getCountry());
+		contextData.put(AnalyticsConstants.LANGUAGE_KEY,  RegistrationHelper.getInstance()
+		        .getLocale().getLanguage());
 		contextData.put(AnalyticsConstants.CURRENCY_KEY, getCurrency());
 		contextData.put(AnalyticsConstants.APPSID_KEY, Analytics.getTrackingIdentifier());
 		contextData.put(AnalyticsConstants.TIMESTAMP_KEY, getTimestamp());

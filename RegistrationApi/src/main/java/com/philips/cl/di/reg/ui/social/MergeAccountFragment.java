@@ -187,7 +187,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 		setViewParams(getResources().getConfiguration());
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
 		mUser = new User(mContext);
 	}
 
@@ -317,12 +317,14 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginSuccess");
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
+				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_SOCIAL_MERGE);
 		hideMergeSpinner();
 		launchWelcomeFragment();
 	}
 
 	private void launchWelcomeFragment() {
-		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		getRegistrationFragment().addWelcomeFragmentOnVerification();
 		trackPage(AnalyticsPages.MERGE_ACCOUNT, AnalyticsPages.WELCOME);
 	}
 
@@ -348,7 +350,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
-		RegAlertDialog.showResetPasswordDialog(getRegistrationMainActivity(),AnalyticsConstants.MERGE_ACCOUNT);
+		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity(),AnalyticsConstants.MERGE_ACCOUNT);
 		hideForgotPasswordSpinner();
 		mRegError.hideError();
 	}

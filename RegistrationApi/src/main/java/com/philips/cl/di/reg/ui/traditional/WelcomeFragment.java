@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
-import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
 import com.philips.cl.di.reg.coppa.CoppaExtension;
 import com.philips.cl.di.reg.coppa.CoppaResendError;
 import com.philips.cl.di.reg.coppa.ResendCoppaEmailConsentHandler;
@@ -88,7 +88,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		}
 
 		View view = inflater.inflate(R.layout.fragment_welcome, null);
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
 		mUser = new User(mContext);
 		init(view);
 		return view;
@@ -158,7 +158,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		applyParams(config, mCbTerms);
 		applyParams(config, mRegError);
 		applyParams(config, mTvSignInEmail);
-		
+
 	}
 
 	private void init(View view) {
@@ -200,13 +200,13 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		String email = getString(R.string.InitialSignedIn_SigninEmailText);
 		email = String.format(email, userProfile.getEmail());
 		mTvSignInEmail.setText(email);
-		
+
 		Button btnFetchConsent = (Button) view.findViewById(R.id.btn_resend_consent);
-		
-		if(RegistrationHelper.getInstance().isCoppaFlow()){
+
+		if (RegistrationHelper.getInstance().isCoppaFlow()) {
 			btnFetchConsent.setVisibility(View.VISIBLE);
 			btnFetchConsent.setOnClickListener(this);
-		}else{
+		} else {
 			btnFetchConsent.setVisibility(View.GONE);
 		}
 	}
@@ -216,14 +216,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_out) {
 			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
+			trackPage(AnalyticsPages.WELCOME,AnalyticsPages.HOME);
 			mUser.logout();
-			getRegistrationMainActivity().navigateToHome();
+			getRegistrationFragment().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
-
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
+				trackPage(AnalyticsPages.WELCOME,AnalyticsPages.HOME);
 				mUser.logout();
-				getRegistrationMainActivity().replaceWithHomeFragment();
+				getRegistrationFragment().replaceWithHomeFragment();
 			} else {
 				RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
 				RegistrationHelper.getInstance().getUserRegistrationListener()

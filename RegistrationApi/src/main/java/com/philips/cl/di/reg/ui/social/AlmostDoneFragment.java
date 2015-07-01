@@ -1,6 +1,9 @@
 
 package com.philips.cl.di.reg.ui.social;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +25,7 @@ import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -155,14 +159,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		super.onDetach();
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onDetach");
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AlmostDoneFragment : onConfigurationChanged");
 		setViewParams(config);
 	}
-	
+
 	@Override
 	public void setViewParams(Configuration config) {
 		applyParams(config, mTvSignInWith);
@@ -247,7 +251,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
 		mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
 		        + mProvider);
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getActivity().getApplicationContext();
 
 		if (isEmailExist) {
 			mEtEmail.setVisibility(View.GONE);
@@ -316,11 +320,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void register() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			trackActionStatus(AnalyticsConstants.SEND_DATA,
-		            AnalyticsConstants.REGISTRATION_CHANNEL,mProvider);
-			trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-			        AnalyticsConstants.START_USER_REGISTRATION);
-			
+			trackMultipleActions();
 			User user = new User(mContext);
 			if (isEmailExist) {
 				user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
@@ -332,6 +332,18 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		}
 	}
 
+	private void trackMultipleActions() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(AnalyticsConstants.REGISTRATION_CHANNEL, mProvider);
+		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+		if (mCbTerms.isChecked()) {
+			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
+		} else {
+			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
+		}
+	}
+
 	@Override
 	public int getTitleResourceId() {
 		return R.string.SigIn_TitleTxt;
@@ -340,6 +352,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginSuccess");
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.SUCCESS_LOGIN);
 		hideSpinner();
 	}
 
@@ -375,15 +389,15 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	private void addMergeAccountFragment() {
-		getRegistrationMainActivity().addFragment(new MergeAccountFragment());
-		trackPage(AnalyticsPages.ALMOST_DONE,AnalyticsPages.MERGE_ACCOUNT);
+		getRegistrationFragment().addFragment(new MergeAccountFragment());
+		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.MERGE_ACCOUNT);
 	}
 
 	@Override
 	public void onContinueSocialProviderLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_CREATION);
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.SUCCESS_USER_CREATION);
 		User user = new User(mContext);
 		if (user.getEmailVerificationStatus(mContext)) {
 			launchWelcomeFragment();
@@ -394,18 +408,19 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	}
 
 	private void launchAccountActivateFragment() {
-		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.ALMOST_DONE,AnalyticsPages.ACCOUNT_ACTIVATION);
+		getRegistrationFragment().addFragment(new AccountActivationFragment());
+		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
-		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		getRegistrationFragment().addWelcomeFragmentOnVerification();
 		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.WELCOME);
 	}
 
 	@Override
 	public void onContinueSocialProviderLoginFailure(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
 		RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
 		hideSpinner();
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
@@ -419,6 +434,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 			mRegError.setError(userRegistrationFailureInfo.getErrorDescription() + ".\n'"
 			        + mDisplayName + "' "
 			        + userRegistrationFailureInfo.getDisplayNameErrorMessage());
+			trackActionRegisterError(userRegistrationFailureInfo.getError().code);
 			return;
 		}
 

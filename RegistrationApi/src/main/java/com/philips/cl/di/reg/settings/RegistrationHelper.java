@@ -123,6 +123,8 @@ public class RegistrationHelper {
 		}
 	};
 
+	private Locale mLocale;
+
 	/*
 	 * Initialize Janrain
 	 * @param isInitialized true for initialize and false for reinitialize
@@ -130,6 +132,8 @@ public class RegistrationHelper {
 	 */
 	public void intializeRegistrationSettings(final Janrain isInitialized, final Context context,
 	        final Locale locale) {
+		System.out.println("locale + "+locale);
+		setLocale(locale);
 		mJanrainIntialized = false;
 		mContext = context.getApplicationContext();
 		NetworkUtility.isNetworkAvailable(mContext);
@@ -301,5 +305,13 @@ public class RegistrationHelper {
 	public void setCoppaFlow(boolean isCoppaFlow) {
 		this.isCoppaFlow = isCoppaFlow;
 	}
+
+	public Locale getLocale() {
+	    return mLocale;
+    }
+
+	public void setLocale(Locale mLocale) {
+	    this.mLocale = mLocale;
+    }
 
 }

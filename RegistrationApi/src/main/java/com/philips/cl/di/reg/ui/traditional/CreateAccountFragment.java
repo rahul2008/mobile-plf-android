@@ -1,6 +1,9 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -16,10 +19,12 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.adobe.mobile.Analytics;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
@@ -83,7 +88,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "CreateAccountFragment : onCreateView");
 		RLog.d(RLog.EVENT_LISTENERS,
 		        "CreateAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getActivity().getApplicationContext();
 
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
@@ -92,8 +97,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		initUI(view);
 		return view;
 	}
-	
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -172,7 +176,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			register();
 		}
 	}
-	
+
 	private void initUI(View view) {
 		consumeTouch(view);
 		mLlCreateAccountFields = (LinearLayout) view
@@ -204,16 +208,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void register() {
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-		        AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.START_USER_REGISTRATION);
-		if(mCbTerms.isChecked()){
-			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
-		}else{
-			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
-		}
-		
+		trackMultipleActions();
 		showSpinner();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
@@ -223,6 +218,18 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mEtPassword.hideValidAlertError();
 		mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
 		        .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
+	}
+
+	private void trackMultipleActions() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+		if (mCbTerms.isChecked()) {
+			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
+		} else {
+			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
+		}
 	}
 
 	private void showSpinner() {
@@ -252,23 +259,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	public void onRegisterSuccess() {
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_CREATION);
-		if(RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()){
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.SUCCESS_USER_CREATION);
+		if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
 			launchAccountActivateFragment();
-		}else{
+		} else {
 			launchWelcomeFragment();
 		}
 	}
 
 	private void launchAccountActivateFragment() {
-		getRegistrationMainActivity().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.CREATE_ACCOUNT,AnalyticsPages.ACCOUNT_ACTIVATION);
+		getRegistrationFragment().addFragment(new AccountActivationFragment());
+		trackPage(AnalyticsPages.CREATE_ACCOUNT, AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
-	
+
 	private void launchWelcomeFragment() {
-		getRegistrationMainActivity().addFragment(new WelcomeFragment());
-		trackPage(AnalyticsPages.CREATE_ACCOUNT,AnalyticsPages.WELCOME);
+		getRegistrationFragment().addFragment(new WelcomeFragment());
+		trackPage(AnalyticsPages.CREATE_ACCOUNT, AnalyticsPages.WELCOME);
 	}
 
 	@Override

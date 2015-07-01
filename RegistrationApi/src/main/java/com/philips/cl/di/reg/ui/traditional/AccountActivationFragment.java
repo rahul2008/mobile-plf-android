@@ -74,7 +74,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "AccountActivationFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		mContext = getRegistrationMainActivity().getApplicationContext();
+		mContext = getRegistrationFragment().getActivity().getApplicationContext();
 		RLog.i(RLog.EVENT_LISTENERS, "AccountActivationFragment register: NetworStateListener");
 		mUser = new User(mContext);
 		View view = inflater.inflate(R.layout.fragment_account_activation, null);
@@ -249,7 +249,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 	}
 
 	private void launchWelcomeFragment() {
-		getRegistrationMainActivity().addWelcomeFragmentOnVerification();
+		getRegistrationFragment().addWelcomeFragmentOnVerification();
 		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION, AnalyticsPages.WELCOME);
 	}
 
