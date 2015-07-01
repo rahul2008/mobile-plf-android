@@ -149,9 +149,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		mEmail.setTransformationMethod(null);
 		mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
-				getPreviousName());
-		// }
+		try {
+			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
+					getPreviousName());
+		} catch (Exception e) {
+			DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
+		}
 		config = getResources().getConfiguration();
 	}
 

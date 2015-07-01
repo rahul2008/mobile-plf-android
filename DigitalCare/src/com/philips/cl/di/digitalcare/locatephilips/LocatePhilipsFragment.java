@@ -162,9 +162,13 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 		checkGooglePlayServices();
 		initGoogleMapv2();
 		createBitmap();
-		AnalyticsTracker.trackPage(
-				AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
-				getPreviousName());
+		try {
+			AnalyticsTracker.trackPage(
+					AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU,
+					getPreviousName());
+		} catch (Exception e) {
+
+		}
 		gpsAlertView = GpsAlertView.getInstance();
 	}
 
@@ -419,18 +423,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 			addBoundaryToCurrentPosition(lat, lng);
 		} else {
 			DigiCareLogger
-					.i(TAG,
+					.d(TAG,
 							"MAP is null Failed to update GoogleMap.MAP_TYPE_NORMAL Maptype");
 		}
 	}
-
-	/*
-	 * private void cameraFocusOnMe(double lat, double lng) { CameraPosition
-	 * camPosition = new CameraPosition.Builder() .target(new LatLng(lat,
-	 * lng)).zoom(21).build(); if (mMap != null && camPosition != null)
-	 * mMap.animateCamera(CameraUpdateFactory .newCameraPosition(camPosition));
-	 * }
-	 */
 
 	private void trackToMe(final LatLng currentLocation,
 			final LatLng markerPosition) {
@@ -505,15 +501,15 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	public void onGpsStatusChanged(int event) {
 		switch (event) {
 		case GpsStatus.GPS_EVENT_STARTED:
-			DigiCareLogger.v(TAG, "GPS_EVENT_STARTED");
+			DigiCareLogger.d(TAG, "GPS_EVENT_STARTED");
 			break;
 
 		case GpsStatus.GPS_EVENT_STOPPED:
-			DigiCareLogger.v(TAG, "GPS_EVENT_STOPPED");
+			DigiCareLogger.d(TAG, "GPS_EVENT_STOPPED");
 			break;
 
 		case GpsStatus.GPS_EVENT_FIRST_FIX:
-			DigiCareLogger.v(TAG, "GPS_EVENT_FIRST_FIX");
+			DigiCareLogger.d(TAG, "GPS_EVENT_FIRST_FIX");
 			break;
 
 		case GpsStatus.GPS_EVENT_SATELLITE_STATUS:
@@ -525,19 +521,19 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
 		@Override
 		public void onLocationChanged(Location location) {
-			DigiCareLogger.v(TAG, "LocationListener Changed..");
+			DigiCareLogger.i(TAG, "LocationListener Changed..");
 			updateWithNewLocation(location);
 		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
-			DigiCareLogger.v(TAG, "Location Listener Disabled");
+			DigiCareLogger.i(TAG, "Location Listener Disabled");
 			updateWithNewLocation(null);
 		}
 
 		@Override
 		public void onProviderEnabled(String provider) {
-			DigiCareLogger.v(TAG, "Location Listener Enabled");
+			DigiCareLogger.i(TAG, "Location Listener Enabled");
 		}
 
 		@Override
@@ -809,7 +805,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		AtosResultsModel resultModel = mHashMapResults.get(marker.getId());
-		showServiceCentreDetails(resultModel);
+		try {
+			resultModel.getAddressModel().toString();
+			showServiceCentreDetails(resultModel);
+		} catch (NullPointerException exception) {
+			DigiCareLogger
+					.d(TAG, "We don't show direction to current location");
+		}
+
 		return true;
 	}
 
