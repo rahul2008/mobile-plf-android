@@ -574,22 +574,26 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	private Button createButton(float density, int title, int resId) {
 		Button button = new Button(getActivity(), null, R.style.fontButton);
 		button.setGravity(Gravity.CENTER);
-//		button.setPadding((int) (80 * density), 0, 0, 0);
+		// button.setPadding((int) (80 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
 		button.setText(title);
+		button.setTextAlignment(Gravity.CENTER);
 		button.setBackground(getDrawable(resId));
 		return button;
 	}
 
 	private void setButtonParams(Button button) {
-		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
-				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_IN_PARENT,
-				RelativeLayout.TRUE);
+		// RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+		// .getLayoutParams();
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
+						.getDimension(R.dimen.support_btn_height));
+		// buttonParams.addRule(RelativeLayout.CENTER_IN_PARENT,
+		// RelativeLayout.TRUE);
 
 		// buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
 		// RelativeLayout.TRUE);
-		button.setLayoutParams(buttonParams);
+		button.setLayoutParams(params);
 	}
 
 	@Override
