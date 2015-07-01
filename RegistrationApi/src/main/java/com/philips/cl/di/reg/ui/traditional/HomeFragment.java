@@ -186,9 +186,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		String providerName = "Welcome_" + providerTempName + "_btntxt";
 		String providerDrawable = "reg_" + provider + "_ic";
 
-		int resourceId = this.getResources().getIdentifier(providerName, "string",
+		int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
 		        getRegistrationFragment().getParentActivity().getPackageName());
-		int drawableId = this.getResources().getIdentifier(providerDrawable, "drawable",
+		int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "drawable",
 		        getRegistrationFragment().getParentActivity().getPackageName());
 		mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
 	}
