@@ -41,15 +41,6 @@
     <color name="reg_hyperlink_highlight_color">#1470AA</color>
 
     <!-- 4.Secondary color -->
-    <!-- Resend email button -->
-    <!-- Resend email button Border color -->
-    <color name="reg_btn_resend_border">#EFC57D</color>
-    <!-- Resend email button background color -->
-    <color name="reg_btn_resend_bg">#FFFFFF</color>
-    <!-- Resend email button highlight color -->
-    <color name="reg_btn_resend_highlight_color">#EFC57D</color>
-    <!-- Resend email button text color -->
-    <color name="reg_btn_resend_text_color">#EA8302</color>
 
     <!-- 5. Navigation bar background -->
     <!-- Strating color of Header:background start gradient color -->
@@ -63,7 +54,6 @@
 
     <!-- 7.Back icon navigation bar -->
     <!-- Require Asset -->
-
 
     <!-- 8.Font color explanatory texts -->
     <!-- Description text color -->

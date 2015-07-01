@@ -4,7 +4,8 @@
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.        -->
+            backward-compatibility can go here.
+        -->
     </style>
 
     <!-- Application theme. -->
@@ -81,16 +82,7 @@
         <item name="android:textSize">@dimen/btn_reg_text_size</item>
     </style>
 
-    <style name="reg_btn_resend">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/reg_btn_resend_text_color</item>
-        <item name="android:textSize">@dimen/btn_reg_text_size</item>
-    </style>
-
     <!-- Header style -->
-
     <style name="reg_style_homescreen_title">
         <item name="android:textSize">@dimen/reg_header_title_size</item>
         <item name="android:textStyle">bold</item>

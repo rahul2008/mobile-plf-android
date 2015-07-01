@@ -113,11 +113,11 @@
 
                 <com.philips.cl.di.reg.ui.customviews.XButton
                     android:id="@+id/btn_reg_resend"
-                    style="@style/reg_btn_resend"
+                    style="@style/reg_forgot_password"
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_below="@+id/fl_reg_forgot_password"
                     android:layout_marginTop="@dimen/reg_margin_bottom"
-                    android:background="@drawable/reg_btn_resend_selector"
+                    android:background="@drawable/reg_btn_forgot_selector"
                     android:text="@string/TraditionalSignIn_Resend_btntxt"
                     android:visibility="gone"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
