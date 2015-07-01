@@ -1,769 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="" />
+        <option name="name" value="Unnamed-0" />
+        <option name="packageNamePattern" value="" />
+        <option name="pid" value="" />
+      </filter>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="com.philips.cl.di.reg" />
+        <option name="name" value="Unnamed-1" />
+        <option name="packageNamePattern" value="com.philips.cl.di.reg" />
+        <option name="pid" value="" />
+      </filter>
+    </filters>
+  </component>
   <component name="AndroidLayouts">
     <shared>
       <config />
     </shared>
   </component>
+  <component name="AndroidLogFilters">
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Unnamed-1" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="699cf006-ce64-45a3-bfaa-60c716af2c35" name="Default" comment="">
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\libs\android-support-v4.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_check_mark.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_amazon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_aol.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_blogger.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_amazon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_facebook.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_googleplus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_linkedin.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_mail.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_mail_sms.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_microsoftaccount.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_myspace.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_sms.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_tumblr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_twitter.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_bw_yahoo.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_facebook.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_flickr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_foursquare.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_google.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_googleplus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_hyves.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_linkedin.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_live_id.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_livejournal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_mail_sms.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_microsoftaccount.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_myopenid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_myspace.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_netlog.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_openid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_orkut.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_paypal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_salesforce.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_tumblr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_twitter.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_verisign.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_vzn.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_wordpress.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_icon_yahoo.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_amazon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_aol.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_blogger.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_facebook.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_flickr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_foursquare.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_google.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_googleplus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_hyves.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_linkedin.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_live_id.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_livejournal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_microsoftaccount.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_myopenid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_myspace.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_netlog.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_openid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_orkut.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_paypal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_salesforce.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_tumblr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_twitter.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_verisign.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_vzn.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_logo_yahoo.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_profilepic_placeholder.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable-xhdpi\jr_triangle_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_bg_provider_activity_info.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_bg_publish_preview.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_bg_publish_preview_border.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_check_mark.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_email_sms_tab_indicator.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_ic_menu_about.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_amazon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_aol.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_blogger.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_amazon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_facebook.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_googleplus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_linkedin.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_mail.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_mail_sms.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_microsoftaccount.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_myspace.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_sms.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_tumblr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_twitter.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_bw_yahoo.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_facebook.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_flickr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_foursquare.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_google.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_googleplus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_hyves.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_linkedin.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_live_id.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_livejournal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_mail_sms.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_microsoftaccount.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_myopenid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_myspace.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_netlog.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_openid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_orkut.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_paypal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_salesforce.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_tumblr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_twitter.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_unknown.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_verisign.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_vzn.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_wordpress.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_icon_yahoo.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_amazon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_aol.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_blogger.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_facebook.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_flickr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_foursquare.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_google.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_googleplus.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_hyves.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_linkedin.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_live_id.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_livejournal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_microsoftaccount.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_myopenid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_myspace.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_netlog.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_openid.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_orkut.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_paypal.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_salesforce.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_tumblr.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_twitter.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_verisign.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_vzn.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_logo_yahoo.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_media60x60.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_profilepic_placeholder.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_shape_landing_box.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\drawable\jr_triangle_icon.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout-xlarge-v11\jr_fragment_host_activity.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_about_dialog.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_capture_forgotpassword.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_capture_trad_signin.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_fragment_host_activity.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_provider_landing.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_provider_listview.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_provider_listview_row.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_provider_native.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_provider_webview.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_publish.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_publish_email_tab_content.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_publish_provider_tab_content.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\layout\jr_shared_footer.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\menu\jr_about_menu.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\menu\jr_provider_listview_row_menu.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values-v11\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values-xlarge-v11\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values-xlarge-v11\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\attrs.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\colors.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\ids.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\jr_git_describe.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\res\values\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\Jump.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\JumpConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\TradSignInUi.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\ApidChange.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\ApidDelete.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\ApidReplace.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\ApidUpdate.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\Capture.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureApiConnection.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureApiError.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureDebugUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureFlowUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureJsonUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureRecord.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\capture\CaptureStringUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\JREngage.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\JREngageDelegate.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\JREngageError.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\JRNativeAuth.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\NativeFacebook.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\NativeGooglePlus.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\net\AsyncHttpClient.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\net\JRConnectionManager.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\net\JRConnectionManagerDelegate.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\net\async\HttpResponseHeaders.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\package.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\session\JRAuthenticatedUser.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\session\JRProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\session\JRSession.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\session\JRSessionDelegate.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRActionLink.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRActivityObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRDictionary.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JREmailObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRFlashMediaObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRImageMediaObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRJsonifiable.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRMediaObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRMp3MediaObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\types\JRSmsObject.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\AutoBlankingFrameLayout.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\ColorButton.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\CustomMeasuringFrameLayout.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRCustomInterface.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRCustomInterfaceConfiguration.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRCustomInterfaceView.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRFragmentHostActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRLandingFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRNativeAuthFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRProviderListFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRPublishFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRUiFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\engage\ui\JRWebViewFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\AndroidUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\ApacheSetFromMap.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\ApiConnection.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\Archiver.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\CollectionUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\IoUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\JsonUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\LogUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\PrefUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\StringUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\ThreadUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\UiUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\Jump\src\com\janrain\android\utils\WebViewUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\drawable-hdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\drawable-mdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\drawable-xhdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\drawable-xxhdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\raw\sample_json.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\values-v11\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\values-v14\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\values\strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\res\values\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\LocaleMatchFileHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\LocaleMatchListener.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\LocaleMatchNotifier.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\LocaleMatchThreadManager.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\PILLocale.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\PILLocaleManager.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\enums\Catalog.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\enums\LocaleMatchError.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\enums\Platform.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\LocaleMatch\src\com\philips\cl\di\localematch\enums\Sector.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\.project" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\.settings\org.eclipse.jdt.core.prefs" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\RegistrationApiTest.iml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\libs\android-junit-report-1.5.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\libs\dexmaker-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\libs\dexmaker-mockito-1.0.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\libs\mockito-all-1.10.8.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\proguard-project.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\project.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\res\drawable-hdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\res\drawable-ldpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\res\drawable-mdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\res\drawable-xhdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\res\values\strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\src\com\philips\cl\di\regsample\app\test\EmailValidatorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\src\com\philips\cl\di\regsample\app\test\NetworkClassTest.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApiTest\src\com\philips\cl\di\regsample\app\test\UserTest.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\assets\ADBMobileConfig.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\assets\registration\configuration\configuration.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\assets\registration\fonts\CentraleSans-Book.OTF" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\assets\registration\fonts\CentraleSans-Light.otf" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\about_selection_off.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\about_selection_on.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\back_press.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\bts_spinner.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\edit_txt_port.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\err_alert.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\icon_alert.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_error_alert.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_facebook_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_google_plus_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_googleplus_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_philips_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_twitter_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\reg_valid_alert.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-hdpi\t_textbox.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-mdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\err_alert.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\facebook_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\facebook_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\google_plus_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\google_plus_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\left_arrow.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\philips_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\twitter_bg.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable-xhdpi\twitter_ic.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_arrow_left.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_arrow_up.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_disabled_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_enabled_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_forgot_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_forgot_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_pressed_forgot_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_pressed_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_pressed_resend_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_resend_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_resend_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_social_pressed_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_social_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_social_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_btn_text_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_checkbox_selector.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_et_focus_disable.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_et_focus_enable.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_header_bg.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_rect.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\drawable\reg_tab_bottom_bar.9.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\activity_registration.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\dialog_reset_password.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\error_mapping.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_account_activation.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_create_account.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_home.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_registration.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_sign_in_account.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_social_almost_done.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_social_merge_account.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\fragment_welcome.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\reg_email_details.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\x_email.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\x_password.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\x_provider_btn.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\layout\x_user_name.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\values-sw600dp\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\values-sw720dp\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\values\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\values\registration_config.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\values\strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\res\values\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\HttpClient.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\User.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\UserWithProduct.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\adobe\analytics\AnalyticsConstants.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\adobe\analytics\AnalyticsPages.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\adobe\analytics\AnalyticsUtils.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\adobe\analytics\TrackActionErrors.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\ConfigurationParser.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\Flow.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\JanRainConfiguration.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\PILConfiguration.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\RegistrationClientId.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\RegistrationConfiguration.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\configuration\SocialProviders.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\AddConsumerInterest.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\ContinueSocialProviderLogin.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\ForgotPassword.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\LoginSocialProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\LoginTraditional.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\RefreshLoginSession.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\RegisterTraditional.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\ResendVerificationEmail.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\UpdateReceiveMarketingEmail.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\controller\UpdateUserRecord.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\Consent.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\CoppaConfiguration.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\CoppaEmailStaus.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\CoppaExtension.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\CoppaExtensionHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\CoppaResendError.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\CoppaStatus.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\FetchCoppaEmailConsentStatusHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\coppa\ResendCoppaEmailConsentHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\dao\ConsumerArray.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\dao\ConsumerInterest.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\dao\DIUserProfile.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\dao\ProductRegistrationInfo.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\dao\SignInSocialFailureInfo.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\dao\UserRegistrationFailureInfo.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\errormapping\CheckLocale.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\events\EventHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\events\EventListener.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\events\NetworStateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\events\NetworkStateHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\events\SocialProvider.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\events\UserRegistrationHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\AddConsumerInterestHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\ForgotPasswordHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\ProductRegistrationHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\RefreshLoginSessionHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\RefreshUserHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\ResendVerificationEmailHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\SocialProviderLoginHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\TraditionalLoginHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\TraditionalRegistrationHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\UpdateReceiveMarketingEmailHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\handlers\UpdateUserRecordHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\listener\RegistrationTitleBarListener.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\listener\UserRegistrationListener.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\settings\DevRegistrationSettings.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\settings\EvalRegistrationSettings.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\settings\LocaleMatchHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\settings\ProdRegistrationSettings.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\settings\RegistrationHelper.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\settings\RegistrationSettings.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XButton.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XEditText.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XEmail.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XPassword.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XProviderButton.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XRegError.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XTextView.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\XUserName.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\customviews\onUpdateListener.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\social\AlmostDoneFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\social\MergeAccountFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\AccountActivationFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\CreateAccountFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\HomeFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\RegistrationActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\RegistrationBaseFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\RegistrationFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\SignInAccountFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\traditional\WelcomeFragment.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\EmailValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\FontLoader.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\JanrainErrorMessage.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\NetworkUtility.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\RLog.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\RegAlertDialog.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationApi\src\com\philips\cl\di\reg\ui\utils\RegConstants.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\assets\ADBMobileConfig.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\assets\air_fryer_registration_config.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\assets\registration\configuration\configuration.json" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\assets\registration\fonts\CentraleSans-Book.OTF" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\assets\registration\fonts\CentraleSans-Light.otf" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\drawable-hdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\drawable-mdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\drawable-xhdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\drawable-xxhdpi\ic_launcher.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\layout\activity_main.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\menu\main.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values-v11\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values-v14\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values-w820dp\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values\dimens.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values\registration_config.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values\strings.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\res\values\styles.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\src\com\philips\cl\di\regsample\app\RegistrationApplication.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\RegistrationSampleApp\src\com\philips\cl\di\regsample\app\RegistrationSampleActivity.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\jump\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\jump\.project" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\jump\AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\jump\NOTICE" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\jump\build.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\jump\project.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\localeMatch\AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\localeMatch\ic_launcher-web.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\localeMatch\proguard-project.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\localeMatch\project.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$10.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$11.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$12.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$13.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$5.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$6.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$7.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$8.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$9.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$CaptureApiResultHandler$CaptureAPIError$FailureReason.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$CaptureApiResultHandler$CaptureAPIError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$CaptureApiResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$CaptureLinkAccountHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$ForgotPasswordResultHandler$ForgetPasswordError$FailureReason.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$ForgotPasswordResultHandler$ForgetPasswordError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$ForgotPasswordResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$SignInCodeHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$SignInResultHandler$SignInError$FailureReason.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$SignInResultHandler$SignInError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$SignInResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$State.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump$TraditionalSignInType.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\Jump.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\JumpConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$color.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$dimen.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$menu.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$raw.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\R.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$1$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$1$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$1$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$4$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$5.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$ForgotPasswordResultHandler$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$ForgotPasswordResultHandler$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView$ForgotPasswordResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi$TradSignInView.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\TradSignInUi.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\ApidChange.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\ApidDelete.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\ApidReplace.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\ApidUpdate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$CaptureApiRequestCallback.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$CaptureApiRequestCallbackWithResponse.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$CaptureApiResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$ForgotPasswordResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$InvalidApidChangeException.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture$SignInResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\Capture.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureApiConnection.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureApiError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureDebugUtils$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureDebugUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureFlowUtils$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureFlowUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureJsonUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureRecord$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureRecord$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureRecord$refreshAccessTokenResultHandler.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureRecord.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\capture\CaptureStringUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage$5.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage$ConfigFinishListener.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngage.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageDelegate$SimpleJREngageDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageError$AuthenticationError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageError$ConfigurationError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageError$ErrorType.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageError$SocialPublishingError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JREngageError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JRNativeAuth$NativeAuthCallback.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JRNativeAuth$NativeAuthError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JRNativeAuth$NativeProvider$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JRNativeAuth$NativeProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\JRNativeAuth.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeFacebook$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeFacebook.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$GooglePlusClient.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$GooglePlusFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$GooglePlusFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$GooglePlusFragment$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$GooglePlusFragment$GetAccessTokenTask.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus$GooglePlusFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\NativeGooglePlus.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\AsyncHttpClient$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\AsyncHttpClient$AsyncHttpResponse.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\AsyncHttpClient$HttpExecutor$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\AsyncHttpClient$HttpExecutor$AbortedRequestException.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\AsyncHttpClient$HttpExecutor.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\AsyncHttpClient.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\JRConnectionManager$HttpCallback.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\JRConnectionManager$ManagedConnection.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\JRConnectionManager.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\JRConnectionManagerDelegate$SimpleJRConnectionManagerDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\JRConnectionManagerDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\net\async\HttpResponseHeaders.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\package.html" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$3$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$ProfilePicAvailableListener.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser$ProfilePicMissingException.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRAuthenticatedUser.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRProvider$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRProvider$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRProvider$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRProvider.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRSession$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRSession.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRSessionDelegate$SimpleJRSessionDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\session\JRSessionDelegate.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRActionLink.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRActivityObject$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRActivityObject$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRActivityObject$ShortenedUrlCallback.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRActivityObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRDictionary.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JREmailObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRFlashMediaObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRImageMediaObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRJsonifiable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRMediaObject$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRMediaObject$ThumbnailAvailableListener.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRMediaObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRMp3MediaObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\types\JRSmsObject.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\AutoBlankingFrameLayout.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\ColorButton$ColorFilterRejectingDrawableWrapper.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\ColorButton.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\CustomMeasuringFrameLayout.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRCustomInterface.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRCustomInterfaceConfiguration.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRCustomInterfaceView.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRFragmentHostActivity$Fullscreen.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRFragmentHostActivity$IllegalFragmentIdException.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRFragmentHostActivity.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRLandingFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRLandingFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRLandingFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRNativeAuthFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRNativeAuthFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRNativeAuthFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRProviderListFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRProviderListFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRProviderListFragment$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRProviderListFragment$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRProviderListFragment$ProviderAdapter.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRProviderListFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$10.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$11.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$12.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$13.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$5.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$6.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$7.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$8.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment$9.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRPublishFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRUiFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRUiFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRUiFragment$FinishReceiver.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRUiFragment$ManagedDialog.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRUiFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$4.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$5.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$RetainFragment$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment$RetainFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\engage\ui\JRWebViewFragment.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\AndroidUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApacheSetFromMap.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection$2.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection$3.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection$FetchCallback.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection$FetchJsonCallback.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection$Method.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ApiConnection.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\Archiver$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\Archiver$LoadException.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\Archiver.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\CollectionUtils$Function.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\CollectionUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\IoUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\JsonUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\LogUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\PrefUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\StringUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ThreadUtils$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\ThreadUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\UiUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\janrain\android\utils\WebViewUtils.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$color.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$dimen.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$id.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$layout.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$menu.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$raw.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R$styleable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\Jump\com\philips\cl\di\localematch\R.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\LocaleMatchFileHelper.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\LocaleMatchListener.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\LocaleMatchNotifier.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\LocaleMatchThreadManager$1.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\LocaleMatchThreadManager$LocaleMatchRunnable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\LocaleMatchThreadManager.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\PILLocale.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\PILLocaleManager.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\R$raw.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\R.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\enums\Catalog.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\enums\LocaleMatchError.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\enums\Platform.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\out\production\LocaleMatch\com\philips\cl\di\localematch\enums\Sector.class" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\.gitignore" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\.project" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\findbugs-exclude.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\ic_launcher-web.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\libs\android-support-v4.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\proguard-project.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationApi\project.properties" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\.project" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\AndroidManifest.xml" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\ic_launcher-web.png" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\libs\android-support-v4.jar" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\proguard-project.txt" afterPath="" />
-      <change type="DELETED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\project.properties" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="$PROJECT_DIR$/.idea/.name" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Registration.iml" afterPath="$PROJECT_DIR$/Registration.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="D:\GIT_NEW\Registration\registrationApi\lint.xml" afterPath="$PROJECT_DIR$/registrationApi/lint.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\GIT_NEW\Registration\jump\Jump.iml" afterPath="$PROJECT_DIR$/jump/jump.iml" />
-      <change type="MOVED" beforePath="D:\GIT_NEW\Registration\localeMatch\LocaleMatch.iml" afterPath="$PROJECT_DIR$/localeMatch/localeMatch.iml" />
-      <change type="MOVED" beforePath="D:\GIT_NEW\Registration\registrationApi\RegistrationApi.iml" afterPath="$PROJECT_DIR$/registrationApi/registrationApi.iml" />
-      <change type="MOVED" beforePath="D:\GIT_NEW\Registration\registrationSampleApp\RegistrationSampleApp.iml" afterPath="$PROJECT_DIR$/registrationSampleApp/registrationSampleApp.iml" />
-    </list>
+    <list default="true" id="699cf006-ce64-45a3-bfaa-60c716af2c35" name="Default" comment="" />
     <ignored path="RegistrationSampleApp.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/build/classes/" />
@@ -788,6 +54,9 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$/registrationApi">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <PATH>
@@ -796,8 +65,12 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="RegistrationSampleApp" />
+                <option name="myItemId" value="Registration" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value=":registrationSampleApp" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
               </PATH_ELEMENT>
             </PATH>
             <PATH>
@@ -806,11 +79,11 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="RegistrationSampleApp" />
+                <option name="myItemId" value="Registration" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="RegistrationSampleApp" />
+                <option name="myItemId" value=":registrationSampleApp" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
@@ -824,20 +97,22 @@
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="RegistrationSampleApp" />
+                <option name="myItemId" value="Registration" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
+              </PATH_ELEMENT>
+            </PATH>
+            <PATH>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="" />
+                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ExternalProjectsStructure$RootNode" />
+              </PATH_ELEMENT>
+              <PATH_ELEMENT>
+                <option name="myItemId" value="Registration" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ProjectNode" />
               </PATH_ELEMENT>
               <PATH_ELEMENT>
-                <option name="myItemId" value="RegistrationSampleApp" />
+                <option name="myItemId" value="Registration" />
                 <option name="myItemType" value="com.intellij.openapi.externalSystem.view.ModuleNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="Tasks" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode" />
-              </PATH_ELEMENT>
-              <PATH_ELEMENT>
-                <option name="myItemId" value="other" />
-                <option name="myItemType" value="com.intellij.openapi.externalSystem.view.TasksNode$1" />
               </PATH_ELEMENT>
             </PATH>
           </tree_state>
@@ -850,47 +125,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="fragment_create_account.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
-          <provider editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider selected="true" editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignInAccountFragment.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="SignInAccountFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="216" column="27" selection-start-line="216" selection-start-column="27" selection-end-line="216" selection-end-column="27" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#7061#7062#0" expanded="false" />
-                <element signature="e#7098#7099#0" expanded="false" />
-                <element signature="e#12410#12411#0" expanded="false" />
-                <element signature="e#12433#12434#0" expanded="false" />
-              </folding>
+              <caret line="252" column="36" selection-start-line="252" selection-start-column="36" selection-end-line="252" selection-end-column="36" />
+              <folding />
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="fragment_sign_in_account.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9577465">
-              <caret line="57" column="39" selection-start-line="57" selection-start-column="39" selection-end-line="57" selection-end-column="39" />
-              <folding>
-                <element signature="e#1459#1513#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
@@ -898,74 +139,26 @@
         <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-              <folding />
+              <caret line="231" column="5" selection-start-line="231" selection-start-column="5" selection-end-line="231" selection-end-column="5" />
+              <folding>
+                <element signature="e#3752#3753#0" expanded="true" />
+                <element signature="e#3805#3806#0" expanded="true" />
+                <element signature="e#6643#6644#0" expanded="true" />
+                <element signature="e#6696#6697#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="x_password.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml">
+      <file leaf-file-name="XEmail.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XEmail.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dimens.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/values/dimens.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="53" selection-start-line="36" selection-start-column="53" selection-end-line="36" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="71" column="17" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XRegError.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XRegError.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="error_mapping.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/error_mapping.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="reg_rect.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/drawable/reg_rect.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-              <folding />
+              <caret line="194" column="52" selection-start-line="194" selection-start-column="52" selection-end-line="194" selection-end-column="52" />
+              <folding>
+                <element signature="e#5163#5164#0" expanded="true" />
+                <element signature="e#5213#5214#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -4217,8 +3410,11 @@
         <option value="$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml" />
         <option value="$PROJECT_DIR$/registrationApi/src/main/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml" />
-        <option value="$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java" />
         <option value="$PROJECT_DIR$/registrationApi/src/main/res/drawable/reg_rect.xml" />
+        <option value="$PROJECT_DIR$/registrationApi/src/main/assets/ADBMobileConfig.json" />
+        <option value="$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java" />
+        <option value="$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XEmail.java" />
+        <option value="$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java" />
       </list>
     </option>
   </component>
@@ -4252,7 +3448,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="AndroidView" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -4282,66 +3478,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RegistrationSampleApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Registration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="localeMatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="RegistrationSampleApp" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Registration" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="localeMatch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
-      </pane>
-      <pane id="Scope">
-        <subPane subId="Tests">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scratches">
-        <subPane />
       </pane>
       <pane id="PackagesPane">
+        <subPane />
+      </pane>
+      <pane id="Scratches">
         <subPane />
       </pane>
       <pane id="AndroidView">
@@ -4375,10 +3517,6 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -4390,12 +3528,50 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RegistrationSampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="registrationApi" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RegistrationSampleApp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="registrationApi" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Tests">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -4413,34 +3589,6 @@
     <property name="last_opened_file_path" value="C:/Program Files (x86)/Git/bin/git.exe" />
   </component>
   <component name="RunManager" selected="Android Application.registrationSampleApp">
-    <configuration default="false" name="EmailValidatorTest" type="AndroidTestRunConfigurationType" factoryName="Android Tests" temporary="true" nameIsGenerated="true">
-      <module name="registrationSampleApp" />
-      <option name="TESTING_TYPE" value="2" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="com.zutubi.android.junitreport.JUnitReportTestRunner" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="com.philips.cl.di.regsample.app.test.EmailValidatorTest" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SELECTED_MATRIX_CONFIGURATION_ID" value="-1" />
-      <option name="SELECTED_CLOUD_PROJECT_ID" value="Please select a project..." />
-      <option name="IS_VALID_CLOUD_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_SELECTION_ERROR" value="Matrix configuration not specified" />
-      <method>
-        <option name="Android.Gradle.BeforeRunTask" enabled="false" />
-        <option name="RunConfigurationTask" enabled="true" run_configuration_name="Tests in 'com.philips.cl.di.regsample.app.test'" run_configuration_type="GradleRunConfiguration" />
-      </method>
-    </configuration>
     <configuration default="false" name="Tests in 'com.philips.cl.di.regsample.app.test'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -4472,6 +3620,60 @@
         <option name="taskNames">
           <list>
             <option value="connectedAndroidTest" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="Registration:registrationSampleApp [compileDebugAndroidTestJava]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/registrationSampleApp" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="compileDebugAndroidTestJava" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="Registration:registrationSampleApp [compileDebugAndroidTestSources]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/registrationSampleApp" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="compileDebugAndroidTestSources" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <method />
+    </configuration>
+    <configuration default="false" name="Registration [compileDebugAndroidTestSources]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="compileDebugAndroidTestSources" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -4644,17 +3846,21 @@
       <option name="INVALID_CLOUD_SELECTION_ERROR" value="Matrix configuration not specified" />
       <method />
     </configuration>
-    <list size="4">
+    <list size="6">
       <item index="0" class="java.lang.String" itemvalue="Android Application.registrationSampleApp" />
-      <item index="1" class="java.lang.String" itemvalue="Android Tests.EmailValidatorTest" />
-      <item index="2" class="java.lang.String" itemvalue="Gradle.Tests in 'com.philips.cl.di.regsample.app.test'" />
-      <item index="3" class="java.lang.String" itemvalue="Gradle.RegistrationSampleApp:registrationSampleApp [connectedAndroidTest]" />
+      <item index="1" class="java.lang.String" itemvalue="Gradle.Tests in 'com.philips.cl.di.regsample.app.test'" />
+      <item index="2" class="java.lang.String" itemvalue="Gradle.RegistrationSampleApp:registrationSampleApp [connectedAndroidTest]" />
+      <item index="3" class="java.lang.String" itemvalue="Gradle.Registration:registrationSampleApp [compileDebugAndroidTestJava]" />
+      <item index="4" class="java.lang.String" itemvalue="Gradle.Registration:registrationSampleApp [compileDebugAndroidTestSources]" />
+      <item index="5" class="java.lang.String" itemvalue="Gradle.Registration [compileDebugAndroidTestSources]" />
     </list>
     <recent_temporary>
-      <list size="3">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.RegistrationSampleApp:registrationSampleApp [connectedAndroidTest]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.Tests in 'com.philips.cl.di.regsample.app.test'" />
-        <item index="2" class="java.lang.String" itemvalue="Android Tests.EmailValidatorTest" />
+      <list size="5">
+        <item index="0" class="java.lang.String" itemvalue="Gradle.Registration [compileDebugAndroidTestSources]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.Registration:registrationSampleApp [compileDebugAndroidTestSources]" />
+        <item index="2" class="java.lang.String" itemvalue="Gradle.Registration:registrationSampleApp [compileDebugAndroidTestJava]" />
+        <item index="3" class="java.lang.String" itemvalue="Gradle.RegistrationSampleApp:registrationSampleApp [connectedAndroidTest]" />
+        <item index="4" class="java.lang.String" itemvalue="Gradle.Tests in 'com.philips.cl.di.regsample.app.test'" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="Applet" default="true" selected="false">
@@ -4685,65 +3891,36 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3521851" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.11666667" sideWeight="0.51028275" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24166666" sideWeight="0.5154242" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32916668" sideWeight="0.48971722" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.45416668" sideWeight="0.33676094" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32916668" sideWeight="0.48714653" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18055555" sideWeight="0.7892031" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28213367" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23843187" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18059126" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21401028" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34305555" sideWeight="0.48971722" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24166666" sideWeight="0.48457584" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3521851" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25138888" sideWeight="0.4974293" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.11666667" sideWeight="0.51028275" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.28213367" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18059126" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34305555" sideWeight="0.48971722" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3521851" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25138888" sideWeight="0.4974293" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32916668" sideWeight="0.48971722" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.45416668" sideWeight="0.33676094" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -4761,61 +3938,47 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="216" column="27" selection-start-line="216" selection-start-column="27" selection-end-line="216" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#7061#7062#0" expanded="false" />
-            <element signature="e#7098#7099#0" expanded="false" />
-            <element signature="e#12410#12411#0" expanded="false" />
-            <element signature="e#12433#12434#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="87" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
-          <folding>
-            <element signature="e#1459#1513#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding />
+          <folding>
+            <element signature="e#3752#3753#0" expanded="true" />
+            <element signature="e#3805#3806#0" expanded="true" />
+            <element signature="e#6643#6644#0" expanded="true" />
+            <element signature="e#6696#6697#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/values/dimens.xml">
@@ -4843,79 +4006,75 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/error_mapping.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/drawable/reg_rect.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="216" column="27" selection-start-line="216" selection-start-column="27" selection-end-line="216" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#7061#7062#0" expanded="false" />
-            <element signature="e#7098#7099#0" expanded="false" />
-            <element signature="e#12410#12411#0" expanded="false" />
-            <element signature="e#12433#12434#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="33" column="87" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
-          <folding>
-            <element signature="e#1459#1513#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding />
+          <folding>
+            <element signature="e#3752#3753#0" expanded="true" />
+            <element signature="e#3805#3806#0" expanded="true" />
+            <element signature="e#6643#6644#0" expanded="true" />
+            <element signature="e#6696#6697#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/values/dimens.xml">
@@ -4943,121 +4102,20 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/error_mapping.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/drawable/reg_rect.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="216" column="27" selection-start-line="216" selection-start-column="27" selection-end-line="216" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#7061#7062#0" expanded="false" />
-            <element signature="e#7098#7099#0" expanded="false" />
-            <element signature="e#12410#12411#0" expanded="false" />
-            <element signature="e#12433#12434#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="33" column="87" selection-start-line="33" selection-start-column="87" selection-end-line="33" selection-end-column="87" />
-          <folding>
-            <element signature="e#1459#1513#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="53" selection-start-line="36" selection-start-column="53" selection-end-line="36" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="71" column="17" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XRegError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/error_mapping.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/drawable/reg_rect.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -5069,27 +4127,21 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="164" column="56" selection-start-line="164" selection-start-column="56" selection-end-line="164" selection-end-column="56" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#7061#7062#0" expanded="false" />
-            <element signature="e#7098#7099#0" expanded="false" />
-            <element signature="e#12410#12411#0" expanded="false" />
-            <element signature="e#12433#12434#0" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -5101,14 +4153,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationSampleApp/src/androidTest/java/com/philips/cl/di/regsample/app/test/EmailValidatorTest.java">
@@ -5147,20 +4199,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_create_account.xml">
-      <provider editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
       <provider selected="true" editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java">
-      <provider selected="true" editor-type-id="text-editor">
+      <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="45" column="28" selection-start-line="45" selection-start-column="28" selection-end-line="45" selection-end-column="28" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -5170,20 +4214,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="71" column="17" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="216" column="27" selection-start-line="216" selection-start-column="27" selection-end-line="216" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#7061#7062#0" expanded="false" />
-            <element signature="e#7098#7099#0" expanded="false" />
-            <element signature="e#12410#12411#0" expanded="false" />
-            <element signature="e#12433#12434#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -5197,7 +4227,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XRegError.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.25274727">
           <caret line="42" column="60" selection-start-line="42" selection-start-column="60" selection-end-line="42" selection-end-column="60" />
           <folding />
         </state>
@@ -5205,45 +4235,156 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/drawable/reg_rect.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.26153848">
           <caret line="7" column="8" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/error_mapping.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="11" column="36" selection-start-line="11" selection-start-column="36" selection-end-line="11" selection-end-column="36" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/x_password.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
+        <state vertical-scroll-proportion="0.7206573">
           <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
           <folding />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/res/layout/fragment_sign_in_account.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9577465">
+        <state vertical-scroll-proportion="0.0">
           <caret line="57" column="39" selection-start-line="57" selection-start-column="39" selection-end-line="57" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/assets/ADBMobileConfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4493392">
+          <caret line="12" column="10" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/UserWithProduct.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30478087">
+          <caret line="267" column="16" selection-start-line="267" selection-start-column="16" selection-end-line="267" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/adobe/analytics/AnalyticsPages.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3024911">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/RegistrationActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="13" selection-start-line="32" selection-start-column="13" selection-end-line="32" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/HomeFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.6724138">
+          <caret line="275" column="23" selection-start-line="275" selection-start-column="23" selection-end-line="275" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/registrationApi/libs/adobeMobileLibrary.jar!/com/adobe/mobile/Analytics.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3501048">
+          <caret line="40" column="23" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/adobe/analytics/AnalyticsUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="24" column="40" selection-start-line="24" selection-start-column="40" selection-end-line="24" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationSampleApp/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4252669">
+          <caret line="15" column="32" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/localeMatch/src/main/res/values/styles.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45373666">
+          <caret line="15" column="49" selection-start-line="15" selection-start-column="49" selection-end-line="15" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/RegistrationBaseFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.38333333">
+          <caret line="155" column="25" selection-start-line="155" selection-start-column="25" selection-end-line="155" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.081850536">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XPassword.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="231" column="5" selection-start-line="231" selection-start-column="5" selection-end-line="231" selection-end-column="5" />
           <folding>
-            <element signature="e#1459#1513#0" expanded="true" />
+            <element signature="e#3752#3753#0" expanded="true" />
+            <element signature="e#3805#3806#0" expanded="true" />
+            <element signature="e#6643#6644#0" expanded="true" />
+            <element signature="e#6696#6697#0" expanded="true" />
           </folding>
         </state>
       </provider>
-      <provider editor-type-id="android-designer">
-        <state />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/customviews/XEmail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="194" column="52" selection-start-line="194" selection-start-column="52" selection-end-line="194" selection-end-column="52" />
+          <folding>
+            <element signature="e#5163#5164#0" expanded="true" />
+            <element signature="e#5213#5214#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/registrationApi/src/main/java/com/philips/cl/di/reg/ui/traditional/SignInAccountFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="252" column="36" selection-start-line="252" selection-start-column="36" selection-end-line="252" selection-end-column="36" />
+          <folding />
+        </state>
       </provider>
     </entry>
   </component>

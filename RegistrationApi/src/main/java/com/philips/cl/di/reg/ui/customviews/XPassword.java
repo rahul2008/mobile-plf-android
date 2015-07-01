@@ -234,4 +234,8 @@ public class XPassword extends RelativeLayout implements TextWatcher, OnClickLis
 	public void isValidatePassword(boolean isValidatePassword) {
 		this.isValidatePassword = isValidatePassword;
 	}
+
+	public void hideValidAlertError(){
+		mIvValidPasswordAlert.setVisibility(View.GONE);
+	}
 }

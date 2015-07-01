@@ -217,6 +217,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private void signIn() {
 		trackActionStatus(AnalyticsConstants.SEND_DATA,
 		        AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		mEtEmail.hideValidAlertError();
+		mEtPassword.hideValidAlertError();
 		if (mUser != null) {
 			showSignInSpinner();
 		}
@@ -272,13 +274,13 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		hideSignInSpinner();
 
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			/*mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-			mEtEmail.showInvalidAlert();*/
+			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();
 		}
 
 		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-			/*mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
-			mEtPassword.showInvalidAlert();*/
+			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
+			mEtPassword.showInvalidAlert();
 		}
         trackActionLoginError(userRegistrationFailureInfo.getError().code);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
