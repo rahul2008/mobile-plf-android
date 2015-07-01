@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/jr_force_reauth"
-          android:title="force reauth" />
-</menu><!-- From: file:/D:/GIT_NEW/Registration/jump/src/main/res/menu/jr_provider_listview_row_menu.xml --><!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/jump/unspecified/res/menu/jr_provider_listview_row_menu.xml -->

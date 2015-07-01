@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
-    <item> 
-    <shape android:shape="rectangle">
-      <solid android:color="@color/reg_btn_social_bg_enabled_color" /> 
-        <corners android:radius="3dp" />
-    </shape>
-  </item>
-</layer-list><!-- From: file:/D:/GIT_NEW/Registration/registrationApi/src/main/res/drawable/reg_btn_social_rect.xml --><!-- From: file:/D:/GIT_NEW/Registration/registrationSampleApp/build/intermediates/exploded-aar/Registration/registrationApi/unspecified/res/drawable/reg_btn_social_rect.xml -->
