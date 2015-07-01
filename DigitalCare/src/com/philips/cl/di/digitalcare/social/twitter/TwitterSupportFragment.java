@@ -63,6 +63,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private EditText mEditText = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductCloseButton = null;
+	private ImageView mTwitterIcon = null;
 	private TextView mCharacterCount = null;
 	private ProgressDialog mPostProgress = null;
 	private LayoutParams mContainerParams = null;
@@ -70,7 +71,6 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
 	private TextView mTweetTo = null;
-	private ImageView mTwitterIcon = null;
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
 	private int mTwitterTextCounter = TWITTER_TEXT;
@@ -349,7 +349,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mFile = null;
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));
-		mProductImage.setScaleType(ScaleType.FIT_XY);
+		mProductImage.setScaleType(ScaleType.FIT_CENTER);
 		mProductCloseButton.setVisibility(View.GONE);
 		setLimitToEditText(mEditText, TWITTER_TEXT);
 		mTwitterTextCounter = TWITTER_TEXT;
