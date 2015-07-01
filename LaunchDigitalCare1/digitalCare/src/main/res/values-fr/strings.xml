@@ -64,7 +64,7 @@
     <string name="twitter_login_hint_username">Nom utilisateur</string>
     <string name="twitter_login_hint_password">Mot de passe</string>
     <string name="twiiter_login_logo_description">Logo Twitter</string>
-    <string name="social_post_to">Envoyer un message à Philips</string>
+    <string name="social_post_to">Envoyer un message à </string>
     <string name="social_post_desc_text">Inclure les informations produit</string>
     <string name="from">De</string>
     <string name="cancel">Annuler</string>
@@ -77,5 +77,15 @@
     <string name="reply">Répondre</string>
     <string name="forward">Transférer</string>
     <string name="print">Imprimer</string>
+    <string name="check_sim">Aucune carte SIM détectée. Vérifiez qu\'elle est bien insérée.</string>
+    <string name="no_internet">Aucune connexion Internet. Vérifiez votre connexion dans les paramètres Wi-Fi ou données de votre téléphone.</string>
+    <string name="twitter_post_progress_message">Envoi du message à l\'assistance Philips via Twitter…</string>
+    <string name="social_post_failed">Un problème est survenu...</string>
+    <string name="gps_disabled">GPS désactivé sur votre appareil. Souhaitez-vous l\'activer ?</string>
+    <string name="search">Recherche</string>
+	<string name="twitter_post_char_limitation">Veuillez noter que votre message ne doit pas excéder 140 caractères</string>
+	<string name="support_productinformation">Pouvez-vous m\'aider avec</string>
+	<string name="social_post_success">Message bien reçu !</string>
+	<string name="no_data_available">Aucune donnée</string>
 
 </resources>

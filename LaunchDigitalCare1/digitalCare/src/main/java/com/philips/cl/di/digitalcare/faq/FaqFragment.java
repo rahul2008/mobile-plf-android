@@ -1,6 +1,5 @@
 package com.philips.cl.di.digitalcare.faq;
 
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,17 +8,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+
 import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
-
+/**
+ *FaqFragment Webview
+ * 
+ * @author : pawan.kumar.deshpande@philips.com
+ * 
+ * @since : 25 june 2015
+ */
 public class FaqFragment extends DigitalCareBaseFragment {
 
 	private View mView = null;
 	private WebView mWebView = null;
-	private ProgressDialog mProgressDialog = null;
+	private ProgressBar mProgressBar = null;
 
 	private String FAQ_URL = "http://www.philips.com/content/%s/%s_%s/standalone-faqs/%s.html";
 
@@ -44,7 +51,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
 
 	private void loadFaq() {
 		mWebView.loadUrl(getFaqUrl());
-		
+
 		mWebView.getSettings().setJavaScriptEnabled(true);
 
 		mWebView.setWebViewClient(new WebViewClient() {
@@ -58,13 +65,13 @@ public class FaqFragment extends DigitalCareBaseFragment {
 			@Override
 			public void onPageStarted(WebView view, String url, Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
-				startProgressDialog();
+				mProgressBar.setVisibility(View.VISIBLE);
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				closeProgressDialog();
+				mProgressBar.setVisibility(View.GONE);
 			}
 
 		});
@@ -72,41 +79,22 @@ public class FaqFragment extends DigitalCareBaseFragment {
 
 	private void initView() {
 		mWebView = (WebView) mView.findViewById(R.id.webView);
+		mProgressBar = (ProgressBar) mView
+				.findViewById(R.id.common_webview_progress);
+		mProgressBar.setVisibility(View.GONE);
 	}
 
 	private String getFaqUrl() {
-		String language = DigitalCareConfigManager
-				.getInstance().getLocale()
+		String language = DigitalCareConfigManager.getInstance().getLocale()
 				.getLanguage().toLowerCase();
 
-		String country = DigitalCareConfigManager
-				.getInstance().getLocale()
+		String country = DigitalCareConfigManager.getInstance().getLocale()
 				.getCountry().toUpperCase();
 
 		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-				.getInstance()
-				.getConsumerProductInfo();
-		return String.format(FAQ_URL, consumerProductInfo.getSector(), language, country, consumerProductInfo.getCtn());
-	}
-
-	protected void closeProgressDialog() {
-
-		if (mProgressDialog != null && mProgressDialog.isShowing()) {
-			mProgressDialog.dismiss();
-			mProgressDialog.cancel();
-			mProgressDialog = null;
-		}
-	}
-
-	protected void startProgressDialog() {
-		if (mProgressDialog == null)
-			mProgressDialog = new ProgressDialog(getActivity());
-		mProgressDialog.setMessage(getActivity().getResources().getString(
-				R.string.loading));
-		mProgressDialog.setCancelable(false);
-		if (!(getActivity().isFinishing())) {
-			mProgressDialog.show();
-		}
+				.getInstance().getConsumerProductInfo();
+		return String.format(FAQ_URL, consumerProductInfo.getSector(),
+				language, country, consumerProductInfo.getCtn());
 	}
 
 	@Override

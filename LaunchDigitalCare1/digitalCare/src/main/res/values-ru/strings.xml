@@ -78,4 +78,16 @@
     <string name="forward">Передать</string>
     <string name="print">Печать</string>
 
+    <!-- Translation Need to add here -->
+    <string name="no_internet">No internet connection. Please check if your connection is working in your phone’s wifi settings or data settings</string>
+    <string name="check_sim">No SIM card detected. Please check if it is inserted correctly</string>
+    <string name="no_data_available">No data available</string>
+    <string name="twitter_post_progress_message">Sending your message to Philips Twitter Support…</string>
+    <string name="social_post_failed">Something went wrong..</string>
+    <string name="support_productinformation">can you help me with my</string>
+    <string name="social_post_success">Your message was received!</string>
+    <string name="search">Search</string>
+    <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
+    <string name="twitter_post_char_limitation">Please note that your message cannot be longer than 140 characters</string>
+
 </resources>

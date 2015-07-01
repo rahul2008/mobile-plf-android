@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,9 +77,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
-		mTwitterProgresshandler = new Handler();
-		if (isConnectionAvailable())
-			requestCDLSData();
+		// mTwitterProgresshandler = new Handler();
+		// if (isConnectionAvailable())
+		// requestCDLSData();
 	}
 
 	@Override
@@ -86,10 +87,21 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			Bundle savedInstanceState) {
 		DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
 				+ mView);
-		if (mView == null) {
+		// if (mView == null) {
+		// mView = inflater.inflate(R.layout.fragment_contact_us, container,
+		// false);
+		// }
+
+		try {
+			if (mView != null) {
+				((ViewGroup) mView.getParent()).removeView(mView);
+			}
 			mView = inflater.inflate(R.layout.fragment_contact_us, container,
 					false);
+
+		} catch (InflateException e) {
 		}
+
 		return mView;
 	}
 
@@ -99,45 +111,49 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		DigiCareLogger.i(TAG,
 				"ContactUsFragment : onActivityCreated : mConactUsParent == "
 						+ mContactUsParent);
-		if (mContactUsParent == null) {
-			mContactUsParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsParent);
-			mChat = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsChat);
-			mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsCall);
-			mEmail = (DigitalCareFontButton) getActivity().findViewById(
-					R.id.contactUsEmail);
-			mContactUsOpeningHours = (TextView) getActivity().findViewById(
-					R.id.contactUsOpeningHours);
-			mFirstRowText = (TextView) getActivity().findViewById(
-					R.id.firstRowText);
-			mSocialProviderParent = (LinearLayout) getActivity().findViewById(
-					R.id.contactUsSocialParent);
-			mSocialDivider = (View) getActivity().findViewById(
-					R.id.socialDivider);
-			// mFacebook.setOnClickListener(this);
+		// if (mContactUsParent == null) {
+		mTwitterProgresshandler = new Handler();
+		if (isConnectionAvailable())
+			requestCDLSData();
 
-			createSocialProviderMenu();
+		mContactUsParent = (LinearLayout) getActivity().findViewById(
+				R.id.contactUsParent);
+		mChat = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsChat);
+		mCallPhilips = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsCall);
+		mEmail = (DigitalCareFontButton) getActivity().findViewById(
+				R.id.contactUsEmail);
+		mContactUsOpeningHours = (TextView) getActivity().findViewById(
+				R.id.contactUsOpeningHours);
+		mFirstRowText = (TextView) getActivity()
+				.findViewById(R.id.firstRowText);
+		mSocialProviderParent = (LinearLayout) getActivity().findViewById(
+				R.id.contactUsSocialParent);
+		mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
+		// mFacebook.setOnClickListener(this);
 
-			/*
-			 * Live chat is configurable parameter. Developer can enable/disable
-			 * it.
-			 */
-			if (!getResources().getBoolean(R.bool.live_chat_required)) {
-				mChat.setVisibility(View.GONE);
-			}
-			mChat.setOnClickListener(this);
-			mChat.setTransformationMethod(null);
-			mCallPhilips.setOnClickListener(this);
-			mCallPhilips.setTransformationMethod(null);
-			mEmail.setOnClickListener(this);
-			mEmail.setTransformationMethod(null);
-			mParams = (FrameLayout.LayoutParams) mContactUsParent
-					.getLayoutParams();
+		createSocialProviderMenu();
 
+		/*
+		 * Live chat is configurable parameter. Developer can enable/disable it.
+		 */
+		if (!getResources().getBoolean(R.bool.live_chat_required)) {
+			mChat.setVisibility(View.GONE);
+		}
+		mChat.setOnClickListener(this);
+		mChat.setTransformationMethod(null);
+		mCallPhilips.setOnClickListener(this);
+		mCallPhilips.setTransformationMethod(null);
+		mEmail.setOnClickListener(this);
+		mEmail.setTransformationMethod(null);
+		mParams = (FrameLayout.LayoutParams) mContactUsParent.getLayoutParams();
+
+		try {
 			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACT_US,
 					getPreviousName());
+		} catch (Exception e) {
+			DigiCareLogger.e(TAG, "IllegaleArgumentException : " + e);
 		}
 		config = getResources().getConfiguration();
 	}
@@ -326,7 +342,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 		if (id == R.id.contactUsChat && isConnectionAvailable()) {
 			if (mCdlsResponseStr == null) {
-				showAlert("No server response");
+				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
@@ -337,7 +353,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			showFragment(new ChatFragment());
 		} else if (id == R.id.contactUsCall) {
 			if (mCdlsResponseStr == null) {
-				showAlert("No server response");
+				showAlert(mCdlsParsedResponse.getError().getErrorMessage());
 				return;
 			} else if (mCdlsParsedResponse != null
 					&& !mCdlsParsedResponse.getSuccess()) {
@@ -347,7 +363,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
 				callPhilips();
 			} else if (!Utils.isSimAvailable(getActivity())) {
-				showAlert("Check the SIM");
+				showAlert(getString(R.string.check_sim));
 			}
 		} else if (tag != null
 				&& tag.equalsIgnoreCase(getStringKey(R.string.facebook))
@@ -379,6 +395,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
+			// launchTwitterFeature();
 			TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
@@ -411,6 +428,19 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		}
 
 	}
+
+	/*
+	 * private void launchTwitterFeature() { try { PackageInfo
+	 * mTwitterPackageInfo =
+	 * getActivity().getApplicationContext().getPackageManager().getPackageInfo
+	 * ("com.twitter.android", 0); mTwitterPackageInfo. } catch
+	 * (NameNotFoundException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } String url =
+	 * "https://twitter.com/intent/tweet?source=webclient&text=TWEET+THIS!";
+	 * Intent i = new Intent(Intent.ACTION_VIEW);
+	 * i.setType("application/twitter"); i.setData(Uri.parse(url));
+	 * startActivity(i); }
+	 */
 
 	@Override
 	public void onPause() {
@@ -560,22 +590,27 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@SuppressLint("NewApi")
 	private Button createButton(float density, int title, int resId) {
 		Button button = new Button(getActivity(), null, R.style.fontButton);
-		button.setGravity(Gravity.START | Gravity.CENTER);
-		button.setPadding((int) (80 * density), 0, 0, 0);
+		button.setGravity(Gravity.CENTER);
+		// button.setPadding((int) (80 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
 		button.setText(title);
+		button.setTextAlignment(Gravity.CENTER);
 		button.setBackground(getDrawable(resId));
 		return button;
 	}
 
 	private void setButtonParams(Button button) {
-		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
-				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
-		button.setLayoutParams(buttonParams);
+		// RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+		// .getLayoutParams();
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
+						.getDimension(R.dimen.support_btn_height));
+		// buttonParams.addRule(RelativeLayout.CENTER_IN_PARENT,
+		// RelativeLayout.TRUE);
+
+		// buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+		// RelativeLayout.TRUE);
+		button.setLayoutParams(params);
 	}
 
 	@Override

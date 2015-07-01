@@ -58,9 +58,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 		setViewParams(config);
 
 		createMainMenu();
-
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-				getPreviousName());
+		try {
+			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+					getPreviousName());
+		} catch (Exception e) {
+			DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
+		}
 	}
 
 	@Override
@@ -179,9 +182,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		String tag = (String) view.getTag();
 
-		boolean actionTaken = DigitalCareConfigManager
-				.getInstance().getMainMenuListener()
-				.onMainMenuItemClicked(tag.toString());
+		boolean actionTaken = DigitalCareConfigManager.getInstance()
+				.getMainMenuListener().onMainMenuItemClicked(tag.toString());
 
 		if (actionTaken) {
 			return;

@@ -63,13 +63,14 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private EditText mEditText = null;
 	private ImageView mProductImage = null;
 	private ImageView mProductCloseButton = null;
+	private ImageView mTwitterIcon = null;
 	private TextView mCharacterCount = null;
 	private ProgressDialog mPostProgress = null;
 	private LayoutParams mContainerParams = null;
 	private static String mTwitter_to = null;;
 	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
-	private ImageView mTwitterIcon = null;
+	private TextView mTweetTo = null;
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
 	private int mTwitterTextCounter = TWITTER_TEXT;
@@ -105,12 +106,10 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		return getActivity().getResources().getString(
 				R.string.support_productinformation)
 				+ " "
-				+ DigitalCareConfigManager
-						.getInstance()
+				+ DigitalCareConfigManager.getInstance()
 						.getConsumerProductInfo().getProductTitle()
 				+ " "
-				+ DigitalCareConfigManager
-						.getInstance()
+				+ DigitalCareConfigManager.getInstance()
 						.getConsumerProductInfo().getCtn();
 	}
 
@@ -139,6 +138,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.facebookSendLand);
 		mTweetfrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
+		mTweetTo = (TextView) getActivity().findViewById(
+				R.id.fb_Post_ToHeaderText);
 		mCharacterCount = (TextView) getActivity().findViewById(
 				R.id.fb_post_textCount);
 		mTwitterIcon = (ImageView) getActivity().findViewById(
@@ -170,7 +171,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		enableCheckBoxonOpen();
 		Configuration mConfig = mResources.getConfiguration();
 		setViewParams(mConfig);
-
+		mTweetTo.setText(mTweetTo.getText() + " @"
+				+ getActivity().getString(R.string.twitter_page));
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
 				getPreviousName());
 	}
@@ -320,17 +322,21 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 
 	@Override
 	public void onImageReceived(Bitmap image, String Uri) {
-		mFile = new File(Uri);
-		DigiCareLogger.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
-		mProductImage.setImageBitmap(image);
-		mProductImage.setScaleType(ScaleType.FIT_XY);
-		mProductCloseButton.setVisibility(View.VISIBLE);
-		setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
-		mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
+		DigiCareLogger.v(TAG, "IMage received URI : " + Uri);
+		if (Uri != null) {
+			mFile = new File(Uri);
+			DigiCareLogger
+					.d(TAG, "IMAGE RECEIVED : " + mFile.getAbsolutePath());
+			mProductImage.setImageBitmap(image);
+			mProductImage.setScaleType(ScaleType.FIT_XY);
+			mProductCloseButton.setVisibility(View.VISIBLE);
+			setLimitToEditText(mEditText, TWITTER_TEXT_WITH_IMAGE);
+			mTwitterTextCounter = TWITTER_TEXT_WITH_IMAGE;
 
-		if (getCharacterCount() <= mTwitterTextCounter) {
-			int mTextCounter = mTwitterTextCounter - getCharacterCount();
-			mCharacterCount.setText(String.valueOf(mTextCounter));
+			if (getCharacterCount() <= mTwitterTextCounter) {
+				int mTextCounter = mTwitterTextCounter - getCharacterCount();
+				mCharacterCount.setText(String.valueOf(mTextCounter));
+			}
 		}
 	}
 
@@ -343,7 +349,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		mFile = null;
 		mProductImage.setImageDrawable(getActivity().getResources()
 				.getDrawable(R.drawable.social_photo_default));
-		mProductImage.setScaleType(ScaleType.FIT_XY);
+		mProductImage.setScaleType(ScaleType.FIT_CENTER);
 		mProductCloseButton.setVisibility(View.GONE);
 		setLimitToEditText(mEditText, TWITTER_TEXT);
 		mTwitterTextCounter = TWITTER_TEXT;
