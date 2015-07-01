@@ -274,15 +274,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		hideSignInSpinner();
 
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-			mEtEmail.showInvalidAlert();
+			/*mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();*/
 		}
 
 		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
-			mEtPassword.showInvalidAlert();
+			/*mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
+			mEtPassword.showInvalidAlert();*/
 		}
         trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		mBtnSignInAccount.setEnabled(false);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 	}
 

@@ -1,10 +1,6 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
-import java.util.Locale;
-
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +25,10 @@ import com.philips.cl.di.reg.ui.social.AlmostDoneFragment;
 import com.philips.cl.di.reg.ui.social.MergeAccountFragment;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
+
+import org.json.JSONObject;
+
+import java.util.Locale;
 
 public class RegistrationActivity extends FragmentActivity implements NetworStateListener,
         OnClickListener {

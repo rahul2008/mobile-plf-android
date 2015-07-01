@@ -193,4 +193,8 @@ public class XUserName extends RelativeLayout implements TextWatcher, OnFocusCha
 		}
 		raiseUpdateUIEvent();
 	}
+
+	public void hideValidAlertError(){
+		mIvValidAlert.setVisibility(View.GONE);
+	}
 }

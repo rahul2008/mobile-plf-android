@@ -1,0 +1,8 @@
+/build
+/.idea
+/.gradle
+/jump/build
+/localeMatch/build
+/registrationApi/build
+/registrationSampleApp/build
+/local.properties

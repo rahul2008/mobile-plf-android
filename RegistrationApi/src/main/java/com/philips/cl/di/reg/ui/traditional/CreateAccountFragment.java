@@ -218,6 +218,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
 		mEtPassword.clearFocus();
+		mEtName.hideValidAlertError();
+		mEtEmail.hideValidAlertError();
+		mEtPassword.hideValidAlertError();
 		mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
 		        .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
 	}
