@@ -6,6 +6,7 @@ import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
+import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
@@ -95,6 +96,17 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
         };
 
         shnCharacteristic.read(resultReporter);
+    }
+
+    public void setNotificationsEnabled(boolean enabled, final SHNResultListener shnResultListener){
+        SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID);
+        SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
+            @Override
+            public void reportResult(SHNResult shnResult, byte[] data) {
+                shnResultListener.onActionCompleted(shnResult);
+            }
+        };
+        shnCharacteristic.setNotification(enabled, shnCommandResultReporter);
     }
 
     //implements SHNCharacteristic.SHNCharacteristicChangedListener
