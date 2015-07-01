@@ -69,6 +69,7 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private static String mTwitter_to = null;;
 	private static String mProductInformation = null;
 	private TextView mTweetfrom = null;
+	private TextView mTweetTo = null;
 	private ImageView mTwitterIcon = null;
 	private final int TWITTER_TEXT = 140;
 	private final int TWITTER_TEXT_WITH_IMAGE = 117;
@@ -137,6 +138,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 				R.id.facebookSendLand);
 		mTweetfrom = (TextView) getActivity().findViewById(
 				R.id.fb_Post_FromHeaderText);
+		mTweetTo = (TextView) getActivity().findViewById(
+				R.id.fb_Post_ToHeaderText);
 		mCharacterCount = (TextView) getActivity().findViewById(
 				R.id.fb_post_textCount);
 		mTwitterIcon = (ImageView) getActivity().findViewById(
@@ -314,6 +317,8 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 	private void configureValues() {
 		mTweetfrom.setText("From @" + mUsername);
 		mTwitterIcon.setImageResource(R.drawable.social_twitter_icon);
+		mTweetTo.setText(mTweetTo.getText() + " @"
+				+ getActivity().getString(R.string.twitter_page));
 	}
 
 	@Override
