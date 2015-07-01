@@ -3,6 +3,7 @@
 
     <!-- UiTheme Start -->
 
+
     <!-- Activity -->
     <color name="activity_background_color">#F0F4F9</color>
 
@@ -37,6 +38,7 @@
     <color name="button_register_background_pressed">#005AAB</color>
 
     <!-- UiTheme End -->
+
 
     <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
     <string-array name="main_menu_title">
@@ -76,23 +78,25 @@
         <item>dc_twitter</item>
         <item>dc_facebook</item>
     </string-array>
-    
-    
+
     <!-- Facebook APPID, replace app id in app authority string -->
-<!--     <string name="facebook_app_id" translatable="false">1537018913230025</string>
-    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-     -->
-    
+    <!--
+         <string name="facebook_app_id" translatable="false">1537018913230025</string>
+    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
+    -->
+
+
     <!-- Facebook product support page -->
     <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
+    <string name="facebook_product_pageID" translatable="false">177538492375159</string>
 
     <!-- Twitter product support page -->
     <string name="twitter_page" translatable="false">PhilipsCare</string>
 
     <!-- Do you want Live Chat Option -->
     <bool name="live_chat_required">false</bool>
-    
 
     <!-- email id for philips support -->
     <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+
 </resources>
