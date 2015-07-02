@@ -1,5 +1,0 @@
-D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\classes\test\debug
-D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\test\debug\dexmaker-mockito-1.0-6e9dffe47d64c78b0649688f1e34a3916a16f6cc.jar
-D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\test\debug\junit-4.12-708cde3f7144dbb01424503e3444197f71213761.jar
-D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\test\debug\dexmaker-1.0-208ca36034c88d68743ce6db67a48b89bec4b731.jar
-D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\test\debug\mockito-all-1.10.8-68107aba881b340362a7a8f51952099b384382e3.jar
