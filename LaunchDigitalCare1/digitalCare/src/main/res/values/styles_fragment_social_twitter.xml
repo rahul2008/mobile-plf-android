@@ -1,0 +1,56 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- HDPI Screens -->
+
+    <style name="twitter_login_header">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/twitter_login_header</item>
+        <item name="android:textColor">@color/button_background</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/title_text_size_medium</item>
+    </style>
+
+    <style name="twitter_login_logo_portrait">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="twitter_login_Login_button">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/selector_option_button_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/button_text_color</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_marginTop">17dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+    
+    <style name="twitter_login_forgot_password">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/twitter_login_forgotPassword</item>
+        <item name="android:textColor">@color/button_background</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+    
+    <style name="twitter_login_create_account">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">@string/twitter_login_createAccount</item>
+        <item name="android:textColor">@color/button_background</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+    
+    <style name="twitter_login_create_Fotgot_image">
+        <item name="android:layout_width">18dp</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+    
+</resources>

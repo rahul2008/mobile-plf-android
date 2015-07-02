@@ -1,0 +1,17 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parentActivity"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
+
+    <include layout="@layout/home_action_bar"/>
+
+    <RelativeLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="@dimen/actionbar_height"
+        android:background="@color/activity_background_color"
+        android:orientation="vertical" >
+    </RelativeLayout>
+
+</FrameLayout><!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/layout/activity_digi_care.xml --><!-- From: file:/D:/GitHub/LaunchDigitalCare1/launchDigitalCare/build/intermediates/exploded-aar/LaunchDigitalCare1/digitalCare/unspecified/res/layout/activity_digi_care.xml -->

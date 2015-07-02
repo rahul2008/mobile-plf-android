@@ -1,0 +1,10 @@
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\classes\debug
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\support-annotations-21.0.0-dd80f5f807b98569f143e82ddc6117fcfdb4d90b.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\localematch-869aacfc55bba87bb447712643571af420168b09.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\classes-191e953901046f23dc1f93ea974affcc5d233253.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-962b75d867a8d92585198034d93298b19d0db566.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\adobeMobileLibrary-04a4f918a6c41eaa6318b4b703d2276c3437727d.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\twitter4j-core-4.0.3-819289649e15f80666df8ce49491df8d36461cd8.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\classes-7c2aafa719fbad949c36e667d35c40ccf10b0de0.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\classes-0193d6a3a9af18393627ea9beedae55e81da182a.jar
+D:\GitHub\LaunchDigitalCare1\launchDigitalCare\build\intermediates\pre-dexed\debug\classes-e866eca39f8e7f287e1815c7440be95bdf427401.jar

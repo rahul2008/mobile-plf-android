@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="localematch">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/digitalCare/libs/localematch.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

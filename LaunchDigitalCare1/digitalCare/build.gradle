@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 21
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.google.android.gms:play-services:+'
+    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile files('libs/adobeMobileLibrary.jar')
+    compile files('libs/localematch.jar')
+    compile files('libs/twitter4j-core-4.0.3.jar')
+    androidTestCompile files('libs/dexmaker-1.0.jar')
+    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
+    androidTestCompile files('libs/junit-4.12.jar')
+    androidTestCompile files('libs/mockito-all-1.10.8.jar')
+}

@@ -1,0 +1,31 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.philips.cl.di.sampledigitalcareapp"
+        minSdkVersion 15
+        targetSdkVersion 21
+
+        testApplicationId "com.philips.cl.di.sampledigitalcareapp.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':digitalCare')
+    compile 'com.google.android.gms:play-services:+'
+    androidTestCompile files('libs/dexmaker-1.0.jar')
+    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
+    androidTestCompile files('libs/junit-4.12.jar')
+    androidTestCompile files('libs/mockito-all-1.10.8.jar')
+}

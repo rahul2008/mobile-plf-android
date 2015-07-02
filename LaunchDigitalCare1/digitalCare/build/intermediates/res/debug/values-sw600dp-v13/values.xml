@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/18.0.0/res/values-sw600dp/values.xml -->
+    <eat-comment/>
+    <dimen name="abc_action_bar_default_height">56dip</dimen>
+    <dimen name="abc_action_bar_icon_vertical_padding">4dip</dimen>
+    <dimen name="abc_action_bar_subtitle_bottom_margin">9dip</dimen>
+    <dimen name="abc_action_bar_subtitle_text_size">14dp</dimen>
+    <dimen name="abc_action_bar_subtitle_top_margin">-3dp</dimen>
+    <dimen name="abc_action_bar_title_text_size">18dp</dimen>
+    <dimen name="abc_config_prefDialogWidth">580dp</dimen>
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/values-sw600dp/dimens.xml -->
+    <eat-comment/>
+    <dimen name="actionbar_height">55dp</dimen>
+    <dimen name="actionbar_title_text_size">21dp</dimen>
+    <dimen name="activity_margin">115dp</dimen>
+    <dimen name="activity_margin_land">125dp</dimen>
+    <dimen name="activity_margin_port">0dp</dimen>
+    <dimen name="activity_padding_top">8dp</dimen>
+    <dimen name="btn_text_size_large">17sp</dimen>
+    <dimen name="font_button_text_margin_left">75dp</dimen>
+    <dimen name="locate_layout_margin">80dp</dimen>
+    <dimen name="locate_search_layout_margin">80dp</dimen>
+    <dimen name="placelistview_margin_top">200dp</dimen>
+    <dimen name="showlayout_margin_top">100dp</dimen>
+    <dimen name="showlayout_padding_bottom">20dp</dimen>
+    <dimen name="showlayout_padding_left">20dp</dimen>
+    <dimen name="showlayout_padding_right">120dp</dimen>
+    <dimen name="support_btn_height">60dp</dimen>
+    <dimen name="title_text_size_large">25sp</dimen>
+    <dimen name="title_text_size_largest">50sp</dimen>
+    <dimen name="title_text_size_medium">18sp</dimen>
+    <dimen name="title_text_size_small">15sp</dimen>
+    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/build/intermediates/exploded-aar/com.android.support/appcompat-v7/18.0.0/res/values-sw600dp/values.xml -->
+    <eat-comment/>
+    <integer name="abc_max_action_buttons">5</integer>
+</resources>
