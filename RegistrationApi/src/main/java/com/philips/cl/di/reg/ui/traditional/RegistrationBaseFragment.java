@@ -100,9 +100,9 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		        && mPrevTitleResourceId != -99) {
 			if (fragment.getFragmentCount() > 2) {
 				fragment.getUpdateTitleListener().updateRegistrationTitleWithBack(
-				        getTitleResourceId());
+						mPrevTitleResourceId);
 			} else {
-				fragment.getUpdateTitleListener().updateRegistrationTitle(getTitleResourceId());
+				fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
 			}
 			fragment.setResourceID(mPrevTitleResourceId);
 		}
