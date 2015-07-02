@@ -3,7 +3,6 @@ package com.philips.cl.di.sampledigitalcareapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -21,7 +20,6 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 		MainMenuListener, ProductMenuListener, SocialProviderListener {
 
 	private Button mLaunchDigitalCare = null;
-
 	private Button mLaunchProduct = null;
 	private Button mLaunchContact = null;
 	private Button mLaunchLocate = null;
@@ -30,15 +28,35 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
 	private Spinner mLanguage_spinner, mCountry_spinner;
 
-	private static final int DEFAULT_ANIMATION_START = R.anim.slide_in_bottom;
-	private static final int DEFAULT_ANIMATION_STOP = R.anim.slide_out_bottom;
-
 	private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
 	private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Initializing DigitalCare Component.
+		DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
+				this);
+
+		// Passing Locale to DigitalCare Library
+		setLocaleForTesting("en", "IN");
+
+		// Set ConsumerProductInfo
+		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
+		DigitalCareConfigManager.getInstance().setConsumerProductInfo(
+				mConsumerProductInfoDemo);
+
+		// Set DigitalCareLibrary Listeners
+		DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
+		DigitalCareConfigManager.getInstance()
+				.registerProductMenuListener(this);
+		DigitalCareConfigManager.getInstance().registerSocialProviderListener(
+				this);
+
+		// Twitter Support Feature.
+		setTwitterCredentials();
+
 		setContentView(R.layout.activity_digital_care);
 
 		mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
@@ -65,18 +83,6 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 				android.R.layout.simple_list_item_1, mLanguage);
 		mLanguage_spinner.setAdapter(mLanguage_adapter);
 
-		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
-		DigitalCareConfigManager.getInstance().setConsumerProductInfo(
-				mConsumerProductInfoDemo);
-		DigitalCareConfigManager.getInstance().registerMainMenuListener(
-				this);
-
-		DigitalCareConfigManager.getInstance().registerProductMenuListener(
-				this);
-
-		DigitalCareConfigManager.getInstance()
-				.registerSocialProviderListener(this);
-
 		mLanguage_spinner
 				.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -84,8 +90,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 
-						setLocaleForTesting(mcountryCode[position],
-								mlanguageCode[position]);
+						setLocaleForTesting(mlanguageCode[position],
+								mcountryCode[position]);
 					}
 
 					@Override
@@ -156,24 +162,22 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 	public void onClick(View view) {
 
 		switch (view.getId()) {
-
 		default:
-			DigitalCareConfigManager.getInstance()
-					.invokeDigitalCareAsActivity(this,R.anim.slide_in_bottom,
-							R.anim.slide_out_bottom);
-			// Intent intent = new Intent(this, DigitalCareActivity.class);
-			// intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			// intent.putExtra("STARTANIMATIONID", DEFAULT_ANIMATION_START);
-			// intent.putExtra("ENDANIMATIONID", DEFAULT_ANIMATION_STOP);
-			// startActivity(intent);
+			DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(
+					R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 		}
 	}
 
-	@SuppressWarnings("static-access")
-	private void setLocaleForTesting(String country, String language) {
-		Log.i("Deepthi","setlocale = "+country + language);
-		DigitalCareConfigManager mDigitalCareConfigManager = DigitalCareConfigManager
-				.getInstance();
-		mDigitalCareConfigManager.setLocale(this, language, country);
+	private void setLocaleForTesting(String language, String country) {
+
+		DigitalCareConfigManager.getInstance().setLocale(language, country);
+	}
+
+	private void setTwitterCredentials() {
+		DigitalCareConfigManager.getInstance().setTwitterConsumerKey(
+				"qgktZw1ffdoreBjbiYfvnIPJe");
+		DigitalCareConfigManager.getInstance().setTwitterConsumerSecret(
+				"UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3");
+
 	}
 }
