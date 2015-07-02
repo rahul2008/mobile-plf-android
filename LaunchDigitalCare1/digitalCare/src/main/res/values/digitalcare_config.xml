@@ -78,11 +78,7 @@
         <item>dc_twitter</item>
         <item>dc_facebook</item>
     </string-array>
-    <!--
-    Facebook APPID, replace app id in app authority string
-    <string name="facebook_app_id" translatable="false">1537018913230025</string>
-    <string name="facebook_app_authority" translatable="false">"com.facebook.app.NativeAppCallContentProvider1537018913230025"</string>
-    -->
+ 
     <!-- Facebook product support page -->
     <string name="facebook_product_page" translatable="false">PhilipsHomeLiving</string>
     <string name="facebook_product_pageID" translatable="false">177538492375159</string>

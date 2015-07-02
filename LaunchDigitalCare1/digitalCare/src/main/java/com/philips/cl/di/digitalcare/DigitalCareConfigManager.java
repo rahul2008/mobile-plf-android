@@ -1,7 +1,5 @@
 package com.philips.cl.di.digitalcare;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +8,12 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
+import com.philips.cl.di.digitalcare.util.DigitalCareContants;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
+
+import java.util.Locale;
 
 /**
  * DigitalCareConfigManager is Config class for DigitalCare app. Here we can
@@ -63,6 +67,8 @@ public class DigitalCareConfigManager {
 			String exitAnim) {
 		if (mContext == null)
 			DigitalCareConfigManager.mContext = context;
+
+		registerHockeyApp(DigitalCareConfigManager.mContext);
 		initializeTaggingContext(mContext);
 		SupportHomeFragment supportFrag = new SupportHomeFragment();
 		supportFrag.showFragment(context, parentContainerResId, supportFrag,
@@ -70,12 +76,23 @@ public class DigitalCareConfigManager {
 	}
 
 	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
+		registerHockeyApp(DigitalCareConfigManager.mContext);
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;
 		Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
 		intent.putExtra("STARTANIMATIONID", defaultAnimationStart);
 		intent.putExtra("ENDANIMATIONID", defaultAnimationStop);
 		getContext().startActivity(intent);
+	}
+
+	private void registerHockeyApp(Context context){
+		/** Should be commented for debug builds */
+		CrashManager.register(context, DigitalCareContants.HOCKEY_APP_ID, new CrashManagerListener() {
+
+			public boolean shouldAutoUploadCrashes() {
+				return true;
+			}
+		});
 	}
 
 	public ConsumerProductInfo getConsumerProductInfo() {
