@@ -10,8 +10,8 @@ import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
-import net.hockeyapp.android.CrashManager;
-import net.hockeyapp.android.CrashManagerListener;
+//import net.hockeyapp.android.CrashManager;
+//import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.Locale;
 
@@ -87,12 +87,12 @@ public class DigitalCareConfigManager {
 
 	private void registerHockeyApp(Context context){
 		/** Should be commented for debug builds */
-		CrashManager.register(context, DigitalCareContants.HOCKEY_APP_ID, new CrashManagerListener() {
-
-			public boolean shouldAutoUploadCrashes() {
-				return true;
-			}
-		});
+//		CrashManager.register(context, DigitalCareContants.HOCKEY_APP_ID, new CrashManagerListener() {
+//
+//			public boolean shouldAutoUploadCrashes() {
+//				return true;
+//			}
+//		});
 	}
 
 	public ConsumerProductInfo getConsumerProductInfo() {
