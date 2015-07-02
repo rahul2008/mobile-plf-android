@@ -43,7 +43,6 @@ public class AnalyticsConstants {
 	public static final String ACTION_RECEIPT_PHOTO = "receiptPhoto";
 	public static final String ACTION_SOCIAL_SHARE = "socialShare";
 	public static final String ACTION_EXIT_LINK = "exit link";
-	public static final String ACTION_SET_APP_STATUS = "setAppStatus";
 	public static final String ACTION_SERVICE_REQUEST = "serviceRequest";
 	/* ACTION KEY FOR LOCATE PHILIPS */
 	public static final String ACTION_LOCATE_PHILIPS_SEND_DATA = "sendData";
@@ -51,7 +50,6 @@ public class AnalyticsConstants {
 	/***************** Action Keys **************/
 	public static final String ACTION_KEY_USER_ERROR = "userError";
 	public static final String ACTION_KEY_TECHNICAL_ERROR = "technicalError";
-	public static final String ACTION_KEY_APP_STATUS = "appStatus";
 	public static final String ACTION_KEY_SOCIAL_TYPE = "socialType";
 	public static final String ACTION_KEY_SERVICE_CHANNEL = "serviceChannel";
 	public static final String ACTION_KEY_PHOTO = "photo"; // TODO: Has to be
@@ -68,8 +66,6 @@ public class AnalyticsConstants {
 	public static final String ACTION_VALUE_APPNAME = "DigitalCare";
 	public static final String ACTION_VALUE_ANDROID = "Android ";
 	public static final String ACTION_VALUE_FACEBOOK = "Facebook";
-	public static final String ACTION_VALUE_BACKGROUND = "Background";
-	public static final String ACTION_VALUE_FOREGROUND = "Foreground";
 	public static final String ACTION_VALUE_PHOTO_VALUE = "productimage";
 	public static final String ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS = "getLocationDirections";
 	public static final String ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION = "callLocation";

@@ -8,12 +8,11 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
-import com.philips.cl.di.digitalcare.util.DigitalCareContants;
+
+import java.util.Locale;
 
 //import net.hockeyapp.android.CrashManager;
 //import net.hockeyapp.android.CrashManagerListener;
-
-import java.util.Locale;
 
 /**
  * DigitalCareConfigManager is Config class for DigitalCare app. Here we can
@@ -86,7 +85,7 @@ public class DigitalCareConfigManager {
 	}
 
 	private void registerHockeyApp(Context context){
-		/** Should be commented for debug builds */
+//		/** Should be commented for debug builds */
 //		CrashManager.register(context, DigitalCareContants.HOCKEY_APP_ID, new CrashManagerListener() {
 //
 //			public boolean shouldAutoUploadCrashes() {

@@ -15,113 +15,117 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+
 /**
- *FaqFragment Webview
- * 
+ * FaqFragment Webview
+ *
  * @author : pawan.kumar.deshpande@philips.com
- * 
  * @since : 25 june 2015
  */
 public class FaqFragment extends DigitalCareBaseFragment {
 
-	private View mView = null;
-	private WebView mWebView = null;
-	private ProgressBar mProgressBar = null;
+    private View mView = null;
+    private WebView mWebView = null;
+    private ProgressBar mProgressBar = null;
 
-	private String FAQ_URL = "http://www.philips.com/content/%s/%s_%s/standalone-faqs/%s.html";
+    private String FAQ_URL = "http://www.philips.com/content/%s/%s_%s/standalone-faqs/%s.html";
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-		if (mView == null) {
-			mView = inflater.inflate(R.layout.common_webview, container, false);
-		}
-		return mView;
-	}
+        if (mView == null) {
+            mView = inflater.inflate(R.layout.common_webview, container, false);
+        }
+        return mView;
+    }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-		initView();
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
+                getPreviousName());
 
-		loadFaq();
-	}
+        initView();
 
-	private void loadFaq() {
-		mWebView.loadUrl(getFaqUrl());
+        loadFaq();
+    }
 
-		mWebView.getSettings().setJavaScriptEnabled(true);
+    private void loadFaq() {
+        mWebView.loadUrl(getFaqUrl());
 
-		mWebView.setWebViewClient(new WebViewClient() {
+        mWebView.getSettings().setJavaScriptEnabled(true);
 
-			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				view.loadUrl(url);
-				return true;
-			}
+        mWebView.setWebViewClient(new WebViewClient() {
 
-			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
-				super.onPageStarted(view, url, favicon);
-				mProgressBar.setVisibility(View.VISIBLE);
-			}
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
 
-			@Override
-			public void onPageFinished(WebView view, String url) {
-				super.onPageFinished(view, url);
-				mProgressBar.setVisibility(View.GONE);
-			}
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                mProgressBar.setVisibility(View.VISIBLE);
+            }
 
-		});
-	}
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                mProgressBar.setVisibility(View.GONE);
+            }
 
-	private void initView() {
-		mWebView = (WebView) mView.findViewById(R.id.webView);
-		mProgressBar = (ProgressBar) mView
-				.findViewById(R.id.common_webview_progress);
-		mProgressBar.setVisibility(View.GONE);
-	}
+        });
+    }
 
-	private String getFaqUrl() {
-		String language = DigitalCareConfigManager.getInstance().getLocale()
-				.getLanguage().toLowerCase();
+    private void initView() {
+        mWebView = (WebView) mView.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) mView
+                .findViewById(R.id.common_webview_progress);
+        mProgressBar.setVisibility(View.GONE);
+    }
 
-		String country = DigitalCareConfigManager.getInstance().getLocale()
-				.getCountry().toUpperCase();
+    private String getFaqUrl() {
+        String language = DigitalCareConfigManager.getInstance().getLocale()
+                .getLanguage().toLowerCase();
 
-		ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
-				.getInstance().getConsumerProductInfo();
-		return String.format(FAQ_URL, consumerProductInfo.getSector(),
-				language, country, consumerProductInfo.getCtn());
-	}
+        String country = DigitalCareConfigManager.getInstance().getLocale()
+                .getCountry().toUpperCase();
 
-	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.view_faq);
-	}
+        ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
+                .getInstance().getConsumerProductInfo();
+        return String.format(FAQ_URL, consumerProductInfo.getSector(),
+                language, country, consumerProductInfo.getCtn());
+    }
 
-	@Override
-	public void onClick(View v) {
-	}
+    @Override
+    public String getActionbarTitle() {
+        return getResources().getString(R.string.view_faq);
+    }
 
-	@Override
-	public void setViewParams(Configuration config) {
-	}
+    @Override
+    public void onClick(View v) {
+    }
 
-	@Override
-	public String setPreviousPageName() {
-		return AnalyticsConstants.PAGE_FAQ;
-	}
+    @Override
+    public void setViewParams(Configuration config) {
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+    @Override
+    public String setPreviousPageName() {
+        return AnalyticsConstants.PAGE_FAQ;
+    }
 
-		if (mWebView != null) {
-			mWebView = null;
-		}
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (mWebView != null) {
+            mWebView = null;
+        }
+    }
 
 }

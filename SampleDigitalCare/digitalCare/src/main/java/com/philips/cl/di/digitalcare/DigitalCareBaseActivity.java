@@ -66,17 +66,11 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
 	protected void onResume() {
 		super.onResume();
 		AnalyticsTracker.startCollectLifecycleData();
-		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_APP_STATUS,
-				AnalyticsConstants.ACTION_KEY_APP_STATUS,
-				AnalyticsConstants.ACTION_VALUE_FOREGROUND);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_SET_APP_STATUS,
-				AnalyticsConstants.ACTION_KEY_APP_STATUS,
-				AnalyticsConstants.ACTION_VALUE_BACKGROUND);
 		AnalyticsTracker.stopCollectLifecycleData();
 	}
 
