@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- From: file:/D:/GitHub/DigitalCare_Android/SampleDigitalCare/digitalCare/src/main/res/values-ru/strings.xml -->
+    <eat-comment/>
+    <string name="SocialSharingPostTemplateText">мне нужна помощь по продукции:</string>
+    <string name="actionbar_title_support">Помощь</string>
+    <string name="back_to_support">Назад (помощь)</string>
+    <string name="call_number">Позвонить</string>
+    <string name="can_we_help_you">Нужна помощь?</string>
+    <string name="cancel">Отмена</string>
+    <string name="chat_desc">Пообщайтесь со специалистом по продукции. Доступно на англ. яз. 24/7.</string>
+    <string name="chat_now">Начать чат</string>
+    <string name="chat_with_philips">Чат с Philips</string>
+    <string name="check_sim">No SIM card detected. Please check if it is inserted correctly</string>
+    <string name="choose_from_library">Выбр. из библиотеки</string>
+    <!-- From: file:/D:/GitHub/DigitalCare_Android/SampleDigitalCare/digitalCare/build/intermediates/exploded-aar/com.google.android.gms/play-services/6.5.87/res/values-ru/common_strings.xml -->
+    <eat-comment/>
+    <string msgid="473679118463211576" name="common_android_wear_notification_needs_update_text">"Требуется обновить приложение Android Wear."</string>
+    <string msgid="3046420540094071256" name="common_android_wear_update_text">"Для работы этого приложения требуется обновить Android Wear."</string>
+    <string msgid="1366439133145190222" name="common_android_wear_update_title">"Обновить Android Wear"</string>
+    <string msgid="4181637455539816337" name="common_google_play_services_enable_button">"Включить"</string>
+    <string msgid="7627896071867667758" name="common_google_play_services_enable_text">"Для работы этого приложения требуется включить Сервисы Google Play."</string>
+    <string msgid="529078775174559253" name="common_google_play_services_enable_title">"Включите Сервисы Google Play"</string>
+    <string msgid="2443362625939284971" name="common_google_play_services_error_notification_requested_by_msg">"Источник запроса: <ns1:g id="APP_NAME">%1$s</ns1:g>"</string>
+    <string msgid="8515591849428043265" name="common_google_play_services_install_button">"Установить"</string>
+    <string msgid="8685301130651051380" name="common_google_play_services_install_text_phone">"Для работы этого приложения требуется установить Сервисы Google Play."</string>
+    <string msgid="1589957570365247855" name="common_google_play_services_install_text_tablet">"Для работы этого приложения требуется установить Сервисы Google Play."</string>
+    <string msgid="26645092511305524" name="common_google_play_services_install_title">"Установите Сервисы Google Play"</string>
+    <string msgid="4983316348021735578" name="common_google_play_services_invalid_account_text">"Этого аккаунта нет на устройстве. Выберите другой."</string>
+    <string msgid="1066672360770936753" name="common_google_play_services_invalid_account_title">"Недействительный аккаунт"</string>
+    <string msgid="2583358409598976717" name="common_google_play_services_needs_enabling_title">"Для работы приложения требуется включить сервисы Google Play"</string>
+    <string msgid="9038847255613537209" name="common_google_play_services_network_error_text">"Для работы с Google Play требуется подключение к сети."</string>
+    <string msgid="3827284619958211114" name="common_google_play_services_network_error_title">"Ошибка сети"</string>
+    <string msgid="8120534356798772974" name="common_google_play_services_notification_needs_installation_title">"Для работы приложения требуется установить сервисы Google Play"</string>
+    <string msgid="1388129345631079938" name="common_google_play_services_notification_needs_update_title">"Для работы приложения требуется обновить сервисы Google Play"</string>
+    <string msgid="1852570676146674985" name="common_google_play_services_notification_ticker">"Ошибка сервисов Google Play"</string>
+    <string msgid="4762332809710093730" name="common_google_play_services_unknown_issue">"Неизвестная ошибка с Сервисами Google Play."</string>
+    <string msgid="3542578567569488671" name="common_google_play_services_unsupported_text">"Сервисы Google Play, необходимые для работы некоторых приложений, не поддерживаются на вашем устройстве. Обратитесь к производителю."</string>
+    <string msgid="6334768798839376943" name="common_google_play_services_unsupported_title">"Сервисы Google Play"</string>
+    <string msgid="8932944190611227642" name="common_google_play_services_update_button">"Обновить"</string>
+    <string msgid="448354684997260580" name="common_google_play_services_update_text">"Для работы этого приложения требуется обновить Сервисы Google Play."</string>
+    <string msgid="6006316683626838685" name="common_google_play_services_update_title">"Обновите Сервисы Google Play"</string>
+    <string msgid="411506735369601515" name="common_open_on_phone">"Открыть на телефоне"</string>
+    <string msgid="9071884888741449141" name="common_signin_button_text">"Войти"</string>
+    <string msgid="2429381841831957106" name="common_signin_button_text_long">"Войти в аккаунт Google"</string>
+    <!-- From: file:/D:/GitHub/DigitalCare_Android/SampleDigitalCare/digitalCare/src/main/res/values-ru/strings.xml -->
+    <eat-comment/>
+    <string name="contact_us">Контакты</string>
+    <string name="contact_us_text">Контакты:</string>
+    <string name="create_account">Создать уч. запись ></string>
+    <string name="date_of_purchase">Дата покупки</string>
+    <string name="day">День</string>
+    <string name="email">Эл. почта</string>
+    <string name="enjoy_extended_warranty">Теперь Вы можете воспользоваться расширенной гарантией</string>
+    <string name="facebook">Facebook</string>
+    <string name="facebook_login_header">Войти в Facebook</string>
+    <string name="faq">Часто задаваемые вопросы</string>
+    <string name="feedback">Выскажите свое мнение</string>
+    <string name="find_philips_near_you">Ближ. центр Philips</string>
+    <string name="forgot_my_password">Я забыл(-а) пароль > </string>
+    <string name="forward">Передать</string>
+    <string name="from">От</string>
+    <string name="get_directions">Поиск адреса</string>
+    <string name="googleplus">Google Plus</string>
+    <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
+    <string name="how_can_we_help">Как Вам помочь?</string>
+    <string name="img_description">описание</string>
+    <string name="leave_us_a_message">Отправьте сообщ.:</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="live_chat">Чат</string>
+    <string name="loading">Загр.</string>
+    <string name="login">Вход</string>
+    <string name="login_to_social_media">Войти в учетную запись соц. сети?</string>
+    <string name="login_with_philips_account">Или войдите с помощью My Philips</string>
+    <string name="message_sent_to_philips">Ваше сообщение отправлено в Philips</string>
+    <string name="month">Месяц</string>
+    <string name="no_data_available">No data available</string>
+    <string name="no_internet">No internet connection. Please check if your connection is working in your phone’s wifi settings or data settings</string>
+    <string name="no_thanks">Нет, спасибо</string>
+    <string name="opening_hours">Часы работы</string>
+    <string name="password">Пароль</string>
+    <string name="please_wait">Подождите …</string>
+    <string name="post">Опубликовать</string>
+    <string name="print">Печать</string>
+    <string name="product_download_manual">Загрузить руководство</string>
+    <string name="product_info">сведения о продукте</string>
+    <string name="product_information">Информация о продукции (philips.com)</string>
+    <string name="product_open_manual">Открыть руководство</string>
+    <string name="product_registered">Продукт зарегистрирован</string>
+    <string name="product_view_videos">Видео о товарах</string>
+    <string name="rate_philips_buttontext">Войти в My Philips</string>
+    <string name="rate_philips_description">Оставьте отзыв и помогите другим сделать правильный выбор</string>
+    <string name="rate_philips_headertext">Загрузить отзыв</string>
+    <string name="rate_playstore_buttontext">Отзыв о приложении</string>
+    <string name="rate_playstore_headertext">Как вы оцените приложение?</string>
+    <string name="receipt">Копия</string>
+    <string name="register">Регистр.</string>
+    <string name="registration">Регистрация продукта</string>
+    <string name="reply">Ответ</string>
+    <string name="search">Search</string>
+    <string name="send">Отправить</string>
+    <string name="send_email">Отпр. письмо</string>
+    <string name="serial_number">Серийн. номер</string>
+    <string name="sign_into_my_philips">Войти в My Philips</string>
+    <string name="social_post_desc_text">Вкл. информацию о продукте</string>
+    <string name="social_post_failed">Something went wrong..</string>
+    <string name="social_post_success">Your message was received!</string>
+    <string name="social_post_to">Отправить письмо Philips</string>
+    <string name="support_productinformation">can you help me with my</string>
+    <string name="take_a_photo">Создание фотоснимков</string>
+    <string name="take_photo">Фотоснимок</string>
+    <string name="thank_you">Спасибо!</string>
+    <string name="twiiter_login_logo_description">Логотип Twitter</string>
+    <string name="twitter">Twitter</string>
+    <string name="twitter_login_header">Войти в Twitter</string>
+    <string name="twitter_login_hint_password">Пароль</string>
+    <string name="twitter_login_hint_username">Имя польз.</string>
+    <string name="twitter_post_char_limitation">Please note that your message cannot be longer than 140 characters</string>
+    <string name="twitter_post_progress_message">Sending your message to Philips Twitter Support…</string>
+    <string name="view_faq">См. FAQ</string>
+    <string name="view_product_details">См. данные о продукте</string>
+    <string name="year">Год</string>
+</resources>

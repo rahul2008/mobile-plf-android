@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- From: file:/D:/GitHub/LaunchDigitalCare1/digitalCare/src/main/res/values-sw820dp/dimens.xml -->
-    <eat-comment/>
-    <dimen name="locate_layout_margin">130dp</dimen>
-    <dimen name="marginTopButton">24dp</dimen>
-</resources>

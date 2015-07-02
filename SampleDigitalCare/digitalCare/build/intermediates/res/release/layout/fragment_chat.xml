@@ -1,0 +1,108 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent" 
+    android:background="@color/activity_background_color">
+
+    <LinearLayout
+        android:id="@+id/chatNowParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/chatNowImageParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/live_chat_bg"
+                android:contentDescription="@string/chat_desc" />
+
+            <TextView
+                android:id="@+id/helpText"
+                style="@style/chatNowHelpText"
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/chatDesc"
+            style="@style/chatNowDesc"
+            android:text="@string/chat_desc"
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+
+        <LinearLayout
+            android:id="@+id/chatNowParentPort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="2" >
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/chatNow"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:text="@string/chat_now"
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+
+            <RelativeLayout
+                android:id="@+id/chatNoThanksParent"
+                style="@style/fontButton"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:padding="2dp" >
+
+                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/chatNoThanks"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/cancel"
+                    android:textColor="@color/button_background"
+                    custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/chatNowParentLand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:weightSum="2" >
+
+            <RelativeLayout
+                android:id="@+id/chatNoThanksParentLand"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:padding="2dp" >
+
+                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/chatNoThanksLand"
+                    style="@style/fontButton"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/cancel"
+                    android:layout_marginTop="0dp"
+                    android:textColor="@color/button_background"
+                    custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+            </RelativeLayout>
+
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/chatNowLand"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_weight="1"
+                android:text="@string/chat_now"
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView><!-- From: file:/D:/GitHub/DigitalCare_Android/SampleDigitalCare/digitalCare/src/main/res/layout/fragment_chat.xml -->
