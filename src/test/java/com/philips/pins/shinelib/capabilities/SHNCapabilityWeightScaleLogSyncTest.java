@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
-import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
+import com.philips.pins.shinelib.datatypes.SHNDataWeightMeasurement;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -149,10 +149,10 @@ public class SHNCapabilityWeightScaleLogSyncTest{
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, shnCapabilityWeightScaleLogSync.getState());
     }
 
-    private SHNWeightMeasurement[] generateDataAndSendIt(Date[] dates) {
-        SHNWeightMeasurement[] measurements = new SHNWeightMeasurement[dates.length];
+    private SHNDataWeightMeasurement[] generateDataAndSendIt(Date[] dates) {
+        SHNDataWeightMeasurement[] measurements = new SHNDataWeightMeasurement[dates.length];
         for (int i = 0; i < dates.length; i++) {
-            SHNWeightMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNWeightMeasurement.class);
+            SHNDataWeightMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNDataWeightMeasurement.class);
             when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
             when(mockedShnTemperatureMeasurement.getSHNDataType()).thenReturn(SHNDataType.WeightMeasurement);
             measurements[i] = mockedShnTemperatureMeasurement;
@@ -167,7 +167,7 @@ public class SHNCapabilityWeightScaleLogSyncTest{
 
         Mockito.reset(mockedShnCapabilityListener);
 
-        SHNWeightMeasurement mockedMeasurement = Mockito.mock(SHNWeightMeasurement.class);
+        SHNDataWeightMeasurement mockedMeasurement = Mockito.mock(SHNDataWeightMeasurement.class);
         when(mockedMeasurement.getTimestamp()).thenReturn(null);
         when(mockedMeasurement.getSHNDataType()).thenReturn(SHNDataType.WeightMeasurement);
 

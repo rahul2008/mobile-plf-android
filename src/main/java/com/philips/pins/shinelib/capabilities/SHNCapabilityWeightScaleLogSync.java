@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.datatypes.SHNData;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
-import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
+import com.philips.pins.shinelib.datatypes.SHNDataWeightMeasurement;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,15 +38,15 @@ public class SHNCapabilityWeightScaleLogSync extends SHNCapabilityLogSyncBase im
     }
 
     @Override
-    public void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNWeightMeasurement shnWeightMeasurement) {
-        if (state == State.Synchronizing) {
-            if (shnWeightMeasurement.getTimestamp() == null) {
+    public void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNDataWeightMeasurement shnDataWeightMeasurement) {
+        if (getState() == State.Synchronizing) {
+            if (shnDataWeightMeasurement.getTimestamp() == null) {
                 Log.w(TAG, "The received weight measurement does not have a timestamp, cannot save it in the log!");
                 timer.restart();
             } else {
                 Map<SHNDataType, SHNData> map = new HashMap<>();
-                map.put(SHNDataType.WeightMeasurement, shnWeightMeasurement);
-                SHNLogItem item = new SHNLogItem(shnWeightMeasurement.getTimestamp(), map.keySet(), map);
+                map.put(SHNDataType.WeightMeasurement, shnDataWeightMeasurement);
+                SHNLogItem item = new SHNLogItem(shnDataWeightMeasurement.getTimestamp(), map.keySet(), map);
                 onMeasurementReceived(item);
             }
         }

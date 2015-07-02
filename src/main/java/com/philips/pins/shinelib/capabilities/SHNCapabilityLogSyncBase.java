@@ -25,11 +25,12 @@ import java.util.Set;
 public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchronization { // rename it
 
     private static final String TAG = SHNCapabilityLogSyncBase.class.getSimpleName();
-    protected static final int MAX_STORED_MEASUREMENTS = 50;
+    private static final int MAX_STORED_MEASUREMENTS = 50;
 
-    protected List<SHNLogItem> shnLogItems;
-    protected State state;
-    protected Listener shnCapabilityListener;
+    private List<SHNLogItem> shnLogItems;
+    private State state;
+    private Listener shnCapabilityListener;
+
     protected Timer timer;
 
     private final Runnable timeOutRunnable = new Runnable() {
@@ -102,15 +103,6 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         }
     }
 
-    abstract void setupToReceiveMeasurements();
-
-    abstract void teardownReceivingMeasurements();
-
-    private void handleTimeOut() {
-        finishLoggingResult(SHNResult.SHNOk);
-        setState(State.Idle);
-    }
-
     protected void handleResultOfMeasurementsSetup(SHNResult result) {
         if (result == SHNResult.SHNOk) {
             setState(State.Synchronizing);
@@ -137,7 +129,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         }
     }
 
-    protected void finishLoggingResult(SHNResult result) {
+    private void finishLoggingResult(SHNResult result) {
         assert (state == State.Synchronizing);
         if (shnCapabilityListener != null) shnCapabilityListener.onProgressUpdate(this, 1.0f);
         if (shnLogItems != null && shnLogItems.size() > 0) {
@@ -169,4 +161,13 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
             return item1.getTimestamp().compareTo(item2.getTimestamp());
         }
     }
+
+    private void handleTimeOut() {
+        finishLoggingResult(SHNResult.SHNOk);
+        setState(State.Idle);
+    }
+
+    abstract void setupToReceiveMeasurements();
+
+    abstract void teardownReceivingMeasurements();
 }

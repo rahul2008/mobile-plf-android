@@ -1,7 +1,4 @@
-package com.philips.pins.shinelib.services.weightscale;
-
-import com.philips.pins.shinelib.datatypes.SHNHeightUnit;
-import com.philips.pins.shinelib.datatypes.SHNWeightUnit;
+package com.philips.pins.shinelib.datatypes;
 
 import org.junit.Test;
 
@@ -17,7 +14,7 @@ import static org.junit.Assert.assertTrue;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SHNWeightMeasurementTest {
+public class SHNDataWeightMeasurementTest {
 
     private static final byte IMPERIAL_SUPPORTED = 0x01;
     private static final byte TIMESTAMP_SUPPORTED = 0x02;
@@ -31,14 +28,14 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertEquals(SHNWeightUnit.KG, shnWeightMeasurement.getFlags().getShnWeightUnit());
-        assertEquals(SHNHeightUnit.Meter, shnWeightMeasurement.getFlags().getShnHeightUnit());
+        assertEquals(SHNWeightUnit.KG, shnDataWeightMeasurement.getFlags().getShnWeightUnit());
+        assertEquals(SHNHeightUnit.Meter, shnDataWeightMeasurement.getFlags().getShnHeightUnit());
 
-        assertFalse(shnWeightMeasurement.getFlags().hasTimestamp());
-        assertFalse(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertFalse(shnWeightMeasurement.getFlags().hasUserId());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasTimestamp());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasUserId());
     }
 
     @Test
@@ -48,14 +45,14 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertEquals(SHNWeightUnit.LB, shnWeightMeasurement.getFlags().getShnWeightUnit());
-        assertEquals(SHNHeightUnit.Inch, shnWeightMeasurement.getFlags().getShnHeightUnit());
+        assertEquals(SHNWeightUnit.LB, shnDataWeightMeasurement.getFlags().getShnWeightUnit());
+        assertEquals(SHNHeightUnit.Inch, shnDataWeightMeasurement.getFlags().getShnHeightUnit());
 
-        assertFalse(shnWeightMeasurement.getFlags().hasTimestamp());
-        assertFalse(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertFalse(shnWeightMeasurement.getFlags().hasUserId());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasTimestamp());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasUserId());
     }
 
     @Test
@@ -72,11 +69,11 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasTimestamp());
-        assertFalse(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertFalse(shnWeightMeasurement.getFlags().hasUserId());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasTimestamp());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasUserId());
     }
 
     @Test
@@ -86,11 +83,11 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasUserId());
-        assertFalse(shnWeightMeasurement.getFlags().hasTimestamp());
-        assertFalse(shnWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasUserId());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasTimestamp());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
     }
 
     @Test
@@ -103,11 +100,11 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertFalse(shnWeightMeasurement.getFlags().hasUserId());
-        assertFalse(shnWeightMeasurement.getFlags().hasTimestamp());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasUserId());
+        assertFalse(shnDataWeightMeasurement.getFlags().hasTimestamp());
     }
 
     @Test
@@ -127,11 +124,11 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertTrue(shnWeightMeasurement.getFlags().hasUserId());
-        assertTrue(shnWeightMeasurement.getFlags().hasTimestamp());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasUserId());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasTimestamp());
     }
 
     @Test
@@ -141,9 +138,9 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertEquals(1796 * 0.005f, shnWeightMeasurement.getWeight(), 0.001);
+        assertEquals(1796 * 0.005f, shnDataWeightMeasurement.getWeight(), 0.001);
     }
 
     @Test
@@ -153,9 +150,9 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertEquals(1796 * 0.01f, shnWeightMeasurement.getWeight(), 0.001);
+        assertEquals(1796 * 0.01f, shnDataWeightMeasurement.getWeight(), 0.001);
     }
 
     @Test
@@ -172,11 +169,11 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasTimestamp());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasTimestamp());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        assertEquals("2015-07-01 09:30:11", simpleDateFormat.format(shnWeightMeasurement.getTimestamp()));
+        assertEquals("2015-07-01 09:30:11", simpleDateFormat.format(shnDataWeightMeasurement.getTimestamp()));
     }
 
     @Test
@@ -187,10 +184,10 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasUserId());
-        assertEquals(6, shnWeightMeasurement.getUserId());
+        assertTrue(shnDataWeightMeasurement.getFlags().hasUserId());
+        assertEquals(6, shnDataWeightMeasurement.getUserId());
     }
 
     @Test
@@ -201,9 +198,9 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.isUserIdUnknown());
+        assertTrue(shnDataWeightMeasurement.isUserIdUnknown());
     }
 
     @Test
@@ -216,10 +213,10 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertEquals(1568 * 0.1f, shnWeightMeasurement.getBMI(), 0.001);
+        assertTrue(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertEquals(1568 * 0.1f, shnDataWeightMeasurement.getBMI(), 0.001);
     }
 
     @Test
@@ -232,9 +229,9 @@ public class SHNWeightMeasurementTest {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
 
-        assertTrue(shnWeightMeasurement.getFlags().hasBmiAndHeight());
-        assertEquals(1305 * 0.1f, shnWeightMeasurement.getHeight(), 0.001);
+        assertTrue(shnDataWeightMeasurement.getFlags().hasBmiAndHeight());
+        assertEquals(1305 * 0.1f, shnDataWeightMeasurement.getHeight(), 0.001);
     }
 }

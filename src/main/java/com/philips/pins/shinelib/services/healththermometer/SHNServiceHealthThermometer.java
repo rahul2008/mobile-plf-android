@@ -7,6 +7,7 @@ import com.philips.pins.shinelib.SHNTemperatureMeasurementIntervalResultListener
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.SHNTemperatureMeasurementResultListener;
+import com.philips.pins.shinelib.datatypes.SHNDataTemperatureMeasurement;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 
@@ -32,9 +33,9 @@ public class SHNServiceHealthThermometer implements SHNService.SHNServiceListene
     private SHNServiceHealthThermometerListener shnServiceHealthThermometerListener;
 
     public interface SHNServiceHealthThermometerListener {
-        void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement);
+        void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDataTemperatureMeasurement shnDataTemperatureMeasurement);
         void onServiceStateChanged(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNService.State state);
-        void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement);
+        void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDataTemperatureMeasurement shnDataTemperatureMeasurement);
         void onMeasurementIntervalChanged(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurementInterval shnTemperatureMeasurementInterval);
     }
 
@@ -126,15 +127,15 @@ public class SHNServiceHealthThermometer implements SHNService.SHNServiceListene
         if (shnCharacteristic.getUuid().equals(CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID)) {
             ByteBuffer byteBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
             try {
-                SHNTemperatureMeasurement shnTemperatureMeasurement = new SHNTemperatureMeasurement(byteBuffer);
-                shnServiceHealthThermometerListener.onTemperatureMeasurementReceived(this, shnTemperatureMeasurement);
+                SHNDataTemperatureMeasurement shnDataTemperatureMeasurement = new SHNDataTemperatureMeasurement(byteBuffer);
+                shnServiceHealthThermometerListener.onTemperatureMeasurementReceived(this, shnDataTemperatureMeasurement);
             } catch(IllegalArgumentException e) {}
         }
         if (shnCharacteristic.getUuid().equals(CHARACTERISTIC_INTERMEDIATE_TEMPERATURE_UUID)) {
             ByteBuffer byteBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
             try {
-                SHNTemperatureMeasurement shnTemperatureMeasurement = new SHNTemperatureMeasurement(byteBuffer);
-                shnServiceHealthThermometerListener.onIntermediateTemperatureReceived(this, shnTemperatureMeasurement);
+                SHNDataTemperatureMeasurement shnDataTemperatureMeasurement = new SHNDataTemperatureMeasurement(byteBuffer);
+                shnServiceHealthThermometerListener.onIntermediateTemperatureReceived(this, shnDataTemperatureMeasurement);
             } catch(IllegalArgumentException e) {}
         }
     }

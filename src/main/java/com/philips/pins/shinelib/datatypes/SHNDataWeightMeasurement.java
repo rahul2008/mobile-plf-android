@@ -1,11 +1,7 @@
-package com.philips.pins.shinelib.services.weightscale;
+package com.philips.pins.shinelib.datatypes;
 
 import android.util.Log;
 
-import com.philips.pins.shinelib.datatypes.SHNData;
-import com.philips.pins.shinelib.datatypes.SHNDataType;
-import com.philips.pins.shinelib.datatypes.SHNHeightUnit;
-import com.philips.pins.shinelib.datatypes.SHNWeightUnit;
 import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;
 import com.philips.pins.shinelib.utility.ScalarConverters;
 
@@ -17,9 +13,9 @@ import java.util.Date;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SHNWeightMeasurement extends SHNData {
+public class SHNDataWeightMeasurement extends SHNData {
 
-    private static final String TAG = SHNWeightMeasurement.class.getSimpleName();
+    private static final String TAG = SHNDataWeightMeasurement.class.getSimpleName();
 
     private final Flags flags;
     private final Date timestamp;
@@ -43,7 +39,7 @@ public class SHNWeightMeasurement extends SHNData {
         return SHNDataType.WeightMeasurement;
     }
 
-    public SHNWeightMeasurement(ByteBuffer byteBuffer) {
+    public SHNDataWeightMeasurement(ByteBuffer byteBuffer) {
         try {
             flags = new Flags(byteBuffer.get());
 
@@ -84,7 +80,13 @@ public class SHNWeightMeasurement extends SHNData {
             Log.w(TAG, "Received a measurement with the special weight-value 0xFFFF that represents \"Measurement Unsuccessful\"");
         } else {
             SHNWeightUnit unit = getFlags().getShnWeightUnit();
-            float resolution = unit == SHNWeightUnit.KG ? weightKGResolution : weightLBResolution;
+            float resolution;
+            if(unit == SHNWeightUnit.KG ){
+                resolution = weightKGResolution;
+            }
+            else{
+                resolution = weightLBResolution;
+            }
             return rawData * resolution;
         }
         return 0;
@@ -96,7 +98,12 @@ public class SHNWeightMeasurement extends SHNData {
 
     private float extractHeight(int rawData) {
         SHNHeightUnit unit = getFlags().getShnHeightUnit();
-        float resolution = unit == SHNHeightUnit.Meter ? heightMeterResolution : heightInchResolution;
+        float resolution;
+        if(unit == SHNHeightUnit.Meter){
+            resolution = heightMeterResolution;
+        }else{
+            resolution = heightInchResolution;
+        }
         return rawData * resolution;
     }
 

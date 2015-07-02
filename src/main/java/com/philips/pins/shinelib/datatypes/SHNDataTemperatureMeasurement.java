@@ -1,9 +1,5 @@
-package com.philips.pins.shinelib.services.healththermometer;
+package com.philips.pins.shinelib.datatypes;
 
-import com.philips.pins.shinelib.datatypes.SHNData;
-import com.philips.pins.shinelib.datatypes.SHNDataType;
-import com.philips.pins.shinelib.datatypes.SHNTemperatureType;
-import com.philips.pins.shinelib.datatypes.SHNTemperatureUnit;
 import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;
 import com.philips.pins.shinelib.utility.ScalarConverters;
 
@@ -14,13 +10,13 @@ import java.util.Date;
 /**
  * Created by 310188215 on 04/06/15.
  */
-public class SHNTemperatureMeasurement extends SHNData{
+public class SHNDataTemperatureMeasurement extends SHNData{
     private final Flags flags;
     private final float temperature;
     private final Date timestamp;
     private final SHNTemperatureType shnTemperatureType;
 
-    public SHNTemperatureMeasurement(ByteBuffer byteBuffer) {
+    public SHNDataTemperatureMeasurement(ByteBuffer byteBuffer) {
         try {
             flags = new Flags(byteBuffer.get());
             temperature = getIEEE11073Float(byteBuffer);

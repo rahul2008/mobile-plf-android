@@ -8,6 +8,7 @@ import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNDataWeightMeasurement;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.services.SHNServiceBattery;
@@ -35,7 +36,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
 
     public interface SHNWeightServiceListener {
         void onServiceStateChanged(SHNServiceWeightScale shnServiceWeightScale, SHNService.State state);
-        void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNWeightMeasurement shnWeightMeasurement);
+        void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNDataWeightMeasurement shnDataWeightMeasurement);
     }
 
     public SHNServiceWeightScale(SHNFactory shnFactory) {
@@ -115,8 +116,8 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
         if (shnCharacteristic.getUuid().equals(WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID)) {
             ByteBuffer byteBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
             try {
-                SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
-                shnWeightServiceListener.onWeightMeasurementReceived(this, shnWeightMeasurement);
+                SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
+                shnWeightServiceListener.onWeightMeasurementReceived(this, shnDataWeightMeasurement);
             } catch(IllegalArgumentException e) {}
         }
     }

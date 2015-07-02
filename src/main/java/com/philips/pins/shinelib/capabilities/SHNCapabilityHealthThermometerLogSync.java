@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.datatypes.SHNData;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.services.healththermometer.SHNServiceHealthThermometer;
-import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
+import com.philips.pins.shinelib.datatypes.SHNDataTemperatureMeasurement;
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurementInterval;
 
 import java.util.HashMap;
@@ -39,22 +39,22 @@ public class SHNCapabilityHealthThermometerLogSync extends SHNCapabilityLogSyncB
 
     // implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener
     @Override
-    public void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
-        if (state == State.Synchronizing) {
-            if (shnTemperatureMeasurement.getTimestamp() == null) {
+    public void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDataTemperatureMeasurement shnDataTemperatureMeasurement) {
+        if (getState() == State.Synchronizing) {
+            if (shnDataTemperatureMeasurement.getTimestamp() == null) {
                 Log.w(TAG, "The received temperature measurement does not have a timestamp, cannot save it in the log!");
                 timer.restart();
             } else {
                 Map<SHNDataType, SHNData> map = new HashMap<>();
-                map.put(SHNDataType.BodyTemperature, shnTemperatureMeasurement);
-                SHNLogItem item = new SHNLogItem(shnTemperatureMeasurement.getTimestamp(), map.keySet(), map);
+                map.put(SHNDataType.BodyTemperature, shnDataTemperatureMeasurement);
+                SHNLogItem item = new SHNLogItem(shnDataTemperatureMeasurement.getTimestamp(), map.keySet(), map);
                 onMeasurementReceived(item);
             }
         }
     }
 
     @Override
-    public void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
+    public void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDataTemperatureMeasurement shnDataTemperatureMeasurement) {
 
     }
 
