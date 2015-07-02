@@ -40,7 +40,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 				this);
 
 		// Passing Locale to DigitalCare Library
-		DigitalCareConfigManager.getInstance().setLocale("en", "IN");
+		setLocaleForTesting("en", "IN");
 
 		// Set ConsumerProductInfo
 		mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
