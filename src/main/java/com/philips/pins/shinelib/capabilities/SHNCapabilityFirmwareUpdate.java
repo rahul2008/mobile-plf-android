@@ -1,12 +1,13 @@
 package com.philips.pins.shinelib.capabilities;
 
+import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNFirmwareInfoResultListener;
 import com.philips.pins.shinelib.SHNResult;
 
 /**
  * Created by 310188215 on 16/06/15.
  */
-public interface SHNCapabilityFirmwareUpdate {
+public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
     void uploadFirmware(byte[] firmwareData);
 
     void abortFirmwareUpload();
@@ -14,6 +15,8 @@ public interface SHNCapabilityFirmwareUpdate {
     void deployFirmware();
 
     void getUploadedFirmwareInfo(SHNFirmwareInfoResultListener shnFirmwareInfoResultListener);
+
+    void setSHNCapabilityFirmwareUpdateListener(SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener);
 
     public enum SHNFirmwareUpdateState {
         SHNFirmwareUpdateStateIdle,

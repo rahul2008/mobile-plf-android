@@ -18,4 +18,6 @@ public class SHNCapabilityFirmwareUpdateImpl implements SHNCapabilityFirmwareUpd
     public void deployFirmware() { throw new UnsupportedOperationException(); }
     @Override
     public void getUploadedFirmwareInfo(SHNFirmwareInfoResultListener shnFirmwareInfoResultListener) { throw new UnsupportedOperationException(); }
+    @Override
+    public void setSHNCapabilityFirmwareUpdateListener(SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener) { throw new UnsupportedOperationException(); }
 }
