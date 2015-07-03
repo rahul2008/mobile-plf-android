@@ -3,6 +3,7 @@ package com.philips.cl.di.digitalcare;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
@@ -35,13 +36,16 @@ public class DigitalCareConfigManager {
 
 	private static Context mContext = null;
 
-	/*
-	 * Initialize everything(resources, variables etc) required for DigitalCare.
-	 * Hosting app, which will integrate this DigitalCare, has to pass app
-	 * context.
-	 */
-	private DigitalCareConfigManager() {
-	}
+    public Locale mResultLocale = null;
+
+
+    /*
+     * Initialize everything(resources, variables etc) required for DigitalCare.
+     * Hosting app, which will integrate this DigitalCare, has to pass app
+     * context.
+     */
+    private DigitalCareConfigManager() {
+    }
 
 	/*
 	 * Singleton pattern.
@@ -114,6 +118,11 @@ public class DigitalCareConfigManager {
 
 	public void setLocale(String langCode, String countryCode) {
 		if (langCode != null && countryCode != null) {
+//            Toast.makeText(mContext, "Language Code : " + langCode +
+//                    "\n Country Code : " + countryCode, Toast.LENGTH_SHORT).show();
+
+            // mLocale = new Locale(langCode, countryCode);
+            mLocale = new Locale(langCode);
 			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
 					mContext, langCode, countryCode);
 			mLocaleMatchHandler.initializeLocaleMatchService();
@@ -130,9 +139,13 @@ public class DigitalCareConfigManager {
 		return mLocale;
 	}
 
-	public String getTwitterConsumerKey() {
-		return mTwitterConsumerKey;
-	}
+    public Locale getmResultLocale() {
+        return mResultLocale;
+    }
+
+    public String getTwitterConsumerKey() {
+        return mTwitterConsumerKey;
+    }
 
 	/*public void setTwitterConsumerKey(String twitterConsumerKey) {
 		mTwitterConsumerKey = twitterConsumerKey;

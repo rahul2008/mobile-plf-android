@@ -89,10 +89,10 @@ public class FaqFragment extends DigitalCareBaseFragment {
     }
 
     private String getFaqUrl() {
-        String language = DigitalCareConfigManager.getInstance().getLocale()
+        String language = DigitalCareConfigManager.getInstance().getmResultLocale()
                 .getLanguage().toLowerCase();
 
-        String country = DigitalCareConfigManager.getInstance().getLocale()
+        String country = DigitalCareConfigManager.getInstance().getmResultLocale()
                 .getCountry().toUpperCase();
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager

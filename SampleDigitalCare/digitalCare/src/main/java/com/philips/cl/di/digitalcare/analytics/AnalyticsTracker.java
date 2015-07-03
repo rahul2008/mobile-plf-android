@@ -147,7 +147,7 @@ public class AnalyticsTracker {
     }
 
     private static String getCurrency() {
-        Currency currency = Currency.getInstance(Locale.getDefault());
+        Currency currency = Currency.getInstance(DigitalCareConfigManager.getInstance().getmResultLocale());
         String currencyCode = currency.getCurrencyCode();
         if (currencyCode == null)
             currencyCode = AnalyticsConstants.KEY_CURRENCY;
