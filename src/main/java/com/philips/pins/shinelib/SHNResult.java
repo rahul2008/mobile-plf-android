@@ -10,6 +10,7 @@ public enum SHNResult {
     SHNUnexpectedMessageError,
     SHNTimeoutError,
     SHNInvalidStateError,
+    SHNInvalidResponseError,
     SHNResponseIncompleteError,
     SHNServiceUnavailableError,
     SHNLostConnectionError,
@@ -20,5 +21,7 @@ public enum SHNResult {
     SHNUnknownDeviceTypeError,
     SHNBluetoothDisabledError,
     SHNUnsupportedOperation,
+    SHNOperationFailed,
+    SHNUserNotAuthorized,
     SHNAborted
 }
