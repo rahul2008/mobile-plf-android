@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.social.facebook;
+package com.philips.cl.di.digitalcare.social.twitter;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -12,17 +12,18 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
+import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 
-public class FacebookWebFragment extends DigitalCareBaseFragment {
+public class TwitterWebFragment extends DigitalCareBaseFragment {
 
 	private View mView = null;
 	private WebView mWebView = null;
 	// private ProgressDialog mProgressDialog = null;
 	private ProgressBar mProgressBar = null;
-	private final String TAG = FacebookWebFragment.class.getSimpleName();
-	private String FacebookURL = "http://www.facebook.com/";
+	private final String TAG = TwitterWebFragment.class.getSimpleName();
+	private String TWITTTERURL = "https://twitter.com/intent/tweet?source=webclient&text=";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +49,7 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
 	}
 
 	private void loadInAppFacebook() {
-		mWebView.loadUrl(getFacebookUrl());
+		mWebView.loadUrl(getTWITTTERURL());
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.setWebViewClient(new WebViewClient() {
 
@@ -80,10 +81,22 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
 		mProgressBar.setVisibility(View.GONE);
 	}
 
-	private String getFacebookUrl() {
-		return FacebookURL
-				+ getActivity().getString(R.string.facebook_product_page);
+	private String getTWITTTERURL() {
+		return TWITTTERURL
+				+ getProductInformation();
 	}
+
+	protected String getProductInformation() {
+		return "@"+ getActivity().getString(R.string.twitter_page)+ " " + getActivity().getResources().getString(
+				R.string.support_productinformation)
+				+ " "
+				+ DigitalCareConfigManager.getInstance()
+				.getConsumerProductInfo().getProductTitle()
+				+ " "
+				+ DigitalCareConfigManager.getInstance()
+				.getConsumerProductInfo().getCtn();
+	}
+
 
 	@Override
 	public String getActionbarTitle() {

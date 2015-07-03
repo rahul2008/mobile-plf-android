@@ -3,6 +3,8 @@ package com.philips.cl.di.digitalcare.contactus;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -21,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
@@ -35,8 +38,11 @@ import com.philips.cl.di.digitalcare.social.facebook.FacebookWebFragment;
 /*import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;*/
+import com.philips.cl.di.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
+
+import java.util.List;
 
 /*import com.philips.cl.di.digitalcare.social.facebook.FacebookAuthenticate;
  import com.philips.cl.di.digitalcare.social.facebook.FacebookHelper;
@@ -395,7 +401,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				&& tag.equalsIgnoreCase(getStringKey(R.string.twitter))
 				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
-			// launchTwitterFeature();
+			 launchTwitterFeature();
 			/*TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
@@ -429,18 +435,42 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
 	}
 
-	/*
-	 * private void launchTwitterFeature() { try { PackageInfo
-	 * mTwitterPackageInfo =
-	 * getActivity().getApplicationContext().getPackageManager().getPackageInfo
-	 * ("com.twitter.android", 0); mTwitterPackageInfo. } catch
-	 * (NameNotFoundException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } String url =
-	 * "https://twitter.com/intent/tweet?source=webclient&text=TWEET+THIS!";
-	 * Intent i = new Intent(Intent.ACTION_VIEW);
-	 * i.setType("application/twitter"); i.setData(Uri.parse(url));
-	 * startActivity(i); }
-	 */
+	protected void launchTwitterFeature()
+	{
+		Intent tweetIntent = new Intent(Intent.ACTION_SEND);
+		tweetIntent.putExtra(Intent.EXTRA_TEXT, getProductInformation());
+		tweetIntent.setType("text/plain");
+
+		PackageManager packManager = getActivity().getPackageManager();
+		List<ResolveInfo> resolvedInfoList = packManager.queryIntentActivities(tweetIntent,  PackageManager.MATCH_DEFAULT_ONLY);
+
+		boolean resolved = false;
+		for(ResolveInfo resolveInfo: resolvedInfoList){
+			if(resolveInfo.activityInfo.packageName.startsWith("com.twitter.android")){
+				tweetIntent.setClassName(
+						resolveInfo.activityInfo.packageName,
+						resolveInfo.activityInfo.name );
+				resolved = true;
+				break;
+			}
+		}
+		if(resolved){
+			startActivity(tweetIntent);
+		}else{
+			showFragment(new TwitterWebFragment());
+		}
+	}
+
+	protected String getProductInformation() {
+		return "@"+ getActivity().getString(R.string.twitter_page)+ " " + getActivity().getResources().getString(
+				R.string.support_productinformation)
+				+ " "
+				+ DigitalCareConfigManager.getInstance()
+				.getConsumerProductInfo().getProductTitle()
+				+ " "
+				+ DigitalCareConfigManager.getInstance()
+				.getConsumerProductInfo().getCtn();
+	}
 
 	@Override
 	public void onPause() {
