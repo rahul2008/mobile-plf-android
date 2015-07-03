@@ -2,7 +2,9 @@
 package com.philips.cl.di.reg.ui.traditional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -29,10 +31,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.janrain.android.utils.StringUtils;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
@@ -96,7 +100,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		EventHelper.getInstance().registerEventNotification(RegConstants.PARSING_COMPLETED, this);
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		RLog.i(RLog.EVENT_LISTENERS,
-		        "HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+				"HomeFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
 		View view = inflater.inflate(R.layout.fragment_home, container, false);
 		initUI(view);
 		return view;
@@ -148,7 +152,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 		        this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.PARSING_COMPLETED, this);
 		RLog.i(RLog.EVENT_LISTENERS,
-		        "HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
+				"HomeFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS,JANRAIN_INIT_FAILURE,PARSING_COMPLETED");
 		super.onDestroy();
 	}
 
@@ -302,11 +306,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 			return;
 		if (NetworkUtility.isNetworkAvailable(mContext)
 		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
-			trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.LOGIN_CHANNEL,
-			        providerName);
+			trackMultipleActions(providerName);
 			mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
 		}
 	}
+
+	private void trackMultipleActions(String providerName) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(AnalyticsConstants.LOGIN_CHANNEL, providerName);
+		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.LOGIN_START);
+		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+	}
+
 
 	@Override
 	public void setViewParams(Configuration config) {

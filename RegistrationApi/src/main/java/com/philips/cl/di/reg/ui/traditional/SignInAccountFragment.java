@@ -219,7 +219,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mEtPassword.hideValidAlertError();
 		((RegistrationFragment) getParentFragment()).hideKeyBoard();
 		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.LOGIN_STARTS);
+		        AnalyticsConstants.LOGIN_START);
 		if (mUser != null) {
 			showSignInSpinner();
 		}

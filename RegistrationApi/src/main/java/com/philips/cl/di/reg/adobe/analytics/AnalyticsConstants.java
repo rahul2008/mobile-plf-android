@@ -40,7 +40,7 @@ public interface AnalyticsConstants {
 
 	String REGISTRATION_CHANNEL = "registrationChannel";
 
-	String SPECIAL_EVENTS = "specialeEvents";
+	String SPECIAL_EVENTS = "specialEvents";
 
 	String STATUS_NOTIFICATION = "statusNotification";
 
@@ -48,7 +48,7 @@ public interface AnalyticsConstants {
 
 	String START_USER_REGISTRATION = "startUserRegistration";
 
-	String LOGIN_STARTS = "loginStarts";
+	String LOGIN_START = "loginStart";
 
 	String LOGIN_CHANNEL = "loginChannel";
 
@@ -79,10 +79,6 @@ public interface AnalyticsConstants {
 	int NETWORK_ERROR_CODE = 111;
 
 	int EMAIL_NOT_VERIFIED = 112;
-
-	String TECHNICAL_REGISTRATION_ERROR = "we're having trouble registring user";
-
-	String TECHNICAL_LOGIN_ERROR = "we're having trouble logining user";
 
 	String COUNTRY_KEY = "locale.country";
 

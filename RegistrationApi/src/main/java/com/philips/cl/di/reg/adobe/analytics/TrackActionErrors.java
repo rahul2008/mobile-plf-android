@@ -13,9 +13,9 @@ public class TrackActionErrors {
 
 	private static final String EMAIL_IS_NOT_VERIFIED = "email is not verified";
 
-	private static final String WE_RE_HAVING_TROUBLE_LOGINING_USER = "we're having trouble logining user";
+	private static final String WE_RE_HAVING_TROUBLE_LOGINING_USER = "we're having trouble logging user";
 
-	private static final String WE_RE_HAVING_TROUBLE_REGISTRING_USER = "we're having trouble registring user";
+	private static final String WE_RE_HAVING_TROUBLE_REGISTRING_USER = "we're having trouble registering user";
 
 	private final static int NETWORK_ERROR_CODE = 111;
 

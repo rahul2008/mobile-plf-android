@@ -104,8 +104,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
 			} else {
 				fragment.getUpdateTitleListener().updateRegistrationTitle(mPrevTitleResourceId);
 			}
+
+			trackBackActionPage();
 			fragment.setResourceID(mPrevTitleResourceId);
 		}
+	}
+
+	private void trackBackActionPage() {
+
 	}
 
 	@Override
