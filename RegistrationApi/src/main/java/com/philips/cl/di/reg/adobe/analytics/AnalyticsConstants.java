@@ -26,7 +26,7 @@ public interface AnalyticsConstants {
 
 	String CURRENCY_KEY = "locale.currency";
 
-	String TIMESTAMP_KEY = "timeStamp";
+	String TIMESTAMP_KEY = "timestamp";
 
 	String CP_VALUE = "CP";
 

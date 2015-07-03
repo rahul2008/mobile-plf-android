@@ -133,7 +133,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 			replaceWithWelcomeFragment();
 			return;
 		}
-		trackPage("", AnalyticsPages.HOME);
+		trackPage(null, AnalyticsPages.HOME);
 		replaceWithHomeFragment();
 	}
 
