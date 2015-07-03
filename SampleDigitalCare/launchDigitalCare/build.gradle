@@ -24,6 +24,7 @@ android {
 dependencies {
     compile project(':digitalCare')
     compile 'com.google.android.gms:play-services:+'
+    compile files('libs/HockeySDK-3.0.2.jar')
     androidTestCompile files('libs/dexmaker-1.0.jar')
     androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
     androidTestCompile files('libs/junit-4.12.jar')

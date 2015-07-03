@@ -45,7 +45,7 @@
         <item>contact_us</item>
         <item>find_philips_near_you</item>
         <item>feedback</item>
-        <item>registration</item>
+        <item>sign_into_my_philips</item>
     </string-array>
 
     <!-- List of main menu image names, please follow naming conventions -->
@@ -55,7 +55,7 @@
         <item>contact_us</item>
         <item>find_philips_near_you</item>
         <item>feedback</item>
-        <item>registration</item>
+        <item>philips_logo</item>
     </string-array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->

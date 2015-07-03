@@ -131,7 +131,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
     @Override
     public boolean onMainMenuItemClicked(String mainMenuItem) {
-        if (mainMenuItem.equals(getStringKey(R.string.registration))) {
+        if (mainMenuItem.equals(getStringKey(R.string.sign_into_my_philips))) {
             Intent intent = new Intent(LaunchDigitalCare.this,
                     DummyScreen.class);
             startActivity(intent);
