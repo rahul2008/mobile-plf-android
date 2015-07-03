@@ -729,7 +729,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 callPhilips();
             } else if (!Utils.isSimAvailable(getActivity())) {
                 DigiCareLogger.i(TAG, "Check the SIM");
-                showAlert("Check the SIM");
+                showAlert(getActivity().getString(R.string.check_sim));
             }
         }
     }
