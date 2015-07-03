@@ -379,7 +379,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);
                 callPhilips();
             } else if (!Utils.isSimAvailable(getActivity())) {
-                showAlert(getString(R.string.check_sim));
+                showAlert(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.facebook))

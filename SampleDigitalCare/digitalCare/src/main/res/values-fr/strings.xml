@@ -87,5 +87,6 @@
 	<string name="support_productinformation">Pouvez-vous m\'aider avec</string>
 	<string name="social_post_success">Message bien reçu !</string>
 	<string name="no_data_available">Aucune donnée</string>
+	<string name="servicecenters_not_found">Aucun centre disponible dans votre pays</string>
 
 </resources>

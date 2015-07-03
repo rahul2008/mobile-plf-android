@@ -285,12 +285,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             ArrayList<AtosResultsModel> resultModelSet = mAtosResponse
                     .getResultsModel();
             if (resultModelSet.size() <= 0) {
-                showAlert("Geo Data not found");
+                showAlert(getActivity().getString(R.string.servicecenters_not_found));
                 return;
             }
             addMarkers(resultModelSet);
         } else {
-            showAlert("Geo Data not found");
+            showAlert(getActivity().getString(R.string.servicecenters_not_found));
         }
     }
 

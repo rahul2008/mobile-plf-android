@@ -87,4 +87,5 @@
 <string name="support_productinformation">ik zoek hulp voor mijn</string>
 <string name="social_post_success">Uw bericht is ontvangen!</string>
 <string name="no_data_available">Geen gegevens beschikbaar</string>
+<string name="servicecenters_not_found">Geen servicecentra in uw land</string>
 </resources>

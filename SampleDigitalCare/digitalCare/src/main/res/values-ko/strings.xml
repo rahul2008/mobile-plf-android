@@ -87,4 +87,5 @@
 <string name="support_productinformation">지원 대상 선택</string>
 <string name="social_post_success">메시지가 수신되었습니다!</string>
 <string name="no_data_available">사용 가능한 데이터 없음</string>
+<string name="servicecenters_not_found">해당 국가에 서비스 센터 없음</string>
 </resources>

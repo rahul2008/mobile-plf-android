@@ -87,4 +87,5 @@
 <string name="support_productinformation">você pode me ajudar com meu</string>
 <string name="social_post_success">Sua mensagem foi recebida!</string>
 <string name="no_data_available">Nenhum dado disponível</string>
+<string name="servicecenters_not_found">Nenhuma assistência técnica disponível em seu país</string>
 </resources>
