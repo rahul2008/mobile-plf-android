@@ -185,15 +185,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         }
         if (isConnectionAvailable())
             requestATOSResponseData();
-        try {
-            if (mView != null) {
-                ((ViewGroup) mView.getParent()).removeView(mView);
-            }
-            mView = inflater.inflate(R.layout.fragment_locate_philips,
-                    container, false);
 
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+        }
+        try {
+            mView = inflater.inflate(R.layout.fragment_locate_philips, container, false);
         } catch (InflateException e) {
         }
+
         return mView;
     }
 
@@ -761,7 +764,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if (addressForTag.isEmpty() || addressForTag == null) {
             addressForTag = resultModel.getAddressModel().getAddress2();
         }
-        addressForTag = addressForTag.replaceAll("'", " ");
+        addressForTag = addressForTag.replaceAll(",", " ");
 
         AnalyticsTracker.trackAction(
                 AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
