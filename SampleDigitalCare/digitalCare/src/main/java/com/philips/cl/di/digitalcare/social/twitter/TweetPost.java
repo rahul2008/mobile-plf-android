@@ -1,3 +1,4 @@
+/*
 package com.philips.cl.di.digitalcare.social.twitter;
 
 import java.io.File;
@@ -15,12 +16,14 @@ import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.social.PostCallback;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * Thread Task for posting Twitter tweets along with Product Image.
  * 
  * @author naveen@philips.com
  * @since 11/feb/2015
- */
+ *//*
+
 public class TweetPost {
 
 	private String TAG = TweetPost.class.getSimpleName();
@@ -97,4 +100,4 @@ public class TweetPost {
 		}
 
 	}
-}
+}*/

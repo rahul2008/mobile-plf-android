@@ -1,3 +1,4 @@
+/*
 package com.philips.cl.di.digitalcare.social.twitter;
 
 import twitter4j.Twitter;
@@ -18,12 +19,14 @@ import android.text.TextUtils;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * TwitterAuthentication.
  * 
  * @author naveen@philips.com
  * @since 11/Feb/2015
- */
+ *//*
+
 public class TwitterAuthentication {
 
 	private static final String TAG = TwitterAuthentication.class
@@ -208,3 +211,4 @@ public class TwitterAuthentication {
 		mTwitterAuth.onTwitterLoginFailed();
 	}
 }
+*/

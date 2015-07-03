@@ -32,9 +32,9 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cl.di.digitalcare.social.facebook.FacebookWebFragment;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
+/*import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;
+import com.philips.cl.di.digitalcare.social.twitter.TwitterSupportFragment;*/
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
 
@@ -52,7 +52,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
  * @since : 19 Jan 2015
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
-		TwitterAuthenticationCallback, OnClickListener, ResponseCallback {
+		/*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback {
 	private LinearLayout mContactUsParent = null;
 	private LinearLayout mSocialProviderParent = null;
 	private FrameLayout.LayoutParams mParams = null;
@@ -205,7 +205,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		super.onConfigurationChanged(config);
 		setViewParams(config);
 	}
-
+/*
 	@Override
 	public void onTwitterLoginFailed() {
 		DigiCareLogger.d(TAG, "Twitter Authentication Failed");
@@ -214,7 +214,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	@Override
 	public void onTwitterLoginSuccessful() {
 		showFragment(new TwitterSupportFragment());
-	}
+	}*/
 
 	protected void requestCDLSData() {
 		DigiCareLogger.d(TAG, "CDLS Request Thread is started");
@@ -396,7 +396,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 				&& isConnectionAvailable()) {
 			// mTwitter.setClickable(false);
 			// launchTwitterFeature();
-			TwitterAuthentication mTwitter = TwitterAuthentication
+			/*TwitterAuthentication mTwitter = TwitterAuthentication
 					.getInstance(getActivity());
 			mTwitter.initSDK(this);
 			mPostProgress = new ProgressDialog(getActivity());
@@ -405,7 +405,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 			mPostProgress.setCancelable(false);
 			if (!(getActivity().isFinishing()))
 				mPostProgress.show();
-			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);
+			mTwitterProgresshandler.postDelayed(mTwitteroAuthRunnable, 10000l);*/
 
 		} else if (id == R.id.contactUsEmail) {
 			tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);

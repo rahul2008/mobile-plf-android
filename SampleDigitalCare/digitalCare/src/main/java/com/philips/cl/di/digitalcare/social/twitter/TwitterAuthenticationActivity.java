@@ -1,3 +1,4 @@
+/*
 package com.philips.cl.di.digitalcare.social.twitter;
 
 import android.app.Activity;
@@ -16,12 +17,14 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * Activity component used for Twitter OAuthentication
  * 
  * @author naveen@philips.com
  * @since 11/Feb/2015
- */
+ *//*
+
 
 public class TwitterAuthenticationActivity extends Activity {
 	private static final String TAG = TwitterAuthenticationActivity.class
@@ -138,3 +141,4 @@ public class TwitterAuthenticationActivity extends Activity {
 		}
 	}
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.philips.cl.di.digitalcare.social.twitter;
 
 import java.io.File;
@@ -35,13 +36,15 @@ import com.philips.cl.di.digitalcare.social.ProductImageHelper;
 import com.philips.cl.di.digitalcare.social.ProductImageResponseCallback;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
+*/
 /**
  * This Screen helps endusers to send the product info/concern along with
  * Product image to the Philips Twitter Support page.
  * 
  * @author naveen@philips.com
  * @since Feb 10, 2015
- */
+ *//*
+
 public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		OnCheckedChangeListener, ProductImageResponseCallback, PostCallback,
 		TextWatcher {
@@ -422,3 +425,4 @@ public class TwitterSupportFragment extends DigitalCareBaseFragment implements
 		return AnalyticsConstants.PAGE_CONTACTUS_TWITTER;
 	}
 }
+*/

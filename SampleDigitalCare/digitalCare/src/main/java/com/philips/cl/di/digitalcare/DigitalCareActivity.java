@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.social.ProductImageHelper;
-import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
+/*import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;*/
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
@@ -57,18 +57,18 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 		enableActionBarHome();
 	}
 
-	@Override
+	/*@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		DigiCareLogger.i(TAG, "DigitalCareActivity onActivityResult");
 
-		/*
+		*//*
 		 * if (requestCode == DigitalCareContants.FACEBOOK_REQUESTC0DE) {
 		 * DigiCareLogger.e(TAG, "Facebook Authentication..");
 		 * startFaceBookSDK(requestCode, resultCode, data);
 		 * 
 		 * }
-		 */
+		 *//*
 		if (resultCode == FragmentActivity.RESULT_CANCELED
 				&& requestCode == TwitterAuthentication.WEBVIEW_REQUEST_CODE) {
 			DigiCareLogger.e(TAG, "Twitter failed to authenticate");
@@ -101,7 +101,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	protected void stopTwitterSDK() {
 		TwitterAuthentication mTwitter = TwitterAuthentication.getInstance();
 		mTwitter.onFailedToAuthenticate();
-	}
+	}*/
 
 	/*
 	 * protected void startFaceBookSDK(int requestCode, int resultCode, Intent
@@ -116,12 +116,12 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 	 * AnalyticsConstants.ACTION_VALUE_PHOTO_VALUE); }
 	 */
 
-	protected void startImageParse(int requestCode, Intent data) {
+	/*protected void startImageParse(int requestCode, Intent data) {
 
 		if (mImage == null)
 			mImage = ProductImageHelper.getInstance();
 
 		mImage.processProductImage(data, requestCode);
 
-	}
+	}*/
 }
