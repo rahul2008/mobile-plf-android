@@ -11,9 +11,6 @@ import com.philips.cl.di.digitalcare.social.SocialProviderListener;
 
 import java.util.Locale;
 
-//import net.hockeyapp.android.CrashManager;
-//import net.hockeyapp.android.CrashManagerListener;
-
 /**
  * DigitalCareConfigManager is Config class for DigitalCare app. Here we can
  * maintain the instances at digital care app level. We need to pass the
@@ -66,8 +63,6 @@ public class DigitalCareConfigManager {
 			String exitAnim) {
 		if (mContext == null)
 			DigitalCareConfigManager.mContext = context;
-
-		registerHockeyApp(DigitalCareConfigManager.mContext);
 		initializeTaggingContext(mContext);
 		SupportHomeFragment supportFrag = new SupportHomeFragment();
 		supportFrag.showFragment(context, parentContainerResId, supportFrag,
@@ -75,23 +70,12 @@ public class DigitalCareConfigManager {
 	}
 
 	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
-		registerHockeyApp(DigitalCareConfigManager.mContext);
 		int defaultAnimationStart = R.anim.slide_in_bottom;
 		int defaultAnimationStop = R.anim.slide_out_bottom;
 		Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
 		intent.putExtra("STARTANIMATIONID", defaultAnimationStart);
 		intent.putExtra("ENDANIMATIONID", defaultAnimationStop);
 		getContext().startActivity(intent);
-	}
-
-	private void registerHockeyApp(Context context){
-//		/** Should be commented for debug builds */
-//		CrashManager.register(context, DigitalCareContants.HOCKEY_APP_ID, new CrashManagerListener() {
-//
-//			public boolean shouldAutoUploadCrashes() {
-//				return true;
-//			}
-//		});
 	}
 
 	public ConsumerProductInfo getConsumerProductInfo() {

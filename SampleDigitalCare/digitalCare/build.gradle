@@ -22,7 +22,6 @@ dependencies {
     compile files('libs/adobeMobileLibrary.jar')
     compile files('libs/localematch.jar')
     compile files('libs/twitter4j-core-4.0.3.jar')
-    compile files('libs/HockeySDK-3.0.2')
     androidTestCompile files('libs/dexmaker-1.0.jar')
     androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
     androidTestCompile files('libs/junit-4.12.jar')
