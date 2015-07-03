@@ -134,17 +134,17 @@ public class DigitalCareConfigManager {
 		return mTwitterConsumerKey;
 	}
 
-	public void setTwitterConsumerKey(String twitterConsumerKey) {
+	/*public void setTwitterConsumerKey(String twitterConsumerKey) {
 		mTwitterConsumerKey = twitterConsumerKey;
 	}
-
+*/
 	public String getTwitterConsumerSecret() {
 		return mTwitterConsumerSecret;
 	}
 
-	public void setTwitterConsumerSecret(String twitterConsumerSecret) {
+	/*public void setTwitterConsumerSecret(String twitterConsumerSecret) {
 		mTwitterConsumerSecret = twitterConsumerSecret;
-	}
+	}*/
 
 	private static void initializeTaggingContext(Context context) {
 		AnalyticsTracker.isEnable(true);

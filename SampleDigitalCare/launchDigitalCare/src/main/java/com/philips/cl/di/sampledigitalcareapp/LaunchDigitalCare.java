@@ -58,7 +58,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
                 this);
 
         // Twitter Support Feature.
-        setTwitterCredentials();
+       // setTwitterCredentials();
 
         setContentView(R.layout.activity_digital_care);
 
@@ -187,12 +187,12 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         DigitalCareConfigManager.getInstance().setLocale(language, country);
     }
 
-    private void setTwitterCredentials() {
+   /* private void setTwitterCredentials() {
         DigitalCareConfigManager.getInstance().setTwitterConsumerKey(
                 "qgktZw1ffdoreBjbiYfvnIPJe");
         DigitalCareConfigManager.getInstance().setTwitterConsumerSecret(
                 "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3");
 
-    }
+    }*/
 }
 
