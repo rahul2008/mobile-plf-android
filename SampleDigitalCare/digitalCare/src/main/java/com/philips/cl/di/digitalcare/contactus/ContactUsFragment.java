@@ -70,7 +70,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
     private String mCdlsResponseStr = null;
-    private View mView = null;
+    private static View mView = null;
     private Handler mTwitterProgresshandler = null;
     private ProgressDialog mPostProgress = null;
     private ProgressDialog mDialog = null;
@@ -213,6 +213,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     protected String formCdlsURL() {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
+
         return getCdlsUrl(consumerProductInfo.getSector(),
                 DigitalCareConfigManager.getInstance().getmResultLocale().toString(),
                 consumerProductInfo.getCatalog(),
