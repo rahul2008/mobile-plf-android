@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,6 +15,9 @@ import java.util.List;
  * Created by 310188215 on 04/05/15.
  */
 public class BTGatt extends BluetoothGattCallback {
+    private static final String TAG = BTGatt.class.getSimpleName();
+    private static final boolean LOGGING = true;
+
     public interface BTGattCallback
     {
         void onConnectionStateChange(BTGatt gatt, int status, int newState);
@@ -163,6 +167,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onConnectionStateChange status: " + status + " newState: " + newState);
                 btGattCallback.onConnectionStateChange(BTGatt.this, status, newState);
             }
         };
@@ -174,6 +179,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onServicesDiscovered status: " + status);
                 btGattCallback.onServicesDiscovered(BTGatt.this, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -190,6 +196,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onCharacteristicRead status: " + status);
                 btGattCallback.onCharacteristicReadWithData(BTGatt.this, characteristic, status, finalData);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -203,6 +210,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onCharacteristicWrite status: " + status);
                 btGattCallback.onCharacteristicWrite(BTGatt.this, characteristic, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -217,6 +225,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onCharacteristicChanged");
                 btGattCallback.onCharacteristicChangedWithData(BTGatt.this, characteristic, data);
             }
         };
@@ -229,6 +238,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onDescriptorRead status: " + status);
                 btGattCallback.onDescriptorReadWithData(BTGatt.this, descriptor, status, data);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -242,6 +252,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onDescriptorWrite status: " + status);
                 btGattCallback.onDescriptorWrite(BTGatt.this, descriptor, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -255,6 +266,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onReliableWriteCompleted status: " + status);
                 btGattCallback.onReliableWriteCompleted(BTGatt.this, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -268,6 +280,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onReadRemoteRssi status: " + status);
                 btGattCallback.onReadRemoteRssi(BTGatt.this, rssi, status);
                 waitingForCompletion = false;
                 executeNextCommandIfAllowed();
@@ -281,6 +294,7 @@ public class BTGatt extends BluetoothGattCallback {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if (LOGGING) Log.w(TAG, "onMtuChanged status: " + status);
                 btGattCallback.onMtuChanged(BTGatt.this, mtu, status);
             }
         };

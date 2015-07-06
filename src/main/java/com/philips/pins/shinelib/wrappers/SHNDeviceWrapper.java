@@ -85,6 +85,7 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
         synchronized (shnDeviceListeners) {
             if (!shnDeviceListeners.contains(shnDeviceListener)) {
                 shnDeviceListeners.add(shnDeviceListener);
+                shnDeviceListener.onStateUpdated(shnDevice);
             }
         }
     }

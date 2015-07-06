@@ -28,6 +28,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doAnswer;
@@ -56,6 +57,7 @@ public class SHNDeviceTest {
     private SHNDeviceImpl.SHNDeviceListener mockedSHNDeviceListener;
     private BluetoothGattCharacteristic mockedBluetoothGattCharacteristic;
     private BluetoothGattDescriptor mockedBluetoothGattDescriptor;
+    public static final String ADDRESS_STRING = "DE:AD:CO:DE:12:34";
 
     @Before
     public void setUp() {
@@ -74,7 +76,10 @@ public class SHNDeviceTest {
         doReturn(mockedContext).when(mockedSHNCentral).getApplicationContext();
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
+        doNothing().when(mockedSHNCentral).registerBondStatusListenerForAddress(any(SHNCentral.SHNBondStatusListener.class), anyString());
+
         doReturn(mockedBTGatt).when(mockedBTDevice).connectGatt(any(Context.class), anyBoolean(), any(BTGatt.BTGattCallback.class));
+
         doNothing().when(mockedBTGatt).discoverServices();
         doNothing().when(mockedBTGatt).disconnect();
         doNothing().when(mockedBTGatt).close();
@@ -86,6 +91,8 @@ public class SHNDeviceTest {
                 return mockedBTGatt;
             }
         }).when(mockedBTDevice).connectGatt(any(Context.class), anyBoolean(), any(BTGatt.BTGattCallback.class));
+
+        doReturn(ADDRESS_STRING).when(mockedBTDevice).getAddress();
 
         serviceUUID = UUID.randomUUID();
         doReturn(serviceUUID).when(mockedBluetoothGattService).getUuid();
@@ -374,11 +381,10 @@ public class SHNDeviceTest {
     // Test toString()
     @Test
     public void whenToStringIscalledThenAStringWithReadableInfoAboutTheDeviceIsReturned() {
-        final String addressString = "DE:AD:CO:DE:12:34";
         final String nameString = "TestDevice";
         doReturn(nameString).when(mockedBTDevice).getName();
-        doReturn(addressString).when(mockedBTDevice).getAddress();
-        assertEquals("SHNDevice - " + nameString + " [" + addressString + "]", shnDevice.toString());
+        doReturn(ADDRESS_STRING).when(mockedBTDevice).getAddress();
+        assertEquals("SHNDevice - " + nameString + " [" + ADDRESS_STRING + "]", shnDevice.toString());
     }
 
     // Test Capability functions

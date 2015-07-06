@@ -76,10 +76,12 @@ SHNServiceListener <-left- SHNService
  */
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -92,7 +94,10 @@ import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.wrappers.SHNDeviceWrapper;
 
+import java.lang.ref.WeakReference;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -164,6 +169,8 @@ public class SHNCentral {
         IntentFilter filter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         applicationContext.registerReceiver(bluetoothBroadcastReceiver, filter);
 
+        setupBondStatusListener();
+
         shnDeviceDefinitions = new SHNDeviceDefinitions();
         shnDeviceScanner = new SHNDeviceScanner(this, shnDeviceDefinitions.getRegisteredDeviceDefinitions());
 
@@ -180,6 +187,44 @@ public class SHNCentral {
         btAdapter = new BTAdapter(applicationContext, internalHandler);
 
         shinePreferenceWrapper = new ShinePreferenceWrapper(applicationContext);
+    }
+
+
+    private Map<String, WeakReference<SHNBondStatusListener>> shnBondStatusListeners = new HashMap<>();
+    public interface SHNBondStatusListener {
+        void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState);
+    }
+
+    /* package */ void registerBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
+        shnBondStatusListeners.put(address, new WeakReference<SHNBondStatusListener>(shnBondStatusListener));
+    }
+
+    /* package */ void unregisterBondStatusListenerForAddress(SHNBondStatusListener shnBondStatusListener, String address) {
+        shnBondStatusListeners.remove(address);
+    }
+
+    private void setupBondStatusListener() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+        BroadcastReceiver searchDevices = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Bundle bundle  = intent.getExtras();
+                BluetoothDevice device = bundle.getParcelable(BluetoothDevice.EXTRA_DEVICE);
+                int bondState = bundle.getInt(BluetoothDevice.EXTRA_BOND_STATE);
+                int previousBondState = bundle.getInt(BluetoothDevice.EXTRA_PREVIOUS_BOND_STATE);
+                WeakReference<SHNBondStatusListener> shnBondStatusListener = shnBondStatusListeners.get(device.getAddress());
+                if (shnBondStatusListener != null) {
+                    SHNBondStatusListener listener = shnBondStatusListener.get();
+                    if (listener != null) {
+                        listener.onBondStatusChanged(device, bondState, previousBondState);
+                    } else {
+                        shnBondStatusListeners.remove(device.getAddress());
+                    }
+                }
+            }
+        };
+        getApplicationContext().registerReceiver(searchDevices, intentFilter);
     }
 
     public Handler getInternalHandler() {

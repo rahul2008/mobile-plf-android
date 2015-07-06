@@ -1,11 +1,16 @@
 package com.philips.pins.shinelib;
 
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
 import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.philips.pins.shinelib.bluetoothwrapper.BTDevice;
@@ -22,7 +27,7 @@ import java.util.UUID;
 /**
  * Created by 310188215 on 02/03/15.
  */
-public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
+public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice, SHNCentral.SHNBondStatusListener {
     private static final String TAG = SHNDeviceImpl.class.getSimpleName();
     private static final boolean LOGGING = false;
     public static final long CONNECT_TIMEOUT = 10000l;
@@ -76,7 +81,8 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
     @Override
     public void connect()  {
         if (LOGGING) Log.i(TAG, "connect");
-        if (state == State.Disconnected) {
+        shnCentral.registerBondStatusListenerForAddress(this, getAddress());
+        if (getState() == State.Disconnected) {
             updateShnDeviceState(State.Connecting);
             btGatt = btDevice.connectGatt(applicationContext, false, btGattCallback);
             connectTimer.restart();
@@ -86,7 +92,7 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
     @Override
     public void disconnect() {
         if (LOGGING) Log.e(TAG, "disconnect");
-        state = State.Disconnecting;
+        updateShnDeviceState(State.Disconnecting);
         if (btGatt != null) {
             btGatt.disconnect();
         }
@@ -174,8 +180,9 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
         @Override
         public void onConnectionStateChange(BTGatt gatt, int status, int newState) {
             if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange");
-            State state = getState();
+            State tmpState = getState();
             if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange newState: STATE_DISCONNECTED");
                 if (btGatt != null) {
                     btGatt.close();
                     btGatt = null;
@@ -183,11 +190,12 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
                 for (SHNService shnService: registeredServices.values()) {
                     shnService.disconnectFromBLELayer();
                 }
-                state = State.Disconnected;
+                tmpState = State.Disconnected;
             } else if (newState == BluetoothProfile.STATE_CONNECTED) {
+                if (LOGGING) Log.i(TAG, "handleOnConnectionStateChange newState: STATE_CONNECTED");
                 gatt.discoverServices();
             }
-            updateShnDeviceState(state);
+            updateShnDeviceState(tmpState);
         }
 
         @Override
@@ -250,4 +258,16 @@ public class SHNDeviceImpl implements SHNService.SHNServiceListener, SHNDevice {
         public void onMtuChanged(BTGatt gatt, int mtu, int status) {
         }
     };
+
+    // implements SHNCentral.SHNBondStatusListener
+    @Override
+    public void onBondStatusChanged(BluetoothDevice device, int bondState, int previousBondState) {
+        if (btDevice.getAddress().equals(device.getAddress())) {
+            if (bondState == BluetoothDevice.BOND_BONDING) {
+                connectTimer.stop();
+            } else {
+                connectTimer.restart();
+            }
+        }
+    }
 }
