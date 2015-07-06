@@ -5,7 +5,7 @@
 
 
     <!-- Activity -->
-    <color name="activity_background_color">#F0F4F9</color>
+    <color name="activity_background_color">#FFFFFF</color>
 
     <!-- Actionbar related -->
     <color name="actionbar_background_start_color">#003478</color>
