@@ -54,8 +54,8 @@ public class AirPurifierTest extends InstrumentationTestCase {
 		mAirPortListener = mock(DICommPortListener.class);
 		mFirmwarePortListener = mock(DICommPortListener.class);
 
-		mPurifier.getAirPort().registerPortListener(mAirPortListener);
-		mPurifier.getFirmwarePort().registerPortListener(mFirmwarePortListener);
+		mPurifier.getAirPort().addPortListener(mAirPortListener);
+		mPurifier.getFirmwarePort().addPortListener(mFirmwarePortListener);
 
 		mObserver = mock(Observer.class);
 

@@ -15,7 +15,7 @@ import com.philips.cdp.dicommclient.communication.NullStrategy;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.PurAirKPSConfiguration;
@@ -136,11 +136,11 @@ public class PurAirApplication extends Application {
 	private void toggleLoggingAndTagging() {
 		if (isDebugBuild()) {
 			ALog.enableLogging();
-			DLog.enableLogging();
+			DICommLog.enableLogging();
 //			MetricsTracker.disableTagging();
 		} else {
 			ALog.disableLogging();
-			DLog.disableLogging();
+			DICommLog.disableLogging();
 			MetricsTracker.enableTagging();
 		}
 	}

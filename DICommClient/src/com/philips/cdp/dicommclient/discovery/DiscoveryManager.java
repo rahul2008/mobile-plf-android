@@ -26,8 +26,8 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
-import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommContext;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -60,8 +60,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	private SsdpServiceHelper mSsdpHelper;
 	private CppDiscoveryHelper mCppHelper;
 
-	private DiscoveryEventListener mDiscoveryEventListener;
-	private NewApplianceDiscoveredListener mNewApplianceDiscoveredListener;
+	private List<DiscoveryEventListener> mDiscoveryEventListenersList;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
 	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
@@ -115,16 +114,30 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 
 		mNetwork = networkMonitor;
 		mNetwork.setListener(mNetworkChangedCallback);
+		if(mDiscoveryEventListenersList == null){
+			mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
+		}
+	}
+	
+	public void addDiscoveryEventListener(DiscoveryEventListener listener){		
+		if(listener!=null){
+		mDiscoveryEventListenersList.add(listener);
+		}
+	}
+	
+	public void removeDiscoverEventListener(DiscoveryEventListener listener){
+		if(listener!=null && mDiscoveryEventListenersList!=null && mDiscoveryEventListenersList.contains(listener)){
+			mDiscoveryEventListenersList.remove(listener);
+		}
 	}
 
-	public void start(DiscoveryEventListener listener) {
+	public void start() {
 		if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
 			mSsdpHelper.startDiscoveryAsync();
 			DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
 		mCppHelper.startDiscoveryViaCpp();
 		mNetwork.startNetworkChangedReceiver(DICommContext.getContext());
-		mDiscoveryEventListener = listener;
 	}
 
 	public void stop() {
@@ -132,15 +145,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mCppHelper.stopDiscoveryViaCpp();
 		mNetwork.stopNetworkChangedReceiver(DICommContext.getContext());
-		mDiscoveryEventListener = null;
-	}
-
-	public void setNewApplianceDiscoveredListener(NewApplianceDiscoveredListener newApplianceDiscoveredListener) {
-		this.mNewApplianceDiscoveredListener = newApplianceDiscoveredListener;
-	}
-
-	public void clearNewApplianceDiscoveredListener() {
-		this.mNewApplianceDiscoveredListener = null;
+		//mDiscoveryEventListenersList = null;
 	}
 
 	public ArrayList<T> getAllDiscoveredAppliances() {
@@ -676,19 +681,16 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	}
 
 	private void notifyDiscoveryListener() {
-		if (mDiscoveryEventListener == null) return;
-		mDiscoveryEventListener.onDiscoveredAppliancesListChanged();
-
-		notifyNewApplianceDiscoveredListener();
+		if (mDiscoveryEventListenersList == null) return;
+		
+		for(DiscoveryEventListener listener: mDiscoveryEventListenersList){
+		    listener.onDiscoveredAppliancesListChanged();
+		}
+		
 		printDiscoveredAppliances(DICommLog.DISCOVERY);
 		DICommLog.v(DICommLog.DISCOVERY, "Notified listener of change event");
 	}
 
-	private void notifyNewApplianceDiscoveredListener() {
-		if (mNewApplianceDiscoveredListener != null) {
-			mNewApplianceDiscoveredListener.onNewApplianceDiscovered();
-		}
-	}
 
 	public void printDiscoveredAppliances(String tag) {
 		if (tag == null || tag.isEmpty()) {
@@ -774,7 +776,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	}
 
 	public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
-		mDiscoveryEventListener = dummyListener;
+		mDiscoveryEventListenersList.add(dummyListener);
 	}
 
 	public void setDummyNetworkMonitorForTesting(NetworkMonitor dummyMonitor) {

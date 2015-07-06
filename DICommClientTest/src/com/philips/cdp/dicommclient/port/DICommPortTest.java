@@ -518,7 +518,7 @@ public class DICommPortTest extends MockitoTestCase{
 	public void testRegisterListener() {
 		DICommPortListener listener = mock(DICommPortListener.class);
 
-		mDICommPort.registerPortListener(listener);
+		mDICommPort.addPortListener(listener);
 		mDICommPort.handleResponse("");
 
 		verify(listener, times(1)).onPortUpdate(mDICommPort);
@@ -527,8 +527,8 @@ public class DICommPortTest extends MockitoTestCase{
 	public void testUnregisterListener() {
 		DICommPortListener listener = mock(DICommPortListener.class);
 
-		mDICommPort.registerPortListener(listener);
-		mDICommPort.unregisterPortListener(listener);
+		mDICommPort.addPortListener(listener);
+		mDICommPort.removePortListener(listener);
 		mDICommPort.handleResponse("");
 
 		verify(listener, times(0)).onPortUpdate(mDICommPort);
@@ -537,9 +537,9 @@ public class DICommPortTest extends MockitoTestCase{
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
 		DICommPortListener listener = mock(DICommPortListener.class);
 
-		mDICommPort.registerPortListener(listener);
-		mDICommPort.unregisterPortListener(listener);
-		mDICommPort.unregisterPortListener(listener);
+		mDICommPort.addPortListener(listener);
+		mDICommPort.removePortListener(listener);
+		mDICommPort.removePortListener(listener);
 
     	mDICommPort.handleResponse("");
 
@@ -549,8 +549,8 @@ public class DICommPortTest extends MockitoTestCase{
 	public void testListenerShouldNotBeRegisteredTwice() {
 		DICommPortListener listener = mock(DICommPortListener.class);
 
-		mDICommPort.registerPortListener(listener);
-		mDICommPort.registerPortListener(listener);
+		mDICommPort.addPortListener(listener);
+		mDICommPort.addPortListener(listener);
 		mDICommPort.handleResponse("");
 
 		verify(listener, times(1)).onPortUpdate(mDICommPort);
@@ -589,7 +589,7 @@ public class DICommPortTest extends MockitoTestCase{
 	}
 
 	private ResponseHandler addListenerAndGetResponseHandler(DICommPortListenerImpl listener) {
-		mDICommPort.registerPortListener(listener);
+		mDICommPort.addPortListener(listener);
 		verifyPutPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		return responseHandler;

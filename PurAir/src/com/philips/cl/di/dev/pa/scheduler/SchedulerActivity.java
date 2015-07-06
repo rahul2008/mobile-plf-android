@@ -321,6 +321,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			unregisterWifiNetworkForSocket();
 		}
+		DiscoveryManager.getInstance().removeDiscoverEventListener(this);
 		DiscoveryManager.getInstance().stop();
 		setCancelled(true);
 	}
@@ -329,10 +330,11 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 	protected void onResume() {
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE);
+		DiscoveryManager.getInstance().addDiscoveryEventListener(this);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			registerWifiNetworkForSocket();
 		} else {
-			DiscoveryManager.getInstance().start(this);
+			DiscoveryManager.getInstance().start();
 		}
 		
 		if (schedulesList == null || schedulesList.size() == 0) {
@@ -485,7 +487,7 @@ public class SchedulerActivity extends BaseActivity implements SchedulePortListe
 		if(networkCallback.getNetwork() != null) {
 			ConnectivityManager.setProcessDefaultNetwork(networkCallback.getNetwork());
 		}
-		DiscoveryManager.getInstance().start(this);
+		DiscoveryManager.getInstance().start();
 	}
 	
 	@SuppressLint("NewApi")

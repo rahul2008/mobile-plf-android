@@ -69,7 +69,7 @@ public class AirPurifierManager extends CurrentApplianceManager {
 			DICommApplianceListener diCommApplianceListener = new DICommApplianceListener() {
 
 				@Override
-				public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port) {
+				public void onAppliancePortUpdate(DICommAppliance appliance, DICommPort<?> port) {
 					if (port instanceof AirPort) {
 						airPurifierEventListener.onAirPurifierEventReceived();
 					} else if (port instanceof FirmwarePort) {
@@ -78,7 +78,7 @@ public class AirPurifierManager extends CurrentApplianceManager {
 				}
 
 				@Override
-				public void onPortError(DICommAppliance appliance, DICommPort<?> port,
+				public void onAppliancePortError(DICommAppliance appliance, DICommPort<?> port,
 						Error error) {
 					airPurifierEventListener.onErrorOccurred(error);
 				}

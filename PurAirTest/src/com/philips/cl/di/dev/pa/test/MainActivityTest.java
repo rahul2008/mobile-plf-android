@@ -43,8 +43,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(discManager);
 			
 			instrumentation.callActivityOnResume(activity);
-			
-			verify(discManager).start(activity);
+			discManager.addDiscoveryEventListener(activity);
+			verify(discManager).start();
 			verify(discManager, never()).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
@@ -64,9 +64,11 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 			DiscoveryManager discManager = mock(DiscoveryManager.class);
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(discManager);
 			
+			discManager.addDiscoveryEventListener(activity);
+			
 			instrumentation.callActivityOnPause(activity);
 			
-			verify(discManager, never()).start(activity);
+			verify(discManager, never()).start();
 			verify(discManager).stop();
 			
 			DiscoveryManager.setDummyDiscoveryManagerForTesting(null);

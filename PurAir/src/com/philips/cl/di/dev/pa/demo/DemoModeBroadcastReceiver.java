@@ -196,18 +196,18 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 
         final DevicePort devicePort = tempDemoModePurifier.getDevicePort();
-        devicePort.registerPortListener(new DICommPortListener() {
+        devicePort.addPortListener(new DICommPortListener() {
 
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, (DevicePortProperties) port.getPortProperties(), null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
         });
 
@@ -219,18 +219,18 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
         taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
 
         final WifiPort wifiPort = tempDemoModePurifier.getWifiPort();
-        wifiPort.registerPortListener(new DICommPortListener() {
+        wifiPort.addPortListener(new DICommPortListener() {
 
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 receiveServerResponse(HttpURLConnection.HTTP_OK, null, (WifiPortProperties) port.getPortProperties());
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 receiveServerResponse(-1, null, null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
         });
 

@@ -123,19 +123,19 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         isCancelled = false;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPortListener(new DICommPortListener() {
+        devicePort.addPortListener(new DICommPortListener() {
             
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
-                port.unregisterPortListener(this);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
         });
         
@@ -148,18 +148,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         isCancelled = false;
         
         final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPortListener(new DICommPortListener() {
+        wifiPort.addPortListener(new DICommPortListener() {
             
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
         });
         
@@ -172,18 +172,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
         isCancelled = false;
 
         final DevicePort devicePort = tempEWSPurifier.getDevicePort();
-        devicePort.registerPortListener(new DICommPortListener() {
+        devicePort.addPortListener(new DICommPortListener() {
             
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, (DevicePortProperties) port.getPortProperties(), null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
         });
         
@@ -198,18 +198,18 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 		
 		final WifiPort wifiPort = tempEWSPurifier.getWifiPort();
-        wifiPort.registerPortListener(new DICommPortListener() {
+        wifiPort.addPortListener(new DICommPortListener() {
             
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 onTaskCompleted(HttpURLConnection.HTTP_OK, null, null, (WifiPortProperties) port.getPortProperties());
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
                 onTaskCompleted(convertErrorToHttpResponseCode(error), errorData, null, null);
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
         });
 

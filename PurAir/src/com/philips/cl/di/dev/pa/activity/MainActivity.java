@@ -221,7 +221,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 		ALog.i("LOLLIPOP", "startNormalMode");
 		stopDemoMode();
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
-		DiscoveryManager.getInstance().start(this);
+		DiscoveryManager.getInstance().addDiscoveryEventListener(this);
+		DiscoveryManager.getInstance().start();
 		AirPurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 	
@@ -298,6 +299,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, InternetConnectio
 	protected void onDestroy() {
 		CppController.getInstance().removeSignOnListener(this);
 		clearObjects();
+		DiscoveryManager.getInstance().removeDiscoverEventListener(this);
 		super.onDestroy();
 	}
 	

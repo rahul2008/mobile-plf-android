@@ -59,7 +59,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		
 		
 		mListener = mock(DiscoveryEventListener.class);
-		mDiscoveryManager.setDummyDiscoveryEventListenerForTesting(mListener);
+		
+		mDiscoveryManager.addDiscoveryEventListener(mListener);		
 		mDiscoveryManager.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(mMockedNetworkMonitor);
 	}
@@ -102,7 +103,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
 		manager.setDummyNetworkMonitorForTesting(monitor);
 
-		manager.start(mock(DiscoveryEventListener.class));
+		manager.start();
 		verify(ssdpHelper, never()).startDiscoveryAsync();
 		verify(ssdpHelper, never()).stopDiscoveryAsync();
 		verify(cppHelper).startDiscoveryViaCpp();
@@ -124,7 +125,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
 		manager.setDummyNetworkMonitorForTesting(monitor);
 
-		manager.start(mock(DiscoveryEventListener.class));
+		manager.start();
 		verify(ssdpHelper, never()).startDiscoveryAsync();
 		verify(ssdpHelper, never()).stopDiscoveryAsync();
 		verify(cppHelper).startDiscoveryViaCpp();
@@ -146,7 +147,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
 		manager.setDummyNetworkMonitorForTesting(monitor);
 
-		manager.start(mock(DiscoveryEventListener.class));
+		manager.start();
 		verify(ssdpHelper).startDiscoveryAsync();
 		verify(ssdpHelper, never()).stopDiscoveryAsync();
 		verify(cppHelper).startDiscoveryViaCpp();
@@ -1778,7 +1779,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 		
-		mDiscoveryManager.start(mock(DiscoveryEventListener.class));
+		mDiscoveryManager.start();
 
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
@@ -1792,7 +1793,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 		
-		mDiscoveryManager.start(mock(DiscoveryEventListener.class));
+		mDiscoveryManager.start();
 
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
@@ -1806,7 +1807,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 		
-		mDiscoveryManager.start(mock(DiscoveryEventListener.class));
+		mDiscoveryManager.start();
 		
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
@@ -1822,13 +1823,37 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
 		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE, 10000);
-		mDiscoveryManager.start(mock(DiscoveryEventListener.class));
+		mDiscoveryManager.start();
 		assertTrue(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertTrue(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
 
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE);
 	}
+	
+	public void testAddListener() {
+//        DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
+//		mDiscoveryManager.addDiscoveryEventListener(listener);
+//		
+//		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+//		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
+//		mDiscoveryManager.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
+//
+//		verify(listener, times(1)).onDiscoveredAppliancesListChanged();
+	}
+
+	public void testUnregisterListener() {
+		
+	}
+
+    public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
+		
+    }
+
+	public void testListenerShouldNotBeRegisteredTwice() {
+		
+	}
+	
 
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 

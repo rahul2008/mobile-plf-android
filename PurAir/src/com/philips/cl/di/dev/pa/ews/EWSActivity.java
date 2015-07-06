@@ -107,6 +107,8 @@ public class EWSActivity extends ActionBarActivity implements
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		
 		AirPurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
+		
+		DiscoveryManager.getInstance().addDiscoveryEventListener(this);
 	}
 	
 	/*Initialize action bar */
@@ -184,6 +186,7 @@ public class EWSActivity extends ActionBarActivity implements
 		if( ewsService != null ) {
 			ewsService.stopSSDPCountDownTimer() ;
 		}
+		DiscoveryManager.getInstance().removeDiscoverEventListener(this);
 	}
 	
 	@Override
@@ -528,7 +531,7 @@ public class EWSActivity extends ActionBarActivity implements
 	public void onDeviceConnectToHomeNetwork() {
 		//Start discovery for non Lollipop devices
 		if( Build.VERSION.SDK_INT < VERSION_CODES.LOLLIPOP) {
-			DiscoveryManager.getInstance().start(this);
+			DiscoveryManager.getInstance().start();
 		}
 	}
 	
@@ -640,7 +643,7 @@ public class EWSActivity extends ActionBarActivity implements
 			registerWifiNetworkForSocket();
 		}
 		else {
-			DiscoveryManager.getInstance().start(this);
+			DiscoveryManager.getInstance().start();
 		}
 	}
 	
@@ -756,7 +759,7 @@ public class EWSActivity extends ActionBarActivity implements
 		}
 	
 		
-		DiscoveryManager.getInstance().start(this);
+		DiscoveryManager.getInstance().start();
 
 	}
 	

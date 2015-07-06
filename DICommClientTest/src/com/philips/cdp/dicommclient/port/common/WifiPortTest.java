@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class WifiPortTest extends MockitoTestCase {
 
@@ -64,7 +64,7 @@ public class WifiPortTest extends MockitoTestCase {
             holder.put("ssid", ssid);
             holder.put("password", password);
         } catch (JSONException e) {
-            DLog.e(DLog.WIFIPORT, "Error: " + e.getMessage());
+            DICommLog.e(DICommLog.WIFIPORT, "Error: " + e.getMessage());
         }
         String js = holder.toString();
 
@@ -81,7 +81,7 @@ public class WifiPortTest extends MockitoTestCase {
             holder.put("netmask", subnetMask);
             holder.put("gateway", gateWay);
         } catch (JSONException e) {
-            DLog.e(DLog.WIFIPORT, "Error: " + e.getMessage());
+            DICommLog.e(DICommLog.WIFIPORT, "Error: " + e.getMessage());
         }
         String js = holder.toString();
 

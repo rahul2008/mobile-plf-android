@@ -24,8 +24,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
+import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.discovery.NewApplianceDiscoveredListener;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.port.DICommPortListener;
@@ -48,7 +48,7 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickListener {
+OnClickListener, StartFlowListener, DiscoveryEventListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
@@ -194,18 +194,18 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
 		final WifiPort wifiPort = selectedPurifier.getWifiPort();
-		wifiPort.registerPortListener(new DICommPortListener() {
+		wifiPort.removePortListener(new DICommPortListener() {
             
             @Override
             public void onPortUpdate(DICommPort<?> port) {
                 stopSSIDTimer();
                 onSuccessfullyConnected();
-                port.unregisterPortListener(this);
+                port.removePortListener(this);
             }
 
             @Override
             public void onPortError(DICommPort<?> port, Error error, String errorData) {
-            	port.unregisterPortListener(this);
+            	port.removePortListener(this);
             }
         });
 		// TODO DIComm Refactor - See if key exchange retries are necessary
@@ -268,7 +268,7 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 
 	private void showDiscoveredPurifier() {
 		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-		discoveryManager.setNewApplianceDiscoveredListener(this);
+		discoveryManager.addDiscoveryEventListener(this);
 		appItems = discoveryManager.getNewAppliancesDiscovered();
 		listItemsArrayList = new ArrayList<String>();
 
@@ -297,13 +297,13 @@ OnClickListener, StartFlowListener, NewApplianceDiscoveredListener, OnItemClickL
 	}
 
 	private void clearDiscoveredPurifierObject() {
-		DiscoveryManager.getInstance().clearNewApplianceDiscoveredListener();
+		DiscoveryManager.getInstance().removeDiscoverEventListener(this);
 		appSelectorAdapter = null;
 		listItemsArrayList = null;
 	}
 
 	@Override
-	public void onNewApplianceDiscovered() {
+	public void onDiscoveredAppliancesListChanged() {
 
 		if (getActivity() == null) return;
 		getActivity().runOnUiThread(new Runnable() {
