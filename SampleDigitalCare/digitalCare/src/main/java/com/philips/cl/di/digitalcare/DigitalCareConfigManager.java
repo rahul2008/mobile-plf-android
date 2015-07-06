@@ -122,7 +122,7 @@ public class DigitalCareConfigManager {
 //                    "\n Country Code : " + countryCode, Toast.LENGTH_SHORT).show();
 
             // mLocale = new Locale(langCode, countryCode);
-            mLocale = new Locale(langCode);
+            mLocale = new Locale(langCode, countryCode);
 			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
 					mContext, langCode, countryCode);
 			mLocaleMatchHandler.initializeLocaleMatchService();

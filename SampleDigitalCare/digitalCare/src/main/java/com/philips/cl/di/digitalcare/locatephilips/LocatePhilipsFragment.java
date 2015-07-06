@@ -221,7 +221,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 .getInstance().getConsumerProductInfo();
         return getAtosUrl(consumerProductInfo.getCtn(),
                 consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-                        .getInstance().getmResultLocale().getCountry().toLowerCase());
+                        .getInstance().getLocale().getCountry().toLowerCase());
     }
 
     protected String getAtosUrl(String ctn, String subcategory, String country) {
