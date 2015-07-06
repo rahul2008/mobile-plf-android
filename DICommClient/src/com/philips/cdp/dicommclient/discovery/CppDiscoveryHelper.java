@@ -13,7 +13,7 @@ import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.cpp.listener.SignonListener;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.data.Errors;
 
 public class CppDiscoveryHelper implements SignonListener, PublishEventListener, DcsEventListener {
@@ -37,15 +37,15 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 	}
 
 	public void startDiscoveryViaCpp() {
-		DLog.d(DLog.CPPDISCHELPER, "Start discovery via CPP");
+		DICommLog.d(DICommLog.CPPDISCHELPER, "Start discovery via CPP");
 		boolean isSignedOnToCpp = mCppController.isSignOn();
 		startDiscoveryViaCpp(isSignedOnToCpp);
 	}
 
 	public void stopDiscoveryViaCpp() {
-		DLog.d(DLog.CPPDISCHELPER, "Stop discovery via CPP - disabling subscription");
+		DICommLog.d(DICommLog.CPPDISCHELPER, "Stop discovery via CPP - disabling subscription");
 		isCppDiscoveryPending = false;
-		DLog.i(DLog.CPPDISCHELPER, "Disabling remote subscription (stop dcs)");
+		DICommLog.i(DICommLog.CPPDISCHELPER, "Disabling remote subscription (stop dcs)");
 		mCppController.stopDCSService();
 		mCppController.removePublishEventListener(this) ;
 	}
@@ -53,29 +53,29 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 	private void startDiscoveryViaCpp(boolean isSignedOnToCpp) {
 		if (isSignedOnToCpp) {
 			mCppDiscListener.onSignedOnViaCpp();
-			DLog.i(DLog.CPPDISCHELPER, "Enabling remote subscription (start dcs)");
+			DICommLog.i(DICommLog.CPPDISCHELPER, "Enabling remote subscription (start dcs)");
 			mCppController.startDCSService();
 			mCppController.addPublishEventListener(this) ;
 			discoverEventMessageID = mCppController.publishEvent(null, DISCOVERY_REQUEST, ACTION_DISCOVER, "", 20, 120, mCppController.getAppCppId());
 			isCppDiscoveryPending = false;
-			DLog.i(DLog.CPPDISCHELPER, "Starting discovery via Cpp - IMMEDIATE");
+			DICommLog.i(DICommLog.CPPDISCHELPER, "Starting discovery via Cpp - IMMEDIATE");
 		} else {
 			isCppDiscoveryPending = true;
-			DLog.i(DLog.CPPDISCHELPER, "Starting discovery via Cpp - DELAYED");
+			DICommLog.i(DICommLog.CPPDISCHELPER, "Starting discovery via Cpp - DELAYED");
 		}
 	}
 
 	@Override
 	public void signonStatus(boolean signon) {
-		DLog.d(DLog.CPPDISCHELPER, "Sigon on callback: " + signon);
+		DICommLog.d(DICommLog.CPPDISCHELPER, "Sigon on callback: " + signon);
 		if (!signon) {
-			DLog.i(DLog.CPPDISCHELPER, "Signed off - Notifying discovery listener");
+			DICommLog.i(DICommLog.CPPDISCHELPER, "Signed off - Notifying discovery listener");
 			mCppDiscListener.onSignedOffViaCpp();
 			return;
 		}
 		if (!isCppDiscoveryPending) return;
 
-		DLog.i(DLog.CPPDISCHELPER, "Signed on - Starting discovery via CPP");
+		DICommLog.i(DICommLog.CPPDISCHELPER, "Signed on - Starting discovery via CPP");
 		startDiscoveryViaCpp(signon);
 	}
 
@@ -103,7 +103,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 		DiscoverInfo discoverInfo = parseDiscoverInfo(data);
 		if (discoverInfo == null) return;
 
-		DLog.i(DLog.CPPDISCHELPER, "Discovery event received - " + action);
+		DICommLog.i(DICommLog.CPPDISCHELPER, "Discovery event received - " + action);
 		boolean isResponseToRequest = (action != null	&& action.toUpperCase().trim().equals(ACTION_DISCOVER));
 
 		if (mCppDiscoverEventListener != null) {
@@ -121,10 +121,10 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 			if (!info.isValid()) return null;
 			return info;
 		} catch (JsonIOException e) {
-			DLog.e(DLog.PARSER, "JsonIOException");
+			DICommLog.e(DICommLog.PARSER, "JsonIOException");
 			return null;
 		} catch (JsonSyntaxException e2) {
-			DLog.e(DLog.PARSER, "JsonSyntaxException");
+			DICommLog.e(DICommLog.PARSER, "JsonSyntaxException");
 			return null;
 		}
 	}

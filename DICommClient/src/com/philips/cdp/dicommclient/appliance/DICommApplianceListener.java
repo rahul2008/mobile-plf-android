@@ -10,8 +10,8 @@ import com.philips.cdp.dicommclient.request.Error;
 
 public interface DICommApplianceListener {
 
-	public void onPortUpdate(DICommAppliance appliance, DICommPort<?> port);
+	public void onAppliancePortUpdate(DICommAppliance appliance, DICommPort<?> port);
 
-	public void onPortError(DICommAppliance appliance, DICommPort<?> port, Error error);
+	public void onAppliancePortError(DICommAppliance appliance, DICommPort<?> port, Error error);
 
 }

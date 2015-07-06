@@ -21,7 +21,7 @@ import android.util.Log;
  *
  * @author jmols
  */
-public class DLog {
+public class DICommLog {
 
 	public static final String WIFI = "WifiNetworks ";
 	public static final String ICPCLIENT = "IcpClient";

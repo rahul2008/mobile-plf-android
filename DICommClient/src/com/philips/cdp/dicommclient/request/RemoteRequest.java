@@ -11,7 +11,7 @@ import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsResponseListener;
 import com.philips.cdp.dicommclient.cpp.listener.PublishEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteRequest extends Request implements DcsResponseListener, PublishEventListener {
@@ -44,13 +44,13 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 		String data = Request.convertKeyValuesToJson(dataMap);
 		String dataToSend = String.format(BASEDATA_PORTS, productId, portName, data);
 
-		DLog.i(DLog.REMOTEREQUEST, "Data to send: "+ dataToSend);
+		DICommLog.i(DICommLog.REMOTEREQUEST, "Data to send: "+ dataToSend);
 		return dataToSend;
 	}
 
 	@Override
 	public Response execute() {
-		DLog.d(DLog.REMOTEREQUEST, "Start request REMOTE");
+		DICommLog.d(DICommLog.REMOTEREQUEST, "Start request REMOTE");
 		//TODO - Add publish event listener for handling error cases
 		mCppController.addDCSResponseListener(this) ;
 		mCppController.addPublishEventListener(this) ;
@@ -64,7 +64,7 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
 			}
 			if ((System.currentTimeMillis() - startTime) > CPP_DEVICE_CONTROL_TIMEOUT) {
-				DLog.e(DLog.REMOTEREQUEST, "Timeout occured");
+				DICommLog.e(DICommLog.REMOTEREQUEST, "Timeout occured");
 			}
 		} catch (InterruptedException e) {
 			// NOP
@@ -74,27 +74,27 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 		mCppController.removeDCSResponseListener(this);
 
 		if (mResponse == null) {
-			DLog.e(DLog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
-			DLog.d(DLog.REMOTEREQUEST, "Stop request REMOTE - Failure");
+			DICommLog.e(DICommLog.REMOTEREQUEST, "Request failed - null reponse, failed to publish event or request timeout");
+			DICommLog.d(DICommLog.REMOTEREQUEST, "Stop request REMOTE - Failure");
 			return new Response(null, Error.REQUESTFAILED, mResponseHandler) ;
 		}
 
-		DLog.i(DLog.REMOTEREQUEST, "Received data: " + mResponse);
-		DLog.d(DLog.REMOTEREQUEST, "Stop request REMOTE - Success");
+		DICommLog.i(DICommLog.REMOTEREQUEST, "Received data: " + mResponse);
+		DICommLog.d(DICommLog.REMOTEREQUEST, "Stop request REMOTE - Success");
 		return new Response(mResponse, null, mResponseHandler) ;
 	}
 
 	@Override
 	public void onDCSResponseReceived(String dcsResponse, String conversationId) {
 		if(mConversationId!=null && mConversationId.equals(conversationId)){
-			DLog.i(DLog.REMOTEREQUEST,"DCSEvent received from the right request");
+			DICommLog.i(DICommLog.REMOTEREQUEST,"DCSEvent received from the right request");
 			mResponse = dcsResponse ;
 			synchronized (this) {
-				DLog.i(DLog.REMOTEREQUEST, "Notified on DCS Response") ;
+				DICommLog.i(DICommLog.REMOTEREQUEST, "Notified on DCS Response") ;
 				notify() ;
 			}
 		}else{
-			DLog.i(DLog.REMOTEREQUEST,"DCSEvent received from different request - ignoring");
+			DICommLog.i(DICommLog.REMOTEREQUEST,"DCSEvent received from different request - ignoring");
 		}
 
 
@@ -103,17 +103,17 @@ public class RemoteRequest extends Request implements DcsResponseListener, Publi
 	@Override
 	public void onPublishEventReceived(int status, int messageId, String conversationId) {
 		if( mMessageId == messageId) {
-			DLog.i(DLog.REMOTEREQUEST,"Publish event received from the right request - status: " + status);
+			DICommLog.i(DICommLog.REMOTEREQUEST,"Publish event received from the right request - status: " + status);
 			if ( status == Errors.SUCCESS){
 				mConversationId = conversationId;
 			}else {
 				synchronized (this) {
-					DLog.e(DLog.REMOTEREQUEST, "Publish Event Failed") ;
+					DICommLog.e(DICommLog.REMOTEREQUEST, "Publish Event Failed") ;
 					notify() ;
 				}
 			}
 		} else {
-			DLog.i(DLog.REMOTEREQUEST,"Publish event received from different request - ignoring");
+			DICommLog.i(DICommLog.REMOTEREQUEST,"Publish event received from different request - ignoring");
 		}
 	}
 

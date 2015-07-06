@@ -26,7 +26,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class NetworkNodeDatabase {
 
@@ -75,13 +75,13 @@ public class NetworkNodeDatabase {
 					networkNode.setModelType(modelType);
 
 					result.add(networkNode);
-					DLog.d(DLog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
+					DICommLog.d(DICommLog.DATABASE, "Loaded NetworkNode from db: " + networkNode);
 				} while (cursor.moveToNext());
 			} else {
-				DLog.i(DLog.DATABASE, "Empty network node table");
+				DICommLog.i(DICommLog.DATABASE, "Empty network node table");
 			}
 		} catch (Exception e) {
-			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
 			closeDatabase(db);
@@ -122,10 +122,10 @@ public class NetworkNodeDatabase {
 			values.put(KEY_MODEL_TYPE, networkNode.getModelType());
 
 			rowId = db.insertWithOnConflict(TABLE_NETWORK_NODE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-			DLog.d(DLog.DATABASE, "Saved NetworkNode in db: " + networkNode);
+			DICommLog.d(DICommLog.DATABASE, "Saved NetworkNode in db: " + networkNode);
 		} catch (Exception e) {
 			e.printStackTrace();
-			DLog.e(DLog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
+			DICommLog.e(DICommLog.DATABASE, "Failed to save NetworkNode" + " ,Error: " + e.getMessage());
 		} finally {
 			closeDatabase(db);
 		}
@@ -143,7 +143,7 @@ public class NetworkNodeDatabase {
 			cursor = db.query(TABLE_NETWORK_NODE, null, KEY_CPP_ID + " = ?", new String[] {networkNode.getCppId()}, null, null, null);
 
 			if (cursor.getCount() > 0) {
-				DLog.d(DLog.DATABASE, "NetworkNode already in db - " + networkNode);
+				DICommLog.d(DICommLog.DATABASE, "NetworkNode already in db - " + networkNode);
 				return true;
 			}
 		} catch (Exception e) {
@@ -153,7 +153,7 @@ public class NetworkNodeDatabase {
 			closeCursor(cursor);
 		}
 
-		DLog.d(DLog.DATABASE, "NetworkNode not yet in db - " + networkNode);
+		DICommLog.d(DICommLog.DATABASE, "NetworkNode not yet in db - " + networkNode);
 		return false;
 	}
 
@@ -164,9 +164,9 @@ public class NetworkNodeDatabase {
 			db = dbHelper.getReadableDatabase();
 
 			rowsDeleted = db.delete(TABLE_NETWORK_NODE, KEY_CPP_ID + "= ?", new String[] { networkNode.getCppId() });
-			DLog.d(DLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  ("+rowsDeleted+")");
+			DICommLog.d(DICommLog.DATABASE, "Deleted NetworkNode from db: " + networkNode + "  ("+rowsDeleted+")");
 		} catch (Exception e) {
-			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeDatabase(db);
 		}
@@ -179,7 +179,7 @@ public class NetworkNodeDatabase {
 				db.close();
 			}
 		} catch (Exception e) {
-			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
 
@@ -189,7 +189,7 @@ public class NetworkNodeDatabase {
 				cursor.close();
 			}
 		} catch (Exception e) {
-			DLog.e(DLog.DATABASE, "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
 

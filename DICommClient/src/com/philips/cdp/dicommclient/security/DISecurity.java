@@ -8,7 +8,7 @@ package com.philips.cdp.dicommclient.security;
 import java.nio.charset.Charset;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class DISecurity {
 
@@ -25,17 +25,17 @@ public class DISecurity {
 
     public String encryptData(String data, NetworkNode networkNode) {
         if (networkNode == null) {
-            DLog.i(DLog.SECURITY, "Did not encrypt data - NetworkNode is null");
+            DICommLog.i(DICommLog.SECURITY, "Did not encrypt data - NetworkNode is null");
             return null;
         }
 
         String key = networkNode.getEncryptionKey();
         if (key == null || key.isEmpty()) {
-            DLog.i(DLog.SECURITY, "Did not encrypt data - Key is null or Empty");
+            DICommLog.i(DICommLog.SECURITY, "Did not encrypt data - Key is null or Empty");
             return null;
         }
         if (data == null || data.isEmpty()) {
-            DLog.i(DLog.SECURITY, "Did not encrypt data - Data is null or Empty");
+            DICommLog.i(DICommLog.SECURITY, "Did not encrypt data - Data is null or Empty");
             return null;
         }
 
@@ -43,34 +43,34 @@ public class DISecurity {
         try {
             byte[] encrypDatas = EncryptionUtil.aesEncryptData(data, key);
             encryptedBase64Str = ByteUtil.encodeToBase64(encrypDatas);
-            DLog.i(DLog.SECURITY, "Encrypted data: " + encryptedBase64Str);
+            DICommLog.i(DICommLog.SECURITY, "Encrypted data: " + encryptedBase64Str);
         } catch (Exception e) {
             e.printStackTrace();
-            DLog.i(DLog.SECURITY, "Failed to encrypt data with key - " + "Error: " + e.getMessage());
+            DICommLog.i(DICommLog.SECURITY, "Failed to encrypt data with key - " + "Error: " + e.getMessage());
         }
         return encryptedBase64Str;
     }
 
     public String decryptData(String data, NetworkNode networkNode) {
-        DLog.i(DLog.SECURITY, "decryptData data:  "+data) ;
+        DICommLog.i(DICommLog.SECURITY, "decryptData data:  "+data) ;
 
 
         if (networkNode == null) {
-            DLog.i(DLog.SECURITY, "Did not encrypt data - NetworkNode is null");
+            DICommLog.i(DICommLog.SECURITY, "Did not encrypt data - NetworkNode is null");
             return null;
         }
         String key = networkNode.getEncryptionKey();
-        DLog.i(DLog.SECURITY, "Decryption - Key   " + key);
+        DICommLog.i(DICommLog.SECURITY, "Decryption - Key   " + key);
         String decryptData = null;
 
         if (data == null || data.isEmpty()) {
-            DLog.i(DLog.SECURITY, "Did not decrypt data - data is null");
+            DICommLog.i(DICommLog.SECURITY, "Did not decrypt data - data is null");
             return null;
         }
 
         if (key == null || key.isEmpty()) {
-            DLog.i(DLog.SECURITY, "Did not decrypt data - key is null");
-            DLog.i(DLog.SECURITY, "Failed to decrypt data");
+            DICommLog.i(DICommLog.SECURITY, "Did not decrypt data - key is null");
+            DICommLog.i(DICommLog.SECURITY, "Failed to decrypt data");
 
             notifyDecryptionFailedListener(networkNode);
             return null;
@@ -86,10 +86,10 @@ public class DISecurity {
 
             decryptData = new String(bytesDecData1, Charset.defaultCharset());
 
-            DLog.i(DLog.SECURITY, "Decrypted data: " + decryptData);
+            DICommLog.i(DICommLog.SECURITY, "Decrypted data: " + decryptData);
         } catch (Exception e) {
             e.printStackTrace();
-            DLog.i(DLog.SECURITY, "Failed to decrypt data");
+            DICommLog.i(DICommLog.SECURITY, "Failed to decrypt data");
         }
 
         if(decryptData == null){

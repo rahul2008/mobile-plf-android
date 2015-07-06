@@ -9,9 +9,9 @@ package com.philips.cdp.dicommclient.subscription;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.cpp.listener.DcsEventListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
-public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEventListener {
+public class RemoteSubscriptionHandler extends SubscriptionHandler implements DcsEventListener {
 
 	private SubscriptionEventListener mSubscriptionEventListener;
 	private NetworkNode mNetworkNode;
@@ -23,7 +23,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 
 	@Override
 	public void enableSubscription(NetworkNode networkNode, SubscriptionEventListener subscriptionEventListener) {
-		DLog.i(DLog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
+		DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "Enabling remote subscription (start dcs)");
 		mNetworkNode = networkNode;
 		mSubscriptionEventListener = subscriptionEventListener;
 		//DI-Comm change. Moved from Constructor
@@ -33,7 +33,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 
 	@Override
 	public void disableSubscription() {
-		DLog.i(DLog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
+		DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "Disabling remote subscription (stop dcs)");
 		mSubscriptionEventListener = null;
 		//DI-Comm change. Removing the listener on Disabling remote subscription
 		if (mNetworkNode != null) {
@@ -44,7 +44,7 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 
 	@Override
 	public void onDCSEventReceived(String data, String fromEui64, String action) {
-		DLog.i(DLog.REMOTE_SUBSCRIPTION,"onDCSEventReceived: "+data);
+		DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION,"onDCSEventReceived: "+data);
 		if (data == null || data.isEmpty())
 			return;
 
@@ -52,12 +52,12 @@ public class RemoteSubscriptionHandler extends SubscribeHandler implements DcsEv
 			return;
 
 		if (!mNetworkNode.getCppId().equals(fromEui64)) {
-			DLog.d(DLog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromEui64 == null? "null" : fromEui64) + ")");
+			DICommLog.d(DICommLog.REMOTE_SUBSCRIPTION, "Ignoring event, not from associated network node (" + (fromEui64 == null? "null" : fromEui64) + ")");
 			return;
 		}
 
-		DLog.i(DLog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
-		DLog.i(DLog.REMOTE_SUBSCRIPTION, data);
+		DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, "DCS event received from " + fromEui64);
+		DICommLog.i(DICommLog.REMOTE_SUBSCRIPTION, data);
 		if (mSubscriptionEventListener != null) {
 			postSubscriptionEventOnUIThread(data, mSubscriptionEventListener);
 		}

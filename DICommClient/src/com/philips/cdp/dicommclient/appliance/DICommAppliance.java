@@ -19,7 +19,7 @@ import com.philips.cdp.dicommclient.port.common.PairingPort;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public abstract class DICommAppliance implements SubscriptionEventListener {
 
@@ -67,7 +67,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     public void subscribe() {
-        DLog.i(DLog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
+        DICommLog.i(DICommLog.APPLIANCE, "Subscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : mPortList) {
             if (port.supportsSubscription()) {
                 port.subscribe();
@@ -76,7 +76,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     public void unsubscribe() {
-        DLog.i(DLog.APPLIANCE, "Unsubscribe to all ports for appliance: " + this);
+        DICommLog.i(DICommLog.APPLIANCE, "Unsubscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : mPortList) {
             if (port.supportsSubscription()) {
                 port.unsubscribe();
@@ -85,7 +85,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
     }
 
     public void stopResubscribe() {
-        DLog.i(DLog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
+        DICommLog.i(DICommLog.APPLIANCE, "Stop resubscribe to all ports for appliance: " + this);
         for (DICommPort<?> port : mPortList) {
             if (port.supportsSubscription()) {
                 port.stopResubscribe();
@@ -127,13 +127,13 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 
     public void addListenerForAllPorts(DICommPortListener portListener) {
 		for (DICommPort<?> port : getAllPorts()) {
-			port.registerPortListener(portListener);
+			port.addPortListener(portListener);
 		}
 	}
 
 	public void removeListenerForAllPorts(DICommPortListener portListener) {
 		for (DICommPort<?> port : getAllPorts()) {
-			port.unregisterPortListener(portListener);
+			port.removePortListener(portListener);
 		}
 	}
 
@@ -147,7 +147,7 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 
 	@Override
 	public void onSubscriptionEventReceived(String data) {
-		DLog.d(DLog.APPLIANCE, "Notify subscription listeners - " + data);
+		DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
 
 		List<DICommPort<?>> portList = getAllPorts();
 

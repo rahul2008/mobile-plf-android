@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class UdpEventReceiver {
 
@@ -49,7 +49,7 @@ public class UdpEventReceiver {
 	private synchronized void startUdpThreadIfNecessary() {
 		if (mUdpReceivingThread != null) return;
 
-		DLog.i(DLog.UDPRECEIVER, "Starting new Thread to receive UDP events");
+		DICommLog.i(DICommLog.UDPRECEIVER, "Starting new Thread to receive UDP events");
 		mUdpReceivingThread = new UdpReceivingThread(mUdpEventListener);
 		mUdpReceivingThread.start();
 	}
@@ -58,7 +58,7 @@ public class UdpEventReceiver {
 		if (shouldStopUdpThread()) {
 			mUdpReceivingThread.stopThread();
 			mUdpReceivingThread = null;
-			DLog.i(DLog.UDPRECEIVER, "Stopped Thread to receive UDP events");
+			DICommLog.i(DICommLog.UDPRECEIVER, "Stopped Thread to receive UDP events");
 		}
 	}
 
@@ -69,7 +69,7 @@ public class UdpEventReceiver {
 	private void addUdpEventListener(UdpEventListener udpEventListener) {
 		synchronized (mUdpEventListenersSet) {
 			if (mUdpEventListenersSet.add(udpEventListener)) {
-				DLog.i(DLog.UDPRECEIVER, "Added new listener to set");
+				DICommLog.i(DICommLog.UDPRECEIVER, "Added new listener to set");
 			}
 		}
 	}
@@ -77,7 +77,7 @@ public class UdpEventReceiver {
 	public void removeUdpEventListener(UdpEventListener udpEventListener) {
 		synchronized (mUdpEventListenersSet) {
 			if (mUdpEventListenersSet.remove(udpEventListener)) {
-				DLog.i(DLog.UDPRECEIVER, "Removed listener from set");
+				DICommLog.i(DICommLog.UDPRECEIVER, "Removed listener from set");
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public class UdpEventReceiver {
 			udpEventListeners = new ArrayList<UdpEventListener>(mUdpEventListenersSet);
 		}
 
-		DLog.d(DLog.UDPRECEIVER, String.format("Notifying %d listeners of UDP event", udpEventListeners.size()));
+		DICommLog.d(DICommLog.UDPRECEIVER, String.format("Notifying %d listeners of UDP event", udpEventListeners.size()));
 		for (UdpEventListener listener : udpEventListeners) {
 			listener.onUDPEventReceived(data, fromIp);
 		}

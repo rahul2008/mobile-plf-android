@@ -9,10 +9,10 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 
-public abstract class SubscribeHandler {
+public abstract class SubscriptionHandler {
 
     private SubscriptionEventListener mSubscriptionEventListener;
     private WrappedHandler mSubscriptionEventResponseHandler;
@@ -28,7 +28,7 @@ public abstract class SubscribeHandler {
 		Runnable responseRunnable = new Runnable() {
 	        @Override
 	        public void run() {
-	        	DLog.d(DLog.REQUESTQUEUE, "Processing response from request");
+	        	DICommLog.d(DICommLog.REQUESTQUEUE, "Processing response from request");
 	        	mSubscriptionEventListener.onSubscriptionEventReceived(decryptedData);
 	    }};
 

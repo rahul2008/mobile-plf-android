@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
 
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class SsdpServiceHelperThread extends HandlerThread {
 
@@ -55,33 +55,33 @@ public class SsdpServiceHelperThread extends HandlerThread {
 		synchronized (mStartLock) {
 			mStartLock.notifyAll();
 		}
-		DLog.v(DLog.SSDPHELPER, "StartStopThread started running");
+		DICommLog.v(DICommLog.SSDPHELPER, "StartStopThread started running");
 		super.onLooperPrepared();
 	}
 
 	public void startDiscoveryAsync() {
 		if (mStartStopHandler.hasMessages(MESSAGE_STOP)) {
 			mStartStopHandler.removeMessages(MESSAGE_STOP);
-			DLog.v(DLog.SSDPHELPER, "Removed pending stop messages");
+			DICommLog.v(DICommLog.SSDPHELPER, "Removed pending stop messages");
 		}
 		if (!mStartStopHandler.hasMessages(MESSAGE_START)) {
 			mStartStopHandler.sendEmptyMessage(MESSAGE_START);
-			DLog.d(DLog.SSDPHELPER, "Added start message");
+			DICommLog.d(DICommLog.SSDPHELPER, "Added start message");
 		}
-		DLog.v(DLog.SSDPHELPER, "No need to add start message");
+		DICommLog.v(DICommLog.SSDPHELPER, "No need to add start message");
 	}
 
 	public void stopDiscoveryAsync() {
 		if (mStartStopHandler.hasMessages(MESSAGE_START)) {
 			mStartStopHandler.removeMessages(MESSAGE_START);
-			DLog.v(DLog.SSDPHELPER, "Removed pending start messages");
+			DICommLog.v(DICommLog.SSDPHELPER, "Removed pending start messages");
 		}
 		if (!mStartStopHandler.hasMessages(MESSAGE_STOP)) {
 			mStartStopHandler.sendEmptyMessageDelayed(MESSAGE_STOP,
 					mStopSsdpDelay);
-			DLog.d(DLog.SSDPHELPER, "Added stop message");
+			DICommLog.d(DICommLog.SSDPHELPER, "Added stop message");
 		}
-		DLog.v(DLog.SSDPHELPER, "No need to add stop message");
+		DICommLog.v(DICommLog.SSDPHELPER, "No need to add stop message");
 	}
 
 	public boolean stopIfNecessary() {

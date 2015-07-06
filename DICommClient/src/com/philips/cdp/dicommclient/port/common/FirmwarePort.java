@@ -14,7 +14,7 @@ import com.google.gson.JsonSyntaxException;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 
@@ -38,7 +38,7 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
         	setPortProperties(firmwarePortInfo);
         	return;
         }
-        DLog.e(DLog.FIRMWAREPORT,"FirmwarePort Info should never be NULL");
+        DICommLog.e(DICommLog.FIRMWAREPORT,"FirmwarePort Info should never be NULL");
 	}
 
 	private FirmwarePortProperties parseResponse(String response) {
@@ -55,13 +55,13 @@ public class FirmwarePort extends DICommPort<FirmwarePortProperties> {
 				return firmwarePortInfo;
 			}
 		} catch (JsonIOException e) {
-			DLog.e(DLog.FIRMWAREPORT, "JsonIOException");
+			DICommLog.e(DICommLog.FIRMWAREPORT, "JsonIOException");
 			return null;
 		} catch (JsonSyntaxException e2) {
-			DLog.e(DLog.FIRMWAREPORT, "JsonSyntaxException");
+			DICommLog.e(DICommLog.FIRMWAREPORT, "JsonSyntaxException");
 			return null;
 		} catch (Exception e2) {
-			DLog.e(DLog.FIRMWAREPORT, "Exception");
+			DICommLog.e(DICommLog.FIRMWAREPORT, "Exception");
 			return null;
 		}
 		return null;

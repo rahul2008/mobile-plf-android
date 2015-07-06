@@ -17,7 +17,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class UdpReceivingThread extends Thread {
@@ -35,7 +35,7 @@ public class UdpReceivingThread extends Thread {
 
 	@Override
 	public void run() {
-		DLog.i(DLog.UDP, "Started UDP socket") ;
+		DICommLog.i(DICommLog.UDP, "Started UDP socket") ;
 		try {
 			acquireMulticastLock();
 
@@ -62,28 +62,28 @@ public class UdpReceivingThread extends Thread {
 							senderIp = packet.getAddress().getHostAddress();
 						} catch (Exception e) {}
 
-						DLog.d(DLog.UDP, "UDP Data Received from: " + senderIp) ;
+						DICommLog.d(DICommLog.UDP, "UDP Data Received from: " + senderIp) ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
 						mUdpEventListener.onUDPEventReceived(lastLine, senderIp) ;
 
 					} else {
-						DLog.d(DLog.UDP, "Couldn't split receiving packet: " + packetReceived);
+						DICommLog.d(DICommLog.UDP, "Couldn't split receiving packet: " + packetReceived);
 					}
 				}
 
 
 			} catch (IOException e) {
-				DLog.d(DLog.UDP, "UDP exception: " + "Error: " + e.getMessage()) ;
+				DICommLog.d(DICommLog.UDP, "UDP exception: " + "Error: " + e.getMessage()) ;
 			} catch (NullPointerException e2) {
 				// NOP -  Received after attempt to close socket.
-				DLog.d(DLog.UDP, "UDP exception: " + e2.getMessage());
+				DICommLog.d(DICommLog.UDP, "UDP exception: " + e2.getMessage());
 			}
 		}
-		DLog.i(DLog.UDP, "Stopped UDP Socket") ;
+		DICommLog.i(DICommLog.UDP, "Stopped UDP Socket") ;
 	}
 
 	public void stopThread() {
-		DLog.d(DLog.UDP, "Requested to stop UDP socket") ;
+		DICommLog.d(DICommLog.UDP, "Requested to stop UDP socket") ;
 		stop = true ;
 		if (socket != null && !socket.isClosed()) {
 			socket.close() ;
@@ -98,7 +98,7 @@ public class UdpReceivingThread extends Thread {
 			multicastLock = wifi.createMulticastLock(getName());
 			multicastLock.setReferenceCounted(true);
 			multicastLock.acquire();
-			DLog.d(DLog.UDP, "Aquired MulticastLock") ;
+			DICommLog.d(DICommLog.UDP, "Aquired MulticastLock") ;
 		}
 	}
 
@@ -107,6 +107,6 @@ public class UdpReceivingThread extends Thread {
 
 		multicastLock.release();
 		multicastLock = null;
-		DLog.d(DLog.UDP, "Released MulticastLock") ;
+		DICommLog.d(DICommLog.UDP, "Released MulticastLock") ;
 	}
 }

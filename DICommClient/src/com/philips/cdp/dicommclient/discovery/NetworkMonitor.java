@@ -19,7 +19,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkMonitor {
@@ -52,7 +52,7 @@ public class NetworkMonitor {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				DLog.d(DLog.NETWORKMONITOR, "onReceive connectivity action : " + intent.getAction());
+				DICommLog.d(DICommLog.NETWORKMONITOR, "onReceive connectivity action : " + intent.getAction());
 				updateNetworkStateAsync();
 			};
 		};
@@ -78,7 +78,7 @@ public class NetworkMonitor {
 		try {
 			context.unregisterReceiver(mNetworkChangedReceiver);
 		} catch (IllegalArgumentException e) {
-			DLog.e(DLog.NETWORKMONITOR, "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.NETWORKMONITOR, "Error: " + e.getMessage());
 		}
 		if (mLooper ==  null || mLooper.mHandler == null || mLooper.mHandler.getLooper() == null) return;
 		mLooper.mHandler.getLooper().quit();
@@ -105,22 +105,22 @@ public class NetworkMonitor {
 	 */
 	private synchronized void updateNetworkState(NetworkState newState, String newSsid) {
 		if (mLastKnownState == newState && isLastKnowSsid(newSsid)) {
-			DLog.d(DLog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
+			DICommLog.d(DICommLog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
 			return;
 		}
 
 		if (mLastKnownState == newState && !isLastKnowSsid(newSsid)) {
-			DLog.d(DLog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
+			DICommLog.d(DICommLog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
 			notifyListener(NetworkState.NONE, null);
 		}
 
 		if (mLastKnownState == NetworkState.MOBILE && newState == NetworkState.WIFI_WITH_INTERNET
 				|| mLastKnownState == NetworkState.WIFI_WITH_INTERNET && newState == NetworkState.MOBILE) {
-			DLog.d(DLog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
+			DICommLog.d(DICommLog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
 			notifyListener(NetworkState.NONE, null);
 		}
 
-		DLog.d(DLog.NETWORKMONITOR, "NetworkState Changed");
+		DICommLog.d(DICommLog.NETWORKMONITOR, "NetworkState Changed");
 		mLastKnownState = newState;
 		mLastKnownSsid = newSsid;
 		notifyListener(newState, newSsid);
@@ -129,7 +129,7 @@ public class NetworkMonitor {
 	private void notifyListener(NetworkState state, String ssid) {
 		if (mNetworkChangedCallback == null) return;
 		
-		DLog.v(DLog.NETWORKMONITOR, "Updating listener");
+		DICommLog.v(DICommLog.NETWORKMONITOR, "Updating listener");
 		mNetworkChangedCallback.onNetworkChanged(state, ssid);
 	}
 
@@ -138,7 +138,7 @@ public class NetworkMonitor {
 
 		boolean isConnected = activeNetwork != null	&& activeNetwork.isConnectedOrConnecting();
 		if (!isConnected) {
-			DLog.d(DLog.NETWORKMONITOR, "Network update - No connection");
+			DICommLog.d(DICommLog.NETWORKMONITOR, "Network update - No connection");
 			updateNetworkState(NetworkState.NONE, null);
 			return;
 		}
@@ -150,7 +150,7 @@ public class NetworkMonitor {
 			if(wifiInfo == null ||
 					wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {
 				// Assume internet access - don't waste data bandwidth
-				DLog.d(DLog.NETWORKMONITOR, "Network update - Mobile connection");
+				DICommLog.d(DICommLog.NETWORKMONITOR, "Network update - Mobile connection");
 				updateNetworkState(NetworkState.MOBILE, null);
 				return;
 			}
@@ -158,7 +158,7 @@ public class NetworkMonitor {
 
 		String ssid = getCurrentSsid();
 		// Assume internet access - checking for internet technically difficult (slow DNS timeout)
-		DLog.d(DLog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
+		DICommLog.d(DICommLog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
 		updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
 		return;
 	}

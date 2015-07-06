@@ -19,7 +19,7 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.port.DICommPort;
 import com.philips.cdp.dicommclient.request.Error;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
-import com.philips.cdp.dicommclient.util.DLog;
+import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
@@ -54,7 +54,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 	@Override
 	public void processResponse(String response) {
 		//TODO: DIComm Refactor, implement
-       DLog.e(DLog.SCHEDULELISTPORT, "Method Not Implemented, SchedulerActivity should be refactored");
+       DICommLog.e(DICommLog.SCHEDULELISTPORT, "Method Not Implemented, SchedulerActivity should be refactored");
 	}
 
 	@Override
@@ -212,7 +212,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 		//TODO: DIComm Refactor
 		if (response == null || response.isEmpty()) return null;
 		ScheduleListPortInfo scheduleListPortInfo = new ScheduleListPortInfo() ;
-		DLog.i(DLog.SCHEDULELISTPORT, response) ;
+		DICommLog.i(DICommLog.SCHEDULELISTPORT, response) ;
 		try {
 			JSONObject scheduleJson = new JSONObject(response) ;
 			JSONObject scheduleJsonViaCPP = scheduleJson.optJSONObject("data") ;
@@ -226,10 +226,10 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 			scheduleListPortInfo.setScheduleTime(scheduleJson.getString(KEY_SCHEDULETIME)) ;
 		} catch (JSONException e) {
 			scheduleListPortInfo = null ;
-			DLog.e(DLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
 		} catch (Exception e) {
 			scheduleListPortInfo = null ;
-			DLog.e(DLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.SCHEDULELISTPORT, "Exception: " + "Error: " + e.getMessage());
 		}
 		return scheduleListPortInfo ;
      }
@@ -237,7 +237,7 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 	 List<ScheduleListPortInfo> parseResponseAsScheduleList(String response) {
 		//TODO: DIComm Refactor
 		if (response == null || response.isEmpty()) return null;
-		DLog.i(DLog.SCHEDULELISTPORT, response) ;
+		DICommLog.i(DICommLog.SCHEDULELISTPORT, response) ;
 		List<ScheduleListPortInfo> schedulesList = new ArrayList<ScheduleListPortInfo>() ;
 		JSONObject jsonObject = null ;
 		try {
@@ -260,10 +260,10 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 
 		} catch (JSONException e) {
 			schedulesList = null ;
-			DLog.e(DLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonIOException: " + "Error: " + e.getMessage());
 		} catch(Exception e) {
 			schedulesList = null ;
-			DLog.e(DLog.SCHEDULELISTPORT, "JsonIOException : " + "Error: " + e.getMessage());
+			DICommLog.e(DICommLog.SCHEDULELISTPORT, "JsonIOException : " + "Error: " + e.getMessage());
 		}
 		return schedulesList ;
      }
