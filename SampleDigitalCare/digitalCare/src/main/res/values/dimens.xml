@@ -25,4 +25,6 @@
     
     <dimen name="placelistview_margin_top">90dp</dimen>
 
+    <dimen name="app_review_divider_margin">25dp</dimen>
+
 </resources>
