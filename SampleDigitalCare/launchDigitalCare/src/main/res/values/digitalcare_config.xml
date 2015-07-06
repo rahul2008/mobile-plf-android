@@ -95,5 +95,5 @@
     
 
     <!-- email id for philips support -->
-    <string name="support_email_id" translatable="false">philipscustomer@philipssupport.com</string>
+    <string name="support_email_id" translatable="false">philipscare@philips.com</string>
 </resources>
