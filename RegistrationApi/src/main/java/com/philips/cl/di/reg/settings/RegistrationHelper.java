@@ -49,7 +49,7 @@ public class RegistrationHelper {
 
 	private String countryCode;
 
-	private boolean isCoppaFlow;
+	private boolean isCoppaFlow = false;
 
 	private UserRegistrationListener mUserRegistrationListener;
 
@@ -69,11 +69,11 @@ public class RegistrationHelper {
 
 	private interface RegistrationEnvironment {
 
-		String EVAL = "EVAL";
+		String EVAL = "Evaluation";
 
-		String DEV = "DEV";
+		String DEV = "Development";
 
-		String PROD = "PROD";
+		String PROD = "Production";
 	}
 
 	public boolean isJanrainIntialized() {

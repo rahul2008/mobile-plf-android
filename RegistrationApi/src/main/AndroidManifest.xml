@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.philips.cl.di.reg"
-    android:versionCode="1"
-    android:versionName="1.1.0" >
+    xmlns:tools="http://schemas.android.com/tools" package="com.philips.cl.di.reg"
+    android:versionCode="1" android:versionName="1.1.0">
 
     <!-- Internet Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -14,30 +13,22 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="21" />
+    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="21" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+    <application android:allowBackup="true" android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" android:theme="@style/AppTheme"
+        tools:replace="android:icon,android:theme">
 
         <!-- Regitration Api start -->
-        <activity
-            android:name="com.philips.cl.di.reg.ui.traditional.RegistrationActivity"
-            android:configChanges="orientation|screenSize" >
-        </activity>
+        <activity android:name="com.philips.cl.di.reg.ui.traditional.RegistrationActivity"
+            android:configChanges="orientation|screenSize"></activity>
 
         <!-- Janrain specific  start -->
-        <activity
-            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
+        <activity android:name="com.janrain.android.engage.ui.JRFragmentHostActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
             android:theme="@style/Theme.Janrain.Dialog.Light"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
+        <activity android:name="com.janrain.android.engage.ui.JRFragmentHostActivity$Fullscreen"
             android:configChanges="orientation|keyboardHidden|screenSize|fontScale|locale|layoutDirection"
             android:theme="@style/Theme.Janrain"
             android:windowSoftInputMode="adjustResize|stateHidden" />
@@ -45,7 +36,7 @@
         <!-- Janrain specific end -->
 
         <!-- Network state change receiver -->
-        <receiver android:name="com.philips.cl.di.reg.ui.utils.NetworkUtility$NetworkStateReceiver" >
+        <receiver android:name="com.philips.cl.di.reg.ui.utils.NetworkUtility$NetworkStateReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>

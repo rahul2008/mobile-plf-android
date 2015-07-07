@@ -26,7 +26,7 @@ public class ConfigurationParser {
 
 	private final String MICROSITE_ID = "MicrositeID";
 
-	private final String SOCIAL_PROVIDERS = "SocialProviders";
+	private final String SIGNIN_PROVIDERS = "SigninProviders";
 
 	private final String PIL_CONFIGURATION = "PILConfiguration";
 
@@ -51,8 +51,8 @@ public class ConfigurationParser {
 				registrationConfiguration
 				        .setPilConfiguration(parsePILConfiguration(pILConfiguration));
 			}
-			if (!configurationJson.isNull(SOCIAL_PROVIDERS)) {
-				JSONObject socialProviders = configurationJson.getJSONObject(SOCIAL_PROVIDERS);
+			if (!configurationJson.isNull(SIGNIN_PROVIDERS)) {
+				JSONObject socialProviders = configurationJson.getJSONObject(SIGNIN_PROVIDERS);
 				registrationConfiguration.setSocialProviders(parseSocialProviders(socialProviders));
 			}
 
@@ -65,9 +65,9 @@ public class ConfigurationParser {
 		}
 	}
 
-	private SocialProviders parseSocialProviders(JSONObject socialProviders)
+	private SigninProviders parseSocialProviders(JSONObject socialProviders)
 	        throws JSONException {
-		SocialProviders providers = new SocialProviders();
+		SigninProviders providers = new SigninProviders();
 		HashMap<String, ArrayList<String>> socialProviderMap = new HashMap<String, ArrayList<String>>();
 		Iterator<String> socialProviderIterator = socialProviders.keys();
 		while (socialProviderIterator.hasNext()) {

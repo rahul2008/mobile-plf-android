@@ -8,13 +8,13 @@
    },
    "PILConfiguration":{
       "MicrositeID":77000,
-      "RegistrationEnvironment":"EVAL",
+      "RegistrationEnvironment":"Evaluation",
       "CampaignID":"COPPA-SONICARE"
    },
    "Flow":{
         "EmailVerificationRequired" : "true"
     },
-   "SocialProviders":{
+   "SigninProviders":{
       "NL":[
          "googleplus",
          "facebook"

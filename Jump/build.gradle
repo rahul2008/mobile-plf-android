@@ -5,8 +5,8 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        minSdkVersion 10
-        targetSdkVersion 10
+        minSdkVersion 11
+        targetSdkVersion 11
     }
 
     buildTypes {
@@ -20,4 +20,5 @@ android {
 dependencies {
     compile project(':localeMatch')
     compile 'com.android.support:support-v4:21.0.3'
+
 }

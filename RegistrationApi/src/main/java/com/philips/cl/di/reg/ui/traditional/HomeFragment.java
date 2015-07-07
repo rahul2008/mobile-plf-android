@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.janrain.android.utils.StringUtils;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
@@ -172,7 +171,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 					mLlSocialProviderBtnContainer.removeAllViews();
 					ArrayList<String> providers = new ArrayList<String>();
 					providers = RegistrationConfiguration.getInstance().getSocialProviders()
-					        .getSocialProvidersForCountry(countryCode);
+					        .getProvidersForCountry(countryCode);
 					if (null != providers) {
 						for (int i = 0; i < providers.size(); i++) {
 							inflateEachProviderBtn(providers.get(i));

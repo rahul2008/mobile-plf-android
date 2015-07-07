@@ -7,7 +7,7 @@ public class RegistrationConfiguration {
 
 	private PILConfiguration pilConfiguration;
 
-	private SocialProviders socialProviders;
+	private SigninProviders socialProviders;
 
 	private Flow flow;
 
@@ -40,11 +40,11 @@ public class RegistrationConfiguration {
 		this.pilConfiguration = pilConfiguration;
 	}
 
-	public SocialProviders getSocialProviders() {
+	public SigninProviders getSocialProviders() {
 		return socialProviders;
 	}
 
-	public void setSocialProviders(SocialProviders socialProviders) {
+	public void setSocialProviders(SigninProviders socialProviders) {
 		this.socialProviders = socialProviders;
 	}
 
