@@ -11,134 +11,133 @@ import com.janrain.android.JumpConfig;
 
 public class ProdRegistrationSettings extends RegistrationSettings {
 
-	private String PRODUCT_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
+    private String PRODUCT_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
 
-	private String PRODUCT_CAPTURE_DOMAIN = "philips.janraincapture.com";
+    private String PRODUCT_CAPTURE_DOMAIN = "philips.janraincapture.com";
 
-	private String PRODUCT_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
+    private String PRODUCT_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
 
-	private String PRODUCT_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
+    private String PRODUCT_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
 
-	private String PRODUCTION_REGISTER_ACTIVATION_URL = "https://secure.philips.co.uk/myphilips/activateUser.jsp";
 
-	private String PRODUCTION_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
+    private String PRODUCTION_REGISTER_ACTIVATION_URL = "https://secure.philips.com/ps/verify-account";
 
-	private static String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
+    private String PRODUCTION_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
 
-	private static String PROD_REGISTER_COPPA_ACTIVATION_URL = "https://secure.philips.com/ps/user-registration/consent.html";
+    private static String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
 
-	private String mCountryCode;
+    private static String PROD_REGISTER_COPPA_ACTIVATION_URL = "https://secure.philips.com/ps/user-registration/consent.html";
 
-	private String mLanguageCode;
+    private String mCountryCode;
 
-	String mCaptureClientId = null;
+    private String mLanguageCode;
 
-	String mLocale = null;
+    String mCaptureClientId = null;
 
-	boolean mIsIntialize = false;
+    String mLocale = null;
 
-	private Context mContext = null;
+    boolean mIsIntialize = false;
 
-	private String LOG_TAG = "RegistrationAPI";
+    private Context mContext = null;
 
-	private static String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
+    private String LOG_TAG = "RegistrationAPI";
 
-	private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
+    private static String PROD_PRODUCT_REGISTER_URL = "https://www.philips.co.uk/prx/registration/";
 
-	@Override
-	public void intializeRegistrationSettings(Context context, String captureClientId,
-	        String microSiteId, String registrationType, boolean isintialize, String locale) {
-		SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
-		Editor editor = pref.edit();
-		editor.putString(MICROSITE_ID, microSiteId);
-		editor.commit();
+    private static String PROD_PRODUCT_REGISTER_LIST_URL = "https://www.philips.co.uk/prx/registration.registeredProducts/";
 
-		mCaptureClientId = captureClientId;
-		mLocale = locale;
-		mIsIntialize = isintialize;
-		mContext = context;
+    @Override
+    public void intializeRegistrationSettings(Context context, String captureClientId,
+                                              String microSiteId, String registrationType, boolean isintialize, String locale) {
+        SharedPreferences pref = context.getSharedPreferences(REGISTRATION_API_PREFERENCE, 0);
+        Editor editor = pref.edit();
+        editor.putString(MICROSITE_ID, microSiteId);
+        editor.commit();
 
-		String localeArr[] = locale.split("_");
+        mCaptureClientId = captureClientId;
+        mLocale = locale;
+        mIsIntialize = isintialize;
+        mContext = context;
 
-		if (localeArr != null && localeArr.length > 1) {
-			mLanguageCode = localeArr[0].toLowerCase();
-			mCountryCode = localeArr[1].toUpperCase();
-		} else {
-			mLanguageCode = "en";
-			mCountryCode = "US";
-		}
+        String localeArr[] = locale.split("_");
 
-		LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext, mLanguageCode,
-		        mCountryCode);
-		Log.i("registration", "" + localeMatchHelper);
+        if (localeArr != null && localeArr.length > 1) {
+            mLanguageCode = localeArr[0].toLowerCase();
+            mCountryCode = localeArr[1].toUpperCase();
+        } else {
+            mLanguageCode = "en";
+            mCountryCode = "US";
+        }
 
-	}
+        LocaleMatchHelper localeMatchHelper = new LocaleMatchHelper(mContext, mLanguageCode,
+                mCountryCode);
+        Log.i("registration", "" + localeMatchHelper);
 
-	@Override
-	public void initialiseConfigParameters(String locale) {
+    }
 
-		Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
+    @Override
+    public void initialiseConfigParameters(String locale) {
 
-		JumpConfig jumpConfig = new JumpConfig();
-		jumpConfig.captureClientId = mCaptureClientId;
-		jumpConfig.captureFlowName = getFlowName();
-		jumpConfig.captureTraditionalRegistrationFormName = "registrationForm";
-		jumpConfig.captureEnableThinRegistration = false;
-		jumpConfig.captureSocialRegistrationFormName = "socialRegistrationForm";
-		jumpConfig.captureForgotPasswordFormName = "forgotPasswordForm";
-		jumpConfig.captureEditUserProfileFormName = "editProfileForm";
-		jumpConfig.captureResendEmailVerificationFormName = "resendVerificationForm";
-		jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
-		jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
+        Log.i(LOG_TAG, "initialiseCofig, locale = " + locale);
 
-		jumpConfig.engageAppId = PRODUCT_ENGAGE_APP_ID;
-		jumpConfig.captureDomain = PRODUCT_CAPTURE_DOMAIN;
-		jumpConfig.captureFlowVersion = PRODUCT_CAPTURE_FLOW_VERSION;
-		jumpConfig.captureAppId = PRODUCT_CAPTURE_APP_ID;
+        JumpConfig jumpConfig = new JumpConfig();
+        jumpConfig.captureClientId = mCaptureClientId;
+        jumpConfig.captureFlowName = getFlowName();
+        jumpConfig.captureTraditionalRegistrationFormName = "registrationForm";
+        jumpConfig.captureEnableThinRegistration = false;
+        jumpConfig.captureSocialRegistrationFormName = "socialRegistrationForm";
+        jumpConfig.captureForgotPasswordFormName = "forgotPasswordForm";
+        jumpConfig.captureEditUserProfileFormName = "editProfileForm";
+        jumpConfig.captureResendEmailVerificationFormName = "resendVerificationForm";
+        jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
+        jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
 
-		mProductRegisterUrl = PROD_PRODUCT_REGISTER_URL;
-		mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
+        jumpConfig.engageAppId = PRODUCT_ENGAGE_APP_ID;
+        jumpConfig.captureDomain = PRODUCT_CAPTURE_DOMAIN;
+        jumpConfig.captureFlowVersion = PRODUCT_CAPTURE_FLOW_VERSION;
+        jumpConfig.captureAppId = PRODUCT_CAPTURE_APP_ID;
 
-		mResendConsentUrl = PROD_PRX_RESEND_CONSENT_URL;
-		mRegisterCoppaActivationUrl = PROD_REGISTER_COPPA_ACTIVATION_URL;
+        mProductRegisterUrl = PROD_PRODUCT_REGISTER_URL;
+        mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
 
-		String localeArr[] = locale.split("-");
-		String langCode = null;
-		String countryCode = null;
+        mResendConsentUrl = PROD_PRX_RESEND_CONSENT_URL;
+        mRegisterCoppaActivationUrl = PROD_REGISTER_COPPA_ACTIVATION_URL;
 
-		if (localeArr != null && localeArr.length > 1) {
-			langCode = localeArr[0];
-			countryCode = localeArr[1];
-		} else {
-			langCode = "en";
-			countryCode = "US";
-		}
+        String localeArr[] = locale.split("-");
+        String langCode = null;
+        String countryCode = null;
 
-		if (RegistrationHelper.getInstance().isCoppaFlow()) {
-			jumpConfig.captureRedirectUri = PROD_REGISTER_COPPA_ACTIVATION_URL + "?country="
-			        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
-		} else {
-			jumpConfig.captureRedirectUri = PRODUCTION_REGISTER_ACTIVATION_URL + "?country="
-			        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
-		}
+        if (localeArr != null && localeArr.length > 1) {
+            langCode = localeArr[0];
+            countryCode = localeArr[1];
+        } else {
+            langCode = "en";
+            countryCode = "US";
+        }
 
-		jumpConfig.captureRecoverUri = PRODUCTION_REGISTER_FORGOT_MAIL_URL + "?country="
-		        + countryCode + "&catalogType=CONSUMER&language=" + langCode;
-		jumpConfig.captureLocale = locale;
+        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+            jumpConfig.captureRedirectUri = PROD_REGISTER_COPPA_ACTIVATION_URL;
+        } else {
+            jumpConfig.captureRedirectUri = PRODUCTION_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
+        }
 
-		mPreferredCountryCode = countryCode;
-		mPreferredLangCode = langCode;
+        jumpConfig.captureRecoverUri = PRODUCTION_REGISTER_FORGOT_MAIL_URL + "?country="
+                + countryCode + "&catalogType=CONSUMER&language=" + langCode;
+        jumpConfig.captureLocale = locale;
 
-		try {
-			if (mIsIntialize) {
-				Jump.init(mContext, jumpConfig);
-			} else {
-				Jump.reinitialize(mContext, jumpConfig);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
-		}
-	}
+        mPreferredCountryCode = countryCode;
+        mPreferredLangCode = langCode;
+
+        try {
+            if (mIsIntialize) {
+                Jump.init(mContext, jumpConfig);
+            } else {
+                Jump.reinitialize(mContext, jumpConfig);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i(LOG_TAG, "JANRAIN FAILED TO INITIALISE");
+        }
+    }
 
 }
