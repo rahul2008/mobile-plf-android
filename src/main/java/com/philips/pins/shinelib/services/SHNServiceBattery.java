@@ -98,7 +98,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if(state == SHNService.State.Available){
+        if(state == SHNService.State.Available) {
             shnService.transitionToReady();
         }
     }
