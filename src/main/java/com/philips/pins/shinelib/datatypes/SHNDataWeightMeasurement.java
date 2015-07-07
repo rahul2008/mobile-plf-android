@@ -46,7 +46,7 @@ public class SHNDataWeightMeasurement extends SHNData {
             short weightRaw = byteBuffer.getShort();
             weight = extractWeight(ScalarConverters.ushortToInt(weightRaw));
 
-            timestamp = flags.hasTimestamp() ? SHNBluetoothDataConverter.getDate(byteBuffer) : null;
+            timestamp = flags.hasTimestamp() ? SHNBluetoothDataConverter.getDateTime(byteBuffer) : null;
             if (flags.hasTimestamp() && timestamp == null) {
                 throw new IllegalArgumentException();
             }

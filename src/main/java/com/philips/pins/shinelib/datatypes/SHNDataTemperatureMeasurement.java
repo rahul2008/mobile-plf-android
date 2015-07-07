@@ -21,7 +21,7 @@ public class SHNDataTemperatureMeasurement extends SHNData{
             flags = new Flags(byteBuffer.get());
             temperature = getIEEE11073Float(byteBuffer);
 
-            timestamp = (flags.hasTimestamp()) ? SHNBluetoothDataConverter.getDate(byteBuffer) : null;
+            timestamp = (flags.hasTimestamp()) ? SHNBluetoothDataConverter.getDateTime(byteBuffer) : null;
             if (flags.hasTimestamp() && timestamp == null) {
                 throw new IllegalArgumentException();
             }

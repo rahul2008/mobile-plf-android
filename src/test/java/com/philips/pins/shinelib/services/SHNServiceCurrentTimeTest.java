@@ -1,17 +1,25 @@
 package com.philips.pins.shinelib.services;
 
+import com.philips.pins.shinelib.SHNCharacteristic;
+import com.philips.pins.shinelib.SHNCommandResultReporter;
+import com.philips.pins.shinelib.SHNObjectResultListener;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.framework.SHNFactory;
+import com.philips.pins.shinelib.utility.ExactTime256WithAdjustReason;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -24,13 +32,25 @@ public class SHNServiceCurrentTimeTest {
     private SHNService.SHNServiceListener shnServiceListener;
     private SHNFactory mockedSHNFactory;
     private SHNService mockedSHNService;
+    private SHNObjectResultListener mockedSHNObjectResultListener;
+    private ArgumentCaptor<SHNResult> shnResultArgumentCaptor;
+    private SHNCharacteristic mockedSHNCharacteristicCurrentTime;
+    private ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor;
+    private ArgumentCaptor<SHNObjectResultListener> shnObjectResultListenerArgumentCaptor;
+    private SimpleDateFormat simpleDateFormat;
 
     @Before
     public void setUp() {
+        simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss:SSS");
         mockedSHNFactory = mock(SHNFactory.class);
         mockedSHNService = mock(SHNService.class);
+        mockedSHNObjectResultListener = mock(SHNObjectResultListener.class);
+        mockedSHNCharacteristicCurrentTime = mock(SHNCharacteristic.class);
 
         when(mockedSHNFactory.createNewSHNService(any(UUID.class), any(Set.class), any(Set.class))).thenReturn(mockedSHNService);
+
+        when(mockedSHNService.getState()).thenReturn(SHNService.State.Unavailable);
+        when(mockedSHNService.getSHNCharacteristic(SHNServiceCurrentTime.CURRENT_TIME_CHARACTERISTIC_UUID)).thenReturn(mockedSHNCharacteristicCurrentTime);
 
         shnServiceCurrentTime = new SHNServiceCurrentTime(mockedSHNFactory);
 
@@ -38,9 +58,13 @@ public class SHNServiceCurrentTimeTest {
         ArgumentCaptor<SHNService.SHNServiceListener> shnServiceListenerArgumentCaptor = ArgumentCaptor.forClass(SHNService.SHNServiceListener.class);
         verify(mockedSHNService).registerSHNServiceListener(shnServiceListenerArgumentCaptor.capture());
         shnServiceListener = shnServiceListenerArgumentCaptor.getValue();
+        shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
+        shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        shnObjectResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNObjectResultListener.class);
     }
 
-    private void serviceSetupServiceStateChangedToAvailable() {
+    private void serviceSetupServiceStateChangedToAvailable() { // Make sure the mock returns the proper state before calling the change handler
+        when(mockedSHNService.getState()).thenReturn(SHNService.State.Available);
         shnServiceListener.onServiceStateChanged(mockedSHNService, SHNService.State.Available);
     }
 
@@ -74,5 +98,43 @@ public class SHNServiceCurrentTimeTest {
     public void whenTheSHNServiceReportsThatItIsAvailableThenTheServiceIsTransitionedToReady() {
         serviceSetupServiceStateChangedToAvailable();
         verify(mockedSHNService).transitionToReady();
+    }
+
+    @Test
+    public void whenTheServiceIsUnavailableThenGetCurrentTimeReturnsAnError() {
+        shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
+        verify(mockedSHNObjectResultListener).onActionCompleted(anyObject(), shnResultArgumentCaptor.capture());
+        assertEquals(SHNResult.SHNServiceUnavailableError, shnResultArgumentCaptor.getValue());
+    }
+
+    @Test
+    public void whenTheServiceIsAvailableThenGetCurrentTimeReadsFromTheCurrentTimeCharacteristic() {
+        serviceSetupServiceStateChangedToAvailable();
+        shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
+        verify(mockedSHNCharacteristicCurrentTime).read(any(SHNCommandResultReporter.class));
+    }
+
+    @Test
+    public void whenTheServiceIsAvailableThenGetCurrentTimeReadsFromTheCurrentTimeCharacteristic1() {
+        serviceSetupServiceStateChangedToAvailable();
+        shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
+        verify(mockedSHNCharacteristicCurrentTime).read(shnCommandResultReporterArgumentCaptor.capture()); // Just to capture the ResultReporter
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNOk, new byte[]{
+                (byte) 0xDF, (byte) 0x07      // year 2015 = 0x07DF
+                , 6                          // month june = 6
+                , 8                          // day 8th
+                , 8                          // hour 8
+                , 34                         // minutes 34
+                , 45                         // seconds 45
+                , 1                          // Day Of Week Monday (Not checked to be correct for the date)
+                , (byte) 0x80                // Fraction256 128
+                , 0b00000001                 // Adjust reason
+        });
+        verify(mockedSHNObjectResultListener).onActionCompleted(shnObjectResultListenerArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        assertEquals(SHNResult.SHNOk, shnResultArgumentCaptor.getValue());
+        assertNotNull(shnObjectResultListenerArgumentCaptor.getValue());
+        ExactTime256WithAdjustReason exactTime256WithAdjustReason = (ExactTime256WithAdjustReason) shnObjectResultListenerArgumentCaptor.getValue();
+        assertTrue(exactTime256WithAdjustReason.adjustReason.manualTimeUpdate);
+        assertEquals("2015-06-08 08:34:45:500", simpleDateFormat.format(exactTime256WithAdjustReason.exactTime256.exactTime256Timestamp));
     }
 }

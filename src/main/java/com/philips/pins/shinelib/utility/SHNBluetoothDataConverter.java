@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class SHNBluetoothDataConverter {
 
-    public static Date getDate(ByteBuffer byteBuffer) {
+    public static Date getDateTime(ByteBuffer byteBuffer) {
         // get values from byteBuffer
         int year = ScalarConverters.ushortToInt(byteBuffer.getShort());
         int month = ScalarConverters.ubyteToInt(byteBuffer.get());
