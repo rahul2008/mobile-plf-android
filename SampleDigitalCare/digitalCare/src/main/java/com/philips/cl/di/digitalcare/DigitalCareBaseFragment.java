@@ -44,7 +44,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private FragmentManager fragmentManager = getFragmentManager();
 	private Thread mUiThread = Looper.getMainLooper().getThread();
 	private final Handler mHandler = new Handler(Looper.getMainLooper());
-	private static ActionbarUpdateListner mActionbarUpdateListner = null;
+	private static ActionbarUpdateListener mActionbarUpdateListener = null;
 	private static String mPreviousPageName = null;
 
 	public abstract void setViewParams(Configuration config);
@@ -259,13 +259,13 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private static String mExitAnimation = null;
 
 	protected void showFragment(FragmentActivity context, int parentContainer,
-			Fragment fragment, ActionbarUpdateListner actionbarUpdateListner,
-			String enterAnim, String exitAnim) {
+			Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
+			int enterAnim, int exitAnim) {
 		mContainerId = parentContainer;
 		mActivityContext = context;
-		mActionbarUpdateListner = actionbarUpdateListner;
-		mEnterAnimation = enterAnim;
-		mExitAnimation = exitAnim;
+		mActionbarUpdateListener = actionbarUpdateListener;
+//		mEnterAnimation = enterAnim;
+//		mExitAnimation = exitAnim;
 
 		// String packageName = context.getPackageName();
 		// int enter = context.getResources().getIdentifier(
@@ -346,9 +346,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 	private void updateActionbar() {
 		if (this.getClass().getSimpleName()
 				.equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
-			mActionbarUpdateListner.updateActionbar(getActionbarTitle(), true);
+			mActionbarUpdateListener.updateActionbar(getActionbarTitle(), true);
 		} else {
-			mActionbarUpdateListner.updateActionbar(getActionbarTitle(), false);
+			mActionbarUpdateListener.updateActionbar(getActionbarTitle(), false);
 		}
 	}
 

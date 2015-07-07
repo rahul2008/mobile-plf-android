@@ -215,7 +215,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .getInstance().getConsumerProductInfo();
 
         return getCdlsUrl(consumerProductInfo.getSector(),
-                DigitalCareConfigManager.getInstance().getmResultLocale().toString(),
+                DigitalCareConfigManager.getInstance().getLocale().toString(),
                 consumerProductInfo.getCatalog(),
                 consumerProductInfo.getSubCategory());
     }

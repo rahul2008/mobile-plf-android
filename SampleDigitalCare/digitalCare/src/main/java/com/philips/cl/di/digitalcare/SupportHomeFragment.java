@@ -182,8 +182,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
 		String tag = (String) view.getTag();
 
-		boolean actionTaken = DigitalCareConfigManager.getInstance()
-				.getMainMenuListener().onMainMenuItemClicked(tag.toString());
+		boolean actionTaken = false;
+		if(DigitalCareConfigManager.getInstance()
+				.getMainMenuListener()!=null) {
+			 actionTaken = DigitalCareConfigManager.getInstance()
+					.getMainMenuListener().onMainMenuItemClicked(tag.toString());
+		}
 
 		if (actionTaken) {
 			return;

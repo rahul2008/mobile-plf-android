@@ -11,12 +11,12 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.MainMenuListener;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -43,9 +43,6 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
                 this);
 
-        // Passing Locale to DigitalCare Library
-        setLocaleForTesting("en", "IN");
-
         // Set ConsumerProductInfo
         mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
         DigitalCareConfigManager.getInstance().setConsumerProductInfo(
@@ -60,6 +57,12 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
         // Twitter Support Feature.
        // setTwitterCredentials();
+
+        // Passing Locale to DigitalCare Library
+        setLocaleForTesting("en", "IN");
+
+        //For Debugging purpose
+        DigiCareLogger.enableLogging();
 
         setContentView(R.layout.activity_digital_care);
 
@@ -87,22 +90,22 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
                 android.R.layout.simple_list_item_1, mLanguage);
         mLanguage_spinner.setAdapter(mLanguage_adapter);
 
-//        mLanguage_spinner
-//                .setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent,
-//                                               View view, int position, long id) {
-//
-//                        setLocaleForTesting(mlanguageCode[position],
-//                                mcountryCode[position]);
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
+        mLanguage_spinner
+                .setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent,
+                                               View view, int position, long id) {
+
+                        setLocaleForTesting(mlanguageCode[position],
+                                mcountryCode[position]);
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
 
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
@@ -111,23 +114,23 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-//        mCountry_spinner
-//                .setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent,
-//                                               View view, int position, long id) {
-//
-//                        setLocaleForTesting(mcountryCode[position],
-//                                mlanguageCode[position]);
-//
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
+        mCountry_spinner
+                .setOnItemSelectedListener(new OnItemSelectedListener() {
+
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent,
+                                               View view, int position, long id) {
+
+                        setLocaleForTesting(mcountryCode[position],
+                                mlanguageCode[position]);
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
     }
 
     @Override
@@ -167,15 +170,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
         switch (view.getId()) {
             default:
-                // mLanguage_spinner, mCountry_spinner
-//                Toast.makeText(LaunchDigitalCare.this, "" +  mlanguageCode[mLanguage_spinner.getSelectedItemPosition()] +
-//                        "\n" + mcountryCode[mCountry_spinner.getSelectedItemPosition()], Toast.LENGTH_SHORT).show();
-
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(
                         R.anim.slide_in_bottom, R.anim.slide_out_bottom);
-						
-						setLocaleForTesting(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-						
         }
     }
 
@@ -195,12 +191,5 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         DigitalCareConfigManager.getInstance().setLocale(language, country);
     }
 
-   /* private void setTwitterCredentials() {
-        DigitalCareConfigManager.getInstance().setTwitterConsumerKey(
-                "qgktZw1ffdoreBjbiYfvnIPJe");
-        DigitalCareConfigManager.getInstance().setTwitterConsumerSecret(
-                "UUItcyGgL9v2j2vBBh9p5rHIuemsOlHdkMiuIMJ7VphlG38JK3");
-
-    }*/
 }
 

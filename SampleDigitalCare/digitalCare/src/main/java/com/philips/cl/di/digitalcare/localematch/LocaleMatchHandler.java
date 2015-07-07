@@ -78,15 +78,15 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 								+ " & Locale is : "
 								+ mPilLocale.getLocaleCode());
 				Locale locale = new Locale(mPilLocale.getLanguageCode(), mPilLocale.getCountrycode());
-                DigitalCareConfigManager.getInstance().mResultLocale = locale;
+                DigitalCareConfigManager.getInstance().mLocale = locale;
 			} else {
 				DigiCareLogger.v(TAG, "PILocale received null");
-                DigitalCareConfigManager.getInstance().mResultLocale = mLocale;
+                DigitalCareConfigManager.getInstance().mLocale = mLocale;
 			}
 
 		} else {
 			DigiCareLogger.v(TAG, "Sector Not exists");
-            DigitalCareConfigManager.getInstance().mResultLocale = mLocale;
+            DigitalCareConfigManager.getInstance().mLocale = mLocale;
 		}
 	}
 

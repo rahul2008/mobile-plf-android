@@ -18,7 +18,7 @@ public class DigiCareLogger {
 	public static final String FRAGMENT = "FragmentLifecycle";
 	public static final String DIGICAREACTIVITY = "DigitalCareActivity";
 
-	private static boolean isLoggingEnabled = true;
+	private static boolean isLoggingEnabled = false;
 
 	public static void enableLogging() {
 		isLoggingEnabled = true;

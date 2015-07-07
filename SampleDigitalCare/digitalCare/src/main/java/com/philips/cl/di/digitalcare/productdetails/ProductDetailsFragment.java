@@ -165,8 +165,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 		String tag = (String) view.getTag();
 
-		boolean actionTaken = DigitalCareConfigManager.getInstance()
-				.getProductMenuListener().onProductMenuItemClicked(tag);
+		boolean actionTaken  = false;
+		if(DigitalCareConfigManager.getInstance()
+				.getProductMenuListener()!=null) {
+			DigitalCareConfigManager.getInstance()
+					.getProductMenuListener().onProductMenuItemClicked(tag);
+		}
 
 		if (actionTaken) {
 			return;
