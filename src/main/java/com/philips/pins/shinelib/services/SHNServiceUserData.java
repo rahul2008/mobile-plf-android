@@ -31,25 +31,30 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     private static final String TAG = SHNServiceUserData.class.getSimpleName();
     private static final boolean LOGGING = false;
 
-    public static final UUID DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A99));
-    public static final UUID USER_INDEX_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9A));
-    public static final UUID USER_CONTROL_POINT_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9F));
-
     public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x181C));
-    public static final UUID FIRST_NAME_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A8A));
-    public static final UUID LAST_NAME_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A90));
-    public static final UUID AGE_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A80));
 
-    private static final byte OP_CODE_REGISTER_NEW_USER = (byte) 0x01;
-    private static final byte OP_CODE_CONSENT = (byte) 0x02;
-    private static final byte OP_CODE_DELETE_USER_DATA = (byte) 0x03;
-    private static final byte OP_CODE_RESPONSE = (byte) 0x20;
+    // Mandatory Characteristics
+    public static final UUID DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID  = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A99)); // Review: Please rename to indicate Database Change Increment
+    public static final UUID USER_INDEX_CHARACTERISTIC_UUID             = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9A));
+    public static final UUID USER_CONTROL_POINT_CHARACTERISTIC_UUID     = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9F));
 
-    private static final byte RESPONSE_CODE_SUCCESS = (byte) 0x01;
-    private static final byte RESPONSE_CODE_OP_CODE_NOT_SUPPORTED = (byte) 0x02;
-    private static final byte RESPONSE_CODE_INVALID_PARAMETER = (byte) 0x03;
-    private static final byte RESPONSE_CODE_OPERATION_FAILED = (byte) 0x04;
-    private static final byte RESPONSE_CODE_USER_NOT_AUTHORIZED = (byte) 0x05;
+    // Optional Characteristics
+    public static final UUID FIRST_NAME_CHARACTERISTIC_UUID             = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A8A));
+    public static final UUID LAST_NAME_CHARACTERISTIC_UUID              = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A90));
+    public static final UUID AGE_CHARACTERISTIC_UUID                    = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A80));
+
+    // ControlPoint commands
+    private static final byte OP_CODE_REGISTER_NEW_USER             = (byte) 0x01;
+    private static final byte OP_CODE_CONSENT                       = (byte) 0x02;
+    private static final byte OP_CODE_DELETE_USER_DATA              = (byte) 0x03;
+    private static final byte OP_CODE_RESPONSE                      = (byte) 0x20;
+
+    // ControlPoint response codes
+    private static final byte RESPONSE_CODE_SUCCESS                 = (byte) 0x01;
+    private static final byte RESPONSE_CODE_OP_CODE_NOT_SUPPORTED   = (byte) 0x02;
+    private static final byte RESPONSE_CODE_INVALID_PARAMETER       = (byte) 0x03;
+    private static final byte RESPONSE_CODE_OPERATION_FAILED        = (byte) 0x04;
+    private static final byte RESPONSE_CODE_USER_NOT_AUTHORIZED     = (byte) 0x05;
 
     private SHNService shnService;
 
@@ -58,7 +63,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
     protected SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
         @Override
-        public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) {
+        public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) { // Review: Complexity of this function is high
             if (executing) {
                 SHNUserDataCommand command = commandQueue.getFirst();
 
@@ -78,9 +83,9 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
                     } else {
                         command.notifyListeners(SHNResult.SHNInvalidResponseError);
                     }
-                } catch (BufferUnderflowException ex) { // is this good?
+                } catch (BufferUnderflowException ex) { // is this good? Review: Yes!
                     command.notifyListeners(SHNResult.SHNResponseIncompleteError);
-                } finally { // and this?
+                } finally { // and this? Review: Yes
                     removeCurrentCommandAndStartNext();
                 }
             } else {
@@ -89,7 +94,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         }
     };
 
-    private void extractValueAndNotifyListener(ByteBuffer byteBuffer, SHNUserDataCommand command) {
+    private void extractValueAndNotifyListener(ByteBuffer byteBuffer, SHNUserDataCommand command) { // Review: Could extract value be a seperate function
         int userId = -1;
         SHNResult result = getSHNResult(byteBuffer.get());
         if (result == SHNResult.SHNOk) {
@@ -177,7 +182,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         setUIntCharacteristic(1, age, listener, AGE_CHARACTERISTIC_UUID);
     }
 
-    public void incrementDatabaseIndex(final SHNResultListener listener) {
+    public void incrementDatabaseIndex(final SHNResultListener listener) { // Review: Rename te indicate Database Change Increment
         getDatabaseIndex(new SHNIntegerResultListener() {
             @Override
             public void onActionCompleted(int value, SHNResult result) {
@@ -190,7 +195,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         });
     }
 
-    private void getDatabaseIndex(final SHNIntegerResultListener listener) {
+    private void getDatabaseIndex(final SHNIntegerResultListener listener) { // Review: Rename te indicate Database Change Increment
         if (LOGGING) Log.i(TAG, "getDatabaseIndex");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID);
 
@@ -213,7 +218,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         shnCharacteristic.read(resultReporter);
     }
 
-    private void setDatabaseIndex(int increment, final SHNResultListener listener) {
+    private void setDatabaseIndex(int increment, final SHNResultListener listener) { // Review: Rename te indicate Database Change Increment
         if (LOGGING) Log.i(TAG, "setStringCharacteristic");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID);
 
@@ -354,7 +359,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         if (!executing && commandQueue.size() > 0) {
             executing = true;
             final SHNUserDataCommand command = commandQueue.getFirst();
-            SHNResultListener listener = new SHNResultListener() {
+            SHNResultListener listener = new SHNResultListener() { // Review: I think the listener could be wrapped when creating the command. This could make the code more readable...
                 @Override
                 public void onActionCompleted(SHNResult result) {
                     command.notifyListeners(result);
@@ -471,6 +476,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         public final SHNIntegerResultListener shnIntegerResultListener;
         public final SHNResultListener shnResultListener;
 
+        // Review: consider using a builder instead of three different constructors
         public SHNUserDataCommand(Command command, int consentCode, SHNIntegerResultListener shnIntegerResultListener) {
             this.command = command;
             this.userId = 255;

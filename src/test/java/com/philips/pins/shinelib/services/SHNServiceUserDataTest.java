@@ -60,7 +60,7 @@ public class SHNServiceUserDataTest extends TestCase {
     private static final byte OP_CODE_REGISTER_NEW_USER = (byte) 0x01;
     private static final byte OP_CODE_CONSENT = (byte) 0x02;
     private static final byte OP_CODE_DELETE_USER_DATA = (byte) 0x03;
-    private static final byte OP_CODE_RESPONSE = (byte) 0x20;
+     private static final byte OP_CODE_RESPONSE = (byte) 0x20;
 
     private static final byte RESPONSE_CODE_SUCCESS = (byte) 0x01;
     private static final byte RESPONSE_CODE_OP_CODE_NOT_SUPPORTED = (byte) 0x02;
@@ -110,10 +110,10 @@ public class SHNServiceUserDataTest extends TestCase {
         assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID));
         assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID));
         assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.USER_INDEX_CHARACTERISTIC_UUID));
-        assertNotSame(0, requiredSetArgumentCaptor.getValue().size());
+        assertEquals(3, requiredSetArgumentCaptor.getValue().size());
 
         assertNotNull(optionalSetArgumentCaptor.getValue());
-        assertNotSame(0, optionalSetArgumentCaptor.getValue().size());
+        assertNotSame(0, optionalSetArgumentCaptor.getValue().size()); // Review Make all UD characteristics available
 
         verify(mockedShnService).registerSHNServiceListener(shnServiceUserData);
     }
@@ -131,8 +131,8 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void getFirstNameWithResultOkTest() {
-        SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class);
-        shnServiceUserData.getFirstName(mockedShnStringResultListener);
+        SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class); // Review Test does not verify that the correct characteristic is read.
+        shnServiceUserData.getFirstName(mockedShnStringResultListener);                              // Review Possibly the test should indicate to test a String characteristic.
 
         assertGetStringCharacteristic(mockedShnStringResultListener, "Jack");
     }
@@ -150,13 +150,13 @@ public class SHNServiceUserDataTest extends TestCase {
         verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
         SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
 
-        shnCommandResultReporter.reportResult(SHNResult.SHNOk, name.getBytes());
+        shnCommandResultReporter.reportResult(SHNResult.SHNOk, name.getBytes()); // Review String characteristics are UTF_8 encoded. Not a problem in these test cases.
 
         verify(mockedShnStringResultListener).onActionCompleted(name, SHNResult.SHNOk);
     }
 
     @Test
-    public void setFirstNameWithResultOkTest() {
+    public void setFirstNameWithResultOkTest() { // Review See getFirstName...
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
         String name = "Jack";
@@ -178,7 +178,7 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void setAgeWithResultOkTest() {
+    public void setAgeWithResultOkTest() { // Review Where is the test for getAge...? and again it is not verifying the characteristic as the name implies.
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
         int age = 89;
@@ -189,7 +189,7 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenIncrementDatabaseIndexIsCalledThenCharacteristicIsRed() {
+    public void whenIncrementDatabaseIndexIsCalledThenCharacteristicIsRed() { // Review the characteristic is not checked.
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
         shnServiceUserData.incrementDatabaseIndex(mockedShnResultListener);
@@ -198,7 +198,7 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenIncrementDatabaseIndexIsCalledAndResultIsOkayThenCurrentIndexIsReported() {
+    public void whenIncrementDatabaseIndexIsCalledAndResultIsOkayThenCurrentIndexIsReported() { // Review where is the current index reported????
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
         shnServiceUserData.incrementDatabaseIndex(mockedShnResultListener);
@@ -278,11 +278,11 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void getUserIndexTest() {
+    public void getUserIndexTest() { // Review it is not verified that the proper characteristic is used.
         SHNIntegerResultListener mockedShnIntegerResultListener = mock(SHNIntegerResultListener.class);
         shnServiceUserData.getUserIndex(mockedShnIntegerResultListener);
 
-        byte[] index = {0x04};
+        byte[] index = {0x04}; // Review what is this magic number?
 
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
         verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
@@ -327,7 +327,7 @@ public class SHNServiceUserDataTest extends TestCase {
         assertNotNull(byteArrayArgumentCaptor.getValue());
         assertEquals(3, byteArrayArgumentCaptor.getValue().length);
 
-        byte[] request = {OP_CODE_REGISTER_NEW_USER, (byte) 0xE7, 0x03};
+        byte[] request = {OP_CODE_REGISTER_NEW_USER, (byte) 0xE7, 0x03}; // Review 0x03E7 == 999
         for (int i = 0; i < request.length; i++) {
             assertEquals("Mismatch at byte " + i, request[i], byteArrayArgumentCaptor.getValue()[i]);
         }
@@ -344,7 +344,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenRegisterNewUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenResponseIsSent() {
         setUpRegisterNewUserStage2(999, SHNResult.SHNInvalidParameterError);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidParameterError);
+        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidParameterError); // Review -1 magic number
     }
 
     @Test
@@ -453,6 +453,7 @@ public class SHNServiceUserDataTest extends TestCase {
         setUpRegisterNewUserStage2(consentCode, result);
 
         //had to make it protected so I can use this call in the tests. Is there a best way to do it?
+        // Review: Yes you can capture it during the onServiceChangedCall of the service. It is the parameter of the setShnCharacteristicChangedListener call on the controlPoint characteristic.
         shnServiceUserData.shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
     }
 
@@ -461,8 +462,8 @@ public class SHNServiceUserDataTest extends TestCase {
         setUpRegisterNewUserStage1(999);
 
         SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.REGISTER};
-        assertQueueIsNotEmptyWithSize(1, commandsType);
-        assertTrue(shnServiceUserData.executing);
+        assertQueueIsNotEmptyWithSize(1, commandsType); // Review for sequential readers helper function could be listed first...
+        assertTrue(shnServiceUserData.executing); // review testing an internal. The external observable behaviour is that one command at a time is processed...
     }
 
     @Test
@@ -474,8 +475,8 @@ public class SHNServiceUserDataTest extends TestCase {
         assertTrue(shnServiceUserData.executing);
     }
 
-    private void assertQueueIsNotEmptyWithSize(int size, SHNServiceUserData.SHNUserDataCommand.Command[] commandsType) {
-        assertNotNull(shnServiceUserData.commandQueue);
+    private void assertQueueIsNotEmptyWithSize(int size, SHNServiceUserData.SHNUserDataCommand.Command[] commandsType) { // Review size is redundant. It equals the length of the commandsType array.
+        assertNotNull(shnServiceUserData.commandQueue); // Review the queue should exist after creating the service
         assertEquals(size, shnServiceUserData.commandQueue.size());
         for (int i = 0; i < commandsType.length; i++) {
             assertEquals("Mismatch at command " + i, commandsType[i], shnServiceUserData.commandQueue.get(i).getType());
@@ -526,7 +527,7 @@ public class SHNServiceUserDataTest extends TestCase {
     @Test
     public void whenNewUserIsRegisteredTwiceAndFirstIsNotifiedThenSecondCommandStartsExecuting() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x24};
-        setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
+        setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response); // Review at this point, there is no command in the queue!
         setUpRegisterNewUserStage1(888);
 
         assertTrue(shnServiceUserData.executing);
@@ -855,7 +856,7 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenThreeTaskAreSentThenTwoCommandsAreCreated() {
+    public void whenThreeTaskAreSentThenTwoCommandsAreCreated() { // Review Only two?? I expect three and so do you :-)
         setUpRegisterNewUserStage1(999);
         setUpConsentExistingUserStage1(10, 999);
         setUpDeleteUserStage1();
