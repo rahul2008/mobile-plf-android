@@ -20,7 +20,6 @@ import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.listener.RegistrationTitleBarListener;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.social.AlmostDoneFragment;
 import com.philips.cl.di.reg.ui.social.MergeAccountFragment;
 import com.philips.cl.di.reg.ui.utils.RLog;
@@ -287,7 +286,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
             RLog.d(RLog.NETWORK_STATE, "RegistrationFragment :onNetWorkStateReceived");
             RegistrationHelper registrationSettings = RegistrationHelper.getInstance();
             registrationSettings
-                    .intializeRegistrationSettings(Janrain.REINITIALIZE, mActivity
+                    .intializeRegistrationSettings(mActivity
                             .getApplicationContext(), RegistrationHelper.getInstance().getLocale());
             RLog.d(RLog.JANRAIN_INITIALIZE,
                     "RegistrationFragment : Janrain reinitialization with locale : "

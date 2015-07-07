@@ -1,14 +1,13 @@
 
 package com.philips.cl.di.regsample.app;
 
-import java.util.Locale;
-
 import android.app.Application;
 
 import com.adobe.mobile.Config;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.settings.RegistrationHelper.Janrain;
 import com.philips.cl.di.reg.ui.utils.RLog;
+
+import java.util.Locale;
 
 public class RegistrationApplication extends Application {
 
@@ -25,7 +24,7 @@ public class RegistrationApplication extends Application {
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
 		mRegistrationHelper.setCoppaFlow(false);
-		mRegistrationHelper.intializeRegistrationSettings(Janrain.INITIALIZE, this,
+		mRegistrationHelper.intializeRegistrationSettings( this,
 		        Locale.getDefault());
 	}
 }
