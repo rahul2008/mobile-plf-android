@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class SocialProviders {
+public class SigninProviders {
 
 	private final String DEFAULT = "default";
 
@@ -19,13 +19,13 @@ public class SocialProviders {
 		this.providers = providers;
 	}
 
-	public ArrayList<String> getSocialProvidersForCountry(String countryCode) {
-		ArrayList<String> socialProciders = providers.get(countryCode.toUpperCase(Locale
+	public ArrayList<String> getProvidersForCountry(String countryCode) {
+		ArrayList<String> signinProviders = providers.get(countryCode.toUpperCase(Locale
 		        .getDefault()));
-		if (null == socialProciders) {
-			socialProciders = providers.get(DEFAULT.toUpperCase(Locale.getDefault()));
+		if (null == signinProviders) {
+			signinProviders = providers.get(DEFAULT.toUpperCase(Locale.getDefault()));
 		}
-		return socialProciders;
+		return signinProviders;
 	}
 
 }
