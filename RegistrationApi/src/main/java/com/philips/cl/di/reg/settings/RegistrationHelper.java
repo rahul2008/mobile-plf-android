@@ -118,14 +118,18 @@ public class RegistrationHelper {
      * Janrain
      */
     public void intializeRegistrationSettings(final Context context,
-                                              final Locale locale) {
-        System.out.println("locale + " + locale);
-        setLocale(locale);
-
+                                              Locale locale) {
+        Locale mlocale = locale;
+        if (isCoppaFlow()) {
+            mlocale = new Locale("en_US");
+        }
+        setLocale(mlocale);
         mContext = context.getApplicationContext();
         NetworkUtility.isNetworkAvailable(mContext);
         RegistrationConfiguration.getInstance().setSocialProviders(null);
-        setCountryCode(locale.getCountry());
+        setCountryCode(mlocale.getCountry());
+        final String initLocale = mlocale.toString();
+        RLog.i("LOCALE","App JAnrain Init locale :"+initLocale);
 
         new Thread(new Runnable() {
 
@@ -151,7 +155,7 @@ public class RegistrationHelper {
 
                 boolean mIsInitialize = mJanrainIntialized;
                 mJanrainIntialized = false;
-                String mLocale = locale.toString();
+
 
                 if (NetworkUtility.isNetworkAvailable(mContext)) {
 
@@ -161,7 +165,7 @@ public class RegistrationHelper {
                                 .getClientIds().getEvaluationId());
                         initEvalSettings(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getEvaluationId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                     }
                     if (RegistrationEnvironment.PROD.equalsIgnoreCase(mRegistrationType)) {
                         RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
@@ -169,7 +173,7 @@ public class RegistrationHelper {
                                 .getClientIds().getProductionId());
                         initProdSettings(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getProductionId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
 
                     }
                     if (RegistrationEnvironment.DEV.equalsIgnoreCase(mRegistrationType)) {
@@ -178,7 +182,7 @@ public class RegistrationHelper {
                                 .getClientIds().getDevelopmentId());
                         initDevSettings(mContext, RegistrationConfiguration.getInstance()
                                         .getJanRainConfiguration().getClientIds().getDevelopmentId(),
-                                mMicrositeId, mRegistrationType, mIsInitialize, mLocale);
+                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                     }
                 }
             }
