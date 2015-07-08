@@ -18,7 +18,7 @@
             android:clickable="false"
             android:contentDescription="@string/content_desc"
             android:padding="@dimen/reg_header_iv_back_padding"
-            android:src="@drawable/back_press"
+            android:src="@drawable/reg_back_press"
             android:visibility="visible" />
 
         <com.philips.cl.di.reg.ui.customviews.XTextView

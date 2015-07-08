@@ -3,19 +3,19 @@ package com.philips.cl.di.reg.adobe.analytics;
 
 public class TrackActionErrors {
 
-	private static final String FAILEDLOGIN = "failedlogin";
+	private static final String FAILEDLOGIN = "failed to login";//failedlogin
 
 	private static final String FAILURE_USERCREATION = "failureUsercreation";
 
 	private static final String EMAIL_ALREADY_IN_USE = "email already in use";
 
-	private static final String INVALID_INPUT_FIELDS = "invalid input fields";
+	private static final String INVALID_INPUT_FIELDS = "wrongCredentials"; //invalid input fields
 
 	private static final String EMAIL_IS_NOT_VERIFIED = "email is not verified";
 
-	private static final String WE_RE_HAVING_TROUBLE_LOGINING_USER = "we're having trouble logging user";
+	private static final String WE_RE_HAVING_TROUBLE_LOGINING_USER = "network problems";//we're having trouble logging user
 
-	private static final String WE_RE_HAVING_TROUBLE_REGISTRING_USER = "we're having trouble registering user";
+	private static final String WE_RE_HAVING_TROUBLE_REGISTRING_USER = "network problems"; //we're having trouble registering user
 
 	private final static int NETWORK_ERROR_CODE = 111;
 

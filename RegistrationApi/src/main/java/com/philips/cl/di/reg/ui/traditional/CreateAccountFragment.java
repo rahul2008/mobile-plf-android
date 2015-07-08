@@ -208,7 +208,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void register() {
-		trackMultipleActions();
+		trackCheckMarketing();
 		showSpinner();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
@@ -220,11 +220,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		        .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
 	}
 
-	private void trackMultipleActions() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+	private void trackCheckMarketing() {
 		if (mCbTerms.isChecked()) {
 			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
 		} else {

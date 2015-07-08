@@ -13,7 +13,7 @@
         android:layout_marginRight="@dimen/reg_err_mapping_margin_right"
         android:layout_marginTop="@dimen/reg_err_mapping_mergin_top"
         android:contentDescription="@string/content_desc"
-        android:src="@drawable/err_alert" />
+        android:src="@drawable/reg_err_alert" />
 
     <ImageView
         android:layout_width="@dimen/reg_err_alert_width"

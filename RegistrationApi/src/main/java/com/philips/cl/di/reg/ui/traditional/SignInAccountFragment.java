@@ -285,7 +285,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		}
         trackActionLoginError(userRegistrationFailureInfo.getError().code);
 		mBtnSignInAccount.setEnabled(false);
-		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
 	}
 
 	@Override

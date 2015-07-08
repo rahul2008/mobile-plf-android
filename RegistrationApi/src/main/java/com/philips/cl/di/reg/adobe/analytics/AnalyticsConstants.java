@@ -42,7 +42,7 @@ public interface AnalyticsConstants {
 
 	String SPECIAL_EVENTS = "specialEvents";
 
-	String STATUS_NOTIFICATION = "statusNotification";
+	String STATUS_NOTIFICATION = "notification";//statusNotification
 
 	String MY_PHILIPS = "myphilips";
 
@@ -72,7 +72,7 @@ public interface AnalyticsConstants {
 
 	String USER_ERROR = "userError";
 
-	String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
+	String RESET_PASSWORD_SUCCESS = "password reset message ";//A link is sent to your email to reset the password of your Philips Account
 
 	String CONTINUE = "continue";
 
