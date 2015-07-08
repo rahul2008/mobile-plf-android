@@ -44,7 +44,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	private CppController mMockedCppController;
 	private TestApplianceFactory mTestApplianceFactory;
 	private DICommApplianceDatabase<TestAppliance> mMockedApplianceDatabase;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void setUp() throws Exception {
@@ -56,11 +56,11 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		mMockedNetworkMonitor = mock(NetworkMonitor.class);
 
 		mDiscoveryManager = new DiscoveryManager<TestAppliance>(mMockedCppController, mTestApplianceFactory, mMockedApplianceDatabase, mMockedNetworkMonitor);
-		
-		
+
+
 		mListener = mock(DiscoveryEventListener.class);
-		
-		mDiscoveryManager.addDiscoveryEventListener(mListener);		
+
+		mDiscoveryManager.addDiscoveryEventListener(mListener);
 		mDiscoveryManager.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(mMockedNetworkMonitor);
 	}
@@ -1726,11 +1726,11 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		NetworkChangedCallback capturedNetworkChangedCallback = captor.getValue();
 		return capturedNetworkChangedCallback;
 	}
-	
+
 	public void testDiscoveryManagerRegistersForNetworkMonitorCallbacks() {
 		verify(mMockedNetworkMonitor, times(1)).setListener(any(NetworkChangedCallback.class));
 	}
-	
+
 	public void testDiscoveryTimerWifiNoNetwork() {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
 		mDiscoveryManager.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
@@ -1739,7 +1739,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		discoveryHandler.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
 
 		capturedNetworkChangedCallback.onNetworkChanged(NetworkState.NONE, "");
-		
+
 		assertFalse(discoveryHandler.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHandler.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
 	}
@@ -1750,13 +1750,13 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		NetworkChangedCallback capturedNetworkChangedCallback = captureNetworkChangedCallback();
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
 		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
-		
+
 		capturedNetworkChangedCallback.onNetworkChanged(NetworkState.MOBILE, "");
 
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
 	}
-	
+
 	public void testDiscoveryTimerNoNetworkWifi() {
 		mDiscoveryManager.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
 		mDiscoveryManager.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
@@ -1767,7 +1767,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 		assertTrue(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
-		
+
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
 	}
 
@@ -1778,7 +1778,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
-		
+
 		mDiscoveryManager.start();
 
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
@@ -1792,7 +1792,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
-		
+
 		mDiscoveryManager.start();
 
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
@@ -1806,9 +1806,9 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscoveryManager.setDummyNetworkMonitorForTesting(monitor);
 		Handler discoveryHand = mDiscoveryManager.getDiscoveryTimeoutHandlerForTesting();
-		
+
 		mDiscoveryManager.start();
-		
+
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
 		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
 	}
@@ -1830,30 +1830,35 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
 		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE);
 	}
-	
+
 	public void testAddListener() {
-//        DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
-//		mDiscoveryManager.addDiscoveryEventListener(listener);
-//		
-//		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
-//		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + APPLIANCE_CPPID_1 + "\",\"" + APPLIANCE_CPPID_2 + "\"]}";
-//		mDiscoveryManager.onDiscoverEventReceived(CppDiscoveryHelper.parseDiscoverInfo(event), true);
-//
-//		verify(listener, times(1)).onDiscoveredAppliancesListChanged();
+        DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
+		mDiscoveryManager.addDiscoveryEventListener(listener);
+
+		triggerOnDiscoveredDevicesListChanged();
+
+		verify(listener, times(1)).onDiscoveredAppliancesListChanged();
+	}
+
+	private void triggerOnDiscoveredDevicesListChanged() {
+		TestAppliance localAppliance = createTestAppliance(null, "cppId", "ip", "name", 0, ConnectionState.CONNECTED_LOCALLY);
+		setAppliancesList(new TestAppliance[] { localAppliance });
+		NetworkChangedCallback networkChangedCallback = captureNetworkChangedCallback();
+		networkChangedCallback.onNetworkChanged(NetworkState.NONE, null);
 	}
 
 	public void testUnregisterListener() {
-		
+
 	}
 
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
-		
+
     }
 
 	public void testListenerShouldNotBeRegisteredTwice() {
-		
+
 	}
-	
+
 
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 

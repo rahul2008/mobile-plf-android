@@ -66,9 +66,9 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
 	private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
 	private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
-	
+
 	private static Handler mDiscoveryTimeoutHandler = new Handler() {
-		
+
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
@@ -105,7 +105,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	/* package, for testing */ DiscoveryManager(CppController cppController, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
 		mApplianceFactory = applianceFactory;
 		mApplianceDatabase = applianceDatabase;
-		
+
 		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommContext.getContext());
 		initializeAppliancesMapFromDataBase();
 
@@ -114,21 +114,14 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 
 		mNetwork = networkMonitor;
 		mNetwork.setListener(mNetworkChangedCallback);
-		if(mDiscoveryEventListenersList == null){
-			mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
-		}
+		mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
 	}
-	
-	public void addDiscoveryEventListener(DiscoveryEventListener listener){		
-		if(listener!=null){
+
+	public void addDiscoveryEventListener(DiscoveryEventListener listener){
 		mDiscoveryEventListenersList.add(listener);
-		}
 	}
-	
+
 	public void removeDiscoverEventListener(DiscoveryEventListener listener){
-		if(listener!=null && mDiscoveryEventListenersList!=null && mDiscoveryEventListenersList.contains(listener)){
-			mDiscoveryEventListenersList.remove(listener);
-		}
 	}
 
 	public void start() {
@@ -214,7 +207,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	}
 
 	private NetworkChangedCallback mNetworkChangedCallback = new NetworkChangedCallback() {
-		
+
 		@Override
 		public void onNetworkChanged(NetworkState networkState, String networkSsid) {
 			// REMARK: Wifi switch will go through the none state
@@ -682,11 +675,11 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 
 	private void notifyDiscoveryListener() {
 		if (mDiscoveryEventListenersList == null) return;
-		
+
 		for(DiscoveryEventListener listener: mDiscoveryEventListenersList){
 		    listener.onDiscoveredAppliancesListChanged();
 		}
-		
+
 		printDiscoveredAppliances(DICommLog.DISCOVERY);
 		DICommLog.v(DICommLog.DISCOVERY, "Notified listener of change event");
 	}
