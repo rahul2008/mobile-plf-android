@@ -8,7 +8,6 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
-import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 import java.util.Locale;
 
@@ -17,136 +16,141 @@ import java.util.Locale;
  * maintain the instances at digital care app level. We need to pass the
  * parameters from hosting(integrating) apps and this class will initialize and
  * maintain for DigitalCareApp level.
- * 
+ *
  * @author : Ritesh.jha@philips.com
- * 
  * @since : 5 Dec 2014
  */
 public class DigitalCareConfigManager {
 
-	public Locale mLocale = null;
-	private String mTwitterConsumerKey = null;
-	private String mTwitterConsumerSecret = null;
-	private static DigitalCareConfigManager mDigitalCareInstance = null;
-	private ConsumerProductInfo mConsumerProductInfo = null;
-
-	private MainMenuListener mMainMenuListener = null;
-	private ProductMenuListener mProductMenuListener = null;
-	private SocialProviderListener mSocialProviderListener = null;
-
-	private static Context mContext = null;
-
-	/*
-	 * Initialize everything(resources, variables etc) required for DigitalCare.
-	 * Hosting app, which will integrate this DigitalCare, has to pass app
-	 * context.
-	 */
-	private DigitalCareConfigManager() {
-	}
-
-	/*
-	 * Singleton pattern.
-	 */
-	public static DigitalCareConfigManager getInstance() {
-		if (mDigitalCareInstance == null) {
-			mDigitalCareInstance = new DigitalCareConfigManager();
-		}
-		return mDigitalCareInstance;
-	}
-
-	public Context getContext() {
-		return mContext;
-	}
+    private static DigitalCareConfigManager mDigitalCareInstance = null;
+    private static Context mContext = null;
+    public Locale mLocale = null;
+    public Locale mLocaleMatchLocale = null;
+    private String mTwitterConsumerKey = null;
+    private String mTwitterConsumerSecret = null;
+    private ConsumerProductInfo mConsumerProductInfo = null;
+    private MainMenuListener mMainMenuListener = null;
+    private ProductMenuListener mProductMenuListener = null;
+    private SocialProviderListener mSocialProviderListener = null;
 
 
-	public void initializeDigitalCareLibrary(Context applicationContext) {
-		if (mContext == null) {
-			DigitalCareConfigManager.mContext = applicationContext;
-			initializeTaggingContext(mContext);
-		}
-	}
+    /*
+     * Initialize everything(resources, variables etc) required for DigitalCare.
+     * Hosting app, which will integrate this DigitalCare, has to pass app
+     * context.
+     */
+    private DigitalCareConfigManager() {
+    }
 
+    /*
+     * Singleton pattern.
+     */
+    public static DigitalCareConfigManager getInstance() {
+        if (mDigitalCareInstance == null) {
+            mDigitalCareInstance = new DigitalCareConfigManager();
+        }
+        return mDigitalCareInstance;
+    }
 
-	public void invokeDigitalCareAsFragment(FragmentActivity context,
-			int parentContainerResId,
-			ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-			int exitAnim) {
-		if(mContext == null || mConsumerProductInfo == null || mLocale == null){
-			throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
-		}
-		SupportHomeFragment supportFrag = new SupportHomeFragment();
-		//TODO: pending work on animation part.
-		supportFrag.showFragment(context, parentContainerResId, supportFrag,
-				actionbarUpdateListener, enterAnim, exitAnim);
-	}
+    private static void initializeTaggingContext(Context context) {
+        AnalyticsTracker.isEnable(true);
+        AnalyticsTracker.initContext(context);
+    }
 
-	public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
-		if(mContext == null || mConsumerProductInfo == null || mLocale == null){
-			throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
-		}
-		Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
-		intent.putExtra("STARTANIMATIONID", startAnimation);
-		intent.putExtra("ENDANIMATIONID", endAnimation);
-		getContext().startActivity(intent);
-	}
+    public Context getContext() {
+        return mContext;
+    }
 
-	public ConsumerProductInfo getConsumerProductInfo() {
-		return mConsumerProductInfo;
-	}
+    public void initializeDigitalCareLibrary(Context applicationContext) {
+        if (mContext == null) {
+            DigitalCareConfigManager.mContext = applicationContext;
+            initializeTaggingContext(mContext);
+        }
+    }
 
-	public void setConsumerProductInfo(ConsumerProductInfo info) {
-		mConsumerProductInfo = info;
-	}
+    public void invokeDigitalCareAsFragment(FragmentActivity context,
+                                            int parentContainerResId,
+                                            ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                            int exitAnim) {
+        if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
+            throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
+        }
+        SupportHomeFragment supportFrag = new SupportHomeFragment();
+        //TODO: pending work on animation part.
+        supportFrag.showFragment(context, parentContainerResId, supportFrag,
+                actionbarUpdateListener, enterAnim, exitAnim);
+    }
 
-	public void registerMainMenuListener(MainMenuListener mainMenuListener) {
-		mMainMenuListener = mainMenuListener;
-	}
+    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
+        if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
+            throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
+        }
+        Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
+        intent.putExtra("STARTANIMATIONID", startAnimation);
+        intent.putExtra("ENDANIMATIONID", endAnimation);
+        getContext().startActivity(intent);
+    }
 
-	public MainMenuListener getMainMenuListener() {
-		return mMainMenuListener;
-	}
+    public ConsumerProductInfo getConsumerProductInfo() {
+        return mConsumerProductInfo;
+    }
 
-	public void registerProductMenuListener(
-			ProductMenuListener productMenuListener) {
-		mProductMenuListener = productMenuListener;
-	}
+    public void setConsumerProductInfo(ConsumerProductInfo info) {
+        mConsumerProductInfo = info;
+    }
 
-	public ProductMenuListener getProductMenuListener() {
-		return mProductMenuListener;
-	}
+    public void registerMainMenuListener(MainMenuListener mainMenuListener) {
+        mMainMenuListener = mainMenuListener;
+    }
 
-	public void registerSocialProviderListener(
-			SocialProviderListener socialProviderListener) {
-		mSocialProviderListener = socialProviderListener;
-	}
+    public MainMenuListener getMainMenuListener() {
+        return mMainMenuListener;
+    }
 
-	public SocialProviderListener getSocialProviderListener() {
-		return mSocialProviderListener;
-	}
+    public void registerProductMenuListener(
+            ProductMenuListener productMenuListener) {
+        mProductMenuListener = productMenuListener;
+    }
 
-	public void setLocale(String langCode, String countryCode) {
-		if (langCode != null && countryCode != null) {
-			LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
-					mContext, langCode, countryCode);
-			mLocaleMatchHandler.initializeLocaleMatchService();
-		}
-	}
+    public ProductMenuListener getProductMenuListener() {
+        return mProductMenuListener;
+    }
 
-	public Locale getLocale() {
-		return mLocale;
-	}
+    public void registerSocialProviderListener(
+            SocialProviderListener socialProviderListener) {
+        mSocialProviderListener = socialProviderListener;
+    }
 
-	public String getTwitterConsumerKey() {
-		return mTwitterConsumerKey;
-	}
+    public SocialProviderListener getSocialProviderListener() {
+        return mSocialProviderListener;
+    }
 
-	public String getTwitterConsumerSecret() {
-		return mTwitterConsumerSecret;
-	}
+    public void setLocale(String langCode, String countryCode) {
 
-	private static void initializeTaggingContext(Context context) {
-		AnalyticsTracker.isEnable(true);
-		AnalyticsTracker.initContext(context);
-	}
+        if (langCode != null && countryCode != null) {
+
+            mLocale = new Locale(langCode, countryCode);
+
+            LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
+                    mContext, langCode, countryCode);
+            mLocaleMatchHandler.initializeLocaleMatchService();
+        }
+    }
+
+    public Locale getLocale() {
+        return mLocale;
+    }
+
+    public Locale getmLocaleMatchLocale() {
+        return mLocaleMatchLocale;
+    }
+
+    public String getTwitterConsumerKey() {
+        return mTwitterConsumerKey;
+    }
+
+    public String getTwitterConsumerSecret() {
+        return mTwitterConsumerSecret;
+    }
 
 }

@@ -119,7 +119,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         try {
             if (mView != null) {
-                ((ViewGroup) mView.getParent()).removeView(mView);
+                ViewGroup parent = (ViewGroup) mView.getParent();
+                if (parent != null) {
+                    parent.removeView(mView);
+                }
             }
             mView = inflater.inflate(R.layout.fragment_contact_us, container,
                     false);
@@ -215,7 +218,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .getInstance().getConsumerProductInfo();
 
         return getCdlsUrl(consumerProductInfo.getSector(),
-                DigitalCareConfigManager.getInstance().getLocale().toString(),
+                DigitalCareConfigManager.getInstance().getmLocaleMatchLocale().toString(),
                 consumerProductInfo.getCatalog(),
                 consumerProductInfo.getSubCategory());
     }
