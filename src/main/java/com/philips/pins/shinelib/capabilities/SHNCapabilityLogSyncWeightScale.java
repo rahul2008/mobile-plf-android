@@ -18,16 +18,16 @@ import java.util.Map;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SHNCapabilityWeightScaleLogSync extends SHNCapabilityLogSyncBase implements SHNServiceWeightScale.SHNWeightServiceListener {
+public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase implements SHNServiceWeightScale.SHNServiceWeightScaleListener {
 
-    private static final String TAG = SHNCapabilityWeightScaleLogSync.class.getSimpleName();
+    private static final String TAG = SHNCapabilityLogSyncWeightScale.class.getSimpleName();
 
     private SHNServiceWeightScale shnServiceWeightScale;
 
-    public SHNCapabilityWeightScaleLogSync(SHNServiceWeightScale shnServiceWeightScale) {
+    public SHNCapabilityLogSyncWeightScale(SHNServiceWeightScale shnServiceWeightScale) {
         super();
         this.shnServiceWeightScale = shnServiceWeightScale;
-        shnServiceWeightScale.setShnWeightServiceListener(this);
+        shnServiceWeightScale.setShnServiceWeightScaleListener(this);
     }
 
     @Override

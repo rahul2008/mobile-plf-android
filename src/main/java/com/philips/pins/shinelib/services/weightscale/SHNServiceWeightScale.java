@@ -32,9 +32,9 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
     private static final String TAG = SHNServiceBattery.class.getSimpleName();
     private static final boolean LOGGING = false;
 
-    private SHNWeightServiceListener shnWeightServiceListener;
+    private SHNServiceWeightScaleListener shnServiceWeightScaleListener;
 
-    public interface SHNWeightServiceListener {
+    public interface SHNServiceWeightScaleListener {
         void onServiceStateChanged(SHNServiceWeightScale shnServiceWeightScale, SHNService.State state);
         void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNDataWeightMeasurement shnDataWeightMeasurement);
     }
@@ -61,15 +61,15 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
         return new HashSet<>();
     }
 
-    public void setShnWeightServiceListener(SHNWeightServiceListener shnWeightServiceListener) {
-        this.shnWeightServiceListener = shnWeightServiceListener;
+    public void setShnServiceWeightScaleListener(SHNServiceWeightScaleListener shnServiceWeightScaleListener) {
+        this.shnServiceWeightScaleListener = shnServiceWeightScaleListener;
     }
 
     // implements SHNService.SHNServiceListener
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if(shnWeightServiceListener!=null){
-            shnWeightServiceListener.onServiceStateChanged(this, state);
+        if(shnServiceWeightScaleListener !=null){
+            shnServiceWeightScaleListener.onServiceStateChanged(this, state);
         }
         if (state == SHNService.State.Available) {
             shnService.transitionToReady();
@@ -117,7 +117,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
             ByteBuffer byteBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
             try {
                 SHNDataWeightMeasurement shnDataWeightMeasurement = new SHNDataWeightMeasurement(byteBuffer);
-                shnWeightServiceListener.onWeightMeasurementReceived(this, shnDataWeightMeasurement);
+                shnServiceWeightScaleListener.onWeightMeasurementReceived(this, shnDataWeightMeasurement);
             } catch(IllegalArgumentException e) {}
         }
     }

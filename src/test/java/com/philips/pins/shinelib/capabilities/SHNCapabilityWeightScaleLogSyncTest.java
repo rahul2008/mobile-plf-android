@@ -44,7 +44,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PrepareForTest({Timer.class, Log.class})
 public class SHNCapabilityWeightScaleLogSyncTest{
 
-    private SHNCapabilityWeightScaleLogSync shnCapabilityWeightScaleLogSync;
+    private SHNCapabilityLogSyncWeightScale shnCapabilityWeightScaleLogSync;
     private SHNServiceWeightScale mockedShnServiceWeightScale;
 
     private SHNCapabilityLogSynchronization.Listener mockedShnCapabilityListener;
@@ -63,7 +63,7 @@ public class SHNCapabilityWeightScaleLogSyncTest{
         mockStatic(Log.class);
         when(Log.w(anyString(), anyString())).thenReturn(0);
 
-        shnCapabilityWeightScaleLogSync = new SHNCapabilityWeightScaleLogSync(mockedShnServiceWeightScale);
+        shnCapabilityWeightScaleLogSync = new SHNCapabilityLogSyncWeightScale(mockedShnServiceWeightScale);
         shnCapabilityWeightScaleLogSync.setListener(mockedShnCapabilityListener);
     }
 
@@ -74,7 +74,7 @@ public class SHNCapabilityWeightScaleLogSyncTest{
 
     @Test
     public void whenCreatedServiceWeightScaleListenerIsSet() {
-        verify(mockedShnServiceWeightScale).setShnWeightServiceListener(shnCapabilityWeightScaleLogSync);
+        verify(mockedShnServiceWeightScale).setShnServiceWeightScaleListener(shnCapabilityWeightScaleLogSync);
     }
 
     @Test
