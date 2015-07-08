@@ -115,7 +115,7 @@ public class SHNServiceCurrentTimeTest {
     }
 
     @Test
-    public void whenTheServiceIsAvailableThenGetCurrentTimeReadsFromTheCurrentTimeCharacteristic1() {
+    public void whenTheCurrentTimeCharacteristicProvidesValidDataThenTheResultListenerIndicatesSuccess() {
         serviceSetupServiceStateChangedToAvailable();
         shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
         verify(mockedSHNCharacteristicCurrentTime).read(shnCommandResultReporterArgumentCaptor.capture()); // Just to capture the ResultReporter
@@ -135,6 +135,59 @@ public class SHNServiceCurrentTimeTest {
         assertNotNull(shnObjectResultListenerArgumentCaptor.getValue());
         ExactTime256WithAdjustReason exactTime256WithAdjustReason = (ExactTime256WithAdjustReason) shnObjectResultListenerArgumentCaptor.getValue();
         assertTrue(exactTime256WithAdjustReason.adjustReason.manualTimeUpdate);
-        assertEquals("2015-06-08 08:34:45:500", simpleDateFormat.format(exactTime256WithAdjustReason.exactTime256.exactTime256Timestamp));
+        assertEquals("2015-06-08 08:34:45:500", simpleDateFormat.format(exactTime256WithAdjustReason.exactTime256.exactTime256Date.getTime()));
+    }
+
+    @Test
+    public void whenTheCurrentTimeCharacteristicProvidesToFewBytesThenTheResultListenerIndicatesResponseIncomplete() {
+        serviceSetupServiceStateChangedToAvailable();
+        shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
+        verify(mockedSHNCharacteristicCurrentTime).read(shnCommandResultReporterArgumentCaptor.capture()); // Just to capture the ResultReporter
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNOk, new byte[]{
+                (byte) 0xDF, (byte) 0x07      // year 2015 = 0x07DF
+                , 6                          // month june = 6
+                , 8                          // day 8th
+                , 8                          // hour 8
+                , 34                         // minutes 34
+                , 45                         // seconds 45
+                , 1                          // Day Of Week Monday (Not checked to be correct for the date)
+                , (byte) 0x80                // Fraction256 128
+//                , 0b00000001                 // Adjust reason
+        });
+        verify(mockedSHNObjectResultListener).onActionCompleted(shnObjectResultListenerArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        assertEquals(SHNResult.SHNResponseIncompleteError, shnResultArgumentCaptor.getValue());
+        assertNull(shnObjectResultListenerArgumentCaptor.getValue());
+    }
+
+    @Test
+    public void whenTheCurrentTimeCharacteristicProvidesToFewBytesThenTheResultListenerIndicatesParseError() {
+        serviceSetupServiceStateChangedToAvailable();
+        shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
+        verify(mockedSHNCharacteristicCurrentTime).read(shnCommandResultReporterArgumentCaptor.capture()); // Just to capture the ResultReporter
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNOk, new byte[]{
+                (byte) 0xDF, (byte) 0x07      // year 2015 = 0x07DF
+                , 13                          // month june = 6
+                , 8                          // day 8th
+                , 8                          // hour 8
+                , 34                         // minutes 34
+                , 45                         // seconds 45
+                , 1                          // Day Of Week Monday (Not checked to be correct for the date)
+                , (byte) 0x80                // Fraction256 128
+                , 0b00000001                 // Adjust reason
+        });
+        verify(mockedSHNObjectResultListener).onActionCompleted(shnObjectResultListenerArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        assertEquals(SHNResult.SHNErrorWhileParsing, shnResultArgumentCaptor.getValue());
+        assertNull(shnObjectResultListenerArgumentCaptor.getValue());
+    }
+
+    @Test
+    public void whenTheCharacteristicReadReturnsAnErrorThenTheResultListenerIndicatesThatError() {
+        serviceSetupServiceStateChangedToAvailable();
+        shnServiceCurrentTime.getCurrentTime(mockedSHNObjectResultListener);
+        verify(mockedSHNCharacteristicCurrentTime).read(shnCommandResultReporterArgumentCaptor.capture()); // Just to capture the ResultReporter
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNLostConnectionError, null);
+        verify(mockedSHNObjectResultListener).onActionCompleted(shnObjectResultListenerArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        assertEquals(SHNResult.SHNLostConnectionError, shnResultArgumentCaptor.getValue());
+        assertNull(shnObjectResultListenerArgumentCaptor.getValue());
     }
 }

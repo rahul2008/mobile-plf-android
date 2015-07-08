@@ -9,11 +9,11 @@ import java.util.Date;
 public class ExactTime256 {
     public final DayDateTime dayDateTime;
     public final short fractions256;
-    public final long exactTime256Timestamp;
+    public Date exactTime256Date;
 
     public ExactTime256(ByteBuffer byteBuffer) {
         dayDateTime = new DayDateTime(byteBuffer);
         fractions256 = (short) ScalarConverters.ubyteToInt(byteBuffer.get());
-        exactTime256Timestamp = dayDateTime.date.getTime() + ((1000 * fractions256) / 256);
+        exactTime256Date = new Date(dayDateTime.date.getTime() + ((1000 * fractions256) / 256));
     }
 }
