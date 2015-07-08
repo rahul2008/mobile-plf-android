@@ -13,8 +13,9 @@
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="font_button_text_margin_left">80dp</dimen>
     <dimen name="support_btn_height">60dp</dimen>
-    <dimen name="actionbar_height">55dp</dimen>
+    <dimen name="actionbar_height">60dp</dimen>
     <dimen name="marginTopButton">20dp</dimen>
+    <dimen name="supportHomeHelpText_margin_top">30dp</dimen>
    
     <dimen name="locate_layout_margin">110dp</dimen>
     <dimen name="locate_search_layout_margin">110dp</dimen>

@@ -1,6 +1,7 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -26,220 +27,222 @@ import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 /**
  * SupportHomeFragment is the first screen of Support app. This class will give
  * all the possible options to navigate within digital support app.
- * 
+ *
  * @author : Ritesh.jha@philips.com
- * 
  * @creation Date : 5 Dec 2014
  */
 
 public class SupportHomeFragment extends DigitalCareBaseFragment {
 
-	private LinearLayout mOptionParent = null;
-	private FrameLayout.LayoutParams mParams = null;
+    private static final String TAG = SupportHomeFragment.class.getSimpleName();
+    private LinearLayout mOptionParent = null;
+    private FrameLayout.LayoutParams mParams = null;
 
-	private static final String TAG = SupportHomeFragment.class.getSimpleName();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_support, container,
+                false);
+        return view;
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_support, container,
-				false);
-		return view;
-	}
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+        mOptionParent = (LinearLayout) getActivity().findViewById(
+                R.id.optionParent);
+        mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
+        Configuration config = getResources().getConfiguration();
+        setViewParams(config);
 
-		mOptionParent = (LinearLayout) getActivity().findViewById(
-				R.id.optionParent);
-		mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
-		Configuration config = getResources().getConfiguration();
-		setViewParams(config);
+        createMainMenu();
+        try {
+            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+                    getPreviousName());
+        } catch (Exception e) {
+            DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
+        }
+    }
 
-		createMainMenu();
-		try {
-			AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-					getPreviousName());
-		} catch (Exception e) {
-			DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
-		}
-	}
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
 
-	@Override
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
+        setViewParams(config);
+    }
 
-		setViewParams(config);
-	}
+    public void setViewParams(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+        } else {
+            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+        }
+        mOptionParent.setLayoutParams(mParams);
+    }
 
-	public void setViewParams(Configuration config) {
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
-		} else {
-			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
-		}
-		mOptionParent.setLayoutParams(mParams);
-	}
+    /**
+     * Create RelativeLayout at runTime. RelativeLayout will have button and
+     * image together.
+     */
+    private void createButtonLayout(String buttonTitle, String buttonDrawable) {
+        float density = getResources().getDisplayMetrics().density;
+        String packageName = getActivity().getPackageName();
+        int title = getResources().getIdentifier(
+                packageName + ":string/" + buttonTitle, null, null);
+        int drawable = getResources().getIdentifier(
+                packageName + ":drawable/" + buttonDrawable, null, null);
 
-	/**
-	 * Create RelativeLayout at runTime. RelativeLayout will have button and
-	 * image together.
-	 */
-	private void createButtonLayout(String buttonTitle, String buttonDrawable) {
-		float density = getResources().getDisplayMetrics().density;
-		String packageName = getActivity().getPackageName();
-		int title = getResources().getIdentifier(
-				packageName + ":string/" + buttonTitle, null, null);
-		int drawable = getResources().getIdentifier(
-				packageName + ":drawable/" + buttonDrawable, null, null);
+        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
 
-		RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
-
-		Button button = createButton(density, title);
-		relativeLayout.addView(button);
-		setButtonParams(button);
-		ImageView imageView = createImageView(density, drawable);
-		relativeLayout.addView(imageView);
-		setImageParams(imageView, density);
-		mOptionParent.addView(relativeLayout);
-		setRelativeLayoutParams(relativeLayout, density);
+        Button button = createButton(density, title);
+        relativeLayout.addView(button);
+        setButtonParams(button);
+        ImageView imageView = createImageView(density, drawable);
+        relativeLayout.addView(imageView);
+        setImageParams(imageView, density);
+        mOptionParent.addView(relativeLayout);
+        setRelativeLayoutParams(relativeLayout, density);
 
 		/*
-		 * Setting tag because we need to get String title for this view which
+         * Setting tag because we need to get String title for this view which
 		 * needs to be handled at button click.
 		 */
-		relativeLayout.setTag(buttonTitle);
-		relativeLayout.setOnClickListener(this);
-	}
+        relativeLayout.setTag(buttonTitle);
+        relativeLayout.setOnClickListener(this);
+    }
 
-	private RelativeLayout createRelativeLayout(String buttonTitle) {
-		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-						.getDimension(R.dimen.support_btn_height));
-		relativeLayout.setLayoutParams(params);
+    private RelativeLayout createRelativeLayout(String buttonTitle) {
+        RelativeLayout relativeLayout = new RelativeLayout(getActivity());
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height));
 
-		if (buttonTitle.equals(getStringKey(R.string.registration))) {
-			relativeLayout
-					.setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
-		} else {
-			relativeLayout
-					.setBackgroundResource(R.drawable.selector_option_button_bg);
-		}
+        relativeLayout.setLayoutParams(params);
 
-		return relativeLayout;
-	}
+        if (buttonTitle.equals(getStringKey(R.string.sign_into_my_philips))) {
+            relativeLayout
+                    .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+        } else {
+            relativeLayout
+                    .setBackgroundResource(R.drawable.selector_option_button_bg);
+        }
 
-	private void setRelativeLayoutParams(RelativeLayout relativeLayout,
-			float density) {
-		LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
-				.getLayoutParams();
-		param.topMargin = (int) (15 * density);
-		relativeLayout.setLayoutParams(param);
-	}
+        return relativeLayout;
+    }
 
-	private void setImageParams(ImageView imageView, float density) {
-		LayoutParams imageViewParams = (LayoutParams) imageView
-				.getLayoutParams();
-		imageViewParams.height = (int) (35 * density);
-		imageViewParams.width = (int) (35 * density);
-		imageViewParams.topMargin = imageViewParams.bottomMargin = imageViewParams.rightMargin = (int) (10 * density);
-		imageViewParams.leftMargin = (int) (19 * density);
-		imageView.setLayoutParams(imageViewParams);
-	}
+    private void setRelativeLayoutParams(RelativeLayout relativeLayout,
+                                         float density) {
+        LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
+                .getLayoutParams();
+        param.topMargin = (int) (15 * density);
+        relativeLayout.setLayoutParams(param);
+    }
 
-	private void setButtonParams(Button button) {
-		RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
-				.getLayoutParams();
-		buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
-				RelativeLayout.TRUE);
-		buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-				RelativeLayout.TRUE);
-		button.setLayoutParams(buttonParams);
-	}
+    private void setImageParams(ImageView imageView, float density) {
+        LayoutParams imageViewParams = (LayoutParams) imageView
+                .getLayoutParams();
+        imageViewParams.height = (int) (35 * density);
+        imageViewParams.width = (int) (35 * density);
+        imageViewParams.topMargin = imageViewParams.bottomMargin = imageViewParams.rightMargin = (int) (10 * density);
+        imageViewParams.leftMargin = (int) (19 * density);
+        imageView.setLayoutParams(imageViewParams);
+    }
 
-	private ImageView createImageView(float density, int drawable) {
-		ImageView imageView = new ImageView(getActivity(), null,
-				R.style.supportHomeImageButton);
-		imageView.setPadding(0, 0, 0, 0);
-		imageView.setImageDrawable(getDrawable(drawable));
+    private void setButtonParams(Button button) {
+        RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
+                .getLayoutParams();
+        buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
+                RelativeLayout.TRUE);
+        buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
+                RelativeLayout.TRUE);
+        button.setLayoutParams(buttonParams);
+    }
 
-		return imageView;
-	}
+    private ImageView createImageView(float density, int drawable) {
+        ImageView imageView = new ImageView(getActivity(), null,
+                R.style.supportHomeImageButton);
+        imageView.setPadding(0, 0, 0, 0);
+        imageView.setImageDrawable(getDrawable(drawable));
 
-	private Button createButton(float density, int title) {
-		Button button = new Button(getActivity(), null, R.style.fontButton);
-		button.setGravity(Gravity.START | Gravity.CENTER);
-		button.setPadding((int) (80 * density), 0, 0, 0);
-		button.setTextAppearance(getActivity(), R.style.fontButton);
-		button.setText(title);
-		return button;
-	}
+        return imageView;
+    }
 
-	@Override
-	public void onClick(View view) {
+    private Button createButton(float density, int title) {
+        Button button = new Button(getActivity(), null, R.style.fontButton);
+        button.setGravity(Gravity.START | Gravity.CENTER);
+        button.setPadding((int) (80 * density), 0, 0, 0);
+        button.setTextAppearance(getActivity(), R.style.fontButton);
+        Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/CentraleSans-Book.otf");
+        button.setTypeface(buttonTypeface);
+        button.setText(title);
 
-		String tag = (String) view.getTag();
+        return button;
+    }
 
-		boolean actionTaken = false;
-		if(DigitalCareConfigManager.getInstance()
-				.getMainMenuListener()!=null) {
-			 actionTaken = DigitalCareConfigManager.getInstance()
-					.getMainMenuListener().onMainMenuItemClicked(tag.toString());
-		}
+    @Override
+    public void onClick(View view) {
 
-		if (actionTaken) {
-			return;
-		}
+        String tag = (String) view.getTag();
 
-		if (tag.equals(getStringKey(R.string.contact_us))) {
-			if (isConnectionAvailable())
-				showFragment(new ContactUsFragment());
-		} else if (tag.equals(getStringKey(R.string.view_product_details))) {
-			showFragment(new ProductDetailsFragment());
-		} else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
-			if (isConnectionAvailable())
-				showFragment(new LocatePhilipsFragment());
-		} else if (tag.equals(getStringKey(R.string.view_faq))) {
-			if (isConnectionAvailable())
-				showFragment(new FaqFragment());
-		} else if (tag.equals(getStringKey(R.string.feedback))) {
-			if (isConnectionAvailable())
-				showFragment(new RateThisAppFragment());
-		}
-	}
+        boolean actionTaken = false;
+        if (DigitalCareConfigManager.getInstance()
+                .getMainMenuListener() != null) {
+            actionTaken = DigitalCareConfigManager.getInstance()
+                    .getMainMenuListener().onMainMenuItemClicked(tag.toString());
+        }
 
-	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.actionbar_title_support);
-	}
+        if (actionTaken) {
+            return;
+        }
 
-	/*
-	 * This method will parse, how many features are available at DigitalCare
-	 * level.
-	 */
-	private void createMainMenu() {
-		String[] menuTitleKeys = getResources().getStringArray(
-				R.array.main_menu_title);
-		String[] menuDrawableKeys = getResources().getStringArray(
-				R.array.main_menu_resources);
-		for (int i = 0; i < menuTitleKeys.length; i++) {
-			DigiCareLogger.i(TAG, "Button " + i + " added");
-			createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);
-		}
-	}
+        if (tag.equals(getStringKey(R.string.contact_us))) {
+            if (isConnectionAvailable())
+                showFragment(new ContactUsFragment());
+        } else if (tag.equals(getStringKey(R.string.view_product_details))) {
+            showFragment(new ProductDetailsFragment());
+        } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
+            if (isConnectionAvailable())
+                showFragment(new LocatePhilipsFragment());
+        } else if (tag.equals(getStringKey(R.string.view_faq))) {
+            if (isConnectionAvailable())
+                showFragment(new FaqFragment());
+        } else if (tag.equals(getStringKey(R.string.feedback))) {
+            if (isConnectionAvailable())
+                showFragment(new RateThisAppFragment());
+        }
+    }
 
-	private Drawable getDrawable(int resId) {
-		return getResources().getDrawable(resId);
-	}
+    @Override
+    public String getActionbarTitle() {
+        return getResources().getString(R.string.actionbar_title_support);
+    }
 
-	private String getStringKey(int resId) {
-		return getResources().getResourceEntryName(resId);
-	}
+    /*
+     * This method will parse, how many features are available at DigitalCare
+     * level.
+     */
+    private void createMainMenu() {
+        String[] menuTitleKeys = getResources().getStringArray(
+                R.array.main_menu_title);
+        String[] menuDrawableKeys = getResources().getStringArray(
+                R.array.main_menu_resources);
+        for (int i = 0; i < menuTitleKeys.length; i++) {
+            DigiCareLogger.i(TAG, "Button " + i + " added");
+            createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);
+        }
+    }
 
-	@Override
-	public String setPreviousPageName() {
-		return AnalyticsConstants.PAGE_HOME;
-	}
+    private Drawable getDrawable(int resId) {
+        return getResources().getDrawable(resId);
+    }
+
+    private String getStringKey(int resId) {
+        return getResources().getResourceEntryName(resId);
+    }
+
+    @Override
+    public String setPreviousPageName() {
+        return AnalyticsConstants.PAGE_HOME;
+    }
 }

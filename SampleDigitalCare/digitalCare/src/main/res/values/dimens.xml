@@ -10,10 +10,12 @@
     <dimen name="title_text_size_small">18sp</dimen>
     <dimen name="actionbar_title_text_size">21dp</dimen>
     <dimen name="font_button_text_margin_left">80dp</dimen>
-    <dimen name="support_btn_height">60dp</dimen>
+    <dimen name="support_btn_height">54dp</dimen>
+    <dimen name="actionbar_height">54dp</dimen>
     <dimen name="marginTopButton">12dp</dimen>
     <dimen name="social_support_closebutton">10dp</dimen>
-    
+    <dimen name="supportHomeHelpText_margin_top">10dp</dimen>
+
     <dimen name="locate_layout_margin">0dp</dimen>
     <dimen name="locate_search_layout_margin">10dp</dimen>
    

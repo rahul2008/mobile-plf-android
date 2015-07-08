@@ -22,7 +22,5 @@
     <dimen name="showlayout_padding_right">120dp</dimen>
     <dimen name="showlayout_margin_top">100dp</dimen>
     <dimen name="placelistview_margin_top">200dp</dimen>
-
-    <dimen name="app_review_divider_margin">30dp</dimen>
-
+    <dimen name="supportHomeHelpText_margin_top">30dp</dimen>
 </resources>

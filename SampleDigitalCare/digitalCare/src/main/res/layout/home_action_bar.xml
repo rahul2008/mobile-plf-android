@@ -20,6 +20,6 @@
     <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
         android:id="@+id/action_bar_title"
         style="@style/actionbarFontTextView"
-        custom:digitalcareFontAssetName="fonts/CentraleSans-Thin.otf" />
+        custom:digitalcareFontAssetName="fonts/CentraleSans-Light.otf" />
 
 </RelativeLayout>
