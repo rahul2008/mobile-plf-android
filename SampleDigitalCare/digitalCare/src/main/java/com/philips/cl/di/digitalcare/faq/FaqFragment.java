@@ -16,6 +16,7 @@ import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
 /**
  * FaqFragment Webview
@@ -54,7 +55,11 @@ public class FaqFragment extends DigitalCareBaseFragment {
     }
 
     private void loadFaq() {
-        mWebView.loadUrl(getFaqUrl());
+        if (getFaqUrl() == null) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        } else {
+            DigiCareLogger.d("URLTest", getFaqUrl());
+            mWebView.loadUrl(getFaqUrl());
 
         mWebView.getSettings().setJavaScriptEnabled(true);
 
@@ -89,11 +94,15 @@ public class FaqFragment extends DigitalCareBaseFragment {
     }
 
     private String getFaqUrl() {
+        if (DigitalCareConfigManager.getInstance().getmLocaleMatchLocale() == null) return null;
         String language = DigitalCareConfigManager.getInstance().getmLocaleMatchLocale()
                 .getLanguage().toLowerCase();
 
         String country = DigitalCareConfigManager.getInstance().getmLocaleMatchLocale()
                 .getCountry().toUpperCase();
+
+        DigiCareLogger.d("LangTest", language);
+        DigiCareLogger.d("CountryTest", country);
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();

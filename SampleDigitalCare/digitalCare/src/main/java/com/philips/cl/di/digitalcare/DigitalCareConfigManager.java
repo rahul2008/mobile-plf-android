@@ -127,6 +127,8 @@ public class DigitalCareConfigManager {
 
     public void setLocale(String langCode, String countryCode) {
 
+        mLocaleMatchLocale = null;
+
         if (langCode != null && countryCode != null) {
 
             mLocale = new Locale(langCode, countryCode);
