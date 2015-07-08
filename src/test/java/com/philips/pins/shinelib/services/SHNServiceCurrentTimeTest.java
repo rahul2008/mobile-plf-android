@@ -38,6 +38,7 @@ public class SHNServiceCurrentTimeTest {
     private ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor;
     private ArgumentCaptor<SHNObjectResultListener> shnObjectResultListenerArgumentCaptor;
     private SimpleDateFormat simpleDateFormat;
+    private SHNServiceCurrentTime.SHNServiceCurrentTimeListener mockedSHNServiceCurrentTimeListener;
 
     @Before
     public void setUp() {
@@ -46,6 +47,7 @@ public class SHNServiceCurrentTimeTest {
         mockedSHNService = mock(SHNService.class);
         mockedSHNObjectResultListener = mock(SHNObjectResultListener.class);
         mockedSHNCharacteristicCurrentTime = mock(SHNCharacteristic.class);
+        mockedSHNServiceCurrentTimeListener = mock(SHNServiceCurrentTime.SHNServiceCurrentTimeListener.class);
 
         when(mockedSHNFactory.createNewSHNService(any(UUID.class), any(Set.class), any(Set.class))).thenReturn(mockedSHNService);
 
@@ -61,6 +63,9 @@ public class SHNServiceCurrentTimeTest {
         shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
         shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
         shnObjectResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNObjectResultListener.class);
+
+        // set the mockedListener
+        shnServiceCurrentTime.setSHNServiceCurrentTimeListener(mockedSHNServiceCurrentTimeListener);
     }
 
     private void serviceSetupServiceStateChangedToAvailable() { // Make sure the mock returns the proper state before calling the change handler
@@ -95,9 +100,21 @@ public class SHNServiceCurrentTimeTest {
     }
 
     @Test
-    public void whenTheSHNServiceReportsThatItIsAvailableThenTheServiceIsTransitionedToReady() {
+    public void whenTheSHNServiceReportsThatItIsAvailableThenTheStateChangeListenerIsCalled() {
         serviceSetupServiceStateChangedToAvailable();
+        verify(mockedSHNServiceCurrentTimeListener).onServiceStateChanged(shnServiceCurrentTime, SHNService.State.Available);
+    }
+
+    @Test
+    public void whenTransitionToReadyIsCalledThenItIsRelayedToSHNService() {
+        shnServiceCurrentTime.transitionToReady();
         verify(mockedSHNService).transitionToReady();
+    }
+
+    @Test
+    public void whenTransitionToErrorIsCalledThenItIsRelayedToSHNService() {
+        shnServiceCurrentTime.transitionToError();
+        verify(mockedSHNService).transitionToError();
     }
 
     @Test

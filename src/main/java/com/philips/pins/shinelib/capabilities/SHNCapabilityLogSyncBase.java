@@ -33,16 +33,16 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     protected Timer timer;
 
-    private final Runnable timeOutRunnable = new Runnable() {
+    private final Runnable timeoutRunnable = new Runnable() {
         @Override
         public void run() {
-            handleTimeOut();
+            handleTimeout();
         }
     };
 
     public SHNCapabilityLogSyncBase() {
         this.state = State.Idle;
-        timer = Timer.createTimer(timeOutRunnable, 5000L);
+        timer = Timer.createTimer(timeoutRunnable, 5000L);
     }
 
     // implements SHNCapabilityLogSynchronization
@@ -76,7 +76,6 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     @Override
     public void abortSynchronization() {
         if (state == State.Synchronizing) {
-            teardownReceivingMeasurements();
             timer.stop();
             finishLoggingResult(SHNResult.SHNAborted);
             setState(State.Idle);
@@ -131,6 +130,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     private void finishLoggingResult(SHNResult result) {
         assert (state == State.Synchronizing);
+        teardownReceivingMeasurements();
         if (shnCapabilityListener != null) shnCapabilityListener.onProgressUpdate(this, 1.0f);
         if (shnLogItems != null && shnLogItems.size() > 0) {
 
@@ -162,7 +162,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         }
     }
 
-    private void handleTimeOut() {
+    private void handleTimeout() {
         finishLoggingResult(SHNResult.SHNOk);
         setState(State.Idle);
     }

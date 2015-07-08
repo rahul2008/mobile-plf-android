@@ -61,7 +61,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
         return new HashSet<>();
     }
 
-    public void setShnServiceWeightScaleListener(SHNServiceWeightScaleListener shnServiceWeightScaleListener) {
+    public void setSHNServiceWeightScaleListener(SHNServiceWeightScaleListener shnServiceWeightScaleListener) {
         this.shnServiceWeightScaleListener = shnServiceWeightScaleListener;
     }
 

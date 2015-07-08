@@ -27,13 +27,18 @@ public class SHNServiceCurrentTime {
     public static final UUID CURRENT_TIME_CHARACTERISTIC_UUID =         UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A2B));
     public static final UUID LOCAL_TIME_INFO_CHARACTERISTIC_UUID =      UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A0F));
     public static final UUID REFERENCE_TIME_INFO_CHARACTERISTIC_UUID =  UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A14));
+    private SHNServiceCurrentTimeListener shnServiceCurrentTimeListener;
+
+    public interface SHNServiceCurrentTimeListener {
+        void onServiceStateChanged(SHNServiceCurrentTime shnServiceCurrentTime, SHNService.State state);
+    }
 
     private SHNService shnService;
     private SHNService.SHNServiceListener shnServiceListener = new SHNService.SHNServiceListener() {
         @Override
         public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-            if (SHNService.State.Available == state) {
-                shnService.transitionToReady();
+            if (shnServiceCurrentTimeListener != null) {
+                shnServiceCurrentTimeListener.onServiceStateChanged(SHNServiceCurrentTime.this, state);
             }
         }
     };
@@ -41,6 +46,18 @@ public class SHNServiceCurrentTime {
     public SHNServiceCurrentTime(SHNFactory shnFactory) {
         shnService = shnFactory.createNewSHNService(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
         shnService.registerSHNServiceListener(shnServiceListener);
+    }
+
+    public void transitionToReady() {
+        shnService.transitionToReady();
+    }
+
+    public void transitionToError() {
+        shnService.transitionToError();
+    }
+
+    public void setSHNServiceCurrentTimeListener(SHNServiceCurrentTimeListener shnServiceCurrentTimeListener) {
+        this.shnServiceCurrentTimeListener = shnServiceCurrentTimeListener;
     }
 
     private Set<UUID> getRequiredCharacteristics() {
