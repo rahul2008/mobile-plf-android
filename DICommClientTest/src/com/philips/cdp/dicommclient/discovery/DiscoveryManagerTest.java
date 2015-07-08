@@ -1599,18 +1599,26 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 		verify(listener, never()).onDiscoveredAppliancesListChanged();
 	}
 
+	public void testRemoveNullListener() {
+		mDiscoveryManager.removeDiscoverEventListener(null);
+
+		triggerOnDiscoveredDevicesListChanged();
+	}
+
 	public void testAddNullListener() {
 		mDiscoveryManager.addDiscoveryEventListener(null);
 
 		triggerOnDiscoveredDevicesListChanged();
 	}
 
-    public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
+	public void testListenerCannotBeAddedTwice() {
+        DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
+		mDiscoveryManager.addDiscoveryEventListener(listener);
+		mDiscoveryManager.addDiscoveryEventListener(listener);
 
-    }
+		triggerOnDiscoveredDevicesListChanged();
 
-	public void testListenerShouldNotBeRegisteredTwice() {
-
+		verify(listener, times(1)).onDiscoveredAppliancesListChanged();
 	}
 
 	private void triggerOnDiscoveredDevicesListChanged() {
