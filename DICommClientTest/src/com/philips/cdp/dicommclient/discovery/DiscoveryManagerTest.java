@@ -1593,10 +1593,16 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	public void testRemoveNonAddedListener() {
 		DiscoveryEventListener listener = mock(DiscoveryEventListener.class);
 		mDiscoveryManager.removeDiscoverEventListener(listener);
-		
+
 		triggerOnDiscoveredDevicesListChanged();
-		
+
 		verify(listener, never()).onDiscoveredAppliancesListChanged();
+	}
+
+	public void testAddNullListener() {
+		mDiscoveryManager.addDiscoveryEventListener(null);
+
+		triggerOnDiscoveredDevicesListChanged();
 	}
 
     public void testShouldNotCrashIfListenerIsUnregisteredTwice() {
@@ -1606,14 +1612,14 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	public void testListenerShouldNotBeRegisteredTwice() {
 
 	}
-	
+
 	private void triggerOnDiscoveredDevicesListChanged() {
 		TestAppliance localAppliance = createLocalAppliance(false, false);
 		setAppliancesList(new TestAppliance[] { localAppliance });
 		NetworkChangedCallback networkChangedCallback = captureNetworkChangedCallback();
 		networkChangedCallback.onNetworkChanged(NetworkState.NONE, null);
 	}
-	
+
 	private TestAppliance createDisconnectedAppliance(boolean isPaired, boolean isCppOnline) {
 		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED, isPaired, isCppOnline);
 	}

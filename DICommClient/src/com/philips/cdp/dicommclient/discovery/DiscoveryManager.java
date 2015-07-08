@@ -117,8 +117,10 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
 	}
 
-	public void addDiscoveryEventListener(DiscoveryEventListener listener){
-		mDiscoveryEventListenersList.add(listener);
+	public void addDiscoveryEventListener(DiscoveryEventListener listener) {
+		if (listener != null) {
+			mDiscoveryEventListenersList.add(listener);
+		}
 	}
 
 	public void removeDiscoverEventListener(DiscoveryEventListener listener){
