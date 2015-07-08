@@ -310,7 +310,7 @@ public class RegistrationHelper {
         return "1.2.0";
     }
 
-    public String getJumVersion() {
+    public String getJanRainVersion() {
         return "5.0.0";
     }
 
