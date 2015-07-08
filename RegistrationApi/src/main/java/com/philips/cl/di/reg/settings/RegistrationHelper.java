@@ -129,7 +129,7 @@ public class RegistrationHelper {
         RegistrationConfiguration.getInstance().setSocialProviders(null);
         setCountryCode(mlocale.getCountry());
         final String initLocale = mlocale.toString();
-        RLog.i("LOCALE","App JAnrain Init locale :"+initLocale);
+        RLog.i("LOCALE", "App JAnrain Init locale :" + initLocale);
 
         new Thread(new Runnable() {
 
@@ -304,6 +304,18 @@ public class RegistrationHelper {
 
     public void setLocale(Locale mLocale) {
         this.mLocale = mLocale;
+    }
+
+    public String getRegistrationApiVersion() {
+        return "1.2.0";
+    }
+
+    public String getJumVersion() {
+        return "5.0.0";
+    }
+
+    public String getLocaleMatchVersion() {
+        return "1.0.0";
     }
 
 }

@@ -228,11 +228,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			} else {
 				RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
 				RegistrationHelper.getInstance().getUserRegistrationListener()
-				        .notifyEventOccurred();
+				        .notifyonUserRegistrationCompleteEventOccurred();
 			}
-
-			RLog.d(RLog.ONCLICK, ": WelcomeFragment : Continue");
-			RegistrationHelper.getInstance().getUserRegistrationListener().notifyEventOccurred();
 		} else if (id == R.id.btn_resend_consent) {
 			resendCoppaMail();
 		}

@@ -45,11 +45,31 @@ public class UserRegistrationHelper {
 		}
 	}
 
-	public void notifyEventOccurred() {
+	public void notifyonUserRegistrationCompleteEventOccurred() {
 		if (userRegistrationListeners != null) {
 			for (UserRegistrationListener eventListener : userRegistrationListeners) {
 				if (eventListener != null) {
 					eventListener.onUserRegistrationComplete();
+				}
+			}
+		}
+	}
+
+	public void notifyOnPrivacyPolicyClickEventOccurred() {
+		if (userRegistrationListeners != null) {
+			for (UserRegistrationListener eventListener : userRegistrationListeners) {
+				if (eventListener != null) {
+					eventListener.onPrivacyPolicyClick();
+				}
+			}
+		}
+	}
+
+	public void notifyOnTermsAndConditionClickEventOccurred() {
+		if (userRegistrationListeners != null) {
+			for (UserRegistrationListener eventListener : userRegistrationListeners) {
+				if (eventListener != null) {
+					eventListener.onTermsAndConditionClick();
 				}
 			}
 		}

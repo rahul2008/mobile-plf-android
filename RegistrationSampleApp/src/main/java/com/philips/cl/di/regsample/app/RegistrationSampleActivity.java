@@ -4,6 +4,7 @@ package com.philips.cl.di.regsample.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,7 +77,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationLaunchHelper.launchRegistrationActivityWithFixedOrientation(this,ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                RegistrationLaunchHelper.launchRegistrationActivityWithFixedOrientation(this, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 break;
 
             default:
@@ -88,5 +89,21 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     @Override
     public void onUserRegistrationComplete() {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
+    }
+
+    @Override
+    public void onPrivacyPolicyClick() {
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
+                com.philips.cl.di.reg.R.string.PrivacyPolicyURL)));
+        startActivity(browserIntent);
+    }
+
+    @Override
+    public void onTermsAndConditionClick() {
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
+                com.philips.cl.di.reg.R.string.PrivacyPolicyURL)));
+        startActivity(browserIntent);
     }
 }
