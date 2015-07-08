@@ -28,6 +28,7 @@ import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkChangedCallb
 import com.philips.cdp.dicommclient.discovery.NetworkMonitor.NetworkState;
 import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.networknode.NetworkNode.PAIRED_STATUS;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
 import com.philips.cdp.dicommclient.testutil.TestAppliance;
 
@@ -179,10 +180,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 // ***** START TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED *****
 	public void testCppConnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -197,10 +196,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
     public void testCppConnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -215,10 +212,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -233,10 +228,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -251,10 +244,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -269,10 +260,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -287,12 +276,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -307,12 +292,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -327,12 +308,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -347,12 +324,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -367,12 +340,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -387,12 +356,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -407,12 +372,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -427,12 +388,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -447,12 +404,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppConnectPairedRemoteNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -467,8 +420,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
 		appliance1.getNetworkNode().setOnlineViaCpp(true);
 		appliance2.getNetworkNode().setOnlineViaCpp(true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
@@ -485,10 +438,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -503,10 +454,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -521,10 +470,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(false, true);
+		TestAppliance appliance2 = createLocalAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -539,10 +486,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(false, true);
+		TestAppliance appliance2 = createLocalAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -557,10 +502,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(false, true);
+		TestAppliance appliance2 = createLocalAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -575,12 +518,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -595,12 +534,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -615,12 +550,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -635,12 +566,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -655,12 +582,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -675,12 +598,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -695,12 +614,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -715,12 +630,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -735,12 +646,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppDisconnectPairedRemoteNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -755,12 +662,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -775,12 +678,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSingleConnectPairedDisconnectedWifi2() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -795,12 +694,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSingleDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -815,12 +710,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppInvalidEventReceived() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -835,12 +726,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppEventReceivedDifferentPurifier() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -855,10 +742,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -873,10 +758,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -891,10 +774,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReaConnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -909,10 +790,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -927,10 +806,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -945,10 +822,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -963,12 +838,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -983,12 +854,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1003,12 +870,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1023,12 +886,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1043,12 +902,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1063,12 +918,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1083,12 +934,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1103,12 +950,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1123,12 +966,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqConnectPairedRemoteNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1143,10 +982,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1161,10 +998,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1179,10 +1014,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(false, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1197,10 +1030,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(false, true);
+		TestAppliance appliance2 = createLocalAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1215,10 +1046,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(false, true);
+		TestAppliance appliance2 = createLocalAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1233,10 +1062,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectNotPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(false, true);
+		TestAppliance appliance2 = createLocalAppliance2(false, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1251,12 +1078,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1271,12 +1094,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1291,12 +1110,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedDisconnectedNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1311,12 +1126,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedLocallyWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1331,12 +1142,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedLocallyMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1351,12 +1158,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedLocallyNone() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
@@ -1371,12 +1174,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1391,12 +1190,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqDisconnectPairedRemoteMobile() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
@@ -1411,12 +1206,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppAllConnectPairedDisconnectedWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1431,12 +1222,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppAllDisconnectPairedRemoteWifi() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1451,12 +1238,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqInvalidEventReceived() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1471,12 +1254,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppReqEventReceivedDifferentPurifier() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1491,12 +1270,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSignonEventReceivedDisconnected() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, false);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1509,12 +1284,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSignonEventReceivedRemoteLocal() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1528,12 +1299,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSignoffEventReceivedRemote() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createRemoteAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1546,12 +1313,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testCppSignoffEventReceivedDisconnectedLocal() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		when(mMockedNetworkMonitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
@@ -1568,8 +1331,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 
 // ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 	public void testLostBackgroundAllAppliancesFound() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1582,8 +1345,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundNoAppliancesFound() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1596,12 +1359,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundNoAppliancesFoundPaired() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1614,12 +1373,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundNoAppliancesFoundPairedOnline() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1632,8 +1387,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundOneApplianceFound() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		TestAppliance appliance1 = createLocalAppliance(false, false);
+		TestAppliance appliance2 = createLocalAppliance2(false, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1646,12 +1401,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundOneApplianceFoundPaired() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(false);
-		appliance2.getNetworkNode().setOnlineViaCpp(false);
+		TestAppliance appliance1 = createLocalAppliance(true, false);
+		TestAppliance appliance2 = createLocalAppliance2(true, false);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1664,12 +1415,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundOneApplianceFoundPairedOnline() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createLocalAppliance(true, true);
+		TestAppliance appliance2 = createLocalAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1682,12 +1429,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundOneApplianceFoundOffline() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
+		TestAppliance appliance2 = createDisconnectedAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1700,12 +1443,8 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	public void testLostBackgroundOneApplianceFoundRemote() {
-		TestAppliance appliance1 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
-		TestAppliance appliance2 = createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
-		appliance1.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance2.getNetworkNode().setPairedState(NetworkNode.PAIRED_STATUS.PAIRED);
-		appliance1.getNetworkNode().setOnlineViaCpp(true);
-		appliance2.getNetworkNode().setOnlineViaCpp(true);
+		TestAppliance appliance1 = createDisconnectedAppliance(true, true);
+		TestAppliance appliance2 = createRemoteAppliance2(true, true);
 		setAppliancesList(new TestAppliance[] {appliance1, appliance2});
 
 		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
@@ -1841,7 +1580,7 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	}
 
 	private void triggerOnDiscoveredDevicesListChanged() {
-		TestAppliance localAppliance = createTestAppliance(null, "cppId", "ip", "name", 0, ConnectionState.CONNECTED_LOCALLY);
+		TestAppliance localAppliance = createLocalAppliance(false, false);
 		setAppliancesList(new TestAppliance[] { localAppliance });
 		NetworkChangedCallback networkChangedCallback = captureNetworkChangedCallback();
 		networkChangedCallback.onNetworkChanged(NetworkState.NONE, null);
@@ -1858,18 +1597,41 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 	public void testListenerShouldNotBeRegisteredTwice() {
 
 	}
-
-
 // ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
 
-    private TestAppliance createTestAppliance(CommunicationStrategy communicationStrategy, String cppId, String ip, String name, long bootId, ConnectionState connectionState) {
+	private TestAppliance createDisconnectedAppliance(boolean isPaired, boolean isCppOnline) {
+		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED, isPaired, isCppOnline);
+	}
 
+	private TestAppliance createDisconnectedAppliance2(boolean isPaired, boolean isCppOnline) {
+		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED, isPaired, isCppOnline);
+	}
+
+	private TestAppliance createLocalAppliance(boolean isPaired, boolean isCppOnline) {
+		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY, isPaired, isCppOnline);
+	}
+
+	private TestAppliance createLocalAppliance2(boolean isPaired, boolean isCppOnline) {
+		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY, isPaired, isCppOnline);
+	}
+
+	private TestAppliance createRemoteAppliance(boolean isPaired, boolean isCppOnline) {
+		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_1, APPLIANCE_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY, isPaired, isCppOnline);
+	}
+
+	private TestAppliance createRemoteAppliance2(boolean isPaired, boolean isCppOnline) {
+		return createTestAppliance(mock(CommunicationStrategy.class), APPLIANCE_CPPID_2, APPLIANCE_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY, isPaired, isCppOnline);
+	}
+
+    private TestAppliance createTestAppliance(CommunicationStrategy communicationStrategy, String cppId, String ip, String name, long bootId, ConnectionState connectionState, boolean isPaired, boolean isCppOnline) {
         NetworkNode networkNode = new NetworkNode();
         networkNode.setBootId(bootId);
         networkNode.setCppId(cppId);
         networkNode.setIpAddress(ip);
         networkNode.setName(name);
         networkNode.setConnectionState(connectionState);
+        networkNode.setPairedState(isPaired ? PAIRED_STATUS.PAIRED : PAIRED_STATUS.NOT_PAIRED);
+		networkNode.setOnlineViaCpp(isCppOnline);
 
         return new TestAppliance(networkNode);
     }
@@ -1886,5 +1648,4 @@ public class DiscoveryManagerTest extends MockitoTestCase {
 			return new TestAppliance(networkNode);
 		}
     }
-
 }
