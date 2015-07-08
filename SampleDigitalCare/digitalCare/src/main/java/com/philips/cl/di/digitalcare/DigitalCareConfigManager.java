@@ -149,4 +149,8 @@ public class DigitalCareConfigManager {
 		AnalyticsTracker.initContext(context);
 	}
 
+    public String getDigitalCareLibVersion(){
+        return BuildConfig.VERSION_NAME;
+    }
+
 }
