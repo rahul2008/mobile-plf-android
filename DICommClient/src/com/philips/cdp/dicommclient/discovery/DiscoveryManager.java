@@ -122,6 +122,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	}
 
 	public void removeDiscoverEventListener(DiscoveryEventListener listener){
+		mDiscoveryEventListenersList.remove(listener);
 	}
 
 	public void start() {
