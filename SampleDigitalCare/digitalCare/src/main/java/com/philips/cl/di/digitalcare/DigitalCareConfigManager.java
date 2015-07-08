@@ -153,4 +153,8 @@ public class DigitalCareConfigManager {
         return mTwitterConsumerSecret;
     }
 
+    public String getDigitalCareLibVersion(){
+        return BuildConfig.VERSION_NAME;
+    }
+
 }
