@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -627,9 +628,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         button.setGravity(Gravity.CENTER);
         // button.setPadding((int) (80 * density), 0, 0, 0);
         button.setTextAppearance(getActivity(), R.style.fontButton);
-        button.setText(title);
-        button.setTextAlignment(Gravity.CENTER);
+        Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/CentraleSans-Book.otf");
+        button.setTypeface(buttonTypeface);
+        button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         button.setBackground(getDrawable(resId));
+        button.setText(title);
         return button;
     }
 

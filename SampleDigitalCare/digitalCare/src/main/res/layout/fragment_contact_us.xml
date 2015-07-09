@@ -55,7 +55,7 @@
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
             android:id="@+id/contactUsCall"
             style="@style/fontButton"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/marginTopButton"
             android:background="@drawable/selector_call_button_bg"
             android:text="@string/call_number"
             custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
