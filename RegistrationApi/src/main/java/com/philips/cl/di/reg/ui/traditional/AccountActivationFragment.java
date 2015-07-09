@@ -180,6 +180,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 		mPbResendSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_resend_spinner);
 
 		TextView tvEmail = (TextView) view.findViewById(R.id.tv_reg_email);
+		TextView mTvContent = (TextView) view.findViewById(R.id.tv_explain_value_to_user);
+		if(mTvContent.getText().toString().trim().length()>0){
+			mTvContent.setVisibility(View.VISIBLE);
+		}else{
+			mTvContent.setVisibility(View.GONE);
+		}
+
 
 		DIUserProfile userProfile = mUser.getUserInstance(mContext);
 		mEmailId = userProfile.getEmail();

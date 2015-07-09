@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-	<string name="app_name">RegistrationApi</string>
+
+    <string name="app_name">RegistrationApi</string>
     <string name="ForgotPwdEmailResendMsg"> A link is sent to your email to reset the password of your Philips Account</string>
     <string name="ForgotPwdEmailResendMsg_Title">Reset Password</string>
     <string name="Continue_Btntxt">Continue</string>
@@ -82,6 +82,7 @@
     <string name="VerifyEmail_Activated_btntxt">I have activated my account</string>
     <string name="VerifyEmail_Resend_btntxt">Resend</string>
     <string name="VerifyEmail_ResendErrorMsg_lbltxt">Press “Resend” button if you have not received an email.</string>
+    <string name="Activation_explain_value_to_user"></string>
 
     <!-- added apart from the localized strings -->
     <string name="content_desc">ContentDesc</string>

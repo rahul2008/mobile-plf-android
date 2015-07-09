@@ -45,7 +45,15 @@
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     style="@style/reg_textStyle"
                     android:text="@string/VerifyEmail_ActivateInfo_lbltxt"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF"
+                     />
+
+                <com.philips.cl.di.reg.ui.customviews.XTextView
+                    android:id="@+id/tv_explain_value_to_user"
+                    style="@style/reg_textStyle"
+                    android:text="@string/Activation_explain_value_to_user"
+                    reglib:fontAssetName="CentraleSans-Book.OTF"
+                    />
             </LinearLayout>
 
             <LinearLayout
