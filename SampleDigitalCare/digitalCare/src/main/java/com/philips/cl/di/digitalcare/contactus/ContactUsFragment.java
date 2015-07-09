@@ -439,11 +439,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private void launchFacebookFeature() {
 
         try {
+            Uri uri = Uri.parse("fb://page/"
+                    + getActivity().getResources().getString(
+                    R.string.facebook_product_pageID));
+            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+                    AnalyticsConstants.ACTION_KEY_EXIT_LINK, uri+toString());
             getActivity().getApplicationContext().getPackageManager()
                     .getPackageInfo("com.facebook.katana", 0);
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/"
-                    + getActivity().getResources().getString(
-                    R.string.facebook_product_pageID))));
+            startActivity(new Intent(Intent.ACTION_VIEW, uri));
             DigiCareLogger.v(TAG, "Launced Installed Facebook Application");
         } catch (Exception e) {
             DigiCareLogger.v(TAG, "Launching Facebook Webpage");
@@ -471,6 +474,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
         if (resolved) {
+            String twitterPageName = "com.twitter.android";
+            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
+                    AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
             startActivity(tweetIntent);
         } else {
             showFragment(new TwitterWebFragment());

@@ -15,6 +15,7 @@ import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
 import com.philips.cl.di.digitalcare.R;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
+import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 
 public class TwitterWebFragment extends DigitalCareBaseFragment {
 
@@ -46,6 +47,8 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
 
 		initView();
 		loadInAppFacebook();
+		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_TWITTER,
+				getPreviousName());
 	}
 
 	private void loadInAppFacebook() {
@@ -113,7 +116,7 @@ public class TwitterWebFragment extends DigitalCareBaseFragment {
 
 	@Override
 	public String setPreviousPageName() {
-		return AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK;
+		return AnalyticsConstants.PAGE_CONTACTUS_TWITTER;
 	}
 
 	@Override

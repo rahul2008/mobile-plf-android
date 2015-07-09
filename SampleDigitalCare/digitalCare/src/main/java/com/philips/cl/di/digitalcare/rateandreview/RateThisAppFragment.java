@@ -130,6 +130,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private void rateProductReview() {
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(getUri());
+        tagExitLisk(getUri().toString());
         startActivity(i);
     }
 
