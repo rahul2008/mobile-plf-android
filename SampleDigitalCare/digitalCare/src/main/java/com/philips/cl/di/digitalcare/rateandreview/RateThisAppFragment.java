@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.digitalcare.DigitalCareBaseFragment;
 import com.philips.cl.di.digitalcare.DigitalCareConfigManager;
@@ -80,6 +81,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
             hideProductReviewView();
 
         setViewParams(config);
+        float density = getResources().getDisplayMetrics().density;
+        setButtonParams(density);
+
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_RATE_THIS_APP,
                 getPreviousName());
     }
@@ -171,5 +175,17 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     @Override
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_RATE_THIS_APP;
+    }
+
+    private void setButtonParams(float density){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+
+        mRatePlayStoreBtn.setLayoutParams(params);
+        mRatePhilipsBtn.setLayoutParams(params);
+
     }
 }

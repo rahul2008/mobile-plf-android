@@ -107,7 +107,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		int title = getResources().getIdentifier(
 				packageName + ":string/" + buttonTitle, null, null);
 
-		RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
+		RelativeLayout relativeLayout = createRelativeLayout(buttonTitle,density);
 		Button button = createButton(density, title);
 		relativeLayout.addView(button);
 		setButtonParams(button);
@@ -122,11 +122,11 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 	}
 
 	@SuppressLint("NewApi")
-	private RelativeLayout createRelativeLayout(String buttonTitle) {
+	private RelativeLayout createRelativeLayout(String buttonTitle,float density) {
 		RelativeLayout relativeLayout = new RelativeLayout(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-						.getDimension(R.dimen.support_btn_height));
+				LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+				.getDimension(R.dimen.support_btn_height) * density));
 		relativeLayout.setLayoutParams(params);
 		relativeLayout
 				.setBackgroundResource(R.drawable.selector_option_button_bg);
@@ -144,6 +144,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 
 	private Button createButton(float density, int title) {
 		Button button = new Button(getActivity(), null, R.style.fontButton);
+
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+				.getDimension(R.dimen.support_btn_height) * density));
+		button.setLayoutParams(params);
+
 		button.setGravity(Gravity.START | Gravity.CENTER);
 		button.setPadding((int) (20 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
