@@ -55,6 +55,7 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
+import com.philips.cl.di.localematch.*;
 
 import org.json.JSONObject;
 
@@ -1198,6 +1199,10 @@ public class Jump {
         state.initCalled = false;
         init(context, jumpConfig);
         state.jrEngage.changeEngageAppId(jumpConfig.engageAppId);
+    }
+
+    public static String getJumpVersion(){
+        return BuildConfig.VERSION_NAME;
     }
 
 }

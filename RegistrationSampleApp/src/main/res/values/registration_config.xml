@@ -58,8 +58,6 @@
     <!-- All Social buttons -->
     <!-- Social button enabled color -->
     <color name="reg_btn_social_bg_enabled_color">#0E66A1</color>
-    <!-- Social button disabled color -->
-    <color name="reg_btn_social_bg_disabled_color">#EFEFEF</color>
     <!-- Social button pressed color -->
     <color name="reg_btn_social_highlight_color">#033D78</color>
 

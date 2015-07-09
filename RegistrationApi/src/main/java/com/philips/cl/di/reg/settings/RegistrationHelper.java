@@ -1,14 +1,6 @@
 
 package com.philips.cl.di.reg.settings;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
-import java.util.Scanner;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
+import com.philips.cl.di.reg.BuildConfig;
 import com.philips.cl.di.reg.configuration.ConfigurationParser;
 import com.philips.cl.di.reg.configuration.RegistrationConfiguration;
 import com.philips.cl.di.reg.events.EventHelper;
@@ -30,6 +23,14 @@ import com.philips.cl.di.reg.listener.UserRegistrationListener;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class RegistrationHelper {
 
@@ -306,16 +307,8 @@ public class RegistrationHelper {
         this.mLocale = mLocale;
     }
 
-    public String getRegistrationApiVersion() {
-        return "1.2.0";
-    }
-
-    public String getJanRainVersion() {
-        return "5.0.0";
-    }
-
-    public String getLocaleMatchVersion() {
-        return "1.0.0";
+    public static String getRegistrationApiVersion() {
+        return BuildConfig.VERSION_NAME;
     }
 
 }

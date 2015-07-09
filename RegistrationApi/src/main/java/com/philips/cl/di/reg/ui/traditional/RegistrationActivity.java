@@ -108,8 +108,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             if (((RegistrationFragment) fragment).onBackPressed()) {
                 // not consumed vertical code goes here // actual code
                 super.onBackPressed();
-            } else {
-                // consumed
             }
         }
     }

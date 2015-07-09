@@ -77,7 +77,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         switch (v.getId()) {
             case R.id.btn_registration:
                 RLog.d(RLog.ONCLICK, "RegistrationSampleActivity : Registration");
-                RegistrationLaunchHelper.launchRegistrationActivityWithFixedOrientation(this, ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                RegistrationLaunchHelper.launchRegistrationActivity(this);
                 break;
 
             default:

@@ -75,6 +75,7 @@
     <!-- Social button pressed color -->
     <color name="reg_btn_social_highlight_color">#033D78</color>
 
+
     <!-- Line devider color -->
     <color name="reg_devider_color">#E4EAFD</color>
 

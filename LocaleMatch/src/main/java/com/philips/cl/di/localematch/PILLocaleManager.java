@@ -258,4 +258,9 @@ public class PILLocaleManager {
 		}
 		return null;
 	}
+
+	public static String getLacaleMatchVersion(){
+		return BuildConfig.VERSION_NAME;
+	}
+
 }

@@ -13,6 +13,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
+import com.janrain.android.Jump;
+import com.philips.cl.di.localematch.PILLocaleManager;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
@@ -42,6 +44,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     @Override
     public void onCreate(Bundle savedInstanceState) {
         RLog.d(RLog.FRAGMENT_LIFECYCLE, "RegistrationFragment : onCreate");
+        RLog.i(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
+        RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
+        RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
         super.onCreate(savedInstanceState);
 
     }
