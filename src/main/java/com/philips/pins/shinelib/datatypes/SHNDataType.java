@@ -20,5 +20,6 @@ public enum SHNDataType {
     ActivityType,
     ActiveEnergyExpenditure,
     BodyWeight,
-    BloodPressure
+    BloodPressure,
+    BodyComposition
 }
