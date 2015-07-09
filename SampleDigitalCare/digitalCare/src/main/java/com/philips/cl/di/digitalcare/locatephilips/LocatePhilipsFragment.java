@@ -851,4 +851,16 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU;
     }
+
+    private void setButtonParams(float density){
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+
+        mButtonCall.setLayoutParams(params);
+        mButtonDirection.setLayoutParams(params);
+
+    }
 }
