@@ -10,6 +10,7 @@
         <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
         <item name="android:layout_marginTop">@dimen/marginTopButton</item>
+
     </style>
 
 </resources>

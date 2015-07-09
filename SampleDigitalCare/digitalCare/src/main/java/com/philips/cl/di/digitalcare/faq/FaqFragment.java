@@ -61,31 +61,31 @@ public class FaqFragment extends DigitalCareBaseFragment {
             DigiCareLogger.d("URLTest", getFaqUrl());
             mWebView.loadUrl(getFaqUrl());
 
-        mWebView.getSettings().setJavaScriptEnabled(true);
+            mWebView.getSettings().setJavaScriptEnabled(true);
 
-        mWebView.setWebViewClient(new WebViewClient() {
+            mWebView.setWebViewClient(new WebViewClient() {
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    view.loadUrl(url);
+                    return true;
+                }
 
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-                mProgressBar.setVisibility(View.VISIBLE);
-            }
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    super.onPageStarted(view, url, favicon);
+                    mProgressBar.setVisibility(View.VISIBLE);
+                }
 
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                mProgressBar.setVisibility(View.GONE);
-            }
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    mProgressBar.setVisibility(View.GONE);
+                }
 
-        });
+            });
+        }
     }
-
     private void initView() {
         mWebView = (WebView) mView.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) mView
