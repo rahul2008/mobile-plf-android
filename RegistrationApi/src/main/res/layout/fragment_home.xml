@@ -3,18 +3,18 @@
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
-    android:background="@color/reg_layout_bg" >
+    android:background="@color/reg_layout_bg">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@android:color/transparent" >
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:id="@+id/ll_reg_root_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <com.philips.cl.di.reg.ui.customviews.XTextView
                 android:id="@+id/tv_reg_welcome"
@@ -24,7 +24,8 @@
 
             <LinearLayout
                 android:id="@+id/rl_reg_welcome_container"
-                style="@style/reg_text_background" >
+                style="@style/reg_text_background"
+                android:layout_marginBottom="@dimen/reg_common_margin_top">
 
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     android:id="@+id/tv_reg_welcome_desc"
@@ -39,12 +40,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" >
+                android:paddingRight="@dimen/reg_layout_margin">
 
                 <com.philips.cl.di.reg.ui.customviews.XTextView
                     android:id="@+id/tv_reg_create_account"
                     style="@style/reg_textStyle"
-                    android:layout_marginTop="@dimen/reg_common_margin_top"
                     android:text="@string/Welcome_needAccountto_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
@@ -64,12 +64,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" >
+                android:paddingRight="@dimen/reg_layout_margin">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom" >
+                    android:layout_marginBottom="@dimen/reg_margin_bottom">
 
                     <com.philips.cl.di.reg.ui.customviews.XTextView
                         android:id="@+id/tv_reg_or_sign_with"
@@ -106,10 +106,9 @@
 
                 <com.philips.cl.di.reg.ui.customviews.XRegError
                     android:id="@+id/reg_error_msg"
-                    android:layout_marginTop="@dimen/reg_margin_bottom"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-                </com.philips.cl.di.reg.ui.customviews.XRegError>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/reg_margin_bottom"></com.philips.cl.di.reg.ui.customviews.XRegError>
 
                 <View
                     android:layout_width="wrap_content"

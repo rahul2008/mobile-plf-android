@@ -240,7 +240,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnCreateAccount.setOnClickListener(this);
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
         mBtnMyPhilips.setOnClickListener(this);
-
+        TextView mTvContent = (TextView) view.findViewById(R.id.tv_reg_create_account);
+        if(mTvContent.getText().toString().trim().length()>0){
+            mTvContent.setVisibility(View.VISIBLE);
+        }else{
+            mTvContent.setVisibility(View.GONE);
+        }
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 
         mPbJanrainInit = (ProgressBar) view.findViewById(R.id.pb_reg_janrain_init);

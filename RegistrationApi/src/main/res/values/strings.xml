@@ -43,7 +43,7 @@
     <string name="SignInSuccess_Welcome_lbltxt">Welcome</string>
     <string name="SignInSuccess_Continue_btntxt">Continue</string>
     <string name="SignInSuccess_SignOut_btntxt">Sign Out</string>
-    <string name="Welcome_needAccountto_lbltxt">You will need an account to [related content]</string>
+    <string name="Welcome_needAccountto_lbltxt"></string>
     <string name="Welcome_Alternate_SignInAccount_lbltxt">Or Sign in with</string>
     <string name="Welcome_Create_MyPhilips_btntxt">Create MyPhilips Account</string>
     <string name="Welcome_MyPhilips_btntxt">MyPhilips</string>
