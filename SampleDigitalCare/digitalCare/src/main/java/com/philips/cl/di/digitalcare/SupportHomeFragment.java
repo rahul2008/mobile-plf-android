@@ -37,6 +37,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     private static final String TAG = SupportHomeFragment.class.getSimpleName();
     private LinearLayout mOptionParent = null;
     private FrameLayout.LayoutParams mParams = null;
+    private int ButtonMarginTop = 0;
+    private int RegisterButtonMarginTop = 0;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +58,8 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         mParams = (FrameLayout.LayoutParams) mOptionParent.getLayoutParams();
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
-
+        ButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopButtonLayout);
+        RegisterButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopRegisterButton);
         createMainMenu();
         try {
             AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
@@ -75,6 +79,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     public void setViewParams(Configuration config) {
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+
         } else {
             mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
         }
@@ -102,7 +107,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         relativeLayout.addView(imageView);
         setImageParams(imageView, density);
         mOptionParent.addView(relativeLayout);
-        setRelativeLayoutParams(relativeLayout, density);
+        setRelativeLayoutParams(relativeLayout, density, buttonTitle);
 
 		/*
          * Setting tag because we need to get String title for this view which
@@ -123,6 +128,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         if (buttonTitle.equals(getStringKey(R.string.sign_into_my_philips))) {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_prod_reg_button_bg);
+
         } else {
             relativeLayout
                     .setBackgroundResource(R.drawable.selector_option_button_bg);
@@ -132,11 +138,18 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
     }
 
     private void setRelativeLayoutParams(RelativeLayout relativeLayout,
-                                         float density) {
+                                         float density, String buttonTitle) {
+
         LinearLayout.LayoutParams param = (LinearLayout.LayoutParams) relativeLayout
                 .getLayoutParams();
-        param.topMargin = (int) (15 * density);
+
+        if (buttonTitle.equals(getStringKey(R.string.sign_into_my_philips))) {
+            param.topMargin = RegisterButtonMarginTop;
+        } else {
+            param.topMargin = ButtonMarginTop;
+        }
         relativeLayout.setLayoutParams(param);
+
     }
 
     private void setImageParams(ImageView imageView, float density) {
