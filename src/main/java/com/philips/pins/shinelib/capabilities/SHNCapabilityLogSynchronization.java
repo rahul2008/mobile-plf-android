@@ -25,14 +25,14 @@ public interface SHNCapabilityLogSynchronization extends SHNCapability {
         ShouldReadHighResolutionData
     }
 
-    interface Listener {
+    interface SHNCapabilityLogSynchronizationListener {
         void onStateUpdated(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization);
         void onProgressUpdate(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, float progress);
         void onLogSynchronized(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNLog shnLog, SHNResult shnResult);
         void onLogSynchronizationFailed(SHNCapabilityLogSynchronization shnCapabilityLogSynchronization, SHNResult shnResult);
     }
 
-    void setListener(Listener listener);
+    void setSHNCapabilityLogSynchronizationListener(SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener);
     State getState();
     Object getLastSynchronizationToken();
 

@@ -11,22 +11,22 @@ import com.philips.pins.shinelib.datatypes.SHNLog;
 /**
  * Created by 310188215 on 19/05/15.
  */
-public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogSynchronization, SHNCapabilityLogSynchronization.Listener {
+public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogSynchronization, SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener {
     private final SHNCapabilityLogSynchronization wrappedShnCapabilityLogSynchronization;
     private final Handler internalHandler;
     private final Handler userHandler;
-    private Listener listener;
+    private SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener;
 
     public SHNCapabilityLogSynchronizationWrapper(SHNCapabilityLogSynchronization wrappedShnCapabilityLogSynchronization, Handler internalHandler, Handler userHandler) {
         this.wrappedShnCapabilityLogSynchronization = wrappedShnCapabilityLogSynchronization;
         this.internalHandler = internalHandler;
         this.userHandler = userHandler;
-        wrappedShnCapabilityLogSynchronization.setListener(this);
+        wrappedShnCapabilityLogSynchronization.setSHNCapabilityLogSynchronizationListener(this);
     }
 
     @Override
-    public void setListener(final Listener listener) {
-        this.listener = listener;
+    public void setSHNCapabilityLogSynchronizationListener(final SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener) {
+        this.SHNCapabilityLogSynchronizationListener = SHNCapabilityLogSynchronizationListener;
     }
 
     @Override
@@ -111,8 +111,8 @@ public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogS
         Runnable callback = new Runnable() {
             @Override
             public void run() {
-                if (listener != null) {
-                    listener.onStateUpdated(shnCapabilityLogSynchronization);
+                if (SHNCapabilityLogSynchronizationListener != null) {
+                    SHNCapabilityLogSynchronizationListener.onStateUpdated(shnCapabilityLogSynchronization);
                 }
             }
         };
@@ -124,8 +124,8 @@ public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogS
         Runnable callback = new Runnable() {
             @Override
             public void run() {
-                if (listener != null) {
-                    listener.onProgressUpdate(shnCapabilityLogSynchronization, progress);
+                if (SHNCapabilityLogSynchronizationListener != null) {
+                    SHNCapabilityLogSynchronizationListener.onProgressUpdate(shnCapabilityLogSynchronization, progress);
                 }
             }
         };
@@ -137,8 +137,8 @@ public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogS
         Runnable callback = new Runnable() {
             @Override
             public void run() {
-                if (listener != null) {
-                    listener.onLogSynchronized(shnCapabilityLogSynchronization, shnLog, shnResult);
+                if (SHNCapabilityLogSynchronizationListener != null) {
+                    SHNCapabilityLogSynchronizationListener.onLogSynchronized(shnCapabilityLogSynchronization, shnLog, shnResult);
                 }
             }
         };
@@ -150,8 +150,8 @@ public class SHNCapabilityLogSynchronizationWrapper implements SHNCapabilityLogS
         Runnable callback = new Runnable() {
             @Override
             public void run() {
-                if (listener != null) {
-                    listener.onLogSynchronizationFailed(shnCapabilityLogSynchronization, shnResult);
+                if (SHNCapabilityLogSynchronizationListener != null) {
+                    SHNCapabilityLogSynchronizationListener.onLogSynchronizationFailed(shnCapabilityLogSynchronization, shnResult);
                 }
             }
         };

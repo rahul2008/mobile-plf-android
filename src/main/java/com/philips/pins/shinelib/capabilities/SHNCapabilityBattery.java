@@ -9,10 +9,10 @@ import com.philips.pins.shinelib.SHNResultListener;
  * All rights reserved.
  */
 public interface SHNCapabilityBattery extends SHNCapability {
-    public interface SHNBatteryListener{
+    public interface SHNCapabilityBatteryListener {
         void onBatteryLevelChanged(int level);
     }
 
     void getBatteryLevel(SHNIntegerResultListener listener);
-    void setBatteryLevelNotification(boolean enabled, SHNResultListener listener);
+    void setBatteryLevelNotifications(boolean enabled, SHNResultListener listener);
 }

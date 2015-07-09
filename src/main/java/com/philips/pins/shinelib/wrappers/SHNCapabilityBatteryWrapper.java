@@ -48,11 +48,11 @@ public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery {
     }
 
     @Override
-    public void setBatteryLevelNotification(final boolean enabled, final SHNResultListener listener) {
+    public void setBatteryLevelNotifications(final boolean enabled, final SHNResultListener listener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.setBatteryLevelNotification(enabled, new SHNResultListener() {
+                wrappedShnCapability.setBatteryLevelNotifications(enabled, new SHNResultListener() {
                     @Override
                     public void onActionCompleted(final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {

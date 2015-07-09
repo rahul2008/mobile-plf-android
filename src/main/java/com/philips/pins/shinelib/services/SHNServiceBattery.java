@@ -79,13 +79,13 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
     }
 
     public void setBatteryLevelNotification(boolean enabled, final SHNResultListener listener) {
-        if (LOGGING) Log.i(TAG, "setBatteryLevelNotification");
+        if (LOGGING) Log.i(TAG, "setBatteryLevelNotifications");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "setBatteryLevelNotification reportResult");
+                if (LOGGING) Log.i(TAG, "setBatteryLevelNotifications reportResult");
                 if (listener != null) {
                     listener.onActionCompleted(shnResult);
                 }
