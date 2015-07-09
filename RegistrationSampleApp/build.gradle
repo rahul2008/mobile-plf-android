@@ -41,13 +41,13 @@ android {
     productFlavors {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
-            versionCode 1
-            versionName "0.1.0"
+            versionCode 4
+            versionName "1.1.9"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
-            versionCode 1
-            versionName "0.1.0"
+            versionCode 4
+            versionName "1.1.9"
         }
     }
 }
