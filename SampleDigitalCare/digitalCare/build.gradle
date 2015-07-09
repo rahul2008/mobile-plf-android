@@ -22,8 +22,4 @@ dependencies {
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile files('libs/adobeMobileLibrary.jar')
     compile files('libs/localematch.jar')
-    androidTestCompile files('libs/dexmaker-1.0.jar')
-    androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
-    androidTestCompile files('libs/junit-4.12.jar')
-    androidTestCompile files('libs/mockito-all-1.10.8.jar')
 }
