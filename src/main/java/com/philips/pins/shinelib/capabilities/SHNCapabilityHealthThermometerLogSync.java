@@ -6,10 +6,11 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNData;
+import com.philips.pins.shinelib.datatypes.SHNDataBodyTemperature;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.services.healththermometer.SHNServiceHealthThermometer;
-import com.philips.pins.shinelib.datatypes.SHNDataTemperatureMeasurement;
+import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurementInterval;
 
 import java.util.HashMap;
@@ -39,22 +40,22 @@ public class SHNCapabilityHealthThermometerLogSync extends SHNCapabilityLogSyncB
 
     // implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener
     @Override
-    public void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDataTemperatureMeasurement shnDataTemperatureMeasurement) {
+    public void onTemperatureMeasurementReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
         if (getState() == State.Synchronizing) {
-            if (shnDataTemperatureMeasurement.getTimestamp() == null) {
+            if (shnTemperatureMeasurement.getTimestamp() == null) {
                 Log.w(TAG, "The received temperature measurement does not have a timestamp, cannot save it in the log!");
                 timer.restart();
             } else {
                 Map<SHNDataType, SHNData> map = new HashMap<>();
-                map.put(SHNDataType.BodyTemperature, shnDataTemperatureMeasurement);
-                SHNLogItem item = new SHNLogItem(shnDataTemperatureMeasurement.getTimestamp(), map.keySet(), map);
+                map.put(SHNDataType.BodyTemperature, new SHNDataBodyTemperature(shnTemperatureMeasurement.getTemperatureInCelcius(), shnTemperatureMeasurement.getSHNTemperatureType()));
+                SHNLogItem item = new SHNLogItem(shnTemperatureMeasurement.getTimestamp(), map.keySet(), map);
                 onMeasurementReceived(item);
             }
         }
     }
 
     @Override
-    public void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDataTemperatureMeasurement shnDataTemperatureMeasurement) {
+    public void onIntermediateTemperatureReceived(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNTemperatureMeasurement shnTemperatureMeasurement) {
 
     }
 

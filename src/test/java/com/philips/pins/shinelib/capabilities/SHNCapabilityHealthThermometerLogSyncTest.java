@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.services.healththermometer.SHNServiceHealthThermometer;
-import com.philips.pins.shinelib.datatypes.SHNDataTemperatureMeasurement;
+import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -147,14 +147,13 @@ public class SHNCapabilityHealthThermometerLogSyncTest {
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, shnCapabilityHealthThermometerLogSync.getState());
     }
 
-    private SHNDataTemperatureMeasurement[] generateDataAndSendIt(Date[] dates) {
-        SHNDataTemperatureMeasurement[] measurements = new SHNDataTemperatureMeasurement[dates.length];
+    private SHNTemperatureMeasurement[] generateDataAndSendIt(Date[] dates) {
+        SHNTemperatureMeasurement[] measurements = new SHNTemperatureMeasurement[dates.length];
         for (int i = 0; i < dates.length; i++) {
-            SHNDataTemperatureMeasurement mockedShnDataTemperatureMeasurement = Mockito.mock(SHNDataTemperatureMeasurement.class);
-            when(mockedShnDataTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
-            when(mockedShnDataTemperatureMeasurement.getSHNDataType()).thenReturn(SHNDataType.BodyTemperature);
-            measurements[i] = mockedShnDataTemperatureMeasurement;
-            shnCapabilityHealthThermometerLogSync.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnDataTemperatureMeasurement);
+            SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+            when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
+            measurements[i] = mockedShnTemperatureMeasurement;
+            shnCapabilityHealthThermometerLogSync.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
         }
         return measurements;
     }
@@ -165,11 +164,10 @@ public class SHNCapabilityHealthThermometerLogSyncTest {
 
         Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
 
-        SHNDataTemperatureMeasurement mockedShnDataTemperatureMeasurement = Mockito.mock(SHNDataTemperatureMeasurement.class);
-        when(mockedShnDataTemperatureMeasurement.getTimestamp()).thenReturn(null);
-        when(mockedShnDataTemperatureMeasurement.getSHNDataType()).thenReturn(SHNDataType.BodyTemperature);
+        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+        when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(null);
 
-        shnCapabilityHealthThermometerLogSync.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnDataTemperatureMeasurement);
+        shnCapabilityHealthThermometerLogSync.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
 
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onProgressUpdate(any(SHNCapabilityHealthThermometerLogSync.class), anyFloat());
     }

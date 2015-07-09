@@ -1,5 +1,7 @@
 package com.philips.pins.shinelib.datatypes;
 
+import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by 310188215 on 04/06/15.
  */
-public class SHNDataTemperatureMeasurementTest {
+public class SHNTemperatureMeasurementTest {
     private static final byte CELSIUS = 0x00;
     private static final byte FAHRENHEIT = 0x01;
     private static final byte TIMESTAMP = 0x02;
@@ -42,15 +44,15 @@ public class SHNDataTemperatureMeasurementTest {
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         // Execute
-        SHNDataTemperatureMeasurement shnDataTemperatureMeasurement = new SHNDataTemperatureMeasurement(byteBuffer);
+        SHNTemperatureMeasurement shnTemperatureMeasurement = new SHNTemperatureMeasurement(byteBuffer);
 
         // Verify
-        assertEquals(SHNTemperatureUnit.Celsius, shnDataTemperatureMeasurement.getFlags().getShnTemperatureUnit());
-        assertFalse(shnDataTemperatureMeasurement.getFlags().hasTimestamp());
-        assertFalse(shnDataTemperatureMeasurement.getFlags().hasTemperatureType());
-        assertNull(shnDataTemperatureMeasurement.getTimestamp());
-        assertNull(shnDataTemperatureMeasurement.getSHNTemperatureType());
-        assertEquals(1f, shnDataTemperatureMeasurement.getTemperature(), 0.01f);
+        assertEquals(SHNTemperatureUnit.Celsius, shnTemperatureMeasurement.getFlags().getShnTemperatureUnit());
+        assertFalse(shnTemperatureMeasurement.getFlags().hasTimestamp());
+        assertFalse(shnTemperatureMeasurement.getFlags().hasTemperatureType());
+        assertNull(shnTemperatureMeasurement.getTimestamp());
+        assertNull(shnTemperatureMeasurement.getSHNTemperatureType());
+        assertEquals(1f, shnTemperatureMeasurement.getTemperature(), 0.01f);
     }
 
     @Test
@@ -71,17 +73,17 @@ public class SHNDataTemperatureMeasurementTest {
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         // Execute
-        SHNDataTemperatureMeasurement shnDataTemperatureMeasurement = new SHNDataTemperatureMeasurement(byteBuffer);
+        SHNTemperatureMeasurement shnTemperatureMeasurement = new SHNTemperatureMeasurement(byteBuffer);
 
         // Verify
-        assertEquals(SHNTemperatureUnit.Fahrenheit, shnDataTemperatureMeasurement.getFlags().getShnTemperatureUnit());
-        assertTrue(shnDataTemperatureMeasurement.getFlags().hasTimestamp());
-        assertFalse(shnDataTemperatureMeasurement.getFlags().hasTemperatureType());
-        assertEquals(10f, shnDataTemperatureMeasurement.getTemperature(), 0.01f);
+        assertEquals(SHNTemperatureUnit.Fahrenheit, shnTemperatureMeasurement.getFlags().getShnTemperatureUnit());
+        assertTrue(shnTemperatureMeasurement.getFlags().hasTimestamp());
+        assertFalse(shnTemperatureMeasurement.getFlags().hasTemperatureType());
+        assertEquals(10f, shnTemperatureMeasurement.getTemperature(), 0.01f);
 
-        assertNotNull(shnDataTemperatureMeasurement.getTimestamp());
+        assertNotNull(shnTemperatureMeasurement.getTimestamp());
 
-        assertEquals("2015-06-08 08:34:45", simpleDateFormat.format(shnDataTemperatureMeasurement.getTimestamp()));
+        assertEquals("2015-06-08 08:34:45", simpleDateFormat.format(shnTemperatureMeasurement.getTimestamp()));
     }
 
     @Test
@@ -103,18 +105,18 @@ public class SHNDataTemperatureMeasurementTest {
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
         // Execute
-        SHNDataTemperatureMeasurement shnDataTemperatureMeasurement = new SHNDataTemperatureMeasurement(byteBuffer);
+        SHNTemperatureMeasurement shnTemperatureMeasurement = new SHNTemperatureMeasurement(byteBuffer);
 
         // Verify
-        assertEquals(SHNTemperatureUnit.Fahrenheit, shnDataTemperatureMeasurement.getFlags().getShnTemperatureUnit());
-        assertTrue(shnDataTemperatureMeasurement.getFlags().hasTimestamp());
-        assertTrue(shnDataTemperatureMeasurement.getFlags().hasTemperatureType());
-        assertEquals(25.7f, shnDataTemperatureMeasurement.getTemperature(), 0.01f);
+        assertEquals(SHNTemperatureUnit.Fahrenheit, shnTemperatureMeasurement.getFlags().getShnTemperatureUnit());
+        assertTrue(shnTemperatureMeasurement.getFlags().hasTimestamp());
+        assertTrue(shnTemperatureMeasurement.getFlags().hasTemperatureType());
+        assertEquals(25.7f, shnTemperatureMeasurement.getTemperature(), 0.01f);
 
-        assertNotNull(shnDataTemperatureMeasurement.getTimestamp());
+        assertNotNull(shnTemperatureMeasurement.getTimestamp());
 
-        assertEquals("2015-06-08 18:34:45", simpleDateFormat.format(shnDataTemperatureMeasurement.getTimestamp()));
+        assertEquals("2015-06-08 18:34:45", simpleDateFormat.format(shnTemperatureMeasurement.getTimestamp()));
 
-        assertEquals(SHNTemperatureType.Armpit, shnDataTemperatureMeasurement.getSHNTemperatureType());
+        assertEquals(SHNTemperatureType.Armpit, shnTemperatureMeasurement.getSHNTemperatureType());
     }
 }

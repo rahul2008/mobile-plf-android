@@ -4,7 +4,6 @@ import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
-import com.philips.pins.shinelib.datatypes.SHNDataTemperatureMeasurement;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.helper.Utility;
 
@@ -63,8 +62,8 @@ public class SHNServiceHealthThermometerTest {
         doReturn(mockedSHNCharacteristicMeasurementInterval).when(mockedSHNService).getSHNCharacteristic(SHNServiceHealthThermometer.CHARACTERISTIC_MEASUREMENT_INTERVAL_UUID);
 
         doNothing().when(mockedSHNServiceHealthThermometerListener).onServiceStateChanged(any(SHNServiceHealthThermometer.class), any(SHNService.State.class));
-        doNothing().when(mockedSHNServiceHealthThermometerListener).onTemperatureMeasurementReceived(any(SHNServiceHealthThermometer.class), any(SHNDataTemperatureMeasurement.class));
-        doNothing().when(mockedSHNServiceHealthThermometerListener).onIntermediateTemperatureReceived(any(SHNServiceHealthThermometer.class), any(SHNDataTemperatureMeasurement.class));
+        doNothing().when(mockedSHNServiceHealthThermometerListener).onTemperatureMeasurementReceived(any(SHNServiceHealthThermometer.class), any(SHNTemperatureMeasurement.class));
+        doNothing().when(mockedSHNServiceHealthThermometerListener).onIntermediateTemperatureReceived(any(SHNServiceHealthThermometer.class), any(SHNTemperatureMeasurement.class));
 
         setupCharacteristicMock(mockedSHNCharacteristicTemperatureMeasurement, SHNServiceHealthThermometer.CHARACTERISTIC_TEMPERATURE_MEASUREMENT_UUID);
         setupCharacteristicMock(mockedSHNCharacteristicIntermediateTemperature, SHNServiceHealthThermometer.CHARACTERISTIC_INTERMEDIATE_TEMPERATURE_UUID);
@@ -193,7 +192,7 @@ public class SHNServiceHealthThermometerTest {
     public void whenAProperlyFormattedNewMeasurementArrivesThenTheOnTemperatureMeasurementReceivedMustBeCalled() {
         setupServiceToStateAvailable();
         ArgumentCaptor<SHNServiceHealthThermometer> shnServiceHealthThermometerArgumentCaptor = ArgumentCaptor.forClass(SHNServiceHealthThermometer.class);
-        ArgumentCaptor<SHNDataTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNDataTemperatureMeasurement.class);
+        ArgumentCaptor<SHNTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNTemperatureMeasurement.class);
 
         shnServiceHealthThermometer.onCharacteristicChanged(mockedSHNCharacteristicTemperatureMeasurement, new byte[]{0, 0, 0, 0, 0});
         verify(mockedSHNServiceHealthThermometerListener).onTemperatureMeasurementReceived(shnServiceHealthThermometerArgumentCaptor.capture(), shnTemperatureMeasurementArgumentCaptor.capture());
@@ -206,7 +205,7 @@ public class SHNServiceHealthThermometerTest {
     public void whenAInproperlyFormattedNewMeasurementArrivesThenTheOnTemperatureMeasurementReceivedMustNOTBeCalled() {
         setupServiceToStateAvailable();
         ArgumentCaptor<SHNServiceHealthThermometer> shnServiceHealthThermometerArgumentCaptor = ArgumentCaptor.forClass(SHNServiceHealthThermometer.class);
-        ArgumentCaptor<SHNDataTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNDataTemperatureMeasurement.class);
+        ArgumentCaptor<SHNTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNTemperatureMeasurement.class);
 
         shnServiceHealthThermometer.onCharacteristicChanged(mockedSHNCharacteristicTemperatureMeasurement, new byte[]{0, 0, 0, 0});
         verify(mockedSHNServiceHealthThermometerListener, never()).onTemperatureMeasurementReceived(shnServiceHealthThermometerArgumentCaptor.capture(), shnTemperatureMeasurementArgumentCaptor.capture());
@@ -216,7 +215,7 @@ public class SHNServiceHealthThermometerTest {
     public void whenAProperlyFormattedNewIntermediateMeasurementArrivesThenTheOnIntermediateTemperatureReceivedMustBeCalled() {
         setupServiceToStateAvailable();
         ArgumentCaptor<SHNServiceHealthThermometer> shnServiceHealthThermometerArgumentCaptor = ArgumentCaptor.forClass(SHNServiceHealthThermometer.class);
-        ArgumentCaptor<SHNDataTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNDataTemperatureMeasurement.class);
+        ArgumentCaptor<SHNTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNTemperatureMeasurement.class);
 
         shnServiceHealthThermometer.onCharacteristicChanged(mockedSHNCharacteristicIntermediateTemperature, new byte[]{0, 0, 0, 0, 0});
         verify(mockedSHNServiceHealthThermometerListener).onIntermediateTemperatureReceived(shnServiceHealthThermometerArgumentCaptor.capture(), shnTemperatureMeasurementArgumentCaptor.capture());
@@ -229,7 +228,7 @@ public class SHNServiceHealthThermometerTest {
     public void whenAInproperlyFormattedNewIntermediateMeasurementArrivesThenTheOnIntermediateTemperatureReceivedMustNOTBeCalled() {
         setupServiceToStateAvailable();
         ArgumentCaptor<SHNServiceHealthThermometer> shnServiceHealthThermometerArgumentCaptor = ArgumentCaptor.forClass(SHNServiceHealthThermometer.class);
-        ArgumentCaptor<SHNDataTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNDataTemperatureMeasurement.class);
+        ArgumentCaptor<SHNTemperatureMeasurement> shnTemperatureMeasurementArgumentCaptor = ArgumentCaptor.forClass(SHNTemperatureMeasurement.class);
 
         shnServiceHealthThermometer.onCharacteristicChanged(mockedSHNCharacteristicIntermediateTemperature, new byte[]{0, 0, 0, 0});
         verify(mockedSHNServiceHealthThermometerListener, never()).onIntermediateTemperatureReceived(shnServiceHealthThermometerArgumentCaptor.capture(), shnTemperatureMeasurementArgumentCaptor.capture());
