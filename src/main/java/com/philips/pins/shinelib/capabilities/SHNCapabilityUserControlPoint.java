@@ -2,6 +2,7 @@ package com.philips.pins.shinelib.capabilities;
 
 import com.philips.pins.shinelib.SHNCapability;
 import com.philips.pins.shinelib.SHNIntegerResultListener;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 
 /**
@@ -9,8 +10,7 @@ import com.philips.pins.shinelib.SHNResultListener;
  */
 public interface SHNCapabilityUserControlPoint extends SHNCapability {
     public interface SHNCapabilityUserControlPointListener {
-//        void onAuthenticationFailed(short userId, short consentCode);
-        void onAutoConsentFailed(short userId, short consentCode);
+        void onAutoConsentFailed(short userId, short consentCode, SHNResult shnResult);
         void onMismatchedDatabaseIncrement(short userId, long localIncrement, long remoteIncrement);
     }
 
