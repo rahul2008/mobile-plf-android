@@ -42,9 +42,10 @@ import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.services.SHNServiceCurrentTime;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
-import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale.SHNServiceWeightScaleListener;
+import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,8 +57,9 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
     private static final String TAG = SHNCapabilityLogSyncWeightScale.class.getSimpleName();
     private static final boolean LOGGING = false;
     private final SHNServiceWeightScale shnServiceWeightScale;
+    private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;
 
-    private final SHNServiceWeightScaleListener shnServiceWeightScaleListener= new SHNServiceWeightScaleListener() {
+    private final SHNServiceWeightScaleListener shnServiceWeightScaleListener = new SHNServiceWeightScaleListener() {
         @Override
         public void onServiceStateChanged(SHNServiceWeightScale shnServiceWeightScale, SHNService.State state) {
             if (state == SHNService.State.Unavailable || state == SHNService.State.Error) {
@@ -73,10 +75,9 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
                     timer.restart();
                 } else {
                     long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnWeightMeasurement.getTimestamp().getTime());
-                    shnWeightMeasurement.getTimestamp().setTime(hostTimestamp);
                     Map<SHNDataType, SHNData> map = new HashMap<>();
                     map.put(SHNDataType.BodyWeight, new SHNDataBodyWeight(shnWeightMeasurement.getWeightInKg(), shnWeightMeasurement.getUserId(), shnWeightMeasurement.getHeight(), shnWeightMeasurement.getBMI()));
-                    SHNLogItem item = new SHNLogItem(shnWeightMeasurement.getTimestamp(), map.keySet(), map);
+                    SHNLogItem item = new SHNLogItem(new Date(hostTimestamp), map.keySet(), map);
                     onMeasurementReceived(item);
                 }
             }
@@ -90,7 +91,6 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
             }
         }
     };
-    private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;
 
     public SHNCapabilityLogSyncWeightScale(SHNServiceWeightScale shnServiceWeightScale, SHNDeviceTimeAdjuster shnDeviceTimeAdjuster) {
         super();
@@ -105,16 +105,6 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
             @Override
             public void onActionCompleted(SHNResult result) {
                 handleResultOfMeasurementsSetup(result);
-            }
-        });
-    }
-
-    private void handleGetCurrentTimeCompletion(Object object, SHNResult result) {
-        shnServiceWeightScale.setNotificationsEnabled(true, new SHNResultListener() {
-            @Override
-            public void onActionCompleted(SHNResult result) {
-                handleResultOfMeasurementsSetup(SHNResult.SHNOk);
-                timer.restart();
             }
         });
     }

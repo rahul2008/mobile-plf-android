@@ -17,7 +17,7 @@ public class SHNDeviceTimeAdjusterCurrentTimeService implements SHNDeviceTimeAdj
     private final SHNServiceCurrentTime.SHNServiceCurrentTimeListener shnServiceCurrentTimeListener =  new SHNServiceCurrentTime.SHNServiceCurrentTimeListener() {
         @Override
         public void onServiceStateChanged(final SHNServiceCurrentTime shnServiceCurrentTime, SHNService.State state) {
-            if (SHNService.State.Available == state && SHNService.State.Available != adjusterServiceState) {
+            if (state == SHNService.State.Available && adjusterServiceState != SHNService.State.Available) {
                 shnServiceCurrentTime.getCurrentTime(new SHNObjectResultListener() {
                     @Override
                     public void onActionCompleted(Object object, SHNResult result) {
