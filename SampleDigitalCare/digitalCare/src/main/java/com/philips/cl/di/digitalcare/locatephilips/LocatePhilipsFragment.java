@@ -379,6 +379,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mLocateNearProgressBar.setVisibility(View.GONE);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
+        float density = getResources().getDisplayMetrics().density;
+        setButtonParams(density);
     }
 
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
