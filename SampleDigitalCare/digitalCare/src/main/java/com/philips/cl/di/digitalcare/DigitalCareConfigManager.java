@@ -83,8 +83,8 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
-        //Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
-        Intent intent = new Intent();
+        Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
+        //Intent intent = new Intent();
 
         intent.putExtra("STARTANIMATIONID", startAnimation);
         intent.putExtra("ENDANIMATIONID", endAnimation);
