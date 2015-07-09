@@ -214,6 +214,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Forming CDLS url. This url will be different for US and other countries.
      */
     protected String formCdlsURL() {
+        if (DigitalCareConfigManager.getInstance().getmLocaleMatchLocale() == null) return null;
+
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
 
@@ -248,7 +250,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     protected void requestCDLSData() {
         DigiCareLogger.d(TAG, "CDLS Request Thread is started");
         startProgressDialog();
-        new RequestData(formCdlsURL(), this).execute();
+        if(formCdlsURL()!=null)
+            new RequestData(formCdlsURL(), this).execute();
     }
 
     @Override
