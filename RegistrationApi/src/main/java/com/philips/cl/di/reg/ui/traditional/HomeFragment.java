@@ -283,13 +283,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
          */
         if (v.getId() == R.id.btn_reg_create_account) {
             RLog.d(RLog.ONCLICK, "HomeFragment : Create Account");
-            trackMultipleActions();
+            trackMultipleActionsRegistration();
             launchCreateAccountFragment();
 
         } else if (v.getId() == R.id.btn_reg_my_philips) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
-            trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.LOGIN_CHANNEL,
-                    AnalyticsConstants.MY_PHILIPS);
+            trackMultipleActionsLogin();
             launchSignInFragment();
         }
     }
@@ -590,10 +589,5 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleJanrainInitPb();
     }
 
-    private void trackMultipleActions() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-        map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-        AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
-    }
+
 }

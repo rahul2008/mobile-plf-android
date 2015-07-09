@@ -16,4 +16,6 @@ public interface AnalyticsPages {
 	String ALMOST_DONE = "registration:almostdone";
 
 	String MERGE_ACCOUNT = "registration:mergeaccount";
+
+	String USER_PROFILE = "registration:userprofile";
 }

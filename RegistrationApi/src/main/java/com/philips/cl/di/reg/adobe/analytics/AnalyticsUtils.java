@@ -48,7 +48,7 @@ public class AnalyticsUtils {
         contextData.put(AnalyticsConstants.LANGUAGE_KEY, RegistrationHelper.getInstance()
                 .getLocale().getLanguage());
         contextData.put(AnalyticsConstants.CURRENCY_KEY, getCurrency());
-        //contextData.put(AnalyticsConstants.APPSID_KEY, Analytics.getTrackingIdentifier());
+        contextData.put(AnalyticsConstants.APPSID_KEY, Analytics.getTrackingIdentifier());
         contextData.put(AnalyticsConstants.TIMESTAMP_KEY, getTimestamp());
 
         return contextData;

@@ -32,7 +32,7 @@ public interface AnalyticsConstants {
 
 	String APPNAME_VALUE = "registration";
 
-	String OS_ANDROID = "Android";
+	String OS_ANDROID = "android";
 
 	String SEND_DATA = "senddata";
 
@@ -42,7 +42,7 @@ public interface AnalyticsConstants {
 
 	String SPECIAL_EVENTS = "specialEvents";
 
-	String STATUS_NOTIFICATION = "notification";//statusNotification
+	String STATUS_NOTIFICATION = "statusNotification";
 
 	String MY_PHILIPS = "myphilips";
 
@@ -64,7 +64,7 @@ public interface AnalyticsConstants {
 
 	String SUCCESS_LOGIN = "successLogin";
 
-	String START_SOCIAL_MERGE = "startSocialmerge";
+	String START_SOCIAL_MERGE = "startSocialMerge";
 
 	String PREVIOUS_PAGE_NAME = "previousPageName";
 
@@ -72,7 +72,7 @@ public interface AnalyticsConstants {
 
 	String USER_ERROR = "userError";
 
-	String RESET_PASSWORD_SUCCESS = "password reset message ";//A link is sent to your email to reset the password of your Philips Account
+	String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
 
 	String CONTINUE = "continue";
 
@@ -81,5 +81,7 @@ public interface AnalyticsConstants {
 	int EMAIL_NOT_VERIFIED = 112;
 
 	String COUNTRY_KEY = "locale.country";
+
+	String SIGN_OUT = "signOut";
 
 }

@@ -216,13 +216,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_out) {
 			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
-			trackPage(AnalyticsPages.WELCOME,AnalyticsPages.HOME);
+			trackPage(AnalyticsPages.WELCOME, AnalyticsPages.HOME);
 			mUser.logout();
 			getRegistrationFragment().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
-				trackPage(AnalyticsPages.WELCOME,AnalyticsPages.HOME);
+				trackPage(AnalyticsPages.USER_PROFILE, AnalyticsPages.HOME);
+				trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+						AnalyticsConstants.SIGN_OUT);
 				mUser.logout();
 				getRegistrationFragment().replaceWithHomeFragment();
 			} else {

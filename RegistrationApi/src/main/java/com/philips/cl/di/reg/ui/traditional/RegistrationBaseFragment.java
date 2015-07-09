@@ -14,9 +14,13 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.philips.cl.di.reg.R;
+import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 import com.philips.cl.di.reg.adobe.analytics.TrackActionErrors;
 import com.philips.cl.di.reg.ui.utils.RLog;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class RegistrationBaseFragment extends Fragment {
 
@@ -184,6 +188,20 @@ public abstract class RegistrationBaseFragment extends Fragment {
 
 	protected void trackActionLoginError(int errorCode) {
 		TrackActionErrors.trackActionLoginError(errorCode);
+	}
+
+	protected void trackMultipleActionsRegistration() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+	}
+
+	protected void trackMultipleActionsLogin() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.LOGIN_START);
+		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
 	}
 
 }
