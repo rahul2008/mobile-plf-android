@@ -2,7 +2,7 @@ package com.philips.cl.di.sampledigitalcareapp;
 
 import com.philips.cl.di.digitalcare.ConsumerProductInfo;
 
-public class ConsumerProductInfoDemo extends ConsumerProductInfo {
+public class SampleConsumerProductInfo extends ConsumerProductInfo {
 	private static String mGroup = "PERSONAL_CARE_GR";
 	private static String mSector = "B2C";
 	private static String mCatalog = "CARE";

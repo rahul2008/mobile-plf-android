@@ -83,9 +83,7 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
-        //Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
-        Intent intent = new Intent();
-
+        Intent intent = new Intent(this.getContext(),DigitalCareActivity.class);
         intent.putExtra("STARTANIMATIONID", startAnimation);
         intent.putExtra("ENDANIMATIONID", endAnimation);
         getContext().startActivity(intent);
@@ -103,6 +101,9 @@ public class DigitalCareConfigManager {
         mMainMenuListener = mainMenuListener;
     }
 
+    public void unregisterMainMenuListener(MainMenuListener mainMenuListener) {
+        mMainMenuListener = null;
+    }
     public MainMenuListener getMainMenuListener() {
         return mMainMenuListener;
     }
@@ -112,6 +113,11 @@ public class DigitalCareConfigManager {
         mProductMenuListener = productMenuListener;
     }
 
+    public void unregisterProductMenuListener(
+            ProductMenuListener productMenuListener) {
+        mProductMenuListener = null;
+    }
+
     public ProductMenuListener getProductMenuListener() {
         return mProductMenuListener;
     }
@@ -119,6 +125,11 @@ public class DigitalCareConfigManager {
     public void registerSocialProviderListener(
             SocialProviderListener socialProviderListener) {
         mSocialProviderListener = socialProviderListener;
+    }
+
+    public void unregisterSocialProviderListener(
+            SocialProviderListener socialProviderListener) {
+        mSocialProviderListener = null;
     }
 
     public SocialProviderListener getSocialProviderListener() {

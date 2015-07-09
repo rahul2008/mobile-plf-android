@@ -19,6 +19,8 @@ import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 
+import java.util.Locale;
+
 public class LaunchDigitalCare extends Activity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
@@ -31,36 +33,13 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
     private Button mLaunchProductRegister = null;
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
-    private ConsumerProductInfoDemo mConsumerProductInfoDemo = null;
+    private SampleConsumerProductInfo mConsumerProductInfo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initializeDigitalCareLibrary();
 
-        // Initializing DigitalCare Component.
-        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
-                this);
-
-        // Set ConsumerProductInfo
-        mConsumerProductInfoDemo = new ConsumerProductInfoDemo();
-        DigitalCareConfigManager.getInstance().setConsumerProductInfo(
-                mConsumerProductInfoDemo);
-
-        // Set DigitalCareLibrary Listeners
-        DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
-        DigitalCareConfigManager.getInstance()
-                .registerProductMenuListener(this);
-        DigitalCareConfigManager.getInstance().registerSocialProviderListener(
-                this);
-
-        // Twitter Support Feature.
-        // setTwitterCredentials();
-
-        // Passing Locale to DigitalCare Library
-        setLocaleForTesting("en", "IN");
-
-        //For Debugging purpose
-        DigiCareLogger.enableLogging();
 
         setContentView(R.layout.activity_digital_care);
 
@@ -88,23 +67,6 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
                 android.R.layout.simple_list_item_1, mLanguage);
         mLanguage_spinner.setAdapter(mLanguage_adapter);
 
-//        mLanguage_spinner
-//                .setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent,
-//                                               View view, int position, long id) {
-//
-//                        setLocaleForTesting(mlanguageCode[position],
-//                                mcountryCode[position]);
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
-
         // setting country spinner
         mCountry_spinner = (Spinner) findViewById(R.id.spinner2);
         mCountry = getResources().getStringArray(R.array.country);
@@ -112,23 +74,41 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
-//        mCountry_spinner
-//                .setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//                    @Override
-//                    public void onItemSelected(AdapterView<?> parent,
-//                                               View view, int position, long id) {
-//
-//                        setLocaleForTesting(mcountryCode[position],
-//                                mlanguageCode[position]);
-//
-//                    }
-//
-//                    @Override
-//                    public void onNothingSelected(AdapterView<?> parent) {
-//
-//                    }
-//                });
+    }
+
+    @Override
+    protected void onDestroy(){
+        DigitalCareConfigManager.getInstance().unregisterMainMenuListener(this);
+        DigitalCareConfigManager.getInstance().unregisterProductMenuListener(this);
+        DigitalCareConfigManager.getInstance().unregisterSocialProviderListener(this);
+        super.onDestroy();
+    }
+
+    private void initializeDigitalCareLibrary() {
+        // Initializing DigitalCare Component.
+        DigitalCareConfigManager.getInstance().initializeDigitalCareLibrary(
+                this);
+
+        // Set ConsumerProductInfo
+        mConsumerProductInfo = new SampleConsumerProductInfo();
+        DigitalCareConfigManager.getInstance().setConsumerProductInfo(
+                mConsumerProductInfo);
+
+        // Set DigitalCareLibrary Listeners
+        DigitalCareConfigManager.getInstance().registerMainMenuListener(this);
+        DigitalCareConfigManager.getInstance()
+                .registerProductMenuListener(this);
+        DigitalCareConfigManager.getInstance().registerSocialProviderListener(
+                this);
+
+
+        // Passing default Locale to DigitalCare Library, app should pass the locale which is used
+        // by application and also set locale to digitalcare library dynamically when ever app
+        // locale changes
+        setDigitalCareLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
+
+        //For Debugging purpose, enable this only in debug build
+        DigiCareLogger.enableLogging();
     }
 
     @Override
@@ -168,7 +148,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
 
         switch (view.getId()) {
             default:
-                setLocaleForTesting(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+                setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(
                         R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         }
@@ -185,7 +165,7 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         });
     }
 
-    private void setLocaleForTesting(String language, String country) {
+    private void setDigitalCareLocale(String language, String country) {
 
         DigitalCareConfigManager.getInstance().setLocale(language, country);
     }
