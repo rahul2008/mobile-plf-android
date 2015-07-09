@@ -26,8 +26,6 @@ public class DigitalCareConfigManager {
     private static Context mContext = null;
     public Locale mLocale = null;
     public Locale mLocaleMatchLocale = null;
-    private String mTwitterConsumerKey = null;
-    private String mTwitterConsumerSecret = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
@@ -85,7 +83,9 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
-        Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
+        //Intent intent = new Intent("android.intent.action.SUPPORT_DIGITAL");
+        Intent intent = new Intent();
+
         intent.putExtra("STARTANIMATIONID", startAnimation);
         intent.putExtra("ENDANIMATIONID", endAnimation);
         getContext().startActivity(intent);
@@ -143,16 +143,8 @@ public class DigitalCareConfigManager {
         return mLocale;
     }
 
-    public Locale getmLocaleMatchLocale() {
+    public Locale getLocaleMatchResponseLocale() {
         return mLocaleMatchLocale;
-    }
-
-    public String getTwitterConsumerKey() {
-        return mTwitterConsumerKey;
-    }
-
-    public String getTwitterConsumerSecret() {
-        return mTwitterConsumerSecret;
     }
 
     public String getDigitalCareLibVersion(){
