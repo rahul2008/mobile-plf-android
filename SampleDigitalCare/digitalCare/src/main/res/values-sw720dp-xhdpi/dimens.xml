@@ -16,7 +16,8 @@
     <dimen name="marginTopButton">20dp</dimen>
     <dimen name="marginTopButtonLayout">15dp</dimen>
     <dimen name="marginTopRegisterButton">50dp</dimen>
-    <dimen name="actionbar_height">55dp</dimen>
+    <dimen name="actionbar_height">@dimen/support_btn_height</dimen>
+    <dimen name="actionbar_icon_padding_left">15dp</dimen>
     <dimen name="locate_layout_margin">130dp</dimen>
     <dimen name="locate_search_layout_margin">130dp</dimen>
     <dimen name="showlayout_padding_bottom">20dp</dimen>
