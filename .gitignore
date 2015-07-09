@@ -11,3 +11,10 @@ DigitalCareTestFramework/gen/
 LaunchDigitalCare/bin/
 FacebookSDK/.settings/org.eclipse.jdt.core.prefs
 LaunchDigitalCare/gen/
+SampleDigitalCare/launchDigitalCare/build/
+SampleDigitalCare/digitalCare/build/
+*.iml
+SampleDigitalCare/build/
+SampleDigitalCare/.idea/
+SampleDigitalCare/.gradle/
+SampleDigitalCare/local.properties

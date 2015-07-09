@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="mockito-all-1.10.8">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/launchDigitalCare/libs/mockito-all-1.10.8.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
