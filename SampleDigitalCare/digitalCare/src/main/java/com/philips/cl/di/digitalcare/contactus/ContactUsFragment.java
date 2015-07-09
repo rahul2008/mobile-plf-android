@@ -61,6 +61,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback {
     private static final String CDLS_URL_PORT = "http://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static final String TAG = ContactUsFragment.class.getSimpleName();
+    private static View mView = null;
     private LinearLayout mContactUsParent = null;
     private LinearLayout mSocialProviderParent = null;
     private FrameLayout.LayoutParams mParams = null;
@@ -71,12 +72,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
     private String mCdlsResponseStr = null;
-    private static View mView = null;
     private Handler mTwitterProgresshandler = null;
     private ProgressDialog mPostProgress = null;
     private ProgressDialog mDialog = null;
     private Configuration config = null;
     private View mSocialDivider = null;
+
+
     private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
         @Override
         public void onCdlsParsingComplete(final CdlsResponseModel response) {
@@ -113,21 +115,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                              Bundle savedInstanceState) {
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
                 + mView);
-        // if (mView == null) {
-        // mView = inflater.inflate(R.layout.fragment_contact_us, container,
-        // false);
-        // }
 
-        try {
-            if (mView != null) {
-                ViewGroup parent = (ViewGroup) mView.getParent();
-                if (parent != null) {
-                    parent.removeView(mView);
-                }
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
             }
-            mView = inflater.inflate(R.layout.fragment_contact_us, container,
-                    false);
-
+        }
+        try {
+            mView = inflater.inflate(R.layout.fragment_contact_us, container, false);
         } catch (InflateException e) {
         }
 
@@ -159,13 +155,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .findViewById(R.id.firstRowText);
         mSocialProviderParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsSocialParent);
+
+
         mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
         // mFacebook.setOnClickListener(this);
+
 
         createSocialProviderMenu();
 
 		/*
-		 * Live chat is configurable parameter. Developer can enable/disable it.
+         * Live chat is configurable parameter. Developer can enable/disable it.
 		 */
         if (!getResources().getBoolean(R.bool.live_chat_required)) {
             mChat.setVisibility(View.GONE);
@@ -215,7 +214,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Forming CDLS url. This url will be different for US and other countries.
      */
     protected String formCdlsURL() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null) return null;
+        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null)
+            return null;
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
@@ -226,7 +226,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 consumerProductInfo.getSubCategory());
     }
 /*
-	@Override
+    @Override
 	public void onTwitterLoginFailed() {
 		DigiCareLogger.d(TAG, "Twitter Authentication Failed");
 	}
@@ -251,7 +251,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     protected void requestCDLSData() {
         DigiCareLogger.d(TAG, "CDLS Request Thread is started");
         startProgressDialog();
-        if(formCdlsURL()!=null)
+        if (formCdlsURL() != null)
             new RequestData(formCdlsURL(), this).execute();
     }
 
@@ -395,7 +395,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             launchFacebookFeature();
 
 			/*
-			 * Session mFacebookSession = Session.getActiveSession();
+             * Session mFacebookSession = Session.getActiveSession();
 			 *
 			 * DigiCareLogger.d(TAG, "Session - getSession from Facebook SDK " +
 			 * mFacebookSession); if (mFacebookSession == null) {
@@ -419,8 +419,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 && isConnectionAvailable()) {
             // mTwitter.setClickable(false);
             launchTwitterFeature();
-			/*TwitterAuthentication mTwitter = TwitterAuthentication
-					.getInstance(getActivity());
+            /*TwitterAuthentication mTwitter = TwitterAuthentication
+                    .getInstance(getActivity());
 			mTwitter.initSDK(this);
 			mPostProgress = new ProgressDialog(getActivity());
 			mPostProgress.setMessage(getActivity().getResources().getString(
@@ -593,14 +593,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 packageName + ":drawable/" + buttonDrawable, null, null);
         float density = getResources().getDisplayMetrics().density;
 
-        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
+        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
         Button button = createButton(density, title, drawable);
         relativeLayout.addView(button);
-        setButtonParams(button);
+        setButtonParams(button, density);
+        setHelpButtonParams(density);
         mSocialProviderParent.addView(relativeLayout);
         setRelativeLayoutParams(relativeLayout, density);
+
 		/*
-		 * Setting tag because we need to get String title for this view which
+         * Setting tag because we need to get String title for this view which
 		 * needs to be handled at button click.
 		 */
         relativeLayout.setTag(buttonTitle);
@@ -608,11 +610,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     @SuppressLint("NewApi")
-    private RelativeLayout createRelativeLayout(String buttonTitle) {
+    private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
         RelativeLayout relativeLayout = new RelativeLayout(getActivity());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height));
+                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
         relativeLayout
                 .setBackground(getDrawable(R.drawable.prod_reg_social_border_btn));
@@ -631,6 +633,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @SuppressLint("NewApi")
     private Button createButton(float density, int title, int resId) {
         Button button = new Button(getActivity(), null, R.style.fontButton);
+
         button.setGravity(Gravity.CENTER);
         // button.setPadding((int) (80 * density), 0, 0, 0);
         button.setTextAppearance(getActivity(), R.style.fontButton);
@@ -642,18 +645,25 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         return button;
     }
 
-    private void setButtonParams(Button button) {
+    private void setButtonParams(Button button, float density) {
         // RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
         // .getLayoutParams();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height));
-        // buttonParams.addRule(RelativeLayout.CENTER_IN_PARENT,
-        // RelativeLayout.TRUE);
-
-        // buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
-        // RelativeLayout.TRUE);
+                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
         button.setLayoutParams(params);
+    }
+
+    private void setHelpButtonParams(float density) {
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+        mCallPhilips.setLayoutParams(params);
+        mChat.setLayoutParams(params);
+        mEmail.setLayoutParams(params);
     }
 
     @Override
@@ -670,7 +680,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 * protected void startFacebookSession() { FacebookHelper mHelper =
 	 * FacebookHelper.getInstance(getActivity());
 	 * mHelper.openFacebookSession(new FacebookAuthenticate() {
-	 * 
+	 *
 	 * @Override public void onSuccess() { showFragment(new
 	 * FacebookScreenFragment()); } }); }
 	 */

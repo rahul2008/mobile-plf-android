@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:id="@+id/contactUsParent"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/activity_background_color"
         android:orientation="vertical"

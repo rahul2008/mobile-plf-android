@@ -98,7 +98,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         int drawable = getResources().getIdentifier(
                 packageName + ":drawable/" + buttonDrawable, null, null);
 
-        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle);
+        RelativeLayout relativeLayout = createRelativeLayout(buttonTitle, density);
 
         Button button = createButton(density, title);
         relativeLayout.addView(button);
@@ -117,11 +117,11 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         relativeLayout.setOnClickListener(this);
     }
 
-    private RelativeLayout createRelativeLayout(String buttonTitle) {
+    private RelativeLayout createRelativeLayout(String buttonTitle, float density) {
         RelativeLayout relativeLayout = new RelativeLayout(getActivity());
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, (int) getActivity().getResources()
-                .getDimension(R.dimen.support_btn_height));
+                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
 
         relativeLayout.setLayoutParams(params);
 
@@ -183,6 +183,12 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
     private Button createButton(float density, int title) {
         Button button = new Button(getActivity(), null, R.style.fontButton);
+
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+        button.setLayoutParams(params);
+
         button.setGravity(Gravity.START | Gravity.CENTER);
         button.setPadding((int) (80 * density), 0, 0, 0);
         button.setTextAppearance(getActivity(), R.style.fontButton);
