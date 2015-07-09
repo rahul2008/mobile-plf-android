@@ -176,6 +176,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mEtEmail.setOnUpdateListener(this);
 		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnUpdateListener(this);
+		mEtPassword.isValidatePassword(false);
 
 		mPbMergeSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_merge_sign_in_spinner);
 		mPbMergeSpinner.setClickable(false);
@@ -195,6 +196,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_reg_merg) {
 			RLog.d(RLog.ONCLICK, "MergeAccountFragment : Merge");
+			mEtEmail.hideValidAlertError();
+			mEtPassword.hideValidAlertError();
 			if (mEtEmail.hasFocus()) {
 				mEtEmail.clearFocus();
 			} else if (mEtPassword.hasFocus()) {
@@ -332,18 +335,15 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginFailedWithError");
 		hideMergeSpinner();
-		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+		/*if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
 		}
-
 		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
-
 			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
 			mEtPassword.showInvalidAlert();
-		}
-
-		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		}*/
+		mRegError.setError(userRegistrationFailureInfo.getPasswordErrorMessage());
 		trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 

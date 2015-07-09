@@ -77,9 +77,9 @@
     <dimen name="reg_pb_padding">5dip</dimen>
     
     <!-- User name max length -->
-    <integer name="reg_et_name_max_length">1000</integer>
-    <integer name="reg_et_email_max_length">128</integer>
-    <integer name="reg_et_password_max_length">100</integer>
+    <integer name="reg_et_name_max_length">256</integer>
+    <integer name="reg_et_email_max_length">256</integer>
+    <integer name="reg_et_password_max_length">256</integer>
     
     <!-- scroll margin -->
     <dimen name="reg_scroll_margin">15dip</dimen>
