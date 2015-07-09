@@ -33,16 +33,16 @@ WSLSCapability -> UserApp : onLogSynchronized
 
 import android.util.Log;
 
-import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNData;
+import com.philips.pins.shinelib.datatypes.SHNDataBodyWeight;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
 import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.services.SHNServiceCurrentTime;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
-import com.philips.pins.shinelib.datatypes.SHNDataWeightMeasurement;
+import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale.SHNServiceWeightScaleListener;
 
 import java.util.HashMap;
@@ -66,17 +66,17 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
         }
 
         @Override
-        public void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNDataWeightMeasurement shnDataWeightMeasurement) {
+        public void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNWeightMeasurement shnWeightMeasurement) {
             if (getState() == State.Synchronizing) {
-                if (shnDataWeightMeasurement.getTimestamp() == null) {
+                if (shnWeightMeasurement.getTimestamp() == null) {
                     Log.w(TAG, "The received weight measurement does not have a timestamp, cannot save it in the log!");
                     timer.restart();
                 } else {
-                    long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnDataWeightMeasurement.getTimestamp().getTime());
-                    shnDataWeightMeasurement.getTimestamp().setTime(hostTimestamp);
+                    long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnWeightMeasurement.getTimestamp().getTime());
+                    shnWeightMeasurement.getTimestamp().setTime(hostTimestamp);
                     Map<SHNDataType, SHNData> map = new HashMap<>();
-                    map.put(SHNDataType.WeightMeasurement, shnDataWeightMeasurement);
-                    SHNLogItem item = new SHNLogItem(shnDataWeightMeasurement.getTimestamp(), map.keySet(), map);
+                    map.put(SHNDataType.BodyWeight, new SHNDataBodyWeight(shnWeightMeasurement.getWeightInKg(), shnWeightMeasurement.getUserId(), shnWeightMeasurement.getHeight(), shnWeightMeasurement.getBMI()));
+                    SHNLogItem item = new SHNLogItem(shnWeightMeasurement.getTimestamp(), map.keySet(), map);
                     onMeasurementReceived(item);
                 }
             }

@@ -1,7 +1,9 @@
-package com.philips.pins.shinelib.datatypes;
+package com.philips.pins.shinelib.services.weightscale;
 
 import android.util.Log;
 
+import com.philips.pins.shinelib.datatypes.SHNHeightUnit;
+import com.philips.pins.shinelib.datatypes.SHNWeightUnit;
 import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;
 import com.philips.pins.shinelib.utility.ScalarConverters;
 
@@ -13,33 +15,28 @@ import java.util.Date;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SHNDataWeightMeasurement extends SHNData {
+public class SHNWeightMeasurement {
 
-    private static final String TAG = SHNDataWeightMeasurement.class.getSimpleName();
+    private static final String TAG = SHNWeightMeasurement.class.getSimpleName();
 
     private final Flags flags;
     private final Date timestamp;
     private final float weight;
     private final int userId;
-    private float bmi;
-    private float height;
+    private final float bmi;
+    private final float height;
 
-    private float weightKGResolution = 0.005f;
-    private float weightLBResolution = 0.01f;
+    private final static float WEIGHT_KG_RESOLUTION = 0.005f;
+    private final static float WEIGHT_LB_RESOLUTION = 0.01f;
 
-    private float BMIResolution = 0.1f;
-    private float heightMeterResolution = 0.001f;
-    private float heightInchResolution = 0.1f;
+    private final static float BMI_RESOLUTION = 0.1f;
+    private final static float HEIGHT_METER_RESOLUTION = 0.001f;
+    private final static float HEIGHT_INCH_RESOLUTION = 0.1f;
 
-    private int measurementUnsuccessful = 0xFFFF;
-    private int unKnownUserId = 255;
+    private final static int MEASUREMENT_UNSUCCESSFUL = 0xFFFF;
+    private final static int UNKNOWN_USER_ID = 255;
 
-    @Override
-    public SHNDataType getSHNDataType() {
-        return SHNDataType.WeightMeasurement;
-    }
-
-    public SHNDataWeightMeasurement(ByteBuffer byteBuffer) {
+    public SHNWeightMeasurement(ByteBuffer byteBuffer) {
         try {
             flags = new Flags(byteBuffer.get());
 
@@ -76,16 +73,16 @@ public class SHNDataWeightMeasurement extends SHNData {
     }
 
     private float extractWeight(int rawData) {
-        if (rawData == measurementUnsuccessful) {
+        if (rawData == MEASUREMENT_UNSUCCESSFUL) {
             Log.w(TAG, "Received a measurement with the special weight-value 0xFFFF that represents \"Measurement Unsuccessful\"");
         } else {
             SHNWeightUnit unit = getFlags().getShnWeightUnit();
             float resolution;
             if(unit == SHNWeightUnit.KG ){
-                resolution = weightKGResolution;
+                resolution = WEIGHT_KG_RESOLUTION;
             }
             else{
-                resolution = weightLBResolution;
+                resolution = WEIGHT_LB_RESOLUTION;
             }
             return rawData * resolution;
         }
@@ -93,16 +90,16 @@ public class SHNDataWeightMeasurement extends SHNData {
     }
 
     private float extractBMI(int rawData) {
-        return rawData * BMIResolution;
+        return rawData * BMI_RESOLUTION;
     }
 
     private float extractHeight(int rawData) {
         SHNHeightUnit unit = getFlags().getShnHeightUnit();
         float resolution;
         if(unit == SHNHeightUnit.Meter){
-            resolution = heightMeterResolution;
+            resolution = HEIGHT_METER_RESOLUTION;
         }else{
-            resolution = heightInchResolution;
+            resolution = HEIGHT_INCH_RESOLUTION;
         }
         return rawData * resolution;
     }
@@ -120,7 +117,7 @@ public class SHNDataWeightMeasurement extends SHNData {
     }
 
     public boolean isUserIdUnknown() {
-        return userId == unKnownUserId;
+        return userId == UNKNOWN_USER_ID;
     }
 
     public float getBMI() {
@@ -129,6 +126,13 @@ public class SHNDataWeightMeasurement extends SHNData {
 
     public float getHeight() {
         return height;
+    }
+
+    public float getWeightInKg() {
+        if (flags.shnWeightUnit == SHNWeightUnit.KG) {
+            return weight;
+        }
+        return weight * 0.45359237f;
     }
 
     public static class Flags {

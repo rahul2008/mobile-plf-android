@@ -6,7 +6,7 @@ import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
-import com.philips.pins.shinelib.datatypes.SHNDataWeightMeasurement;
+import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 import com.philips.pins.shinelib.datatypes.SHNLog;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
@@ -193,12 +193,11 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, shnCapabilityLogSyncWeightScale.getState());
     }
 
-    private SHNDataWeightMeasurement[] generateDataAndSendIt(Date[] dates) {
-        SHNDataWeightMeasurement[] measurements = new SHNDataWeightMeasurement[dates.length];
+    private SHNWeightMeasurement[] generateDataAndSendIt(Date[] dates) {
+        SHNWeightMeasurement[] measurements = new SHNWeightMeasurement[dates.length];
         for (int i = 0; i < dates.length; i++) {
-            SHNDataWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNDataWeightMeasurement.class);
+            SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
             when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
-            when(mockedShnTemperatureMeasurement.getSHNDataType()).thenReturn(SHNDataType.WeightMeasurement);
             measurements[i] = mockedShnTemperatureMeasurement;
             shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
         }
@@ -211,9 +210,8 @@ public class SHNCapabilityLogSyncWeightScaleTest {
 
         reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
 
-        SHNDataWeightMeasurement mockedMeasurement = mock(SHNDataWeightMeasurement.class);
+        SHNWeightMeasurement mockedMeasurement = mock(SHNWeightMeasurement.class);
         when(mockedMeasurement.getTimestamp()).thenReturn(null);
-        when(mockedMeasurement.getSHNDataType()).thenReturn(SHNDataType.WeightMeasurement);
 
         shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedMeasurement);
 
@@ -320,8 +318,8 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityHealthThermometerLogSync.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
 
-        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.WeightMeasurement));
-        shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.WeightMeasurement);
+        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyWeight));
+        shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyWeight);
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
     }
 }
