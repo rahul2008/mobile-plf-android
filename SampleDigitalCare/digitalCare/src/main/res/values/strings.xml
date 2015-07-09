@@ -6,7 +6,7 @@
     <!-- values for Support Home Screen -->
     <string name="how_can_we_help">How can we help?</string>
     <string name="contact_us">Contact us</string>
-    <string name="view_product_details">View product details</string>
+    <string name="view_product_details">View product information</string>
     <string name="view_faq">View FAQs</string>
     <string name="find_philips_near_you">Find Philips near you</string>
     <string name="feedback">Tell us what you think</string>
