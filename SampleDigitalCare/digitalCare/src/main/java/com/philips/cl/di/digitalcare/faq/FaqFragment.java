@@ -59,10 +59,10 @@ public class FaqFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             DigiCareLogger.d("URLTest", getFaqUrl());
-            mWebView.loadUrl(getFaqUrl());
+            String url = getFaqUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
 
+            mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
-
             mWebView.setWebViewClient(new WebViewClient() {
 
                 @Override
@@ -86,6 +86,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
             });
         }
     }
+
     private void initView() {
         mWebView = (WebView) mView.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) mView
@@ -94,7 +95,8 @@ public class FaqFragment extends DigitalCareBaseFragment {
     }
 
     private String getFaqUrl() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null) return null;
+        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null)
+            return null;
         String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale()
                 .getLanguage().toLowerCase();
 
