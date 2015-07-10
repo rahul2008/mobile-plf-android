@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/tellus_philips_submitreview_text"
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
@@ -48,14 +48,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_philips_headertext"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf"
-                />
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
-            <TextView
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:layout_marginTop="0dp"

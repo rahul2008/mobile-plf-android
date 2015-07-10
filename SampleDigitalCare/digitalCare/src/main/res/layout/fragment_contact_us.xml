@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/leaveMsgTitle"
                 style="@style/contactUsHelpText"
                 android:text="@string/leave_us_a_message"
@@ -34,7 +34,7 @@
             android:layout_marginTop="40dp"
             android:background="#cccccc" />
 
-        <TextView
+        <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/contactUsTitle"
             style="@style/contactUsHelpText"
             android:text="@string/contact_us_text"
@@ -60,7 +60,7 @@
             android:text="@string/call_number"
             custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
 
-        <TextView
+        <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/contactUsOpeningHours"
             style="@style/contactUsHelpText"
             android:layout_marginBottom="0dp"
@@ -68,7 +68,7 @@
             android:visibility="gone"
             custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
 
-        <TextView
+        <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/firstRowText"
             style="@style/contactUsBottomText"
             android:text="@string/opening_hours_first_row"

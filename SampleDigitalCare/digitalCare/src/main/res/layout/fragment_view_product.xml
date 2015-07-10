@@ -22,14 +22,14 @@
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_productimage" />
 
-            <TextView
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/name"
                 style="@style/viewProductDetails_Product_Header"
                 android:layout_alignTop="@id/productimage"
                 android:text="@string/product_name"
                 custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
-            <TextView
+            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/variant"
                 style="@style/viewProductDetails_Product_Variant"
                 android:text="@string/product_variant"
