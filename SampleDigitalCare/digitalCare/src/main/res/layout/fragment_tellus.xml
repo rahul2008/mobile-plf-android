@@ -52,7 +52,7 @@
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_philips_headertext"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 style="@style/supportHomeHelpText"
