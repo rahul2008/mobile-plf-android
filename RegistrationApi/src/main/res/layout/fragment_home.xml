@@ -96,7 +96,7 @@
                     reglib:providerBackground="@drawable/reg_btn_selector"
                     reglib:providerLogo="@drawable/reg_philips_ic"
                     reglib:providerName="@string/Welcome_MyPhilips_btntxt"
-                    reglib:providerTextColor="@color/reg_provider_text_color" />
+                    reglib:providerTextColor="@drawable/reg_btn_text_selector" />
 
                 <LinearLayout
                     android:id="@+id/ll_reg_social_provider_container"

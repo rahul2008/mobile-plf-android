@@ -373,20 +373,25 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void enableControls(boolean state) {
         if (state && NetworkUtility.isNetworkAvailable(mContext)) {
             handleBtnClickableStates(state);
-            setAlphaForView(mBtnMyPhilips, 1);
-            setAlphaForView(mLlSocialProviderBtnContainer, 1);
+//            setAlphaForView(mBtnMyPhilips, 1);
+//            setAlphaForView(mLlSocialProviderBtnContainer, 1);
             mRegError.hideError();
         } else {
             handleBtnClickableStates(state);
-            setAlphaForView(mBtnMyPhilips, 0.75f);
-            setAlphaForView(mLlSocialProviderBtnContainer, 0.75f);
+//            setAlphaForView(mBtnMyPhilips, 0.75f);
+//            setAlphaForView(mLlSocialProviderBtnContainer, 0.75f);
         }
     }
 
     private void handleBtnClickableStates(boolean state) {
         mBtnCreateAccount.setEnabled(state);
-        mBtnMyPhilips.setEnabled(state);
         enableSocialProviders(state);
+        mBtnMyPhilips.setEnabled(state);
+        if(state) {
+            mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_enable_color);
+            return;
+        }
+        mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_disabled_color);
     }
 
     private void enableSocialProviders(boolean enableState) {
@@ -453,12 +458,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void setAlphaForView(View view, float alpha) {
-        AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
-        animation.setDuration(0);
-        animation.setFillAfter(true);
-        view.startAnimation(animation);
-    }
+//    private void setAlphaForView(View view, float alpha) {
+//        AlphaAnimation animation = new AlphaAnimation(alpha, alpha);
+//        animation.setDuration(0);
+//        animation.setFillAfter(true);
+//        view.startAnimation(animation);
+//    }
 
     private void handlePrivacyPolicy() {
         RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -588,6 +593,4 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         handleUiState();
         handleJanrainInitPb();
     }
-
-
 }
