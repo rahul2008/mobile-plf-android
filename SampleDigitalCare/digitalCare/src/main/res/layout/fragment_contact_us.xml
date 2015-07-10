@@ -62,11 +62,12 @@
 
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/contactUsOpeningHours"
-            style="@style/contactUsHelpText"
+            style="@style/contactUsOpeningHoursText"
             android:layout_marginBottom="0dp"
             android:text="@string/opening_hours"
+            android:textStyle="bold"
             android:visibility="gone"
-            custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+            custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
 
         <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/firstRowText"
