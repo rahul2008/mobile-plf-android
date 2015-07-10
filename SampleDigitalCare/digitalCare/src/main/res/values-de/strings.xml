@@ -88,4 +88,5 @@
 <string name="social_post_success">Nachricht wurde zugestellt!</string>
 <string name="no_data_available">Keine Daten verfügbar</string>
 <string name="servicecenters_not_found">Keine Service-Center in Ihrem Land verfügbar</string>
+    <string name="no_data">Keine Daten verfügbar</string>
 </resources>

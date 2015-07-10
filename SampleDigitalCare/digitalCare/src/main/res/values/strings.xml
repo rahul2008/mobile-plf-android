@@ -88,5 +88,6 @@
     <string name="search">Search</string>
     <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
 	<string name="servicecenters_not_found">No service centers available in your country</string>
+    <string name="no_data">No data available</string>
 
 </resources>

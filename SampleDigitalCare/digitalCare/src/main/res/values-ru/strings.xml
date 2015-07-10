@@ -90,6 +90,7 @@
     <string name="gps_disabled">GPS is disabled in your device. Would you like to enable it?</string>
     <string name="twitter_post_char_limitation">Please note that your message cannot be longer than 140 characters</string>
 	<string name="servicecenters_not_found">No service centers available in your country</string>
+    <string name="no_data">No data available</string>
 	
 
 </resources>

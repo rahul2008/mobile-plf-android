@@ -365,22 +365,22 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         if (id == R.id.contactUsChat && isConnectionAvailable()) {
             if (mCdlsResponseStr == null) {
-                showAlert(mCdlsParsedResponse.getError().getErrorMessage());
+                showAlert(getActivity().getString(R.string.no_data));
                 return;
             } else if (mCdlsParsedResponse != null
                     && !mCdlsParsedResponse.getSuccess()) {
-                showAlert(mCdlsParsedResponse.getError().getErrorMessage());
+                showAlert(getActivity().getString(R.string.no_data));
                 return;
             }
             tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CHAT);
             showFragment(new ChatFragment());
         } else if (id == R.id.contactUsCall) {
             if (mCdlsResponseStr == null) {
-                showAlert(mCdlsParsedResponse.getError().getErrorMessage());
+                showAlert(getActivity().getString(R.string.no_data));
                 return;
             } else if (mCdlsParsedResponse != null
                     && !mCdlsParsedResponse.getSuccess()) {
-                showAlert(mCdlsParsedResponse.getError().getErrorMessage());
+                showAlert(getActivity().getString(R.string.no_data));
                 return;
             } else if (Utils.isSimAvailable(getActivity())) {
                 tagServiceRequest(AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_CALL);

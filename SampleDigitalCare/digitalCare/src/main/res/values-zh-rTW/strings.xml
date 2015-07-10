@@ -88,5 +88,6 @@
 	<string name="social_post_success">收到您的訊息！</string>
 	<string name="no_data_available">無資料可供使用</string>
 	<string name="servicecenters_not_found">您所在的國家/地區沒有服務中心</string>
+    <string name="no_data">無資料可供使用</string>
 
 </resources>

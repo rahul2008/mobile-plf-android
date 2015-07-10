@@ -88,5 +88,6 @@
     <string name="social_post_success">お客様のメッセージを受信しました</string>
     <string name="no_data_available">利用可能なデータなし</string>
 	<string name="servicecenters_not_found">お客様がお住まいの国にはサービスセンターがありません</string>
+    <string name="no_data">利用可能なデータなし</string>
 
 </resources>
