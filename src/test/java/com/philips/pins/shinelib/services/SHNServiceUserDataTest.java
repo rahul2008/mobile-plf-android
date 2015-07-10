@@ -36,6 +36,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -57,10 +58,12 @@ public class SHNServiceUserDataTest extends TestCase {
     private SHNIntegerResultListener shnIntegerResultListener;
     private SHNResultListener shnResultListener;
 
+    private SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener;
+
     private static final byte OP_CODE_REGISTER_NEW_USER = (byte) 0x01;
     private static final byte OP_CODE_CONSENT = (byte) 0x02;
     private static final byte OP_CODE_DELETE_USER_DATA = (byte) 0x03;
-     private static final byte OP_CODE_RESPONSE = (byte) 0x20;
+    private static final byte OP_CODE_RESPONSE = (byte) 0x20;
 
     private static final byte RESPONSE_CODE_SUCCESS = (byte) 0x01;
     private static final byte RESPONSE_CODE_OP_CODE_NOT_SUPPORTED = (byte) 0x02;
@@ -78,7 +81,7 @@ public class SHNServiceUserDataTest extends TestCase {
         mockedShnCharacteristic = Mockito.mock(SHNCharacteristic.class);
         mockedShnUserControlPointCharacteristic = Mockito.mock(SHNCharacteristic.class);
 
-        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
+        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.USER_INDEX_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.FIRST_NAME_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.LAST_NAME_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
@@ -94,6 +97,14 @@ public class SHNServiceUserDataTest extends TestCase {
         shnResultListener = mock(SHNResultListener.class);
     }
 
+    private void servicesDidBecomeAvailable() {
+        shnServiceUserData.onServiceStateChanged(mockedShnService, SHNService.State.Available);
+        when(mockedShnService.getState()).thenReturn(SHNService.State.Available);
+        ArgumentCaptor<SHNCharacteristic.SHNCharacteristicChangedListener> characteristicChangedListenerArgumentCaptor = ArgumentCaptor.forClass(SHNCharacteristic.SHNCharacteristicChangedListener.class);
+        verify(mockedShnUserControlPointCharacteristic).setShnCharacteristicChangedListener(characteristicChangedListenerArgumentCaptor.capture());
+        shnCharacteristicChangedListener = characteristicChangedListenerArgumentCaptor.getValue();
+    }
+
     @Test
     public void initializeTest() {
         assertNotNull(shnServiceUserData);
@@ -107,13 +118,13 @@ public class SHNServiceUserDataTest extends TestCase {
         assertEquals(SHNServiceUserData.SERVICE_UUID, uuidArgumentCaptor.getValue());
 
         assertNotNull(requiredSetArgumentCaptor.getValue());
-        assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID));
+        assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID));
         assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID));
         assertTrue(requiredSetArgumentCaptor.getValue().contains(SHNServiceUserData.USER_INDEX_CHARACTERISTIC_UUID));
         assertEquals(3, requiredSetArgumentCaptor.getValue().size());
 
         assertNotNull(optionalSetArgumentCaptor.getValue());
-        assertNotSame(0, optionalSetArgumentCaptor.getValue().size()); // Review Make all UD characteristics available
+        assertEquals(3, optionalSetArgumentCaptor.getValue().size()); // Review Make all UD characteristics available
 
         verify(mockedShnService).registerSHNServiceListener(shnServiceUserData);
     }
@@ -131,10 +142,10 @@ public class SHNServiceUserDataTest extends TestCase {
 
     @Test
     public void getFirstNameWithResultOkTest() {
-        SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class); // Review Test does not verify that the correct characteristic is read.
+        SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class);
         shnServiceUserData.getFirstName(mockedShnStringResultListener);                              // Review Possibly the test should indicate to test a String characteristic.
 
-        assertGetStringCharacteristic(mockedShnStringResultListener, "Jack");
+        assertGetStringCharacteristic(SHNServiceUserData.FIRST_NAME_CHARACTERISTIC_UUID, mockedShnStringResultListener, "Jack");
     }
 
     @Test
@@ -142,27 +153,28 @@ public class SHNServiceUserDataTest extends TestCase {
         SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class);
         shnServiceUserData.getLastName(mockedShnStringResultListener);
 
-        assertGetStringCharacteristic(mockedShnStringResultListener, "Jones");
+        assertGetStringCharacteristic(SHNServiceUserData.LAST_NAME_CHARACTERISTIC_UUID, mockedShnStringResultListener, "Jones");
     }
 
-    private void assertGetStringCharacteristic(SHNStringResultListener mockedShnStringResultListener, String name) {
+    private void assertGetStringCharacteristic(UUID uuid, SHNStringResultListener mockedShnStringResultListener, String name) {
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        verify(mockedShnService).getSHNCharacteristic(uuid);
         verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
         SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
 
-        shnCommandResultReporter.reportResult(SHNResult.SHNOk, name.getBytes()); // Review String characteristics are UTF_8 encoded. Not a problem in these test cases.
+        shnCommandResultReporter.reportResult(SHNResult.SHNOk, name.getBytes());
 
         verify(mockedShnStringResultListener).onActionCompleted(name, SHNResult.SHNOk);
     }
 
     @Test
-    public void setFirstNameWithResultOkTest() { // Review See getFirstName...
+    public void setFirstNameWithResultOkTest() {
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
         String name = "Jack";
         shnServiceUserData.setFirstName(name, mockedShnResultListener);
 
-        assertSetStringCharacteristic(name, SHNResult.SHNOk);
+        assertSetStringCharacteristic(SHNServiceUserData.FIRST_NAME_CHARACTERISTIC_UUID, name, SHNResult.SHNOk);
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
@@ -173,40 +185,41 @@ public class SHNServiceUserDataTest extends TestCase {
         String name = "Jones";
         shnServiceUserData.setLastName(name, mockedShnResultListener);
 
-        assertSetStringCharacteristic(name, SHNResult.SHNOk);
+        assertSetStringCharacteristic(SHNServiceUserData.LAST_NAME_CHARACTERISTIC_UUID, name, SHNResult.SHNOk);
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
-    public void setAgeWithResultOkTest() { // Review Where is the test for getAge...? and again it is not verifying the characteristic as the name implies.
+    public void setAgeWithResultOkTest() { // Review Where is the test for getAge...
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
         int age = 89;
         shnServiceUserData.setAge(age, mockedShnResultListener);
 
-        assertSetUInt8Characteristic(age, SHNResult.SHNOk);
+        assertSetUInt8Characteristic(SHNServiceUserData.AGE_CHARACTERISTIC_UUID, age, SHNResult.SHNOk);
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
-    public void whenIncrementDatabaseIndexIsCalledThenCharacteristicIsRed() { // Review the characteristic is not checked.
+    public void whenIncrementDatabaseIndexIsCalledThenCharacteristicIsRed() {
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
-        shnServiceUserData.incrementDatabaseIndex(mockedShnResultListener);
+        shnServiceUserData.incrementDatabaseIncrement(mockedShnResultListener);
 
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
         verify(mockedShnCharacteristic).read(any(SHNCommandResultReporter.class));
     }
 
     @Test
-    public void whenIncrementDatabaseIndexIsCalledAndResultIsOkayThenCurrentIndexIsReported() { // Review where is the current index reported????
+    public void whenIncrementDatabaseIndexIsCalledAndResultIsOkayThenCurrentIndexIsReported() {
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
-        shnServiceUserData.incrementDatabaseIndex(mockedShnResultListener);
+        shnServiceUserData.incrementDatabaseIncrement(mockedShnResultListener);
 
-        byte[] data = {0x01, 0x00, 0x00, 0x00};
+        byte[] data = {1, 0x00, 0x00, 0x00};
         verifyReadOnCharacteristicWithResult(data, SHNResult.SHNOk);
         verifyWriteOnCharacteristicWithResult(2, SHNResult.SHNOk);
-
+        verify(mockedShnService, times(2)).getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
@@ -214,11 +227,12 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenIncrementDatabaseIndexIsCalledAndResultOfReadIsNotOkayThenCurrentIndexIsReported() {
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
-        shnServiceUserData.incrementDatabaseIndex(mockedShnResultListener);
+        shnServiceUserData.incrementDatabaseIncrement(mockedShnResultListener);
 
         byte[] data = {0x01, 0x00, 0x00, 0x00};
         verifyReadOnCharacteristicWithResult(data, SHNResult.SHNServiceUnavailableError);
 
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNServiceUnavailableError);
     }
 
@@ -226,7 +240,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenIncrementDatabaseIndexIsCalledAndResultOrWriteIsNotOkayThenCurrentIndexIsReported() {
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
 
-        shnServiceUserData.incrementDatabaseIndex(mockedShnResultListener);
+        shnServiceUserData.incrementDatabaseIncrement(mockedShnResultListener);
 
         byte[] data = {0x01, 0x00, 0x00, 0x00};
         verifyReadOnCharacteristicWithResult(data, SHNResult.SHNOk);
@@ -254,9 +268,10 @@ public class SHNServiceUserDataTest extends TestCase {
         shnCommandResultReporterArgumentCaptor.getValue().reportResult(result, null);
     }
 
-    private void assertSetStringCharacteristic(String name, SHNResult result) {
+    private void assertSetStringCharacteristic(UUID uuid, String name, SHNResult result) {
         ArgumentCaptor<byte[]> byteArrayArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        verify(mockedShnService).getSHNCharacteristic(uuid);
         verify(mockedShnCharacteristic).write(byteArrayArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
         String resultString = new String(byteArrayArgumentCaptor.getValue(), StandardCharsets.UTF_8);
         assertEquals(name, resultString);
@@ -264,9 +279,10 @@ public class SHNServiceUserDataTest extends TestCase {
         shnCommandResultReporterArgumentCaptor.getValue().reportResult(result, null);
     }
 
-    private void assertSetUInt8Characteristic(int request, SHNResult result) {
+    private void assertSetUInt8Characteristic(UUID uuid, int request, SHNResult result) {
         ArgumentCaptor<byte[]> byteArrayArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        verify(mockedShnService).getSHNCharacteristic(uuid);
         verify(mockedShnCharacteristic).write(byteArrayArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
 
         ByteBuffer byteBuffer = ByteBuffer.wrap(byteArrayArgumentCaptor.getValue());
@@ -278,19 +294,20 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void getUserIndexTest() { // Review it is not verified that the proper characteristic is used.
+    public void getUserIndexTest() {
         SHNIntegerResultListener mockedShnIntegerResultListener = mock(SHNIntegerResultListener.class);
         shnServiceUserData.getUserIndex(mockedShnIntegerResultListener);
 
-        byte[] index = {0x04}; // Review what is this magic number?
+        byte[] userId = {0x04};
 
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.USER_INDEX_CHARACTERISTIC_UUID);
         verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
         SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
 
-        shnCommandResultReporter.reportResult(SHNResult.SHNOk, index);
+        shnCommandResultReporter.reportResult(SHNResult.SHNOk, userId);
 
-        verify(mockedShnIntegerResultListener).onActionCompleted(4, SHNResult.SHNOk);
+        verify(mockedShnIntegerResultListener).onActionCompleted(userId[0], SHNResult.SHNOk);
     }
 
     @Test
@@ -313,7 +330,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenRegisterNewUserIsCalledWithIllegalConsentCodeThenResponseIsError() {
         setUpRegisterNewUserStage1(10000);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidParameterError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
     }
 
     @Test
@@ -327,7 +344,7 @@ public class SHNServiceUserDataTest extends TestCase {
         assertNotNull(byteArrayArgumentCaptor.getValue());
         assertEquals(3, byteArrayArgumentCaptor.getValue().length);
 
-        byte[] request = {OP_CODE_REGISTER_NEW_USER, (byte) 0xE7, 0x03}; // Review 0x03E7 == 999
+        byte[] request = {OP_CODE_REGISTER_NEW_USER, (byte) 0xE7, 0x03}; // 0x03E7 == 999
         for (int i = 0; i < request.length; i++) {
             assertEquals("Mismatch at byte " + i, request[i], byteArrayArgumentCaptor.getValue()[i]);
         }
@@ -344,7 +361,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenRegisterNewUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenResponseIsSent() {
         setUpRegisterNewUserStage2(999, SHNResult.SHNInvalidParameterError);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidParameterError); // Review -1 magic number
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
     }
 
     @Test
@@ -360,7 +377,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_OP_CODE_NOT_SUPPORTED};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNUnsupportedOperation);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNUnsupportedOperation);
     }
 
     @Test
@@ -368,7 +385,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_OPERATION_FAILED};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNOperationFailed);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNOperationFailed);
     }
 
     @Test
@@ -376,7 +393,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_INVALID_PARAMETER};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidParameterError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
     }
 
     @Test
@@ -384,7 +401,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE + 1, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidResponseError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidResponseError);
     }
 
     @Test
@@ -392,7 +409,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER + 1, RESPONSE_CODE_SUCCESS, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidResponseError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidResponseError);
     }
 
     @Test
@@ -400,7 +417,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNInvalidResponseError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidResponseError);
     }
 
     @Test
@@ -408,7 +425,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNResponseIncompleteError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNResponseIncompleteError);
     }
 
     @Test
@@ -416,7 +433,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNResponseIncompleteError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNResponseIncompleteError);
     }
 
     @Test
@@ -424,7 +441,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS};
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNResponseIncompleteError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNResponseIncompleteError);
     }
 
     @Test
@@ -432,7 +449,7 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x14};
         setUpRegisterNewUserStage3(999, SHNResult.SHNTimeoutError, response);
 
-        verify(shnIntegerResultListener).onActionCompleted(-1, SHNResult.SHNTimeoutError);
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNTimeoutError);
     }
 
     private void setUpRegisterNewUserStage1(int consentCode) {
@@ -450,90 +467,99 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     private void setUpRegisterNewUserStage3(int consentCode, SHNResult result, byte[] response) {
+        servicesDidBecomeAvailable();
         setUpRegisterNewUserStage2(consentCode, result);
 
-        //had to make it protected so I can use this call in the tests. Is there a best way to do it?
-        // Review: Yes you can capture it during the onServiceChangedCall of the service. It is the parameter of the setShnCharacteristicChangedListener call on the controlPoint characteristic.
-        shnServiceUserData.shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+    }
+
+//    private void assertUserControlPointWriteOnceWithCodes(int numberTotal, int numberExecuted, byte code) {
+//        verify(mockedShnService, times(numberTotal)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
+//        ArgumentCaptor<byte[]> byteArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
+//        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+//        verify(mockedShnCharacteristic, times(numberExecuted)).write(byteArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
+//
+//        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArgumentCaptor.getValue());
+//        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+//        assertEquals(code, byteBuffer.get());
+//    }
+
+    private void assertUserControlPointWriteOnceWithCodes(byte operationCode, int consentCode) {
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
+        ArgumentCaptor<byte[]> byteArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
+        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        verify(mockedShnUserControlPointCharacteristic).write(byteArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
+
+        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArgumentCaptor.getValue());
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        assertEquals(operationCode, byteBuffer.get());
+        assertEquals(consentCode, byteBuffer.getShort());
     }
 
     @Test
-    public void whenNewUserIsRegisteredThanCommandIsCreatedAndStarted() {
+    public void whenNewUserIsRegisteredThanCharacteristicIsWritten() {
         setUpRegisterNewUserStage1(999);
 
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.REGISTER};
-        assertQueueIsNotEmptyWithSize(1, commandsType); // Review for sequential readers helper function could be listed first...
-        assertTrue(shnServiceUserData.executing); // review testing an internal. The external observable behaviour is that one command at a time is processed...
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
+        verify(mockedShnUserControlPointCharacteristic).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 
     @Test
-    public void whenNewUserIsRegisteredThanCommandIsNotFinishedAfterResponse() {
+    public void whenNewUserIsRegisteredThanCharacteristicIsWrittenWithProperOpCode() {
+        int consentCode = 999;
+        setUpRegisterNewUserStage1(consentCode);
+
+        assertUserControlPointWriteOnceWithCodes(OP_CODE_REGISTER_NEW_USER, consentCode);
+    }
+
+    @Test
+    public void whenNewUserIsRegisteredWithResultOkThanListenerIsNotNotified() {
         setUpRegisterNewUserStage2(999, SHNResult.SHNOk);
 
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.REGISTER};
-        assertQueueIsNotEmptyWithSize(1, commandsType);
-        assertTrue(shnServiceUserData.executing);
-    }
-
-    private void assertQueueIsNotEmptyWithSize(int size, SHNServiceUserData.SHNUserDataCommand.Command[] commandsType) { // Review size is redundant. It equals the length of the commandsType array.
-        assertNotNull(shnServiceUserData.commandQueue); // Review the queue should exist after creating the service
-        assertEquals(size, shnServiceUserData.commandQueue.size());
-        for (int i = 0; i < commandsType.length; i++) {
-            assertEquals("Mismatch at command " + i, commandsType[i], shnServiceUserData.commandQueue.get(i).getType());
-        }
+        verify(shnIntegerResultListener, never()).onActionCompleted(anyInt(), any(SHNResult.class));
     }
 
     @Test
-    public void whenNewUserIsRegisteredThanCommandIsFinishedAfterNotification() {
-        byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x14};
-        setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
-
-        assertQueueIsEmpty();
-    }
-
-    @Test
-    public void whenNewUserIsRegisteredWithResultNotOkThanCommandIsFinishedAfterResponse() {
+    public void whenNewUserIsRegisteredWithResultNotOkThanListenerNotNotified() {
         setUpRegisterNewUserStage2(999, SHNResult.SHNTimeoutError);
 
-        assertQueueIsEmpty();
-    }
-
-    private void assertQueueIsEmpty() {
-        assertFalse(shnServiceUserData.executing);
-        assertNotNull(shnServiceUserData.commandQueue);
-        assertEquals(0, shnServiceUserData.commandQueue.size());
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNTimeoutError);
     }
 
     @Test
-    public void whenNewUserIsRegisteredTwiceThenTwoTasksAreCreated() {
-        setUpRegisterNewUserStage1(999);
-        setUpRegisterNewUserStage1(888);
+    public void whenNewUserIsRegisteredAndNotificationIsReceivedThanListenerIsNotified() {
+        byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, (byte) 20};
+        setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, SHNServiceUserData.SHNUserDataCommand.Command.REGISTER};
-        assertQueueIsNotEmptyWithSize(2, commandsType);
+        verify(shnIntegerResultListener).onActionCompleted(20, SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenNewUserIsRegisteredWithResultErrorThanListenerIsNotified() {
+        setUpRegisterNewUserStage2(999, SHNResult.SHNTimeoutError);
+
+        verify(shnIntegerResultListener).onActionCompleted(SHNServiceUserData.UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNTimeoutError);
     }
 
     @Test
     public void whenNewUserIsRegisteredTwiceThenFirstIsExecuting() {
-        setUpRegisterNewUserStage1(999);
+        int consentCode = 999;
+        setUpRegisterNewUserStage1(consentCode);
         setUpRegisterNewUserStage1(888);
 
-        assertTrue(shnServiceUserData.executing);
-        SHNServiceUserData.SHNUserDataCommand command = shnServiceUserData.commandQueue.getFirst();
-        assertEquals(SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, command.getType());
-        assertEquals(999, command.getConsentCode());
+        assertUserControlPointWriteOnceWithCodes(OP_CODE_REGISTER_NEW_USER, consentCode);
     }
 
     @Test
-    public void whenNewUserIsRegisteredTwiceAndFirstIsNotifiedThenSecondCommandStartsExecuting() {
+    public void whenNewUserIsRegisteredTwiceInARowAndFirstIsNotifiedThenSecondCommandStartsExecuting() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x24};
-        setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response); // Review at this point, there is no command in the queue!
+        setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
+
+        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID)).thenReturn(mockedShnUserControlPointCharacteristic);
         setUpRegisterNewUserStage1(888);
 
-        assertTrue(shnServiceUserData.executing);
-        SHNServiceUserData.SHNUserDataCommand command = shnServiceUserData.commandQueue.getFirst();
-        assertEquals(SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, command.getType());
-        assertEquals(888, command.getConsentCode());
+        verify(mockedShnService, times(2 + 1)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID); // one more for the notifications enabling
+        verify(mockedShnUserControlPointCharacteristic, times(2)).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 
     private void setUpConsentExistingUserStage1(int userId, int consentCode) {
@@ -551,10 +577,30 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     private void setUpConsentExistingUserStage3(int userId, int consentCode, SHNResult result, byte[] response) {
+        servicesDidBecomeAvailable();
         setUpConsentExistingUserStage2(userId, consentCode, result);
 
-        //had to make it protected so I can use this call in the tests. Is there a best way to do it?
-        shnServiceUserData.shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+    }
+
+    private void assertUserControlPointWriteOnceWithCode(byte operationCode) {
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
+        ArgumentCaptor<byte[]> byteArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
+        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+        verify(mockedShnUserControlPointCharacteristic).write(byteArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
+
+        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArgumentCaptor.getValue());
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+        assertEquals(operationCode, byteBuffer.get());
+    }
+
+    @Test
+    public void whenConsentExistingUserIsCalledThanCharacteristicIsWritten() {
+        int userId = 10;
+        setUpConsentExistingUserStage1(userId, 999);
+
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
+        verify(mockedShnUserControlPointCharacteristic).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 
     @Test
@@ -562,13 +608,11 @@ public class SHNServiceUserDataTest extends TestCase {
         int userId = 10;
         setUpConsentExistingUserStage1(userId, 999);
 
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.CONSENT};
-        assertQueueIsNotEmptyWithSize(1, commandsType);
-        assertTrue(shnServiceUserData.executing);
+        assertUserControlPointWriteOnceWithCode(OP_CODE_CONSENT);
     }
 
     @Test
-    public void whenConsentExistingUserWithLegalDataThenCorrectPackageIsWrittenToControlPoint() {
+    public void whenConsentExistingUserWithLegalDataIsCalledThenCorrectPackageIsWrittenToControlPoint() {
         int userId = 0x10;
         setUpConsentExistingUserStage1(userId, 999);
 
@@ -586,14 +630,14 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenConsentExistingUserIsCalledWithLegalConsentCodeAndResultIsOkThenResponseIsNotSent() {
+    public void whenConsentExistingUserIsCalledWithLegalConsentCodeAndResultIsOkThenListenerIsNotNotified() {
         setUpConsentExistingUserStage2(10, 999, SHNResult.SHNOk);
 
         verify(shnResultListener, never()).onActionCompleted(any(SHNResult.class));
     }
 
     @Test
-    public void whenConsentExistingUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenResponseIsSent() {
+    public void whenConsentExistingUserIsCalledWithLegalConsentCodeAndResultIsNotOkThenListenerIsNotified() {
         setUpConsentExistingUserStage2(10, 999, SHNResult.SHNUnsupportedOperation);
 
         verify(shnResultListener).onActionCompleted(SHNResult.SHNUnsupportedOperation);
@@ -607,16 +651,7 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenConsentExistingUserIsCalledThanCommandIsNotFinishedAfterResponse() {
-        int userId = 10;
-        setUpConsentExistingUserStage2(userId, 999, SHNResult.SHNOk);
-
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.CONSENT};
-        assertQueueIsNotEmptyWithSize(1, commandsType);
-    }
-
-    @Test
-    public void whenConsentExistingUserIsCalledWithResultOkThenResultIsReported() {
+    public void whenConsentExistingUserIsCalledWithResultOkThenListenerIsNotified() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
@@ -624,7 +659,7 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenConsentExistingUserIsCalledWithResultOkAndNotificationHasWrongOpCodeThenErrorIsReported() {
+    public void whenConsentExistingUserIsCalledWithResultErrorThanListenerIsNotified() {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
@@ -668,24 +703,14 @@ public class SHNServiceUserDataTest extends TestCase {
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS, 0x14};
         setUpConsentExistingUserStage3(10, 999, SHNResult.SHNOk, response);
 
-        assertQueueIsEmpty();
+        verify(shnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
     public void whenNewConsentExistingUserIsCalledWithResultNotOkThanCommandIsFinishedAfterResponse() {
         setUpConsentExistingUserStage2(10, 999, SHNResult.SHNTimeoutError);
 
-        assertQueueIsEmpty();
-    }
-
-    @Test
-    public void whenTwoTaskAreSentThenTwoCommandsAreCreated() {
-        setUpRegisterNewUserStage1(999);
-        setUpConsentExistingUserStage1(10, 999);
-
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, SHNServiceUserData.SHNUserDataCommand.Command.CONSENT};
-
-        assertQueueIsNotEmptyWithSize(2, commandsType);
+        assertUserControlPointWriteOnceWithCode(OP_CODE_CONSENT);
     }
 
     @Test
@@ -693,10 +718,7 @@ public class SHNServiceUserDataTest extends TestCase {
         setUpRegisterNewUserStage1(999);
         setUpConsentExistingUserStage1(10, 999);
 
-        assertTrue(shnServiceUserData.executing);
-        SHNServiceUserData.SHNUserDataCommand command = shnServiceUserData.commandQueue.getFirst();
-        assertEquals(SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, command.getType());
-        assertEquals(999, command.getConsentCode());
+        assertUserControlPointWriteOnceWithCode(OP_CODE_REGISTER_NEW_USER);
     }
 
     @Test
@@ -704,13 +726,12 @@ public class SHNServiceUserDataTest extends TestCase {
         setUpRegisterNewUserStage2(999, SHNResult.SHNOk);
         setUpConsentExistingUserStage1(10, 888);
 
+        servicesDidBecomeAvailable();
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x11};
-        shnServiceUserData.shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
 
-        assertTrue(shnServiceUserData.executing);
-        SHNServiceUserData.SHNUserDataCommand command = shnServiceUserData.commandQueue.getFirst();
-        assertEquals(SHNServiceUserData.SHNUserDataCommand.Command.CONSENT, command.getType());
-        assertEquals(888, command.getConsentCode());
+        verify(mockedShnService, times(2 + 1)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID); // one more for the notifications
+        verify(mockedShnUserControlPointCharacteristic, times(2)).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 
     @Test
@@ -720,9 +741,11 @@ public class SHNServiceUserDataTest extends TestCase {
 
         reset(mockedShnUserControlPointCharacteristic);
         byte[] response2 = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS};
-        setUpConsentExistingUserStage3(10, 888, SHNResult.SHNOk, response2);
+        setUpConsentExistingUserStage2(10, 888, SHNResult.SHNOk);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response2);
 
-        assertQueueIsEmpty();
+        verify(mockedShnService, times(2 + 1)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID); // one more for the notifications
+        verify(mockedShnUserControlPointCharacteristic).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 
     private void setUpDeleteUserStage1() {
@@ -740,19 +763,17 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     private void setUpDeleteUserStage3(SHNResult result, byte[] response) {
+        servicesDidBecomeAvailable();
         setUpDeleteUserStage2(result);
 
-        //had to make it protected so I can use this call in the tests. Is there a best way to do it?
-        shnServiceUserData.shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
     }
 
     @Test
     public void whenDeleteUserIsCalledThanCommandIsCreatedAndStarted() {
         setUpDeleteUserStage1();
 
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.DELETE};
-        assertQueueIsNotEmptyWithSize(1, commandsType);
-        assertTrue(shnServiceUserData.executing);
+        assertUserControlPointWriteOnceWithCode(OP_CODE_DELETE_USER_DATA);
     }
 
     @Test
@@ -787,8 +808,7 @@ public class SHNServiceUserDataTest extends TestCase {
     public void whenDeleteUserIsCalledThanCommandIsNotFinishedAfterResponse() {
         setUpDeleteUserStage2(SHNResult.SHNOk);
 
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.DELETE};
-        assertQueueIsNotEmptyWithSize(1, commandsType);
+        assertUserControlPointWriteOnceWithCode(OP_CODE_DELETE_USER_DATA);
     }
 
     @Test
@@ -840,43 +860,13 @@ public class SHNServiceUserDataTest extends TestCase {
     }
 
     @Test
-    public void whenNewDeleteUserIsCalledThenCommandIsFinishedAfterNotification() {
-        byte[] response = {OP_CODE_RESPONSE, OP_CODE_DELETE_USER_DATA, RESPONSE_CODE_SUCCESS, 0x14};
-        setUpDeleteUserStage3(SHNResult.SHNOk, response);
-
-        assertQueueIsEmpty();
-    }
-
-    @Test
-    public void whenNewDeleteUserIsCalledWithResultNotOkThanCommandIsFinishedAfterResponse() {
-        byte[] response = {OP_CODE_RESPONSE, OP_CODE_DELETE_USER_DATA, RESPONSE_CODE_SUCCESS};
-        setUpDeleteUserStage3(SHNResult.SHNTimeoutError, response);
-
-        assertQueueIsEmpty();
-    }
-
-    @Test
-    public void whenThreeTaskAreSentThenTwoCommandsAreCreated() { // Review Only two?? I expect three and so do you :-)
-        setUpRegisterNewUserStage1(999);
-        setUpConsentExistingUserStage1(10, 999);
-        setUpDeleteUserStage1();
-
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, SHNServiceUserData.SHNUserDataCommand.Command.CONSENT,
-                SHNServiceUserData.SHNUserDataCommand.Command.DELETE};
-
-        assertQueueIsNotEmptyWithSize(3, commandsType);
-    }
-
-    @Test
     public void whenThreeTaskAreSentThenFirstIsExecuting() {
-        setUpRegisterNewUserStage1(999);
+        int consentCode1 = 999;
+        setUpRegisterNewUserStage1(consentCode1);
         setUpConsentExistingUserStage1(10, 999);
         setUpDeleteUserStage1();
 
-        assertTrue(shnServiceUserData.executing);
-        SHNServiceUserData.SHNUserDataCommand command = shnServiceUserData.commandQueue.getFirst();
-        assertEquals(SHNServiceUserData.SHNUserDataCommand.Command.REGISTER, command.getType());
-        assertEquals(999, command.getConsentCode());
+        assertUserControlPointWriteOnceWithCodes(OP_CODE_REGISTER_NEW_USER, consentCode1);
     }
 
     @Test
@@ -885,17 +875,12 @@ public class SHNServiceUserDataTest extends TestCase {
         setUpConsentExistingUserStage1(10, 888);
         setUpDeleteUserStage1();
 
+        servicesDidBecomeAvailable();
         byte[] response = {OP_CODE_RESPONSE, OP_CODE_REGISTER_NEW_USER, RESPONSE_CODE_SUCCESS, 0x11};
-        shnServiceUserData.shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, new byte[4]);
 
-        assertTrue(shnServiceUserData.executing);
-        SHNServiceUserData.SHNUserDataCommand command = shnServiceUserData.commandQueue.getFirst();
-        assertEquals(SHNServiceUserData.SHNUserDataCommand.Command.CONSENT, command.getType());
-        assertEquals(888, command.getConsentCode());
-
-        SHNServiceUserData.SHNUserDataCommand.Command[] commandsType = {SHNServiceUserData.SHNUserDataCommand.Command.CONSENT, SHNServiceUserData.SHNUserDataCommand.Command.DELETE};
-
-        assertQueueIsNotEmptyWithSize(2, commandsType);
+        verify(mockedShnService, times(2 + 1)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
+        verify(mockedShnUserControlPointCharacteristic, times(2)).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 
     @Test
@@ -904,9 +889,11 @@ public class SHNServiceUserDataTest extends TestCase {
         setUpRegisterNewUserStage3(999, SHNResult.SHNOk, response);
 
         reset(mockedShnUserControlPointCharacteristic);
-        byte[] response2 = {OP_CODE_RESPONSE, OP_CODE_CONSENT, RESPONSE_CODE_SUCCESS};
-        setUpDeleteUserStage3(SHNResult.SHNOk, response2);
+        byte[] response2 = {OP_CODE_RESPONSE, OP_CODE_DELETE_USER_DATA, RESPONSE_CODE_SUCCESS};
+        setUpDeleteUserStage2(SHNResult.SHNOk);
+        shnCharacteristicChangedListener.onCharacteristicChanged(mockedShnUserControlPointCharacteristic, response2);
 
-        assertQueueIsEmpty();
+        verify(mockedShnService, times(2 + 1)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID); // one more for the notifications
+        verify(mockedShnUserControlPointCharacteristic).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
 }

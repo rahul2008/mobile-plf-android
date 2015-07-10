@@ -34,20 +34,20 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x181C));
 
     // Mandatory Characteristics
-    public static final UUID DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID  = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A99)); // Review: Please rename to indicate Database Change Increment
-    public static final UUID USER_INDEX_CHARACTERISTIC_UUID             = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9A));
-    public static final UUID USER_CONTROL_POINT_CHARACTERISTIC_UUID     = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9F));
+    public static final UUID DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID  = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A99)); // Review: Please rename to indicate Database Change Increment
+    public static final UUID USER_INDEX_CHARACTERISTIC_UUID                 = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9A));
+    public static final UUID USER_CONTROL_POINT_CHARACTERISTIC_UUID         = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A9F));
 
     // Optional Characteristics
-    public static final UUID FIRST_NAME_CHARACTERISTIC_UUID             = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A8A));
-    public static final UUID LAST_NAME_CHARACTERISTIC_UUID              = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A90));
-    public static final UUID AGE_CHARACTERISTIC_UUID                    = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A80));
+    public static final UUID FIRST_NAME_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A8A));
+    public static final UUID LAST_NAME_CHARACTERISTIC_UUID  = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A90));
+    public static final UUID AGE_CHARACTERISTIC_UUID        = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A80));
 
     // ControlPoint commands
-    private static final byte OP_CODE_REGISTER_NEW_USER             = (byte) 0x01;
-    private static final byte OP_CODE_CONSENT                       = (byte) 0x02;
-    private static final byte OP_CODE_DELETE_USER_DATA              = (byte) 0x03;
-    private static final byte OP_CODE_RESPONSE                      = (byte) 0x20;
+    private static final byte OP_CODE_REGISTER_NEW_USER = (byte) 0x01;
+    private static final byte OP_CODE_CONSENT           = (byte) 0x02;
+    private static final byte OP_CODE_DELETE_USER_DATA  = (byte) 0x03;
+    private static final byte OP_CODE_RESPONSE          = (byte) 0x20;
 
     // ControlPoint response codes
     private static final byte RESPONSE_CODE_SUCCESS                 = (byte) 0x01;
@@ -56,47 +56,54 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     private static final byte RESPONSE_CODE_OPERATION_FAILED        = (byte) 0x04;
     private static final byte RESPONSE_CODE_USER_NOT_AUTHORIZED     = (byte) 0x05;
 
+    public static final int UNSUCCESSFUL_OPERATION_VALUE = -1;
+
     private SHNService shnService;
 
-    protected LinkedList<SHNUserDataCommand> commandQueue;
-    protected boolean executing;
+    private LinkedList<SHNUserDataCommand> commandQueue;
+    private boolean executing;
 
-    protected SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
+    private SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
         @Override
-        public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) { // Review: Complexity of this function is high
+        public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) {
             if (executing) {
-                SHNUserDataCommand command = commandQueue.getFirst();
-
                 ByteBuffer byteBuffer = ByteBuffer.wrap(data);
                 byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-                try {
-                    if (byteBuffer.get() == OP_CODE_RESPONSE) { // match the starting command with received response command
-                        if (command.getType() == SHNUserDataCommand.Command.REGISTER && byteBuffer.get() == OP_CODE_REGISTER_NEW_USER) {
-                            extractValueAndNotifyListener(byteBuffer, command);
-                        } else if (command.getType() == SHNUserDataCommand.Command.CONSENT && byteBuffer.get() == OP_CODE_CONSENT) {
-                            extractResultAndNotifyListener(byteBuffer, command);
-                        } else if (command.getType() == SHNUserDataCommand.Command.DELETE && byteBuffer.get() == OP_CODE_DELETE_USER_DATA) {
-                            extractResultAndNotifyListener(byteBuffer, command);
-                        } else {
-                            command.notifyListeners(SHNResult.SHNInvalidResponseError);
-                        }
-                    } else {
-                        command.notifyListeners(SHNResult.SHNInvalidResponseError);
-                    }
-                } catch (BufferUnderflowException ex) { // is this good? Review: Yes!
-                    command.notifyListeners(SHNResult.SHNResponseIncompleteError);
-                } finally { // and this? Review: Yes
-                    removeCurrentCommandAndStartNext();
-                }
+                processResponseData(byteBuffer);
             } else {
                 Log.w(TAG, "Notification is received with no request");
             }
         }
     };
 
-    private void extractValueAndNotifyListener(ByteBuffer byteBuffer, SHNUserDataCommand command) { // Review: Could extract value be a seperate function
-        int userId = -1;
+    private void processResponseData(ByteBuffer byteBuffer) {
+        SHNUserDataCommand command = commandQueue.getFirst();
+        try {
+            if (byteBuffer.get() == OP_CODE_RESPONSE) {
+                matchWithCommand(command, byteBuffer);
+            } else {
+                command.notifyListeners(SHNResult.SHNInvalidResponseError);
+            }
+        } catch (BufferUnderflowException ex) {
+            command.notifyListeners(SHNResult.SHNResponseIncompleteError);
+        }
+    }
+
+    private void matchWithCommand(SHNUserDataCommand command, ByteBuffer byteBuffer) {
+        if (command.getType() == SHNUserDataCommand.Command.REGISTER && byteBuffer.get() == OP_CODE_REGISTER_NEW_USER) {
+            extractValueAndNotifyListener(byteBuffer, command);
+        } else if (command.getType() == SHNUserDataCommand.Command.CONSENT && byteBuffer.get() == OP_CODE_CONSENT) {
+            extractResultAndNotifyListener(byteBuffer, command);
+        } else if (command.getType() == SHNUserDataCommand.Command.DELETE && byteBuffer.get() == OP_CODE_DELETE_USER_DATA) {
+            extractResultAndNotifyListener(byteBuffer, command);
+        } else {
+            command.notifyListeners(SHNResult.SHNInvalidResponseError);
+        }
+    }
+
+    private void extractValueAndNotifyListener(ByteBuffer byteBuffer, SHNUserDataCommand command) {
         SHNResult result = getSHNResult(byteBuffer.get());
+        int userId = UNSUCCESSFUL_OPERATION_VALUE;
         if (result == SHNResult.SHNOk) {
             userId = ScalarConverters.ubyteToInt(byteBuffer.get());
         }
@@ -141,7 +148,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
     private Set<UUID> getRequiredCharacteristics() {
         Set<UUID> requiredCharacteristicUUIDs = new HashSet<>();
-        requiredCharacteristicUUIDs.add(DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID);
+        requiredCharacteristicUUIDs.add(DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
         requiredCharacteristicUUIDs.add(USER_INDEX_CHARACTERISTIC_UUID);
         requiredCharacteristicUUIDs.add(USER_CONTROL_POINT_CHARACTERISTIC_UUID);
         return requiredCharacteristicUUIDs;
@@ -154,11 +161,11 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     //implements SHNService.SHNServiceListener
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if (state == SHNService.State.Available) {
-            shnService.transitionToReady();
+        if (shnService.getState()!= SHNService.State.Available && state == SHNService.State.Available) {
             SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(USER_CONTROL_POINT_CHARACTERISTIC_UUID);
             shnCharacteristic.setNotification(true, null);
             shnCharacteristic.setShnCharacteristicChangedListener(shnCharacteristicChangedListener);
+            shnService.transitionToReady();
         }
     }
 
@@ -179,15 +186,15 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     }
 
     public void setAge(int age, SHNResultListener listener) {
-        setUIntCharacteristic(1, age, listener, AGE_CHARACTERISTIC_UUID);
+        writeScalarValueToCharacteristic(1, age, AGE_CHARACTERISTIC_UUID, listener);
     }
 
-    public void incrementDatabaseIndex(final SHNResultListener listener) { // Review: Rename te indicate Database Change Increment
-        getDatabaseIndex(new SHNIntegerResultListener() {
+    public void incrementDatabaseIncrement(final SHNResultListener listener) {
+        getDatabaseIncrement(new SHNIntegerResultListener() {
             @Override
             public void onActionCompleted(int value, SHNResult result) {
                 if (result == SHNResult.SHNOk) {
-                    setDatabaseIndex(value + 1, listener);
+                    setDatabaseIncrement(value + 1, listener);
                 } else {
                     listener.onActionCompleted(result);
                 }
@@ -195,15 +202,15 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         });
     }
 
-    private void getDatabaseIndex(final SHNIntegerResultListener listener) { // Review: Rename te indicate Database Change Increment
-        if (LOGGING) Log.i(TAG, "getDatabaseIndex");
-        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID);
+    private void getDatabaseIncrement(final SHNIntegerResultListener listener) {
+        if (LOGGING) Log.i(TAG, "getDatabaseIncrement");
+        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
 
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "getDatabaseIndex reportResult");
-                int value = -1;
+                if (LOGGING) Log.i(TAG, "getDatabaseIncrement reportResult");
+                int value = UNSUCCESSFUL_OPERATION_VALUE;
                 if (shnResult == SHNResult.SHNOk) {
 
                     ByteBuffer byteBuffer = ByteBuffer.wrap(data);
@@ -218,9 +225,9 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         shnCharacteristic.read(resultReporter);
     }
 
-    private void setDatabaseIndex(int increment, final SHNResultListener listener) { // Review: Rename te indicate Database Change Increment
+    private void setDatabaseIncrement(int increment, final SHNResultListener listener) {
         if (LOGGING) Log.i(TAG, "setStringCharacteristic");
-        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INDEX_CHARACTERISTIC_UUID);
+        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
 
         ByteBuffer buffer = ByteBuffer.allocate(4);
         buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -259,8 +266,8 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         shnCharacteristic.write(value, resultReporter);
     }
 
-    private void setUIntCharacteristic(int sizeByte, int value, final SHNResultListener listener, UUID uuid) { // is this generic method good?
-        if (LOGGING) Log.i(TAG, "setUIntCharacteristic");
+    private void writeScalarValueToCharacteristic(int sizeByte, int value, UUID uuid, final SHNResultListener listener) {
+        if (LOGGING) Log.i(TAG, "writeScalarValueToCharacteristic");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(uuid);
 
         ByteBuffer buffer = ByteBuffer.allocate(sizeByte);
@@ -282,7 +289,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "setUIntCharacteristic reportResult");
+                if (LOGGING) Log.i(TAG, "writeScalarValueToCharacteristic reportResult");
 
                 if (listener != null) {
                     listener.onActionCompleted(shnResult);
@@ -321,7 +328,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
                 if (LOGGING) Log.i(TAG, "getUserIndex reportResult");
-                int value = -1;
+                int value = UNSUCCESSFUL_OPERATION_VALUE;
                 if (shnResult == SHNResult.SHNOk) {
                     ByteBuffer byteBuffer = ByteBuffer.wrap(data);
                     byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -338,51 +345,60 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     }
 
     public void registerNewUser(int consentCode, final SHNIntegerResultListener listener) {
-        SHNUserDataCommand command = new SHNUserDataCommand(SHNUserDataCommand.Command.REGISTER, consentCode, listener);
+        SHNIntegerResultListener wrappedIntegerListener = new SHNIntegerResultListener() {
+            @Override
+            public void onActionCompleted(int value, SHNResult result) {
+                listener.onActionCompleted(value, result);
+                removeCurrentCommandAndStartNext();
+            }
+        };
+
+        SHNUserDataCommand command = new SHNUserDataCommand.Builder().setCommand(SHNUserDataCommand.Command.REGISTER).setConsentCode(consentCode).setShnIntegerResultListener(wrappedIntegerListener).build();
         commandQueue.add(command);
         executeCommandIfAllowed();
     }
 
-    public void consentExistingUser(int userId, int consentCode, SHNResultListener listener) {
-        SHNUserDataCommand command = new SHNUserDataCommand(SHNUserDataCommand.Command.CONSENT, userId, consentCode, listener);
+    public void consentExistingUser(int userId, int consentCode, final SHNResultListener listener) {
+
+        SHNResultListener wrappedListener = getWrappedSHNResultListener(listener);
+
+        SHNUserDataCommand command = new SHNUserDataCommand.Builder().setCommand(SHNUserDataCommand.Command.CONSENT).setUserId(userId).setConsentCode(consentCode).setShnResultListener(wrappedListener).build();
         commandQueue.add(command);
         executeCommandIfAllowed();
     }
 
-    public void deleteUser(SHNResultListener listener) {
-        SHNUserDataCommand command = new SHNUserDataCommand(SHNUserDataCommand.Command.DELETE, listener);
+    public void deleteUser(final SHNResultListener listener) {
+
+        SHNResultListener wrappedListener = getWrappedSHNResultListener(listener);
+
+        SHNUserDataCommand command = new SHNUserDataCommand.Builder().setCommand(SHNUserDataCommand.Command.DELETE).setShnResultListener(wrappedListener).build();
         commandQueue.add(command);
         executeCommandIfAllowed();
+    }
+
+    private SHNResultListener getWrappedSHNResultListener(final SHNResultListener listener) {
+        return new SHNResultListener() {
+            @Override
+            public void onActionCompleted(final SHNResult result) {
+                listener.onActionCompleted(result);
+                removeCurrentCommandAndStartNext();
+            }
+        };
     }
 
     private void executeCommandIfAllowed() {
         if (!executing && commandQueue.size() > 0) {
             executing = true;
             final SHNUserDataCommand command = commandQueue.getFirst();
-            SHNResultListener listener = new SHNResultListener() { // Review: I think the listener could be wrapped when creating the command. This could make the code more readable...
-                @Override
-                public void onActionCompleted(SHNResult result) {
-                    command.notifyListeners(result);
-                    removeCurrentCommandAndStartNext();
-                }
-            };
-
             switch (command.getType()) {
                 case REGISTER:
-                    SHNIntegerResultListener integerListener = new SHNIntegerResultListener() {
-                        @Override
-                        public void onActionCompleted(int value, SHNResult result) {
-                            command.notifyListeners(value, result);
-                            removeCurrentCommandAndStartNext();
-                        }
-                    };
-                    registerNewUserImpl(command.consentCode, integerListener);
+                    registerNewUserImpl(command.consentCode, command.shnIntegerResultListener);
                     break;
                 case CONSENT:
-                    consentExistingUserImpl(command.userId, command.consentCode, listener);
+                    consentExistingUserImpl(command.userId, command.consentCode, command.shnResultListener);
                     break;
                 case DELETE:
-                    deleteUserImpl(listener);
+                    deleteUserImpl(command.shnResultListener);
                     break;
                 default:
                     throw new UnsupportedOperationException();
@@ -398,7 +414,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
     private void registerNewUserImpl(int consentCode, final SHNIntegerResultListener listener) {
         if (consentCode > 9999 || consentCode < 0) {
-            listener.onActionCompleted(-1, SHNResult.SHNInvalidParameterError);
+            listener.onActionCompleted(UNSUCCESSFUL_OPERATION_VALUE, SHNResult.SHNInvalidParameterError);
         } else {
             ByteBuffer buffer = ByteBuffer.allocate(3);
             buffer.order(ByteOrder.LITTLE_ENDIAN);
@@ -443,7 +459,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
                 if (shnResult != SHNResult.SHNOk) {
-                    listener.onActionCompleted(-1, shnResult);
+                    listener.onActionCompleted(UNSUCCESSFUL_OPERATION_VALUE, shnResult);
                 }
             }
         };
@@ -467,58 +483,83 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
 
     protected static class SHNUserDataCommand {
 
-        protected enum Command {REGISTER, CONSENT, DELETE}
+        private enum Command {REGISTER, CONSENT, DELETE}
 
-        private final Command command;
-        private final int consentCode;
-        private final int userId;
+        private Command command;
+        private int consentCode;
+        private int userId = 255;
 
-        public final SHNIntegerResultListener shnIntegerResultListener;
-        public final SHNResultListener shnResultListener;
+        private SHNIntegerResultListener shnIntegerResultListener;
+        private SHNResultListener shnResultListener;
 
-        // Review: consider using a builder instead of three different constructors
-        public SHNUserDataCommand(Command command, int consentCode, SHNIntegerResultListener shnIntegerResultListener) {
-            this.command = command;
-            this.userId = 255;
-            this.consentCode = consentCode;
-            this.shnIntegerResultListener = shnIntegerResultListener;
-            this.shnResultListener = null;
+        private SHNUserDataCommand() {
+
         }
 
-        public SHNUserDataCommand(Command command, int userId, int consentCode, SHNResultListener shnResultListener) {
-            this.command = command;
-            this.userId = userId;
-            this.consentCode = consentCode;
-            this.shnIntegerResultListener = null;
-            this.shnResultListener = shnResultListener;
-        }
-
-        public SHNUserDataCommand(Command command, SHNResultListener shnResultListener) {
-            this.command = command;
-            this.userId = 255;
-            this.consentCode = -1;
-            this.shnResultListener = shnResultListener;
-            this.shnIntegerResultListener = null;
-        }
-
-        public void notifyListeners(int value, SHNResult result) {
+        private void notifyListeners(int value, SHNResult result) {
             if (shnIntegerResultListener != null)
                 shnIntegerResultListener.onActionCompleted(value, result);
         }
 
-        public void notifyListeners(SHNResult result) {
+        private void notifyListeners(SHNResult result) {
             if (shnIntegerResultListener != null)
                 shnIntegerResultListener.onActionCompleted(-1, result);
             if (shnResultListener != null)
                 shnResultListener.onActionCompleted(result);
         }
 
-        public Command getType() {
+        private Command getType() {
             return command;
         }
 
-        public int getConsentCode() {
+        private int getConsentCode() {
             return consentCode;
+        }
+
+        public static class Builder {
+
+            private SHNUserDataCommand shnUserDataCommand;
+
+            private boolean hasCommand;
+            private boolean hasListener;
+
+            public Builder() {
+                shnUserDataCommand = new SHNUserDataCommand();
+            }
+
+            public Builder setCommand(Command command) {
+                shnUserDataCommand.command = command;
+                hasCommand = true;
+                return this;
+            }
+
+            public Builder setUserId(int userId) {
+                shnUserDataCommand.userId = userId;
+                return this;
+            }
+
+            public Builder setConsentCode(int consentCode) {
+                shnUserDataCommand.consentCode = consentCode;
+                return this;
+            }
+
+            public Builder setShnIntegerResultListener(SHNIntegerResultListener shnIntegerResultListener) {
+                shnUserDataCommand.shnIntegerResultListener = shnIntegerResultListener;
+                hasListener = true;
+                return this;
+            }
+
+            public Builder setShnResultListener(SHNResultListener shnResultListener) {
+                shnUserDataCommand.shnResultListener = shnResultListener;
+                hasListener = true;
+                return this;
+            }
+
+            public SHNUserDataCommand build() {
+                if(hasCommand && hasListener) {
+                    return shnUserDataCommand;
+                }else throw new IllegalArgumentException();
+            }
         }
     }
 }
