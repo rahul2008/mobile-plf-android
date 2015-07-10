@@ -52,7 +52,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
         DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
                 "piLocale received on ErrorLIstener");
-        DigitalCareConfigManager.getInstance().mLocale = mLocale;
+        DigitalCareConfigManager.getInstance().mLocaleMatchLocale = mLocale;
     }
 
     @Override
