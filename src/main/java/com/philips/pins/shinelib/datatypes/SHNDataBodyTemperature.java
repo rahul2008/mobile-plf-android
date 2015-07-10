@@ -4,16 +4,16 @@ package com.philips.pins.shinelib.datatypes;
  * Created by 310188215 on 09/07/15.
  */
 public class SHNDataBodyTemperature extends SHNData {
-    private final float temperatureInCelcius;
+    private final float temperatureInCelsius;
     private final SHNTemperatureType location;
 
-    public SHNDataBodyTemperature(float temperatureInCelcius, SHNTemperatureType location) {
-        this.temperatureInCelcius = temperatureInCelcius;
+    public SHNDataBodyTemperature(float temperatureInCelsius, SHNTemperatureType location) {
+        this.temperatureInCelsius = temperatureInCelsius;
         this.location = location;
     }
 
-    public float getTemperatureInCelcius() {
-        return temperatureInCelcius;
+    public float getTemperatureInCelsius() {
+        return temperatureInCelsius;
     }
 
     public SHNTemperatureType getLocation() {

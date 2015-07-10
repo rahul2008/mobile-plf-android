@@ -76,7 +76,7 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
                 } else {
                     long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnWeightMeasurement.getTimestamp().getTime());
                     Map<SHNDataType, SHNData> map = new HashMap<>();
-                    map.put(SHNDataType.BodyWeight, new SHNDataBodyWeight(shnWeightMeasurement.getWeightInKg(), shnWeightMeasurement.getUserId(), shnWeightMeasurement.getHeight(), shnWeightMeasurement.getBMI()));
+                    map.put(SHNDataType.BodyWeight, new SHNDataBodyWeight.Builder().setWeightInKg(shnWeightMeasurement.getWeightInKg()).setUserId(shnWeightMeasurement.getUserId()).setHeightInMeters(shnWeightMeasurement.getHeight()).setBmi(shnWeightMeasurement.getBMI()).build());
                     SHNLogItem item = new SHNLogItem(new Date(hostTimestamp), map.keySet(), map);
                     onMeasurementReceived(item);
                 }

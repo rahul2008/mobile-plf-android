@@ -19,13 +19,13 @@ import java.util.Map;
 /**
  * Created by 310188215 on 17/06/15.
  */
-public class SHNCapabilityHealthThermometerLogSync extends SHNCapabilityLogSyncBase implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener {
+public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncBase implements SHNServiceHealthThermometer.SHNServiceHealthThermometerListener {
 
-    private static final String TAG = SHNCapabilityHealthThermometerLogSync.class.getSimpleName();
+    private static final String TAG = SHNCapabilityLogSyncHealthThermometer.class.getSimpleName();
 
     private SHNServiceHealthThermometer shnServiceHealthThermometer;
 
-    public SHNCapabilityHealthThermometerLogSync(SHNServiceHealthThermometer shnServiceHealthThermometer) {
+    public SHNCapabilityLogSyncHealthThermometer(SHNServiceHealthThermometer shnServiceHealthThermometer) {
         super();
         this.shnServiceHealthThermometer = shnServiceHealthThermometer;
         shnServiceHealthThermometer.setSHNServiceHealthThermometerListener(this);

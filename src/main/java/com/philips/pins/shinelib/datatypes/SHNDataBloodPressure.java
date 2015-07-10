@@ -14,7 +14,7 @@ public class SHNDataBloodPressure extends SHNData {
     private short userId;
     private short pulseRateInBeatsPerMinute;
     private SHNPulseRateStatus shnPulseRateStatus;
-    private boolean hasUserID;
+    private boolean hasUserId;
     private boolean hasPulseRateInBeatsPerMinute;
 
     private SHNDataBloodPressure() {
@@ -44,8 +44,8 @@ public class SHNDataBloodPressure extends SHNData {
         return shnPulseRateStatus;
     }
 
-    public boolean hasUserID() {
-        return hasUserID;
+    public boolean hasUserId() {
+        return hasUserId;
     }
 
     public boolean hasPulseRateInBeatsPerMinute() {
@@ -59,29 +59,36 @@ public class SHNDataBloodPressure extends SHNData {
 
     public static class Builder {
         private SHNDataBloodPressure shnDataBloodPressure;
-        
+
+        private boolean hasBloodPressureSystolicInMmHg;
+        private boolean hasBloodPressureDiastolicInMmHg;
+        private boolean hasBloodPressureMeanArterialInMmHg;
+
         public Builder() {
             shnDataBloodPressure = new SHNDataBloodPressure();
         }
         
         public Builder setBloodPressureSystolicInMmHg(float bloodPressureSystolicInMmHg) {
             shnDataBloodPressure.bloodPressureSystolicInMmHg = bloodPressureSystolicInMmHg;
+            hasBloodPressureSystolicInMmHg = true;
             return this;
         }
     
         public Builder setBloodPressureDiastolicInMmHg(float bloodPressureDiastolicInMmHg) {
             shnDataBloodPressure.bloodPressureDiastolicInMmHg = bloodPressureDiastolicInMmHg;
+            hasBloodPressureDiastolicInMmHg = true;
             return this;
         }
     
         public Builder setBloodPressureMeanArterialInMmHg(float bloodPressureMeanArterialInMmHg) {
             shnDataBloodPressure.bloodPressureMeanArterialInMmHg = bloodPressureMeanArterialInMmHg;
+            hasBloodPressureMeanArterialInMmHg = true;
             return this;
         }
     
         public Builder setUserId(short userId) {
             shnDataBloodPressure.userId = userId;
-            shnDataBloodPressure.hasUserID = true;
+            shnDataBloodPressure.hasUserId = true;
             return this;
         }
     
@@ -96,8 +103,12 @@ public class SHNDataBloodPressure extends SHNData {
             return this;
         }
     
-        public SHNDataBloodPressure createSHNDataBloodPressure() {
-            return shnDataBloodPressure;
+        public SHNDataBloodPressure build() {
+            if(hasBloodPressureSystolicInMmHg && hasBloodPressureDiastolicInMmHg && hasBloodPressureMeanArterialInMmHg) {
+                return shnDataBloodPressure;
+            }else{
+                throw new IllegalArgumentException("Incomplete data");
+            }
         }
     }
 }

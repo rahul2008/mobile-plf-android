@@ -4,17 +4,12 @@ package com.philips.pins.shinelib.datatypes;
  * Created by 310188215 on 09/07/15.
  */
 public class SHNDataBodyWeight extends SHNData {
-    private final float weightInKg;
-    private final int userId;
-    private final float heightInMeters;
+    private float weightInKg;
+    private int userId;
+    private float heightInMeters;
+    private float bmi;
 
-    private final float bmi;
-
-    public SHNDataBodyWeight(float weightInKg, int userId, float heightInMeters, float bmi) {
-        this.weightInKg = weightInKg;
-        this.userId = userId;
-        this.heightInMeters = heightInMeters;
-        this.bmi = bmi;
+    private SHNDataBodyWeight() {
     }
 
     public float getBmi() {
@@ -36,5 +31,41 @@ public class SHNDataBodyWeight extends SHNData {
     @Override
     public SHNDataType getSHNDataType() {
         return SHNDataType.BodyWeight;
+    }
+
+    public static class Builder {
+
+        private SHNDataBodyWeight shnDataBodyWeight;
+
+        private boolean hasWeightInKg;
+
+        public Builder setWeightInKg(float weightInKg) {
+            shnDataBodyWeight.weightInKg = weightInKg;
+            hasWeightInKg = true;
+            return this;
+        }
+
+        public Builder setUserId(int userId) {
+            shnDataBodyWeight.userId = userId;
+            return this;
+        }
+
+        public Builder setHeightInMeters(float heightInMeters) {
+            shnDataBodyWeight.heightInMeters = heightInMeters;
+            return this;
+        }
+
+        public Builder setBmi(float bmi) {
+            shnDataBodyWeight.bmi = bmi;
+            return this;
+        }
+
+        public SHNDataBodyWeight build() {
+            if (hasWeightInKg) {
+                return shnDataBodyWeight;
+            } else {
+                throw new IllegalArgumentException("No weight set");
+            }
+        }
     }
 }
