@@ -5,16 +5,13 @@ import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNService;
-import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.utility.ExactTime256WithAdjustReason;
-import com.philips.pins.shinelib.utility.SHNBluetoothDataConverter;
 
 import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -27,6 +24,7 @@ public class SHNServiceCurrentTime {
     public static final UUID CURRENT_TIME_CHARACTERISTIC_UUID =         UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A2B));
     public static final UUID LOCAL_TIME_INFO_CHARACTERISTIC_UUID =      UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A0F));
     public static final UUID REFERENCE_TIME_INFO_CHARACTERISTIC_UUID =  UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A14));
+
     private SHNServiceCurrentTimeListener shnServiceCurrentTimeListener;
 
     public interface SHNServiceCurrentTimeListener {
@@ -93,7 +91,7 @@ public class SHNServiceCurrentTime {
 
     private void extractCurrentTimeFromReport(SHNResult shnResult, byte[] data, SHNObjectResultListener shnObjectResultListener) {
         ExactTime256WithAdjustReason exactTime256WithAdjustReason = null;
-        if (SHNResult.SHNOk == shnResult) {
+        if (shnResult == SHNResult.SHNOk) {
             try {
                 ByteBuffer byteBuffer = ByteBuffer.wrap(data);
                 byteBuffer.order(ByteOrder.LITTLE_ENDIAN);

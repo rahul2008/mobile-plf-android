@@ -126,7 +126,7 @@ public class SHNServiceBatteryTest {
     private void checkNotificationSetting(boolean enabled) {
         SHNResultListener mockedShnResultListener = Mockito.mock(SHNResultListener.class);
 
-        shnServiceBattery.setBatteryLevelNotification(enabled, mockedShnResultListener);
+        shnServiceBattery.setBatteryLevelNotifications(enabled, mockedShnResultListener);
 
         ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
 

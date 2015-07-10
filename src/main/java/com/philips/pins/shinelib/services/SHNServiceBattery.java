@@ -78,7 +78,7 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
         shnCharacteristic.read(resultReporter);
     }
 
-    public void setBatteryLevelNotification(boolean enabled, final SHNResultListener listener) {
+    public void setBatteryLevelNotifications(boolean enabled, final SHNResultListener listener) {
         if (LOGGING) Log.i(TAG, "setBatteryLevelNotifications");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID);
 

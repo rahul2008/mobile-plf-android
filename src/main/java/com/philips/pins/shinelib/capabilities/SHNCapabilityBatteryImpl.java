@@ -24,6 +24,6 @@ public class SHNCapabilityBatteryImpl implements SHNCapabilityBattery{
 
     @Override
     public void setBatteryLevelNotifications(boolean enabled, SHNResultListener listener) {
-        shnServiceBattery.setBatteryLevelNotification(enabled, listener);
+        shnServiceBattery.setBatteryLevelNotifications(enabled, listener);
     }
 }

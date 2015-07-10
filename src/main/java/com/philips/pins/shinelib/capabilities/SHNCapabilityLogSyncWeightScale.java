@@ -83,6 +83,7 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
             }
         }
     };
+
     private final SHNServiceCurrentTime.SHNServiceCurrentTimeListener shnServiceCurrentTimeListener = new SHNServiceCurrentTime.SHNServiceCurrentTimeListener() {
         @Override
         public void onServiceStateChanged(SHNServiceCurrentTime shnServiceCurrentTime, SHNService.State state) {

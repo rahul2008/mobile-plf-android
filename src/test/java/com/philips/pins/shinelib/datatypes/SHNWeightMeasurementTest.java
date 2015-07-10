@@ -1,8 +1,14 @@
 package com.philips.pins.shinelib.datatypes;
 
+import android.util.Log;
+
 import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -11,11 +17,16 @@ import java.text.SimpleDateFormat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyString;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Log.class})
 public class SHNWeightMeasurementTest {
 
     private static final byte IMPERIAL_SUPPORTED = 0x01;
@@ -133,28 +144,57 @@ public class SHNWeightMeasurementTest {
         assertTrue(shnWeightMeasurement.getFlags().hasTimestamp());
     }
 
-    @Test
-    public void whenTheScaleMeasurementValueIsPassedInSiThanItIsParsedInKGResolution() {
-        byte[] data = new byte[]{0, 0x04, 0x07};
-
+    private SHNWeightMeasurement getShnWeightMeasurement(byte[] data) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(data);
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
 
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        return new SHNWeightMeasurement(byteBuffer);
+    }
+
+    @Test
+    public void whenTheScaleMeasurementValueIsPassedInSiThanItIsParsedInKGResolution() {
+        byte[] data = new byte[]{0, 0x04, 0x07};
+        SHNWeightMeasurement shnWeightMeasurement = getShnWeightMeasurement(data);
 
         assertEquals(1796 * 0.005f, shnWeightMeasurement.getWeight(), 0.001);
+    }
+
+    @Test
+    public void whenTheScaleMeasurementIsInKgThanWeightInKgIsReturnedWithNoChanges() {
+        byte[] data = new byte[]{0, 0x04, 0x07};
+        SHNWeightMeasurement shnWeightMeasurement = getShnWeightMeasurement(data);
+
+        assertEquals(1796 * 0.005f, shnWeightMeasurement.getWeightInKg(), 0.001);
     }
 
     @Test
     public void whenTheScaleMeasurementValueIsPassedInImperialThanItIsParsedInLBResolution() {
         byte[] data = new byte[]{IMPERIAL_SUPPORTED, 0x04, 0x07};
 
-        ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-
-        SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
+        SHNWeightMeasurement shnWeightMeasurement = getShnWeightMeasurement(data);
 
         assertEquals(1796 * 0.01f, shnWeightMeasurement.getWeight(), 0.001);
+    }
+
+    @Test
+    public void whenTheScaleMeasurementIsInLbsThanWeightInKgIsConverted() {
+        byte[] data = new byte[]{IMPERIAL_SUPPORTED, 0x04, 0x07};
+
+        SHNWeightMeasurement shnWeightMeasurement = getShnWeightMeasurement(data);
+
+        float lbsToKg = 0.45359237f;
+        assertEquals(1796 * 0.01f * lbsToKg, shnWeightMeasurement.getWeightInKg(), 0.001);
+    }
+
+    @Test
+    public void whenTheScaleMeasurementHasSpecialValueThanMessageIsLogged() {
+        mockStatic(Log.class);
+        when(Log.w(anyString(), anyString())).thenReturn(0);
+
+        byte[] data = new byte[]{0, (byte)0xFF, (byte)0xFF};
+        getShnWeightMeasurement(data);
+
+        PowerMockito.verifyStatic();
     }
 
     @Test
@@ -190,6 +230,7 @@ public class SHNWeightMeasurementTest {
 
         assertTrue(shnWeightMeasurement.getFlags().hasUserId());
         assertEquals(6, shnWeightMeasurement.getUserId());
+        assertFalse(shnWeightMeasurement.isUserIdUnknown());
     }
 
     @Test
