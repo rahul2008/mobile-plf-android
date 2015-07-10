@@ -31,11 +31,13 @@ android {
     }
 }
 
+
+
 dependencies {
     compile project(':jump')
     compile project(':localeMatch')
     compile 'com.android.support:support-v4:21.0.3'
-    compile files('libs/adobeMobileLibrary.jar')
+    compile project(':adobeMobileLibrary')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
