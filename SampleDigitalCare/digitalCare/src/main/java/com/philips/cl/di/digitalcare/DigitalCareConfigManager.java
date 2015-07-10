@@ -8,6 +8,7 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
+import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 import java.util.Locale;
 
@@ -68,24 +69,23 @@ public class DigitalCareConfigManager {
 
     public void invokeDigitalCareAsFragment(FragmentActivity context,
                                             int parentContainerResId,
-                                            ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
-                                            int exitAnim) {
+                                            ActionbarUpdateListener actionbarUpdateListener, String enterAnim,
+                                            String exitAnim) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
         SupportHomeFragment supportFrag = new SupportHomeFragment();
-        //TODO: pending work on animation part.
         supportFrag.showFragment(context, parentContainerResId, supportFrag,
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
 
-    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
+    public void invokeDigitalCareAsActivity(String startAnimation, String endAnimation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
         Intent intent = new Intent(this.getContext(),DigitalCareActivity.class);
-        intent.putExtra("STARTANIMATIONID", startAnimation);
-        intent.putExtra("ENDANIMATIONID", endAnimation);
+        intent.putExtra(DigitalCareContants.START_ANIMATION_ID, startAnimation);
+        intent.putExtra(DigitalCareContants.STOP_ANIMATION_ID, endAnimation);
         getContext().startActivity(intent);
     }
 

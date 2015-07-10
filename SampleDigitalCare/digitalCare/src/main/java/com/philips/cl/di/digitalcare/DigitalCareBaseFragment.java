@@ -40,8 +40,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
     private static String mPreviousPageName = null;
-    private static String mEnterAnimation = null;
-    private static String mExitAnimation = null;
+    private static int mEnterAnimation = -1;
+    private static int mExitAnimation = -1;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
@@ -262,8 +262,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
-            // fragmentTransaction.setCustomAnimations(mEnter, mExit,
-            // mPopEnter, mPopExit);
+            if (mEnterAnimation != -1 && mExitAnimation != -1) {
+                fragmentTransaction.setCustomAnimations(mEnterAnimation,
+                        mExitAnimation, mEnterAnimation, mExitAnimation);
+            }
             fragmentTransaction.replace(containerId, fragment,
                     fragment.getTag());
             fragmentTransaction.hide(this);
@@ -286,24 +288,24 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
     protected void showFragment(FragmentActivity context, int parentContainer,
                                 Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
-                                int enterAnim, int exitAnim) {
+                                String enterAnim, String exitAnim) {
         mContainerId = parentContainer;
         mActivityContext = context;
         mActionbarUpdateListener = actionbarUpdateListener;
-//		mEnterAnimation = enterAnim;
-//		mExitAnimation = exitAnim;
 
-        // String packageName = context.getPackageName();
-        // int enter = context.getResources().getIdentifier(
-        // packageName + ":anim/" + mEnterAnimation, null, null);
-        // int exit = context.getResources().getIdentifier(
-        // packageName + ":anim/" + mExitAnimation, null, null);
+        String packageName = context.getPackageName();
+        mEnterAnimation = context.getResources().getIdentifier(enterAnim,
+                "anim", packageName);
+        mExitAnimation = context.getResources().getIdentifier(exitAnim, "anim",
+                packageName);
 
         try {
             FragmentTransaction fragmentTransaction = context
                     .getSupportFragmentManager().beginTransaction();
-            // fragmentTransaction.setCustomAnimations(enter, exit, enter,
-            // exit);
+            if (mEnterAnimation != -1 && mExitAnimation != -1) {
+                fragmentTransaction.setCustomAnimations(mEnterAnimation,
+                        mExitAnimation, mEnterAnimation, mExitAnimation);
+            }
             fragmentTransaction.replace(mContainerId, fragment,
                     fragment.getTag());
             fragmentTransaction.addToBackStack(fragment.getTag());

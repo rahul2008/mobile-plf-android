@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -21,7 +22,7 @@ import net.hockeyapp.android.CrashManagerListener;
 
 import java.util.Locale;
 
-public class LaunchDigitalCare extends Activity implements OnClickListener,
+public class LaunchDigitalCare extends FragmentActivity implements OnClickListener,
         MainMenuListener, ProductMenuListener, SocialProviderListener {
 
     public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";
@@ -74,6 +75,8 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
         ArrayAdapter<String> mCountry_adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
+
+        registerHockeyApp();
     }
 
     @Override
@@ -150,14 +153,14 @@ public class LaunchDigitalCare extends Activity implements OnClickListener,
             default:
                 setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(
-                        R.anim.slide_in_bottom, R.anim.slide_out_bottom);
+                        "slide_in_bottom", "slide_out_bottom");
         }
     }
 
-    private void registerHockeyApp(Context context) {
+    private void registerHockeyApp() {
         /** Should be commented for debug builds */
 
-        CrashManager.register(context, HOCKEY_APP_ID, new CrashManagerListener() {
+        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
 
             public boolean shouldAutoUploadCrashes() {
                 return true;
