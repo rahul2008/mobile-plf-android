@@ -230,7 +230,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     protected void requestATOSResponseData() {
         DigiCareLogger.d(TAG, "CDLS Request Thread is started");
-        startProgressDialog();
+        if (!getActivity().isFinishing())
+            startProgressDialog();
         DigiCareLogger.d(TAG, "ATOS URL : " + formAtosURL());
         new RequestData(formAtosURL(), this).execute();
     }
@@ -807,8 +808,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 .getSystemService(Context.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 && !manager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
-                    android.R.string.yes, android.R.string.no);
+            if (!getActivity().isFinishing())
+                gpsAlertView.showAlert(this, -1, R.string.gps_disabled,
+                        android.R.string.yes, android.R.string.no);
         } else {
             gpsAlertView.removeAlert();
         }
@@ -854,7 +856,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         return AnalyticsConstants.PAGE_FIND_PHILIPS_NEAR_YOU;
     }
 
-    private void setButtonParams(float density){
+    private void setButtonParams(float density) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
