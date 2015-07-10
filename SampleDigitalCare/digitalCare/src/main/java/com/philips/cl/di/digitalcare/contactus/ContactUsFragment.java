@@ -331,7 +331,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             mDialog = new ProgressDialog(getActivity());
         mDialog.setMessage(getActivity().getResources().getString(
                 R.string.loading));
-        mDialog.setCancelable(false);
         if (!(getActivity().isFinishing())) {
             mDialog.show();
         }
