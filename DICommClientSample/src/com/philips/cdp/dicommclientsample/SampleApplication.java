@@ -7,6 +7,7 @@ import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
+import com.philips.cdp.dicommclient.util.DICommClientWrapper;
 
 import android.app.Application;
 
@@ -16,8 +17,11 @@ public class SampleApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
-		CppController.createSharedInstance(getApplicationContext(), kpsConfiguration);
-		DiscoveryManager.createSharedInstance(this, CppController.getInstance(), applianceFactory);
+		DICommClientWrapper.initializeDICommLibrary(this);
+		
+		//CppController.createSharedInstance(getApplicationContext(), kpsConfiguration);
+		//DiscoveryManager.createSharedInstance(this, CppController.getInstance(), applianceFactory);
+		DICommClientWrapper.getDiscoveryManager(applianceFactory, null, null);
 	}
 	
 	private DICommApplianceFactory<GenericAppliance> applianceFactory = new DICommApplianceFactory<GenericAppliance>() {
@@ -34,66 +38,66 @@ public class SampleApplication extends Application {
 		}
 	};
 
-	private KpsConfigurationInfo kpsConfiguration = new KpsConfigurationInfo() {
-		
-		@Override
-		public int getProductVersion() {
-			return 0;
-		}
-		
-		@Override
-		public String getProductId() {
-			return null;
-		}
-		
-		@Override
-		public String getLanguageCode() {
-			return null;
-		}
-		
-		@Override
-		public String getDevicePortUrl() {
-			return null;
-		}
-		
-		@Override
-		public String getCountryCode() {
-			return null;
-		}
-		
-		@Override
-		public String getComponentId() {
-			return null;
-		}
-		
-		@Override
-		public int getComponentCount() {
-			return 0;
-		}
-		
-		@Override
-		public String getBootStrapKey() {
-			return null;
-		}
-		
-		@Override
-		public String getBootStrapId() {
-			return null;
-		}
-		
-		@Override
-		public int getAppVersion() {
-			return 0;
-		}
-		
-		@Override
-		public String getAppType() {
-			return null;
-		}
-		
-		@Override
-		public String getAppId() {
-			return null;
-		}
-	};
+//	private KpsConfigurationInfo kpsConfiguration = new KpsConfigurationInfo() {
+//		
+//		@Override
+//		public int getProductVersion() {
+//			return 0;
+//		}
+//		
+//		@Override
+//		public String getProductId() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public String getLanguageCode() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public String getDevicePortUrl() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public String getCountryCode() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public String getComponentId() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public int getComponentCount() {
+//			return 0;
+//		}
+//		
+//		@Override
+//		public String getBootStrapKey() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public String getBootStrapId() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public int getAppVersion() {
+//			return 0;
+//		}
+//		
+//		@Override
+//		public String getAppType() {
+//			return null;
+//		}
+//		
+//		@Override
+//		public String getAppId() {
+//			return null;
+//		}
+//	};
 }

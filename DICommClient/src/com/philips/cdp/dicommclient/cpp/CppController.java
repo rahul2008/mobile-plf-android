@@ -121,6 +121,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	public static synchronized CppController getInstance() {
+		if(mKpsConfigurationInfo == null) return null;
 		DICommLog.i(DICommLog.ICPCLIENT, "GetInstance: " + mInstance);
 		// TODO:DICOMM Refactor, need generic mechanism to update this locale information whenever the language changes. 
 		setLocale();

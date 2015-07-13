@@ -28,7 +28,7 @@ import android.util.Log;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.DICommContext;
+import com.philips.cdp.dicommclient.util.DICommClientWrapper;
 
 public class LocalRequest extends Request {
 
@@ -183,7 +183,7 @@ public class LocalRequest extends Request {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			Network wifiNetworkForSocket = LocalRequest.getWifiNetworkForSocket(DICommContext.getContext(),lockTimeout);
+			Network wifiNetworkForSocket = LocalRequest.getWifiNetworkForSocket(DICommClientWrapper.getContext(),lockTimeout);
 
 			if (wifiNetworkForSocket == null) {
 				return null;

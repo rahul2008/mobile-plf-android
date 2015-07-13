@@ -11,15 +11,13 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.philips.cdp.dicommclient.communication.NullStrategy;
 import com.philips.cdp.dicommclient.cpp.CppController;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.networknode.NetworkNode;
+import com.philips.cdp.dicommclient.util.DICommClientWrapper;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.PurAirKPSConfiguration;
-import com.philips.cl.di.dev.pa.newpurifier.AirPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.AirPurifierFactory;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -48,8 +46,10 @@ public class PurAirApplication extends Application {
 		PurifierDatabase applianceDatabase = new PurifierDatabase(this);
 		applianceDatabase.triggerOnDatabaseUpdateIfNeeded();
 
+		DICommClientWrapper.initializeDICommLibrary(getAppContext());
 		CppController.createSharedInstance(getAppContext(), new PurAirKPSConfiguration());
-		DiscoveryManager.createSharedInstance(getApplicationContext(),CppController.getInstance(), new AirPurifierFactory(), applianceDatabase);
+		//DiscoveryManager.createSharedInstance(getApplicationContext(),CppController.getInstance(), new AirPurifierFactory(), applianceDatabase);
+		DICommClientWrapper.getDiscoveryManager(new AirPurifierFactory(), applianceDatabase, CppController.getInstance());
 	}
 
 	private void initImageLoader() {

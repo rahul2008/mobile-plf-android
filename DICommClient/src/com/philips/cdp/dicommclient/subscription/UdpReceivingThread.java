@@ -18,7 +18,7 @@ import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.DICommContext;
+import com.philips.cdp.dicommclient.util.DICommClientWrapper;
 
 public class UdpReceivingThread extends Thread {
 
@@ -93,7 +93,7 @@ public class UdpReceivingThread extends Thread {
 	}
 
 	private void acquireMulticastLock() {
-		WifiManager wifi = (WifiManager) DICommContext.getContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifi = (WifiManager) DICommClientWrapper.getContext().getSystemService(Context.WIFI_SERVICE);
 		if (wifi != null) {
 			multicastLock = wifi.createMulticastLock(getName());
 			multicastLock.setReferenceCounted(true);

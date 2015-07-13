@@ -23,6 +23,7 @@ import com.philips.cdp.dicommclient.port.DICommPortListener;
 import com.philips.cdp.dicommclient.port.common.WifiPort;
 import com.philips.cdp.dicommclient.port.common.WifiPortProperties;
 import com.philips.cdp.dicommclient.request.Error;
+import com.philips.cdp.dicommclient.util.DICommClientWrapper;
 
 public class MainActivity extends Activity {
 

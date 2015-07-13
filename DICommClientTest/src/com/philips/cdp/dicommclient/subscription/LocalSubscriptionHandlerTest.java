@@ -13,10 +13,7 @@ import static org.mockito.Mockito.when;
 
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
-import com.philips.cdp.dicommclient.subscription.LocalSubscriptionHandler;
-import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.testutil.MockitoTestCase;
-import com.philips.cdp.dicommclient.util.DICommContext;
 import com.philips.cdp.dicommclient.util.WrappedHandler;
 
 public class LocalSubscriptionHandlerTest extends MockitoTestCase {
