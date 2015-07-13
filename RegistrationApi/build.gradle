@@ -31,13 +31,18 @@ android {
     }
 }
 
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:21.0.3'
     compile project(':jump')
     compile project(':localeMatch')
-    compile 'com.android.support:support-v4:21.0.3'
-    compile project(':adobeMobileLibrary')
+    compile files('libs/adobeMobileLibrary-4.5.1.jar')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
