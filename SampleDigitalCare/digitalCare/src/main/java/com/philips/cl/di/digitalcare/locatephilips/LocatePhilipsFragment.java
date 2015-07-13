@@ -387,8 +387,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
         int resultsetSize = resultModelSet.size();
         mHashMapResults = new HashMap<String, AtosResultsModel>(resultsetSize);
-        mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
-
+        if(mMap!=null){
+            mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
+        }
         for (int i = 0; i < resultsetSize; i++) {
             AtosResultsModel resultModel = resultModelSet.get(i);
             AtosLocationModel locationModel = resultModel.getLocationModel();
@@ -820,7 +821,9 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onMapReady() {
         mMap = mMapFragment.getMap();
-        initView();
+        if(mMap!=null){
+            initView();
+        }
         DigiCareLogger.v(TAG, "onMAP Ready Callback : " + mMap);
     }
 
