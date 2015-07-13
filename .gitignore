@@ -6,3 +6,10 @@
 /registrationApi/build
 /registrationSampleApp/build
 /local.properties
+/RegistrationSampleApp/bin
+*.classpath
+*.project
+*.prefs
+RegistrationSampleApp/gen/
+adobeMobileLibrary/adobeMobileLibrary.iml
+UIRepo.iml
