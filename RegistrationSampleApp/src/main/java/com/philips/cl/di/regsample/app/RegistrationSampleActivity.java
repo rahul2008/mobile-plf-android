@@ -87,23 +87,24 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     }
 
     @Override
-    public void onUserRegistrationComplete() {
+    public void onUserRegistrationComplete(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onUserRegistrationComplete");
+        activity.finish();
     }
 
     @Override
-    public void onPrivacyPolicyClick() {
+    public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
                 com.philips.cl.di.reg.R.string.PrivacyPolicyURL)));
-        startActivity(browserIntent);
+        activity.startActivity(browserIntent);
     }
 
     @Override
-    public void onTermsAndConditionClick() {
+    public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
                 com.philips.cl.di.reg.R.string.PrivacyPolicyURL)));
-        startActivity(browserIntent);
+        activity.startActivity(browserIntent);
     }
 }

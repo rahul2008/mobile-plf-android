@@ -1,12 +1,14 @@
 
 package com.philips.cl.di.reg.listener;
 
+import android.app.Activity;
+
 public interface UserRegistrationListener {
 
-    public void onUserRegistrationComplete();
+    public void onUserRegistrationComplete(Activity activity);
 
-    public void onPrivacyPolicyClick();
+    public void onPrivacyPolicyClick(Activity activity);
 
-    public void onTermsAndConditionClick();
+    public void onTermsAndConditionClick(Activity activity);
 
 }

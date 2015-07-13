@@ -1,6 +1,8 @@
 
 package com.philips.cl.di.reg.events;
 
+import android.app.Activity;
+
 import java.util.ArrayList;
 
 import com.philips.cl.di.reg.listener.UserRegistrationListener;
@@ -45,31 +47,31 @@ public class UserRegistrationHelper {
 		}
 	}
 
-	public void notifyonUserRegistrationCompleteEventOccurred() {
+	public void notifyonUserRegistrationCompleteEventOccurred(Activity activity) {
 		if (userRegistrationListeners != null) {
 			for (UserRegistrationListener eventListener : userRegistrationListeners) {
 				if (eventListener != null) {
-					eventListener.onUserRegistrationComplete();
+					eventListener.onUserRegistrationComplete(activity);
 				}
 			}
 		}
 	}
 
-	public void notifyOnPrivacyPolicyClickEventOccurred() {
+	public void notifyOnPrivacyPolicyClickEventOccurred(Activity activity) {
 		if (userRegistrationListeners != null) {
 			for (UserRegistrationListener eventListener : userRegistrationListeners) {
 				if (eventListener != null) {
-					eventListener.onPrivacyPolicyClick();
+					eventListener.onPrivacyPolicyClick(activity);
 				}
 			}
 		}
 	}
 
-	public void notifyOnTermsAndConditionClickEventOccurred() {
+	public void notifyOnTermsAndConditionClickEventOccurred(Activity activity) {
 		if (userRegistrationListeners != null) {
 			for (UserRegistrationListener eventListener : userRegistrationListeners) {
 				if (eventListener != null) {
-					eventListener.onTermsAndConditionClick();
+					eventListener.onTermsAndConditionClick(activity);
 				}
 			}
 		}
