@@ -387,28 +387,29 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
         int resultsetSize = resultModelSet.size();
         mHashMapResults = new HashMap<String, AtosResultsModel>(resultsetSize);
-        if(mMap!=null){
+        if(mMap!=null) {
             mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
-        }
-        for (int i = 0; i < resultsetSize; i++) {
-            AtosResultsModel resultModel = resultModelSet.get(i);
-            AtosLocationModel locationModel = resultModel.getLocationModel();
-            // AtosAddressModel addressModel = resultModel.getmAddressModel();
-            double lat = Double.parseDouble(locationModel.getLatitude());
-            double lng = Double.parseDouble(locationModel.getLongitude());
-            LatLng latLng = new LatLng(lat, lng);
 
-            MarkerOptions markerOpt = new MarkerOptions();
-            markerOpt.position(latLng);
-            markerOpt.draggable(false);
-            markerOpt.visible(true);
-            markerOpt.anchor(0.5f, 0.5f);
-            markerOpt.icon(BitmapDescriptorFactory.fromBitmap(mBitmapMarker));
+            for (int i = 0; i < resultsetSize; i++) {
+                AtosResultsModel resultModel = resultModelSet.get(i);
+                AtosLocationModel locationModel = resultModel.getLocationModel();
+                // AtosAddressModel addressModel = resultModel.getmAddressModel();
+                double lat = Double.parseDouble(locationModel.getLatitude());
+                double lng = Double.parseDouble(locationModel.getLongitude());
+                LatLng latLng = new LatLng(lat, lng);
 
-            Marker marker = mMap.addMarker(markerOpt);
-            mHashMapResults.put(marker.getId(), resultModel);
+                MarkerOptions markerOpt = new MarkerOptions();
+                markerOpt.position(latLng);
+                markerOpt.draggable(false);
+                markerOpt.visible(true);
+                markerOpt.anchor(0.5f, 0.5f);
+                markerOpt.icon(BitmapDescriptorFactory.fromBitmap(mBitmapMarker));
+
+                Marker marker = mMap.addMarker(markerOpt);
+                mHashMapResults.put(marker.getId(), resultModel);
+            }
+            mResultModelSet = resultModelSet;
         }
-        mResultModelSet = resultModelSet;
     }
 
     private void createBitmap() {
