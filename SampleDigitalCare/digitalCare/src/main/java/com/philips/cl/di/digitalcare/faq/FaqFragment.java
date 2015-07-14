@@ -18,6 +18,9 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * FaqFragment Webview
  *
@@ -46,9 +49,10 @@ public class FaqFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
-                getPreviousName());
-
+                getPreviousName(), contextData);
         initView();
 
         loadFaq();

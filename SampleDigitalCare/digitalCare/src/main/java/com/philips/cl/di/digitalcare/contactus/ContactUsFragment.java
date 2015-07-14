@@ -39,7 +39,9 @@ import com.philips.cl.di.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationCallback;
@@ -441,8 +443,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             Uri uri = Uri.parse("fb://page/"
                     + getActivity().getResources().getString(
                     R.string.facebook_product_pageID));
-            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
-                    AnalyticsConstants.ACTION_KEY_EXIT_LINK, uri+toString());
+            Map<String, Object> contextData = new HashMap<String, Object>();
+            contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_FACEBOOK);
+            contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, uri + toString());
+            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
+
             getActivity().getApplicationContext().getPackageManager()
                     .getPackageInfo("com.facebook.katana", 0);
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
@@ -451,7 +456,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             DigiCareLogger.v(TAG, "Launching Facebook Webpage");
             showFragment(new FacebookWebFragment());
         }
-
     }
 
     protected void launchTwitterFeature() {
@@ -473,9 +477,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
         if (resolved) {
-            String twitterPageName = "com.twitter.android";
-            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
-                    AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
+            String twitterPageName = "com.twitter.com/" + "@" + getActivity().getString(R.string.twitter_page);
+            Map<String, Object> contextData = new HashMap<String, Object>();
+            contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
+            contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
+            AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
+
             startActivity(tweetIntent);
         } else {
             showFragment(new TwitterWebFragment());
@@ -676,7 +683,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
 	/*
-	 * protected void startFacebookSession() { FacebookHelper mHelper =
+     * protected void startFacebookSession() { FacebookHelper mHelper =
 	 * FacebookHelper.getInstance(getActivity());
 	 * mHelper.openFacebookSession(new FacebookAuthenticate() {
 	 *

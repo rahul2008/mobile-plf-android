@@ -1,3 +1,4 @@
+
 package com.philips.cl.di.digitalcare.locatephilips;
 
 import android.annotation.SuppressLint;
@@ -700,7 +701,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             AnalyticsTracker
                     .trackAction(
                             AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
-                            AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS,
+                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_SEND_GET_DIRECTIONS);
 
             if (isConnectionAvailable()) {
@@ -728,7 +729,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             AnalyticsTracker
                     .trackAction(
                             AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
-                            AnalyticsConstants.ACTION_KEY_LOCATE_PHILIPS_SPECIAL_EVENTS,
+                            AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL,
                             AnalyticsConstants.ACTION_VALUE_LOCATE_PHILIPS_CALL_LOCATION);
             if (mPhoneNumber != null && !mAtosResponse.getSuccess()) {
                 DigiCareLogger.i(TAG, mAtosResponse.getCdlsErrorModel()

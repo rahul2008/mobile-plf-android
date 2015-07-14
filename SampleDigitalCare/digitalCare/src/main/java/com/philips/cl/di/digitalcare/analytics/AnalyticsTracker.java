@@ -15,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -86,6 +85,13 @@ public class AnalyticsTracker {
         Analytics.trackState(pageName, addPageContextData(previousPageName));
     }
 
+    public static void trackPage(String pageName, String previousPageName, Map<String, Object> contextData) {
+        if (!trackMetrics)
+            return;
+        DigiCareLogger.i(TAG, "Track page :" + pageName);
+        Analytics.trackState(pageName, addPageContextData(previousPageName, contextData));
+    }
+
     /**
      * Tracking action for events.
      *
@@ -143,6 +149,15 @@ public class AnalyticsTracker {
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_APP_ID,
                 Analytics.getTrackingIdentifier());
+        return contextData;
+    }
+
+    /*
+     * This context data will be called for every page track if additional Map object is there.
+     */
+    private static Map<String, Object> addPageContextData(String previousPageName, Map<String, Object> contextData) {
+        Map<String, Object> contextDataNew = AnalyticsTracker.addPageContextData(previousPageName);
+        contextData.putAll(contextDataNew);
         return contextData;
     }
 
