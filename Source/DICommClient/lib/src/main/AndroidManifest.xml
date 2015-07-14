@@ -7,9 +7,4 @@
         android:minSdkVersion="9"
         android:targetSdkVersion="21" />
 
-    <application
-        android:allowBackup="true"
-        android:label="DICommClient" >
-    </application>
-
 </manifest>
