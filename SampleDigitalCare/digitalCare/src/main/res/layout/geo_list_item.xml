@@ -17,7 +17,7 @@
         android:text=""
         
         android:textStyle="bold"
-        custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
     <!-- Address -->
 
@@ -27,7 +27,7 @@
         android:layout_below="@id/place_title"
         android:paddingRight="50dp"
         android:text=""
-        custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
     <!-- Phone -->
 
@@ -37,7 +37,7 @@
         android:layout_below="@id/place_address"
         android:paddingRight="50dp"
         android:text=""
-        custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+        custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
     <ImageView
         android:id="@+id/imgListRightArrow"

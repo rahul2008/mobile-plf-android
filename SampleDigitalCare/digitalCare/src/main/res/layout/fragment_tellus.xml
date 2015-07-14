@@ -24,14 +24,14 @@
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_playstore_headertext"
                 android:textStyle="bold"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/tellus_PlayStoreReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_playstore_buttontext"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
 
         <View
@@ -52,7 +52,7 @@
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_philips_headertext"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 style="@style/supportHomeHelpText"
@@ -61,13 +61,13 @@
                 android:text="@string/rate_philips_description"
                 android:textColor="@color/text_sub_header_color"
                 android:textSize="@dimen/title_text_size_medium"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/tellus_PhilipsReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_philips_buttontext"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
     </LinearLayout>
 

@@ -192,7 +192,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         button.setGravity(Gravity.START | Gravity.CENTER);
         button.setPadding((int) (80 * density), 0, 0, 0);
         button.setTextAppearance(getActivity(), R.style.fontButton);
-        Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/CentraleSans-Book.otf");
+        Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
         button.setText(title);
 

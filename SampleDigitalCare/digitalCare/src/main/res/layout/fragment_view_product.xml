@@ -27,13 +27,13 @@
                 style="@style/viewProductDetails_Product_Header"
                 android:layout_alignTop="@id/productimage"
                 android:text="@string/product_name"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Bold.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/variant"
                 style="@style/viewProductDetails_Product_Variant"
                 android:text="@string/product_variant"
-                custom:digitalcareFontAssetName="fonts/CentraleSans-Book.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </RelativeLayout>
 
         <View
@@ -65,14 +65,14 @@
                 style="@style/fontButton"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_download_manual"
-                custom:digitalcareFontAssetName="fonts/centralesans-book.otf" />
+                custom:digitalcareFontAssetName="digitalcarefonts/centralesans-book.otf" />
 
             <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/prodinfo_button"
                 style="@style/fontButton"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_information"
-                custom:digitalcareFontAssetName="fonts/centralesans-book.otf" /> -->
+                custom:digitalcareFontAssetName="digitalcarefonts/centralesans-book.otf" /> -->
         </LinearLayout>
 
         <!-- Video Ads -->
