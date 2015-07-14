@@ -222,14 +222,14 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                 .getInstance().getConsumerProductInfo();
         Locale locale = DigitalCareConfigManager
                 .getInstance().getLocale();
-        if (consumerProductInfo != null && locale != null) {
-            return getAtosUrl(consumerProductInfo.getCtn(),
-                    consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-                            .getInstance().getLocale().getCountry().toLowerCase());
-        } else {
+        if (consumerProductInfo == null || locale == null) {
             getActivity().finish();
+            return null;
         }
-        return null;
+        return getAtosUrl(consumerProductInfo.getCtn(),
+                consumerProductInfo.getSubCategory(), DigitalCareConfigManager
+                        .getInstance().getLocale().getCountry().toLowerCase());
+
 
     }
 
