@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        versionName "1.0.5.1"
+        versionName "1.0.6"
     }
 
     buildTypes {
@@ -19,7 +19,7 @@ android {
 
 dependencies {
     compile 'com.google.android.gms:play-services:+'
-    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.android.support:appcompat-v7:21.0.0'
     compile files('libs/adobeMobileLibrary.jar')
     compile files('libs/localematch.jar')
 }
