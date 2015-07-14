@@ -102,7 +102,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
 
         Button button = createButton(density, title);
         relativeLayout.addView(button);
-        setButtonParams(button);
+        setButtonParams(button, density);
         ImageView imageView = createImageView(density, drawable);
         relativeLayout.addView(imageView);
         setImageParams(imageView, density);
@@ -157,18 +157,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
                 .getLayoutParams();
         imageViewParams.height = (int) (35 * density);
         imageViewParams.width = (int) (35 * density);
-        imageViewParams.topMargin = imageViewParams.bottomMargin = imageViewParams.rightMargin = (int) (10 * density);
+        imageViewParams.topMargin = imageViewParams.bottomMargin = imageViewParams.rightMargin = (int) (8 * density);
         imageViewParams.leftMargin = (int) (19 * density);
         imageView.setLayoutParams(imageViewParams);
     }
 
-    private void setButtonParams(Button button) {
+    private void setButtonParams(Button button, float density) {
         RelativeLayout.LayoutParams buttonParams = (LayoutParams) button
                 .getLayoutParams();
+        buttonParams.rightMargin = (int) (6 * density);
         buttonParams.addRule(RelativeLayout.CENTER_VERTICAL,
                 RelativeLayout.TRUE);
         buttonParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,
                 RelativeLayout.TRUE);
+
         button.setLayoutParams(buttonParams);
     }
 
