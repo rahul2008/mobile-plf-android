@@ -8,9 +8,7 @@ import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
-import com.philips.pins.shinelib.SHNStringResultListener;
 import com.philips.pins.shinelib.framework.SHNFactory;
-import com.philips.pins.shinelib.utility.ScalarConverters;
 
 import junit.framework.TestCase;
 
@@ -25,7 +23,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.charset.StandardCharsets;
 import java.util.Set;
 import java.util.Timer;
 import java.util.UUID;
@@ -82,11 +79,6 @@ public class SHNServiceUserDataTest extends TestCase {
         mockedShnUserControlPointCharacteristic = Mockito.mock(SHNCharacteristic.class);
 
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
-        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.USER_INDEX_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
-        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.FIRST_NAME_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
-        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.LAST_NAME_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
-        when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.AGE_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
-
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID)).thenReturn(mockedShnUserControlPointCharacteristic);
 
         mockStatic(Log.class);
@@ -124,7 +116,7 @@ public class SHNServiceUserDataTest extends TestCase {
         assertEquals(3, requiredSetArgumentCaptor.getValue().size());
 
         assertNotNull(optionalSetArgumentCaptor.getValue());
-        assertEquals(3, optionalSetArgumentCaptor.getValue().size()); // Review Make all UD characteristics available
+        assertEquals(27, optionalSetArgumentCaptor.getValue().size()); // Review Make all UD characteristics available
 
         verify(mockedShnService).registerSHNServiceListener(shnServiceUserData);
     }
@@ -138,66 +130,6 @@ public class SHNServiceUserDataTest extends TestCase {
         verify(mockedShnUserControlPointCharacteristic).setNotification(booleanArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
 
         assertTrue(booleanArgumentCaptor.getValue());
-    }
-
-    @Test
-    public void getFirstNameWithResultOkTest() {
-        SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class);
-        shnServiceUserData.getFirstName(mockedShnStringResultListener);                              // Review Possibly the test should indicate to test a String characteristic.
-
-        assertGetStringCharacteristic(SHNServiceUserData.FIRST_NAME_CHARACTERISTIC_UUID, mockedShnStringResultListener, "Jack");
-    }
-
-    @Test
-    public void getLastNameWithResultOkTest() {
-        SHNStringResultListener mockedShnStringResultListener = mock(SHNStringResultListener.class);
-        shnServiceUserData.getLastName(mockedShnStringResultListener);
-
-        assertGetStringCharacteristic(SHNServiceUserData.LAST_NAME_CHARACTERISTIC_UUID, mockedShnStringResultListener, "Jones");
-    }
-
-    private void assertGetStringCharacteristic(UUID uuid, SHNStringResultListener mockedShnStringResultListener, String name) {
-        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
-        verify(mockedShnService).getSHNCharacteristic(uuid);
-        verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
-        SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
-
-        shnCommandResultReporter.reportResult(SHNResult.SHNOk, name.getBytes());
-
-        verify(mockedShnStringResultListener).onActionCompleted(name, SHNResult.SHNOk);
-    }
-
-    @Test
-    public void setFirstNameWithResultOkTest() {
-        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
-
-        String name = "Jack";
-        shnServiceUserData.setFirstName(name, mockedShnResultListener);
-
-        assertSetStringCharacteristic(SHNServiceUserData.FIRST_NAME_CHARACTERISTIC_UUID, name, SHNResult.SHNOk);
-        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
-    }
-
-    @Test
-    public void setLastNameWithResultOkTest() {
-        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
-
-        String name = "Jones";
-        shnServiceUserData.setLastName(name, mockedShnResultListener);
-
-        assertSetStringCharacteristic(SHNServiceUserData.LAST_NAME_CHARACTERISTIC_UUID, name, SHNResult.SHNOk);
-        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
-    }
-
-    @Test
-    public void setAgeWithResultOkTest() { // Review Where is the test for getAge...
-        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
-
-        int age = 89;
-        shnServiceUserData.setAge(age, mockedShnResultListener);
-
-        assertSetUInt8Characteristic(SHNServiceUserData.AGE_CHARACTERISTIC_UUID, age, SHNResult.SHNOk);
-        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
@@ -266,64 +198,6 @@ public class SHNServiceUserDataTest extends TestCase {
         assertEquals(value, byteBuffer.getInt());
 
         shnCommandResultReporterArgumentCaptor.getValue().reportResult(result, null);
-    }
-
-    private void assertSetStringCharacteristic(UUID uuid, String name, SHNResult result) {
-        ArgumentCaptor<byte[]> byteArrayArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
-        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
-        verify(mockedShnService).getSHNCharacteristic(uuid);
-        verify(mockedShnCharacteristic).write(byteArrayArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
-        String resultString = new String(byteArrayArgumentCaptor.getValue(), StandardCharsets.UTF_8);
-        assertEquals(name, resultString);
-
-        shnCommandResultReporterArgumentCaptor.getValue().reportResult(result, null);
-    }
-
-    private void assertSetUInt8Characteristic(UUID uuid, int request, SHNResult result) {
-        ArgumentCaptor<byte[]> byteArrayArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
-        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
-        verify(mockedShnService).getSHNCharacteristic(uuid);
-        verify(mockedShnCharacteristic).write(byteArrayArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
-
-        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArrayArgumentCaptor.getValue());
-        int response = ScalarConverters.ubyteToInt(byteBuffer.get());
-
-        assertEquals(request, response);
-
-        shnCommandResultReporterArgumentCaptor.getValue().reportResult(result, null);
-    }
-
-    @Test
-    public void getUserIndexTest() {
-        SHNIntegerResultListener mockedShnIntegerResultListener = mock(SHNIntegerResultListener.class);
-        shnServiceUserData.getUserIndex(mockedShnIntegerResultListener);
-
-        byte[] userId = {0x04};
-
-        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
-        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.USER_INDEX_CHARACTERISTIC_UUID);
-        verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
-        SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
-
-        shnCommandResultReporter.reportResult(SHNResult.SHNOk, userId);
-
-        verify(mockedShnIntegerResultListener).onActionCompleted(userId[0], SHNResult.SHNOk);
-    }
-
-    @Test
-    public void whenUserIdIsMaxThenItIsParsedProperly() {
-        SHNIntegerResultListener mockedShnIntegerResultListener = mock(SHNIntegerResultListener.class);
-        shnServiceUserData.getUserIndex(mockedShnIntegerResultListener);
-
-        byte[] index = {(byte) 0xFF};
-
-        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
-        verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
-        SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
-
-        shnCommandResultReporter.reportResult(SHNResult.SHNOk, index);
-
-        verify(mockedShnIntegerResultListener).onActionCompleted(255, SHNResult.SHNOk);
     }
 
     @Test

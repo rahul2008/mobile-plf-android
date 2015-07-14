@@ -14,7 +14,7 @@ public class SHNUserConfiguration {
     private static final String TAG = SHNUserConfiguration.class.getSimpleName();
 
     public enum Sex {
-        Female, Male
+        Female, Male, Unspecified
     }
 
     private final ShinePreferenceWrapper shinePreferenceWrapper;
