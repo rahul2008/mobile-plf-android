@@ -68,6 +68,7 @@ import com.philips.cl.di.digitalcare.util.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -219,9 +220,17 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private String formAtosURL() {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
-        return getAtosUrl(consumerProductInfo.getCtn(),
-                consumerProductInfo.getSubCategory(), DigitalCareConfigManager
-                        .getInstance().getLocale().getCountry().toLowerCase());
+        Locale locale = DigitalCareConfigManager
+                .getInstance().getLocale();
+        if (consumerProductInfo != null && locale != null) {
+            return getAtosUrl(consumerProductInfo.getCtn(),
+                    consumerProductInfo.getSubCategory(), DigitalCareConfigManager
+                            .getInstance().getLocale().getCountry().toLowerCase());
+        } else {
+            getActivity().finish();
+        }
+        return null;
+
     }
 
     protected String getAtosUrl(String ctn, String subcategory, String country) {
@@ -387,7 +396,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private void addMarkers(final ArrayList<AtosResultsModel> resultModelSet) {
         int resultsetSize = resultModelSet.size();
         mHashMapResults = new HashMap<String, AtosResultsModel>(resultsetSize);
-        if(mMap!=null) {
+        if (mMap != null) {
             mMap.setOnMarkerClickListener((OnMarkerClickListener) this);
 
             for (int i = 0; i < resultsetSize; i++) {
@@ -646,6 +655,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     public void onConfigurationChanged(Configuration config) {
         super.onConfigurationChanged(config);
 
+
         setViewParams(config);
     }
 
@@ -822,7 +832,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onMapReady() {
         mMap = mMapFragment.getMap();
-        if(mMap!=null){
+        if (mMap != null) {
             initView();
         }
         DigiCareLogger.v(TAG, "onMAP Ready Callback : " + mMap);
