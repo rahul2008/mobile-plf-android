@@ -153,7 +153,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
 		button.setGravity(Gravity.START | Gravity.CENTER);
 		button.setPadding((int) (20 * density), 0, 0, 0);
 		button.setTextAppearance(getActivity(), R.style.fontButton);
-		Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/CentraleSans-Book.otf");
+		Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
 		button.setTypeface(buttonTypeface);
 		button.setText(title);
 		return button;

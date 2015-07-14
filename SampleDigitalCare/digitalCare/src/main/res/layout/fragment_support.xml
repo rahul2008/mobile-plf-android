@@ -18,7 +18,7 @@
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
             android:text="@string/how_can_we_help"
-            custom:digitalcareFontAssetName="fonts/CentraleSans-Light.otf" />
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf" />
     </LinearLayout>
 
 </ScrollView>
