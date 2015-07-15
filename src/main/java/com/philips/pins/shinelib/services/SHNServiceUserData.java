@@ -669,7 +669,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         shnCharacteristic.read(resultReporter);
     }
 
-    private void setDatabaseIncrement(int increment, final SHNResultListener listener) {
+    public void setDatabaseIncrement(int increment, final SHNResultListener listener) {
         writeScalarValueToCharacteristic(DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID, 4, increment, listener);
     }
 

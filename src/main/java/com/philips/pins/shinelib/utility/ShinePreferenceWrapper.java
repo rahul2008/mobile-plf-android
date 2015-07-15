@@ -25,6 +25,9 @@ public class ShinePreferenceWrapper {
     private static final String USER_CONFIG_HEIGHT_IN_CM = "USER_CONFIG_HEIGHT_IN_CM";
     private static final String USER_CONFIG_SEX = "USER_CONFIG_SEX";
 
+    private static final String UDS_USER_ID = "UDS_USER_ID";
+    private static final String UDS_CONSENT_CODE = "UDS_CONSENT_CODE";
+
     private final SharedPreferences sharedPreferences;
 
     public static class AssociatedDeviceInfo {
@@ -47,7 +50,7 @@ public class ShinePreferenceWrapper {
 
         // Create the list of new macAddressKeys
         Set<String> newMacAddressKeys = new HashSet<>();
-        for (AssociatedDeviceInfo associatedDeviceInfo: associatedDeviceInfos) {
+        for (AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
             newMacAddressKeys.add(createKeyFromMacAddress(associatedDeviceInfo.macAddress));
         }
 
@@ -56,7 +59,7 @@ public class ShinePreferenceWrapper {
         for (AssociatedDeviceInfo associatedDeviceInfo : associatedDeviceInfos) {
             editor.putString(createKeyFromMacAddress(associatedDeviceInfo.macAddress), associatedDeviceInfo.deviceTypeName);
         }
-        for (AssociatedDeviceInfo oldAssociatedDeviceInfo: oldAssociatedDeviceInfos) {
+        for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
             if (!newMacAddressKeys.contains(oldAssociatedDeviceInfo.macAddress)) {
                 editor.remove(oldAssociatedDeviceInfo.macAddress);
             }
@@ -68,7 +71,7 @@ public class ShinePreferenceWrapper {
         List<AssociatedDeviceInfo> associatedDeviceInfos = new ArrayList<>();
 
         Set<String> macAddressKeys = sharedPreferences.getStringSet(ASSOCIATED_DEVICES, Collections.EMPTY_SET);
-        for (String macAddressKey: macAddressKeys) {
+        for (String macAddressKey : macAddressKeys) {
             String macAddress = createMacAddressFromKey(macAddressKey);
             String deviceTypeName = sharedPreferences.getString(macAddressKey, null);
             if (deviceTypeName != null) {
@@ -164,5 +167,30 @@ public class ShinePreferenceWrapper {
         if (stringValue != null) {
             shnUserConfiguration.setSex(SHNUserConfiguration.Sex.valueOf(stringValue));
         }
+    }
+
+    // TODO:add implementation
+    public synchronized void storeUserIndex(int userIndex) {
+    }
+
+    public synchronized void storeUserConsentCode(int consentCode) {
+    }
+
+    public synchronized void storeDataBaseIncrement(int dataIncrement) {
+    }
+
+    public synchronized int readUserIndex() {
+        return 0;
+    }
+
+    public synchronized int readUserConsentCode() {
+        return 0;
+    }
+
+    public synchronized int readDataBaseIncrement() {
+        return 0;
+    }
+
+    public void incrementDataBaseIncrement() {
     }
 }

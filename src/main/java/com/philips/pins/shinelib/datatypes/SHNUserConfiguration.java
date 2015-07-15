@@ -37,6 +37,7 @@ public class SHNUserConfiguration {
 
     private void saveToPreferences() {
         shinePreferenceWrapper.storeUserConfiguration(this);
+        shinePreferenceWrapper.incrementDataBaseIncrement();
     }
 
     public Sex getSex() {
@@ -45,6 +46,7 @@ public class SHNUserConfiguration {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+        saveToPreferences();
     }
 
     public Integer getMaxHeartRate() {
