@@ -170,6 +170,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     private void setDigitalCareLocale(String language, String country) {
 
+        DigiCareLogger.d("TestLocale","lang :"+language+" country :" +country);
         DigitalCareConfigManager.getInstance().setLocale(language, country);
     }
 

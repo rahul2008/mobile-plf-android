@@ -52,8 +52,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
         DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
                 "piLocale received on ErrorLIstener");
-        // DigitalCareConfigManager.getInstance().mLocaleMatchLocale = mLocale;
-        DigitalCareConfigManager.getInstance().setmLocaleMatchResponseLocale(mLocale);
+        DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(mLocale);
     }
 
     @Override
@@ -72,28 +71,21 @@ public class LocaleMatchHandler implements LocaleMatchListener {
                             setSector(mSectorValue), Catalog.CONSUMER);
             if (mPilLocale != null) {
                 DigiCareLogger.v(
-                        "LocaleMatchReturn",
+                        TAG,
                         "Country Code : " + mPilLocale.getCountrycode()
                                 + " & Language Code : "
                                 + mPilLocale.getLanguageCode()
                                 + " & Locale is : "
                                 + mPilLocale.getLocaleCode());
                 Locale locale = new Locale(mPilLocale.getLanguageCode(), mPilLocale.getCountrycode());
-                //DigitalCareConfigManager.getInstance().mLocaleMatchLocale = locale;
-                DigitalCareConfigManager.getInstance().setmLocaleMatchResponseLocale(locale);
-                //  DigitalCareConfigManager.getInstance().mLocale = locale;
+                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(locale);
+
             } else {
                 DigiCareLogger.v(TAG, "PILocale received null");
-                // DigitalCareConfigManager.getInstance().mLocaleMatchLocale = mLocale;
-                //   DigitalCareConfigManager.getInstance().setmLocaleMatchResponseLocale(mLocale);
-                // DigitalCareConfigManager.getInstance().mLocale = mLocale;
             }
 
         } else {
             DigiCareLogger.v(TAG, "Sector Not exists");
-            // DigitalCareConfigManager.getInstance().mLocaleMatchLocale = mLocale;
-            // DigitalCareConfigManager.getInstance().setmLocaleMatchResponseLocale(mLocale);
-            //DigitalCareConfigManager.getInstance().mLocale = mLocale;
         }
     }
 

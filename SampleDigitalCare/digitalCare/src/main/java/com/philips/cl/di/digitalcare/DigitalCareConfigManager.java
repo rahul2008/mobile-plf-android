@@ -155,11 +155,12 @@ public class DigitalCareConfigManager {
 
     public void setmLocale(Locale locale) {
         mLocale = locale;
+        DigiCareLogger.d("TestLocale", mLocale.toString());
     }
 
-    public void setmLocaleMatchResponseLocale(Locale localeMatchLocale) {
+    public void setLocaleMatchResponseLocale(Locale localeMatchLocale) {
         mLocaleMatchLocale = localeMatchLocale;
-        DigiCareLogger.d("setLocaleMatchReturn",mLocaleMatchLocale.toString());
+        DigiCareLogger.d("setLocaleMatchReturn", mLocaleMatchLocale.toString());
     }
 
     public Locale getLocale() {

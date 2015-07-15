@@ -15,6 +15,10 @@
         <item>portuguese (pt)</item>
         <item>Russia (ru)</item>
         <item>Taiwan (zh)</item>
+        <item>Italian(it)</item>
+        <item>Chinese(zh)</item>
+        <item>Polish(pl)</item>
+        <item>Spanish(es)</item>
     </string-array>
 
     <!-- Country -->
@@ -30,6 +34,11 @@
         <item>BRAZIL(BR)</item>
         <item>Russia(RU)</item>
         <item>Taiwan(TW)</item>
+        <item>Italy(IT)</item>
+        <item>China(CN)</item>
+        <item>Poland(PL)</item>
+        <item>Span(ES)</item>
+
     </string-array>
 
     <!-- Language code -->
@@ -45,6 +54,10 @@
         <item>pt</item>
         <item>ru</item>
         <item>zh</item>
+        <item>it</item>
+        <item>zh</item>
+        <item>pl</item>
+        <item>es</item>
     </string-array>
 
     <!-- country code -->
@@ -60,6 +73,10 @@
         <item>BR</item>
         <item>RU</item>
         <item>TW</item>
+        <item>IT</item>
+        <item>CN</item>
+        <item>PL</item>
+        <item>ES</item>
     </string-array>
 
 </resources>
