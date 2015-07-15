@@ -20,7 +20,6 @@ import android.os.Looper;
 import android.os.Message;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.DICommClientWrapper;
 
 public class NetworkMonitor {
 

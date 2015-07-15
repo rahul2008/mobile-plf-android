@@ -15,7 +15,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -117,6 +116,9 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		if (mInstance != null) {
 			throw new RuntimeException("CPPController can only be initialized once");
 		}
+		if(kpsConfigurationInfo == null || context == null){
+			throw new RuntimeException("CPPController cannot be initialized without context and kpsConfigurationInfo");
+		}
 		mInstance = new CppController(context, kpsConfigurationInfo);
 	}
 
@@ -129,6 +131,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private CppController(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+		
 		this.mContext = context;
 		mKpsConfigurationInfo = kpsConfigurationInfo;
 		mKpsConfiguration = new KeyProvisioningHelper(kpsConfigurationInfo);
@@ -139,8 +142,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		mSignOnListeners = new ArrayList<SignonListener>();
 		mPublishEventListeners = new ArrayList<PublishEventListener>() ;
 		mDcsResponseListeners = new ArrayList<DcsResponseListener>() ;
-
-		mAppCppId = generateTemporaryAppCppId();
 
 		init() ;
 	}
@@ -938,10 +939,6 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 		return mAppCppId;
 	}
 
-	private String generateTemporaryAppCppId() {
-		return String.format("deadbeef%08x",new Random().nextInt());
-	}
-	
 	public SignonState getSignOnState() {
 		return mSignonState;
 	}

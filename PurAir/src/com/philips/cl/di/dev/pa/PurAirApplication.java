@@ -12,8 +12,7 @@ import android.os.Environment;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
-import com.philips.cdp.dicommclient.util.DICommClientWrapper;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.dev.pa.buyonline.ImageLoaderUtils;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -46,10 +45,8 @@ public class PurAirApplication extends Application {
 		PurifierDatabase applianceDatabase = new PurifierDatabase(this);
 		applianceDatabase.triggerOnDatabaseUpdateIfNeeded();
 
-		DICommClientWrapper.initializeDICommLibrary(getAppContext());
 		CppController.createSharedInstance(getAppContext(), new PurAirKPSConfiguration());
-		//DiscoveryManager.createSharedInstance(getApplicationContext(),CppController.getInstance(), new AirPurifierFactory(), applianceDatabase);
-		DICommClientWrapper.getDiscoveryManager(new AirPurifierFactory(), applianceDatabase, CppController.getInstance());
+		DICommClientWrapper.initializeDICommLibrary(getAppContext(),new AirPurifierFactory(), applianceDatabase, CppController.getInstance());
 	}
 
 	private void initImageLoader() {

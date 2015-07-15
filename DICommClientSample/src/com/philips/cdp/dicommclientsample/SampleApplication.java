@@ -1,27 +1,19 @@
 package com.philips.cdp.dicommclientsample;
 
+import android.app.Application;
+
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.communication.LocalStrategy;
-import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.cpp.KpsConfigurationInfo;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
-import com.philips.cdp.dicommclient.util.DICommClientWrapper;
-
-import android.app.Application;
 
 public class SampleApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		super.onCreate();
-		
-		DICommClientWrapper.initializeDICommLibrary(this);
-		
-		//CppController.createSharedInstance(getApplicationContext(), kpsConfiguration);
-		//DiscoveryManager.createSharedInstance(this, CppController.getInstance(), applianceFactory);
-		DICommClientWrapper.getDiscoveryManager(applianceFactory, null, null);
+		super.onCreate();		
+		DICommClientWrapper.initializeDICommLibrary(this,applianceFactory, null, null);		
 	}
 	
 	private DICommApplianceFactory<GenericAppliance> applianceFactory = new DICommApplianceFactory<GenericAppliance>() {
@@ -37,67 +29,4 @@ public class SampleApplication extends Application {
 			return new GenericAppliance(networkNode, new LocalStrategy(new DISecurity()));
 		}
 	};
-
-//	private KpsConfigurationInfo kpsConfiguration = new KpsConfigurationInfo() {
-//		
-//		@Override
-//		public int getProductVersion() {
-//			return 0;
-//		}
-//		
-//		@Override
-//		public String getProductId() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public String getLanguageCode() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public String getDevicePortUrl() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public String getCountryCode() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public String getComponentId() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public int getComponentCount() {
-//			return 0;
-//		}
-//		
-//		@Override
-//		public String getBootStrapKey() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public String getBootStrapId() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public int getAppVersion() {
-//			return 0;
-//		}
-//		
-//		@Override
-//		public String getAppType() {
-//			return null;
-//		}
-//		
-//		@Override
-//		public String getAppId() {
-//			return null;
-//		}
-//	};
 }
