@@ -256,14 +256,11 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         verify(mockedShnServiceUserData, never()).consentExistingUser(anyInt(), anyInt(), any(SHNResultListener.class));
     }
 
-    @Test
-    public void whenPerformingInitialConsentThanListenerIsNotNotified() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
+    private void verifyPushUserConfiguration(int increment) {
+        when(mockedShinePreferenceWrapper.readDataBaseIncrement()).thenReturn(increment);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
-
-        verify(mockedShnCapabilityUserControlPointListener, never()).onMismatchedDatabaseIncrement(anyInt(), anyInt(), anyInt());
+        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
+        shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
     }
 
     @Test
@@ -271,7 +268,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
         shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         verify(mockedShnServiceUserData).setAge(anyInt(), shnResultListenerArgumentCaptor.capture());
@@ -285,7 +282,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         Integer age = 33;
         when(mockedShnUserConfiguration.getAge()).thenReturn(age);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -303,10 +300,10 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
 
-        Integer beats = 33;
+        Integer beats = 120;
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(beats);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -325,10 +322,10 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
 
-        Integer beats = 33;
+        Integer beats = 127;
         when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(beats);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
@@ -351,7 +348,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         Integer height = 187;
         when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(height);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<Float> floatArgumentCaptor = ArgumentCaptor.forClass(Float.class);
@@ -375,7 +372,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.Male;
         when(mockedShnUserConfiguration.getSex()).thenReturn(sex);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<SHNUserConfiguration.Sex> sexArgumentCaptor = ArgumentCaptor.forClass(SHNUserConfiguration.Sex.class);
@@ -399,7 +396,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         Double weight = 87.1;
         when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(weight);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<Float> floatArgumentCaptor = ArgumentCaptor.forClass(Float.class);
@@ -424,7 +421,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         Date date = new Date(1220L);
         when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(date);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
         ArgumentCaptor<Date> dateArgumentCaptor = ArgumentCaptor.forClass(Date.class);
@@ -448,6 +445,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnUserConfiguration.getSex()).thenReturn(null);
         when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
 
-        verifyUserConsentWithUserIndexAndConsentCode(1, 34, 3, 0);
+        verifyPushUserConfiguration(10);
     }
 }

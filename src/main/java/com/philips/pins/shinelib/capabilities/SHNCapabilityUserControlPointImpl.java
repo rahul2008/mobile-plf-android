@@ -76,11 +76,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 if (result == SHNResult.SHNOk) {
                     int localIncrement = shinePreferenceWrapper.readDataBaseIncrement();
                     if (localIncrement != increment) {
-                        if (increment == 0) {
-                            pushUserConfiguration(null);
-                        } else {
-                            shnCapabilityUserControlPointListener.onMismatchedDatabaseIncrement(shinePreferenceWrapper.readUserIndex(), localIncrement, increment);
-                        }
+                        shnCapabilityUserControlPointListener.onMismatchedDatabaseIncrement(shinePreferenceWrapper.readUserIndex(), localIncrement, increment);
                     }
                 }
             }
@@ -118,8 +114,13 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
         private SHNResultListener shnResultListener = new SHNResultListener() {
             @Override
             public void onActionCompleted(SHNResult result) {
-                //TODO: find out what to do if result not ok
-                executeNext(result);
+                if (result == SHNResult.SHNOk) {
+                    executeNext(result);
+                } else {
+                    if (shnEndResultListener != null) {
+                        shnEndResultListener.onActionCompleted(result);
+                    }
+                }
             }
         };
 
@@ -136,15 +137,17 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
             commandQueue.add(new GenderCommand(userConfiguration.getSex(), shnServiceUserData));
             commandQueue.add(new WeightCommand(userConfiguration.getWeightInKg(), shnServiceUserData));
             commandQueue.add(new DateCommand(userConfiguration.getDateOfBirth(), shnServiceUserData));
-            commandQueue.add(new DataBaseIncrementCommand(dataBaseIncrement, shnServiceUserData)); // at the end the increment is set to local
+            commandQueue.add(new DataBaseIncrementCommand(dataBaseIncrement, shnServiceUserData));
         }
 
         private void executeNext(SHNResult result) {
             Command next = commandQueue.poll();
             if (next != null) {
                 next.run();
-            }else{
-                shnEndResultListener.onActionCompleted(result);
+            } else {
+                if (shnEndResultListener != null) {
+                    shnEndResultListener.onActionCompleted(result);
+                }
             }
         }
 
@@ -171,7 +174,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 if (value != null) {
                     setValue(value, shnResultListener);
                 } else {
-                    shnResultListener.onActionCompleted(null);
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
                 }
             }
 
@@ -254,7 +257,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 if (sex != null) {
                     shnServiceUserData.setSex(sex, shnResultListener);
                 } else {
-                    shnResultListener.onActionCompleted(null);
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
                 }
             }
         }
@@ -274,7 +277,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 if (weight != null) {
                     shnServiceUserData.setWeightInKg(weight.floatValue(), shnResultListener);
                 } else {
-                    shnResultListener.onActionCompleted(null);
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
                 }
             }
         }
@@ -294,7 +297,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 if (date != null) {
                     shnServiceUserData.setDateOfBirth(date, shnResultListener);
                 } else {
-                    shnResultListener.onActionCompleted(null);
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
                 }
             }
         }
