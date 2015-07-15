@@ -22,9 +22,10 @@ android {
 }
 
 dependencies {
-    def isLocalLibAvailable = new File('../DICommClient').exists()
-    compile isLocalLibAvailable ? project(':lib') : 'com.philips.cdp:dicomm-client:0.0.1'
-
-    //dependency for dicomm-client
-    compile 'com.google.code.gson:gson:2.2.4'
+    if (findProject(':lib')) {
+        compile project(':lib')
+    } else {
+        compile 'com.philips.cdp:dicomm-client:0.0.1'
+        compile 'com.google.code.gson:gson:2.2.4'
+    }
 }
