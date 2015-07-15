@@ -62,9 +62,9 @@ public class FaqFragment extends DigitalCareBaseFragment {
         if (getFaqUrl() == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            DigiCareLogger.d("URLTest", getFaqUrl());
+            //DigiCareLogger.d("URLTest", getFaqUrl());
             String url = getFaqUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
-
+            DigiCareLogger.d("URLTest", getFaqUrl());
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -109,6 +109,9 @@ public class FaqFragment extends DigitalCareBaseFragment {
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
+
+        DigiCareLogger.d("LocaleMatchReturnInFaq",DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale().toString());
+
         return String.format(FAQ_URL, consumerProductInfo.getSector(),
                 language, country, consumerProductInfo.getCtn());
     }

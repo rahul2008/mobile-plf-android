@@ -8,6 +8,7 @@ import com.philips.cl.di.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cl.di.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cl.di.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cl.di.digitalcare.social.SocialProviderListener;
+import com.philips.cl.di.digitalcare.util.DigiCareLogger;
 import com.philips.cl.di.digitalcare.util.DigitalCareContants;
 
 import java.util.Locale;
@@ -25,8 +26,8 @@ public class DigitalCareConfigManager {
 
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private static Context mContext = null;
-    public Locale mLocale = null;
-    public Locale mLocaleMatchLocale = null;
+    private Locale mLocale = null;
+    private Locale mLocaleMatchLocale = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
@@ -83,7 +84,7 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
-        Intent intent = new Intent(this.getContext(),DigitalCareActivity.class);
+        Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
         intent.putExtra(DigitalCareContants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(DigitalCareContants.STOP_ANIMATION_ID, endAnimation);
         getContext().startActivity(intent);
@@ -104,6 +105,7 @@ public class DigitalCareConfigManager {
     public void unregisterMainMenuListener(MainMenuListener mainMenuListener) {
         mMainMenuListener = null;
     }
+
     public MainMenuListener getMainMenuListener() {
         return mMainMenuListener;
     }
@@ -142,12 +144,22 @@ public class DigitalCareConfigManager {
 
         if (langCode != null && countryCode != null) {
 
-            mLocale = new Locale(langCode, countryCode);
+            // mLocale = new Locale(langCode, countryCode);
+            setmLocale(new Locale(langCode, countryCode));
 
             LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
                     mContext, langCode, countryCode);
             mLocaleMatchHandler.initializeLocaleMatchService();
         }
+    }
+
+    public void setmLocale(Locale locale) {
+        mLocale = locale;
+    }
+
+    public void setmLocaleMatchResponseLocale(Locale localeMatchLocale) {
+        mLocaleMatchLocale = localeMatchLocale;
+        DigiCareLogger.d("setLocaleMatchReturn",mLocaleMatchLocale.toString());
     }
 
     public Locale getLocale() {
@@ -158,7 +170,7 @@ public class DigitalCareConfigManager {
         return mLocaleMatchLocale;
     }
 
-    public String getDigitalCareLibVersion(){
+    public String getDigitalCareLibVersion() {
         return BuildConfig.VERSION_NAME;
     }
 
