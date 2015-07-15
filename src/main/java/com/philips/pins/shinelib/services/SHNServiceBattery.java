@@ -22,7 +22,7 @@ import java.util.UUID;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SHNServiceBattery implements SHNService.SHNServiceListener{
+public class SHNServiceBattery implements SHNService.SHNServiceListener {
 
     public static final UUID SERVICE_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180F));
     public static final UUID SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID = UUID.fromString(BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A19));
@@ -30,11 +30,34 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
     private static final String TAG = SHNServiceBattery.class.getSimpleName();
     private static final boolean LOGGING = false;
 
+    private SHNServiceBatteryListener shnServiceBatteryListener;
+
+    public interface SHNServiceBatteryListener {
+        void onBatteryLevelUpdated(int level);
+    }
+
     public SHNService getShnService() {
         return shnService;
     }
 
     private SHNService shnService;
+
+    private SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
+        @Override
+        public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) {
+            if (shnCharacteristic.getUuid() == SYSTEM_BATTERY_LEVEL_CHARACTERISTIC_UUID) {
+                ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
+                int level = ScalarConverters.ubyteToInt(buffer.get());
+                if (level < 100 && shnServiceBatteryListener != null) {
+                    shnServiceBatteryListener.onBatteryLevelUpdated(level);
+                }
+            }
+        }
+    };
+
+    public void setShnServiceBatteryListener(SHNServiceBatteryListener shnServiceBatteryListener) {
+        this.shnServiceBatteryListener = shnServiceBatteryListener;
+    }
 
     public SHNServiceBattery(SHNFactory shnFactory) {
         shnService = shnFactory.createNewSHNService(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
@@ -60,10 +83,9 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
                 if (LOGGING) Log.i(TAG, "getBatteryLevel reportResult");
                 int value = -1;
                 if (shnResult == SHNResult.SHNOk) {
-                    ByteBuffer buffer = ByteBuffer.wrap(data);
-                    buffer.order(ByteOrder.LITTLE_ENDIAN);
+                    ByteBuffer buffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
                     value = ScalarConverters.ubyteToInt(buffer.get());
-                    if(value > 100) {
+                    if (value > 100) {
                         shnResult = SHNResult.SHNErrorWhileParsing;
                         value = -1;
                     }
@@ -93,12 +115,11 @@ public class SHNServiceBattery implements SHNService.SHNServiceListener{
         };
 
         shnCharacteristic.setNotification(enabled, resultReporter);
-
     }
 
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if(state == SHNService.State.Available) {
+        if (state == SHNService.State.Available) {
             shnService.transitionToReady();
         }
     }

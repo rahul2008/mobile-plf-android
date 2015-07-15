@@ -68,5 +68,16 @@ public class SHNCapabilityBatteryWrapper implements SHNCapabilityBattery {
         };
         internalHandler.post(command);
     }
+
+    @Override
+    public void setSetSHNCapabilityBatteryListener(final SHNCapabilityBatteryListener shnCapabilityBatteryListener) {
+        Runnable command = new Runnable() {
+            @Override
+            public void run() {
+                wrappedShnCapability.setSetSHNCapabilityBatteryListener(shnCapabilityBatteryListener);
+            }
+        };
+        internalHandler.post(command);
+    }
 }
 
