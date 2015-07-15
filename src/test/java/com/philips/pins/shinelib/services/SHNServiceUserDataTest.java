@@ -80,6 +80,7 @@ public class SHNServiceUserDataTest extends TestCase {
 
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID)).thenReturn(mockedShnCharacteristic);
         when(mockedShnService.getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID)).thenReturn(mockedShnUserControlPointCharacteristic);
+        when(mockedShnUserControlPointCharacteristic.getUuid()).thenReturn(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID);
 
         mockStatic(Log.class);
         PowerMockito.when(Log.w(anyString(), anyString())).thenReturn(0);

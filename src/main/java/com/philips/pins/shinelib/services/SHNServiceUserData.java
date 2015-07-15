@@ -105,18 +105,26 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     private LinkedList<SHNUserDataCommand> commandQueue;
     private boolean executing;
 
+    private SHNServiceUserDataListener shnServiceUserDataListener;
+
     private SHNCharacteristic.SHNCharacteristicChangedListener shnCharacteristicChangedListener = new SHNCharacteristic.SHNCharacteristicChangedListener() {
         @Override
         public void onCharacteristicChanged(SHNCharacteristic shnCharacteristic, byte[] data) {
-            if (executing) {
-                ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-                byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-                processResponseData(byteBuffer);
-            } else {
-                Log.w(TAG, "Notification is received with no request");
+            if(shnCharacteristic.getUuid() == USER_CONTROL_POINT_CHARACTERISTIC_UUID) {
+                if (executing) {
+                    ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+                    byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+                    processResponseData(byteBuffer);
+                } else {
+                    Log.w(TAG, "Notification is received with no request");
+                }
             }
         }
     };
+
+    public interface SHNServiceUserDataListener {
+        void onServiceStateChanged(SHNServiceUserData shnServiceUserData, SHNService.State state);
+    }
 
     public SHNServiceUserData(SHNFactory shnFactory) {
         shnService = shnFactory.createNewSHNService(SERVICE_UUID, getRequiredCharacteristics(), getOptionalCharacteristics());
@@ -176,6 +184,10 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         return shnService;
     }
 
+    public void setShnServiceUserDataListener(SHNServiceUserDataListener shnServiceUserDataListener) {
+        this.shnServiceUserDataListener = shnServiceUserDataListener;
+    }
+
     //implements SHNService.SHNServiceListener
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
@@ -184,6 +196,9 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
             shnCharacteristic.setNotification(true, null);
             shnCharacteristic.setShnCharacteristicChangedListener(shnCharacteristicChangedListener);
             shnService.transitionToReady();
+        }
+        if(shnServiceUserDataListener!=null) {
+            shnServiceUserDataListener.onServiceStateChanged(this, state);
         }
     }
 
@@ -632,7 +647,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         });
     }
 
-    private void getDatabaseIncrement(final SHNIntegerResultListener listener) {
+    public void getDatabaseIncrement(final SHNIntegerResultListener listener) {
         if (LOGGING) Log.i(TAG, "getDatabaseIncrement");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
 
