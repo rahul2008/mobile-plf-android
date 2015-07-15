@@ -29,7 +29,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     private List<SHNLogItem> shnLogItems;
     private State state;
-    private SHNCapabilityLogSynchronizationListener shnCapabilitySHNCapabilityLogSynchronizationListener;
+    private SHNCapabilityLogSynchronizationListener shnCapabilityLogSynchronizationListener;
 
     protected Timer timer;
 
@@ -48,7 +48,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     // implements SHNCapabilityLogSynchronization
     @Override
     public void setSHNCapabilityLogSynchronizationListener(SHNCapabilityLogSynchronizationListener SHNCapabilityLogSynchronizationListener) {
-        shnCapabilitySHNCapabilityLogSynchronizationListener = SHNCapabilityLogSynchronizationListener;
+        shnCapabilityLogSynchronizationListener = SHNCapabilityLogSynchronizationListener;
     }
 
     @Override
@@ -66,7 +66,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         if (state == State.Idle) {
             setState(State.Synchronizing);
             setupToReceiveMeasurements();
-            if (shnCapabilitySHNCapabilityLogSynchronizationListener != null) shnCapabilitySHNCapabilityLogSynchronizationListener.onProgressUpdate(this, 0.0f);
+            if (shnCapabilityLogSynchronizationListener != null) shnCapabilityLogSynchronizationListener.onProgressUpdate(this, 0.0f);
             timer.restart();
         } else {
             Log.w(TAG, "Unable to start synchronization; Already running!");
@@ -98,7 +98,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         if (this.state != state) {
             this.state = state;
 
-            if (shnCapabilitySHNCapabilityLogSynchronizationListener != null) shnCapabilitySHNCapabilityLogSynchronizationListener.onStateUpdated(this);
+            if (shnCapabilityLogSynchronizationListener != null) shnCapabilityLogSynchronizationListener.onStateUpdated(this);
         }
     }
 
@@ -121,8 +121,8 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
             int count = shnLogItems.size();
             float progress = Math.min((float) count / MAX_STORED_MEASUREMENTS, 1.0f);
-            if (shnCapabilitySHNCapabilityLogSynchronizationListener != null)
-                shnCapabilitySHNCapabilityLogSynchronizationListener.onProgressUpdate(this, progress);
+            if (shnCapabilityLogSynchronizationListener != null)
+                shnCapabilityLogSynchronizationListener.onProgressUpdate(this, progress);
         } else {
             Log.w(TAG, "Received measurement but is in an inconsistent state!");
         }
@@ -131,7 +131,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     private void finishLoggingResult(SHNResult result) {
         assert (state == State.Synchronizing);
         teardownReceivingMeasurements();
-        if (shnCapabilitySHNCapabilityLogSynchronizationListener != null) shnCapabilitySHNCapabilityLogSynchronizationListener.onProgressUpdate(this, 1.0f);
+        if (shnCapabilityLogSynchronizationListener != null) shnCapabilityLogSynchronizationListener.onProgressUpdate(this, 1.0f);
         if (shnLogItems != null && shnLogItems.size() > 0) {
 
             Collections.sort(shnLogItems, new SHNLogItemsComparator());
@@ -147,11 +147,11 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
             Date startDate = logItems.get(0).getTimestamp();
             Date endDate = logItems.get(logItems.size() - 1).getTimestamp();
             SHNLog log = new SHNLog(startDate, endDate, "", logItems, types);
-            if (shnCapabilitySHNCapabilityLogSynchronizationListener != null)
-                shnCapabilitySHNCapabilityLogSynchronizationListener.onLogSynchronized(this, log, result);
+            if (shnCapabilityLogSynchronizationListener != null)
+                shnCapabilityLogSynchronizationListener.onLogSynchronized(this, log, result);
         } else {
-            if (shnCapabilitySHNCapabilityLogSynchronizationListener != null)
-                shnCapabilitySHNCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, SHNResult.SHNResponseIncompleteError);
+            if (shnCapabilityLogSynchronizationListener != null)
+                shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, SHNResult.SHNResponseIncompleteError);
         }
     }
 
