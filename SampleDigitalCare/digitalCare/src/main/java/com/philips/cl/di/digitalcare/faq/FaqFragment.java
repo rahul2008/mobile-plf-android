@@ -63,7 +63,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             DigiCareLogger.d("URLTest", getFaqUrl());
-            String url = getFaqUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
+            String url = getFaqUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
 
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
