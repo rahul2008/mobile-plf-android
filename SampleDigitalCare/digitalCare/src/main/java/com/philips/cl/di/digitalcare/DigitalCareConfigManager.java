@@ -80,7 +80,7 @@ public class DigitalCareConfigManager {
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
 
-    public void invokeDigitalCareAsActivity(String startAnimation, String endAnimation) {
+    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -155,12 +155,10 @@ public class DigitalCareConfigManager {
 
     public void setmLocale(Locale locale) {
         mLocale = locale;
-        DigiCareLogger.d("TestLocale", mLocale.toString());
     }
 
     public void setLocaleMatchResponseLocale(Locale localeMatchLocale) {
         mLocaleMatchLocale = localeMatchLocale;
-        DigiCareLogger.d("setLocaleMatchReturn", mLocaleMatchLocale.toString());
     }
 
     public Locale getLocale() {

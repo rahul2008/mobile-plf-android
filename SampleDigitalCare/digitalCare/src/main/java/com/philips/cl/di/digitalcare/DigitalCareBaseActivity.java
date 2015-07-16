@@ -105,7 +105,6 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
 
     private void setLocaleLanguage() {
         Locale locale = DigitalCareConfigManager.getInstance().getLocale();
-        DigiCareLogger.d("TestLocale", locale.toString());
         if (locale != null) {
             Locale.setDefault(locale);
             Configuration config = new Configuration();

@@ -46,8 +46,8 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         String startAnim = null;
         String endAnimation = null;
 
-        startAnim = bundleExtras.getString(DigitalCareContants.START_ANIMATION_ID);
-        endAnimation = bundleExtras.getString(DigitalCareContants.STOP_ANIMATION_ID);
+        startAnim = getResources().getResourceName(bundleExtras.getInt(DigitalCareContants.START_ANIMATION_ID));
+        endAnimation = getResources().getResourceName(bundleExtras.getInt(DigitalCareContants.STOP_ANIMATION_ID));
 
         String packageName = getPackageName();
         mEnterAnimation = getApplicationContext().getResources().getIdentifier(startAnim,

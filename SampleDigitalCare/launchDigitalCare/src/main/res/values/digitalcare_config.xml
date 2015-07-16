@@ -39,24 +39,24 @@
     <!-- UiTheme End -->
 
     <!-- List of default features supported by library, verticals can add/delete/modify this list by adding localised resource key name which contains title text, please follow naming conventions -->
-    <string-array name="main_menu_title">
-        <item>view_product_details</item>
-        <item>view_faq</item>
-        <item>contact_us</item>
-        <item>find_philips_near_you</item>
-        <item>feedback</item>
-        <item>sign_into_my_philips</item>
-    </string-array>
+    <array name="main_menu_title">
+        <item>@string/view_product_details</item>
+        <item>@string/view_faq</item>
+        <item>@string/contact_us</item>
+        <item>@string/find_philips_near_you</item>
+        <item>@string/feedback</item>
+        <item>@string/sign_into_my_philips</item>
+    </array>
 
     <!-- List of main menu image names, please follow naming conventions -->
-    <string-array name="main_menu_resources">
-        <item>view_product_details</item>
-        <item>view_faq</item>
-        <item>contact_us</item>
-        <item>find_philips_near_you</item>
-        <item>feedback</item>
-        <item>philips_logo</item>
-    </string-array>
+    <array name="main_menu_resources">
+        <item>@drawable/view_product_details</item>
+        <item>@drawable/view_faq</item>
+        <item>@drawable/contact_us</item>
+        <item>@drawable/find_philips_near_you</item>
+        <item>@drawable/feedback</item>
+        <item>@drawable/philips_logo</item>
+    </array>
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
     <string-array name="product_menu_title">

@@ -1,6 +1,7 @@
 package com.philips.cl.di.digitalcare;
 
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -90,7 +91,10 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
      * Create RelativeLayout at runTime. RelativeLayout will have button and
      * image together.
      */
-    private void createButtonLayout(String buttonTitle, String buttonDrawable) {
+    private void createButtonLayout(int buttonTitleResId, int buttonDrawableResId) {
+
+        String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
+        String buttonDrawable = getResources().getResourceEntryName(buttonDrawableResId);
         float density = getResources().getDisplayMetrics().density;
         String packageName = getActivity().getPackageName();
         int title = getResources().getIdentifier(
@@ -244,13 +248,20 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
      * level.
      */
     private void createMainMenu() {
-        String[] menuTitleKeys = getResources().getStringArray(
-                R.array.main_menu_title);
-        String[] menuDrawableKeys = getResources().getStringArray(
-                R.array.main_menu_resources);
-        for (int i = 0; i < menuTitleKeys.length; i++) {
+        TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
+        TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
+
+        int len = titles.length();
+
+        for (int i = 0; i < titles.length(); i++) {
             DigiCareLogger.i(TAG, "Button " + i + " added");
-            createButtonLayout(menuTitleKeys[i], menuDrawableKeys[i]);
+            int[] resTitleId = new int[len];
+            int[] resResIds = new int[len];
+
+            resTitleId[i] = titles.getResourceId(i, 0);
+            resResIds[i] = resources.getResourceId(i, 0);
+
+            createButtonLayout(resTitleId[i], resResIds[i]);
         }
     }
 
