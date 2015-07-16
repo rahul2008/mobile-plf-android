@@ -2,6 +2,7 @@ package com.philips.cl.di.digitalcare.contactus;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -564,18 +565,35 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Wouter is working on In-App messaging.
      */
     protected void sendEmail() {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("message/rfc822");
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-                .getString(R.string.support_email_id)});
-//		intent.putExtra(Intent.EXTRA_SUBJECT,
-//				"My AirFryer HD9220/20 is gone case");
-//		intent.putExtra(
-//				Intent.EXTRA_TEXT,
-//				"Hi Team\n My Airfryer is not at all cooking actually. It is leaving ultimate smoke."
-//						+ " Please do let me know how i can correct my favourate Philips Machine!! ");
-        intent.setPackage("com.google.android.gm");
-        getActivity().startActivity(intent);
+        try {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
+                    .getString(R.string.support_email_id)});
+            intent.putExtra(
+                    Intent.EXTRA_TEXT, getGmailContentInformation());
+            intent.setPackage("com.google.android.gm");
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("message/rfc822");
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
+                    .getString(R.string.support_email_id)});
+            intent.putExtra(
+                    Intent.EXTRA_TEXT, getGmailContentInformation());
+            getActivity().startActivity(Intent.createChooser(intent, null));
+        }
+    }
+
+    protected String getGmailContentInformation() {
+        return getActivity().getResources().getString(
+                R.string.support_productinformation)
+                + " "
+                + DigitalCareConfigManager.getInstance()
+                .getConsumerProductInfo().getProductTitle()
+                + " "
+                + DigitalCareConfigManager.getInstance()
+                .getConsumerProductInfo().getCtn() + " ";
     }
 
     private Drawable getDrawable(int resId) {
