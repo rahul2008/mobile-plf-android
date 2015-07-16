@@ -128,7 +128,7 @@ public class SHNServiceUserDataTest extends TestCase {
 
         ArgumentCaptor<Boolean> booleanArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
-        verify(mockedShnUserControlPointCharacteristic).setNotification(booleanArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
+        verify(mockedShnUserControlPointCharacteristic).setIndication(booleanArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
 
         assertTrue(booleanArgumentCaptor.getValue());
     }

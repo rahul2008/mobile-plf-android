@@ -16,14 +16,15 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
-import static org.powermock.api.mockito.PowerMockito.mock;
 
 /**
  * Created by 310188215 on 08/06/15.
@@ -73,7 +74,7 @@ public class SHNServiceHealthThermometerTest {
 
     private void setupCharacteristicMock(SHNCharacteristic shnCharacteristic, UUID characteristicUUID) {
         doNothing().when(shnCharacteristic).setShnCharacteristicChangedListener(any(SHNCharacteristic.SHNCharacteristicChangedListener.class));
-        doReturn(true).when(shnCharacteristic).setNotification(anyBoolean(), any(SHNCommandResultReporter.class));
+        doReturn(true).when(shnCharacteristic).setIndication(anyBoolean(), any(SHNCommandResultReporter.class));
         doReturn(characteristicUUID).when(shnCharacteristic).getUuid();
     }
 
@@ -139,7 +140,7 @@ public class SHNServiceHealthThermometerTest {
         setupServiceToStateAvailable();
         shnServiceHealthThermometer.setReceiveTemperatureMeasurements(true, mockedSHNResultListener);
         ArgumentCaptor<Boolean> enableArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNCharacteristicTemperatureMeasurement).setNotification(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
+        verify(mockedSHNCharacteristicTemperatureMeasurement).setIndication(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
         assertEquals(true, enableArgumentCaptor.getValue());
     }
 
@@ -148,7 +149,7 @@ public class SHNServiceHealthThermometerTest {
         setupServiceToStateAvailable();
         shnServiceHealthThermometer.setReceiveTemperatureMeasurements(false, mockedSHNResultListener);
         ArgumentCaptor<Boolean> enableArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNCharacteristicTemperatureMeasurement).setNotification(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
+        verify(mockedSHNCharacteristicTemperatureMeasurement).setIndication(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
         assertEquals(false, enableArgumentCaptor.getValue());
     }
 
@@ -157,7 +158,7 @@ public class SHNServiceHealthThermometerTest {
         setupServiceToStateAvailable();
         shnServiceHealthThermometer.setReceiveIntermediateTemperatures(true, mockedSHNResultListener);
         ArgumentCaptor<Boolean> enableArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNCharacteristicIntermediateTemperature).setNotification(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
+        verify(mockedSHNCharacteristicIntermediateTemperature).setIndication(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
         assertEquals(true, enableArgumentCaptor.getValue());
     }
 
@@ -166,7 +167,7 @@ public class SHNServiceHealthThermometerTest {
         setupServiceToStateAvailable();
         shnServiceHealthThermometer.setReceiveIntermediateTemperatures(false, mockedSHNResultListener);
         ArgumentCaptor<Boolean> enableArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNCharacteristicIntermediateTemperature).setNotification(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
+        verify(mockedSHNCharacteristicIntermediateTemperature).setIndication(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
         assertEquals(false, enableArgumentCaptor.getValue());
     }
 
@@ -175,7 +176,7 @@ public class SHNServiceHealthThermometerTest {
         setupServiceToStateAvailable();
         shnServiceHealthThermometer.setReceiveMeasurementIntervalChanges(true, mockedSHNResultListener);
         ArgumentCaptor<Boolean> enableArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNCharacteristicMeasurementInterval).setNotification(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
+        verify(mockedSHNCharacteristicMeasurementInterval).setIndication(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
         assertEquals(true, enableArgumentCaptor.getValue());
     }
 
@@ -184,7 +185,7 @@ public class SHNServiceHealthThermometerTest {
         setupServiceToStateAvailable();
         shnServiceHealthThermometer.setReceiveMeasurementIntervalChanges(false, mockedSHNResultListener);
         ArgumentCaptor<Boolean> enableArgumentCaptor = ArgumentCaptor.forClass(Boolean.class);
-        verify(mockedSHNCharacteristicMeasurementInterval).setNotification(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
+        verify(mockedSHNCharacteristicMeasurementInterval).setIndication(enableArgumentCaptor.capture(), any(SHNCommandResultReporter.class));
         assertEquals(false, enableArgumentCaptor.getValue());
     }
 

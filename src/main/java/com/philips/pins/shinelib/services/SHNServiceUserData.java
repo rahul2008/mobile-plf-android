@@ -193,7 +193,7 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
         if (shnService.getState() != SHNService.State.Available && state == SHNService.State.Available) {
             SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(USER_CONTROL_POINT_CHARACTERISTIC_UUID);
-            shnCharacteristic.setNotification(true, null);
+            shnCharacteristic.setIndication(true, null);
             shnCharacteristic.setShnCharacteristicChangedListener(shnCharacteristicChangedListener);
             shnService.transitionToReady();
         }

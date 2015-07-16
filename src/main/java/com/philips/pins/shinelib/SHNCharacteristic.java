@@ -90,19 +90,11 @@ public class SHNCharacteristic {
     }
 
     public boolean setNotification(boolean enable, SHNCommandResultReporter resultReporter) {
-        if (state == State.Active) {
-            if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
-                BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
-                if(descriptor==null){
-                    resultReporter.reportResult(SHNResult.SHNUnsupportedOperation, null);
-                    return false;
-                }
-                btGatt.writeDescriptor(descriptor, BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-                pendingCompletions.add(resultReporter);
-                return true;
-            }
-        }
-        return false;
+        return writeToBtGatt(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE, enable, resultReporter);
+    }
+
+    public boolean setIndication(boolean enable, SHNCommandResultReporter resultReporter) {
+        return writeToBtGatt(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE, enable, resultReporter);
     }
 
     public void setShnCharacteristicChangedListener(SHNCharacteristicChangedListener shnCharacteristicChangedListener) {
@@ -149,5 +141,21 @@ public class SHNCharacteristic {
     private void reportResultToCaller(byte[] data, SHNResult shnResult) {
         SHNCommandResultReporter completion = pendingCompletions.remove(0);
         if (completion != null) completion.reportResult(shnResult, data);
+    }
+
+    private boolean writeToBtGatt(byte[] value, boolean enable, SHNCommandResultReporter resultReporter){
+        if (state == State.Active) {
+            if (btGatt.setCharacteristicNotification(bluetoothGattCharacteristic, enable)) {
+                BluetoothGattDescriptor descriptor = bluetoothGattCharacteristic.getDescriptor(CLIENT_CHARACTERISTIC_CONFIG_UUID);
+                if(descriptor==null){
+                    resultReporter.reportResult(SHNResult.SHNUnsupportedOperation, null);
+                    return false;
+                }
+                btGatt.writeDescriptor(descriptor, value);
+                pendingCompletions.add(resultReporter);
+                return true;
+            }
+        }
+        return false;
     }
 }

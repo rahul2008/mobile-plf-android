@@ -106,7 +106,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
                 shnResultListener.onActionCompleted(shnResult);
             }
         };
-        shnCharacteristic.setNotification(enabled, shnCommandResultReporter);
+        shnCharacteristic.setIndication(enabled, shnCommandResultReporter);
     }
 
     //implements SHNCharacteristic.SHNCharacteristicChangedListener

@@ -78,10 +78,12 @@ public class SHNServiceHealthThermometer implements SHNService.SHNServiceListene
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
             public void reportResult(SHNResult shnResult, byte[] data) {
-                shnResultListener.onActionCompleted(shnResult);
+                if(shnResultListener!=null) {
+                    shnResultListener.onActionCompleted(shnResult);
+                }
             }
         };
-        shnCharacteristic.setNotification(enabled, shnCommandResultReporter);
+        shnCharacteristic.setIndication(enabled, shnCommandResultReporter);
     }
 
     public void setReceiveTemperatureMeasurements(boolean enabled, final SHNResultListener shnResultListener) {
