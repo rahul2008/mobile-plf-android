@@ -225,7 +225,7 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
             if (isConnectionAvailable())
                 showFragment(new ContactUsFragment());
         } else if (tag.equals(getStringKey(R.string.view_product_details))) {
-            showFragment(new ProductDetailsFragment());
+            //showFragment(new ProductDetailsFragment());
         } else if (tag.equals(getStringKey(R.string.find_philips_near_you))) {
             if (isConnectionAvailable())
                 showFragment(new LocatePhilipsFragment());
