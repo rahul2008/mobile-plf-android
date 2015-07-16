@@ -191,13 +191,13 @@ public class User {
 
 	// For Refresh login Session
 	public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler) {
-
-		if (Jump.getSignedInUser() == null) {
+		CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
+		if (captureRecord == null) {
 			return;
 		}
 		RefreshLoginSession refreshLoginhandler = new RefreshLoginSession(
 		        refreshLoginSessionHandler);
-		Jump.getSignedInUser().refreshAccessToken(refreshLoginhandler);
+		captureRecord.refreshAccessToken(refreshLoginhandler);
 	}
 
 	// For Resend verification emails
@@ -366,13 +366,14 @@ public class User {
 	        UpdateReceiveMarketingEmailHandler updateReceiveMarketingEmail,
 	        boolean receiveMarketingEmail) {
 		mCapturedData = CaptureRecord.loadFromDisk(mContext);
+		JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
 		UpdateReceiveMarketingEmail updateReceiveMarketingEmailHandler = new UpdateReceiveMarketingEmail(
 		        updateReceiveMarketingEmail, mContext, receiveMarketingEmail);
 		if (mCapturedData != null) {
 			try {
 				mCapturedData.put(USER_RECEIVE_MARKETING_EMAIL, receiveMarketingEmail);
 				try {
-					mCapturedData.synchronize(updateReceiveMarketingEmailHandler);
+					mCapturedData.synchronize(updateReceiveMarketingEmailHandler,originalUserInfo);
 				} catch (InvalidApidChangeException e) {
 					Log.e(LOG_TAG,
 					        "On updateReceiveMarketingEmail,Caught InvalidApidChange Exception");
@@ -390,6 +391,7 @@ public class User {
 		AddConsumerInterest addConsumerInterest = new AddConsumerInterest(
 		        addConsumerInterestHandler);
 		CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+		JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
 		mConsumerInterestArray = new JSONArray();
 		ConsumerArray consumer = ConsumerArray.getInstance();
 
@@ -419,7 +421,7 @@ public class User {
 				captured.remove(CONSUMER_INTERESTS);
 				captured.put(CONSUMER_INTERESTS, mConsumerInterestArray);
 				try {
-					captured.synchronize(addConsumerInterest);
+					captured.synchronize(addConsumerInterest,originalUserInfo);
 
 				} catch (InvalidApidChangeException e) {
 

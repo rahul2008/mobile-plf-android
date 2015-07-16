@@ -100,7 +100,7 @@ public class CaptureDebugUtils {
                 public void onFailure(CaptureApiError e) {
                     LogUtils.logd("Capture", ("failure: " + e));
                 }
-            });
+            },null);
         } catch (Capture.InvalidApidChangeException e) {
             e.printStackTrace();
         }

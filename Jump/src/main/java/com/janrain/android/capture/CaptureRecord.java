@@ -86,11 +86,13 @@ public class CaptureRecord extends JSONObject {
 
     /*package*/ String accessToken;
 
-    private CaptureRecord(){}
+    private CaptureRecord() {
+    }
 
     /**
      * Instantiates a new CaptureRecord model from a JSON representation of the record
-     * @param jo a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
+     *
+     * @param jo          a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
      * @param accessToken the access token returned from the sign-on or registration
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken) {
@@ -102,17 +104,16 @@ public class CaptureRecord extends JSONObject {
     }
 
     /**
-     * @deprecated
-     *
-     * Instantiates a new CaptureRecord model from a JSON representation of the record
      * @param jo a JSON representation of a Capture record, e.g. as from the response to oauth/auth_native
+     * @deprecated Instantiates a new CaptureRecord model from a JSON representation of the record
      */
     /*package*/ CaptureRecord(JSONObject jo, String accessToken, String refreshSecret) {
         this(jo, accessToken);
     }
-    
+
     /**
      * Loads a Capture user from a well-known filename on disk.
+     *
      * @param applicationContext the context from which to interact with the disk
      * @return the loaded record, or null
      */
@@ -146,9 +147,10 @@ public class CaptureRecord extends JSONObject {
         JsonUtils.deepCopy(serializedVersion.getJSONObject("this"), inflatedRecord);
         return inflatedRecord;
     }
-    
+
     /**
      * Saves the Capture record to a well-known private file on disk.
+     *
      * @param applicationContext the context to use to write to disk
      */
     public void saveToDisk(Context applicationContext) {
@@ -181,6 +183,7 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Deletes the record saved to disk
+     *
      * @param applicationContext the context with which to delete the saved record
      */
     public static void deleteFromDisk(Context applicationContext) {
@@ -210,23 +213,46 @@ public class CaptureRecord extends JSONObject {
         return Base64.encodeToString(hash, Base64.NO_WRAP);
     }
 
+
+    // Modified method
+
     /**
+     * Synchronizes the Capture record with the Capture service
+     * Note that this sends any local changes to the service, but does not retrieve updates from the service.
+     *
+     * @param callback your callback handler
+     * @throws InvalidApidChangeException
+     */
+    public void synchronize(final CaptureApiRequestCallback callback, JSONObject originalUserInfo) throws InvalidApidChangeException {
+
+        Set<ApidChange> changeSet = getApidChangeSet(originalUserInfo);
+        List<ApidChange> changeList = new ArrayList<ApidChange>();
+        changeList.addAll(changeSet);
+
+        if (accessToken == null)
+            throwDebugException(new IllegalStateException());
+        fireNextChange(changeList, callback);
+
+    }
+
+ //Original method
+ /**
      * Synchronizes the Capture record with the Capture service
      * Note that this sends any local changes to the service, but does not retrieve updates from the service.
      * @param callback your callback handler
      * @throws InvalidApidChangeException
      */
-    public void synchronize(final CaptureApiRequestCallback callback) throws InvalidApidChangeException {
-		
-			Set<ApidChange> changeSet = getApidChangeSet();
-			List<ApidChange> changeList = new ArrayList<ApidChange>();
-			changeList.addAll(changeSet);
-
-			if (accessToken == null)
-				throwDebugException(new IllegalStateException());
-			fireNextChange(changeList, callback);
-		
-	}
+//    public void synchronize(final CaptureApiRequestCallback callback) throws InvalidApidChangeException {
+//
+//			Set<ApidChange> changeSet = getApidChangeSet();
+//			List<ApidChange> changeList = new ArrayList<ApidChange>();
+//			changeList.addAll(changeSet);
+//
+//			if (accessToken == null)
+//				throwDebugException(new IllegalStateException());
+//			fireNextChange(changeList, callback);
+//
+//	}
 
     private void fireNextChange(final List<ApidChange> changeList, final CaptureApiRequestCallback callback) {
         if (changeList.size() == 0) {
@@ -247,7 +273,8 @@ public class CaptureRecord extends JSONObject {
                     LogUtils.logd("Capture", unsafeJsonObjectToString(content, 2));
                     fireNextChange(changeList.subList(1, changeList.size()), callback);
                 } else {
-                    if (callback != null) callback.onFailure(new CaptureApiError(content, null, null));
+                    if (callback != null)
+                        callback.onFailure(new CaptureApiError(content, null, null));
                 }
             }
         };
@@ -324,14 +351,22 @@ public class CaptureRecord extends JSONObject {
         return new ApidUpdate(newVal, parent);
     }
 
-    private Set<ApidChange> getApidChangeSet()
-			throws InvalidApidChangeException {
-		return collapseApidChanges(CaptureJsonUtils.compileChangeSet(
-				original, this));
-	}
+    //Modified
+    private Set<ApidChange> getApidChangeSet(JSONObject originalUserInfo)
+            throws InvalidApidChangeException {
+        return collapseApidChanges(CaptureJsonUtils.compileChangeSet(
+                originalUserInfo, this));
+    }
 
-    /*package*/ static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
-                                                                 Map<String, Object> flow) {
+//    private Set<ApidChange> getApidChangeSet()
+//			throws InvalidApidChangeException {
+//		return collapseApidChanges(CaptureJsonUtils.compileChangeSet(
+//				original, this));
+//	}
+
+    /*package*/
+    static JSONObject captureRecordWithPrefilledFields(Map<String, Object> prefilledFields,
+                                                       Map<String, Object> flow) {
         Map<String, Object> preregAttributes = new HashMap<String, Object>();
         for (Map.Entry<String, Object> entry : prefilledFields.entrySet()) {
             if (entry.getValue() == null) continue;
@@ -343,8 +378,7 @@ public class CaptureRecord extends JSONObject {
         return JsonUtils.collectionToJson(preregAttributes);
     }
 
-    private String getUTCdatetimeAsString()
-    {
+    private String getUTCdatetimeAsString() {
         final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         final String utcTime = sdf.format(new Date());
@@ -354,6 +388,7 @@ public class CaptureRecord extends JSONObject {
 
     /**
      * Uses the refresh secret to refresh the access token
+     *
      * @param callback your handler, invoked upon completion
      */
     public void refreshAccessToken(final CaptureApiRequestCallback callback) {
@@ -387,7 +422,7 @@ public class CaptureRecord extends JSONObject {
             }
         });
     }
-    
+
     /**
      * @internal
      */
@@ -424,7 +459,7 @@ public class CaptureRecord extends JSONObject {
         public abstract void onFailure(CaptureApiError error);
     }
 
-    public String getAccessToken(){
+    public String getAccessToken() {
         return accessToken;
     }
 
