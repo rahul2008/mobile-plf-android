@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+    style="@style/parent_container"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/head_include"
+        style="@style/titlebar"
+        layout="@layout/titlebar_basic" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head_include"
+         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/enter_product_detail"
+                android:textColor="#444444"
+                android:textSize="15dp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.buyonline.SquareImageView
+                android:id="@+id/productreg_siv"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                app:height_weight="781"
+                app:width_weight="400" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/productreg_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="#666666"
+                android:textSize="15sp"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/mobile_no"
+                    android:textColor="#444444"
+                    android:textSize="14sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <EditText
+                    android:id="@+id/productreg_contact_edt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center_vertical"
+                    android:inputType="number"
+                    android:maxLength="30"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="#666666"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/date_of_purchase"
+                    android:textColor="#444444"
+                    android:textSize="14sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/productreg_buytime_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_text_bg"
+                    android:gravity="center_vertical"
+                    android:padding="8dp"
+                    android:singleLine="true"
+                    android:textColor="#666666"
+                    android:textSize="14sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ImageView
+                    android:id="@+id/productreg_buytime_icon_iv"
+                    android:layout_width="51dp"
+                    android:layout_height="51dp"
+                    android:layout_marginLeft="5dp"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/calendar_metro_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/proof_of_purchase"
+                    android:textColor="#444444"
+                    android:textSize="14sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ImageView
+                    android:id="@+id/productreg_voucher_iv"
+                    android:layout_width="147dp"
+                    android:layout_height="109dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/nopic" />
+            </LinearLayout>
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/productreg_reg_tv"
+                style="@style/btn_blue_text"
+                android:layout_marginTop="30dp"
+                android:text="@string/registration"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

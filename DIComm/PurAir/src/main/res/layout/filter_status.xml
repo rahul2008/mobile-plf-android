@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/head_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/heading" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head_include">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/LinearLayout1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:paddingBottom="30dp" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/textView1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="60dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/filter_tip"
+                    android:textColor="@color/blue_title"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FilterStatusView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/iv_pre_filter"
+                    android:layout_width="fill_parent"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/textView1"
+                    android:layout_marginBottom="60dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/process_light_black_bar" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_pre_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_pre_filter"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="60dp"
+                    android:text="@string/pre_filter"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_pre_filter_status"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_pre_filter"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toRightOf="@id/tv_rm_pre_filter"
+                    android:gravity="right"
+                    android:paddingLeft="4dp"
+                    android:text=""
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small"
+                    custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FilterStatusView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/iv_multi_care_filter"
+                    android:layout_width="fill_parent"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/iv_pre_filter"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/process_light_black_bar" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/buyonline_multicare"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/iv_multi_care_filter"
+                    android:layout_marginBottom="60dp"
+                    android:background="@drawable/list_item_selector"
+                    android:padding="2dp"
+                    android:text="@string/list_item_buy_online"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_multi_care_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_multi_care_filter"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/multicarefilter"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_multi_care_filter_status"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_multi_care_filter"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toRightOf="@id/tv_rm_multi_care_filter"
+                    android:gravity="right"
+                    android:paddingLeft="4dp"
+                    android:text=""
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small"
+                    custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FilterStatusView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/iv_active_carbon_filter"
+                    android:layout_width="fill_parent"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/buyonline_multicare"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/process_light_black_bar" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/buyonline_active_carbon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/iv_active_carbon_filter"
+                    android:layout_marginBottom="60dp"
+                    android:background="@drawable/list_item_selector"
+                    android:padding="2dp"
+                    android:text="@string/list_item_buy_online"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_active_carbon_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_active_carbon_filter"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/activecarbonfilter"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_active_carbon_filter_status"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_active_carbon_filter"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toRightOf="@id/tv_rm_active_carbon_filter"
+                    android:gravity="right"
+                    android:paddingLeft="4dp"
+                    android:text=""
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small"
+                    custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FilterStatusView
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/iv_hepa_filter"
+                    android:layout_width="fill_parent"
+                    android:layout_height="12dp"
+                    android:layout_below="@id/buyonline_active_carbon"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/process_light_black_bar" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/buyonline_hepa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/iv_hepa_filter"
+                    android:layout_marginBottom="60dp"
+                    android:background="@drawable/list_item_selector"
+                    android:padding="2dp"
+                    android:text="@string/list_item_buy_online"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_hepa_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_hepa_filter"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/hepa_filter"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_medium"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_rm_hepa_filter_status"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/iv_hepa_filter"
+                    android:layout_marginBottom="4dp"
+                    android:layout_toRightOf="@id/tv_rm_hepa_filter"
+                    android:gravity="right"
+                    android:paddingLeft="4dp"
+                    android:text=""
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="@dimen/text_size_small"
+                    custom:fontAssetName="fonts/centralesansmedium.ttf" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/lighter_gray"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="24dp" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/replace_filter_title"
+                    android:textColor="@color/blue_title"
+                    android:textSize="20sp"
+                    custom:fontAssetName="fonts/centralesansbold.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/buy_pre_filter"
+                    android:textColor="@color/contain_gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ImageView
+                    android:id="@+id/clean_filter_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/play_video_bg"
+                    android:contentDescription="@string/img_description"
+                    android:gravity="center" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="24dp"
+                    android:lineSpacingExtra="8dp"
+                    android:text="@string/replace_filter_text"
+                    android:textColor="@color/contain_gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ImageView
+                    android:id="@+id/replace_filter_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/play_video_bg"
+                    android:contentDescription="@string/img_description"
+                    android:gravity="center" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

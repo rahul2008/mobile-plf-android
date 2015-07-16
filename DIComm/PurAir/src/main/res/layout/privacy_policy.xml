@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    
+    <LinearLayout  android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical">
+       
+       
+        
+         <include
+        android:id="@+id/head_include"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        layout="@layout/heading" />
+        
+   
+        
+        
+  
+    
+    <ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+        
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+       
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_privacy_policy_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:autoLink="all"
+            android:text="@string/privacy_policy_text"
+            android:textColor="@color/agreement_child_item_color"
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+    </LinearLayout>
+    </ScrollView>
+</LinearLayout>

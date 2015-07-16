@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="48dp"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="8dp"
+    android:gravity="center_vertical"
+    android:paddingTop="16dp"
+    android:background="@drawable/list_item_selector" >
+
+    <ImageView
+        android:id="@+id/list_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:paddingBottom="5dp"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:scaleType="centerCrop"
+        android:src="@drawable/blue_cross"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView 
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/list_item_delete"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:textSize="@dimen/text_size_large"
+        android:textColor="@color/blue_list_item"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ImageView
+        android:id="@+id/list_item_right_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:padding="4dp"
+        android:src="@drawable/right_arrow_list_item"
+        android:textColor="@color/white"
+        android:visibility="invisible" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/list_item_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/list_item_right_arrow"
+        android:layout_centerInParent="true"
+        android:background="@drawable/delete"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/delete_text"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+</RelativeLayout>

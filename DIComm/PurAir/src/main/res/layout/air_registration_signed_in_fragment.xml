@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/user_reg_heading_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ews_nav_bar_2x"
+        android:gravity="center"
+        android:minHeight="40dp"
+        android:text="@string/create_account"
+        android:textColor="@color/blue_title"
+        android:textSize="@dimen/heading_text_size_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <RelativeLayout
+        android:id="@+id/containerRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_reg_heading_tv" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvThankYouTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/thank_you"
+            android:textColor="@color/title_gray"
+            android:textSize="@dimen/text_size_large"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvThankYouSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvThankYouTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/signed_in_ready_to_use"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_large"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/air_registration_close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvThankYouSubtitle"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/blue_button_selector"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/close"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_large"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/user_reg_heading_tv"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

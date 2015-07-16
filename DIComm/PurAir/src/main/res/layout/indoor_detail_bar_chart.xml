@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/indoorDashboardBarPerc"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/lightgrey" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/gray" />
+        </RelativeLayout>
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/indoorDashboardBarName"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/indoorDashboardBarPerc"
+            android:gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/indoor_db"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_very_small_dp"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+
+        <RelativeLayout
+            android:id="@+id/outdoorDashboardBarPerc"
+            android:layout_width="60dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/lightgrey" >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/gray" />
+        </RelativeLayout>
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/outdoorDashboardBarName"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/outdoorDashboardBarPerc"
+            android:gravity="center_horizontal"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/outdoor_db"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_very_small_dp"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+    </RelativeLayout>
+
+</LinearLayout>
