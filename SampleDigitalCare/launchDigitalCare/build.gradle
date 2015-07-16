@@ -1,4 +1,7 @@
 apply plugin: 'com.android.application'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
 
 android {
     compileSdkVersion 21
@@ -13,10 +16,32 @@ android {
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+
+        debug {
+            debuggable true
+            testCoverageEnabled true
+        }
+    }
+
+    productFlavors {
+        simulator {
+            applicationId 'com.philips.cl.di.sampledigitalcareapp'
+            versionCode 1
+            versionName "0.1.0"
+        }
+        device {
+            applicationId 'com.philips.cl.di.sampledigitalcareapp'
+            versionCode 1
+            versionName "0.1.0"
         }
     }
 }
@@ -30,3 +55,37 @@ dependencies {
     androidTestCompile files('libs/junit-4.12.jar')
     androidTestCompile files('libs/mockito-all-1.10.8.jar')
 }
+
+task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+
+    description 'Run findbugs'
+    group 'verification'
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/simulator/debug')
+    source = fileTree('src/main/java')
+    classpath = files()
+
+    effort = 'max'
+
+    excludeFilter = file("findbugs-exclude.xml")
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+task pmd(type: Pmd, dependsOn: assembleDebug) {
+
+    description 'Run pmd'
+    group 'verification'
+    ignoreFailures = true
+    ruleSets = ["rules/basic.xml", "rules/android.xml", "rules/empty.xml", "rules/imports.xml", "rules/unnecessary.xml", "rules/unusedcode.xml"]
+    source = fileTree('src/main/java')
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
