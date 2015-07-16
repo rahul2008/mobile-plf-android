@@ -141,6 +141,7 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
 				@Override
 				public void onSuccess() {
+					Jump.saveToDisk(mContext);
 				}
 
 				@Override
