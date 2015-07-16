@@ -132,7 +132,9 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
                 updatedUser.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationSettings()
                         .getPreferredLangCode());
                 updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
-                updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
+                if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {
+                    updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
+                }
                 updateUserRecord(updatedUser, originalUserInfo);
 
             } catch (JSONException e) {

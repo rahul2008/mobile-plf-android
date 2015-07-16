@@ -420,7 +420,9 @@ public class Jump {
         }
     }
 
-    private static void handleEngageAuthenticationSuccess(JRDictionary auth_info, String provider,
+
+
+    private static void handleEngageAuthenticationSuccess(final JRDictionary auth_info, String provider,
                                                           String mergeToken) {
         String authInfoToken = auth_info.getAsString("token");
 
@@ -431,7 +433,7 @@ public class Jump {
             }
 
             public void onFailure(CaptureApiError error) {
-                Jump.fireHandlerOnFailure(new SignInError(CAPTURE_API_ERROR, error, null));
+                Jump.fireHandlerOnFailure(new SignInError(CAPTURE_API_ERROR, error, null,auth_info));
             }
         }, provider, mergeToken);
     }
@@ -641,12 +643,21 @@ public class Jump {
                 ENGAGE_ERROR
             }
 
+            public JRDictionary auth_info ;
             public final FailureReason reason;
             public final CaptureApiError captureApiError;
             public final JREngageError engageError;
 
             /*package*/ SignInError(FailureReason reason, CaptureApiError captureApiError,
                                     JREngageError engageError) {
+                this.reason = reason;
+                this.captureApiError = captureApiError;
+                this.engageError = engageError;
+            }
+
+            SignInError(FailureReason reason, CaptureApiError captureApiError,
+                        JREngageError engageError,JRDictionary auth_info) {
+                this.auth_info = auth_info;
                 this.reason = reason;
                 this.captureApiError = captureApiError;
                 this.engageError = engageError;

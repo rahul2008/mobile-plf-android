@@ -544,7 +544,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                                 String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-                                                String existingIdpNameLocalized) {
+                                                String existingIdpNameLocalized,String emailId) {
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithMergeFlowError");
         hideProviderProgress();
         enableControls(true);

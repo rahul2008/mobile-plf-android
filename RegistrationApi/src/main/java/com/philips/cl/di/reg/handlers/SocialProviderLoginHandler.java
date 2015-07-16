@@ -16,7 +16,7 @@ public interface SocialProviderLoginHandler {
 
 	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
 	        String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-	        String existingIdpNameLocalized);
+	        String existingIdpNameLocalized,String emailId);
 
 	public void onContinueSocialProviderLoginSuccess();
 
