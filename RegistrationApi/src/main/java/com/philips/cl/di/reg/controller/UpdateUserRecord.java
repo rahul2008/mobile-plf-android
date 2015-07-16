@@ -33,7 +33,6 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     private String OLDER_THAN_AGE_LIMIT = "olderThanAgeLimit";
 
-
     private Context mContext;
 
     private String CONSUMER_ROLE = "role";
@@ -82,60 +81,63 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     @Override
     public void updateUserRecordRegister() {
-        CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
-        SharedPreferences myPrefs = mContext.getSharedPreferences(
-                RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
+        if (Jump.getSignedInUser() != null) {
+            CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
+            JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+            SharedPreferences myPrefs = mContext.getSharedPreferences(
+                    RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
+            String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
 
-        RegistrationHelper userSettings = RegistrationHelper.getInstance();
-        // visitedMicroSites
-        try {
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-            String currentDate = sdf.format(c.getTime());
+            RegistrationHelper userSettings = RegistrationHelper.getInstance();
+            // visitedMicroSites
+            try {
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+                String currentDate = sdf.format(c.getTime());
 
-            JSONObject visitedMicroSitesObject = new JSONObject();
-            visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
-            visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
-            JSONArray visitedMicroSitesArray = new JSONArray();
-            visitedMicroSitesArray.put(visitedMicroSitesObject);
-            // roles
-            JSONObject rolesObject = new JSONObject();
-            rolesObject.put(CONSUMER_ROLE, CONSUMER_NAME);
-            rolesObject.put(CONSUMER_ROLE_ASSIGNED, currentDate);
-            JSONArray rolesArray = new JSONArray();
-            rolesArray.put(rolesObject);
+                JSONObject visitedMicroSitesObject = new JSONObject();
+                visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
+                visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
+                JSONArray visitedMicroSitesArray = new JSONArray();
+                visitedMicroSitesArray.put(visitedMicroSitesObject);
+                // roles
+                JSONObject rolesObject = new JSONObject();
+                rolesObject.put(CONSUMER_ROLE, CONSUMER_NAME);
+                rolesObject.put(CONSUMER_ROLE_ASSIGNED, currentDate);
+                JSONArray rolesArray = new JSONArray();
+                rolesArray.put(rolesObject);
 
-            // PrimaryAddress
-            JSONObject primaryAddressObject = new JSONObject();
+                // PrimaryAddress
+                JSONObject primaryAddressObject = new JSONObject();
 
-            primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getRegistrationSettings()
-                    .getPreferredCountryCode());
-            primaryAddressObject.put(CONSUMER_ADDRESS1, "");
-            primaryAddressObject.put(CONSUMER_ADDRESS2, "");
-            primaryAddressObject.put(CONSUMER_ADDRESS3, "");
-            primaryAddressObject.put(CONSUMER_CITY, "");
-            primaryAddressObject.put(CONSUMER_COMPANY, "");
-            primaryAddressObject.put(CONSUMER_PHONE_NUMBER, "");
-            primaryAddressObject.put(CONSUMER_HOUSE_NUMBER, "");
-            primaryAddressObject.put(CONSUMER_MOBILE, "");
-            primaryAddressObject.put(CONSUMER_PHONE, "");
-            primaryAddressObject.put(CONSUMER_STATE, "");
-            primaryAddressObject.put(CONSUMER_ZIP, "");
-            primaryAddressObject.put(CONSUMER_ZIP_PLUS, "");
-            JSONArray primaryAddressArray = new JSONArray();
-            primaryAddressArray.put(primaryAddressObject);
+                primaryAddressObject.put(CONSUMER_COUNTRY, userSettings.getRegistrationSettings()
+                        .getPreferredCountryCode());
+                primaryAddressObject.put(CONSUMER_ADDRESS1, "");
+                primaryAddressObject.put(CONSUMER_ADDRESS2, "");
+                primaryAddressObject.put(CONSUMER_ADDRESS3, "");
+                primaryAddressObject.put(CONSUMER_CITY, "");
+                primaryAddressObject.put(CONSUMER_COMPANY, "");
+                primaryAddressObject.put(CONSUMER_PHONE_NUMBER, "");
+                primaryAddressObject.put(CONSUMER_HOUSE_NUMBER, "");
+                primaryAddressObject.put(CONSUMER_MOBILE, "");
+                primaryAddressObject.put(CONSUMER_PHONE, "");
+                primaryAddressObject.put(CONSUMER_STATE, "");
+                primaryAddressObject.put(CONSUMER_ZIP, "");
+                primaryAddressObject.put(CONSUMER_ZIP_PLUS, "");
+                JSONArray primaryAddressArray = new JSONArray();
+                primaryAddressArray.put(primaryAddressObject);
 
-            updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
-            updatedUser.put(CONSUMER_ROLES, rolesArray);
-            updatedUser.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationSettings()
-                    .getPreferredLangCode());
-            updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
-            updateUserRecord(updatedUser, originalUserInfo);
+                updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
+                updatedUser.put(CONSUMER_ROLES, rolesArray);
+                updatedUser.put(CONSUMER_PREFERED_LANGUAGE, userSettings.getRegistrationSettings()
+                        .getPreferredLangCode());
+                updatedUser.put(CONSUMER_PRIMARY_ADDRESS, primaryAddressObject);
+                updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
+                updateUserRecord(updatedUser, originalUserInfo);
 
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, "On success, Caught JSON Exception");
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "On success, Caught JSON Exception");
+            }
         }
 
     }
@@ -161,30 +163,35 @@ public class UpdateUserRecord implements UpdateUserRecordHandler {
 
     @Override
     public void updateUserRecordLogin() {
-        CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
-        JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
-        SharedPreferences myPrefs = mContext.getSharedPreferences(
-                RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
-        String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
-        try {
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-            String currentDate = sdf.format(c.getTime());
+        if (Jump.getSignedInUser() != null) {
+            CaptureRecord updatedUser = CaptureRecord.loadFromDisk(mContext);
+            JSONObject originalUserInfo = CaptureRecord.loadFromDisk(mContext);
+            SharedPreferences myPrefs = mContext.getSharedPreferences(
+                    RegistrationSettings.REGISTRATION_API_PREFERENCE, 0);
+            String microSiteId = myPrefs.getString(RegistrationSettings.MICROSITE_ID, null);
+            try {
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+                String currentDate = sdf.format(c.getTime());
 
-            JSONObject visitedMicroSitesObject = new JSONObject();
-            visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
-            visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
-            JSONArray visitedMicroSitesArray = (JSONArray) updatedUser.get(CONSUMER_VISITED_MICROSITE_IDS);
-            Log.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
-            if (null == visitedMicroSitesArray) {
-                visitedMicroSitesArray = new JSONArray();
+                JSONObject visitedMicroSitesObject = new JSONObject();
+                visitedMicroSitesObject.put(RegistrationSettings.MICROSITE_ID, microSiteId);
+                visitedMicroSitesObject.put(CONSUMER_TIMESTAMP, currentDate);
+                JSONArray visitedMicroSitesArray = (JSONArray) updatedUser.get(CONSUMER_VISITED_MICROSITE_IDS);
+                Log.d(LOG_TAG, "Visited microsite ids = " + visitedMicroSitesArray);
+                if (null == visitedMicroSitesArray) {
+                    visitedMicroSitesArray = new JSONArray();
+                }
+                visitedMicroSitesArray.put(visitedMicroSitesObject);
+                updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
+
+                if (!(originalUserInfo.getBoolean(OLDER_THAN_AGE_LIMIT) && updatedUser.getBoolean(OLDER_THAN_AGE_LIMIT))) {
+                    updatedUser.put(OLDER_THAN_AGE_LIMIT, true);
+                }
+                updateUserRecord(updatedUser, originalUserInfo);
+            } catch (JSONException e) {
+                Log.e(LOG_TAG, "On success, Caught JSON Exception");
             }
-            visitedMicroSitesArray.put(visitedMicroSitesObject);
-            updatedUser.put(CONSUMER_VISITED_MICROSITE_IDS, visitedMicroSitesArray);
-
-            updateUserRecord(updatedUser, originalUserInfo);
-        } catch (JSONException e) {
-            Log.e(LOG_TAG, "On success, Caught JSON Exception");
         }
     }
 }
