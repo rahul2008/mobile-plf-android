@@ -39,8 +39,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initializeDigitalCareLibrary();
-
 
         setContentView(R.layout.activity_digital_care);
 
@@ -76,6 +74,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 android.R.layout.simple_list_item_1, mCountry);
         mCountry_spinner.setAdapter(mCountry_adapter);
 
+        // Digital care initialization
+        initializeDigitalCareLibrary();
+
         registerHockeyApp();
     }
 
@@ -108,7 +109,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         // Passing default Locale to DigitalCare Library, app should pass the locale which is used
         // by application and also set locale to digitalcare library dynamically when ever app
         // locale changes
-        setDigitalCareLocale(Locale.getDefault().getLanguage(), Locale.getDefault().getCountry());
+        setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         //For Debugging purpose, enable this only in debug build
         DigiCareLogger.enableLogging();

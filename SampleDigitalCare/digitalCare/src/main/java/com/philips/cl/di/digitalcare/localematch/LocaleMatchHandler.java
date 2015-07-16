@@ -29,23 +29,25 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     private String mLanguageCode = null;
     private String mCountryCode = null;
     private Locale mLocale = null;
+    private PILLocaleManager mPLocaleManager = null;
 
-    public LocaleMatchHandler(Context context, String langCode, String countryCode) {
+    public LocaleMatchHandler(Context context) {
         mContext = context;
-        mLanguageCode = langCode;
-        mCountryCode = countryCode;
-        mLocale = new Locale(mLanguageCode, mCountryCode);
+        mPLocaleManager = new PILLocaleManager();
+        mPLocaleManager.init(mContext, this);
         mConfigManager = DigitalCareConfigManager.getInstance();
         DigiCareLogger.v(TAG, "Contructor..");
     }
 
-    public void initializeLocaleMatchService() {
+    public void initializeLocaleMatchService(String langCode, String countryCode) {
         DigiCareLogger.v(TAG, "initializing the Service  " + mLanguageCode + " " + mCountryCode);
-        PILLocaleManager mPLocaleManager = new PILLocaleManager();
-        mPLocaleManager.init(mContext, this);
+        DigiCareLogger.v(TAG, "initializing the Service  mLocale " + mLocale);
+        mLanguageCode = langCode;
+        mCountryCode = countryCode;
+        mLocale = new Locale(mLanguageCode, mCountryCode);
+
         mPLocaleManager.refresh(mContext, mLanguageCode,
                 mCountryCode);
-        DigiCareLogger.v(TAG, "Country : " + mLanguageCode + " Language : " + mLanguageCode);
     }
 
     @Override
@@ -58,18 +60,25 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     @Override
     public void onLocaleMatchRefreshed(String arg0) {
         PILLocaleManager mPILocaleManager = new PILLocaleManager();
-        DigiCareLogger.v(TAG, "Sector from Config : "
+        DigiCareLogger.v(TAG, "onLocaleMatchRefreshed(), Sector from Config : "
                 + mConfigManager.getConsumerProductInfo().getSector());
 
         String mSector = mConfigManager.getConsumerProductInfo().getSector();
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
+            DigiCareLogger.v(TAG, "mLocale : " + mLocale.toString());
             DigiCareLogger.v(TAG, "Sector exists : " + setSector(mSectorValue));
-            PILLocale mPilLocale = mPILocaleManager
-                    .currentLocaleWithCountryFallbackForPlatform(
-                            mLocale.toString(), Platform.PRX,
+            DigiCareLogger.v(TAG, "Platform : " + Platform.PRX);
+            DigiCareLogger.v(TAG, "Consumer : " + Catalog.CONSUMER);
+if(mPILocaleManager == null){
+    DigiCareLogger.v(TAG, "Manager = null");
+}
+
+            PILLocale mPilLocale = mPILocaleManager.currentLocaleWithCountryFallbackForPlatform(
+                    mLanguageCode+"_"+mCountryCode, Platform.PRX,
                             setSector(mSectorValue), Catalog.CONSUMER);
             if (mPilLocale != null) {
+                DigiCareLogger.v(TAG, "PILocale is Not null");
                 DigiCareLogger.v(
                         TAG,
                         "Country Code : " + mPilLocale.getCountrycode()
@@ -82,10 +91,12 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 
             } else {
                 DigiCareLogger.v(TAG, "PILocale received null");
+                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(mLocale);
             }
 
         } else {
             DigiCareLogger.v(TAG, "Sector Not exists");
+            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(mLocale);
         }
     }
 

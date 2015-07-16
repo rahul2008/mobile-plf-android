@@ -26,13 +26,13 @@ public class DigitalCareConfigManager {
 
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private static Context mContext = null;
+    private static LocaleMatchHandler mLocaleMatchHandler = null;
     private Locale mLocale = null;
     private Locale mLocaleMatchLocale = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
     private SocialProviderListener mSocialProviderListener = null;
-
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -64,6 +64,7 @@ public class DigitalCareConfigManager {
     public void initializeDigitalCareLibrary(Context applicationContext) {
         if (mContext == null) {
             DigitalCareConfigManager.mContext = applicationContext;
+            mLocaleMatchHandler = new LocaleMatchHandler(mContext);
             initializeTaggingContext(mContext);
         }
     }
@@ -147,18 +148,13 @@ public class DigitalCareConfigManager {
             // mLocale = new Locale(langCode, countryCode);
             setmLocale(new Locale(langCode, countryCode));
 
-            LocaleMatchHandler mLocaleMatchHandler = new LocaleMatchHandler(
-                    mContext, langCode, countryCode);
-            mLocaleMatchHandler.initializeLocaleMatchService();
+
+            mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
         }
     }
 
     public void setmLocale(Locale locale) {
         mLocale = locale;
-    }
-
-    public void setLocaleMatchResponseLocale(Locale localeMatchLocale) {
-        mLocaleMatchLocale = localeMatchLocale;
     }
 
     public Locale getLocale() {
@@ -167,6 +163,11 @@ public class DigitalCareConfigManager {
 
     public Locale getLocaleMatchResponseLocale() {
         return mLocaleMatchLocale;
+    }
+
+    public void setLocaleMatchResponseLocale(Locale localeMatchLocale) {
+        mLocaleMatchLocale = localeMatchLocale;
+        DigiCareLogger.d(LocaleMatchHandler.class.getSimpleName(), "localematch in config:" + mLocaleMatchLocale.toString());
     }
 
     public String getDigitalCareLibVersion() {
