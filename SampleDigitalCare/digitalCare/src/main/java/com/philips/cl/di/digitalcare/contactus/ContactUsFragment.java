@@ -474,7 +474,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             }
         }
         if (resolved) {
-            String twitterPageName = "com.twitter.com/" + "@" + getActivity().getString(R.string.twitter_page);
+            String twitterPageName = "www.twitter.com/" + "@" + getActivity().getString(R.string.twitter_page);
             Map<String, Object> contextData = new HashMap<String, Object>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
