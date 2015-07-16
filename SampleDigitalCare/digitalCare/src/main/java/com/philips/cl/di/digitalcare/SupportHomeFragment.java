@@ -251,17 +251,9 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         TypedArray titles = getResources().obtainTypedArray(R.array.main_menu_title);
         TypedArray resources = getResources().obtainTypedArray(R.array.main_menu_resources);
 
-        int len = titles.length();
-
         for (int i = 0; i < titles.length(); i++) {
             DigiCareLogger.i(TAG, "Button " + i + " added");
-            int[] resTitleId = new int[len];
-            int[] resResIds = new int[len];
-
-            resTitleId[i] = titles.getResourceId(i, 0);
-            resResIds[i] = resources.getResourceId(i, 0);
-
-            createButtonLayout(resTitleId[i], resResIds[i]);
+            createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
         }
     }
 

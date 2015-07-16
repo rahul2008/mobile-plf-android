@@ -64,21 +64,21 @@
 
     <!-- List of product menu localised resource keys, please follow naming conventions -->
     <string-array name="product_menu_title" translatable="false">
-        <item>product_open_manual</item>
-        <item>product_download_manual</item>
-        <item>product_information</item>
+        <item>@string/product_open_manual</item>
+        <item>@string/product_download_manual</item>
+        <item>@string/product_information</item>
     </string-array>
 
     <!-- List of social service providers localised resource keys, please follow naming conventions -->
     <string-array name="social_service_provider_menu_title" translatable="false">
-        <item>twitter</item>
-        <item>facebook</item>
+        <item>@string/twitter</item>
+        <item>@string/facebook</item>
     </string-array>
 
     <!-- List of social service providers image names, please follow naming conventions -->
     <string-array name="social_service_provider_menu_resources" translatable="false">
-        <item>dc_twitter</item>
-        <item>dc_facebook</item>
+        <item>@drawable/dc_twitter</item>
+        <item>@drawable/dc_facebook</item>
     </string-array>
 
     <!-- Facebook product support page -->

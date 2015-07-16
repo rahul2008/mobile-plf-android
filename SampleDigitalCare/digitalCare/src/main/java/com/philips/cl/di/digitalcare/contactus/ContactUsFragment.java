@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -190,19 +190,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     private void createSocialProviderMenu() {
-        Resources mResources = getActivity().getResources();
-        String[] mSocialProviderKeys = mResources
-                .getStringArray(R.array.social_service_provider_menu_title);
-        String[] mSocialProviderDrawableKey = mResources
-                .getStringArray(R.array.social_service_provider_menu_resources);
+        TypedArray titles = getResources().obtainTypedArray(R.array.social_service_provider_menu_title);
+        TypedArray resources = getResources().obtainTypedArray(R.array.social_service_provider_menu_resources);
 
-        if (mSocialProviderKeys.length == 0) {
+        if (titles.length() == 0) {
             mSocialProviderParent.setVisibility(View.GONE);
             mSocialDivider.setVisibility(View.GONE);
         } else {
-            for (int i = 0; i < mSocialProviderKeys.length; i++) {
-                createButtonLayout(mSocialProviderKeys[i],
-                        mSocialProviderDrawableKey[i]);
+            for (int i = 0; i < titles.length(); i++) {
+                createButtonLayout(titles.getResourceId(i, 0), resources.getResourceId(i, 0));
             }
         }
     }
@@ -609,7 +605,11 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * image together.
      */
     @SuppressLint("NewApi")
-    private void createButtonLayout(String buttonTitle, String buttonDrawable) {
+    private void createButtonLayout(int buttonTitleResId, int buttonDrawableResId) {
+
+        String buttonTitle = getResources().getResourceEntryName(buttonTitleResId);
+        String buttonDrawable = getResources().getResourceEntryName(buttonDrawableResId);
+
         String packageName = getActivity().getPackageName();
         int title = getResources().getIdentifier(
                 packageName + ":string/" + buttonTitle, null, null);
