@@ -276,7 +276,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         DigiCareLogger.d(TAG, "Updating Contact Information");
 
         if (mCdlsParsedResponse.getSuccess()
-                || mCdlsParsedResponse.getError() != null) {
+                /*|| mCdlsParsedResponse.getError() != null*/) {
             CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
 
             if (phoneModel != null) {
@@ -287,7 +287,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         .append(phoneModel.getOpeningHoursSunday())
                         .append(phoneModel.getOptionalData1())
                         .append(phoneModel.getOptionalData2())
-                        .append("\n"+phoneModel.getmPhoneTariff());
+                        .append("\n" + phoneModel.getmPhoneTariff());
                 enableBottomText();
                 mCallPhilips
                         .setText(getResources().getString(R.string.call_number)
@@ -301,6 +301,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
                 mChat.setEnabled(false);
             }
+        } else if (mCdlsParsedResponse.getError() != null) {
+            fadeoutButtons();
         } else {
             fadeoutButtons();
         }
@@ -521,6 +523,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * If CDLS response received then enable to bottom text.
      */
     protected void enableBottomText() {
+        mCallPhilips.setVisibility(View.VISIBLE);
         mContactUsOpeningHours.setVisibility(View.VISIBLE);
         mFirstRowText.setVisibility(View.VISIBLE);
     }
@@ -531,9 +534,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     protected void fadeoutButtons() {
         tagTechnicalError();
         if (mCallPhilips != null) {
-            mCallPhilips
-                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-            mCallPhilips.setEnabled(false);
+            mCallPhilips.setVisibility(View.GONE);
+//            mCallPhilips
+//                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+//            mCallPhilips.setEnabled(false);
         }
         if (mChat != null) {
             mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
