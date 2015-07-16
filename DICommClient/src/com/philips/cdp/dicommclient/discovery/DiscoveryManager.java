@@ -327,10 +327,6 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		for (T appliance : discoveredAppliances) {
 			if (appliance.getNetworkNode().getCppId().equals(lostApplianceCppId)) {
 				DICommLog.d(DICommLog.DISCOVERY, "Lost appliance - marking as DISCONNECTED: " + appliance);
-				// TODO: DIComm Refactor check if can be removed
-				if(appliance.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != appliance.getFirmwarePort().getPortProperties().getState()) {
-					return false;
-				}
 				appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 				notifyDiscoveryListener();
 				return true;
