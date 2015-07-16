@@ -218,6 +218,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
+        DigiCareLogger.d("cdlsUL", getCdlsUrl(consumerProductInfo.getSector(),
+                DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale().toString(),
+                consumerProductInfo.getCatalog(),
+                consumerProductInfo.getSubCategory()));
 
         return getCdlsUrl(consumerProductInfo.getSector(),
                 DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale().toString(),
@@ -287,7 +291,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         .append(phoneModel.getOpeningHoursSaturday())
                         .append(phoneModel.getOpeningHoursSunday())
                         .append(phoneModel.getOptionalData1())
-                        .append(phoneModel.getOptionalData2());
+                        .append(phoneModel.getOptionalData2())
+                        .append("\n"+phoneModel.getmPhoneTariff());
                 enableBottomText();
                 mCallPhilips
                         .setText(getResources().getString(R.string.call_number)

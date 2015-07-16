@@ -35,6 +35,7 @@ public class DigitalCareContants {
     public static final String CDLS_OPENINGHOURS_SATURDAY = "openingHoursSaturday";
     public static final String CDLS_OPTIONALDATA_ONE = "optionalData1";
     public static final String CDLS_OPTIONALDATA_TWO = "optionalData2";
+    public static final String CDLS_PHONE_TARIFF_KEY="phoneTariff";
 
 
     public static final String CDLS_CHAT_CONTENT = "content";
@@ -53,6 +54,5 @@ public class DigitalCareContants {
     public static final String CDLS_PHONE_KEY = "phone";
     public static final String CDLS_EMAIL_KEY = "email";
     public static final String CDLS_CHAT_KEY = "chat";
-
 
 }

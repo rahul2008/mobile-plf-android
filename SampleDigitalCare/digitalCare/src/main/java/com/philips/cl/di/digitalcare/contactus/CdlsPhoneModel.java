@@ -14,6 +14,7 @@ public class CdlsPhoneModel {
 	private String mOpeningHoursSunday = null;
 	private String mOptionalData1 = null;
 	private String mOptionalData2 = null;
+	private String mPhoneTariff=null;
 
 	public String getPhoneNumber() {
 		return mPhoneNumber;
@@ -28,7 +29,15 @@ public class CdlsPhoneModel {
 		}
 	}
 
-	public String getOpeningHoursWeekdays() {
+    public String getmPhoneTariff() {
+        return mPhoneTariff;
+    }
+
+    public void setmPhoneTariff(String mPhoneTariff) {
+        this.mPhoneTariff = mPhoneTariff;
+    }
+
+    public String getOpeningHoursWeekdays() {
 		return mOpeningHoursWeekdays.isEmpty() ? mOpeningHoursWeekdays
 				: mOpeningHoursWeekdays + '\n';
 	}
