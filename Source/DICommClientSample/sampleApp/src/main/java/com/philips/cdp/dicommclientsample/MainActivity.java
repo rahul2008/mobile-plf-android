@@ -27,16 +27,16 @@ import com.philips.cdp.dicommclient.request.Error;
 public class MainActivity extends Activity {
 
 	private static final String TAG = "MainActivity";
-	private DiscoveryManager<GenericAppliance> dm;
-	private ListView appliancesListView;
-	private ArrayAdapter<DICommAppliance> adapter;
+	private DiscoveryManager<GenericAppliance> mDiscoveryManager;
+	private ListView mAppliancesListView;
+	private ArrayAdapter<DICommAppliance> mDICommApplianceAdapter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		appliancesListView = (ListView) findViewById(R.id.lv_appliances);
-		adapter = new ArrayAdapter<DICommAppliance>(this,
+		mAppliancesListView = (ListView) findViewById(R.id.lv_appliances);
+		mDICommApplianceAdapter = new ArrayAdapter<DICommAppliance>(this,
 				android.R.layout.simple_list_item_1) {
 
 			public android.view.View getView(int position,
@@ -46,13 +46,13 @@ public class MainActivity extends Activity {
 				return tv;
 			};
 		};
-		appliancesListView.setAdapter(adapter);
-		appliancesListView.setOnItemClickListener(applianceClickListener);
+		mAppliancesListView.setAdapter(mDICommApplianceAdapter);
+		mAppliancesListView.setOnItemClickListener(mApplianceClickListener);
 	}
 	
 	@Override
 	protected void onPause() {
-		dm.stop();
+		mDiscoveryManager.stop();
 		super.onPause();
 	}
 	
@@ -60,12 +60,12 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		dm = (DiscoveryManager<GenericAppliance>) DiscoveryManager.getInstance();
-		dm.addDiscoveryEventListener(discoveryListener);
-		dm.start();
+		mDiscoveryManager = (DiscoveryManager<GenericAppliance>) DiscoveryManager.getInstance();
+		mDiscoveryManager.addDiscoveryEventListener(mDiscoveryEventListener);
+		mDiscoveryManager.start();
 	}
 
-	private DICommPortListener wifiPortListener = new DICommPortListener() {
+	private DICommPortListener mWifiPortListener = new DICommPortListener() {
 		
 		@Override
 		public void onPortUpdate(DICommPort<?> port) {
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
 		}
 	};
 	
-	private DiscoveryEventListener discoveryListener = new DiscoveryEventListener() {
+	private DiscoveryEventListener mDiscoveryEventListener = new DiscoveryEventListener() {
 
 		@Override
 		public void onDiscoveredAppliancesListChanged() {
@@ -90,23 +90,23 @@ public class MainActivity extends Activity {
 				
 				@Override
 				public void run() {
-					adapter.clear();
-					adapter.addAll(dm.getAllDiscoveredAppliances());
+					mDICommApplianceAdapter.clear();
+					mDICommApplianceAdapter.addAll(mDiscoveryManager.getAllDiscoveredAppliances());
 				}
 			});
 			
-			for (DICommAppliance appliance: dm.getAllDiscoveredAppliances()) {
-				appliance.getWifiPort().addPortListener(wifiPortListener);
+			for (DICommAppliance appliance: mDiscoveryManager.getAllDiscoveredAppliances()) {
+				appliance.getWifiPort().addPortListener(mWifiPortListener);
 			}
 		}
 	};
 	
-	private OnItemClickListener applianceClickListener = new OnItemClickListener() {
+	private OnItemClickListener mApplianceClickListener = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			WifiPortProperties portProperties = adapter.getItem(position).getWifiPort().getPortProperties();
+			WifiPortProperties portProperties = mDICommApplianceAdapter.getItem(position).getWifiPort().getPortProperties();
 			if (portProperties != null) {
 				Log.d(TAG, String.format("WifiPortProperties: ipaddress=%s", portProperties.getIpaddress()));
 			}

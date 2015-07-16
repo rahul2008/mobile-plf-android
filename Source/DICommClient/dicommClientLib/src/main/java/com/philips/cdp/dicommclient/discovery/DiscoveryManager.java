@@ -26,7 +26,6 @@ import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
 import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
-import com.philips.cdp.dicommclient.util.DICommContext;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -83,15 +82,14 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		};
 	};
 
-	public static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
+	static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
 		return createSharedInstance(applicationContext, cppController, applianceFactory, new NullApplianceDatabase<U>());
 	}
 
-	public static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
+	static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase) {
 		if (mInstance != null) {
 			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
-		DICommContext.initialize(applicationContext);
 		NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
 		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppController, applianceFactory, applianceDatabase, networkMonitor);
 		mInstance = discoveryManager;
@@ -105,16 +103,20 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 	/* package, for testing */ DiscoveryManager(CppController cppController, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
 		mApplianceFactory = applianceFactory;
 		mApplianceDatabase = applianceDatabase;
-
-		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommContext.getContext());
+		
+		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
+		if(cppController!=null){
 		mCppHelper = new CppDiscoveryHelper(cppController, this);
+		}
 
 		mNetwork = networkMonitor;
 		mNetwork.setListener(mNetworkChangedCallback);
-		mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
+		if(mDiscoveryEventListenersList == null){
+			mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
+		}
 	}
 
 	public void addDiscoveryEventListener(DiscoveryEventListener listener) {
@@ -132,15 +134,19 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 			mSsdpHelper.startDiscoveryAsync();
 			DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
+		if(mCppHelper!=null){
 		mCppHelper.startDiscoveryViaCpp();
-		mNetwork.startNetworkChangedReceiver(DICommContext.getContext());
+		}
+		mNetwork.startNetworkChangedReceiver(DICommClientWrapper.getContext());
 	}
 
 	public void stop() {
 		mSsdpHelper.stopDiscoveryAsync();
 		DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
+		if(mCppHelper!=null){
 		mCppHelper.stopDiscoveryViaCpp();
-		mNetwork.stopNetworkChangedReceiver(DICommContext.getContext());
+		}
+		mNetwork.stopNetworkChangedReceiver(DICommClientWrapper.getContext());
 		//mDiscoveryEventListenersList = null;
 	}
 
@@ -321,10 +327,6 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		for (T appliance : discoveredAppliances) {
 			if (appliance.getNetworkNode().getCppId().equals(lostApplianceCppId)) {
 				DICommLog.d(DICommLog.DISCOVERY, "Lost appliance - marking as DISCONNECTED: " + appliance);
-				// TODO: DIComm Refactor check if can be removed
-				if(appliance.getFirmwarePort().getPortProperties() != null && FirmwareState.IDLE != appliance.getFirmwarePort().getPortProperties().getState()) {
-					return false;
-				}
 				appliance.getNetworkNode().setConnectionState(ConnectionState.DISCONNECTED);
 				notifyDiscoveryListener();
 				return true;

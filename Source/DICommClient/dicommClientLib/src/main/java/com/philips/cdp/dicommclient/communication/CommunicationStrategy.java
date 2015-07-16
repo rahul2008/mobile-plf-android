@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.philips.cdp.dicommclient.cpp.CppController;
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.request.ResponseHandler;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
@@ -34,10 +35,14 @@ public abstract class CommunicationStrategy {
 		return dataMap;
 	}
 
-	// TODO: DICOMM Refactor, remove dependency on cppcontroller and purair app context
 	protected Map<String, Object> getUnsubscriptionData() {
 		Map<String,Object> dataMap = new HashMap<String, Object>();
+		if(CppController.getInstance()!=null && CppController.getInstance().getAppCppId()!=null){
 		dataMap.put(SUBSCRIBER_KEY, CppController.getInstance().getAppCppId());
+		}
+		else{
+			dataMap.put(SUBSCRIBER_KEY, DICommClientWrapper.getAppId());
+		}
 		return dataMap;
 	}
 }

@@ -10,15 +10,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiManager.MulticastLock;
 
+import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class UdpReceivingThread extends Thread {
 
@@ -93,7 +91,7 @@ public class UdpReceivingThread extends Thread {
 	}
 
 	private void acquireMulticastLock() {
-		WifiManager wifi = (WifiManager) DICommContext.getContext().getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifi = (WifiManager) DICommClientWrapper.getContext().getSystemService(Context.WIFI_SERVICE);
 		if (wifi != null) {
 			multicastLock = wifi.createMulticastLock(getName());
 			multicastLock.setReferenceCounted(true);

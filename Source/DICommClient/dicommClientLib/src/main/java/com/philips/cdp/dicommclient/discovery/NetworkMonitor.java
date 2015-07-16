@@ -20,7 +20,6 @@ import android.os.Looper;
 import android.os.Message;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
-import com.philips.cdp.dicommclient.util.DICommContext;
 
 public class NetworkMonitor {
 
@@ -145,7 +144,7 @@ public class NetworkMonitor {
 
 		boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
 		if (isMobileData) {
-			WifiManager wifiManager = (WifiManager) DICommContext.getContext().getSystemService(Context.WIFI_SERVICE) ;
+			WifiManager wifiManager = (WifiManager) DICommClientWrapper.getContext().getSystemService(Context.WIFI_SERVICE) ;
 			WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 			if(wifiInfo == null ||
 					wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {
