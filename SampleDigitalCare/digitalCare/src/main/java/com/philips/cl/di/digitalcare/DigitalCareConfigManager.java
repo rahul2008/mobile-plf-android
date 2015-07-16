@@ -144,17 +144,9 @@ public class DigitalCareConfigManager {
         mLocaleMatchLocale = null;
 
         if (langCode != null && countryCode != null) {
-
-            // mLocale = new Locale(langCode, countryCode);
-            setmLocale(new Locale(langCode, countryCode));
-
-
+            mLocale = new Locale(langCode, countryCode);
             mLocaleMatchHandler.initializeLocaleMatchService(langCode, countryCode);
         }
-    }
-
-    public void setmLocale(Locale locale) {
-        mLocale = locale;
     }
 
     public Locale getLocale() {
@@ -167,7 +159,6 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocale(Locale localeMatchLocale) {
         mLocaleMatchLocale = localeMatchLocale;
-        DigiCareLogger.d(LocaleMatchHandler.class.getSimpleName(), "localematch in config:" + mLocaleMatchLocale.toString());
     }
 
     public String getDigitalCareLibVersion() {

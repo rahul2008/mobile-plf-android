@@ -41,7 +41,6 @@ public class LocaleMatchHandler implements LocaleMatchListener {
 
     public void initializeLocaleMatchService(String langCode, String countryCode) {
         DigiCareLogger.v(TAG, "initializing the Service  " + mLanguageCode + " " + mCountryCode);
-        DigiCareLogger.v(TAG, "initializing the Service  mLocale " + mLocale);
         mLanguageCode = langCode;
         mCountryCode = countryCode;
         mLocale = new Locale(mLanguageCode, mCountryCode);
@@ -66,26 +65,12 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         String mSector = mConfigManager.getConsumerProductInfo().getSector();
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
-            DigiCareLogger.v(TAG, "mLocale : " + mLocale.toString());
-            DigiCareLogger.v(TAG, "Sector exists : " + setSector(mSectorValue));
-            DigiCareLogger.v(TAG, "Platform : " + Platform.PRX);
-            DigiCareLogger.v(TAG, "Consumer : " + Catalog.CONSUMER);
-if(mPILocaleManager == null){
-    DigiCareLogger.v(TAG, "Manager = null");
-}
-
+            
             PILLocale mPilLocale = mPILocaleManager.currentLocaleWithCountryFallbackForPlatform(
-                    mLanguageCode+"_"+mCountryCode, Platform.PRX,
-                            setSector(mSectorValue), Catalog.CONSUMER);
+                    mLanguageCode + "_" + mCountryCode, Platform.PRX,
+                    setSector(mSectorValue), Catalog.CONSUMER);
             if (mPilLocale != null) {
                 DigiCareLogger.v(TAG, "PILocale is Not null");
-                DigiCareLogger.v(
-                        TAG,
-                        "Country Code : " + mPilLocale.getCountrycode()
-                                + " & Language Code : "
-                                + mPilLocale.getLanguageCode()
-                                + " & Locale is : "
-                                + mPilLocale.getLocaleCode());
                 Locale locale = new Locale(mPilLocale.getLanguageCode(), mPilLocale.getCountrycode());
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(locale);
 
