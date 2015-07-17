@@ -70,6 +70,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");
+        setLocaleLanguage();
     }
 
     @Override

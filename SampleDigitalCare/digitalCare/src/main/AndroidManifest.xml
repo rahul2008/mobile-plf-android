@@ -30,7 +30,7 @@
         android:largeHeap="true">
         <activity
             android:name="com.philips.cl.di.digitalcare.DigitalCareActivity"
-            android:configChanges="orientation|screenSize|locale|fontScale"
+            android:configChanges="orientation|screenSize|locale"
             android:exported="true">
 
             <!--
