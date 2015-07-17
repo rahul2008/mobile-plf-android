@@ -634,20 +634,6 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         setStringCharacteristic(LANGUAGE_CHARACTERISTIC_UUID, language, listener);
     }
 
-    //TODO consider removing
-    public void incrementDatabaseIncrement(final SHNResultListener listener) {
-        getDatabaseIncrement(new SHNIntegerResultListener() {
-            @Override
-            public void onActionCompleted(int value, SHNResult result) {
-                if (result == SHNResult.SHNOk) {
-                    setDatabaseIncrement(value + 1, listener);
-                } else {
-                    listener.onActionCompleted(result);
-                }
-            }
-        });
-    }
-
     public void getDatabaseIncrement(final SHNIntegerResultListener listener) {
         if (LOGGING) Log.i(TAG, "getDatabaseIncrement");
         final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
