@@ -41,6 +41,7 @@
     <string name="chat_with_philips">Chat with Philips</string>
     <string name="check_sim">No SIM card detected. Please check if it is inserted correctly</string>
     <string name="no_data_available">No data available</string>
+    <string name="send_us_email">Send us an email</string>
 
     <!-- values for Live Chat Screen -->
     <string name="can_we_help_you">Can we help you?</string>

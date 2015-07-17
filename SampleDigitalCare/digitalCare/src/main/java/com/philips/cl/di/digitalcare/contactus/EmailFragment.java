@@ -1,4 +1,4 @@
-package com.philips.cl.di.digitalcare.faq;
+package com.philips.cl.di.digitalcare.contactus;
 
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -22,22 +22,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * FaqFragment Webview
+ * EMail WebView Fragment
  *
  * @author : pawan.kumar.deshpande@philips.com
- * @since : 25 june 2015
+ *         Since  17 july 2015.
  */
-public class FaqFragment extends DigitalCareBaseFragment {
+public class EmailFragment extends DigitalCareBaseFragment {
 
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
-
-    private String FAQ_URL = "http://www.philips.com/content/%s/%s_%s/standalone-faqs/%s.html";
+    //http://www.philips.nl/content/B2C/nl_NL/support-home/support-contact-form.html?param1=ESPRESSO_CA
+    private String EMAIL_URL = "http://www.philips.com/content/%s/%s_%s/support-home/support-contact-form.html?param1=ESPRESSO_CA";
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         if (mView == null) {
             mView = inflater.inflate(R.layout.common_webview, container, false);
@@ -51,20 +50,26 @@ public class FaqFragment extends DigitalCareBaseFragment {
 
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
-        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
                 getPreviousName(), contextData);
         initView();
-
-        loadFaq();
+        loadEmail();
     }
 
-    private void loadFaq() {
-        if (getFaqUrl() == null) {
+    private void initView() {
+        mWebView = (WebView) mView.findViewById(R.id.webView);
+        mProgressBar = (ProgressBar) mView
+                .findViewById(R.id.common_webview_progress);
+        mProgressBar.setVisibility(View.GONE);
+    }
+
+
+    private void loadEmail() {
+        if (getEmailUrl() == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            //DigiCareLogger.d("URLTest", getFaqUrl());
-            String url = getFaqUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
-            DigiCareLogger.d("URLTest", getFaqUrl());
+            String url = getEmailUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
+            DigiCareLogger.d("URLTest", getEmailUrl());
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -91,14 +96,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
         }
     }
 
-    private void initView() {
-        mWebView = (WebView) mView.findViewById(R.id.webView);
-        mProgressBar = (ProgressBar) mView
-                .findViewById(R.id.common_webview_progress);
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    private String getFaqUrl() {
+    private String getEmailUrl() {
         if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null)
             return null;
         String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale()
@@ -110,26 +108,28 @@ public class FaqFragment extends DigitalCareBaseFragment {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
 
-        return String.format(FAQ_URL, consumerProductInfo.getSector(),
+        return String.format(EMAIL_URL, consumerProductInfo.getSector(),
                 language, country, consumerProductInfo.getCtn());
     }
 
     @Override
-    public String getActionbarTitle() {
-        return getResources().getString(R.string.view_faq);
-    }
-
-    @Override
-    public void onClick(View v) {
-    }
-
-    @Override
     public void setViewParams(Configuration config) {
+
+    }
+
+    @Override
+    public String getActionbarTitle() {
+        return getResources().getString(R.string.send_us_email);
     }
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_FAQ;
+        return AnalyticsConstants.PAGE_CONTACT_US;
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     @Override
@@ -140,5 +140,4 @@ public class FaqFragment extends DigitalCareBaseFragment {
             mWebView = null;
         }
     }
-
 }

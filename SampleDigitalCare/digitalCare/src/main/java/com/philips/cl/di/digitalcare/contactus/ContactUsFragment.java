@@ -565,24 +565,25 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Wouter is working on In-App messaging.
      */
     protected void sendEmail() {
-        try {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("message/rfc822");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-                    .getString(R.string.support_email_id)});
-            intent.putExtra(
-                    Intent.EXTRA_TEXT, getGmailContentInformation());
-            intent.setPackage("com.google.android.gm");
-            getActivity().startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("message/rfc822");
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
-                    .getString(R.string.support_email_id)});
-            intent.putExtra(
-                    Intent.EXTRA_TEXT, getGmailContentInformation());
-            getActivity().startActivity(Intent.createChooser(intent, null));
-        }
+//        try {
+//            Intent intent = new Intent(Intent.ACTION_SEND);
+//            intent.setType("message/rfc822");
+//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
+//                    .getString(R.string.support_email_id)});
+//            intent.putExtra(
+//                    Intent.EXTRA_TEXT, getGmailContentInformation());
+//            intent.setPackage("com.google.android.gm");
+//            getActivity().startActivity(intent);
+//        } catch (ActivityNotFoundException e) {
+//            Intent intent = new Intent(Intent.ACTION_SEND);
+//            intent.setType("message/rfc822");
+//            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{getResources()
+//                    .getString(R.string.support_email_id)});
+//            intent.putExtra(
+//                    Intent.EXTRA_TEXT, getGmailContentInformation());
+//            getActivity().startActivity(Intent.createChooser(intent, null));
+//        }
+        showFragment(new EmailFragment());
     }
 
     protected String getGmailContentInformation() {

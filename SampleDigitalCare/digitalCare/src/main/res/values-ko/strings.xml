@@ -89,4 +89,5 @@
 <string name="no_data_available">사용 가능한 데이터 없음</string>
 <string name="servicecenters_not_found">해당 국가에 서비스 센터 없음</string>
     <string name="no_data">사용 가능한 데이터 없음</string>
+    <string name="send_us_email">이메일을 보내주십시오.</string>
 </resources>

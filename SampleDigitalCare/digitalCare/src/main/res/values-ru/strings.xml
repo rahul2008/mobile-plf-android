@@ -91,6 +91,6 @@
     <string name="twitter_post_char_limitation">Максимальная длина сообщения — 140 символов</string>
 	<string name="servicecenters_not_found">В вашей стране нет сервисного центра</string>
     <string name="no_data">Данные недоступны</string>
-	
+    <string name="send_us_email">Электронное сообщение</string>
 
 </resources>

@@ -64,4 +64,6 @@
 <string name="search">Ricerca</string>
 <string name="gps_disabled">Il GPS risulta disattivato sul dispositivo. Desideri attivarlo?</string>
 <string name="servicecenters_not_found">Nessun centro di assistenza disponibile nel tuo paese </string>
-<string name="no_data">Nessun dato disponibile</string></resources>
+<string name="no_data">Nessun dato disponibile</string>
+    <string name="send_us_email">Inviaci un\'e-mail</string>
+</resources>
