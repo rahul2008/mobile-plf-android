@@ -444,6 +444,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     R.string.facebook_product_pageID));
             Map<String, Object> contextData = new HashMap<String, Object>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_FACEBOOK);
+            contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_FACEBOOK);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, uri + toString());
             AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
 
@@ -479,6 +480,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             String twitterPageName = "www.twitter.com/" + "@" + getActivity().getString(R.string.twitter_page);
             Map<String, Object> contextData = new HashMap<String, Object>();
             contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
+            contextData.put(AnalyticsConstants.ACTION_KEY_SOCIAL_TYPE, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_TWITTER);
             contextData.put(AnalyticsConstants.ACTION_KEY_EXIT_LINK, twitterPageName);
             AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK, contextData);
 

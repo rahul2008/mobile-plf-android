@@ -147,7 +147,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.tellus_PhilipsReviewButton) {
-            tagExitLisk(getUri().toString());
             if (isConnectionAvailable())
                 rateProductReview();
         } else if (id == R.id.tellus_PlayStoreReviewButton) {
