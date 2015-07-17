@@ -32,12 +32,10 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
-    //http://www.philips.nl/content/B2C/nl_NL/support-home/support-contact-form.html?param1=ESPRESSO_CA
-    private String EMAIL_URL = "http://www.philips.com/content/%s/%s_%s/support-home/support-contact-form.html?param1=ESPRESSO_CA";
+    private String EMAIL_URL = "http://www.philips.com/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         if (mView == null) {
             mView = inflater.inflate(R.layout.common_webview, container, false);
         }
@@ -49,7 +47,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
         super.onActivityCreated(savedInstanceState);
 
         Map<String, Object> contextData = new HashMap<String, Object>();
-        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
+        contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_EMAIL);
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_EMAIL,
                 getPreviousName(), contextData);
         initView();
@@ -69,7 +67,6 @@ public class EmailFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             String url = getEmailUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
-            DigiCareLogger.d("URLTest", getEmailUrl());
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -109,7 +106,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
                 .getInstance().getConsumerProductInfo();
 
         return String.format(EMAIL_URL, consumerProductInfo.getSector(),
-                language, country, consumerProductInfo.getCtn());
+                language, country, consumerProductInfo.getCategory());
     }
 
     @Override
@@ -124,7 +121,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
 
     @Override
     public String setPreviousPageName() {
-        return AnalyticsConstants.PAGE_CONTACT_US;
+        return AnalyticsConstants.PAGE_CONTACTUS_EMAIL;
     }
 
     @Override
