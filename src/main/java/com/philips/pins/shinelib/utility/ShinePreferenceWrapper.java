@@ -3,11 +3,8 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.pins.shinelib.datatypes.SHNUserConfiguration;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,15 +15,6 @@ import java.util.Set;
 public class ShinePreferenceWrapper {
     private static final String SHINELIB_PREFERENCES_FILE_KEY = ShinePreferenceWrapper.class.getCanonicalName() + ".SHINELIBPLUGINMOONSHINE_PREFERENCES_FILE_KEY";
     public static final String ASSOCIATED_DEVICES = "ASSOCIATED_DEVICES";
-    private static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
-    private static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
-    private static final String USER_CONFIG_RESTING_HEART_RATE = "USER_CONFIG_RESTING_HEART_RATE";
-    private static final String USER_CONFIG_WEIGHT_IN_KG = "USER_CONFIG_WEIGHT_IN_KG";
-    private static final String USER_CONFIG_HEIGHT_IN_CM = "USER_CONFIG_HEIGHT_IN_CM";
-    private static final String USER_CONFIG_SEX = "USER_CONFIG_SEX";
-
-    private static final String UDS_USER_ID = "UDS_USER_ID";
-    private static final String UDS_CONSENT_CODE = "UDS_CONSENT_CODE";
 
     private final SharedPreferences sharedPreferences;
 
@@ -61,7 +49,7 @@ public class ShinePreferenceWrapper {
         }
         for (AssociatedDeviceInfo oldAssociatedDeviceInfo : oldAssociatedDeviceInfos) {
             if (!newMacAddressKeys.contains(oldAssociatedDeviceInfo.macAddress)) {
-                editor.remove(oldAssociatedDeviceInfo.macAddress);
+                editor.remove(oldAssociatedDeviceInfo.macAddress);// use createKeyFromMacAddress(associatedDeviceInfo.macAddress) instead of just macAddress?
             }
         }
         editor.commit();
@@ -90,107 +78,23 @@ public class ShinePreferenceWrapper {
         return ASSOCIATED_DEVICES + macAddress;
     }
 
-    public synchronized void storeUserConfiguration(SHNUserConfiguration shnUserConfiguration) {
-        SharedPreferences.Editor edit = sharedPreferences.edit();
-
-        if (shnUserConfiguration.getDateOfBirth() != null) {
-            edit.putLong(USER_CONFIG_DATE_OF_BIRTH, shnUserConfiguration.getDateOfBirth().getTime());
-        } else {
-            edit.remove(USER_CONFIG_DATE_OF_BIRTH);
-        }
-
-        if (shnUserConfiguration.getHeightInCm() != null) {
-            edit.putInt(USER_CONFIG_HEIGHT_IN_CM, shnUserConfiguration.getHeightInCm());
-        } else {
-            edit.remove(USER_CONFIG_HEIGHT_IN_CM);
-        }
-
-        if (shnUserConfiguration.getMaxHeartRate() != null) {
-            edit.putInt(USER_CONFIG_MAX_HEART_RATE, shnUserConfiguration.getMaxHeartRate());
-        } else {
-            edit.remove(USER_CONFIG_MAX_HEART_RATE);
-        }
-
-        if (shnUserConfiguration.getRestingHeartRate() != null) {
-            edit.putInt(USER_CONFIG_RESTING_HEART_RATE, shnUserConfiguration.getRestingHeartRate());
-        } else {
-            edit.remove(USER_CONFIG_RESTING_HEART_RATE);
-        }
-
-        if (shnUserConfiguration.getWeightInKg() != null) {
-            edit.putFloat(USER_CONFIG_WEIGHT_IN_KG, (float) (double) shnUserConfiguration.getWeightInKg());
-        } else {
-            edit.remove(USER_CONFIG_WEIGHT_IN_KG);
-        }
-
-        if (shnUserConfiguration.getSex() != null) {
-            edit.putString(USER_CONFIG_SEX, shnUserConfiguration.getSex().name());
-        } else {
-            edit.remove(USER_CONFIG_SEX);
-        }
-        edit.commit();
+    public SharedPreferences.Editor edit() {
+        return sharedPreferences.edit();
     }
 
-    public synchronized void readUserConfiguration(SHNUserConfiguration shnUserConfiguration) {
-        long longValue = sharedPreferences.getLong(USER_CONFIG_DATE_OF_BIRTH, -1l);
-        shnUserConfiguration.setDateOfBirth(null);
-        if (longValue != -1l) {
-            shnUserConfiguration.setDateOfBirth(new Date(longValue));
-        }
-
-        int intValue = sharedPreferences.getInt(USER_CONFIG_HEIGHT_IN_CM, -1);
-        shnUserConfiguration.setHeightInCm(null);
-        if (intValue != -1) {
-            shnUserConfiguration.setHeightInCm(intValue);
-        }
-
-        intValue = sharedPreferences.getInt(USER_CONFIG_MAX_HEART_RATE, -1);
-        shnUserConfiguration.setMaxHeartRate(null);
-        if (intValue != -1) {
-            shnUserConfiguration.setMaxHeartRate(intValue);
-        }
-
-        intValue = sharedPreferences.getInt(USER_CONFIG_RESTING_HEART_RATE, -1);
-        shnUserConfiguration.setRestingHeartRate(null);
-        if (intValue != -1) {
-            shnUserConfiguration.setRestingHeartRate(intValue);
-        }
-
-        float floatValue = sharedPreferences.getFloat(USER_CONFIG_WEIGHT_IN_KG, Float.NaN);
-        shnUserConfiguration.setWeightInKg(null);
-        if (floatValue != Float.NaN) {
-            shnUserConfiguration.setWeightInKg((double) floatValue);
-        }
-
-        String stringValue = sharedPreferences.getString(USER_CONFIG_SEX, null);
-        shnUserConfiguration.setSex(null);
-        if (stringValue != null) {
-            shnUserConfiguration.setSex(SHNUserConfiguration.Sex.valueOf(stringValue));
-        }
+    public long getLong(String key) {
+        return sharedPreferences.getLong(key, -1);
     }
 
-    // TODO:add implementation
-    public synchronized void storeUserIndex(int userIndex) {
+    public int getInt(String key) {
+        return sharedPreferences.getInt(key, -1);
     }
 
-    public synchronized void storeUserConsentCode(int consentCode) {
+    public float getFloat(String key) {
+        return sharedPreferences.getFloat(key, Float.NaN);
     }
 
-    public synchronized void storeDataBaseIncrement(int dataIncrement) {
-    }
-
-    public synchronized int readUserIndex() {
-        return 0;
-    }
-
-    public synchronized int readUserConsentCode() {
-        return 0;
-    }
-
-    public synchronized int readDataBaseIncrement() {
-        return 0;
-    }
-
-    public void incrementDataBaseIncrement() {
+    public String getString(String key) {
+        return sharedPreferences.getString(key, null);
     }
 }

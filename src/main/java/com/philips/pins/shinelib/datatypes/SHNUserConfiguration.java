@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.datatypes;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
@@ -13,6 +14,14 @@ import java.util.Date;
 public class SHNUserConfiguration {
     private static final String TAG = SHNUserConfiguration.class.getSimpleName();
 
+    private static final String USER_CONFIG_DATE_OF_BIRTH = "USER_CONFIG_DATE_OF_BIRTH";
+    private static final String USER_CONFIG_MAX_HEART_RATE = "USER_CONFIG_MAX_HEART_RATE";
+    private static final String USER_CONFIG_RESTING_HEART_RATE = "USER_CONFIG_RESTING_HEART_RATE";
+    private static final String USER_CONFIG_WEIGHT_IN_KG = "USER_CONFIG_WEIGHT_IN_KG";
+    private static final String USER_CONFIG_HEIGHT_IN_CM = "USER_CONFIG_HEIGHT_IN_CM";
+    private static final String USER_CONFIG_SEX = "USER_CONFIG_SEX";
+    private static final String USER_CONFIG_INCREMENT = "USER_CONFIG_INCREMENT";
+    
     public enum Sex {
         Female, Male, Unspecified
     }
@@ -25,9 +34,11 @@ public class SHNUserConfiguration {
     private Double weightInKg;
     private Date dateOfBirth;
 
+    private int incrementIndex;
+
     public static SHNUserConfiguration getNewDefaultInstance(ShinePreferenceWrapper shinePreferenceWrapper) {
         SHNUserConfiguration shnUserConfiguration = new SHNUserConfiguration(shinePreferenceWrapper);
-        shinePreferenceWrapper.readUserConfiguration(shnUserConfiguration);
+        shnUserConfiguration.retrieveFromPreferences();
         return shnUserConfiguration;
     }
 
@@ -35,9 +46,17 @@ public class SHNUserConfiguration {
         this.shinePreferenceWrapper = shinePreferenceWrapper;
     }
 
-    private void saveToPreferences() {
-        shinePreferenceWrapper.storeUserConfiguration(this);
-        shinePreferenceWrapper.incrementDataBaseIncrement();
+    private void incrementIndex() {
+        incrementIndex++;
+        saveToPreferences();
+    }
+
+    private int getIncrementIndex() {
+        return incrementIndex;
+    }
+
+    private void setIncrementIndex(int incrementIndex) {
+        this.incrementIndex = incrementIndex;
     }
 
     public Sex getSex() {
@@ -46,7 +65,7 @@ public class SHNUserConfiguration {
 
     public void setSex(Sex sex) {
         this.sex = sex;
-        saveToPreferences();
+        incrementIndex();
     }
 
     public Integer getMaxHeartRate() {
@@ -59,7 +78,7 @@ public class SHNUserConfiguration {
 
     public void setMaxHeartRate(Integer maxHeartRate) {
         this.maxHeartRate = maxHeartRate;
-        saveToPreferences();
+        incrementIndex();
     }
 
     public Integer getRestingHeartRate() {
@@ -68,7 +87,7 @@ public class SHNUserConfiguration {
 
     public void setRestingHeartRate(Integer restingHeartRate) {
         this.restingHeartRate = restingHeartRate;
-        saveToPreferences();
+        incrementIndex();
     }
 
     public Integer getHeightInCm() {
@@ -77,7 +96,7 @@ public class SHNUserConfiguration {
 
     public void setHeightInCm(Integer heightInCm) {
         this.heightInCm = heightInCm;
-        saveToPreferences();
+        incrementIndex();
     }
 
     public Double getWeightInKg() {
@@ -86,7 +105,7 @@ public class SHNUserConfiguration {
 
     public void setWeightInKg(Double weightInKg) {
         this.weightInKg = weightInKg;
-        saveToPreferences();
+        incrementIndex();
     }
 
     public Date getDateOfBirth() {
@@ -95,7 +114,7 @@ public class SHNUserConfiguration {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        saveToPreferences();
+        incrementIndex();
     }
 
     /* return null when birthdate not set */
@@ -144,5 +163,89 @@ public class SHNUserConfiguration {
             result = (int)baseMetabolicRate;
         }
         return result;
+    }
+
+    private synchronized void saveToPreferences() {
+        SharedPreferences.Editor edit = shinePreferenceWrapper.edit();
+
+        if (getDateOfBirth() != null) {
+            edit.putLong(USER_CONFIG_DATE_OF_BIRTH, getDateOfBirth().getTime());
+        } else {
+            edit.remove(USER_CONFIG_DATE_OF_BIRTH);
+        }
+
+        if (getHeightInCm() != null) {
+            edit.putInt(USER_CONFIG_HEIGHT_IN_CM, getHeightInCm());
+        } else {
+            edit.remove(USER_CONFIG_HEIGHT_IN_CM);
+        }
+
+        if (getMaxHeartRate() != null) {
+            edit.putInt(USER_CONFIG_MAX_HEART_RATE, getMaxHeartRate());
+        } else {
+            edit.remove(USER_CONFIG_MAX_HEART_RATE);
+        }
+
+        if (getRestingHeartRate() != null) {
+            edit.putInt(USER_CONFIG_RESTING_HEART_RATE, getRestingHeartRate());
+        } else {
+            edit.remove(USER_CONFIG_RESTING_HEART_RATE);
+        }
+
+        if (getWeightInKg() != null) {
+            edit.putFloat(USER_CONFIG_WEIGHT_IN_KG, (float) (double) getWeightInKg());
+        } else {
+            edit.remove(USER_CONFIG_WEIGHT_IN_KG);
+        }
+
+        if (getSex() != null) {
+            edit.putString(USER_CONFIG_SEX, getSex().name());
+        } else {
+            edit.remove(USER_CONFIG_SEX);
+        }
+
+        edit.putInt(USER_CONFIG_INCREMENT, getIncrementIndex());
+        edit.commit();
+    }
+
+    private synchronized void retrieveFromPreferences() {
+        long longValue = shinePreferenceWrapper.getLong(USER_CONFIG_DATE_OF_BIRTH);
+        setDateOfBirth(null);
+        if (longValue != -1l) {
+            setDateOfBirth(new Date(longValue));
+        }
+
+        int intValue = shinePreferenceWrapper.getInt(USER_CONFIG_HEIGHT_IN_CM);
+        setHeightInCm(null);
+        if (intValue != -1) {
+            setHeightInCm(intValue);
+        }
+
+        intValue = shinePreferenceWrapper.getInt(USER_CONFIG_MAX_HEART_RATE);
+        setMaxHeartRate(null);
+        if (intValue != -1) {
+            setMaxHeartRate(intValue);
+        }
+
+        intValue = shinePreferenceWrapper.getInt(USER_CONFIG_RESTING_HEART_RATE);
+        setRestingHeartRate(null);
+        if (intValue != -1) {
+            setRestingHeartRate(intValue);
+        }
+
+        float floatValue = shinePreferenceWrapper.getFloat(USER_CONFIG_WEIGHT_IN_KG);
+        setWeightInKg(null);
+        if (floatValue != Float.NaN) {
+            setWeightInKg((double) floatValue);
+        }
+
+        String stringValue = shinePreferenceWrapper.getString(USER_CONFIG_SEX);
+        setSex(null);
+        if (stringValue != null) {
+            setSex(Sex.valueOf(stringValue));
+        }
+
+        int index = shinePreferenceWrapper.getInt(USER_CONFIG_INCREMENT);
+        setIncrementIndex(index);
     }
 }

@@ -1,12 +1,14 @@
 package com.philips.pins.shinelib.capabilities;
 
+import android.content.SharedPreferences;
+
 import com.philips.pins.shinelib.SHNIntegerResultListener;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.datatypes.SHNUserConfiguration;
 import com.philips.pins.shinelib.services.SHNServiceUserData;
-import com.philips.pins.shinelib.utility.ShinePreferenceWrapper;
+import com.philips.pins.shinelib.utility.SHNDevicePreferenceWrapper;
 
 import java.util.Date;
 import java.util.Queue;
@@ -19,12 +21,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserControlPoint {
 
     private final SHNServiceUserData shnServiceUserData;
+    private final SHNDevicePreferenceWrapper shnDevicePreferenceWrapper;
     private final SHNUserConfiguration shnUserConfiguration;
-    private final ShinePreferenceWrapper shinePreferenceWrapper;
 
     private SHNCapabilityUserControlPointListener shnCapabilityUserControlPointListener;
 
     private final static int INVALID_VALUE = -1;
+
+    private static final String UDS_USER_ID = "UDS_USER_ID";
+    private static final String UDS_CONSENT_CODE = "UDS_CONSENT_CODE";
+    private static final String UDS_DATABASE_INCREMENT = "UDS_DATABASE_INCREMENT";
 
     private SHNServiceUserData.SHNServiceUserDataListener shnServiceUserDataListener = new SHNServiceUserData.SHNServiceUserDataListener() {
 
@@ -36,11 +42,11 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
         }
     };
 
-    public SHNCapabilityUserControlPointImpl(SHNServiceUserData shnServiceUserData, SHNUserConfiguration shnUserConfiguration, ShinePreferenceWrapper wrapper) {
+    public SHNCapabilityUserControlPointImpl(SHNServiceUserData shnServiceUserData, SHNUserConfiguration shnUserConfiguration, SHNDevicePreferenceWrapper wrapper) {
         this.shnServiceUserData = shnServiceUserData;
         shnServiceUserData.setShnServiceUserDataListener(shnServiceUserDataListener);
         this.shnUserConfiguration = shnUserConfiguration;
-        this.shinePreferenceWrapper = wrapper;
+        this.shnDevicePreferenceWrapper = wrapper;
     }
 
     @Override
@@ -50,12 +56,12 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public int getCurrentUserIndex() {
-        return shinePreferenceWrapper.readUserIndex();
+        return shnDevicePreferenceWrapper.getInt(UDS_USER_ID);
     }
 
     @Override
     public int getCurrentConsentCode() {
-        return shinePreferenceWrapper.readUserConsentCode();
+        return shnDevicePreferenceWrapper.getInt(UDS_CONSENT_CODE);
     }
 
     @Override
@@ -65,8 +71,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public void setCurrentUser(int userIndex, int consentCode, SHNResultListener shnResultListener) {
-        shinePreferenceWrapper.storeUserIndex(userIndex);
-        shinePreferenceWrapper.storeUserConsentCode(consentCode);
+        storeUserData(userIndex, consentCode);
 
         shnServiceUserData.consentExistingUser(userIndex, consentCode, shnResultListener);
 
@@ -74,9 +79,9 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
             @Override
             public void onActionCompleted(int increment, SHNResult result) {
                 if (result == SHNResult.SHNOk) {
-                    int localIncrement = shinePreferenceWrapper.readDataBaseIncrement();
+                    int localIncrement = getDataBaseIncrement();
                     if (localIncrement != increment) {
-                        shnCapabilityUserControlPointListener.onMismatchedDatabaseIncrement(shinePreferenceWrapper.readUserIndex(), localIncrement, increment);
+                        shnCapabilityUserControlPointListener.onMismatchedDatabaseIncrement(getCurrentUserIndex(), localIncrement, increment);
                     }
                 }
             }
@@ -90,7 +95,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public void pushUserConfiguration(SHNResultListener shnResultListener) {
-        new Pusher(shnUserConfiguration, shnServiceUserData, shinePreferenceWrapper.readDataBaseIncrement()).start(shnResultListener);
+        new Pusher(shnUserConfiguration, shnServiceUserData, getDataBaseIncrement()).start(shnResultListener);
     }
 
     private void autoConsentUser() {
@@ -107,6 +112,16 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
                 }
             });
         }
+    }
+
+    private void storeUserData(int userIndex, int consentCode){
+        SharedPreferences.Editor editor = shnDevicePreferenceWrapper.edit();
+        editor.putInt(UDS_USER_ID, userIndex);
+        editor.putInt(UDS_CONSENT_CODE, consentCode);
+    }
+
+    private int getDataBaseIncrement(){
+        return shnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT);
     }
 
     private static class Pusher {
