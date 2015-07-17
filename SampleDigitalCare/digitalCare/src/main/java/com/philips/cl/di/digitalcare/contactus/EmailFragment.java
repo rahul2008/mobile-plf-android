@@ -66,7 +66,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
         if (getEmailUrl() == null) {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
-            String url = getEmailUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
+            String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
