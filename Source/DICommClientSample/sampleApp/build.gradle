@@ -25,7 +25,7 @@ dependencies {
     if (findProject(':dicommClientLib')) {
         compile project(':dicommClientLib')
     } else {
-        compile 'com.philips.cdp:dicomm-client:0.0.1'
+        compile 'com.philips.cdp:dicommClientLib:0.0.1'
         compile 'com.google.code.gson:gson:2.2.4'
     }
 }
