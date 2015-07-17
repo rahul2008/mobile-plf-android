@@ -13,11 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsPages;
+import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.dao.UserRegistrationFailureInfo;
 import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
@@ -38,8 +40,8 @@ import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class MergeAccountFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
-        OnClickListener {
+		onUpdateListener, TraditionalLoginHandler, ForgotPasswordHandler, NetworStateListener,
+		OnClickListener {
 
 	private TextView mTvAccountMergeSignIn;
 
@@ -55,7 +57,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private XButton mBtnForgotPassword;
 
-	private XEmail mEtEmail;
+	private String mEmailId;
 
 	private XPassword mEtPassword;
 
@@ -68,6 +70,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	private User mUser;
 
 	private Context mContext;
+
+	private TextView mTvPasswordMege;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -86,10 +90,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
 		EventHelper.getInstance()
-		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+				.registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
+		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
 		View view = inflater.inflate(R.layout.fragment_social_merge_account, container, false);
 		RLog.i(RLog.EVENT_LISTENERS,
-		        "MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+				"MergeAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+		mUser = new User(mContext);
 		initUI(view);
 		handleUiErrorState();
 		return view;
@@ -136,9 +142,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onDestroy");
 		RegistrationHelper.getInstance().unRegisterNetworkListener(this);
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
-		        this);
+				this);
 		RLog.i(RLog.EVENT_LISTENERS,
-		        "MergeAccountFragment unregister: JANRAIN_INIT_SUCCESS,NetworStateListener");
+				"MergeAccountFragment unregister: JANRAIN_INIT_SUCCESS,NetworStateListener");
 		super.onDestroy();
 	}
 
@@ -161,19 +167,21 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mBtnMerge = (XButton) view.findViewById(R.id.btn_reg_merg);
 		mBtnMerge.setOnClickListener(this);
 
+		mEmailId = bundle.getString(RegConstants.SOCIAL_MERGE_EMAIL);
+
 		mBtnForgotPassword = (XButton) view.findViewById(R.id.btn_reg_forgot_password);
 		mBtnForgotPassword.setOnClickListener(this);
 		mTvAccountMergeSignIn = (TextView) view.findViewById(R.id.tv_reg_account_merge_sign_in);
 		mLlUsedEMailAddressContainer = (LinearLayout) view
-		        .findViewById(R.id.ll_reg_used_email_address_container);
+				.findViewById(R.id.ll_reg_used_email_address_container);
 
 		mLlCreateAccountFields = (LinearLayout) view
-		        .findViewById(R.id.ll_reg_create_account_fields);
+				.findViewById(R.id.ll_reg_create_account_fields);
 
 		mRlSingInOptions = (RelativeLayout) view.findViewById(R.id.rl_reg_btn_container);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
-		mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
-		mEtEmail.setOnUpdateListener(this);
+		//	mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
+		//	mEtEmail.setOnUpdateListener(this);
 		mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
 		mEtPassword.setOnUpdateListener(this);
 		mEtPassword.isValidatePassword(false);
@@ -188,19 +196,28 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 		setViewParams(getResources().getConfiguration());
-		mContext = getRegistrationFragment().getParentActivity().getApplicationContext();
-		mUser = new User(mContext);
+
+		mTvPasswordMege = (TextView) view.findViewById(R.id.tv_reg_password_merge);
+
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
+				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_SOCIAL_MERGE);
+
+		String myPhilipsEmail = getString(R.string.RegMerge_MergeLbltxt);
+		myPhilipsEmail = String.format(myPhilipsEmail,mEmailId);
+		mTvPasswordMege.setText(myPhilipsEmail);
 	}
+
 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_reg_merg) {
 			RLog.d(RLog.ONCLICK, "MergeAccountFragment : Merge");
-			mEtEmail.hideValidAlertError();
+			//		mEtEmail.hideValidAlertError();
 			mEtPassword.hideValidAlertError();
-			if (mEtEmail.hasFocus()) {
+			/*if (mEtEmail.hasFocus()) {
 				mEtEmail.clearFocus();
-			} else if (mEtPassword.hasFocus()) {
+			} else*/
+			if (mEtPassword.hasFocus()) {
 				mEtPassword.clearFocus();
 			}
 			getView().requestFocus();
@@ -214,10 +231,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private void mergeAccount() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			trackActionStatus(AnalyticsConstants.SEND_DATA,
-					AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_SOCIAL_MERGE);
-			mUser.mergeToTraditionalAccount(mEtEmail.getEmailId(), mEtPassword.getPassword(),
-			        mMergeToken, this);
+			mUser.mergeToTraditionalAccount(mEmailId, mEtPassword.getPassword(),mMergeToken, this);
 			showMergeSpinner();
 		} else {
 			mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
@@ -225,17 +239,15 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	private void resetPassword() {
-		boolean validatorResult = EmailValidator.isValidEmail(mEtEmail.getEmailId().toString());
+		boolean validatorResult = EmailValidator.isValidEmail(mEmailId);
 		if (!validatorResult) {
-			mEtEmail.showInvalidAlert();
 		} else {
 			if (NetworkUtility.isNetworkAvailable(mContext)) {
 				if (mUser != null) {
 					showForgotPasswordSpinner();
-					mEtEmail.clearFocus();
 					mEtPassword.clearFocus();
 					mBtnMerge.setEnabled(false);
-					mUser.forgotPassword(mEtEmail.getEmailId().toString(), this);
+					mUser.forgotPassword(mEmailId.toString(), this);
 				}
 
 			} else {
@@ -279,9 +291,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private void updateUiStatus() {
 		RLog.i("MergeAccountFragment", "updateUiStatus");
-		if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
-		        && NetworkUtility.isNetworkAvailable(mContext)
-		        && RegistrationHelper.getInstance().isJanrainIntialized()) {
+		if (mEtPassword.isValidPassword()
+				&& NetworkUtility.isNetworkAvailable(mContext)
+				&& RegistrationHelper.getInstance().isJanrainIntialized()) {
 			mBtnMerge.setEnabled(true);
 			mBtnForgotPassword.setEnabled(true);
 			mRegError.hideError();
@@ -328,7 +340,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.MERGE_ACCOUNT, AnalyticsPages.WELCOME);
+		trackPage(AnalyticsPages.WELCOME);
 	}
 
 	@Override
@@ -350,36 +362,38 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
-		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity(),AnalyticsConstants.MERGE_ACCOUNT);
+		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.STATUS_NOTIFICATION,
+				AnalyticsConstants.RESET_PASSWORD_SUCCESS);
 		hideForgotPasswordSpinner();
 		mRegError.hideError();
 	}
 
 	@Override
 	public void onSendForgotPasswordFailedWithError(
-	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+			UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordFailedWithError");
 		hideForgotPasswordSpinner();
 
 		if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
-			mEtEmail.showInvalidAlert();
+			/*mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+			mEtEmail.showInvalidAlert();*/
 			mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
 			return;
 		}
 
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-			mEtEmail.showInvalidAlert();
+			/*mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+			mEtEmail.showInvalidAlert();*/
 		}
-
+		trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
 		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 	}
 
 	@Override
 	public void onNetWorkStateReceived(boolean isOnline) {
 		RLog.i(RLog.NETWORK_STATE, "MergeAccountFragment :onNetWorkStateReceived state :"
-		        + isOnline);
+				+ isOnline);
 		handleUiErrorState();
 		updateUiStatus();
 	}

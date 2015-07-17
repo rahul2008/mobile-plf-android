@@ -106,4 +106,6 @@ public class RegConstants {
 
     public static final String ORIENTAION = "Orientaion";
 
+    public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
+
 }

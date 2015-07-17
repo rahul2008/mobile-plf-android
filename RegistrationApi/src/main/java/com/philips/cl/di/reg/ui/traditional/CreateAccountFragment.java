@@ -203,12 +203,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mPbSpinner.setEnabled(true);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		setViewParams(getResources().getConfiguration());
+
+		//trackPage(AnalyticsPages.CREATE_ACCOUNT);
 		handleUiState();
 		mUser = new User(mContext);
 	}
 
 	private void register() {
-		trackCheckMarketing();
 		showSpinner();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
@@ -255,8 +256,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	public void onRegisterSuccess() {
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
+		trackCheckMarketing();
 		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.SUCCESS_USER_CREATION);
+				AnalyticsConstants.SUCCESS_USER_CREATION);
 		if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
 			launchAccountActivateFragment();
 		} else {
@@ -266,12 +268,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void launchAccountActivateFragment() {
 		getRegistrationFragment().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.CREATE_ACCOUNT, AnalyticsPages.ACCOUNT_ACTIVATION);
+		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().addFragment(new WelcomeFragment());
-		trackPage(AnalyticsPages.CREATE_ACCOUNT, AnalyticsPages.WELCOME);
+		trackPage(AnalyticsPages.WELCOME);
 	}
 
 	@Override

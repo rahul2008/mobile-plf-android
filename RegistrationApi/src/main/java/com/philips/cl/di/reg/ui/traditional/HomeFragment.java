@@ -1,19 +1,12 @@
 
 package com.philips.cl.di.reg.ui.traditional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -25,12 +18,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.adobe.mobile.Analytics;
+import com.janrain.android.Jump;
+import com.janrain.android.engage.types.JRDictionary;
 import com.philips.cl.di.reg.R;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.adobe.analytics.AnalyticsConstants;
@@ -48,6 +43,13 @@ import com.philips.cl.di.reg.ui.customviews.XRegError;
 import com.philips.cl.di.reg.ui.utils.NetworkUtility;
 import com.philips.cl.di.reg.ui.utils.RLog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 public class HomeFragment extends RegistrationBaseFragment implements OnClickListener,
         NetworStateListener, SocialProviderLoginHandler, EventListener {
@@ -184,16 +186,21 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void inflateEachProviderBtn(String provider) {
-        String providerTempName = provider.substring(0, 1).toUpperCase()
-                + provider.substring(1).toLowerCase();
-        String providerName = "Welcome_" + providerTempName + "_btntxt";
-        String providerDrawable = "reg_" + provider + "_ic";
+        try{
+            String providerTempName = provider.substring(0, 1).toUpperCase()
+                    + provider.substring(1).toLowerCase();
+            String providerName = "Welcome_" + providerTempName + "_btntxt";
+            String providerDrawable = "reg_" + provider + "_ic";
 
-        int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
-                getRegistrationFragment().getParentActivity().getPackageName());
-        int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "drawable",
-                getRegistrationFragment().getParentActivity().getPackageName());
-        mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
+            int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
+                    getRegistrationFragment().getParentActivity().getPackageName());
+            int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "drawable",
+                    getRegistrationFragment().getParentActivity().getPackageName());
+            mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
+        }catch (Exception e){
+            RLog.e("HomeFragment","Inflate Buttons exception :" +e.getMessage());
+        }
+
     }
 
     private XProviderButton getProviderBtn(final String providerName, int providerNameStringId,
@@ -255,6 +262,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
                 .findViewById(R.id.ll_reg_social_provider_container);
 
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
+
+        AnalyticsUtils.trackFirstPage(AnalyticsPages.HOME);
         mUser = new User(mContext);
         setViewParams(getResources().getConfiguration());
         linkifyTermAndPolicy(mTvWelcomeDesc);
@@ -288,18 +297,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         } else if (v.getId() == R.id.btn_reg_my_philips) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
-            trackMultipleActionsLogin();
+            trackMultipleActionsLogin(AnalyticsConstants.MY_PHILIPS);
             launchSignInFragment();
         }
     }
 
     private void launchSignInFragment() {
-        trackPage(AnalyticsPages.HOME, AnalyticsPages.SIGN_IN_ACCOUNT);
+        trackPage(AnalyticsPages.SIGN_IN_ACCOUNT);
         getRegistrationFragment().addFragment(new SignInAccountFragment());
     }
 
     private void launchCreateAccountFragment() {
-        trackPage(AnalyticsPages.HOME, AnalyticsPages.CREATE_ACCOUNT);
+        trackPage(AnalyticsPages.CREATE_ACCOUNT);
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
@@ -310,18 +319,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             return;
         if (NetworkUtility.isNetworkAvailable(mContext)
                 && RegistrationHelper.getInstance().isJanrainIntialized()) {
-            trackMultipleActions(providerName);
+            trackMultipleActionsLogin(providerName);
             mUser.loginUserUsingSocialProvider(getActivity(), providerName, this, null);
         }
     }
-
-    private void trackMultipleActions(String providerName) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(AnalyticsConstants.LOGIN_CHANNEL, providerName);
-        map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.LOGIN_START);
-        AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
-    }
-
 
     @Override
     public void setViewParams(Configuration config) {
@@ -491,12 +492,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchAccountActivationFragment() {
-        trackPage(AnalyticsPages.HOME, AnalyticsPages.ACCOUNT_ACTIVATION);
+        trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
         getRegistrationFragment().addFragment(new AccountActivationFragment());
     }
 
     private void launchWelcomeFragment() {
-        trackPage(AnalyticsPages.HOME, AnalyticsPages.WELCOME);
+        trackPage(AnalyticsPages.WELCOME);
         getRegistrationFragment().addWelcomeFragmentOnVerification();
     }
 
@@ -536,7 +537,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
-        trackPage(AnalyticsPages.HOME, AnalyticsPages.ALMOST_DONE);
+        trackPage(AnalyticsPages.ALMOST_DONE);
         getRegistrationFragment().addAlmostDoneFragment(prefilledRecord, mProvider,
                 socialRegistrationToken);
     }
@@ -544,12 +545,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                                 String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-                                                String existingIdpNameLocalized,String emailId) {
-        RLog.i(RLog.CALLBACK, "HomeFragment : onLoginFailedWithMergeFlowError");
+                                                String existingIdpNameLocalized,final String emailId) {
+
         hideProviderProgress();
         enableControls(true);
         if (mUser.handleMergeFlowError(existingProvider)) {
-            launchMergeAccountFragment(mergeToken, existingProvider);
+            launchMergeAccountFragment(mergeToken, existingProvider,emailId);
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext)
                     && RegistrationHelper.getInstance().isJanrainIntialized()) {
@@ -562,9 +563,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void launchMergeAccountFragment(String mergeToken, String existingProvider) {
-        trackPage(AnalyticsPages.HOME, AnalyticsPages.MERGE_ACCOUNT);
-        getRegistrationFragment().addMergeAccountFragment(mergeToken, existingProvider);
+    private void launchMergeAccountFragment(String mergeToken, String existingProvider,String emailId) {
+        trackPage(AnalyticsPages.MERGE_ACCOUNT);
+        getRegistrationFragment().addMergeAccountFragment(mergeToken, existingProvider,emailId);
     }
 
     @Override

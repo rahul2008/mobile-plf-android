@@ -42,6 +42,7 @@
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cl.di.reg.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_password_merge"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="@string/Account_Merge_EnterPassword_lbltxt"
@@ -56,12 +57,6 @@
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
-
-                <com.philips.cl.di.reg.ui.customviews.XEmail
-                    android:id="@+id/rl_reg_email_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/reg_margin_bottom" />
 
                 <com.philips.cl.di.reg.ui.customviews.XPassword
                     android:id="@+id/rl_reg_password_field"

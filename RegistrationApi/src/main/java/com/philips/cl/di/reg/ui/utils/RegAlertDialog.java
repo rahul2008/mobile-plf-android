@@ -14,7 +14,7 @@ import com.philips.cl.di.reg.adobe.analytics.AnalyticsUtils;
 
 public class RegAlertDialog {
 
-	public static void showResetPasswordDialog(Activity activity, final String typeName) {
+	public static void showResetPasswordDialog(Activity activity) {
 
 		final AlertDialog alertDialogBuilder = new AlertDialog.Builder(activity).create();
 		alertDialogBuilder.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -26,11 +26,6 @@ public class RegAlertDialog {
 		continueBtn.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				if(typeName.equals(AnalyticsConstants.SIGN_IN)){
-					trackActionForResetPasswordNotification(AnalyticsConstants.ACCEPT_MESSAGE,
-					        AnalyticsConstants.STATUS_NOTIFICATION, AnalyticsConstants.CONTINUE);
-
-				}
 				alertDialogBuilder.dismiss();
 			}
 		});

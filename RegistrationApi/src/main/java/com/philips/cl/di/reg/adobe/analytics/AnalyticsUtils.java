@@ -13,12 +13,21 @@ import com.philips.cl.di.reg.settings.RegistrationHelper;
 
 public class AnalyticsUtils {
 
-    public static void trackPage(String prevPage, String currPage) {
+    private static String prevPage = null;
+
+    public static void trackPage(String currPage) {
         Map<String, Object> contextData = addAnalyticsDataObject();
-        if (null != prevPage) {
+        if (null != prevPage && currPage.toString()!=AnalyticsPages.USER_PROFILE) {
             contextData.put(AnalyticsConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
         Analytics.trackState(currPage, contextData);
+        prevPage = currPage;
+    }
+
+    public static void trackFirstPage(String currPage) {
+        Map<String, Object> contextData = addAnalyticsDataObject();
+        Analytics.trackState(currPage, contextData);
+        prevPage = currPage;
     }
 
     public static void trackAction(String state, String key, Object value) {
@@ -60,7 +69,7 @@ public class AnalyticsUtils {
         if (currencyCode == null)
             currencyCode = AnalyticsConstants.DEFAULT_CURRENCY;
         return currencyCode;
-    }
+}
 
     private static String getTimestamp() {
         Calendar c = Calendar.getInstance();

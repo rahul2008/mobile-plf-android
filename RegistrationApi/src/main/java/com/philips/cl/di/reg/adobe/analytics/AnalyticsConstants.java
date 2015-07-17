@@ -2,10 +2,6 @@ package com.philips.cl.di.reg.adobe.analytics;
 
 public interface AnalyticsConstants {
 
-	String SIGN_IN = "sign_in";
-
-	String MERGE_ACCOUNT = "merge_account";
-
 	String DEFAULT_COUNTRY = "global";
 
 	String DEFAULT_LANGUAGE = "en";
@@ -35,8 +31,6 @@ public interface AnalyticsConstants {
 	String OS_ANDROID = "android";
 
 	String SEND_DATA = "senddata";
-
-	String ACCEPT_MESSAGE = "acceptmessage";
 
 	String REGISTRATION_CHANNEL = "registrationChannel";
 
@@ -74,8 +68,6 @@ public interface AnalyticsConstants {
 
 	String RESET_PASSWORD_SUCCESS = "A link is sent to your email to reset the password of your Philips Account";
 
-	String CONTINUE = "continue";
-
 	int NETWORK_ERROR_CODE = 111;
 
 	int EMAIL_NOT_VERIFIED = 112;
@@ -83,5 +75,7 @@ public interface AnalyticsConstants {
 	String COUNTRY_KEY = "locale.country";
 
 	String SIGN_OUT = "signOut";
+
+	String SUCCESS_RESEND_EMAIL_VERIFICATION = "successResendEmailVerification";
 
 }

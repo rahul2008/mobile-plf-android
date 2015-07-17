@@ -170,8 +170,8 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		view.setLayoutParams(mParams);
 	}
 
-	protected void trackPage(String prevPage, String currPage) {
-		AnalyticsUtils.trackPage(prevPage, currPage);
+	protected void trackPage(String currPage) {
+		AnalyticsUtils.trackPage(currPage);
 	}
 
 	protected void trackActionStatus(String state, String key, String value) {
@@ -190,6 +190,14 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		TrackActionErrors.trackActionLoginError(errorCode);
 	}
 
+	protected void trackActionForgotPasswordFailure(int errorCode) {
+		TrackActionErrors.trackActionForgotPasswordFailure(errorCode);
+	}
+
+	protected void trackActionResendVerificationFailure(int errorCode) {
+		TrackActionErrors.trackActionResendNetworkFailure(errorCode);
+	}
+
 	protected void trackMultipleActionsRegistration() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
@@ -197,9 +205,9 @@ public abstract class RegistrationBaseFragment extends Fragment {
 		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
 	}
 
-	protected void trackMultipleActionsLogin() {
+	protected void trackMultipleActionsLogin(String providerName) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(AnalyticsConstants.LOGIN_CHANNEL, AnalyticsConstants.MY_PHILIPS);
+		map.put(AnalyticsConstants.LOGIN_CHANNEL, providerName);
 		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.LOGIN_START);
 		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
 	}

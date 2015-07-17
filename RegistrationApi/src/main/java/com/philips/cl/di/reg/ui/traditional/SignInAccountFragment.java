@@ -23,6 +23,7 @@ import com.philips.cl.di.reg.events.EventHelper;
 import com.philips.cl.di.reg.events.EventListener;
 import com.philips.cl.di.reg.events.NetworStateListener;
 import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
+import com.philips.cl.di.reg.handlers.ResendVerificationEmailHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 import com.philips.cl.di.reg.settings.RegistrationHelper;
 import com.philips.cl.di.reg.ui.customviews.XEmail;
@@ -36,7 +37,7 @@ import com.philips.cl.di.reg.ui.utils.RegAlertDialog;
 import com.philips.cl.di.reg.ui.utils.RegConstants;
 
 public class SignInAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener,
+        TraditionalLoginHandler, ForgotPasswordHandler, onUpdateListener, EventListener,ResendVerificationEmailHandler,
         NetworStateListener {
 
 	private LinearLayout mLlCreateAccountFields;
@@ -84,7 +85,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		        .registerEventNotification(RegConstants.JANRAIN_INIT_SUCCESS, this);
 		View view = inflater.inflate(R.layout.fragment_sign_in_account, null);
 		RLog.i(RLog.EVENT_LISTENERS,
-		        "SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
+				"SignInAccountFragment register: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		initUI(view);
 		return view;
 	}
@@ -132,7 +133,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_SUCCESS,
 		        this);
 		RLog.i(RLog.EVENT_LISTENERS,
-		        "SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+				"SignInAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		super.onDestroy();
 	}
 
@@ -176,7 +177,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	private void lauchAccountActivationFragment() {
 		getRegistrationFragment().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.ACCOUNT_ACTIVATION);
+		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void initUI(View view) {
@@ -201,6 +202,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mEtPassword.isValidatePassword(false);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		setViewParams(getResources().getConfiguration());
+//		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT);
 		handleUiState();
 
 		mUser = new User(mContext);
@@ -218,8 +220,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mEtEmail.hideValidAlertError();
 		mEtPassword.hideValidAlertError();
 		((RegistrationFragment) getParentFragment()).hideKeyBoard();
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.LOGIN_START);
+		/*trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+		        AnalyticsConstants.LOGIN_START);*/
 		if (mUser != null) {
 			showSignInSpinner();
 		}
@@ -264,7 +266,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT, AnalyticsPages.WELCOME);
+		trackPage(AnalyticsPages.WELCOME);
 	}
 
 	@Override
@@ -292,10 +294,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
 		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.STATUS_NOTIFICATION,
-		        AnalyticsConstants.RESET_PASSWORD_SUCCESS);
+				AnalyticsConstants.RESET_PASSWORD_SUCCESS);
 		hideForgotPasswordSpinner();
-		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity(),
-		        AnalyticsConstants.SIGN_IN);
+		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());
 		hideForgotPasswordSpinner();
 		mBtnResend.setEnabled(true);
 		mRegError.hideError();
@@ -304,6 +305,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onSendForgotPasswordFailedWithError(
 	        UserRegistrationFailureInfo userRegistrationFailureInfo) {
+
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordFailedWithError");
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
@@ -311,7 +313,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
-			mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
+		//	mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
 			return;
 		}
 
@@ -320,8 +322,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mEtEmail.showInvalidAlert();
 		}
 
-		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
-		trackActionLoginError(userRegistrationFailureInfo.getError().code);
+		//mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
+		//trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 
 	private void showSignInSpinner() {
@@ -350,6 +353,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 			mEtEmail.showInvalidAlert();
 		} else {
 			if (NetworkUtility.isNetworkAvailable(mContext)) {
+				mEtEmail.hideValidAlertError();
 				if (mUser != null) {
 					showForgotPasswordSpinner();
 					mEtEmail.clearFocus();
@@ -397,4 +401,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		updateUiStatus();
 	}
 
+	@Override
+	public void onResendVerificationEmailSuccess() {
+		trackActionStatus(AnalyticsConstants.SEND_DATA,
+				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+	}
+
+	@Override
+	public void onResendVerificationEmailFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo) {
+		trackActionResendVerificationFailure(userRegistrationFailureInfo.getError().code);
+	}
 }

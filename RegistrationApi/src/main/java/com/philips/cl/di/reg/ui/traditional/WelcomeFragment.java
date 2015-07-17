@@ -81,7 +81,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "UserWelcomeFragment : onCreateView");
 		RegistrationHelper.getInstance().registerNetworkStateListener(this);
-		Bundle bundle = getArguments();
+				Bundle bundle = getArguments();
 		if (null != bundle) {
 			isfromVerification = bundle.getBoolean(RegConstants.VERIFICATIN_SUCCESS);
 			isfromBegining = bundle.getBoolean(RegConstants.IS_FROM_BEGINING);
@@ -183,6 +183,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		}
 
 		if (isfromBegining) {
+			trackPage(AnalyticsPages.USER_PROFILE);
 			mBtnSignOut.setVisibility(View.GONE);
 			mLlEmailDetails.setVisibility(View.GONE);
 			mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));
@@ -193,6 +194,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		} else {
 			View regLineView = (View) view.findViewById(R.id.reg_view_line);
 			regLineView.setVisibility(View.GONE);
+
 		}
 
 		mTvWelcome.setText(getString(R.string.RegWelcomeText) + " " + userProfile.getGivenName());
@@ -216,13 +218,12 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_out) {
 			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
-			trackPage(AnalyticsPages.WELCOME, AnalyticsPages.HOME);
+			//trackPage(AnalyticsPages.HOME);
 			mUser.logout();
 			getRegistrationFragment().navigateToHome();
 		} else if (id == R.id.btn_reg_continue) {
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
-				trackPage(AnalyticsPages.USER_PROFILE, AnalyticsPages.HOME);
 				trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
 						AnalyticsConstants.SIGN_OUT);
 				mUser.logout();

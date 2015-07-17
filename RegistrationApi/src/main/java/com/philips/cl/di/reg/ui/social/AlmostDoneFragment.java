@@ -258,6 +258,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		} else {
 			mEtEmail.setVisibility(View.VISIBLE);
 		}
+		//trackPage(AnalyticsPages.ALMOST_DONE);
 	}
 
 	private void handleUiState() {
@@ -320,7 +321,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void register() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			trackMultipleActions();
+
 			User user = new User(mContext);
 			if (isEmailExist) {
 				user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
@@ -334,9 +335,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void trackMultipleActions() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(AnalyticsConstants.REGISTRATION_CHANNEL, mProvider);
-		map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-		AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+		//map.put(AnalyticsConstants.REGISTRATION_CHANNEL, mProvider);
+		//map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
+		//AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
 		if (mCbTerms.isChecked()) {
 			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
 		} else {
@@ -381,7 +382,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 	@Override
 	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
 	        String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-	        String existingIdpNameLocalized) {
+	        String existingIdpNameLocalized,String emailId) {
 		RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginFailedWithMergeFlowError");
 		hideSpinner();
 		addMergeAccountFragment();
@@ -390,7 +391,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void addMergeAccountFragment() {
 		getRegistrationFragment().addFragment(new MergeAccountFragment());
-		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.MERGE_ACCOUNT);
+		trackPage(AnalyticsPages.MERGE_ACCOUNT);
 	}
 
 	@Override
@@ -398,6 +399,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 		RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
 		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
 		        AnalyticsConstants.SUCCESS_USER_CREATION);
+		trackMultipleActions();
 		User user = new User(mContext);
 		if (user.getEmailVerificationStatus(mContext)) {
 			launchWelcomeFragment();
@@ -409,12 +411,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
 	private void launchAccountActivateFragment() {
 		getRegistrationFragment().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.ACCOUNT_ACTIVATION);
+		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.ALMOST_DONE, AnalyticsPages.WELCOME);
+		trackPage(AnalyticsPages.WELCOME);
 	}
 
 	@Override

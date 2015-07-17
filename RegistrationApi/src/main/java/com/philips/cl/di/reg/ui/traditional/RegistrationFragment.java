@@ -113,7 +113,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Fragment fragment = mFragmentManager.getFragments().get(count);
         if (fragment instanceof WelcomeFragment) {
             navigateToHome();
-            trackPage(AnalyticsPages.WELCOME, AnalyticsPages.HOME);
+            trackPage(AnalyticsPages.HOME);
         } else {
             trackHandler();
             mFragmentManager.popBackStack();
@@ -132,7 +132,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
                 prevPage = getTackingPageName(currentFragment);
                 curPage = getTackingPageName(preFragment);
                 RLog.i("BAck identification", "Pre Page: " + prevPage + " Current : " + curPage);
-                trackPage(prevPage, curPage);
+                trackPage(curPage);
             }
         }
 
@@ -176,16 +176,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
         if (mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
-            trackPage("", AnalyticsPages.HOME);
+          //  trackPage(AnalyticsPages.HOME);
             replaceWithWelcomeFragment();
             return;
         }
-        trackPage(null, AnalyticsPages.HOME);
+       // trackPage(AnalyticsPages.HOME);
         replaceWithHomeFragment();
     }
 
-    private void trackPage(String prevPage, String currPage) {
-        AnalyticsUtils.trackPage(prevPage, currPage);
+   private void trackPage(String currPage) {
+        AnalyticsUtils.trackPage(currPage);
     }
 
     public void replaceWithHomeFragment() {
@@ -261,11 +261,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(socialAlmostDoneFragment);
     }
 
-    public void addMergeAccountFragment(String registrationToken, String provider) {
+    public void addMergeAccountFragment(String registrationToken, String provider,String emailId) {
         MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
         Bundle mergeFragmentBundle = new Bundle();
         mergeFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
         mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_TOKEN, registrationToken);
+        mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_EMAIL, emailId);
         mergeAccountFragment.setArguments(mergeFragmentBundle);
         addFragment(mergeAccountFragment);
     }
