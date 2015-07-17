@@ -64,4 +64,6 @@
 <string name="search">Szukaj</string>
 <string name="gps_disabled">Funkcja GPS jest wyłączona w Twoim urządzeniu. Chcesz ją włączyć?</string>
 <string name="servicecenters_not_found">null</string>
-<string name="no_data">Brak danych</string></resources>
+<string name="no_data">Brak danych</string>
+    <string name="send_us_email">Wyślij do nas e-mail</string>
+</resources>

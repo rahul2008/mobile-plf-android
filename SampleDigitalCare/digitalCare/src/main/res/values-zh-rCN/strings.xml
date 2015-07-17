@@ -67,4 +67,6 @@
 <string name="search">搜索</string>
 <string name="gps_disabled">您的设备已禁用 GPS。是否启用？</string>
 <string name="servicecenters_not_found">您所在的国家/地区没有服务中心 </string>
-<string name="no_data">无可用数据</string></resources>
+<string name="no_data">无可用数据</string>
+    <string name="send_us_email">给我们发送电子邮件</string>
+</resources>
