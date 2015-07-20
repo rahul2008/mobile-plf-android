@@ -615,7 +615,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onStop() {
         super.onStop();
-
+        mSearchBox.setText(null);
         mLocationManager = null;
     }
 
@@ -882,4 +882,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         mButtonDirection.setLayoutParams(params);
 
     }
+
+
 }
