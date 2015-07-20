@@ -5,23 +5,27 @@ import android.util.Log;
 import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.SHNResultListener;
 import com.philips.pins.shinelib.SHNService;
+import com.philips.pins.shinelib.datatypes.SHNDataBodyWeight;
 import com.philips.pins.shinelib.datatypes.SHNDataType;
-import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 import com.philips.pins.shinelib.datatypes.SHNLog;
+import com.philips.pins.shinelib.datatypes.SHNLogItem;
 import com.philips.pins.shinelib.framework.Timer;
 import com.philips.pins.shinelib.services.weightscale.SHNServiceWeightScale;
+import com.philips.pins.shinelib.services.weightscale.SHNWeightMeasurement;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -198,6 +202,12 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         for (int i = 0; i < dates.length; i++) {
             SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
             when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(dates[i]);
+
+            SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+            when(mockedFlags.hasUserId()).thenReturn(false);
+            when(mockedFlags.hasBmiAndHeight()).thenReturn(false);
+            when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
+
             measurements[i] = mockedShnTemperatureMeasurement;
             shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
         }
@@ -304,7 +314,7 @@ public class SHNCapabilityLogSyncWeightScaleTest {
     }
 
     @Test
-    public void whenLogIsCreatedThenMeasurementsAreOfTypeWeightMeasurement() {
+         public void whenLogIsCreatedThenMeasurementsAreOfTypeWeightMeasurement() {
         assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
 
         reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
@@ -321,5 +331,91 @@ public class SHNCapabilityLogSyncWeightScaleTest {
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyWeight));
         shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyWeight);
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+    }
+
+    @Test
+    public void whenMeasurementHasUserIdAndBmiWithHeightThanValuesAreSet() {
+        assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
+
+        reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
+        SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
+        when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(new Date(100L));
+
+        SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+        when(mockedFlags.hasUserId()).thenReturn(true);
+        when(mockedFlags.hasBmiAndHeight()).thenReturn(true);
+        when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
+
+        shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
+
+        verify(mockedShnTemperatureMeasurement).getUserId();
+        verify(mockedShnTemperatureMeasurement).getBMI();
+        verify(mockedShnTemperatureMeasurement).getHeight();
+    }
+
+    @Test
+         public void whenMeasurementHasUserIdThanLogItemContainsValue() {
+        assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
+
+        reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
+        SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
+        when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(new Date(100L));
+
+        SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+        when(mockedFlags.hasUserId()).thenReturn(true);
+        when(mockedFlags.hasBmiAndHeight()).thenReturn(false);
+        when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
+        int userId = 3;
+        when(mockedShnTemperatureMeasurement.getUserId()).thenReturn(userId);
+
+        shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
+
+        timeoutRunnableCaptor.getValue().run();
+
+        ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
+        ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+
+        List<SHNLogItem> items = shnLogArgumentCaptor.getValue().getLogItems();
+        SHNDataBodyWeight shnDataBodyTemperature = (SHNDataBodyWeight) items.get(0).getDataByDataTypeMap().get(SHNDataType.BodyWeight);
+
+        assertEquals(userId, shnDataBodyTemperature.getUserId());
+    }
+
+    @Test
+    public void whenMeasurementHasBmiANDHeightThanLogItemContainsValues() {
+        assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
+
+        reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
+        SHNWeightMeasurement mockedShnTemperatureMeasurement = mock(SHNWeightMeasurement.class);
+        when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(new Date(100L));
+
+        SHNWeightMeasurement.Flags mockedFlags = Mockito.mock(SHNWeightMeasurement.Flags.class);
+        when(mockedFlags.hasUserId()).thenReturn(false);
+        when(mockedFlags.hasBmiAndHeight()).thenReturn(true);
+        when(mockedShnTemperatureMeasurement.getFlags()).thenReturn(mockedFlags);
+
+        float bmi = 26.3f;
+        when(mockedShnTemperatureMeasurement.getBMI()).thenReturn(bmi);
+
+        float height = 123.5f;
+        when(mockedShnTemperatureMeasurement.getHeight()).thenReturn(height);
+
+        shnServiceWeightScaleListener.onWeightMeasurementReceived(mockedShnServiceWeightScale, mockedShnTemperatureMeasurement);
+
+        timeoutRunnableCaptor.getValue().run();
+
+        ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
+        ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+
+        List<SHNLogItem> items = shnLogArgumentCaptor.getValue().getLogItems();
+        SHNDataBodyWeight shnDataBodyTemperature = (SHNDataBodyWeight) items.get(0).getDataByDataTypeMap().get(SHNDataType.BodyWeight);
+
+        assertEquals(bmi, shnDataBodyTemperature.getBmi(), 0.001f);
+        assertEquals(height, shnDataBodyTemperature.getHeightInMeters(), 0.001f);
     }
 }
