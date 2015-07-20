@@ -7,7 +7,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
-import com.philips.cl.di.digitalcare.R;
+import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.Utility.test.Log;
 
 /**
