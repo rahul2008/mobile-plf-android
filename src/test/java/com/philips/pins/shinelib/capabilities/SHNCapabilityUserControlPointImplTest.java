@@ -283,6 +283,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int consentCode = 34;
         int increment = 9;
 
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getAge()).thenReturn(localAge);
 
         verifyUserConsentWithUserIndexAndConsentCode(userIndex, consentCode, increment, increment);
@@ -435,6 +436,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenPerformingInitialConsentThanUserConfigurationIsStarted() {
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
         verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
@@ -444,6 +446,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     @Test
     public void whenAgesIsPushedThanValueIsRedProperly() {
         Integer age = 33;
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getAge()).thenReturn(age);
 
         verifyPushUserConfiguration(10);
@@ -457,11 +460,21 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
+    public void whenAgeIsNotSupportedThanRestingHeartRateIsPushed() {
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(false);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).hasRestingHeartRateCharacteristic();
+    }
+
+    @Test
     public void whenRestingHeartRateIsPushedThanValueIsRedProperly() {
         // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(false);
 
         Integer beats = 120;
+        when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(beats);
 
         verifyPushUserConfiguration(10);
@@ -475,12 +488,22 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
+    public void whenRestingHeartRatIsNotSupportedThanRestingHeartRateIsPushed() {
+        when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(false);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).hasHeartRateMaxCharacteristic();
+    }
+
+    @Test
     public void whenMaxHeartRateIsPushedThanValueIsRedProperly() {
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
 
         Integer beats = 127;
+        when(mockedShnServiceUserData.hasHeartRateMaxCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(beats);
 
         verifyPushUserConfiguration(10);
@@ -494,6 +517,15 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
+    public void whenMaxHeartRateIsNotSupportedThanHeightIsChecked() {
+        when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(false);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).hasHeightCharacteristic();
+    }
+
+    @Test
     public void whenHeightIsPushedThanValueIsRedProperly() {
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
@@ -501,6 +533,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
 
         Integer height = 187;
+        when(mockedShnServiceUserData.hasHeightCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(height);
 
         verifyPushUserConfiguration(10);
@@ -514,6 +547,19 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
+    public void whenHeightIsNotSupportedThanGenderIsChecked() {
+        SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.Male;
+        when(mockedShnServiceUserData.hasGenderCharacteristic()).thenReturn(true);
+        when(mockedShnUserConfiguration.getSex()).thenReturn(sex);
+
+        when(mockedShnServiceUserData.hasHeightCharacteristic()).thenReturn(false);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).hasGenderCharacteristic();
+    }
+
+    @Test
     public void whenGenderIsPushedThanValueIsRedProperly() {
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
@@ -522,6 +568,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
 
         SHNUserConfiguration.Sex sex = SHNUserConfiguration.Sex.Male;
+        when(mockedShnServiceUserData.hasGenderCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getSex()).thenReturn(sex);
 
         verifyPushUserConfiguration(10);
@@ -535,6 +582,15 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
+    public void whenGenderIsNotSupportedThanHeightIsChecked() {
+        when(mockedShnServiceUserData.hasGenderCharacteristic()).thenReturn(false);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).hasWeightCharacteristic();
+    }
+
+    @Test
     public void whenWeightIsPushedThanValueIsRedProperly() {
 
         // skip this fields
@@ -544,6 +600,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
 
         Double weight = 87.1;
+        when(mockedShnServiceUserData.hasWeightCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(weight);
 
         verifyPushUserConfiguration(10);
@@ -557,6 +614,19 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
+    public void whenWeightIsNotSupportedThanDateOfBirthIsChecked() {
+        when(mockedShnServiceUserData.hasWeightCharacteristic()).thenReturn(false);
+
+        Date date = new Date(1220L);
+        when(mockedShnServiceUserData.hasDateOfBirthCharacteristic()).thenReturn(true);
+        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(date);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).hasDateOfBirthCharacteristic();
+    }
+
+    @Test
     public void whenDateIsPushedThanValueIsRedProperly() {
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
@@ -566,6 +636,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(null);
 
         Date date = new Date(1220L);
+        when(mockedShnServiceUserData.hasDateOfBirthCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(date);
 
         verifyPushUserConfiguration(10);
@@ -576,6 +647,15 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         verify(mockedShnServiceUserData).setDateOfBirth(dateArgumentCaptor.capture(), shnResultListenerArgumentCaptor.capture());
         shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
         assertEquals(date, dateArgumentCaptor.getValue());
+    }
+
+    @Test
+    public void whenDateIsNotSupportedThanDatabaseIncrementIsPushed() {
+        when(mockedShnServiceUserData.hasDateOfBirthCharacteristic()).thenReturn(false);
+
+        verifyPushUserConfiguration(10);
+
+        verify(mockedShnServiceUserData).getDatabaseIncrement(any(SHNIntegerResultListener.class));
     }
 
     private void setUpEmptyConfiguration(){
@@ -640,7 +720,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     }
 
     @Test
-    public void whenIncrementIsIncrementedSuccesfullyThanValuesAreSavedToThePreferences() {
+    public void whenIncrementIsIncrementedSuccessfullyThanValuesAreSavedToThePreferences() {
         int increment = 12;
         when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(12);
         setUpEmptyConfiguration();
@@ -669,6 +749,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
 
         Integer age = 33;
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getAge()).thenReturn(age);
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
@@ -691,7 +772,9 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
 
         Integer beast = 133;
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
+        when(mockedShnServiceUserData.hasAgeCharacteristic()).thenReturn(false);
+
+        when(mockedShnServiceUserData.hasRestingHeartRateCharacteristic()).thenReturn(true);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(beast);
 
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);

@@ -703,4 +703,13 @@ public class SHNServiceUserDataTest extends TestCase {
         verify(mockedShnService, times(2 + 1)).getSHNCharacteristic(SHNServiceUserData.USER_CONTROL_POINT_CHARACTERISTIC_UUID); // one more for the notifications
         verify(mockedShnUserControlPointCharacteristic).write(any(byte[].class), any(SHNCommandResultReporter.class));
     }
+
+    @Test
+    public void whenStateIsChangeThanListenerIsNotified() {
+        SHNServiceUserData.SHNServiceUserDataListener mockedShnServiceUserDataListener = mock(SHNServiceUserData.SHNServiceUserDataListener.class);
+        shnServiceUserData.setShnServiceUserDataListener(mockedShnServiceUserDataListener);
+        shnServiceUserData.onServiceStateChanged(mockedShnService, SHNService.State.Available);
+
+        verify(mockedShnServiceUserDataListener).onServiceStateChanged(shnServiceUserData, SHNService.State.Available);
+    }
 }

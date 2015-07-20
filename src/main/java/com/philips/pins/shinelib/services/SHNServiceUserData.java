@@ -290,6 +290,38 @@ public class SHNServiceUserData implements SHNService.SHNServiceListener {
         shnCharacteristic.read(resultReporter);
     }
 
+    private boolean hasCharacteristic(UUID uuid){
+        return shnService.getSHNCharacteristic(uuid).getState() == SHNCharacteristic.State.Active;
+    }
+
+    public boolean hasAgeCharacteristic() {
+        return hasCharacteristic(AGE_CHARACTERISTIC_UUID);
+    }
+
+    public boolean hasRestingHeartRateCharacteristic() {
+        return hasCharacteristic(RESTING_HEART_RATE_CHARACTERISTIC_UUID);
+    }
+
+    public boolean hasHeartRateMaxCharacteristic() {
+        return hasCharacteristic(HEART_RATE_MAX_CHARACTERISTIC_UUID);
+    }
+
+    public boolean hasDateOfBirthCharacteristic() {
+        return hasCharacteristic(DATE_OF_BIRTH_CHARACTERISTIC_UUID);
+    }
+
+    public boolean hasWeightCharacteristic() {
+        return hasCharacteristic(WEIGHT_CHARACTERISTIC_UUID);
+    }
+
+    public boolean hasGenderCharacteristic() {
+        return hasCharacteristic(GENDER_CHARACTERISTIC_UUID);
+    }
+
+    public boolean hasHeightCharacteristic() {
+        return hasCharacteristic(HEIGHT_CHARACTERISTIC_UUID);
+    }
+
     public void getFirstName(SHNStringResultListener listener) {
         getStringCharacteristic(FIRST_NAME_CHARACTERISTIC_UUID, listener);
     }

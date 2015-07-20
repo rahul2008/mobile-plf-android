@@ -148,16 +148,18 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
     }
 
     private void checkAgeMismatch() {
-        shnServiceUserData.getAge(new SHNIntegerResultListener() {
-            @Override
-            public void onActionCompleted(int age, SHNResult result) {
-                if (result == SHNResult.SHNOk) {
-                    if (shnUserConfiguration.getAge() != age) {
-                        notifyListener();
+        if (shnServiceUserData.hasAgeCharacteristic()) {
+            shnServiceUserData.getAge(new SHNIntegerResultListener() {
+                @Override
+                public void onActionCompleted(int age, SHNResult result) {
+                    if (result == SHNResult.SHNOk) {
+                        if (shnUserConfiguration.getAge() != age) {
+                            notifyListener();
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void notifyListener() {
@@ -250,7 +252,11 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             void setValue(int age, SHNResultListener shnResultListener) {
-                shnServiceUserData.setAge(value, shnResultListener);
+                if (shnServiceUserData.hasAgeCharacteristic()) {
+                    shnServiceUserData.setAge(value, shnResultListener);
+                } else {
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
+                }
             }
         }
 
@@ -262,7 +268,11 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             void setValue(int age, SHNResultListener shnResultListener) {
-                shnServiceUserData.setRestingHeartRate(value, shnResultListener);
+                if (shnServiceUserData.hasRestingHeartRateCharacteristic()) {
+                    shnServiceUserData.setRestingHeartRate(value, shnResultListener);
+                } else {
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
+                }
             }
         }
 
@@ -274,7 +284,11 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             void setValue(int age, SHNResultListener shnResultListener) {
-                shnServiceUserData.setHeartRateMax(value, shnResultListener);
+                if (shnServiceUserData.hasHeartRateMaxCharacteristic()) {
+                    shnServiceUserData.setHeartRateMax(value, shnResultListener);
+                } else {
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
+                }
             }
         }
 
@@ -286,8 +300,12 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             void setValue(int age, SHNResultListener shnResultListener) {
-                float heightInMeters = value / 100f;
-                shnServiceUserData.setHeightInMeters(heightInMeters, shnResultListener);
+                if (shnServiceUserData.hasHeightCharacteristic()) {
+                    float heightInMeters = value / 100f;
+                    shnServiceUserData.setHeightInMeters(heightInMeters, shnResultListener);
+                } else {
+                    shnResultListener.onActionCompleted(SHNResult.SHNOk);
+                }
             }
         }
 
@@ -342,7 +360,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             public void run() {
-                if (sex != null) {
+                if (sex != null && shnServiceUserData.hasGenderCharacteristic()) {
                     shnServiceUserData.setSex(sex, shnResultListener);
                 } else {
                     shnResultListener.onActionCompleted(SHNResult.SHNOk);
@@ -362,7 +380,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             public void run() {
-                if (weight != null) {
+                if (weight != null && shnServiceUserData.hasWeightCharacteristic()) {
                     shnServiceUserData.setWeightInKg(weight.floatValue(), shnResultListener);
                 } else {
                     shnResultListener.onActionCompleted(SHNResult.SHNOk);
@@ -382,7 +400,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
             @Override
             public void run() {
-                if (date != null) {
+                if (date != null && shnServiceUserData.hasDateOfBirthCharacteristic()) {
                     shnServiceUserData.setDateOfBirth(date, shnResultListener);
                 } else {
                     shnResultListener.onActionCompleted(SHNResult.SHNOk);

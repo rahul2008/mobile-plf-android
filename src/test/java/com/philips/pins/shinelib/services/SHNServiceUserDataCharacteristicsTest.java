@@ -970,4 +970,62 @@ public class SHNServiceUserDataCharacteristicsTest extends TestCase {
 
         verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
+
+    @Test
+    public void whenHasAgeCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasAgeCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.AGE_CHARACTERISTIC_UUID);
+    }
+
+    @Test
+    public void whenCharacteristicIsActiveThanReturnedValueIsTrue() {
+        when(mockedShnCharacteristic.getState()).thenReturn(SHNCharacteristic.State.Active);
+
+        boolean isActive = shnServiceUserData.hasAgeCharacteristic();
+        assertEquals(true, isActive);
+    }
+
+    @Test
+    public void whenHasRestingHeartRateCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasRestingHeartRateCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.RESTING_HEART_RATE_CHARACTERISTIC_UUID);
+    }
+
+    @Test
+    public void whenCharacteristicIsInactiveThanReturnedValueIsFalse() {
+        when(mockedShnCharacteristic.getState()).thenReturn(SHNCharacteristic.State.Inactive);
+
+        boolean isActive = shnServiceUserData.hasAgeCharacteristic();
+        assertEquals(false, isActive);
+    }
+
+    @Test
+    public void whenHasHeartRateMaxCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasHeartRateMaxCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.HEART_RATE_MAX_CHARACTERISTIC_UUID);
+    }
+
+    @Test
+    public void whenHasDateOfBirthCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasDateOfBirthCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.DATE_OF_BIRTH_CHARACTERISTIC_UUID);
+    }
+
+    @Test
+    public void whenHasWeightCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasWeightCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.WEIGHT_CHARACTERISTIC_UUID);
+    }
+
+    @Test
+    public void whenHasGenderCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasGenderCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.GENDER_CHARACTERISTIC_UUID);
+    }
+
+    @Test
+    public void whenHasHeightCharacteristicThanProperCharacteristicIsRequested() {
+        shnServiceUserData.hasHeightCharacteristic();
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.HEIGHT_CHARACTERISTIC_UUID);
+    }
 }
