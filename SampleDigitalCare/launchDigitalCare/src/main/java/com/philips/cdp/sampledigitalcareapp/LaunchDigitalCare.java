@@ -14,7 +14,7 @@ import com.philips.cdp.digitalcare.MainMenuListener;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cl.di.sampledigitalcareapp.R;
+import com.philips.cdp.sampledigitalcareapp.R;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;

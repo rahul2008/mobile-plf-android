@@ -3,7 +3,7 @@ package com.philips.cdp.sampledigitalcareapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.philips.cl.di.sampledigitalcareapp.R;
+import com.philips.cdp.sampledigitalcareapp.R;
 
 public class DummyScreen extends Activity {
 	@Override
