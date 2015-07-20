@@ -11,7 +11,7 @@ import com.philips.pins.shinelib.SHNResultListener;
 public interface SHNCapabilityUserControlPoint extends SHNCapability {
     public interface SHNCapabilityUserControlPointListener {
         void onAutoConsentFailed(int userIndex, int consentCode, SHNResult shnResult);
-        void onMismatchedDatabaseIncrement(int userIndex, long localIncrement, long remoteIncrement);
+        void onMismatchedDatabaseIncrement(int userIndex);
     }
 
     void setSHNCapabilityUserControlPointListener(SHNCapabilityUserControlPointListener shnCapabilityUserControlPointListener);

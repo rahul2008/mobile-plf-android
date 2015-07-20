@@ -28,6 +28,8 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     private final static int INVALID_VALUE = -1;
 
+    private static final String UC_DATABASE_INCREMENT = "USER_CONFIGURATION_DATABASE_INCREMENT";
+
     private static final String UDS_USER_ID = "UDS_USER_ID";
     private static final String UDS_CONSENT_CODE = "UDS_CONSENT_CODE";
     private static final String UDS_DATABASE_INCREMENT = "UDS_DATABASE_INCREMENT";
@@ -70,22 +72,20 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
     }
 
     @Override
-    public void setCurrentUser(int userIndex, int consentCode, SHNResultListener shnResultListener) {
+    public void setCurrentUser(int userIndex, int consentCode, final SHNResultListener shnResultListener) {
         storeUserData(userIndex, consentCode);
 
-        shnServiceUserData.consentExistingUser(userIndex, consentCode, shnResultListener);
-
-        shnServiceUserData.getDatabaseIncrement(new SHNIntegerResultListener() {
+        SHNResultListener innerShnResultListener = new SHNResultListener() {
             @Override
-            public void onActionCompleted(int increment, SHNResult result) {
+            public void onActionCompleted(SHNResult result) {
+                shnResultListener.onActionCompleted(result);
                 if (result == SHNResult.SHNOk) {
-                    int localIncrement = getDataBaseIncrement();
-                    if (localIncrement != increment) {
-                        shnCapabilityUserControlPointListener.onMismatchedDatabaseIncrement(getCurrentUserIndex(), localIncrement, increment);
-                    }
+                    checkIncrementMismatch();
                 }
             }
-        });
+        };
+
+        shnServiceUserData.consentExistingUser(userIndex, consentCode, innerShnResultListener);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
     @Override
     public void pushUserConfiguration(SHNResultListener shnResultListener) {
-        new Pusher(shnUserConfiguration, shnServiceUserData, getDataBaseIncrement()).start(shnResultListener);
+        new Pusher(shnUserConfiguration, shnServiceUserData, shnDevicePreferenceWrapper).start(shnResultListener);
     }
 
     private void autoConsentUser() {
@@ -114,14 +114,56 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
         }
     }
 
-    private void storeUserData(int userIndex, int consentCode){
+    private void storeUserData(int userIndex, int consentCode) {
         SharedPreferences.Editor editor = shnDevicePreferenceWrapper.edit();
         editor.putInt(UDS_USER_ID, userIndex);
         editor.putInt(UDS_CONSENT_CODE, consentCode);
     }
 
-    private int getDataBaseIncrement(){
+    private int getStoredDataBaseIncrement() {
         return shnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT);
+    }
+
+    private int getStoredUserConfigurationIncrement() {
+        return shnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT);
+    }
+
+    private void checkIncrementMismatch() {
+        if (shnUserConfiguration.getIncrementIndex() != getStoredUserConfigurationIncrement()) {
+            notifyListener();
+        } else {
+            shnServiceUserData.getDatabaseIncrement(new SHNIntegerResultListener() {
+                @Override
+                public void onActionCompleted(int increment, SHNResult result) {
+                    if (result == SHNResult.SHNOk) {
+                        if (getStoredDataBaseIncrement() != increment) {
+                            notifyListener();
+                        } else {
+                            checkAgeMismatch();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void checkAgeMismatch() {
+        shnServiceUserData.getAge(new SHNIntegerResultListener() {
+            @Override
+            public void onActionCompleted(int age, SHNResult result) {
+                if (result == SHNResult.SHNOk) {
+                    if (shnUserConfiguration.getAge() != age) {
+                        notifyListener();
+                    }
+                }
+            }
+        });
+    }
+
+    private void notifyListener() {
+        if (shnCapabilityUserControlPointListener != null) {
+            shnCapabilityUserControlPointListener.onMismatchedDatabaseIncrement(getCurrentUserIndex());
+        }
     }
 
     private static class Pusher {
@@ -141,8 +183,12 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
 
         Queue<Command> commandQueue;
         private SHNResultListener shnEndResultListener;
+        private SHNUserConfiguration userConfiguration;
+        private SHNDevicePreferenceWrapper shnDevicePreferenceWrapper;
 
-        private Pusher(SHNUserConfiguration userConfiguration, SHNServiceUserData shnServiceUserData, int dataBaseIncrement) {
+        private Pusher(SHNUserConfiguration userConfiguration, SHNServiceUserData shnServiceUserData, SHNDevicePreferenceWrapper shnDevicePreferenceWrapper) {
+            this.userConfiguration = userConfiguration;
+            this.shnDevicePreferenceWrapper = shnDevicePreferenceWrapper;
             commandQueue = new LinkedBlockingQueue<>();
             commandQueue.add(new AgeCommand(userConfiguration.getAge(), shnServiceUserData));
             commandQueue.add(new RestingHeartRateCommand(userConfiguration.getRestingHeartRate(), shnServiceUserData));
@@ -152,7 +198,7 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
             commandQueue.add(new GenderCommand(userConfiguration.getSex(), shnServiceUserData));
             commandQueue.add(new WeightCommand(userConfiguration.getWeightInKg(), shnServiceUserData));
             commandQueue.add(new DateCommand(userConfiguration.getDateOfBirth(), shnServiceUserData));
-            commandQueue.add(new DataBaseIncrementCommand(dataBaseIncrement, shnServiceUserData));
+            commandQueue.add(new DataBaseIncrementCommand(shnServiceUserData));
         }
 
         private void executeNext(SHNResult result) {
@@ -245,15 +291,42 @@ public class SHNCapabilityUserControlPointImpl implements SHNCapabilityUserContr
             }
         }
 
-        private class DataBaseIncrementCommand extends IntegerCommand {
+        private class DataBaseIncrementCommand implements Command {
 
-            private DataBaseIncrementCommand(Integer age, SHNServiceUserData shnServiceUserData) {
-                super(age, shnServiceUserData);
+            private int newIndex;
+            private SHNServiceUserData shnServiceUserData;
+
+            private DataBaseIncrementCommand(SHNServiceUserData shnServiceUserData) {
+                this.shnServiceUserData = shnServiceUserData;
             }
 
             @Override
-            void setValue(int age, SHNResultListener shnResultListener) {
-                shnServiceUserData.setDatabaseIncrement(value, shnResultListener);
+            public void run() {
+                incrementDatabaseIncrement(new SHNResultListener() {
+                    @Override
+                    public void onActionCompleted(SHNResult result) {
+                        shnResultListener.onActionCompleted(result);
+                        if (result == SHNResult.SHNOk) {
+                            SharedPreferences.Editor editor = shnDevicePreferenceWrapper.edit();
+                            editor.putInt(UDS_DATABASE_INCREMENT, newIndex);
+                            editor.putInt(UC_DATABASE_INCREMENT, userConfiguration.getIncrementIndex());
+                        }
+                    }
+                });
+            }
+
+            private void incrementDatabaseIncrement(final SHNResultListener listener) {
+                shnServiceUserData.getDatabaseIncrement(new SHNIntegerResultListener() {
+                    @Override
+                    public void onActionCompleted(int value, SHNResult result) {
+                        if (result == SHNResult.SHNOk) {
+                            newIndex = value + 1;
+                            shnServiceUserData.setDatabaseIncrement(newIndex, listener);
+                        } else {
+                            listener.onActionCompleted(result);
+                        }
+                    }
+                });
             }
         }
 

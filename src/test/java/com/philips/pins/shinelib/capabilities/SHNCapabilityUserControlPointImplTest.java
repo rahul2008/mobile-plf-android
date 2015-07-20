@@ -24,6 +24,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.when;
 
@@ -41,6 +42,8 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
     private SharedPreferences.Editor mockedEditor;
 
     ArgumentCaptor<SHNServiceUserData.SHNServiceUserDataListener> SHNServiceUserDataListenerCaptor;
+
+    private String UC_DATABASE_INCREMENT = "USER_CONFIGURATION_DATABASE_INCREMENT";
 
     private String UDS_DATABASE_INCREMENT = "UDS_DATABASE_INCREMENT";
     private final String UDS_USER_INDEX = "UDS_USER_ID";
@@ -107,25 +110,94 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int userIndex = 1;
         shnCapabilityUserControlPoint.setCurrentUser(userIndex, consentCode, mockedShnResultListener);
 
-        verify(mockedShnServiceUserData).consentExistingUser(userIndex, consentCode, mockedShnResultListener);
+        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+
+        verify(mockedShnServiceUserData).consentExistingUser(integerArgumentCaptor.capture(), integerArgumentCaptor.capture(), any(SHNResultListener.class));
+        assertEquals(userIndex, (int) integerArgumentCaptor.getAllValues().get(0));
+        assertEquals(consentCode, (int) integerArgumentCaptor.getValue());
+    }
+
+    @Test
+    public void whenSetCurrentUserResultIsReturnedThanListenerIsNotified() {
+        int userIndex = 1;
+        int consentCode = 30;
+        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
+        shnCapabilityUserControlPoint.setCurrentUser(userIndex, consentCode, mockedShnResultListener);
+
+        ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
+
+        verify(mockedShnServiceUserData).consentExistingUser(anyInt(), anyInt(), shnResultListenerArgumentCaptor.capture());
+
+        SHNResult result = SHNResult.SHNOk;
+        shnResultListenerArgumentCaptor.getValue().onActionCompleted(result);
+        verify(mockedShnResultListener).onActionCompleted(result);
+    }
+
+    private void consentUserWithResult(int userIndex, int consentCode, SHNResult result){
+        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
+        shnCapabilityUserControlPoint.setCurrentUser(userIndex, consentCode, mockedShnResultListener);
+
+        ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
+        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+
+        verify(mockedShnServiceUserData).consentExistingUser(integerArgumentCaptor.capture(), integerArgumentCaptor.capture(), shnResultListenerArgumentCaptor.capture());
+        assertEquals(userIndex, (int) integerArgumentCaptor.getAllValues().get(0));
+        assertEquals(consentCode, (int) integerArgumentCaptor.getValue());
+
+        shnResultListenerArgumentCaptor.getValue().onActionCompleted(result);
+    }
+
+    @Test
+    public void whenSetCurrentUserIsOkThanUserConfigurationIncrementsAreRed() {
+        int consentCode = 34;
+        int userIndex = 1;
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
+
+        verify(mockedShnDevicePreferenceWrapper).getInt(UC_DATABASE_INCREMENT);
+        verify(mockedShnUserConfiguration).getIncrementIndex();
+    }
+
+    @Test
+    public void whenSetCurrentUserIsNotOkThanUserConfigurationIncrementsAreRed() {
+        int consentCode = 34;
+        int userIndex = 1;
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNTimeoutError);
+
+        verify(mockedShnDevicePreferenceWrapper, never()).getInt(UC_DATABASE_INCREMENT);
+        verify(mockedShnUserConfiguration, never()).getIncrementIndex();
+    }
+
+    @Test
+    public void whenUserConfigurationIncrementIndexsAreDifferentThanListenerIsNotified() {
+        int consentCode = 34;
+        int userIndex = 1;
+        int userConfiguration = 6;
+
+        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
+        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(userConfiguration + 1);
+
+        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
+        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
+
+        verify(mockedShnCapabilityUserControlPointListener).onMismatchedDatabaseIncrement(userIndex);
     }
 
     @Test
     public void whenSetCurrentUserIsCalledThanDataIncrementIndexIsRequested() {
-        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         int consentCode = 34;
         int userIndex = 1;
-        shnCapabilityUserControlPoint.setCurrentUser(userIndex, consentCode, mockedShnResultListener);
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
         verify(mockedShnServiceUserData).getDatabaseIncrement(any(SHNIntegerResultListener.class));
     }
 
     @Test
     public void whenSetCurrentUserIsCalledThanUserIndexAndConsentCodeAreSavedToCash() {
-        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         int consentCode = 34;
         int userIndex = 1;
-        shnCapabilityUserControlPoint.setCurrentUser(userIndex, consentCode, mockedShnResultListener);
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
         verify(mockedShnDevicePreferenceWrapper).edit();
         verify(mockedEditor).putInt(UDS_USER_INDEX, userIndex);
@@ -136,8 +208,7 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(localIncrement);
         when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
 
-        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
-        shnCapabilityUserControlPoint.setCurrentUser(userIndex, consentCode, mockedShnResultListener);
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
 
         ArgumentCaptor<SHNIntegerResultListener> shnIntegerResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNIntegerResultListener.class);
         verify(mockedShnServiceUserData).getDatabaseIncrement(shnIntegerResultListenerArgumentCaptor.capture());
@@ -157,7 +228,22 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         int receivedIncrement = 10;
         verifyUserConsentWithUserIndexAndConsentCode(userIndex, consentCode, localIncrement, receivedIncrement);
 
-        verify(mockedShnCapabilityUserControlPointListener).onMismatchedDatabaseIncrement(userIndex, localIncrement, receivedIncrement);
+        verify(mockedShnCapabilityUserControlPointListener).onMismatchedDatabaseIncrement(userIndex);
+    }
+
+    @Test
+    public void whenUserConfigurationIncrementIndexsAreDifferentThanDatabaseIncrementIsNotRequested() {
+        int userIndex = 1;
+        int consentCode = 34;
+        int userConfiguration = 9;
+
+        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
+        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(userConfiguration + 1);
+
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
+
+        verify(mockedShnServiceUserData, never()).getDatabaseIncrement(any(SHNIntegerResultListener.class));
     }
 
     @Test
@@ -171,7 +257,81 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
         verifyUserConsentWithUserIndexAndConsentCode(userIndex, consentCode, localIncrement, localIncrement);
 
-        verify(mockedShnCapabilityUserControlPointListener, never()).onMismatchedDatabaseIncrement(anyInt(), anyInt(), anyInt());
+        verify(mockedShnCapabilityUserControlPointListener, never()).onMismatchedDatabaseIncrement(anyInt());
+    }
+
+    @Test
+    public void whenBothIncrementsAreDifferentThanListenerIsNotifiedOnce() {
+        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
+        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
+
+        int userIndex = 1;
+        int consentCode = 34;
+        int userConfiguration = 9;
+
+        when(mockedShnDevicePreferenceWrapper.getInt(UDS_USER_INDEX)).thenReturn(userIndex);
+        when(mockedShnDevicePreferenceWrapper.getInt(UC_DATABASE_INCREMENT)).thenReturn(userConfiguration);
+        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(userConfiguration + 1);
+
+        consentUserWithResult(userIndex, consentCode, SHNResult.SHNOk);
+
+        verify(mockedShnCapabilityUserControlPointListener, times(1)).onMismatchedDatabaseIncrement(userIndex);
+        verify(mockedShnDevicePreferenceWrapper, never()).getInt(UDS_DATABASE_INCREMENT);
+    }
+
+    private void verifyAgeForTheUser(int userIndex, int localAge, int age){
+        int consentCode = 34;
+        int increment = 9;
+
+        when(mockedShnUserConfiguration.getAge()).thenReturn(localAge);
+
+        verifyUserConsentWithUserIndexAndConsentCode(userIndex, consentCode, increment, increment);
+
+        ArgumentCaptor<SHNIntegerResultListener> shnIntegerResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNIntegerResultListener.class);
+        verify(mockedShnServiceUserData).getAge(shnIntegerResultListenerArgumentCaptor.capture());
+
+        shnIntegerResultListenerArgumentCaptor.getValue().onActionCompleted(age, SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenAgeIsDifferentThanListenerIsNotified() {
+        int userIndex = 1;
+        int age = 40;
+
+        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
+        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
+
+        verifyAgeForTheUser(userIndex, age, age - 1);
+
+        verify(mockedShnCapabilityUserControlPointListener).onMismatchedDatabaseIncrement(userIndex);
+    }
+
+    @Test
+    public void whenAgeIsNotDifferentThanListenerIsNotNotified() {
+        int userIndex = 1;
+        int age = 40;
+
+        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
+        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
+
+        verifyAgeForTheUser(userIndex, age, age);
+
+        verify(mockedShnCapabilityUserControlPointListener, never()).onMismatchedDatabaseIncrement(userIndex);
+    }
+
+    @Test
+    public void whenDatabaseIncrementAndAgeAreDifferentThanListenerIsNotifiedOnce() {
+        int userIndex = 1;
+        int consentCode = 34;
+        int increment = 9;
+
+        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
+        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
+
+        verifyUserConsentWithUserIndexAndConsentCode(userIndex, consentCode, increment, increment + 1);
+
+        verify(mockedShnCapabilityUserControlPointListener, times(1)).onMismatchedDatabaseIncrement(userIndex);
+        verify(mockedShnServiceUserData, never()).getAge(any(SHNIntegerResultListener.class));
     }
 
     @Test
@@ -275,9 +435,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenPerformingInitialConsentThanUserConfigurationIsStarted() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         verifyPushUserConfiguration(10);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
@@ -286,9 +443,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenAgesIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         Integer age = 33;
         when(mockedShnUserConfiguration.getAge()).thenReturn(age);
 
@@ -304,9 +458,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenRestingHeartRateIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
 
@@ -325,9 +476,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenMaxHeartRateIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
@@ -347,9 +495,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenHeightIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
@@ -370,9 +515,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenGenderIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
@@ -394,8 +536,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenWeightIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
 
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
@@ -418,9 +558,6 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
 
     @Test
     public void whenDateIsPushedThanValueIsRedProperly() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
         // skip this fields
         when(mockedShnUserConfiguration.getAge()).thenReturn(null);
         when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
@@ -441,56 +578,93 @@ public class SHNCapabilityUserControlPointImplTest extends TestCase {
         assertEquals(date, dateArgumentCaptor.getValue());
     }
 
+    private void setUpEmptyConfiguration(){
+        // skip this fields
+        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
+        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
+        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
+        when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(null);
+        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(null);
+        when(mockedShnUserConfiguration.getSex()).thenReturn(null);
+        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
+    }
+
     @Test
     public void whenDataIsPushedDataBaseIncrementIsPushedAsWell() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
-        // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
-        when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(null);
-        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(null);
-        when(mockedShnUserConfiguration.getSex()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
-
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
+        setUpEmptyConfiguration();
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
 
-        verify(mockedShnServiceUserData).setDatabaseIncrement(anyInt(), any(SHNResultListener.class));
+        verify(mockedShnServiceUserData).getDatabaseIncrement(any(SHNIntegerResultListener.class));
+        verify(mockedShnResultListener, never()).onActionCompleted(any(SHNResult.class)); // getIncrement should not finish the command
     }
 
     @Test
-    public void whenDataIsFinishedPushingThanResultIsReported() {
-        SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
-        shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
-
-        // skip this fields
-        when(mockedShnUserConfiguration.getAge()).thenReturn(null);
-        when(mockedShnUserConfiguration.getRestingHeartRate()).thenReturn(null);
-        when(mockedShnUserConfiguration.getHeightInCm()).thenReturn(null);
-        when(mockedShnUserConfiguration.getWeightInKg()).thenReturn(null);
-        when(mockedShnUserConfiguration.getDateOfBirth()).thenReturn(null);
-        when(mockedShnUserConfiguration.getSex()).thenReturn(null);
-        when(mockedShnUserConfiguration.getMaxHeartRate()).thenReturn(null);
-
-        when(mockedShnDevicePreferenceWrapper.getInt(UDS_DATABASE_INCREMENT)).thenReturn(11);
+    public void whenDataIsFinishedPushingThanIncrementIsIncreasedBy1AndResultIsReported() {
+        setUpEmptyConfiguration();
 
         SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
         shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
+
+        int receivedIncrement = 10;
+        ArgumentCaptor<SHNIntegerResultListener> shnIntegerResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNIntegerResultListener.class);
+        verify(mockedShnServiceUserData).getDatabaseIncrement(shnIntegerResultListenerArgumentCaptor.capture());
+        shnIntegerResultListenerArgumentCaptor.getValue().onActionCompleted(receivedIncrement, SHNResult.SHNOk);
 
         ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
-        verify(mockedShnServiceUserData).setDatabaseIncrement(anyInt(),shnResultListenerArgumentCaptor.capture());
+        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+
+        verify(mockedShnServiceUserData).setDatabaseIncrement(integerArgumentCaptor.capture(), shnResultListenerArgumentCaptor.capture());
         shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
 
-        mockedShnResultListener.onActionCompleted(SHNResult.SHNOk);
+        assertEquals(receivedIncrement + 1, (int) integerArgumentCaptor.getValue());
+        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 
     @Test
-    public void whenNotOkResultIsReportedThanListenerIsNotified() {
+    public void whenGetDataBaseIncrementHasFailedThanSetIncrementIsNotCalledAndResultIsReported() {
+        setUpEmptyConfiguration();
+
+        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
+        shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
+
+        int receivedIncrement = 10;
+        ArgumentCaptor<SHNIntegerResultListener> shnIntegerResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNIntegerResultListener.class);
+        verify(mockedShnServiceUserData).getDatabaseIncrement(shnIntegerResultListenerArgumentCaptor.capture());
+        shnIntegerResultListenerArgumentCaptor.getValue().onActionCompleted(receivedIncrement, SHNResult.SHNTimeoutError);
+
+        verify(mockedShnServiceUserData, never()).setDatabaseIncrement(anyInt(), any(SHNResultListener.class));
+
+        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNTimeoutError);
+    }
+
+    @Test
+    public void whenIncrementIsIncrementedSuccesfullyThanValuesAreSavedToThePreferences() {
+        int increment = 12;
+        when(mockedShnUserConfiguration.getIncrementIndex()).thenReturn(12);
+        setUpEmptyConfiguration();
+
+        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
+        shnCapabilityUserControlPoint.pushUserConfiguration(mockedShnResultListener);
+
+        int receivedIncrement = 10;
+        ArgumentCaptor<SHNIntegerResultListener> shnIntegerResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNIntegerResultListener.class);
+        verify(mockedShnServiceUserData).getDatabaseIncrement(shnIntegerResultListenerArgumentCaptor.capture());
+        shnIntegerResultListenerArgumentCaptor.getValue().onActionCompleted(receivedIncrement, SHNResult.SHNOk);
+
+        ArgumentCaptor<SHNResultListener> shnResultListenerArgumentCaptor = ArgumentCaptor.forClass(SHNResultListener.class);
+
+        verify(mockedShnServiceUserData).setDatabaseIncrement(anyInt(), shnResultListenerArgumentCaptor.capture());
+        shnResultListenerArgumentCaptor.getValue().onActionCompleted(SHNResult.SHNOk);
+
+        verify(mockedShnDevicePreferenceWrapper).edit();
+        verify(mockedEditor).putInt(UDS_DATABASE_INCREMENT, receivedIncrement+1);
+        verify(mockedEditor).putInt(UC_DATABASE_INCREMENT, increment);
+    }
+
+    @Test
+    public void whenPushConfigurationIsCalledAndResultINotOkThanListenerIsNotified() {
         SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener mockedShnCapabilityUserControlPointListener = mock(SHNCapabilityUserControlPoint.SHNCapabilityUserControlPointListener.class);
         shnCapabilityUserControlPoint.setSHNCapabilityUserControlPointListener(mockedShnCapabilityUserControlPointListener);
 

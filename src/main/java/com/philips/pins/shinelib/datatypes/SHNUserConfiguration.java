@@ -51,7 +51,7 @@ public class SHNUserConfiguration {
         saveToPreferences();
     }
 
-    private int getIncrementIndex() {
+    public int getIncrementIndex() {
         return incrementIndex;
     }
 
