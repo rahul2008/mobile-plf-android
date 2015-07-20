@@ -23,6 +23,7 @@ import com.philips.cdp.dicommclient.util.DICommLog;
 
 public class NetworkMonitor {
 
+	private final Context mContext;
 	private ConnectivityManager mConnectivityManager;
 	private WifiManager mWifiManager;
 
@@ -41,11 +42,11 @@ public class NetworkMonitor {
 	private LooperThread mLooper;
 
 	public NetworkMonitor(Context context) {
-		mConnectivityManager = (ConnectivityManager) context
+		mContext = context;
+		mConnectivityManager = (ConnectivityManager) mContext
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		mWifiManager = (WifiManager) context
+		mWifiManager = (WifiManager) mContext
 				.getSystemService(Context.WIFI_SERVICE);
-
 
 		mNetworkChangedReceiver = new BroadcastReceiver() {
 
@@ -61,21 +62,21 @@ public class NetworkMonitor {
 		mNetworkChangedCallback = listener;
 	}
 
-	public void startNetworkChangedReceiver(Context context) {
+	public void startNetworkChangedReceiver() {
 		mLooper = new LooperThread();
 		mLooper.start();
 
 		// Start connectivity changed receiver
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-		context.registerReceiver(mNetworkChangedReceiver, filter);
+		mContext.registerReceiver(mNetworkChangedReceiver, filter);
 
 		updateNetworkStateAsync();
 	}
 
-	public void stopNetworkChangedReceiver(Context context) {
+	public void stopNetworkChangedReceiver() {
 		try {
-			context.unregisterReceiver(mNetworkChangedReceiver);
+			mContext.unregisterReceiver(mNetworkChangedReceiver);
 		} catch (IllegalArgumentException e) {
 			DICommLog.e(DICommLog.NETWORKMONITOR, "Error: " + e.getMessage());
 		}
@@ -144,7 +145,7 @@ public class NetworkMonitor {
 
 		boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
 		if (isMobileData) {
-			WifiManager wifiManager = (WifiManager) DICommClientWrapper.getContext().getSystemService(Context.WIFI_SERVICE) ;
+			WifiManager wifiManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE) ;
 			WifiInfo wifiInfo = wifiManager.getConnectionInfo();
 			if(wifiInfo == null ||
 					wifiInfo.getSupplicantState() != SupplicantState.COMPLETED) {

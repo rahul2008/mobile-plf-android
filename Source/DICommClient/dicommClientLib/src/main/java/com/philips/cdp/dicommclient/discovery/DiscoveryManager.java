@@ -137,7 +137,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		if(mCppHelper!=null){
 		mCppHelper.startDiscoveryViaCpp();
 		}
-		mNetwork.startNetworkChangedReceiver(DICommClientWrapper.getContext());
+		mNetwork.startNetworkChangedReceiver();
 	}
 
 	public void stop() {
@@ -146,7 +146,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		if(mCppHelper!=null){
 		mCppHelper.stopDiscoveryViaCpp();
 		}
-		mNetwork.stopNetworkChangedReceiver(DICommClientWrapper.getContext());
+		mNetwork.stopNetworkChangedReceiver();
 		//mDiscoveryEventListenersList = null;
 	}
 
