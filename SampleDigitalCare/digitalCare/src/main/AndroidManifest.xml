@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
-    package="com.philips.cl.di.digitalcare"
+    package="com.philips.cdp.digitalcare"
     android:versionCode="110"
     android:versionName="1.0.6" >
 
@@ -15,10 +15,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="com.philips.cl.di.digitalcare.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="com.philips.cdp.digitalcare.permission.MAPS_RECEIVE" />
 
     <permission
-        android:name="com.philips.cl.di.digitalcare.permission.MAPS_RECEIVE"
+        android:name="com.philips.cdp.digitalcare.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
     <uses-feature
@@ -29,7 +29,7 @@
         android:label="@string/app_name"
         android:largeHeap="true">
         <activity
-            android:name="com.philips.cl.di.digitalcare.DigitalCareActivity"
+            android:name="com.philips.cdp.digitalcare.DigitalCareActivity"
             android:configChanges="orientation|screenSize|locale"
             android:exported="true">
 
@@ -49,7 +49,7 @@
         </activity>
 
         <receiver
-            android:name="com.philips.cl.di.digitalcare.util.NetworkReceiver"
+            android:name="com.philips.cdp.digitalcare.util.NetworkReceiver"
             android:exported="false" >
             <intent-filter android:priority="999" >
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -77,7 +77,7 @@
 
         <!-- Twitter -->
 <!--        <activity
-            android:name="com.philips.cl.di.digitalcare.social.twitter.TwitterAuthenticationActivity"
+            android:name="com.philips.cdp.digitalcare.social.twitter.TwitterAuthenticationActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/app_name" />-->
 

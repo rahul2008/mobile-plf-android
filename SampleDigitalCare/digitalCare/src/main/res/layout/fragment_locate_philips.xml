@@ -86,12 +86,12 @@
                     android:text=""
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
-                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/getdirection"
                     style="@style/fontButton"
                     android:text="@string/get_directions" />
 
-                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/call"
                     style="@style/fontButton"
                     android:background="@drawable/selector_call_button_bg"

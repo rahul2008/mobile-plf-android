@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/tellus_philips_submitreview_text"
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
@@ -27,7 +27,7 @@
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/tellus_PlayStoreReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_playstore_buttontext"
@@ -48,13 +48,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_philips_headertext"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:layout_marginTop="0dp"
@@ -63,7 +63,7 @@
                 android:textSize="@dimen/title_text_size_medium"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/tellus_PhilipsReviewButton"
                 style="@style/fontButton"
                 android:text="@string/rate_philips_headertext"

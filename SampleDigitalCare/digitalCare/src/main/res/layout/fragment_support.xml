@@ -14,7 +14,7 @@
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin" >
 
-        <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
             android:text="@string/how_can_we_help"

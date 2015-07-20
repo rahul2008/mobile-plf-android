@@ -22,14 +22,14 @@
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_productimage" />
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/name"
                 style="@style/viewProductDetails_Product_Header"
                 android:layout_alignTop="@id/productimage"
                 android:text="@string/product_name"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontTextView
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/variant"
                 style="@style/viewProductDetails_Product_Variant"
                 android:text="@string/product_variant"
@@ -54,20 +54,20 @@
             android:paddingRight="@dimen/activity_margin" 
             android:orientation="vertical">
 <!-- 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/manual_open"
                 style="@style/fontButton"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_open_manual" />
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/manual_download"
                 style="@style/fontButton"
                 android:contentDescription="@string/product_name"
                 android:text="@string/product_download_manual"
                 custom:digitalcareFontAssetName="digitalcarefonts/centralesans-book.otf" />
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/prodinfo_button"
                 style="@style/fontButton"
                 android:contentDescription="@string/product_name"

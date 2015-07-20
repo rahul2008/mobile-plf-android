@@ -133,7 +133,7 @@
             android:orientation="vertical"
             android:weightSum="2" >
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/facebookSendPort"
                 style="@style/fontButton"
                 android:layout_weight="1"
@@ -146,7 +146,7 @@
                 android:layout_weight="1"
                 android:padding="2dp" >
 
-                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/facebookCancelPort"
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
@@ -170,7 +170,7 @@
                 android:layout_weight="1"
                 android:padding="2dp" >
 
-                <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                     android:id="@+id/facebookCancelLand"
                     style="@style/fontButton"
                     android:layout_marginTop="0dp"
@@ -180,7 +180,7 @@
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
             </RelativeLayout>
 
-            <com.philips.cl.di.digitalcare.customview.DigitalCareFontButton
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
                 android:id="@+id/facebookSendLand"
                 style="@style/fontButton"
                 android:layout_marginLeft="@dimen/marginTopButton"
