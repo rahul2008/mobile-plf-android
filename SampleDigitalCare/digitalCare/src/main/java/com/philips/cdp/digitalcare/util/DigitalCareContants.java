@@ -39,6 +39,7 @@ public class DigitalCareContants {
 
 
     public static final String CDLS_CHAT_CONTENT = "content";
+    public static final String CDLS_CHAT_SCRIPT = "script";
     public static final String CDLS_CHAT_OPENINGINGHOURS_WEEKDAYS = "openingHoursWeekdays";
     public static final String CDLS_CHAT_OPENINGHOURS_SATURDAY = "openingHoursSaturday";
 

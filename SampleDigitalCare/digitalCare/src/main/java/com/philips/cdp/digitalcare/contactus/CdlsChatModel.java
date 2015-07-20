@@ -10,6 +10,15 @@ public class CdlsChatModel {
 	private String mOpeningHoursWeekdays = null;
 	private String mOpeningHoursSaturday = null;
 	private String mContent = null;
+	private String mScript=null;
+
+	public void setScript(String mScript) {
+		this.mScript = mScript;
+	}
+
+	public String getScript() {
+		return mScript;
+	}
 
 	public String getOpeningHoursWeekdays() {
 		return mOpeningHoursWeekdays;

@@ -2,9 +2,14 @@ package com.philips.cdp.digitalcare.contactus;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,32 +21,41 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 
 /**
  * ChatFragment will help to provide options to start Philips chat.
- * 
+ *
  * @author : Ritesh.jha@philips.com
- * 
  * @since : 19 Jan 2015
  */
 public class ChatFragment extends DigitalCareBaseFragment {
-	private DigitalCareFontButton mChatNow = null;
-	private DigitalCareFontButton mChatNowLand = null;
+    private static View mView = null;
+    private Button mChatNow = null;
+    private Button mChatNowLand = null;
+    private Button mChatNoThanks = null;
+    private Button mChatNoThanksLand = null;
+    private LinearLayout.LayoutParams mChatNowParentBottom = null;
+    private LinearLayout.LayoutParams mHelpTextParams = null;
+    private LinearLayout mChatNowParentPort = null;
+    private LinearLayout mChatNowParentLand = null;
+    private TextView mHelpText = null;
 
-	private DigitalCareFontButton mChatNoThanks = null;
-	private DigitalCareFontButton mChatNoThanksLand = null;
+    private ImageView mChatNowBG;
 
-	private LinearLayout.LayoutParams mChatNowParentBottom = null;
-	private LinearLayout.LayoutParams mHelpTextParams = null;
 
-	private LinearLayout mChatNowParentPort = null;
-	private LinearLayout mChatNowParentLand = null;
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        if (mView != null) {
+            ViewGroup parent = (ViewGroup) mView.getParent();
+            if (parent != null) {
+                parent.removeView(mView);
+            }
+        }
+        try {
+            mView = inflater.inflate(R.layout.fragment_chat, container, false);
+        } catch (InflateException e) {
+        }
 
-	private TextView mHelpText = null;
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_chat, container, false);
-		return view;
-	}
+        return mView;
+    }
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -60,10 +74,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
 		mHelpText = (TextView) getActivity().findViewById(R.id.chatDesc);
 
-		mChatNow.setOnClickListener(this);
-		mChatNowLand.setOnClickListener(this);
-		mChatNoThanks.setOnClickListener(this);
-		mChatNoThanksLand.setOnClickListener(this);
+        mChatNowBG = (ImageView) getActivity().findViewById(R.id.chatnow_bg);
+        setBackgroundImageParams();
+
+        mChatNow.setOnClickListener(this);
+        mChatNowLand.setOnClickListener(this);
+        mChatNoThanks.setOnClickListener(this);
+        mChatNoThanksLand.setOnClickListener(this);
 
 		mChatNow.setTransformationMethod(null);
 		mChatNowLand.setTransformationMethod(null);
@@ -86,11 +103,24 @@ public class ChatFragment extends DigitalCareBaseFragment {
 		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName());
 	}
 
-	@Override
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
-		setViewParams(config);
-	}
+    private void setBackgroundImageParams() {
+        float density = getResources().getDisplayMetrics().density;
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+
+        FrameLayout.LayoutParams imgParams = (FrameLayout.LayoutParams) mChatNowBG.getLayoutParams();
+        imgParams.height = (int)((height/7)*3*density);
+        imgParams.width= ViewGroup.LayoutParams.MATCH_PARENT;
+
+        mChatNowBG.setLayoutParams(imgParams);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration config) {
+        super.onConfigurationChanged(config);
+        setViewParams(config);
+    }
 
 	@Override
 	public void setViewParams(Configuration config) {

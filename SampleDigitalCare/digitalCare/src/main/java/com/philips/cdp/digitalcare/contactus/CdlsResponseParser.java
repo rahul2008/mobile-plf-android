@@ -82,6 +82,8 @@ public class CdlsResponseParser {
                     cdlsChatModel = new CdlsChatModel();
                     cdlsChatModel.setContent(jsonObjectDataChat
                             .optString(DigitalCareContants.CDLS_CHAT_CONTENT));
+                    cdlsChatModel.setScript(jsonObjectDataChat
+                            .optString(DigitalCareContants.CDLS_CHAT_SCRIPT));
                     cdlsChatModel
                             .setOpeningHoursWeekdays(jsonObjectDataChat
                                     .optString(DigitalCareContants.CDLS_CHAT_OPENINGINGHOURS_WEEKDAYS));

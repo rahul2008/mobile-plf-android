@@ -323,10 +323,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
 
     protected boolean hasEmptyChatContent(CdlsResponseModel cdlsResponseModel) {
-        return cdlsResponseModel.getChat() == null
+        return ((cdlsResponseModel.getChat() == null
                 || cdlsResponseModel.getChat().getContent() == null
                 || cdlsResponseModel.getChat().getContent()
-                .equalsIgnoreCase("");
+                .equalsIgnoreCase(""))
+                &&
+                (cdlsResponseModel.getChat() == null
+                || cdlsResponseModel.getChat().getScript() == null
+                || cdlsResponseModel.getChat().getScript()
+                .equalsIgnoreCase("")));
     }
 
     protected void closeProgressDialog() {
