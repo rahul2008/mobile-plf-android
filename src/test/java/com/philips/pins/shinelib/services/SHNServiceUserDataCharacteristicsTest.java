@@ -139,16 +139,16 @@ public class SHNServiceUserDataCharacteristicsTest extends TestCase {
         assertEquals(SHNResult.SHNOk, shnResultArgumentCaptor.getValue());
     }
 
-    private void assertGetUInt32Characteristic(UUID uuid, SHNObjectResultListener mockedShnObjectResultListener, int value) {
+    private void assertGetUInt32Characteristic(UUID uuid, SHNIntegerResultListener mockedShnIntegerResultListener, int value) {
         ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
         verify(mockedShnService).getSHNCharacteristic(uuid);
         verify(mockedShnCharacteristic).read(shnCommandResultReporterArgumentCaptor.capture());
         SHNCommandResultReporter shnCommandResultReporter = shnCommandResultReporterArgumentCaptor.getValue();
 
-        byte[] result = ByteBuffer.allocate(4).putInt(value).array();
+        byte[] result = ByteBuffer.allocate(4).order(ByteOrder.LITTLE_ENDIAN).putInt(value).array();
         shnCommandResultReporter.reportResult(SHNResult.SHNOk, result);
 
-        verify(mockedShnObjectResultListener).onActionCompleted(value, SHNResult.SHNOk);
+        verify(mockedShnIntegerResultListener).onActionCompleted(value, SHNResult.SHNOk);
     }
 
     @Test
@@ -491,6 +491,15 @@ public class SHNServiceUserDataCharacteristicsTest extends TestCase {
         shnServiceUserData.getLanguage(mockedShnStringResultListener);
 
         assertGetStringCharacteristic(SHNServiceUserData.LANGUAGE_CHARACTERISTIC_UUID, mockedShnStringResultListener, "zh"); // Chinese
+    }
+
+    @Test
+    public void whenGetDatabaseIncrementIsCalledThenItIsReturned() {
+        SHNIntegerResultListener mockedShnIntegerResultListener = mock(SHNIntegerResultListener.class);
+        int value = 125;
+        shnServiceUserData.getDatabaseIncrement(mockedShnIntegerResultListener);
+
+        assertGetUInt32Characteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID, mockedShnIntegerResultListener, value);
     }
 
     // setters tests
@@ -937,5 +946,28 @@ public class SHNServiceUserDataCharacteristicsTest extends TestCase {
         shnCommandResultReporter.reportResult(SHNResult.SHNOk, index);
 
         verify(mockedShnIntegerResultListener).onActionCompleted(255, SHNResult.SHNOk);
+    }
+
+    @Test
+    public void whenSetDataBaseChangeIncrementIsCalledThenProperCharacteristicIsSetWithValue() {
+        SHNResultListener mockedShnResultListener = mock(SHNResultListener.class);
+
+        int increment = 140;
+        shnServiceUserData.setDatabaseIncrement(increment, mockedShnResultListener);
+
+        ArgumentCaptor<byte[]> byteArrayArgumentCaptor = ArgumentCaptor.forClass(byte[].class);
+        ArgumentCaptor<SHNCommandResultReporter> shnCommandResultReporterArgumentCaptor = ArgumentCaptor.forClass(SHNCommandResultReporter.class);
+
+        verify(mockedShnService).getSHNCharacteristic(SHNServiceUserData.DATABASE_CHANGE_INCREMENT_CHARACTERISTIC_UUID);
+        verify(mockedShnCharacteristic).write(byteArrayArgumentCaptor.capture(), shnCommandResultReporterArgumentCaptor.capture());
+
+        ByteBuffer byteBuffer = ByteBuffer.wrap(byteArrayArgumentCaptor.getValue()).order(ByteOrder.LITTLE_ENDIAN);
+        long response = ScalarConverters.uintToLong(byteBuffer.getInt());
+
+        assertEquals(increment, response);
+
+        shnCommandResultReporterArgumentCaptor.getValue().reportResult(SHNResult.SHNOk, null);
+
+        verify(mockedShnResultListener).onActionCompleted(SHNResult.SHNOk);
     }
 }
