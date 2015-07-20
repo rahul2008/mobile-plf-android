@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.digitalcare.R;
+import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
 
