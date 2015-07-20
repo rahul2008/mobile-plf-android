@@ -20,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -73,6 +74,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private CdlsResponseModel mCdlsParsedResponse = null;
     private TextView mFirstRowText = null;
     private TextView mContactUsOpeningHours = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
     private String mCdlsResponseStr = null;
     private Handler mTwitterProgresshandler = null;
     private ProgressDialog mPostProgress = null;
@@ -162,6 +165,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         mSocialDivider = (View) getActivity().findViewById(R.id.socialDivider);
         // mFacebook.setOnClickListener(this);
 
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
 
         createSocialProviderMenu();
 
@@ -205,7 +210,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+            enableActionBarLeftArrow();
         setViewParams(config);
+    }
+
+
+    private void enableActionBarLeftArrow() {
+        mActionBarMenuIcon.setVisibility(View.GONE);
+        mActionBarArrow.setVisibility(View.VISIBLE);
+        mActionBarArrow.bringToFront();
     }
 
     /*
