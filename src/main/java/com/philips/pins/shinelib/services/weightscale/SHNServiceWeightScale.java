@@ -1,7 +1,5 @@
 package com.philips.pins.shinelib.services.weightscale;
 
-import android.util.Log;
-
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
@@ -35,6 +33,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
 
     public interface SHNServiceWeightScaleListener {
         void onServiceStateChanged(SHNServiceWeightScale shnServiceWeightScale, SHNService.State state);
+
         void onWeightMeasurementReceived(SHNServiceWeightScale shnServiceWeightScale, SHNWeightMeasurement shnWeightMeasurement);
     }
 
@@ -67,7 +66,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
     // implements SHNService.SHNServiceListener
     @Override
     public void onServiceStateChanged(SHNService shnService, SHNService.State state) {
-        if(shnServiceWeightScaleListener !=null){
+        if (shnServiceWeightScaleListener != null) {
             shnServiceWeightScaleListener.onServiceStateChanged(this, state);
         }
         if (state == SHNService.State.Available) {
@@ -75,30 +74,15 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
         }
     }
 
-    public void readFeatures(final SHNObjectResultListener listener){
-        if (LOGGING) Log.i(TAG, "readFeatures");
-        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID);
-
-        SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
-            @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "readFeatures reportResult");
-                SHNWeightScaleFeatures features = null;
-                if (shnResult == SHNResult.SHNOk) {
-                    ByteBuffer byteBuffer = ByteBuffer.wrap(data);
-                    byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
-                    features = new SHNWeightScaleFeatures(byteBuffer);
-                }
-                if (listener != null) {
-                    listener.onActionCompleted(features, shnResult);
-                }
-            }
-        };
-
-        shnCharacteristic.read(resultReporter);
+    public void getFeatures(final SHNObjectResultListener listener) {
+        if (SHNService.State.Available == shnService.getState()) {
+            readFeatures(listener);
+        } else {
+            listener.onActionCompleted(null, SHNResult.SHNServiceUnavailableError);
+        }
     }
 
-    public void setNotificationsEnabled(boolean enabled, final SHNResultListener shnResultListener){
+    public void setNotificationsEnabled(boolean enabled, final SHNResultListener shnResultListener) {
         SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(WEIGHT_MEASUREMENT_CHARACTERISTIC_UUID);
         SHNCommandResultReporter shnCommandResultReporter = new SHNCommandResultReporter() {
             @Override
@@ -117,7 +101,33 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
             try {
                 SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
                 shnServiceWeightScaleListener.onWeightMeasurementReceived(this, shnWeightMeasurement);
-            } catch(IllegalArgumentException e) {}
+            } catch (IllegalArgumentException e) {
+            }
+        }
+    }
+
+    private void readFeatures(final SHNObjectResultListener listener) {
+        final SHNCharacteristic shnCharacteristic = shnService.getSHNCharacteristic(WEIGHT_SCALE_FEATURE_CHARACTERISTIC_UUID);
+
+        SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
+            @Override
+            public void reportResult(SHNResult shnResult, byte[] data) {
+                extractFeaturesFromReport(shnResult, data, listener);
+            }
+        };
+
+        shnCharacteristic.read(resultReporter);
+    }
+
+    private void extractFeaturesFromReport(SHNResult shnResult, byte[] data, SHNObjectResultListener listener) {
+        SHNWeightScaleFeatures features = null;
+        if (shnResult == SHNResult.SHNOk) {
+            ByteBuffer byteBuffer = ByteBuffer.wrap(data);
+            byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+            features = new SHNWeightScaleFeatures(byteBuffer);
+        }
+        if (listener != null) {
+            listener.onActionCompleted(features, shnResult);
         }
     }
 }
