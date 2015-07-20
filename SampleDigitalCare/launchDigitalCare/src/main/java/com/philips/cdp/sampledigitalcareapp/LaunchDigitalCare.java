@@ -74,7 +74,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         // Digital care initialization
         initializeDigitalCareLibrary();
 
-        registerHockeyApp();
+//        registerHockeyApp();
     }
 
     @Override
@@ -162,16 +162,16 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         }
     }
 
-    private void registerHockeyApp() {
-        /** Should be commented for debug builds */
-
-        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
-
-            public boolean shouldAutoUploadCrashes() {
-                return true;
-            }
-        });
-    }
+//    private void registerHockeyApp() {
+//        /** Should be commented for debug builds */
+//
+//        CrashManager.register(this, HOCKEY_APP_ID, new CrashManagerListener() {
+//
+//            public boolean shouldAutoUploadCrashes() {
+//                return true;
+//            }
+//        });
+//    }
 
     private void setDigitalCareLocale(String language, String country) {
 
