@@ -138,14 +138,14 @@ public abstract class DICommAppliance {
 	}
 
 	public void enableSubscription() {
-		mCommunicationStrategy.enableSubscription(subscriptionEventListener, mNetworkNode);
+		mCommunicationStrategy.enableSubscription(mSubscriptionEventListener, mNetworkNode);
 	}
 
 	public void disableSubscription() {
 		mCommunicationStrategy.disableSubscription();
 	}
 
-    private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
+    private SubscriptionEventListener mSubscriptionEventListener = new SubscriptionEventListener() {
 
         @Override
         public void onSubscriptionEventReceived(String data) {
