@@ -7,13 +7,13 @@ import org.mockito.Mockito;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
-import com.philips.cl.di.reg.User;
-import com.philips.cl.di.reg.controller.ContinueSocialProviderLogin;
-import com.philips.cl.di.reg.controller.RegisterTraditional;
-import com.philips.cl.di.reg.dao.DIUserProfile;
-import com.philips.cl.di.reg.handlers.SocialProviderLoginHandler;
-import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
-import com.philips.cl.di.reg.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.User;
+import com.philips.cdp.registration.controller.ContinueSocialProviderLogin;
+import com.philips.cdp.registration.controller.RegisterTraditional;
+import com.philips.cdp.registration.dao.DIUserProfile;
+import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
+import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
+import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
 
 public class UserTest extends ActivityInstrumentationTestCase2<RegistrationSampleActivity> {

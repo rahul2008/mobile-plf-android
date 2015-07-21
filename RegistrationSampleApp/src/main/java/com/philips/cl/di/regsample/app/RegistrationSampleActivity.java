@@ -3,7 +3,6 @@ package com.philips.cl.di.regsample.app;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +11,10 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.adobe.mobile.Config;
-import com.philips.cl.di.reg.listener.UserRegistrationListener;
-import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.ui.traditional.RegistrationActivity;
-import com.philips.cl.di.reg.ui.utils.RLog;
-import com.philips.cl.di.reg.ui.utils.RegConstants;
-import com.philips.cl.di.reg.ui.utils.RegistrationLaunchHelper;
+import com.philips.cdp.registration.listener.UserRegistrationListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
         UserRegistrationListener {
@@ -96,7 +93,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onPrivacyPolicyClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
-                com.philips.cl.di.reg.R.string.PrivacyPolicyURL)));
+                com.philips.cdp.registration.R.string.PrivacyPolicyURL)));
         activity.startActivity(browserIntent);
     }
 
@@ -104,7 +101,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
     public void onTermsAndConditionClick(Activity activity) {
         RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
-                com.philips.cl.di.reg.R.string.PrivacyPolicyURL)));
+                com.philips.cdp.registration.R.string.PrivacyPolicyURL)));
         activity.startActivity(browserIntent);
     }
 }

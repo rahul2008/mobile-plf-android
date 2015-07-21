@@ -3,7 +3,7 @@ package com.philips.cl.di.regsample.app.test;
 import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cl.di.reg.ui.utils.EmailValidator;
+import com.philips.cdp.registration.ui.utils.EmailValidator;
 import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
 
 public class EmailValidatorTest extends ActivityInstrumentationTestCase2<RegistrationSampleActivity> {

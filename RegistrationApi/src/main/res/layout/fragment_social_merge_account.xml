@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.philips.cl.di.reg.ui.customviews.XTextView
+            <com.philips.cdp.registration.ui.customviews.XTextView
                 android:id="@+id/tv_reg_account_merge_sign_in"
                 style="@style/reg_textStyle"
                 android:layout_marginBottom="0dip"
@@ -36,12 +36,12 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <com.philips.cl.di.reg.ui.customviews.XTextView
+                <com.philips.cdp.registration.ui.customviews.XTextView
                     style="@style/reg_textStyle"
                     android:text="@string/Account_Merge_UsedEmail_Error_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-                <com.philips.cl.di.reg.ui.customviews.XTextView
+                <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_password_merge"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
@@ -58,13 +58,13 @@
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
-                <com.philips.cl.di.reg.ui.customviews.XPassword
+                <com.philips.cdp.registration.ui.customviews.XPassword
                     android:id="@+id/rl_reg_password_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <com.philips.cl.di.reg.ui.customviews.XRegError
+            <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_marginBottom="@dimen/reg_margin_bottom">
 
-                    <com.philips.cl.di.reg.ui.customviews.XButton
+                    <com.philips.cdp.registration.ui.customviews.XButton
                         android:id="@+id/btn_reg_merg"
                         style="@style/reg_style_btn"
                         android:enabled="false"
@@ -112,7 +112,7 @@
                     android:layout_height="@dimen/reg_btn_height"
                     android:layout_below="@+id/fl_reg_sign_in">
 
-                    <com.philips.cl.di.reg.ui.customviews.XButton
+                    <com.philips.cdp.registration.ui.customviews.XButton
                         android:id="@+id/btn_reg_forgot_password"
                         style="@style/reg_forgot_password"
                         android:layout_height="@dimen/reg_btn_height"

@@ -21,7 +21,7 @@
             android:src="@drawable/reg_back_press"
             android:visibility="visible" />
 
-        <com.philips.cl.di.reg.ui.customviews.XTextView
+        <com.philips.cdp.registration.ui.customviews.XTextView
             android:id="@+id/tv_reg_header_title"
             style="@style/reg_style_homescreen_title"
             android:layout_marginRight="@dimen/reg_header_title_margin_right"

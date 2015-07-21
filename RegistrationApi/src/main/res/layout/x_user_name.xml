@@ -37,7 +37,7 @@
                 android:visibility="gone" />
         </FrameLayout>
 
-        <com.philips.cl.di.reg.ui.customviews.XEditText
+        <com.philips.cdp.registration.ui.customviews.XEditText
             android:id="@+id/et_reg_fname"
             style="@style/reg_style_tab_hint"
             android:layout_centerVertical="true"
@@ -61,7 +61,7 @@
         android:src="@drawable/reg_arrow_up"
         android:visibility="gone" />
 
-    <com.philips.cl.di.reg.ui.customviews.XTextView
+    <com.philips.cdp.registration.ui.customviews.XTextView
         android:id="@+id/tv_reg_name_err"
         style="@style/reg_error_textStyle"
         android:layout_width="match_parent"

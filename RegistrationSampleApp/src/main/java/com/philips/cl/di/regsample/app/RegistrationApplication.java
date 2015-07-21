@@ -4,8 +4,8 @@ package com.philips.cl.di.regsample.app;
 import android.app.Application;
 
 import com.adobe.mobile.Config;
-import com.philips.cl.di.reg.settings.RegistrationHelper;
-import com.philips.cl.di.reg.ui.utils.RLog;
+import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.ui.utils.RLog;
 
 import java.util.Locale;
 

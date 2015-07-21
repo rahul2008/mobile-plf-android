@@ -3,7 +3,7 @@ package com.philips.cl.di.regsample.app.test;
 
 import android.test.ActivityInstrumentationTestCase2;
 
-import com.philips.cl.di.reg.ui.utils.NetworkUtility;
+import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
 
 import static org.mockito.Mockito.mock;

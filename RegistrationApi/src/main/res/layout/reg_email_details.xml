@@ -10,20 +10,20 @@
     android:paddingLeft="@dimen/reg_layout_margin"
     android:paddingRight="@dimen/reg_layout_margin" >
 
-    <com.philips.cl.di.reg.ui.customviews.XTextView
+    <com.philips.cdp.registration.ui.customviews.XTextView
         android:id="@+id/tv_reg_sign_in_email"
         style="@style/reg_textStyle"
         android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/VerifyEmail_EmailSentto_lbltxt"
         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-    <com.philips.cl.di.reg.ui.customviews.XTextView
+    <com.philips.cdp.registration.ui.customviews.XTextView
         style="@style/reg_textStyle"
         android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/VerifyEmail_ActivateInfo_lbltxt"
         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
-    <com.philips.cl.di.reg.ui.customviews.XTextView
+    <com.philips.cdp.registration.ui.customviews.XTextView
         style="@style/reg_textStyle"
         android:layout_marginBottom="@dimen/reg_margin_bottom"
         android:text="@string/continue_use_app"
