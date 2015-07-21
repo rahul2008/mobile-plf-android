@@ -41,7 +41,7 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverEventListener {
+public class DiscoveryManager<T extends DICommAppliance> {
 
 	private static DiscoveryManager<? extends DICommAppliance> mInstance;
 
@@ -88,8 +88,15 @@ public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverE
 		if (mInstance != null) {
 			throw new RuntimeException("DiscoveryManager can only be initialized once");
 		}
+
 		NetworkMonitor networkMonitor = new NetworkMonitor(applicationContext);
-		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppController, applianceFactory, applianceDatabase, networkMonitor);
+
+		CppDiscoveryHelper cppDiscoveryHelper = null;
+		if (cppController != null) {
+			 cppDiscoveryHelper = new CppDiscoveryHelper(cppController);
+		}
+
+		DiscoveryManager<U> discoveryManager = new DiscoveryManager<U>(cppDiscoveryHelper, applianceFactory, applianceDatabase, networkMonitor);
 		mInstance = discoveryManager;
 		return discoveryManager;
 	}
@@ -98,7 +105,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverE
 		return mInstance;
 	}
 
-	/* package, for testing */ DiscoveryManager(CppController cppController, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
+	/* package, for testing */ DiscoveryManager(CppDiscoveryHelper discoveryHelper, DICommApplianceFactory<T> applianceFactory, DICommApplianceDatabase<T> applianceDatabase, NetworkMonitor networkMonitor) {
 		mApplianceFactory = applianceFactory;
 		mApplianceDatabase = applianceDatabase;
 		
@@ -106,8 +113,10 @@ public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverE
 		initializeAppliancesMapFromDataBase();
 
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
-		if (cppController != null) {
-			mCppHelper = new CppDiscoveryHelper(cppController, this);
+
+		mCppHelper = discoveryHelper;
+		if (mCppHelper != null) {
+			mCppHelper.setCppDiscoverEventListener(mCppDiscoverEventListener);
 		}
 
 		mNetwork = networkMonitor;
@@ -132,8 +141,8 @@ public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverE
 			mSsdpHelper.startDiscoveryAsync();
 			DICommLog.d(DICommLog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
-		if(mCppHelper!=null){
-		mCppHelper.startDiscoveryViaCpp();
+		if (mCppHelper != null) {
+			mCppHelper.startDiscoveryViaCpp();
 		}
 		mNetwork.startNetworkChangedReceiver();
 	}
@@ -141,8 +150,8 @@ public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverE
 	public void stop() {
 		mSsdpHelper.stopDiscoveryAsync();
 		DICommLog.d(DICommLog.DISCOVERY, "Stopping SSDP service - Stop called");
-		if(mCppHelper!=null){
-		mCppHelper.stopDiscoveryViaCpp();
+		if (mCppHelper != null) {
+			mCppHelper.stopDiscoveryViaCpp();
 		}
 		mNetwork.stopNetworkChangedReceiver();
 		//mDiscoveryEventListenersList = null;
@@ -245,40 +254,43 @@ public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverE
 		}
 	};
 
-	// TODO DIComm Refactor: investigate and fix commented code
-	@Override
-	public void onSignedOnViaCpp() {
-		DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances online via cpp");
-		//updateAllAppliancesOnlineViaCpp();
-	}
+	private CppDiscoverEventListener mCppDiscoverEventListener = new CppDiscoverEventListener() {
 
-	// TODO DIComm Refactor: investigate and fix commented code
-	@Override
-	public void onSignedOffViaCpp() {
-		DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances offline via cpp");
-//		updateAllAppliancesOfflineViaCpp();
-	}
+		// TODO DIComm Refactor: investigate and fix commented code
+		@Override
+		public void onSignedOnViaCpp() {
+			DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances online via cpp");
+			//updateAllAppliancesOnlineViaCpp();
+		}
 
-	@Override
-	public void onDiscoverEventReceived(DiscoverInfo info, boolean isResponseToRequest) {
-		if (info == null) return;
-		DICommLog.v(DICommLog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
+		// TODO DIComm Refactor: investigate and fix commented code
+		@Override
+		public void onSignedOffViaCpp() {
+			DICommLog.v(DICommLog.DISCOVERY, "Signed on to CPP - setting all appliances offline via cpp");
+	//		updateAllAppliancesOfflineViaCpp();
+		}
 
-		boolean notifyListeners = false;
-		synchronized (mDiscoveryLock) {
-			if (isResponseToRequest) {
-				DICommLog.v(DICommLog.DISCOVERY, "Received connected appliances list via cpp");
-				notifyListeners = updateConnectedStateViaCppAllAppliances(info);
-			} else {
-				DICommLog.v(DICommLog.DISCOVERY, "Received connected appliance update via CPP");
-				notifyListeners = updateConnectedStateViaCppReturnedAppliances(info);
+		@Override
+		public void onDiscoverEventReceived(DiscoverInfo info, boolean isResponseToRequest) {
+			if (info == null) return;
+			DICommLog.v(DICommLog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
+
+			boolean notifyListeners = false;
+			synchronized (mDiscoveryLock) {
+				if (isResponseToRequest) {
+					DICommLog.v(DICommLog.DISCOVERY, "Received connected appliances list via cpp");
+					notifyListeners = updateConnectedStateViaCppAllAppliances(info);
+				} else {
+					DICommLog.v(DICommLog.DISCOVERY, "Received connected appliance update via CPP");
+					notifyListeners = updateConnectedStateViaCppReturnedAppliances(info);
+				}
+			}
+
+			if (notifyListeners) {
+				notifyDiscoveryListener();
 			}
 		}
-
-		if (notifyListeners) {
-			notifyDiscoveryListener();
-		}
-	}
+	};
 
 	private Handler.Callback mHandlerCallback = new Handler.Callback() {
 

@@ -23,141 +23,117 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 
 	private static final String APPLIANCE_CPPID = "1c5a6bfffe634357";
 
-	private CppDiscoveryHelper mHelper;
+	private CppDiscoveryHelper mCppDiscoveryHelper;
 	private CppController mCppController;
-	private CppDiscoverEventListener mDiscListener;
+	private CppDiscoverEventListener mCppDiscoveryEventListener;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 
 		mCppController = mock(CppController.class);
-		mDiscListener = mock(CppDiscoverEventListener.class);
-		mHelper = new CppDiscoveryHelper(mCppController, mDiscListener);
+		mCppDiscoveryEventListener = mock(CppDiscoverEventListener.class);
+		mCppDiscoveryHelper = new CppDiscoveryHelper(mCppController);
+		mCppDiscoveryHelper.setCppDiscoverEventListener(mCppDiscoveryEventListener);
 	}
 
 	public void testCppDiscoveryConstructor() {
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mCppController).addSignOnListener(mHelper);
-		verify(mCppController).setDCSDiscoverEventListener(mHelper);
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
+		verify(mCppController).addSignOnListener(mCppDiscoveryHelper);
+		verify(mCppController).setDCSDiscoverEventListener(mCppDiscoveryHelper);
+		assertFalse(mCppDiscoveryHelper.getCppDiscoveryPendingForTesting());
 	}
 
 	public void testCppDiscoveryOnStartNoSignon() {
-		mHelper.startDiscoveryViaCpp();
+		mCppDiscoveryHelper.startDiscoveryViaCpp();
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController, never()).startDCSService();
-		verify(mDiscListener, never()).onSignedOnViaCpp();
-		verify(mDiscListener, never()).onSignedOffViaCpp();
-		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
+		verify(mCppDiscoveryEventListener, never()).onSignedOnViaCpp();
+		verify(mCppDiscoveryEventListener, never()).onSignedOffViaCpp();
+		assertTrue(mCppDiscoveryHelper.getCppDiscoveryPendingForTesting());
 	}
 
 	public void testCppDiscoveryOnStartSignon() {
 		when(mCppController.isSignOn()).thenReturn(true);
 
-		mHelper.startDiscoveryViaCpp();
+		mCppDiscoveryHelper.startDiscoveryViaCpp();
 
 		verify(mCppController).publishEvent(isNull(String.class),eq(CppDiscoveryHelper.DISCOVERY_REQUEST), eq(CppDiscoveryHelper.ACTION_DISCOVER), eq(""), anyInt(), anyInt(), anyString());
 		verify(mCppController).startDCSService();
-		verify(mDiscListener).onSignedOnViaCpp();
-		verify(mDiscListener, never()).onSignedOffViaCpp();
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
+		verify(mCppDiscoveryEventListener).onSignedOnViaCpp();
+		verify(mCppDiscoveryEventListener, never()).onSignedOffViaCpp();
+		assertFalse(mCppDiscoveryHelper.getCppDiscoveryPendingForTesting());
 	}
 
 	public void testCppDiscoveryOnStartStopNoSignon() {
-		mHelper.startDiscoveryViaCpp();
-		mHelper.stopDiscoveryViaCpp();
+		mCppDiscoveryHelper.startDiscoveryViaCpp();
+		mCppDiscoveryHelper.stopDiscoveryViaCpp();
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController, never()).startDCSService();
-		verify(mDiscListener, never()).onSignedOnViaCpp();
-		verify(mDiscListener, never()).onSignedOffViaCpp();
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
+		verify(mCppDiscoveryEventListener, never()).onSignedOnViaCpp();
+		verify(mCppDiscoveryEventListener, never()).onSignedOffViaCpp();
+		assertFalse(mCppDiscoveryHelper.getCppDiscoveryPendingForTesting());
 	}
 
 	public void testCppDiscoveryOnStartStopNoSignonWaitSignon() {
-		mHelper.startDiscoveryViaCpp();
-		mHelper.signonStatus(true);
+		mCppDiscoveryHelper.startDiscoveryViaCpp();
+		mCppDiscoveryHelper.signonStatus(true);
 
 		verify(mCppController).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController).startDCSService();
-		verify(mDiscListener).onSignedOnViaCpp();
-		verify(mDiscListener, never()).onSignedOffViaCpp();
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
+		verify(mCppDiscoveryEventListener).onSignedOnViaCpp();
+		verify(mCppDiscoveryEventListener, never()).onSignedOffViaCpp();
+		assertFalse(mCppDiscoveryHelper.getCppDiscoveryPendingForTesting());
 	}
 
 	public void testCppDiscoveryOnStartStopNoSignonWaitSignoff() {
-		mHelper.startDiscoveryViaCpp();
-		mHelper.signonStatus(false);
+		mCppDiscoveryHelper.startDiscoveryViaCpp();
+		mCppDiscoveryHelper.signonStatus(false);
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mCppController, never()).startDCSService();
-		verify(mDiscListener, never()).onSignedOnViaCpp();
-		verify(mDiscListener).onSignedOffViaCpp();
-		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
+		verify(mCppDiscoveryEventListener, never()).onSignedOnViaCpp();
+		verify(mCppDiscoveryEventListener).onSignedOffViaCpp();
+		assertTrue(mCppDiscoveryHelper.getCppDiscoveryPendingForTesting());
 	}
 
 	public void testDCSEventReceivedDiscover() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
-
-		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "CHANGE");
-
-		verify(discoveryListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(false));
+		mCppDiscoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "CHANGE");
+		verify(mCppDiscoveryEventListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(false));
 	}
 
 	public void testDCSEventReceivedDiscoverActionEmpty() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
-
-		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "");
-
-		verify(discoveryListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(false));
+		mCppDiscoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "");
+		verify(mCppDiscoveryEventListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(false));
 	}
 
 	public void testDCSEventReceivedDiscoverActionNull() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
-
-		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, null);
-
-		verify(discoveryListener).onDiscoverEventReceived(any(DiscoverInfo.class), anyBoolean());
+		mCppDiscoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, null);
+		verify(mCppDiscoveryEventListener).onDiscoverEventReceived(any(DiscoverInfo.class), anyBoolean());
 	}
 
 	public void testDCSEventReceivedDiscoverCppIdNullRequested() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
-
-		discoveryHelper.onDCSEventReceived(data, null, "DISCOVER");
-
-		verify(discoveryListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(true));
+		mCppDiscoveryHelper.onDCSEventReceived(data, null, "DISCOVER");
+		verify(mCppDiscoveryEventListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(true));
 	}
 
 	public void testDCSEventReceivedDiscoverCppIdNull() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
-
-		discoveryHelper.onDCSEventReceived(data, null, "CHANGE");
-
-		verify(discoveryListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(false));
+		mCppDiscoveryHelper.onDCSEventReceived(data, null, "CHANGE");
+		verify(mCppDiscoveryEventListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(false));
 	}
 
 	public void testDCSEventReceivedDiscoverRequested() {
 		String data = "{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}";
-		CppDiscoverEventListener discoveryListener = mock(CppDiscoverEventListener.class);
-		CppDiscoveryHelper discoveryHelper = new CppDiscoveryHelper(mock(CppController.class), discoveryListener);
-
-		discoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "DISCOVER");
-
-		verify(discoveryListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(true));
+		mCppDiscoveryHelper.onDCSEventReceived(data, APPLIANCE_CPPID, "DISCOVER");
+		verify(mCppDiscoveryEventListener).onDiscoverEventReceived(any(DiscoverInfo.class), eq(true));
 	}
-
 
 	public void testParseDiscoverInfoNullParam() {
 		DiscoverInfo discoverInfo = CppDiscoveryHelper.parseDiscoverInfo(null);
@@ -256,5 +232,4 @@ public class CppDiscoveryHelperTest extends MockitoTestCase {
 		assertNotNull(discoverInfo);
 		assertFalse(discoverInfo.isConnected());
 	}
-
 }

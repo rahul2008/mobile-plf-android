@@ -19,7 +19,6 @@ import com.philips.icpinterface.data.Errors;
 public class CppDiscoveryHelper implements SignonListener, PublishEventListener, DcsEventListener {
 
 	private CppController mCppController;
-	private CppDiscoverEventListener mCppDiscListener;
 	private boolean isCppDiscoveryPending = false;
 	private int retrySubscriptionCount ;
 	private static final int MAX_RETRY_FOR_DISCOVER = 2 ;
@@ -28,12 +27,14 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 	private int discoverEventMessageID ;
 	private CppDiscoverEventListener mCppDiscoverEventListener;
 
-	public CppDiscoveryHelper(CppController controller, CppDiscoverEventListener cppDiscListener) {
+	public CppDiscoveryHelper(CppController controller) {
 		mCppController = controller;
-		mCppDiscListener = cppDiscListener;
 		mCppController.addSignOnListener(this);
-		mCppDiscoverEventListener = cppDiscListener;
 		mCppController.setDCSDiscoverEventListener(this);
+	}
+
+	public void setCppDiscoverEventListener(CppDiscoverEventListener cppDiscoverEventListener) {
+		mCppDiscoverEventListener = cppDiscoverEventListener;
 	}
 
 	public void startDiscoveryViaCpp() {
@@ -52,7 +53,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 
 	private void startDiscoveryViaCpp(boolean isSignedOnToCpp) {
 		if (isSignedOnToCpp) {
-			mCppDiscListener.onSignedOnViaCpp();
+			mCppDiscoverEventListener.onSignedOnViaCpp();
 			DICommLog.i(DICommLog.CPPDISCHELPER, "Enabling remote subscription (start dcs)");
 			mCppController.startDCSService();
 			mCppController.addPublishEventListener(this) ;
@@ -70,7 +71,7 @@ public class CppDiscoveryHelper implements SignonListener, PublishEventListener,
 		DICommLog.d(DICommLog.CPPDISCHELPER, "Sigon on callback: " + signon);
 		if (!signon) {
 			DICommLog.i(DICommLog.CPPDISCHELPER, "Signed off - Notifying discovery listener");
-			mCppDiscListener.onSignedOffViaCpp();
+			mCppDiscoverEventListener.onSignedOffViaCpp();
 			return;
 		}
 		if (!isCppDiscoveryPending) return;
