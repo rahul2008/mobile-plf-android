@@ -12,7 +12,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.Handler.Callback;
 import android.os.Message;
 
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
@@ -25,7 +24,6 @@ import com.philips.cdp.dicommclient.networknode.ConnectionState;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.networknode.NetworkNode.EncryptionKeyUpdatedListener;
 import com.philips.cdp.dicommclient.networknode.NetworkNodeDatabase;
-import com.philips.cdp.dicommclient.port.common.FirmwarePortProperties.FirmwareState;
 import com.philips.cdp.dicommclient.util.DICommLog;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -43,7 +41,7 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager<T extends DICommAppliance> implements Callback, CppDiscoverEventListener {
+public class DiscoveryManager<T extends DICommAppliance> implements CppDiscoverEventListener {
 
 	private static DiscoveryManager<? extends DICommAppliance> mInstance;
 
@@ -79,7 +77,7 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 					DiscoveryManager.getInstance().markLostAppliancesInBackgroundOfflineOrRemote();
 				}
 			}
-		};
+		}
 	};
 
 	static synchronized <U extends DICommAppliance> DiscoveryManager<U> createSharedInstance(Context applicationContext, CppController cppController, DICommApplianceFactory<U> applianceFactory) {
@@ -107,14 +105,14 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		mNetworkNodeDatabase = new NetworkNodeDatabase(DICommClientWrapper.getContext());
 		initializeAppliancesMapFromDataBase();
 
-		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
-		if(cppController!=null){
-		mCppHelper = new CppDiscoveryHelper(cppController, this);
+		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), mHandlerCallback);
+		if (cppController != null) {
+			mCppHelper = new CppDiscoveryHelper(cppController, this);
 		}
 
 		mNetwork = networkMonitor;
 		mNetwork.setListener(mNetworkChangedCallback);
-		if(mDiscoveryEventListenersList == null){
+		if (mDiscoveryEventListenersList == null) {
 			mDiscoveryEventListenersList = new ArrayList<DiscoveryEventListener>();
 		}
 	}
@@ -282,27 +280,26 @@ public class DiscoveryManager<T extends DICommAppliance> implements Callback, Cp
 		}
 	}
 
-	/**
-	 * Callback from SSDP service
-	 */
-	@Override
-	public boolean handleMessage(Message msg) {
-		if (msg == null) return false;
+	private Handler.Callback mHandlerCallback = new Handler.Callback() {
 
-		final DiscoveryMessageID messageID = DiscoveryMessageID.getID(msg.what);
-		DeviceModel device = getDeviceModelFromMessage(msg);
-		if (device == null) return false;
+		@Override
+		public boolean handleMessage(Message msg) {
+			if (msg == null) return false;
 
-		synchronized (mDiscoveryLock) {
-			switch (messageID) {
-			case DEVICE_DISCOVERED: return onApplianceDiscovered(device);
-			case DEVICE_LOST: return onApplianceLost(device);
-			default: break;
+			final DiscoveryMessageID messageID = DiscoveryMessageID.getID(msg.what);
+			DeviceModel device = getDeviceModelFromMessage(msg);
+			if (device == null) return false;
+
+			synchronized (mDiscoveryLock) {
+				switch (messageID) {
+					case DEVICE_DISCOVERED: return onApplianceDiscovered(device);
+					case DEVICE_LOST: return onApplianceLost(device);
+					default: break;
+				}
 			}
+			return false;
 		}
-		return false;
-	}
-
+	};
 
 	// ********** START SSDP METHODS ************
 	private boolean onApplianceDiscovered(DeviceModel deviceModel) {
