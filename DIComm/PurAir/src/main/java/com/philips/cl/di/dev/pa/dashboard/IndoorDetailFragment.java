@@ -111,7 +111,7 @@ ICPDownloadListener, PurifierCurrentCityPercentListener, SignonListener {
 	}
 
 	private void downloadAQIHistoricData() {
-		ALog.i("SIGNON", "SIGNON-downloadAQIHistoricData:  " + getCPPControllerInstance().getSignOnState() + " pair: " + currentPurifier.getNetworkNode().getPairedState());
+		//ALog.i("SIGNON", "SIGNON-downloadAQIHistoricData:  " + getCPPControllerInstance().getSignOnState() + " pair: " + currentPurifier.getNetworkNode().getPairedState());
 		//If purifier in demo mode, skip download data
 		if (PurAirApplication.isDemoModeEnable() || currentPurifier == null) {
 			handlerDownload.sendEmptyMessage(DOWNLOAD_FAILED);

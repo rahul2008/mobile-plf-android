@@ -6,6 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -57,7 +58,7 @@ public class DetailTest extends ActivityInstrumentationTestCase2<MainActivity> {
 				public void run() {
 					OutdoorAQI outdoorAQI = new OutdoorAQI(123, 150, "100", "3", "11", "101010100", "201411121905");
 					((HomeFragment) fragment).toggleOutdoorDetailFragment("Bangalore", outdoorAQI, 0);
-					ViewGroup outdoorDetailContainer = (LinearLayout) 
+					ViewGroup outdoorDetailContainer = (RelativeLayout)
 							fragment.getView().findViewById(R.id.home_fragment_outdoor_detail_container);
 					assertEquals(View.VISIBLE, outdoorDetailContainer.getVisibility());
 				}
