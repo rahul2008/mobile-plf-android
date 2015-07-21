@@ -21,7 +21,7 @@ import com.philips.cdp.dicommclient.port.common.WifiUIPort;
 import com.philips.cdp.dicommclient.subscription.SubscriptionEventListener;
 import com.philips.cdp.dicommclient.util.DICommLog;
 
-public abstract class DICommAppliance implements SubscriptionEventListener {
+public abstract class DICommAppliance {
 
     protected final NetworkNode mNetworkNode;
 
@@ -138,26 +138,28 @@ public abstract class DICommAppliance implements SubscriptionEventListener {
 	}
 
 	public void enableSubscription() {
-		mCommunicationStrategy.enableSubscription(this, mNetworkNode);
+		mCommunicationStrategy.enableSubscription(subscriptionEventListener, mNetworkNode);
 	}
 
 	public void disableSubscription() {
 		mCommunicationStrategy.disableSubscription();
 	}
 
-	@Override
-	public void onSubscriptionEventReceived(String data) {
-		DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
+    private SubscriptionEventListener subscriptionEventListener = new SubscriptionEventListener() {
 
-		List<DICommPort<?>> portList = getAllPorts();
+        @Override
+        public void onSubscriptionEventReceived(String data) {
+            DICommLog.d(DICommLog.APPLIANCE, "Notify subscription listeners - " + data);
 
-		for (DICommPort<?> port : portList) {
-		    if (port.isResponseForThisPort(data)) {
-		        port.handleResponse(data);
-		    }
-		}
-	}
+            List<DICommPort<?>> portList = getAllPorts();
 
+            for (DICommPort<?> port : portList) {
+                if (port.isResponseForThisPort(data)) {
+                    port.handleResponse(data);
+                }
+            }
+        }
+    };
 
     public String toString() {
         StringBuilder builder = new StringBuilder();
