@@ -10,6 +10,7 @@ import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 import com.philips.pins.shinelib.services.SHNServiceBattery;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashSet;
@@ -102,6 +103,7 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
                 SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
                 shnServiceWeightScaleListener.onWeightMeasurementReceived(this, shnWeightMeasurement);
             } catch (IllegalArgumentException e) {
+            } catch (BufferUnderflowException e) {
             }
         }
     }

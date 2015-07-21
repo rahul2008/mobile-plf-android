@@ -51,7 +51,7 @@ public class SHNWeightMeasurement {
             if (flags.hasUserId()) {
                 userId = ScalarConverters.ubyteToInt(byteBuffer.get());
             } else {
-                userId = -1;
+                userId = UNKNOWN_USER_ID;
             }
 
             if (flags.hasBmiAndHeight) {
@@ -78,10 +78,9 @@ public class SHNWeightMeasurement {
         } else {
             SHNWeightUnit unit = getFlags().getShnWeightUnit();
             float resolution;
-            if(unit == SHNWeightUnit.KG ){
+            if (unit == SHNWeightUnit.KG) {
                 resolution = WEIGHT_KG_RESOLUTION;
-            }
-            else{
+            } else {
                 resolution = WEIGHT_LB_RESOLUTION;
             }
             return rawData * resolution;
@@ -96,9 +95,9 @@ public class SHNWeightMeasurement {
     private float extractHeight(int rawData) {
         SHNHeightUnit unit = getFlags().getShnHeightUnit();
         float resolution;
-        if(unit == SHNHeightUnit.Meter){
+        if (unit == SHNHeightUnit.Meter) {
             resolution = HEIGHT_METER_RESOLUTION;
-        }else{
+        } else {
             resolution = HEIGHT_INCH_RESOLUTION;
         }
         return rawData * resolution;
