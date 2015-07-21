@@ -60,8 +60,8 @@ public class SHNWeightMeasurement {
                 short heightRaw = byteBuffer.getShort();
                 height = extractHeight(ScalarConverters.ushortToInt(heightRaw));
             } else {
-                bmi = -1;
-                height = -1;
+                bmi = Float.NaN;
+                height = Float.NaN;
             }
         } catch (BufferUnderflowException e) {
             throw new IllegalArgumentException();
@@ -85,7 +85,7 @@ public class SHNWeightMeasurement {
             }
             return rawData * resolution;
         }
-        return 0;
+        return Float.NaN;
     }
 
     private float extractBMI(int rawData) {

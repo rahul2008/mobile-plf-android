@@ -1,5 +1,7 @@
 package com.philips.pins.shinelib.services.weightscale;
 
+import android.util.Log;
+
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
@@ -103,7 +105,9 @@ public class SHNServiceWeightScale implements SHNService.SHNServiceListener, SHN
                 SHNWeightMeasurement shnWeightMeasurement = new SHNWeightMeasurement(byteBuffer);
                 shnServiceWeightScaleListener.onWeightMeasurementReceived(this, shnWeightMeasurement);
             } catch (IllegalArgumentException e) {
+                Log.w(TAG, "Received incorrect weight measurement data");
             } catch (BufferUnderflowException e) {
+                Log.w(TAG, "The supplied data has the wrong length.");
             }
         }
     }
