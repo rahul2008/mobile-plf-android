@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.SHNService;
 import com.philips.pins.shinelib.framework.BleUUIDCreator;
 import com.philips.pins.shinelib.framework.SHNFactory;
 
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
     public interface SHNServiceBodyCompositionListener {
         void onServiceStateChanged(SHNServiceBodyComposition shnServiceBodyComposition, SHNService.State state);
 
-        void onBodyCompositionMeasurementReceived(SHNServiceBodyComposition shnServiceBodyComposition, SHNBodyComposition shnBodyComposition);
+        void onBodyCompositionMeasurementReceived(SHNServiceBodyComposition shnServiceBodyComposition, SHNBodyCompositionMeasurement shnBodyCompositionMeasurement);
     }
 
     public SHNServiceBodyComposition(SHNFactory shnFactory) {
@@ -95,9 +96,10 @@ public class SHNServiceBodyComposition implements SHNService.SHNServiceListener,
         if (shnCharacteristic.getUuid().equals(BODY_COMPOSITION_MEASUREMENT_CHARACTERISTIC_UUID)) {
             ByteBuffer byteBuffer = ByteBuffer.wrap(data).order(ByteOrder.LITTLE_ENDIAN);
             try {
-                SHNBodyComposition shnBodyComposition = new SHNBodyComposition(byteBuffer);
-                shnServiceBodyCompositionListener.onBodyCompositionMeasurementReceived(this, shnBodyComposition);
+                SHNBodyCompositionMeasurement shnBodyCompositionMeasurement = new SHNBodyCompositionMeasurement(byteBuffer);
+                shnServiceBodyCompositionListener.onBodyCompositionMeasurementReceived(this, shnBodyCompositionMeasurement);
             } catch (IllegalArgumentException e) {
+            } catch (BufferUnderflowException e) {
             }
         }
     }

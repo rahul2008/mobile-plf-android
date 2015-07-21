@@ -20,6 +20,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -37,7 +38,6 @@ public class SHNServiceBodyCompositionTest {
     private SHNServiceBodyComposition.SHNServiceBodyCompositionListener mockedSHNBodyCompositionListener;
     private SHNCharacteristic mockedSHNCharacteristicBodyCompositionMeasurement;
     private SHNCharacteristic mockedSHNCharacteristicBodyCompositionFeature;
-
 
     @Before
     public void setUp() {
@@ -164,9 +164,9 @@ public class SHNServiceBodyCompositionTest {
     public void whenAProperlyFormattedNewMeasurementArrivesThenTheOnBodyCompositionMeasurementReceivedMustBeCalled() {
         serviceSetupServiceStateChangedToAvailable();
         ArgumentCaptor<SHNServiceBodyComposition> serviceBodyCompositionArgumentCaptor = ArgumentCaptor.forClass(SHNServiceBodyComposition.class);
-        ArgumentCaptor<SHNBodyComposition> compositionArgumentCaptor = ArgumentCaptor.forClass(SHNBodyComposition.class);
+        ArgumentCaptor<SHNBodyCompositionMeasurement> compositionArgumentCaptor = ArgumentCaptor.forClass(SHNBodyCompositionMeasurement.class);
 
-        shnServiceBodyComposition.onCharacteristicChanged(mockedSHNCharacteristicBodyCompositionMeasurement, new byte[]{});
+        shnServiceBodyComposition.onCharacteristicChanged(mockedSHNCharacteristicBodyCompositionMeasurement, new byte[]{0, 0, 0, 0});
 
         verify(mockedSHNBodyCompositionListener).onBodyCompositionMeasurementReceived(serviceBodyCompositionArgumentCaptor.capture(), compositionArgumentCaptor.capture());
         assertNotNull(serviceBodyCompositionArgumentCaptor.getValue());
@@ -174,14 +174,14 @@ public class SHNServiceBodyCompositionTest {
         assertNotNull(compositionArgumentCaptor.getValue());
     }
 
-//    @Test
-//    public void whenAInproperlyFormattedNewMeasurementArrivesThenTheOnTemperatureMeasurementReceivedMustNOTBeCalled() {
-//        serviceSetupServiceStateChangedToAvailable();
-//
-//        shnServiceBodyComposition.onCharacteristicChanged(mockedSHNCharacteristicBodyCompositionMeasurement, new byte[]{});
-//
-//        verify(mockedSHNBodyCompositionListener, never()).onBodyCompositionMeasurementReceived(any(SHNServiceBodyComposition.class), any(SHNBodyComposition.class));
-//    }
+    @Test
+    public void whenAInproperlyFormattedNewMeasurementArrivesThenTheOnTemperatureMeasurementReceivedMustNOTBeCalled() {
+        serviceSetupServiceStateChangedToAvailable();
+
+        shnServiceBodyComposition.onCharacteristicChanged(mockedSHNCharacteristicBodyCompositionMeasurement, new byte[]{0, 0, 0});
+
+        verify(mockedSHNBodyCompositionListener, never()).onBodyCompositionMeasurementReceived(any(SHNServiceBodyComposition.class), any(SHNBodyCompositionMeasurement.class));
+    }
 
     @Test
     public void whenGetFeaturesIsCalledThenProperCharacteristicIsRed() {
