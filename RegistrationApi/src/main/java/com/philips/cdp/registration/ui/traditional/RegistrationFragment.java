@@ -216,12 +216,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     public void replaceWelcomeFragmentOnLogin(Fragment fragment) {
         navigateToHome();
-
         try {
-
             FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
-            fragmentTransaction.addToBackStack(fragment.getTag());
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
             fragmentTransaction.commitAllowingStateLoss();
         } catch (IllegalStateException e) {
             RLog.e(RLog.EXCEPTION,
@@ -234,7 +231,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     public void navigateToHome() {
         FragmentManager fragmentManager = getChildFragmentManager();
         int fragmentCount = fragmentManager.getBackStackEntryCount();
-        for (int i = fragmentCount; i >= 1; i--) {
+        for (int i = fragmentCount; i >= 0; i--) {
             fragmentManager.popBackStack();
         }
     }
@@ -292,7 +289,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         addFragment(socialAlmostDoneFragment);
     }
 
-    public void addMergeAccountFragment(String registrationToken, String provider,String emailId) {
+    public void addMergeAccountFragment(String registrationToken, String provider, String emailId) {
         MergeAccountFragment mergeAccountFragment = new MergeAccountFragment();
         Bundle mergeFragmentBundle = new Bundle();
         mergeFragmentBundle.putString(RegConstants.SOCIAL_PROVIDER, provider);
@@ -336,8 +333,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public int getFragmentCount() {
-        return mFragmentManager.getFragments().size();
-
+        FragmentManager fragmentManager = getChildFragmentManager();
+        int fragmentCount = fragmentManager.getFragments().size();
+        return fragmentCount;
     }
 
     public RegistrationTitleBarListener getUpdateTitleListener() {

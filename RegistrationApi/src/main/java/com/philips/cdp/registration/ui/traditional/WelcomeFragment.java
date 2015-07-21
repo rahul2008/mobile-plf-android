@@ -220,7 +220,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
 			//trackPage(AnalyticsPages.HOME);
 			mUser.logout();
-			getRegistrationFragment().navigateToHome();
+			getRegistrationFragment().replaceWithHomeFragment();
 		} else if (id == R.id.btn_reg_continue) {
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");

@@ -267,7 +267,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	}
 
 	private void launchWelcomeFragment() {
-		getRegistrationFragment().addFragment(new WelcomeFragment());
+		getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
 		trackPage(AnalyticsPages.WELCOME);
 	}
 

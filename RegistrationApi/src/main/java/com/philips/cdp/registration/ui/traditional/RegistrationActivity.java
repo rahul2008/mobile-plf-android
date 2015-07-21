@@ -23,6 +23,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
 
+    private ImageView ivBack;
     private Handler mSiteCatalistHandler = new Handler();
 
     private Runnable mPauseSiteCatalystRunnable = new Runnable() {
@@ -111,9 +112,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
             }
         }
     }
-
     private void initUI() {
-        ImageView ivBack = (ImageView) findViewById(R.id.iv_reg_back);
+        ivBack = (ImageView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
         launchRegistrationFragment(R.id.fl_reg_fragment_container, this);
     }
@@ -147,6 +147,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     public void updateRegistrationTitle(int titleResourceID) {
         // Update title and show hamberger
+        ivBack.setVisibility(View.INVISIBLE);
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
@@ -154,6 +155,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     public void updateRegistrationTitleWithBack(int titleResourceID) {
         // update title and show back
+        ivBack.setVisibility(View.VISIBLE);
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
