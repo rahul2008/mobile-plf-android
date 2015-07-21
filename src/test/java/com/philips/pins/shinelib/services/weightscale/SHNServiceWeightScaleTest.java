@@ -1,5 +1,7 @@
 package com.philips.pins.shinelib.services.weightscale;
 
+import android.util.Log;
+
 import com.philips.pins.shinelib.SHNCharacteristic;
 import com.philips.pins.shinelib.SHNCommandResultReporter;
 import com.philips.pins.shinelib.SHNObjectResultListener;
@@ -10,7 +12,10 @@ import com.philips.pins.shinelib.framework.SHNFactory;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Set;
 import java.util.UUID;
@@ -23,12 +28,15 @@ import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({Log.class})
 public class SHNServiceWeightScaleTest {
 
     private SHNServiceWeightScale shnServiceWeightScale;
@@ -41,6 +49,7 @@ public class SHNServiceWeightScaleTest {
 
     @Before
     public void setUp() {
+        mockStatic(Log.class);
         mockedSHNFactory = mock(SHNFactory.class);
         mockedSHNService = mock(SHNService.class);
 
