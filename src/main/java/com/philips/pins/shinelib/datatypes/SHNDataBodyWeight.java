@@ -39,7 +39,7 @@ public class SHNDataBodyWeight extends SHNData {
 
         private boolean hasWeightInKg;
 
-        public Builder(){
+        public Builder() {
             shnDataBodyWeight = new SHNDataBodyWeight();
         }
 

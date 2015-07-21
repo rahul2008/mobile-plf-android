@@ -67,46 +67,46 @@ public class SHNDataBloodPressure extends SHNData {
         public Builder() {
             shnDataBloodPressure = new SHNDataBloodPressure();
         }
-        
+
         public Builder setBloodPressureSystolicInMmHg(float bloodPressureSystolicInMmHg) {
             shnDataBloodPressure.bloodPressureSystolicInMmHg = bloodPressureSystolicInMmHg;
             hasBloodPressureSystolicInMmHg = true;
             return this;
         }
-    
+
         public Builder setBloodPressureDiastolicInMmHg(float bloodPressureDiastolicInMmHg) {
             shnDataBloodPressure.bloodPressureDiastolicInMmHg = bloodPressureDiastolicInMmHg;
             hasBloodPressureDiastolicInMmHg = true;
             return this;
         }
-    
+
         public Builder setBloodPressureMeanArterialInMmHg(float bloodPressureMeanArterialInMmHg) {
             shnDataBloodPressure.bloodPressureMeanArterialInMmHg = bloodPressureMeanArterialInMmHg;
             hasBloodPressureMeanArterialInMmHg = true;
             return this;
         }
-    
+
         public Builder setUserId(short userId) {
             shnDataBloodPressure.userId = userId;
             shnDataBloodPressure.hasUserId = true;
             return this;
         }
-    
+
         public Builder setPulseRateInBeatsPerMinute(short pulseRateInBeatsPerMinute) {
             shnDataBloodPressure.pulseRateInBeatsPerMinute = pulseRateInBeatsPerMinute;
             shnDataBloodPressure.hasPulseRateInBeatsPerMinute = true;
             return this;
         }
-    
+
         public Builder setShnPulseRateStatus(SHNPulseRateStatus shnPulseRateStatus) {
             shnDataBloodPressure.shnPulseRateStatus = shnPulseRateStatus;
             return this;
         }
-    
+
         public SHNDataBloodPressure build() {
-            if(hasBloodPressureSystolicInMmHg && hasBloodPressureDiastolicInMmHg && hasBloodPressureMeanArterialInMmHg) {
+            if (hasBloodPressureSystolicInMmHg && hasBloodPressureDiastolicInMmHg && hasBloodPressureMeanArterialInMmHg) {
                 return shnDataBloodPressure;
-            }else{
+            } else {
                 throw new IllegalArgumentException("Incomplete data");
             }
         }
