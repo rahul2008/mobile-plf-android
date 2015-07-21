@@ -51,7 +51,7 @@ public class SHNBodyCompositionMeasurement {
     public SHNBodyCompositionMeasurement(ByteBuffer byteBuffer) {
         flags = new Flags(byteBuffer);
 
-        bodyFatPercentage = convertUShortWithResolution(byteBuffer.getShort(), FAT_PERCENTAGE_RESOLUTION);
+        bodyFatPercentage = extractBodyFatPercentage(byteBuffer);
 
         timestamp = flags.hasTimestamp() ? SHNBluetoothDataConverter.getDateTime(byteBuffer) : null;
         if (flags.hasTimestamp() && timestamp == null) {
@@ -137,6 +137,15 @@ public class SHNBodyCompositionMeasurement {
 
     public float getHeight() {
         return height;
+    }
+
+    private float extractBodyFatPercentage(ByteBuffer byteBuffer) {
+        int value = ScalarConverters.ushortToInt(byteBuffer.getShort());
+        if (value == MEASUREMENT_UNSUCCESSFUL) {
+            return Float.NaN;
+        } else {
+            return value * FAT_PERCENTAGE_RESOLUTION;
+        }
     }
 
     private float convertUShortWithResolution(short rawValue, float resolution) {

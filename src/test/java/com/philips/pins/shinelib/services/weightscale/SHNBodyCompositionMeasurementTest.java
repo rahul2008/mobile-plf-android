@@ -392,4 +392,13 @@ public class SHNBodyCompositionMeasurementTest {
 
         assertEquals(0xE1 * 0.1, shnBodyCompositionMeasurement.getBodyFatPercentage(), 0.1);
     }
+
+    @Test
+    public void whenTheMeasurementsHasSpecialValueThenFatPercentageIsNan() {
+        byte[] data = new byte[]{0, 0, (byte) 0xFF, (byte) 0xFF};
+
+        SHNBodyCompositionMeasurement shnBodyCompositionMeasurement = generateMeasurement(data);
+
+        assertEquals(Float.NaN, shnBodyCompositionMeasurement.getBodyFatPercentage(), 0.01);
+    }
 }
