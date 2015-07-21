@@ -240,11 +240,25 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     }
 
     public void addWelcomeFragmentOnVerification() {
+        navigateToHome();
         WelcomeFragment welcomeFragment = new WelcomeFragment();
         Bundle welcomeFragmentBundle = new Bundle();
         welcomeFragmentBundle.putBoolean(RegConstants.VERIFICATIN_SUCCESS, VERIFICATION_SUCCESS);
         welcomeFragment.setArguments(welcomeFragmentBundle);
-        addFragment(welcomeFragment);
+        replaceFragment(welcomeFragment);
+    }
+
+    public void replaceFragment(Fragment fragment) {
+        try {
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, fragment, fragment.getTag());
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationFragment :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+        hideKeyBoard();
     }
 
     private void replaceWithWelcomeFragment() {
