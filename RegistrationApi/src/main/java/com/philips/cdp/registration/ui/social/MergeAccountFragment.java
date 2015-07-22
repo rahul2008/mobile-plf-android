@@ -200,6 +200,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		String myPhilipsEmail = getString(R.string.RegMerge_MergeLbltxt);
 		myPhilipsEmail = String.format(myPhilipsEmail,mEmailId);
 		mTvPasswordMege.setText(myPhilipsEmail);
+
+		String socialProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
+		String accountMerge = getString(R.string.Account_Merge_SignIn_lbltxt);
+		accountMerge = String.format(accountMerge,socialProvider);
+		mTvAccountMergeSignIn.setText(accountMerge);
+
 	}
 
 

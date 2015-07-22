@@ -179,10 +179,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void inflateEachProviderBtn(String provider) {
-        try{
-            String providerTempName = provider.substring(0, 1).toUpperCase()
-                    + provider.substring(1).toLowerCase();
-            String providerName = "Welcome_" + providerTempName + "_btntxt";
+        try {
+            String providerName = "Welcome_" + provider + "_btntxt";
             String providerDrawable = "reg_" + provider + "_ic";
 
             int resourceId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerName, "string",
@@ -190,10 +188,10 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
             int drawableId = getRegistrationFragment().getParentActivity().getResources().getIdentifier(providerDrawable, "drawable",
                     getRegistrationFragment().getParentActivity().getPackageName());
             mLlSocialProviderBtnContainer.addView(getProviderBtn(provider, resourceId, drawableId));
-        }catch (Exception e){
-            RLog.e("HomeFragment","Inflate Buttons exception :" +e.getMessage());
-        }
 
+        } catch (Exception e) {
+            RLog.e("HomeFragment", "Inflate Buttons exception :" + e.getMessage());
+        }
     }
 
     private XProviderButton getProviderBtn(final String providerName, int providerNameStringId,
@@ -241,9 +239,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnMyPhilips = (XProviderButton) view.findViewById(R.id.btn_reg_my_philips);
         mBtnMyPhilips.setOnClickListener(this);
         TextView mTvContent = (TextView) view.findViewById(R.id.tv_reg_create_account);
-        if(mTvContent.getText().toString().trim().length()>0){
+        if (mTvContent.getText().toString().trim().length() > 0) {
             mTvContent.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTvContent.setVisibility(View.GONE);
         }
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -381,7 +379,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mBtnCreateAccount.setEnabled(state);
         enableSocialProviders(state);
         mBtnMyPhilips.setEnabled(state);
-        if(state) {
+        if (state) {
             mBtnMyPhilips.setProviderTextColor(R.color.reg_btn_text_enable_color);
             return;
         }
@@ -538,12 +536,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     @Override
     public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider,
                                                 String conflictingIdentityProvider, String conflictingIdpNameLocalized,
-                                                String existingIdpNameLocalized,final String emailId) {
+                                                String existingIdpNameLocalized, final String emailId) {
 
         hideProviderProgress();
         enableControls(true);
         if (mUser.handleMergeFlowError(existingProvider)) {
-            launchMergeAccountFragment(mergeToken, existingProvider,emailId);
+            launchMergeAccountFragment(mergeToken, conflictingIdentityProvider, emailId);
         } else {
             if (NetworkUtility.isNetworkAvailable(mContext)
                     && RegistrationHelper.getInstance().isJanrainIntialized()) {
@@ -556,9 +554,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         }
     }
 
-    private void launchMergeAccountFragment(String mergeToken, String existingProvider,String emailId) {
+    private void launchMergeAccountFragment(String mergeToken, String existingProvider, String emailId) {
         trackPage(AnalyticsPages.MERGE_ACCOUNT);
-        getRegistrationFragment().addMergeAccountFragment(mergeToken, existingProvider,emailId);
+        getRegistrationFragment().addMergeAccountFragment(mergeToken, existingProvider, emailId);
     }
 
     @Override

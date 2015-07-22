@@ -88,7 +88,7 @@
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/reg_btn_continue"
                     style="@style/reg_style_btn"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:text="@string/Continue_Btntxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 

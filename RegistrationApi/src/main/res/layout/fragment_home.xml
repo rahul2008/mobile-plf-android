@@ -95,7 +95,7 @@
                     android:enabled="false"
                     reglib:providerBackground="@drawable/reg_btn_selector"
                     reglib:providerLogo="@drawable/reg_philips_ic"
-                    reglib:providerName="@string/Welcome_MyPhilips_btntxt"
+                    reglib:providerName="@string/Welcome_myphilips_btntxt"
                     reglib:providerTextColor="@drawable/reg_btn_text_selector" />
 
                 <LinearLayout

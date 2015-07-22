@@ -31,7 +31,7 @@
         android:paddingLeft="2dip"
         android:paddingRight="2dip"
         android:duplicateParentState="true"
-        android:text="@string/Welcome_MyPhilips_btntxt"
+        android:text="@string/Welcome_myphilips_btntxt"
         android:textColor="@drawable/reg_btn_text_selector"
         android:textSize="@dimen/btn_reg_text_size"
         reglib:fontAssetName="CentraleSans-Light.otf" />

@@ -275,7 +275,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void updateUiStatus() {
         if (NetworkUtility.isNetworkAvailable(mContext)
-                && RegistrationHelper.getInstance().isJanrainIntialized()) {
+                && RegistrationHelper.getInstance().isJanrainIntialized() && mEtEmail.isValidEmail()) {
             mBtnContinue.setEnabled(true);
             mRegError.hideError();
         } else {
@@ -320,7 +320,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-
+            mEtEmail.hideValidAlertError();
             User user = new User(mContext);
             if (isEmailExist) {
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,

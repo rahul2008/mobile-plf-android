@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
-    <string name="app_name">RegistrationApi</string>
-    <string name="ForgotPwdEmailResendMsg"> A link is sent to your email to reset the password of your Philips Account</string>
+<resources>
+    <string name="ForgotPwdEmailResendMsg">A link is sent to your email to reset the password of your Philips Account</string>
     <string name="ForgotPwdEmailResendMsg_Title">Reset Password</string>
     <string name="Continue_Btntxt">Continue</string>
     <string name="InvalidEmailAdddress_ErrorMsg">Invalid email address</string>
     <string name="InValid_PwdErrorMsg">The password is not valid, please choose another password </string>
     <string name="InValidFirstName_ErrorMsg"> Invalid first name</string>
     <string name="EmptyField_ErrorMsg">Field cannot be empty</string>
+    <string name="MaxiumCharacters_ErrorMsg">Field Should not exceed 200 Characters</string>
     <string name="NoNetworkConnection">Registration is not available because you are offline</string>
     <string name="SocialAccountMerger_ErrorMsg">You have already registered with another %1$s account, please sign in to %2$s account.</string>
-    <string name="Janrain_Error_Need_Email_Verification">Please verify your email or reset you password through the activation link sent to you email</string>
+    <string name="Janrain_Error_Need_Email_Verification">Please verify your email address through the activation link sent to your email account</string>
     <string name="JanRain_Invalid_Input">Invalid input ,Please check and enter correct details.</string>
     <string name="JanRain_Invalid_Credentials">The email or password you entered is incorrect.</string>
     <string name="JanRain_Error_Check_Internet">Problem in network connection.</string>
@@ -22,10 +22,10 @@
     <string name="RegCreateAccount_NavTitle">Create Account</string>
     <string name="NameField_ErrorText">Please enter first name.</string>
     <string name="kemailFieldErrorText">Please enter valid email address.</string>
-    <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg"> Email address is already in use</string>
-    <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a MyPhilips or a social media account.\nPlease go back to sign in, or use an other email address.</string>
+    <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Email address is already in use</string>
+    <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a My Philips or a social media account.\nPlease go back to sign in, or use an other email address.</string>
     <string name="RegWelcomeView_NavTitleTxt">Sign In</string>
-    <string name="LegalNoticeText">By creating an account or signning in you certify that you are 16 years or older and you agree to our Privacy Policy and Terms and Conditions.</string>
+    <string name="LegalNoticeText">By creating an account or signing in you certify that you are 16 years or older and you agree to our Privacy Policy and Terms and Conditions.</string>
     <string name="PrivacyPolicyText">Privacy Policy</string>
     <string name="TermsAndConditionsText">Terms and Conditions</string>
     <string name="RegVerifyEmailView_NavTitleTxt">Sign In</string>
@@ -36,28 +36,25 @@
     <string name="TraditionalSignIn_SignInWithMyPhilips_lbltxt">Sign with My Philips</string>
     <string name="TraditionalSignIn_EmailAddPlaceHolder_txtFiled">Enter email address</string>
     <string name="TraditionalSignIn_PwdPlaceHolder_txtFiled">Enter password</string>
-    <string name="TraditionalSignIn_Resend_lbltxt">Press \Resend\ button if you have not recived an email</string>
+    <string name="TraditionalSignIn_Resend_lbltxt">Press “Resend” button if you have not received an email.</string>
     <string name="TraditionalSignIn_SignIn_btntxt">Sign In</string>
     <string name="TraditionalSignIn_ForgotPwd_btntxt">Forgot Password</string>
     <string name="TraditionalSignIn_Resend_btntxt">Resend</string>
     <string name="SignInSuccess_Welcome_lbltxt">Welcome</string>
     <string name="SignInSuccess_Continue_btntxt">Continue</string>
     <string name="SignInSuccess_SignOut_btntxt">Sign Out</string>
-    <string name="Welcome_needAccountto_lbltxt"></string>
-    <string name="Welcome_Alternate_SignInAccount_lbltxt">Or Sign in with</string>
-    <string name="Welcome_Create_MyPhilips_btntxt">Create MyPhilips Account</string>
-    <string name="Welcome_MyPhilips_btntxt">MyPhilips</string>
-    <string name="Welcome_Facebook_btntxt">Facebook</string>
-    <string name="Welcome_Twitter_btntxt">Twitter</string>
+    <string name="SignInSuccess_ResendConsent_btntxt">Resend Consent</string>
+    <string name="Welcome_Alternate_SignInAccount_lbltxt">Or sign in with</string>
     <string name="Welcome_Welcome_lbltxt">Welcome!</string>
+    <string name="Welcome_Create_MyPhilips_btntxt">Create MyPhilips Account</string>
     <string name="Create_Account_EnterEmail_PlaceHolder_txtField">Enter e-mail</string>
     <string name="Create_Account_ChoosePwd_PlaceHolder_txtField">Choose a password</string>
     <string name="Create_Account_CreateMyPhilips_btntxt">Create MyPhilips Account</string>
     <string name="Create_Account_FirstName__Placeholder_txtFiled">Enter first name</string>
-    <string name="Create_Account_Hint_Password_lbltxt">Your password can contain:\n  -  Minimum of 8 characters\n  -  At least 2 out of 3 types of characters: Letters (a-z) or (A-Z), digits (0-9) or symbols (*^%)</string>
-    <string name="Create_Account_PeridicOffers_lbltxt">I would like to receive periodic offers and updates from Philips</string>
+    <string name="Create_Account_Hint_Password_lbltxt">Your password can contain:\n  -  Minimum of 8 characters\n  -  At least 2 out of 3 types of characters: Letters (a-z) or (A-Z), digits (0-9) or symbols (_ . @ $)</string>
+    <string name="Create_Account_PeridicOffers_lbltxt">I would like to receive periodic offers and updates from philips</string>
     <string name="Create_Account_ForgotPwd_btntxt">Forgot Password</string>
-    <string name="Account_Merge_SignIn_lbltxt">Sign in with Facebook</string>
+    <string name="Account_Merge_SignIn_lbltxt">Sign in with %s</string>
     <string name="Account_Merge_UsedEmail_Error_lbltxt">You have used this email address before. For creating a MyPhilips account.</string>
     <string name="Account_Merge_EnterPassword_lbltxt">Please enter your MyPhilips password to merge your account.</string>
     <string name="Account_Merge_EnterEmail_Placeholder_txtFiled">Enter email address</string>
@@ -67,9 +64,9 @@
     <string name="Social_SignIn_Email_PlaceHolder_txtFiled">Please enter email</string>
     <string name="Social_SignIn_AlmostDone_lbltxt">Almost done !</string>
     <string name="Social_SignIn_Continue_btntxt">Continue</string>
-    <string name="Social_SocialSignIn_lbltxt">Sign in with [Social Account]</string>
-    <string name="Social_ReciveOffers_lbltxt">I would like to reiceive periodic offers and updates from philips</string>
-    <string name="InitialSignedIn_Welcome_User_lbltxt">Welcome [Name User]</string>
+    <string name="Social_SocialSignIn_lbltxt">Sign in with %s</string>
+    <string name="Social_ReciveOffers_lbltxt">I would like to receive periodic offers and updates from philips</string>
+    <string name="InitialSignedIn_Welcome_User_lbltxt">Welcome %s</string>
     <string name="InitialSignedIn_SignedInUsing_lbltxt">You have signed in using:</string>
     <string name="InitialSignedIn_EmailInfo_lbltxt">email@email.com</string>
     <string name="InitialSignedIn_SignOut_btntxt">Sign out</string>
@@ -77,18 +74,46 @@
     <string name="InitialSignedIn_SigninEmailText">You have signed in using: %s</string>
     <string name="VerifyEmail_VerifyEmail_lbltxt">Please verify your email</string>
     <string name="VerifyEmail_EmailSentto_lbltxt">We have sent an email to:</string>
-    <string name="VerifyEmail_EmailSenttoEmailInfo_lbltxt">email@email.net</string>
     <string name="VerifyEmail_ActivateInfo_lbltxt">When you are ready, please check your email to activate your account.</string>
     <string name="VerifyEmail_Activated_btntxt">I have activated my account</string>
     <string name="VerifyEmail_Resend_btntxt">Resend</string>
     <string name="VerifyEmail_ResendErrorMsg_lbltxt">Press “Resend” button if you have not received an email.</string>
-    <string name="Activation_explain_value_to_user"></string>
+    <string name="Welcome_myphilips_btntxt">MyPhilips</string>
+    <string name="Welcome_facebook_btntxt">Facebook</string>
+    <string name="Welcome_twitter_btntxt">Twitter</string>
+    <string name="Welcome_googleplus_btntxt">Google+</string>
+    <string name="Welcome_yahoo_btntxt">Yahoo!</string>
+    <string name="Welcome_linkedin_btntxt">LinkedIn</string>
+    <string name="Welcome_microsoftaccount_btntxt">Microsoft Account</string>
+    <string name="Welcome_salesforce_btntxt">Salesforce</string>
+    <string name="Welcome_foursquare_btntxt">Foursquare</string>
+    <string name="Welcome_amazon_btntxt">Amazon</string>
+    <string name="Welcome_aol_btntxt">AOL</string>
+    <string name="Welcome_blogger_btntxt">Blogger</string>
+    <string name="Welcome_disqus_btntxt">Disqus</string>
+    <string name="Welcome_flickr_btntxt">Flickr</string>
+    <string name="Welcome_instagram_btntxt">Instagram</string>
+    <string name="Welcome_livejournal_btntxt">Livejournal</string>
+    <string name="Welcome_mixi_btntxt">Mixi</string>
+    <string name="Welcome_netlog_btntxt">Netlog</string>
+    <string name="Welcome_openid_btntxt">OpenID</string>
+    <string name="Welcome_qq_btntxt">QQ</string>
+    <string name="Welcome_renrensinaweibo_btntxt">RenrenSina Weibo</string>
+    <string name="Welcome_soundcloud_btntxt">SoundCloud</string>
+    <string name="Welcome_tencentweibo_btntxt">Tencent Weibo</string>
+    <string name="Welcome_tumblr_btntxt">Tumblr</string>
+    <string name="Welcome_verisign_btntxt">Verisign</string>
+    <string name="Welcome_vk_btntxt">VK</string>
+    <string name="Welcome_wordpress_btntxt">Wordpress</string>
+    <string name="Welcome_xing_btntxt">XING</string>
 
     <!-- added apart from the localized strings -->
+    <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
     <string name="continue_use_app">You can continue to use the app in the meantime</string>
     <string name="resend_email_faild">Resend email failed</string>
     <string name="PrivacyPolicyURL">http://www.philips.co.in/</string>
     <string name="Welcome_Googleplus_btntxt">Google+</string>
-
+    <string name="Activation_explain_value_to_user"></string>
+    <string name="Welcome_needAccountto_lbltxt"></string>
 </resources>
