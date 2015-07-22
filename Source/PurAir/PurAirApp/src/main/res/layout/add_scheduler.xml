@@ -1,0 +1,200 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/schedule_heading_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        layout="@layout/schedule_heading" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/schedule_heading_rl"
+        android:background="@color/white" > 
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/enable_lyt"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tvEnableSchedule"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="16dp"
+                    android:text="@string/enable"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="20sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ToggleButton
+                    android:id="@+id/enable_schedule_toggle"
+                    style="@style/Widget.Button.Toggle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:checked="false" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/enable_lyt"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+
+            <TimePicker
+                android:id="@+id/scheduler_timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider1"
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="16dp"
+                android:paddingTop="16dp" />
+
+            <ImageView
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/scheduler_timePicker"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+
+            <RelativeLayout
+                android:id="@+id/repeat_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider4"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true"
+                android:minHeight="100dp"
+                android:paddingBottom="16dp" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/repeat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="17dp"
+                    android:text="@string/repeat_text"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="20sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/repeattext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/repeat"
+                    android:lineSpacingExtra="2dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="32dp"
+                    android:text="@string/onetime"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ImageView
+                    android:id="@+id/btnrepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="30dp"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/right_arrow_list_item" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/repeat_rl"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+
+            <RelativeLayout
+                android:id="@+id/fanspeed_rl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2"
+                android:background="@drawable/list_item_selector"
+                android:clickable="true"
+                android:minHeight="100dp"
+                android:paddingBottom="16dp" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fanspeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="20dp"
+                    android:text="@string/fanspeed"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="20sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/fanspeedtext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fanspeed"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="32dp"
+                    android:text="@string/auto"
+                    android:textColor="@color/blue_list_item"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+                <ImageView
+                    android:id="@+id/btnFanSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:contentDescription="@string/img_description"
+                    android:src="@drawable/right_arrow_list_item" />
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/fanspeed_rl"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/schedule_heading_rl"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>
