@@ -35,8 +35,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
     private LinearLayout mChatNowParentPort = null;
     private LinearLayout mChatNowParentLand = null;
     private TextView mHelpText = null;
-
-    private ImageView mChatNowBG;
+    private ImageView mChatNowBG = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
 
 
     @Override
@@ -75,6 +76,9 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
         mChatNowBG = (ImageView) getActivity().findViewById(R.id.chatnow_bg);
 
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+
         mChatNow.setOnClickListener(this);
         mChatNowLand.setOnClickListener(this);
         mChatNoThanks.setOnClickListener(this);
@@ -102,6 +106,13 @@ public class ChatFragment extends DigitalCareBaseFragment {
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName());
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mActionBarMenuIcon != null && mActionBarArrow != null)
+            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+                enableActionBarLeftArrow();
+    }
 
     @Override
     public void onConfigurationChanged(Configuration config) {
@@ -142,6 +153,12 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public String setPreviousPageName() {
         return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
+    }
+
+    private void enableActionBarLeftArrow() {
+        mActionBarMenuIcon.setVisibility(View.GONE);
+        mActionBarArrow.setVisibility(View.VISIBLE);
+        mActionBarArrow.bringToFront();
     }
 
     private void setButtonParams() {
