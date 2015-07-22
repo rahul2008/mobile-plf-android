@@ -2,13 +2,11 @@ package com.philips.cdp.digitalcare.contactus;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -58,22 +56,22 @@ public class ChatFragment extends DigitalCareBaseFragment {
         return mView;
     }
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		// mChatNowParent = (LinearLayout) getActivity().findViewById(
-		// R.id.chatNowParent);
-		mChatNow = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNow);
-		mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNowLand);
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // mChatNowParent = (LinearLayout) getActivity().findViewById(
+        // R.id.chatNowParent);
+        mChatNow = (DigitalCareFontButton) getActivity().findViewById(
+                R.id.chatNow);
+        mChatNowLand = (DigitalCareFontButton) getActivity().findViewById(
+                R.id.chatNowLand);
 
-		mChatNoThanks = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNoThanks);
-		mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
-				R.id.chatNoThanksLand);
+        mChatNoThanks = (DigitalCareFontButton) getActivity().findViewById(
+                R.id.chatNoThanks);
+        mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
+                R.id.chatNoThanksLand);
 
-		mHelpText = (TextView) getActivity().findViewById(R.id.chatDesc);
+        mHelpText = (TextView) getActivity().findViewById(R.id.chatDesc);
 
         mChatNowBG = (ImageView) getActivity().findViewById(R.id.chatnow_bg);
 
@@ -82,27 +80,27 @@ public class ChatFragment extends DigitalCareBaseFragment {
         mChatNoThanks.setOnClickListener(this);
         mChatNoThanksLand.setOnClickListener(this);
 
-		mChatNow.setTransformationMethod(null);
-		mChatNowLand.setTransformationMethod(null);
-		mChatNoThanks.setTransformationMethod(null);
-		mChatNoThanksLand.setTransformationMethod(null);
+        mChatNow.setTransformationMethod(null);
+        mChatNowLand.setTransformationMethod(null);
+        mChatNoThanks.setTransformationMethod(null);
+        mChatNoThanksLand.setTransformationMethod(null);
 
-		// mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
-		mChatNowParentPort = (LinearLayout) getActivity().findViewById(
-				R.id.chatNowParentPort);
-		mChatNowParentLand = (LinearLayout) getActivity().findViewById(
-				R.id.chatNowParentLand);
+        // mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
+        mChatNowParentPort = (LinearLayout) getActivity().findViewById(
+                R.id.chatNowParentPort);
+        mChatNowParentLand = (LinearLayout) getActivity().findViewById(
+                R.id.chatNowParentLand);
 
-		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
-				.getLayoutParams();
-		mHelpTextParams = (LinearLayout.LayoutParams) mHelpText
-				.getLayoutParams();
+        mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
+                .getLayoutParams();
+        mHelpTextParams = (LinearLayout.LayoutParams) mHelpText
+                .getLayoutParams();
         setButtonParams();
-		Configuration config = getResources().getConfiguration();
-		setViewParams(config);
+        Configuration config = getResources().getConfiguration();
+        setViewParams(config);
 
-		AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName());
-	}
+        AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT, getPreviousName());
+    }
 
 
     @Override
@@ -111,52 +109,50 @@ public class ChatFragment extends DigitalCareBaseFragment {
         setViewParams(config);
     }
 
-	@Override
-	public void setViewParams(Configuration config) {
-		float density = getResources().getDisplayMetrics().density;
+    @Override
+    public void setViewParams(Configuration config) {
+        float density = getResources().getDisplayMetrics().density;
 
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mChatNowParentPort.setVisibility(View.VISIBLE);
-			mChatNowParentLand.setVisibility(View.GONE);
-			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
-			mHelpTextParams.topMargin = (int) (20 * density);
-		} else {
-			mChatNowParentLand.setVisibility(View.VISIBLE);
-			mChatNowParentPort.setVisibility(View.GONE);
-			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
-			mHelpTextParams.topMargin = 0;
-		}
-		//mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
-		mHelpText.setLayoutParams(mHelpTextParams);
-	}
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mChatNowParentPort.setVisibility(View.VISIBLE);
+            mChatNowParentLand.setVisibility(View.GONE);
 
-	@Override
-	public void onClick(View view) {
-		int id = view.getId();
-		if (id == R.id.chatNow || id == R.id.chatNowLand) {
-			showFragment(new ChatNowFragment());
-		} else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
-			backstackFragment();
-		}
-	}
+        } else {
+            mChatNowParentLand.setVisibility(View.VISIBLE);
+            mChatNowParentPort.setVisibility(View.GONE);
+        }
+        mHelpText.setLayoutParams(mHelpTextParams);
+    }
 
-	@Override
-	public String getActionbarTitle() {
-		return getResources().getString(R.string.chat_with_philips);
-	}
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.chatNow || id == R.id.chatNowLand) {
+            showFragment(new ChatNowFragment());
+        } else if (id == R.id.chatNoThanks || id == R.id.chatNoThanksLand) {
+            backstackFragment();
+        }
+    }
 
-	@Override
-	public String setPreviousPageName() {
-		return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
-	}
+    @Override
+    public String getActionbarTitle() {
+        return getResources().getString(R.string.chat_with_philips);
+    }
+
+    @Override
+    public String setPreviousPageName() {
+        return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
+    }
+
     private void setButtonParams() {
         float density = getResources().getDisplayMetrics().density;
         LinearLayout.LayoutParams chatbuttonparams = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
-        chatbuttonparams.leftMargin=chatbuttonparams.rightMargin=(int)getActivity().getResources().getDimension(R.dimen.activity_margin);
-        chatbuttonparams.topMargin=chatbuttonparams.bottomMargin=(int)getActivity().getResources().getDimension(R.dimen.chat_button_top_margin);;
-        chatbuttonparams.weight=1;
+        chatbuttonparams.leftMargin = chatbuttonparams.rightMargin = (int) getActivity().getResources().getDimension(R.dimen.activity_margin);
+        chatbuttonparams.topMargin = chatbuttonparams.bottomMargin = (int) getActivity().getResources().getDimension(R.dimen.chat_button_top_margin);
+        ;
+        chatbuttonparams.weight = 1;
         //chat button params
         mChatNow.setLayoutParams(chatbuttonparams);
         mChatNowLand.setLayoutParams(chatbuttonparams);
