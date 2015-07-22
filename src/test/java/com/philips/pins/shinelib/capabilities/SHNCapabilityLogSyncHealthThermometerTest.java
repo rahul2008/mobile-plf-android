@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -32,6 +34,7 @@ import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.doAnswer;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -45,12 +48,14 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
     private SHNCapabilityLogSyncHealthThermometer shnCapabilityLogSyncHealthThermometer;
     private SHNServiceHealthThermometer mockedSHNServiceHealthThermometer;
+    private SHNDeviceTimeAdjuster mockedSHNDeviceTimeAdjuster;
     private SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener mockedShnCapabilitySHNCapabilityLogSynchronizationListener;
     private ArgumentCaptor<Runnable> timeOutCaptor;
 
     @Before
     public void setUp() {
         mockedSHNServiceHealthThermometer = mock(SHNServiceHealthThermometer.class);
+        mockedSHNDeviceTimeAdjuster = mock(SHNDeviceTimeAdjuster.class);
         mockedShnCapabilitySHNCapabilityLogSynchronizationListener = mock(SHNCapabilityLogSynchronization.SHNCapabilityLogSynchronizationListener.class);
 
         Timer mockedTimeoutTimer = mock(Timer.class);
@@ -61,8 +66,9 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         mockStatic(Log.class);
         when(Log.w(anyString(), anyString())).thenReturn(0);
 
-        shnCapabilityLogSyncHealthThermometer = new SHNCapabilityLogSyncHealthThermometer(mockedSHNServiceHealthThermometer);
+        shnCapabilityLogSyncHealthThermometer = new SHNCapabilityLogSyncHealthThermometer(mockedSHNServiceHealthThermometer, mockedSHNDeviceTimeAdjuster);
         shnCapabilityLogSyncHealthThermometer.setSHNCapabilityLogSynchronizationListener(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
     }
 
     @Test
@@ -226,8 +232,18 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         assertEquals(1, shnLogArgumentCaptor.getValue().getLogItems().size());
     }
 
+    private void setUpTimeAdjuster(final long delta){
+        doAnswer(new Answer<Long>() {
+            @Override
+            public Long answer(InvocationOnMock invocation) throws Throwable {
+                return (Long) invocation.getArguments()[0] + delta;
+            }
+        }).when(mockedSHNDeviceTimeAdjuster).adjustTimestampToHostTime(anyLong());
+    }
+
     @Test
     public void whenThereIsAnTimelessMeasurementThenItIsSkipped() {
+        setUpTimeAdjuster(10000);
         assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
 
         Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
@@ -245,6 +261,20 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
 
         assertTrue(shnLogArgumentCaptor.getValue().getLogItems().get(0).getTimestamp().before(shnLogArgumentCaptor.getValue().getLogItems().get(1).getTimestamp()));
         assertTrue(shnLogArgumentCaptor.getValue().getLogItems().get(1).getTimestamp().before(shnLogArgumentCaptor.getValue().getLogItems().get(2).getTimestamp()));
+    }
+
+    @Test
+    public void whenMeasurementIsReceivedWithATimeStampThenItTimeIsAdjusted() {
+        assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
+
+        Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
+        Date date = new Date(100L);
+        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+        when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(date);
+        shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
+
+        verify(mockedSHNDeviceTimeAdjuster).adjustTimestampToHostTime(date.getTime());
     }
 
     @Test
@@ -275,5 +305,30 @@ public class SHNCapabilityLogSyncHealthThermometerTest {
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().contains(SHNDataType.BodyTemperature));
         shnLogArgumentCaptor.getValue().getContainedDataTypes().remove(SHNDataType.BodyTemperature);
         assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+    }
+
+    @Test
+    public void whenLogIsCreatedThanLofContainsAdjustedTime() {
+        long delta = 100000;
+        setUpTimeAdjuster(delta);
+        assertStartSynchronizationWithResultThenNotificationsAreEnabled(SHNResult.SHNOk);
+
+        Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
+        Date date = new Date(100L);
+        SHNTemperatureMeasurement mockedShnTemperatureMeasurement = Mockito.mock(SHNTemperatureMeasurement.class);
+        when(mockedShnTemperatureMeasurement.getTimestamp()).thenReturn(date);
+        shnCapabilityLogSyncHealthThermometer.onTemperatureMeasurementReceived(mockedSHNServiceHealthThermometer, mockedShnTemperatureMeasurement);
+
+        timeOutCaptor.getValue().run();
+
+        ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
+        ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+
+        assertEquals(1, shnLogArgumentCaptor.getValue().getLogItems().size());
+
+        long receivedDate = shnLogArgumentCaptor.getValue().getLogItems().get(0).getTimestamp().getTime();
+        assertEquals(receivedDate, date.getTime() + delta);
     }
 }

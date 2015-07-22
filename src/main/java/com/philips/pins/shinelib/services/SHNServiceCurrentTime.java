@@ -54,6 +54,10 @@ public class SHNServiceCurrentTime {
         shnService.transitionToError();
     }
 
+    public SHNService getShnService() {
+        return shnService;
+    }
+
     public void setSHNServiceCurrentTimeListener(SHNServiceCurrentTimeListener shnServiceCurrentTimeListener) {
         this.shnServiceCurrentTimeListener = shnServiceCurrentTimeListener;
     }

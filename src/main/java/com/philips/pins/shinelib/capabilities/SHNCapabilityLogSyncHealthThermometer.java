@@ -13,6 +13,7 @@ import com.philips.pins.shinelib.services.healththermometer.SHNServiceHealthTher
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurement;
 import com.philips.pins.shinelib.services.healththermometer.SHNTemperatureMeasurementInterval;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,11 +24,13 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
 
     private static final String TAG = SHNCapabilityLogSyncHealthThermometer.class.getSimpleName();
 
-    private SHNServiceHealthThermometer shnServiceHealthThermometer;
+    private final SHNServiceHealthThermometer shnServiceHealthThermometer;
+    private final SHNDeviceTimeAdjuster shnDeviceTimeAdjuster;
 
-    public SHNCapabilityLogSyncHealthThermometer(SHNServiceHealthThermometer shnServiceHealthThermometer) {
+    public SHNCapabilityLogSyncHealthThermometer(SHNServiceHealthThermometer shnServiceHealthThermometer, SHNDeviceTimeAdjuster shnDeviceTimeAdjuster) {
         super();
         this.shnServiceHealthThermometer = shnServiceHealthThermometer;
+        this.shnDeviceTimeAdjuster = shnDeviceTimeAdjuster;
         shnServiceHealthThermometer.setSHNServiceHealthThermometerListener(this);
     }
 
@@ -46,9 +49,10 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
                 Log.w(TAG, "The received temperature measurement does not have a timestamp, cannot save it in the log!");
                 timer.restart();
             } else {
+                long hostTimestamp = shnDeviceTimeAdjuster.adjustTimestampToHostTime(shnTemperatureMeasurement.getTimestamp().getTime());
                 Map<SHNDataType, SHNData> map = new HashMap<>();
                 map.put(SHNDataType.BodyTemperature, new SHNDataBodyTemperature(shnTemperatureMeasurement.getTemperatureInCelcius(), shnTemperatureMeasurement.getSHNTemperatureType()));
-                SHNLogItem item = new SHNLogItem(shnTemperatureMeasurement.getTimestamp(), map.keySet(), map);
+                SHNLogItem item = new SHNLogItem(new Date(hostTimestamp), map.keySet(), map);
                 onMeasurementReceived(item);
             }
         }
