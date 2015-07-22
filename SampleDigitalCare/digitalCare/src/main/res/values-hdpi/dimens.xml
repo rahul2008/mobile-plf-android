@@ -19,5 +19,6 @@
     <dimen name="marginTopRegisterButton">50dp</dimen>
     <dimen name="actionbar_height">50dp</dimen>
     <dimen name="social_support_closebutton">16dp</dimen>
+    <dimen name="chat_button_top_margin">8dp</dimen>
 
 </resources>

@@ -31,4 +31,6 @@
 
     <dimen name="app_review_divider_margin">25dp</dimen>
 
+    <dimen name="chat_button_top_margin">8dp</dimen>
+
 </resources>

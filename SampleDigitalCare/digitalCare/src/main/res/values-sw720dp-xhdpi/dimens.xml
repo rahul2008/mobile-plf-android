@@ -26,4 +26,5 @@
     <dimen name="showlayout_margin_top">100dp</dimen>
     <dimen name="placelistview_margin_top">200dp</dimen>
     <dimen name="supportHomeHelpText_margin_top">15dp</dimen>
+    <dimen name="chat_button_top_margin">8dp</dimen>
 </resources>

@@ -17,5 +17,6 @@
     <dimen name="marginTopButtonLayout">10dp</dimen>
     <dimen name="marginTopRegisterButton">50dp</dimen>
     <dimen name="social_support_closebutton">14dp</dimen>
+    <dimen name="chat_button_top_margin">8dp</dimen>
 
 </resources>
