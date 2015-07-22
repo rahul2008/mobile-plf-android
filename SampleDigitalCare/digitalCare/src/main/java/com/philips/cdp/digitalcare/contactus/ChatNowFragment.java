@@ -30,8 +30,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 	private View mView = null;
 	private WebView mWebView = null;
 	private ProgressBar mProgressBar = null;
-
-
+	private String mUrl = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,6 +39,7 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		if (mView == null) {
 			mView = inflater.inflate(R.layout.common_webview, container, false);
 		}
+		setChatEndPoint(getChatUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app");
 		return mView;
 	}
 
@@ -60,10 +60,8 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		if (getChatUrl() == null) {
 			mProgressBar.setVisibility(View.VISIBLE);
 		} else {
-			//DigiCareLogger.d("URLTest", getFaqUrl());
-			String url = getChatUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
 
-			mWebView.loadUrl(url);
+			mWebView.loadUrl(getChatEndPoint());
 			mWebView.getSettings().setJavaScriptEnabled(true);
 			mWebView.setWebViewClient(new WebViewClient() {
 
@@ -125,5 +123,15 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		if (mWebView != null) {
 			mWebView = null;
 		}
+	}
+
+	protected void setChatEndPoint(final String url) {
+
+		if (url.startsWith("http://") || url.startsWith("https://"))
+			mUrl = url;
+	}
+
+	protected String getChatEndPoint() {
+		return mUrl;
 	}
 }
