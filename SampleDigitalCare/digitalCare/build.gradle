@@ -20,6 +20,6 @@ android {
 dependencies {
     compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:appcompat-v7:21.0.0'
-    compile files('libs/adobeMobileLibrary.jar')
-    compile files('libs/localematch.jar')
+    compile project(':adobeMobileLibrary')
+    compile project(':localematch')
 }

@@ -1,2 +1,2 @@
-include ':digitalCare'
+include ':digitalCare', ':adobeMobileLibrary', ':localematch'
 include ':launchDigitalCare'
