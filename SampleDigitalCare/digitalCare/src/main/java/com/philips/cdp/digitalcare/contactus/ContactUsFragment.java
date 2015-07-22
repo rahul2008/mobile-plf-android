@@ -210,8 +210,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-            enableActionBarLeftArrow();
+        if (mActionBarMenuIcon != null && mActionBarArrow != null)
+            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+                enableActionBarLeftArrow();
         setViewParams(config);
     }
 
@@ -329,9 +330,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 .equalsIgnoreCase(""))
                 &&
                 (cdlsResponseModel.getChat() == null
-                || cdlsResponseModel.getChat().getScript() == null
-                || cdlsResponseModel.getChat().getScript()
-                .equalsIgnoreCase("")));
+                        || cdlsResponseModel.getChat().getScript() == null
+                        || cdlsResponseModel.getChat().getScript()
+                        .equalsIgnoreCase("")));
     }
 
     protected void closeProgressDialog() {
