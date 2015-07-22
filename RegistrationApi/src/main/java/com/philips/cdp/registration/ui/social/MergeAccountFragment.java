@@ -202,8 +202,12 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mTvPasswordMege.setText(myPhilipsEmail);
 
 		String socialProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
+
+		String providerTempName = socialProvider.substring(0, 1).toUpperCase()
+				+ socialProvider.substring(1).toLowerCase();
+
 		String accountMerge = getString(R.string.Account_Merge_SignIn_lbltxt);
-		accountMerge = String.format(accountMerge,socialProvider);
+		accountMerge = String.format(accountMerge,providerTempName);
 		mTvAccountMergeSignIn.setText(accountMerge);
 
 	}

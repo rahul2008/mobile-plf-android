@@ -15,19 +15,28 @@
     },
    "SigninProviders":{
       "NL":[
-         "googleplus",
          "facebook",
-         "twitter"
+         "twitter",
+         "googleplus",
+         "qq",
+         "sinaweibo",
+         "vk"
       ],
       "US":[
-         "googleplus",
          "facebook",
-         "twitter"
+         "twitter",
+         "googleplus",
+         "qq",
+         "sinaweibo",
+         "vk"
       ],
       "default":[
-         "googleplus",
          "facebook",
-         "twitter"
+         "twitter",
+         "googleplus",
+         "qq",
+         "sinaweibo",
+         "vk"
       ]
    }
 }
