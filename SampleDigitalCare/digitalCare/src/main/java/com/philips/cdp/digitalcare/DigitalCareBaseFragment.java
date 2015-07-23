@@ -46,10 +46,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
-    private FragmentActivity mFragmentActivityContext = null;
+    private static FragmentActivity mFragmentActivityContext = null;
     private NetworkReceiver mNetworkutility = null;
-    private FragmentActivity mActivityContext = null;
-    private FragmentManager fragmentManager = getFragmentManager();
+    private static FragmentActivity mActivityContext = null;
+    private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
 
     public synchronized static void setStatus(boolean connection) {
@@ -317,7 +317,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected boolean backstackFragment() {
-        fragmentManager = getFragmentManager();
+        if(fragmentManager == null) {
+            fragmentManager = mActivityContext.getSupportFragmentManager();
+        }
         // if (fragmentManager.getBackStackEntryCount() == 2) {
         // fragmentManager.popBackStack();
         // removeCurrentFragment();
