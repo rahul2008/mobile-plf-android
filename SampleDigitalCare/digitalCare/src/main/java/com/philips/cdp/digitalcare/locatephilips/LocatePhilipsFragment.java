@@ -1,4 +1,3 @@
-
 package com.philips.cdp.digitalcare.locatephilips;
 
 import android.annotation.SuppressLint;
@@ -250,7 +249,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         if (mDialog == null)
             mDialog = new ProgressDialog(getActivity());
         mDialog.setMessage(getResources().getString(R.string.loading));
-        mDialog.setCancelable(false);
+        mDialog.setCancelable(true);
         if (!(getActivity().isFinishing())) {
             mDialog.show();
         }
@@ -615,7 +614,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onStop() {
         super.onStop();
-        mSearchBox.setText(null);
+        if (mSearchBox != null)
+            mSearchBox.setText(null);
         mLocationManager = null;
     }
 
@@ -640,16 +640,20 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @Override
     public void setViewParams(Configuration config) {
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin;
-            mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateSearchLayoutMargin;
-        } else {
-            mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin
-                    + mLeftRightMarginLand / 2;
-            mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateLayoutMargin
-                    + mLeftRightMarginLand / 2;
+
+        if (mLocateLayoutParentParams != null) {
+
+            if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin;
+                mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateSearchLayoutMargin;
+            } else {
+                mLocateLayoutParentParams.leftMargin = mLocateLayoutParentParams.rightMargin = mLocateLayoutMargin
+                        + mLeftRightMarginLand / 2;
+                mLocateSearchLayoutParentParams.leftMargin = mLocateSearchLayoutParentParams.rightMargin = mLocateLayoutMargin
+                        + mLeftRightMarginLand / 2;
+            }
+            mLocateLayout.setLayoutParams(mLocateLayoutParentParams);
         }
-        mLocateLayout.setLayoutParams(mLocateLayoutParentParams);
     }
 
     @Override
@@ -880,8 +884,5 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         mButtonCall.setLayoutParams(params);
         mButtonDirection.setLayoutParams(params);
-
     }
-
-
 }
