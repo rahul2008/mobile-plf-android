@@ -50,10 +50,10 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         DigiCareLogger.i(TAG, "onCreate");
         setLocaleLanguage();
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
     }

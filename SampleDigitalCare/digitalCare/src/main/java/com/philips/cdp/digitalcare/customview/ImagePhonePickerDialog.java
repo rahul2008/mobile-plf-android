@@ -41,14 +41,13 @@ public class ImagePhonePickerDialog extends Dialog implements
 	public ImagePhonePickerDialog(Activity context) {
 		super(context);
 		mContext = context;
-
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		DigiCareLogger.i(TAG, "onCreate");
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setDialogDimension();
 		getWindow().setBackgroundDrawable(new ColorDrawable(0));
 		ProductImageSelectorView mViewObject = new ProductImageSelectorView(

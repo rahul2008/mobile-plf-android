@@ -86,6 +86,7 @@ public class DigitalCareConfigManager {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DigitalCareContants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(DigitalCareContants.STOP_ANIMATION_ID, endAnimation);
         getContext().startActivity(intent);
