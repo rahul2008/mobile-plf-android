@@ -7,9 +7,11 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="21" />
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
+    <!--Credentials For LocatePhilips Near you feature(Google Map)-->
+    <uses-permission android:name="com.philips.cdp.sampledigitalcareapp.permission.MAPS_RECEIVE" />
+    <permission
+        android:name="com.philips.cdp.sampledigitalcareapp.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"
