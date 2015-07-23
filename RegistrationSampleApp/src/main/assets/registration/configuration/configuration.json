@@ -17,26 +17,17 @@
       "NL":[
          "facebook",
          "twitter",
-         "googleplus",
-         "qq",
-         "sinaweibo",
-         "vk"
+         "googleplus"
       ],
       "US":[
          "facebook",
          "twitter",
-         "googleplus",
-         "qq",
-         "sinaweibo",
-         "vk"
+         "googleplus"
       ],
       "default":[
          "facebook",
          "twitter",
-         "googleplus",
-         "qq",
-         "sinaweibo",
-         "vk"
+         "googleplus"
       ]
    }
 }

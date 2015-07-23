@@ -147,7 +147,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     public void updateRegistrationTitle(int titleResourceID) {
         // Update title and show hamberger
-        ivBack.setVisibility(View.INVISIBLE);
+        //ivBack.setVisibility(View.INVISIBLE);
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
@@ -155,7 +155,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     @Override
     public void updateRegistrationTitleWithBack(int titleResourceID) {
         // update title and show back
-        ivBack.setVisibility(View.VISIBLE);
+        //ivBack.setVisibility(View.VISIBLE);
         TextView tvTitle = ((TextView) findViewById(R.id.tv_reg_header_title));
         tvTitle.setText(getString(titleResourceID));
     }
