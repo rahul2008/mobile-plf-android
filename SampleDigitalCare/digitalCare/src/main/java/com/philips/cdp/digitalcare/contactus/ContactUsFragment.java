@@ -292,7 +292,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (mCdlsParsedResponse.getSuccess()
                 /*|| mCdlsParsedResponse.getError() != null*/) {
             CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
-
+            fadeinButtons();
             if (phoneModel != null) {
                 enableBottomText();
                 StringBuilder stringBuilder = new StringBuilder();
@@ -561,11 +561,23 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 //            mCallPhilips.setEnabled(false);
         }
         if (mChat != null) {
-            mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
-            mChat.setEnabled(false);
+            mChat.setVisibility(View.GONE);
+
         }
     }
+    protected void fadeinButtons() {
+        tagTechnicalError();
+        if (mCallPhilips != null) {
+            mCallPhilips.setVisibility(View.VISIBLE);
+//            mCallPhilips
+//                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
+//            mCallPhilips.setEnabled(false);
+        }
+        if (mChat != null) {
+            mChat.setVisibility(View.VISIBLE);
 
+        }
+    }
     @Override
     public void setViewParams(Configuration config) {
 

@@ -25,11 +25,11 @@
     <string-array name="country">
          <item>India (in)</item>
         <item>United States(US)</item>
-        <item>French(FR)</item>
+        <item>France(FR)</item>
         <item>Egypt(EG)</item>
-        <item>German(DE)</item>
-        <item>japanese(JP)</item>
-        <item>Korean(KR)</item>
+        <item>Germany(DE)</item>
+        <item>Japan(JP)</item>
+        <item>Korea(KR)</item>
         <item>Dutch(NL)</item>
         <item>BRAZIL(BR)</item>
         <item>Russia(RU)</item>
