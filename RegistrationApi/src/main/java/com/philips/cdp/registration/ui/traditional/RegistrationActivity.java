@@ -44,8 +44,8 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             int orientation = bundle.getInt(RegConstants.ORIENTAION);
@@ -59,6 +59,7 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
             }
         }
+
         setContentView(R.layout.activity_registration);
         RLog.i(RLog.EVENT_LISTENERS, "RegistrationActivity  Register: NetworStateListener");
         initUI();

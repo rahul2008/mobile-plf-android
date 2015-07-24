@@ -92,7 +92,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/22.2.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
@@ -116,6 +115,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="mockito-all-1.10.8" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-1.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="dexmaker-mockito-1.0" level="project" />
+    <orderEntry type="module" module-name="adobeMobileLibrary-4.5.1" exported="" />
     <orderEntry type="module" module-name="registrationApi" exported="" />
   </component>
 </module>
