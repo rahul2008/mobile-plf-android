@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!-- null   zh_HK -->
+
+<!-- null   Chinese HongKong -->
+<string name="img_description">說明</string>
+<string name="no_internet">並無網絡連接，請於Wi-Fi 設定 或數據設定中檢查您電話的連接狀態。</string>
+
+<!-- values for Support Home Screen    null -->
+<string name="how_can_we_help">我們應該怎樣為您提供幫助？</string>
+<string name="contact_us">與我們聯絡</string>
+<string name="view_product_details">查閱產品資訊</string>
+<string name="view_faq">查看常見問題解答</string>
+<string name="find_philips_near_you">查找附近 Philips</string>
+<string name="feedback">提供意見</string>
+<string name="registration">註冊您的產品</string>
+<string name="actionbar_title_support">支援</string>
+
+<!-- values for Product Registration Screen   null -->
+<string name="login_to_social_media">要透過社交媒體帳戶登入嗎？</string>
+<string name="twitter">Twitter</string>
+<string name="facebook">Facebook</string>
+<string name="linkedin">LinkedIn</string>
+<string name="googleplus">Google Plus</string>
+<string name="login_with_philips_account">或透過 My Philips 帳戶登入</string>
+<string name="email">電郵地址</string>
+<string name="password">密碼</string>
+<string name="sign_into_my_philips">登入到 My Philips</string>
+<string name="forgot_my_password">我忘記了我的密碼 > </string>
+<string name="create_account">建立帳戶 ></string>
+
+<!-- values for Locate Near You Screen   null -->
+<string name="loading">正在載入</string>
+<string name="please_wait">請等待 #8230；</string>
+<string name="get_directions">取得位置</string>
+
+<!-- values for Contact Us Screen   null -->
+<string name="leave_us_a_message">留下訊息：</string>
+<string name="contact_us_text">聯絡我們：</string>
+<string name="opening_hours">開放時間</string>
+<string name="live_chat">在線諮詢</string>
+<string name="send_email">發送電郵</string>
+<string name="call_number">致電</string>
+<string name="chat_with_philips">與 Philips 溝通</string>
+<string name="check_sim">系統無法偵測 SIM 卡，請確保 SIM 卡已正確插入。</string>
+<string name="no_data_available">無可用數據</string>
+<string name="send_us_email">發送電郵：</string>
+
+<!-- values for Live Chat Screen   null -->
+<string name="can_we_help_you">有問題？</string>
+<string name="chat_now">立即聊天</string>
+<string name="no_thanks">不，謝謝</string>
+<string name="chat_desc">開始與我們的產品專家諮詢。24 小時提供英語服務</string>
+
+<!-- View Product Details   null -->
+<string name="product_open_manual">打開互動手冊</string>
+<string name="product_download_manual">下載產品手冊</string>
+<string name="product_information">產品資訊 (philips.com)</string>
+
+<!-- Application Rate & Review   null -->
+<string name="rate_playstore_headertext">您如何評價此款應用程式？</string>
+<string name="rate_playstore_buttontext">撰寫應用程式評論</string>
+<string name="rate_philips_headertext">交產品評論</string>
+<string name="rate_philips_description">撰寫評論並協助別人作出適當的決定</string>
+<string name="rate_philips_buttontext">登入到 My Philips</string>
+
+<!--  ContactUS - Twitter  Login    null -->
+<string name="twitter_login_header">登入到 Twitter</string>
+<string name="twitter_login_hint_username">用戶名稱</string>
+<string name="twitter_login_hint_password">密碼</string>
+<string name="twiiter_login_logo_description">Twitter 標誌</string>
+<string name="twitter_post_progress_message">向 Philips Twitter 支援發送訊息</string>
+<string name="twitter_post_char_limitation">您的密碼最長不應超過 140 個字元</string>
+
+<!-- Contact US - Social Post   null -->
+<string name="social_post_to">向 Philips 發送訊息</string>
+<string name="social_post_desc_text">附上產品資訊</string>
+<string name="cancel">取消</string>
+<string name="take_photo">拍照</string>
+<string name="choose_from_library">從圖庫選擇</string>
+<string name="social_post_failed">出錯。 </string>
+<string name="support_productinformation">能否幫助我處理</string>
+<string name="social_post_success">我們已收到您的信息。</string>
+
+<!-- Social Login   null -->
+<string name="post">張貼</string>
+<string name="send">發送</string>
+<string name="facebook_login_header">登入到 Facebook</string>
+<string name="SocialSharingPostTemplateText">能否協助處理我一下裝置的疑問</string>
+
+<!-- Locate Philips   null -->
+<string name="search">搜尋</string>
+<string name="gps_disabled">您裝置的 GPS  處於關閉狀態，要開啟嗎？</string>
+<string name="servicecenters_not_found">抱歉，您的國家沒有發售這款產品 :( </string>
+<string name="no_data">無可用數據</string>
+</resources>
