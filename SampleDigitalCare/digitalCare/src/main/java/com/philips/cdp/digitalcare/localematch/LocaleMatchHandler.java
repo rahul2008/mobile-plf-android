@@ -4,13 +4,13 @@ import android.content.Context;
 
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cl.di.localematch.LocaleMatchListener;
-import com.philips.cl.di.localematch.PILLocale;
-import com.philips.cl.di.localematch.PILLocaleManager;
-import com.philips.cl.di.localematch.enums.Catalog;
-import com.philips.cl.di.localematch.enums.LocaleMatchError;
-import com.philips.cl.di.localematch.enums.Platform;
-import com.philips.cl.di.localematch.enums.Sector;
+import com.philips.cdp.localematch.LocaleMatchListener;
+import com.philips.cdp.localematch.PILLocale;
+import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.localematch.enums.Catalog;
+import com.philips.cdp.localematch.enums.LocaleMatchError;
+import com.philips.cdp.localematch.enums.Platform;
+import com.philips.cdp.localematch.enums.Sector;
 
 import java.util.Locale;
 
