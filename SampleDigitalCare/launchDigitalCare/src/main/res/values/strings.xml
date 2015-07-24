@@ -13,17 +13,19 @@
         <item>Korean (ko)</item>
         <item>Dutch (nl)</item>
         <item>portuguese (pt)</item>
-        <item>Russia (ru)</item>
-        <item>Taiwan (zh)</item>
+        <item>Russian (ru)</item>
+        <item>Traditional Chinese (zh)</item>
         <item>Italian(it)</item>
-        <item>Chinese(zh)</item>
+        <item>Simplified Chinese(zh)</item>
         <item>Polish(pl)</item>
         <item>Spanish(es)</item>
+        <item>Chinese Hongkong(zh)</item>
     </string-array>
+
 
     <!-- Country -->
     <string-array name="country">
-         <item>India (in)</item>
+        <item>India (in)</item>
         <item>United States(US)</item>
         <item>France(FR)</item>
         <item>Egypt(EG)</item>
@@ -33,17 +35,18 @@
         <item>Dutch(NL)</item>
         <item>BRAZIL(BR)</item>
         <item>Russia(RU)</item>
-        <item>Taiwan(TW)</item>
+        <item>China(TW)</item>
         <item>Italy(IT)</item>
         <item>China(CN)</item>
         <item>Poland(PL)</item>
         <item>Spain(ES)</item>
-
+        <item>China(HK)</item>
     </string-array>
+
 
     <!-- Language code -->
     <string-array name="Language_code">
-         <item>en</item>
+        <item>en</item>
         <item>en</item>
         <item>fr</item>
         <item>ar</item>
@@ -58,7 +61,9 @@
         <item>zh</item>
         <item>pl</item>
         <item>es</item>
+        <item>zh</item>
     </string-array>
+
 
     <!-- country code -->
     <string-array name="country_code">
@@ -77,6 +82,8 @@
         <item>CN</item>
         <item>PL</item>
         <item>ES</item>
+        <item>HK</item>
     </string-array>
+
 
 </resources>
