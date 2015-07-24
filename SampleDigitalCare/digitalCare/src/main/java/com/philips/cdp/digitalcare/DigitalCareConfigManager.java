@@ -28,7 +28,8 @@ public class DigitalCareConfigManager {
     private static Context mContext = null;
     private static LocaleMatchHandler mLocaleMatchHandler = null;
     private Locale mLocale = null;
-    private Locale mLocaleMatchLocale = null;
+    private Locale mLocaleMatchWithCountryFallBack = null;
+    private Locale mLocaleMatchWithLanguageFallBack = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
@@ -142,7 +143,8 @@ public class DigitalCareConfigManager {
 
     public void setLocale(String langCode, String countryCode) {
 
-        mLocaleMatchLocale = null;
+        mLocaleMatchWithCountryFallBack = null;
+        mLocaleMatchWithLanguageFallBack=null;
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
@@ -154,12 +156,21 @@ public class DigitalCareConfigManager {
         return mLocale;
     }
 
-    public Locale getLocaleMatchResponseLocale() {
-        return mLocaleMatchLocale;
+    public Locale getLocaleMatchResponseWithCountryFallBack() {
+        return mLocaleMatchWithCountryFallBack;
     }
 
-    public void setLocaleMatchResponseLocale(Locale localeMatchLocale) {
-        mLocaleMatchLocale = localeMatchLocale;
+    public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
+        mLocaleMatchWithCountryFallBack = localeMatchLocale;
+    }
+
+
+    public Locale getLocaleMatchResponseWithLanguageFallBack() {
+        return mLocaleMatchWithLanguageFallBack;
+    }
+
+    public void setLocaleMatchResponseLocaleWithLanguageFallBack(Locale localeMatchLocale) {
+        mLocaleMatchWithLanguageFallBack = localeMatchLocale;
     }
 
     public String getDigitalCareLibVersion() {
