@@ -93,12 +93,12 @@ public class EmailFragment extends DigitalCareBaseFragment {
     }
 
     private String getEmailUrl() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null)
+        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
             return null;
-        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale()
+        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getLanguage().toLowerCase();
 
-        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale()
+        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getCountry().toUpperCase();
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager

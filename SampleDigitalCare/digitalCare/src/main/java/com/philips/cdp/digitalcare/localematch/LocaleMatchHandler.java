@@ -53,7 +53,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     public void onErrorOccurredForLocaleMatch(LocaleMatchError arg0) {
         DigiCareLogger.v(LocaleMatchHandler.class.getSimpleName(),
                 "piLocale received on ErrorLIstener");
-        DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(mLocale);
+        DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
     }
 
     @Override
@@ -65,23 +65,36 @@ public class LocaleMatchHandler implements LocaleMatchListener {
         String mSector = mConfigManager.getConsumerProductInfo().getSector();
         int mSectorValue = isSectorExistsInLocaleMatch(mSector);
         if (mSectorValue != 0) {
-            
-            PILLocale mPilLocale = mPILocaleManager.currentLocaleWithCountryFallbackForPlatform(
+
+            PILLocale mPilLocaleWithCountryFallBack = mPILocaleManager.currentLocaleWithCountryFallbackForPlatform(
                     mLanguageCode + "_" + mCountryCode, Platform.PRX,
                     setSector(mSectorValue), Catalog.CONSUMER);
-            if (mPilLocale != null) {
+            PILLocale mPilLocaleWithLanguageFallBack = mPILocaleManager.currentLocaleWithLanguageFallbackForPlatform(
+                    mLanguageCode + "_" + mCountryCode, Platform.PRX,
+                    setSector(mSectorValue), Catalog.CONSUMER);
+
+            if (mPilLocaleWithCountryFallBack != null) {
                 DigiCareLogger.v(TAG, "PILocale is Not null");
-                Locale locale = new Locale(mPilLocale.getLanguageCode(), mPilLocale.getCountrycode());
-                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(locale);
+                Locale locale = new Locale(mPilLocaleWithCountryFallBack.getLanguageCode(), mPilLocaleWithCountryFallBack.getCountrycode());
+                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(locale);
 
             } else {
-                DigiCareLogger.v(TAG, "PILocale received null");
-                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(mLocale);
+                DigiCareLogger.v(TAG, "PILocale country fallback received null");
+                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
             }
+
+            if(mPilLocaleWithLanguageFallBack!=null){
+                Locale locale = new Locale(mPilLocaleWithLanguageFallBack.getLanguageCode(), mPilLocaleWithLanguageFallBack.getCountrycode());
+                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(locale);
+            }else{
+                DigiCareLogger.v(TAG, "PILocale language fallback received null");
+                DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
+            }
+
 
         } else {
             DigiCareLogger.v(TAG, "Sector Not exists");
-            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocale(mLocale);
+            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
         }
     }
 

@@ -227,13 +227,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Forming CDLS url. This url will be different for US and other countries.
      */
     protected String formCdlsURL() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale() == null)
+        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
             return null;
 
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
         return getCdlsUrl(consumerProductInfo.getSector(),
-                DigitalCareConfigManager.getInstance().getLocaleMatchResponseLocale().toString(),
+                DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString(),
                 consumerProductInfo.getCatalog(),
                 consumerProductInfo.getSubCategory());
     }
