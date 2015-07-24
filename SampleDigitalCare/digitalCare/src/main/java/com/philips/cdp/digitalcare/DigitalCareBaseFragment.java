@@ -317,8 +317,11 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected boolean backstackFragment() {
-        if(fragmentManager == null) {
+        if(fragmentManager == null && mActivityContext != null) {
             fragmentManager = mActivityContext.getSupportFragmentManager();
+        }else if(fragmentManager == null)
+        {
+            fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
         }
         // if (fragmentManager.getBackStackEntryCount() == 2) {
         // fragmentManager.popBackStack();
