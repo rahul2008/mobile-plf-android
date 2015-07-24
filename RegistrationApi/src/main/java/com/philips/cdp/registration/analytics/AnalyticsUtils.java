@@ -16,6 +16,9 @@ public class AnalyticsUtils {
     private static String prevPage = null;
 
     public static void trackPage(String currPage) {
+        if(!RegistrationHelper.getInstance().isTagginEnabled()){
+            return;
+        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         if (null != prevPage && currPage.toString()!=AnalyticsPages.USER_PROFILE) {
             contextData.put(AnalyticsConstants.PREVIOUS_PAGE_NAME, prevPage);
@@ -25,12 +28,18 @@ public class AnalyticsUtils {
     }
 
     public static void trackFirstPage(String currPage) {
+            if(!RegistrationHelper.getInstance().isTagginEnabled()){
+            return;
+        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         Analytics.trackState(currPage, contextData);
         prevPage = currPage;
     }
 
     public static void trackAction(String state, String key, Object value) {
+        if(!RegistrationHelper.getInstance().isTagginEnabled()){
+            return;
+        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         if (null != key) {
             contextData.put(key, value);
@@ -39,6 +48,9 @@ public class AnalyticsUtils {
     }
 
     public static void trackMultipleActions(String state, Map<String, Object> map) {
+        if(!RegistrationHelper.getInstance().isTagginEnabled()){
+            return;
+        }
         Map<String, Object> contextData = addAnalyticsDataObject();
         contextData.putAll(map);
         Analytics.trackAction(state, contextData);
@@ -57,7 +69,7 @@ public class AnalyticsUtils {
         contextData.put(AnalyticsConstants.LANGUAGE_KEY, RegistrationHelper.getInstance()
                 .getLocale().getLanguage());
         contextData.put(AnalyticsConstants.CURRENCY_KEY, getCurrency());
-        contextData.put(AnalyticsConstants.APPSID_KEY, Analytics.getTrackingIdentifier());
+        contextData.put(AnalyticsConstants.APPSID_KEY, RegistrationHelper.getInstance().getAnalyticsAppId());
         contextData.put(AnalyticsConstants.TIMESTAMP_KEY, getTimestamp());
 
         return contextData;

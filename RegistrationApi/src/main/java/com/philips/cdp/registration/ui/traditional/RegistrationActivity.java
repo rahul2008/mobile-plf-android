@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.adobe.mobile.Config;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
+import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -124,6 +125,9 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
      */
     private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity) {
         try {
+            if(RegistrationHelper.getInstance().getAnalyticsAppId()==null){
+                throw new RuntimeException("Please set appid for tagging before you invoke registration");
+            }
             FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             registrationFragment.setOnUpdateTitleListener(this);
