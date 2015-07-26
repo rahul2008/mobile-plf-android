@@ -173,8 +173,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 		/*
          * Live chat is configurable parameter. Developer can enable/disable it.
 		 */
-        if (!getResources().getBoolean(R.bool.live_chat_required)) {
-            mChat.setVisibility(View.GONE);
+        if (getResources().getBoolean(R.bool.live_chat_required)) {
+            mChat.setVisibility(View.VISIBLE);
         }
         mChat.setOnClickListener(this);
         mChat.setTransformationMethod(null);
@@ -567,7 +567,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 //                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
         }
-        if (mChat != null) {
+      if (mChat != null) {
             mChat.setVisibility(View.GONE);
         }
     }
