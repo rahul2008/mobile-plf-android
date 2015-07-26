@@ -359,11 +359,16 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     ;
 
     protected void callPhilips() {
-        Intent myintent = new Intent(Intent.ACTION_CALL);
-        myintent.setData(Uri.parse("tel:"
-                + mCdlsParsedResponse.getPhone().getPhoneNumber()));
-        myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myintent);
+        try {
+            Intent myintent = new Intent(Intent.ACTION_CALL);
+            myintent.setData(Uri.parse("tel:"
+                    + mCdlsParsedResponse.getPhone().getPhoneNumber()));
+            myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(myintent);
+        }catch(NullPointerException e)
+        {
+           // DigiCareLogger.d(TAG, "on Call Click : "+ mCdlsParsedResponse.getPhone().getPhoneNumber());
+        }
     }
 
     @Override
@@ -562,7 +567,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         }
         if (mChat != null) {
             mChat.setVisibility(View.GONE);
-
         }
     }
     protected void fadeinButtons() {
