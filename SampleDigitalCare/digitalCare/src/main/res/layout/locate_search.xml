@@ -12,6 +12,7 @@
         android:layout_centerVertical="true"
         android:background="@android:color/white"
         android:hint="@string/search"
+        android:textColorHint="@android:color/darker_gray"
         android:padding="10dp"
         android:singleLine="true"
         android:textColor="@color/black" >
@@ -28,7 +29,22 @@
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:padding="8dp"
-        android:src="@drawable/ic_menu_search" />
+        android:src="@drawable/ic_menu_search"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/arabic_search_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/search_box"
+        android:layout_alignStart="@id/search_box"
+        android:layout_alignLeft="@id/search_box"
+        android:layout_alignTop="@id/search_box"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:padding="8dp"
+        android:src="@drawable/ic_menu_search"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/marker_icon"
@@ -44,5 +60,18 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/marker"
         android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/arabic_marker_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/search_box"
+        android:layout_alignTop="@id/search_box"
+        android:layout_marginEnd="40dp"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/marker"
+        android:visibility="gone"
+        android:layout_toRightOf="@+id/arabic_search_icon" />
 
 </RelativeLayout>
