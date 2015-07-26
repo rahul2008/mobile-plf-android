@@ -45,15 +45,22 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
         Bundle bundleExtras = getIntent().getExtras();
 
         String startAnim = null;
-        String endAnimation = null;
+        String endAnim = null;
 
-        startAnim = getResources().getResourceName(bundleExtras.getInt(DigitalCareContants.START_ANIMATION_ID));
-        endAnimation = getResources().getResourceName(bundleExtras.getInt(DigitalCareContants.STOP_ANIMATION_ID));
+        int startAnimation = bundleExtras.getInt(DigitalCareContants.START_ANIMATION_ID);
+        int endAnimation = bundleExtras.getInt(DigitalCareContants.STOP_ANIMATION_ID);
+
+        if (startAnimation == 0 && endAnimation == 0) {
+            return;
+        }
+
+        startAnim = getResources().getResourceName(startAnimation);
+        endAnim = getResources().getResourceName(endAnimation);
 
         String packageName = getPackageName();
         mEnterAnimation = getApplicationContext().getResources().getIdentifier(startAnim,
                 "anim", packageName);
-        mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnimation, "anim",
+        mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnim, "anim",
                 packageName);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
     }

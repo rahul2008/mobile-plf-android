@@ -41,8 +41,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static int mContainerId = 0;
     private static ActionbarUpdateListener mActionbarUpdateListener = null;
     private static String mPreviousPageName = null;
-    private static int mEnterAnimation = -1;
-    private static int mExitAnimation = -1;
+    private static int mEnterAnimation = 0;
+    private static int mExitAnimation = 0;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
@@ -263,7 +263,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         try {
             FragmentTransaction fragmentTransaction = mFragmentActivityContext
                     .getSupportFragmentManager().beginTransaction();
-            if (mEnterAnimation != -1 && mExitAnimation != -1) {
+            if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
@@ -303,7 +303,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         try {
             FragmentTransaction fragmentTransaction = context
                     .getSupportFragmentManager().beginTransaction();
-            if (mEnterAnimation != -1 && mExitAnimation != -1) {
+            if (mEnterAnimation != 0 && mExitAnimation != 0) {
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }

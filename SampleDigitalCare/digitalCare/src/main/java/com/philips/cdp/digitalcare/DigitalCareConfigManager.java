@@ -11,6 +11,7 @@ import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigitalCareContants;
 
+import java.lang.RuntimeException;
 import java.util.Locale;
 
 /**
@@ -34,6 +35,7 @@ public class DigitalCareConfigManager {
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
     private SocialProviderListener mSocialProviderListener = null;
+    private String mAppID = null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -91,6 +93,20 @@ public class DigitalCareConfigManager {
         intent.putExtra(DigitalCareContants.START_ANIMATION_ID, startAnimation);
         intent.putExtra(DigitalCareContants.STOP_ANIMATION_ID, endAnimation);
         getContext().startActivity(intent);
+    }
+
+    public void setAppIdForTagging(String appId) throws RuntimeException {
+        if (appId == null || appId.equals("")) {
+            throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+        }
+        mAppID = appId;
+    }
+
+    public String getAppIdForTagging() throws RuntimeException {
+        if (mAppID == null || mAppID.equals("")) {
+            throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+        }
+        return mAppID;
     }
 
     public ConsumerProductInfo getConsumerProductInfo() {

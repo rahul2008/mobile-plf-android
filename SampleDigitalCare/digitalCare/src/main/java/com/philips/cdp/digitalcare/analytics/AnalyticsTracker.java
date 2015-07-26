@@ -148,7 +148,7 @@ public class AnalyticsTracker {
                 previousPageName);
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_APP_ID,
-                Analytics.getTrackingIdentifier());
+                DigitalCareConfigManager.getInstance().getAppIdForTagging());
         return contextData;
     }
 

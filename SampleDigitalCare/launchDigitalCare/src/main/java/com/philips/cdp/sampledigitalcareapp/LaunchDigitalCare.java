@@ -156,6 +156,11 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         switch (view.getId()) {
             default:
+                /*
+                Setting AppID is very much required from App side, in order to TAG the page. Here in below code
+                we are putting dummy value. Please provide proper APP_ID from you App.
+                 */
+                DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
                 setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom, R.anim.slide_out_bottom
                        /* "slide_in_bottom", "slide_out_bottom"*/);
