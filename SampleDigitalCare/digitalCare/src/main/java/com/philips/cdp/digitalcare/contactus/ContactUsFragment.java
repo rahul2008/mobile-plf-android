@@ -292,8 +292,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         if (mCdlsParsedResponse.getSuccess()
                 /*|| mCdlsParsedResponse.getError() != null*/) {
             CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
-            fadeinButtons();
             if (phoneModel != null) {
+                if(phoneModel.getPhoneNumber()!= null){
+                    mCallPhilips.setVisibility(View.VISIBLE);
+                }
                 enableBottomText();
                 StringBuilder stringBuilder = new StringBuilder();
                 stringBuilder.append(phoneModel.getOpeningHoursWeekdays())
@@ -571,15 +573,14 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     }
     protected void fadeinButtons() {
         tagTechnicalError();
-        if (mCallPhilips != null) {
-            mCallPhilips.setVisibility(View.VISIBLE);
+//        if (mCallPhilips != null) {
+
 //            mCallPhilips
 //                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
-        }
+//        }
         if (mChat != null) {
             mChat.setVisibility(View.VISIBLE);
-
         }
     }
     @Override
