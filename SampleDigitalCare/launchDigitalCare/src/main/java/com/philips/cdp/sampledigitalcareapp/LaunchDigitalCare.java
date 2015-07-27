@@ -162,7 +162,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                  */
                 DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
                 setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
-                DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom, R.anim.slide_out_bottom
+                DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
+                        R.anim.slide_out_bottom,
+                        DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_PORTRAIT
                        /* "slide_in_bottom", "slide_out_bottom"*/);
         }
     }

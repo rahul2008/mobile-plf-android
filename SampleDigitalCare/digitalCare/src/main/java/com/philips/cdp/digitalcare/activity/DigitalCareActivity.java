@@ -51,6 +51,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
 
         int startAnimation = bundleExtras.getInt(DigitalCareContants.START_ANIMATION_ID);
         int endAnimation = bundleExtras.getInt(DigitalCareContants.STOP_ANIMATION_ID);
+        int orientation = bundleExtras.getInt(DigitalCareContants.SCREEN_ORIENTATION);
 
         if (startAnimation == 0 && endAnimation == 0) {
             return;
@@ -64,6 +65,7 @@ public class DigitalCareActivity extends DigitalCareBaseActivity {
                 "anim", packageName);
         mExitAnimation = getApplicationContext().getResources().getIdentifier(endAnim, "anim",
                 packageName);
+        setRequestedOrientation(orientation);
         overridePendingTransition(mEnterAnimation, mExitAnimation);
     }
 

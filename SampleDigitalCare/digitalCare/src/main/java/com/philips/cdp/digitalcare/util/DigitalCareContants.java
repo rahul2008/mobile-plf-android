@@ -9,6 +9,7 @@ package com.philips.cdp.digitalcare.util;
 public class DigitalCareContants {
     public static final String START_ANIMATION_ID = "startAnimation";
     public static final String STOP_ANIMATION_ID = "stopAnimation";
+    public static final String SCREEN_ORIENTATION = "orientation";
 
     public static final String OPTION_SUPPORT_SCREEN = "support_screen";
     public static final String OPTION_PRODUCS_DETAILS = "view_product_details";

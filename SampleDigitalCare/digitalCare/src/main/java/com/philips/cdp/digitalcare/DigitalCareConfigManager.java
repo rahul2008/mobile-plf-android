@@ -86,7 +86,7 @@ public class DigitalCareConfigManager {
                 actionbarUpdateListener, enterAnim, exitAnim);
     }
 
-    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation) {
+    public void invokeDigitalCareAsActivity(int startAnimation, int endAnimation, ActivityOrientation orientation) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
@@ -193,6 +193,33 @@ public class DigitalCareConfigManager {
 
     public String getDigitalCareLibVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    public enum ActivityOrientation {
+
+
+        SCREEN_ORIENTATION_UNSPECIFIED(-1), SCREEN_ORIENTATION_LANDSCAPE(0),
+        SCREEN_ORIENTATION_PORTRAIT(1), SCREEN_ORIENTATION_USER(2), SCREEN_ORIENTATION_BEHIND(3),
+        SCREEN_ORIENTATION_SENSOR(4),
+        SCREEN_ORIENTATION_NOSENSOR(5),
+        SCREEN_ORIENTATION_SENSOR_LANDSCAPE(6),
+        SCREEN_ORIENTATION_SENSOR_PORTRAIT(7),
+        SCREEN_ORIENTATION_REVERSE_LANDSCAPE(8),
+        SCREEN_ORIENTATION_REVERSE_PORTRAIT(9),
+        SCREEN_ORIENTATION_FULL_SENSOR(10),
+        SCREEN_ORIENTATION_USER_LANDSCAPE(11),
+        SCREEN_ORIENTATION_USER_PORTRAIT(12),
+        SCREEN_ORIENTATION_FULL_USER(13),
+        SCREEN_ORIENTATION_LOCKED(14);
+        private int value;
+
+        ActivityOrientation(int value) {
+            this.value = value;
+        }
+
+        private int getOrientationValue() {
+            return value;
+        }
     }
 
 }
