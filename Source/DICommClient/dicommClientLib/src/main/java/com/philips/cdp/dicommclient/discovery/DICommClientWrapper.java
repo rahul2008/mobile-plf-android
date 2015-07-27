@@ -9,6 +9,7 @@ import java.util.Random;
 
 import android.content.Context;
 
+import com.philips.cdp.dicommclient.BuildConfig;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
@@ -45,5 +46,9 @@ public class DICommClientWrapper {
 	public static String getAppId(){
 		return mAppId;
 	}
+
+    public static String getDICommClientLibVersion(){
+        return BuildConfig.VERSION_NAME;
+    }
 	
 }
