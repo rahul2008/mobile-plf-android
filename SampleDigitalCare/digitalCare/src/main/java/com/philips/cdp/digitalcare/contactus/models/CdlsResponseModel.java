@@ -1,4 +1,6 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.models;
+
+import com.philips.cdp.digitalcare.contactus.models.CdlsEmailModel;
 
 /**
  *	CdlsBean is bean class for all CDLS related objects.

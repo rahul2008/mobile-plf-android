@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -34,6 +34,10 @@ import com.philips.cdp.digitalcare.RequestData;
 import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
+import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
+import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
+import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;

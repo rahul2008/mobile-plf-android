@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.models;
 
 /**
  * CdlsPhoneModel is bean class for phone.

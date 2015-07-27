@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

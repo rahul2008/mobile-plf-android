@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.models;
 /**
  *	CdlsErrorModel is bean class for error.
  * 

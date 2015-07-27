@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import java.util.HashMap;
-import java.util.Map;
+
 import com.philips.cdp.digitalcare.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ChatNowFragment will help to inflate chat webpage on the screen.

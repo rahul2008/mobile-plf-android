@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.models;
 
 /**
  * CdlsEmailModel is bean class for email.
