@@ -153,6 +153,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
             if (shnCapabilityLogSynchronizationListener != null)
                 shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, SHNResult.SHNResponseIncompleteError);
         }
+        shnLogItems = null;
     }
 
     private class SHNLogItemsComparator implements Comparator<SHNLogItem> {

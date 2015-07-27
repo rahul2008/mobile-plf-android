@@ -16,8 +16,10 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -364,6 +366,37 @@ public class SHNCapabilityLogSyncBaseTest {
         timeOutCaptor.getValue().run();
 
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, never()).onLogSynchronizationFailed(any(SHNCapabilityLogSyncHealthThermometer.class), any(SHNResult.class));
+    }
+
+    @Test
+    public void whenSynchronizationIsPerformedTwiceInARowThenSecondLogDoesNotContainItemsFromFirstLog() {
+        startCapabilityWithResult(SHNResult.SHNOk);
+
+        Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+
+        Date[] dates = {new Date(100L), new Date(80L), new Date(110L)};
+        generateDataAndSendIt(dates);
+
+        timeOutCaptor.getValue().run();
+
+        ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), any(SHNResult.class));
+
+        List<SHNLogItem> firstLog = shnLogArgumentCaptor.getValue().getLogItems();
+
+        startCapabilityWithResult(SHNResult.SHNOk);
+        Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+        Date[] dates2 = {new Date(100L)};
+        generateDataAndSendIt(dates2);
+
+        timeOutCaptor.getValue().run();
+
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSyncHealthThermometer.class), shnLogArgumentCaptor.capture(), any(SHNResult.class));
+
+        List<SHNLogItem> secondLog = shnLogArgumentCaptor.getValue().getLogItems();
+
+        boolean modified = secondLog.removeAll(firstLog);
+        assertFalse(modified);
     }
 
     private class TestSHNCapabilityLogSyncBase extends SHNCapabilityLogSyncBase {
