@@ -42,12 +42,12 @@ android {
         simulator {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 4
-            versionName "1.2.3"
+            versionName "1.2.4"
         }
         device {
             applicationId 'com.philips.cl.di.regsample.app'
             versionCode 4
-            versionName "1.2.3"
+            versionName "1.2.4"
         }
     }
 }
@@ -59,6 +59,8 @@ dependencies {
     androidTestCompile files('libs/dexmaker-mockito-1.0.jar')
     androidTestCompile files('libs/mockito-all-1.10.8.jar')
     compile 'com.android.support:support-v4:22.2.0'
+    compile files('libs/HockeySDK-3.0.2.jar')
+
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {

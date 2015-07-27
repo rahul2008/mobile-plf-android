@@ -14,7 +14,11 @@ import com.adobe.mobile.Config;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
+
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.CrashManagerListener;
 
 public class RegistrationSampleActivity extends Activity implements OnClickListener,
         UserRegistrationListener {
@@ -46,6 +50,14 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
         Config.collectLifecycleData();
         RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationSampleActivity : onResume");
         super.onResume();
+
+        /** Should be commented for debug builds */
+        CrashManager.register(this, RegConstants.HOCKEY_APPID, new CrashManagerListener() {
+
+            public boolean shouldAutoUploadCrashes() {
+                return true;
+            }
+        });
     }
 
     @Override

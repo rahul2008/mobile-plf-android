@@ -108,4 +108,6 @@ public class RegConstants {
 
     public static final String SOCIAL_MERGE_EMAIL = "social_merge_email";
 
+    public static final String HOCKEY_APPID = "db53413f9a0e675c40520bf48ce12e6c";
+
 }
