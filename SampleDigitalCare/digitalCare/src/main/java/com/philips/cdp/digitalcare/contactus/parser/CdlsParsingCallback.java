@@ -1,5 +1,7 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.parser;
 
+
+import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 
 /**
  * CdlsParsingCallback is interface, used when cdls parsing is completed.

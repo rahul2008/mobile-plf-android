@@ -1,5 +1,10 @@
-package com.philips.cdp.digitalcare.contactus;
+package com.philips.cdp.digitalcare.contactus.parser;
 
+import com.philips.cdp.digitalcare.contactus.models.CdlsChatModel;
+import com.philips.cdp.digitalcare.contactus.models.CdlsEmailModel;
+import com.philips.cdp.digitalcare.contactus.models.CdlsErrorModel;
+import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
+import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareContants;
 
@@ -24,7 +29,7 @@ public class CdlsResponseParser {
     private CdlsErrorModel cdlsErrorModel = null;
     private CdlsParsingCallback mParsingCompletedCallback = null;
 
-    protected CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
+    public CdlsResponseParser(CdlsParsingCallback parsingCompletedCallback) {
         mParsingCompletedCallback = parsingCompletedCallback;
         DigiCareLogger.i(TAG, "ParserController constructor : ");
     }
