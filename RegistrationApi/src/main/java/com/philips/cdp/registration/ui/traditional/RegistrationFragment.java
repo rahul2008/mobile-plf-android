@@ -176,11 +176,11 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
         if (mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
-          //  trackPage(AnalyticsPages.HOME);
+            AnalyticsUtils.trackFirstPage(AnalyticsPages.USER_PROFILE);
             replaceWithWelcomeFragment();
             return;
         }
-       // trackPage(AnalyticsPages.HOME);
+        AnalyticsUtils.trackFirstPage(AnalyticsPages.HOME);
         replaceWithHomeFragment();
     }
 

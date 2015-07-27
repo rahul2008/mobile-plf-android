@@ -20,7 +20,7 @@ public class AnalyticsUtils {
             return;
         }
         Map<String, Object> contextData = addAnalyticsDataObject();
-        if (null != prevPage && currPage.toString()!=AnalyticsPages.USER_PROFILE) {
+        if (null != prevPage) {
             contextData.put(AnalyticsConstants.PREVIOUS_PAGE_NAME, prevPage);
         }
         Analytics.trackState(currPage, contextData);
@@ -32,6 +32,9 @@ public class AnalyticsUtils {
             return;
         }
         Map<String, Object> contextData = addAnalyticsDataObject();
+        if(null!=RegistrationHelper.getInstance().getPreviousPage()){
+            contextData.put(AnalyticsConstants.PREVIOUS_PAGE_NAME,RegistrationHelper.getInstance().getPreviousPage() );
+        }
         Analytics.trackState(currPage, contextData);
         prevPage = currPage;
     }

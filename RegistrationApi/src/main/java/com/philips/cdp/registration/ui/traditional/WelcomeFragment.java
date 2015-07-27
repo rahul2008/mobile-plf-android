@@ -183,7 +183,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		}
 
 		if (isfromBegining) {
-			trackPage(AnalyticsPages.USER_PROFILE);
 			mBtnSignOut.setVisibility(View.GONE);
 			mLlEmailDetails.setVisibility(View.GONE);
 			mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));
@@ -218,16 +217,11 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		int id = v.getId();
 		if (id == R.id.btn_reg_sign_out) {
 			RLog.d(RLog.ONCLICK, "WelcomeFragment : Sign Out");
-			//trackPage(AnalyticsPages.HOME);
-			mUser.logout();
-			getRegistrationFragment().replaceWithHomeFragment();
+			handleLogout();
 		} else if (id == R.id.btn_reg_continue) {
 			if (isfromBegining) {
 				RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
-				trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-						AnalyticsConstants.SIGN_OUT);
-				mUser.logout();
-				getRegistrationFragment().replaceWithHomeFragment();
+				handleLogout();
 			} else {
 				RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
 				RegistrationHelper.getInstance().getUserRegistrationListener()
@@ -236,6 +230,14 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		} else if (id == R.id.btn_resend_consent) {
 			resendCoppaMail();
 		}
+	}
+
+	private void handleLogout() {
+		trackPage(AnalyticsPages.HOME);
+		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
+                AnalyticsConstants.SIGN_OUT);
+		mUser.logout();
+		getRegistrationFragment().replaceWithHomeFragment();
 	}
 
 	private void resendCoppaMail() {

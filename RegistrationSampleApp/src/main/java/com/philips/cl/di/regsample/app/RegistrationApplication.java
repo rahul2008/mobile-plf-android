@@ -24,8 +24,9 @@ public class RegistrationApplication extends Application {
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
 		mRegistrationHelper.setCoppaFlow(false);
-		mRegistrationHelper.setAnalyticsAppId("MandatoryField-setAppId");
-		mRegistrationHelper.setIsTagginEnabled(false);
+		mRegistrationHelper.setAnalyticsAppId("IntegratingApplicationAppId");
+		mRegistrationHelper.setPreviousPage("RegistrationLaunchingPageName");
+		mRegistrationHelper.setIsTagginEnabled(true);
 		mRegistrationHelper.intializeRegistrationSettings(this,
 				Locale.getDefault());
 	}

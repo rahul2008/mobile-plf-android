@@ -58,6 +58,8 @@ public class RegistrationHelper {
 
     private boolean isTagginEnabled;
 
+    private String mPreviousPage;
+
     private interface RegistrationEnvironment {
 
         String EVAL = "Evaluation";
@@ -329,4 +331,13 @@ public class RegistrationHelper {
     public void setIsTagginEnabled(boolean isTagginEnabled) {
         this.isTagginEnabled = isTagginEnabled;
     }
+
+    public String getPreviousPage() {
+        return mPreviousPage;
+    }
+
+    public void setPreviousPage(String previousPage) {
+        this.mPreviousPage = previousPage;
+    }
+
 }

@@ -254,7 +254,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 
-        AnalyticsUtils.trackFirstPage(AnalyticsPages.HOME);
         mUser = new User(mContext);
         setViewParams(getResources().getConfiguration());
         linkifyTermAndPolicy(mTvWelcomeDesc);
