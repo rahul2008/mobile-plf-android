@@ -122,6 +122,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     private ImageView mArabicSearchIcon = null;
     private ImageView mMarkerIcon = null;
     private ImageView mArabicMarkerIcon = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
     private Button mButtonCall = null;
     private Button mButtonDirection = null;
     private CustomGeoAdapter adapter = null;
@@ -208,6 +210,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         checkGooglePlayServices();
         initGoogleMapv2();
         createBitmap();
@@ -841,6 +845,11 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
+
+        if (mActionBarMenuIcon != null && mActionBarArrow != null)
+            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+                enableActionBarLeftArrow();
+
         // checking gps enabled or disbled
         final LocationManager manager = (LocationManager) getActivity()
                 .getSystemService(Context.LOCATION_SERVICE);
@@ -853,6 +862,12 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             gpsAlertView.removeAlert();
         }
         setSearchIcon();
+    }
+
+    private void enableActionBarLeftArrow() {
+        mActionBarMenuIcon.setVisibility(View.GONE);
+        mActionBarArrow.setVisibility(View.VISIBLE);
+        mActionBarArrow.bringToFront();
     }
 
 
