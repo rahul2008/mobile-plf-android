@@ -1,4 +1,7 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.models;
+
+import com.philips.cdp.digitalcare.locatephilips.AtosResultsModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 
 import java.util.ArrayList;
 
@@ -13,7 +16,7 @@ import java.util.ArrayList;
 public class AtosResponseModel {
 	private Boolean mSuccess = null;
 	private AtosLocationModel mCurrentLocation = null;
-	private ArrayList<AtosResultsModel> mResultsModel = null;
+	private ArrayList<com.philips.cdp.digitalcare.locatephilips.AtosResultsModel> mResultsModel = null;
 	private AtosErrorModel mCdlsErrorModel = null;
 
 	public AtosResponseModel(boolean success, AtosLocationModel locationModel,

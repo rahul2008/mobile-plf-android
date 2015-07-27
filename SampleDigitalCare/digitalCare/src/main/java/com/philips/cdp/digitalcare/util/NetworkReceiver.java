@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cdp.digitalcare.NetworkStateListener;
+import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 
 public class NetworkReceiver extends BroadcastReceiver {
 

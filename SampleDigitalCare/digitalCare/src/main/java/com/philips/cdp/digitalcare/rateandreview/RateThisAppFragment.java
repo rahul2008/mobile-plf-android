@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.philips.cdp.digitalcare.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;

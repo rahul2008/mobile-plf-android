@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.models;
 
 /**
  * AtosLocationModel is bean class for location.

@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.models;
 /**
  *	AtosErrorModel is bean class for error.
  * 

@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import android.os.AsyncTask;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.philips.cdp.digitalcare.locatephilips.parser.MapDirectionsParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -31,12 +32,12 @@ public class MapDirections {
 	private MapDirectionResponse mMapDirectionResponse = null;
 	private String TAG = MapDirections.class.getSimpleName();
 
-	interface MapDirectionResponse {
+	public interface MapDirectionResponse {
 		void onReceived(ArrayList<LatLng> arrayList);
 	}
 
-	MapDirections(MapDirectionResponse mapDirectionResponse, LatLng source,
-			LatLng destination) {
+	public MapDirections(MapDirectionResponse mapDirectionResponse, LatLng source,
+                         LatLng destination) {
 		mMapDirectionResponse = mapDirectionResponse;
 
 		// Getting URL to the Google Directions API

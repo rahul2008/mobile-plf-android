@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.parser;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosErrorModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -20,7 +25,7 @@ public class AtosResponseParser {
 	private ArrayList<AtosResultsModel> mArrayListResultsModel = null;
 	private AtosParsingCallback mParsingCompletedCallback = null;
 
-	protected AtosResponseParser(AtosParsingCallback parsingCompletedCallback) {
+	public AtosResponseParser(AtosParsingCallback parsingCompletedCallback) {
 		mParsingCompletedCallback = parsingCompletedCallback;
 		DigiCareLogger.i(TAG, "ParserController constructor : ");
 	}

@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare;
+package com.philips.cdp.digitalcare.homefragment;
 
 import android.content.Context;
 import android.content.IntentFilter;
@@ -19,6 +19,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
+import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
@@ -287,9 +289,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         }
     }
 
-    protected void showFragment(FragmentActivity context, int parentContainer,
-                                Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
-                                String enterAnim, String exitAnim) {
+    public void showFragment(FragmentActivity context, int parentContainer,
+                             Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
+                             String enterAnim, String exitAnim) {
         mContainerId = parentContainer;
         mActivityContext = context;
         mActionbarUpdateListener = actionbarUpdateListener;

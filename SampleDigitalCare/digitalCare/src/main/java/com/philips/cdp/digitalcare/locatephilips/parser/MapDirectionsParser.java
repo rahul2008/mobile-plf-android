@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.parser;
 
 import java.util.ArrayList;
 import java.util.HashMap;

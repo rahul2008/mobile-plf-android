@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import com.philips.cdp.digitalcare.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
 public class GpsAlertView {
 

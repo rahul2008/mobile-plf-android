@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

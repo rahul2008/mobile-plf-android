@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare;
+package com.philips.cdp.digitalcare.activity;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;

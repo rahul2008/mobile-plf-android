@@ -4,14 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
-import com.philips.cdp.digitalcare.BuildConfig;
+import com.philips.cdp.digitalcare.activity.DigitalCareActivity;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
+import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
+import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
 import com.philips.cdp.digitalcare.util.DigitalCareContants;
 
-import java.lang.RuntimeException;
 import java.util.Locale;
 
 /**

@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare;
+package com.philips.cdp.digitalcare.homefragment;
 
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
@@ -16,12 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
-import com.philips.cdp.digitalcare.contactus.ContactUsFragment;
+import com.philips.cdp.digitalcare.contactus.fragments.ContactUsFragment;
 import com.philips.cdp.digitalcare.faq.FaqFragment;
-import com.philips.cdp.digitalcare.locatephilips.LocatePhilipsFragment;
+import com.philips.cdp.digitalcare.locatephilips.fragments.LocatePhilipsFragment;
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 

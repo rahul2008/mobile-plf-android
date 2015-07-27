@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;

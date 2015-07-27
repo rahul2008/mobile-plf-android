@@ -1,5 +1,7 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.parser;
 
+
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
 
 /**
  * AtosParsingCallback is interface, used when parseing is completed.

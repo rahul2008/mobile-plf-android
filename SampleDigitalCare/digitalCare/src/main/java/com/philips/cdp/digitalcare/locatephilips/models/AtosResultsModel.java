@@ -1,4 +1,6 @@
-package com.philips.cdp.digitalcare.locatephilips;
+package com.philips.cdp.digitalcare.locatephilips.models;
+
+import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 
 /**
  * AtosResultsModel is bean class for result JSON .

@@ -1,11 +1,13 @@
-package com.philips.cdp.digitalcare;
+package com.philips.cdp.digitalcare.activity;
 
 import android.os.Bundle;
 
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.social.ProductImageHelper;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareContants;
+import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
 
 /*import com.philips.cdp.digitalcare.social.twitter.TwitterAuthentication;*/
 

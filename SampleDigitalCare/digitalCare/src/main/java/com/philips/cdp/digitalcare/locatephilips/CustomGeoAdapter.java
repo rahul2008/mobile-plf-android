@@ -21,6 +21,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.R;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 
 @SuppressLint("DefaultLocale")
 public class CustomGeoAdapter extends BaseAdapter implements Filterable {
@@ -30,8 +32,8 @@ public class CustomGeoAdapter extends BaseAdapter implements Filterable {
 
 	private CustomFilter mCustomFilter;
 
-	CustomGeoAdapter(Context context,
-			ArrayList<AtosResultsModel> mresultModelSet) {
+	public CustomGeoAdapter(Context context,
+                            ArrayList<AtosResultsModel> mresultModelSet) {
 		this.context = context;
 		this.mResultModelSet = mresultModelSet;
 		mOriginalSet = mresultModelSet;
