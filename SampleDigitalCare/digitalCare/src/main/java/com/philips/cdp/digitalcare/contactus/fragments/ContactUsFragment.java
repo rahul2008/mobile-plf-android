@@ -317,10 +317,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 mFirstRowText.setText(stringBuilder);
             }
 
-            if (hasEmptyChatContent(mCdlsParsedResponse)) {
+          /*  if (hasEmptyChatContent(mCdlsParsedResponse)) {
                 mChat.setBackgroundResource(R.drawable.selector_option_button_faded_bg);
                 mChat.setEnabled(false);
-            }
+            }*/
         } else if (mCdlsParsedResponse.getError() != null) {
             fadeoutButtons();
         } else {
@@ -571,9 +571,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 //                    .setBackgroundResource(R.drawable.selector_option_button_faded_bg);
 //            mCallPhilips.setEnabled(false);
         }
-      if (mChat != null) {
+      /*if (mChat != null) {
             mChat.setVisibility(View.GONE);
-        }
+        }*/
     }
     protected void fadeinButtons() {
         tagTechnicalError();
