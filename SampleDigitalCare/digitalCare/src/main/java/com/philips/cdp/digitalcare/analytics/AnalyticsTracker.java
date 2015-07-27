@@ -27,32 +27,25 @@ import java.util.Map;
 public class AnalyticsTracker {
 
     private static final String TAG = "DigitalCare:Analytics";
-    private static boolean trackMetrics = false;
+    private static boolean mTaggingEnabled = false;
     private static Context mContext = null;
+    private static String mAppId = null;
 
-    /**
-     * Analytics: Tagging can be enabled disabled.
-     */
-    public static void isEnable(boolean enable) {
-        trackMetrics = enable;
-    }
 
     /**
      * Analytics: Initialize with the context. After initialization only
      * TAGGIN'S APIs can be used.
      */
     public static void initContext(Context context) {
-        if (!trackMetrics)
-            return;
-        Config.setContext(context);
         mContext = context;
+        Config.setContext(context);
     }
 
     /**
      * Analytics: This needs to call on onResume() of every activity.
      */
     public static void startCollectLifecycleData() {
-        if (!trackMetrics)
+        if (!mTaggingEnabled)
             return;
         new Thread() {
             public void run() {
@@ -67,7 +60,7 @@ public class AnalyticsTracker {
      * Analytics: This needs to call on onPause() of every activity.
      */
     public static void stopCollectLifecycleData() {
-        if (!trackMetrics)
+        if (!mTaggingEnabled)
             return;
         new Thread() {
             public void run() {
@@ -79,16 +72,16 @@ public class AnalyticsTracker {
     }
 
     public static void trackPage(String pageName, String previousPageName) {
-        if (!trackMetrics)
+        if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "Track page :" + pageName);
+        DigiCareLogger.i(TAG, "Track page :" + pageName + "previousPageName = "+previousPageName);
         Analytics.trackState(pageName, addPageContextData(previousPageName));
     }
 
     public static void trackPage(String pageName, String previousPageName, Map<String, Object> contextData) {
-        if (!trackMetrics)
+        if (!mTaggingEnabled)
             return;
-        DigiCareLogger.i(TAG, "Track page :" + pageName);
+        DigiCareLogger.i(TAG, "Track page :" + pageName + "previousPageName = "+previousPageName);
         Analytics.trackState(pageName, addPageContextData(previousPageName, contextData));
     }
 
@@ -101,7 +94,7 @@ public class AnalyticsTracker {
      */
     public static void trackAction(String actionName, String mapKey,
                                    String mapValue) {
-        if (!trackMetrics)
+        if (!mTaggingEnabled)
             return;
         DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
         Analytics.trackAction(actionName,
@@ -109,7 +102,7 @@ public class AnalyticsTracker {
     }
 
     public static void trackAction(String actionName, Map<String, Object> contextData) {
-        if (!trackMetrics)
+        if (!mTaggingEnabled)
             return;
         DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
@@ -148,7 +141,7 @@ public class AnalyticsTracker {
                 previousPageName);
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_APP_ID,
-                DigitalCareConfigManager.getInstance().getAppIdForTagging());
+                mAppId);
         return contextData;
     }
 
@@ -191,5 +184,10 @@ public class AnalyticsTracker {
                 "yyyy-MM-dd HH:mm:ss");
         String date = dateFormat.format(new Date(timeMillis));
         return date;
+    }
+
+    public static void setTaggingInfo(boolean taggingEnabled, String appId){
+        mTaggingEnabled = taggingEnabled;
+        mAppId  = appId;
     }
 }

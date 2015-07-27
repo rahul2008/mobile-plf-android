@@ -64,8 +64,13 @@ public class SupportHomeFragment extends DigitalCareBaseFragment {
         RegisterButtonMarginTop = (int) getActivity().getResources().getDimension(R.dimen.marginTopRegisterButton);
         createMainMenu();
         try {
-            AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
-                    getPreviousName());
+            if(DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging()!=null) {
+                AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+                        DigitalCareConfigManager.getInstance().getVerticalPageNameForTagging());
+            }else{
+                AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_HOME,
+                        getPreviousName());
+            }
         } catch (Exception e) {
             DigiCareLogger.e(TAG, "LocaleMatch Crash Controlled : " + e);
         }

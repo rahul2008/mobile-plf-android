@@ -159,13 +159,15 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 /*
                 Setting AppID is very much required from App side, in order to TAG the page. Here in below code
                 we are putting dummy value. Please provide proper APP_ID from you App.
-                 */
+                 Also if tagging is not enabled , consumer care is not tagging any events*/
+                DigitalCareConfigManager.getInstance().enableTagging(true);
                 DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
+                DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
                 setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
                         R.anim.slide_out_bottom,
                         DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED
-                       /* "slide_in_bottom", "slide_out_bottom"*/);
+                       );
         }
     }
 

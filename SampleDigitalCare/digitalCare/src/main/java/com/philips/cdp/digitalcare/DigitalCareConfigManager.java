@@ -38,6 +38,8 @@ public class DigitalCareConfigManager {
     private ProductMenuListener mProductMenuListener = null;
     private SocialProviderListener mSocialProviderListener = null;
     private String mAppID = null;
+    private String mPageName = null;
+    private boolean mTaggingEnabled = false;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -58,7 +60,6 @@ public class DigitalCareConfigManager {
     }
 
     private static void initializeTaggingContext(Context context) {
-        AnalyticsTracker.isEnable(true);
         AnalyticsTracker.initContext(context);
     }
 
@@ -81,6 +82,13 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
+        if(mTaggingEnabled){
+            if(mAppID==null || mAppID.equals("")){
+                throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+            }
+        }
+        AnalyticsTracker.setTaggingInfo(mTaggingEnabled,mAppID);
+
         SupportHomeFragment supportFrag = new SupportHomeFragment();
         supportFrag.showFragment(context, parentContainerResId, supportFrag,
                 actionbarUpdateListener, enterAnim, exitAnim);
@@ -90,6 +98,13 @@ public class DigitalCareConfigManager {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
+        if(mTaggingEnabled){
+            if(mAppID==null || mAppID.equals("")){
+                throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
+            }
+        }
+        AnalyticsTracker.setTaggingInfo(mTaggingEnabled,mAppID);
+
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(DigitalCareContants.START_ANIMATION_ID, startAnimation);
@@ -99,17 +114,19 @@ public class DigitalCareConfigManager {
     }
 
     public void setAppIdForTagging(String appId) throws RuntimeException {
-        if (appId == null || appId.equals("")) {
-            throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
-        }
         mAppID = appId;
     }
 
-    public String getAppIdForTagging() throws RuntimeException {
-        if (mAppID == null || mAppID.equals("")) {
-            throw new RuntimeException("Please make sure to set the valid AppID for Tagging.");
-        }
-        return mAppID;
+    public void enableTagging(boolean taggingEnabled){
+        mTaggingEnabled = taggingEnabled;
+    }
+
+    public void setCurrentPageNameForTagging(String pageName){
+        mPageName = pageName;
+    }
+
+    public String getVerticalPageNameForTagging(){
+        return mPageName;
     }
 
     public ConsumerProductInfo getConsumerProductInfo() {
