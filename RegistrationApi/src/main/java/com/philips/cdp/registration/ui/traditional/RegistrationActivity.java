@@ -126,9 +126,6 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
      */
     private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity) {
         try {
-            if (null == AppTagging.getTrackingIdentifer()) {
-                throw new RuntimeException("Please set appid for tagging before you invoke registration");
-            }
             FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
             RegistrationFragment registrationFragment = new RegistrationFragment();
             registrationFragment.setOnUpdateTitleListener(this);

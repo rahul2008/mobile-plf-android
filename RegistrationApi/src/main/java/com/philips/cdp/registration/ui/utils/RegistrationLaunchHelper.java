@@ -15,9 +15,6 @@ public class RegistrationLaunchHelper {
     }
 
     public static void launchRegistrationActivityWithFixedOrientation(Context context, int orientation) {
-        if (null == AppTagging.getTrackingIdentifer()) {
-            throw new RuntimeException("Please set appid for tagging before you invoke registration");
-        }
         Intent registrationIntent = new Intent(context, RegistrationActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt(RegConstants.ORIENTAION, orientation);

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.janrain.android.Jump;
+import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.BuildConfig;
 import com.philips.cdp.registration.configuration.ConfigurationParser;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
@@ -121,6 +122,10 @@ public class RegistrationHelper {
      */
     public void intializeRegistrationSettings(final Context context,
                                               Locale locale) {
+
+        if (null == AppTagging.getTrackingIdentifer()) {
+            throw new RuntimeException("Please set appid for tagging before you invoke registration");
+        }
         Locale mlocale = locale;
         if (isCoppaFlow()) {
             mlocale = new Locale("en_US");
