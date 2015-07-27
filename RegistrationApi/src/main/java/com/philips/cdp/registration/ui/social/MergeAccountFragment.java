@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -194,8 +194,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 		mTvPasswordMege = (TextView) view.findViewById(R.id.tv_reg_password_merge);
 
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_SOCIAL_MERGE);
+		trackActionStatus(AppTagingConstants.SEND_DATA,
+				AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 
 		String myPhilipsEmail = getString(R.string.RegMerge_MergeLbltxt);
 		myPhilipsEmail = String.format(myPhilipsEmail,mEmailId);
@@ -286,7 +286,7 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 			}
 		} else {
 			mRegError.setError(getString(R.string.NoNetworkConnection));
-			trackActionLoginError(AnalyticsConstants.NETWORK_ERROR_CODE);
+			trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
 		}
 	}
 
@@ -333,15 +333,15 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onLoginSuccess");
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_SOCIAL_MERGE);
+		trackActionStatus(AppTagingConstants.SEND_DATA,
+				AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_SOCIAL_MERGE);
 		hideMergeSpinner();
 		launchWelcomeFragment();
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.WELCOME);
+		trackPage(AppTaggingPages.WELCOME);
 	}
 
 	@Override
@@ -360,8 +360,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
 		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.STATUS_NOTIFICATION,
-				AnalyticsConstants.RESET_PASSWORD_SUCCESS);
+		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
+				AppTagingConstants.RESET_PASSWORD_SUCCESS);
 		hideForgotPasswordSpinner();
 		mRegError.hideError();
 	}

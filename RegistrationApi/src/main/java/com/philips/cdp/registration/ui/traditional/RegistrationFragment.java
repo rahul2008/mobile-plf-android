@@ -17,8 +17,8 @@ import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
-import com.philips.cdp.registration.analytics.AnalyticsUtils;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -113,7 +113,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         Fragment fragment = mFragmentManager.getFragments().get(count);
         if (fragment instanceof WelcomeFragment) {
             navigateToHome();
-            trackPage(AnalyticsPages.HOME);
+            trackPage(AppTaggingPages.HOME);
         } else {
             trackHandler();
             mFragmentManager.popBackStack();
@@ -140,24 +140,24 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
 
     private String getTackingPageName(Fragment fragment) {
         if (fragment instanceof HomeFragment) {
-            return AnalyticsPages.HOME;
+            return AppTaggingPages.HOME;
 
         } else if (fragment instanceof CreateAccountFragment) {
-            return AnalyticsPages.CREATE_ACCOUNT;
+            return AppTaggingPages.CREATE_ACCOUNT;
 
         } else if (fragment instanceof SignInAccountFragment) {
-            return AnalyticsPages.CREATE_ACCOUNT;
+            return AppTaggingPages.CREATE_ACCOUNT;
 
         } else if (fragment instanceof AccountActivationFragment) {
-            return AnalyticsPages.ACCOUNT_ACTIVATION;
+            return AppTaggingPages.ACCOUNT_ACTIVATION;
 
         } else if (fragment instanceof WelcomeFragment) {
-            return AnalyticsPages.WELCOME;
+            return AppTaggingPages.WELCOME;
 
         } else if (fragment instanceof AlmostDoneFragment) {
-            return AnalyticsPages.ALMOST_DONE;
+            return AppTaggingPages.ALMOST_DONE;
         } else {
-            return AnalyticsPages.MERGE_ACCOUNT;
+            return AppTaggingPages.MERGE_ACCOUNT;
         }
     }
 
@@ -176,16 +176,16 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
     private void handleUserLoginStateFragments() {
         User mUser = new User(mActivity.getApplicationContext());
         if (mUser.getEmailVerificationStatus(mActivity.getApplicationContext())) {
-            AnalyticsUtils.trackFirstPage(AnalyticsPages.USER_PROFILE);
+            AppTagging.trackFirstPage(AppTaggingPages.USER_PROFILE);
             replaceWithWelcomeFragment();
             return;
         }
-        AnalyticsUtils.trackFirstPage(AnalyticsPages.HOME);
+        AppTagging.trackFirstPage(AppTaggingPages.HOME);
         replaceWithHomeFragment();
     }
 
    private void trackPage(String currPage) {
-        AnalyticsUtils.trackPage(currPage);
+        AppTagging.trackPage(currPage);
     }
 
     public void replaceWithHomeFragment() {

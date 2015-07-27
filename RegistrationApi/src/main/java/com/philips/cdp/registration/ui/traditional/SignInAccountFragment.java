@@ -16,8 +16,8 @@ import android.widget.RelativeLayout;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -177,7 +177,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	private void lauchAccountActivationFragment() {
 		getRegistrationFragment().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
+		trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void initUI(View view) {
@@ -220,8 +220,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mEtEmail.hideValidAlertError();
 		mEtPassword.hideValidAlertError();
 		((RegistrationFragment) getParentFragment()).hideKeyBoard();
-		/*trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.LOGIN_START);*/
 		if (mUser != null) {
 			showSignInSpinner();
 		}
@@ -242,7 +240,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 				mRegError.setError(getString(R.string.NoNetworkConnection));
 			}
 		} else {
-			trackActionLoginError(AnalyticsConstants.NETWORK_ERROR_CODE);
+			trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
 			mRegError.setError(getString(R.string.NoNetworkConnection));
 		}
 	}
@@ -250,8 +248,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onLoginSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onLoginSuccess");
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-		        AnalyticsConstants.SUCCESS_LOGIN);
+		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+		        AppTagingConstants.SUCCESS_LOGIN);
 		hideSignInSpinner();
 		mBtnForgot.setEnabled(true);
 		mBtnResend.setEnabled(true);
@@ -266,7 +264,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().addWelcomeFragmentOnVerification();
-		trackPage(AnalyticsPages.WELCOME);
+		trackPage(AppTaggingPages.WELCOME);
 	}
 
 	@Override
@@ -293,8 +291,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "SignInAccountFragment : onSendForgotPasswordSuccess");
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.STATUS_NOTIFICATION,
-				AnalyticsConstants.RESET_PASSWORD_SUCCESS);
+		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.STATUS_NOTIFICATION,
+				AppTagingConstants.RESET_PASSWORD_SUCCESS);
 		hideForgotPasswordSpinner();
 		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());
 		hideForgotPasswordSpinner();
@@ -403,8 +401,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onResendVerificationEmailSuccess() {
-		trackActionStatus(AnalyticsConstants.SEND_DATA,
-				AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+		trackActionStatus(AppTagingConstants.SEND_DATA,
+				AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
 	}
 
 	@Override

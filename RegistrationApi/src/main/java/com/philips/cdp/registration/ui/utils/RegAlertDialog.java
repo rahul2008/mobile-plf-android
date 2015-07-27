@@ -9,7 +9,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.philips.cdp.registration.R;
-import com.philips.cdp.registration.analytics.AnalyticsUtils;
+import com.philips.cdp.registration.AppTagging.AppTagging;
 
 public class RegAlertDialog {
 
@@ -35,7 +35,7 @@ public class RegAlertDialog {
 
 	private static void trackActionForResetPasswordNotification(String state,
             String statusNotification, String continueStatus) {
-		AnalyticsUtils.trackAction(state, statusNotification, continueStatus);
+		AppTagging.trackAction(state, statusNotification, continueStatus);
     }
 
 }

@@ -54,11 +54,7 @@ public class RegistrationHelper {
 
     private UserRegistrationListener mUserRegistrationListener;
 
-    private String mAnalyticsAppId;
 
-    private boolean isTagginEnabled;
-
-    private String mPreviousPage;
 
     private interface RegistrationEnvironment {
 
@@ -316,28 +312,5 @@ public class RegistrationHelper {
         return BuildConfig.VERSION_NAME;
     }
 
-    public String getAnalyticsAppId() {
-        return mAnalyticsAppId;
-    }
-
-    public void setAnalyticsAppId(String analyticsAppId) {
-        this.mAnalyticsAppId = analyticsAppId;
-    }
-
-    public boolean isTagginEnabled() {
-        return isTagginEnabled;
-    }
-
-    public void setIsTagginEnabled(boolean isTagginEnabled) {
-        this.isTagginEnabled = isTagginEnabled;
-    }
-
-    public String getPreviousPage() {
-        return mPreviousPage;
-    }
-
-    public void setPreviousPage(String previousPage) {
-        this.mPreviousPage = previousPage;
-    }
 
 }

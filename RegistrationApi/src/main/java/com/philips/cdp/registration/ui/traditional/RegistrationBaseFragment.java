@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsUtils;
-import com.philips.cdp.registration.analytics.TrackActionErrors;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.registration.AppTagging.AppTaggingErrors;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.R;
 
@@ -175,45 +175,45 @@ public abstract class RegistrationBaseFragment extends Fragment {
     }
 
     protected void trackPage(String currPage) {
-        AnalyticsUtils.trackPage(currPage);
+        AppTagging.trackPage(currPage);
     }
 
     protected void trackActionStatus(String state, String key, String value) {
-        AnalyticsUtils.trackAction(state, key, value);
+        AppTagging.trackAction(state, key, value);
     }
 
     protected void trackActionForRemarkettingOption(String state) {
-        AnalyticsUtils.trackAction(state, null, null);
+        AppTagging.trackAction(state, null, null);
     }
 
     protected void trackActionRegisterError(int errorCode) {
-        TrackActionErrors.trackActionRegisterError(errorCode);
+        AppTaggingErrors.trackActionRegisterError(errorCode);
     }
 
     protected void trackActionLoginError(int errorCode) {
-        TrackActionErrors.trackActionLoginError(errorCode);
+        AppTaggingErrors.trackActionLoginError(errorCode);
     }
 
     protected void trackActionForgotPasswordFailure(int errorCode) {
-        TrackActionErrors.trackActionForgotPasswordFailure(errorCode);
+        AppTaggingErrors.trackActionForgotPasswordFailure(errorCode);
     }
 
     protected void trackActionResendVerificationFailure(int errorCode) {
-        TrackActionErrors.trackActionResendNetworkFailure(errorCode);
+        AppTaggingErrors.trackActionResendNetworkFailure(errorCode);
     }
 
     protected void trackMultipleActionsRegistration() {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(AnalyticsConstants.REGISTRATION_CHANNEL, AnalyticsConstants.MY_PHILIPS);
-        map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-        AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+        map.put(AppTagingConstants.REGISTRATION_CHANNEL, AppTagingConstants.MY_PHILIPS);
+        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_USER_REGISTRATION);
+        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
     protected void trackMultipleActionsLogin(String providerName) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(AnalyticsConstants.LOGIN_CHANNEL, providerName);
-        map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.LOGIN_START);
-        AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
+        map.put(AppTagingConstants.LOGIN_CHANNEL, providerName);
+        map.put(AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.LOGIN_START);
+        AppTagging.trackMultipleActions(AppTagingConstants.SEND_DATA, map);
     }
 
 }

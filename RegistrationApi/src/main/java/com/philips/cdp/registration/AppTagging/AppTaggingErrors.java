@@ -1,7 +1,7 @@
 
-package com.philips.cdp.registration.analytics;
+package com.philips.cdp.registration.AppTagging;
 
-public class TrackActionErrors {
+public class AppTaggingErrors {
 
     private static final String FAILEDLOGIN = "failedlogin";
 
@@ -41,20 +41,20 @@ public class TrackActionErrors {
 
         switch (errorCode) {
             case NETWORK_ERROR_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_REGISTRING_USER);
                 break;
             case EMAIL_ADDRESS_ALREADY_USE_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, EMAIL_ALREADY_IN_USE);
                 break;
             case INVALID_INPUT_FIELDS_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.USER_ERROR, INVALID_INPUT_FIELDS);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, INVALID_INPUT_FIELDS);
                 break;
             default:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, FAILURE_USERCREATION);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_USERCREATION);
                 break;
         }
     }
@@ -62,20 +62,20 @@ public class TrackActionErrors {
     public static void trackActionLoginError(int errorCode) {
         switch (errorCode) {
             case NETWORK_ERROR_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_LOGINING_USER);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, WE_RE_HAVING_TROUBLE_LOGINING_USER);
                 break;
             case EMAIL_NOT_VERIFIED_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.USER_ERROR, EMAIL_IS_NOT_VERIFIED);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, EMAIL_IS_NOT_VERIFIED);
                 break;
             case INVALID_INPUT_FIELDS_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.USER_ERROR, INVALID_INPUT_FIELDS);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, INVALID_INPUT_FIELDS);
                 break;
             default:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, FAILEDLOGIN);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, FAILEDLOGIN);
                 break;
         }
     }
@@ -84,17 +84,17 @@ public class TrackActionErrors {
         switch (errorCode) {
 
             case NETWORK_ERROR_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD_ERROR);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD_ERROR);
                 break;
             case FORGOT_PASSWORD_FAILURE_ERROR_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.USER_ERROR, EMAIL_ADDRESS_NOT_EXIST_ERROR);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.USER_ERROR, EMAIL_ADDRESS_NOT_EXIST_ERROR);
                 break;
 
             default:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_FORGOT_PASSWORD);
                 break;
         }
     }
@@ -102,19 +102,19 @@ public class TrackActionErrors {
     public static void trackActionResendNetworkFailure(int errorCode) {
         switch (errorCode) {
             case NETWORK_ERROR_CODE:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, RESEND_VERIFICATION_NETWORK_ERROR);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, RESEND_VERIFICATION_NETWORK_ERROR);
                 break;
 
             default:
-                trackActionForErrorMapping(AnalyticsConstants.SEND_DATA,
-                        AnalyticsConstants.TECHNICAL_ERROR, FAILURE_RESEND_VERIFICATION);
+                trackActionForErrorMapping(AppTagingConstants.SEND_DATA,
+                        AppTagingConstants.TECHNICAL_ERROR, FAILURE_RESEND_VERIFICATION);
                 break;
         }
     }
 
     private static void trackActionForErrorMapping(String sendData, String technicalError,
                                                    String technicalRegistrationError) {
-        AnalyticsUtils.trackAction(sendData, technicalError, technicalRegistrationError);
+        AppTagging.trackAction(sendData, technicalError, technicalRegistrationError);
     }
 }

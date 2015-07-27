@@ -4,6 +4,7 @@ package com.philips.cl.di.regsample.app;
 import android.app.Application;
 
 import com.adobe.mobile.Config;
+import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.utils.RLog;
 
@@ -24,9 +25,9 @@ public class RegistrationApplication extends Application {
 
 		mRegistrationHelper = RegistrationHelper.getInstance();
 		mRegistrationHelper.setCoppaFlow(false);
-		mRegistrationHelper.setAnalyticsAppId("IntegratingApplicationAppId");
-		mRegistrationHelper.setPreviousPage("RegistrationLaunchingPageName");
-		mRegistrationHelper.setIsTagginEnabled(true);
+		AppTagging.enableAppTagging(true);
+		AppTagging.setTrackingIdentifier("IntegratingApplicationAppId");
+		AppTagging.setLaunchingPageName("RegistrationLaunchingPageName");
 		mRegistrationHelper.intializeRegistrationSettings(this,
 				Locale.getDefault());
 	}

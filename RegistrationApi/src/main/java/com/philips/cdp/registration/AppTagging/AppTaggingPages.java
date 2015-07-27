@@ -1,7 +1,7 @@
 
-package com.philips.cdp.registration.analytics;
+package com.philips.cdp.registration.AppTagging;
 
-public interface AnalyticsPages {
+public interface AppTaggingPages {
 
 	String HOME = "registration:home";
 

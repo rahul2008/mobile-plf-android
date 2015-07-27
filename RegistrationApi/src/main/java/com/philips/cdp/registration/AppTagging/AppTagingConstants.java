@@ -1,6 +1,6 @@
-package com.philips.cdp.registration.analytics;
+package com.philips.cdp.registration.AppTagging;
 
-public interface AnalyticsConstants {
+public interface AppTagingConstants {
 
 	String DEFAULT_COUNTRY = "global";
 

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.philips.cdp.registration.settings.RegistrationHelper;
+import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.ui.traditional.RegistrationActivity;
 
 public class RegistrationLaunchHelper {
@@ -15,7 +15,7 @@ public class RegistrationLaunchHelper {
     }
 
     public static void launchRegistrationActivityWithFixedOrientation(Context context, int orientation) {
-        if(RegistrationHelper.getInstance().getAnalyticsAppId()==null){
+        if (null == AppTagging.getTrackingIdentifer()) {
             throw new RuntimeException("Please set appid for tagging before you invoke registration");
         }
         Intent registrationIntent = new Intent(context, RegistrationActivity.class);

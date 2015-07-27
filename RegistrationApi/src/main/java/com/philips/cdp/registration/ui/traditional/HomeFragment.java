@@ -23,9 +23,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
-import com.philips.cdp.registration.analytics.AnalyticsUtils;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -287,18 +286,18 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         } else if (v.getId() == R.id.btn_reg_my_philips) {
             RLog.d(RLog.ONCLICK, "HomeFragment : My Philips");
-            trackMultipleActionsLogin(AnalyticsConstants.MY_PHILIPS);
+            trackMultipleActionsLogin(AppTagingConstants.MY_PHILIPS);
             launchSignInFragment();
         }
     }
 
     private void launchSignInFragment() {
-        trackPage(AnalyticsPages.SIGN_IN_ACCOUNT);
+        trackPage(AppTaggingPages.SIGN_IN_ACCOUNT);
         getRegistrationFragment().addFragment(new SignInAccountFragment());
     }
 
     private void launchCreateAccountFragment() {
-        trackPage(AnalyticsPages.CREATE_ACCOUNT);
+        trackPage(AppTaggingPages.CREATE_ACCOUNT);
         getRegistrationFragment().addFragment(new CreateAccountFragment());
     }
 
@@ -357,7 +356,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         } else {
             mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
             enableControls(false);
-            trackActionLoginError(AnalyticsConstants.NETWORK_ERROR_CODE);
+            trackActionLoginError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 
@@ -468,8 +467,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     @Override
     public void onLoginSuccess() {
-        trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-                AnalyticsConstants.SUCCESS_LOGIN);
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SUCCESS_LOGIN);
         RLog.i(RLog.CALLBACK, "HomeFragment : onLoginSuccess");
         hideProviderProgress();
         enableControls(true);
@@ -482,12 +481,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchAccountActivationFragment() {
-        trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
+        trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
         getRegistrationFragment().addFragment(new AccountActivationFragment());
     }
 
     private void launchWelcomeFragment() {
-        trackPage(AnalyticsPages.WELCOME);
+        trackPage(AppTaggingPages.WELCOME);
         getRegistrationFragment().addWelcomeFragmentOnVerification();
     }
 
@@ -527,7 +526,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchAlmostDoneFragment(JSONObject prefilledRecord, String socialRegistrationToken) {
-        trackPage(AnalyticsPages.ALMOST_DONE);
+        trackPage(AppTaggingPages.ALMOST_DONE);
         getRegistrationFragment().addAlmostDoneFragment(prefilledRecord, mProvider,
                 socialRegistrationToken);
     }
@@ -554,7 +553,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchMergeAccountFragment(String mergeToken, String existingProvider, String emailId) {
-        trackPage(AnalyticsPages.MERGE_ACCOUNT);
+        trackPage(AppTaggingPages.MERGE_ACCOUNT);
         getRegistrationFragment().addMergeAccountFragment(mergeToken, existingProvider, emailId);
     }
 

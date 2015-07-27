@@ -19,8 +19,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.coppa.CoppaExtension;
 import com.philips.cdp.registration.coppa.CoppaResendError;
 import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
@@ -233,9 +233,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	}
 
 	private void handleLogout() {
-		trackPage(AnalyticsPages.HOME);
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-                AnalyticsConstants.SIGN_OUT);
+		trackPage(AppTaggingPages.HOME);
+		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SIGN_OUT);
 		mUser.logout();
 		getRegistrationFragment().replaceWithHomeFragment();
 	}
@@ -274,7 +274,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 			mCbTerms.setChecked(!mCbTerms.isChecked());
 			mCbTerms.setOnCheckedChangeListener(this);
 			mRegError.setError(getString(R.string.NoNetworkConnection));
-			trackActionRegisterError(AnalyticsConstants.NETWORK_ERROR_CODE);
+			trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
 		}
 	}
 
@@ -292,9 +292,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	public void onUpdateReceiveMarketingEmailSuccess() {
 		hideProgressBar();
 		if (mCbTerms.isChecked()) {
-			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
+			trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
 		} else {
-			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
+			trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
 		}
 	}
 

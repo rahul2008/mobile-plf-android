@@ -17,8 +17,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
@@ -212,7 +212,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mRegError.setError(getString(R.string.NoNetworkConnection));
             mBtnActivate.setEnabled(false);
             mBtnResend.setEnabled(false);
-            trackActionRegisterError(AnalyticsConstants.NETWORK_ERROR_CODE);
+            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 
@@ -242,8 +242,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mBtnResend.setVisibility(View.GONE);
             mEMailVerifiedError.hideError();
             mRegError.hideError();
-            trackActionStatus(AnalyticsConstants.SEND_DATA,
-                    AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_USER_REGISTRATION);
+            trackActionStatus(AppTagingConstants.SEND_DATA,
+                    AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_USER_REGISTRATION);
             launchWelcomeFragment();
 
         } else {
@@ -251,13 +251,13 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
             mEMailVerifiedError.setVisibility(View.VISIBLE);
             mEMailVerifiedError.setError(getResources().getString(
                     R.string.Janrain_Error_Need_Email_Verification));
-            trackActionLoginError(AnalyticsConstants.EMAIL_NOT_VERIFIED);
+            trackActionLoginError(AppTagingConstants.EMAIL_NOT_VERIFIED);
         }
     }
 
     private void launchWelcomeFragment() {
         getRegistrationFragment().addWelcomeFragmentOnVerification();
-        trackPage(AnalyticsPages.WELCOME);
+        trackPage(AppTaggingPages.WELCOME);
     }
 
     @Override
@@ -290,8 +290,8 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     public void onResendVerificationEmailSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
         updateResendUIState();
-        trackActionStatus(AnalyticsConstants.SEND_DATA,
-                AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+        trackActionStatus(AppTagingConstants.SEND_DATA,
+                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
     }
 
     private void updateResendUIState() {

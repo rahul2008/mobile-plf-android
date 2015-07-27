@@ -18,8 +18,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -218,9 +218,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void trackCheckMarketing() {
 		if (mCbTerms.isChecked()) {
-			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
+			trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
 		} else {
-			trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
+			trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
 		}
 	}
 
@@ -243,7 +243,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			}
 		} else {
 			mRegError.setError(mContext.getResources().getString(R.string.NoNetworkConnection));
-			trackActionRegisterError(AnalyticsConstants.NETWORK_ERROR_CODE);
+			trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
 		}
 	}
 
@@ -252,8 +252,8 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
 		hideSpinner();
 		trackCheckMarketing();
-		trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-				AnalyticsConstants.SUCCESS_USER_CREATION);
+		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+				AppTagingConstants.SUCCESS_USER_CREATION);
 		if (RegistrationConfiguration.getInstance().getFlow().isEmailVerificationRequired()) {
 			launchAccountActivateFragment();
 		} else {
@@ -263,12 +263,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void launchAccountActivateFragment() {
 		getRegistrationFragment().addFragment(new AccountActivationFragment());
-		trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
+		trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
 	}
 
 	private void launchWelcomeFragment() {
 		getRegistrationFragment().replaceWelcomeFragmentOnLogin(new WelcomeFragment());
-		trackPage(AnalyticsPages.WELCOME);
+		trackPage(AppTaggingPages.WELCOME);
 	}
 
 	@Override

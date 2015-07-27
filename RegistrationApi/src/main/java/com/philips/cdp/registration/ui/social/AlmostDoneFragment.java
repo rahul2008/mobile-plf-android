@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.analytics.AnalyticsConstants;
-import com.philips.cdp.registration.analytics.AnalyticsPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -269,7 +269,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             }
         } else {
             mRegError.setError(getString(R.string.NoNetworkConnection));
-            trackActionRegisterError(AnalyticsConstants.NETWORK_ERROR_CODE);
+            trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
         }
     }
 
@@ -334,13 +334,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void trackMultipleActions() {
         Map<String, Object> map = new HashMap<String, Object>();
-        //map.put(AnalyticsConstants.REGISTRATION_CHANNEL, mProvider);
-        //map.put(AnalyticsConstants.SPECIAL_EVENTS, AnalyticsConstants.START_USER_REGISTRATION);
-        //AnalyticsUtils.trackMultipleActions(AnalyticsConstants.SEND_DATA, map);
         if (mCbTerms.isChecked()) {
-            trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_IN);
+            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_IN);
         } else {
-            trackActionForRemarkettingOption(AnalyticsConstants.REMARKETING_OPTION_OUT);
+            trackActionForRemarkettingOption(AppTagingConstants.REMARKETING_OPTION_OUT);
         }
     }
 
@@ -352,8 +349,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     @Override
     public void onLoginSuccess() {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onLoginSuccess");
-        trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-                AnalyticsConstants.SUCCESS_LOGIN);
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SUCCESS_LOGIN);
         hideSpinner();
     }
 
@@ -390,14 +387,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void addMergeAccountFragment() {
         getRegistrationFragment().addFragment(new MergeAccountFragment());
-        trackPage(AnalyticsPages.MERGE_ACCOUNT);
+        trackPage(AppTaggingPages.MERGE_ACCOUNT);
     }
 
     @Override
     public void onContinueSocialProviderLoginSuccess() {
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginSuccess");
-        trackActionStatus(AnalyticsConstants.SEND_DATA, AnalyticsConstants.SPECIAL_EVENTS,
-                AnalyticsConstants.SUCCESS_USER_CREATION);
+        trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+                AppTagingConstants.SUCCESS_USER_CREATION);
         trackMultipleActions();
         User user = new User(mContext);
         if (user.getEmailVerificationStatus(mContext)) {
@@ -410,12 +407,12 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void launchAccountActivateFragment() {
         getRegistrationFragment().addFragment(new AccountActivationFragment());
-        trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
+        trackPage(AppTaggingPages.ACCOUNT_ACTIVATION);
     }
 
     private void launchWelcomeFragment() {
         getRegistrationFragment().addWelcomeFragmentOnVerification();
-        trackPage(AnalyticsPages.WELCOME);
+        trackPage(AppTaggingPages.WELCOME);
     }
 
     @Override
