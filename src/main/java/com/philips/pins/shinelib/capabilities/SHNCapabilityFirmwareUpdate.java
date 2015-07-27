@@ -8,6 +8,8 @@ import com.philips.pins.shinelib.SHNResult;
  * Created by 310188215 on 16/06/15.
  */
 public interface SHNCapabilityFirmwareUpdate extends SHNCapability {
+    boolean supportsUploadWithoutDeploy();
+
     void uploadFirmware(byte[] firmwareData);
 
     void abortFirmwareUpload();

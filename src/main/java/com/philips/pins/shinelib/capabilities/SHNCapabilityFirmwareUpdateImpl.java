@@ -11,6 +11,8 @@ public class SHNCapabilityFirmwareUpdateImpl implements SHNCapabilityFirmwareUpd
     private SHNCapabilityFirmwareUpdateListener shnCapabilityFirmwareUpdateListener;
 
     @Override
+    public boolean supportsUploadWithoutDeploy() { throw new UnsupportedOperationException(); }
+    @Override
     public void uploadFirmware(byte[] firmwareData) { throw new UnsupportedOperationException(); }
     @Override
     public void abortFirmwareUpload()  { throw new UnsupportedOperationException(); }
