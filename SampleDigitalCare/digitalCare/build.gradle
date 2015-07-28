@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        versionName "1.0.8"
+        versionName "2.0.0"
     }
 
     buildTypes {

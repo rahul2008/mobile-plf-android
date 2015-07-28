@@ -10,15 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -38,6 +39,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private Button mRatePhilipsBtn = null;
     private LinearLayout mLayoutParent = null;
     private LinearLayout mProductReviewView = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
     private View mDividerView = null;
     private FrameLayout.LayoutParams mLayoutParams = null;
     private Uri mStoreUri = null;
@@ -68,6 +71,9 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 R.id.parentLayout);
         mProductReviewView = (LinearLayout) getActivity().findViewById(
                 R.id.secondParent);
+
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
         mDividerView = (View) getActivity().findViewById(R.id.divider);
         mRatePlayStoreBtn.setOnClickListener(this);
         mRatePhilipsBtn.setTransformationMethod(null);
@@ -138,9 +144,23 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         startActivity(i);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mActionBarMenuIcon != null && mActionBarArrow != null)
+            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
+                enableActionBarLeftArrow();
+    }
+
     private void tagExitLisk(String url) {
         AnalyticsTracker.trackAction(AnalyticsConstants.ACTION_EXIT_LINK,
                 AnalyticsConstants.ACTION_KEY_EXIT_LINK, url);
+    }
+
+    private void enableActionBarLeftArrow() {
+        mActionBarMenuIcon.setVisibility(View.GONE);
+        mActionBarArrow.setVisibility(View.VISIBLE);
+        mActionBarArrow.bringToFront();
     }
 
     @Override
@@ -177,7 +197,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_RATE_THIS_APP;
     }
 
-    private void setButtonParams(float density){
+    private void setButtonParams(float density) {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
