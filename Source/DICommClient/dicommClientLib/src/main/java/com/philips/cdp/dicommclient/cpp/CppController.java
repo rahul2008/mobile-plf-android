@@ -112,7 +112,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 
 	private String mAppCppId;
 
-	public static synchronized void createSharedInstance(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
+	public static synchronized CppController createSharedInstance(Context context, KpsConfigurationInfo kpsConfigurationInfo) {
 		if (mInstance != null) {
 			throw new RuntimeException("CPPController can only be initialized once");
 		}
@@ -120,6 +120,7 @@ public class CppController implements ICPClientToAppInterface, ICPEventListener 
 			throw new RuntimeException("CPPController cannot be initialized without context and kpsConfigurationInfo");
 		}
 		mInstance = new CppController(context, kpsConfigurationInfo);
+		return mInstance;
 	}
 
 	public static synchronized CppController getInstance() {
