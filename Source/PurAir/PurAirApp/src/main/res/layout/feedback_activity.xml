@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/parent_container"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/head_include"
+        style="@style/titlebar"
+        layout="@layout/titlebar_basic" />
+
+    <LinearLayout
+        android:id="@+id/containerLL"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/head_include"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <EditText
+            android:id="@+id/feedback_content_edt"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="left|top"
+            android:maxLength="300"
+            android:hint=""
+            android:padding="8dp"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/feedback_contact_edt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/edit_text_bg"
+            android:gravity="center_vertical"
+            android:hint="@string/send_feedback_hint"
+            android:inputType="number"
+            android:maxLength="30"
+            android:padding="8dp"
+            android:singleLine="true"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/feedback_submit_tv"
+            style="@style/btn_blue_text"
+            android:layout_marginTop="25dp"
+            android:text="@string/submit"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="24dp"
+        android:layout_below="@+id/head_include"
+        android:background="@drawable/actionbar_shadow" />
+
+</RelativeLayout>

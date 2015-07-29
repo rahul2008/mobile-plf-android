@@ -59,14 +59,4 @@ Thumbs.db
 **/proguard/*
 .recommenders/
 .metadata/
-PurAir
-PurAirTest
-android-support-v7-appcompat
-GaodeMapBundle
-google_play_services_lib
-Janrain
-LocaleMatch
-RegistrationApi
-SsdpConnectionLib
-social_sdk_library_project
-WeiboSDK
+DIComm/.idea/

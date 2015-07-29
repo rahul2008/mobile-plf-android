@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.philips.cdp.dicommclientsample"
+        minSdkVersion 11
+        targetSdkVersion 21
+
+        testApplicationId "com.philips.cdp.dicommclient"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    if (findProject(':dicommClientLib')) {
+        compile project(':dicommClientLib')
+    } else {
+        //sample app will always use latest version of lib
+        compile 'com.philips.cdp:dicommClientLib:+'
+
+        //you can also choose specific/older version like this
+        //compile 'com.philips.cdp:dicommClientLib:1.+'
+        //compile 'com.philips.cdp:dicommClientLib:1.0.0'
+    }
+}

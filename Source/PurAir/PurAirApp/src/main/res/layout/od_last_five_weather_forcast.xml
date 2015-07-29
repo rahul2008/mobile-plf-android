@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odDayWeatherForcast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:gravity="left"
+        android:textColor="@color/blue_list_item"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ImageView
+        android:id="@+id/odWeatherForcastImg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/img_description" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastMaxTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_weight=".5"
+        android:gravity="right"
+        android:text="@string/hiphen"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastMinTemp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".5"
+        android:gravity="right"
+        android:text="@string/hiphen"
+        android:textColor="@color/philip_light_blue"
+        android:textSize="@dimen/text_size_small_dp"
+        android:textStyle="bold"
+        custom:fontAssetName="fonts/centralesansmedium.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastWind"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight=".7"
+        android:gravity="right"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/centralesansmedium.ttf" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="2dp"
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastWindKM"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.3"
+        android:gravity="left"
+        android:textColor="@color/philips_blue"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+    <ImageView
+        android:id="@+id/odWeatherForcastWindImg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/img_description" />
+
+</LinearLayout>

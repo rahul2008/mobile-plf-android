@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'android-maven'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+    }
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 9
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile files('libs/ICPClientInterface.jar')
+    compile files('libs/ssdp_2.3.jar')
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.2'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.2'
+}
+
+//maven configuration stuff required for artifactory plugin
+group = 'com.philips.cdp'
+version = '1.0.0'
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-release-local'
+            username = 'admin'
+            password = 'password'
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = false
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
+}
