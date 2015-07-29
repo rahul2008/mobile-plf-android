@@ -14,16 +14,15 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceDatabase;
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.cpp.CppController;
-import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
 
 public class DICommClientWrapper {
 
 	private static Context mContext;
-	private static String mAppId;
+	private static String mTemporaryAppId;
 
 	public static synchronized <U extends DICommAppliance> void initializeDICommLibrary(Context context,DICommApplianceFactory<U> applianceFactory, DICommApplianceDatabase<U> applianceDatabase, CppController cppController) {
 		mContext = context;
-		mAppId = generateTemporaryAppId();
+		mTemporaryAppId = generateTemporaryAppId();
 		if( mContext == null){
 			throw new RuntimeException("Please call initializeDICommLibrary() before you get discoverymanager");
 		}
@@ -41,14 +40,16 @@ public class DICommClientWrapper {
 	private static String generateTemporaryAppId() {
 		return String.format("deadbeef%08x",new Random().nextInt());
 	}
-	
-	// TODO: DIComm Refactor to find the ideal place for keeping app id
-	public static String getAppId(){
-		return mAppId;
-	}
 
-    public static String getDICommClientLibVersion(){
+	public static String getDICommClientLibVersion(){
         return BuildConfig.VERSION_NAME;
     }
-	
+
+	public static String getAppId() {
+		return isCppAppIdAvailable() ? CppController.getInstance().getAppCppId() : mTemporaryAppId;
+    }
+
+	private static boolean isCppAppIdAvailable() {
+		return CppController.getInstance() != null && CppController.getInstance().getAppCppId() != null;
+	}
 }
