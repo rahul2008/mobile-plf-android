@@ -27,7 +27,7 @@ import com.philips.cdp.dicommclient.request.Error;
 public class MainActivity extends Activity {
 
 	private static final String TAG = "MainActivity";
-	private DiscoveryManager<GenericAppliance> mDiscoveryManager;
+	private DiscoveryManager<AirPurifier> mDiscoveryManager;
 	private ListView mAppliancesListView;
 	private ArrayAdapter<DICommAppliance> mDICommApplianceAdapter;
 	
@@ -60,7 +60,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mDiscoveryManager = (DiscoveryManager<GenericAppliance>) DiscoveryManager.getInstance();
+		mDiscoveryManager = (DiscoveryManager<AirPurifier>) DiscoveryManager.getInstance();
 		mDiscoveryManager.addDiscoveryEventListener(mDiscoveryEventListener);
 		mDiscoveryManager.start();
 	}

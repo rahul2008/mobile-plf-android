@@ -4,10 +4,12 @@ import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.communication.CommunicationStrategy;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 
-class GenericAppliance extends DICommAppliance {
+class AirPurifier extends DICommAppliance {
 
-	public GenericAppliance(NetworkNode networkNode,
-			CommunicationStrategy communicationStrategy) {
+	public static final String MODELNAME = "AirPurifier";
+
+	public AirPurifier(NetworkNode networkNode,
+					   CommunicationStrategy communicationStrategy) {
 		super(networkNode, communicationStrategy);
 	}
 

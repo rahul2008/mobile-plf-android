@@ -12,7 +12,7 @@ public class SampleApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 
-		DICommApplianceFactory<GenericAppliance> applianceFactory = new GenericApplianceFactory();
+		DICommApplianceFactory<AirPurifier> applianceFactory = new AirPurifierFactory();
 		CppController cppController = CppController.createSharedInstance(this, new SampleKpsConfigurationInfo());
 
 		// TOOD better to create separate methods than to pass null?
