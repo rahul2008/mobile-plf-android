@@ -241,6 +241,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
+        mEtEmail.setOnClickListener(this);
         setViewParams(getResources().getConfiguration());
 
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_social_almost_done_spinner);
@@ -300,7 +301,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (RegConstants.JANRAIN_INIT_SUCCESS.equals(event)) {
             updateUiStatus();
         }
-
     }
 
     @Override
@@ -316,7 +316,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.clearFocus();
             register();
         }
-
     }
 
     private void register() {
