@@ -254,6 +254,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         if (isEmailExist) {
             mEtEmail.setVisibility(View.GONE);
+            mBtnContinue.setEnabled(true);
         } else {
             mEtEmail.setVisibility(View.VISIBLE);
         }
