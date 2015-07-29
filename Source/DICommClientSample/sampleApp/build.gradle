@@ -25,7 +25,11 @@ dependencies {
     if (findProject(':dicommClientLib')) {
         compile project(':dicommClientLib')
     } else {
-        compile 'com.philips.cdp:dicommClientLib:0.0.1'
-        compile 'com.google.code.gson:gson:2.2.4'
+        //sample app will always use latest version of lib
+        compile 'com.philips.cdp:dicommClientLib:+'
+
+        //you can also choose specific/older version like this
+        //compile 'com.philips.cdp:dicommClientLib:1.+'
+        //compile 'com.philips.cdp:dicommClientLib:1.0.0'
     }
 }

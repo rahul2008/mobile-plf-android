@@ -44,7 +44,7 @@ dependencies {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = '0.0.1'
+version = '1.0.0'
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
