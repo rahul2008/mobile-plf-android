@@ -92,6 +92,9 @@ public class CaptureDebugUtils {
         record.refreshAccessToken(null);
 
         try {
+            String USER_OLDER_THAN_AGE_LIMIT = "olderThanAgeLimit";
+            JSONObject originalJson = record;
+            record.put(USER_OLDER_THAN_AGE_LIMIT, true);
             record.synchronize(new CaptureApiRequestCallback() {
                 public void onSuccess() {
                     LogUtils.logd("Capture", "success");
@@ -100,7 +103,7 @@ public class CaptureDebugUtils {
                 public void onFailure(CaptureApiError e) {
                     LogUtils.logd("Capture", ("failure: " + e));
                 }
-            },null);
+            },originalJson);
         } catch (Capture.InvalidApidChangeException e) {
             e.printStackTrace();
         }

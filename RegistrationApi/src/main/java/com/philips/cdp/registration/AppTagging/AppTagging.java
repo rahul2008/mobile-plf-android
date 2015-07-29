@@ -38,8 +38,8 @@ public class AppTagging {
             return;
         }
         Map<String, Object> contextData = addAnalyticsDataObject();
-        if (null != getPreviousPage()) {
-            contextData.put(AppTagingConstants.PREVIOUS_PAGE_NAME, getPreviousPage());
+        if (null != getLaunchingPageName()) {
+            contextData.put(AppTagingConstants.PREVIOUS_PAGE_NAME, getLaunchingPageName());
         }
         Analytics.trackState(currPage, contextData);
         prevPage = currPage;
@@ -115,7 +115,7 @@ public class AppTagging {
         AppTagging.isTagginEnabled = isTagginEnabled;
     }
 
-    public static String getPreviousPage() {
+    public static String getLaunchingPageName() {
         return launchingPageName;
     }
 
