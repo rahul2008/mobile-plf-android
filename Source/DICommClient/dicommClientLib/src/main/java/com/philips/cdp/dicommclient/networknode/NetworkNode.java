@@ -76,6 +76,13 @@ public class NetworkNode extends Observable implements Parcelable {
 		this.mName = name;
 	}
 
+	/**
+	 * The modelname defines the category of the product (e.g. AirPurifier)
+	 * Different products can have the same modelname, but their modeltype
+	 * will be different.
+	 *
+	 * @return
+	 */
 	public synchronized String getModelName() {
 		return mModelName;
 	}
@@ -84,6 +91,13 @@ public class NetworkNode extends Observable implements Parcelable {
 		this.mModelName = modelName;
 	}
 
+	/**
+	 * The modeltype defines one particular type of product (e.g. AC7342).
+	 * Different products will have a different modeltype, but their
+	 * modelname can be the same.
+	 *
+	 * @return
+	 */
 	public synchronized String getModelType() {
 		return mModelType;
 	}
