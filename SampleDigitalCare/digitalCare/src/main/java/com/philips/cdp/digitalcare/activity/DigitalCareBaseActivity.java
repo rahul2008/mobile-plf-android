@@ -138,7 +138,6 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
         if (currentFrag != null) {
             transaction.remove(currentFrag);
         }
-
         transaction.commit();
     }
 

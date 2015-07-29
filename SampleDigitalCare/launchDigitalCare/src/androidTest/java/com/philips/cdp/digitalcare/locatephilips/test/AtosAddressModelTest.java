@@ -6,10 +6,11 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.digitalcare.locatephilips.AtosAddressModel;
-import com.philips.cdp.digitalcare.locatephilips.AtosParsingCallback;
-import com.philips.cdp.digitalcare.locatephilips.AtosResponseModel;
-import com.philips.cdp.digitalcare.locatephilips.AtosResultsModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
+import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
+
 
 public class AtosAddressModelTest extends InstrumentationTestCase {
 

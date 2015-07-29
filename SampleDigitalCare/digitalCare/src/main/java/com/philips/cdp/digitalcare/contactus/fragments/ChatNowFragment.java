@@ -126,13 +126,13 @@ public class ChatNowFragment extends DigitalCareBaseFragment {
 		}
 	}
 
-	protected void setChatEndPoint(final String url) {
+	public void setChatEndPoint(final String url) {
 
 		if (url.startsWith("http://") || url.startsWith("https://"))
 			mUrl = url;
 	}
 
-	protected String getChatEndPoint() {
+	public String getChatEndPoint() {
 		return mUrl;
 	}
 }

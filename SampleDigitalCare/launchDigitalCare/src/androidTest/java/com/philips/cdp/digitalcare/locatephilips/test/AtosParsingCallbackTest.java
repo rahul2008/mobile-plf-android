@@ -2,12 +2,13 @@ package com.philips.cdp.digitalcare.locatephilips.test;
 
 import org.mockito.Mockito;
 
-import com.philips.cdp.digitalcare.locatephilips.AtosParsingCallback;
-import com.philips.cdp.digitalcare.locatephilips.AtosResponseModel;
 
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
+import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 
 public class AtosParsingCallbackTest extends InstrumentationTestCase {
 

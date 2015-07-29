@@ -5,6 +5,9 @@ import org.mockito.Mockito;
 import android.content.Context;
 import android.test.InstrumentationTestCase;
 
+import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
+import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
+
 public class CdlsParsingCallbackTest extends InstrumentationTestCase {
 
 	private Context context = null;

@@ -10,7 +10,8 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
-import com.philips.cdp.digitalcare.locatephilips.MapDirectionsParser;
+import com.philips.cdp.digitalcare.locatephilips.parser.MapDirectionsParser;
+
 
 public class MapDirectionsParserTest extends InstrumentationTestCase {
 
