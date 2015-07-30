@@ -69,7 +69,7 @@ public class DICommPortTest extends MockitoTestCase{
 
 
 	public void testGetProperties(){
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(true);
 	}
 
@@ -110,7 +110,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -157,7 +157,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
 		verifyPutPropertiesCalled(true);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		mResponseHandlerCaptor.getValue().onError(null, null);
@@ -203,7 +203,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.subscribe();
 		verifySubscribeCalled(true);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -214,7 +214,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.subscribe();
 		verifySubscribeCalled(true);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		mResponseHandlerCaptor.getValue().onError(null, null);
@@ -248,7 +248,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(true);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		mResponseHandlerCaptor.getValue().onSuccess(null);
@@ -268,7 +268,7 @@ public class DICommPortTest extends MockitoTestCase{
 		mDICommPort.unsubscribe();
 		verifyUnsubscribeCalled(true);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		mResponseHandlerCaptor.getValue().onError(null, null);
@@ -276,12 +276,12 @@ public class DICommPortTest extends MockitoTestCase{
 	}
 
 	public void testDoNotPerformGetAfterGetSuccess(){
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		responseHandler.onSuccess(null);
@@ -289,12 +289,12 @@ public class DICommPortTest extends MockitoTestCase{
 	}
 
 	public void testDoNotPerformGetAfterGetError(){
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(true);
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		verifyGetPropertiesCalled(false);
 
 		responseHandler.onError(null, null);
@@ -307,7 +307,7 @@ public class DICommPortTest extends MockitoTestCase{
 		ResponseHandler responseHandler = mResponseHandlerCaptor.getValue();
 		reset(mCommunicationStrategy);
 
-		mDICommPort.getProperties();
+		mDICommPort.reloadProperties();
 		mDICommPort.unsubscribe();
 		mDICommPort.subscribe();
 		mDICommPort.putProperties(FANSPEED_KEY, FANSPEED_VALUE);
@@ -612,12 +612,12 @@ public class DICommPortTest extends MockitoTestCase{
 		}
 
 		@Override
-		public boolean isResponseForThisPort(String response) {
+		public boolean isResponseForThisPort(String jsonResponse) {
 			return true;
 		}
 
 		@Override
-		public void processResponse(String response) {
+		public void processResponse(String jsonResponse) {
 			// NOP
 		}
 

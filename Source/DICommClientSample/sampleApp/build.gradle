@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.philips.cdp.dicommclientsample"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 21
 
         testApplicationId "com.philips.cdp.dicommclient"

@@ -6,6 +6,7 @@
 package com.philips.cdp.dicommclientsample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.philips.cdp.dicommclient.appliance.CurrentApplianceManager;
 import com.philips.cdp.dicommclient.appliance.DICommAppliance;
 import com.philips.cdp.dicommclient.discovery.DiscoveryEventListener;
 import com.philips.cdp.dicommclient.discovery.DiscoveryManager;
@@ -106,10 +108,8 @@ public class MainActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			WifiPortProperties portProperties = mDICommApplianceAdapter.getItem(position).getWifiPort().getPortProperties();
-			if (portProperties != null) {
-				Log.d(TAG, String.format("WifiPortProperties: ipaddress=%s", portProperties.getIpaddress()));
-			}
+			CurrentApplianceManager.getInstance().setCurrentAppliance(mDICommApplianceAdapter.getItem(position));
+			startActivity(new Intent(MainActivity.this, DetailActivity.class));
 		}
 	};
 }

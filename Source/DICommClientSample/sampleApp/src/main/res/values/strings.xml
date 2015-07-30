@@ -4,5 +4,14 @@
     <string name="app_name">DICommClientSample</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="light_state">Light state</string>
 
+    <string-array name="fan_speed_array">
+        <item>SILENT</item>
+        <item>AUTO</item>
+        <item>TURBO</item>
+        <item>ONE</item>
+        <item>TWO</item>
+        <item>THREE</item>
+    </string-array>
 </resources>

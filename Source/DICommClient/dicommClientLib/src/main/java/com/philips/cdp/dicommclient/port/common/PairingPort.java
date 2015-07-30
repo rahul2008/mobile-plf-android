@@ -26,13 +26,13 @@ public class PairingPort extends DICommPort<Object> {
 	}
 
 	@Override
-	public boolean isResponseForThisPort(String response) {
+	public boolean isResponseForThisPort(String jsonResponse) {
 	    DICommLog.e(DICommLog.PAIRINGPORT,"Pairing does not return responses");
 		return false;
 	}
 
 	@Override
-	public void processResponse(String response) {
+	public void processResponse(String jsonResponse) {
         DICommLog.e(DICommLog.PAIRINGPORT,"Pairing does not return responses");
 	}
 
