@@ -45,14 +45,14 @@ public class ScheduleListPort extends DICommPort<ScheduleListPortInfo> {
 	}
 
 	@Override
-	public boolean isResponseForThisPort(String response) {
-		if (parseResponseAsSingleSchedule(response)!=null) return true;
-		if (parseResponseAsScheduleList(response)!=null) return true;
+	public boolean isResponseForThisPort(String jsonResponse) {
+		if (parseResponseAsSingleSchedule(jsonResponse)!=null) return true;
+		if (parseResponseAsScheduleList(jsonResponse)!=null) return true;
 		return false;
 	}
 
 	@Override
-	public void processResponse(String response) {
+	public void processResponse(String jsonResponse) {
 		//TODO: DIComm Refactor, implement
        DICommLog.e(DICommLog.SCHEDULELISTPORT, "Method Not Implemented, SchedulerActivity should be refactored");
 	}

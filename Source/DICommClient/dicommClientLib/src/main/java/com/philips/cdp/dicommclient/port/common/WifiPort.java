@@ -34,13 +34,13 @@ public class WifiPort extends DICommPort<WifiPortProperties> {
 	private final int WIFIPORT_PRODUCTID = 0;
 
 	@Override
-	public boolean isResponseForThisPort(String response) {
-		return (parseResponse(response)!=null);
+	public boolean isResponseForThisPort(String jsonResponse) {
+		return (parseResponse(jsonResponse)!=null);
 	}
 
 	@Override
-	public void processResponse(String response) {
-		WifiPortProperties wifiPortProperties = parseResponse(response);
+	public void processResponse(String jsonResponse) {
+		WifiPortProperties wifiPortProperties = parseResponse(jsonResponse);
         if(wifiPortProperties!=null){
         	setPortProperties(wifiPortProperties);
         	return;

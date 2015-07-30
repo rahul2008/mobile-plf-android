@@ -47,13 +47,13 @@ abstract class DICommListPort<T extends DICommListEntryPort<?>> extends DICommPo
 	}
 
 	@Override
-	public boolean isResponseForThisPort(String response) {
+	public boolean isResponseForThisPort(String jsonResponse) {
 		// TODO DIComm refacor - implement method
 		return false;
 	}
 
 	@Override
-	protected void processResponse(String response) {
+	protected void processResponse(String jsonResponse) {
 		// TODO DIComm refactor - implement method
 
 		// Create a hashmap (key value) of processed ports
