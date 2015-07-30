@@ -2,6 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
 apply plugin: 'android-maven'
 
+def libVersionNumber = '1.0.0'
+
 buildscript {
     repositories {
         jcenter()
@@ -20,7 +22,7 @@ android {
     defaultConfig {
         minSdkVersion 9
         versionCode 1
-        versionName "1.0.0"
+        versionName libVersionNumber
     }
 
     buildTypes {
@@ -44,7 +46,7 @@ dependencies {
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
-version = '1.0.0'
+version = libVersionNumber
 
 artifactory {
     contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
