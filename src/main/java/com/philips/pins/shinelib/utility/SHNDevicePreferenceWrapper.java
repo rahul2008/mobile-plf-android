@@ -3,8 +3,6 @@ package com.philips.pins.shinelib.utility;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.philips.pins.shinelib.SHNDevice;
-
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -15,8 +13,8 @@ public class SHNDevicePreferenceWrapper {
 
     private final SharedPreferences sharedPreferences;
 
-    public SHNDevicePreferenceWrapper(Context context, SHNDevice device) {
-        sharedPreferences = context.getSharedPreferences(device.getAddress() + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
+    public SHNDevicePreferenceWrapper(Context context, String address) {
+        sharedPreferences = context.getSharedPreferences(address + SHN_DEVICE_PREFERENCES_FILE_KEY, Context.MODE_PRIVATE);
     }
 
     public SharedPreferences.Editor edit() {
@@ -25,5 +23,9 @@ public class SHNDevicePreferenceWrapper {
 
     public int getInt(String key) {
         return sharedPreferences.getInt(key, -1);
+    }
+
+    public String getString(String key) {
+        return sharedPreferences.getString(key, null);
     }
 }
