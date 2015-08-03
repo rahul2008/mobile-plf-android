@@ -30,6 +30,11 @@ public class Timer {
         handler.postDelayed(runnable, timeoutTimeMS);
     }
 
+    public void restart(long timeoutTimeMS) {
+        stop();
+        handler.postDelayed(runnable, timeoutTimeMS);
+    }
+
     public void stop() {
         handler.removeCallbacks(runnable);
     }
