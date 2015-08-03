@@ -88,7 +88,7 @@ public class SHNDeviceAssociationTest {
         doReturn(true).when(mockedSHNCentral).startScanningForDevices(any(Collection.class), any(SHNDeviceScanner.ScannerSettingDuplicates.class), any(SHNDeviceScanner.SHNDeviceScannerListener.class));
         doReturn(mockedShinePreferenceWrapper).when(mockedSHNCentral).getShinePreferenceWrapper();
         doNothing().when(mockedSHNCentral).stopScanning();
-        doReturn(mockedSHNDevice).when(mockedSHNCentral).creatSHNDeviceForAddress(anyString(), any(SHNDeviceDefinitionInfo.class));
+        doReturn(mockedSHNDevice).when(mockedSHNCentral).createSHNDeviceForAddress(anyString(), any(SHNDeviceDefinitionInfo.class));
         doReturn(mockedInternalHandler.getMock()).when(mockedSHNCentral).getInternalHandler();
         doReturn(mockedUserHandler.getMock()).when(mockedSHNCentral).getUserHandler();
 
