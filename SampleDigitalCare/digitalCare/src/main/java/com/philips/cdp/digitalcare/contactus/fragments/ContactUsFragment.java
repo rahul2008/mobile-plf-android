@@ -353,8 +353,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected void startProgressDialog() {
         DigiCareLogger.v(TAG, "Progress Dialog Started");
-        if (mDialog == null)
+        if (mDialog == null) {
             mDialog = new ProgressDialog(getActivity());
+            mDialog.setCancelable(true);
+        }
         mDialog.setMessage(getActivity().getResources().getString(
                 R.string.loading));
         if (!(getActivity().isFinishing())) {
