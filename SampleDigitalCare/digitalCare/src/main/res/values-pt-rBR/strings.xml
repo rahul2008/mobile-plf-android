@@ -70,7 +70,7 @@
 <string name="twitter_login_hint_username">Nome de usuário</string>
 <string name="twitter_login_hint_password">Senha</string>
 <string name="twiiter_login_logo_description">Logotipo do Twitter</string>
-<string name="twitter_post_progress_message">Enviando sua mensagem para a equipe de Suporte do Twitter da Philips…</string>
+<string name="twitter_post_progress_message">Enviando sua mensagem para a equipe de Suporte do Twitter da Philips&#8230;</string>
 <string name="twitter_post_char_limitation">Nota: sua mensagem não pode conter mais do que 140 caracteres</string>
 
 <!-- Contact US - Social Post   null -->
