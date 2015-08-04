@@ -1,4 +1,20 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.artifactory-upload'
+apply plugin: 'com.github.dcendents.android-maven'
+
+
+def libVersionNumber = '0.0.1'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
+        classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
+    }
+}
 
 android {
     compileSdkVersion 22
@@ -8,8 +24,9 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName libVersionNumber
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,4 +38,40 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
+}
+
+//maven configuration stuff required for artifactory plugin
+group = 'com.philips.cdp'
+version = libVersionNumber
+
+artifactory {
+    contextUrl = 'http://maartens-mini.ddns.htc.nl.philips.com:8081/artifactory'
+    publish {
+        repository {
+            repoKey = 'libs-release-local'
+            username = 'admin'
+            password = 'password'
+            publishPom = true
+            publishIvy = false
+            publishBuildInfo = false
+        }
+    }
+    resolve {
+        repository {
+            repoKey = 'libs-release-local'
+        }
+    }
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+artifactoryPublish {
+    dependsOn sourceJar
+}
+
+artifacts {
+    archives sourceJar
 }

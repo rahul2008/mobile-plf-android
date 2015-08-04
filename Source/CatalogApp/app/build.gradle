@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
@@ -26,11 +27,7 @@ dependencies {
     if (findProject(':uikitLib')) {
         compile project(':uikitLib')
     } else {
-        //sample app will always use latest version of lib
-        //compile 'com.philips.cdp:uikitLib:+'
-
-        //you can also choose specific/older version like this
-        //compile 'com.philips.cdp:uikitLib:1.+'
-        //compile 'com.philips.cdp:uikitLib:1.0.0'
+        //only use this line to add a dependency to uikit
+        compile 'com.philips.cdp:uikitLib:0.0.1'
     }
 }
