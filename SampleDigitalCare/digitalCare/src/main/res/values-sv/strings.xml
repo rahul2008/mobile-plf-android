@@ -90,6 +90,6 @@
 <!-- Locate Philips   null -->
 <string name="search">Sök</string>
 <string name="gps_disabled">GPS är inaktiverat i enheten. Vill du aktivera det?</string>
-<string name="servicecenters_not_found">Det finns inga servicecentra i ditt land' </string>
+<string name="servicecenters_not_found">Det finns inga servicecentra i ditt land\' </string>
 <string name="no_data">Uppgift saknas</string>
 </resources>

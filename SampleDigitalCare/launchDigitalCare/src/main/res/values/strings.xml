@@ -20,27 +20,11 @@
         <item>Polish(pl)</item>
         <item>Spanish(es)</item>
         <item>Chinese Hongkong(zh)</item>
-    </string-array>
-
-
-    <!-- Country -->
-    <string-array name="country">
-        <item>India (in)</item>
-        <item>United States(US)</item>
-        <item>France(FR)</item>
-        <item>Egypt(EG)</item>
-        <item>Germany(DE)</item>
-        <item>Japan(JP)</item>
-        <item>Korea(KR)</item>
-        <item>Dutch(NL)</item>
-        <item>BRAZIL(BR)</item>
-        <item>Russia(RU)</item>
-        <item>China(TW)</item>
-        <item>Italy(IT)</item>
-        <item>China(CN)</item>
-        <item>Poland(PL)</item>
-        <item>Spain(ES)</item>
-        <item>China(HK)</item>
+        <item>Danish (da)</item>
+        <item>Persian (fa)</item>
+        <item>Finnish (fi)</item>
+        <item>Norwegien (nb)</item>
+        <item>Swedish (sv)</item>
     </string-array>
 
 
@@ -62,8 +46,38 @@
         <item>pl</item>
         <item>es</item>
         <item>zh</item>
+        <item>da</item>
+        <item>fa</item>
+        <item>fi</item>
+        <item>nb</item>
+        <item>sv</item>
     </string-array>
 
+
+    <!-- Country -->
+    <string-array name="country">
+        <item>India (in)</item>
+        <item>United States(US)</item>
+        <item>France(FR)</item>
+        <item>Egypt(EG)</item>
+        <item>Germany(DE)</item>
+        <item>Japan(JP)</item>
+        <item>Korea(KR)</item>
+        <item>Dutch(NL)</item>
+        <item>BRAZIL(BR)</item>
+        <item>Russia(RU)</item>
+        <item>China(TW)</item>
+        <item>Italy(IT)</item>
+        <item>China(CN)</item>
+        <item>Poland(PL)</item>
+        <item>Spain(ES)</item>
+        <item>China(HK)</item>
+        <item>Denmark (DK)</item>
+        <item>Iran (IR)</item>
+        <item>Finland (FI)</item>
+        <item>Norway (NO)</item>
+        <item>Sweden (SE)</item>
+    </string-array>
 
     <!-- country code -->
     <string-array name="country_code">
@@ -83,7 +97,15 @@
         <item>PL</item>
         <item>ES</item>
         <item>HK</item>
+        <item>DK</item>
+        <item>IR</item>
+        <item>FI</item>
+        <item>NO</item>
+        <item>SE</item>
     </string-array>
+
+
+
     <string name="dummytext">Dummy View</string>
     <string name="app_description">This is just an sample launcher app for  launching the DigitalCare Component.</string>
     <string name="launch_button_text">Open DigitalCare Component</string>
