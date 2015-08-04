@@ -1,11 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.philips.cdp.ui.catalog"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
@@ -22,15 +21,4 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
-
-    if (findProject(':uikitLib')) {
-        compile project(':uikitLib')
-    } else {
-        //sample app will always use latest version of lib
-        //compile 'com.philips.cdp:uikitLib:+'
-
-        //you can also choose specific/older version like this
-        //compile 'com.philips.cdp:uikitLib:1.+'
-        //compile 'com.philips.cdp:uikitLib:1.0.0'
-    }
 }
