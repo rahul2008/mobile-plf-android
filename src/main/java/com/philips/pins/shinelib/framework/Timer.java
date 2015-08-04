@@ -26,8 +26,7 @@ public class Timer {
     }
 
     public void restart() {
-        stop();
-        handler.postDelayed(runnable, timeoutTimeMS);
+        restart(timeoutTimeMS);
     }
 
     public void restart(long timeoutTimeMS) {
