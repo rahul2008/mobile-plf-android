@@ -70,7 +70,7 @@
 <string name="twitter_login_hint_username">아이디</string>
 <string name="twitter_login_hint_password">암호</string>
 <string name="twiiter_login_logo_description">Twitter 로고</string>
-<string name="twitter_post_progress_message">필립스 Twitter 지원 센터에 메시지 전송 중…</string>
+<string name="twitter_post_progress_message">필립스 Twitter 지원 센터에 메시지 전송 중&#8230;</string>
 <string name="twitter_post_char_limitation">메시지는 140자를 초과할 수 없습니다.</string>
 
 <!-- Contact US - Social Post   null -->

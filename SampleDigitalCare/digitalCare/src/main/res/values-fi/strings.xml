@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--  Finnish -->
+<string name="img_description">kuvaus</string>
+<string name="no_internet">Ei internet-yhteyttä. Tarkista yhteys puhelimen Wi-Fi-asetuksissa tai datayhteysasetuksissa</string>
+
+<!-- values for Support Home Screen    null -->
+<string name="how_can_we_help">Miten voimme auttaa?</string>
+<string name="contact_us">Yhteystiedot</string>
+<string name="view_product_details">Näytä tuotetiedot</string>
+<string name="view_faq">Lue vastauksia</string>
+<string name="find_philips_near_you">Lähin Philips-jälleenmyyjä</string>
+<string name="feedback">Kerro mielipiteesi</string>
+<string name="registration">Rekisteröi tuotteesi</string>
+<string name="actionbar_title_support">Tuki</string>
+
+<!-- values for Product Registration Screen   null -->
+<string name="login_to_social_media">Kirjaudutaanko yhteisöpalvelun tilillä?</string>
+<string name="twitter">Twitter</string>
+<string name="facebook">Facebook</string>
+<string name="linkedin">LinkedIn</string>
+<string name="googleplus">Google Plus</string>
+<string name="login_with_philips_account">Tai kirjaudu My Philips -tilillä</string>
+<string name="email"> Sähköpostiosoite</string>
+<string name="password">Salasana</string>
+<string name="sign_into_my_philips">My Philips -kirjautuminen</string>
+<string name="forgot_my_password">Olen unohtanut salasanani > </string>
+<string name="create_account"> Luo tili ></string>
+
+<!-- values for Locate Near You Screen   null -->
+<string name="loading">Ladataan</string>
+<string name="please_wait">Odota &#8230;</string>
+<string name="get_directions">Löydä ohjeita</string>
+
+<!-- values for Contact Us Screen   null -->
+<string name="leave_us_a_message">Kirjoita meille viesti</string>
+<string name="contact_us_text">Yhteystiedot:</string>
+<string name="opening_hours">Aukioloajat</string>
+<string name="live_chat">Live Chat</string>
+<string name="send_email">Sähköposti</string>
+<string name="call_number">Soitto</string>
+<string name="chat_with_philips">Philips-chat</string>
+<string name="check_sim">SIM-korttia ei tunnisteta. Tarkista, onko kortti oikein paikoillaan</string>
+<string name="no_data_available">Ei tietoja saatavilla</string>
+<string name="send_us_email">Lähetä sähköpostia</string>
+
+<!-- values for Live Chat Screen   null -->
+<string name="can_we_help_you">Voimmeko auttaa?</string>
+<string name="chat_now">Keskustele</string>
+<string name="no_thanks">Ei kiitos</string>
+<string name="chat_desc">Keskustele asiantuntijamme kanssa englanniksi kaikkina vuorokaudenaikoina.</string>
+
+<!-- View Product Details   null -->
+<string name="product_open_manual">Avaa vuorovaikutteinen opas</string>
+<string name="product_download_manual">Lataa tuotteen käyttöopas</string>
+<string name="product_information">Tuotetiedot (philips.com)</string>
+
+<!-- Application Rate & Review   null -->
+<string name="rate_playstore_headertext">Arvosanasi tälle sovellukselle?</string>
+<string name="rate_playstore_buttontext">Arvostele sovellus</string>
+<string name="rate_philips_headertext">Lähetä tuotearvostelu</string>
+<string name="rate_philips_description">Kirjoita arvostelu ja auta muita käyttäjiä löytämään sopiva tuote</string>
+<string name="rate_philips_buttontext">My Philips -kirjautuminen</string>
+
+<!--  ContactUS - Twitter  Login    null -->
+<string name="twitter_login_header">Twitter-kirjautuminen</string>
+<string name="twitter_login_hint_username">Käyttäjänimi</string>
+<string name="twitter_login_hint_password">Salasana</string>
+<string name="twiiter_login_logo_description">Twitter-logo</string>
+<string name="twitter_post_progress_message">Lähetetään viestiä Philipsin Twitter-tukeen...</string>
+<string name="twitter_post_char_limitation">Viestin enimmäispituus on 140 merkkiä</string>
+
+<!-- Contact US - Social Post   null -->
+<string name="social_post_to">Lähetä viesti Philipsille</string>
+<string name="social_post_desc_text">Lisää tuotetiedot</string>
+<string name="cancel">Peruuta</string>
+<string name="take_photo">Ota kuva</string>
+<string name="choose_from_library">Valitse kirjastosta</string>
+<string name="social_post_failed">Tapahtui virhe. </string>
+<string name="support_productinformation">auttaisitteko seuraavassa:</string>
+<string name="social_post_success">Viestisi on vastaanotettu.</string>
+
+<!-- Social Login   null -->
+<string name="post">Posti</string>
+<string name="send">Lähetä</string>
+<string name="facebook_login_header">Facebook-kirjautuminen</string>
+<string name="SocialSharingPostTemplateText">auttaisitteko seuraavassa:</string>
+
+<!-- Locate Philips   null -->
+<string name="search">Haku</string>
+<string name="gps_disabled">GPS ei ole käytössä laitteessasi. Otetaanko käyttöön?</string>
+<string name="servicecenters_not_found">Ei paikallisia palvelukeskuksia </string>
+<string name="no_data">Ei tietoja saatavilla</string>
+</resources>

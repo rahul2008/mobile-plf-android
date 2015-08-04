@@ -70,7 +70,7 @@
 <string name="twitter_login_hint_username">Gebruikersnaam</string>
 <string name="twitter_login_hint_password">Wachtwoord</string>
 <string name="twiiter_login_logo_description">Twitter-logo</string>
-<string name="twitter_post_progress_message">Bericht wordt verstuurd naar Twitter-ondersteuningsteam van Philips…</string>
+<string name="twitter_post_progress_message">Bericht wordt verstuurd naar Twitter-ondersteuningsteam van Philips&#8230;</string>
 <string name="twitter_post_char_limitation">Uw bericht mag niet meer dan 140 tekens bevatten</string>
 
 <!-- Contact US - Social Post   null -->

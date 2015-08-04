@@ -70,7 +70,7 @@
 <string name="twitter_login_hint_username">用户名</string>
 <string name="twitter_login_hint_password">密码</string>
 <string name="twiiter_login_logo_description">Twitter 徽标</string>
-<string name="twitter_post_progress_message">正将消息发送至飞利浦 Twitter 支持…</string>
+<string name="twitter_post_progress_message">正将消息发送至飞利浦 Twitter 支持&#8230;</string>
 <string name="twitter_post_char_limitation">请注意，您的消息长度不能超过 140 个字符</string>
 
 <!-- Contact US - Social Post   null -->
