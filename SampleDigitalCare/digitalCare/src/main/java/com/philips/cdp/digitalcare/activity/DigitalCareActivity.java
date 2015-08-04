@@ -22,7 +22,7 @@ import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
  * @author : Ritesh.jha@philips.com
  * @since : 5 Dec 2014
  */
-public class DigitalCareActivity extends DigitalCareBaseActivity {
+public  class DigitalCareActivity extends DigitalCareBaseActivity {
     private static final String TAG = DigitalCareActivity.class.getSimpleName();
     private static int mEnterAnimation = -1;
     private static int mExitAnimation = -1;

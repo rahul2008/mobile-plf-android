@@ -70,7 +70,7 @@
 <string name="twitter_login_hint_username">Имя польз.</string>
 <string name="twitter_login_hint_password">Пароль</string>
 <string name="twiiter_login_logo_description">Логотип Twitter</string>
-<string name="twitter_post_progress_message">Сообщение отправляется в службу поддержки Philips в Twitter…</string>
+<string name="twitter_post_progress_message">Сообщение отправляется в службу поддержки Philips в Twitter&#8230;</string>
 <string name="twitter_post_char_limitation">Максимальная длина сообщения — 140 символов</string>
 
 <!-- Contact US - Social Post   null -->

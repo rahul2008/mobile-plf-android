@@ -24,11 +24,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";
     private Button mLaunchDigitalCare = null;
-    private Button mLaunchProduct = null;
-    private Button mLaunchContact = null;
-    private Button mLaunchLocate = null;
-    private Button mLaunchRate = null;
-    private Button mLaunchProductRegister = null;
+
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
     private SampleConsumerProductInfo mConsumerProductInfo = null;
@@ -40,20 +36,10 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         setContentView(R.layout.activity_digital_care);
 
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
-        mLaunchProduct = (Button) findViewById(R.id.launchproduct);
-        mLaunchContact = (Button) findViewById(R.id.launch_contact);
-        mLaunchLocate = (Button) findViewById(R.id.launch_locate);
-        mLaunchLocate.setVisibility(View.GONE);
-        mLaunchRate = (Button) findViewById(R.id.launchrate);
-        mLaunchProductRegister = (Button) findViewById(R.id.launchproductregister);
+
 
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
-        mLaunchProduct.setOnClickListener(this);
-        mLaunchContact.setOnClickListener(this);
-        mLaunchLocate.setOnClickListener(this);
-        mLaunchRate.setOnClickListener(this);
-        mLaunchProductRegister.setOnClickListener(this);
 
         // setting language spinner
         mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
