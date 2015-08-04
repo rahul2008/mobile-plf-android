@@ -50,13 +50,13 @@ public class SHNDeviceAssociation {
         }
 
         @Override
-        public void onAssociationFailed(SHNDevice shnDevice) {
+        public void onAssociationFailed(SHNDevice shnDevice, final SHNResult result) {
             handleStopAssociation();
             shnCentral.getUserHandler().post(new Runnable() {
                 @Override
                 public void run() {
                     if (shnDeviceAssociationListener != null) {
-                        shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNAssociationError);
+                        shnDeviceAssociationListener.onAssociationFailed(result);
                     }
                 }
             });

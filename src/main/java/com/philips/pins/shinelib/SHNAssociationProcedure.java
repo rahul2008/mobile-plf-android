@@ -8,7 +8,7 @@ public interface SHNAssociationProcedure {
     public interface SHNAssociationProcedureListener {
         void onStopScanRequest();
         void onAssociationSuccess(SHNDevice shnDevice);
-        void onAssociationFailed(SHNDevice shnDevice);
+        void onAssociationFailed(SHNDevice shnDevice, SHNResult error);
     }
 
     boolean getShouldScan();

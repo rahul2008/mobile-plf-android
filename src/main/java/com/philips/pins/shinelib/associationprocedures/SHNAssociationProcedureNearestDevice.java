@@ -5,6 +5,7 @@ import android.util.Log;
 import com.philips.pins.shinelib.SHNAssociationProcedure;
 import com.philips.pins.shinelib.SHNDevice;
 import com.philips.pins.shinelib.SHNDeviceFoundInfo;
+import com.philips.pins.shinelib.SHNResult;
 import com.philips.pins.shinelib.framework.Timer;
 
 import java.util.SortedMap;
@@ -74,7 +75,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
             nearestDeviceIterationTimer.restart();
         } else {
             if (LOGGING) Log.i(TAG, "!! No device consistently deemed nearest; association failed");
-            listener.onAssociationFailed(null);
+            listener.onAssociationFailed(null, SHNResult.SHNAssociationError);
         }
     }
 
@@ -97,6 +98,6 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     @Override
     public void scannerTimeout() {
         nearestDeviceIterationTimer.stop();
-        listener.onAssociationFailed(null);
+        listener.onAssociationFailed(null, SHNResult.SHNTimeoutError);
     }
 }
