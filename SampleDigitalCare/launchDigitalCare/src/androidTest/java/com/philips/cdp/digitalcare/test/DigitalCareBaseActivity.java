@@ -3,9 +3,8 @@ package com.philips.cdp.digitalcare.test;
 import static org.mockito.Mockito.mock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
-
+import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
 import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
-import com.philips.cdp.digitalcare.DigitalCareBaseActivity;
 
 
 

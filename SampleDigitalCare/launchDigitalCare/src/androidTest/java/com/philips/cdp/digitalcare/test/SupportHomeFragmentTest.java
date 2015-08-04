@@ -8,8 +8,8 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 
-import com.philips.cdp.digitalcare.SupportHomeFragment;
 import com.philips.cdp.digitalcare.Utility.test.Log;
+import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
 
 public class SupportHomeFragmentTest extends

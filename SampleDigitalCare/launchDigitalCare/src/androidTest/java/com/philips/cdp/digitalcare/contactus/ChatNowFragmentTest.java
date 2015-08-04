@@ -5,7 +5,7 @@ import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
+import com.philips.cdp.digitalcare.contactus.fragments.ChatNowFragment;
 import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
 
 public class ChatNowFragmentTest extends

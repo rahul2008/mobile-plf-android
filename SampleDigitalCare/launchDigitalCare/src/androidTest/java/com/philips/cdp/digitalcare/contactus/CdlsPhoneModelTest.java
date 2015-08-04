@@ -4,6 +4,11 @@ import android.content.Context;
 import android.test.InstrumentationTestCase;
 import android.util.Log;
 
+import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
+import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
+import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
+import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
+
 public class CdlsPhoneModelTest extends InstrumentationTestCase {
 
 	private final String TAG = CdlsPhoneModelTest.class.getSimpleName();
