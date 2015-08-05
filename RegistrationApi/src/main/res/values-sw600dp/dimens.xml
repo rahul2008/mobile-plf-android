@@ -1,6 +1,7 @@
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <bool name="isTablet">true</bool>
     <dimen name="reg_layout_margin">25dp</dimen>
     <dimen name="reg_layout_margin_port">120dp</dimen>
     <dimen name="reg_layout_margin_land">255dp</dimen>

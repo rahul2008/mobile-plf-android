@@ -166,11 +166,18 @@ public abstract class RegistrationBaseFragment extends Fragment {
     protected void applyParams(Configuration config, View view) {
         LinearLayout.LayoutParams mParams = (LayoutParams) view.getLayoutParams();
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+            if (getResources().getBoolean(R.bool.isTablet)) {
+                mParams.leftMargin = mParams.rightMargin = (getResources().getDisplayMetrics().widthPixels) / 5;
+            } else {
+                mParams.leftMargin = mParams.rightMargin = 0;
+            }
         } else {
-            mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+            if (getResources().getBoolean(R.bool.isTablet)) {
+                mParams.leftMargin = mParams.rightMargin = (int)(((getResources().getDisplayMetrics().widthPixels / 6)*(1.75)));
+            } else {
+                mParams.leftMargin = mParams.rightMargin = (int)((getResources().getDisplayMetrics().widthPixels) / 6);
+            }
         }
-
         view.setLayoutParams(mParams);
     }
 

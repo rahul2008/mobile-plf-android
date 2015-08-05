@@ -5,6 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
+    <bool name="isTablet">false</bool>
     <dimen name="reg_layout_margin">30dp</dimen>
     <dimen name="reg_layout_margin_port">0dp</dimen>
     <dimen name="reg_layout_margin_land">100dp</dimen>
