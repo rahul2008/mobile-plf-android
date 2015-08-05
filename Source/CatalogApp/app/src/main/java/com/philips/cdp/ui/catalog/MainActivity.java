@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.philips.cdp.uikit.DeleteMe;
+import com.philips.cdp.uikit.DeleteToast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Log.d(TAG, DeleteMe.TAG);
+        new DeleteToast(this).showToast("Welcome to UI Kit");
     }
 
     @Override
