@@ -16,6 +16,7 @@
 <string name="JanRain_Invalid_Credentials">Het e-mailadres of het wachtwoord dat u hebt opgegeven, is onjuist.</string>
 <string name="JanRain_Error_Check_Internet">Probleem met de netwerkverbinding.</string>
 <string name="JanRain_LogIn_Failed">Aanmelden mislukt, probeer het later opnieuw.</string>
+<string name="JanRain_Server_Connection_Failed">Kan geen verbinding maken met de server. Probeer het later opnieuw.</string>
 <string name="SigIn_TitleTxt">Aanmelden</string>
 <string name="RegBaseViewNav_TitleTxt">Account</string>
 <string name="RegWelcomeText">Welkom</string>
@@ -25,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">E-mailadres is al in gebruik</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Dit e-mailadres wordt al gebruikt met een Mijn Philips- of social media-account.\nGa terug naar de aanmeldpagina of gebruik een ander e-mailadres.</string>
 <string name="RegWelcomeView_NavTitleTxt">Aanmelden</string>
-<string name="LegalNoticeText">Door een account te maken of u aan te melden, verklaart u dat u 16 jaar of ouder bent en dat u akkoord gaat met ons Privacybeleid en onze Algemene voorwaarden.</string>
+<string name="LegalNoticeText">Door een account te maken of u aan te melden, verklaart u dat u 16 jaar of ouder bent en dat u akkoord gaat met ons %1$s en onze %2$s.</string>
 <string name="PrivacyPolicyText">Privacybeleid</string>
 <string name="TermsAndConditionsText">Algemene voorwaarden</string>
 <string name="RegVerifyEmailView_NavTitleTxt">Aanmelden</string>
@@ -78,6 +79,7 @@
 <string name="VerifyEmail_Activated_btntxt">Ik heb mijn account geactiveerd</string>
 <string name="VerifyEmail_Resend_btntxt">Opnieuw verzenden</string>
 <string name="VerifyEmail_ResendErrorMsg_lbltxt">Druk op Opnieuw verzenden als u geen e-mail hebt ontvangen.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe hebben een e-mail verzonden.\n\nControleer uw e-mail om uw account te activeren wanneer u klaar bent.\n\nU kunt de app in de tussentijd gebruiken.</string>
 <string name="Welcome_myphilips_btntxt">Mijn Philips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>
@@ -99,6 +101,7 @@
 <string name="Welcome_openid_btntxt">OpenID</string>
 <string name="Welcome_qq_btntxt">QQ</string>
 <string name="Welcome_renrensinaweibo_btntxt">RenrenSina Weibo</string>
+<string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 <string name="Welcome_soundcloud_btntxt">SoundCloud</string>
 <string name="Welcome_tencentweibo_btntxt">Tencent Weibo</string>
 <string name="Welcome_tumblr_btntxt">Tumblr</string>
@@ -106,5 +109,4 @@
 <string name="Welcome_vk_btntxt">VK</string>
 <string name="Welcome_wordpress_btntxt">Wordpress</string>
 <string name="Welcome_xing_btntxt">XING</string>
-    <string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 </resources>

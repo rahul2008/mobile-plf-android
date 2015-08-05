@@ -16,6 +16,7 @@
 <string name="JanRain_Invalid_Credentials">Wprowadzono nieprawidłowy adres e-mail lub hasło.</string>
 <string name="JanRain_Error_Check_Internet">Problem z połączeniem sieciowym.</string>
 <string name="JanRain_LogIn_Failed">Nie udało się zalogować. Ponów próbę za chwilę.</string>
+<string name="JanRain_Server_Connection_Failed">Nie udało się połączyć z serwerem. Spróbuj ponownie za chwilę.</string>
 <string name="SigIn_TitleTxt">Zaloguj się</string>
 <string name="RegBaseViewNav_TitleTxt">Konto</string>
 <string name="RegWelcomeText">Witamy!</string>
@@ -25,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Adres e-mail jest już w użyciu</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Ten adres e-mail jest już używany z kontem MyPhilips lub kontem w serwisie społecznościowym.\nCofnij się, aby się zalogować, lub użyj innego adresu e-mail.</string>
 <string name="RegWelcomeView_NavTitleTxt">Zaloguj się</string>
-<string name="LegalNoticeText">Tworząc konto lub logując się, potwierdzasz, że masz ukończone 16 i wyrażasz zgodę na nasze Zasady poufności i Warunki.</string>
+<string name="LegalNoticeText">Tworząc konto lub logując się, potwierdzasz, że masz ukończone 16 i wyrażasz zgodę na nasze %1$s i %2$s.</string>
 <string name="PrivacyPolicyText">Zasady poufności</string>
 <string name="TermsAndConditionsText">Warunki</string>
 <string name="RegVerifyEmailView_NavTitleTxt">Zaloguj się</string>
@@ -78,6 +79,7 @@
 <string name="VerifyEmail_Activated_btntxt">Aktywowałem(-am) swoje konto</string>
 <string name="VerifyEmail_Resend_btntxt">Wyślij ponownie</string>
 <string name="VerifyEmail_ResendErrorMsg_lbltxt">W przypadku nieotrzymania wiadomości e-mail naciśnij przycisk „Wyślij ponownie”.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWysłaliśmy wiadomość e-mail.\n\nKiedy będziesz gotowy(-a), sprawdź pocztę e-mail, aby aktywować swoje konto.n\nW międzyczasie możesz korzystać z aplikacji.</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>
@@ -99,6 +101,7 @@
 <string name="Welcome_openid_btntxt">OpenID</string>
 <string name="Welcome_qq_btntxt">QQ</string>
 <string name="Welcome_renrensinaweibo_btntxt">RenrenSina Weibo</string>
+<string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 <string name="Welcome_soundcloud_btntxt">SoundCloud</string>
 <string name="Welcome_tencentweibo_btntxt">Tencent Weibo</string>
 <string name="Welcome_tumblr_btntxt">Tumblr</string>
@@ -106,5 +109,4 @@
 <string name="Welcome_vk_btntxt">VK</string>
 <string name="Welcome_wordpress_btntxt">Wordpress</string>
 <string name="Welcome_xing_btntxt">XING</string>
-    <string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 </resources>

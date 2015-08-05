@@ -16,6 +16,7 @@
 <string name="JanRain_Invalid_Credentials">Die von Ihnen eingegebene E-Mail-Adresse bzw. das Passwort ist inkorrekt.</string>
 <string name="JanRain_Error_Check_Internet">Problem mit der Netzwerkverbindung.</string>
 <string name="JanRain_LogIn_Failed">Anmeldung fehlgeschlagen, versuchen Sie es später erneut.</string>
+<string name="JanRain_Server_Connection_Failed">Verbindung zum Server fehlgeschlagen. Versuchen Sie es später erneut.</string>
 <string name="SigIn_TitleTxt">Anmelden</string>
 <string name="RegBaseViewNav_TitleTxt">Konto</string>
 <string name="RegWelcomeText">Willkommen!</string>
@@ -25,9 +26,9 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Diese E-Mail-Adresse wird bereits verwendet.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Diese E-Mail-Adresse wird bereits mit einem MyPhilips Konto oder einem Konto bei sozialen Medien verwendet.\nGehen Sie zurück, und melden Sie sich an, oder verwenden Sie eine andere E-Mail-Adresse.</string>
 <string name="RegWelcomeView_NavTitleTxt">Anmelden</string>
-<string name="LegalNoticeText">Mit dem Erstellen eines Kontos oder der Anmeldung bestätigen Sie, dass Sie mindestens 16 Jahre alt sind und unseren Datenschutzrichtlinien sowie den allgemeinen Nutzungsbedingungen zustimmen.</string>
-<string name="PrivacyPolicyText">Datenschutzrichtlinien</string>
-<string name="TermsAndConditionsText">Allgemeinen Nutzungsbedingungen</string>
+<string name="LegalNoticeText">Mit dem Erstellen eines Kontos oder der Anmeldung bestätigen Sie, dass Sie mindestens 16 Jahre alt sind und unseren %1$s und %2$s zustimmen.</string>
+<string name="PrivacyPolicyText">Datenschutzrichtlinie</string>
+<string name="TermsAndConditionsText">Allg. Nutzungsbedingungen</string>
 <string name="RegVerifyEmailView_NavTitleTxt">Anmelden</string>
 <string name="RegEmailNotVerified_AlertPopupErrorText">Sie haben Ihr Konto noch nicht verifiziert. Überprüfen Sie Ihre E-Mails, und klicken Sie auf den Link zur Aktivierung Ihres Kontos.</string>
 <string name="RegVerifyEmailView_VerificationEmailText">Wir haben die E-Mail an folgende Adresse gesendet: %s</string>
@@ -78,6 +79,7 @@
 <string name="VerifyEmail_Activated_btntxt">Ich habe mein Konto aktiviert</string>
 <string name="VerifyEmail_Resend_btntxt">Erneut senden</string>
 <string name="VerifyEmail_ResendErrorMsg_lbltxt">Drücken Sie die Schaltfläche Erneut senden, wenn Sie keine E-Mail erhalten haben.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWir haben eine E-Mail gesendet.\n\nBitte prüfen Sie bei Gelegenheit Ihre E-Mail, um Ihr Konto zu aktivieren.\n\nSie können die App in der Zwischenzeit verwenden.</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>
@@ -99,6 +101,7 @@
 <string name="Welcome_openid_btntxt">OpenID</string>
 <string name="Welcome_qq_btntxt">QQ</string>
 <string name="Welcome_renrensinaweibo_btntxt">RenrenSina Weibo</string>
+<string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 <string name="Welcome_soundcloud_btntxt">SoundCloud</string>
 <string name="Welcome_tencentweibo_btntxt">Tencent Weibo</string>
 <string name="Welcome_tumblr_btntxt">Tumblr</string>
@@ -106,5 +109,4 @@
 <string name="Welcome_vk_btntxt">VK</string>
 <string name="Welcome_wordpress_btntxt">WordPress</string>
 <string name="Welcome_xing_btntxt">XING</string>
-    <string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 </resources>

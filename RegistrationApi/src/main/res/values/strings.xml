@@ -16,6 +16,7 @@
     <string name="JanRain_Invalid_Credentials">The email or password you entered is incorrect.</string>
     <string name="JanRain_Error_Check_Internet">Problem in network connection.</string>
     <string name="JanRain_LogIn_Failed">Failed to login, Please try again after some time.</string>
+    <string name="JanRain_Server_Connection_Failed">Failed to connect to the server, Please try again after some time.</string>
     <string name="SigIn_TitleTxt">Sign In</string>
     <string name="RegBaseViewNav_TitleTxt">Account</string>
     <string name="RegWelcomeText">Welcome</string>
@@ -25,7 +26,7 @@
     <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Email address is already in use</string>
     <string name="EmailAlreadyUsedErrorMsg_LabelTxt">This email address is already in use with a My Philips or a social media account.\nPlease go back to sign in, or use an other email address.</string>
     <string name="RegWelcomeView_NavTitleTxt">Sign In</string>
-    <string name="LegalNoticeText">By creating an account or signing in you certify that you are 16 years or older and you agree to our Privacy Policy and Terms and Conditions.</string>
+    <string name="LegalNoticeText">By creating an account or signing in you certify that you are 16 years or older and you agree to our %1$s and %2$s.</string>
     <string name="PrivacyPolicyText">Privacy Policy</string>
     <string name="TermsAndConditionsText">Terms and Conditions</string>
     <string name="RegVerifyEmailView_NavTitleTxt">Sign In</string>
@@ -78,6 +79,7 @@
     <string name="VerifyEmail_Activated_btntxt">I have activated my account</string>
     <string name="VerifyEmail_Resend_btntxt">Resend</string>
     <string name="VerifyEmail_ResendErrorMsg_lbltxt">Press “Resend” button if you have not received an email.</string>
+    <string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nWe have sent an email.\n\nWhen you are ready, please check your email to activate your account.\n\nYou can use the app in the meantime.</string>
     <string name="Welcome_myphilips_btntxt">MyPhilips</string>
     <string name="Welcome_facebook_btntxt">Facebook</string>
     <string name="Welcome_twitter_btntxt">Twitter</string>
@@ -99,6 +101,7 @@
     <string name="Welcome_openid_btntxt">OpenID</string>
     <string name="Welcome_qq_btntxt">QQ</string>
     <string name="Welcome_renrensinaweibo_btntxt">RenrenSina Weibo</string>
+    <string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
     <string name="Welcome_soundcloud_btntxt">SoundCloud</string>
     <string name="Welcome_tencentweibo_btntxt">Tencent Weibo</string>
     <string name="Welcome_tumblr_btntxt">Tumblr</string>
@@ -106,6 +109,7 @@
     <string name="Welcome_vk_btntxt">VK</string>
     <string name="Welcome_wordpress_btntxt">Wordpress</string>
     <string name="Welcome_xing_btntxt">XING</string>
+
 
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
@@ -116,5 +120,4 @@
     <string name="Welcome_Googleplus_btntxt">Google+</string>
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
-    <string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 </resources>

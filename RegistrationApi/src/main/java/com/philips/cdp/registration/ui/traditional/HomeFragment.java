@@ -255,7 +255,9 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         mUser = new User(mContext);
         setViewParams(getResources().getConfiguration());
+
         linkifyTermAndPolicy(mTvWelcomeDesc);
+
         handleJanrainInitPb();
         enableControls(false);
         handleUiState();
@@ -391,15 +393,22 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
-        String termAndPrivacy = getResources().getString(R.string.LegalNoticeText);
+
+        String privacyPolicyText = getString(R.string.LegalNoticeText);
+        privacyPolicyText = String.format(privacyPolicyText,getString(R.string.PrivacyPolicyText),getString(R.string.TermsAndConditionsText));
+        mTvWelcomeDesc.setText(privacyPolicyText);
+
+        //String privacyPolicyText = getResources().getString(R.string.LegalNoticeText);
         String terms = getResources().getString(R.string.TermsAndConditionsText);
         String privacy = getResources().getString(R.string.PrivacyPolicyText);
-        int termStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault()).indexOf(
+        SpannableString spanableString = new SpannableString(privacyPolicyText);
+
+
+        int termStartIndex = privacyPolicyText.toLowerCase(Locale.getDefault()).indexOf(
                 terms.toLowerCase(Locale.getDefault()));
-        int privacyStartIndex = termAndPrivacy.toLowerCase(Locale.getDefault()).indexOf(
+        int privacyStartIndex = privacyPolicyText.toLowerCase(Locale.getDefault()).indexOf(
                 privacy.toLowerCase(Locale.getDefault()));
 
-        SpannableString spanableString = new SpannableString(termAndPrivacy);
         spanableString.setSpan(new ClickableSpan() {
 
             @Override

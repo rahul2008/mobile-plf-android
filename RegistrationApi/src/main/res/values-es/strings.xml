@@ -16,6 +16,7 @@
 <string name="JanRain_Invalid_Credentials">El correo electrónico o la contraseña que has introducido son incorrectos.</string>
 <string name="JanRain_Error_Check_Internet">Hay un problema con la conexión de red.</string>
 <string name="JanRain_LogIn_Failed">Error al iniciar sesión; inténtalo de nuevo más tarde.</string>
+<string name="JanRain_Server_Connection_Failed">No se ha podido conectar al servidor, inténtalo de nuevo más tarde.</string>
 <string name="SigIn_TitleTxt">Iniciar sesión</string>
 <string name="RegBaseViewNav_TitleTxt">Cuenta</string>
 <string name="RegWelcomeText">Te damos la bienvenida</string>
@@ -25,7 +26,7 @@
 <string name="EmailAlreadyUsed_TxtFieldErrorAlertMsg">Esta dirección de correo electrónico ya existe.</string>
 <string name="EmailAlreadyUsedErrorMsg_LabelTxt">Esta dirección de correo electrónico ya existe en MyPhilips o es una cuenta de red social.\nVuelve a iniciar sesión o usa otra dirección.</string>
 <string name="RegWelcomeView_NavTitleTxt">Iniciar sesión</string>
-<string name="LegalNoticeText">Al crear una cuenta o iniciar sesión, certificas que tienes al menos 16 años y que aceptas la política de privacidad y los términos y condiciones.</string>
+<string name="LegalNoticeText">Al crear una cuenta o iniciar sesión, certificas que tienes al menos 16 años y que aceptas la %1$s y los %2$s.</string>
 <string name="PrivacyPolicyText">Política de privacidad</string>
 <string name="TermsAndConditionsText">Términos y condiciones</string>
 <string name="RegVerifyEmailView_NavTitleTxt">Iniciar sesión</string>
@@ -78,6 +79,7 @@
 <string name="VerifyEmail_Activated_btntxt">He activado mi cuenta.</string>
 <string name="VerifyEmail_Resend_btntxt">Reenviar</string>
 <string name="VerifyEmail_ResendErrorMsg_lbltxt">Pulsa el botón Reenviar si no has recibido ningún correo.</string>
+<string name="InitialSignUp_EmailVerification_EmailInfo_lbltxt">\n\nTe hemos enviado un correo electrónico.\n\nPuedes consultar tu correo para activar la cuenta.\n\nPuedes usar la aplicación mientras.</string>
 <string name="Welcome_myphilips_btntxt">MyPhilips</string>
 <string name="Welcome_facebook_btntxt">Facebook</string>
 <string name="Welcome_twitter_btntxt">Twitter</string>
@@ -99,6 +101,7 @@
 <string name="Welcome_openid_btntxt">OpenID</string>
 <string name="Welcome_qq_btntxt">QQ</string>
 <string name="Welcome_renrensinaweibo_btntxt">RenrenSina Weibo</string>
+<string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 <string name="Welcome_soundcloud_btntxt">SoundCloud</string>
 <string name="Welcome_tencentweibo_btntxt">Tencent Weibo</string>
 <string name="Welcome_tumblr_btntxt">Tumblr</string>
@@ -106,5 +109,4 @@
 <string name="Welcome_vk_btntxt">VK</string>
 <string name="Welcome_wordpress_btntxt">Wordpress</string>
 <string name="Welcome_xing_btntxt">XING</string>
-    <string name="Welcome_sinaweibo_btntxt">Sina Weibo</string>
 </resources>

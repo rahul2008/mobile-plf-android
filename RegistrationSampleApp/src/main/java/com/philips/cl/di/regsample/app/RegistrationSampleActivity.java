@@ -111,7 +111,7 @@ public class RegistrationSampleActivity extends Activity implements OnClickListe
 
     @Override
     public void onTermsAndConditionClick(Activity activity) {
-        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onPrivacyPolicyClick");
+        RLog.d(RLog.EVENT_LISTENERS, "RegistrationSampleActivity : onTermsAndConditionClick");
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(
                 com.philips.cdp.registration.R.string.PrivacyPolicyURL)));
         activity.startActivity(browserIntent);
