@@ -107,8 +107,10 @@
 
 
     <string name="dummytext">Dummy View</string>
+    <string name="dummyTitle">Dummy Actionbar Title</string>
     <string name="app_description">This is just an sample launcher app for  launching the DigitalCare Component.</string>
-    <string name="launch_button_text">Open DigitalCare Component</string>
+    <string name="launch_button_as_activity">Launch DigitalCare as Activity</string>
+    <string name="launch_button_as_fragment">Launch DigitalCare as Fragment</string>
     <string name="app_not_description">DigitalCare Library is dependent on &quot;v7 library&quot; as well as &quot;Facebook SDK library&quot; so please make sure to add. Additionally you can personalize the &quot;DigitalCare Component&quot; by modifying the &quot;DigitalCare_Config.xml&quot; under res>values.</string>
     <string name="app_note">Note:</string>
     <string name="lanuauge">Langauage :</string>

@@ -24,6 +24,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     public static final String HOCKEY_APP_ID = "9d6c50153b0c5394faa920d9dda951c7";
     private Button mLaunchDigitalCare = null;
+    private Button mLaunchAsFragment = null;
 
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
@@ -36,10 +37,11 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         setContentView(R.layout.activity_digital_care);
 
         mLaunchDigitalCare = (Button) findViewById(R.id.launchDigitalCare);
-
+        mLaunchAsFragment = (Button) findViewById(R.id.launchAsFragment);
 
         // set listener
         mLaunchDigitalCare.setOnClickListener(this);
+        mLaunchAsFragment.setOnClickListener(this);
 
         // setting language spinner
         mLanguage_spinner = (Spinner) findViewById(R.id.spinner1);
@@ -139,21 +141,27 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
     @Override
     public void onClick(View view) {
+    /*
+      Setting AppID is very much required from App side, in order to TAG the page. Here in below code
+      we are putting dummy value. Please provide proper APP_ID from you App.
+      Also if tagging is not enabled , consumer care is not tagging any events*/
+
+        DigitalCareConfigManager.getInstance().enableTagging(true);
+        DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
+        DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
+        setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         switch (view.getId()) {
-            default:
-                /*
-                Setting AppID is very much required from App side, in order to TAG the page. Here in below code
-                we are putting dummy value. Please provide proper APP_ID from you App.
-                 Also if tagging is not enabled , consumer care is not tagging any events*/
-                DigitalCareConfigManager.getInstance().enableTagging(true);
-                DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
-                DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
-                setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+            case R.id.launchDigitalCare:
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
                         R.anim.slide_out_bottom,
                         DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED
                        );
+                break;
+            case R.id.launchAsFragment:
+                startActivity(new Intent(this, SampleActivity.class));
+                break;
+
         }
     }
 

@@ -26,6 +26,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.philips.cdp.sampledigitalcareapp.SampleActivity"
+            android:configChanges="orientation|screenSize">
+        </activity>
         <activity
             android:name="com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare"
             android:configChanges="orientation|screenSize|locale"
