@@ -11,7 +11,7 @@ import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.customview.ProductImageSelectorView;
 import com.philips.cdp.digitalcare.customview.TabletPopupWindow;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 /**
  * 
@@ -81,7 +81,7 @@ public class ImageTabletPick implements OnClickListener {
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			mContext.startActivityForResult(
 					Intent.createChooser(intent, null),
-					DigitalCareContants.IMAGE_PICK);
+					DigitalCareConstants.IMAGE_PICK);
 			mPointerAlert.dismiss();
 			break;
 		case CAMERA_BUTTON:
@@ -89,7 +89,7 @@ public class ImageTabletPick implements OnClickListener {
 
 			Intent mCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			mContext.startActivityForResult(mCameraIntent,
-					DigitalCareContants.IMAGE_CAPTURE);
+					DigitalCareConstants.IMAGE_CAPTURE);
 			mPointerAlert.dismiss();
 			break;
 		default:

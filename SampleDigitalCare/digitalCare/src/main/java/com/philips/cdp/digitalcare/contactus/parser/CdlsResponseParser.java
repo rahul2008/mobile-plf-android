@@ -6,7 +6,7 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsErrorModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsPhoneModel;
 import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,19 +43,19 @@ public class CdlsResponseParser {
         try {
             jsonObject = new JSONObject(response);
             boolean success = jsonObject
-                    .optBoolean(DigitalCareContants.CDLS_SUCCESS_KEY);
+                    .optBoolean(DigitalCareConstants.CDLS_SUCCESS_KEY);
 
             DigiCareLogger.i(TAG, "response : " + response);
             if (success) {
                 JSONObject jsonObjectData = jsonObject
-                        .optJSONObject(DigitalCareContants.CDLS_DATA_KEY);
+                        .optJSONObject(DigitalCareConstants.CDLS_DATA_KEY);
 
                 JSONArray jsonArrayDataPhone = jsonObjectData
-                        .optJSONArray(DigitalCareContants.CDLS_PHONE_KEY);
+                        .optJSONArray(DigitalCareConstants.CDLS_PHONE_KEY);
                 JSONArray jsonArrayDataChat = jsonObjectData
-                        .optJSONArray(DigitalCareContants.CDLS_CHAT_KEY);
+                        .optJSONArray(DigitalCareConstants.CDLS_CHAT_KEY);
                 JSONArray jsonArrayDataEmail = jsonObjectData
-                        .optJSONArray(DigitalCareContants.CDLS_EMAIL_KEY);
+                        .optJSONArray(DigitalCareConstants.CDLS_EMAIL_KEY);
 
                 if (jsonArrayDataPhone != null) {
                     JSONObject jsonObjectDataPhone = (JSONObject) jsonArrayDataPhone
@@ -63,57 +63,57 @@ public class CdlsResponseParser {
                     cdlsPhoneModel = new CdlsPhoneModel();
 
                     cdlsPhoneModel.setPhoneNumber(jsonObjectDataPhone
-                            .optString(DigitalCareContants.CDLS_PHONENUMBER));
+                            .optString(DigitalCareConstants.CDLS_PHONENUMBER));
                     cdlsPhoneModel
                             .setOpeningHoursWeekdays(jsonObjectDataPhone
-                                    .optString(DigitalCareContants.CDLS_OPENINGHOURS_WEEKDAYS));
+                                    .optString(DigitalCareConstants.CDLS_OPENINGHOURS_WEEKDAYS));
                     cdlsPhoneModel
                             .setOpeningHoursSaturday(jsonObjectDataPhone
-                                    .optString(DigitalCareContants.CDLS_OPENINGHOURS_SATURDAY));
+                                    .optString(DigitalCareConstants.CDLS_OPENINGHOURS_SATURDAY));
                     cdlsPhoneModel
                             .setOpeningHoursSunday(jsonObjectDataPhone
-                                    .optString(DigitalCareContants.CDLS_OPENINGHOURS_SUNDAY));
+                                    .optString(DigitalCareConstants.CDLS_OPENINGHOURS_SUNDAY));
                     cdlsPhoneModel
                             .setOptionalData1(jsonObjectDataPhone
-                                    .optString(DigitalCareContants.CDLS_OPTIONALDATA_ONE));
+                                    .optString(DigitalCareConstants.CDLS_OPTIONALDATA_ONE));
                     cdlsPhoneModel
                             .setOptionalData2(jsonObjectDataPhone
-                                    .optString(DigitalCareContants.CDLS_OPTIONALDATA_TWO));
-                    cdlsPhoneModel.setmPhoneTariff(jsonObjectDataPhone.optString(DigitalCareContants.CDLS_PHONE_TARIFF_KEY));
+                                    .optString(DigitalCareConstants.CDLS_OPTIONALDATA_TWO));
+                    cdlsPhoneModel.setmPhoneTariff(jsonObjectDataPhone.optString(DigitalCareConstants.CDLS_PHONE_TARIFF_KEY));
                 }
                 if (jsonArrayDataChat != null) {
                     JSONObject jsonObjectDataChat = (JSONObject) jsonArrayDataChat
                             .opt(FIRST_INDEX_VALUE);
                     cdlsChatModel = new CdlsChatModel();
                     cdlsChatModel.setContent(jsonObjectDataChat
-                            .optString(DigitalCareContants.CDLS_CHAT_CONTENT));
+                            .optString(DigitalCareConstants.CDLS_CHAT_CONTENT));
                     cdlsChatModel.setScript(jsonObjectDataChat
-                            .optString(DigitalCareContants.CDLS_CHAT_SCRIPT));
+                            .optString(DigitalCareConstants.CDLS_CHAT_SCRIPT));
                     cdlsChatModel
                             .setOpeningHoursWeekdays(jsonObjectDataChat
-                                    .optString(DigitalCareContants.CDLS_CHAT_OPENINGINGHOURS_WEEKDAYS));
+                                    .optString(DigitalCareConstants.CDLS_CHAT_OPENINGINGHOURS_WEEKDAYS));
                     cdlsChatModel
                             .setOpeningHoursSaturday(jsonObjectDataChat
-                                    .optString(DigitalCareContants.CDLS_CHAT_OPENINGHOURS_SATURDAY));
+                                    .optString(DigitalCareConstants.CDLS_CHAT_OPENINGHOURS_SATURDAY));
                 }
                 if (jsonArrayDataEmail != null) {
                     JSONObject jsonObjectDataEmail = (JSONObject) jsonArrayDataEmail
                             .opt(FIRST_INDEX_VALUE);
                     cdlsEmailModel = new CdlsEmailModel();
                     cdlsEmailModel.setLabel(jsonObjectDataEmail
-                            .optString(DigitalCareContants.CDLS_EMAIL_LABEL));
+                            .optString(DigitalCareConstants.CDLS_EMAIL_LABEL));
                     cdlsEmailModel
                             .setContentPath(jsonObjectDataEmail
-                                    .optString(DigitalCareContants.CDLS_EMAIL_CONTENTPATH));
+                                    .optString(DigitalCareConstants.CDLS_EMAIL_CONTENTPATH));
                 }
             } else {
                 cdlsErrorModel = new CdlsErrorModel();
                 JSONObject jsonObjectData = jsonObject
-                        .optJSONObject(DigitalCareContants.CDLS_ERROR_KEY);
+                        .optJSONObject(DigitalCareConstants.CDLS_ERROR_KEY);
                 cdlsErrorModel.setErrorCode(jsonObjectData
-                        .optString(DigitalCareContants.CDLS_ERROR_CODE));
+                        .optString(DigitalCareConstants.CDLS_ERROR_CODE));
                 cdlsErrorModel.setErrorMessage(jsonObjectData
-                        .optString(DigitalCareContants.CDLS_ERROR_MESSAGE));
+                        .optString(DigitalCareConstants.CDLS_ERROR_MESSAGE));
             }
             // creating CDLS instance.
             CdlsResponseModel cdlsParsedResponse = new CdlsResponseModel(

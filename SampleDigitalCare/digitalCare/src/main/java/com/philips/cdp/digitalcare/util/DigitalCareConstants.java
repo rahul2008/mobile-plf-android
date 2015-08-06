@@ -6,7 +6,7 @@ package com.philips.cdp.digitalcare.util;
  * @author: ritesh.jha@philips.com
  * @since: Dec 5, 2014
  */
-public class DigitalCareContants {
+public class DigitalCareConstants {
     public static final String START_ANIMATION_ID = "startAnimation";
     public static final String STOP_ANIMATION_ID = "stopAnimation";
     public static final String SCREEN_ORIENTATION = "orientation";
@@ -56,5 +56,7 @@ public class DigitalCareContants {
     public static final String CDLS_PHONE_KEY = "phone";
     public static final String CDLS_EMAIL_KEY = "email";
     public static final String CDLS_CHAT_KEY = "chat";
+
+    public static final String DIGITALCARE_FRAGMENT_TAG = "digitalcare";
 
 }
