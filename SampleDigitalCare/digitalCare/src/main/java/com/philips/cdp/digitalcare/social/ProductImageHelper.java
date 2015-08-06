@@ -29,7 +29,7 @@ import com.philips.cdp.digitalcare.customview.ImagePhonePickerDialog;
 import com.philips.cdp.digitalcare.customview.TabletPopupWindow;
 import com.philips.cdp.digitalcare.customview.TabletPopupWindow.AlignMode;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
 
 /**
@@ -117,7 +117,7 @@ public class ProductImageHelper {
 		DigiCareLogger.d(TAG, "onActivity receiving the Intent");
 		DigiCareLogger.d(TAG, "Android Version is : " + Build.VERSION.SDK_INT);
 
-		if (requestCode == DigitalCareContants.IMAGE_PICK) {
+		if (requestCode == DigitalCareConstants.IMAGE_PICK) {
 			DigiCareLogger.d(TAG, "Image Picked From Gallery  with Data : " + data);
 			String[] filePathColumn = { MediaStore.Images.Media.DATA };
 			Uri selectedImage = data.getData();
@@ -152,7 +152,7 @@ public class ProductImageHelper {
 				mImageCallback.onImageReceived(bitmap, picturePath);
 				cursor.close();
 			}
-		} else if (requestCode == DigitalCareContants.IMAGE_CAPTURE) {
+		} else if (requestCode == DigitalCareConstants.IMAGE_CAPTURE) {
 			DigiCareLogger.d(TAG, "Product Image receiving from Camera");
 
 			File f = new File(mActivity.getCacheDir(), "DC_IMAGE");

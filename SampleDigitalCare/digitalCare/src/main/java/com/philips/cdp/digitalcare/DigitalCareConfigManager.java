@@ -12,7 +12,7 @@ import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import java.util.Locale;
 
@@ -107,9 +107,9 @@ public class DigitalCareConfigManager {
 
         Intent intent = new Intent(this.getContext(), DigitalCareActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(DigitalCareContants.START_ANIMATION_ID, startAnimation);
-        intent.putExtra(DigitalCareContants.STOP_ANIMATION_ID, endAnimation);
-        intent.putExtra(DigitalCareContants.SCREEN_ORIENTATION, orientation.getOrientationValue());
+        intent.putExtra(DigitalCareConstants.START_ANIMATION_ID, startAnimation);
+        intent.putExtra(DigitalCareConstants.STOP_ANIMATION_ID, endAnimation);
+        intent.putExtra(DigitalCareConstants.SCREEN_ORIENTATION, orientation.getOrientationValue());
         getContext().startActivity(intent);
     }
 

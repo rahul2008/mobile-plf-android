@@ -18,8 +18,8 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
-import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 import java.util.Locale;
 
@@ -162,8 +162,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
             FragmentTransaction fragmentTransaction = fragmentManager
                     .beginTransaction();
 
-            fragmentTransaction.replace(R.id.mainContainer, fragment,
-                        "digitalcare");
+            fragmentTransaction.replace(R.id.mainContainer, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {

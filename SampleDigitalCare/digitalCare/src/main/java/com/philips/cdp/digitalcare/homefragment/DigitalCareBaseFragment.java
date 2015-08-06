@@ -27,6 +27,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.customview.NetworkAlertView;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
 
 /**
@@ -269,17 +270,10 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            //if(fragment.getClass().equals(SupportHomeFragment.class)) {
-                fragmentTransaction.replace(containerId, fragment,
-                        "digitalcare");
-//            }else{
-//                fragmentTransaction.replace(containerId, fragment,
-//                        fragment.getTag());
-//            }
+                fragmentTransaction.replace(containerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
             fragmentTransaction.hide(this);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
-            DigiCareLogger.i("Deepthi","fragment tag = "+fragment.getTag());
         } catch (IllegalStateException e) {
             DigiCareLogger.e(TAG, "");
         }
@@ -315,17 +309,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-            //if(fragment.getClass().equals(SupportHomeFragment.class)) {
-                fragmentTransaction.replace(mContainerId, fragment,
-                        "digitalcare");
-//            }
-//            else{
-//                fragmentTransaction.replace(mContainerId, fragment,
-//                        fragment.getTag());
-//            }
+            fragmentTransaction.replace(mContainerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
-            DigiCareLogger.i("Deepthi","fragment tag = "+fragment.getTag());
         } catch (IllegalStateException e) {
             DigiCareLogger.e(TAG, e.getMessage());
         }

@@ -6,8 +6,7 @@ import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.social.ProductImageHelper;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-import com.philips.cdp.digitalcare.util.DigitalCareContants;
-import com.philips.cdp.digitalcare.activity.DigitalCareBaseActivity;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 
 /*import com.philips.cdp.digitalcare.social.twitter.TwitterAuthentication;*/
 
@@ -49,9 +48,9 @@ public  class DigitalCareActivity extends DigitalCareBaseActivity {
         String startAnim = null;
         String endAnim = null;
 
-        int startAnimation = bundleExtras.getInt(DigitalCareContants.START_ANIMATION_ID);
-        int endAnimation = bundleExtras.getInt(DigitalCareContants.STOP_ANIMATION_ID);
-        int orientation = bundleExtras.getInt(DigitalCareContants.SCREEN_ORIENTATION);
+        int startAnimation = bundleExtras.getInt(DigitalCareConstants.START_ANIMATION_ID);
+        int endAnimation = bundleExtras.getInt(DigitalCareConstants.STOP_ANIMATION_ID);
+        int orientation = bundleExtras.getInt(DigitalCareConstants.SCREEN_ORIENTATION);
 
         if (startAnimation == 0 && endAnimation == 0) {
             return;
