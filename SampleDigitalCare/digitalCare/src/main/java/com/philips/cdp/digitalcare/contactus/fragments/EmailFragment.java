@@ -16,6 +16,8 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,8 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
-    private String EMAIL_URL = "http://www.philips.com/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
+    private String EMAIL_URL = "http://%s/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
+    private String TAG = EmailFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +69,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
+            DigiCareLogger.d(TAG,url);
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -104,7 +108,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
 
-        return String.format(EMAIL_URL, consumerProductInfo.getSector(),
+        return String.format(EMAIL_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), consumerProductInfo.getSector(),
                 language, country, consumerProductInfo.getCategory());
     }
 

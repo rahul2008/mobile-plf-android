@@ -71,6 +71,7 @@ public class DigitalCareConfigManager {
         if (mContext == null) {
             DigitalCareConfigManager.mContext = applicationContext;
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
+            LocaleMatchHandler.initializePRXMap();
             initializeTaggingContext(mContext);
         }
     }

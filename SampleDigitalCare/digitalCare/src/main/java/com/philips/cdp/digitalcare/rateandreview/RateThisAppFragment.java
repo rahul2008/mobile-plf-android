@@ -20,7 +20,10 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+
+import java.util.Locale;
 
 /**
  * RateThisAppFragment class is used to rate the app and review the product.
@@ -32,7 +35,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk%s/reviewandawards";
     private static String TAG = RateThisAppFragment.class.getSimpleName();
-    ;
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
     private Button mRatePlayStoreBtn = null;
@@ -105,7 +107,13 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     }
 
     protected Uri getUri() {
-        return Uri.parse(String.format(PRODUCT_REVIEW_URL,
+        String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
+                .getLanguage().toLowerCase();
+
+        String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
+                .getCountry().toUpperCase();
+
+        return Uri.parse(String.format(PRODUCT_REVIEW_URL, LocaleMatchHandler.getPRXUrl(language+"_"+country),
                 getProductReviewPRXUrl()));
     }
 
@@ -139,6 +147,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     private void rateProductReview() {
         Intent i = new Intent(Intent.ACTION_VIEW);
+        DigiCareLogger.d(TAG, getUri().toString());
         i.setData(getUri());
         tagExitLisk(getUri().toString());
         startActivity(i);
