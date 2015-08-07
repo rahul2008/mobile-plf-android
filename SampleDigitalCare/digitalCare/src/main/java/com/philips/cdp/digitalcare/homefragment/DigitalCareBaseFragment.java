@@ -270,12 +270,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-                fragmentTransaction.replace(containerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
+            fragmentTransaction.replace(containerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
             fragmentTransaction.hide(this);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            DigiCareLogger.e(TAG, "");
+            DigiCareLogger.e(TAG, "IllegalStateException");
         }
     }
 
@@ -284,9 +284,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         super.onHiddenChanged(hidden);
         DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onHiddenChanged : " + hidden
                 + " ---class " + this.getClass().getSimpleName());
-        if (mContainerId != 0) {
-            updateActionbar();
-        }
+//        if (mContainerId != 0) {
+//            updateActionbar();
+//        }
     }
 
     public void showFragment(FragmentActivity context, int parentContainer,

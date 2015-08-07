@@ -123,7 +123,7 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-            enableActionBarHome();
+//            enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
