@@ -35,7 +35,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         DigiCareLogger.i(TAG, " SampleActivity onCreate");
         setContentView(R.layout.activity_sample);
         DigitalCareConfigManager.getInstance().invokeDigitalCareAsFragment(this, R.id.sampleMainContainer, actionBarClickListener,
-                "abc_fade_in", "abc_fade_out");
+                R.anim.slide_in_bottom, R.anim.slide_out_bottom);
         try {
             initActionBar();
         } catch (ClassCastException e) {
