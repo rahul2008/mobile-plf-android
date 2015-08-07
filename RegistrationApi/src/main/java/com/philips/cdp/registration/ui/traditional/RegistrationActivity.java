@@ -20,6 +20,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegistrationLaunchHelper;
 
 public class RegistrationActivity extends FragmentActivity implements OnClickListener,
         RegistrationTitleBarListener {
@@ -103,42 +104,18 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
 
     @Override
     public void onBackPressed() {
-        RLog.d(RLog.ACTIVITY_LIFECYCLE, "RegistrationActivity : onBackPressed");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment fragment = fragmentManager
-                .findFragmentByTag(RegConstants.REGISTRATION_FRAGMENT_TAG);
-        if (fragment != null) {
-            if (((RegistrationFragment) fragment).onBackPressed()) {
-                // not consumed vertical code goes here // actual code
-                super.onBackPressed();
-            }
+        if (!RegistrationLaunchHelper.isBackEventConsumedByRegistration(this)) {
+            // not consumed vertical code goes here // actual code
+            super.onBackPressed();
         }
     }
 
     private void initUI() {
         ivBack = (ImageView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
-        launchRegistrationFragment(R.id.fl_reg_fragment_container, this);
+        RegistrationLaunchHelper.launchRegistrationFragment(R.id.fl_reg_fragment_container, this, this);
     }
 
-    /**
-     * Launch registration fragment
-     */
-    private void launchRegistrationFragment(int container, FragmentActivity fragmentActivity) {
-        try {
-            FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
-            RegistrationFragment registrationFragment = new RegistrationFragment();
-            registrationFragment.setOnUpdateTitleListener(this);
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(container, registrationFragment,
-                    RegConstants.REGISTRATION_FRAGMENT_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
 
     @Override
     public void onClick(View v) {
