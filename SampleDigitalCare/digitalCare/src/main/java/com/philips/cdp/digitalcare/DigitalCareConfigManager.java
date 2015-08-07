@@ -78,8 +78,8 @@ public class DigitalCareConfigManager {
 
     public void invokeDigitalCareAsFragment(FragmentActivity context,
                                             int parentContainerResId,
-                                            ActionbarUpdateListener actionbarUpdateListener, String enterAnim,
-                                            String exitAnim) {
+                                            ActionbarUpdateListener actionbarUpdateListener, int enterAnim,
+                                            int exitAnim) {
         if (mContext == null || mConsumerProductInfo == null || mLocale == null) {
             throw new RuntimeException("Please initialise context, locale and consumerproductInfo before Support page is invoked");
         }
