@@ -16,6 +16,7 @@ import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 import java.util.HashMap;
@@ -33,7 +34,8 @@ public class FaqFragment extends DigitalCareBaseFragment {
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
 
-    private String FAQ_URL = "http://www.philips.com/content/%s/%s_%s/standalone-faqs/%s.html";
+    private String FAQ_URL = "http://%s/content/%s/%s_%s/standalone-faqs/%s.html";
+    private String TAG =FaqFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,7 +66,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
         } else {
             //DigiCareLogger.d("URLTest", getFaqUrl());
             String url = getFaqUrl() + "?origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
-            DigiCareLogger.d("URLTest", getFaqUrl());
+            DigiCareLogger.d(TAG, getFaqUrl());
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -110,7 +112,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
 
-        return String.format(FAQ_URL, consumerProductInfo.getSector(),
+        return String.format(FAQ_URL,LocaleMatchHandler.getPRXUrl(language + "_" + country),consumerProductInfo.getSector(),
                 language, country, consumerProductInfo.getCtn());
     }
 
