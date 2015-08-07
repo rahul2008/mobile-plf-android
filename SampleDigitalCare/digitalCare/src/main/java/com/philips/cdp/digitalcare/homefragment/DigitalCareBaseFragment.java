@@ -19,13 +19,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
-import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
-import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.customview.NetworkAlertView;
+import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
+import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
@@ -46,12 +46,12 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private static String mPreviousPageName = null;
     private static int mEnterAnimation = 0;
     private static int mExitAnimation = 0;
+    private static FragmentActivity mFragmentActivityContext = null;
+    private static FragmentActivity mActivityContext = null;
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     protected int mLeftRightMarginPort = 0;
     protected int mLeftRightMarginLand = 0;
-    private static FragmentActivity mFragmentActivityContext = null;
     private NetworkReceiver mNetworkutility = null;
-    private static FragmentActivity mActivityContext = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
 
@@ -270,7 +270,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 fragmentTransaction.setCustomAnimations(mEnterAnimation,
                         mExitAnimation, mEnterAnimation, mExitAnimation);
             }
-                fragmentTransaction.replace(containerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
+            fragmentTransaction.replace(containerId, fragment, DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG);
             fragmentTransaction.hide(this);
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
@@ -291,15 +291,25 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
 
     public void showFragment(FragmentActivity context, int parentContainer,
                              Fragment fragment, ActionbarUpdateListener actionbarUpdateListener,
-                             String enterAnim, String exitAnim) {
+                             int startAnimation, int endAnimation) {
         mContainerId = parentContainer;
         mActivityContext = context;
         mActionbarUpdateListener = actionbarUpdateListener;
 
+        String startAnim = null;
+        String endAnim = null;
+
+        if (startAnimation == 0 && endAnimation == 0) {
+            return;
+        }
+
+        startAnim = context.getResources().getResourceName(startAnimation);
+        endAnim = context.getResources().getResourceName(endAnimation);
+
         String packageName = context.getPackageName();
-        mEnterAnimation = context.getResources().getIdentifier(enterAnim,
+        mEnterAnimation = context.getResources().getIdentifier(startAnim,
                 "anim", packageName);
-        mExitAnimation = context.getResources().getIdentifier(exitAnim, "anim",
+        mExitAnimation = context.getResources().getIdentifier(endAnim, "anim",
                 packageName);
 
         try {
@@ -318,10 +328,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     protected boolean backstackFragment() {
-        if(fragmentManager == null && mActivityContext != null) {
+        if (fragmentManager == null && mActivityContext != null) {
             fragmentManager = mActivityContext.getSupportFragmentManager();
-        }else if(fragmentManager == null)
-        {
+        } else if (fragmentManager == null) {
             fragmentManager = mFragmentActivityContext.getSupportFragmentManager();
         }
         // if (fragmentManager.getBackStackEntryCount() == 2) {
