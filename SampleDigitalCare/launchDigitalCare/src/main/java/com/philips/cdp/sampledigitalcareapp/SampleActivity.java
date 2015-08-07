@@ -60,7 +60,7 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
         } else {
-            enableActionBarHome();
+//            enableActionBarHome();
             fragmentManager.popBackStack();
             removeCurrentFragment();
         }
@@ -94,9 +94,10 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
     private ActionbarUpdateListener actionBarClickListener = new ActionbarUpdateListener() {
 
         @Override
-        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvaialable) {
+        public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
+            DigiCareLogger.i("testing","updateActionbar : " + hamburgerIconAvailable);
             mActionBarTitle.setText(titleActionbar);
-            if(hamburgerIconAvaialable){
+            if(hamburgerIconAvailable){
                 enableActionBarHome();
             }
             else{

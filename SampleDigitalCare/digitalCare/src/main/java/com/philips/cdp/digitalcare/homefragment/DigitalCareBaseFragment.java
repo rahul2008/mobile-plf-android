@@ -275,7 +275,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            DigiCareLogger.e(TAG, "");
+            DigiCareLogger.e(TAG, "IllegalStateException");
         }
     }
 
@@ -284,9 +284,9 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         super.onHiddenChanged(hidden);
         DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onHiddenChanged : " + hidden
                 + " ---class " + this.getClass().getSimpleName());
-        if (mContainerId != 0) {
-            updateActionbar();
-        }
+//        if (mContainerId != 0) {
+//            updateActionbar();
+//        }
     }
 
     public void showFragment(FragmentActivity context, int parentContainer,
