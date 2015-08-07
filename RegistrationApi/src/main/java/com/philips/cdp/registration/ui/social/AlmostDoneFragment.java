@@ -41,6 +41,7 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener {
@@ -238,6 +239,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+        mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
+
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);

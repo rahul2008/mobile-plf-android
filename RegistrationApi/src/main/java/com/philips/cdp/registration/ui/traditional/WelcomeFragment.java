@@ -33,6 +33,7 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener,
         UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener {
@@ -166,6 +167,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
 		mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.ll_reg_continue_id);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
+		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+		mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
 		mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
 		mLlEmailDetails = (LinearLayout) view.findViewById(R.id.ll_reg_email_details_container);
@@ -175,7 +178,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		mBtnSignOut.setOnClickListener(this);
 		mBtnContinue = (Button) view.findViewById(R.id.btn_reg_continue);
 		mBtnContinue.setOnClickListener(this);
-		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+
 		userProfile = mUser.getUserInstance(mContext);
 		if (isfromVerification) {
 			mCbTerms.setVisibility(view.GONE);

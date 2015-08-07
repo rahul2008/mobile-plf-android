@@ -36,6 +36,7 @@ import com.philips.cdp.registration.ui.utils.FontLoader;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
         TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener {
@@ -184,6 +185,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
 		mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
 		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
+		mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
 		mBtnCreateAccount.setOnClickListener(this);
 
