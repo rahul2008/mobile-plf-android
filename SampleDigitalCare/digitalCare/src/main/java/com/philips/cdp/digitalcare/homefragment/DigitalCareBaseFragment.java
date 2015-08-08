@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
+import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
@@ -29,6 +30,8 @@ import com.philips.cdp.digitalcare.listeners.NetworkStateListener;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.NetworkReceiver;
+
+import java.util.Locale;
 
 /**
  * DigitalCareBaseFragment is <b>Base class</b> for all fragments.
@@ -77,6 +80,18 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         TAG = this.getClass().getSimpleName();
         mFragmentActivityContext = getActivity();
         registerNetWorkReceiver();
+        setLocaleLanguage();
+    }
+
+    private void setLocaleLanguage() {
+        Locale locale = DigitalCareConfigManager.getInstance().getLocale();
+        if (locale != null) {
+            Locale.setDefault(locale);
+            Configuration config = new Configuration();
+            config.locale = locale;
+            mFragmentActivityContext.getResources().updateConfiguration(config,
+                    mFragmentActivityContext.getResources().getDisplayMetrics());
+        }
     }
 
     private void registerNetWorkReceiver() {
@@ -275,7 +290,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
             fragmentTransaction.addToBackStack(fragment.getTag());
             fragmentTransaction.commit();
         } catch (IllegalStateException e) {
-            DigiCareLogger.e(TAG, "IllegalStateException");
+            DigiCareLogger.e(TAG, "IllegalStateException" + e.getMessage());
+            e.printStackTrace();
         }
     }
 

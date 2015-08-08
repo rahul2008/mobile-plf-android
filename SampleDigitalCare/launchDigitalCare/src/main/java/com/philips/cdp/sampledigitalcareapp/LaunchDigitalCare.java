@@ -26,6 +26,9 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     private Button mLaunchDigitalCare = null;
     private Button mLaunchAsFragment = null;
 
+    private static boolean mActivityButtonSelected = true;
+    private static boolean mFragmentButtonSelected = true;
+
     private Spinner mLanguage_spinner, mCountry_spinner;
     private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
     private SampleConsumerProductInfo mConsumerProductInfo = null;
@@ -71,6 +74,24 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().unregisterProductMenuListener(this);
         DigitalCareConfigManager.getInstance().unregisterSocialProviderListener(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mActivityButtonSelected){
+            mLaunchDigitalCare.setVisibility(View.VISIBLE);
+        }
+        else{
+            mLaunchDigitalCare.setVisibility(View.GONE);
+        }
+
+        if(mFragmentButtonSelected){
+            mLaunchAsFragment.setVisibility(View.VISIBLE);
+        }
+        else{
+            mLaunchAsFragment.setVisibility(View.GONE);
+        }
     }
 
     private void initializeDigitalCareLibrary() {
@@ -153,12 +174,24 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
 
         switch (view.getId()) {
             case R.id.launchDigitalCare:
+
+                mActivityButtonSelected = true;
+                mFragmentButtonSelected = false;
+
+                mLaunchAsFragment.setVisibility(View.GONE);
+
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
                         R.anim.slide_out_bottom,
                         DigitalCareConfigManager.ActivityOrientation.SCREEN_ORIENTATION_UNSPECIFIED
                        );
                 break;
             case R.id.launchAsFragment:
+
+                mActivityButtonSelected = false;
+                mFragmentButtonSelected = true;
+
+                mLaunchDigitalCare.setVisibility(View.GONE);
+
                 startActivity(new Intent(this, SampleActivity.class));
                 break;
 

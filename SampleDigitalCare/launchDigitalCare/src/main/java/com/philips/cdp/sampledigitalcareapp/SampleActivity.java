@@ -95,7 +95,6 @@ public class SampleActivity extends FragmentActivity implements View.OnClickList
 
         @Override
         public void updateActionbar(String titleActionbar, Boolean hamburgerIconAvailable) {
-            DigiCareLogger.i("testing","updateActionbar : " + hamburgerIconAvailable);
             mActionBarTitle.setText(titleActionbar);
             if(hamburgerIconAvailable){
                 enableActionBarHome();

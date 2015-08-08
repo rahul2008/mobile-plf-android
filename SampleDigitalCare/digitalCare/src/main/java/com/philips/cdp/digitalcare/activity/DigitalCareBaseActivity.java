@@ -55,7 +55,6 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         DigiCareLogger.i(TAG, "onCreate");
-        setLocaleLanguage();
         DigitalCareConfigManager.getInstance();
         fragmentManager = getSupportFragmentManager();
     }
@@ -73,7 +72,6 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");
-        setLocaleLanguage();
     }
 
     @Override
@@ -105,18 +103,6 @@ public abstract class DigitalCareBaseActivity extends FragmentActivity {
         if (mDigitalCareConfigManager != null) {
             mDigitalCareConfigManager = null;
         }
-    }
-
-    private void setLocaleLanguage() {
-        Locale locale = DigitalCareConfigManager.getInstance().getLocale();
-        if (locale != null) {
-            Locale.setDefault(locale);
-            Configuration config = new Configuration();
-            config.locale = locale;
-            getBaseContext().getResources().updateConfiguration(config,
-                    getBaseContext().getResources().getDisplayMetrics());
-        }
-
     }
 
     private boolean backstackFragment() {
