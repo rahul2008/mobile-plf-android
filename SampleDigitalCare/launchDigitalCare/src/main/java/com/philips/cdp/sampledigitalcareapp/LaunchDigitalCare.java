@@ -83,14 +83,14 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
             mLaunchDigitalCare.setVisibility(View.VISIBLE);
         }
         else{
-            mLaunchDigitalCare.setVisibility(View.GONE);
+            mLaunchDigitalCare.setVisibility(View.INVISIBLE);
         }
 
         if(mFragmentButtonSelected){
             mLaunchAsFragment.setVisibility(View.VISIBLE);
         }
         else{
-            mLaunchAsFragment.setVisibility(View.GONE);
+            mLaunchAsFragment.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -178,7 +178,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mActivityButtonSelected = true;
                 mFragmentButtonSelected = false;
 
-                mLaunchAsFragment.setVisibility(View.GONE);
+                mLaunchAsFragment.setVisibility(View.INVISIBLE);
 
                 DigitalCareConfigManager.getInstance().invokeDigitalCareAsActivity(R.anim.slide_in_bottom,
                         R.anim.slide_out_bottom,
@@ -190,7 +190,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 mActivityButtonSelected = false;
                 mFragmentButtonSelected = true;
 
-                mLaunchDigitalCare.setVisibility(View.GONE);
+                mLaunchDigitalCare.setVisibility(View.INVISIBLE);
 
                 startActivity(new Intent(this, SampleActivity.class));
                 break;

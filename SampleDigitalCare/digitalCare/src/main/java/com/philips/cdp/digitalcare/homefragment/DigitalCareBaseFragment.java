@@ -57,6 +57,8 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     private NetworkReceiver mNetworkutility = null;
     private FragmentManager fragmentManager = null;
     private Thread mUiThread = Looper.getMainLooper().getThread();
+    private ImageView mBackToHome = null;
+    private ImageView mHomeIcon = null;
 
     public synchronized static void setStatus(boolean connection) {
         if (connection)
@@ -95,7 +97,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     private void registerNetWorkReceiver() {
-
         IntentFilter mfilter = new IntentFilter(
                 "android.net.conn.CONNECTIVITY_CHANGE");
         mNetworkutility = new NetworkReceiver(this);
@@ -110,7 +111,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 .getDimension(R.dimen.activity_margin_port);
         mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
                 .getDimension(R.dimen.activity_margin_land);
-
     }
 
     @Override
@@ -197,7 +197,6 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
                 }
             });
             return false;
-
         }
     }
 
@@ -230,14 +229,13 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     }
 
     private void enableActionBarLeftArrow() {
-
-        ImageView backToHome = (ImageView) mFragmentActivityContext
+        mBackToHome = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.back_to_home_img);
-        ImageView homeIcon = (ImageView) mFragmentActivityContext
+        mHomeIcon = (ImageView) mFragmentActivityContext
                 .findViewById(R.id.home_icon);
-        homeIcon.setVisibility(View.GONE);
-        backToHome.setVisibility(View.VISIBLE);
-        backToHome.bringToFront();
+        mHomeIcon.setVisibility(View.GONE);
+        mBackToHome.setVisibility(View.VISIBLE);
+        mBackToHome.bringToFront();
     }
 
 	/*
@@ -300,9 +298,18 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
         super.onHiddenChanged(hidden);
         DigiCareLogger.d(DigiCareLogger.FRAGMENT, "onHiddenChanged : " + hidden
                 + " ---class " + this.getClass().getSimpleName());
-//        if (mContainerId != 0) {
-//            updateActionbar();
-//        }
+        if (mContainerId == 0) {
+            if (this.getClass().getSimpleName()
+                    .equalsIgnoreCase(SupportHomeFragment.class.getSimpleName())) {
+                enableActionBarHome();
+            }
+        }
+    }
+
+    private void enableActionBarHome() {
+        mBackToHome.setVisibility(View.GONE);
+        mHomeIcon.setVisibility(View.VISIBLE);
+        mHomeIcon.bringToFront();
     }
 
     public void showFragment(FragmentActivity context, int parentContainer,
