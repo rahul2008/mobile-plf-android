@@ -225,6 +225,7 @@ public abstract class DigitalCareBaseFragment extends Fragment implements
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         DigiCareLogger.i(TAG, TAG + " : onConfigurationChanged ");
+        setLocaleLanguage();
         getAppName();
     }
 
