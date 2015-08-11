@@ -1,21 +1,21 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:fillViewport="false"
+    android:layout_height="match_parent"
+    android:id="@+id/chatScrollView"
     android:background="@color/activity_background_color">
 
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:weightSum="10"
+    android:weightSum="2"
     android:orientation="vertical"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="20"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
         >
 
         <FrameLayout
@@ -26,13 +26,15 @@
             <ImageView
                 android:id="@+id/chatnow_bg"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@drawable/live_chat_bg"
                 android:contentDescription="@string/chat_desc" />
 
             <TextView
                 android:id="@+id/helpText"
                 style="@style/chatNowHelpText"
+                android:layout_marginTop="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
                 custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </FrameLayout>
     </LinearLayout>
@@ -42,7 +44,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="70dp"
         android:orientation="vertical"
-        android:weightSum="2"
+        android:weightSum="1"
         >
 
         <TextView

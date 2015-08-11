@@ -29,4 +29,8 @@
 
     <dimen name="app_review_divider_margin">30dp</dimen>
     <dimen name="chat_button_top_margin">8dp</dimen>
+
+    <dimen name="chatnowhelptext_padding_right">250dp</dimen>
+    <dimen name="chatnowhelptext_padding_right_land">600dp</dimen>
+
 </resources>

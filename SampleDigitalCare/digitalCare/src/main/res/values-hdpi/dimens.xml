@@ -21,4 +21,7 @@
     <dimen name="social_support_closebutton">16dp</dimen>
     <dimen name="chat_button_top_margin">8dp</dimen>
 
+    <dimen name="chatnowhelptext_padding_right">80dp</dimen>
+    <dimen name="chatnowhelptext_padding_right_land">200dp</dimen>
+
 </resources>

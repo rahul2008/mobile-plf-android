@@ -1,9 +1,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chatScrollView"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/activity_background_color"
-    android:fillViewport="false">
+    android:layout_height="match_parent"
+    android:background="@color/activity_background_color">
 
     <LinearLayout
         android:id="@+id/chatNowParent"
@@ -32,6 +32,7 @@
                 <TextView
                     android:id="@+id/helpText"
                     style="@style/chatNowHelpText"
+
                     custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
             </FrameLayout>
         </LinearLayout>
@@ -89,14 +90,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="gone"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:layout_gravity="center"
+                android:gravity="center">
 
                 <RelativeLayout
                     android:id="@+id/chatNoThanksParentLand"
                     style="@style/fontButton"
                     android:layout_marginLeft="@dimen/activity_margin"
-                    android:layout_marginRight="@dimen/activity_margin"
+
                     android:layout_weight="1"
                     android:padding="2dp">
 

@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
 /**
  * ChatFragment will help to provide options to start Philips chat.
@@ -34,11 +35,12 @@ public class ChatFragment extends DigitalCareBaseFragment {
     private LinearLayout.LayoutParams mHelpTextParams = null;
     private LinearLayout mChatNowParentPort = null;
     private LinearLayout mChatNowParentLand = null;
+    private TextView mChatDescText = null;
     private TextView mHelpText = null;
     private ImageView mChatNowBG = null;
     private ImageView mActionBarMenuIcon = null;
     private ImageView mActionBarArrow = null;
-
+    private ScrollView mchatScrollView = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,12 +74,14 @@ public class ChatFragment extends DigitalCareBaseFragment {
         mChatNoThanksLand = (DigitalCareFontButton) getActivity().findViewById(
                 R.id.chatNoThanksLand);
 
-        mHelpText = (TextView) getActivity().findViewById(R.id.chatDesc);
+        mChatDescText = (TextView) getActivity().findViewById(R.id.chatDesc);
+        mHelpText = (TextView) getActivity().findViewById(R.id.helpText);
 
         mChatNowBG = (ImageView) getActivity().findViewById(R.id.chatnow_bg);
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        mchatScrollView = (ScrollView) getActivity().findViewById(R.id.chatScrollView);
 
         mChatNow.setOnClickListener(this);
         mChatNowLand.setOnClickListener(this);
@@ -97,7 +101,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
         mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
                 .getLayoutParams();
-        mHelpTextParams = (LinearLayout.LayoutParams) mHelpText
+        mHelpTextParams = (LinearLayout.LayoutParams) mChatDescText
                 .getLayoutParams();
         setButtonParams();
         Configuration config = getResources().getConfiguration();
@@ -123,16 +127,22 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public void setViewParams(Configuration config) {
         float density = getResources().getDisplayMetrics().density;
-
         if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
             mChatNowParentPort.setVisibility(View.VISIBLE);
             mChatNowParentLand.setVisibility(View.GONE);
+            mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right), 0);
 
         } else {
             mChatNowParentLand.setVisibility(View.VISIBLE);
             mChatNowParentPort.setVisibility(View.GONE);
+            mHelpText.setPadding((int) getResources().getDimension(R.dimen.activity_margin), 0, (int) getResources().getDimension(R.dimen.chatnowhelptext_padding_right_land), 0);
+            mchatScrollView.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mchatScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            }, 100);
         }
-        mHelpText.setLayoutParams(mHelpTextParams);
     }
 
     @Override
