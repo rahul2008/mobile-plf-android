@@ -226,6 +226,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void initUI(View view) {
         consumeTouch(view);
+        mContext = getRegistrationFragment().getActivity().getApplicationContext();
         mBtnContinue = (XButton) view.findViewById(R.id.reg_btn_continue);
         mBtnContinue.setOnClickListener(this);
         mTvSignInWith = (TextView) view.findViewById(R.id.tv_reg_sign_in_with);
@@ -254,7 +255,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
         mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
                 + mProvider);
-        mContext = getRegistrationFragment().getActivity().getApplicationContext();
+
 
         if (isEmailExist) {
             mEtEmail.setVisibility(View.GONE);
