@@ -6,7 +6,7 @@
     <!-- Base theme, default is blue color. -->
     <style name="PhilipsTheme.Default">
         <item name="actionBarBackground">@color/philips_blue_actionbar</item>
-        <item name="actionBarStyle">@style/HoloActionBar</item>
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
     </style>
 
     <style name="PhilipsTheme.Default.Light">
@@ -26,6 +26,14 @@
 
     <style name="PhilipsTheme.Default.Light.Blue.Gradient">
         <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
+        <item name="buttonStyle">@style/PUIButton</item>
+    </style>
+
+    <style name="PUIButton">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:background">@color/philips_light_blue</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <!-- Dark Blue themes -->
@@ -36,11 +44,6 @@
 
     <style name="PhilipsTheme.Default.Dark.Blue.Gradient">
         <item name="android:windowBackground">@drawable/grad_dark_blue_background</item>
-    </style>
-
-    <!-- ActionBar styles only for below 5.0 -->
-    <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="background">?attr/actionBarBackground</item>
     </style>
 
     <style name="Philips.button.circle"  parent="@android:style/Widget.Button">
@@ -62,6 +65,4 @@
         <item name="android:layout_margin">2dp</item>
         <item name="android:text">@string/cross_mark</item>
     </style>
-
-
 </resources>
