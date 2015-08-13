@@ -9,7 +9,15 @@
     
     <!-- Dark Blue theme -->
     <color name="philips_dark_blue">#003478</color>
+    <color name="philips_group_blue_5">#0b2265</color>
+    <color name="philips_very_dark_blue">#0f204b</color>
     <color name="philips_dark_blue_actionbar">#003478</color>
     <color name="gradient_dark_blue_start">@android:color/holo_blue_light</color>
     <color name="gradient_dark_blue_end">@android:color/holo_blue_dark</color>
+
+
+    <color name="philips_bright_green">#5b8f22</color>
+    <color name="philips_bright_blue">#0066a1</color>
+    <color name="philips_red">#cd202c</color>
+    <color name="philips_yellow">#EEF22C</color>
 </resources>
