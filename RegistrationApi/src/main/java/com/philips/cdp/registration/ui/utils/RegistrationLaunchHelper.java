@@ -29,24 +29,7 @@ public class RegistrationLaunchHelper {
         context.startActivity(registrationIntent);
     }
 
-    /**
-     * Launch registration fragment
-     */
-    public static void launchRegistrationFragment(int container, FragmentActivity fragmentActivity, RegistrationTitleBarListener titleBarListener) {
-        try {
-            FragmentManager mFragmentManager = fragmentActivity.getSupportFragmentManager();
-            RegistrationFragment registrationFragment = new RegistrationFragment();
-            registrationFragment.setOnUpdateTitleListener(titleBarListener);
-            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-            fragmentTransaction.replace(container, registrationFragment,
-                    RegConstants.REGISTRATION_FRAGMENT_TAG);
-            fragmentTransaction.commitAllowingStateLoss();
-        } catch (IllegalStateException e) {
-            RLog.e(RLog.EXCEPTION,
-                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
-                            + e.getMessage());
-        }
-    }
+
 
 
     public static boolean isBackEventConsumedByRegistration(FragmentActivity fragmentActivity) {

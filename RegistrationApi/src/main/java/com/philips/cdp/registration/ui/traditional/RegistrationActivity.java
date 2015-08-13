@@ -113,7 +113,20 @@ public class RegistrationActivity extends FragmentActivity implements OnClickLis
     private void initUI() {
         ivBack = (ImageView) findViewById(R.id.iv_reg_back);
         ivBack.setOnClickListener(this);
-        RegistrationLaunchHelper.launchRegistrationFragment(R.id.fl_reg_fragment_container, this, this);
+        try {
+            FragmentManager mFragmentManager = getSupportFragmentManager();
+            RegistrationFragment registrationFragment = new RegistrationFragment();
+            registrationFragment.setOnUpdateTitleListener(this);
+            FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fl_reg_fragment_container, registrationFragment,
+                    RegConstants.REGISTRATION_FRAGMENT_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
+        } catch (IllegalStateException e) {
+            RLog.e(RLog.EXCEPTION,
+                    "RegistrationActivity :FragmentTransaction Exception occured in addFragment  :"
+                            + e.getMessage());
+        }
+
     }
 
 
