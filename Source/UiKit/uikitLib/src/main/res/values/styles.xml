@@ -1,12 +1,12 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="PhilipsTheme" parent="android:Theme.DeviceDefault"> </style>
+    <style name="PhilipsTheme" parent="Theme.AppCompat.Light.DarkActionBar"> </style>
 
     <!-- Base theme, default is blue color. -->
     <style name="PhilipsTheme.Default">
         <item name="actionBarBackground">@color/philips_blue_actionbar</item>
-        <item name="android:actionBarStyle">@style/HoloActionBar</item>
+        <item name="actionBarStyle">@style/HoloActionBar</item>
     </style>
 
     <style name="PhilipsTheme.Default.Light">
@@ -18,10 +18,11 @@
         <item name="actionBarBackground">@color/philips_dark_blue_actionbar</item>
         <item name="android:windowBackground">@color/philips_dark_blue</item>
         <item name="android:colorBackground">@color/philips_blue_actionbar</item>
+
     </style>
 
     <!-- Light Blue themes -->
-    <style name="PhilipsTheme.Default.Light.Blue"></style>
+    <style name="PhilipsTheme.Default.Light.Blue"/>
 
     <style name="PhilipsTheme.Default.Light.Blue.Gradient">
         <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
@@ -37,9 +38,9 @@
         <item name="android:windowBackground">@drawable/grad_dark_blue_background</item>
     </style>
 
-    <!-- ActionBar styles -->
-    <style name="HoloActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">?attr/actionBarBackground</item>
-        <item name="android:elevation">10dp</item>
+    <!-- ActionBar styles only for below 5.0 -->
+    <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">?attr/actionBarBackground</item>
     </style>
+
 </resources>

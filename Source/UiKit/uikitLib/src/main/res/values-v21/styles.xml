@@ -1,0 +1,6 @@
+<resources>
+  <style name="PhilipsTheme.Default">
+    <item name="actionBarBackground">@color/philips_blue_actionbar</item>
+    <item name="colorPrimary">?attr/actionBarBackground</item>
+  </style>
+</resources>
