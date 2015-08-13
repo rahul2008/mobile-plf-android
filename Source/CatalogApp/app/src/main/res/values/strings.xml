@@ -8,5 +8,4 @@
         <item>Navigation Buttons</item>
         <item>Background color test</item>
     </string-array>
-    <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
 </resources>
