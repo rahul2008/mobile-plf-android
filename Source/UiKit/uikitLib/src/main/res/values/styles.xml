@@ -1,8 +1,67 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- Placeholder to start PhilipsTheme definition -->
+    <style name="PhilipsTheme" parent="Theme.AppCompat.Light.DarkActionBar"> </style>
+
+    <!-- Base theme, default is blue color. -->
+    <style name="PhilipsTheme.Default">
+        <item name="actionBarBackground">@color/philips_blue_actionbar</item>
+        <item name="actionBarStyle">@style/HoloActionBar</item>
     </style>
+
+    <style name="PhilipsTheme.Default.Light">
+        <item name="android:windowBackground">@color/philips_blue</item>
+        <item name="android:colorBackground">@color/philips_blue_actionbar</item>
+    </style>
+
+    <style name="PhilipsTheme.Default.Dark">
+        <item name="actionBarBackground">@color/philips_dark_blue_actionbar</item>
+        <item name="android:windowBackground">@color/philips_dark_blue</item>
+        <item name="android:colorBackground">@color/philips_blue_actionbar</item>
+
+    </style>
+
+    <!-- Light Blue themes -->
+    <style name="PhilipsTheme.Default.Light.Blue"/>
+
+    <style name="PhilipsTheme.Default.Light.Blue.Gradient">
+        <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
+    </style>
+
+    <!-- Dark Blue themes -->
+    <style name="PhilipsTheme.Default.Dark.Blue">
+        <item name="android:windowBackground">@color/philips_dark_blue</item>
+        <item name="android:colorBackground">@color/philips_dark_blue_actionbar</item>
+    </style>
+
+    <style name="PhilipsTheme.Default.Dark.Blue.Gradient">
+        <item name="android:windowBackground">@drawable/grad_dark_blue_background</item>
+    </style>
+
+    <!-- ActionBar styles only for below 5.0 -->
+    <style name="HoloActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="background">?attr/actionBarBackground</item>
+    </style>
+
+    <style name="Philips.button.circle"  parent="@android:style/Widget.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:minWidth">@dimen/philips_button_circle_width</item>
+        <item name="android:minHeight">@dimen/philips_button_circle_width</item>
+        <item name="android:background">@drawable/circle</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:text">@string/greater</item>
+    </style>
+
+    <style name="Philips.button.square" parent="@android:style/Widget.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:minWidth">@dimen/philips_button_square_width</item>
+        <item name="android:minHeight">@dimen/philips_button_square_height</item>
+        <item name="android:background">@drawable/square</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:text">@string/cross_mark</item>
+    </style>
+
 
 </resources>
