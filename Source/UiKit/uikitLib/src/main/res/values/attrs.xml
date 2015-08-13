@@ -3,4 +3,6 @@
     <declare-styleable name="PhilipsUIKit">
        <attr name="actionBarBackground" format="reference|color" />
    </declare-styleable>
+
+    <attr name="bg_color" format="color" />
 </resources>
