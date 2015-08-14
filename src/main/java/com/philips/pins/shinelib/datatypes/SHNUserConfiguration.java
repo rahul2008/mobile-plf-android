@@ -21,7 +21,7 @@ public class SHNUserConfiguration {
     private static final String USER_CONFIG_HEIGHT_IN_CM = "USER_CONFIG_HEIGHT_IN_CM";
     private static final String USER_CONFIG_SEX = "USER_CONFIG_SEX";
     private static final String USER_CONFIG_INCREMENT = "USER_CONFIG_INCREMENT";
-    
+
     public enum Sex {
         Female, Male, Unspecified
     }
@@ -160,7 +160,7 @@ public class SHNUserConfiguration {
             if (age >= 60) {
                 baseMetabolicRate = (sex == Sex.Male) ? (8.8 * weightInKg) + (1128 * heightInMeters) - 1071 : (9.2 * weightInKg) + (673 * heightInMeters) + 302;
             }
-            result = (int)baseMetabolicRate;
+            result = (int) baseMetabolicRate;
         }
         return result;
     }
@@ -210,39 +210,39 @@ public class SHNUserConfiguration {
 
     private synchronized void retrieveFromPreferences() {
         long longValue = shinePreferenceWrapper.getLong(USER_CONFIG_DATE_OF_BIRTH);
-        setDateOfBirth(null);
+        dateOfBirth = null;
         if (longValue != -1l) {
-            setDateOfBirth(new Date(longValue));
+            dateOfBirth = new Date(longValue);
         }
 
         int intValue = shinePreferenceWrapper.getInt(USER_CONFIG_HEIGHT_IN_CM);
-        setHeightInCm(null);
+        heightInCm = null;
         if (intValue != -1) {
-            setHeightInCm(intValue);
+            heightInCm = intValue;
         }
 
         intValue = shinePreferenceWrapper.getInt(USER_CONFIG_MAX_HEART_RATE);
-        setMaxHeartRate(null);
+        maxHeartRate = null;
         if (intValue != -1) {
-            setMaxHeartRate(intValue);
+            maxHeartRate = intValue;
         }
 
         intValue = shinePreferenceWrapper.getInt(USER_CONFIG_RESTING_HEART_RATE);
-        setRestingHeartRate(null);
+        restingHeartRate = null;
         if (intValue != -1) {
-            setRestingHeartRate(intValue);
+            restingHeartRate = intValue;
         }
 
         float floatValue = shinePreferenceWrapper.getFloat(USER_CONFIG_WEIGHT_IN_KG);
-        setWeightInKg(null);
+        weightInKg = null;
         if (floatValue != Float.NaN) {
-            setWeightInKg((double) floatValue);
+            weightInKg = (double) floatValue;
         }
 
         String stringValue = shinePreferenceWrapper.getString(USER_CONFIG_SEX);
-        setSex(null);
+        sex = null;
         if (stringValue != null) {
-            setSex(Sex.valueOf(stringValue));
+            sex = Sex.valueOf(stringValue);
         }
 
         int index = shinePreferenceWrapper.getInt(USER_CONFIG_INCREMENT);
