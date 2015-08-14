@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -27,7 +28,6 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.RequestData;
@@ -39,6 +39,7 @@ import com.philips.cdp.digitalcare.contactus.models.CdlsResponseModel;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsParsingCallback;
 import com.philips.cdp.digitalcare.contactus.parser.CdlsResponseParser;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.social.facebook.FacebookWebFragment;
 import com.philips.cdp.digitalcare.social.twitter.TwitterWebFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
@@ -86,6 +87,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     private ProgressDialog mDialog = null;
     private Configuration config = null;
     private View mSocialDivider = null;
+    private int mSdkVersion;
 
 
     private CdlsParsingCallback mParsingCompletedCallback = new CdlsParsingCallback() {
@@ -113,6 +115,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mSdkVersion = Build.VERSION.SDK_INT;
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
         // mTwitterProgresshandler = new Handler();
         // if (isConnectionAvailable())
@@ -297,7 +300,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 /*|| mCdlsParsedResponse.getError() != null*/) {
             CdlsPhoneModel phoneModel = mCdlsParsedResponse.getPhone();
             if (phoneModel != null) {
-                if(phoneModel.getPhoneNumber()!= null){
+                if (phoneModel.getPhoneNumber() != null) {
                     mCallPhilips.setVisibility(View.VISIBLE);
                 }
                 enableBottomText();
@@ -373,9 +376,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                     + mCdlsParsedResponse.getPhone().getPhoneNumber()));
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(myintent);
-        }catch(NullPointerException e)
-        {
-           // DigiCareLogger.d(TAG, "on Call Click : "+ mCdlsParsedResponse.getPhone().getPhoneNumber());
+        } catch (NullPointerException e) {
+            // DigiCareLogger.d(TAG, "on Call Click : "+ mCdlsParsedResponse.getPhone().getPhoneNumber());
         }
     }
 
@@ -577,6 +579,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             mChat.setVisibility(View.GONE);
         }*/
     }
+
     protected void fadeinButtons() {
         tagTechnicalError();
 //        if (mCallPhilips != null) {
@@ -589,6 +592,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             mChat.setVisibility(View.VISIBLE);
         }
     }
+
     @Override
     public void setViewParams(Configuration config) {
 
@@ -689,9 +693,12 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
         relativeLayout.setLayoutParams(params);
-        relativeLayout
-                .setBackground(getDrawable(R.drawable.prod_reg_social_border_btn));
-
+        if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
+            relativeLayout.setBackgroundResource(R.drawable.prod_reg_social_border_btn);
+        } else {
+            relativeLayout
+                    .setBackground(getDrawable(R.drawable.prod_reg_social_border_btn));
+        }
         return relativeLayout;
     }
 
@@ -712,8 +719,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         button.setTextAppearance(getActivity(), R.style.fontButton);
         Typeface buttonTypeface = Typeface.createFromAsset(getActivity().getAssets(), "digitalcarefonts/CentraleSans-Book.otf");
         button.setTypeface(buttonTypeface);
-        button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        button.setBackground(getDrawable(resId));
+        if (mSdkVersion < Build.VERSION_CODES.JELLY_BEAN) {
+            button.setBackgroundResource(resId);
+            button.setGravity(Gravity.CENTER);
+        } else {
+            button.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            button.setBackground(getDrawable(resId));
+        }
         button.setText(title);
         return button;
     }
