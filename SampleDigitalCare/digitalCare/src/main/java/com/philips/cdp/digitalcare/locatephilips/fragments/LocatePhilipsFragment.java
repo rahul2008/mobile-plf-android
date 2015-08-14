@@ -55,7 +55,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.RequestData;
@@ -63,16 +62,17 @@ import com.philips.cdp.digitalcare.ResponseCallback;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.GpsAlertView;
-import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
-import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.locatephilips.CustomGeoAdapter;
-import com.philips.cdp.digitalcare.locatephilips.fragments.GoogleMapFragment.onMapReadyListener;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections;
 import com.philips.cdp.digitalcare.locatephilips.MapDirections.MapDirectionResponse;
+import com.philips.cdp.digitalcare.locatephilips.fragments.GoogleMapFragment.onMapReadyListener;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosAddressModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosLocationModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResponseModel;
 import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
+import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
+import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 import com.philips.cdp.digitalcare.util.Utils;
 
@@ -736,7 +736,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                         });
             }
 
-        }else if (v.getId() == R.id.getdirection) {
+        } else if (v.getId() == R.id.getdirection) {
             AnalyticsTracker
                     .trackAction(
                             AnalyticsConstants.ACTION_LOCATE_PHILIPS_SEND_DATA,
@@ -881,14 +881,18 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void setSearchIcon() {
-        if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
-            mSearchIcon.setVisibility(View.GONE);
-            mArabicSearchIcon.setVisibility(View.VISIBLE);
-            mSearchBox.setGravity(Gravity.RIGHT);
-        } else {
-            mSearchIcon.setVisibility(View.VISIBLE);
-            mArabicSearchIcon.setVisibility(View.GONE);
-            mSearchBox.setGravity(Gravity.LEFT);
+
+        if ((mSearchBox != null) && (mArabicSearchIcon != null) && (mSearchBox != null)) {
+
+            if (getActivity().getResources().getConfiguration().locale.getLanguage().toString().contains("ar")) {
+                mSearchIcon.setVisibility(View.GONE);
+                mArabicSearchIcon.setVisibility(View.VISIBLE);
+                mSearchBox.setGravity(Gravity.RIGHT);
+            } else {
+                mSearchIcon.setVisibility(View.VISIBLE);
+                mArabicSearchIcon.setVisibility(View.GONE);
+                mSearchBox.setGravity(Gravity.LEFT);
+            }
         }
     }
 
