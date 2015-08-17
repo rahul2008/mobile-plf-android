@@ -1,20 +1,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal">
 
-    <Button
-        style="@style/Philips.button.circle"
+    <com.philips.cdp.uikit.CustomButton.PhilipsButton
+        style="@style/Philips.button.square.greater"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
 
-    <Button
-        style="@style/Philips.button.square"
+    <com.philips.cdp.uikit.CustomButton.PhilipsButton
+        style="@style/Philips.button.circle.questionMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.philips.cdp.uikit.CustomButton.PhilipsButton
+        style="@style/Philips.button.square.crossMark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+
+    <com.philips.cdp.uikit.CustomButton.PhilipsButton
+        style="@style/Philips.button.circle.minus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <com.philips.cdp.uikit.CustomButton.PhilipsButton
+        style="@style/Philips.button.square.questionMark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

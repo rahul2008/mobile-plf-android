@@ -3,7 +3,7 @@
     <string name="app_name">UiKit</string>
     <string name="question_mark">\?</string>
     <string name="plus">\+</string>
-    <string name="minus">\-</string>
+    <string name="minus">-</string>
     <string name="greater">&gt;</string>
     <string name="cross_mark">X</string>
 </resources>

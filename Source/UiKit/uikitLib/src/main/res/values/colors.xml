@@ -59,4 +59,8 @@
     <color name="philips_light_purple">#b390bb</color>
     <color name="philips_very_light_purple">#dbcfe9</color>
 
+
+                    <!-- Color codes for Miscellaneous buttons -->
+    <color name="philips_Red">#CD202C</color>
+
 </resources>

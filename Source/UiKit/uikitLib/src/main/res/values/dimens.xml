@@ -4,5 +4,7 @@
     <dimen name="philips_button_circle_height">20dp</dimen>
     <dimen name="philips_button_square_width">20dp</dimen>
     <dimen name="philips_button_square_height">20dp</dimen>
+    <dimen name="philips_msc_button_margin">2dp</dimen>
+    <dimen name="philips_msc_button_padding">2dp</dimen>
 
 </resources>
