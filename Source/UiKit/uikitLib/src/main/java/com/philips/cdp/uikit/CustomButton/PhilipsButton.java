@@ -67,7 +67,7 @@ public class PhilipsButton extends Button {
         return shapeDrawable;
     }
 
-    public void addStates(final ShapeDrawable normal, final ShapeDrawable pressed) {
+    private void addStates(final ShapeDrawable normal, final ShapeDrawable pressed) {
         StateListDrawable states = new StateListDrawable();
         states.addState(new int[]{android.R.attr.state_pressed},
                 pressed);
@@ -75,6 +75,4 @@ public class PhilipsButton extends Button {
                 normal);
         setBackgroundDrawable(states);
     }
-
-
 }
