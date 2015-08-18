@@ -104,8 +104,6 @@
         <item>SE</item>
     </string-array>
 
-
-
     <string name="dummytext">Dummy View</string>
     <string name="dummyTitle">Dummy Actionbar Title</string>
     <string name="app_description">This is just an sample launcher app for  launching the DigitalCare Component.</string>
@@ -115,5 +113,40 @@
     <string name="app_note">Note:</string>
     <string name="lanuauge">Langauage :</string>
     <string name="country">Country :</string>
+
+
+    <string-array name="category">
+        <item>MENS_SHAVING_CA</item>
+        <item>HAIRCARE_CA</item>
+    </string-array>
+
+
+    <string-array name="subcategory">
+        <item>HAIR_STYLERS_SU</item>
+        <item>SONICARE_FOR_KIDS_SU</item>
+        <item>HAIR_STYLERS_SU</item>
+        <item>HAIR_DRYERS_SU</item>
+        <item>STRAIGHTENER_SU</item>
+    </string-array>
+
+    <string-array name="ctn">
+        <item>HD8967_01</item>
+        <item>HD8967_02</item>
+        <item>HD8967_03</item>
+        <item>HD8967_04</item>
+        <item>HD8967_05</item>
+        <item>HD8967_06</item>
+        <item>HD8967_07</item>
+        <item>HD8967_08</item>
+    </string-array>
+
+    <string-array name="product_title">
+        <item>Saeco GranBaristo Avanti</item>
+    </string-array>
+
+    <string-array name="product_review">
+        <item>/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide</item>
+    </string-array>
+
 
 </resources>

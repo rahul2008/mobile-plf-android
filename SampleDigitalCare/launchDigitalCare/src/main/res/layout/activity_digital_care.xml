@@ -1,7 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#3090C7">
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/parentActivity"
@@ -31,19 +30,23 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/blue_button"
-            android:text="@string/launch_button_as_activity" />
+            android:text="@string/launch_button_as_activity"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/launchAsFragment"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@+id/launchDigitalCare"
-            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/blue_button"
-            android:text="@string/launch_button_as_fragment" />
+            android:text="@string/launch_button_as_fragment"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/textView2"
@@ -115,17 +118,108 @@
         </GridLayout>
 
         <TextView
-            android:id="@+id/textView6"
+            android:layout_marginTop="20dp"
+            android:id="@+id/textview6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/gridlayout1"
-            android:layout_marginTop="20dp"
-            android:text="Launch Particular Component:"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="gone" />
+            android:text="Set Product Info"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
+
+        <GridLayout
+            android:id="@+id/gridlayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textview6"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:rowCount="2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category : "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp"></AutoCompleteTextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SubCategory : "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/subcategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp"></AutoCompleteTextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CTN : "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/ctn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp"></AutoCompleteTextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ProductTitle : "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp"></AutoCompleteTextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ProdReviewUrl : "
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/product_review_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textAutoComplete|textAutoCorrect"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textSize="18sp"></AutoCompleteTextView>
+
+        </GridLayout>
 
     </RelativeLayout>
 

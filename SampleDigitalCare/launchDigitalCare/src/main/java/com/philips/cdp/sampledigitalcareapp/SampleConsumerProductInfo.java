@@ -51,4 +51,36 @@ public class SampleConsumerProductInfo extends ConsumerProductInfo {
 	public String getProductReviewUrl() {
 		return mProductReviewUrl;
 	}
+
+	public static void setGroup(String mGroup) {
+		SampleConsumerProductInfo.mGroup = mGroup;
+	}
+
+	public static void setSector(String mSector) {
+		SampleConsumerProductInfo.mSector = mSector;
+	}
+
+	public static void setCatalog(String mCatalog) {
+		SampleConsumerProductInfo.mCatalog = mCatalog;
+	}
+
+	public static void setCategory(String mCategory) {
+		SampleConsumerProductInfo.mCategory = mCategory;
+	}
+
+	public static void setSubCategory(String mSubCategory) {
+		SampleConsumerProductInfo.mSubCategory = mSubCategory;
+	}
+
+	public static void setCtn(String mCtn) {
+		SampleConsumerProductInfo.mCtn = mCtn;
+	}
+
+	public static void setProductTitle(String mProductTitle) {
+		SampleConsumerProductInfo.mProductTitle = mProductTitle;
+	}
+
+	public static void setProductReviewUrl(String mProductReviewUrl) {
+		SampleConsumerProductInfo.mProductReviewUrl = mProductReviewUrl;
+	}
 }
