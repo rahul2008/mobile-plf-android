@@ -3,7 +3,7 @@
     <style name="Philips.button.circle"  parent="@android:style/Widget.Button">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:minWidth">@dimen/philips_button_circle_width</item>
-        <item name="android:minHeight">@dimen/philips_button_circle_width</item>
+        <item name="android:minHeight">@dimen/philips_button_circle_height</item>
         <item name="android:layout_margin">@dimen/philips_msc_button_margin</item>
         <item name="android:padding">@dimen/philips_msc_button_padding</item>
         <item name="android:textSize">@dimen/philips_msc_button_text_size</item>
@@ -21,11 +21,11 @@
     </style>
 
     <style name="Philips.button.square.greater">
-        <item name="android:text">@string/greater</item>
+        <item name="btnImageDrawable">@drawable/greater</item>
     </style>
 
     <style name="Philips.button.square.plus">
-        <item name="android:text">@string/plus</item>
+        <item name="btnImageDrawable">@drawable/plus</item>
     </style>
 
     <style name="Philips.button.square.minus">
@@ -59,4 +59,5 @@
     <style name="Philips.button.circle.crossMark">
         <item name="android:text">@string/cross_mark</item>
     </style>
+
 </resources>

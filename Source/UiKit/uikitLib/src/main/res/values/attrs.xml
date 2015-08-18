@@ -8,5 +8,7 @@
         <attr name="btnShape" format="integer"/>
         <attr name="btnBgColor" format="color"/>
         <attr name="btnBgColorPressed" format="color"/>
+        <attr name="btnImageDrawable" format="reference"/>
+
     </declare-styleable>
 </resources>
