@@ -1,16 +1,18 @@
 
 package com.philips.cdp.registration.configuration;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class ConfigurationParser {
+
+	private final String TESTING = "Testing";
 
 	private final String PRODUCTION = "Production";
 
@@ -34,7 +36,11 @@ public class ConfigurationParser {
 
 	private final String FLOW = "Flow";
 
+	private final String MINIMUM_AGE_LIMIT = "MinimumAgeLimit";
+
 	private final String EMAIL_VERIFICATION_REQUIRED = "EmailVerificationRequired";
+
+	private final String TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED = "TermsAndConditionsAcceptanceRequired";
 
 	public void parse(JSONObject configurationJson) {
 		RegistrationConfiguration registrationConfiguration = RegistrationConfiguration
@@ -60,6 +66,7 @@ public class ConfigurationParser {
 				JSONObject flowConfiguartion = configurationJson.getJSONObject(FLOW);
 				registrationConfiguration.setFlow(parseFlowConfiguration(flowConfiguartion));
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,7 +99,7 @@ public class ConfigurationParser {
 
 		if (!pILConfiguration.isNull(REGISTRATION_ENVIRONMENT)) {
 			configuration.setRegistrationEnvironment(pILConfiguration
-			        .getString(REGISTRATION_ENVIRONMENT));
+					.getString(REGISTRATION_ENVIRONMENT));
 		}
 
 		if (!pILConfiguration.isNull(CAMPAIGN_ID)) {
@@ -108,9 +115,25 @@ public class ConfigurationParser {
 		if (!flowConfiguration.isNull(EMAIL_VERIFICATION_REQUIRED)) {
 			if (!flowConfiguration.getString(EMAIL_VERIFICATION_REQUIRED).equals("null")) {
 				configuration.setEmailVerificationRequired(Boolean.parseBoolean(flowConfiguration
-				        .getString(EMAIL_VERIFICATION_REQUIRED).toLowerCase(Locale.getDefault())));
+						.getString(EMAIL_VERIFICATION_REQUIRED).toLowerCase(Locale.getDefault())));
 			}
 		}
+
+		if (!flowConfiguration.isNull(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED)) {
+			if (!flowConfiguration.getString(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED).equals("null")) {
+				configuration.setTermsAndConditionsAcceptanceRequired(Boolean.parseBoolean(flowConfiguration
+						.getString(TERMS_AND_CONDITIONS_ACCEPTANCE_REQUIRED).toLowerCase(Locale.getDefault())));
+			}
+		}
+
+		JSONObject minimumAgeLimitConfiguartion = flowConfiguration.getJSONObject(MINIMUM_AGE_LIMIT);
+		Iterator<String> nameItr = minimumAgeLimitConfiguartion.keys();
+		HashMap<String, String> minAgeMap = new HashMap<String, String>();
+		while(nameItr.hasNext()) {
+			String name = nameItr.next();
+			minAgeMap.put(name, minimumAgeLimitConfiguartion.getString(name));
+		}
+		configuration.setMinAgeLimit(minAgeMap);
 		return configuration;
 	}
 
@@ -127,6 +150,9 @@ public class ConfigurationParser {
 		}
 		if (!regIds.isNull(PRODUCTION)) {
 			registrationClientId.setProductionId(regIds.getString(PRODUCTION));
+		}
+		if (!regIds.isNull(TESTING)) {
+			registrationClientId.setTestingId(regIds.getString(TESTING));
 		}
 		configuration.setClientIds(registrationClientId);
 		return configuration;

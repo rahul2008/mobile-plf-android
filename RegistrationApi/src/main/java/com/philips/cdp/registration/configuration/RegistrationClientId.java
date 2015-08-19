@@ -9,6 +9,8 @@ public class RegistrationClientId {
 
 	private String productionId;
 
+	private String testingId;
+
 	public String getProductionId() {
 		return productionId;
 	}
@@ -32,5 +34,14 @@ public class RegistrationClientId {
 	public void setDevelopmentId(String developmentId) {
 		this.developmentId = developmentId;
 	}
+
+	public String getTestingId() {
+		return testingId;
+	}
+
+	public void setTestingId(String testingId) {
+		this.testingId = testingId;
+	}
+
 
 }

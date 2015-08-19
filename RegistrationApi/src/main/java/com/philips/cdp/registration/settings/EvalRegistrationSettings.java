@@ -25,9 +25,9 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
     private String LOG_TAG = "RegistrationAPI";
 
-    private static String DEV_EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static String EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
-    private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+    private static String EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
 
     private static String EVAL_PRX_RESEND_CONSENT_URL = "https://acc.usa.philips.com/prx/registration/resendConsentMail";
 
@@ -103,8 +103,8 @@ public class EvalRegistrationSettings extends RegistrationSettings {
         jumpConfig.captureFlowVersion = EVAL_CAPTURE_FLOW_VERSION;
         jumpConfig.captureAppId = EVAL_CAPTURE_APP_ID;
 
-        mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
-        mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
+        mProductRegisterUrl = EVAL_PRODUCT_REGISTER_URL;
+        mProductRegisterListUrl = EVAL_PRODUCT_REGISTER_LIST_URL;
 
         mResendConsentUrl = EVAL_PRX_RESEND_CONSENT_URL;
         mRegisterCoppaActivationUrl = EVAL_REGISTER_COPPA_ACTIVATION_URL;

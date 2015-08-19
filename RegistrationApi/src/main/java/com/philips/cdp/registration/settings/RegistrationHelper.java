@@ -47,6 +47,8 @@ public class RegistrationHelper {
 
     private ProdRegistrationSettings mProdRegistrationSettings;
 
+    private TestingRegistrationSettings mTestingRegistrationSettings;
+
     private RegistrationSettings mRegistrationSettings;
 
     private String countryCode;
@@ -64,6 +66,8 @@ public class RegistrationHelper {
         String DEV = "Development";
 
         String PROD = "Production";
+
+        String TESTING = "Testing";
     }
 
     public boolean isJanrainIntialized() {
@@ -191,6 +195,15 @@ public class RegistrationHelper {
                                         .getJanRainConfiguration().getClientIds().getDevelopmentId(),
                                 mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
                     }
+
+                    if (RegistrationEnvironment.TESTING.equalsIgnoreCase(mRegistrationType)) {
+                        RLog.i(RLog.JANRAIN_INITIALIZE, "Client ID : "
+                                + RegistrationConfiguration.getInstance().getJanRainConfiguration()
+                                .getClientIds().getTestingId());
+                        initTesting(mContext, RegistrationConfiguration.getInstance()
+                                        .getJanRainConfiguration().getClientIds().getTestingId(),
+                                mMicrositeId, mRegistrationType, mIsInitialize, initLocale);
+                    }
                 }
             }
         }).start();
@@ -245,6 +258,15 @@ public class RegistrationHelper {
         mProdRegistrationSettings = new ProdRegistrationSettings();
         mRegistrationSettings = mProdRegistrationSettings;
         mProdRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
+                microSiteId, registrationType, isintialize, locale);
+    }
+
+    private void initTesting(Context context, String captureClientId, String microSiteId,
+                             String registrationType, boolean isintialize, String locale) {
+
+        mTestingRegistrationSettings = new TestingRegistrationSettings();
+        mRegistrationSettings = mTestingRegistrationSettings;
+        mTestingRegistrationSettings.intializeRegistrationSettings(context, captureClientId,
                 microSiteId, registrationType, isintialize, locale);
     }
 

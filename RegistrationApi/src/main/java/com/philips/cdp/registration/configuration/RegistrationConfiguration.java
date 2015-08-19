@@ -55,5 +55,4 @@ public class RegistrationConfiguration {
 	public void setFlow(Flow flow) {
 		this.flow = flow;
 	}
-
 }

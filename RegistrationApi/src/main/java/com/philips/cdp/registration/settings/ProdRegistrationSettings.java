@@ -11,18 +11,17 @@ import com.janrain.android.JumpConfig;
 
 public class ProdRegistrationSettings extends RegistrationSettings {
 
-    private String PRODUCT_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
+    private String PROD_ENGAGE_APP_ID = "ddjbpmgpeifijdlibdio";
 
-    private String PRODUCT_CAPTURE_DOMAIN = "philips.janraincapture.com";
+    private String PROD_CAPTURE_DOMAIN = "philips.janraincapture.com";
 
-    private String PRODUCT_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
+    private String PROD_CAPTURE_FLOW_VERSION = "HEAD"; // "e67f2db4-8a9d-4525-959f-a6768a4a2269";
 
-    private String PRODUCT_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
+    private String PROD_CAPTURE_APP_ID = "hffxcm638rna8wrxxggx2gykhc";
 
+    private String PROD_REGISTER_ACTIVATION_URL = "https://secure.philips.com/ps/verify-account";
 
-    private String PRODUCTION_REGISTER_ACTIVATION_URL = "https://secure.philips.com/ps/verify-account";
-
-    private String PRODUCTION_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
+    private String PROD_REGISTER_FORGOT_MAIL_URL = "https://secure.philips.co.uk/myphilips/resetPassword.jsp";
 
     private static String PROD_PRX_RESEND_CONSENT_URL = "https://www.usa.philips.com/prx/registration/resendConsentMail";
 
@@ -92,10 +91,10 @@ public class ProdRegistrationSettings extends RegistrationSettings {
         jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
 
-        jumpConfig.engageAppId = PRODUCT_ENGAGE_APP_ID;
-        jumpConfig.captureDomain = PRODUCT_CAPTURE_DOMAIN;
-        jumpConfig.captureFlowVersion = PRODUCT_CAPTURE_FLOW_VERSION;
-        jumpConfig.captureAppId = PRODUCT_CAPTURE_APP_ID;
+        jumpConfig.engageAppId = PROD_ENGAGE_APP_ID;
+        jumpConfig.captureDomain = PROD_CAPTURE_DOMAIN;
+        jumpConfig.captureFlowVersion = PROD_CAPTURE_FLOW_VERSION;
+        jumpConfig.captureAppId = PROD_CAPTURE_APP_ID;
 
         mProductRegisterUrl = PROD_PRODUCT_REGISTER_URL;
         mProductRegisterListUrl = PROD_PRODUCT_REGISTER_LIST_URL;
@@ -118,10 +117,10 @@ public class ProdRegistrationSettings extends RegistrationSettings {
         if (RegistrationHelper.getInstance().isCoppaFlow()) {
             jumpConfig.captureRedirectUri = PROD_REGISTER_COPPA_ACTIVATION_URL;
         } else {
-            jumpConfig.captureRedirectUri = PRODUCTION_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
+            jumpConfig.captureRedirectUri = PROD_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = PRODUCTION_REGISTER_FORGOT_MAIL_URL + "?country="
+        jumpConfig.captureRecoverUri = PROD_REGISTER_FORGOT_MAIL_URL + "?country="
                 + countryCode + "&catalogType=CONSUMER&language=" + langCode;
         jumpConfig.captureLocale = locale;
 

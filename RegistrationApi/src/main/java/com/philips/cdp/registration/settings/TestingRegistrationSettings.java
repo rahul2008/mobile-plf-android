@@ -9,23 +9,7 @@ import android.util.Log;
 import com.janrain.android.Jump;
 import com.janrain.android.JumpConfig;
 
-public class DevRegistrationSettings extends RegistrationSettings {
-
-    private String DEV_ENGAGE_APP_ID = "bdbppnbjfcibijknnfkk";
-
-    private String DEV_CAPTURE_DOMAIN = "philips.dev.janraincapture.com";
-
-    private String DEV_CAPTURE_FLOW_VERSION = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
-
-    private String DEV_CAPTURE_APP_ID = "eupac7ugz25x8dwahvrbpmndf8";
-
-    private String DEV_REGISTER_ACTIVATION_URL = "http://10.128.41.112:4503/content/B2C/en_GB/verify-account.html";
-
-    private String DEV_REGISTER_FORGOT_MAIL_URL = "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp";
-
-    private static String DEV_PRX_RESEND_CONSENT_URL = "http://10.128.41.113:4503/registration/resendConsentMail";
-
-    private static String DEV_REGISTER_COPPA_ACTIVATION_URL = "http://10.128.41.111:4503/content/B2C/en_US/user-registration/coppa-consent.html";
+public class TestingRegistrationSettings extends RegistrationSettings {
 
     private String mCountryCode;
 
@@ -41,9 +25,31 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
     private String LOG_TAG = "RegistrationAPI";
 
-    private static String DEV_EVAL_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
+    private static String TEST_PRODUCT_REGISTER_URL = "https://acc.philips.co.uk/prx/registration/";
 
-    private static String DEV_EVAL_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+    private static String TEST_PRODUCT_REGISTER_LIST_URL = "https://acc.philips.co.uk/prx/registration.registeredProducts/";
+
+    private static String TEST_PRX_RESEND_CONSENT_URL = "https://tst.usa.philips.com/prx/registration/resendConsentMail";
+
+    private static String TEST_REGISTER_COPPA_ACTIVATION_URL = "https://tst.philips.com/ps/user-registration/consent.html";
+
+    private String TEST_ENGAGE_APP_ID = "fhbmobeahciagddgfidm";
+
+    private String TEST_CAPTURE_DOMAIN = "https://philips-test.dev.janraincapture.com";
+
+    private String TEST_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
+
+    private String TEST_CAPTURE_APP_ID = "x7nftvwfz8e8vcutz49p8eknqp";
+
+    /**
+     * Activation Account URL
+     */
+
+    private String TEST_REGISTER_ACTIVATION_URL = "http://10.128.41.112:4503/content/B2C/en_GB/verify-account.html";
+    /**
+     * Forgot Password URL
+     */
+    private String TEST_REGISTER_FORGOT_MAIL_URL = "https://philips-test.dev.janraincapture.com/oauth/forgot_password_native/";
 
     @Override
     public void intializeRegistrationSettings(Context context, String captureClientId,
@@ -90,16 +96,16 @@ public class DevRegistrationSettings extends RegistrationSettings {
         jumpConfig.captureTraditionalSignInFormName = "userInformationForm";
         jumpConfig.traditionalSignInType = Jump.TraditionalSignInType.EMAIL;
 
-        jumpConfig.engageAppId = DEV_ENGAGE_APP_ID;
-        jumpConfig.captureDomain = DEV_CAPTURE_DOMAIN;
-        jumpConfig.captureFlowVersion = DEV_CAPTURE_FLOW_VERSION;
-        jumpConfig.captureAppId = DEV_CAPTURE_APP_ID;
+        jumpConfig.engageAppId = TEST_ENGAGE_APP_ID;
+        jumpConfig.captureDomain = TEST_CAPTURE_DOMAIN;
+        jumpConfig.captureFlowVersion = TEST_CAPTURE_FLOW_VERSION;
+        jumpConfig.captureAppId = TEST_CAPTURE_APP_ID;
 
-        mProductRegisterUrl = DEV_EVAL_PRODUCT_REGISTER_URL;
-        mProductRegisterListUrl = DEV_EVAL_PRODUCT_REGISTER_LIST_URL;
+        mProductRegisterUrl = TEST_PRODUCT_REGISTER_URL;
+        mProductRegisterListUrl = TEST_PRODUCT_REGISTER_LIST_URL;
 
-        mResendConsentUrl = DEV_PRX_RESEND_CONSENT_URL;
-        mRegisterCoppaActivationUrl = DEV_REGISTER_COPPA_ACTIVATION_URL;
+        mResendConsentUrl = TEST_PRX_RESEND_CONSENT_URL;
+        mRegisterCoppaActivationUrl = TEST_REGISTER_COPPA_ACTIVATION_URL;
 
         String localeArr[] = locale.split("-");
         String langCode = null;
@@ -114,12 +120,12 @@ public class DevRegistrationSettings extends RegistrationSettings {
         }
 
         if (RegistrationHelper.getInstance().isCoppaFlow()) {
-            jumpConfig.captureRedirectUri = DEV_REGISTER_COPPA_ACTIVATION_URL;
+            jumpConfig.captureRedirectUri = TEST_REGISTER_COPPA_ACTIVATION_URL;
         } else {
-            jumpConfig.captureRedirectUri = DEV_REGISTER_ACTIVATION_URL;
+            jumpConfig.captureRedirectUri = TEST_REGISTER_ACTIVATION_URL + "?loc=" + langCode + "_" + countryCode;
         }
 
-        jumpConfig.captureRecoverUri = DEV_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
+        jumpConfig.captureRecoverUri = TEST_REGISTER_FORGOT_MAIL_URL + "?country=" + countryCode
                 + "&catalogType=CONSUMER&language=" + langCode;
         jumpConfig.captureLocale = locale;
 
