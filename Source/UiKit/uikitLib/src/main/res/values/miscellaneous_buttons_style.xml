@@ -6,7 +6,6 @@
         <item name="android:minHeight">@dimen/philips_button_circle_height</item>
         <item name="android:layout_margin">@dimen/philips_msc_button_margin</item>
         <item name="android:padding">@dimen/philips_msc_button_padding</item>
-        <item name="android:textSize">@dimen/philips_msc_button_text_size</item>
         <item name="btnShape">@integer/circle</item>
     </style>
 
@@ -16,7 +15,6 @@
         <item name="android:minHeight">@dimen/philips_button_square_height</item>
         <item name="android:padding">@dimen/philips_msc_button_margin</item>
         <item name="android:layout_margin">@dimen/philips_msc_button_padding</item>
-        <item name="android:textSize">@dimen/philips_msc_button_text_size</item>
         <item name="btnShape">@integer/square</item>
     </style>
 
@@ -29,7 +27,7 @@
     </style>
 
     <style name="Philips.button.square.minus">
-        <item name="android:text">@string/minus</item>
+        <item name="btnImageDrawable">@drawable/minus</item>
     </style>
 
     <style name="Philips.button.square.questionMark">

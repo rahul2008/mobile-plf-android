@@ -32,7 +32,7 @@ public class PhilipsButton extends ImageView {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.PhilipsView);
         ShapeDrawable normalShapeDrawable = getNormalShapeDrawable(typedArray);
         ShapeDrawable pressedShapeDrawable = getPressedShapeDrawable(typedArray);
-        setImageResource(typedArray.getResourceId(R.styleable.PhilipsView_btnImageDrawable, R.drawable.abc_btn_check_material));
+        setImageResource(typedArray.getResourceId(R.styleable.PhilipsView_btnImageDrawable, R.drawable.greater));
         typedArray.recycle();
         addStates(normalShapeDrawable, pressedShapeDrawable);
     }
@@ -60,14 +60,14 @@ public class PhilipsButton extends ImageView {
 
     private ShapeDrawable getNormalShapeDrawable(final TypedArray typedArray) {
         ShapeDrawable shapeDrawable = getShapeDrawable(typedArray);
-        int color = typedArray.getColor(R.styleable.PhilipsView_btnBgColor, context.getResources().getColor(R.color.philips_dark_green));
+        int color = typedArray.getColor(R.styleable.PhilipsView_btnBgColor, context.getResources().getColor(R.color.philips_dark_blue));
         shapeDrawable.getPaint().setColor(color);
         return shapeDrawable;
     }
 
     private ShapeDrawable getPressedShapeDrawable(final TypedArray typedArray) {
         ShapeDrawable shapeDrawable = getShapeDrawable(typedArray);
-        int color = typedArray.getColor(R.styleable.PhilipsView_btnBgColorPressed, context.getResources().getColor(R.color.philips_bright_green));
+        int color = typedArray.getColor(R.styleable.PhilipsView_btnBgColorPressed, context.getResources().getColor(R.color.philips_bright_blue));
         shapeDrawable.getPaint().setColor(color);
         return shapeDrawable;
     }
