@@ -1,7 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Philips.button.circle"  parent="@android:style/Widget.Button">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:minWidth">@dimen/philips_button_circle_width</item>
         <item name="android:minHeight">@dimen/philips_button_circle_height</item>
         <item name="android:layout_margin">@dimen/philips_msc_button_margin</item>
@@ -10,7 +9,6 @@
     </style>
 
     <style name="Philips.button.square" parent="@android:style/Widget.Button">
-        <item name="android:textColor">@android:color/white</item>
         <item name="android:minWidth">@dimen/philips_button_square_width</item>
         <item name="android:minHeight">@dimen/philips_button_square_height</item>
         <item name="android:padding">@dimen/philips_msc_button_margin</item>
@@ -31,31 +29,31 @@
     </style>
 
     <style name="Philips.button.square.questionMark">
-        <item name="android:text">@string/question_mark</item>
+        <item name="btnImageDrawable">@drawable/question_mark</item>
     </style>
 
     <style name="Philips.button.square.crossMark">
-        <item name="android:text">@string/cross_mark</item>
+        <item name="btnImageDrawable">@drawable/cross</item>
     </style>
 
     <style name="Philips.button.circle.greater">
-        <item name="android:text">@string/greater</item>
+        <item name="btnImageDrawable">@drawable/greater</item>
     </style>
 
     <style name="Philips.button.circle.plus">
-        <item name="android:text">@string/plus</item>
+        <item name="btnImageDrawable">@drawable/plus</item>
     </style>
 
     <style name="Philips.button.circle.minus">
-        <item name="android:text">@string/minus</item>
+        <item name="btnImageDrawable">@drawable/minus</item>
     </style>
 
     <style name="Philips.button.circle.questionMark">
-        <item name="android:text">@string/question_mark</item>
+        <item name="btnImageDrawable">@drawable/question_mark</item>
     </style>
 
     <style name="Philips.button.circle.crossMark">
-        <item name="android:text">@string/cross_mark</item>
+        <item name="btnImageDrawable">@drawable/cross</item>
     </style>
 
 </resources>

@@ -28,7 +28,7 @@
         />
 
     <com.philips.cdp.uikit.CustomButton.PhilipsButton
-        style="@style/Philips.button.square.questionMark"
+        style="@style/Philips.button.square.plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />

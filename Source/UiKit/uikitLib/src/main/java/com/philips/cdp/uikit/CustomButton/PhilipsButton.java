@@ -8,7 +8,7 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.graphics.drawable.shapes.RectShape;
 import android.graphics.drawable.shapes.Shape;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 
 import com.philips.cdp.uikit.R;
 
@@ -16,7 +16,7 @@ import com.philips.cdp.uikit.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsButton extends ImageView {
+public class PhilipsButton extends ImageButton {
 
     private static final int SQUARE = 0;
     private static final int CIRCLE = 1;
