@@ -9,7 +9,7 @@ android {
     defaultConfig {
         minSdkVersion 11
         targetSdkVersion 21
-        versionName "1.2.1"
+        versionName "2.0.0"
     }
 
 
