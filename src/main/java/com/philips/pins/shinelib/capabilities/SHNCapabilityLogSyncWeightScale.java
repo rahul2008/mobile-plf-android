@@ -108,7 +108,7 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
     }
 
     @Override
-    void setupToReceiveMeasurements() {
+    protected void setupToReceiveMeasurements() {
         shnServiceWeightScale.setNotificationsEnabled(true, new SHNResultListener() {
             @Override
             public void onActionCompleted(SHNResult result) {
@@ -118,7 +118,7 @@ public class SHNCapabilityLogSyncWeightScale extends SHNCapabilityLogSyncBase {
     }
 
     @Override
-    void teardownReceivingMeasurements() {
+    protected void teardownReceivingMeasurements() {
         shnServiceWeightScale.setNotificationsEnabled(false, null);
     }
 }

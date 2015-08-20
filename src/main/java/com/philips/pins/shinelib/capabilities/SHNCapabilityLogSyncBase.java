@@ -168,7 +168,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         setState(State.Idle);
     }
 
-    abstract void setupToReceiveMeasurements();
+    protected abstract void setupToReceiveMeasurements();
 
-    abstract void teardownReceivingMeasurements();
+    protected abstract void teardownReceivingMeasurements();
 }

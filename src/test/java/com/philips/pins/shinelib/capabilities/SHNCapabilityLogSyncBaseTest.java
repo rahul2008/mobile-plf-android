@@ -404,12 +404,12 @@ public class SHNCapabilityLogSyncBaseTest {
         private SHNResult result = SHNResult.SHNOk;
 
         @Override
-        void setupToReceiveMeasurements() {
+        protected void setupToReceiveMeasurements() {
             handleResultOfMeasurementsSetup(result);
         }
 
         @Override
-        void teardownReceivingMeasurements() {
+        protected void teardownReceivingMeasurements() {
 
         }
 

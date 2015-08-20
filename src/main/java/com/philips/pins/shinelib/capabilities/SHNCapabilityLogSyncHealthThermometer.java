@@ -69,7 +69,7 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
     }
 
     @Override
-    public void setupToReceiveMeasurements() {
+    protected void setupToReceiveMeasurements() {
         shnServiceHealthThermometer.setReceiveTemperatureMeasurements(true, new SHNResultListener() {
             @Override
             public void onActionCompleted(SHNResult result) {
@@ -79,7 +79,7 @@ public class SHNCapabilityLogSyncHealthThermometer extends SHNCapabilityLogSyncB
     }
 
     @Override
-    void teardownReceivingMeasurements() {
+    protected void teardownReceivingMeasurements() {
         shnServiceHealthThermometer.setReceiveTemperatureMeasurements(false, null);
     }
 }
