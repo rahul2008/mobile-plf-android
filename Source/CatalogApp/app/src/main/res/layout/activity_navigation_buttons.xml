@@ -3,34 +3,77 @@
               android:layout_height="match_parent"
               android:orientation="horizontal">
 
-    <com.philips.cdp.uikit.CustomButton.PhilipsButton
-        style="@style/Philips.button.square.greater"
+    <HorizontalScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.square.greater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               />
 
 
-    <com.philips.cdp.uikit.CustomButton.PhilipsButton
-        style="@style/Philips.button.circle.questionMark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.square.questionMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
-    <com.philips.cdp.uikit.CustomButton.PhilipsButton
-        style="@style/Philips.button.square.crossMark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.square.crossMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
 
-    <com.philips.cdp.uikit.CustomButton.PhilipsButton
-        style="@style/Philips.button.circle.minus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.square.minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
 
-    <com.philips.cdp.uikit.CustomButton.PhilipsButton
-        style="@style/Philips.button.square.plus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.square.plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.circle.greater"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.circle.questionMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.circle.crossMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.circle.minus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+                style="@style/Philips.button.circle.plus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
 
 </LinearLayout>

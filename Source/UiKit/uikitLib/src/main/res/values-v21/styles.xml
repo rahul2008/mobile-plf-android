@@ -1,8 +1,8 @@
-<resources>
-  <style name="PhilipsTheme.Default">
-    <item name="actionBarBackground">@color/philips_blue_actionbar</item>
-    <item name="colorPrimary">?attr/actionBarBackground</item>
-      <item name="btnBgColor">@color/philips_dark_blue</item>
-      <item name="btnBgColorPressed">@color/philips_bright_blue</item>
-  </style>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="PhilipsTheme.Default">
+        <item name="actionBarBackground">@color/philips_blue_actionbar</item>
+        <item name="colorPrimary">?attr/actionBarBackground</item>
+        <item name="btnBgColor">@color/philips_dark_blue</item>
+        <item name="btnBgColorPressed">@color/philips_bright_blue</item>
+    </style>
 </resources>

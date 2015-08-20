@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="philips_button_circle_width">132dp</dimen>
-    <dimen name="philips_button_circle_height">132dp</dimen>
-    <dimen name="philips_button_square_width">132dp</dimen>
-    <dimen name="philips_button_square_height">132dp</dimen>
-    <dimen name="philips_msc_button_text_size">36dp</dimen>
-</resources>
