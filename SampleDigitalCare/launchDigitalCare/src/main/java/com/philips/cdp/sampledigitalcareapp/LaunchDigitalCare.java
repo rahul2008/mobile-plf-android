@@ -213,7 +213,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         DigitalCareConfigManager.getInstance().enableTagging(true);
         DigitalCareConfigManager.getInstance().setAppIdForTagging("101");
         DigitalCareConfigManager.getInstance().setCurrentPageNameForTagging("SampleApp");
-        //  setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
+        setDigitalCareLocale(mlanguageCode[mLanguage_spinner.getSelectedItemPosition()], mcountryCode[mCountry_spinner.getSelectedItemPosition()]);
 
         switch (view.getId()) {
             case R.id.launchDigitalCare:

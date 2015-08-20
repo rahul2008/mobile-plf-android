@@ -33,7 +33,7 @@ import java.util.Locale;
  */
 public class RateThisAppFragment extends DigitalCareBaseFragment {
 
-    private static final String PRODUCT_REVIEW_URL = "http://www.philips.co.uk%s/reviewandawards";
+    private static final String PRODUCT_REVIEW_URL = "http://%s%s/reviewandawards";
     private static String TAG = RateThisAppFragment.class.getSimpleName();
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
