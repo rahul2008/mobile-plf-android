@@ -1,97 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!-- null   ko -->
+    <!-- null   ko -->
 
-<!-- null   Korea -->
-<string name="img_description">설명</string>
-<string name="no_internet">인터넷이 연결되지 않았습니다. 휴대폰의 WiFi 설정 또는 데이터 설정에서 연결이 되어 있는지 확인하십시오.</string>
+    <!-- null   Korea -->
+    <string name="img_description">설명</string>
+    <string name="no_internet">인터넷이 연결되지 않았습니다. 휴대폰의 WiFi 설정 또는 데이터 설정에서 연결이 되어 있는지 확인하십시오.</string>
+    <string name="locate_philips_popup_legal">지원 페이지의 \'가까운 필립스 위치 찾기\' 기능을 사용하는 경우, 귀하는 필립스와 위치 데이터를 공유하도록 요청 받습니다. 귀하의 위치 데이터에 따라 가까운 상점이 안내되거나 해당 국가의 고객 상담실 연락처 세부 사항이 안내됩니다.</string>
 
-<!-- values for Support Home Screen    null -->
-<string name="how_can_we_help">무엇을 도와 드릴까요?</string>
-<string name="contact_us">문의처</string>
-<string name="view_product_details">제품 정보 보기</string>
-<string name="view_faq">FAQ 읽기</string>
-<string name="find_philips_near_you">가까운 필립스 찾기</string>
-<string name="feedback">의견 남기기</string>
-<string name="registration">제품 등록하기</string>
-<string name="actionbar_title_support">지원</string>
+    <!-- values for Support Home Screen    null -->
+    <string name="how_can_we_help">무엇을 도와 드릴까요?</string>
+    <string name="contact_us">문의처</string>
+    <string name="view_product_details">제품 정보 보기</string>
+    <string name="view_faq">FAQ 읽기</string>
+    <string name="find_philips_near_you">가까운 필립스 찾기</string>
+    <string name="feedback">의견 남기기</string>
+    <string name="registration">제품 등록하기</string>
+    <string name="actionbar_title_support">지원</string>
 
-<!-- values for Product Registration Screen   null -->
-<string name="login_to_social_media">소셜 미디어 계정으로 로그인합니까?</string>
-<string name="twitter">Twitter</string>
-<string name="facebook">Facebook</string>
-<string name="linkedin">LinkedIn</string>
-<string name="googleplus">Google Plus</string>
-<string name="login_with_philips_account">또는 My Philips 계정으로 로그인</string>
-<string name="email">이메일 주소</string>
-<string name="password">암호</string>
-<string name="sign_into_my_philips">My Philips에 로그인</string>
-<string name="forgot_my_password">암호를 잊어버렸습니다 > </string>
-<string name="create_account">계정 만들기 ></string>
+    <!-- values for Product Registration Screen   null -->
+    <string name="login_to_social_media">소셜 미디어 계정으로 로그인합니까?</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook">Facebook</string>
+    <string name="linkedin">LinkedIn</string>
+    <string name="googleplus">Google Plus</string>
+    <string name="login_with_philips_account">또는 My Philips 계정으로 로그인</string>
+    <string name="email">이메일 주소</string>
+    <string name="password">암호</string>
+    <string name="sign_into_my_philips">My Philips에 로그인</string>
+    <string name="forgot_my_password">암호를 잊어버렸습니다 > </string>
+    <string name="create_account">계정 만들기 ></string>
 
-<!-- values for Locate Near You Screen   null -->
-<string name="loading">로딩중</string>
-<string name="please_wait">잠시 기다려 주십시오. &#8230;</string>
-<string name="get_directions">길 찾기</string>
+    <!-- values for Locate Near You Screen   null -->
+    <string name="loading">로딩중</string>
+    <string name="please_wait">잠시 기다려 주십시오. &#8230;</string>
+    <string name="get_directions">길 찾기</string>
 
-<!-- values for Contact Us Screen   null -->
-<string name="leave_us_a_message">메시지 남기기:</string>
-<string name="contact_us_text">문의처:</string>
-<string name="opening_hours">시작 시간</string>
-<string name="live_chat">실시간 채팅</string>
-<string name="send_email">이메일 보내기</string>
-<string name="call_number">통화</string>
-<string name="chat_with_philips">필립스 담당자와 채팅</string>
-<string name="check_sim">SIM 카드가 감지되지 않았습니다. 카드가 제대로 꽂혀 있는지 확인하십시오.</string>
-<string name="no_data_available">사용 가능한 데이터 없음</string>
-<string name="send_us_email">이메일을 보내주십시오.</string>
+    <!-- values for Contact Us Screen   null -->
+    <string name="leave_us_a_message">메시지 남기기:</string>
+    <string name="contact_us_text">문의처:</string>
+    <string name="opening_hours">시작 시간</string>
+    <string name="live_chat">실시간 채팅</string>
+    <string name="send_email">이메일 보내기</string>
+    <string name="call_number">통화</string>
+    <string name="chat_with_philips">필립스 담당자와 채팅</string>
+    <string name="check_sim">SIM 카드가 감지되지 않았습니다. 카드가 제대로 꽂혀 있는지 확인하십시오.</string>
+    <string name="no_data_available">사용 가능한 데이터 없음</string>
+    <string name="send_us_email">이메일을 보내주십시오.</string>
 
-<!-- values for Live Chat Screen   null -->
-<string name="can_we_help_you">무엇을 도와드릴까요?</string>
-<string name="chat_now">지금 대화하기</string>
-<string name="no_thanks">사용 안 함</string>
-<string name="chat_desc">제품 전문가와 실시간 채팅을 시작하세요. 연중무휴 영어로 지원됩니다.</string>
+    <!-- values for Live Chat Screen   null -->
+    <string name="can_we_help_you">무엇을 도와드릴까요?</string>
+    <string name="chat_now">지금 대화하기</string>
+    <string name="no_thanks">사용 안 함</string>
+    <string name="chat_desc">제품 전문가와 실시간 채팅을 시작하세요. 연중무휴 영어로 지원됩니다.</string>
 
-<!-- View Product Details   null -->
-<string name="product_open_manual">인터액티브 설명서 열기</string>
-<string name="product_download_manual">제품 설명서 다운로드</string>
-<string name="product_information">제품 정보(philips.com)</string>
+    <!-- View Product Details   null -->
+    <string name="product_open_manual">인터액티브 설명서 열기</string>
+    <string name="product_download_manual">제품 설명서 다운로드</string>
+    <string name="product_information">제품 정보(philips.com)</string>
 
-<!-- Application Rate & Review   null -->
-<string name="rate_playstore_headertext">이 앱을 어떻게 평가하십니까?</string>
-<string name="rate_playstore_buttontext">앱 리뷰 작성</string>
-<string name="rate_philips_headertext">제품 리뷰 제출</string>
-<string name="rate_philips_description">다른 고객들을 위해 리뷰를 작성해 주세요.</string>
-<string name="rate_philips_buttontext">My Philips에 로그인</string>
+    <!-- Application Rate & Review   null -->
+    <string name="rate_playstore_headertext">이 앱을 어떻게 평가하십니까?</string>
+    <string name="rate_playstore_buttontext">앱 리뷰 작성</string>
+    <string name="rate_philips_headertext">제품 리뷰 제출</string>
+    <string name="rate_philips_description">다른 고객들을 위해 리뷰를 작성해 주세요.</string>
+    <string name="rate_philips_buttontext">My Philips에 로그인</string>
 
-<!--  ContactUS - Twitter  Login    null -->
-<string name="twitter_login_header">Twitter에 로그인</string>
-<string name="twitter_login_hint_username">아이디</string>
-<string name="twitter_login_hint_password">암호</string>
-<string name="twiiter_login_logo_description">Twitter 로고</string>
-<string name="twitter_post_progress_message">필립스 Twitter 지원 센터에 메시지 전송 중&#8230;</string>
-<string name="twitter_post_char_limitation">메시지는 140자를 초과할 수 없습니다.</string>
+    <!--  ContactUS - Twitter  Login    null -->
+    <string name="twitter_login_header">Twitter에 로그인</string>
+    <string name="twitter_login_hint_username">아이디</string>
+    <string name="twitter_login_hint_password">암호</string>
+    <string name="twiiter_login_logo_description">Twitter 로고</string>
+    <string name="twitter_post_progress_message">필립스 Twitter 지원 센터에 메시지 전송 중&#8230;</string>
+    <string name="twitter_post_char_limitation">메시지는 140자를 초과할 수 없습니다.</string>
 
-<!-- Contact US - Social Post   null -->
-<string name="social_post_to">필립스로 메시지 보내기</string>
-<string name="social_post_desc_text">제품 정보 포함</string>
-<string name="cancel">취소</string>
-<string name="take_photo">사진 촬영</string>
-<string name="choose_from_library">라이브러리에서 선택</string>
-<string name="social_post_failed">오류가 발생했습니다. </string>
-<string name="support_productinformation">지원 대상 선택</string>
-<string name="social_post_success">메시지가 수신되었습니다!</string>
+    <!-- Contact US - Social Post   null -->
+    <string name="social_post_to">필립스로 메시지 보내기</string>
+    <string name="social_post_desc_text">제품 정보 포함</string>
+    <string name="cancel">취소</string>
+    <string name="take_photo">사진 촬영</string>
+    <string name="choose_from_library">라이브러리에서 선택</string>
+    <string name="social_post_failed">오류가 발생했습니다. </string>
+    <string name="support_productinformation">지원 대상 선택</string>
+    <string name="social_post_success">메시지가 수신되었습니다!</string>
 
-<!-- Social Login   null -->
-<string name="post">게시</string>
-<string name="send">보내기</string>
-<string name="facebook_login_header">Facebook에 로그인</string>
-<string name="SocialSharingPostTemplateText">can you help me with my</string>
+    <!-- Social Login   null -->
+    <string name="post">게시</string>
+    <string name="send">보내기</string>
+    <string name="facebook_login_header">Facebook에 로그인</string>
+    <string name="SocialSharingPostTemplateText">can you help me with my</string>
 
-<!-- Locate Philips   null -->
-<string name="search">검색</string>
-<string name="gps_disabled">장치의 GPS가 비활성화되어 있습니다. GPS를 활성화하시겠습니까?</string>
-<string name="servicecenters_not_found">해당 국가에 서비스 센터 없음 </string>
-<string name="no_data">사용 가능한 데이터 없음</string>
+    <!-- Locate Philips   null -->
+    <string name="search">검색</string>
+    <string name="gps_disabled">장치의 GPS가 비활성화되어 있습니다. GPS를 활성화하시겠습니까?</string>
+    <string name="servicecenters_not_found">해당 국가에 서비스 센터 없음 </string>
+    <string name="no_data">사용 가능한 데이터 없음</string>
 </resources>

@@ -1,97 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!-- null   nl -->
+    <!-- null   nl -->
 
-<!-- null   Dutch -->
-<string name="img_description">descriptie</string>
-<string name="no_internet">Geen internetverbinding. Controleer uw verbinding in de Wi-Fi-instellingen of gegevensinstellingen van uw telefoon.</string>
+    <!-- null   Dutch -->
+    <string name="img_description">descriptie</string>
+    <string name="no_internet">Geen internetverbinding. Controleer uw verbinding in de Wi-Fi-instellingen of gegevensinstellingen van uw telefoon.</string>
+    <string name="locate_philips_popup_legal">Wanneer u gebruikmaakt van de functie \'Vind Philips bij u in de buurt\' op de ondersteuningspagina, wordt u verzocht uw locatiegegevens met Philips te delen. Op basis van uw locatiegegevens wordt u doorverwezen naar een winkel bij u in de buurt of naar de contactgegevens van de klantenservice in uw land</string>
 
-<!-- values for Support Home Screen    null -->
-<string name="how_can_we_help">Wilt u hulp?</string>
-<string name="contact_us">Neem dan contact met ons op</string>
-<string name="view_product_details">Bekijk productinformatie</string>
-<string name="view_faq">FAQ\'s</string>
-<string name="find_philips_near_you">Philips in uw buurt</string>
-<string name="feedback">Wat vindt u?</string>
-<string name="registration">Registreer uw product</string>
-<string name="actionbar_title_support">Ondersteuning</string>
+    <!-- values for Support Home Screen    null -->
+    <string name="how_can_we_help">Wilt u hulp?</string>
+    <string name="contact_us">Neem dan contact met ons op</string>
+    <string name="view_product_details">Bekijk productinformatie</string>
+    <string name="view_faq">FAQ\'s</string>
+    <string name="find_philips_near_you">Philips in uw buurt</string>
+    <string name="feedback">Wat vindt u?</string>
+    <string name="registration">Registreer uw product</string>
+    <string name="actionbar_title_support">Ondersteuning</string>
 
-<!-- values for Product Registration Screen   null -->
-<string name="login_to_social_media">Inloggen met sociale-media-account?</string>
-<string name="twitter">Op Twitter</string>
-<string name="facebook">Op Facebook</string>
-<string name="linkedin">Op LinkedIn</string>
-<string name="googleplus">Op Google Plus</string>
-<string name="login_with_philips_account">Of log in m. Mijn Philips-account</string>
-<string name="email">E-mailadres</string>
-<string name="password">Wachtwoord</string>
-<string name="sign_into_my_philips">Aanm. Mijn Philips</string>
-<string name="forgot_my_password">Wachtwoord vergeten > </string>
-<string name="create_account">Account maken ></string>
+    <!-- values for Product Registration Screen   null -->
+    <string name="login_to_social_media">Inloggen met sociale-media-account?</string>
+    <string name="twitter">Op Twitter</string>
+    <string name="facebook">Op Facebook</string>
+    <string name="linkedin">Op LinkedIn</string>
+    <string name="googleplus">Op Google Plus</string>
+    <string name="login_with_philips_account">Of log in m. Mijn Philips-account</string>
+    <string name="email">E-mailadres</string>
+    <string name="password">Wachtwoord</string>
+    <string name="sign_into_my_philips">Aanm. Mijn Philips</string>
+    <string name="forgot_my_password">Wachtwoord vergeten > </string>
+    <string name="create_account">Account maken ></string>
 
-<!-- values for Locate Near You Screen   null -->
-<string name="loading">Bezig met laden</string>
-<string name="please_wait">Even geduld &#8230;</string>
-<string name="get_directions">Routebeschrijving ophalen</string>
+    <!-- values for Locate Near You Screen   null -->
+    <string name="loading">Bezig met laden</string>
+    <string name="please_wait">Even geduld &#8230;</string>
+    <string name="get_directions">Routebeschrijving ophalen</string>
 
-<!-- values for Contact Us Screen   null -->
-<string name="leave_us_a_message">Stuur ons bericht:</string>
-<string name="contact_us_text">Contact:</string>
-<string name="opening_hours">Openingstijden</string>
-<string name="live_chat">Live chat</string>
-<string name="send_email">E-mail versturen</string>
-<string name="call_number">Telefoon</string>
-<string name="chat_with_philips">Met Philips chatten</string>
-<string name="check_sim">Geen SIM-kaart gevonden. Controleer of deze correct is geplaatst</string>
-<string name="no_data_available">Geen gegevens beschikbaar</string>
-<string name="send_us_email">Stuur ons een e-mail</string>
+    <!-- values for Contact Us Screen   null -->
+    <string name="leave_us_a_message">Stuur ons bericht:</string>
+    <string name="contact_us_text">Contact:</string>
+    <string name="opening_hours">Openingstijden</string>
+    <string name="live_chat">Live chat</string>
+    <string name="send_email">E-mail versturen</string>
+    <string name="call_number">Telefoon</string>
+    <string name="chat_with_philips">Met Philips chatten</string>
+    <string name="check_sim">Geen SIM-kaart gevonden. Controleer of deze correct is geplaatst</string>
+    <string name="no_data_available">Geen gegevens beschikbaar</string>
+    <string name="send_us_email">Stuur ons een e-mail</string>
 
-<!-- values for Live Chat Screen   null -->
-<string name="can_we_help_you">Kunnen we u helpen?</string>
-<string name="chat_now">Nu chatten</string>
-<string name="no_thanks">Nee, bedankt</string>
-<string name="chat_desc">Chat live met onze productspecialist. 24/7 beschikbaar in het Engels</string>
+    <!-- values for Live Chat Screen   null -->
+    <string name="can_we_help_you">Kunnen we u helpen?</string>
+    <string name="chat_now">Nu chatten</string>
+    <string name="no_thanks">Nee, bedankt</string>
+    <string name="chat_desc">Chat live met onze productspecialist. 24/7 beschikbaar in het Engels</string>
 
-<!-- View Product Details   null -->
-<string name="product_open_manual">Open interact. handl.</string>
-<string name="product_download_manual">Download producthandl.</string>
-<string name="product_information">Productinformatie (op philips.com)</string>
+    <!-- View Product Details   null -->
+    <string name="product_open_manual">Open interact. handl.</string>
+    <string name="product_download_manual">Download producthandl.</string>
+    <string name="product_information">Productinformatie (op philips.com)</string>
 
-<!-- Application Rate & Review   null -->
-<string name="rate_playstore_headertext">Wat vindt u van deze app?</string>
-<string name="rate_playstore_buttontext">Schrijf apprecensie</string>
-<string name="rate_philips_headertext">Zend productrecensie in</string>
-<string name="rate_philips_description">Schrijf een beoordeling en help anderen de juiste keuze te maken</string>
-<string name="rate_philips_buttontext">Aanmelden bij Mijn Philips</string>
+    <!-- Application Rate & Review   null -->
+    <string name="rate_playstore_headertext">Wat vindt u van deze app?</string>
+    <string name="rate_playstore_buttontext">Schrijf apprecensie</string>
+    <string name="rate_philips_headertext">Zend productrecensie in</string>
+    <string name="rate_philips_description">Schrijf een beoordeling en help anderen de juiste keuze te maken</string>
+    <string name="rate_philips_buttontext">Aanmelden bij Mijn Philips</string>
 
-<!--  ContactUS - Twitter  Login    null -->
-<string name="twitter_login_header">Aanmelden bij Twitter</string>
-<string name="twitter_login_hint_username">Gebruikersnaam</string>
-<string name="twitter_login_hint_password">Wachtwoord</string>
-<string name="twiiter_login_logo_description">Twitter-logo</string>
-<string name="twitter_post_progress_message">Bericht wordt verstuurd naar Twitter-ondersteuningsteam van Philips&#8230;</string>
-<string name="twitter_post_char_limitation">Uw bericht mag niet meer dan 140 tekens bevatten</string>
+    <!--  ContactUS - Twitter  Login    null -->
+    <string name="twitter_login_header">Aanmelden bij Twitter</string>
+    <string name="twitter_login_hint_username">Gebruikersnaam</string>
+    <string name="twitter_login_hint_password">Wachtwoord</string>
+    <string name="twiiter_login_logo_description">Twitter-logo</string>
+    <string name="twitter_post_progress_message">Bericht wordt verstuurd naar Twitter-ondersteuningsteam van Philips&#8230;</string>
+    <string name="twitter_post_char_limitation">Uw bericht mag niet meer dan 140 tekens bevatten</string>
 
-<!-- Contact US - Social Post   null -->
-<string name="social_post_to">Stuur een bericht naar Philips</string>
-<string name="social_post_desc_text">Voeg productinformatie toe</string>
-<string name="cancel">Annuleren</string>
-<string name="take_photo">Foto maken</string>
-<string name="choose_from_library">Kiezen uit de bibliotheek</string>
-<string name="social_post_failed">Er is iets misgegaan. </string>
-<string name="support_productinformation">ik zoek hulp voor mijn</string>
-<string name="social_post_success">Uw bericht is ontvangen!</string>
+    <!-- Contact US - Social Post   null -->
+    <string name="social_post_to">Stuur een bericht naar Philips</string>
+    <string name="social_post_desc_text">Voeg productinformatie toe</string>
+    <string name="cancel">Annuleren</string>
+    <string name="take_photo">Foto maken</string>
+    <string name="choose_from_library">Kiezen uit de bibliotheek</string>
+    <string name="social_post_failed">Er is iets misgegaan. </string>
+    <string name="support_productinformation">ik zoek hulp voor mijn</string>
+    <string name="social_post_success">Uw bericht is ontvangen!</string>
 
-<!-- Social Login   null -->
-<string name="post">Posten</string>
-<string name="send">Verzenden</string>
-<string name="facebook_login_header">Aanmelden bij Facebook</string>
-<string name="SocialSharingPostTemplateText">ik zoek hulp voor mijn</string>
+    <!-- Social Login   null -->
+    <string name="post">Posten</string>
+    <string name="send">Verzenden</string>
+    <string name="facebook_login_header">Aanmelden bij Facebook</string>
+    <string name="SocialSharingPostTemplateText">ik zoek hulp voor mijn</string>
 
-<!-- Locate Philips   null -->
-<string name="search">Zoeken</string>
-<string name="gps_disabled">GPS is uitgeschakeld op uw apparaat. Wilt u dit inschakelen?</string>
-<string name="servicecenters_not_found">Geen servicecentra in uw land </string>
-<string name="no_data">Geen gegevens beschikbaar</string>
+    <!-- Locate Philips   null -->
+    <string name="search">Zoeken</string>
+    <string name="gps_disabled">GPS is uitgeschakeld op uw apparaat. Wilt u dit inschakelen?</string>
+    <string name="servicecenters_not_found">Geen servicecentra in uw land </string>
+    <string name="no_data">Geen gegevens beschikbaar</string>
 </resources>

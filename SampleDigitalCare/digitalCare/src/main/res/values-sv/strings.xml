@@ -1,95 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--  Swedish -->
-<string name="img_description">beskrivning</string>
-<string name="no_internet">Internet-anslutning saknas. Kontrollera om anslutningen fungerar i din telefons WiFi-inställningar eller datainställningar</string>
+    <!--  Swedish -->
+    <string name="img_description">beskrivning</string>
+    <string name="no_internet">Internet-anslutning saknas. Kontrollera om anslutningen fungerar i din telefons WiFi-inställningar eller datainställningar</string>
+    <string name="locate_philips_popup_legal">När du använder funktionen "Hitta Philips nära dig" på supportsidan uppmanas du att dela platsdata med Philips. Baserat på dina platsdata styrs du till en butik i närheten eller information om kundtjänsten i ditt land</string>
 
-<!-- values for Support Home Screen    null -->
-<string name="how_can_we_help">Hur kan vi hjälpa dig?</string>
-<string name="contact_us">Kontakta oss</string>
-<string name="view_product_details">Visa produktinformation</string>
-<string name="view_faq">Läs vanliga frågor</string>
-<string name="find_philips_near_you">Hitta Philips nära dig</string>
-<string name="feedback">Ge oss din åsikt</string>
-<string name="registration">Registrera produkten</string>
-<string name="actionbar_title_support">Support</string>
+    <!-- values for Support Home Screen    null -->
+    <string name="how_can_we_help">Hur kan vi hjälpa dig?</string>
+    <string name="contact_us">Kontakta oss</string>
+    <string name="view_product_details">Visa produktinformation</string>
+    <string name="view_faq">Läs vanliga frågor</string>
+    <string name="find_philips_near_you">Hitta Philips nära dig</string>
+    <string name="feedback">Ge oss din åsikt</string>
+    <string name="registration">Registrera produkten</string>
+    <string name="actionbar_title_support">Support</string>
 
-<!-- values for Product Registration Screen   null -->
-<string name="login_to_social_media">Vill du logga in med ett socialt media-konto?</string>
-<string name="twitter">På Twitter</string>
-<string name="facebook">På Facebook</string>
-<string name="linkedin">På LinkedIn</string>
-<string name="googleplus">På Google Plus</string>
-<string name="login_with_philips_account">Eller logga in med My Philips-kontot</string>
-<string name="email"> E-postadress</string>
-<string name="password">Lösenord</string>
-<string name="sign_into_my_philips">Logga in till My Philips</string>
-<string name="forgot_my_password">Jag har glömt mitt lösenord > </string>
-<string name="create_account"> Skapa konto ></string>
+    <!-- values for Product Registration Screen   null -->
+    <string name="login_to_social_media">Vill du logga in med ett socialt media-konto?</string>
+    <string name="twitter">På Twitter</string>
+    <string name="facebook">På Facebook</string>
+    <string name="linkedin">På LinkedIn</string>
+    <string name="googleplus">På Google Plus</string>
+    <string name="login_with_philips_account">Eller logga in med My Philips-kontot</string>
+    <string name="email"> E-postadress</string>
+    <string name="password">Lösenord</string>
+    <string name="sign_into_my_philips">Logga in till My Philips</string>
+    <string name="forgot_my_password">Jag har glömt mitt lösenord > </string>
+    <string name="create_account"> Skapa konto ></string>
 
-<!-- values for Locate Near You Screen   null -->
-<string name="loading">Läser in</string>
-<string name="please_wait">Var god vänta &#8230;</string>
-<string name="get_directions">Hämta vägbeskrivning</string>
+    <!-- values for Locate Near You Screen   null -->
+    <string name="loading">Läser in</string>
+    <string name="please_wait">Var god vänta &#8230;</string>
+    <string name="get_directions">Hämta vägbeskrivning</string>
 
-<!-- values for Contact Us Screen   null -->
-<string name="leave_us_a_message">Lämna ett meddelande till oss:</string>
-<string name="contact_us_text">Kontakta oss:</string>
-<string name="opening_hours">Öppettider</string>
-<string name="live_chat">Live chatt</string>
-<string name="send_email">Skicka e-post</string>
-<string name="call_number">Ring</string>
-<string name="chat_with_philips">Chatta med Philips</string>
-<string name="check_sim">SIM-kort hittades inte. Kontrollera om det är rätt isatt</string>
-<string name="no_data_available">Uppgift saknas</string>
-<string name="send_us_email">Skicka oss ett e-postmeddelande</string>
+    <!-- values for Contact Us Screen   null -->
+    <string name="leave_us_a_message">Lämna ett meddelande till oss:</string>
+    <string name="contact_us_text">Kontakta oss:</string>
+    <string name="opening_hours">Öppettider</string>
+    <string name="live_chat">Live chatt</string>
+    <string name="send_email">Skicka e-post</string>
+    <string name="call_number">Ring</string>
+    <string name="chat_with_philips">Chatta med Philips</string>
+    <string name="check_sim">SIM-kort hittades inte. Kontrollera om det är rätt isatt</string>
+    <string name="no_data_available">Uppgift saknas</string>
+    <string name="send_us_email">Skicka oss ett e-postmeddelande</string>
 
-<!-- values for Live Chat Screen   null -->
-<string name="can_we_help_you">Kan vi hjälpa dig?</string>
-<string name="chat_now">Chatta nu</string>
-<string name="no_thanks">Nej tack</string>
-<string name="chat_desc">Starta en live chatt med vår produktspecialist. Tillgänglig 24/7 på engelska</string>
+    <!-- values for Live Chat Screen   null -->
+    <string name="can_we_help_you">Kan vi hjälpa dig?</string>
+    <string name="chat_now">Chatta nu</string>
+    <string name="no_thanks">Nej tack</string>
+    <string name="chat_desc">Starta en live chatt med vår produktspecialist. Tillgänglig 24/7 på engelska</string>
 
-<!-- View Product Details   null -->
-<string name="product_open_manual">Öppna den interaktiva handboken</string>
-<string name="product_download_manual">Hämta produkthandboken</string>
-<string name="product_information">Produktinformation (på philips.com)</string>
+    <!-- View Product Details   null -->
+    <string name="product_open_manual">Öppna den interaktiva handboken</string>
+    <string name="product_download_manual">Hämta produkthandboken</string>
+    <string name="product_information">Produktinformation (på philips.com)</string>
 
-<!-- Application Rate & Review   null -->
-<string name="rate_playstore_headertext">Hur skulle du betygsätta denna app?</string>
-<string name="rate_playstore_buttontext">Skriv en app-recension</string>
-<string name="rate_philips_headertext">Skicka in en produkt-recension</string>
-<string name="rate_philips_description">Skriv en recension och hjälp andra att göra rätt val</string>
-<string name="rate_philips_buttontext">Logga in till My Philips</string>
+    <!-- Application Rate & Review   null -->
+    <string name="rate_playstore_headertext">Hur skulle du betygsätta denna app?</string>
+    <string name="rate_playstore_buttontext">Skriv en app-recension</string>
+    <string name="rate_philips_headertext">Skicka in en produkt-recension</string>
+    <string name="rate_philips_description">Skriv en recension och hjälp andra att göra rätt val</string>
+    <string name="rate_philips_buttontext">Logga in till My Philips</string>
 
-<!--  ContactUS - Twitter  Login    null -->
-<string name="twitter_login_header">Logga in på Twitter</string>
-<string name="twitter_login_hint_username">Användarnamn</string>
-<string name="twitter_login_hint_password">Lösenord</string>
-<string name="twiiter_login_logo_description">Twitter logga</string>
-<string name="twitter_post_progress_message">Ditt meddelande skickas till Philips Twitter Support...</string>
-<string name="twitter_post_char_limitation">Observera att meddelandet inte kan vara längre än 140 tecken</string>
+    <!--  ContactUS - Twitter  Login    null -->
+    <string name="twitter_login_header">Logga in på Twitter</string>
+    <string name="twitter_login_hint_username">Användarnamn</string>
+    <string name="twitter_login_hint_password">Lösenord</string>
+    <string name="twiiter_login_logo_description">Twitter logga</string>
+    <string name="twitter_post_progress_message">Ditt meddelande skickas till Philips Twitter Support...</string>
+    <string name="twitter_post_char_limitation">Observera att meddelandet inte kan vara längre än 140 tecken</string>
 
-<!-- Contact US - Social Post   null -->
-<string name="social_post_to">Skicka ett meddelande till Philips</string>
-<string name="social_post_desc_text">Inkludera produktinformation</string>
-<string name="cancel">Avbryt</string>
-<string name="take_photo">Ta foto</string>
-<string name="choose_from_library">Välj från biblioteket</string>
-<string name="social_post_failed">Något gick fel.. </string>
-<string name="support_productinformation">kan du hjälpa mig med min</string>
-<string name="social_post_success">Ditt meddelande togs emot!</string>
+    <!-- Contact US - Social Post   null -->
+    <string name="social_post_to">Skicka ett meddelande till Philips</string>
+    <string name="social_post_desc_text">Inkludera produktinformation</string>
+    <string name="cancel">Avbryt</string>
+    <string name="take_photo">Ta foto</string>
+    <string name="choose_from_library">Välj från biblioteket</string>
+    <string name="social_post_failed">Något gick fel.. </string>
+    <string name="support_productinformation">kan du hjälpa mig med min</string>
+    <string name="social_post_success">Ditt meddelande togs emot!</string>
 
-<!-- Social Login   null -->
-<string name="post">Stolpe</string>
-<string name="send">Skicka</string>
-<string name="facebook_login_header">Logga in på Facebook</string>
-<string name="SocialSharingPostTemplateText">kan du hjälpa mig med min</string>
+    <!-- Social Login   null -->
+    <string name="post">Stolpe</string>
+    <string name="send">Skicka</string>
+    <string name="facebook_login_header">Logga in på Facebook</string>
+    <string name="SocialSharingPostTemplateText">kan du hjälpa mig med min</string>
 
-<!-- Locate Philips   null -->
-<string name="search">Sök</string>
-<string name="gps_disabled">GPS är inaktiverat i enheten. Vill du aktivera det?</string>
-<string name="servicecenters_not_found">Det finns inga servicecentra i ditt land\' </string>
-<string name="no_data">Uppgift saknas</string>
+    <!-- Locate Philips   null -->
+    <string name="search">Sök</string>
+    <string name="gps_disabled">GPS är inaktiverat i enheten. Vill du aktivera det?</string>
+    <string name="servicecenters_not_found">Det finns inga servicecentra i ditt land\' </string>
+    <string name="no_data">Uppgift saknas</string>
 </resources>

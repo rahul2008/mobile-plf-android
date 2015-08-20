@@ -1,97 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!-- null   zh_CN -->
+    <!-- null   zh_CN -->
 
-<!-- null   Simplified Chinese -->
-<string name="img_description">描述</string>
-<string name="no_internet">无互联网连接。请检查连接在手机 wifi 设置或数据设置中是否可用</string>
+    <!-- null   Simplified Chinese -->
+    <string name="img_description">描述</string>
+    <string name="no_internet">无互联网连接。请检查连接在手机 wifi 设置或数据设置中是否可用</string>
+    <string name="locate_philips_popup_legal">当您使用支持页面上的“查找您附近的飞利浦”功能时，系统将要求您与飞利浦共享位置数据。根据您的位置数据，系统将您指引到您附近的商店，或提供您所在国家/地区的客户服务联系人详细信息。</string>
 
-<!-- values for Support Home Screen    null -->
-<string name="how_can_we_help">如何才能帮助您？</string>
-<string name="contact_us">联系我们</string>
-<string name="view_product_details">查看产品信息</string>
-<string name="view_faq">阅读常见问题解答</string>
-<string name="find_philips_near_you">查找您附近的飞利浦服务中心</string>
-<string name="feedback">告诉我们您的想法</string>
-<string name="registration">注册您的产品</string>
-<string name="actionbar_title_support">支持</string>
+    <!-- values for Support Home Screen    null -->
+    <string name="how_can_we_help">如何才能帮助您？</string>
+    <string name="contact_us">联系我们</string>
+    <string name="view_product_details">查看产品信息</string>
+    <string name="view_faq">阅读常见问题解答</string>
+    <string name="find_philips_near_you">查找您附近的飞利浦服务中心</string>
+    <string name="feedback">告诉我们您的想法</string>
+    <string name="registration">注册您的产品</string>
+    <string name="actionbar_title_support">支持</string>
 
-<!-- values for Product Registration Screen   null -->
-<string name="login_to_social_media">使用社交媒体帐户登录？</string>
-<string name="twitter">在 Twitter 上</string>
-<string name="facebook">在 Facebook 上</string>
-<string name="linkedin">在 LinkedIn 上</string>
-<string name="googleplus">在 Google Plus 上</string>
-<string name="login_with_philips_account">或者用我的飞利浦帐户登录</string>
-<string name="email">电子邮件地址</string>
-<string name="password">密码</string>
-<string name="sign_into_my_philips">登录我的飞利浦</string>
-<string name="forgot_my_password">我忘记了我的密码 > </string>
-<string name="create_account">创建帐户 ></string>
+    <!-- values for Product Registration Screen   null -->
+    <string name="login_to_social_media">使用社交媒体帐户登录？</string>
+    <string name="twitter">在 Twitter 上</string>
+    <string name="facebook">在 Facebook 上</string>
+    <string name="linkedin">在 LinkedIn 上</string>
+    <string name="googleplus">在 Google Plus 上</string>
+    <string name="login_with_philips_account">或者用我的飞利浦帐户登录</string>
+    <string name="email">电子邮件地址</string>
+    <string name="password">密码</string>
+    <string name="sign_into_my_philips">登录我的飞利浦</string>
+    <string name="forgot_my_password">我忘记了我的密码 > </string>
+    <string name="create_account">创建帐户 ></string>
 
-<!-- values for Locate Near You Screen   null -->
-<string name="loading">正在加载</string>
-<string name="please_wait">请稍候 &#8230;</string>
-<string name="get_directions">获得方向</string>
+    <!-- values for Locate Near You Screen   null -->
+    <string name="loading">正在加载</string>
+    <string name="please_wait">请稍候 &#8230;</string>
+    <string name="get_directions">获得方向</string>
 
-<!-- values for Contact Us Screen   null -->
-<string name="leave_us_a_message">给我们留言：</string>
-<string name="contact_us_text">联系我们：</string>
-<string name="opening_hours">开放时间</string>
-<string name="live_chat">实时聊天</string>
-<string name="send_email">发送电子邮件</string>
-<string name="call_number">通话</string>
-<string name="chat_with_philips">与飞利浦联系</string>
-<string name="check_sim">未检测到 SIM 卡。请检查 SIM 卡是否正确插入</string>
-<string name="no_data_available">无可用数据</string>
-<string name="send_us_email">给我们发送电子邮件</string>
+    <!-- values for Contact Us Screen   null -->
+    <string name="leave_us_a_message">给我们留言：</string>
+    <string name="contact_us_text">联系我们：</string>
+    <string name="opening_hours">开放时间</string>
+    <string name="live_chat">实时聊天</string>
+    <string name="send_email">发送电子邮件</string>
+    <string name="call_number">通话</string>
+    <string name="chat_with_philips">与飞利浦联系</string>
+    <string name="check_sim">未检测到 SIM 卡。请检查 SIM 卡是否正确插入</string>
+    <string name="no_data_available">无可用数据</string>
+    <string name="send_us_email">给我们发送电子邮件</string>
 
-<!-- values for Live Chat Screen   null -->
-<string name="can_we_help_you">是否能帮助您？</string>
-<string name="chat_now">立即开始聊天</string>
-<string name="no_thanks">不，谢谢</string>
-<string name="chat_desc">与产品专员开始实时聊天。提供全天候英语聊天</string>
+    <!-- values for Live Chat Screen   null -->
+    <string name="can_we_help_you">是否能帮助您？</string>
+    <string name="chat_now">立即开始聊天</string>
+    <string name="no_thanks">不，谢谢</string>
+    <string name="chat_desc">与产品专员开始实时聊天。提供全天候英语聊天</string>
 
-<!-- View Product Details   null -->
-<string name="product_open_manual">打开互动手册</string>
-<string name="product_download_manual">下载产品手册</string>
-<string name="product_information">产品信息（位于 philips.com 上）</string>
+    <!-- View Product Details   null -->
+    <string name="product_open_manual">打开互动手册</string>
+    <string name="product_download_manual">下载产品手册</string>
+    <string name="product_information">产品信息（位于 philips.com 上）</string>
 
-<!-- Application Rate & Review   null -->
-<string name="rate_playstore_headertext">您如何评价此应用程序？</string>
-<string name="rate_playstore_buttontext">撰写应用程序评论</string>
-<string name="rate_philips_headertext">提交产品评论</string>
-<string name="rate_philips_description">撰写评论，并帮助其他人做出正确决定</string>
-<string name="rate_philips_buttontext">登录我的飞利浦</string>
+    <!-- Application Rate & Review   null -->
+    <string name="rate_playstore_headertext">您如何评价此应用程序？</string>
+    <string name="rate_playstore_buttontext">撰写应用程序评论</string>
+    <string name="rate_philips_headertext">提交产品评论</string>
+    <string name="rate_philips_description">撰写评论，并帮助其他人做出正确决定</string>
+    <string name="rate_philips_buttontext">登录我的飞利浦</string>
 
-<!--  ContactUS - Twitter  Login    null -->
-<string name="twitter_login_header">登录 Twitter</string>
-<string name="twitter_login_hint_username">用户名</string>
-<string name="twitter_login_hint_password">密码</string>
-<string name="twiiter_login_logo_description">Twitter 徽标</string>
-<string name="twitter_post_progress_message">正将消息发送至飞利浦 Twitter 支持&#8230;</string>
-<string name="twitter_post_char_limitation">请注意，您的消息长度不能超过 140 个字符</string>
+    <!--  ContactUS - Twitter  Login    null -->
+    <string name="twitter_login_header">登录 Twitter</string>
+    <string name="twitter_login_hint_username">用户名</string>
+    <string name="twitter_login_hint_password">密码</string>
+    <string name="twiiter_login_logo_description">Twitter 徽标</string>
+    <string name="twitter_post_progress_message">正将消息发送至飞利浦 Twitter 支持&#8230;</string>
+    <string name="twitter_post_char_limitation">请注意，您的消息长度不能超过 140 个字符</string>
 
-<!-- Contact US - Social Post   null -->
-<string name="social_post_to">向飞利浦发送消息</string>
-<string name="social_post_desc_text">包含产品信息</string>
-<string name="cancel">取消</string>
-<string name="take_photo">拍照</string>
-<string name="choose_from_library">从图库中选择</string>
-<string name="social_post_failed">出现故障.. </string>
-<string name="support_productinformation">是否能帮助我</string>
-<string name="social_post_success">已收到您的消息！</string>
+    <!-- Contact US - Social Post   null -->
+    <string name="social_post_to">向飞利浦发送消息</string>
+    <string name="social_post_desc_text">包含产品信息</string>
+    <string name="cancel">取消</string>
+    <string name="take_photo">拍照</string>
+    <string name="choose_from_library">从图库中选择</string>
+    <string name="social_post_failed">出现故障.. </string>
+    <string name="support_productinformation">是否能帮助我</string>
+    <string name="social_post_success">已收到您的消息！</string>
 
-<!-- Social Login   null -->
-<string name="post">发布</string>
-<string name="send">发送</string>
-<string name="facebook_login_header">登录 Facebook</string>
-<string name="SocialSharingPostTemplateText">是否能帮助我处理我的</string>
+    <!-- Social Login   null -->
+    <string name="post">发布</string>
+    <string name="send">发送</string>
+    <string name="facebook_login_header">登录 Facebook</string>
+    <string name="SocialSharingPostTemplateText">是否能帮助我处理我的</string>
 
-<!-- Locate Philips   null -->
-<string name="search">搜索</string>
-<string name="gps_disabled">您的设备已禁用 GPS。是否启用？</string>
-<string name="servicecenters_not_found">您所在的国家/地区没有服务中心 </string>
-<string name="no_data">无可用数据</string>
+    <!-- Locate Philips   null -->
+    <string name="search">搜索</string>
+    <string name="gps_disabled">您的设备已禁用 GPS。是否启用？</string>
+    <string name="servicecenters_not_found">您所在的国家/地区没有服务中心 </string>
+    <string name="no_data">无可用数据</string>
 </resources>

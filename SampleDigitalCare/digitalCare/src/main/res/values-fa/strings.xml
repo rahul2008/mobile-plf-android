@@ -1,95 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--  Farsi -->
-<string name="img_description">شرح</string>
-<string name="no_internet">اتصال اینترنت وجود ندارد. لطفاً اینترنت را در تنظیمات wifi یا تنظیمات داده تلفن خود بررسی کنید</string>
+    <!--  Farsi -->
+    <string name="img_description">شرح</string>
+    <string name="no_internet">اتصال اینترنت وجود ندارد. لطفاً اینترنت را در تنظیمات wifi یا تنظیمات داده تلفن خود بررسی کنید</string>
+    <string name="locate_philips_popup_legal">هنگام استفاده از عملکرد ‎‘Find Philips near you’‎ در صفحه پشتیبانی، از شما خواسته می‌شود اطلاعات مکان خود را با Philips به اشتراک بگذارید. بر اساس اطلاعات مکان، به نزدیکترین فروشگاه هدایت می‌شوید یا اطلاعات تماس با پشتیبانی مشتری در کشورتان به شما ارائه می‌شود</string>
 
-<!-- values for Support Home Screen    null -->
-<string name="how_can_we_help">چطور می‌توانیم کمک کنیم؟</string>
-<string name="contact_us">تماس با ما</string>
-<string name="view_product_details">مشاهده اطلاعات محصول</string>
-<string name="view_faq">خواندن سوالات متداول</string>
-<string name="find_philips_near_you">یافتن Philips در نزدیکی</string>
-<string name="feedback">نظر خود را با ما در میان بگذارید</string>
-<string name="registration">محصول خود را ثبت نام کنید</string>
-<string name="actionbar_title_support">پشتیبانی</string>
+    <!-- values for Support Home Screen    null -->
+    <string name="how_can_we_help">چطور می‌توانیم کمک کنیم؟</string>
+    <string name="contact_us">تماس با ما</string>
+    <string name="view_product_details">مشاهده اطلاعات محصول</string>
+    <string name="view_faq">خواندن سوالات متداول</string>
+    <string name="find_philips_near_you">یافتن Philips در نزدیکی</string>
+    <string name="feedback">نظر خود را با ما در میان بگذارید</string>
+    <string name="registration">محصول خود را ثبت نام کنید</string>
+    <string name="actionbar_title_support">پشتیبانی</string>
 
-<!-- values for Product Registration Screen   null -->
-<string name="login_to_social_media">با حساب رسانه اجتماعی خود وارد می‌شوید؟</string>
-<string name="twitter">در Twitter</string>
-<string name="facebook">در Facebook</string>
-<string name="linkedin">در LinkedIn</string>
-<string name="googleplus">در Google Plus</string>
-<string name="login_with_philips_account">یا با حساب My Philips وارد می‌شوید</string>
-<string name="email"> آدرس ایمیل</string>
-<string name="password">رمز ورود</string>
-<string name="sign_into_my_philips">ورود به My Philips</string>
-<string name="forgot_my_password">رمز ورودم را فراموش کرده‌ام > </string>
-<string name="create_account"> ایجاد حساب ></string>
+    <!-- values for Product Registration Screen   null -->
+    <string name="login_to_social_media">با حساب رسانه اجتماعی خود وارد می‌شوید؟</string>
+    <string name="twitter">در Twitter</string>
+    <string name="facebook">در Facebook</string>
+    <string name="linkedin">در LinkedIn</string>
+    <string name="googleplus">در Google Plus</string>
+    <string name="login_with_philips_account">یا با حساب My Philips وارد می‌شوید</string>
+    <string name="email"> آدرس ایمیل</string>
+    <string name="password">رمز ورود</string>
+    <string name="sign_into_my_philips">ورود به My Philips</string>
+    <string name="forgot_my_password">رمز ورودم را فراموش کرده‌ام > </string>
+    <string name="create_account"> ایجاد حساب ></string>
 
-<!-- values for Locate Near You Screen   null -->
-<string name="loading">در حال بارگیری</string>
-<string name="please_wait">لطفاً صبر کنید ‎&#8230;‎</string>
-<string name="get_directions">دریافت آدرس‌ها</string>
+    <!-- values for Locate Near You Screen   null -->
+    <string name="loading">در حال بارگیری</string>
+    <string name="please_wait">لطفاً صبر کنید ‎&#8230;‎</string>
+    <string name="get_directions">دریافت آدرس‌ها</string>
 
-<!-- values for Contact Us Screen   null -->
-<string name="leave_us_a_message">برای ما پیام بگذارید:</string>
-<string name="contact_us_text">تماس با ما:</string>
-<string name="opening_hours">ساعات کار</string>
-<string name="live_chat">چت زنده</string>
-<string name="send_email">ارسال ایمیل</string>
-<string name="call_number">تماس</string>
-<string name="chat_with_philips">چت با Philips</string>
-<string name="check_sim">هیچ سیم‌کارتی شناسایی نشد. لطفاً بررسی کنید درست وارد شده باشد</string>
-<string name="no_data_available">داده‌ای وجود ندارد</string>
-<string name="send_us_email">به ما ایمیل بزنید</string>
+    <!-- values for Contact Us Screen   null -->
+    <string name="leave_us_a_message">برای ما پیام بگذارید:</string>
+    <string name="contact_us_text">تماس با ما:</string>
+    <string name="opening_hours">ساعات کار</string>
+    <string name="live_chat">چت زنده</string>
+    <string name="send_email">ارسال ایمیل</string>
+    <string name="call_number">تماس</string>
+    <string name="chat_with_philips">چت با Philips</string>
+    <string name="check_sim">هیچ سیم‌کارتی شناسایی نشد. لطفاً بررسی کنید درست وارد شده باشد</string>
+    <string name="no_data_available">داده‌ای وجود ندارد</string>
+    <string name="send_us_email">به ما ایمیل بزنید</string>
 
-<!-- values for Live Chat Screen   null -->
-<string name="can_we_help_you">می‌توانیم به شما کمک کنیم؟</string>
-<string name="chat_now">اکنون چت کنید</string>
-<string name="no_thanks">خیر متشکرم</string>
-<string name="chat_desc">با متخصص محصولات ما چت زنده داشته باشید. 24/7 قابل دسترسی به زبان انگلیسی</string>
+    <!-- values for Live Chat Screen   null -->
+    <string name="can_we_help_you">می‌توانیم به شما کمک کنیم؟</string>
+    <string name="chat_now">اکنون چت کنید</string>
+    <string name="no_thanks">خیر متشکرم</string>
+    <string name="chat_desc">با متخصص محصولات ما چت زنده داشته باشید. 24/7 قابل دسترسی به زبان انگلیسی</string>
 
-<!-- View Product Details   null -->
-<string name="product_open_manual">باز کردن دفترچه راهنما</string>
-<string name="product_download_manual">دانلود دفترچه راهنمای محصول</string>
-<string name="product_information">اطلاعات محصولات (در philips.com)</string>
+    <!-- View Product Details   null -->
+    <string name="product_open_manual">باز کردن دفترچه راهنما</string>
+    <string name="product_download_manual">دانلود دفترچه راهنمای محصول</string>
+    <string name="product_information">اطلاعات محصولات (در philips.com)</string>
 
-<!-- Application Rate & Review   null -->
-<string name="rate_playstore_headertext">این برنامه را چطور ارزیابی می‌کنید؟</string>
-<string name="rate_playstore_buttontext">نظری راجع به برنامه بنویسید</string>
-<string name="rate_philips_headertext">نظر راجع به محصول را ارسال کنید</string>
-<string name="rate_philips_description">نظر خود را بنویسید و به دیگران کمک کنید بهترین انتخاب را داشته باشند</string>
-<string name="rate_philips_buttontext">ورود به My Philips</string>
+    <!-- Application Rate & Review   null -->
+    <string name="rate_playstore_headertext">این برنامه را چطور ارزیابی می‌کنید؟</string>
+    <string name="rate_playstore_buttontext">نظری راجع به برنامه بنویسید</string>
+    <string name="rate_philips_headertext">نظر راجع به محصول را ارسال کنید</string>
+    <string name="rate_philips_description">نظر خود را بنویسید و به دیگران کمک کنید بهترین انتخاب را داشته باشند</string>
+    <string name="rate_philips_buttontext">ورود به My Philips</string>
 
-<!--  ContactUS - Twitter  Login    null -->
-<string name="twitter_login_header">ورود به Twitter</string>
-<string name="twitter_login_hint_username">نام کاربر</string>
-<string name="twitter_login_hint_password">رمز ورود</string>
-<string name="twiiter_login_logo_description">آرم Twitter</string>
-<string name="twitter_post_progress_message">در حال ارسال پیام شما به پشتیبانی Philips در Twitter...</string>
-<string name="twitter_post_char_limitation">لطفاً توجه داشته باشید پیام شما نباید بیشتر از 140 نویسه باشد</string>
+    <!--  ContactUS - Twitter  Login    null -->
+    <string name="twitter_login_header">ورود به Twitter</string>
+    <string name="twitter_login_hint_username">نام کاربر</string>
+    <string name="twitter_login_hint_password">رمز ورود</string>
+    <string name="twiiter_login_logo_description">آرم Twitter</string>
+    <string name="twitter_post_progress_message">در حال ارسال پیام شما به پشتیبانی Philips در Twitter...</string>
+    <string name="twitter_post_char_limitation">لطفاً توجه داشته باشید پیام شما نباید بیشتر از 140 نویسه باشد</string>
 
-<!-- Contact US - Social Post   null -->
-<string name="social_post_to">ارسال پیام به Philips</string>
-<string name="social_post_desc_text">شامل اطلاعات محصول</string>
-<string name="cancel">لغو</string>
-<string name="take_photo">گرفتن عکس</string>
-<string name="choose_from_library">انتخاب از مجموعه</string>
-<string name="social_post_failed">مشکلی پیش آمد... </string>
-<string name="support_productinformation">برای موارد زیر به من کمک کنید</string>
-<string name="social_post_success">پیام شما دریافت شد!</string>
+    <!-- Contact US - Social Post   null -->
+    <string name="social_post_to">ارسال پیام به Philips</string>
+    <string name="social_post_desc_text">شامل اطلاعات محصول</string>
+    <string name="cancel">لغو</string>
+    <string name="take_photo">گرفتن عکس</string>
+    <string name="choose_from_library">انتخاب از مجموعه</string>
+    <string name="social_post_failed">مشکلی پیش آمد... </string>
+    <string name="support_productinformation">برای موارد زیر به من کمک کنید</string>
+    <string name="social_post_success">پیام شما دریافت شد!</string>
 
-<!-- Social Login   null -->
-<string name="post">پست</string>
-<string name="send">ارسال</string>
-<string name="facebook_login_header">ورود به Facebook</string>
-<string name="SocialSharingPostTemplateText">برای موارد زیر به من کمک کنید</string>
+    <!-- Social Login   null -->
+    <string name="post">پست</string>
+    <string name="send">ارسال</string>
+    <string name="facebook_login_header">ورود به Facebook</string>
+    <string name="SocialSharingPostTemplateText">برای موارد زیر به من کمک کنید</string>
 
-<!-- Locate Philips   null -->
-<string name="search">جستجو</string>
-<string name="gps_disabled">GPS در دستگاهتان غیرفعال است. فعال شود؟</string>
-<string name="servicecenters_not_found">هیچ مرکز خدماتی در کشور شما وجود ندارد </string>
-<string name="no_data">داده‌ای وجود ندارد</string>
+    <!-- Locate Philips   null -->
+    <string name="search">جستجو</string>
+    <string name="gps_disabled">GPS در دستگاهتان غیرفعال است. فعال شود؟</string>
+    <string name="servicecenters_not_found">هیچ مرکز خدماتی در کشور شما وجود ندارد </string>
+    <string name="no_data">داده‌ای وجود ندارد</string>
 </resources>
