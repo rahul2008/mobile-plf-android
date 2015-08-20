@@ -10,5 +10,11 @@ package com.philips.cdp.digitalcare.listeners;
  */
 
 public interface MainMenuListener {
+
+	/**
+	 * This method returns MainMenu button callbacks.
+	 * @param mainMenuItem
+	 * @return
+	 */
 	public boolean onMainMenuItemClicked(String mainMenuItem);
 }

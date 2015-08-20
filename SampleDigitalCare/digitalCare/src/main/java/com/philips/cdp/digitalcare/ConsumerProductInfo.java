@@ -1,12 +1,10 @@
 package com.philips.cdp.digitalcare;
 
 /**
- * ConsumerProductInfo is the abstract class. Vertical applications must have to
- * extend this class and pass all the required information, required by
- * DigitalCare to hit several cloud servers like ATOS, CDLS, PRX etc.
- * 
- * @author: ritesh.jha@philips.com
- * @since: May 27, 2015
+ *  <p> It is the abstract Product information configurable class.</p>
+ *   <p> This is the mandotory class, must used by the integrating application to pass the object of {@link ConsumerProductInfo}
+ *   object during initialization of the DigitalCare component.</p>
+ *   <p>Hint:  For reference please glance at the demo sample</p>
  */
 public abstract class ConsumerProductInfo {
 	public abstract String getGroup();
