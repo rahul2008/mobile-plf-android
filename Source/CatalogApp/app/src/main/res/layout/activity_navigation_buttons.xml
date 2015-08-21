@@ -11,62 +11,62 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.square.greater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                />
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.square.questionMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.square.crossMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.square.minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.square.plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.circle.greater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.circle.questionMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.circle.crossMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.circle.minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
 
-            <com.philips.cdp.uikit.CustomButton.PhilipsButton
+            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 style="@style/Philips.button.circle.plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
