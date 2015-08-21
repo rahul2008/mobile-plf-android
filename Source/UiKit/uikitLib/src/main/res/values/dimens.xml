@@ -9,4 +9,10 @@
     <dimen name="philips_msc_button_margin">2dp</dimen>
     <dimen name="philips_msc_button_padding">2dp</dimen>
 
+    <!-- Dimensions for margins of the Splash Screen -->
+    <dimen name="splash_logo_margin_top" >10dp</dimen>
+    <dimen name="splash_logo_margin_bottom" >53dp</dimen>
+    <dimen name="splash_title_margin_top" >50dp</dimen>
+    <dimen name="splash_title_margin_bottom" >10dp</dimen>
+
 </resources>
