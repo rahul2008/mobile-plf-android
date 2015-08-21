@@ -6,4 +6,8 @@
     <string name="minus">-</string>
     <string name="greater">&gt;</string>
     <string name="cross_mark">X</string>
+
+    <!-- Splash screen title-->
+    <string name="splash_title">Hello World</string>
+
 </resources>
