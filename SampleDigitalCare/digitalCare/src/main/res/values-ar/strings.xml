@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">إرسال تعليق حول التطبيق</string>
     <string name="rate_philips_description">اكتب تعليقًا وساعد الآخرين في اختيار ما يناسبهم</string>
     <string name="rate_philips_buttontext">تسجيل الدخول إلى My Philips</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">تسجيل الدخول إلى Twitter</string>

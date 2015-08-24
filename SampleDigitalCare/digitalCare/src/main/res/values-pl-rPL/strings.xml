@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">Prześlij recenzję produktu</string>
     <string name="rate_philips_description">Napisz recenzję i pomóż innym dokonać właściwego wyboru</string>
     <string name="rate_philips_buttontext">Zarejestruj się w My Philips</string>
+    <string name="reviewandrewards">recenzje-i-nagrody</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Zaloguj się na Twitterze</string>

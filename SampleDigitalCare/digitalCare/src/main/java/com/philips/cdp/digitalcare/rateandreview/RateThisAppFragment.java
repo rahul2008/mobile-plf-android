@@ -21,9 +21,9 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
+import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
-
-import java.util.Locale;
 
 /**
  * RateThisAppFragment class is used to rate the app and review the product.
@@ -31,12 +31,13 @@ import java.util.Locale;
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
  */
-public class RateThisAppFragment extends DigitalCareBaseFragment {
+public class RateThisAppFragment extends DigitalCareBaseFragment implements ProductPageListener {
 
-    private static final String PRODUCT_REVIEW_URL = "http://%s%s/reviewandawards";
+    private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
     private static String TAG = RateThisAppFragment.class.getSimpleName();
     private final String APPRATER_PLAYSTORE_BROWSER_BASEURL = "http://play.google.com/store/apps/details?id=";
     private final String APPRATER_PLAYSTORE_APP_BASEURL = "market://details?id=";
+    private String mProductReviewPage = null;
     private Button mRatePlayStoreBtn = null;
     private Button mRatePhilipsBtn = null;
     private LinearLayout mLayoutParent = null;
@@ -48,12 +49,14 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     private Uri mStoreUri = null;
     private Uri mTagUrl = null;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
         View mView = inflater.inflate(R.layout.fragment_tellus, container,
                 false);
+        new ProductPageParser(this).execute();
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
@@ -85,8 +88,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
         mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
-        if (null == getProductReviewPRXUrl())
-            hideProductReviewView();
+        hideProductReviewView();
 
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
@@ -96,25 +98,34 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 getPreviousName());
     }
 
-    protected String getProductReviewPRXUrl() {
-        return DigitalCareConfigManager.getInstance().getConsumerProductInfo()
-                .getProductReviewUrl();
-    }
 
     protected void hideProductReviewView() {
         mProductReviewView.setVisibility(View.GONE);
         mDividerView.setVisibility(View.GONE);
     }
 
+    protected void showProductReviewView() {
+        mProductReviewView.setVisibility(View.VISIBLE);
+        mDividerView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Product Review URL Page
+     *
+     * @return
+     */
     protected Uri getUri() {
         String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getLanguage().toLowerCase();
 
         String country = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getCountry().toUpperCase();
+        String countryFallBack = LocaleMatchHandler.getPRXUrl(language + "_" + country);
+        DigiCareLogger.v(TAG, "Country FallBack Url : " + countryFallBack);
+        DigiCareLogger.v(TAG, "Country Specific Review&Rewards Url : " + getActivity().getResources().getString(R.string.reviewandrewards));
 
-        return Uri.parse(String.format(PRODUCT_REVIEW_URL, LocaleMatchHandler.getPRXUrl(language+"_"+country),
-                getProductReviewPRXUrl()));
+        return Uri.parse(String.format(PRODUCT_REVIEW_URL, countryFallBack,
+                mProductReviewPage, getActivity().getResources().getString(R.string.reviewandrewards)));
     }
 
     @Override
@@ -147,9 +158,10 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     private void rateProductReview() {
         Intent i = new Intent(Intent.ACTION_VIEW);
-        DigiCareLogger.d(TAG, getUri().toString());
-        i.setData(getUri());
-        tagExitLisk(getUri().toString());
+        Uri productPageUrl = getUri();
+        DigiCareLogger.d(TAG, productPageUrl.toString());
+        i.setData(productPageUrl);
+        tagExitLisk(productPageUrl.toString());
         startActivity(i);
     }
 
@@ -215,6 +227,85 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
         mRatePlayStoreBtn.setLayoutParams(params);
         mRatePhilipsBtn.setLayoutParams(params);
-
     }
+
+    @Override
+    public void onPRXProductPageReceived(String productlink) {
+        if (productlink == null)
+            hideProductReviewView();
+        else {
+            mProductReviewPage = productlink;
+            showProductReviewView();
+        }
+    }
+
+
+    /*protected String getLocalizedReviewUrl(String countryUrl) {
+
+        String reviewAwards = null;
+
+        switch (countryUrl) {
+            case "www.philips.co.in":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.usa":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.fr":
+                reviewAwards = "r/écompenses";
+                break;
+            case "www.philips.de":
+                reviewAwards = "testberichte";
+                break;
+            case "www.philips.co.kr":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.nl":
+                reviewAwards = "reviewenawards";
+                break;
+            case "www.philips.com.br":
+                reviewAwards = "premios-e-reviews";
+                break;
+            case "www.philips.ru":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.com.tw":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.it":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.com.cn":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.pl":
+                reviewAwards = "recenzje-i-nagrody";
+                break;
+            case "www.philips.es":
+                reviewAwards = "valoracionesyresenas";
+                break;
+            case "www.philips.com.hk":
+                reviewAwards = "reviewandawards";
+                break;
+            case "www.philips.dk":
+                reviewAwards = "priser-og-anmeldelser";
+                break;
+            case "www.philips.fi":
+                reviewAwards = "palkinnot-ja-arvostelut";
+                break;
+            case "www.philips.no":
+                reviewAwards = "priser-og-anmelselser";
+                break;
+            case "www.philips.se":
+                reviewAwards = "recensioner-och-utmarkelser";
+                break;
+            case "www.philips.co.uk":
+                reviewAwards = "reviewandawards";
+                break;
+            default:
+                reviewAwards = "reviewandawards";
+                break;
+        }
+        return reviewAwards;
+    }*/
 }

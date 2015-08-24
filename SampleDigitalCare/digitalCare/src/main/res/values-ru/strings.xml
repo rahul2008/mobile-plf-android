@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">Загрузить отзыв</string>
     <string name="rate_philips_description">Оставьте отзыв и помогите другим сделать правильный выбор</string>
     <string name="rate_philips_buttontext">Войти в My Philips</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Войти в Twitter</string>

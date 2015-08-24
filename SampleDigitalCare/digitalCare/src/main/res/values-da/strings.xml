@@ -63,6 +63,7 @@
     <string name="rate_philips_headertext">Indsend en produktanmeldelse</string>
     <string name="rate_philips_description">Skriv en anmeldelse, og hjælp andre med at foretage det rigtige valg</string>
     <string name="rate_philips_buttontext">Log på My Philips</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Log på Twitter</string>

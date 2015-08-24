@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">제품 리뷰 제출</string>
     <string name="rate_philips_description">다른 고객들을 위해 리뷰를 작성해 주세요.</string>
     <string name="rate_philips_buttontext">My Philips에 로그인</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Twitter에 로그인</string>

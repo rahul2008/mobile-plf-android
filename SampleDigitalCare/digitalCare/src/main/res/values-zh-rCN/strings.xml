@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">提交产品评论</string>
     <string name="rate_philips_description">撰写评论，并帮助其他人做出正确决定</string>
     <string name="rate_philips_buttontext">登录我的飞利浦</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">登录 Twitter</string>

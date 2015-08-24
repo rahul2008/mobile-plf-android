@@ -63,6 +63,7 @@
     <string name="rate_philips_headertext">Lähetä tuotearvostelu</string>
     <string name="rate_philips_description">Kirjoita arvostelu ja auta muita käyttäjiä löytämään sopiva tuote</string>
     <string name="rate_philips_buttontext">My Philips -kirjautuminen</string>
+    <string name="reviewandrewards">palkinnot-ja-arvostelut</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Twitter-kirjautuminen</string>

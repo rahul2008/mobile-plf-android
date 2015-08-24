@@ -63,6 +63,7 @@
     <string name="rate_philips_headertext">نظر راجع به محصول را ارسال کنید</string>
     <string name="rate_philips_description">نظر خود را بنویسید و به دیگران کمک کنید بهترین انتخاب را داشته باشند</string>
     <string name="rate_philips_buttontext">ورود به My Philips</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">ورود به Twitter</string>

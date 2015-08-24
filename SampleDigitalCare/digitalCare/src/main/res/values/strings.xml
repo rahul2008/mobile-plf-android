@@ -56,6 +56,7 @@
     <string name="rate_philips_headertext">Submit a product review</string>
     <string name="rate_philips_description">Write a review and help other people make the right choice for them</string>
     <string name="rate_philips_buttontext">Sign into My Philips</string>
+    <string name="reviewandrewards">reviewandawards</string>
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Log in to Twitter</string>
     <string name="twitter_login_hint_username">Username</string>

@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">製品レビューを送信</string>
     <string name="rate_philips_description">レビューをお寄せください。他のお客様が製品を選ぶときの参考になります。</string>
     <string name="rate_philips_buttontext">My Philips にサインイン</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Twitter にログイン</string>

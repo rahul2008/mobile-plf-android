@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">送出產品評論</string>
     <string name="rate_philips_description">撰寫評論以協助其他人挑選最合適的產品</string>
     <string name="rate_philips_buttontext">登入 My Philips</string>
+    <string name="reviewandrewards">reviewandawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">登入 Twitter</string>

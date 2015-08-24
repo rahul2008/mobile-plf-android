@@ -65,6 +65,7 @@
     <string name="rate_philips_headertext">Zend productrecensie in</string>
     <string name="rate_philips_description">Schrijf een beoordeling en help anderen de juiste keuze te maken</string>
     <string name="rate_philips_buttontext">Aanmelden bij Mijn Philips</string>
+    <string name="reviewandrewards">reviewenawards</string>
 
     <!--  ContactUS - Twitter  Login    null -->
     <string name="twitter_login_header">Aanmelden bij Twitter</string>
