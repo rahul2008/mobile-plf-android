@@ -2,7 +2,6 @@ package com.philips.cdp.ui.catalog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,8 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.philips.cdp.uikit.DeleteMe;
+import com.philips.cdp.uikit.UIKitActivity;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends UIKitActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "MainActivity";
     private ListView listView;
@@ -61,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 0:
                 startActivity(new Intent(this, NavigationButtonsActivity.class));
                 break;
+            case 1:
+                startActivity(new Intent(this, ButtonsActivity.class));
         }
     }
 }
