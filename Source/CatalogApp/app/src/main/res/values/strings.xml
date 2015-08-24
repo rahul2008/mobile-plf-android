@@ -6,6 +6,8 @@
 
     <string-array name="list_items">
         <item>Navigation Buttons</item>
+        <item>Buttons</item>
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
+    <string name="title_activity_button">Buttons</string>
 </resources>
