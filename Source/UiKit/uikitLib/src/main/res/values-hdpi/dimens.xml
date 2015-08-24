@@ -10,26 +10,9 @@
     <dimen name="philips_msc_button_padding">2dp</dimen>
 
     <!-- Dimensions for margins of the Splash Screen -->
-    <dimen name="splash_logo_margin_top" >70dp</dimen>
-    <dimen name="splash_logo_margin_bottom" >70dp</dimen>
-    <dimen name="splash_title_margin_top" >50dp</dimen>
-    <dimen name="splash_title_margin_bottom" >10dp</dimen>
-
-    <!-- Philips ratio dimensions-->
-    <dimen name="philips_ratio_level_1_x">7dp</dimen> <!--7.68-->
-    <dimen name="philips_ratio_level_2_x">12dp</dimen><!--12.43-->
-    <dimen name="philips_ratio_level_3_x">20dp</dimen><!--20.12-->
-    <dimen name="philips_ratio_level_4_x">32dp</dimen><!--32.55-->
-    <dimen name="philips_ratio_level_5_x">85dp</dimen><!--85.22-->
-    <dimen name="philips_ratio_level_6_x">137dp</dimen><!--137.88s-->
-    <dimen name="philips_ratio_level_7_x">223dp</dimen><!--223.09-->
-
-    <dimen name="philips_ratio_level_1_y">10dp</dimen><!--10.26-->
-    <dimen name="philips_ratio_level_2_y">16dp</dimen><!--16.6-->
-    <dimen name="philips_ratio_level_3_y">26dp</dimen><!--26.86-->
-    <dimen name="philips_ratio_level_4_y">43dp</dimen><!--43.46-->
-    <dimen name="philips_ratio_level_5_y">113dp</dimen><!--113.76-->
-    <dimen name="philips_ratio_level_6_y">184dp</dimen><!--184.07-->
-    <dimen name="philips_ratio_level_7_y">297dp</dimen><!--297.82-->
+    <dimen name="splash_logo_margin_top" >85dp</dimen>
+    <dimen name="splash_logo_margin_bottom">85dp</dimen>
+    <dimen name="splash_title_margin_top">50dp</dimen>
+    <dimen name="splash_title_margin_bottom">10dp</dimen>
 
 </resources>

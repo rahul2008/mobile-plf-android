@@ -2,8 +2,8 @@
 <resources>
 
     <!-- Dimensions for margins of the Splash Screen -->
-    <dimen name="splash_logo_margin_top" >85dp</dimen>
-    <dimen name="splash_logo_margin_bottom" >85dp</dimen>
-    <dimen name="splash_title_margin_top" >50dp</dimen>
-    <dimen name="splash_title_margin_bottom" >10dp</dimen>
+    <dimen name="splash_logo_margin_top">129dp</dimen>
+    <dimen name="splash_logo_margin_bottom">129dp</dimen>
+    <dimen name="splash_title_margin_top">50dp</dimen>
+    <dimen name="splash_title_margin_bottom">10dp</dimen>
 </resources>
