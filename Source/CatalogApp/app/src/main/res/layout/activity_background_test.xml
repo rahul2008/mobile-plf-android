@@ -22,15 +22,9 @@
         <Button
             android:layout_height="match_parent"
             android:layout_width="wrap_content"
-            android:text="Dark Blue"
+            android:text="@string/change_theme"
             android:onClick="changeBackground"
             android:id="@+id/dark_blue"/>
 
-        <Button
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:text="Light Blue"
-            android:onClick="changeBackground"
-            android:id="@+id/light_blue"/>
     </LinearLayout>
 </LinearLayout>

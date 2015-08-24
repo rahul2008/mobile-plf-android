@@ -1,9 +1,10 @@
 package com.philips.cdp.ui.catalog;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-public class NavigationButtonsActivity extends AppCompatActivity {
+import com.philips.cdp.ui.catalog.activity.UiKitActivity;
+
+public class NavigationButtonsActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

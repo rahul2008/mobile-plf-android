@@ -2,7 +2,6 @@ package com.philips.cdp.ui.catalog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,7 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+import com.philips.cdp.ui.catalog.activity.UiKitActivity;
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
+
+public class MainActivity extends UiKitActivity implements AdapterView.OnItemClickListener {
 
     private static final String TAG = "MainActivity";
     private ListView listView;
@@ -22,10 +24,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         createListView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme(ThemeUtils.getTheme(this));
+    }
+
     private void createListView() {
-        listView = (ListView)findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         String[] listItems = getResources().getStringArray(R.array.list_items);
-        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listItems));
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems));
         listView.setOnItemClickListener(this);
     }
 
@@ -60,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 1:
                 startActivity(new Intent(this, BackgroundTest.class));
                 break;
-
         }
     }
 }
