@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<LinearLayout
+    android:orientation="vertical"
+    tools:context="com.philips.cdp.ui.catalog.BackgroundTest"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Change background color by pressing buttons"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="Dark Blue"
+            android:onClick="changeBackground"
+            android:id="@+id/dark_blue"/>
+
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="Light Blue"
+            android:onClick="changeBackground"
+            android:id="@+id/light_blue"/>
+    </LinearLayout>
+</LinearLayout>
