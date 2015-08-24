@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="PhilipsTheme" parent="@"> </style>
+    <style name="PhilipsTheme"> </style>
 
     <!-- Base theme, default is blue color. -->
     <style name="PhilipsTheme.Default">
