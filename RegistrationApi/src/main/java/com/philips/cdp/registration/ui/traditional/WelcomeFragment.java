@@ -159,7 +159,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		applyParams(config, mCbTerms);
 		applyParams(config, mRegError);
 		applyParams(config, mTvSignInEmail);
-
 	}
 
 	private void init(View view) {
@@ -263,7 +262,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+	public void onCheckedChanged(
+			CompoundButton buttonView, boolean isChecked) {
 		handleUpdate();
 	}
 

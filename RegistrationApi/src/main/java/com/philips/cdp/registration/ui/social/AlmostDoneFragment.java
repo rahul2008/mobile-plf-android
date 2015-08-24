@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -25,6 +26,7 @@ import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
 import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.EventListener;
@@ -44,13 +46,19 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
-        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener {
+        onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener,CompoundButton.OnCheckedChangeListener {
 
     private TextView mTvSignInWith;
 
     private LinearLayout mLlAlmostDoneContainer;
 
     private LinearLayout mLlPeriodicOffersCheck;
+
+    private LinearLayout mLlAcceptTermsContainer;
+
+    private CheckBox mCbAcceptTerms;
+
+    private XRegError mRegAccptTermsError;
 
     private RelativeLayout mRlContinueBtnContainer;
 
@@ -174,6 +182,8 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         applyParams(config, mLlPeriodicOffersCheck);
         applyParams(config, mRlContinueBtnContainer);
         applyParams(config, mRegError);
+        applyParams(config, mRegAccptTermsError);
+        applyParams(config, mLlAcceptTermsContainer);
     }
 
     private void parseRegistrationInfo() {
@@ -232,6 +242,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         mTvSignInWith = (TextView) view.findViewById(R.id.tv_reg_sign_in_with);
         mLlAlmostDoneContainer = (LinearLayout) view.findViewById(R.id.ll_reg_almost_done);
 
+        mLlAcceptTermsContainer = (LinearLayout) view
+                .findViewById(R.id.ll_reg_accept_terms);
+
         mLlPeriodicOffersCheck = (LinearLayout) view
                 .findViewById(R.id.ll_reg_periodic_offers_check);
 
@@ -242,17 +255,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
+        mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
+        FontLoader.getInstance().setTypeface(mCbAcceptTerms, "CentraleSans-Light.otf");
+        mCbAcceptTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbAcceptTerms.getPaddingTop(), mCbAcceptTerms.getPaddingRight(), mCbAcceptTerms.getPaddingBottom());
+        mCbAcceptTerms.setOnCheckedChangeListener(this);
+
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setOnClickListener(this);
-        setViewParams(getResources().getConfiguration());
 
         mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_social_almost_done_spinner);
         mPbSpinner.setClickable(false);
         mPbSpinner.setEnabled(true);
 
+        mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
         mProvider = Character.toUpperCase(mProvider.charAt(0)) + mProvider.substring(1);
+        setViewParams(getResources().getConfiguration());
         mTvSignInWith.setText(getResources().getString(R.string.RegSignWith_Lbltxt) + " "
                 + mProvider);
 
@@ -263,7 +282,7 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             mEtEmail.setVisibility(View.VISIBLE);
         }
-        //trackPage(AnalyticsPages.ALMOST_DONE);
+        handleUiAcceptTerms();
     }
 
     private void handleUiState() {
@@ -276,6 +295,14 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         } else {
             mRegError.setError(getString(R.string.NoNetworkConnection));
             trackActionRegisterError(AppTagingConstants.NETWORK_ERROR_CODE);
+        }
+    }
+
+    private void handleUiAcceptTerms(){
+        if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
+            mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+        }else{
+            mLlAcceptTermsContainer.setVisibility(View.GONE);
         }
     }
 
@@ -316,14 +343,23 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
     public void onClick(View v) {
         if (v.getId() == R.id.reg_btn_continue) {
             RLog.d(RLog.ONCLICK, "AlmostDoneFragment : Continue");
-            showSpinner();
             mEtEmail.clearFocus();
-            register();
+            if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
+                if(mCbAcceptTerms.isChecked()){
+                    register();
+                }else{
+                    mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+                }
+            }else{
+                register();
+            }
         }
     }
 
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
+            showSpinner();
+            mRegAccptTermsError.setVisibility(View.GONE);
             mEtEmail.hideValidAlertError();
             User user = new User(mContext);
             if (isEmailExist) {
@@ -449,5 +485,17 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         RLog.i(RLog.NETWORK_STATE, "AlmostDone :onNetWorkStateReceived state :" + isOnline);
         handleUiState();
         updateUiStatus();
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton viewId, boolean isChecked) {
+        int id = viewId.getId();
+        if (id == R.id.cb_reg_accept_terms) {
+            if (isChecked) {
+                mRegAccptTermsError.setVisibility(View.GONE);
+            } else {
+                mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+            }
+        }
     }
 }

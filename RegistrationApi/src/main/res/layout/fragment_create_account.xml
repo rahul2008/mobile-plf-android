@@ -5,18 +5,18 @@
     android:layout_height="fill_parent"
     android:background="@color/reg_layout_bg"
     android:focusable="true"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@android:color/transparent" >
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:id="@+id/ll_reg_root_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_reg_create_account_fields"
@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" >
+                android:paddingRight="@dimen/reg_layout_margin">
 
                 <com.philips.cdp.registration.ui.customviews.XUserName
                     android:id="@+id/rl_reg_name_field"
@@ -50,7 +50,7 @@
                 android:id="@+id/rl_reg_welcome_container"
                 style="@style/reg_text_background"
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
-                android:layout_marginTop="0dip" >
+                android:layout_marginTop="0dip">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_password_details"
@@ -60,12 +60,46 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_reg_accept_terms"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin">
+
+                <CheckBox
+                    android:id="@+id/cb_reg_accept_terms"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/reg_checkbox_selector"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dip"
+                    android:paddingRight="0dip"
+                    android:text="@string/accept_apps_terms"
+                    android:textColor="@color/reg_text_heading_one_color"
+                    android:textSize="@dimen/reg_title_text_size_medium" />
+            </LinearLayout>
+
+            <com.philips.cdp.registration.ui.customviews.XRegError
+                android:id="@+id/cb_reg_accept_terms_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:paddingLeft="@dimen/reg_layout_margin"
+                android:paddingRight="@dimen/reg_layout_margin"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/reg_accept_terms_line"
+                style="@style/reg_line" />
+
+            <LinearLayout
                 android:id="@+id/ll_reg_create_account_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" >
+                android:paddingRight="@dimen/reg_layout_margin">
 
                 <CheckBox
                     android:id="@+id/cb_reg_register_terms"
@@ -91,7 +125,7 @@
                 android:layout_marginBottom="@dimen/reg_margin_bottom"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/reg_layout_margin"
-                android:paddingRight="@dimen/reg_layout_margin" >
+                android:paddingRight="@dimen/reg_layout_margin">
 
                 <com.philips.cdp.registration.ui.customviews.XButton
                     android:id="@+id/btn_reg_register"

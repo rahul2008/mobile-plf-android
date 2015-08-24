@@ -154,7 +154,7 @@ public class XEmail extends RelativeLayout implements TextWatcher, OnClickListen
 		}
 	}
 
-	private void showErrPopUp() {
+	public void showErrPopUp() {
 		mTvErrDescriptionView.setVisibility(View.VISIBLE);
 		mIvArrowUpView.setVisibility(View.VISIBLE);
 	}

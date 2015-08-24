@@ -38,10 +38,13 @@ public class Flow {
 
     public int getMinAgeLimitByCountry(String countryCode) {
         String DEFAULT = "default";
-        if(minAgeLimit.containsKey(countryCode)){
-            return Integer.parseInt(minAgeLimit.get(countryCode.toUpperCase(Locale.getDefault())));
-        }else{
-            return Integer.parseInt(minAgeLimit.get(DEFAULT));
+        if(null!=minAgeLimit){
+            if(minAgeLimit.containsKey(countryCode)){
+                return Integer.parseInt(minAgeLimit.get(countryCode.toUpperCase(Locale.getDefault())));
+            }else{
+                return Integer.parseInt(minAgeLimit.get(DEFAULT));
+            }
         }
+        return 0;
     }
 }

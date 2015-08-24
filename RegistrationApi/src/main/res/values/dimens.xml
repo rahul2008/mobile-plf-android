@@ -54,7 +54,7 @@
     <dimen name="reg_title_text_size">22sp</dimen>
     <dimen name="reg_header_margin_top">29dip</dimen>
     <dimen name="reg_title_text_size_medium">15sp</dimen>
-    <dimen name="reg_title_text_size_small">12sp</dimen>
+    <dimen name="reg_title_text_size_small">13sp</dimen>
     <dimen name="reg_margin_bottom">11dp</dimen>
 
     <!-- error mapping -->

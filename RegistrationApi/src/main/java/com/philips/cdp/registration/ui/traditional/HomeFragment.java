@@ -54,6 +54,8 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private TextView mTvWelcomeDesc;
 
+    private TextView mTvTermsAndConditionDesc;
+
     private LinearLayout mLlCreateBtnContainer;
 
     private LinearLayout mLlLoginBtnContainer;
@@ -229,7 +231,20 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void initUI(View view) {
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
-        mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_welcome_desc);
+        mTvTermsAndConditionDesc = (TextView) view.findViewById(R.id.tv_reg_legal_notice);
+        int minAgeLimit = RegistrationConfiguration.getInstance().getFlow().
+                getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
+        String termsAndCondition = getString(R.string.legal_terms_condition_new);
+        termsAndCondition = String.format(termsAndCondition,minAgeLimit);
+
+        mTvTermsAndConditionDesc.setText(termsAndCondition);
+        if(minAgeLimit > 0){
+            mTvTermsAndConditionDesc.setVisibility(View.VISIBLE);
+        }else{
+            mTvTermsAndConditionDesc.setVisibility(View.GONE);
+        }
+
+        mTvWelcomeDesc = (TextView) view.findViewById(R.id.tv_reg_terms_and_condition);
         mLlCreateBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_create_account_container);
         mLlLoginBtnContainer = (LinearLayout) view.findViewById(R.id.rl_reg_singin_options);
@@ -250,7 +265,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         mPbJanrainInit.setEnabled(false);
         mLlSocialProviderBtnContainer = (LinearLayout) view
                 .findViewById(R.id.ll_reg_social_provider_container);
-
         handleSocialProviders(RegistrationHelper.getInstance().getCountryCode());
 
         mUser = new User(mContext);
@@ -321,6 +335,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         applyParams(config, mTvWelcomeDesc);
         applyParams(config, mLlCreateBtnContainer);
         applyParams(config, mLlLoginBtnContainer);
+        applyParams(config, mTvTermsAndConditionDesc);
     }
 
     @Override
@@ -394,7 +409,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
 
-        String privacyPolicyText = getString(R.string.LegalNoticeText);
+        String privacyPolicyText = getString(R.string.terms_and_condition_new);
         privacyPolicyText = String.format(privacyPolicyText,getString(R.string.PrivacyPolicyText),getString(R.string.TermsAndConditionsText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 

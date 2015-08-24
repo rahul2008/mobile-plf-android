@@ -11,15 +11,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -39,7 +40,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class CreateAccountFragment extends RegistrationBaseFragment implements OnClickListener,
-        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener {
+        TraditionalRegistrationHandler, onUpdateListener, NetworStateListener, EventListener,CompoundButton.OnCheckedChangeListener {
 
 	private LinearLayout mLlCreateAccountFields;
 
@@ -47,11 +48,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private LinearLayout mLlCreateAccountContainer;
 
+	private LinearLayout mLlAcceptTermsContainer;
+
 	private RelativeLayout mRlCreateActtBtnContainer;
 
 	private Button mBtnCreateAccount;
 
 	private CheckBox mCbTerms;
+
+	private CheckBox mCbAcceptTerms;
 
 	private User mUser;
 
@@ -63,9 +68,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private XRegError mRegError;
 
+	private XRegError mRegAccptTermsError;
+
 	private ProgressBar mPbSpinner;
 
+	private View mViewLine;
+
 	private Context mContext;
+
+	private final static int EMAIL_ADDRESS_ALREADY_USE_CODE = 390;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -139,7 +150,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		EventHelper.getInstance().unregisterEventNotification(RegConstants.JANRAIN_INIT_FAILURE,
 		        this);
 		RLog.d(RLog.EVENT_LISTENERS,
-		        "CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
+				"CreateAccountFragment unregister: NetworStateListener,JANRAIN_INIT_SUCCESS");
 		super.onDestroy();
 	}
 
@@ -163,13 +174,23 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		applyParams(config, mLlCreateAccountContainer);
 		applyParams(config, mRlCreateActtBtnContainer);
 		applyParams(config, mRegError);
+		applyParams(config, mRegAccptTermsError);
+		applyParams(config, mLlAcceptTermsContainer);
 	}
 
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.btn_reg_register) {
 			RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
-			register();
+			if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
+				if(mCbAcceptTerms.isChecked()){
+					register();
+				}else{
+					mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+				}
+			}else{
+				register();
+			}
 		}
 	}
 
@@ -180,6 +201,9 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mTvpasswordDetails = (TextView) view.findViewById(R.id.tv_reg_password_details);
 		mLlCreateAccountContainer = (LinearLayout) view
 		        .findViewById(R.id.ll_reg_create_account_container);
+
+		mLlAcceptTermsContainer = (LinearLayout) view
+				.findViewById(R.id.ll_reg_accept_terms);
 		mRlCreateActtBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_singin_options);
 
 		mBtnCreateAccount = (Button) view.findViewById(R.id.btn_reg_register);
@@ -187,8 +211,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
 		mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
 
-		mBtnCreateAccount.setOnClickListener(this);
+		mCbAcceptTerms = (CheckBox) view.findViewById(R.id.cb_reg_accept_terms);
+		FontLoader.getInstance().setTypeface(mCbAcceptTerms, "CentraleSans-Light.otf");
+		mCbAcceptTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbAcceptTerms.getPaddingTop(), mCbAcceptTerms.getPaddingRight(), mCbAcceptTerms.getPaddingBottom());
+		mCbAcceptTerms.setOnCheckedChangeListener(this);
 
+
+		mBtnCreateAccount.setOnClickListener(this);
 		mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
 		mEtName.setOnUpdateListener(this);
 		mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
@@ -198,15 +227,18 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mPbSpinner = (ProgressBar) view.findViewById(R.id.pb_reg_activate_spinner);
 		mPbSpinner.setClickable(false);
 		mPbSpinner.setEnabled(true);
+		mViewLine = (View) view.findViewById(R.id.reg_accept_terms_line);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+		mRegAccptTermsError = (XRegError) view.findViewById(R.id.cb_reg_accept_terms_error);
 		setViewParams(getResources().getConfiguration());
 
-		//trackPage(AnalyticsPages.CREATE_ACCOUNT);
+		handleUiAcceptTerms();
 		handleUiState();
 		mUser = new User(mContext);
 	}
 
 	private void register() {
+		mRegAccptTermsError.setVisibility(View.GONE);
 		showSpinner();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
@@ -249,6 +281,16 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		}
 	}
 
+	private void handleUiAcceptTerms(){
+		if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
+				mLlAcceptTermsContainer.setVisibility(View.VISIBLE);
+			    mViewLine.setVisibility(View.VISIBLE);
+		}else{
+			mLlAcceptTermsContainer.setVisibility(View.GONE);
+			mViewLine.setVisibility(View.GONE);
+		}
+	}
+
 	@Override
 	public void onRegisterSuccess() {
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
@@ -279,6 +321,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
+			mEtEmail.showErrPopUp();
 		}
 		if (null != userRegistrationFailureInfo.getPasswordErrorMessage()) {
 			mEtPassword.setErrDescription(userRegistrationFailureInfo.getPasswordErrorMessage());
@@ -289,8 +332,10 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 			mEtName.setErrDescription(userRegistrationFailureInfo.getFirstNameErrorMessage());
 			mEtName.showInvalidAlert();
 		}
+		if(userRegistrationFailureInfo.getError().code != EMAIL_ADDRESS_ALREADY_USE_CODE){
+			mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+		}
 
-		mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 		trackActionRegisterError(userRegistrationFailureInfo.getError().code);
 		hideSpinner();
 	}
@@ -331,4 +376,15 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		updateUiStatus();
 	}
 
+	@Override
+	public void onCheckedChanged(CompoundButton viewId, boolean isChecked) {
+		int id = viewId.getId();
+		if (id == R.id.cb_reg_accept_terms) {
+			if (isChecked) {
+				mRegAccptTermsError.setVisibility(View.GONE);
+			} else {
+				mRegAccptTermsError.setError(mContext.getResources().getString(R.string.please_accept_apps_terms));
+			}
+		}
+	}
 }

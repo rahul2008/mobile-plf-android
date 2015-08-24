@@ -110,7 +110,6 @@
     <string name="Welcome_wordpress_btntxt">Wordpress</string>
     <string name="Welcome_xing_btntxt">XING</string>
 
-
     <!-- added apart from the localized strings -->
     <string name="app_name">RegistrationApi</string>
     <string name="content_desc">ContentDesc</string>
@@ -120,4 +119,9 @@
     <string name="Welcome_Googleplus_btntxt">Google+</string>
     <string name="Activation_explain_value_to_user"></string>
     <string name="Welcome_needAccountto_lbltxt"></string>
+    <string name="legal_terms_condition_new">By creating account or signing in you certify that you are %s years or older </string>
+    <string name="terms_and_condition_new">Please read our %1$s and %2$s.</string>
+    <string name="accept_apps_terms">I accept the app\'s Terms and Conditions</string>
+    <string name="please_accept_apps_terms">Please accept the Terms and Conditions</string>
+
 </resources>

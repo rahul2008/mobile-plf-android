@@ -25,13 +25,26 @@
             <LinearLayout
                 android:id="@+id/rl_reg_welcome_container"
                 style="@style/reg_text_background"
-                android:layout_marginBottom="@dimen/reg_common_margin_top">
+                android:layout_marginBottom="@dimen/reg_common_margin_top"
+                android:orientation="vertical">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_legal_notice"
+                    style="@style/reg_text_description"
+                    android:layout_marginBottom="-10dp"
+                    android:text="@string/legal_terms_condition_new"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_terms_and_condition"
+                    style="@style/reg_text_description"
+                    android:text="@string/terms_and_condition_new"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                <!--<com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_welcome_desc"
                     style="@style/reg_text_description"
                     android:text="@string/LegalNoticeText"
-                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />-->
             </LinearLayout>
 
             <LinearLayout

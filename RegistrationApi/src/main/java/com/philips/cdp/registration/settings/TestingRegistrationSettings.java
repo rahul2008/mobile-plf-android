@@ -35,7 +35,7 @@ public class TestingRegistrationSettings extends RegistrationSettings {
 
     private String TEST_ENGAGE_APP_ID = "fhbmobeahciagddgfidm";
 
-    private String TEST_CAPTURE_DOMAIN = "https://philips-test.dev.janraincapture.com";
+    private String TEST_CAPTURE_DOMAIN = "philips-test.dev.janraincapture.com";
 
     private String TEST_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 
@@ -45,7 +45,7 @@ public class TestingRegistrationSettings extends RegistrationSettings {
      * Activation Account URL
      */
 
-    private String TEST_REGISTER_ACTIVATION_URL = "http://10.128.41.112:4503/content/B2C/en_GB/verify-account.html";
+    private String TEST_REGISTER_ACTIVATION_URL = "http://tst.philips.com/ps/verify-account";
     /**
      * Forgot Password URL
      */
@@ -144,5 +144,4 @@ public class TestingRegistrationSettings extends RegistrationSettings {
         }
 
     }
-
 }

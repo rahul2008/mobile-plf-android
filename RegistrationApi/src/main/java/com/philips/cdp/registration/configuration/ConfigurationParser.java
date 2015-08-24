@@ -126,14 +126,17 @@ public class ConfigurationParser {
 			}
 		}
 
-		JSONObject minimumAgeLimitConfiguartion = flowConfiguration.getJSONObject(MINIMUM_AGE_LIMIT);
-		Iterator<String> nameItr = minimumAgeLimitConfiguartion.keys();
-		HashMap<String, String> minAgeMap = new HashMap<String, String>();
-		while(nameItr.hasNext()) {
-			String name = nameItr.next();
-			minAgeMap.put(name, minimumAgeLimitConfiguartion.getString(name));
+		//JSONObject minimumAgeLimitConfiguartion = flowConfiguration.getJSONObject(MINIMUM_AGE_LIMIT);
+		if (!flowConfiguration.isNull(MINIMUM_AGE_LIMIT)) {
+			JSONObject minimumAgeLimitConfiguartion = flowConfiguration.getJSONObject(MINIMUM_AGE_LIMIT);
+			Iterator<String> nameItr = minimumAgeLimitConfiguartion.keys();
+			HashMap<String, String> minAgeMap = new HashMap<String, String>();
+			while(nameItr.hasNext()) {
+				String name = nameItr.next();
+				minAgeMap.put(name, minimumAgeLimitConfiguartion.getString(name));
+			}
+			configuration.setMinAgeLimit(minAgeMap);
 		}
-		configuration.setMinAgeLimit(minAgeMap);
 		return configuration;
 	}
 
