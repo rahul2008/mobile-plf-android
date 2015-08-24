@@ -14,8 +14,8 @@ import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 public class MainActivity extends UiKitActivity implements AdapterView.OnItemClickListener {
 
-    private static final String TAG = "MainActivity";
     private ListView listView;
+    private static final int REQUEST_CODE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,20 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
                 startActivity(new Intent(this, NavigationButtonsActivity.class));
                 break;
             case 1:
-                startActivity(new Intent(this, BackgroundTest.class));
+                startActivityForResult(new Intent(this, BackgroundTest.class), REQUEST_CODE);
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == BackgroundTest.RESULT_CODE_THEME_UPDATED) {
+                finish();
+                startActivity(getIntent());
+                return;
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

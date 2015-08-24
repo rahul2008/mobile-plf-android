@@ -17,8 +17,7 @@ public class BackgroundTest extends UiKitActivity {
 
     private final static String THEME_EXTRA = "theme_extra";
     private final static String TAG = BackgroundTest.class.getSimpleName();
-
-    private int mCurrentID;
+    public static int RESULT_CODE_THEME_UPDATED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,10 @@ public class BackgroundTest extends UiKitActivity {
 
     public void changeBackground(View v) {
         ThemeUtils.setThemePreferences(this);
+        setResult(RESULT_CODE_THEME_UPDATED);
         Intent intent = new Intent(this, BackgroundTest.class);
         startActivity(intent);
         finish();
     }
+
 }
