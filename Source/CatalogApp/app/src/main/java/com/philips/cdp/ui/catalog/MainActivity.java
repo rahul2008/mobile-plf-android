@@ -57,6 +57,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 0:
                 startActivity(new Intent(this, NavigationButtonsActivity.class));
                 break;
+            case 1:
+                startActivity(new Intent(this, BackgroundTest.class));
+                break;
+
         }
     }
 }
