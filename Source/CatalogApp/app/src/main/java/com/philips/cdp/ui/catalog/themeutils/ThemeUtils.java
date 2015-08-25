@@ -16,7 +16,6 @@ public class ThemeUtils {
 
     private static int[] themes = {R.style.PhilipsTheme_Default_Light,
             R.style.PhilipsTheme_Default_Dark,
-            R.style.PhilipsTheme_Default_Dark_Blue,
             R.style.PhilipsTheme_Default_Dark_Blue_Gradient
     };
 
