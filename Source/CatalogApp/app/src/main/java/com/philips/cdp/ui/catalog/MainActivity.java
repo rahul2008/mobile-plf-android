@@ -66,11 +66,6 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
                 startActivity(new Intent(this, NavigationButtonsActivity.class));
                 break;
             case 1:
-<<<<<<< HEAD
-                startActivity(new Intent(this, BackgroundTest.class));
-                break;
-
-=======
                 startActivityForResult(new Intent(this, BackgroundTest.class), REQUEST_CODE);
                 break;
         }
@@ -84,7 +79,6 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
                 startActivity(getIntent());
                 return;
             }
->>>>>>> ChangeThemeAcrossApp
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
