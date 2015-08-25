@@ -9,6 +9,7 @@ import com.philips.pins.shinelib.capabilities.SHNCapabilityDataStreaming;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityDeviceInformation;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityLogSynchronization;
 import com.philips.pins.shinelib.capabilities.SHNCapabilityNotifications;
+import com.philips.pins.shinelib.capabilities.SHNCapabilityUserInformationLifeSense;
 
 /**
  * Created by 310188215 on 29/04/15.
@@ -19,31 +20,37 @@ public class SHNCapabilityWrapperFactory {
         switch (shnCapabilityType) {
             case Notifications:
                 shnCapabilityWrapper = new SHNCapabilityNotificationsWrapper(
-                        (SHNCapabilityNotifications)shnCapability,
+                        (SHNCapabilityNotifications) shnCapability,
                         internalHandler,
                         userHandler);
                 break;
             case DeviceInformation:
                 shnCapabilityWrapper = new SHNCapabilityDeviceInformationWrapper(
-                        (SHNCapabilityDeviceInformation)shnCapability,
+                        (SHNCapabilityDeviceInformation) shnCapability,
                         internalHandler,
                         userHandler);
                 break;
             case DataStreaming:
                 shnCapabilityWrapper = new SHNCapabilityDataStreamingWrapper(
-                        (SHNCapabilityDataStreaming)shnCapability,
+                        (SHNCapabilityDataStreaming) shnCapability,
                         internalHandler,
                         userHandler);
                 break;
             case LogSynchronization:
                 shnCapabilityWrapper = new SHNCapabilityLogSynchronizationWrapper(
-                        (SHNCapabilityLogSynchronization)shnCapability,
+                        (SHNCapabilityLogSynchronization) shnCapability,
                         internalHandler,
                         userHandler);
                 break;
             case Battery:
                 shnCapabilityWrapper = new SHNCapabilityBatteryWrapper(
-                        (SHNCapabilityBattery)shnCapability,
+                        (SHNCapabilityBattery) shnCapability,
+                        internalHandler,
+                        userHandler);
+                break;
+            case UserInformationLifeSense:
+                shnCapabilityWrapper = new SHNCapabilityUserInformationLifeSenseWrapper(
+                        (SHNCapabilityUserInformationLifeSense) shnCapability,
                         internalHandler,
                         userHandler);
                 break;

@@ -14,5 +14,6 @@ public enum SHNCapabilityType {
     Targets,
     UserConfiguration,
     WearingPosition,
-    Battery
+    Battery,
+    UserInformationLifeSense
 }
