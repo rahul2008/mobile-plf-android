@@ -7,8 +7,7 @@
     <style name="PhilipsTheme.Default">
         <item name="actionBarBackground">@color/philips_blue_actionbar</item>
         <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
-        <item name="btnBgColor">@color/philips_dark_blue</item>
-        <item name="btnBgColorPressed">@color/philips_bright_blue</item>
+        <item name="miscButtonStyle">@style/Misc.button</item>
     </style>
 
     <style name="PhilipsTheme.Default.Light">

@@ -1,59 +1,60 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Philips.button.circle"  parent="@android:style/Widget.Button">
-        <item name="android:minWidth">@dimen/philips_button_circle_width</item>
-        <item name="android:minHeight">@dimen/philips_button_circle_height</item>
-        <item name="android:layout_margin">@dimen/philips_msc_button_margin</item>
-        <item name="android:padding">@dimen/philips_msc_button_padding</item>
-        <item name="btnShape">@integer/circle</item>
-    </style>
-
-    <style name="Philips.button.square" parent="@android:style/Widget.Button">
+    <style name="Misc.button" parent="@android:style/Widget.ImageButton">
         <item name="android:minWidth">@dimen/philips_button_square_width</item>
         <item name="android:minHeight">@dimen/philips_button_square_height</item>
-        <item name="android:padding">@dimen/philips_msc_button_margin</item>
-        <item name="android:layout_margin">@dimen/philips_msc_button_padding</item>
-        <item name="btnShape">@integer/square</item>
+        <item name="android:padding">@dimen/philips_msc_button_padding</item>
+        <item name="miscButtonShape">square</item>
+        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_bright_blue</item>
     </style>
 
-    <style name="Philips.button.square.greater">
-        <item name="btnImageDrawable">@drawable/greater</item>
+    <style name="Misc.button.circle">
+        <item name="miscButtonShape">circle</item>
     </style>
 
-    <style name="Philips.button.square.plus">
-        <item name="btnImageDrawable">@drawable/plus</item>
+    <style name="Misc.button.square">
+        <item name="miscButtonShape">square</item>
     </style>
 
-    <style name="Philips.button.square.minus">
-        <item name="btnImageDrawable">@drawable/minus</item>
+    <style name="Misc.button.square.greater">
+        <item name="miscButtonImageDrawable">@drawable/greater</item>
     </style>
 
-    <style name="Philips.button.square.questionMark">
-        <item name="btnImageDrawable">@drawable/question_mark</item>
+    <style name="Misc.button.square.plus">
+        <item name="miscButtonImageDrawable">@drawable/plus</item>
     </style>
 
-    <style name="Philips.button.square.crossMark">
-        <item name="btnImageDrawable">@drawable/cross</item>
+    <style name="Misc.button.square.minus">
+        <item name="miscButtonImageDrawable">@drawable/minus</item>
     </style>
 
-    <style name="Philips.button.circle.greater">
-        <item name="btnImageDrawable">@drawable/greater</item>
+    <style name="Misc.button.square.questionMark">
+        <item name="miscButtonImageDrawable">@drawable/question_mark</item>
     </style>
 
-    <style name="Philips.button.circle.plus">
-        <item name="btnImageDrawable">@drawable/plus</item>
+    <style name="Misc.button.square.crossMark">
+        <item name="miscButtonImageDrawable">@drawable/cross</item>
     </style>
 
-    <style name="Philips.button.circle.minus">
-        <item name="btnImageDrawable">@drawable/minus</item>
+    <style name="Misc.button.circle.greater">
+        <item name="miscButtonImageDrawable">@drawable/greater</item>
     </style>
 
-    <style name="Philips.button.circle.questionMark">
-        <item name="btnImageDrawable">@drawable/question_mark</item>
+    <style name="Misc.button.circle.plus">
+        <item name="miscButtonImageDrawable">@drawable/plus</item>
     </style>
 
-    <style name="Philips.button.circle.crossMark">
-        <item name="btnImageDrawable">@drawable/cross</item>
+    <style name="Misc.button.circle.minus">
+        <item name="miscButtonImageDrawable">@drawable/minus</item>
+    </style>
+
+    <style name="Misc.button.circle.questionMark">
+        <item name="miscButtonImageDrawable">@drawable/question_mark</item>
+    </style>
+
+    <style name="Misc.button.circle.crossMark">
+        <item name="miscButtonImageDrawable">@drawable/cross</item>
     </style>
 
 </resources>

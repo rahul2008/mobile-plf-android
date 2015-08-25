@@ -7,31 +7,19 @@ package com.philips.cdp.ui.catalog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-public class BackgroundTest extends AppCompatActivity {
+import com.philips.cdp.ui.catalog.activity.UiKitActivity;
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
-    private final static String THEME_EXTRA = "theme_extra";
+public class BackgroundTest extends UiKitActivity {
+
     private final static String TAG = BackgroundTest.class.getSimpleName();
-
-    private int mCurrentID;
+    public static int RESULT_CODE_THEME_UPDATED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mCurrentID = R.style.PhilipsTheme_Default_Light_Blue;
-        if (getIntent().getExtras() != null) {
-            int extraID = getIntent().getIntExtra(THEME_EXTRA, -1);
-            Log.d(TAG, " mCurrentID id =" + mCurrentID + " extraID=" + extraID);
-            if (extraID != -1) {
-                mCurrentID = extraID;
-            }
-        }
-        Log.d(TAG, " mCurrentID id =" + mCurrentID);
-        setTheme(mCurrentID);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_background_test);
     }
@@ -52,20 +40,11 @@ public class BackgroundTest extends AppCompatActivity {
     }
 
     public void changeBackground(View v) {
-        int id = v.getId();
-        int extraID = -1;
-        if (id == R.id.dark_blue) {
-            extraID = R.style.PhilipsTheme_Default_Dark_Blue;
-        } else if (id == R.id.light_blue) {
-            extraID = R.style.PhilipsTheme_Default_Light_Blue;
-        }
-        if (mCurrentID != extraID) {
-            Intent intent = new Intent(this, BackgroundTest.class);
-            intent.putExtra(THEME_EXTRA, extraID);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Theme already applied", Toast.LENGTH_SHORT).show();
-        }
+        ThemeUtils.setThemePreferences(this);
+        setResult(RESULT_CODE_THEME_UPDATED);
+        Intent intent = new Intent(this, BackgroundTest.class);
+        startActivity(intent);
+        finish();
     }
+
 }

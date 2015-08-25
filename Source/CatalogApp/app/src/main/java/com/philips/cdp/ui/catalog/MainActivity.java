@@ -2,7 +2,6 @@ package com.philips.cdp.ui.catalog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,10 +9,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+import com.philips.cdp.ui.catalog.activity.UiKitActivity;
+import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
-    private static final String TAG = "MainActivity";
+public class MainActivity extends UiKitActivity implements AdapterView.OnItemClickListener {
+
     private ListView listView;
+    private static final int REQUEST_CODE = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +24,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         createListView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setTheme(ThemeUtils.getTheme(this));
+    }
+
     private void createListView() {
-        listView = (ListView)findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         String[] listItems = getResources().getStringArray(R.array.list_items);
-        listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listItems));
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems));
         listView.setOnItemClickListener(this);
     }
 
@@ -58,9 +66,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startActivity(new Intent(this, NavigationButtonsActivity.class));
                 break;
             case 1:
+<<<<<<< HEAD
                 startActivity(new Intent(this, BackgroundTest.class));
                 break;
 
+=======
+                startActivityForResult(new Intent(this, BackgroundTest.class), REQUEST_CODE);
+                break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == BackgroundTest.RESULT_CODE_THEME_UPDATED) {
+                finish();
+                startActivity(getIntent());
+                return;
+            }
+>>>>>>> ChangeThemeAcrossApp
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

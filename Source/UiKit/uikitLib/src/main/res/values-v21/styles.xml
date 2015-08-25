@@ -2,7 +2,7 @@
     <style name="PhilipsTheme.Default">
         <item name="actionBarBackground">@color/philips_blue_actionbar</item>
         <item name="colorPrimary">?attr/actionBarBackground</item>
-        <item name="btnBgColor">@color/philips_dark_blue</item>
-        <item name="btnBgColorPressed">@color/philips_bright_blue</item>
+        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_bright_blue</item>
     </style>
 </resources>
