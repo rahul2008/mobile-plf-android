@@ -57,7 +57,7 @@ public class PhilipsMscButton extends ImageButton {
 
     private GradientDrawable getNormalStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.MiscButton_miscButtonBgColor, resources.getColor(R.color.philips_dark_blue));
+        int color = typedArray.getColor(R.styleable.MiscButton_miscButtonBgColor, resources.getColor(R.color.philips_bright_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
@@ -65,7 +65,7 @@ public class PhilipsMscButton extends ImageButton {
 
     private GradientDrawable getPressedStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.MiscButton_miscButtonBgColorPressed, resources.getColor(R.color.philips_bright_blue));
+        int color = typedArray.getColor(R.styleable.MiscButton_miscButtonBgColorPressed, resources.getColor(R.color.philips_light_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
