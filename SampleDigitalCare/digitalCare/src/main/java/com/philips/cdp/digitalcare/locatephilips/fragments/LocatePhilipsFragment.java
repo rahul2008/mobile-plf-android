@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -74,6 +75,7 @@ import com.philips.cdp.digitalcare.locatephilips.models.AtosResultsModel;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosParsingCallback;
 import com.philips.cdp.digitalcare.locatephilips.parser.AtosResponseParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
+import com.philips.cdp.digitalcare.util.DigitalCareConstants;
 import com.philips.cdp.digitalcare.util.Utils;
 
 import java.util.ArrayList;
@@ -98,6 +100,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
             .getSimpleName();
     private static View mView = null;
     private static HashMap<String, AtosResultsModel> mHashMapResults = null;
+    protected SharedPreferences mSharedpreferences;
     AlertDialog.Builder mdialogBuilder = null;
     AlertDialog malertDialog = null;
     private GoogleMap mMap = null;
@@ -193,6 +196,10 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if (!isEulaAccepted()) {
+            showAlert(getActivity().getResources().getString(R.string.locate_philips_popup_legal));
+            setEulaPreference();
+        }
         try {
             if (Build.VERSION.SDK_INT >= 11)
                 getActivity().getWindow().setFlags(16777216, 16777216);
@@ -354,6 +361,22 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
 
         }
 
+    }
+
+    protected boolean isEulaAccepted() {
+        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedpreferences.edit();
+
+        boolean mBoolean = mSharedpreferences.getBoolean("acceptEula", false);
+        editor.commit();
+        return mBoolean;
+    }
+
+    protected void setEulaPreference() {
+        mSharedpreferences = getActivity().getSharedPreferences(DigitalCareConstants.DIGITALCARE_FRAGMENT_TAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSharedpreferences.edit();
+        editor.putBoolean("acceptEula", true);
+        editor.commit();
     }
 
     private void initView() {

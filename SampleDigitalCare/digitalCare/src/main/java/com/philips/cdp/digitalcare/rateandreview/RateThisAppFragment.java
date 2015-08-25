@@ -252,7 +252,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
                 reviewAwards = "reviewandawards";
                 break;
             case "www.philips.fr":
-                reviewAwards = "r/écompenses";
+                reviewAwards = "recompenses";
                 break;
             case "www.philips.de":
                 reviewAwards = "testberichte";
