@@ -9,6 +9,6 @@
         <attr name="btnBgColor" format="color"/>
         <attr name="btnBgColorPressed" format="color"/>
         <attr name="btnImageDrawable" format="reference"/>
-
+        <attr name="splashTitleStyle" format="reference" />
     </declare-styleable>
 </resources>

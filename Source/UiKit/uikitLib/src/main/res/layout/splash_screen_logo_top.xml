@@ -18,6 +18,7 @@
         android:text="@string/splash_title"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/splash_title_margin_bottom"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        style="?attr/splashTitleStyle"/>
 
 </RelativeLayout>

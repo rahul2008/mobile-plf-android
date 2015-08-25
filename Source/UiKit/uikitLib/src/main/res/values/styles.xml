@@ -1,7 +1,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Placeholder to start PhilipsTheme definition -->
-    <style name="PhilipsTheme" parent="Theme.AppCompat.Light.DarkActionBar"> </style>
+    <style name="PhilipsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="splashTitleStyle">@style/PhilipsTheme.SplashTitle</item>
+    </style>
 
     <!-- Base theme, default is blue color. -->
     <style name="PhilipsTheme.Default">
@@ -48,4 +50,8 @@
         <item name="android:windowBackground">@drawable/grad_dark_blue_background</item>
     </style>
 
+    <style name="PhilipsTheme.SplashTitle">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20dp</item>
+    </style>
 </resources>
