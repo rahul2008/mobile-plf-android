@@ -5,8 +5,6 @@
         <item name="android:minHeight">@dimen/philips_button_square_height</item>
         <item name="android:padding">@dimen/philips_msc_button_padding</item>
         <item name="miscButtonShape">square</item>
-        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_bright_blue</item>
     </style>
 
     <style name="Misc.button.circle">
