@@ -21,7 +21,6 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
-import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageListener;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -31,7 +30,7 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author: naveen@philips.com
  * @since: Jan 11, 2015
  */
-public class RateThisAppFragment extends DigitalCareBaseFragment implements ProductPageListener {
+public class RateThisAppFragment extends DigitalCareBaseFragment {
 
     private static final String PRODUCT_REVIEW_URL = "http://%s%s/%s";
     private static String TAG = RateThisAppFragment.class.getSimpleName();
@@ -56,7 +55,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         DigiCareLogger.d(TAG, "onCreateView");
         View mView = inflater.inflate(R.layout.fragment_tellus, container,
                 false);
-        new ProductPageParser(this).execute();
+        //new ProductPageParser(this).execute();
         mStoreUri = Uri.parse(APPRATER_PLAYSTORE_BROWSER_BASEURL
                 + DigitalCareConfigManager.getInstance().getContext()
                 .getPackageName());
@@ -88,8 +87,12 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mLayoutParams = (FrameLayout.LayoutParams) mLayoutParent
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
-        hideProductReviewView();
-
+        if (ProductPageParser.PRX_PRODUCT_URL != null) {
+            showProductReviewView();
+            mProductReviewPage = ProductPageParser.PRX_PRODUCT_URL;
+        } else {
+            hideProductReviewView();
+        }
         setViewParams(config);
         float density = getResources().getDisplayMetrics().density;
         setButtonParams(density);
@@ -229,7 +232,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
         mRatePhilipsBtn.setLayoutParams(params);
     }
 
-    @Override
+    /*@Override
     public void onPRXProductPageReceived(String productlink) {
         if (productlink == null)
             hideProductReviewView();
@@ -237,7 +240,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment implements Prod
             mProductReviewPage = productlink;
             showProductReviewView();
         }
-    }
+    }*/
 
 
     /*protected String getLocalizedReviewUrl(String countryUrl) {
