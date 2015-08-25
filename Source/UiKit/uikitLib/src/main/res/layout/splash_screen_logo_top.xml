@@ -4,6 +4,7 @@
     android:background="@drawable/splash_background">
 
     <ImageView
+        android:id="@+id/splash_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -11,6 +12,7 @@
         android:src="@drawable/philips_logo"/>
 
     <TextView
+        android:id="@+id/splash_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/splash_title"

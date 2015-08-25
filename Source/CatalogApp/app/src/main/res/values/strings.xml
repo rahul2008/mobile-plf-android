@@ -7,6 +7,8 @@
     <string-array name="list_items">
         <item>Navigation Buttons</item>
         <item>Background color test</item>
+        <item>Splash Screen</item>
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
+    <string name="splash_title">@string/app_name</string>
 </resources>
