@@ -20,13 +20,13 @@ import java.util.UUID;
  */
 public class SHNServiceDeviceInformation extends SHNService implements SHNService.SHNServiceListener {
     public static final String SERVICE_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x180A);
-    public static final String SYSTEM_ID_CHARACTERISTIC_UUID          = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A23);
-    public static final String MODEL_NUMBER_CHARACTERISTIC_UUID       = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A24);
-    public static final String SERIAL_NUMBER_CHARACTERISTIC_UUID      = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A25);
-    public static final String FIRMWARE_REVISION_CHARACTERISTIC_UUID  = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A26);
-    public static final String HARDWARE_REVISION_CHARACTERISTIC_UUID  = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A27);
-    public static final String SOFTWARE_REVISION_CHARACTERISTIC_UUID  = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A28);
-    public static final String MANUFACTURER_NAME_CHARACTERISTIC_UUID  = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A29);
+    public static final String SYSTEM_ID_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A23);
+    public static final String MODEL_NUMBER_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A24);
+    public static final String SERIAL_NUMBER_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A25);
+    public static final String FIRMWARE_REVISION_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A26);
+    public static final String HARDWARE_REVISION_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A27);
+    public static final String SOFTWARE_REVISION_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A28);
+    public static final String MANUFACTURER_NAME_CHARACTERISTIC_UUID = BleUUIDCreator.create128bitBleUUIDFrom16BitBleUUID(0x2A29);
 
     private static final String TAG = SHNServiceDeviceInformation.class.getSimpleName();
     private static final boolean LOGGING = false;
@@ -62,26 +62,29 @@ public class SHNServiceDeviceInformation extends SHNService implements SHNServic
     public void readDeviceInformation(final SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType, final SHNStringResultListener shnStringResultListener) {
         if (LOGGING) Log.i(TAG, "readDeviceInformation");
         final SHNCharacteristic shnCharacteristic = getSHNCharacteristic(getCharacteristicUUIDForDeviceInformationType(shnDeviceInformationType));
-        SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
-            @Override
-            public void reportResult(SHNResult shnResult, byte[] data) {
-                if (LOGGING) Log.i(TAG, "readDeviceInformation reportResult");
-                String value = null;
-                if (shnResult == SHNResult.SHNOk) {
-                    value = new String(data, StandardCharsets.UTF_8);
+        if (shnCharacteristic == null) {
+            shnStringResultListener.onActionCompleted(null, SHNResult.SHNUnsupportedOperation);
+        } else {
+            SHNCommandResultReporter resultReporter = new SHNCommandResultReporter() {
+                @Override
+                public void reportResult(SHNResult shnResult, byte[] data) {
+                    if (LOGGING) Log.i(TAG, "readDeviceInformation reportResult");
+                    String value = null;
+                    if (shnResult == SHNResult.SHNOk) {
+                        value = new String(data, StandardCharsets.UTF_8);
+                    }
+                    if (shnStringResultListener != null) {
+                        shnStringResultListener.onActionCompleted(value, shnResult);
+                    }
                 }
-                if (shnStringResultListener != null) {
-                    shnStringResultListener.onActionCompleted(value, shnResult);
-                }
-            }
-        };
-
-        shnCharacteristic.read(resultReporter);
+            };
+            shnCharacteristic.read(resultReporter);
+        }
     }
 
     private UUID getCharacteristicUUIDForDeviceInformationType(SHNCapabilityDeviceInformation.SHNDeviceInformationType shnDeviceInformationType) {
         String uuidString = null;
-        switch(shnDeviceInformationType) {
+        switch (shnDeviceInformationType) {
             case FirmwareRevision:
                 uuidString = SHNServiceDeviceInformation.FIRMWARE_REVISION_CHARACTERISTIC_UUID;
                 break;
