@@ -12,68 +12,74 @@
             android:layout_height="wrap_content">
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                android:id="@+id/bt1"
-                style="@style/Philips.button.square.greater"
-                android:onClick="onClick"
+                android:id="@+id/miscButtonSquareGreater"
+                style="@style/Misc.button.square.greater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                />
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                android:id="@+id/bt2"
-                android:onClick="onClick"
-                style="@style/Philips.button.square.questionMark"
+                android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.square.crossMark"
+                android:id="@+id/button3"
+                style="@style/Misc.button.square.crossMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.square.minus"
+                style="@style/Misc.button.square.minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.square.plus"
+                style="@style/Misc.button.square.plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.circle.greater"
+                style="@style/Misc.button.circle.greater"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.circle.questionMark"
+                style="@style/Misc.button.circle.questionMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.circle.crossMark"
+                style="@style/Misc.button.circle.crossMark"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.circle.minus"
+                style="@style/Misc.button.circle.minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                style="@style/Philips.button.circle.plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/philips_msc_button_margin"
                 />
 
         </LinearLayout>

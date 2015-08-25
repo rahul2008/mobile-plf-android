@@ -15,7 +15,6 @@ import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 public class BackgroundTest extends UiKitActivity {
 
-    private final static String THEME_EXTRA = "theme_extra";
     private final static String TAG = BackgroundTest.class.getSimpleName();
     public static int RESULT_CODE_THEME_UPDATED = 1;
 
