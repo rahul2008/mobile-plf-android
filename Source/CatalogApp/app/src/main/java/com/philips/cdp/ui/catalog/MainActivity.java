@@ -12,7 +12,6 @@ import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 public class MainActivity extends UiKitActivity implements AdapterView.OnItemClickListener {
 
-    private ListView listView;
     private static final int REQUEST_CODE = 10;
 
     @Override
@@ -29,9 +28,9 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
     }
 
     private void createListView() {
-        listView = (ListView) findViewById(R.id.listView);
+        ListView listView = (ListView) findViewById(R.id.listView);
         String[] listItems = getResources().getStringArray(R.array.list_items);
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems));
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listItems));
         listView.setOnItemClickListener(this);
     }
 
