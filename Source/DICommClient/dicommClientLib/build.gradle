@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory-upload'
-apply plugin: 'android-maven'
+apply plugin: 'com.github.dcendents.android-maven'
 
 def libVersionNumber = '1.0.0'
 
@@ -10,7 +10,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1'
     }
 }
