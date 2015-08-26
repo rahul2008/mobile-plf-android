@@ -9,7 +9,7 @@ public class NavigationButtonsActivity extends UiKitActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation_buttons);
+        setContentView(R.layout.activity_misc_buttons);
     }
 
 }
