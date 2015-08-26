@@ -20,10 +20,8 @@ public class ThemeUtils {
     };
 
     public static void setThemePreferences(Context context) {
-
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getString(R.string.app_name), Context.MODE_PRIVATE);
-
         int theme = getThemeIndex(prefs);
         prefs.edit().putInt(THEME_STATE, theme).apply();
     }
@@ -32,11 +30,10 @@ public class ThemeUtils {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getString(R.string.app_name), Context.MODE_PRIVATE);
         int index = prefs.getInt(THEME_STATE, DEFAULT_THEME);
-
         return themes[index];
     }
 
-    public static int getThemeIndex(final SharedPreferences prefs) {
+    private static int getThemeIndex(final SharedPreferences prefs) {
         int index = prefs.getInt(THEME_STATE, DEFAULT_THEME);
         if (index == (themes.length - 1))
             return DEFAULT_THEME;
