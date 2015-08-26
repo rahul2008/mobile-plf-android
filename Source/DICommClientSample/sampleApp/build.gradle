@@ -25,11 +25,6 @@ dependencies {
     if (findProject(':dicommClientLib')) {
         compile project(':dicommClientLib')
     } else {
-        //sample app will always use latest version of lib
-        compile 'com.philips.cdp:dicommClientLib:+'
-
-        //you can also choose specific/older version like this
-        //compile 'com.philips.cdp:dicommClientLib:1.+'
-        //compile 'com.philips.cdp:dicommClientLib:1.0.0'
+        compile 'com.philips.cdp:dicommClientLib:1.0.1'
     }
 }
