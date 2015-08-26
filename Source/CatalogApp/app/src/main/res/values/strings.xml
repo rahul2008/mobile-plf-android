@@ -10,4 +10,5 @@
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
+    <string name="previous_theme">Previous theme</string>
 </resources>

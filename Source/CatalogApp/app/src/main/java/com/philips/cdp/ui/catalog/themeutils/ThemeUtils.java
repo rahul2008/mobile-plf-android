@@ -19,10 +19,10 @@ public class ThemeUtils {
             R.style.PhilipsTheme_Default_Dark_Blue_Gradient
     };
 
-    public static void setThemePreferences(Context context) {
+    public static void setThemePreferences(Context context , boolean previous) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getString(R.string.app_name), Context.MODE_PRIVATE);
-        int theme = getThemeIndex(prefs);
+        int theme = getThemeIndex(prefs, previous);
         prefs.edit().putInt(THEME_STATE, theme).apply();
     }
 
@@ -33,8 +33,22 @@ public class ThemeUtils {
         return themes[index];
     }
 
-    private static int getThemeIndex(final SharedPreferences prefs) {
+    private static int getThemeIndex(final SharedPreferences prefs, final boolean previous) {
         int index = prefs.getInt(THEME_STATE, DEFAULT_THEME);
+        if(!previous)
+            return getNextTheme(index);
+        else
+            return getPreviousTheme(index);
+    }
+
+    private static int getPreviousTheme(final int index) {
+        if(index <= 0){
+            return (themes.length-1);
+        }
+        return (index-1);
+    }
+
+    private static int getNextTheme(final int index) {
         if (index == (themes.length - 1))
             return DEFAULT_THEME;
         else

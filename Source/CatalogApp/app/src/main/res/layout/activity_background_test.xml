@@ -24,7 +24,14 @@
             android:layout_width="wrap_content"
             android:text="@string/change_theme"
             android:onClick="changeBackground"
-            android:id="@+id/dark_blue"/>
+            android:id="@+id/next"/>
+
+        <Button
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:text="@string/previous_theme"
+            android:onClick="changeBackground"
+            android:id="@+id/previous"/>
 
     </LinearLayout>
 </LinearLayout>

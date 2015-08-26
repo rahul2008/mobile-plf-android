@@ -23,11 +23,25 @@ public class BackgroundTest extends UiKitActivity {
     }
 
     public void changeBackground(View v) {
-        ThemeUtils.setThemePreferences(this);
-        setResult(RESULT_CODE_THEME_UPDATED);
-        Intent intent = new Intent(this, BackgroundTest.class);
-        startActivity(intent);
-        finish();
+        Intent intent;
+        switch (v.getId()){
+            case R.id.next :
+                ThemeUtils.setThemePreferences(this, false);
+                setResult(RESULT_CODE_THEME_UPDATED);
+                intent = new Intent(this, BackgroundTest.class);
+                startActivity(intent);
+                finish();
+                break;
+            case R.id.previous :
+                ThemeUtils.setThemePreferences(this, true);
+                setResult(RESULT_CODE_THEME_UPDATED);
+                intent = new Intent(this, BackgroundTest.class);
+                startActivity(intent);
+                finish();
+                break;
+        }
+
     }
+
 
 }
