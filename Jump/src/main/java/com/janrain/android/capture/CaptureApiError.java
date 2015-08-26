@@ -121,7 +121,7 @@ public class CaptureApiError {
      * @param conflictingProvider for merge errors, the identity provider in the request precipitating this
      *                            error.
      */
-    /*package*/ CaptureApiError(JSONObject response, String engageToken, String conflictingProvider) {
+    /*package*/ public CaptureApiError(JSONObject response, String engageToken, String conflictingProvider) {
         code = response.optInt("code");
         error = response.optString("error");
         error_description = response.optString("error_description");

@@ -5,68 +5,74 @@ import android.content.Context;
 
 public abstract class RegistrationSettings {
 
-	private static final String FLOW_STANDARD = "standard";
+    private static final String FLOW_STANDARD = "standard";
 
-	private static final String FLOW_COPPA = "coppa";
+    private static final String FLOW_COPPA = "coppa";
 
-	protected String mProductRegisterUrl = null;
+    protected String mProductRegisterUrl = null;
 
-	protected String mProductRegisterListUrl = null;
+    protected String mProductRegisterListUrl = null;
 
-	protected String mPreferredCountryCode = null;
+    protected String mPreferredCountryCode = null;
 
-	protected String mPreferredLangCode = null;
+    protected String mPreferredLangCode = null;
 
-	protected String mResendConsentUrl = null;
+    protected String mResendConsentUrl = null;
 
-	protected String mRegisterCoppaActivationUrl = null;
+    protected String mRegisterCoppaActivationUrl = null;
 
-	public String REGISTRATION_USE_PRODUCTION = "REGISTRATION_USE_PRODUCTION";
+    protected String mRegisterBaseCaptureUrl = null;
 
-	public String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
+    public String REGISTRATION_USE_PRODUCTION = "REGISTRATION_USE_PRODUCTION";
 
-	public String REGISTRATION_USE_DEVICE = "REGISTRATION_USE_DEVICE";
+    public String REGISTRATION_USE_EVAL = "REGISTRATION_USE_EVAL";
 
-	public static final String REGISTRATION_API_PREFERENCE = "REGAPI_PREFERENCE";
+    public String REGISTRATION_USE_DEVICE = "REGISTRATION_USE_DEVICE";
 
-	public static final String MICROSITE_ID = "microSiteID";
+    public static final String REGISTRATION_API_PREFERENCE = "REGAPI_PREFERENCE";
 
-	public abstract void intializeRegistrationSettings(Context context, String captureClientId,
-	        String microSiteId, String registrationType, boolean isIntialize, String locale);
+    public static final String MICROSITE_ID = "microSiteID";
 
-	public abstract void initialiseConfigParameters(String locale);
+    public abstract void intializeRegistrationSettings(Context context, String captureClientId,
+                                                       String microSiteId, String registrationType, boolean isIntialize, String locale);
 
-	public String getProductRegisterUrl() {
-		return mProductRegisterUrl;
-	}
+    public abstract void initialiseConfigParameters(String locale);
 
-	public String getProductRegisterListUrl() {
-		return mProductRegisterListUrl;
-	}
+    public String getProductRegisterUrl() {
+        return mProductRegisterUrl;
+    }
 
-	public String getPreferredCountryCode() {
-		return mPreferredCountryCode;
-	}
+    public String getProductRegisterListUrl() {
+        return mProductRegisterListUrl;
+    }
 
-	public String getPreferredLangCode() {
-		return mPreferredLangCode;
-	}
+    public String getPreferredCountryCode() {
+        return mPreferredCountryCode;
+    }
 
-	public String getFlowName() {
-		if (RegistrationHelper.getInstance().isCoppaFlow()) {
-			return FLOW_COPPA;
-		} else {
-			return FLOW_STANDARD;
-		}
+    public String getPreferredLangCode() {
+        return mPreferredLangCode;
+    }
 
-	}
+    public String getFlowName() {
+        if (RegistrationHelper.getInstance().isCoppaFlow()) {
+            return FLOW_COPPA;
+        } else {
+            return FLOW_STANDARD;
+        }
 
-	public String getRegisterCoppaActivationUrl() {
-		return mRegisterCoppaActivationUrl;
-	}
+    }
 
-	public String getResendConsentUrl() {
-		return mResendConsentUrl;
-	}
+    public String getRegisterCoppaActivationUrl() {
+        return mRegisterCoppaActivationUrl;
+    }
+
+    public String getResendConsentUrl() {
+        return mResendConsentUrl;
+    }
+
+    public String getmRegisterBaseCaptureUrl() {
+        return mRegisterBaseCaptureUrl;
+    }
 
 }

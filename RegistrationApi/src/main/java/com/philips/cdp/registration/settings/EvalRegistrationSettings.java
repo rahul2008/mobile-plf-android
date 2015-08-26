@@ -37,6 +37,8 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
     private String EVAL_CAPTURE_DOMAIN = "philips.eval.janraincapture.com";
 
+    private String EVAL_BASE_CAPTURE_URL = "https://philips.eval.janraincapture.com";
+
     private String EVAL_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 
     private String EVAL_CAPTURE_APP_ID = "nt5dqhp6uck5mcu57snuy8uk6c";
@@ -108,6 +110,8 @@ public class EvalRegistrationSettings extends RegistrationSettings {
 
         mResendConsentUrl = EVAL_PRX_RESEND_CONSENT_URL;
         mRegisterCoppaActivationUrl = EVAL_REGISTER_COPPA_ACTIVATION_URL;
+
+        mRegisterBaseCaptureUrl = EVAL_BASE_CAPTURE_URL;
 
         String localeArr[] = locale.split("-");
         String langCode = null;

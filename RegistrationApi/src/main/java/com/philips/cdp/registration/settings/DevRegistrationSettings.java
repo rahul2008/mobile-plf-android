@@ -15,6 +15,9 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
     private String DEV_CAPTURE_DOMAIN = "philips.dev.janraincapture.com";
 
+    private String DEV_BASE_CAPTURE_URL = "https://philips.dev.janraincapture.com";
+
+
     private String DEV_CAPTURE_FLOW_VERSION = "HEAD"; // "9549a1c4-575a-4042-9943-45b87a4f03f0";
 
     private String DEV_CAPTURE_APP_ID = "eupac7ugz25x8dwahvrbpmndf8";
@@ -100,6 +103,8 @@ public class DevRegistrationSettings extends RegistrationSettings {
 
         mResendConsentUrl = DEV_PRX_RESEND_CONSENT_URL;
         mRegisterCoppaActivationUrl = DEV_REGISTER_COPPA_ACTIVATION_URL;
+
+        mRegisterBaseCaptureUrl = DEV_BASE_CAPTURE_URL;
 
         String localeArr[] = locale.split("-");
         String langCode = null;

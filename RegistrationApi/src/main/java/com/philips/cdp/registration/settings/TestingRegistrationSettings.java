@@ -37,6 +37,8 @@ public class TestingRegistrationSettings extends RegistrationSettings {
 
     private String TEST_CAPTURE_DOMAIN = "philips-test.dev.janraincapture.com";
 
+    private String TEST_BASE_CAPTURE_URL = "https://philips-test.dev.janraincapture.com";
+
     private String TEST_CAPTURE_FLOW_VERSION = "HEAD";// "f4a28763-840b-4a13-822a-48b80063a7bf";
 
     private String TEST_CAPTURE_APP_ID = "x7nftvwfz8e8vcutz49p8eknqp";
@@ -106,6 +108,8 @@ public class TestingRegistrationSettings extends RegistrationSettings {
 
         mResendConsentUrl = TEST_PRX_RESEND_CONSENT_URL;
         mRegisterCoppaActivationUrl = TEST_REGISTER_COPPA_ACTIVATION_URL;
+
+        mRegisterBaseCaptureUrl = TEST_BASE_CAPTURE_URL;
 
         String localeArr[] = locale.split("-");
         String langCode = null;
