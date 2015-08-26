@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.philips.cdp.ui.catalog.activity.UiKitActivity;
 
-public class NavigationButtonsActivity extends UiKitActivity {
+public class MiscellaneousButtonsActivity extends UiKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
