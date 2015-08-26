@@ -422,6 +422,9 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
             } else if (!Utils.isSimAvailable(getActivity())) {
                 showAlert(getActivity().getString(R.string.check_sim));
             }
+            else{
+                showAlert(getActivity().getString(R.string.check_sim));
+            }
         } else if (tag != null
                 && tag.equalsIgnoreCase(getStringKey(R.string.facebook))
                 && isConnectionAvailable()) {

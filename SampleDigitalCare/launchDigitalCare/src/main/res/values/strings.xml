@@ -116,8 +116,8 @@
 
 
     <string-array name="category">
-        <item>MENS_SHAVING_CA</item>
         <item>HAIRCARE_CA</item>
+        <item>MENS_SHAVING_CA</item>
     </string-array>
 
 
@@ -141,10 +141,12 @@
     </string-array>
 
     <string-array name="product_title">
+        <item>HairStyler</item>
         <item>Saeco GranBaristo Avanti</item>
     </string-array>
 
     <string-array name="product_review">
+        <item>c-p/AT890_16/aquatouch-wet-and-dry-electric-shaver-with-aquatec-wet-dry-and-pop-up-trimmer</item>
         <item>/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide</item>
     </string-array>
 
