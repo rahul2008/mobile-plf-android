@@ -6,7 +6,8 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * Created by 310213764 on 25-08-2015.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 public class SplashActivityLogoTop extends AppCompatActivity {
 

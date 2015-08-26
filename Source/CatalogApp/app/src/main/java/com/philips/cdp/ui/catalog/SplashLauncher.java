@@ -6,7 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 /**
- * Created by 310213764 on 25-08-2015.
+ * (C) Koninklijke Philips N.V., 2015.
+ * All rights reserved.
  */
 public class SplashLauncher extends AppCompatActivity {
 
@@ -17,12 +18,13 @@ public class SplashLauncher extends AppCompatActivity {
     }
 
     public void launchSplashScreen(View v) {
-            startActivity(getSplashIntent(v.getId()));
+        startActivity(getSplashIntent(v.getId()));
     }
 
     public Intent getSplashIntent(int id) {
-        Class<?> targetClass = SplashActivityLogoTop.class;;
-        switch(id) {
+        Class<?> targetClass = SplashActivityLogoTop.class;
+
+        switch (id) {
             case R.id.lt:
                 targetClass = SplashActivityLogoTop.class;
                 break;
@@ -36,6 +38,6 @@ public class SplashLauncher extends AppCompatActivity {
                 targetClass = SplashActivityLogoBottom.class;
                 break;
         }
-        return  new Intent(this, targetClass);
+        return new Intent(this, targetClass);
     }
 }
