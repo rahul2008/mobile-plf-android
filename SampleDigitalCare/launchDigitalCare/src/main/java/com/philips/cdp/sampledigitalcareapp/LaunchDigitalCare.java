@@ -39,7 +39,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
     private AutoCompleteTextView mProductReview_AutoText = null;
 
     private Spinner mLanguage_spinner, mCountry_spinner;
-    private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[], mCategory[], msubCategory[], mctn[], mproductTitle[], mproductReview[];
+    private String mLanguage[], mCountry[], mlanguageCode[], mcountryCode[];
     private SampleConsumerProductInfo mConsumerProductInfo = null;
 
     @Override
@@ -107,12 +107,16 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
                 R.layout.list_items, R.id.autotext, productReviewList);
         mProductReview_AutoText.setAdapter(product_review_adapter);
 
-        setDefaultInfoValue();
+        mCategory_AutoText.setText(categoryList.get(0));
+        mSubCategory_AutoText.setText(subcategoryList.get(0));
+        mCtn_AutoText.setText(ctnList.get(0));
+        mProductTitle_AutoText.setText(productTitleList.get(0));
+        mProductReview_AutoText.setText(productReviewList.get(0));
 
         // Digital care initialization
         initializeDigitalCareLibrary();
 
-//        registerHockeyApp();
+        registerHockeyApp();
     }
 
     @Override
@@ -286,17 +290,6 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         } else {
             return false;
         }
-    }
-
-
-    private void setDefaultInfoValue(){
-        mCategory_AutoText.setText("MENS_SHAVING_CA");
-        mSubCategory_AutoText.setText("HAIR_STYLERS_SU");
-        mCtn_AutoText.setText("HD8967_01");
-        mProductTitle_AutoText.setText("Saeco GranBaristo Avanti");
-        mProductReview_AutoText.setText("/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide");
-
-
     }
 
 }
