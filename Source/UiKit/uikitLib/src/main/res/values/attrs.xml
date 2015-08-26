@@ -4,11 +4,16 @@
         <attr name="actionBarBackground" format="reference|color"/>
     </declare-styleable>
 
-    <declare-styleable name="PhilipsView">
-        <attr name="btnShape" format="integer"/>
-        <attr name="btnBgColor" format="color"/>
-        <attr name="btnBgColorPressed" format="color"/>
-        <attr name="btnImageDrawable" format="reference"/>
-        <attr name="splashTitleStyle" format="reference" />
+    <declare-styleable name="MiscButton">
+        <attr name="miscButtonShape" format="enum">
+            <enum name="square" value="0"/>
+            <enum name="circle" value="1"/>
+        </attr>
+        <attr name="miscButtonBgColor" format="color"/>
+        <attr name="miscButtonBgColorPressed" format="color"/>
+        <attr name="miscButtonImageDrawable" format="reference"/>
+        <attr name="miscButtonStyle" format="reference"/>
     </declare-styleable>
+
+    <attr name="splashTitleStyle" format="reference" />
 </resources>
