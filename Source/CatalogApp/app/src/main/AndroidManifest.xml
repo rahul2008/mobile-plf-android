@@ -25,7 +25,10 @@
         </activity>
         <activity android:name=".BackgroundTest"
                   android:label="@string/app_name"></activity>
-        <activity android:name=".SplashActivity"/>
+        <activity android:name=".SplashActivityLogoTop"/>
+        <activity android:name=".SplashActivityLogoBottom"/>
+        <activity android:name=".SplashActivityLogoCenterTitleTop"/>
+        <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
         <activity android:name=".SplashLauncher"/>
 
     </application>

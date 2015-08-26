@@ -10,8 +10,6 @@ import android.view.View;
  */
 public class SplashLauncher extends AppCompatActivity {
 
-    public final static String SPLASH_MODE = "splash_mode";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,8 +17,25 @@ public class SplashLauncher extends AppCompatActivity {
     }
 
     public void launchSplashScreen(View v) {
-            Intent intent = new Intent(this, SplashActivity.class);
-            intent.putExtra(SPLASH_MODE, v.getId());
-            startActivity(intent);
+            startActivity(getSplashIntent(v.getId()));
+    }
+
+    public Intent getSplashIntent(int id) {
+        Class<?> targetClass = SplashActivityLogoTop.class;;
+        switch(id) {
+            case R.id.lt:
+                targetClass = SplashActivityLogoTop.class;
+                break;
+            case R.id.lc_tt:
+                targetClass = SplashActivityLogoCenterTitleTop.class;
+                break;
+            case R.id.lc_tb:
+                targetClass = SplashActivityLogoCenterTitleBottom.class;
+                break;
+            case R.id.lb:
+                targetClass = SplashActivityLogoBottom.class;
+                break;
+        }
+        return  new Intent(this, targetClass);
     }
 }
