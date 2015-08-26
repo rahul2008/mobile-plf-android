@@ -9,7 +9,7 @@ import com.philips.pins.shinelib.SHNStringResultListener;
  * All rights reserved.
  */
 public interface SHNCapabilityUserInformationLifeSense extends SHNCapability {
-    void getUserIndex(SHNIntegerResultListener shnIntegerResultListener);
+    void getUserNumber(SHNIntegerResultListener shnIntegerResultListener);
 
     void getBroadCastId(SHNStringResultListener shnStringResultListener);
 }

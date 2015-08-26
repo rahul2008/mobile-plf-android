@@ -24,11 +24,11 @@ public class SHNCapabilityUserInformationLifeSenseWrapper implements SHNCapabili
     }
 
     @Override
-    public void getUserIndex(final SHNIntegerResultListener listener) {
+    public void getUserNumber(final SHNIntegerResultListener listener) {
         Runnable command = new Runnable() {
             @Override
             public void run() {
-                wrappedShnCapability.getUserIndex(new SHNIntegerResultListener() {
+                wrappedShnCapability.getUserNumber(new SHNIntegerResultListener() {
                     @Override
                     public void onActionCompleted(final int value, final SHNResult result) {
                         Runnable resultRunnable = new Runnable() {
