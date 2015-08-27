@@ -1,6 +1,7 @@
 package com.philips.cdp.dicommclientsample;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.philips.cdp.dicommclient.appliance.DICommApplianceFactory;
 import com.philips.cdp.dicommclient.cpp.CppController;
@@ -17,5 +18,6 @@ public class SampleApplication extends Application {
 
 		// TOOD better to create separate methods than to pass null?
 		DICommClientWrapper.initializeDICommLibrary(this,applianceFactory, null, cppController);
+		Log.i("SampleApplication", "DICommClientWrapper.getDICommClientLibVersion() = " + DICommClientWrapper.getDICommClientLibVersion());
 	}
 }
