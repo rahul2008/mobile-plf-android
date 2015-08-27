@@ -15,8 +15,8 @@
         <item name="miscButtonShape">square</item>
     </style>
 
-    <style name="Misc.button.square.greater">
-        <item name="miscButtonImageDrawable">@drawable/greater</item>
+    <style name="Misc.button.square.arrow">
+        <item name="miscButtonImageDrawable">@drawable/arrow</item>
     </style>
 
     <style name="Misc.button.square.plus">
@@ -35,8 +35,8 @@
         <item name="miscButtonImageDrawable">@drawable/cross</item>
     </style>
 
-    <style name="Misc.button.circle.greater">
-        <item name="miscButtonImageDrawable">@drawable/greater</item>
+    <style name="Misc.button.circle.arrow">
+        <item name="miscButtonImageDrawable">@drawable/arrow</item>
     </style>
 
     <style name="Misc.button.circle.plus">

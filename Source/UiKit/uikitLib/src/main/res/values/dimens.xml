@@ -2,11 +2,11 @@
 <resources>
     <dimen name="philips_button_circle_width">33dp</dimen>
     <dimen name="philips_button_circle_height">33dp</dimen>
-    <dimen name="philips_button_square_width">33dp</dimen>
-    <dimen name="philips_button_square_height">33dp</dimen>
-    <dimen name="philips_button_square_corner_radius">2dp</dimen>
+    <dimen name="philips_button_square_width">34dp</dimen>
+    <dimen name="philips_button_square_height">34dp</dimen>
+    <dimen name="philips_button_square_corner_radius">4.5dp</dimen>
     <dimen name="philips_msc_button_text_size">9dp</dimen>
-    <dimen name="philips_msc_button_margin">2dp</dimen>
+    <dimen name="philips_msc_button_margin">15dp</dimen>
     <dimen name="philips_msc_button_padding">2dp</dimen>
 
     <!-- Dimensions for margins of the Splash Screen -->

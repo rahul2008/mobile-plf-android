@@ -13,78 +13,71 @@
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnSquareGreater"
-                style="@style/Misc.button.square.greater"
+                style="@style/Misc.button.circle.arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnSquareQuestionMark"
-                style="@style/Misc.button.square.questionMark"
+                style="@style/Misc.button.circle.plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
-
-            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                android:id="@+id/miscBtnSquareCrossMark"
-                style="@style/Misc.button.square.crossMark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
-
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnSquareMinus"
-                style="@style/Misc.button.square.minus"
+                style="@style/Misc.button.circle.minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnSquarePlus"
-                style="@style/Misc.button.square.plus"
+                style="@style/Misc.button.circle.questionMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"
                 />
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnCircleGreater"
-                style="@style/Misc.button.circle.greater"
+                style="@style/Misc.button.square.arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnCircleQuestionMark"
-                style="@style/Misc.button.circle.questionMark"
+                style="@style/Misc.button.square.plus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnCircleCrossMark"
-                style="@style/Misc.button.circle.crossMark"
+                style="@style/Misc.button.square.minus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
 
             <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
                 android:id="@+id/miscBtnCircleMinus"
-                style="@style/Misc.button.circle.minus"
+                style="@style/Misc.button.square.crossMark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
-
-            <com.philips.cdp.uikit.CustomButton.PhilipsMscButton
-                android:id="@+id/miscBtnCirclePlus"
-                style="@style/Misc.button.circle.plus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/philips_msc_button_margin"/>
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="@dimen/philips_msc_button_margin"/>
 
         </LinearLayout>
 
