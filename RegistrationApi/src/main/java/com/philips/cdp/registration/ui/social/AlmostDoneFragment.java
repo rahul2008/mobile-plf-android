@@ -402,8 +402,9 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
         if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
             mEtEmail.showInvalidAlert();
+            mEtEmail.showErrPopUp();
         }
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+       // mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         trackActionRegisterError(userRegistrationFailureInfo.getError().code);
     }
 

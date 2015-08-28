@@ -13,6 +13,8 @@ public class RegistrationConfiguration {
 
 	private static RegistrationConfiguration registrationConfiguration;
 
+	private HSDPConfiguration hsdpConfiguration;
+
 	private RegistrationConfiguration() {
 
 	}
@@ -54,5 +56,13 @@ public class RegistrationConfiguration {
 
 	public void setFlow(Flow flow) {
 		this.flow = flow;
+	}
+
+	public HSDPConfiguration getHsdpConfiguration() {
+		return hsdpConfiguration;
+	}
+
+	public void setHsdpConfiguration(HSDPConfiguration hsdpConfiguration) {
+		this.hsdpConfiguration = hsdpConfiguration;
 	}
 }

@@ -46,6 +46,19 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_reg_attention_box"
+                style="@style/reg_text_background"
+                android:layout_marginTop="0dip"
+                android:visibility="gone">
+
+                <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_resend_details"
+                    style="@style/reg_text_description"
+                    android:text="@string/VerifyEmail_ResendErrorMsg_lbltxt"
+                    reglib:fontAssetName="CentraleSans-Book.OTF" />
+            </LinearLayout>
+
             <com.philips.cdp.registration.ui.customviews.XRegError
                 android:id="@+id/reg_error_msg"
                 android:layout_width="wrap_content"
@@ -55,8 +68,8 @@
                 android:paddingRight="@dimen/reg_layout_margin" />
 
             <View
-                style="@style/reg_line"
-                android:layout_marginBottom="@dimen/reg_margin_bottom" />
+                android:id="@+id/view_reg_attention_box_line"
+                style="@style/reg_line"/>
 
             <RelativeLayout
                 android:id="@+id/rl_reg_welcome_container"

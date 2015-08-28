@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
@@ -63,6 +64,12 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 	private XRegError mRegError;
 
 	private Context mContext;
+
+	private LinearLayout mLlattentionBox;
+
+	private View mViewAttentionBoxLine;
+
+	private TextView mTvResendDetails;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -155,6 +162,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		applyParams(config, mLlCreateAccountFields);
 		applyParams(config, mRlSignInBtnContainer);
 		applyParams(config, mRegError);
+		applyParams(config, mTvResendDetails);
 	}
 
 	@Override
@@ -201,8 +209,10 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mEtPassword.setOnUpdateListener(this);
 		mEtPassword.isValidatePassword(false);
 		mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
+		mLlattentionBox = (LinearLayout)view.findViewById(R.id.ll_reg_attention_box);
+		mViewAttentionBoxLine = view.findViewById(R.id.view_reg_attention_box_line);
+		mTvResendDetails = (TextView) view.findViewById(R.id.tv_reg_resend_details);
 		setViewParams(getResources().getConfiguration());
-//		trackPage(AnalyticsPages.SIGN_IN_ACCOUNT);
 		handleUiState();
 
 		mUser = new User(mContext);
@@ -257,8 +267,14 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		if (mUser.getEmailVerificationStatus(getActivity())) {
 			launchWelcomeFragment();
 		} else {
-			mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
+			mEtEmail.showEmailInvalidAlert();
+			mEtEmail.showErrPopUp();
+			mBtnSignInAccount.setEnabled(false);
+			mEtEmail.setErrDescription(getString(R.string.Janrain_Error_Need_Email_Verification));
+			//mRegError.setError(getString(R.string.Janrain_Error_Need_Email_Verification));
 			mBtnResend.setVisibility(View.VISIBLE);
+			mLlattentionBox.setVisibility(View.VISIBLE);
+			mViewAttentionBoxLine.setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -311,18 +327,16 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
-		//	mRegError.setError(userRegistrationFailureInfo.getSocialOnlyError());
 			return;
 		}
 
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();
+			mEtEmail.showErrPopUp();
 		}
 
-		//mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
 		trackActionForgotPasswordFailure(userRegistrationFailureInfo.getError().code);
-		//trackActionLoginError(userRegistrationFailureInfo.getError().code);
 	}
 
 	private void showSignInSpinner() {
