@@ -43,7 +43,7 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
         onView(withText("Miscellaneous Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_right);
-        onView(withId(R.id.miscBtnSquareGreater))
+        onView(withId(R.id.))
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 
@@ -63,6 +63,22 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 
+/*    public void testMButtonSquarePlusAsExpected() {
+        onView(withText("Miscellaneous Buttons")).perform(click());
+
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.plussquare);
+        onView(withId(R.id.miscBtnSquarePlus))
+                .check(matches(isImageTheSame(expectedBitmap)));
+    }*/
+
+/*    public void testMButtonSquareMinusAsExpected() {
+        onView(withText("Miscellaneous Buttons")).perform(click());
+
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.squareminus);
+        onView(withId(R.id.miscBtnSquareMinus))
+                .check(matches(isImageTheSame(expectedBitmap)));
+    }*/
+
     public void testMButtonCircleRightAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
@@ -79,13 +95,12 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 
-*/
-
     public static Matcher<View> isImageTheSame(final Bitmap expectedBitmap) {
         return new BoundedMatcher<View, View>(View.class) {
 
             @Override
             public void describeTo(Description description) {
+
                 description.appendText("image is not same as: ");
                 description.appendValue(expectedBitmap);
             }
