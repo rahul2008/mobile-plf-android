@@ -388,10 +388,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         boolean actionTaken = false;
 
-        if (tag != null) {
-            actionTaken = DigitalCareConfigManager.getInstance()
-                    .getSocialProviderListener()
-                    .onSocialProviderItemClicked(tag.toString());
+        try {
+            if (tag != null) {
+                actionTaken = DigitalCareConfigManager.getInstance()
+                        .getSocialProviderListener()
+                        .onSocialProviderItemClicked(tag.toString());
+            }
+        }catch(NullPointerException exception)
+        {
+            DigiCareLogger.e(TAG, "SocialProvider listener not added in vertical side..");
         }
         if (actionTaken) {
             return;
