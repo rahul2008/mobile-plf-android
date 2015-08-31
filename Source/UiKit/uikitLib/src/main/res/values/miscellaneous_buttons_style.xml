@@ -9,6 +9,8 @@
 
     <style name="Misc.button.circle">
         <item name="miscButtonShape">circle</item>
+        <item name="android:minWidth">@dimen/philips_button_circle_width</item>
+        <item name="android:minHeight">@dimen/philips_button_circle_height</item>
     </style>
 
     <style name="Misc.button.square">
