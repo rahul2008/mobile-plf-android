@@ -20,15 +20,18 @@ public class Utils {
 	}
 
 	public static boolean isSimAvailable(Context mContext) {
-		TelephonyManager mTelephonyService = (TelephonyManager) mContext
-				.getSystemService(Context.TELEPHONY_SERVICE);
-		int simState = mTelephonyService.getSimState();
-		switch (simState) {
-		case TelephonyManager.SIM_STATE_ABSENT:
-		case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
-			return false;
-		default:
-			return true;
-		}
-	}
+        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(mContext.TELEPHONY_SERVICE);
+        int SIM_STATE = telephonyManager.getSimState();
+
+            switch (SIM_STATE) {
+                case TelephonyManager.SIM_STATE_ABSENT: //SimState = "No Sim Found!";
+                case TelephonyManager.SIM_STATE_NETWORK_LOCKED: //SimState = "Network Locked!";
+                case TelephonyManager.SIM_STATE_PIN_REQUIRED: //SimState = "PIN Required to access SIM!";
+                case TelephonyManager.SIM_STATE_PUK_REQUIRED: //SimState = "PUK Required to access SIM!"; // Personal Unblocking Code
+                case TelephonyManager.SIM_STATE_UNKNOWN: //SimState = "Unknown SIM State!";
+                    return false;
+                default:
+                    return true;
+            }
+    }
 }
