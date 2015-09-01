@@ -207,7 +207,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 		Button btnFetchConsent = (Button) view.findViewById(R.id.btn_resend_consent);
 
 		if (RegistrationHelper.getInstance().isCoppaFlow()) {
-			btnFetchConsent.setVisibility(View.VISIBLE);
+			btnFetchConsent.setVisibility(View.GONE);
 			btnFetchConsent.setOnClickListener(this);
 		} else {
 			btnFetchConsent.setVisibility(View.GONE);

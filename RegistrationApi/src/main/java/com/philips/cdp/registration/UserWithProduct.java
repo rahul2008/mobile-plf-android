@@ -31,8 +31,12 @@ import com.philips.cdp.registration.settings.RegistrationSettings;
 
 public class UserWithProduct extends User implements LocaleMatchListener {
 
-    public UserWithProduct() {
-        super();
+    public UserWithProduct(Context context) {
+        super( context);
+    }
+
+    private UserWithProduct(){
+
     }
 
     private String LOG_TAG = "UserWithProduct";
