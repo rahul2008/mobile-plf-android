@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -33,9 +34,11 @@ public class FaqFragment extends DigitalCareBaseFragment {
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
 
     private String FAQ_URL = "http://%s/content/%s/%s_%s/standalone-faqs/%s.html";
-    private String TAG =FaqFragment.class.getSimpleName();
+    private String TAG = FaqFragment.class.getSimpleName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +54,10 @@ public class FaqFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(AnalyticsConstants.ACTION_KEY_SERVICE_CHANNEL, AnalyticsConstants.ACTION_VALUE_SERVICE_CHANNEL_FAQ);
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_FAQ,
@@ -58,6 +65,12 @@ public class FaqFragment extends DigitalCareBaseFragment {
         initView();
 
         loadFaq();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     private void loadFaq() {
@@ -112,7 +125,7 @@ public class FaqFragment extends DigitalCareBaseFragment {
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
 
-        return String.format(FAQ_URL,LocaleMatchHandler.getPRXUrl(language + "_" + country),consumerProductInfo.getSector(),
+        return String.format(FAQ_URL, LocaleMatchHandler.getPRXUrl(language + "_" + country), consumerProductInfo.getSector(),
                 language, country, consumerProductInfo.getCtn());
     }
 

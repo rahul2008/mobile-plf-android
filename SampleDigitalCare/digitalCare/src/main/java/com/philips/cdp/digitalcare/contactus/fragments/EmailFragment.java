@@ -8,14 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.philips.cdp.digitalcare.ConsumerProductInfo;
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -33,6 +34,8 @@ public class EmailFragment extends DigitalCareBaseFragment {
     private View mView = null;
     private WebView mWebView = null;
     private ProgressBar mProgressBar = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
     private String EMAIL_URL = "http://%s/content/%s/%s_%s/support-home/support-contact-form.html?param1=%s";
     private String TAG = EmailFragment.class.getSimpleName();
 
@@ -60,6 +63,9 @@ public class EmailFragment extends DigitalCareBaseFragment {
         mWebView = (WebView) mView.findViewById(R.id.webView);
         mProgressBar = (ProgressBar) mView
                 .findViewById(R.id.common_webview_progress);
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         mProgressBar.setVisibility(View.GONE);
     }
 
@@ -69,7 +75,7 @@ public class EmailFragment extends DigitalCareBaseFragment {
             mProgressBar.setVisibility(View.VISIBLE);
         } else {
             String url = getEmailUrl() + "&origin=15_global_en_" + getAppName() + "-app_" + getAppName() + "-app";
-            DigiCareLogger.d(TAG,url);
+            DigiCareLogger.d(TAG, url);
             mWebView.loadUrl(url);
             mWebView.getSettings().setJavaScriptEnabled(true);
             mWebView.setWebViewClient(new WebViewClient() {
@@ -130,6 +136,13 @@ public class EmailFragment extends DigitalCareBaseFragment {
     @Override
     public void onClick(View view) {
 
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override

@@ -81,6 +81,8 @@ public class ChatFragment extends DigitalCareBaseFragment {
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+
         mchatScrollView = (ScrollView) getActivity().findViewById(R.id.chatScrollView);
 
         mChatNow.setOnClickListener(this);
@@ -113,9 +115,7 @@ public class ChatFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mActionBarMenuIcon != null && mActionBarArrow != null)
-            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                enableActionBarLeftArrow();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     @Override
@@ -165,11 +165,6 @@ public class ChatFragment extends DigitalCareBaseFragment {
         return AnalyticsConstants.PAGE_CONTACTUS_LIVECHAT;
     }
 
-    private void enableActionBarLeftArrow() {
-        mActionBarMenuIcon.setVisibility(View.GONE);
-        mActionBarArrow.setVisibility(View.VISIBLE);
-        mActionBarArrow.bringToFront();
-    }
 
     private void setButtonParams() {
         float density = getResources().getDisplayMetrics().density;

@@ -227,6 +227,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         super.onActivityCreated(savedInstanceState);
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         checkGooglePlayServices();
         initGoogleMapv2();
         createBitmap();
@@ -876,10 +877,7 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-
-        if (mActionBarMenuIcon != null && mActionBarArrow != null)
-            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                enableActionBarLeftArrow();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
 
         // checking gps enabled or disbled
         final LocationManager manager = (LocationManager) getActivity()
@@ -894,13 +892,6 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
         }
         setSearchIcon();
     }
-
-    private void enableActionBarLeftArrow() {
-        mActionBarMenuIcon.setVisibility(View.GONE);
-        mActionBarArrow.setVisibility(View.VISIBLE);
-        mActionBarArrow.bringToFront();
-    }
-
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     protected void setSearchIcon() {

@@ -11,15 +11,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -37,6 +38,8 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
     private LinearLayout.LayoutParams mFirstContainerParams = null;
     private LinearLayout.LayoutParams mSecondContainerParams = null;
     private LinearLayout mProdButtonsParent = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -60,6 +63,9 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
                 .getLayoutParams();
         mSecondContainerParams = (LinearLayout.LayoutParams) mProdButtonsParent
                 .getLayoutParams();
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         Configuration config = getResources().getConfiguration();
         setViewParams(config);
 
@@ -96,6 +102,12 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProdButtonsParent.setLayoutParams(mSecondContainerParams);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+    }
+
     /**
      * Create RelativeLayout at runTime. RelativeLayout will have button and
      * image together.
@@ -116,7 +128,7 @@ public class ProductDetailsFragment extends DigitalCareBaseFragment implements
         mProdButtonsParent.addView(relativeLayout);
         setRelativeLayoutParams(relativeLayout, density);
         /*
-		 * Setting tag because we need to get String title for this view which
+         * Setting tag because we need to get String title for this view which
 		 * needs to be handled at button click.
 		 */
         relativeLayout.setTag(buttonTitle);

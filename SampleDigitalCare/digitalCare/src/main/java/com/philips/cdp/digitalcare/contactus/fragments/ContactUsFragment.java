@@ -174,6 +174,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
 
         createSocialProviderMenu();
 
@@ -217,17 +218,8 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
     @Override
     public void onResume() {
         super.onResume();
-        if (mActionBarMenuIcon != null && mActionBarArrow != null)
-            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                enableActionBarLeftArrow();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
         setViewParams(config);
-    }
-
-
-    private void enableActionBarLeftArrow() {
-        mActionBarMenuIcon.setVisibility(View.GONE);
-        mActionBarArrow.setVisibility(View.VISIBLE);
-        mActionBarArrow.bringToFront();
     }
 
     /*
@@ -394,8 +386,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         .getSocialProviderListener()
                         .onSocialProviderItemClicked(tag.toString());
             }
-        }catch(NullPointerException exception)
-        {
+        } catch (NullPointerException exception) {
             DigiCareLogger.e(TAG, "SocialProvider listener not added in vertical side..");
         }
         if (actionTaken) {
@@ -426,8 +417,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                 callPhilips();
             } else if (!Utils.isSimAvailable(getActivity())) {
                 showAlert(getActivity().getString(R.string.check_sim));
-            }
-            else{
+            } else {
                 showAlert(getActivity().getString(R.string.check_sim));
             }
         } else if (tag != null

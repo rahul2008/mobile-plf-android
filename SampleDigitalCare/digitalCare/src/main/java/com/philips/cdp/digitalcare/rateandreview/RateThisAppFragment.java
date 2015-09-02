@@ -78,6 +78,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
 
         mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
         mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
+
         mDividerView = (View) getActivity().findViewById(R.id.divider);
         mRatePlayStoreBtn.setOnClickListener(this);
         mRatePhilipsBtn.setTransformationMethod(null);
@@ -171,9 +173,7 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mActionBarMenuIcon != null && mActionBarArrow != null)
-            if (mActionBarMenuIcon.getVisibility() == View.VISIBLE)
-                enableActionBarLeftArrow();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
     }
 
     private void tagExitLisk(String url) {
@@ -181,11 +181,6 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 AnalyticsConstants.ACTION_KEY_EXIT_LINK, url);
     }
 
-    private void enableActionBarLeftArrow() {
-        mActionBarMenuIcon.setVisibility(View.GONE);
-        mActionBarArrow.setVisibility(View.VISIBLE);
-        mActionBarArrow.bringToFront();
-    }
 
     @Override
     public void onClick(View view) {

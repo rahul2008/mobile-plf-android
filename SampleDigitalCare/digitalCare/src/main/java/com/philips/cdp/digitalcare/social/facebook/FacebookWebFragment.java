@@ -9,18 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.analytics.AnalyticsConstants;
 import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
+import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 
 public class FacebookWebFragment extends DigitalCareBaseFragment {
 
     private final String TAG = FacebookWebFragment.class.getSimpleName();
     private View mView = null;
     private WebView mWebView = null;
+    private ImageView mActionBarMenuIcon = null;
+    private ImageView mActionBarArrow = null;
     // private ProgressDialog mProgressDialog = null;
     private ProgressBar mProgressBar = null;
     private String FacebookURL = "http://www.facebook.com/";
@@ -43,7 +46,9 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        mActionBarMenuIcon = (ImageView) getActivity().findViewById(R.id.home_icon);
+        mActionBarArrow = (ImageView) getActivity().findViewById(R.id.back_to_home_img);
+        hideActionBarIcons(mActionBarMenuIcon, mActionBarArrow);
         initView();
         loadInAppFacebook();
         AnalyticsTracker.trackPage(AnalyticsConstants.PAGE_CONTACTUS_FACEBOOK,
@@ -115,4 +120,10 @@ public class FacebookWebFragment extends DigitalCareBaseFragment {
         }
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        enableActionBarLeftArrow(mActionBarMenuIcon, mActionBarArrow);
+    }
 }
