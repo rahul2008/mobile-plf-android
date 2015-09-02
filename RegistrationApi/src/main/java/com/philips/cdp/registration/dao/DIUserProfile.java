@@ -3,100 +3,96 @@ package com.philips.cdp.registration.dao;
 
 public class DIUserProfile {
 
-	private String mEmail;
+    private String email;
 
-	private String mGivenName;
+    private String givenName;
 
-	private String mFamilyName;
+    private String familyName;
 
-	private String mPassword;
+    private String password;
 
-	private String mDisplayName;
+    private String displayName;
 
-	private boolean mIsOlderThanAgeLimit;
+    private boolean isOlderThanAgeLimit;
 
-	private boolean mIsReceiveMarketingEmail;
+    private String janrainUUID;
 
-	public String getJanrainUUID() {
-		return janrainUUID;
-	}
+    private boolean isReceiveMarketingEmail;
 
-	public void setJanrainUUID(String janrainUUID) {
-		this.janrainUUID = janrainUUID;
-	}
+    public DIUserProfile() {
+    }
 
-	private String janrainUUID;
+    public DIUserProfile(String email, String givenName, String password,
+                         boolean isOlderThanAgeLimit, boolean isReceiveMarketingEmail) {
+        this.email = email;
+        this.givenName = givenName;
+        this.password = password;
+        this.isOlderThanAgeLimit = isOlderThanAgeLimit;
+        this.isReceiveMarketingEmail = isReceiveMarketingEmail;
+    }
 
-	// For Traditional Registration
-	public DIUserProfile() {
+    public String getEmail() {
+        return email;
+    }
 
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public DIUserProfile(String email, String givenName, String password,
-	        boolean isOlderThanAgeLimit, boolean isReceiveMarketingEmail) {
+    public String getPassword() {
+        return password;
+    }
 
-		mEmail = email;
-		mGivenName = givenName;
-		mPassword = password;
-		mIsOlderThanAgeLimit = isOlderThanAgeLimit;
-		mIsReceiveMarketingEmail = isReceiveMarketingEmail;
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	}
+    public String getGivenName() {
+        return givenName;
+    }
 
-	public String getEmail() {
-		return mEmail;
-	}
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
 
-	public void setEmail(String email) {
-		mEmail = email;
-	}
+    public boolean getOlderThanAgeLimit() {
+        return isOlderThanAgeLimit;
+    }
 
-	public String getPassword() {
-		return mPassword;
-	}
+    public void setOlderThanAgeLimit(boolean isOlderThanAgeLimit) {
+        this.isOlderThanAgeLimit = isOlderThanAgeLimit;
+    }
 
-	public void setPassword(String password) {
-		mPassword = password;
-	}
+    public boolean getReceiveMarketingEmail() {
+        return isReceiveMarketingEmail;
+    }
 
-	public String getGivenName() {
-		return mGivenName;
-	}
+    public void setReceiveMarketingEmail(boolean isReceiveMarketingEmail) {
+        this.isReceiveMarketingEmail = isReceiveMarketingEmail;
+    }
 
-	public void setGivenName(String givenName) {
-		mGivenName = givenName;
-	}
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public boolean getOlderThanAgeLimit() {
-		return mIsOlderThanAgeLimit;
-	}
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
-	public void setOlderThanAgeLimit(boolean isOlderThanAgeLimit) {
-		mIsOlderThanAgeLimit = isOlderThanAgeLimit;
-	}
+    public String getFamilyName() {
+        return familyName;
+    }
 
-	public boolean getReceiveMarketingEmail() {
-		return mIsReceiveMarketingEmail;
-	}
+    public void setFamilyName(String mFamilyName) {
+        this.familyName = mFamilyName;
+    }
 
-	public void setReceiveMarketingEmail(boolean isReceiveMarketingEmail) {
-		mIsReceiveMarketingEmail = isReceiveMarketingEmail;
-	}
+    public String getJanrainUUID() {
+        return janrainUUID;
+    }
 
-	public String getDisplayName() {
-		return mDisplayName;
-	}
-
-	public void setDisplayName(String displayName) {
-		mDisplayName = displayName;
-	}
-
-	public String getFamilyName() {
-		return mFamilyName;
-	}
-
-	public void setFamilyName(String mFamilyName) {
-		this.mFamilyName = mFamilyName;
-	}
+    public void setJanrainUUID(String janrainUUID) {
+        this.janrainUUID = janrainUUID;
+    }
 
 }

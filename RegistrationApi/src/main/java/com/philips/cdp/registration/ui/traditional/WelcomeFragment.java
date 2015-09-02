@@ -235,11 +235,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 	}
 
 	private void handleLogout() {
-		trackPage(AppTaggingPages.HOME);
-		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
-                AppTagingConstants.SIGN_OUT);
-		mUser.logout();
-		getRegistrationFragment().replaceWithHomeFragment();
+//		trackPage(AppTaggingPages.HOME);
+//		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+//                AppTagingConstants.SIGN_OUT);
+//		mUser.logout();
+//		getRegistrationFragment().replaceWithHomeFragment();
+
+		User user = new User(getRegistrationFragment().getParentActivity().getApplicationContext());
+		 DIUserProfile diUserProfile=  user.getUserInstance(getRegistrationFragment().getParentActivity().getApplicationContext());
+		RLog.i("DDD",diUserProfile.getJanrainUUID());
 	}
 
 	private void resendCoppaMail() {
