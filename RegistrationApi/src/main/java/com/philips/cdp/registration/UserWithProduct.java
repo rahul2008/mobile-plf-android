@@ -35,10 +35,6 @@ public class UserWithProduct extends User implements LocaleMatchListener {
         super( context);
     }
 
-    private UserWithProduct(){
-
-    }
-
     private String LOG_TAG = "UserWithProduct";
 
     private ProductRegistrationInfo mProdInfo = null;
