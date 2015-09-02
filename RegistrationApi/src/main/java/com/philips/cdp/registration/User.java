@@ -68,6 +68,8 @@ public class User {
 
 	private String USER_RECEIVE_MARKETING_EMAIL = "receiveMarketingEmail";
 
+	private String USER_JANRAIN_UUID = "uuid";
+
 	private String USER_EMAIL_VERIFIED = "emailVerified";
 
 	private String USER_CAPTURE = "capture";
@@ -305,6 +307,7 @@ public class User {
 			diUserProfile.setDisplayName(mObject.getString(USER_DISPLAY_NAME));
 			diUserProfile
 			        .setReceiveMarketingEmail(mObject.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
+			diUserProfile.setJanrainUUID(mObject.getString(USER_JANRAIN_UUID));
 
 		} catch (JSONException e) {
 			Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");

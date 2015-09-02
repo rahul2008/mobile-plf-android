@@ -17,6 +17,16 @@ public class DIUserProfile {
 
 	private boolean mIsReceiveMarketingEmail;
 
+	public String getJanrainUUID() {
+		return janrainUUID;
+	}
+
+	public void setJanrainUUID(String janrainUUID) {
+		this.janrainUUID = janrainUUID;
+	}
+
+	private String janrainUUID;
+
 	// For Traditional Registration
 	public DIUserProfile() {
 
