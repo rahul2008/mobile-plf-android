@@ -758,7 +758,8 @@ public class LocatePhilipsFragment extends DigitalCareBaseFragment implements
                                     mArabicMarkerIcon.setVisibility(View.VISIBLE);
                             }
                         });
-            }
+            } else
+                showAlert(getResources().getString(R.string.no_data));
 
         } else if (v.getId() == R.id.getdirection) {
             AnalyticsTracker
