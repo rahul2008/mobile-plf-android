@@ -580,7 +580,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     }
 
     private void launchSocialToSocialMergeAccountFragment(Bundle bundle) {
-        trackPage(AppTaggingPages.MERGE_ACCOUNT);
+        trackPage(AppTaggingPages.MERGE_SOCIAL_ACCOUNT);
         getRegistrationFragment().addMergeSocialAccountFragment(bundle);
     }
 

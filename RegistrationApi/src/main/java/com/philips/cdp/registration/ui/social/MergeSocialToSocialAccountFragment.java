@@ -332,7 +332,8 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 	}
 
 	@Override
-	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
+	public void onLoginFailedWithMergeFlowError(String mergeToken, String existingProvider, String conflictingIdentityProvider
+			, String conflictingIdpNameLocalized, String existingIdpNameLocalized, String emailId) {
 		RLog.i(RLog.CALLBACK, "MergeSocialToSocialAccountFragment : onLoginFailedWithMergeFlowError");
 		hideMergeSpinner();
 	}

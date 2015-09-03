@@ -18,4 +18,8 @@ public interface AppTaggingPages {
 	String MERGE_ACCOUNT = "registration:mergeaccount";
 
 	String USER_PROFILE = "registration:userprofile";
+
+	String MERGE_SOCIAL_ACCOUNT = "registration:mergesocialaccount";
+
+
 }
