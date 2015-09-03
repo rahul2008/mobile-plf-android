@@ -29,7 +29,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     private List<SHNLogItem> shnLogItems;
     private State state;
-    private SHNCapabilityLogSynchronizationListener shnCapabilityLogSynchronizationListener;
+    protected SHNCapabilityLogSynchronizationListener shnCapabilityLogSynchronizationListener;
 
     protected Timer timer;
 
