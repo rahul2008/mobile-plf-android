@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 10
-        versionName "2.0.2"
+        versionName "2.0.3"
     }
 
     buildTypes {
@@ -21,5 +21,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:+'
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile project(':adobeMobileLibrary')
-    compile project(':localeMatch-v1.0.1')
+    compile project(':localeMatch-v1.0.2')
 }
