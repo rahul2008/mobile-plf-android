@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 
 import org.hamcrest.Description;
@@ -15,6 +16,7 @@ import java.nio.ByteBuffer;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.PositionAssertions.isAbove;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -39,15 +41,7 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
         testResources = getInstrumentation().getContext().getResources();
     }
 
-/*    public void testMButtonSquareRightExpected() {
-        onView(withText("Miscellaneous Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_right);
-        onView(withId(R.id.miscBtnSquareArrow))
-                .check(matches(isImageTheSame(expectedBitmap)));
-    }*/
-
-/*
         public void testMButtonSquareCrossExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
@@ -55,7 +49,6 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
         onView(withId(R.id.miscBtnSquareCrossMark))
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
-*/
 
 /*
     public void testMButtonCirclePlusAsExpected() {
@@ -66,13 +59,13 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 */
-    public void testMButtonCircleMinusAsExpected() {
+/*    public void testMButtonCircleMinusAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_minus);
         onView(withId(R.id.miscBtnCircleMinus))
                 .check(matches(isImageTheSame(expectedBitmap)));
-    }
+    }*/
 /*
     public void testMButtonCircleQuestionAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
@@ -82,16 +75,15 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 .check(matches(isImageTheSame(expectedBitmap)));
     }*/
 
-/*
     public void testMButtonSquareMinusAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_minus);
         onView(withId(R.id.miscBtnSquareMinus))
                 .check(matches(isImageTheSame(expectedBitmap)));
-    }*/
+    }
 
-    /*  public void testMButtonSquarePlusAsExpected() {
+      public void testMButtonSquarePlusAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_plus);
@@ -99,15 +91,24 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 
-    public void testMButtonCircleRightAsExpected() {
+
+        public void testMButtonSquareRightAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_right);
-        onView(withId(R.id.miscBtnCircleGreater))
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_right);
+        onView(withId(R.id.miscBtnSquareArrow))
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 
-*/
+  /*  public void testMButtonCircleRightAsExpected() {
+        onView(withText("Miscellaneous Buttons")).perform(click());
+
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_right);
+        onView(withId(R.id.miscBtnCircleArrow))
+                .check(matches(isImageTheSame(expectedBitmap)));
+    }*/
+
+
     public static Matcher<View> isImageTheSame(final Bitmap expectedBitmap) {
         return new BoundedMatcher<View, View>(View.class) {
 
@@ -123,8 +124,12 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas actualCanvas = new Canvas(actualBitmap);
                 view.draw(actualCanvas);
-                return expectedBitmap.sameAs(actualBitmap);
+//                return expectedBitmap.sameAs(actualBitmap);
+                return TestUtils.sameAs(actualBitmap, expectedBitmap);
+
             }
         };
     }
+
+
 }

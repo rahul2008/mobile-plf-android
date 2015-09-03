@@ -23,4 +23,6 @@ public class SplashActivityLogoBottom extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(com.philips.cdp.uikit.R.layout.splash_screen_logo_bottom);
     }
+
+
 }
