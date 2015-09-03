@@ -209,7 +209,7 @@ OnClickListener, StartFlowListener, DiscoveryEventListener, OnItemClickListener 
             }
         });
 		// TODO DIComm Refactor - See if key exchange retries are necessary
-		wifiPort.getProperties();
+		wifiPort.getPortProperties();
 	}
 
 	private void onSuccessfullyConnected() {

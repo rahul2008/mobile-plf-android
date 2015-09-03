@@ -139,7 +139,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
             }
         });
         
-        devicePort.getProperties();
+        devicePort.getPortProperties();
     }
 
     private void getWifiDetails() {
@@ -163,7 +163,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
             }
         });
         
-        wifiPort.getProperties();
+        wifiPort.getPortProperties();
     }
 
     public void putDeviceDetails() {

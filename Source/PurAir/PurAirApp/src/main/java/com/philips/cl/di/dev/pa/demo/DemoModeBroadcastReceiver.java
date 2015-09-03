@@ -215,7 +215,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
             }
         });
 	
-	        devicePort.getProperties();
+	        devicePort.getPortProperties();
 		}
     }
 
@@ -239,7 +239,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
             }
         });
 
-        wifiPort.getProperties();
+        wifiPort.getPortProperties();
     }
 
 	public void receiveServerResponse(int responseCode, DevicePortProperties devicePortProperties, WifiPortProperties wifiPortProperties) {
