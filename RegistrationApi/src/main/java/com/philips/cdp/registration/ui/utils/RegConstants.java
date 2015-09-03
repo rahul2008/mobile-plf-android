@@ -80,6 +80,8 @@ public class RegConstants {
 
     public static final String SOCIAL_PROVIDER = "SOCIAL_PROVIDER";
 
+    public static final String CONFLICTING_SOCIAL_PROVIDER = "CONFLICTING_SOCIAL_PROVIDER";
+
     public static final String SOCIAL_TWO_STEP_ERROR = "SOCIAL_TWO_STEP_ERROR";
 
     public static final String SOCIAL_REGISTRATION_TOKEN = "SOCIAL_REGISTRATION_TOKEN";

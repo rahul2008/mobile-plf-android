@@ -24,6 +24,7 @@ import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.social.AlmostDoneFragment;
 import com.philips.cdp.registration.ui.social.MergeAccountFragment;
+import com.philips.cdp.registration.ui.social.MergeSocialToSocialAccountFragment;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
@@ -296,6 +297,12 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_TOKEN, registrationToken);
         mergeFragmentBundle.putString(RegConstants.SOCIAL_MERGE_EMAIL, emailId);
         mergeAccountFragment.setArguments(mergeFragmentBundle);
+        addFragment(mergeAccountFragment);
+    }
+
+    public void addMergeSocialAccountFragment(Bundle bundle) {
+        MergeSocialToSocialAccountFragment mergeAccountFragment = new MergeSocialToSocialAccountFragment();
+        mergeAccountFragment.setArguments(bundle);
         addFragment(mergeAccountFragment);
     }
 

@@ -23,13 +23,13 @@
                 android:layout_marginTop="@dimen/reg_header_margin_top"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin"
-                android:text="@string/Account_Merge_SignIn_lbltxt"
+                android:text="@string/Merge_your_Account"
                 reglib:fontAssetName="CentraleSans-Book.OTF" />
 
             <View style="@style/reg_line" />
 
             <LinearLayout
-                android:id="@+id/ll_reg_used_email_address_container"
+                android:id="@+id/ll_reg_account_merge_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -42,7 +42,7 @@
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
-                    android:id="@+id/tv_reg_password_merge"
+                    android:id="@+id/tv_reg_conflict_provider"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
                     android:text="@string/Account_Merge_EnterPassword_lbltxt"

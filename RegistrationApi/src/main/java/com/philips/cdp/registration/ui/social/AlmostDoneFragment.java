@@ -1,12 +1,6 @@
 
 package com.philips.cdp.registration.ui.social;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -22,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -44,6 +38,12 @@ import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AlmostDoneFragment extends RegistrationBaseFragment implements EventListener,
         onUpdateListener, SocialProviderLoginHandler, NetworStateListener, OnClickListener,CompoundButton.OnCheckedChangeListener {
@@ -462,11 +462,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
         RLog.i(RLog.CALLBACK, "AlmostDoneFragment : onContinueSocialProviderLoginFailure");
         hideSpinner();
-        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
-            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
-            mEtEmail.showInvalidAlert();
-        }
-
         if (null != userRegistrationFailureInfo.getDisplayNameErrorMessage()) {
             mEtEmail.setErrDescription(userRegistrationFailureInfo.getDisplayNameErrorMessage());
             mEtEmail.showInvalidAlert();
@@ -476,8 +471,13 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             trackActionRegisterError(userRegistrationFailureInfo.getError().code);
             return;
         }
-
-        mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+        if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
+            mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
+            mEtEmail.showInvalidAlert();
+            mEtEmail.showErrPopUp();
+        }else {
+            mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
+        }
         trackActionRegisterError(userRegistrationFailureInfo.getError().code);
     }
 

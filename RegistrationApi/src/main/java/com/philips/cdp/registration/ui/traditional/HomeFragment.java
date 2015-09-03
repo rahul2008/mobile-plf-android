@@ -21,10 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
+import com.philips.cdp.registration.AppTagging.AppTagingConstants;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.AppTagging.AppTagingConstants;
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.configuration.RegistrationConfiguration;
 import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.EventHelper;
@@ -235,12 +235,12 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         int minAgeLimit = RegistrationConfiguration.getInstance().getFlow().
                 getMinAgeLimitByCountry(RegistrationHelper.getInstance().getCountryCode());
         String termsAndCondition = getString(R.string.legal_terms_condition_new);
-        termsAndCondition = String.format(termsAndCondition,minAgeLimit);
+        termsAndCondition = String.format(termsAndCondition, minAgeLimit);
 
         mTvTermsAndConditionDesc.setText(termsAndCondition);
-        if(minAgeLimit > 0){
+        if (minAgeLimit > 0) {
             mTvTermsAndConditionDesc.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mTvTermsAndConditionDesc.setVisibility(View.GONE);
         }
 
@@ -269,7 +269,6 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
         mUser = new User(mContext);
         setViewParams(getResources().getConfiguration());
-
         linkifyTermAndPolicy(mTvWelcomeDesc);
 
         handleJanrainInitPb();
@@ -410,7 +409,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
 
         String privacyPolicyText = getString(R.string.terms_and_condition_new);
-        privacyPolicyText = String.format(privacyPolicyText,getString(R.string.PrivacyPolicyText),getString(R.string.TermsAndConditionsText));
+        privacyPolicyText = String.format(privacyPolicyText, getString(R.string.PrivacyPolicyText), getString(R.string.TermsAndConditionsText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 
         //String privacyPolicyText = getResources().getString(R.string.LegalNoticeText);
@@ -565,20 +564,24 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
         if (mUser.handleMergeFlowError(existingProvider)) {
             launchMergeAccountFragment(mergeToken, conflictingIdentityProvider, emailId);
         } else {
-            if (NetworkUtility.isNetworkAvailable(mContext)
-                    && RegistrationHelper.getInstance().isJanrainIntialized()) {
-                mProvider = existingProvider;
-                showProviderProgress();
-                mUser.loginUserUsingSocialProvider(getActivity(), existingProvider, this,
-                        mergeToken);
-            }
-
+            mProvider = existingProvider;
+            Bundle bundle = new Bundle();
+            bundle.putString(RegConstants.SOCIAL_PROVIDER,conflictingIdentityProvider);
+            bundle.putString(RegConstants.CONFLICTING_SOCIAL_PROVIDER, existingProvider);
+            bundle.putString(RegConstants.SOCIAL_MERGE_TOKEN, mergeToken);
+            bundle.putString(RegConstants.SOCIAL_MERGE_EMAIL, emailId);
+            launchSocialToSocialMergeAccountFragment(bundle);
         }
     }
 
     private void launchMergeAccountFragment(String mergeToken, String existingProvider, String emailId) {
         trackPage(AppTaggingPages.MERGE_ACCOUNT);
         getRegistrationFragment().addMergeAccountFragment(mergeToken, existingProvider, emailId);
+    }
+
+    private void launchSocialToSocialMergeAccountFragment(Bundle bundle) {
+        trackPage(AppTaggingPages.MERGE_ACCOUNT);
+        getRegistrationFragment().addMergeSocialAccountFragment(bundle);
     }
 
     @Override

@@ -193,7 +193,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
         setViewParams(getResources().getConfiguration());
-        //trackPage(AnalyticsPages.ACCOUNT_ACTIVATION);
         handleUiState();
     }
 

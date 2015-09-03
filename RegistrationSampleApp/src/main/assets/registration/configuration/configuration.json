@@ -1,45 +1,49 @@
 {
-   "JanRainConfiguration": {
-      "RegistrationClientID": {
-         "Development": "ad7nn99y2mv5berw5jxewzagazafbyhu",
-         "Testing": "g52bfma28yjbd24hyjcswudwedcmqy7c",
-         "Evaluation": "4r36zdbeycca933nufcknn2hnpsz6gxu",
-         "Production": "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3"
-      }
-   },
-   "PILConfiguration": {
-      "MicrositeID": 77000,
-      "RegistrationEnvironment": "Testing"
-   },
-   "Flow": {
-      "EmailVerificationRequired": "true",
-      "TermsAndConditionsAcceptanceRequired": "true",
-      "MinimumAgeLimit": {
-         "NL": 12,
-         "GB": 0,
-         "default": 16
-      }
-   },
-   "HSDPConfiguration":{
-      "ApplicationName":"uGrowApplication",
-      "Development":{
-         "Shared": "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
-         "Secret": "2eaec60a-1a2e-11e5-b60b-1697f925ec7b",
-         "BaseURL":"http://ugrow_user_registration.hsdpcph-consumer.cloud.pcftest.com"
-      }
-   },
-   "SigninProviders": {
-      "NL": [
-         "googleplus",
-         "facebook"
-      ],
-      "US": [
-         "googleplus",
-         "facebook"
-      ],
-      "default": [
-         "googleplus",
-         "facebook"
-      ]
-   }
+  "JanRainConfiguration": {
+    "RegistrationClientID": {
+      "Development": "ad7nn99y2mv5berw5jxewzagazafbyhu",
+      "Testing": "xru56jcnu3rpf8q7cgnkr7xtf9sh8pp7",
+      "Evaluation": "4r36zdbeycca933nufcknn2hnpsz6gxu",
+      "Production": "mz6tg5rqrg4hjj3wfxfd92kjapsrdhy3"
+    }
+  },
+  "PILConfiguration": {
+    "MicrositeID": 77000,
+    "RegistrationEnvironment": "Evaluation"
+  },
+  "Flow": {
+    "EmailVerificationRequired": "true",
+    "TermsAndConditionsAcceptanceRequired": "true",
+    "MinimumAgeLimit": {
+      "NL": 12,
+      "GB": 10,
+      "default": 16
+    }
+  },
+  "HSDPConfiguration": {
+    "ApplicationName": "uGrowApplication",
+    "Development": {
+      "Shared": "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
+      "Secret": "2eaec60a-1a2e-11e5-b60b-1697f925ec7b",
+      "BaseURL": "http://ugrow_user_registration.hsdpcph-consumer.cloud.pcftest.com"
+    }
+  },
+  "SigninProviders": {
+    "NL": [
+      "googleplus",
+      "facebook",
+      "twitter"
+    ],
+    "US": [
+      "facebook",
+      "googleplus",
+      "twitter"
+    ],
+    "default": [
+      "facebook",
+      "googleplus",
+      "twitter"
+    ]
+  }
 }
+

@@ -123,5 +123,10 @@
     <string name="terms_and_condition_new">Please read our %1$s and %2$s.</string>
     <string name="accept_apps_terms">I accept the app\'s Terms and Conditions</string>
     <string name="please_accept_apps_terms">Please accept the Terms and Conditions</string>
+    <string name="Account_Merge_social_UsedEmail_Error_lbltxt">You have used %1$s before, for signing in with %2$s</string>
+    <string name="Social_provider_merge_account">You can only use %s if you merge your accounts.</string>
+    <string name="merge_social_provider_box">If you would not like to merge your accounts,press "cancel" and restart the registration by signing in with %s</string>
+    <string name="cancel">Cancel</string>
+    <string name="Merge_your_Account">Merge your accounts</string>
 
 </resources>
