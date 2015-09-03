@@ -302,7 +302,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         .append(phoneModel.getOpeningHoursSunday())
                         .append(phoneModel.getOptionalData1())
                         .append(phoneModel.getOptionalData2())
-                        .append("\n" + phoneModel.getmPhoneTariff());
+                        .append("\n" + phoneModel.getmPhoneTariff() + "\n");
                 enableBottomText();
                 mCallPhilips
                         .setText(getResources().getString(R.string.call_number)
