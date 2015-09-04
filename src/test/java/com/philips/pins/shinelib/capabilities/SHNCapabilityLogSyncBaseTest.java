@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -26,6 +27,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyFloat;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -164,11 +166,28 @@ public class SHNCapabilityLogSyncBaseTest {
     }
 
     @Test
-    public void whenStartSynchronizationIsCalledWithResultNotOkStateIsIdle() {
+    public void whenStartSynchronizationIsCalledWithResultNotOkThenStateIsIdle() {
         startCapabilityWithResult(SHNResult.SHNBluetoothDisabledError);
 
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
         verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener, times(2)).onStateUpdated(testSHNCapabilityLogSyncBase);
+    }
+
+    @Test
+    public void whenStartSynchronizationIsCalledWithResultNotOkThenTimerIsStopped() {
+        startCapabilityWithResult(SHNResult.SHNBluetoothDisabledError);
+
+        verify(mockedTimeoutTimer).stop();
+    }
+
+    @Test
+    public void whenStartSynchronizationIsCalledWithResultNotOkThenTimerIsNotRestarted() {
+        startCapabilityWithResult(SHNResult.SHNBluetoothDisabledError);
+
+        InOrder inOrder = inOrder(mockedTimeoutTimer);
+        inOrder.verify(mockedTimeoutTimer).restart();
+        inOrder.verify(mockedTimeoutTimer).stop();
+        inOrder.verify(mockedTimeoutTimer, never()).restart();
     }
 
     @Test
@@ -215,7 +234,7 @@ public class SHNCapabilityLogSyncBaseTest {
 
         timeOutCaptor.getValue().run();
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(testSHNCapabilityLogSyncBase, SHNResult.SHNResponseIncompleteError);
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(testSHNCapabilityLogSyncBase, SHNResult.SHNOk); // TODO refactor
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
     }
 
