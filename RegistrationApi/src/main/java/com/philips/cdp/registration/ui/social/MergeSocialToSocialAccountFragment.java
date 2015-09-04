@@ -63,7 +63,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
 	private TextView mTvBoxText;
 
-	private String mCurrentProvider;
+	private String mConflictProvider;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -196,7 +196,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 		currentProvider = String.format(currentProvider,currentSocialProvider);
 		currentProviderView.setText(currentProvider);
 
-		mCurrentProvider = conflictingProvider;
+		mConflictProvider = conflictingProvider;
 
 		String previousSocialProviderDetails = getString(R.string.Account_Merge_social_UsedEmail_Error_lbltxt);
 		previousSocialProviderDetails = String.format(previousSocialProviderDetails,mEmailId,conflictingproviderName);
@@ -204,7 +204,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
 		TextView mergeAccountBoxView = (TextView)view.findViewById(R.id.tv_reg_merge_account_box);
 		String signInWith = getString(R.string.merge_social_provider_box);
-		signInWith = String.format(signInWith,currentSocialProvider);
+		signInWith = String.format(signInWith,conflictingproviderName);
 		mergeAccountBoxView.setText(signInWith);
 	}
 
@@ -224,7 +224,7 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
 	private void mergeAccount() {
 		if (NetworkUtility.isNetworkAvailable(mContext)) {
-			 mUser.loginUserUsingSocialProvider(getActivity(), mCurrentProvider, this, mMergeToken);
+			 mUser.loginUserUsingSocialProvider(getActivity(), mConflictProvider, this, mMergeToken);
    			 showMergeSpinner();
 		} else {
 			mRegError.setError(getString(R.string.JanRain_Error_Check_Internet));
