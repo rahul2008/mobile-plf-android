@@ -24,5 +24,6 @@ public enum SHNResult {
     SHNOperationFailed,
     SHNUserNotAuthorized,
     SHNAborted,
-    SHNIncompleteUserConfigurationError
+    SHNIncompleteUserConfigurationError,
+    SHNErrorProcedureAlreadyInProgress
 }
