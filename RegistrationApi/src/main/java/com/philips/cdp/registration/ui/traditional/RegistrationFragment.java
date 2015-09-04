@@ -15,10 +15,10 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.janrain.android.Jump;
 import com.philips.cdp.localematch.PILLocaleManager;
+import com.philips.cdp.registration.AppTagging.AppTagging;
+import com.philips.cdp.registration.AppTagging.AppTaggingPages;
 import com.philips.cdp.registration.R;
 import com.philips.cdp.registration.User;
-import com.philips.cdp.registration.AppTagging.AppTaggingPages;
-import com.philips.cdp.registration.AppTagging.AppTagging;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.listener.RegistrationTitleBarListener;
 import com.philips.cdp.registration.settings.RegistrationHelper;
@@ -31,6 +31,8 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import org.json.JSONObject;
 
 public class RegistrationFragment extends Fragment implements NetworStateListener, OnClickListener {
+
+    private final String REGISTRATION_VERSION_TAG = "registrationVersion";
 
     private FragmentManager mFragmentManager;
 
@@ -48,8 +50,9 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         RLog.i(RLog.VERSION, "Jump Version :" + Jump.getJumpVersion());
         RLog.i(RLog.VERSION, "LocaleMatch Version :" + PILLocaleManager.getLacaleMatchVersion());
         RLog.i(RLog.VERSION, "Registration Version :" + RegistrationHelper.getRegistrationApiVersion());
+        AppTagging.setComponentVersionKey(REGISTRATION_VERSION_TAG);
+        AppTagging.setComponentVersionVersionValue(RegistrationHelper.getRegistrationApiVersion());
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -185,7 +188,7 @@ public class RegistrationFragment extends Fragment implements NetworStateListene
         replaceWithHomeFragment();
     }
 
-   private void trackPage(String currPage) {
+    private void trackPage(String currPage) {
         AppTagging.trackPage(currPage);
     }
 

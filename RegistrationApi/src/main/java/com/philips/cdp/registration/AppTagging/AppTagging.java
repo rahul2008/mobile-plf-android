@@ -21,6 +21,10 @@ public class AppTagging {
 
     private static String launchingPageName;
 
+    private static String componentVersionKey;
+
+    private static String componentVersionVersionValue;
+
     public static void trackPage(String currPage) {
         if (!isTagginEnabled()) {
             return;
@@ -80,7 +84,9 @@ public class AppTagging {
         contextData.put(AppTagingConstants.CURRENCY_KEY, getCurrency());
         contextData.put(AppTagingConstants.APPSID_KEY, getTrackingIdentifer());
         contextData.put(AppTagingConstants.TIMESTAMP_KEY, getTimestamp());
-
+        if (null != getComponentVersionKey() && null != getComponentVersionVersionValue()) {
+            contextData.put(getComponentVersionKey(), getComponentVersionVersionValue());
+        }
         return contextData;
     }
 
@@ -121,6 +127,23 @@ public class AppTagging {
 
     public static void setLaunchingPageName(String launchingPageName) {
         AppTagging.launchingPageName = launchingPageName;
+    }
+
+
+    public static String getComponentVersionKey() {
+        return componentVersionKey;
+    }
+
+    public static void setComponentVersionKey(String componentVersionKey) {
+        AppTagging.componentVersionKey = componentVersionKey;
+    }
+
+    public static String getComponentVersionVersionValue() {
+        return componentVersionVersionValue;
+    }
+
+    public static void setComponentVersionVersionValue(String componentVersionVersionValue) {
+        AppTagging.componentVersionVersionValue = componentVersionVersionValue;
     }
 
 }
