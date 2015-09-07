@@ -36,6 +36,7 @@ public class PhilipsMscButton extends ImageButton {
         setImageResource(typedArray.getResourceId(R.styleable.MiscButton_miscButtonImageDrawable, 0));
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
         typedArray.recycle();
+        setScaleType(ScaleType.CENTER);
     }
 
     private GradientDrawable getShapeDrawable(final TypedArray typedArray, final Resources resources) {
