@@ -5,7 +5,7 @@
     <color name="philips_blue">#7ba4d9</color>
     <color name="philips_blue_actionbar">#7ba4d9</color>
     <color name="gradient_blue_start">@android:color/holo_blue_light</color>
-    <color name="gradient_blue_end">@android:color/holo_blue_dark</color>
+    <color name="gradient_blue_end">#629fd5</color>
     
     <!-- Dark Blue theme -->
     <color name="philips_dark_blue">#003478</color>

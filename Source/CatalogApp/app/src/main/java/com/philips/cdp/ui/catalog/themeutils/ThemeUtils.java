@@ -14,9 +14,12 @@ public class ThemeUtils {
     private static final int DEFAULT_THEME = 0;
     private static final String THEME_STATE = "THEME_STATE";
 
-    private static int[] themes = {R.style.PhilipsTheme_Default_Dark,
-            R.style.PhilipsTheme_Default_Dark_Orange,
-            R.style.PhilipsTheme_Default_Dark_Blue_Gradient
+    private static int[] themes = {R.style.Theme_Philips_Default_LightBlue,
+            R.style.Theme_Philips_Default_LightBlue_WhiteBackground,
+            R.style.Theme_Philips_Default_Orange,
+            R.style.Theme_Philips_Default_Orange_WhiteBackground,
+            R.style.Theme_Philips_Default_GradientBlue,
+            R.style.Theme_Philips_Default_GradientBlue_WhiteBackground
     };
 
     public static void setThemePreferences(Context context , boolean previous) {
