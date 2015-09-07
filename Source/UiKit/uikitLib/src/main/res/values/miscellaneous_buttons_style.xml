@@ -9,14 +9,16 @@
 
     <style name="Misc.button.circle">
         <item name="miscButtonShape">circle</item>
+        <item name="android:minWidth">@dimen/philips_button_circle_width</item>
+        <item name="android:minHeight">@dimen/philips_button_circle_height</item>
     </style>
 
     <style name="Misc.button.square">
         <item name="miscButtonShape">square</item>
     </style>
 
-    <style name="Misc.button.square.greater">
-        <item name="miscButtonImageDrawable">@drawable/greater</item>
+    <style name="Misc.button.square.arrow">
+        <item name="miscButtonImageDrawable">@drawable/arrow</item>
     </style>
 
     <style name="Misc.button.square.plus">
@@ -35,8 +37,8 @@
         <item name="miscButtonImageDrawable">@drawable/cross</item>
     </style>
 
-    <style name="Misc.button.circle.greater">
-        <item name="miscButtonImageDrawable">@drawable/greater</item>
+    <style name="Misc.button.circle.arrow">
+        <item name="miscButtonImageDrawable">@drawable/arrow</item>
     </style>
 
     <style name="Misc.button.circle.plus">
