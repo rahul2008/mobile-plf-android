@@ -39,12 +39,22 @@ public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainAct
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testMButtonSquareCrossPressedExpected() {
+   /* public void setSelected(boolean b){
         onView(withText("Miscellaneous Buttons")).perform(click());
-        Button button = (Button)getActivity().findViewById(R.id.miscBtnSquareCrossMark);
-                button.setPressed(true);
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_cross);
-        onView(withId(R.id.miscBtnSquareCrossMark))
+         Button button = (Button)getActivity().findViewById(R.id.miscBtnSquarePlus);
+        button.setSelected(b);
+    }*/
+
+ /*   public void setState(int state_pressed){
+        onView(withText("Miscellaneous Buttons")).perform(click());
+        Button mybutton = (Button) mybutton.findViewById();
+        mybutton.setState(state_pressed);
+    }*/
+
+    public void testMButtonSquarePlusPressedExpected() {
+        onView(withText("Miscellaneous Buttons")).perform(click());
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_plus_pressed);
+        onView(withId(R.id.miscBtnSquarePlus))
                .check(matches(isImageTheSame(expectedBitmap)));
     }
       public static Matcher<View> isImageTheSame(final Bitmap expectedBitmap) {
@@ -62,7 +72,6 @@ public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainAct
                 Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas actualCanvas = new Canvas(actualBitmap);
                 view.draw(actualCanvas);
-//                return expectedBitmap.sameAs(actualBitmap);
                 return TestUtils.sameAs(actualBitmap, expectedBitmap);
 
             }

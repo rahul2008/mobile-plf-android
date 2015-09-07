@@ -95,7 +95,7 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
 
-    public void testMButtonSquareMinusAsExpected() {
+ /*   public void testMButtonSquareMinusAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_minus);
@@ -114,7 +114,7 @@ public class MButtonTest extends ActivityInstrumentationTestCase2<MainActivity> 
         onView(withId(R.id.miscBtnSquareGreater))
                 .check(matches(isImageTheSame(expectedBitmap)));
     }
-
+*/
  /*   public void testMButtonSquarePlusAsExpected() {
 
         onView(withText("Miscellaneous Buttons")).perform(click());
