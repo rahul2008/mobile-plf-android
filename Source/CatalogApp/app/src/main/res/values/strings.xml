@@ -13,4 +13,6 @@
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
     <string name="splash_title">@string/app_name</string>
+    <string name="title_activity_themes">ThemesActivity</string>
+    <string name="color_background">Use Color Background</string>
 </resources>
