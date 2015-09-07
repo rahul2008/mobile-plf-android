@@ -8,6 +8,7 @@
         <item>Miscellaneous Buttons</item>
         <item>Background color test</item>
         <item>Splash Screen</item>
+        <item>Change Theme</item>
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
