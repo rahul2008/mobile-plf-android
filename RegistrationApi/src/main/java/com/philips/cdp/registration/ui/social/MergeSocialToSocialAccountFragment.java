@@ -217,6 +217,9 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 
 		} else if (v.getId() == R.id.btn_reg_cancel) {
 			RLog.d(RLog.ONCLICK, "MergeSocialToSocialAccountFragment : Cancel");
+			trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
+					AppTagingConstants.SIGN_OUT);
+			trackPage(AppTaggingPages.HOME);
 			mUser.logout();
 			getFragmentManager().popBackStack();
 		}
