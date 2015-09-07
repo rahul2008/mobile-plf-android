@@ -1,0 +1,18 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Placeholder to start PhilipsTheme definition -->
+    <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="splashTitleStyle">@style/PhilipsTheme.SplashTitle</item>
+        <item name="miscButtonBgColor">@color/philips_bright_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="actionBarBackground">@color/philips_blue_actionbar</item>
+        <item name="miscButtonStyle">@style/Misc.button</item>
+    </style>
+
+    <!-- Base theme, default is blue color. -->
+    <style name="Theme.Philips.Default">
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
+    </style>
+
+
+</resources>
