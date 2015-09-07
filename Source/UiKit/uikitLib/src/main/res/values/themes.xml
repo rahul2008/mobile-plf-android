@@ -30,7 +30,7 @@
 
     <style name="Theme.Philips.Default.GradientBlue">
         <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
-        <item name="actionBarBackground">@color/philips_bright_blue</item>
+        <item name="actionBarBackground">@drawable/grad_light_blue_background</item>
         <item name="android:colorBackground">@color/philips_bright_blue</item>
         <item name="miscButtonBgColor">@color/philips_bright_blue</item>
         <item name="miscButtonBgColorPressed">@color/philips_very_dark_blue</item>
