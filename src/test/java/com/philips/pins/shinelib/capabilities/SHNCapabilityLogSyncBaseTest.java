@@ -226,7 +226,7 @@ public class SHNCapabilityLogSyncBaseTest {
     }
 
     @Test
-    public void whenTheTimerTimesOutWithNoDataThenOnLogSynchronizationFailedIsReported() {
+    public void whenTheTimerTimesOutWithNoDataThenOnLogSynchronizedWithNoLogIsReported() {
         startCapabilityWithResult(SHNResult.SHNOk);
 
         Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
@@ -234,7 +234,15 @@ public class SHNCapabilityLogSyncBaseTest {
 
         timeOutCaptor.getValue().run();
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(testSHNCapabilityLogSyncBase, SHNResult.SHNOk); // TODO refactor
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(testSHNCapabilityLogSyncBase, null, SHNResult.SHNOk);
+        assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
+    }
+
+    @Test
+    public void whenSynchronizationStartReturnsResultNotOkayAndLogIsEmptyThenFailedIsReported() {
+        startCapabilityWithResult(SHNResult.SHNTimeoutError);
+
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronizationFailed(testSHNCapabilityLogSyncBase, SHNResult.SHNTimeoutError);
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
     }
 
@@ -248,6 +256,23 @@ public class SHNCapabilityLogSyncBaseTest {
             testSHNCapabilityLogSyncBase.onMeasurementReceived(mockedShnLogItem);
         }
         return items;
+    }
+
+    @Test
+    public void whenSynchronizationResultIsNotOkayAndLogIsNotEmptyThenFailedIsReported() {
+        startCapabilityWithResult(SHNResult.SHNOk);
+
+        generateDataAndSendIt(new Date[]{new Date()});
+
+        testSHNCapabilityLogSyncBase.abortSynchronization();
+
+        ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
+        ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
+
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSynchronization.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        assertNotNull(shnLogArgumentCaptor.getValue());
+        assertEquals(SHNResult.SHNAborted, shnResultArgumentCaptor.getValue());
+        assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
     }
 
     @Test

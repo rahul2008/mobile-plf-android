@@ -1,5 +1,6 @@
 package com.philips.pins.shinelib.capabilities;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.philips.pins.shinelib.SHNIntegerResultListener;
@@ -130,28 +131,38 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         assert (state == State.Synchronizing);
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
-        if (shnLogItems != null && shnLogItems.size() > 0) {
 
-            Collections.sort(shnLogItems, new SHNLogItemsComparator());
-
-            List<SHNLogItem> logItems = new ArrayList<>();
-            Set<SHNDataType> types = new HashSet<>();
-
-            for (SHNLogItem item : shnLogItems) {
-                logItems.add(item);
-                types.addAll(item.getContainedDataTypes());
-            }
-
-            Date startDate = logItems.get(0).getTimestamp();
-            Date endDate = logItems.get(logItems.size() - 1).getTimestamp();
-            SHNLog log = new SHNLog(startDate, endDate, "", logItems, types);
-            if (shnCapabilityLogSynchronizationListener != null)
-                shnCapabilityLogSynchronizationListener.onLogSynchronized(this, log, result);
-        } else {
-            if (shnCapabilityLogSynchronizationListener != null)
+        if (result != SHNResult.SHNOk && shnLogItems == null) {
+            if (shnCapabilityLogSynchronizationListener != null) {
                 shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, result);
+            }
+        } else {
+            SHNLog log = createLog();
+            if (shnCapabilityLogSynchronizationListener != null) {
+                shnCapabilityLogSynchronizationListener.onLogSynchronized(this, log, result);
+            }
         }
         shnLogItems = null;
+    }
+
+    @NonNull
+    private SHNLog createLog() {
+        if (shnLogItems == null) {
+            return null;
+        }
+        Collections.sort(shnLogItems, new SHNLogItemsComparator());
+
+        List<SHNLogItem> logItems = new ArrayList<>();
+        Set<SHNDataType> types = new HashSet<>();
+
+        for (SHNLogItem item : shnLogItems) {
+            logItems.add(item);
+            types.addAll(item.getContainedDataTypes());
+        }
+
+        Date startDate = logItems.get(0).getTimestamp();
+        Date endDate = logItems.get(logItems.size() - 1).getTimestamp();
+        return new SHNLog(startDate, endDate, "", logItems, types);
     }
 
     private class SHNLogItemsComparator implements Comparator<SHNLogItem> {
