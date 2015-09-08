@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/philips_logo"
+        android:src="@drawable/philips_logo_vector"
         android:layout_marginBottom="@dimen/splash_logo_margin_bottom"/>
 
 </RelativeLayout>
