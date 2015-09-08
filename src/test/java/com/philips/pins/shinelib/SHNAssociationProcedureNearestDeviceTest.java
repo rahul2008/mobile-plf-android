@@ -78,6 +78,7 @@ public class SHNAssociationProcedureNearestDeviceTest {
         when(Timer.createTimer(any(Runnable.class), eq(SHNAssociationProcedureNearestDevice.NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS))).thenReturn(mockedIterationTimeoutTimer);
 
         associationProcedure = new SHNAssociationProcedureNearestDevice(mockedSHNAssociationProcedureListener);
+        associationProcedure.start();
 
         PowerMockito.verifyStatic();
         iterationTimeoutTimerRunnable = ArgumentCaptor.forClass(Runnable.class);
