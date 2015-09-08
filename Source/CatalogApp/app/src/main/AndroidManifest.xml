@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/PhilipsTheme.Default.Light.Blue" >
+        android:theme="@style/Theme.Philips.Default" >
 
         <activity
             android:name=".MainActivity"
@@ -23,7 +23,7 @@
             android:name=".MiscellaneousButtonsActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".BackgroundTest"
+        <activity android:name=".ThemesActivity"
                   android:label="@string/app_name"></activity>
         <activity android:name=".SplashActivityLogoTop"/>
         <activity android:name=".SplashActivityLogoBottom"/>

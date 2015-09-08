@@ -1,0 +1,6 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.Philips.Default">
+        <item name="colorPrimary">?attr/actionBarBackground</item>
+    </style>
+</resources>
