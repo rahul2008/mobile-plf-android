@@ -3,8 +3,8 @@ package com.philips.cdp.ui.catalog.themeutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.philips.cdp.ui.catalog.ColorType;
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.ThemesActivity;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -17,12 +17,19 @@ import java.util.TreeMap;
 public class ThemeUtils {
 
     private static final int DEFAULT_THEME = 0;
-    private static final String THEME_STATE = "THEME_STATE";
-    private static TreeMap<String, int[]> treeMap = new TreeMap<>();
-    private static final String BLUE = "blue";
-    private static final String ORANGE = "orange";
+    public static final String delimiters = "|";
+    private static TreeMap<String, int[]> themesMap = new TreeMap<>();
     private static final String CURRENT_THEME_STATE = "current_theme_state";
     private static final String DEFAULT_THEME_STATE = "blue|false|solid|0";
+    private static String COLOR_STRING = ColorType.BLUE.name();
+
+    public static void setCOLOR_STRING(String COLOR_STRING) {
+        ThemeUtils.COLOR_STRING = COLOR_STRING;
+    }
+
+    public static String getCOLOR_STRING() {
+        return COLOR_STRING;
+    }
 
     static {
         int[] blue_themes = {R.style.Theme_Philips_Default_LightBlue_WhiteBackground, R.style.Theme_Philips_Default_LightBlue,
@@ -31,32 +38,29 @@ public class ThemeUtils {
         int[] orange_themes = {R.style.Theme_Philips_Default_Orange_WhiteBackground, R.style.Theme_Philips_Default_Orange,
                 R.style.Theme_Philips_Default_GradientOrange_WhiteBackground,
                 R.style.Theme_Philips_Default_GradientOrange};
-        treeMap.put(BLUE, blue_themes);
-        treeMap.put(ORANGE, orange_themes);
+        themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
+        themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
 
     }
 
-    private static int[] themes = {R.style.Theme_Philips_Default_LightBlue,
+    private static int[] themes = {
             R.style.Theme_Philips_Default_LightBlue_WhiteBackground,
-            R.style.Theme_Philips_Default_Orange,
-            R.style.Theme_Philips_Default_Orange_WhiteBackground,
-            R.style.Theme_Philips_Default_GradientBlue,
-            R.style.Theme_Philips_Default_GradientBlue_WhiteBackground
+            R.style.Theme_Philips_Default_Orange_WhiteBackground
     };
 
     public static void setThemePreferences(Context context, boolean previous) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getString(R.string.app_name), Context.MODE_PRIVATE);
         int theme = getThemeIndex(prefs, previous);
-        prefs.edit().putInt(THEME_STATE, theme).apply();
+        String data = ColorType.fromId(theme).getDescription() + "|false|solid|0";
+        prefs.edit().putString(CURRENT_THEME_STATE, data).apply();
     }
 
-    public static ArrayList<String> getTokens(String prefData){
+    public static ArrayList<String> getTokens(String prefData) {
         ArrayList<String> tokens = new ArrayList<String>();
-        StringTokenizer tokenParser = new StringTokenizer(prefData, "|");
+        StringTokenizer tokenParser = new StringTokenizer(prefData, delimiters);
         while (tokenParser.hasMoreTokens()) {
-            String token = tokenParser.nextToken();
-            tokens.add(token);
+            tokens.add(tokenParser.nextToken());
         }
         return tokens;
     }
@@ -64,17 +68,27 @@ public class ThemeUtils {
     public static int getTheme(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(
                 context.getString(R.string.app_name), Context.MODE_PRIVATE);
-        int index = prefs.getInt(THEME_STATE, DEFAULT_THEME);
-        return themes[index];
+        String index = prefs.getString(CURRENT_THEME_STATE, DEFAULT_THEME_STATE);
+        ArrayList<String> tokens = getTokens(index);
+        setCOLOR_STRING(tokens.get(0));
+
+        return getThemeValue(tokens);
     }
 
-    public static int getThemeByKey(String key, int index){
-        int[] data = treeMap.get(key);
+    private static int getThemeValue(ArrayList<String> tokens) {
+        String key = tokens.get(0);
+        return getThemeByKey(key, Integer.parseInt(tokens.get(3)));
+    }
+
+    public static int getThemeByKey(String key, int index) {
+        int[] data = themesMap.get(key);
         return data[index];
     }
 
     private static int getThemeIndex(final SharedPreferences prefs, final boolean previous) {
-        int index = prefs.getInt(THEME_STATE, DEFAULT_THEME);
+        String data = prefs.getString(CURRENT_THEME_STATE, DEFAULT_THEME_STATE);
+        ArrayList<String> tokens = getTokens(data);
+        int index = ColorType.fromValue(tokens.get(0)).getId();
         if (!previous)
             return getNextTheme(index);
         else
