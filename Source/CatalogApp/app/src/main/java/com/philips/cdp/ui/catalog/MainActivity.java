@@ -41,12 +41,9 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
                 startActivity(new Intent(this, MiscellaneousButtonsActivity.class));
                 break;
             case 1:
-                startActivityForResult(new Intent(this, ThemesActivity.class), REQUEST_CODE);
-                break;
-            case 2:
                 startActivity(new Intent(this, SplashLauncher.class));
                 break;
-            case 3:
+            case 2:
                 startActivity(new Intent(this, ThemesActivity.class));
                 break;
         }
