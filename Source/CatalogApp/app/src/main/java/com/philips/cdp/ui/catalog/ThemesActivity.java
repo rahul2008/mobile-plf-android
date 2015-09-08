@@ -1,11 +1,10 @@
 package com.philips.cdp.ui.catalog;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.Switch;
 
 import com.philips.cdp.ui.catalog.activity.UiKitActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
@@ -13,11 +12,25 @@ import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 public class ThemesActivity extends UiKitActivity {
 
     public static int RESULT_CODE_THEME_UPDATED = 1;
+    private RadioButton solidRadioButton, gradientRadioButton;
+    private Switch colorSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_themes);
+        declareViews();
+        setViewState();
+    }
+
+    private void setViewState() {
+//        String preferences = ThemeUtils.get
+    }
+
+    private void declareViews() {
+        gradientRadioButton = (RadioButton) findViewById(R.id.gradient);
+        solidRadioButton = (RadioButton) findViewById(R.id.solid);
+        colorSwitch = (Switch) findViewById(R.id.colorSwitch);
     }
 
     public void changeBackground(View v) {

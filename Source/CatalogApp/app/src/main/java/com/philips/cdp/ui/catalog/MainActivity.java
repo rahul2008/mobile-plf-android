@@ -41,7 +41,7 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
                 startActivity(new Intent(this, MiscellaneousButtonsActivity.class));
                 break;
             case 1:
-                startActivityForResult(new Intent(this, BackgroundTest.class), REQUEST_CODE);
+                startActivityForResult(new Intent(this, ThemesActivity.class), REQUEST_CODE);
                 break;
             case 2:
                 startActivity(new Intent(this, SplashLauncher.class));
@@ -55,7 +55,7 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
-            if (resultCode == BackgroundTest.RESULT_CODE_THEME_UPDATED) {
+            if (resultCode == ThemesActivity.RESULT_CODE_THEME_UPDATED) {
                 finish();
                 startActivity(getIntent());
                 return;

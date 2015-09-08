@@ -6,7 +6,6 @@
 
     <string-array name="list_items">
         <item>Miscellaneous Buttons</item>
-        <item>Background color test</item>
         <item>Splash Screen</item>
         <item>Change Theme</item>
     </string-array>

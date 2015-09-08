@@ -23,8 +23,6 @@
             android:name=".MiscellaneousButtonsActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".BackgroundTest"
-                  android:label="@string/app_name"></activity>
         <activity android:name=".ThemesActivity"
                   android:label="@string/app_name"></activity>
         <activity android:name=".SplashActivityLogoTop"/>
