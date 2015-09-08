@@ -5,8 +5,7 @@
         <item name="splashTitleStyle">@style/PhilipsTheme.SplashTitle</item>
         <item name="miscButtonStyle">@style/Misc.button</item>
         <item name="miscButtonBgColor">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_very_dark_blue</item>
-        <item name="actionBarBackground">@color/philips_blue_actionbar</item>
+        <item name="miscButtonBgColorPressed">@color/philips_dark_blue</item>
     </style>
 
     <!-- Base theme, default is blue color. -->
