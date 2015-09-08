@@ -56,14 +56,7 @@ public class SHNDeviceAssociation {
         @Override
         public void onAssociationFailed(SHNDevice shnDevice, final SHNResult result) {
             handleStopAssociation();
-            shnCentral.getUserHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    if (shnDeviceAssociationListener != null) {
-                        shnDeviceAssociationListener.onAssociationFailed(result);
-                    }
-                }
-            });
+            reportFailure(result);
         }
     };
 
@@ -107,26 +100,37 @@ public class SHNDeviceAssociation {
                     associationDeviceTypeName = deviceTypeName;
                     if (shnDeviceDefinitionInfo != null) {
                         shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
-                        shnAssociationProcedure.start();
                         if (shnAssociationProcedure.getShouldScan()) {
                             startScanning(shnDeviceDefinitionInfo);
                         }
-                        shnCentral.getUserHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
-                            }
-                        });
+                        SHNResult result = shnAssociationProcedure.start();
+                        if (result == SHNResult.SHNOk) {
+                            shnCentral.getUserHandler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    shnDeviceAssociationListener.onAssociationStarted(shnAssociationProcedure);
+                                }
+                            });
+                        } else {
+                            shnAssociationProcedure = null;
+                            reportFailure(result);
+                        }
                     } else {
-                        shnCentral.getUserHandler().post(new Runnable() {
-                            @Override
-                            public void run() {
-                                shnDeviceAssociationListener.onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
-                            }
-                        });
+                        reportFailure(SHNResult.SHNUnknownDeviceTypeError);
                     }
                 } else {
                     Log.w(TAG, "startAssociationForDeviceType: association not started: it is already running!");
+                }
+            }
+        });
+    }
+
+    private void reportFailure(final SHNResult result) {
+        shnCentral.getUserHandler().post(new Runnable() {
+            @Override
+            public void run() {
+                if (shnDeviceAssociationListener != null) {
+                    shnDeviceAssociationListener.onAssociationFailed(result);
                 }
             }
         });

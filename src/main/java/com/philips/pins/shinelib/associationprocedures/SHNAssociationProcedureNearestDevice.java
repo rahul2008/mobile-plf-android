@@ -71,7 +71,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
     }
 
     @Override
-    public void start() {
+    public SHNResult start() {
         discoveredDevices = new TreeMap<>();
         nearestDeviceIterationCount = 0;
         successivelyNearestDeviceCount = 0;
@@ -82,6 +82,7 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
             }
         }, NEAREST_DEVICE_ITERATION_TIME_IN_MILLI_SECONDS);
         nearestDeviceIterationTimer.restart();
+        return SHNResult.SHNOk;
     }
 
     // implements SHNAssociationProcedure

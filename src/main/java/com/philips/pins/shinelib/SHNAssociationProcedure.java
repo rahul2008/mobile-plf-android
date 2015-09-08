@@ -11,7 +11,7 @@ public interface SHNAssociationProcedure {
         void onAssociationFailed(SHNDevice shnDevice, SHNResult error);
     }
 
-    void start();
+    SHNResult start();
     boolean getShouldScan();
     void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
     void scannerTimeout();

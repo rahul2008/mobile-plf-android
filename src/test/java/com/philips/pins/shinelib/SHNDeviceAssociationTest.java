@@ -75,7 +75,7 @@ public class SHNDeviceAssociationTest {
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStopped();
 
-        doNothing().when(mockedSHNAssociationProcedure).start();
+        doReturn(SHNResult.SHNOk).when(mockedSHNAssociationProcedure).start();
 
         // mockedSHNDeviceDefinitionInfo
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDeviceDefinitionInfo).getDeviceTypeName();
@@ -130,6 +130,15 @@ public class SHNDeviceAssociationTest {
         shnDeviceAssociation.startAssociationForDeviceType("UnknownDeviceType");
 
         verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNUnknownDeviceTypeError);
+    }
+
+    @Test
+    public void whenStartReturnsAnErrorThenAssociationFailedIsCalled() {
+        doReturn(SHNResult.SHNInvalidParameterError).when(mockedSHNAssociationProcedure).start();
+
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        verify(mockedSHNDeviceAssociationListener).onAssociationFailed(SHNResult.SHNInvalidParameterError);
     }
 
     @Test
