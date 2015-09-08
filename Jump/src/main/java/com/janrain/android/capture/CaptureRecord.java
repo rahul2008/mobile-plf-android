@@ -423,6 +423,45 @@ public class CaptureRecord extends JSONObject {
         });
     }
 
+
+
+    public void refreshAccessToken(final CaptureApiRequestCallback callback,final Context context) {
+        String date = getUTCdatetimeAsString();
+        String signature = getRefreshSignature(date);
+
+        if (date == null || accessToken == null || signature == null) {
+            callback.onFailure(new CaptureApiError("Unable to generate signature"));
+            return;
+        }
+
+        CaptureApiConnection c = new CaptureApiConnection("/oauth/refresh_access_token");
+
+        c.addAllToParams(
+                "access_token", accessToken,
+                "signature", signature,
+                "date", date,
+                "client_id", Jump.getCaptureClientId(),
+                "locale", Jump.getCaptureLocale()
+        );
+        c.fetchResponseAsJson(new FetchJsonCallback() {
+            public void run(JSONObject response) {
+                if (response == null) {
+                    callback.onFailure(CaptureApiError.INVALID_API_RESPONSE);
+                } else if ("ok".equals(response.opt("stat"))) {
+                    accessToken = (String) response.opt("access_token");
+                    saveToDisk(context);
+                    Jump.loadUserFromDiskInternal(context);
+                    callback.onSuccess();
+                } else {
+                    callback.onFailure(new CaptureApiError(response, accessToken, null));
+                }
+            }
+        });
+    }
+
+
+
+
     /**
      * @internal
      */

@@ -55,7 +55,6 @@ import com.janrain.android.utils.ApiConnection;
 import com.janrain.android.utils.JsonUtils;
 import com.janrain.android.utils.LogUtils;
 import com.janrain.android.utils.ThreadUtils;
-import com.philips.cdp.localematch.*;
 
 import org.json.JSONObject;
 
@@ -68,16 +67,15 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.Map;
 
+import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError;
+import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError.FailureReason.CAPTURE_API_FORMAT_ERROR;
+import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
+import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError.FailureReason.FORGOTPASSWORD_JUMP_NOT_INITIALIZED;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.AUTHENTICATION_CANCELED_BY_USER;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.CAPTURE_API_ERROR;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.ENGAGE_ERROR;
 import static com.janrain.android.Jump.SignInResultHandler.SignInError.FailureReason.JUMP_NOT_INITIALIZED;
-import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError;
-import static com.janrain.android.Jump.ForgotPasswordResultHandler.ForgetPasswordError.FailureReason.
-        FORGOTPASSWORD_JUMP_NOT_INITIALIZED;
-import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError;
-import static com.janrain.android.Jump.CaptureApiResultHandler.CaptureAPIError.FailureReason.CAPTURE_API_FORMAT_ERROR;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
 /**
@@ -780,7 +778,7 @@ public class Jump {
         loadUserFromDiskInternal(context);
     }
 
-    /*package*/ static void loadUserFromDiskInternal(Context context) {
+    public /*package*/ static void loadUserFromDiskInternal(Context context) {
         state.signedInUser = CaptureRecord.loadFromDisk(context);
     }
 

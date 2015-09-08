@@ -187,14 +187,14 @@ public class User {
     }
 
     // For Refresh login Session
-    public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler) {
+    public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler,Context context) {
         CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
         if (captureRecord == null) {
             return;
         }
         RefreshLoginSession refreshLoginhandler = new RefreshLoginSession(
                 refreshLoginSessionHandler);
-        captureRecord.refreshAccessToken(refreshLoginhandler);
+        captureRecord.refreshAccessToken(refreshLoginhandler,context);
     }
 
     // For Resend verification emails
@@ -357,7 +357,7 @@ public class User {
             public void onRefreshLoginSessionFailedWithError(int error) {
                 updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(0);
             }
-        });
+        },mContext);
     }
 
     private void updateMarketingEmailAfterRefreshAccessToken(
@@ -442,10 +442,13 @@ public class User {
 
     // For getting access token
     public String getAccessToken() {
-        if (Jump.getSignedInUser() == null) {
+
+        CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
+
+        if (captureRecord == null) {
             return null;
         }
-        return Jump.getSignedInUser().getAccessToken();
+        return captureRecord.getAccessToken();
     }
 
     /**
