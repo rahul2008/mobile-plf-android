@@ -39,9 +39,9 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
 
     private void setRadioButtonState(ArrayList<String> prefData) {
         if (prefData.size() > 2) {
-            if (prefData.get(2).equalsIgnoreCase("solid"))
+            if (prefData.get(2).equalsIgnoreCase(getString(R.string.solid)))
                 solidRadioButton.setChecked(true);
-            else if (prefData.get(2).equalsIgnoreCase("gradient"))
+            else if (prefData.get(2).equalsIgnoreCase(getString(R.string.gradient)))
                 gradientRadioButton.setChecked(false);
         }
     }
@@ -80,10 +80,9 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        if (checkedId == R.id.solid) {
-            String s = getScreenPreferences();
-        } else if (checkedId == R.id.gradient) {
-
+        if (checkedId == R.id.solid || checkedId == R.id.gradient) {
+            String preferences = getScreenPreferences();
+            ThemeUtils.setThemePreferences(ThemesActivity.this,preferences);
         } else {
 
         }
@@ -91,6 +90,7 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
     }
 
     private String getScreenPreferences() {
+
         return null;
     }
 }
