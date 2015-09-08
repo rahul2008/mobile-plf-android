@@ -79,6 +79,11 @@ public class SHNAssociationProcedureNearestDevice implements SHNAssociationProce
         }
     }
 
+    @Override
+    public void start() {
+
+    }
+
     // implements SHNAssociationProcedure
     @Override
     public boolean getShouldScan() {

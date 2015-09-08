@@ -11,17 +11,21 @@ import java.util.List;
  */
 public class SHNDeviceAssociation {
     private static final String TAG = SHNDeviceAssociation.class.getSimpleName();
-    private static final boolean LOGGING  = false;
+    private static final boolean LOGGING = false;
     private SHNAssociationProcedure shnAssociationProcedure;
     private final List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos;
 
     public enum State {
         Idle, Associating
     }
+
     public interface SHNDeviceAssociationListener {
         void onAssociationStarted(SHNAssociationProcedure shnDeviceAssociationProcedure);
+
         void onAssociationStopped();
+
         void onAssociationSucceeded(SHNDevice shnDevice);
+
         void onAssociationFailed(SHNResult shnError); // The iOS version uses NSError
     }
 
@@ -103,6 +107,7 @@ public class SHNDeviceAssociation {
                     associationDeviceTypeName = deviceTypeName;
                     if (shnDeviceDefinitionInfo != null) {
                         shnAssociationProcedure = shnDeviceDefinitionInfo.createSHNAssociationProcedure(shnCentral, shnAssociationProcedureListener);
+                        shnAssociationProcedure.start();
                         if (shnAssociationProcedure.getShouldScan()) {
                             startScanning(shnDeviceDefinitionInfo);
                         }

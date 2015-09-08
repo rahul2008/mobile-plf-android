@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyString;
@@ -32,7 +34,6 @@ import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.when;
 
 /**
  * Created by 310188215 on 27/05/15.
@@ -73,6 +74,8 @@ public class SHNDeviceAssociationTest {
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationFailed(any(SHNResult.class));
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStopped();
+
+        doNothing().when(mockedSHNAssociationProcedure).start();
 
         // mockedSHNDeviceDefinitionInfo
         doReturn(DEVICE_TYPE_NAME).when(mockedSHNDeviceDefinitionInfo).getDeviceTypeName();
@@ -137,6 +140,13 @@ public class SHNDeviceAssociationTest {
     }
 
     @Test
+    public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessThenStartIsCalled() {
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        verify(mockedSHNAssociationProcedure).start();
+    }
+
+    @Test
     public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsTrueThenStartScanningIsCalled() {
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
@@ -152,7 +162,8 @@ public class SHNDeviceAssociationTest {
 
     @Test
     public void whenCallingStartAssociationForARegisteredDeviceTypeWhenAssociationNotInProcessAndShouldScanReturnsFalseThenStartScanningIsNotCalled() {
-        /* !!! */ doReturn(false).when(mockedSHNAssociationProcedure).getShouldScan();
+        /* !!! */
+        doReturn(false).when(mockedSHNAssociationProcedure).getShouldScan();
 
         shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
 
@@ -203,7 +214,7 @@ public class SHNDeviceAssociationTest {
         doReturn("11:22:33:44:55:66").when(mockedBluetoothDevice).getAddress();
         doReturn("MoonshineTest").when(mockedBluetoothDevice).getName();
 
-        byte[] mockedScanRecord = new byte[] {0x00, 0x0A};
+        byte[] mockedScanRecord = new byte[]{0x00, 0x0A};
         SHNDeviceFoundInfo shnDeviceFoundInfo = new SHNDeviceFoundInfo(mockedBluetoothDevice, 321, mockedScanRecord, mockedSHNDeviceDefinitionInfo);
 
         // Call the device scanner listener

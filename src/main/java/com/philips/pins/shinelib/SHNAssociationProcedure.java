@@ -5,12 +5,13 @@ package com.philips.pins.shinelib;
  */
 public interface SHNAssociationProcedure {
 
-    public interface SHNAssociationProcedureListener {
+    interface SHNAssociationProcedureListener {
         void onStopScanRequest();
         void onAssociationSuccess(SHNDevice shnDevice);
         void onAssociationFailed(SHNDevice shnDevice, SHNResult error);
     }
 
+    void start();
     boolean getShouldScan();
     void deviceDiscovered(SHNDevice shnDevice, SHNDeviceFoundInfo shnDeviceFoundInfo);
     void scannerTimeout();
