@@ -32,7 +32,15 @@
         <item name="actionBarBackground">@color/philips_bright_blue</item>
         <item name="android:colorBackground">@color/philips_bright_blue</item>
         <item name="miscButtonBgColor">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_very_dark_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_dark_blue</item>
+    </style>
+
+    <style name="Theme.Philips.Default.GradientOrange">
+        <item name="android:windowBackground">@drawable/grad_orange_background</item>
+        <item name="actionBarBackground">@color/philips_bright_orange</item>
+        <item name="android:colorBackground">@color/philips_bright_orange</item>
+        <item name="miscButtonBgColor">@color/philips_bright_orange</item>
+        <item name="miscButtonBgColorPressed">@color/philips_dark_orange</item>
     </style>
 
     <style name="Theme.Philips.Default.LightBlue.WhiteBackground">
@@ -47,4 +55,7 @@
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
+    <style name="Theme.Philips.Default.GradientOrange.WhiteBackground">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
 </resources>
