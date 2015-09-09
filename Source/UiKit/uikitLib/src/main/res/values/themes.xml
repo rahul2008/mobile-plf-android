@@ -5,41 +5,41 @@
         <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar.Solid</item>
         <item name="colorPrimary">?attr/actionBarBackground</item>
         <item name="splashTitleStyle">@style/PhilipsTheme.SplashTitle</item>
-        <item name="miscButtonStyle">@style/Misc.button</item>
-        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="actionButtonStyleRef">@style/Philips.ActionButton</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.LightBlue">
         <item name="actionBarBackground">@color/philips_very_light_blue</item>
         <item name="android:windowBackground">@color/philips_very_light_blue</item>
         <item name="android:colorBackground">@color/philips_very_light_blue</item>
-        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.Orange">
         <item name="actionBarBackground">@color/philips_very_light_orange</item>
         <item name="android:windowBackground">@color/philips_very_light_orange</item>
         <item name="android:colorBackground">@color/philips_very_light_orange</item>
-        <item name="miscButtonBgColor">@color/philips_dark_orange</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_orange</item>
+        <item name="actionButtonBgColor">@color/philips_dark_orange</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
     </style>
 
     <style name="Theme.Philips.GradientBlue">
         <item name="actionBarBackground">@color/philips_bright_blue</item>
         <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
         <item name="android:colorBackground">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.GradientOrange">
         <item name="actionBarBackground">@color/philips_bright_orange</item>
         <item name="android:windowBackground">@drawable/grad_orange_background</item>
         <item name="android:colorBackground">@color/philips_bright_orange</item>
-        <item name="miscButtonBgColor">@color/philips_dark_orange</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_orange</item>
+        <item name="actionButtonBgColor">@color/philips_dark_orange</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
     </style>
 
     <style name="Theme.Philips.LightBlue.WhiteBackground">

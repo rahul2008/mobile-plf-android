@@ -38,7 +38,7 @@ public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainAct
     }
 
     public void testMButtonSquarePlusPressedExpected() {
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(MiscellaneousButtonsActivity.class);
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
         onView(withText("Miscellaneous Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnSquarePlus, true);

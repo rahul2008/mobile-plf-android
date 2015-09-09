@@ -39,7 +39,7 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
     public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
         switch (position) {
             case 0:
-                startActivity(new Intent(this, MiscellaneousButtonsActivity.class));
+                startActivity(new Intent(this, ActionButtonsActivity.class));
                 break;
             case 1:
                 startActivity(new Intent(this, SplashLauncher.class));

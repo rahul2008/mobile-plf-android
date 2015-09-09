@@ -14,34 +14,37 @@ import com.philips.cdp.uikit.R;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class PhilipsMscButton extends ImageButton {
+public class PhilipsActionButton extends ImageButton {
 
     private static final int SQUARE = 0;
     private static final int CIRCLE = 1;
 
-    public PhilipsMscButton(final Context context, final AttributeSet attrs) {
-        this(context, attrs, R.attr.miscButtonStyle);
+    public PhilipsActionButton(final Context context, final AttributeSet attrs) {
+        this(context, attrs, R.attr.actionButtonStyleRef);
     }
 
-    public PhilipsMscButton(Context context, AttributeSet attrs,
-                            int defStyle) {
+    public PhilipsActionButton(Context context, AttributeSet attrs,
+                               int defStyle) {
         super(context, attrs, defStyle);
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs,
-                R.styleable.MiscButton, defStyle,
-                R.style.Misc_button);
-        drawView(typedArray, context.getResources());
+        initializeView(context, attrs, defStyle);
     }
 
-    private void drawView(final TypedArray typedArray, final Resources resources) {
-        setImageResource(typedArray.getResourceId(R.styleable.MiscButton_miscButtonImageDrawable, 0));
+    private void initializeView(final Context context, final AttributeSet attrs, final int defStyle) {
+        Resources resources = context.getResources();
+        TypedArray typedArray = context.obtainStyledAttributes(attrs,
+                R.styleable.ActionButton, defStyle,
+                R.style.Philips_ActionButton);
+        setImageResource(typedArray.getResourceId(R.styleable.ActionButton_actionButtonImageDrawable, 0));
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
         typedArray.recycle();
+
         setScaleType(ScaleType.CENTER);
     }
 
+    @SuppressWarnings("deprecation") //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private GradientDrawable getShapeDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable;
-        int shapeValue = typedArray.getInt(R.styleable.MiscButton_miscButtonShape, SQUARE);
+        int shapeValue = typedArray.getInt(R.styleable.ActionButton_actionButtonShape, SQUARE);
         switch (shapeValue) {
             case SQUARE:
                 gradientDrawable = (GradientDrawable) resources.getDrawable(R.drawable.square);
@@ -58,7 +61,7 @@ public class PhilipsMscButton extends ImageButton {
 
     private GradientDrawable getNormalStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.MiscButton_miscButtonBgColor, resources.getColor(R.color.philips_bright_blue));
+        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColor, resources.getColor(R.color.philips_bright_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
@@ -66,12 +69,13 @@ public class PhilipsMscButton extends ImageButton {
 
     private GradientDrawable getPressedStateDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable = getShapeDrawable(typedArray, resources);
-        int color = typedArray.getColor(R.styleable.MiscButton_miscButtonBgColorPressed, resources.getColor(R.color.philips_dark_blue));
+        int color = typedArray.getColor(R.styleable.ActionButton_actionButtonBgColorPressed, resources.getColor(R.color.philips_dark_blue));
         gradientDrawable.setColor(color);
         gradientDrawable.mutate();
         return gradientDrawable;
     }
 
+    @SuppressWarnings("deprecation") //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private void addStates(final GradientDrawable normal, final GradientDrawable pressed) {
         StateListDrawable states = new StateListDrawable();
         states.addState(new int[]{android.R.attr.state_pressed},
