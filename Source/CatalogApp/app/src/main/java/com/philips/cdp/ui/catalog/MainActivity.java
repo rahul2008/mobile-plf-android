@@ -1,5 +1,6 @@
 package com.philips.cdp.ui.catalog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,7 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
     @Override
     protected void onStart() {
         super.onStart();
-        setTheme(ThemeUtils.getTheme(this));
+        setTheme(new ThemeUtils(this.getSharedPreferences(this.getString(R.string.app_name), Context.MODE_PRIVATE)).getTheme());
     }
 
     private void createListView() {
@@ -41,13 +42,10 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
                 startActivity(new Intent(this, MiscellaneousButtonsActivity.class));
                 break;
             case 1:
-                startActivityForResult(new Intent(this, ThemesActivity.class), REQUEST_CODE);
-                break;
-            case 2:
                 startActivity(new Intent(this, SplashLauncher.class));
                 break;
-            case 3:
-                startActivity(new Intent(this, ThemesActivity.class));
+            case 2:
+                startActivityForResult(new Intent(this, ThemesActivity.class), REQUEST_CODE);
                 break;
         }
     }
