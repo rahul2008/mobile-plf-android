@@ -17,4 +17,6 @@
     <string name="solid">solid</string>
     <string name="gradient">gradient</string>
     <string name="image">Image</string>
+    <string name="blue_theme">Blue Theme</string>
+    <string name="orange_theme">Orange Theme</string>
 </resources>

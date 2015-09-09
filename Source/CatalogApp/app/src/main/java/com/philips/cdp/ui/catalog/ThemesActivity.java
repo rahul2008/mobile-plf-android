@@ -70,9 +70,22 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
     }
 
     public void changeBackground(View v) {
+        String preferences = null;
         switch (v.getId()) {
             case R.id.change_theme:
                 themeUtils.setThemePreferences(false);
+                relaunchActivity();
+                break;
+
+            case R.id.blue_theme:
+                preferences = "blue|false|solid|0";
+                themeUtils.setThemePreferences(preferences);
+                relaunchActivity();
+                break;
+
+            case R.id.orange_theme:
+                preferences = "orange|false|solid|0";
+                themeUtils.setThemePreferences(preferences);
                 relaunchActivity();
                 break;
             default:
