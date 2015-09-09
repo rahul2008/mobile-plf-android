@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Press buttons to launch Splash Screen"/>
+
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Logo Center, Title bottom"
+            android:onClick="launchSplashScreen"
+            android:id="@+id/lc_tb"/>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Logo Center, Title Top"
+            android:onClick="launchSplashScreen"
+            android:id="@+id/lc_tt"/>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Logo Top"
+            android:onClick="launchSplashScreen"
+            android:id="@+id/lt"/>
+        <Button
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Logo Bottom"
+            android:onClick="launchSplashScreen"
+            android:id="@+id/lb"/>
+
+
+
+
+</LinearLayout>

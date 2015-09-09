@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cdp.ui.catalog" >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/PhilipsTheme.Default.Light.Blue" >
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -17,13 +20,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NavigationButtonsActivity"
+            android:name=".MiscellaneousButtonsActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity
-            android:name=".ButtonsActivity"
-            android:label="@string/title_activity_button" >
-        </activity>
+        <activity android:name=".BackgroundTest"
+                  android:label="@string/app_name"></activity>
+        <activity android:name=".SplashActivityLogoTop"/>
+        <activity android:name=".SplashActivityLogoBottom"/>
+        <activity android:name=".SplashActivityLogoCenterTitleTop"/>
+        <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
+        <activity android:name=".SplashLauncher"/>
+
     </application>
 
 </manifest>

@@ -5,9 +5,13 @@
     <string name="action_settings">Settings</string>
 
     <string-array name="list_items">
-        <item>Navigation Buttons</item>
+        <item>Miscellaneous Buttons</item>
+        <item>Background color test</item>
+        <item>Splash Screen</item>
         <item>Buttons</item>
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
-    <string name="title_activity_button">Buttons</string>
+    <string name="change_theme">Change theme</string>
+    <string name="previous_theme">Previous theme</string>
+    <string name="splash_title">@string/app_name</string>
 </resources>
