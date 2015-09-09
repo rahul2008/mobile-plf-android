@@ -10,7 +10,8 @@
 
     <!-- Base theme, default is blue color. -->
     <style name="Theme.Philips.Default">
-        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
+        <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar.Solid</item>
+        <item name="colorPrimary">?attr/actionBarBackground</item>
     </style>
 
     <style name="Theme.Philips.Default.LightBlue">
@@ -45,17 +46,26 @@
 
     <style name="Theme.Philips.Default.LightBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionBarBackground">@color/philips_very_light_blue</item>
+        <item name="android:colorBackground">@color/philips_very_light_blue</item>
     </style>
 
     <style name="Theme.Philips.Default.Orange.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionBarBackground">@color/philips_very_light_orange</item>
+        <item name="android:colorBackground">@color/philips_very_light_orange</item>
     </style>
 
     <style name="Theme.Philips.Default.GradientBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionBarBackground">@color/philips_bright_blue</item>
+        <item name="android:colorBackground">@color/philips_bright_blue</item>
     </style>
 
     <style name="Theme.Philips.Default.GradientOrange.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
+        <item name="actionBarBackground">@color/philips_bright_orange</item>
+        <item name="android:colorBackground">@color/philips_bright_orange</item>
     </style>
+
 </resources>
