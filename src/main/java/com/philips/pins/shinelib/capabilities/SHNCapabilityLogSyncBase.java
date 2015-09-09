@@ -125,6 +125,12 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         }
     }
 
+    protected void stop(SHNResult result) {
+        finishLoggingResult(result);
+        setState(State.Idle);
+        timer.stop();
+    }
+
     private void finishLoggingResult(SHNResult result) {
         assert (state == State.Synchronizing);
         teardownReceivingMeasurements();
@@ -172,12 +178,6 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
 
     private void handleTimeout() {
         stop(SHNResult.SHNOk);
-    }
-
-    private void stop(SHNResult result) {
-        finishLoggingResult(result);
-        setState(State.Idle);
-        timer.stop();
     }
 
     private void notifyListenerWithProgress(float progress) {
