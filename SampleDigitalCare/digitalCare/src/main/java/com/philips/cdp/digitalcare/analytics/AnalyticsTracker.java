@@ -8,6 +8,7 @@ import android.os.Build;
 
 import com.adobe.mobile.Analytics;
 import com.adobe.mobile.Config;
+import com.philips.cdp.digitalcare.BuildConfig;
 import com.philips.cdp.digitalcare.DigitalCareConfigManager;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -106,6 +107,8 @@ public class AnalyticsTracker {
             return;
         DigiCareLogger.i(TAG, "TrackAction : actionName : " + actionName);
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
+        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
+                BuildConfig.VERSION_CODE);
         Analytics.trackAction(actionName, contextData);
     }
 
@@ -113,6 +116,8 @@ public class AnalyticsTracker {
                                                             String mapValue) {
         Map<String, Object> contextData = new HashMap<String, Object>();
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
+        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
+                BuildConfig.VERSION_CODE);
         contextData.put(mapKey, mapValue);
         return contextData;
     }
@@ -142,6 +147,8 @@ public class AnalyticsTracker {
         contextData.put(AnalyticsConstants.KEY_TIME_STAMP, getTimestamp());
         contextData.put(AnalyticsConstants.KEY_APP_ID,
                 mAppId);
+        contextData.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
+                BuildConfig.VERSION_CODE);
         return contextData;
     }
 
@@ -150,6 +157,8 @@ public class AnalyticsTracker {
      */
     private static Map<String, Object> addPageContextData(String previousPageName, Map<String, Object> contextData) {
         Map<String, Object> contextDataNew = AnalyticsTracker.addPageContextData(previousPageName);
+        contextDataNew.put(AnalyticsConstants.KEY_DIGITALCARE_VERSION,
+                BuildConfig.VERSION_CODE);
         contextData.putAll(contextDataNew);
         return contextData;
     }

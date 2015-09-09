@@ -36,6 +36,7 @@ public class AnalyticsConstants {
     public static final String KEY_TIME_STAMP = "timestamp";
     public static final String KEY_APP_ID = "appsId";
     public static final String KEY_PREVIOUS_PAGENAME = "previousPagename";
+    public static final String KEY_DIGITALCARE_VERSION = "digitalcareVersion";
 
     /***************** Page Context Data End **************/
 
