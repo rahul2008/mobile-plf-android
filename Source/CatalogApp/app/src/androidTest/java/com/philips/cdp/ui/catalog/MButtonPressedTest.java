@@ -1,9 +1,13 @@
 package com.philips.cdp.ui.catalog;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
+
+import java.util.concurrent.Semaphore;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -19,6 +23,8 @@ import static com.philips.cdp.ui.catalog.IsSimilarMatcher.isImageSimilar;
 public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Resources testResources;
+    Semaphore semaphore = new Semaphore(1);
+    Activity targetActivity;
 
     public MButtonPressedTest() {
         super(MainActivity.class);
@@ -31,22 +37,60 @@ public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainAct
         testResources = getInstrumentation().getContext().getResources();
     }
 
-   /* public void setSelected(boolean b){
-        onView(withText("Miscellaneous Buttons")).perform(click());
-         Button button = (Button)getActivity().findViewById(R.id.miscBtnSquarePlus);
-        button.setSelected(b);
-    }*/
-
- /*   public void setState(int state_pressed){
-        onView(withText("Miscellaneous Buttons")).perform(click());
-        Button mybutton = (Button) mybutton.findViewById();
-        mybutton.setState(state_pressed);
-    }*/
-
     public void testMButtonSquarePlusPressedExpected() {
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(MiscellaneousButtonsActivity.class);
         onView(withText("Miscellaneous Buttons")).perform(click());
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_plus_pressed);
-        onView(withId(R.id.miscBtnSquarePlus))
+        setTargetActivity(monitor);
+        setPressed(R.id.miscBtnSquarePlus, true);
+        matchPressedColor(R.id.miscBtnSquarePlus, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_plus_pressed);
+    }
+
+    private void setPressed(int buttonID, boolean state) {
+        acquire();
+        targetActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                targetActivity.findViewById(R.id.miscBtnSquarePlus).setPressed(true);
+                release();
+            }
+        });
+    }
+
+    private void matchPressedColor(int buttonID, int expectedBitmapID) {
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, expectedBitmapID);
+        acquire();
+        onView(withId(buttonID))
                 .check(matches(isImageSimilar(expectedBitmap)));
+        release();
+        expectedBitmap.recycle();
+    }
+
+    //Target Monitor changes only when our target Activity chagnes.
+    private Instrumentation.ActivityMonitor setTargetMonitor(Class<?> targetClass) {
+        if (targetActivity == null || !targetActivity.getClass().getSimpleName().equals(targetClass.getSimpleName())) {
+            return getInstrumentation().addMonitor(targetClass.getName(),
+                    null, false);
+        }
+        return null;
+    }
+
+    //To be called only once or only when our target Activity chagnes.
+    private void setTargetActivity(Instrumentation.ActivityMonitor monitor) {
+        if (monitor != null) {
+            targetActivity = monitor.waitForActivity();
+            getInstrumentation().removeMonitor(monitor);
+        }
+    }
+
+    private void acquire() {
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void release() {
+        semaphore.release();
     }
 }
