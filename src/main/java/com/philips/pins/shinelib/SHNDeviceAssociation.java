@@ -30,7 +30,6 @@ public class SHNDeviceAssociation {
     }
 
     private SHNDeviceAssociationListener shnDeviceAssociationListener;
-    private List<SHNDevice> associatedDevices;
     private final SHNCentral shnCentral;
     private String associationDeviceTypeName;
     private SHNAssociationProcedure.SHNAssociationProcedureListener shnAssociationProcedureListener = new SHNAssociationProcedure.SHNAssociationProcedureListener() {
@@ -123,6 +122,16 @@ public class SHNDeviceAssociation {
                 }
             }
         });
+    }
+
+    public void removeAssociatedDevice(String macAddress) {
+        for (ShinePreferenceWrapper.AssociatedDeviceInfo deviceInfo : associatedDeviceInfos) {
+            if (macAddress.equals(deviceInfo.macAddress)) {
+                associatedDeviceInfos.remove(deviceInfo);
+                shnCentral.getShinePreferenceWrapper().storeAssociatedDeviceInfos(associatedDeviceInfos);
+                return;
+            }
+        }
     }
 
     private void reportFailure(final SHNResult result) {

@@ -16,21 +16,25 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyCollection;
+import static org.mockito.Matchers.anyList;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.doReturn;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
@@ -55,6 +59,8 @@ public class SHNDeviceAssociationTest {
     private MockedHandler mockedInternalHandler;
     private MockedHandler mockedUserHandler;
 
+    private List<ShinePreferenceWrapper.AssociatedDeviceInfo> associatedDeviceInfos;
+
     @Before
     public void setUp() {
         mockStatic(Log.class);
@@ -74,6 +80,7 @@ public class SHNDeviceAssociationTest {
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationFailed(any(SHNResult.class));
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStarted(mockedSHNAssociationProcedure);
         doNothing().when(mockedSHNDeviceAssociationListener).onAssociationStopped();
+        doNothing().when(mockedSHNDeviceAssociationListener).onAssociationSucceeded(any(SHNDevice.class));
 
         doReturn(SHNResult.SHNOk).when(mockedSHNAssociationProcedure).start();
 
@@ -105,8 +112,9 @@ public class SHNDeviceAssociationTest {
         doReturn(null).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(anyString());
         doReturn(mockedSHNDeviceDefinitionInfo).when(mockedSHNDeviceDefinitions).getSHNDeviceDefinitionInfoForDeviceTypeName(DEVICE_TYPE_NAME);
 
-        // mockedShinePreferenceWrapper
-        doReturn(Collections.emptyList()).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+        associatedDeviceInfos = new ArrayList<>();
+        doReturn(associatedDeviceInfos).when(mockedShinePreferenceWrapper).readAssociatedDeviceInfos();
+        doNothing().when(mockedShinePreferenceWrapper).storeAssociatedDeviceInfos(anyList());
 
         shnDeviceAssociation = new SHNDeviceAssociation(mockedSHNCentral);
 
@@ -239,5 +247,73 @@ public class SHNDeviceAssociationTest {
         assertEquals("MoonshineTest", shnDeviceFoundInfoArgumentCaptor.getValue().deviceName);
 
         assertEquals(mockedSHNDevice, shnDeviceArgumentCaptor.getValue());
+    }
+
+    private void startAssociationAndCompleteWithDevice(String macAddress, SHNDevice shnDevice, int number) {
+        when(shnDevice.getAddress()).thenReturn(macAddress);
+        when(shnDevice.getDeviceTypeName()).thenReturn(DEVICE_TYPE_NAME);
+
+        shnDeviceAssociation.startAssociationForDeviceType(DEVICE_TYPE_NAME);
+
+        ArgumentCaptor<SHNAssociationProcedure.SHNAssociationProcedureListener> shnAssociationProcedureListenerArgumentCaptor = ArgumentCaptor.forClass(SHNAssociationProcedure.SHNAssociationProcedureListener.class);
+        verify(mockedSHNDeviceDefinitionInfo, times(number)).createSHNAssociationProcedure(any(SHNCentral.class), shnAssociationProcedureListenerArgumentCaptor.capture());
+        shnAssociationProcedureListenerArgumentCaptor.getValue().onAssociationSuccess(shnDevice);
+    }
+
+    @Test
+    public void whenAssociationHasSucceededThenDeviceIsAddedToTheListOfAssociatedDevices() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        assertFalse(associatedDeviceInfos.isEmpty());
+        assertEquals(1, associatedDeviceInfos.size());
+        assertEquals(macAddress, associatedDeviceInfos.get(0).macAddress);
+        assertEquals(DEVICE_TYPE_NAME, associatedDeviceInfos.get(0).deviceTypeName);
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalledThenDeviceIsRemoved() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        shnDeviceAssociation.removeAssociatedDevice(macAddress);
+
+        assertTrue(associatedDeviceInfos.isEmpty());
+    }
+
+    @Test
+    public void whenRemoveDeviceIsCalledThenProperDeviceIsRemoved() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        String macAddress2 = "11:22:33:44:55:77";
+        SHNDevice shnDevice2 = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress2, shnDevice2, 2);
+
+        shnDeviceAssociation.removeAssociatedDevice(macAddress);
+
+        assertFalse(associatedDeviceInfos.isEmpty());
+        assertEquals(1, associatedDeviceInfos.size());
+        assertEquals(macAddress2, associatedDeviceInfos.get(0).macAddress);
+    }
+
+    @Test
+    public void whenDeviceIsNotAssociatedAndRemovedIsCalledThen() {
+        String macAddress = "11:22:33:44:55:66";
+        SHNDevice shnDevice = mock(SHNDevice.class);
+        startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
+
+        String macAddress2 = "11:22:33:44:55:77";
+        SHNDevice shnDevice2 = mock(SHNDevice.class);
+        when(shnDevice2.getAddress()).thenReturn(macAddress);
+
+        shnDeviceAssociation.removeAssociatedDevice(macAddress2);
+
+        assertFalse(associatedDeviceInfos.isEmpty());
+        assertEquals(1, associatedDeviceInfos.size());
+        assertEquals(macAddress, associatedDeviceInfos.get(0).macAddress);
     }
 }
