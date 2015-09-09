@@ -38,19 +38,19 @@ public class ThemeUtils {
     }
 
     private void appendThemes(){
-        int[] blue_themes = {R.style.Theme_Philips_Default_LightBlue_WhiteBackground, R.style.Theme_Philips_Default_LightBlue,
-                R.style.Theme_Philips_Default_GradientBlue_WhiteBackground,
-                R.style.Theme_Philips_Default_GradientBlue};
-        int[] orange_themes = {R.style.Theme_Philips_Default_Orange_WhiteBackground, R.style.Theme_Philips_Default_Orange,
-                R.style.Theme_Philips_Default_GradientOrange_WhiteBackground,
-                R.style.Theme_Philips_Default_GradientOrange};
+        int[] blue_themes = {R.style.Theme_Philips_LightBlue_WhiteBackground, R.style.Theme_Philips_LightBlue,
+                R.style.Theme_Philips_GradientBlue_WhiteBackground,
+                R.style.Theme_Philips_GradientBlue};
+        int[] orange_themes = {R.style.Theme_Philips_Orange_WhiteBackground, R.style.Theme_Philips_Orange,
+                R.style.Theme_Philips_GradientOrange_WhiteBackground,
+                R.style.Theme_Philips_GradientOrange};
         themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
         themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
     }
 
     private int[] themes = {
-            R.style.Theme_Philips_Default_LightBlue_WhiteBackground,
-            R.style.Theme_Philips_Default_Orange_WhiteBackground
+            R.style.Theme_Philips_LightBlue_WhiteBackground,
+            R.style.Theme_Philips_Orange_WhiteBackground
     };
 
     public void setThemePreferences(boolean previous) {
