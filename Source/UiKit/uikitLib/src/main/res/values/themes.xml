@@ -27,16 +27,16 @@
     </style>
 
     <style name="Theme.Philips.GradientBlue">
-        <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
         <item name="actionBarBackground">@color/philips_bright_blue</item>
+        <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
         <item name="android:colorBackground">@color/philips_bright_blue</item>
         <item name="miscButtonBgColor">@color/philips_dark_blue</item>
         <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.GradientOrange">
-        <item name="android:windowBackground">@drawable/grad_orange_background</item>
         <item name="actionBarBackground">@color/philips_bright_orange</item>
+        <item name="android:windowBackground">@drawable/grad_orange_background</item>
         <item name="android:colorBackground">@color/philips_bright_orange</item>
         <item name="miscButtonBgColor">@color/philips_dark_orange</item>
         <item name="miscButtonBgColorPressed">@color/philips_light_orange</item>
