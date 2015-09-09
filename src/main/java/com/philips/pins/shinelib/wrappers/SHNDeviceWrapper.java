@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Created by 310188215 on 05/05/15.
  */
-public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener {
+public class SHNDeviceWrapper implements SHNDevice {
     private static final String TAG = SHNDeviceWrapper.class.getSimpleName();
     private static final boolean LOGGING = false;
     private final SHNDevice shnDevice;
@@ -23,6 +23,26 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     private final Handler internalHandler;
     private final Handler userHandler;
     private List<SHNDeviceListener> shnDeviceListeners;
+
+    SHNDevice.SHNDeviceListener shnDeviceListener = new SHNDeviceListener() {
+        @Override
+        public void onStateUpdated(SHNDevice shnDevice) {
+            assert (SHNDeviceWrapper.this.shnDevice == shnDevice);
+            synchronized (shnDeviceListeners) {
+                for (final SHNDeviceListener shnDeviceListener : shnDeviceListeners) {
+                    if (shnDeviceListener != null) {
+                        if (LOGGING) Log.i(TAG, "posting onStateUpdated() to the user");
+                        userHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                shnDeviceListener.onStateUpdated(SHNDeviceWrapper.this);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    };
 
     public static void setHandlers(Handler internalHandler, Handler userHandler) {
         tempInternalHandler = internalHandler;
@@ -33,7 +53,7 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
         this.shnDevice = shnDevice;
         this.internalHandler = tempInternalHandler;
         this.userHandler = tempUserHandler;
-        shnDevice.registerSHNDeviceListener(this);
+        shnDevice.registerSHNDeviceListener(shnDeviceListener);
         shnDeviceListeners = new ArrayList<>();
     }
 
@@ -105,23 +125,5 @@ public class SHNDeviceWrapper implements SHNDevice, SHNDevice.SHNDeviceListener 
     @Override
     public SHNCapability getCapabilityForType(SHNCapabilityType type) {
         return shnDevice.getCapabilityForType(type);
-    }
-
-    // implements SHNDevice.SHNDeviceListener
-    @Override
-    public void onStateUpdated(final SHNDevice shnDevice) {
-        synchronized (shnDeviceListeners) {
-            for (final SHNDeviceListener shnDeviceListener: shnDeviceListeners) {
-                if (shnDeviceListener != null) {
-                    if (LOGGING) Log.i(TAG, "posting onStateUpdated() to the user");
-                    userHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            shnDeviceListener.onStateUpdated(shnDevice);
-                        }
-                    });
-                }
-            }
-        }
     }
 }
