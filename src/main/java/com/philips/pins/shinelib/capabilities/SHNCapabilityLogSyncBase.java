@@ -104,9 +104,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     protected void handleResultOfMeasurementsSetup(SHNResult result) {
-        if (result == SHNResult.SHNOk) {
-            setState(State.Synchronizing);
-        } else {
+        if (result != SHNResult.SHNOk) {
             stop(result);
         }
     }
