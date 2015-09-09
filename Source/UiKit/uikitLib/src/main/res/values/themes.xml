@@ -14,6 +14,8 @@
         <item name="actionBarBackground">@color/philips_very_light_blue</item>
         <item name="android:windowBackground">@color/philips_very_light_blue</item>
         <item name="android:colorBackground">@color/philips_very_light_blue</item>
+        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.Orange">
