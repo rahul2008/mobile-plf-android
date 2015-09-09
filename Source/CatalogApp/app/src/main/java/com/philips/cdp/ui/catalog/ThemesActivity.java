@@ -1,5 +1,6 @@
 package com.philips.cdp.ui.catalog;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -19,23 +20,30 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
     private RadioButton solidRadioButton, gradientRadioButton;
     private Switch colorSwitch;
     private RadioGroup radioGroup;
+    private ThemeUtils themeUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_themes);
+        themeUtils = new ThemeUtils(this.getSharedPreferences(
+                this.getString(R.string.app_name), Context.MODE_PRIVATE));
         declareViews();
         setViewState();
+        setListeners();
+    }
+
+    private void setListeners() {
         radioGroup.setOnCheckedChangeListener(this);
         colorSwitch.setOnCheckedChangeListener(this);
     }
 
     private void setViewState() {
-        String preferences = ThemeUtils.getThemePreferences(ThemesActivity.this);
-        ArrayList<String> prefData = ThemeUtils.getTokens(preferences);
+        String preferences = themeUtils.getThemePreferences();
+        ArrayList<String> prefData = themeUtils.getThemeTokens(preferences);
+        themeUtils.setColorString(prefData.get(0));
         setSwitchState(prefData);
         setRadioButtonState(prefData);
-
     }
 
     private void setRadioButtonState(ArrayList<String> prefData) {
@@ -63,18 +71,16 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
 
     public void changeBackground(View v) {
         switch (v.getId()) {
-
             case R.id.change_theme:
-                ThemeUtils.setThemePreferences(this, false);
-                changeTheme();
+                themeUtils.setThemePreferences(false);
+                relaunchActivity();
                 break;
-
             default:
                 break;
         }
     }
 
-    private void changeTheme() {
+    private void relaunchActivity() {
         Intent intent;
         setResult(RESULT_CODE_THEME_UPDATED);
         intent = new Intent(this, ThemesActivity.class);
@@ -85,27 +91,26 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
         if (checkedId == R.id.solid || checkedId == R.id.gradient) {
-            String preferences = getScreenPreferences();
-            ThemeUtils.setThemePreferences(ThemesActivity.this, preferences);
             changeTheme();
-        } else {
-
         }
+    }
 
+    private void changeTheme() {
+        String preferences = getScreenPreferences();
+        themeUtils.setThemePreferences(preferences);
+        relaunchActivity();
     }
 
     private String getScreenPreferences() {
         StringBuilder builder = new StringBuilder();
-        builder.append(ThemeUtils.getCOLOR_STRING());
-        builder.append("|");
+        appendColorString(builder);
+        appendColorState(builder);
+        appendColorType(builder);
+        builder.append(getThemeIndex());
+        return builder.toString();
+    }
 
-        if (colorSwitch.isChecked())
-            builder.append("true");
-        else
-            builder.append("false");
-
-        builder.append("|");
-
+    private void appendColorType(StringBuilder builder) {
         if (solidRadioButton.isChecked())
             builder.append(getString(R.string.solid));
         else if (gradientRadioButton.isChecked())
@@ -114,10 +119,20 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
             builder.append(getString(R.string.solid));
 
         builder.append("|");
+    }
 
-        builder.append(getThemeIndex());
+    private void appendColorState(StringBuilder builder) {
+        if (colorSwitch.isChecked())
+            builder.append("true");
+        else
+            builder.append("false");
 
-        return builder.toString();
+        builder.append("|");
+    }
+
+    private void appendColorString(StringBuilder builder) {
+        builder.append(themeUtils.getColorString());
+        builder.append("|");
     }
 
     private int getThemeIndex() {
@@ -133,8 +148,6 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        String preferences = getScreenPreferences();
-        ThemeUtils.setThemePreferences(ThemesActivity.this, preferences);
         changeTheme();
     }
 }
