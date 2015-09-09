@@ -13,8 +13,8 @@
 
     <ImageView
         android:id="@+id/splash_background"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/splash_logo_width"
+        android:layout_height="@dimen/splash_logo_height"
         android:layout_centerInParent="true"
         android:src="@drawable/philips_logo"/>
 
