@@ -4,8 +4,8 @@
     <style name="Theme.Philips" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="splashTitleStyle">@style/PhilipsTheme.SplashTitle</item>
         <item name="miscButtonStyle">@style/Misc.button</item>
-        <item name="miscButtonBgColor">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <!-- Base theme, default is blue color. -->
@@ -23,7 +23,7 @@
         <item name="actionBarBackground">@color/philips_very_light_orange</item>
         <item name="android:windowBackground">@color/philips_very_light_orange</item>
         <item name="android:colorBackground">@color/philips_very_light_orange</item>
-        <item name="miscButtonBgColor">@color/philips_bright_orange</item>
+        <item name="miscButtonBgColor">@color/philips_dark_orange</item>
         <item name="miscButtonBgColorPressed">@color/philips_light_orange</item>
     </style>
 
@@ -31,16 +31,16 @@
         <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
         <item name="actionBarBackground">@color/philips_bright_blue</item>
         <item name="android:colorBackground">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColor">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
+        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
     </style>
 
     <style name="Theme.Philips.Default.GradientOrange">
         <item name="android:windowBackground">@drawable/grad_orange_background</item>
         <item name="actionBarBackground">@color/philips_bright_orange</item>
         <item name="android:colorBackground">@color/philips_bright_orange</item>
-        <item name="miscButtonBgColor">@color/philips_bright_orange</item>
-        <item name="miscButtonBgColorPressed">@color/philips_dark_orange</item>
+        <item name="miscButtonBgColor">@color/philips_dark_orange</item>
+        <item name="miscButtonBgColorPressed">@color/philips_light_orange</item>
     </style>
 
     <style name="Theme.Philips.Default.LightBlue.WhiteBackground">
