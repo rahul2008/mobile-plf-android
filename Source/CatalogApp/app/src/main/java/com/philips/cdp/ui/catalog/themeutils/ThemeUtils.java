@@ -1,7 +1,6 @@
 package com.philips.cdp.ui.catalog.themeutils;
 
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 
 import com.philips.cdp.ui.catalog.ColorType;
 import com.philips.cdp.ui.catalog.R;
@@ -17,7 +16,7 @@ import java.util.TreeMap;
 public class ThemeUtils {
 
     private final int DEFAULT_THEME = 0;
-    private final String delimiters = "|";
+    public static final String DELIMITER = "|";
     private TreeMap<String, int[]> themesMap = new TreeMap<>();
     private final String CURRENT_THEME_STATE = "current_theme_state";
     private final String DEFAULT_THEME_STATE = "blue|false|solid|0";
@@ -61,7 +60,7 @@ public class ThemeUtils {
 
     public ArrayList<String> getThemeTokens(String prefData) {
         ArrayList<String> themeTokens = new ArrayList<String>();
-        StringTokenizer tokenParser = new StringTokenizer(prefData, delimiters);
+        StringTokenizer tokenParser = new StringTokenizer(prefData, DELIMITER);
         while (tokenParser.hasMoreTokens()) {
             themeTokens.add(tokenParser.nextToken());
         }

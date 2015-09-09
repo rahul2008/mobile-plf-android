@@ -118,7 +118,7 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
         else
             builder.append(getString(R.string.solid));
 
-        builder.append("|");
+        builder.append(ThemeUtils.DELIMITER);
     }
 
     private void appendColorState(StringBuilder builder) {
@@ -127,12 +127,12 @@ public class ThemesActivity extends UiKitActivity implements RadioGroup.OnChecke
         else
             builder.append("false");
 
-        builder.append("|");
+        builder.append(ThemeUtils.DELIMITER);
     }
 
     private void appendColorString(StringBuilder builder) {
         builder.append(themeUtils.getColorString());
-        builder.append("|");
+        builder.append(ThemeUtils.DELIMITER);
     }
 
     private int getThemeIndex() {
