@@ -23,13 +23,13 @@ import static com.philips.cdp.ui.catalog.IsSimilarMatcher.isImageSimilar;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Resources testResources;
     Semaphore semaphore = new Semaphore(1);
     Activity targetActivity;
 
-    public MButtonPressedTest() {
+    public ActionButtonPressedTest() {
         super(MainActivity.class);
     }
 
@@ -40,7 +40,7 @@ public class MButtonPressedTest extends ActivityInstrumentationTestCase2<MainAct
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testMButtonSquarePlusPressedExpected() {
+    public void testActionButtonSquarePlusPressedExpected() {
         Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
         onView(withText("Miscellaneous Buttons")).perform(click());
         setTargetActivity(monitor);

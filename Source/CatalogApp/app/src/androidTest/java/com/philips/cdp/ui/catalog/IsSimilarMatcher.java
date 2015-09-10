@@ -40,10 +40,10 @@ public class IsSimilarMatcher extends BoundedMatcher<View, View> {
         int expectedWidth = expectedBitmap.getWidth();
         int actualHeight = actualBitmap.getHeight();
         int expectedHeight = expectedBitmap.getHeight();
-        if ((actualWidth != expectedWidth) || (actualHeight != expectedHeight)) {
+/*        if ((actualWidth != expectedWidth) || (actualHeight != expectedHeight)) {
             Log.d(TAG, "width or height not as expected");
             return false;
-        }
+        }*/
 
         long diff = 0;
         //Relaxing the comparision by ignoring 2px from each boundary.
