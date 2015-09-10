@@ -12,10 +12,12 @@
     <!-- Base theme, default is blue color. -->
     <style name="PhilipsTheme.Default">
         <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_bright_blue</item>
     </style>
 
     <style name="PhilipsTheme.Default.Light">
-        <item name="android:windowBackground">@color/philips_blue</item>
+        <item name="android:windowBackground">@color/philips_bright_orange</item>
         <item name="android:colorBackground">@color/philips_blue_actionbar</item>
     </style>
 
@@ -26,19 +28,18 @@
     </style>
 
     <!-- Light Blue themes -->
-    <style name="PhilipsTheme.Default.Light.Blue"/>
+    <style name="PhilipsTheme.Default.Light.Blue">
+        <item name="android:buttonStyle">@style/button.normal.light_blue</item>
+    </style>
+
+    <style name="TextAppearance">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+    </style>
 
     <style name="PhilipsTheme.Default.Light.Blue.Gradient">
-        <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
-        <item name="buttonStyle">@style/PUIButton</item>
     </style>
 
-    <style name="PUIButton">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:background">@color/philips_light_blue</item>
-        <item name="android:padding">16dp</item>
-        <item name="android:textSize">16sp</item>
-    </style>
+
 
     <!-- Dark Blue themes -->
     <style name="PhilipsTheme.Default.Dark.Blue">

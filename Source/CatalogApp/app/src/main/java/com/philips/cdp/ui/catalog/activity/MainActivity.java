@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog;
+package com.philips.cdp.ui.catalog.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +8,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.philips.cdp.ui.catalog.activity.UiKitActivity;
+import com.philips.cdp.ui.catalog.R;
+import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
-public class MainActivity extends UiKitActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends UIKitActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_CODE = 10;
 
@@ -47,6 +48,10 @@ public class MainActivity extends UiKitActivity implements AdapterView.OnItemCli
             case 2:
                 startActivityForResult(new Intent(this, ThemesActivity.class), REQUEST_CODE);
                 break;
+
+            case 3:
+                startActivity(new Intent(this, ButtonsActivity.class));
+        
         }
     }
 

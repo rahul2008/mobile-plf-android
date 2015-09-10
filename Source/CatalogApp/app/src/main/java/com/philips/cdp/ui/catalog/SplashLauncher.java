@@ -2,16 +2,15 @@ package com.philips.cdp.ui.catalog;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.philips.cdp.ui.catalog.activity.UiKitActivity;
+import com.philips.cdp.ui.catalog.activity.UIKitActivity;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class SplashLauncher extends UiKitActivity {
+public class SplashLauncher extends UIKitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

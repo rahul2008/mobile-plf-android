@@ -7,6 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 
+import com.philips.cdp.ui.catalog.activity.ActionButtonsActivity;
+import com.philips.cdp.ui.catalog.activity.MainActivity;
+
 import java.util.concurrent.Semaphore;
 
 import static android.support.test.espresso.Espresso.onView;
