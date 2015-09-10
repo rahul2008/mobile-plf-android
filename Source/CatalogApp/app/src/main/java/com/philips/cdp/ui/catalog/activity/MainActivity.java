@@ -48,10 +48,11 @@ public class MainActivity extends UIKitActivity implements AdapterView.OnItemCli
             case 2:
                 startActivityForResult(new Intent(this, ThemesActivity.class), REQUEST_CODE);
                 break;
-
             case 3:
                 startActivity(new Intent(this, ButtonsActivity.class));
-        
+                break;
+            default:
+                break;
         }
     }
 
