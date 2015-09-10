@@ -1,15 +1,16 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="Philips.ActionButton" parent="@android:style/Widget.ImageButton">
-        <item name="android:minWidth">@dimen/philips_button_square_width</item>
-        <item name="android:minHeight">@dimen/philips_button_square_height</item>
+        <item name="android:minWidth">@dimen/philips_action_button_metrics</item>
+        <item name="android:minHeight">@dimen/philips_action_button_metrics</item>
+        <item name="android:padding">0dp</item>
         <item name="actionButtonShape">square</item>
     </style>
 
     <style name="Philips.ActionButton.Circle">
         <item name="actionButtonShape">circle</item>
-        <item name="android:minWidth">@dimen/philips_button_circle_width</item>
-        <item name="android:minHeight">@dimen/philips_button_circle_height</item>
+        <item name="android:minWidth">@dimen/philips_action_button_metrics</item>
+        <item name="android:minHeight">@dimen/philips_action_button_metrics</item>
     </style>
 
     <style name="Philips.ActionButton.Square">
