@@ -11,7 +11,7 @@ import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class UIKitActivity extends AppCompatActivity {
+public class UiKitActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

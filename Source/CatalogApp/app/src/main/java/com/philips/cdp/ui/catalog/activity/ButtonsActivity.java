@@ -5,10 +5,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.activity.UIKitActivity;
 
 
-public class ButtonsActivity extends UIKitActivity {
+public class ButtonsActivity extends UiKitActivity {
 
 //    Button button;
 //    Button button2;

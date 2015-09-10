@@ -14,7 +14,7 @@ import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 import java.util.ArrayList;
 
-public class ThemesActivity extends UIKitActivity implements RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener {
+public class ThemesActivity extends UiKitActivity implements RadioGroup.OnCheckedChangeListener, Switch.OnCheckedChangeListener {
 
     public static int RESULT_CODE_THEME_UPDATED = 1;
     private RadioButton solidRadioButton, gradientRadioButton;
