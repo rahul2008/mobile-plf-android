@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="philips_action_button_metrics">34dp</dimen>
+    <dimen name="philips_action_button_radius">34dp</dimen>
     <dimen name="philips_button_square_corner_radius">4.5dp</dimen>
     <dimen name="philips_action_button_text_size">9dp</dimen>
     <dimen name="philips_action_button_padding">2dp</dimen>
