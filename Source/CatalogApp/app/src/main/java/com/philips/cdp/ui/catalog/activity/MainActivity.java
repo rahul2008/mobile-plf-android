@@ -12,7 +12,7 @@ import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
-public class MainActivity extends UiKitActivity implements AdapterView.OnItemClickListener {
+public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
 
     private static final int REQUEST_CODE = 10;
 

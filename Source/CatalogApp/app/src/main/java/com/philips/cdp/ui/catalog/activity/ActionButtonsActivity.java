@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.philips.cdp.ui.catalog.R;
 
-public class ActionButtonsActivity extends UiKitActivity {
+public class ActionButtonsActivity extends CatalogActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
