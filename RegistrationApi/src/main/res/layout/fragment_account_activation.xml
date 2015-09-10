@@ -39,7 +39,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_email"
                     style="@style/reg_textStyle"
-                    android:text="@string/VerifyEmail_EmailSentto_lbltxt"
+                    android:text="@string/RegVerifyEmailView_VerificationEmailText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView

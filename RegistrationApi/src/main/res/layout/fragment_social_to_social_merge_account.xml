@@ -39,14 +39,14 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_provider_Details"
                     style="@style/reg_textStyle"
-                    android:text="@string/Account_Merge_social_UsedEmail_Error_lbltxt"
+                    android:text="@string/Social_Merge_Used_EmailError_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_conflict_provider"
                     style="@style/reg_textStyle"
                     android:layout_marginBottom="@dimen/reg_margin_bottom"
-                    android:text="@string/Social_provider_merge_account"
+                    android:text="@string/Social_Merge_Accounts_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 
@@ -58,7 +58,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_merge_account_box"
                     style="@style/reg_text_description"
-                    android:text="@string/merge_social_provider_box"
+                    android:text="@string/Social_Merge_Cancel_And_Restart_Registration_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
             </LinearLayout>
 

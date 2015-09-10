@@ -71,6 +71,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 
 	private TextView mTvResendDetails;
 
+	private final int SOCIAL_SIGIN_IN_ONLY_CODE = 540;
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "HomeFragment : onAttach");
@@ -324,7 +326,21 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
 		mBtnResend.setEnabled(true);
 		hideForgotPasswordSpinner();
 
+		if(userRegistrationFailureInfo.getError().code == SOCIAL_SIGIN_IN_ONLY_CODE ){
+			mLlattentionBox.setVisibility(View.VISIBLE);
+			mEtEmail.showInvalidAlert();
+			mTvResendDetails.setText(getString(R.string.TraditionalSignIn_ForgotPwdSocialExplanatory_lbltxt));
+			mEtEmail.setErrDescription(getString(R.string.TraditionalSignIn_ForgotPwdSocialError_lbltxt));
+			mEtEmail.showErrPopUp();
+		}else{
+			mEtEmail.showErrPopUp();
+			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
+			mEtEmail.showInvalidAlert();
+			mLlattentionBox.setVisibility(View.GONE);
+		}
+
 		if (null != userRegistrationFailureInfo.getSocialOnlyError()) {
+			mEtEmail.showErrPopUp();
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getSocialOnlyError());
 			mEtEmail.showInvalidAlert();
 			return;

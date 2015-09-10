@@ -189,7 +189,11 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
         DIUserProfile userProfile = mUser.getUserInstance(mContext);
         mEmailId = userProfile.getEmail();
-        tvEmail.setText(getString(R.string.VerifyEmail_EmailSentto_lbltxt) + mEmailId);
+
+        String email = getString(R.string.RegVerifyEmailView_VerificationEmailText);
+        email = String.format(email, mEmailId);
+        tvEmail.setText(email);
+
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mEMailVerifiedError = (XRegError) view.findViewById(R.id.reg_email_verified_error);
         setViewParams(getResources().getConfiguration());
@@ -249,7 +253,7 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
 
             mEMailVerifiedError.setVisibility(View.VISIBLE);
             mEMailVerifiedError.setError(getResources().getString(
-                    R.string.Janrain_Error_Need_Email_Verification));
+                    R.string.RegEmailNotVerified_AlertPopupErrorText));
             trackActionLoginError(AppTagingConstants.EMAIL_NOT_VERIFIED);
         }
     }

@@ -318,6 +318,12 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onRegisterFailedWithFailure(UserRegistrationFailureInfo userRegistrationFailureInfo) {
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterFailedWithFailure");
+
+		if(userRegistrationFailureInfo.getError().code == EMAIL_ADDRESS_ALREADY_USE_CODE){
+			mTvpasswordDetails.setText(getResources().getText(R.string.EmailAlreadyUsedErrorMsg_LabelTxt));
+		}else{
+			mTvpasswordDetails.setText(getResources().getText(R.string.Create_Account_Hint_Password_lbltxt));
+		}
 		if (null != userRegistrationFailureInfo.getEmailErrorMessage()) {
 			mEtEmail.setErrDescription(userRegistrationFailureInfo.getEmailErrorMessage());
 			mEtEmail.showInvalidAlert();

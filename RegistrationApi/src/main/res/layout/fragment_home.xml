@@ -38,7 +38,7 @@
                 <com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_terms_and_condition"
                     style="@style/reg_text_description"
-                    android:text="@string/terms_and_condition_new"
+                    android:text="@string/LegalNoticeText"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
                 <!--<com.philips.cdp.registration.ui.customviews.XTextView
                     android:id="@+id/tv_reg_welcome_desc"

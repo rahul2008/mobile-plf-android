@@ -408,7 +408,7 @@ public class HomeFragment extends RegistrationBaseFragment implements OnClickLis
 
     private void linkifyTermAndPolicy(TextView pTvPrivacyPolicy) {
 
-        String privacyPolicyText = getString(R.string.terms_and_condition_new);
+        String privacyPolicyText = getString(R.string.LegalNoticeText);
         privacyPolicyText = String.format(privacyPolicyText, getString(R.string.PrivacyPolicyText), getString(R.string.TermsAndConditionsText));
         mTvWelcomeDesc.setText(privacyPolicyText);
 

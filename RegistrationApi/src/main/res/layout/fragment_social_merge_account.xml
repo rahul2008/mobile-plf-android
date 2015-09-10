@@ -94,7 +94,7 @@
                         android:id="@+id/btn_reg_merg"
                         style="@style/reg_style_btn"
                         android:enabled="false"
-                        android:text="@string/Account_Merge_Merge_btntxt"
+                        android:text="@string/Btn_Merge_Account"
                         reglib:fontAssetName="CentraleSans-Book.OTF" />
 
                     <ProgressBar

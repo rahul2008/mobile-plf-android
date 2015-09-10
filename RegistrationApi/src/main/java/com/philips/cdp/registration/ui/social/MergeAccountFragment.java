@@ -206,10 +206,6 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		String providerTempName = socialProvider.substring(0, 1).toUpperCase()
 				+ socialProvider.substring(1).toLowerCase();
 
-		/*String accountMerge = getString(R.string.Account_Merge_SignIn_lbltxt);
-		accountMerge = String.format(accountMerge,providerTempName);
-		mTvAccountMergeSignIn.setText(accountMerge);*/
-
 	}
 
 

@@ -50,7 +50,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private Context mContext;
 
-    private LinearLayout mLlEmailDetails;
+    private TextView mTvEmailDetails;
 
     private boolean isfromVerification;
 
@@ -154,7 +154,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     @Override
     public void setViewParams(Configuration config) {
         applyParams(config, mTvWelcome);
-        applyParams(config, mLlEmailDetails);
+        applyParams(config, mTvEmailDetails);
         applyParams(config, mLlContinueBtnContainer);
         applyParams(config, mCbTerms);
         applyParams(config, mRegError);
@@ -170,7 +170,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
-        mLlEmailDetails = (LinearLayout) view.findViewById(R.id.ll_reg_email_details_container);
+        mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         setViewParams(getResources().getConfiguration());
         mBtnSignOut = (Button) view.findViewById(R.id.btn_reg_sign_out);
@@ -181,12 +181,15 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         userProfile = mUser.getUserInstance(mContext);
         if (isfromVerification) {
             mCbTerms.setVisibility(view.GONE);
-            mLlEmailDetails.setVisibility(View.GONE);
+            mTvEmailDetails.setVisibility(View.GONE);
+        }else{
+            mTvEmailDetails.setVisibility(View.VISIBLE);
+            mCbTerms.setVisibility(View.GONE);
         }
 
         if (isfromBegining) {
             mBtnSignOut.setVisibility(View.GONE);
-            mLlEmailDetails.setVisibility(View.GONE);
+            mTvEmailDetails.setVisibility(View.GONE);
             mBtnContinue.setText(getResources().getString(R.string.SignInSuccess_SignOut_btntxt));
             mCbTerms.setVisibility(view.VISIBLE);
             mCbTerms.setChecked(mUser.getUserInstance(mContext).getReceiveMarketingEmail());
@@ -195,7 +198,6 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         } else {
             View regLineView = (View) view.findViewById(R.id.reg_view_line);
             regLineView.setVisibility(View.GONE);
-
         }
 
         mTvWelcome.setText(getString(R.string.RegWelcomeText) + " " + userProfile.getGivenName());
