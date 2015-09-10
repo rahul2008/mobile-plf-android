@@ -16,6 +16,7 @@ public interface SHNCapabilityDeviceInformation extends SHNCapability {
         SoftwareRevision,
         SystemID,
         DeviceCloudComponentVersion,
+        DeviceCloudComponentName,
         CTN,
         Unknown
     }
