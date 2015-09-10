@@ -278,7 +278,7 @@ public class SHNDeviceAssociationTest {
         SHNDevice shnDevice = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress, shnDevice, 1);
 
-        shnDeviceAssociation.removeAssociatedDevice(macAddress);
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
         assertTrue(associatedDeviceInfos.isEmpty());
     }
@@ -293,7 +293,7 @@ public class SHNDeviceAssociationTest {
         SHNDevice shnDevice2 = mock(SHNDevice.class);
         startAssociationAndCompleteWithDevice(macAddress2, shnDevice2, 2);
 
-        shnDeviceAssociation.removeAssociatedDevice(macAddress);
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice);
 
         assertFalse(associatedDeviceInfos.isEmpty());
         assertEquals(1, associatedDeviceInfos.size());
@@ -308,9 +308,9 @@ public class SHNDeviceAssociationTest {
 
         String macAddress2 = "11:22:33:44:55:77";
         SHNDevice shnDevice2 = mock(SHNDevice.class);
-        when(shnDevice2.getAddress()).thenReturn(macAddress);
+        when(shnDevice2.getAddress()).thenReturn(macAddress2);
 
-        shnDeviceAssociation.removeAssociatedDevice(macAddress2);
+        shnDeviceAssociation.removeAssociatedDevice(shnDevice2);
 
         assertFalse(associatedDeviceInfos.isEmpty());
         assertEquals(1, associatedDeviceInfos.size());

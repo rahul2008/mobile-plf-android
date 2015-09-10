@@ -124,9 +124,9 @@ public class SHNDeviceAssociation {
         });
     }
 
-    public void removeAssociatedDevice(String macAddress) {
+    public void removeAssociatedDevice(SHNDevice shnDevice) {
         for (ShinePreferenceWrapper.AssociatedDeviceInfo deviceInfo : associatedDeviceInfos) {
-            if (macAddress.equals(deviceInfo.macAddress)) {
+            if (shnDevice.getAddress().equals(deviceInfo.macAddress)) {
                 associatedDeviceInfos.remove(deviceInfo);
                 shnCentral.getShinePreferenceWrapper().storeAssociatedDeviceInfos(associatedDeviceInfos);
                 return;
