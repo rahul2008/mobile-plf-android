@@ -20,12 +20,12 @@ import org.json.JSONObject;
  */
 public class ProductPageParser implements ResponseCallback {
 
+    public static String PRX_PRODUCT_URL = null;
     private final String TAG = ProductPageParser.class.getSimpleName();
     private final String PRX_JSON_DATA = "data";
     private final String PRX_JSON_SUCCESS = "success";
     private final String PRX_JSON_PRODUCTURL = "productURL";
     private final String PRX_URL = "http://%s/prx/product/%s/%s/CONSUMER/products/%s.summary";
-    public static String PRX_PRODUCT_URL = null;
     // private ProductPageListener mProductPageListener = null;
 
 
@@ -36,7 +36,10 @@ public class ProductPageParser implements ResponseCallback {
 
 
     public void execute() {
-        new RequestData(getUrl(), this).execute();
+        String url = getUrl();
+        if (url != null) {
+            new RequestData(url, this).execute();
+        }
     }
 
     protected String getUrl() {
@@ -60,7 +63,7 @@ public class ProductPageParser implements ResponseCallback {
     public void onResponseReceived(String response) {
         DigiCareLogger.i(TAG, "Json Parsed ? : " + getProductUrl(response));
         //if (mProductPageListener != null)
-            PRX_PRODUCT_URL = getProductUrl(response);
+        PRX_PRODUCT_URL = getProductUrl(response);
         //  mProductPageListener.onPRXProductPageReceived(getProductUrl(response));
     }
 
