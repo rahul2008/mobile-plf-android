@@ -25,6 +25,9 @@ import java.util.Set;
  */
 public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchronization { // rename it
 
+    protected List<SHNResult> allowedResults;
+    private SHNResult result;
+
     private static final String TAG = SHNCapabilityLogSyncBase.class.getSimpleName();
     private static final int MAX_STORED_MEASUREMENTS = 50;
 
@@ -44,6 +47,9 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     public SHNCapabilityLogSyncBase() {
         this.state = State.Idle;
         timer = Timer.createTimer(timeoutRunnable, 5000L);
+
+        allowedResults = new ArrayList<>();
+        allowedResults.add(SHNResult.SHNOk);
     }
 
     // implements SHNCapabilityLogSynchronization
@@ -104,8 +110,10 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     protected void handleResultOfMeasurementsSetup(SHNResult result) {
-        if (result != SHNResult.SHNOk) {
+        if (!allowedResults.contains(result)) {
             stop(result);
+        } else {
+            this.result = result;
         }
     }
 
@@ -136,7 +144,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
 
-        if (result != SHNResult.SHNOk && shnLogItems == null) {
+        if (!allowedResults.contains(result) && shnLogItems == null) {
             if (shnCapabilityLogSynchronizationListener != null) {
                 shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, result);
             }
@@ -177,7 +185,8 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     private void handleTimeout() {
-        stop(SHNResult.SHNOk);
+        assert (result != null);
+        stop(result);
     }
 
     private void notifyListenerWithProgress(float progress) {
