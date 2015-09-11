@@ -70,6 +70,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 
 	private TextView mTvPasswordMege;
 
+	private TextView mTvUsedEmail;
+
 	@Override
 	public void onAttach(Activity activity) {
 		RLog.d(RLog.FRAGMENT_LIFECYCLE, "MergeAccountFragment : onAttach");
@@ -189,6 +191,8 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		mPbForgotPaswwordSpinner.setClickable(false);
 		mPbForgotPaswwordSpinner.setEnabled(true);
 
+		mTvUsedEmail = (TextView)view.findViewById(R.id.tv_reg_used_email);
+
 		mMergeToken = bundle.getString(RegConstants.SOCIAL_MERGE_TOKEN);
 		setViewParams(getResources().getConfiguration());
 
@@ -197,15 +201,9 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 		trackActionStatus(AppTagingConstants.SEND_DATA,
 				AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.START_SOCIAL_MERGE);
 
-		String myPhilipsEmail = getString(R.string.RegMerge_MergeLbltxt);
-		myPhilipsEmail = String.format(myPhilipsEmail,mEmailId);
-		mTvPasswordMege.setText(myPhilipsEmail);
-
-		String socialProvider = bundle.getString(RegConstants.SOCIAL_PROVIDER);
-
-		String providerTempName = socialProvider.substring(0, 1).toUpperCase()
-				+ socialProvider.substring(1).toLowerCase();
-
+		String usedEmail = getString(R.string.Account_Merge_UsedEmail_Error_lbltxt);
+		usedEmail = String.format(usedEmail,mEmailId);
+		mTvUsedEmail.setText(usedEmail);
 	}
 
 

@@ -37,6 +37,7 @@
                 android:paddingRight="@dimen/reg_layout_margin">
 
                 <com.philips.cdp.registration.ui.customviews.XTextView
+                    android:id="@+id/tv_reg_used_email"
                     style="@style/reg_textStyle"
                     android:text="@string/Account_Merge_UsedEmail_Error_lbltxt"
                     reglib:fontAssetName="CentraleSans-Book.OTF" />
