@@ -1,0 +1,171 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/activity_background_color"
+    android:fillViewport="false">
+
+    <RelativeLayout
+        android:id="@+id/productreviewparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_background_color"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin">
+
+
+        <RelativeLayout
+            android:id="@+id/productreview_firstcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView style="@style/productreview_header_textone">
+
+            </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/productreview_secondcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productreview_firstcontainer"
+            android:background="@color/red"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+                style="@style/productreview_header_texttwo">
+
+            </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:id="@+id/productreview_thirdcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/productreview_secondcontainer"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/productreview_first_expandableimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="contentDescription"
+                    android:src="@drawable/common_signin_btn_icon_dark" />
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                    style="@style/productreview_expandable_contents"
+                    android:layout_toRightOf="@+id/productreview_first_expandableimage"
+                    android:text="Keep your review focused on the product">
+
+                </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/productreview_second_expandableimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="contentDescription"
+                    android:src="@drawable/common_signin_btn_icon_dark" />
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                    style="@style/productreview_expandable_contents"
+                    android:layout_toRightOf="@+id/productreview_second_expandableimage"
+                    android:text="Avoid writing about customer service; instead contact us if you have nay issues requiring our immediate attention">
+
+                </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/productreview_third_expandableimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="contentDescription"
+                    android:src="@drawable/common_signin_btn_icon_dark" />
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                    style="@style/productreview_expandable_contents"
+                    android:layout_toRightOf="@+id/productreview_third_expandableimage"
+                    android:text="Refrain from mentioning the compitators or the specific price you paid for the product">
+
+                </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/productreview_fourth_expandableimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="contentDescription"
+                    android:src="@drawable/common_signin_btn_icon_dark" />
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                    style="@style/productreview_expandable_contents"
+                    android:layout_toRightOf="@+id/productreview_fourth_expandableimage"
+                    android:text="Do not include any personally identifiable informations, such as full names.">
+
+                </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/productreview_thirdcontainer"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp">
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                style="@style/fontButton"
+                android:text="ok got it">
+
+            </com.philips.cdp.digitalcare.customview.DigitalCareFontButton>
+
+            <!--      <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                      android:id="@+id/productreview_button"
+                      style="@style/fontButton"
+                      custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf"
+                      android:text="OK.got it!"></com.philips.cdp.digitalcare.customview.DigitalCareFontButton>-->
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>
