@@ -25,7 +25,7 @@ import java.util.Set;
  */
 public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchronization { // rename it
 
-    protected List<SHNResult> allowedResults;
+    protected List<SHNResult> resultsThatDoNotCauseFailure;
     private SHNResult result;
 
     private static final String TAG = SHNCapabilityLogSyncBase.class.getSimpleName();
@@ -48,8 +48,8 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         this.state = State.Idle;
         timer = Timer.createTimer(timeoutRunnable, 5000L);
 
-        allowedResults = new ArrayList<>();
-        allowedResults.add(SHNResult.SHNOk);
+        resultsThatDoNotCauseFailure = new ArrayList<>();
+        resultsThatDoNotCauseFailure.add(SHNResult.SHNOk);
     }
 
     // implements SHNCapabilityLogSynchronization
@@ -110,7 +110,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     }
 
     protected void handleResultOfMeasurementsSetup(SHNResult result) {
-        if (!allowedResults.contains(result)) {
+        if (!resultsThatDoNotCauseFailure.contains(result)) {
             stop(result);
         } else {
             this.result = result;
@@ -144,7 +144,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
         teardownReceivingMeasurements();
         notifyListenerWithProgress(1.0f);
 
-        if (!allowedResults.contains(result) && shnLogItems == null) {
+        if (!resultsThatDoNotCauseFailure.contains(result) && shnLogItems == null) {
             if (shnCapabilityLogSynchronizationListener != null) {
                 shnCapabilityLogSynchronizationListener.onLogSynchronizationFailed(this, result);
             }
