@@ -3,17 +3,17 @@
     <!-- Placeholder to start PhilipsTheme definition -->
     <style name="PhilipsTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="splashTitleStyle">@style/PhilipsTheme.SplashTitle</item>
-        <item name="miscButtonBgColor">@color/philips_bright_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="actionButtonBgColor">@color/philips_bright_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
         <item name="actionBarBackground">@color/philips_blue_actionbar</item>
-        <item name="miscButtonStyle">@style/Misc.button</item>
+        <item name="actionButtonStyleRef">@style/Philips.ActionButton</item>
     </style>
 
     <!-- Base theme, default is blue color. -->
     <style name="PhilipsTheme.Default">
         <item name="actionBarStyle">@style/Widget.AppCompat.ActionBar</item>
-        <item name="miscButtonBgColor">@color/philips_dark_blue</item>
-        <item name="miscButtonBgColorPressed">@color/philips_bright_blue</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_bright_blue</item>
     </style>
 
     <style name="PhilipsTheme.Default.Light">
@@ -54,13 +54,13 @@
     <style name="PhilipsTheme.Default.Dark.Orange">
         <item name="android:windowBackground">@color/philips_dark_orange</item>
         <item name="android:colorBackground">@color/philips_dark_orange</item>
-        <item name="miscButtonBgColor">@color/philips_bright_orange</item>
-        <item name="miscButtonBgColorPressed">@color/philips_light_orange</item>
+        <item name="actionButtonBgColor">@color/philips_bright_orange</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
     </style>
 
 
     <style name="PhilipsTheme.SplashTitle">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">@dimen/splash_title_text_size</item>
     </style>
 </resources>

@@ -6,12 +6,18 @@
 
     <string-array name="list_items">
         <item>Miscellaneous Buttons</item>
-        <item>Background color test</item>
         <item>Splash Screen</item>
+        <item>Change Theme</item>
         <item>Buttons</item>
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>
     <string name="previous_theme">Previous theme</string>
     <string name="splash_title">@string/app_name</string>
+    <string name="color_background">Use Color Background</string>
+    <string name="solid">solid</string>
+    <string name="gradient">gradient</string>
+    <string name="image">Image</string>
+    <string name="blue_theme">Blue Theme</string>
+    <string name="orange_theme">Orange Theme</string>
 </resources>

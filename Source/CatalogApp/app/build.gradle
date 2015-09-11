@@ -9,8 +9,8 @@ android {
         applicationId "com.philips.cdp.ui.catalog"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 5
+        versionName "1.0.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -48,7 +48,6 @@ dependencies {
         compile 'com.philips.cdp:uikitLib:0.0.1'
     }
 }
-
 
 configurations.all {
     resolutionStrategy.force 'com.android.support:support-annotations:22.2.1'

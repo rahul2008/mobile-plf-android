@@ -1,0 +1,494 @@
+Theme colors look-up table (as used in UIKit for iOS)
+
+//These are the philips theme base colors
+
++ (UIColor *)philipsWordmarkBlue { return [UIColor colorWithHexString:@"0b5ed7"]; }
+
++ (UIColor *)philipsGroupBlue1 { return [UIColor colorWithHexString:@"0b2265"]; }
++ (UIColor *)philipsGroupBlue2 { return [UIColor colorWithHexString:@"0039a6"]; }
++ (UIColor *)philipsGroupBlue3 { return [UIColor colorWithHexString:@"005a8b"]; }
++ (UIColor *)philipsGroupBlue4 { return [UIColor colorWithHexString:@"0089c4"]; }
++ (UIColor *)philipsGroupBlue5 { return [UIColor colorWithHexString:@"72b5cc"]; }
+
++ (UIColor *)philipsBlueVeryDark { return [UIColor colorWithHexString:@"0f204b"]; }
++ (UIColor *)philipsBlueDark { return [UIColor colorWithHexString:@"003478"]; }
++ (UIColor *)philipsBlueBright { return [UIColor colorWithHexString:@"0066a1"]; }
++ (UIColor *)philipsBlueLight { return [UIColor colorWithHexString:@"7ba4d9"]; }
++ (UIColor *)philipsBlueVeryLight { return [UIColor colorWithHexString:@"b3c8e6"]; }
+
++ (UIColor *)philipsAquaVeryDark { return [UIColor colorWithHexString:@"22505f"]; }
++ (UIColor *)philipsAquaDark { return [UIColor colorWithHexString:@"156570"]; }
++ (UIColor *)philipsAquaBright { return [UIColor colorWithHexString:@"1e9d8b"]; }
++ (UIColor *)philipsAquaLight { return [UIColor colorWithHexString:@"5bbbb7"]; }
++ (UIColor *)philipsAquaVeryLight { return [UIColor colorWithHexString:@"cae3e9"]; }
+
++ (UIColor *)philipsGreenVeryDark { return [UIColor colorWithHexString:@"024731"]; }
++ (UIColor *)philipsGreenDark { return [UIColor colorWithHexString:@"00693c"]; }
++ (UIColor *)philipsGreenBright { return [UIColor colorWithHexString:@"5b8f22"]; }
++ (UIColor *)philipsGreenLight { return [UIColor colorWithHexString:@"b6bf00"]; }
++ (UIColor *)philipsGreenVeryLight { return [UIColor colorWithHexString:@"e0e96e"]; }
+
++ (UIColor *)philipsOrangeVeryDark { return [UIColor colorWithHexString:@"772432"]; }
++ (UIColor *)philipsOrangeDark { return [UIColor colorWithHexString:@"983222"]; }
++ (UIColor *)philipsOrangeBright { return [UIColor colorWithHexString:@"e98300"]; }
++ (UIColor *)philipsOrangeLight { return [UIColor colorWithHexString:@"eeaf00"]; }
++ (UIColor *)philipsOrangeVeryLight { return [UIColor colorWithHexString:@"fbd476"]; }
+
++ (UIColor *)philipsPinkVeryDark { return [UIColor colorWithHexString:@"662046"]; }
++ (UIColor *)philipsPinkDark { return [UIColor colorWithHexString:@"91004b"]; }
++ (UIColor *)philipsPinkBright { return [UIColor colorWithHexString:@"ec4371"]; }
++ (UIColor *)philipsPinkLight { return [UIColor colorWithHexString:@"e59aaa"]; }
++ (UIColor *)philipsPinkVeryLight { return [UIColor colorWithHexString:@"e9c5cb"]; }
+
++ (UIColor *)philipsPurpleVeryDark { return [UIColor colorWithHexString:@"42145f"]; }
++ (UIColor *)philipsPurpleDark { return [UIColor colorWithHexString:@"631d76"]; }
++ (UIColor *)philipsPurpleBright { return [UIColor colorWithHexString:@"7d0063"]; }
++ (UIColor *)philipsPurpleLight { return [UIColor colorWithHexString:@"b390bb"]; }
++ (UIColor *)philipsPurpleVeryLight { return [UIColor colorWithHexString:@"dbcfe9"]; }
+
++ (UIColor *)philipsEnricher1 { return [UIColor colorWithHexString:@"252525"]; }
++ (UIColor *)philipsEnricher2 { return [UIColor colorWithHexString:@"5d5d5d"]; }
++ (UIColor *)philipsEnricher3 { return [UIColor colorWithHexString:@"888888"]; }
++ (UIColor *)philipsEnricher4 { return [UIColor colorWithHexString:@"b9b9b9"]; }
++ (UIColor *)philipsEnricher5 { return [UIColor colorWithHexString:@"cccccc"]; }
++ (UIColor *)philipsEnricher6 { return [UIColor colorWithHexString:@"e0e0e0"]; }
++ (UIColor *)philipsEnricher7 { return [UIColor colorWithHexString:@"efefef"]; }
+
++ (UIColor *)philipsRed { return [UIColor colorWithHexString:@"cd202c"]; }
+
+
+//And these are the philips theme gradients
++ (instancetype)philipsBlueVeryDark {
+    return [self gradientWithTopLeft:[UIColor philipsBlueVeryDark]
+                         bottomRight:[UIColor philipsBlueDark]];
+}
++ (instancetype)philipsBlueDark {
+    return [self gradientWithTopLeft:[UIColor philipsBlueDark]
+                         bottomRight:[UIColor philipsBlueBright]];
+}
++ (instancetype)philipsBlueBright {
+    return [self gradientWithTopLeft:[UIColor philipsBlueBright]
+                         bottomRight:[UIColor philipsBlueLight]];
+}
++ (instancetype)philipsBlueLight {
+    return [self gradientWithTopLeft:[UIColor philipsBlueLight]
+                         bottomRight:[UIColor philipsBlueVeryLight]];
+}
++ (instancetype)philipsBlueVeryLight {
+    return [self gradientWithTopLeft:[UIColor colorWithHexString:@"edf2f8"]
+                         bottomRight:[UIColor whiteColor]];
+}
++ (instancetype)philipsAquaVeryDark {
+    return [self gradientWithTopLeft:[UIColor philipsAquaVeryDark]
+                         bottomRight:[UIColor philipsAquaDark]];
+}
++ (instancetype)philipsAquaDark {
+    return [self gradientWithTopLeft:[UIColor philipsAquaDark]
+                         bottomRight:[UIColor philipsAquaBright]];
+}
++ (instancetype)philipsAquaBright {
+    return [self gradientWithTopLeft:[UIColor philipsAquaBright]
+                         bottomRight:[UIColor philipsAquaLight]];
+}
++ (instancetype)philipsAquaLight {
+    return [self gradientWithTopLeft:[UIColor philipsAquaLight]
+                         bottomRight:[UIColor philipsAquaVeryLight]];
+}
++ (instancetype)philipsAquaVeryLight {
+    return [self gradientWithTopLeft:[UIColor colorWithHexString:@"f2f8f9"]
+                         bottomRight:[UIColor whiteColor]];
+}
++ (instancetype)philipsGreenVeryDark {
+    return [self gradientWithTopLeft:[UIColor philipsGreenVeryDark]
+                         bottomRight:[UIColor philipsGreenDark]];
+}
++ (instancetype)philipsGreenDark {
+    return [self gradientWithTopLeft:[UIColor philipsGreenDark]
+                         bottomRight:[UIColor philipsGreenBright]];
+}
++ (instancetype)philipsGreenBright {
+    return [self gradientWithTopLeft:[UIColor philipsGreenBright]
+                         bottomRight:[UIColor philipsGreenLight]];
+}
++ (instancetype)philipsGreenLight {
+    return [self gradientWithTopLeft:[UIColor philipsGreenLight]
+                         bottomRight:[UIColor philipsGreenVeryLight]];
+}
++ (instancetype)philipsGreenVeryLight {
+    return [self gradientWithTopLeft:[UIColor colorWithHexString:@"f8f9ea"]
+                         bottomRight:[UIColor whiteColor]];
+}
++ (instancetype)philipsOrangeVeryDark {
+    return [self gradientWithTopLeft:[UIColor philipsOrangeVeryDark]
+                         bottomRight:[UIColor philipsOrangeDark]];
+}
++ (instancetype)philipsOrangeDark {
+    return [self gradientWithTopLeft:[UIColor philipsOrangeDark]
+                         bottomRight:[UIColor philipsOrangeBright]];
+}
++ (instancetype)philipsOrangeBright {
+    return [self gradientWithTopLeft:[UIColor philipsOrangeBright]
+                         bottomRight:[UIColor philipsOrangeLight]];
+}
++ (instancetype)philipsOrangeLight {
+    return [self gradientWithTopLeft:[UIColor philipsOrangeLight]
+                         bottomRight:[UIColor philipsOrangeVeryLight]];
+}
++ (instancetype)philipsOrangeVeryLight {
+    return [self gradientWithTopLeft:[UIColor colorWithHexString:@"fffaed"]
+                         bottomRight:[UIColor whiteColor]];
+}
++ (instancetype)philipsPinkVeryDark {
+    return [self gradientWithTopLeft:[UIColor philipsPinkVeryDark]
+                         bottomRight:[UIColor philipsPinkDark]];
+}
++ (instancetype)philipsPinkDark {
+    return [self gradientWithTopLeft:[UIColor philipsPinkDark]
+                         bottomRight:[UIColor philipsPinkBright]];
+}
++ (instancetype)philipsPinkBright {
+    return [self gradientWithTopLeft:[UIColor philipsPinkBright]
+                         bottomRight:[UIColor philipsPinkLight]];
+}
++ (instancetype)philipsPinkLight {
+    return [self gradientWithTopLeft:[UIColor philipsPinkLight]
+                         bottomRight:[UIColor philipsPinkVeryLight]];
+}
++ (instancetype)philipsPinkVeryLight {
+    return [self gradientWithTopLeft:[UIColor colorWithHexString:@"fbf5f6"]
+                         bottomRight:[UIColor whiteColor]];
+}
++ (instancetype)philipsPurpleVeryDark {
+    return [self gradientWithTopLeft:[UIColor philipsPurpleVeryDark]
+                         bottomRight:[UIColor philipsPurpleDark]];
+}
++ (instancetype)philipsPurpleDark {
+    return [self gradientWithTopLeft:[UIColor philipsPurpleDark]
+                         bottomRight:[UIColor philipsPurpleBright]];
+}
++ (instancetype)philipsPurpleBright {
+    return [self gradientWithTopLeft:[UIColor philipsPurpleBright]
+                         bottomRight:[UIColor philipsPurpleLight]];
+}
++ (instancetype)philipsPurpleLight {
+    return [self gradientWithTopLeft:[UIColor philipsPurpleLight]
+                         bottomRight:[UIColor philipsPurpleVeryLight]];
+}
++ (instancetype)philipsPurpleVeryLight {
+    return [self gradientWithTopLeft:[UIColor colorWithHexString:@"faf7fd"]
+                         bottomRight:[UIColor whiteColor]];
+}
+
+
+
+//These are the themes as they are currently defined in iOS
+
++ (PUITheme *)blueDark
+{
+    if (nil == PUIRealThemeDarkBlue) {
+        PUIRealThemeDarkBlue = [[PUITheme alloc] initWithName:@"Dark Blue"
+                                                    baseColor:[UIColor philipsBlueDark]
+                                                  darkerColor:[UIColor philipsBlueVeryDark]
+                                                 lighterColor:[UIColor philipsBlueBright]
+                                               veryLightColor:[UIColor philipsBlueVeryLight]
+                                                 baseGradient:[PUIGradient philipsBlueDark]
+                                               darkerGradient:[PUIGradient philipsBlueVeryDark]
+                                              lighterGradient:[PUIGradient philipsBlueBright]
+                                          evenLighterGradient:[PUIGradient philipsBlueLight]
+                                            veryLightGradient:[PUIGradient philipsBlueVeryLight]];
+    }
+    return PUIRealThemeDarkBlue;
+}
+
++ (PUITheme *)aquaDark
+{
+    if (nil == PUIRealThemeDarkAqua) {
+        PUIRealThemeDarkAqua = [[PUITheme alloc] initWithName:@"Dark Aqua"
+                                                    baseColor:[UIColor philipsAquaDark]
+                                                  darkerColor:[UIColor philipsAquaVeryDark]
+                                                 lighterColor:[UIColor philipsAquaBright]
+                                               veryLightColor:[UIColor philipsAquaVeryLight]
+                                                 baseGradient:[PUIGradient philipsAquaDark]
+                                               darkerGradient:[PUIGradient philipsAquaVeryDark]
+                                              lighterGradient:[PUIGradient philipsAquaBright]
+                                          evenLighterGradient:[PUIGradient philipsAquaLight]
+                                            veryLightGradient:[PUIGradient philipsAquaVeryLight]];
+    }
+    return PUIRealThemeDarkAqua;
+}
+
++ (PUITheme *)greenDark
+{
+    if (nil == PUIRealThemeDarkGreen) {
+        PUIRealThemeDarkGreen = [[PUITheme alloc] initWithName:@"Dark Green"
+                                                     baseColor:[UIColor philipsGreenDark]
+                                                   darkerColor:[UIColor philipsGreenVeryDark]
+                                                  lighterColor:[UIColor philipsGreenBright]
+                                                veryLightColor:[UIColor philipsGreenVeryLight]
+                                                  baseGradient:[PUIGradient philipsGreenDark]
+                                                darkerGradient:[PUIGradient philipsGreenVeryDark]
+                                               lighterGradient:[PUIGradient philipsGreenBright]
+                                           evenLighterGradient:[PUIGradient philipsGreenLight]
+                                             veryLightGradient:[PUIGradient philipsGreenVeryLight]];
+    }
+    return PUIRealThemeDarkGreen;
+}
+
++ (PUITheme *)orangeDark
+{
+    if (nil == PUIRealThemeDarkOrange) {
+        PUIRealThemeDarkOrange = [[PUITheme alloc] initWithName:@"Dark Orange"
+                                                      baseColor:[UIColor philipsOrangeDark]
+                                                    darkerColor:[UIColor philipsOrangeVeryDark]
+                                                   lighterColor:[UIColor philipsOrangeBright]
+                                                 veryLightColor:[UIColor philipsOrangeVeryLight]
+                                                   baseGradient:[PUIGradient philipsOrangeDark]
+                                                 darkerGradient:[PUIGradient philipsOrangeVeryDark]
+                                                lighterGradient:[PUIGradient philipsOrangeBright]
+                                            evenLighterGradient:[PUIGradient philipsOrangeLight]
+                                              veryLightGradient:[PUIGradient philipsOrangeVeryLight]];
+    }
+    return PUIRealThemeDarkOrange;
+}
+
++ (PUITheme *)pinkDark
+{
+    if (nil == PUIRealThemeDarkPink) {
+        PUIRealThemeDarkPink = [[PUITheme alloc] initWithName:@"Dark Pink"
+                                                    baseColor:[UIColor philipsPinkDark]
+                                                  darkerColor:[UIColor philipsPinkVeryDark]
+                                                 lighterColor:[UIColor philipsPinkBright]
+                                               veryLightColor:[UIColor philipsPinkVeryLight]
+                                                 baseGradient:[PUIGradient philipsPinkDark]
+                                               darkerGradient:[PUIGradient philipsPinkVeryDark]
+                                              lighterGradient:[PUIGradient philipsPinkBright]
+                                          evenLighterGradient:[PUIGradient philipsPinkLight]
+                                            veryLightGradient:[PUIGradient philipsPinkVeryLight]];
+    }
+    return PUIRealThemeDarkPink;
+}
+
++ (PUITheme *)purpleDark
+{
+    if (nil == PUIRealThemeDarkPurple) {
+        PUIRealThemeDarkPurple = [[PUITheme alloc] initWithName:@"Dark Purple"
+                                                      baseColor:[UIColor philipsPurpleDark]
+                                                    darkerColor:[UIColor philipsPurpleVeryDark]
+                                                   lighterColor:[UIColor philipsPurpleBright]
+                                                 veryLightColor:[UIColor philipsPurpleVeryLight]
+                                                   baseGradient:[PUIGradient philipsPurpleDark]
+                                                 darkerGradient:[PUIGradient philipsPurpleVeryDark]
+                                                lighterGradient:[PUIGradient philipsPurpleBright]
+                                            evenLighterGradient:[PUIGradient philipsPurpleLight]
+                                              veryLightGradient:[PUIGradient philipsPurpleVeryLight]];
+    }
+    return PUIRealThemeDarkPurple;
+}
+
++ (PUITheme *)blueBright
+{
+    if (nil == PUIRealThemeBrightBlue) {
+        PUIRealThemeBrightBlue = [[PUITheme alloc] initWithName:@"Bright Blue"
+                                                    baseColor:[UIColor philipsBlueBright]
+                                                  darkerColor:[UIColor philipsBlueDark]
+                                                 lighterColor:[UIColor philipsBlueLight]
+                                               veryLightColor:[UIColor philipsBlueVeryLight]
+                                                 baseGradient:[PUIGradient philipsBlueBright]
+                                               darkerGradient:[PUIGradient philipsBlueDark]
+                                              lighterGradient:[PUIGradient philipsBlueLight]
+                                          evenLighterGradient:[PUIGradient philipsBlueVeryLight]
+                                            veryLightGradient:[PUIGradient philipsBlueVeryLight]];
+    }
+    return PUIRealThemeBrightBlue;
+}
+
++ (PUITheme *)aquaBright
+{
+    if (nil == PUIRealThemeBrightAqua) {
+        PUIRealThemeBrightAqua = [[PUITheme alloc] initWithName:@"Bright Aqua"
+                                                    baseColor:[UIColor philipsAquaBright]
+                                                  darkerColor:[UIColor philipsAquaDark]
+                                                 lighterColor:[UIColor philipsAquaLight]
+                                               veryLightColor:[UIColor philipsAquaVeryLight]
+                                                 baseGradient:[PUIGradient philipsAquaBright]
+                                               darkerGradient:[PUIGradient philipsAquaDark]
+                                              lighterGradient:[PUIGradient philipsAquaLight]
+                                          evenLighterGradient:[PUIGradient philipsAquaVeryLight]
+                                            veryLightGradient:[PUIGradient philipsAquaVeryLight]];
+    }
+    return PUIRealThemeBrightAqua;
+}
+
++ (PUITheme *)greenBright
+{
+    if (nil == PUIRealThemeBrightGreen) {
+        PUIRealThemeBrightGreen = [[PUITheme alloc] initWithName:@"Bright Green"
+                                                     baseColor:[UIColor philipsGreenBright]
+                                                   darkerColor:[UIColor philipsGreenDark]
+                                                  lighterColor:[UIColor philipsGreenLight]
+                                                veryLightColor:[UIColor philipsGreenVeryLight]
+                                                  baseGradient:[PUIGradient philipsGreenBright]
+                                                darkerGradient:[PUIGradient philipsGreenDark]
+                                               lighterGradient:[PUIGradient philipsGreenLight]
+                                           evenLighterGradient:[PUIGradient philipsGreenVeryLight]
+                                             veryLightGradient:[PUIGradient philipsGreenVeryLight]];
+    }
+    return PUIRealThemeBrightGreen;
+}
+
++ (PUITheme *)orangeBright
+{
+    if (nil == PUIRealThemeBrightOrange) {
+        PUIRealThemeBrightOrange = [[PUITheme alloc] initWithName:@"Bright Orange"
+                                                      baseColor:[UIColor philipsOrangeBright]
+                                                    darkerColor:[UIColor philipsOrangeDark]
+                                                   lighterColor:[UIColor philipsOrangeLight]
+                                                 veryLightColor:[UIColor philipsOrangeVeryLight]
+                                                   baseGradient:[PUIGradient philipsOrangeBright]
+                                                 darkerGradient:[PUIGradient philipsOrangeDark]
+                                                lighterGradient:[PUIGradient philipsOrangeLight]
+                                            evenLighterGradient:[PUIGradient philipsOrangeVeryLight]
+                                              veryLightGradient:[PUIGradient philipsOrangeVeryLight]];
+    }
+    return PUIRealThemeBrightOrange;
+}
+
++ (PUITheme *)pinkBright
+{
+    if (nil == PUIRealThemeBrightPink) {
+        PUIRealThemeBrightPink = [[PUITheme alloc] initWithName:@"Bright Pink"
+                                                    baseColor:[UIColor philipsPinkBright]
+                                                  darkerColor:[UIColor philipsPinkDark]
+                                                 lighterColor:[UIColor philipsPinkLight]
+                                               veryLightColor:[UIColor philipsPinkVeryLight]
+                                                 baseGradient:[PUIGradient philipsPinkBright]
+                                               darkerGradient:[PUIGradient philipsPinkDark]
+                                              lighterGradient:[PUIGradient philipsPinkLight]
+                                          evenLighterGradient:[PUIGradient philipsPinkVeryLight]
+                                            veryLightGradient:[PUIGradient philipsPinkVeryLight]];
+    }
+    return PUIRealThemeBrightPink;
+}
+
++ (PUITheme *)purpleBright
+{
+    if (nil == PUIRealThemeBrightPurple) {
+        PUIRealThemeBrightPurple = [[PUITheme alloc] initWithName:@"Bright Purple"
+                                                      baseColor:[UIColor philipsPurpleBright]
+                                                    darkerColor:[UIColor philipsPurpleVeryDark]
+                                                   lighterColor:[UIColor philipsPurpleLight]
+                                                 veryLightColor:[UIColor philipsPurpleVeryLight]
+                                                   baseGradient:[PUIGradient philipsPurpleBright]
+                                                 darkerGradient:[PUIGradient philipsPurpleDark]
+                                                lighterGradient:[PUIGradient philipsPurpleLight]
+                                            evenLighterGradient:[PUIGradient philipsPurpleVeryLight]
+                                              veryLightGradient:[PUIGradient philipsPurpleVeryLight]];
+    }
+    return PUIRealThemeBrightPurple;
+}
+
+
+//This is the method that links each UI element to its colors as they are defined in the theme
+- (void)configureThemeColors
+{
+    _solidButtonColorHighlighted = self.darkerColor;
+    _solidButtonBackgroundColor = self.baseColor;
+    _solidButtonActivityIndicatorColor = self.veryLightColor;
+    _borderedButtonColorHighlighted = self.baseColor;
+    _borderedButtonBorderColor = self.baseColor;
+    _borderedButtonTitleColor = self.baseColor;
+    _borderedButtonActivityIndicatorColor = self.baseColor;
+    _switchColor = self.baseColor;
+    _actionButtonColor = self.baseColor;
+    _shareButtonColor = self.baseColor;
+    _hamburgerMenuSeparatorColor = self.baseColor;
+    _hamburgerMenuGradientTopColor = self.darkerGradient.topLeft;
+    _hamburgerMenuGradientBottomColor = self.darkerGradient.bottomRight;
+    _hamburgerMenuHeaderTextColor = self.veryLightColor;
+    _hamburgerMenuHeaderBackgroundColor = [self.baseColor colorWithAlphaComponent:0.5f];
+    _hamburgerMenuItemColorSelected = self.baseColor;
+    _hamburgerMenuItemTitleColor = self.veryLightColor;
+    _hamburgerMenuItemColorHighlighted = [UIColor whiteColor];
+    _favoritesCategoryButtonBackgroundColor = self.baseColor;
+    _favoritesCategoryButtonTextColor = [UIColor whiteColor];
+    _favoritesCategoryButtonBackgroundColorHighlighted = self.darkerColor;
+    _favoritesCategoryButtonTextColorHighlighted = self.veryLightColor;
+    _favoritesCategoryButtonBackgroundColorSelected = [UIColor whiteColor];
+    _favoritesCategoryButtonTextColorSelected = self.darkerColor;
+    _springboardListTitleColor = self.baseColor;
+    _springboardListGradientTopColor = self.veryLightGradient.topLeft;
+    _springboardListGradientBottomColor = self.veryLightGradient.bottomRight;
+    _springboardListItemTitleColor = [UIColor whiteColor];
+    _springboardListItemTitleColorSelected = [UIColor whiteColor];
+    _springboardListItemBackgroundColor = self.baseColor;
+    _springboardListItemBackgroundColorSelected = self.darkerColor;
+    _springboardGridTitleColor = self.baseColor;
+    _springboardGridGradientTopColor = self.veryLightGradient.topLeft;
+    _springboardGridGradientBottomColor = self.veryLightGradient.bottomRight;
+    _springboardGridItemTitleColor = [UIColor whiteColor];
+    _springboardGridItemTitleColorSelected = [UIColor whiteColor];
+    _springboardGridItemBackgroundColor = self.baseColor;
+    _springboardGridItemBackgroundColorSelected = self.darkerColor;
+    _springboardBlockGradientTopColor = self.baseGradient.topLeft;
+    _springboardBlockGradientBottomColor = self.baseGradient.bottomRight;
+    _springboardBlockItemTitleColor = [UIColor whiteColor];
+    _springboardBlockItemTitleColorSelected = self.baseColor;
+    _springboardBlockItemBackgroundColor = [UIColor clearColor];
+    _springboardBlockItemBackgroundColorSelected = [UIColor whiteColor];
+    _springboardFullGradientTopColor = self.baseGradient.topLeft;
+    _springboardFullGradientBottomColor = self.baseGradient.bottomRight;
+    _springboardFullItemTitleColor = [UIColor whiteColor];
+    _springboardFullItemTitleColorSelected = self.baseColor;
+    _springboardFullItemBackgroundColor = [UIColor clearColor];
+    _springboardFullItemBackgroundColorSelected = [UIColor whiteColor];
+    _springboardDividerDarkColor = self.baseColor;
+    _springboardDividerLightColor = self.lighterColor;
+    _actionBarGradientTopColor = self.baseGradient.topLeft;
+    _actionBarGradientBottomColor = self.baseGradient.bottomRight;
+    _collectionViewCellTextColor = self.darkerColor;
+    _collectionViewCellGridBackgroundColor = self.veryLightColor;
+    _collectionViewCellCardBackgroundColor = self.lighterColor;
+    _collectionViewCellCardGradientTopColor = self.baseGradient.topLeft;
+    _collectionViewCellCardGradientBottomColor = self.baseGradient.bottomRight;
+    _textFieldColor = self.lighterColor;
+    _notificationBarGradientTopColor = self.darkerGradient.topLeft;
+    _notificationBarGradientBottomColor = self.darkerGradient.bottomRight;
+    _notificationBarTitleColor = [UIColor whiteColor];
+    _notificationBarProgressColor = [UIColor whiteColor];
+    _pageControlColorSelected = self.baseColor;
+    _pageControlColor = [UIColor colorWithPatternImage:[UIImage imageWithColor:[self pageControlColorSelected] opacity:0.5f]];
+    _progressBarColor = self.baseColor;
+    _progressBarBackgroundColor = [[self progressBarColor] colorWithAlphaComponent:0.5f];
+    _sliderColor = self.baseColor;
+    _sliderThumbColor = [UIColor colorWithPatternImage:[UIImage imageWithColor:self.baseColor opacity:0.5f]];
+    _sliderBackgroundColor = [UIColor colorWithPatternImage:[UIImage imageWithColor:[self sliderColor] opacity:0.5f]];
+    _rangeSliderColor = [self sliderColor];
+    _rangeSliderBackgroundColor = [self sliderBackgroundColor];
+    _ratingColorSelected = self.baseColor;
+    _ratingColor = [UIColor colorWithPatternImage:[UIImage imageWithColor:[self ratingColorSelected] opacity:0.5f]];
+    _segmentedControlColor = self.baseColor;
+    _segmentedControlColorHighlighted = self.veryLightColor;
+    _tableViewCellIconColor = self.baseColor;
+    _tableViewCellAccessoryColor = self.baseColor;
+    _tableViewCellBackgroundColorSelected = self.baseColor;
+    _tableViewTextColor = self.baseColor;
+    _tableViewTextColorSelected = [UIColor whiteColor];
+    _tableViewCellIconColorSelected = [UIColor whiteColor];
+    _tableViewCellBackgroundColor = [UIColor whiteColor];
+    _tableViewHeaderTextColor = self.baseColor;
+    _tableViewHeaderGradientTopColor = self.evenLighterGradient.topLeft;
+    _tableViewHeaderGradientBottomColor = self.evenLighterGradient.bottomRight;
+    _tabBarColorInverted = [UIColor whiteColor];
+    _tabBarColor = self.baseColor;
+    _tabBarBackgroundGradientTopColor = self.baseGradient.topLeft;
+    _tabBarBackgroundGradientBottomColor = self.baseGradient.bottomRight;
+    _tabBarDividerDarkColor = self.baseColor;
+    _tabBarDividerLightColor = self.lighterColor;
+    _splashScreenGradientTopColor = self.lighterGradient.topLeft;
+    _splashScreenGradientBottomColor = self.lighterGradient.bottomRight;
+    _modalAlertTextColor = self.baseColor;
+    _navigationBarBackgroundGradientTopColor = self.baseGradient.topLeft;
+    _navigationBarBackgroundGradientBottomColor = self.baseGradient.bottomRight;
+    _navigationBarColor = self.baseColor;
+    _activityIndicatorColor = self.lighterColor;
+}
