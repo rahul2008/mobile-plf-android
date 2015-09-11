@@ -234,7 +234,25 @@ public class SHNCapabilityLogSyncBaseTest {
 
         timeOutCaptor.getValue().run();
 
-        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(testSHNCapabilityLogSyncBase, null, SHNResult.SHNOk);
+        ArgumentCaptor<SHNLog> shnLogArgumentCaptor = ArgumentCaptor.forClass(SHNLog.class);
+        ArgumentCaptor<SHNResult> shnResultArgumentCaptor = ArgumentCaptor.forClass(SHNResult.class);
+
+        verify(mockedShnCapabilitySHNCapabilityLogSynchronizationListener).onLogSynchronized(any(SHNCapabilityLogSynchronization.class), shnLogArgumentCaptor.capture(), shnResultArgumentCaptor.capture());
+        assertEquals(SHNResult.SHNOk, shnResultArgumentCaptor.getValue());
+
+        assertTrue(shnLogArgumentCaptor.getValue().getLogItems().isEmpty());
+        assertTrue(shnLogArgumentCaptor.getValue().getContainedDataTypes().isEmpty());
+    }
+
+    @Test
+    public void whenTheTimerTimesOutWithNoDataThenStateIsIdle() {
+        startCapabilityWithResult(SHNResult.SHNOk);
+
+        Mockito.reset(mockedShnCapabilitySHNCapabilityLogSynchronizationListener);
+        Mockito.reset(mockedTimeoutTimer);
+
+        timeOutCaptor.getValue().run();
+
         assertEquals(SHNCapabilityLogSynchronization.State.Idle, testSHNCapabilityLogSyncBase.getState());
     }
 

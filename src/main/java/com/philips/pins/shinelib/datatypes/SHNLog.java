@@ -34,7 +34,10 @@ public class SHNLog {
     }
 
     public long getDurationMS() { // milli seconds between end and start
-        return endDate.getTime() - startDate.getTime();
+        if (endDate != null && startDate != null) {
+            return endDate.getTime() - startDate.getTime();
+        }
+        return 0;
     }
 
     public String getAssociatedDeviceAddress() {
@@ -52,7 +55,7 @@ public class SHNLog {
     public List<SHNLogItem> getLogItems(SHNDataType shnDataType) {
         List<SHNLogItem> result = new ArrayList<>();
 
-        for (SHNLogItem logItem: logItems) {
+        for (SHNLogItem logItem : logItems) {
             if (logItem.getContainedDataTypes().contains(shnDataType)) {
                 result.add(logItem);
             }
@@ -65,7 +68,7 @@ public class SHNLog {
         Comparator<? super Object> comparator = new Comparator<Object>() {
             @Override
             public int compare(Object lhs, Object rhs) {
-                long diff = ((SHNLogItem)rhs).getTimestamp().getTime() - ((SHNLogItem)lhs).getTimestamp().getTime();
+                long diff = ((SHNLogItem) rhs).getTimestamp().getTime() - ((SHNLogItem) lhs).getTimestamp().getTime();
                 if (diff > 0) {
                     return 1;
                 } else if (diff < 0) {

@@ -160,7 +160,7 @@ public abstract class SHNCapabilityLogSyncBase implements SHNCapabilityLogSynchr
     @NonNull
     private SHNLog createLog() {
         if (shnLogItems == null) {
-            return null;
+            return new SHNLog(null, null, "", new ArrayList<SHNLogItem>(), new HashSet<SHNDataType>());
         }
         Collections.sort(shnLogItems, new SHNLogItemsComparator());
 
