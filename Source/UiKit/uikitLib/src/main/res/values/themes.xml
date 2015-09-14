@@ -8,6 +8,11 @@
         <item name="actionButtonStyleRef">@style/Philips.ActionButton</item>
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextAppearance" parent="android:TextAppearance">
+        <item name="fontPath">fonts/centralesansbold.ttf</item>
     </style>
 
 </resources>

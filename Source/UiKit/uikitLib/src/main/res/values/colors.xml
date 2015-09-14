@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="white">#FFFFFF</color>
     
     <!-- Blue theme -->
     <color name="philips_blue">#7ba4d9</color>

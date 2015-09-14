@@ -16,7 +16,7 @@
         android:id="@+id/theme_button"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="58dp"
+        android:layout_marginTop="30dp"
         />
 
     <Button
@@ -26,7 +26,17 @@
         android:id="@+id/inverted_very_light_orange_button"
         style="@style/Button.InvertedVeryLightOrange"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@+id/theme_button"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sample button"
+        android:id="@+id/inverted_very_light_blue_button"
+        style="@style/Button.InvertedVeryLightBlue"
+        android:layout_below="@+id/inverted_very_light_orange_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>
