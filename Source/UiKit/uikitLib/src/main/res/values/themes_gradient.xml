@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Philips.GradientBlue">
+        <item name="actionBarBackground">@color/philips_bright_blue</item>
+        <item name="android:windowBackground">@drawable/grad_light_blue_background</item>
+        <item name="android:colorBackground">@color/philips_bright_blue</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
+    </style>
+
+    <style name="Theme.Philips.GradientOrange">
+        <item name="actionBarBackground">@color/philips_bright_orange</item>
+        <item name="android:windowBackground">@drawable/grad_orange_background</item>
+        <item name="android:colorBackground">@color/philips_bright_orange</item>
+        <item name="actionButtonBgColor">@color/philips_dark_orange</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
+    </style>
+
+    <style name="Theme.Philips.GradientAqua">
+        <item name="actionBarBackground">@color/philips_bright_aqua</item>
+        <item name="android:windowBackground">@drawable/grad_aqua_background</item>
+        <item name="android:colorBackground">@color/philips_bright_aqua</item>
+        <item name="actionButtonBgColor">@color/philips_dark_aqua</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_aqua</item>
+    </style>
+
+</resources>

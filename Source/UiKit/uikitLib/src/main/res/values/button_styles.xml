@@ -30,8 +30,16 @@
         <item name="android:background">@drawable/bright_orange_selector</item>
     </style>
 
+    <style name="Button.Normal.BrightAqua">
+        <item name="android:background">@drawable/bright_aqua_selector</item>
+    </style>
+
     <style name="Button.Normal.VeryLightOrange">
         <item name="android:background">@drawable/very_light_orange_selector</item>
+    </style>
+
+    <style name="Button.Normal.VeryLightAqua">
+        <item name="android:background">@drawable/very_light_aqua_selector</item>
     </style>
 
     <style name="Button.InvertedLigthBLue">

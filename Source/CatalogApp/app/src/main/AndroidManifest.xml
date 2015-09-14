@@ -31,7 +31,6 @@
         <activity android:name=".SplashActivityLogoCenterTitleTop"/>
         <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
         <activity android:name=".SplashLauncher"/>
-        <activity android:name=".ButtonsActivity"/>
 
     </application>
 
