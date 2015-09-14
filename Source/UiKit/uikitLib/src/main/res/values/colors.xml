@@ -7,6 +7,7 @@
     <color name="gradient_blue_start">@android:color/holo_blue_light</color>
     <color name="gradient_blue_end">#629fd5</color>
     <color name="gradient_orange_end">#eda600</color>
+    <color name="gradient_aqua_end">#4fb5ae</color>
 
     <!-- Dark Blue theme -->
     <color name="philips_dark_blue">#003478</color>

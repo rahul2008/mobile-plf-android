@@ -43,13 +43,18 @@ public class ThemeUtils {
         int[] orange_themes = {R.style.Theme_Philips_Orange_WhiteBackground, R.style.Theme_Philips_Orange,
                 R.style.Theme_Philips_GradientOrange_WhiteBackground,
                 R.style.Theme_Philips_GradientOrange};
+        int[] aqua_themes = {R.style.Theme_Philips_VeryLightAqua_WhiteBackground, R.style.Theme_Philips_VeryLightAqua,
+                R.style.Theme_Philips_GradientAqua_WhiteBackground,
+                R.style.Theme_Philips_GradientAqua};
         themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
         themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
+        themesMap.put(ColorType.AQUA.getDescription(), aqua_themes);
     }
 
     private int[] themes = {
             R.style.Theme_Philips_LightBlue_WhiteBackground,
-            R.style.Theme_Philips_Orange_WhiteBackground
+            R.style.Theme_Philips_Orange_WhiteBackground,
+            R.style.Theme_Philips_VeryLightAqua_WhiteBackground
     };
 
     public void setThemePreferences(boolean previous) {
