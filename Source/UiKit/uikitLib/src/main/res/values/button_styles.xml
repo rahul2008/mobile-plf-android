@@ -1,0 +1,52 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Button">
+        <item name="fontPath">fonts/centralesansbook.ttf</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">44dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingLeft">20dp</item>
+    </style>
+
+    <style name="Button.Normal">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Button.Normal.LightBlue">
+        <item name="android:background">@drawable/light_blue_selector</item>
+    </style>
+
+    <style name="Button.Normal.BrightBlue">
+        <item name="android:background">@drawable/bright_blue_selector</item>
+    </style>
+
+    <style name="Button.Normal.VeryLightBlue">
+        <item name="android:background">@drawable/very_light_blue_selector</item>
+    </style>
+
+    <style name="Button.Normal.BrightOrange">
+        <item name="android:background">@drawable/bright_orange_selector</item>
+    </style>
+
+    <style name="Button.Normal.VeryLightOrange">
+        <item name="android:background">@drawable/very_light_orange_selector</item>
+    </style>
+
+    <style name="Button.InvertedLigthBLue">
+        <item name="android:textColor">@drawable/light_blue_inverted_text_selector</item>
+        <item name="android:background">@drawable/light_blue_inverted_selector</item>
+    </style>
+
+    <style name="Button.InvertedVeryLightBlue">
+        <item name="android:textColor">@drawable/very_light_blue_inverted_text_selector</item>
+        <item name="android:background">@drawable/very_light_blue_inverted_selector</item>
+    </style>
+
+    <style name="Button.InvertedVeryLightOrange">
+        <item name="android:textColor">@drawable/very_light_orange_inverted_text_selector</item>
+        <item name="android:background">@drawable/very_light_orange_inverted_selector</item>
+    </style>
+
+</resources>
