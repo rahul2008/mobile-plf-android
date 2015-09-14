@@ -37,10 +37,10 @@ public class ThemeUtils {
     }
 
     private void appendThemes(){
-        int[] blue_themes = {R.style.Theme_Philips_LightBlue_WhiteBackground, R.style.Theme_Philips_LightBlue,
+        int[] blue_themes = {R.style.Theme_Philips_VeryLightBlue_WhiteBackground, R.style.Theme_Philips_VeryLightBlue,
                 R.style.Theme_Philips_GradientBlue_WhiteBackground,
                 R.style.Theme_Philips_GradientBlue};
-        int[] orange_themes = {R.style.Theme_Philips_Orange_WhiteBackground, R.style.Theme_Philips_Orange,
+        int[] orange_themes = {R.style.Theme_Philips_VeryLightOrange_WhiteBackground, R.style.Theme_Philips_VeryLightOrange,
                 R.style.Theme_Philips_GradientOrange_WhiteBackground,
                 R.style.Theme_Philips_GradientOrange};
         themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
@@ -48,8 +48,8 @@ public class ThemeUtils {
     }
 
     private int[] themes = {
-            R.style.Theme_Philips_LightBlue_WhiteBackground,
-            R.style.Theme_Philips_Orange_WhiteBackground
+            R.style.Theme_Philips_VeryLightBlue_WhiteBackground,
+            R.style.Theme_Philips_VeryLightOrange_WhiteBackground
     };
 
     public void setThemePreferences(boolean previous) {
