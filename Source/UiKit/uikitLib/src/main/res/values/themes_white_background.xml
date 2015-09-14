@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Philips.LightBlue.WhiteBackground">
+    <style name="Theme.Philips.VeryLightBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionButtonBgColor">@color/philips_very_light_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_blue</item>
+        <item name="buttonStyle">@style/Button.Normal.VeryLightBlue</item>
     </style>
 
-    <style name="Theme.Philips.Orange.WhiteBackground">
+    <style name="Theme.Philips.VeryLightOrange.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionButtonBgColor">@color/philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
+        <item name="buttonStyle">@style/Button.Normal.VeryLightOrange</item>
     </style>
 
     <style name="Theme.Philips.GradientBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionButtonBgColor">@color/philips_bright_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_blue</item>
+        <item name="buttonStyle">@style/Button.Normal.BrightBlue</item>
     </style>
 
     <style name="Theme.Philips.GradientOrange.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionButtonBgColor">@color/philips_bright_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
+        <item name="buttonStyle">@style/Button.Normal.BrightOrange</item>
     </style>
 
     <style name="Theme.Philips.VeryLightAqua.WhiteBackground">
