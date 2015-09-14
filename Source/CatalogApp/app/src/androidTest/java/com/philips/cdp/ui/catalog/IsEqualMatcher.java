@@ -21,6 +21,7 @@ import org.w3c.dom.Text;
 public class IsEqualMatcher extends BoundedMatcher<TextView, TextView> {
 
     private float expectedFontSize;
+    public static final String TAG = "IsEqual";
 
     public IsEqualMatcher(final Class<? extends TextView> expectedType, float expectedFontSize) {
         super(expectedType);

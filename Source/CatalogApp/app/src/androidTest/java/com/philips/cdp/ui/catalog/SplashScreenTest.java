@@ -53,7 +53,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
 
-    public void testSplashScreenTextAsExpected(){
+/*    public void testSplashScreenTextAsExpected(){
         onView(withText("Splash Screen")).perform(click());
         onView(withText("Logo Center, Title Top")).perform(click());
 
@@ -61,6 +61,6 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
         float expectedFontSize = 30;
                 onView(withId(com.philips.cdp.uikit.R.id.splash_title)).check(matches(isFontSimilar(expectedFontSize));
 
-    }
+    }*/
 
 }

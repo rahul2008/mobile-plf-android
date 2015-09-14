@@ -36,10 +36,8 @@ public class ButtonsTest extends ActivityInstrumentationTestCase2<MainActivity>{
     public void testRegularButtonAsExpected() {
         onView(withText("Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_cross);
-        onView(withId(R.id.button))
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.regularbutton_themable_blue);
+        onView(withId(R.id.theme_button))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
 }
-
-// This test is incomplete
