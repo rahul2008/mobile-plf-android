@@ -33,12 +33,14 @@
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionButtonBgColor">@color/philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
+        <item name="buttonStyle">@style/Button.Normal.VeryLightAqua</item>
     </style>
 
     <style name="Theme.Philips.GradientAqua.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="actionButtonBgColor">@color/philips_bright_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
+        <item name="buttonStyle">@style/Button.Normal.BrightAqua</item>
     </style>
 
 </resources>
