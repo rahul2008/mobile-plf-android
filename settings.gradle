@@ -1,4 +1,4 @@
-include ':localeMatch', ':adobeMobileLibrary-4.5.1'
+include ':localeMatch', ':adobeMobileLibrary-4.5.1', ':hsdp'
 include ':jump'
 include ':registrationApi'
 include ':registrationSampleApp'

@@ -42,6 +42,7 @@ dependencies {
     compile project(':jump')
     compile project(':localeMatch')
     compile project(':adobeMobileLibrary-4.5.1')
+    compile project(':hsdp')
 }
 
 task findbugs(type: FindBugs, dependsOn: assembleDebug) {
