@@ -13,14 +13,14 @@ import org.hamcrest.Matcher;
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class IsSimilarMatcher extends BoundedMatcher<View, View> {
+public class IsPixelAsExpectedMatcher extends BoundedMatcher<View, View> {
 
-    public static final String TAG = "IsSimilarMatcher";
+    public static final String TAG = "IsPixelAsExpected";
     private static final int RELAXED_BOUNDARY_PIXELS = 2;
     private static final int PASS_PERCENTAGE = 5;
     private Bitmap expectedBitmap;
 
-    public IsSimilarMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
+    public IsPixelAsExpectedMatcher(final Class<? extends View> expectedType, Bitmap expectedBitmap) {
         super(expectedType);
         this.expectedBitmap = expectedBitmap;
     }
@@ -40,13 +40,9 @@ public class IsSimilarMatcher extends BoundedMatcher<View, View> {
         int expectedWidth = expectedBitmap.getWidth();
         int actualHeight = actualBitmap.getHeight();
         int expectedHeight = expectedBitmap.getHeight();
-/*        if ((actualWidth != expectedWidth) || (actualHeight != expectedHeight)) {
-            Log.d(TAG, "width or height not as expected");
-            return false;
-        }*/
 
         long diff = 0;
-        //Relaxing the comparision by ignoring 2px from each boundary.
+        //Relaxing the comparison by ignoring 2px from each boundary.
         int rowCount = actualHeight- RELAXED_BOUNDARY_PIXELS;
         int columnCount = actualWidth- RELAXED_BOUNDARY_PIXELS;
         //Start comparing by relaxing 2px from starting points
@@ -65,6 +61,6 @@ public class IsSimilarMatcher extends BoundedMatcher<View, View> {
     }
 
     public static Matcher<View> isImageSimilar(final Bitmap expectedBitmap) {
-        return new IsSimilarMatcher(View.class, expectedBitmap);
+        return new IsPixelAsExpectedMatcher(View.class, expectedBitmap);
     }
 }

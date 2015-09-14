@@ -12,7 +12,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsSimilarMatcher.isImageSimilar;
+import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -72,7 +72,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_minus);
         onView(withId(R.id.miscBtnSquareMinus))
-                .check(matches(isImageSimilar(expectedBitmap)));
+                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
     }
 
     public void testActionButtonSquarePlusAsExpected() {
@@ -97,7 +97,9 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_plus);
         onView(withId(R.id.miscBtnCirclePlus))
-                .check(matches(isImageSimilar(expectedBitmap)));
+                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
+        onView(withId(R.id.miscBtnCirclePlus))
+                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
     }
 
     public void testActionButtonCircleMinusAsExpected() {
