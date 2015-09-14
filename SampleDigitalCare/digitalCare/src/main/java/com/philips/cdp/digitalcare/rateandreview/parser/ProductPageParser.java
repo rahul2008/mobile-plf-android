@@ -43,6 +43,8 @@ public class ProductPageParser implements ResponseCallback {
     }
 
     protected String getUrl() {
+        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithLanguageFallBack() == null)
+            return null;
         String language = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack()
                 .getLanguage().toLowerCase();
 
