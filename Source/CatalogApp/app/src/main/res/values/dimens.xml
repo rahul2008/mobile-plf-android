@@ -3,6 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="philips_action_button_margin">15dp</dimen>
+    <dimen name="philips_action_button_margin">16dp</dimen>
+    <dimen name="app_top_margin">25dp</dimen>
+    <dimen name="button_width">150dp</dimen>
 
 </resources>

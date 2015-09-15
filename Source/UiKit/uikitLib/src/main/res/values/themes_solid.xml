@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Philips.VeryLightBlue">
+        <item name="actionBarBackground">@color/philips_very_light_blue</item>
+        <item name="android:windowBackground">@color/philips_very_light_blue</item>
+        <item name="android:colorBackground">@color/philips_very_light_blue</item>
+        <item name="actionButtonBgColor">@color/philips_dark_blue</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
+    </style>
+
+    <style name="Theme.Philips.VeryLightOrange">
+        <item name="actionBarBackground">@color/philips_very_light_orange</item>
+        <item name="android:windowBackground">@color/philips_very_light_orange</item>
+        <item name="android:colorBackground">@color/philips_very_light_orange</item>
+        <item name="actionButtonBgColor">@color/philips_dark_orange</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
+    </style>
+
+    <style name="Theme.Philips.VeryLightAqua">
+        <item name="actionBarBackground">@color/philips_very_light_aqua</item>
+        <item name="android:windowBackground">@color/philips_very_light_aqua</item>
+        <item name="android:colorBackground">@color/philips_very_light_aqua</item>
+        <item name="actionButtonBgColor">@color/philips_dark_aqua</item>
+        <item name="actionButtonBgColorPressed">@color/philips_light_aqua</item>
+    </style>
+
+
+</resources>

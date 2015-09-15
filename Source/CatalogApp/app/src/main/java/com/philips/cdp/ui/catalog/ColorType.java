@@ -8,7 +8,8 @@ public enum ColorType {
 
     UNKNOWN(-1, "unknown"),
     BLUE(0, "blue"),
-    ORANGE(1, "orange");
+    ORANGE(1, "orange"),
+    AQUA(2, "aqua");
 
 
     private final int id;
