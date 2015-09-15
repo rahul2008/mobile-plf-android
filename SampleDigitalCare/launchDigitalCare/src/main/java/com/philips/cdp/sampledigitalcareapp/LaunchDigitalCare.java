@@ -116,7 +116,7 @@ public class LaunchDigitalCare extends FragmentActivity implements OnClickListen
         // Digital care initialization
         initializeDigitalCareLibrary();
 
-        registerHockeyApp();
+//        registerHockeyApp();
     }
 
     @Override

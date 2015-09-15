@@ -22,4 +22,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.0'
     compile project(':adobeMobileLibrary')
     compile project(':localeMatch-v1.0.2')
+    compile project(':bvsdk')
 }
