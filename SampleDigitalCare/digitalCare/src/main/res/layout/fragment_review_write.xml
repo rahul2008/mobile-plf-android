@@ -1,0 +1,184 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/activity_background_color"
+    android:fillViewport="false">
+
+    <!-- Write Product Review custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" -->
+    <LinearLayout
+        android:id="@+id/write_product_review_include_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_background_color"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/review_write_rate_productimage"
+                style="@style/write_product_review_ProdImage"
+                android:contentDescription="@string/product_name"
+                android:src="@drawable/viewproduct_productimage" />
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                android:id="@+id/review_write_rate_name"
+                style="@style/write_product_review_Product_Header"
+                android:layout_alignTop="@id/review_write_rate_productimage"
+                android:text="Norelco Shaver 9700 Series 9000 wet and dry electric shaver" />
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+                android:id="@+id/review_write_rate_variant"
+                style="@style/write_product_review_Product_Variant"
+                android:text="S9721" />
+        </RelativeLayout>
+
+
+        <!-- Productname descriptions-->
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+                android:id="@+id/review_write_rate_product_header"
+                style="@style/write_product_review_header_styles"
+                android:layout_weight="1.0"
+                android:text="Please rate this product:">
+
+            </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+            <RatingBar
+                android:id="@+id/review_write_rate_product_ratingBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0" />
+        </LinearLayout>
+
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+            android:id="@+id/review_write_rate_product_header"
+            style="@style/write_product_review_header_styles"
+            android:text="Your review:" />
+
+        <EditText
+            android:id="@+id/review_write_rate_product_header_summary"
+            style="@style/write_product_review_edittext"
+            android:layout_marginTop="10dp"
+            android:hint="Review Summary" />
+
+        <EditText
+            android:id="@+id/review_write_rate_product_header_description"
+            style="@style/write_product_review_edittext"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:hint="Write your review here" />
+
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+            android:id="@+id/review_write_rate_product_nickname_header"
+            style="@style/write_product_review_header_styles"
+            android:text="Pick a nickname:" />
+
+        <EditText
+            android:id="@+id/review_write_rate_product_nickname_header_value"
+            style="@style/write_product_review_edittext"
+            android:layout_marginTop="10dp"
+            android:hint="Not your real name" />
+
+        <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+            android:id="@+id/review_write_rate_product_email_header"
+            style="@style/write_product_review_header_styles"
+            android:text="Your eamil" />
+
+        <EditText
+            android:id="@+id/review_write_rate_product_email_header_value"
+            style="@style/write_product_review_edittext"
+            android:layout_marginTop="10dp"
+            android:hint="Make sure you have access" />
+
+
+        <View
+            android:id="@+id/your_product_review_divider_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/your_product_review_parent_one"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#cccccc" />
+
+
+        <!-- Terms and Condition-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
+
+                android:id="@+id/review_write_rate_product_terms"
+                style="@style/write_product_review_header_styles"
+                android:layout_weight="1.0"
+                android:text="I/'ve read and agree to the Terms and Conditions">
+
+            </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
+
+            <Switch
+                android:id="@+id/review_write_rate_product_terms_switch"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/title_text_size_medium"
+                android:layout_weight="3.0" />
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/your_product_review_divider_one"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/your_product_review_parent_one"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            android:weightSum="2">
+
+            <RelativeLayout
+                style="@style/fontButton"
+                android:layout_weight="1"
+                android:padding="2dp">
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/your_product_review_cancel_button"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/cancel"
+                    android:textColor="@color/button_background" />
+            </RelativeLayout>
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/your_product_review_send_button"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/marginTopButton"
+                android:layout_weight="1"
+                android:text="Preview" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</ScrollView>
