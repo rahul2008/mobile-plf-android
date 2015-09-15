@@ -21,6 +21,7 @@ import com.philips.cdp.digitalcare.analytics.AnalyticsTracker;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.rateandreview.fragments.Productreviewguidefragment;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -190,7 +191,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 rateProductReview();
         } else if (id == R.id.tellus_PlayStoreReviewButton) {
             if (isConnectionAvailable())
-                rateThisApp();
+                showFragment(new Productreviewguidefragment());
+            // rateThisApp();
         }
     }
 
