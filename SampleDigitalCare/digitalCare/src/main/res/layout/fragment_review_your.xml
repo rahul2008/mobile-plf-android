@@ -128,10 +128,41 @@
             android:id="@+id/your_product_review_divider_two"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/your_product_review_parent_one"
+            android:layout_below="@+id/your_product_review_parent_two"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:background="#cccccc" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/your_product_review_divider_two"
+            android:layout_marginBottom="@dimen/marginTopButton"
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin">
+
+            <RelativeLayout
+                style="@style/fontButton"
+                android:layout_weight="2"
+                android:padding="2dp">
+
+                <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                    android:id="@+id/your_product_review_preview_cancel_button"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
+                    android:text="@string/cancel"
+                    android:textColor="@color/button_background" />
+            </RelativeLayout>
+
+            <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
+                android:id="@+id/your_product_review_preview_send_button"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/marginTopButton"
+                android:layout_weight="1"
+                android:text="Submit my review" />
+        </LinearLayout>
 
     </RelativeLayout>
 
