@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class BTGatt extends BluetoothGattCallback {
     private static final String TAG = BTGatt.class.getSimpleName();
-    private static final boolean LOGGING = true;
+    private static final boolean LOGGING = false;
 
     public interface BTGattCallback
     {
