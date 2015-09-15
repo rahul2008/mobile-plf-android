@@ -101,7 +101,7 @@
 
             android:id="@+id/review_write_rate_product_email_header"
             style="@style/write_product_review_header_styles"
-            android:text="Your email" />
+            android:text="Your eamil" />
 
         <EditText
             android:id="@+id/review_write_rate_product_email_header_value"
@@ -155,7 +155,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/marginTopButton"
+            android:layout_marginBottom="@dimen/actionbar_height"
             android:visibility="visible"
             android:weightSum="2">
 

@@ -136,5 +136,24 @@
         <item name="android:textColor">@color/text_sub_header_color</item>
     </style>
 
+    <!-- Thankyou Header -->
+    <style name="your_product_review_thankyou_header">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textColor">@color/text_header_color</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/title_text_size_large</item>
+        <item name="android:text">Nice! We received your review!</item>
+    </style>
+
+
+    <style name="your_product_review_thankyou_description">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/button_background</item>
+        <item name="android:textSize">@dimen/title_text_size_small</item>
+    </style>
+
 
 </resources>
