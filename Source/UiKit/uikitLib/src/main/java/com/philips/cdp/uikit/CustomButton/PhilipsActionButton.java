@@ -41,7 +41,8 @@ public class PhilipsActionButton extends ImageButton {
         setScaleType(ScaleType.CENTER);
     }
 
-    @SuppressWarnings("deprecation") //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private GradientDrawable getShapeDrawable(final TypedArray typedArray, final Resources resources) {
         GradientDrawable gradientDrawable;
         int shapeValue = typedArray.getInt(R.styleable.ActionButton_actionButtonShape, SQUARE);
@@ -75,7 +76,8 @@ public class PhilipsActionButton extends ImageButton {
         return gradientDrawable;
     }
 
-    @SuppressWarnings("deprecation") //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
+    @SuppressWarnings("deprecation")
+    //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
     private void addStates(final GradientDrawable normal, final GradientDrawable pressed) {
         StateListDrawable states = new StateListDrawable();
         states.addState(new int[]{android.R.attr.state_pressed},

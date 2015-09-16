@@ -14,4 +14,10 @@
     <dimen name="splash_title_margin_bottom">35dp</dimen>
     <dimen name="splash_title_text_size">38dp</dimen>
 
+    <dimen name="button_corner_rounding">2dp</dimen>
+    <dimen name="button_stroke_width">1dp</dimen>
+    <dimen name="button_height">44dp</dimen>
+    <dimen name="button_padding_sides">20dp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
+
 </resources>
