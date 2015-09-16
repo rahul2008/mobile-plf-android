@@ -32,6 +32,7 @@ public class LocaleMatchHandler implements LocaleMatchListener {
     private Locale mLocale = null;
     private PILLocaleManager mPLocaleManager = null;
     private static HashMap<String, String> mPRXMap = null;
+    private LocaleMatchHandlerObserver mLocaleMatchHandlerObserver=null;
 
     public LocaleMatchHandler(Context context) {
         mContext = context;
@@ -75,28 +76,36 @@ public class LocaleMatchHandler implements LocaleMatchListener {
                     mLanguageCode + "_" + mCountryCode, Platform.PRX,
                     setSector(mSectorValue), Catalog.CONSUMER);
 
+
             if (mPilLocaleWithCountryFallBack != null) {
                 DigiCareLogger.v(TAG, "PILocale is Not null");
                 Locale locale = new Locale(mPilLocaleWithCountryFallBack.getLanguageCode(), mPilLocaleWithCountryFallBack.getCountrycode());
+                DigiCareLogger.d(TAG, mPilLocaleWithCountryFallBack.getCountrycode() + "" + mPilLocaleWithCountryFallBack.getCountrycode());
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(locale);
+                DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
 
             } else {
                 DigiCareLogger.v(TAG, "PILocale country fallback received null");
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
+                DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
+
             }
 
             if(mPilLocaleWithLanguageFallBack!=null){
                 Locale locale = new Locale(mPilLocaleWithLanguageFallBack.getLanguageCode(), mPilLocaleWithLanguageFallBack.getCountrycode());
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(locale);
+                DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
             }else{
                 DigiCareLogger.v(TAG, "PILocale language fallback received null");
                 DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithLanguageFallBack(mLocale);
+                DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
             }
 
 
         } else {
             DigiCareLogger.v(TAG, "Sector Not exists");
-            DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
+            //DigitalCareConfigManager.getInstance().setLocaleMatchResponseLocaleWithCountryFallBack(mLocale);
+            DigitalCareConfigManager.getInstance().getObserver().notificationReceived();
         }
         initializePRXMap();
     }
