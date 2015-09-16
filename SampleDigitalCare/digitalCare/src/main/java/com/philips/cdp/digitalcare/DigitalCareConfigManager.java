@@ -10,6 +10,7 @@ import com.philips.cdp.digitalcare.homefragment.SupportHomeFragment;
 import com.philips.cdp.digitalcare.listeners.ActionbarUpdateListener;
 import com.philips.cdp.digitalcare.listeners.MainMenuListener;
 import com.philips.cdp.digitalcare.localematch.LocaleMatchHandler;
+import com.philips.cdp.digitalcare.localematch.LocaleMatchHandlerObserver;
 import com.philips.cdp.digitalcare.productdetails.ProductMenuListener;
 import com.philips.cdp.digitalcare.rateandreview.parser.ProductPageParser;
 import com.philips.cdp.digitalcare.social.SocialProviderListener;
@@ -33,9 +34,9 @@ public class DigitalCareConfigManager {
     private static DigitalCareConfigManager mDigitalCareInstance = null;
     private static Context mContext = null;
     private static LocaleMatchHandler mLocaleMatchHandler = null;
-    private Locale mLocale = null;
-    private Locale mLocaleMatchWithCountryFallBack = null;
-    private Locale mLocaleMatchWithLanguageFallBack = null;
+    private static Locale mLocale = null;
+    private static Locale mLocaleMatchWithCountryFallBack = null;
+    private static Locale mLocaleMatchWithLanguageFallBack = null;
     private ConsumerProductInfo mConsumerProductInfo = null;
     private MainMenuListener mMainMenuListener = null;
     private ProductMenuListener mProductMenuListener = null;
@@ -43,6 +44,7 @@ public class DigitalCareConfigManager {
     private String mAppID = null;
     private String mPageName = null;
     private boolean mTaggingEnabled = false;
+    private static LocaleMatchHandlerObserver mLocaleMatchHandlerObserver=null;
 
     /*
      * Initialize everything(resources, variables etc) required for DigitalCare.
@@ -87,11 +89,15 @@ public class DigitalCareConfigManager {
         if (mContext == null) {
             DigitalCareConfigManager.mContext = applicationContext;
             mLocaleMatchHandler = new LocaleMatchHandler(mContext);
+            mLocaleMatchHandlerObserver=new LocaleMatchHandlerObserver();
             LocaleMatchHandler.initializePRXMap();
             initializeTaggingContext(mContext);
         }
     }
 
+    public LocaleMatchHandlerObserver getObserver(){
+        return mLocaleMatchHandlerObserver;
+    }
 
     /**
      * <p> Invoking DigitalCareComponent feautures to your Fragment Container. Please use this method.
@@ -313,8 +319,8 @@ public class DigitalCareConfigManager {
      */
     public void setLocale(String langCode, String countryCode) {
 
-        mLocaleMatchWithCountryFallBack = null;
-        mLocaleMatchWithLanguageFallBack = null;
+//        mLocaleMatchWithCountryFallBack = null;
+//        mLocaleMatchWithLanguageFallBack = null;
 
         if (langCode != null && countryCode != null) {
             mLocale = new Locale(langCode, countryCode);
@@ -337,7 +343,7 @@ public class DigitalCareConfigManager {
 
     public void setLocaleMatchResponseLocaleWithCountryFallBack(Locale localeMatchLocale) {
         mLocaleMatchWithCountryFallBack = localeMatchLocale;
-        new ProductPageParser().execute();
+       new ProductPageParser().execute();
     }
 
 

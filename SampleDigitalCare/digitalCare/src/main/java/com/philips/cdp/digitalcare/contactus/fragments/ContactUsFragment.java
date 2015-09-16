@@ -47,7 +47,10 @@ import com.philips.cdp.digitalcare.util.Utils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 /*import com.philips.cdp.digitalcare.social.twitter.TwitterAuthentication;
 import com.philips.cdp.digitalcare.social.twitter.TwitterAuthenticationCallback;
@@ -66,7 +69,7 @@ import com.philips.cdp.digitalcare.social.twitter.TwitterSupportFragment;*/
  * @since : 19 Jan 2015
  */
 public class ContactUsFragment extends DigitalCareBaseFragment implements
-        /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback {
+        /*TwitterAuthenticationCallback,*/ OnClickListener, ResponseCallback,Observer {
     private static final String CDLS_URL_PORT = "http://www.philips.com/prx/cdls/%s/%s/%s/%s.querytype.(fallback)";
     private static final String TAG = ContactUsFragment.class.getSimpleName();
     private static View mView = null;
@@ -117,6 +120,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         super.onCreate(savedInstanceState);
         mSdkVersion = Build.VERSION.SDK_INT;
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
+
+        if (isConnectionAvailable() && formCdlsURL() != null) {
+            requestCDLSData();
+        }
+        else {
+            DigitalCareConfigManager.getInstance().getObserver().addObserver(this);
+        }
         // mTwitterProgresshandler = new Handler();
         // if (isConnectionAvailable())
         // requestCDLSData();
@@ -150,8 +160,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                         + mContactUsParent);
         // if (mContactUsParent == null) {
         mTwitterProgresshandler = new Handler();
-        if (isConnectionAvailable())
-            requestCDLSData();
 
         mContactUsParent = (LinearLayout) getActivity().findViewById(
                 R.id.contactUsParent);
@@ -226,13 +234,15 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
      * Forming CDLS url. This url will be different for US and other countries.
      */
     protected String formCdlsURL() {
-        if (DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack() == null)
-            return null;
+        Locale localeCoutryFallback = DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack();
 
+        if(localeCoutryFallback == null){
+            return null;
+        }
         ConsumerProductInfo consumerProductInfo = DigitalCareConfigManager
                 .getInstance().getConsumerProductInfo();
         return getCdlsUrl(consumerProductInfo.getSector(),
-                DigitalCareConfigManager.getInstance().getLocaleMatchResponseWithCountryFallBack().toString(),
+                localeCoutryFallback.toString(),
                 consumerProductInfo.getCatalog(),
                 consumerProductInfo.getSubCategory());
     }
@@ -767,4 +777,10 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 	 * @Override public void onSuccess() { showFragment(new
 	 * FacebookScreenFragment()); } }); }
 	 */
+
+    @Override
+    public void update(Observable observable, Object data) {
+        requestCDLSData();
+    }
+
 }
