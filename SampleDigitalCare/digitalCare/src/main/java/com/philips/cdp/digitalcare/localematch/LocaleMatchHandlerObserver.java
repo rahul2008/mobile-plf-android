@@ -14,22 +14,21 @@ import java.util.Set;
 public class LocaleMatchHandlerObserver extends Observable {
 
     private static final String TAG = LocaleMatchHandlerObserver.class.getSimpleName();
-    private static  ArrayList<Observer> observers = new ArrayList<Observer>();
+    private static ArrayList<Observer> mObservers = new ArrayList<Observer>();
 
     @Override
     public void addObserver(Observer o) {
         super.addObserver(o);
-        DigiCareLogger.i("testing", "LocaleMatchHandlerObserver   addObserver : " + o);
-        observers.add(o);
-        DigiCareLogger.d(TAG,"addObserver");
+
+        mObservers.add(o);
+        DigiCareLogger.d(TAG, "addObserver");
     }
 
     public void notificationReceived() {
-        DigiCareLogger.i("testing", "LocaleMatchHandlerObserver   notificationReceivedl");
         setChanged();
         notifyObservers();
-        synchronized (this) {
-            observers.notifyAll();
+        synchronized(mObservers){
+            mObservers.notify();
         }
         DigiCareLogger.d(TAG, "setValue called");
     }
