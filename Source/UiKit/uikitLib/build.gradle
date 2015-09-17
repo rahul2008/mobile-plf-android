@@ -39,7 +39,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-}
+    compile 'com.philips.cdp:viewpagerindicator:2.4.1'}
 
 //maven configuration stuff required for artifactory plugin
 group = 'com.philips.cdp'
