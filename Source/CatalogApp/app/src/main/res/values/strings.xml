@@ -9,6 +9,7 @@
         <item>Splash Screen</item>
         <item>Change Theme</item>
         <item>Buttons</item>
+        <item>Dot Navigation</item>
     </string-array>
     <string name="title_activity_navigation_buttons">NavigationButtonsActivity</string>
     <string name="change_theme">Change theme</string>

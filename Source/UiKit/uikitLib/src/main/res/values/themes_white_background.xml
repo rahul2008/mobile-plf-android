@@ -6,6 +6,7 @@
         <item name="actionButtonBgColor">@color/philips_very_light_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_blue</item>
         <item name="buttonStyle">@style/Button.Normal.VeryLightBlue</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightBlue</item>
     </style>
 
     <style name="Theme.Philips.VeryLightOrange.WhiteBackground">
@@ -13,6 +14,7 @@
         <item name="actionButtonBgColor">@color/philips_very_light_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Normal.VeryLightOrange</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightOrange</item>
     </style>
 
     <style name="Theme.Philips.GradientBlue.WhiteBackground">
@@ -20,6 +22,7 @@
         <item name="actionButtonBgColor">@color/philips_bright_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_blue</item>
         <item name="buttonStyle">@style/Button.Normal.BrightBlue</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightBlue.Gradient</item>
     </style>
 
     <style name="Theme.Philips.GradientOrange.WhiteBackground">
@@ -27,6 +30,7 @@
         <item name="actionButtonBgColor">@color/philips_bright_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Normal.BrightOrange</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightOrange.Gradient</item>
     </style>
 
     <style name="Theme.Philips.VeryLightAqua.WhiteBackground">
@@ -34,6 +38,7 @@
         <item name="actionButtonBgColor">@color/philips_very_light_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
         <item name="buttonStyle">@style/Button.Normal.VeryLightAqua</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightAqua</item>
     </style>
 
     <style name="Theme.Philips.GradientAqua.WhiteBackground">
@@ -41,6 +46,7 @@
         <item name="actionButtonBgColor">@color/philips_bright_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
         <item name="buttonStyle">@style/Button.Normal.BrightAqua</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightAqua.Gradient</item>
     </style>
 
 </resources>
