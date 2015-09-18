@@ -1,10 +1,12 @@
 package com.philips.cdp.uikit.CustomButton;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 
@@ -36,9 +38,28 @@ public class PhilipsActionButton extends ImageButton {
                 R.style.Philips_ActionButton);
         setImageResource(typedArray.getResourceId(R.styleable.ActionButton_actionButtonImageDrawable, 0));
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            setShadowing(resources, typedArray);
+
         typedArray.recycle();
 
         setScaleType(ScaleType.CENTER);
+
+    }
+
+    private void setShadowing(Resources resources, TypedArray typedArray) {
+        float shadowValue = 0;
+
+        if (typedArray.getBoolean(R.styleable.ActionButton_actionButtonShadow, false))
+            shadowValue = resources.getDimension(R.dimen.action_button_shadow_radius);
+
+        setShadow(shadowValue);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setShadow(float value) {
+        setElevation(value);
     }
 
     @SuppressWarnings("deprecation") //we need to support API lvl 14+, so cannot change to context.getDrawable(): sticking with deprecated API for now
