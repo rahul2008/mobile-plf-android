@@ -13,6 +13,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
+import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -124,5 +125,13 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_question);
         onView(withId(R.id.miscBtnCircleQuestionMark))
                 .check(matches(isImageSimilar(expectedBitmap)));
+    }
+
+    public void testActionButtonBGColorAsExpected() {
+        onView(withText("Miscellaneous Buttons")).perform(click());
+
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_question);
+        onView(withId(R.id.miscBtnCircleQuestionMark))
+                .check(matches(isBackgroundColorSimilar(expectedBitmap)));
     }
 }

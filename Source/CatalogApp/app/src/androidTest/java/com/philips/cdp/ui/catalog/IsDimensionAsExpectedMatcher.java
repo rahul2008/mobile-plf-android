@@ -39,8 +39,9 @@ public class IsDimensionAsExpectedMatcher extends BoundedMatcher<View, View> {
         int expectedHeight = expectedBitmap.getHeight();
         if ((actualWidth != expectedWidth) || (actualHeight != expectedHeight)) {
             Log.d(TAG, "width or height is not as expected");
+            return false;
         }
-        return false;
+        return true;
     }
         public static Matcher<View> isDimensionSimilar(final Bitmap expectedBitmap){
           return new IsDimensionAsExpectedMatcher(View.class, expectedBitmap);
