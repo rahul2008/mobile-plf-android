@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 class ViewPagerAdaptor extends FragmentPagerAdapter {
-    protected static final String[] CONTENT = new String[] { "This", "Is", "A", "Test", };
+    protected static final String[] CONTENT = new String[] { "Page 1", "Page 2", "Page 3", "Page 4", };
 
     private int mCount = CONTENT.length;
 
@@ -28,10 +28,4 @@ class ViewPagerAdaptor extends FragmentPagerAdapter {
       return ViewPagerAdaptor.CONTENT[position % CONTENT.length];
     }
 
-    public void setCount(int count) {
-        if (count > 0 && count <= 10) {
-            mCount = count;
-            notifyDataSetChanged();
-        }
-    }
 }
