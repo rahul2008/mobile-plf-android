@@ -37,6 +37,8 @@ public class ButtonsTest extends ActivityInstrumentationTestCase2<MainActivity>{
         onView(withText("Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.regularbutton_themable_blue);
+/*        onView(withId(R.id.theme_button))
+                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));*/
         onView(withId(R.id.theme_button))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
