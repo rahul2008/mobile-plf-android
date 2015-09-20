@@ -2,14 +2,11 @@ package com.philips.cdp.ui.catalog.dot_navigation;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
 
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
-
-import java.util.Random;
 
 public class DotNavigationActivity extends CatalogActivity {
 

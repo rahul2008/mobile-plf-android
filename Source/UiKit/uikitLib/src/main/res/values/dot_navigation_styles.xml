@@ -3,6 +3,7 @@
     <style name="CirclePageIndicator">
         <item name="strokeWidth">2dp</item>
         <item name="radius">10dp</item>
+        <item name="unSelectedRadius">5dp</item>
         <item name="centered">true</item>
         <item name="fillColor">@color/philips_dark_blue</item>
         <item name="strokeColor">@color/philips_dark_blue</item>
