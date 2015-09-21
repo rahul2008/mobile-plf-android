@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.philips.cdp.ui.catalog.activity.CatalogActivity;
+import com.philips.cdp.ui.catalog.activity.SplashActivityGradient;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -35,6 +36,10 @@ public class SplashLauncher extends CatalogActivity {
             case R.id.lb:
                 targetClass = SplashActivityLogoBottom.class;
                 break;
+            case R.id.grad:
+                targetClass = SplashActivityGradient.class;
+                break;
+
         }
         return new Intent(this, targetClass);
     }

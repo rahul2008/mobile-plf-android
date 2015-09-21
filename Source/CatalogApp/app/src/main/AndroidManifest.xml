@@ -26,6 +26,7 @@
         <activity android:name=".activity.ThemesActivity"
                   android:label="@string/app_name"></activity>
         <activity android:name=".activity.ButtonsActivity"/>
+        <activity android:name=".activity.SplashActivityGradient"/>
         <activity android:name=".SplashActivityLogoTop"/>
         <activity android:name=".SplashActivityLogoBottom"/>
         <activity android:name=".SplashActivityLogoCenterTitleTop"/>
