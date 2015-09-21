@@ -16,4 +16,8 @@
     </declare-styleable>
 
     <attr name="splashTitleStyle" format="reference" />
+
+    <declare-styleable name="AppCompactImageView">
+        <attr name="vectorsrc" format="reference"/>
+    </declare-styleable>
 </resources>

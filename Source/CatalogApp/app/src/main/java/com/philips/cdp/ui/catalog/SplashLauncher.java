@@ -29,9 +29,6 @@ public class SplashLauncher extends CatalogActivity {
             case R.id.lt:
                 targetClass = SplashActivityLogoTop.class;
                 break;
-            case R.id.lc_tt:
-                targetClass = SplashActivityLogoCenterTitleTop.class;
-                break;
             case R.id.lc_tb:
                 targetClass = SplashActivityLogoCenterTitleBottom.class;
                 break;

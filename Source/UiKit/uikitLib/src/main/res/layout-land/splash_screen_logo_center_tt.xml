@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@drawable/splash_background">
     <TextView
@@ -10,11 +11,11 @@
         android:layout_marginTop="@dimen/splash_title_margin_top"
         android:layout_centerHorizontal="true"
         style="?attr/splashTitleStyle"/>
-    <ImageView
-        android:id="@+id/splash_background"
+    <com.philips.cdp.uikit.costumviews.AppCompactImageView
+        android:id="@+id/splash_logo"
         android:layout_width="@dimen/splash_logo_width"
         android:layout_height="@dimen/splash_logo_height"
         android:layout_centerInParent="true"
-        android:src="@drawable/philips_logo"/>
+        app:vectorsrc="@drawable/philips_logo"/>
 
 </RelativeLayout>
