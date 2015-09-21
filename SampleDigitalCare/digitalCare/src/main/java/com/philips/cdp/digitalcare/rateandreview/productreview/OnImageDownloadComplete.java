@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.rateandreview;
+package com.philips.cdp.digitalcare.rateandreview.productreview;
 
 import android.graphics.Bitmap;
 

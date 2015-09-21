@@ -1,14 +1,17 @@
-package com.philips.cdp.digitalcare.rateandreview;
+package com.philips.cdp.digitalcare.rateandreview.productreview.model;
 
 import android.graphics.Bitmap;
 import android.util.Log;
+
+import com.philips.cdp.digitalcare.rateandreview.productreview.ImageDownloader;
+import com.philips.cdp.digitalcare.rateandreview.productreview.OnImageDownloadComplete;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * BazaarReviewBean.java <br>
+ * BazaarReviewModel.java <br>
  * ReviewSubmissionExample<br>
  * 
  * This is a very basic class used to represent a review in the Bazaarvoice
@@ -25,7 +28,7 @@ import org.json.JSONObject;
  *
  * @since : 11 Sep 2015
  */
-public class BazaarReviewBean {
+public class BazaarReviewModel {
 	private int rating;
 	private String title;
 	private String authorId;
@@ -38,7 +41,7 @@ public class BazaarReviewBean {
 	/**
 	 * Sets all variables to 0, null, or "null"
 	 */
-	public BazaarReviewBean() {
+	public BazaarReviewModel() {
 		rating = 0;
 		title = "null";
 		authorId = "null";
@@ -61,7 +64,7 @@ public class BazaarReviewBean {
 	 * @throws org.json.JSONException
 	 *             if there is a missing field in the json response
 	 */
-	public BazaarReviewBean(JSONObject json) throws NumberFormatException,
+	public BazaarReviewModel(JSONObject json) throws NumberFormatException,
 			JSONException {
 		String ratingText = json.getString("Rating");
 		if (!"null".equals(ratingText))

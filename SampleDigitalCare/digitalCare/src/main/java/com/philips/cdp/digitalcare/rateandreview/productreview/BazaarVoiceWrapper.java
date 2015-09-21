@@ -1,4 +1,4 @@
-package com.philips.cdp.digitalcare.rateandreview;
+package com.philips.cdp.digitalcare.rateandreview.productreview;
 
 
 import android.graphics.Bitmap;
@@ -11,6 +11,7 @@ import com.bazaarvoice.OnBazaarResponse;
 import com.bazaarvoice.SubmissionMediaParams;
 import com.bazaarvoice.SubmissionParams;
 import com.bazaarvoice.types.ApiVersion;
+import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,7 +152,7 @@ public class BazaarVoiceWrapper {
      * @param review   the full review
      * @param listener the callback function for handling the response
      */
-    public static void previewReview(String prodId, BazaarReviewBean review,
+    public static void previewReview(String prodId, BazaarReviewModel review,
                                      OnBazaarResponse listener) {
         reviewAction(prodId, review, listener, false);
     }
@@ -165,7 +166,7 @@ public class BazaarVoiceWrapper {
      * @param review   the full review
      * @param listener the callback function for handling the response
      */
-    public static void submitReview(String prodId, BazaarReviewBean review,
+    public static void submitReview(String prodId, BazaarReviewModel review,
                                     OnBazaarResponse listener) {
         reviewAction(prodId, review, listener, true);
     }
@@ -179,7 +180,7 @@ public class BazaarVoiceWrapper {
      * @param listener the callback function for handling the response
      * @param submit   true to submit, false to preview
      */
-    private static void reviewAction(String prodId, BazaarReviewBean review,
+    private static void reviewAction(String prodId, BazaarReviewModel review,
                                      OnBazaarResponse listener, boolean submit) {
         SubmissionParams params = new SubmissionParams();
         if (submit)
