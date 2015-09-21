@@ -17,7 +17,7 @@ public class DotNavigationActivity extends CatalogActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.simple_circles);
+        setContentView(R.layout.dot_navigation);
 
         adaptor = new ViewPagerAdaptor(getSupportFragmentManager());
 
