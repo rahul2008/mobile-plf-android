@@ -63,7 +63,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testActionButtonSquareCrossExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_cross);
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_cross);
         onView(withId(R.id.miscBtnSquareCrossMark))
                 .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
         onView(withId(R.id.miscBtnSquareCrossMark))
@@ -144,8 +144,8 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testActionButtonBGColorAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_question);
-        onView(withId(R.id.miscBtnCircleQuestionMark))
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_cross);
+        onView(withId(R.id.miscBtnSquareCrossMark))
                 .check(matches(isBackgroundColorSimilar(expectedBitmap)));
     }
 }

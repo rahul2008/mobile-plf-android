@@ -32,8 +32,10 @@ public class IsBackgroundColorAsExpectedMatcher extends BoundedMatcher<View, Vie
     @Override
     public boolean matchesSafely(View view) {
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-        int actualRGB = actualBitmap.getPixel(15,15);
-        int expectedRGB = expectedBitmap.getPixel(15,15);
+        Canvas actualCanvas = new Canvas(actualBitmap);
+        view.draw(actualCanvas);
+        int actualRGB = actualBitmap.getPixel(3,15);
+        int expectedRGB = expectedBitmap.getPixel(3,15);
         if (actualRGB != expectedRGB) {
             return false;
         }
