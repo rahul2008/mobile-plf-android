@@ -32,13 +32,11 @@ public class NavigationDotsTest extends ActivityInstrumentationTestCase2<MainAct
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void FocusedNavigationDotsAsExpected() {
-/*        onView(withText("Miscellaneous Buttons")).perform(click());
+    public void testFocusedNavigationDotsAsExpected() {
+        onView(withText("Dot Navigation")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_cross);
-        onView(withId(R.id.miscBtnSquareCrossMark))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
-        onView(withId(R.id.miscBtnSquareCrossMark))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));*/
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.dot_navigation_mdpi);
+        onView(withId(R.id.indicator))
+                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
     }
 }
