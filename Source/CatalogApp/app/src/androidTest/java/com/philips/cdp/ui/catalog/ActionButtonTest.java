@@ -12,8 +12,9 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
+import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
+import static com.philips.cdp.ui.catalog.IsBackgroundBitmapColorAsExpectedMatcher.isBackgroundBitmapColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -63,21 +64,17 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testActionButtonSquareCrossExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_cross);
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_cross);
         onView(withId(R.id.miscBtnSquareCrossMark))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
-        onView(withId(R.id.miscBtnSquareCrossMark))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(isImageSimilar(expectedBitmap)));
     }
 
     public void testActionButtonSquareMinusAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_minus);
-/*        onView(withId(R.id.miscBtnSquareMinus))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));*/
         onView(withId(R.id.miscBtnSquareMinus))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
     }
 
     public void testActionButtonSquarePlusAsExpected() {
@@ -86,9 +83,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_plus);
         onView(withId(R.id.miscBtnSquarePlus))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
-        onView(withId(R.id.miscBtnSquarePlus))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(isImageSimilar(expectedBitmap)));
     }
 
     public void testActionButtonSquareRightAsExpected() {
@@ -96,9 +91,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_right);
         onView(withId(R.id.miscBtnSquareArrow))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
-        onView(withId(R.id.miscBtnSquareArrow))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(isImageSimilar(expectedBitmap)));
     }
 
     public void testActionButtonCirclePlusAsExpected() {
@@ -116,9 +109,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_minus);
         onView(withId(R.id.miscBtnCircleMinus))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
-        onView(withId(R.id.miscBtnCircleMinus))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(isImageSimilar(expectedBitmap)));
     }
 
     public void testActionButtonCircleRightAsExpected() {
@@ -126,9 +117,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_right);
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
-        onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(isImageSimilar(expectedBitmap)));
     }
 
     public void testActionButtonCircleQuestionAsExpected() {
@@ -136,16 +125,20 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_question);
         onView(withId(R.id.miscBtnCircleQuestionMark))
-                .check(matches(IsDimensionAsExpectedMatcher.isDimensionSimilar(expectedBitmap)));
+                .check(matches(isImageSimilar(expectedBitmap)));
+    }
+
+    public void testActionButtonBGBitmapColorAsExpected() {
+        onView(withText("Miscellaneous Buttons")).perform(click());
+
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.circle_question);
         onView(withId(R.id.miscBtnCircleQuestionMark))
-                .check(matches(IsPixelAsExpectedMatcher.isImageSimilar(expectedBitmap)));
+                .check(matches(isBackgroundBitmapColorSimilar(expectedBitmap)));
     }
 
     public void testActionButtonBGColorAsExpected() {
         onView(withText("Miscellaneous Buttons")).perform(click());
-
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.square_cross);
-        onView(withId(R.id.miscBtnSquareCrossMark))
-                .check(matches(isBackgroundColorSimilar(expectedBitmap)));
+        onView(withId(R.id.miscBtnCircleQuestionMark))
+                .check(matches(isBackgroundColorSimilar("#cae3e9")));
     }
 }
