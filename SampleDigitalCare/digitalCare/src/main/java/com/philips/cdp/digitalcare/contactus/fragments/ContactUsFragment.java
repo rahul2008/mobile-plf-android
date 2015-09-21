@@ -121,12 +121,6 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
         mSdkVersion = Build.VERSION.SDK_INT;
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreate");
 
-        if (isConnectionAvailable() && formCdlsURL() != null) {
-            requestCDLSData();
-        }
-        else {
-            DigitalCareConfigManager.getInstance().getObserver().addObserver(this);
-        }
         // mTwitterProgresshandler = new Handler();
         // if (isConnectionAvailable())
         // requestCDLSData();
@@ -137,6 +131,13 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
                              Bundle savedInstanceState) {
         DigiCareLogger.i(TAG, "ContactUsFragment : onCreateView: mView - "
                 + mView);
+
+        if (isConnectionAvailable() && formCdlsURL() != null) {
+            requestCDLSData();
+        }
+        else {
+            DigitalCareConfigManager.getInstance().getObserver().addObserver(this);
+        }
 
         if (mView != null) {
             ViewGroup parent = (ViewGroup) mView.getParent();
