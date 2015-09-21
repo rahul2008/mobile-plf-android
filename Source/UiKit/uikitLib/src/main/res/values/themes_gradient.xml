@@ -7,6 +7,7 @@
         <item name="android:colorBackground">@color/philips_bright_blue</item>
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
     <style name="Theme.Philips.GradientOrange">
@@ -15,6 +16,7 @@
         <item name="android:colorBackground">@color/philips_bright_orange</item>
         <item name="actionButtonBgColor">@color/philips_dark_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
     <style name="Theme.Philips.GradientAqua">
@@ -23,6 +25,7 @@
         <item name="android:colorBackground">@color/philips_bright_aqua</item>
         <item name="actionButtonBgColor">@color/philips_dark_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_light_aqua</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
     </style>
 
 </resources>

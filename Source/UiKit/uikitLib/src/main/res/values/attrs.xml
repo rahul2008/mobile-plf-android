@@ -15,5 +15,5 @@
         <attr name="actionButtonStyleRef" format="reference"/>
     </declare-styleable>
 
-    <attr name="splashTitleStyle" format="reference" />
+    <attr name="splashTitleStyle" format="reference"/>
 </resources>
