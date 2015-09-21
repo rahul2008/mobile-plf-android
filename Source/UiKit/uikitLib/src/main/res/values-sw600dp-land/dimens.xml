@@ -2,4 +2,5 @@
 <resources>
     <dimen name="splash_logo_height">139dp</dimen>
     <dimen name="splash_logo_width">109dp</dimen>
+    <dimen name="splash_logo_margin_top">85dp</dimen>
 </resources>
