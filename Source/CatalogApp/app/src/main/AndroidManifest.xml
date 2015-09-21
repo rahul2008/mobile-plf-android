@@ -26,11 +26,8 @@
         <activity android:name=".activity.ThemesActivity"
                   android:label="@string/app_name"></activity>
         <activity android:name=".activity.ButtonsActivity"/>
-<<<<<<< HEAD
         <activity android:name=".dot_navigation.DotNavigationActivity"/>
-=======
         <activity android:name=".activity.SplashActivityGradient"/>
->>>>>>> EHUFA-10(Screen-Background)
         <activity android:name=".SplashActivityLogoTop"/>
         <activity android:name=".SplashActivityLogoBottom"/>
         <activity android:name=".SplashActivityLogoCenterTitleTop"/>

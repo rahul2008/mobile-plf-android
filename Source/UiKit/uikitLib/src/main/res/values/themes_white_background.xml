@@ -3,32 +3,32 @@
 
     <style name="Theme.Philips.DarkBlue.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightBlue</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.DarkBlue</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightOrange</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.BrightOrange</item>
     </style>
 
     <style name="Theme.Philips.DarkBlue.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightBlue.Gradient</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.DarkBlue.Gradient</item>
     </style>
 
     <style name="Theme.Philips.BrightOrange.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightOrange.Gradient</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.BrightOrange.Gradient</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightAqua</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.BrightAqua</item>
     </style>
 
     <style name="Theme.Philips.BrightAqua.Gradient.WhiteBackground">
         <item name="android:windowBackground">@android:color/white</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.VeryLightAqua.Gradient</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.BrightAqua.Gradient</item>
     </style>
 
 </resources>

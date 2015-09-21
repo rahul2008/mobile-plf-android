@@ -6,43 +6,26 @@
         <item name="android:windowBackground">@color/philips_very_light_blue</item>
         <item name="android:colorBackground">@color/philips_very_light_blue</item>
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
-<<<<<<< HEAD
-        <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
-=======
         <item name="actionButtonBgColorPressed">@color/philips_very_dark_blue</item>
         <item name="buttonStyle">@style/Button.Normal.DarkBlue</item>
->>>>>>> EHUFA-10(Screen-Background)
     </style>
 
     <style name="Theme.Philips.BrightOrange">
         <item name="actionBarBackground">@color/philips_bright_orange</item>
         <item name="android:windowBackground">@color/philips_very_light_orange</item>
         <item name="android:colorBackground">@color/philips_very_light_orange</item>
-<<<<<<< HEAD
-        <item name="actionButtonBgColor">@color/philips_dark_orange</item>
-        <item name="actionButtonBgColorPressed">@color/philips_light_orange</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
-=======
         <item name="actionButtonBgColor">@color/philips_bright_orange</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_orange</item>
         <item name="buttonStyle">@style/Button.Normal.BrightOrange</item>
->>>>>>> EHUFA-10(Screen-Background)
     </style>
 
     <style name="Theme.Philips.BrightAqua">
         <item name="actionBarBackground">@color/philips_bright_aqua</item>
         <item name="android:windowBackground">@color/philips_very_light_aqua</item>
         <item name="android:colorBackground">@color/philips_very_light_aqua</item>
-<<<<<<< HEAD
-        <item name="actionButtonBgColor">@color/philips_dark_aqua</item>
-        <item name="actionButtonBgColorPressed">@color/philips_light_aqua</item>
-        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator.White</item>
-=======
         <item name="actionButtonBgColor">@color/philips_bright_aqua</item>
         <item name="actionButtonBgColorPressed">@color/philips_dark_aqua</item>
         <item name="buttonStyle">@style/Button.Normal.BrightAqua</item>
->>>>>>> EHUFA-10(Screen-Background)
     </style>
 
 
