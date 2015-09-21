@@ -22,8 +22,8 @@
         <item name="android:background">@drawable/bright_blue_selector</item>
     </style>
 
-    <style name="Button.Normal.VeryLightBlue">
-        <item name="android:background">@drawable/very_light_blue_selector</item>
+    <style name="Button.Normal.DarkBlue">
+        <item name="android:background">@drawable/dark_blue_selector</item>
     </style>
 
     <style name="Button.Normal.BrightOrange">
