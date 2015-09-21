@@ -26,9 +26,9 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author naveen@philips.com
  * @since 15/September/2015
  */
-public class ProductWriteReviewfragment extends DigitalCareBaseFragment {
+public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
-    private static final String TAG = ProductWriteReviewfragment.class.getSimpleName();
+    private static final String TAG = ProductWriteReviewFragment.class.getSimpleName();
     private DigitalCareFontButton mOkButton, mCancelButton = null;
     private ImageView mProductImage = null;
     private DigitalCareFontTextView mProductTitle = null;

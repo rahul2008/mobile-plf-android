@@ -66,7 +66,7 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
     public void onClick(View v) {
 
         if (v.getId() == (R.id.fragment_product_review_ok_button))
-            showFragment(new ProductWriteReviewfragment());
+            showFragment(new ProductWriteReviewFragment());
 
 
     }
