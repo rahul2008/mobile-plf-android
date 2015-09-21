@@ -22,10 +22,10 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @since 15/September/2015
  */
 
-public class ProductreviewpreviewFragment extends DigitalCareBaseFragment {
+public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
 
-    private static final String TAG = ProductreviewpreviewFragment.class.getSimpleName();
+    private static final String TAG = ProductReviewPreviewFragment.class.getSimpleName();
     private DigitalCareFontButton mOkButton = null;
     private RatingBar mRatingBar = null;
 
@@ -73,7 +73,7 @@ public class ProductreviewpreviewFragment extends DigitalCareBaseFragment {
     public void onClick(View v) {
 
         if (v.getId() == (R.id.your_product_review_preview_send_button))
-            showFragment(new ProductreviewThankyouFragment());
+            showFragment(new ProductReviewThankyouFragment());
 
     }
 

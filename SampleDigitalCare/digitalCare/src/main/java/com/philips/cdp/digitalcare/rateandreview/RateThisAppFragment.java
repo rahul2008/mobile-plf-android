@@ -190,8 +190,8 @@ public class RateThisAppFragment extends DigitalCareBaseFragment {
                 rateProductReview();
         } else if (id == R.id.tellus_PlayStoreReviewButton) {
             if (isConnectionAvailable())
-                //showFragment(new Productreviewguidefragment());
-                rateThisApp();
+                showFragment(new Productreviewguidefragment());
+//                rateThisApp();
         }
     }
 

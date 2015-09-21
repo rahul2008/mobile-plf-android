@@ -19,10 +19,10 @@ import com.philips.cdp.digitalcare.util.DigiCareLogger;
  * @author naveen@philips.com
  * @since 16/September/2015
  */
-public class ProductreviewThankyouFragment extends DigitalCareBaseFragment {
+public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
 
 
-    private static final String TAG = ProductreviewThankyouFragment.class.getSimpleName();
+    private static final String TAG = ProductReviewThankyouFragment.class.getSimpleName();
     private DigitalCareFontButton mOkButton = null;
     private RatingBar mRatingBar = null;
 
