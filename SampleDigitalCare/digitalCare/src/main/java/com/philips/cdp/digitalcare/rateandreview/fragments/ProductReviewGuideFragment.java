@@ -5,9 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
@@ -22,6 +26,10 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductReviewGuideFragment.class.getSimpleName();
     private DigitalCareFontButton mOkButton = null;
+    private LinearLayout mParentLayout = null;
+    private FrameLayout.LayoutParams mLayoutParams = null;
+    private ImageView mFirstGuideLineImage, mSecondGuideLineImage, mThirdGuideLineImage, mFourthGuideLineImage = null;
+    private DigitalCareFontTextView mFirstGuideText, mSecondGuideText, mThirdGuideText, mFourthGuideText = null;
 
 
     @Override
@@ -37,14 +45,54 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+        mParentLayout = (LinearLayout) getActivity().findViewById(R.id.productreviewguideparent);
+        mLayoutParams = (FrameLayout.LayoutParams) mParentLayout
+                .getLayoutParams();
+        Configuration config = getResources().getConfiguration();
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.fragment_product_review_ok_button);
+        mFirstGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_first_expandableimage);
+        mSecondGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_second_expandableimage);
+        mThirdGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_third_expandableimage);
+        mFourthGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_fourth_expandableimage);
+
+        mFirstGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_first_expandableimage_text);
+        mSecondGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_second_expandableimage_text);
+        mThirdGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_third_expandableimage_text);
+        mFourthGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_fourth_expandableimage_text);
+
         mOkButton.setOnClickListener(this);
+
+        mFirstGuideLineImage.setOnClickListener(this);
+        mSecondGuideLineImage.setOnClickListener(this);
+        mThirdGuideLineImage.setOnClickListener(this);
+        mFourthGuideLineImage.setOnClickListener(this);
+
+
+        mFirstGuideText.setOnClickListener(this);
+        mSecondGuideText.setOnClickListener(this);
+        mThirdGuideText.setOnClickListener(this);
+        mFourthGuideText.setOnClickListener(this);
+
+        setViewParams(config);
     }
 
 
     @Override
     public void setViewParams(Configuration config) {
 
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+        }
+        mParentLayout.setLayoutParams(mLayoutParams);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setViewParams(newConfig);
     }
 
     @Override
@@ -67,7 +115,13 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
         if (v.getId() == (R.id.fragment_product_review_ok_button))
             showFragment(new ProductWriteReviewFragment());
-
-
+        else if (v.getId() == (R.id.productreview_first_expandableimage))
+            mFirstGuideText.setMaxLines(1);
+        else if (v.getId() == (R.id.productreview_second_expandableimage))
+            mSecondGuideText.setMaxLines(1);
+        else if (v.getId() == (R.id.productreview_third_expandableimage))
+            mThirdGuideText.setMaxLines(1);
+        else if (v.getId() == (R.id.productreview_fourth_expandableimage))
+            mFourthGuideText.setMaxLines(1);
     }
 }
