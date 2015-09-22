@@ -19,19 +19,18 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
-import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<MainActivity> {
+public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     private Resources testResources;
     Semaphore semaphore = new Semaphore(1);
     Activity targetActivity;
 
-    public ActionButtonPressedTest() {
+    public RegularButtonPressedTest() {
         super(MainActivity.class);
     }
 
@@ -40,33 +39,28 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         super.setUp();
         getActivity();
         testResources = getInstrumentation().getContext().getResources();
-
-
     }
 
-/*    Pixel perfectness of the Action buttons are verified in ActionButtonTest,
-    Hence only the colour of a pressed state Action button is verified in this test.*/
-
-    public void testDBThemeActionButtonPressedColourAsExpected() {
+    public void testDBThemeRButtonPressedColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
         pressBack();
         Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
-        onView(withText("Miscellaneous Buttons")).perform(click());
+        onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
-        setPressed(R.id.miscBtnCircleArrow, true);
-        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#0f204b" );
+        setPressed(R.id.theme_button, true);
+        matchPressedColor(R.id.theme_button,"#0f204b" );
     }
 
-    public void testBrightOrangeThemeActionButtonPressedColourAsExpected() {
+    public void testBOThemeRButtonPressedColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
         Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
-        onView(withText("Miscellaneous Buttons")).perform(click());
+        onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
-        setPressed(R.id.miscBtnCircleArrow, true);
-        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#983222");
+        setPressed(R.id.theme_button, true);
+        matchPressedColor(R.id.theme_button,"#983222" );
     }
 
     private void setPressed(int buttonID, boolean state) {
@@ -80,16 +74,15 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         });
     }
 
-    private void matchPressedColor(int buttonID, int expectedBitmapID, String expectedColor) {
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, expectedBitmapID);
+    private void matchPressedColor(int buttonID, String expectedColor) {
+        /*Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, expectedBitmapID);*/
         acquire();
-        onView(withId(R.id.miscBtnCircleArrow))
+        onView(withId(R.id.theme_button))
                 .check(matches(isBackgroundColorSimilar(expectedColor)));
         release();
-        expectedBitmap.recycle();
+        /*expectedBitmap.recycle();*/
     }
 
-    //Target Monitor changes only when our target Activity chagnes.
     private Instrumentation.ActivityMonitor setTargetMonitor(Class<?> targetClass) {
         if (targetActivity == null || !targetActivity.getClass().getSimpleName().equals(targetClass.getSimpleName())) {
             return getInstrumentation().addMonitor(targetClass.getName(),
@@ -98,7 +91,6 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         return null;
     }
 
-    //To be called only once or only when our target Activity chagnes.
     private void setTargetActivity(Instrumentation.ActivityMonitor monitor) {
         if (monitor != null) {
             targetActivity = monitor.waitForActivity();

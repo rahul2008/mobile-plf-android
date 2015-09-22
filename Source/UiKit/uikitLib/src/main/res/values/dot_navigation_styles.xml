@@ -1,0 +1,46 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="CirclePageIndicator">
+        <item name="strokeWidth">2dp</item>
+        <item name="radius">10dp</item>
+        <item name="centered">true</item>
+        <item name="fillColor">@color/philips_dark_blue</item>
+        <item name="strokeColor">@color/philips_dark_blue</item>
+    </style>
+
+    <style name="CirclePageIndicator.White">
+        <item name="fillColor">@android:color/white</item>
+        <item name="strokeColor">@android:color/white</item>
+    </style>
+
+    <style name="CirclePageIndicator.VeryLightBlue">
+        <item name="fillColor">@color/philips_very_light_blue</item>
+        <item name="strokeColor">@color/philips_very_light_blue</item>
+    </style>
+
+    <style name="CirclePageIndicator.VeryLightOrange">
+        <item name="fillColor">@color/philips_very_light_orange</item>
+        <item name="strokeColor">@color/philips_very_light_orange</item>
+    </style>
+
+    <style name="CirclePageIndicator.VeryLightAqua">
+        <item name="fillColor">@color/philips_very_light_aqua</item>
+        <item name="strokeColor">@color/philips_very_light_aqua</item>
+    </style>
+
+    <style name="CirclePageIndicator.VeryLightBlue.Gradient">
+        <item name="fillColor">@color/philips_bright_blue</item>
+        <item name="strokeColor">@color/philips_bright_blue</item>
+    </style>
+
+    <style name="CirclePageIndicator.VeryLightOrange.Gradient">
+        <item name="fillColor">@color/philips_bright_orange</item>
+        <item name="strokeColor">@color/philips_bright_orange</item>
+    </style>
+
+    <style name="CirclePageIndicator.VeryLightAqua.Gradient">
+        <item name="fillColor">@color/philips_bright_aqua</item>
+        <item name="strokeColor">@color/philips_bright_aqua</item>
+    </style>
+
+</resources>

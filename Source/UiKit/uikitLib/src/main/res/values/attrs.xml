@@ -13,6 +13,7 @@
         <attr name="actionButtonBgColorPressed" format="color"/>
         <attr name="actionButtonImageDrawable" format="reference"/>
         <attr name="actionButtonStyleRef" format="reference"/>
+        <attr name="actionButtonShadow" format="boolean"/>
     </declare-styleable>
 
     <attr name="splashTitleStyle" format="reference" />

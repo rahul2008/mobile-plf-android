@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:text="Sample button"
         android:id="@+id/inverted_very_light_orange_button"
-        style="@style/Button.InvertedVeryLightOrange"
+        style="@style/Button.InvertedBrightOrange"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_below="@+id/theme_button"/>
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="Sample button"
         android:id="@+id/inverted_very_light_blue_button"
-        style="@style/Button.InvertedVeryLightBlue"
+        style="@style/Button.InvertedDarkBlue"
         android:layout_below="@+id/inverted_very_light_orange_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>

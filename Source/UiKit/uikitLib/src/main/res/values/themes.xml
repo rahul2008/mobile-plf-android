@@ -9,6 +9,7 @@
         <item name="actionButtonBgColor">@color/philips_dark_blue</item>
         <item name="actionButtonBgColorPressed">@color/philips_light_blue</item>
         <item name="android:textAppearance">@style/TextAppearance</item>
+        <item name="vpiCirclePageIndicatorStyle">@style/CirclePageIndicator</item>
     </style>
 
     <style name="TextAppearance" parent="android:TextAppearance">

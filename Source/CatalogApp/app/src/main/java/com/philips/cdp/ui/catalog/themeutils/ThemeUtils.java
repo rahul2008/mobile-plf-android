@@ -37,24 +37,24 @@ public class ThemeUtils {
     }
 
     private void appendThemes(){
-        int[] blue_themes = {R.style.Theme_Philips_VeryLightBlue_WhiteBackground, R.style.Theme_Philips_VeryLightBlue,
-                R.style.Theme_Philips_GradientBlue_WhiteBackground,
-                R.style.Theme_Philips_GradientBlue};
-        int[] orange_themes = {R.style.Theme_Philips_VeryLightOrange_WhiteBackground, R.style.Theme_Philips_VeryLightOrange,
-                R.style.Theme_Philips_GradientOrange_WhiteBackground,
-                R.style.Theme_Philips_GradientOrange};
-        int[] aqua_themes = {R.style.Theme_Philips_VeryLightAqua_WhiteBackground, R.style.Theme_Philips_VeryLightAqua,
-                R.style.Theme_Philips_GradientAqua_WhiteBackground,
-                R.style.Theme_Philips_GradientAqua};
+        int[] blue_themes = {R.style.Theme_Philips_DarkBlue_WhiteBackground, R.style.Theme_Philips_DarkBlue,
+                R.style.Theme_Philips_DarkBlue_Gradient_WhiteBackground,
+                R.style.Theme_Philips_DarkBlue_Gradient};
+        int[] orange_themes = {R.style.Theme_Philips_BrightOrange_WhiteBackground, R.style.Theme_Philips_BrightOrange,
+                R.style.Theme_Philips_BrightOrange_Gradient_WhiteBackground,
+                R.style.Theme_Philips_BrightOrange_Gradient};
+        int[] aqua_themes = {R.style.Theme_Philips_BrightAqua_WhiteBackground, R.style.Theme_Philips_BrightAqua,
+                R.style.Theme_Philips_BrightAqua_Gradient_WhiteBackground,
+                R.style.Theme_Philips_BrightAqua_Gradient};
         themesMap.put(ColorType.BLUE.getDescription(), blue_themes);
         themesMap.put(ColorType.ORANGE.getDescription(), orange_themes);
         themesMap.put(ColorType.AQUA.getDescription(), aqua_themes);
     }
 
     private int[] themes = {
-            R.style.Theme_Philips_VeryLightBlue_WhiteBackground,
-            R.style.Theme_Philips_VeryLightOrange_WhiteBackground,
-            R.style.Theme_Philips_VeryLightAqua_WhiteBackground
+            R.style.Theme_Philips_DarkBlue_WhiteBackground,
+            R.style.Theme_Philips_BrightOrange_WhiteBackground,
+            R.style.Theme_Philips_BrightAqua_WhiteBackground
     };
 
     public void setThemePreferences(boolean previous) {
