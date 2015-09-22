@@ -5,17 +5,6 @@
 
 package com.philips.cdp.dicommclient.request;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.util.Map;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -29,6 +18,17 @@ import com.philips.cdp.dicommclient.discovery.DICommClientWrapper;
 import com.philips.cdp.dicommclient.networknode.NetworkNode;
 import com.philips.cdp.dicommclient.security.DISecurity;
 import com.philips.cdp.dicommclient.util.DICommLog;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 public class LocalRequest extends Request {
 
@@ -170,7 +170,9 @@ public class LocalRequest extends Request {
 	    if (data == null) return null;
 
 		OutputStreamWriter out;
-		conn.setDoOutput(true);
+		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.GINGERBREAD_MR1) {
+			conn.setDoOutput(true);
+		}
 		out = new OutputStreamWriter(conn.getOutputStream(),Charset.defaultCharset());
 		out.write(data);
 		out.flush();
@@ -180,7 +182,7 @@ public class LocalRequest extends Request {
 	@SuppressLint("NewApi")
 	private static HttpURLConnection createConnection(URL url, String requestMethod, int connectionTimeout, int lockTimeout) throws IOException {
 
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		HttpURLConnection conn = null;
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Network wifiNetworkForSocket = LocalRequest.getWifiNetworkForSocket(DICommClientWrapper.getContext(),lockTimeout);
@@ -209,7 +211,7 @@ public class LocalRequest extends Request {
 		//request.addCapability(NetworkCapabilities.NET_CAPABILITY_WIFI_P2P);
 
 		final Object lock = new Object();
-		WifiNetworkCallback networkCallback = new WifiNetworkCallback(lock);
+		WifiNetworkCallback networkCallback = new WifiNetworkCallback(lock, connectionManager);
 
 		synchronized (lock) {
 			connectionManager.registerNetworkCallback(request.build(),	networkCallback);
