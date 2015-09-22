@@ -17,7 +17,7 @@
     <style name="CirclePageIndicator.DarkBlue">
         <item name="fillColor">@color/philips_dark_blue</item>
         <item name="strokeColor">@color/philips_dark_blue</item>
-        <item name="UnselectedCircleColor">@color/philips_light_blue</item>
+        <item name="unSelectedCircleColor">@color/philips_light_blue</item>
     </style>
 
     <style name="CirclePageIndicator.BrightOrange">
