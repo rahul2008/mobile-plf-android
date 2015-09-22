@@ -49,7 +49,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedColor(R.id.theme_button,"#0f204b" );
+        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_darkblue_pressed_mdpi,"#0f204b" );
     }
 
     public void testBOThemeRButtonPressedColourAsExpected() {
@@ -60,7 +60,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
-        matchPressedColor(R.id.theme_button,"#983222" );
+        matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi,"#983222" );
     }
 
     private void setPressed(int buttonID, boolean state) {
@@ -74,13 +74,13 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         });
     }
 
-    private void matchPressedColor(int buttonID, String expectedColor) {
-        /*Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, expectedBitmapID);*/
+    private void matchPressedColor(int buttonID, int expectedBitmapID, String expectedColor) {
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, expectedBitmapID);
         acquire();
         onView(withId(R.id.theme_button))
                 .check(matches(isBackgroundColorSimilar(expectedColor)));
         release();
-        /*expectedBitmap.recycle();*/
+        expectedBitmap.recycle();
     }
 
     private Instrumentation.ActivityMonitor setTargetMonitor(Class<?> targetClass) {

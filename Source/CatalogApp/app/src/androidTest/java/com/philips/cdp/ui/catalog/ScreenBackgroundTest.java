@@ -12,17 +12,15 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
-import static com.philips.cdp.ui.catalog.R.id.action_bar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
  */
-public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<MainActivity> {
-
+public class ScreenBackgroundTest extends ActivityInstrumentationTestCase2<MainActivity> {
     private Resources testResources;
 
-    public ActionBarThemeColourTest() {
+    public ScreenBackgroundTest() {
         super(MainActivity.class);
     }
 
@@ -33,20 +31,13 @@ public class ActionBarThemeColourTest extends ActivityInstrumentationTestCase2<M
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testDarkBlueThemeActionBarColour(){
+    public void testDBThemeScreenBackground() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
-        pressBack();
-        onView(withId(R.id.action_bar_container))
-                .check(matches(isBackgroundColorSimilar("#03478")));
-    }
+        onView(withId(R.id.colorSwitch)).perform(click());
+        onView(withText("solid")).perform(click());
+        onView(withId(android.R.id.content))
+                .check(matches(isBackgroundColorSimilar("#b3c8e6")));
 
-    public void testBrightOrangeThemeActionBarColour(){
-        onView(withText("Change Theme")).perform(click());
-        onView(withText("Orange Theme")).perform(click());
-        pressBack();
-        onView(withId(R.id.action_bar_container))
-                .check(matches(isBackgroundColorSimilar("#e9830")));
     }
-
 }

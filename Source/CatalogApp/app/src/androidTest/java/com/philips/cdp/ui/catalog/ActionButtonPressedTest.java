@@ -55,7 +55,7 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         onView(withText("Miscellaneous Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.miscBtnCircleArrow, true);
-        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#0f204b" );
+        matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#f204b" );
     }
 
     public void testBrightOrangeThemeActionButtonPressedColourAsExpected() {

@@ -139,7 +139,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         pressBack();
         onView(withText("Miscellaneous Buttons")).perform(click());
         onView(withId(R.id.miscBtnCircleArrow))
-                .check(matches(isBackgroundColorSimilar("#e98300")));
+                .check(matches(isBackgroundColorSimilar("#e9830")));
     }
 
     // Not executing testActionButtonCircleQuestionAsExpected as the design for question mark is a text instead of image
@@ -158,16 +158,5 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withId(R.id.miscBtnCircleQuestionMark))
                 .check(matches(isBackgroundBitmapColorSimilar(expectedBitmap)));
     }*/
-/*
-    public void testActionButtonBGColorAsExpected() {
-        onView(withText("Miscellaneous Buttons")).perform(click());
-        onView(withId(R.id.miscBtnCircleQuestionMark))
-                .check(matches(isBackgroundColorSimilar("#cae3e9")));
-    }*/
 
-    public void testActionSampleButtonTextColor() {
-        onView(withText("Buttons")).perform(click());
-        onView(withId(R.id.theme_button))
-                .check(matches(isTextColorSimilar("#ffffff")));
-    }
 }

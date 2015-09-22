@@ -15,6 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
+import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -42,7 +43,7 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
 
-    public void testDBThemeActionButtonColourAsExpected() {
+    public void testDBThemeRButtonColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
         pressBack();
@@ -51,13 +52,31 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
                 .check(matches(isBackgroundColorSimilar("#03478")));
     }
 
-    public void testBOThemeActionButtonColourAsExpected() {
+    public void testBOThemeRButtonColourAsExpected() {
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
         onView(withText("Buttons")).perform(click());
         onView(withId(R.id.theme_button))
-                .check(matches(isBackgroundColorSimilar("#e98300")));
+                .check(matches(isBackgroundColorSimilar("#e9830")));
+    }
+
+    public void testDBThemeRButtonTextColor() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Blue Theme")).perform(click());
+        pressBack();
+        onView(withText("Buttons")).perform(click());
+        onView(withId(R.id.theme_button))
+                .check(matches(isTextColorSimilar("#ffffff")));
+    }
+
+    public void testBOThemeRButtonTextColor() {
+        onView(withText("Change Theme")).perform(click());
+        onView(withText("Orange Theme")).perform(click());
+        pressBack();
+        onView(withText("Buttons")).perform(click());
+        onView(withId(R.id.theme_button))
+                .check(matches(isTextColorSimilar("#ffffff")));
     }
 
 
