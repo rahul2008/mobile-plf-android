@@ -42,7 +42,7 @@
         <item name="android:background">@drawable/very_light_aqua_selector</item>
     </style>
 
-    <style name="Button.InvertedLigthBLue">
+    <style name="Button.InvertedLightBLue">
         <item name="android:textColor">@drawable/light_blue_inverted_text_selector</item>
         <item name="android:background">@drawable/light_blue_inverted_selector</item>
     </style>
