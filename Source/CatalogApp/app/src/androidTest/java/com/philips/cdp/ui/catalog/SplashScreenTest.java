@@ -12,8 +12,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsSimilarMatcher.isImageSimilar;
-
+import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -40,7 +39,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Splash Screen")).perform(click());
         onView(withText("Logo Center, Title Top")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philipslogo);
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philips_shield);
         onView(withId(com.philips.cdp.uikit.R.id.splash_logo))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -49,7 +48,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Splash Screen")).perform(click());
         onView(withText("Logo Top")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philipslogo);
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philips_shield);
         onView(withId(com.philips.cdp.uikit.R.id.splash_logo))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -57,7 +56,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
             onView(withText("Splash Screen")).perform(click());
             onView(withText("Logo Bottom")).perform(click());
 
-            Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philipslogo);
+            Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philips_shield);
             onView(withId(com.philips.cdp.uikit.R.id.splash_logo))
                     .check(matches(isImageSimilar(expectedBitmap)));
         }
