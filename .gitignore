@@ -60,3 +60,5 @@ Thumbs.db
 .recommenders/
 .metadata/
 DIComm/.idea/
+Source/DICommClientSample/gradle.properties
+Source/PurAir/gradle.properties
