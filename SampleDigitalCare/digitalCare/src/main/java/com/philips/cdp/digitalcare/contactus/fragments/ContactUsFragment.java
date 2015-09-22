@@ -374,7 +374,7 @@ public class ContactUsFragment extends DigitalCareBaseFragment implements
 
     protected void callPhilips() {
         try {
-            Intent myintent = new Intent(Intent.ACTION_CALL);
+            Intent myintent = new Intent(Intent.ACTION_DIAL);
             myintent.setData(Uri.parse("tel:"
                     + mCdlsParsedResponse.getPhone().getPhoneNumber()));
             myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
