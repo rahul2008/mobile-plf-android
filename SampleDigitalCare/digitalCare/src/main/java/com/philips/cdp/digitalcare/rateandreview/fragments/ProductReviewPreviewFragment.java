@@ -26,8 +26,12 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 
 
     private static final String TAG = ProductReviewPreviewFragment.class.getSimpleName();
-    private DigitalCareFontButton mOkButton = null;
+    private DigitalCareFontButton mOkButton, mCancelButton = null;
     private RatingBar mRatingBar = null;
+    private DigitalCareFontTextView mReviewSummaryHeader = null;
+    private DigitalCareFontTextView mReviewDescription = null;
+    private DigitalCareFontTextView mNickName = null;
+    private DigitalCareFontTextView mEmail = null;
 
 
     @Override
@@ -44,6 +48,11 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_send_button);
+        mCancelButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_cancel_button);
+        mReviewSummaryHeader = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review_summary_header_text_value);
+        mReviewDescription = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review__header_text_value);
+        mNickName = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review_nickname_header_text_value);
+        mEmail = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review_email_header_text_value);
         mOkButton.setOnClickListener(this);
         setRatingBarUI();
     }
