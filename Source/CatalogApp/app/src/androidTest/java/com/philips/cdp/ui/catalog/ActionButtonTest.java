@@ -18,6 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
 import static com.philips.cdp.ui.catalog.IsBackgroundBitmapColorAsExpectedMatcher.isBackgroundBitmapColorSimilar;
+import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -67,7 +68,7 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
     public void testAButtonSquareCrossIsPixelPerfect() {
         onView(withText("Miscellaneous Buttons")).perform(click());
 
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_cross_mdpi);
+        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.sqaure_cross_mdpi) ;
         onView(withId(R.id.miscBtnSquareCrossMark))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
@@ -163,4 +164,10 @@ public class ActionButtonTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withId(R.id.miscBtnCircleQuestionMark))
                 .check(matches(isBackgroundColorSimilar("#cae3e9")));
     }*/
+
+    public void testActionSampleButtonTextColor() {
+        onView(withText("Buttons")).perform(click());
+        onView(withId(R.id.theme_button))
+                .check(matches(isTextColorSimilar("#ffffff")));
+    }
 }
