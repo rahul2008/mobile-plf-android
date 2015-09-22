@@ -41,7 +41,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Logo Center, Title Top")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philipslogo);
-        onView(withId(com.philips.cdp.uikit.R.id.splash_background))
+        onView(withId(com.philips.cdp.uikit.R.id.splash_logo))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
 
@@ -50,7 +50,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
         onView(withText("Logo Top")).perform(click());
 
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philipslogo);
-        onView(withId(com.philips.cdp.uikit.R.id.splash_background))
+        onView(withId(com.philips.cdp.uikit.R.id.splash_logo))
                 .check(matches(isImageSimilar(expectedBitmap)));
     }
     public void testSplashScreenTextLogoBottomAsExpected() {
@@ -58,7 +58,7 @@ public class SplashScreenTest extends ActivityInstrumentationTestCase2<MainActiv
             onView(withText("Logo Bottom")).perform(click());
 
             Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.philipslogo);
-            onView(withId(com.philips.cdp.uikit.R.id.splash_background))
+            onView(withId(com.philips.cdp.uikit.R.id.splash_logo))
                     .check(matches(isImageSimilar(expectedBitmap)));
         }
 
