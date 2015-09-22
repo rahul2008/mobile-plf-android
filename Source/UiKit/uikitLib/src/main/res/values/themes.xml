@@ -12,7 +12,7 @@
     </style>
 
     <style name="TextAppearance" parent="android:TextAppearance">
-        <item name="fontPath">fonts/centralesansbold.ttf</item>
+        <item name="fontPath">fonts/centralesans_book.ttf</item>
     </style>
 
 </resources>
