@@ -55,6 +55,7 @@ public class User {
 
     private String USER_EMAIL = "email";
 
+
     private String USER_GIVEN_NAME = "givenName";
 
     private String USER_FAMILY_NAME = "familyName";
@@ -290,6 +291,12 @@ public class User {
 
     // For getting values from Captured and Saved Json object
     public DIUserProfile getUserInstance(Context context) {
+
+         String CONSUMER_COUNTRY = "country";
+
+         String CONSUMER_PREFERED_LANGUAGE = "preferredLanguage";
+
+         String CONSUMER_PRIMARY_ADDRESS = "primaryAddress";
         DIUserProfile diUserProfile = new DIUserProfile();
         CaptureRecord captured = CaptureRecord.loadFromDisk(context);
 
@@ -304,6 +311,11 @@ public class User {
             diUserProfile
                     .setReceiveMarketingEmail(mObject.getBoolean(USER_RECEIVE_MARKETING_EMAIL));
             diUserProfile.setJanrainUUID(mObject.getString(USER_JANRAIN_UUID));
+            //Get JSON String for user address to set his/her country code
+            JSONObject userAddress = new JSONObject(mObject.getString(CONSUMER_PRIMARY_ADDRESS));
+            diUserProfile.setCountryCode(userAddress.getString(CONSUMER_COUNTRY));
+            diUserProfile.setLanguageCode(mObject.getString(CONSUMER_PREFERED_LANGUAGE));
+
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "On getUserInstance,Caught JSON Exception");
