@@ -12,6 +12,7 @@ import android.widget.RatingBar;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
+import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
