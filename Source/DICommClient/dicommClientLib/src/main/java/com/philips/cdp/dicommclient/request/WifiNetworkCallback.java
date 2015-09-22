@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.net.ConnectivityManager;
 import android.net.ConnectivityManager.NetworkCallback;
 import android.net.Network;
+import android.net.NetworkInfo;
 
 import com.philips.cdp.dicommclient.util.DICommLog;
 
@@ -17,9 +18,11 @@ class WifiNetworkCallback extends NetworkCallback {
 
 		private Object lock;
 		private Network wifiNetwork = null;
+		private ConnectivityManager connectivityManager;
 
-		public WifiNetworkCallback(Object lock) {
+		public WifiNetworkCallback(Object lock, ConnectivityManager connectivityManager) {
 			this.lock = lock;
+			this.connectivityManager = connectivityManager;
 		}
 
 		public Network getNetwork() {
@@ -28,10 +31,13 @@ class WifiNetworkCallback extends NetworkCallback {
 
 		@Override
 		public void onAvailable(final Network network) {
+			NetworkInfo networkInfo = connectivityManager.getNetworkInfo(network);
+			if (networkInfo.isConnected() && wifiNetwork == null) {
 			DICommLog.i(DICommLog.WIFI, "WifiNetwork available");
 			wifiNetwork = network;
 			synchronized (lock) {
 				lock.notify();
+				}
 			}
 		}
 
