@@ -3,4 +3,6 @@
     <dimen name="splash_title_text_size">50dp</dimen>
     <dimen name="splash_logo_height">223dp</dimen>
     <dimen name="splash_logo_width">175dp</dimen>
+
+    <dimen name="splash_logo_margin_top">85dp</dimen>
 </resources>
