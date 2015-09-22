@@ -48,13 +48,13 @@
     </style>
 
     <style name="Button.InvertedDarkBlue">
-        <item name="android:textColor">@drawable/very_light_blue_inverted_text_selector</item>
-        <item name="android:background">@drawable/very_light_blue_inverted_selector</item>
+        <item name="android:textColor">@drawable/dark_blue_inverted_text_selector</item>
+        <item name="android:background">@drawable/dark_blue_inverted_selector</item>
     </style>
 
     <style name="Button.InvertedBrightOrange">
-        <item name="android:textColor">@drawable/very_light_orange_inverted_text_selector</item>
-        <item name="android:background">@drawable/very_light_orange_inverted_selector</item>
+        <item name="android:textColor">@drawable/bright_orange_inverted_text_selector</item>
+        <item name="android:background">@drawable/bright_orange_inverted_selector</item>
     </style>
 
 </resources>
