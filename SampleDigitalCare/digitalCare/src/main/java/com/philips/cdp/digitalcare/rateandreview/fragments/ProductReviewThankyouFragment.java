@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.R;
@@ -49,8 +51,21 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
         mOkButton.setOnClickListener(this);
 
         setViewParams(config);
+        float density = getResources().getDisplayMetrics().density;
+        setButtonParams(density);
     }
 
+
+    private void setButtonParams(float density) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+
+        mOkButton.setLayoutParams(params);
+      //  mRatePhilipsBtn.setLayoutParams(params);
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
