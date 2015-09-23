@@ -24,4 +24,9 @@ public class SHNDataHeartRate extends SHNData {
     public SHNDataType getSHNDataType() {
         return SHNDataType.HeartRate;
     }
+
+    @Override
+    public String toString() {
+        return "HeartRate: " + getHeartRate() + " valid: " + isValid();
+    }
 }

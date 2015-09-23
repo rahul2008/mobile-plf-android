@@ -18,4 +18,9 @@ public class SHNDataDebug extends SHNData {
     public SHNDataType getSHNDataType() {
         return SHNDataType.Debug;
     }
+
+    @Override
+    public String toString() {
+        return "Debug: " + getData();
+    }
 }

@@ -28,6 +28,11 @@ public class SHNDataTestResult extends SHNData {
 
     @Override
     public SHNDataType getSHNDataType() {
-        return SHNDataType.TestResult;
+        return SHNDataType.TestResultMoonshine;
+    }
+
+    @Override
+    public String toString() {
+        return "TestResult testId: " + getTestId() + " expected: " + getExpected() + " actual: " + getActual();
     }
 }

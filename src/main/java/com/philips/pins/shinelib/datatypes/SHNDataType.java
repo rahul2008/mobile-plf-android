@@ -11,7 +11,7 @@ public enum SHNDataType {
     EnergyExpenditure,
     EnergyIntake,
     Steps,
-    TestResult,
+    TestResultMoonshine,
     HeartRateResting,
     HeartRateRecovery,
     Sleep,
@@ -23,5 +23,5 @@ public enum SHNDataType {
     BloodPressure,
     BodyComposition,
     Weight,
-    FatPercentage
+    SubjectiveDataMoonshine, ResetSourceMoonshine, FatPercentage
 }
