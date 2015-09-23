@@ -351,6 +351,11 @@ public class MergeAccountFragment extends RegistrationBaseFragment implements Ev
 	}
 
 	@Override
+	public void onHsdpLoginFailure(int responseCode, String message) {
+
+	}
+
+	@Override
 	public void onSendForgotPasswordSuccess() {
 		RLog.i(RLog.CALLBACK, "MergeAccountFragment : onSendForgotPasswordSuccess");
 		RegAlertDialog.showResetPasswordDialog(getRegistrationFragment().getParentActivity());

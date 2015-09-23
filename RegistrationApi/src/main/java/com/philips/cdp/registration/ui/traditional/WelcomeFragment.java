@@ -27,6 +27,9 @@ import com.philips.cdp.registration.coppa.ResendCoppaEmailConsentHandler;
 import com.philips.cdp.registration.dao.DIUserProfile;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
+import com.philips.cdp.registration.hsdp.handler.RefreshHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -36,7 +39,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener {
+        UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener, LogoutHandler, RefreshHandler {
 
     private TextView mTvWelcome;
 
@@ -63,6 +66,8 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private XRegError mRegError;
 
     private ProgressBar mPbWelcomeCheck;
+
+  //  private ProgressBar mPbLogout;
 
     private DIUserProfile userProfile;
 
@@ -170,6 +175,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
+        //mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         setViewParams(getResources().getConfiguration());
@@ -182,7 +188,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         if (isfromVerification) {
             mCbTerms.setVisibility(view.GONE);
             mTvEmailDetails.setVisibility(View.GONE);
-        }else{
+        } else {
             mTvEmailDetails.setVisibility(View.VISIBLE);
             mCbTerms.setVisibility(View.GONE);
         }
@@ -228,8 +234,10 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
                 handleLogout();
             } else {
                 RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
-                RegistrationHelper.getInstance().getUserRegistrationListener()
-                        .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
+                if (RegistrationHelper.getInstance().isHsdpFlow()) {
+                    HsdpUser hsdpRefresh = new HsdpUser(mContext);
+                    hsdpRefresh.hsdpRefreshToken(this);
+                }
             }
         } else if (id == R.id.btn_resend_consent) {
             resendCoppaMail();
@@ -237,11 +245,17 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     private void handleLogout() {
+        //showLogoutSpinner();
         trackPage(AppTaggingPages.HOME);
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SIGN_OUT);
-        mUser.logout();
-        getRegistrationFragment().replaceWithHomeFragment();
+        if (RegistrationHelper.getInstance().isHsdpFlow()) {
+            mUser.logout();
+            mUser.logoutHsdp(this);
+        } else {
+            mUser.logout();
+            getRegistrationFragment().replaceWithHomeFragment();
+        }
     }
 
     private void resendCoppaMail() {
@@ -332,4 +346,38 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         return R.string.SigIn_TitleTxt;
     }
 
+    @Override
+    public void onHsdpLogoutSuccess() {
+        //hideLogoutSpinner();
+        getRegistrationFragment().replaceWithHomeFragment();
+    }
+
+    @Override
+    public void onHsdpLogoutFailure(int responseCode, final String message) {
+        //hideLogoutSpinner();
+        mRegError.setError(message);
+    }
+
+    @Override
+    public void onHsdpRefreshSuccess() {
+        //hideLogoutSpinner();
+        /* RegistrationHelper.getInstance().getUserRegistrationListener()
+        .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());*/
+    }
+
+    @Override
+    public void onHsdpRefreshFailure(int responseCode, final String message) {
+       // hideLogoutSpinner();
+        mRegError.setError(message);
+    }
+
+   /* private void showLogoutSpinner() {
+        mPbLogout.setVisibility(View.VISIBLE);
+        mBtnContinue.setEnabled(false);
+    }
+
+    private void hideLogoutSpinner() {
+        mPbLogout.setVisibility(View.GONE);
+        mBtnContinue.setEnabled(true);
+    }*/
 }

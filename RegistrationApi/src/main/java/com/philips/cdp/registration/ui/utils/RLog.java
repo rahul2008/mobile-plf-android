@@ -27,6 +27,8 @@ public class RLog {
 
     public static final String ANALYTICS = "Analytics";
 
+    public static final String HSDP = "Hsdp";
+
     private static boolean isLoggingEnabled = true;
 
     public static void enableLogging() {

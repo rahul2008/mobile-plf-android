@@ -22,10 +22,10 @@
   },
   "HSDPConfiguration": {
     "ApplicationName": "uGrowApplication",
-    "Development": {
+    "Evaluation": {
       "Shared": "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
       "Secret": "2eaec60a-1a2e-11e5-b60b-1697f925ec7b",
-      "BaseURL": "http://ugrow_user_registration.hsdpcph-consumer.cloud.pcftest.com"
+      "BaseURL": "http://ugrowuserregistration.cloud.pcftest.com/"
     }
   },
   "SigninProviders": {

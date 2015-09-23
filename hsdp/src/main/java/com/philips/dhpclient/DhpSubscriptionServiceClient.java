@@ -1,12 +1,16 @@
 package com.philips.dhpclient;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-
 import com.philips.dhpclient.request.DhpStoreTermsAndConditionsRequest;
 import com.philips.dhpclient.response.DhpResponse;
+import com.philips.dhpclient.util.Objects;
 import com.philips.dhpclient.util.MapUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DhpSubscriptionServiceClient extends DhpApiClient {
     private static final String TERMS_AND_CONDITIONS_DOCUMENT_ID = "1";
@@ -30,8 +34,8 @@ public class DhpSubscriptionServiceClient extends DhpApiClient {
             if (o == null || getClass() != o.getClass())
                 return false;
             DhpTermsAndConditionsResponse that = (DhpTermsAndConditionsResponse) o;
-            return Objects.equals(responseCode, that.responseCode) &&
-                   Objects.equals(acceptedTermsVersion, that.acceptedTermsVersion);
+            return responseCode.equals(that.responseCode) &&
+                    acceptedTermsVersion.equals(that.acceptedTermsVersion);
         }
 
         @Override

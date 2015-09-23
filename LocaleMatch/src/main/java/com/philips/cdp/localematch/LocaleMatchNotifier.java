@@ -58,15 +58,25 @@ public final class LocaleMatchNotifier {
 
     public void notifyLocaleMatchError(LocaleMatchError error) {
         synchronized (mLocaleMatchListeners) {
-            Iterator localeMatchListenerIterator = mLocaleMatchListeners.iterator();
-            while (localeMatchListenerIterator.hasNext()) {
+            //Iterator localeMatchListenerIterator = mLocaleMatchListeners.iterator();
+            for (Iterator<LocaleMatchListener> iterator = mLocaleMatchListeners.iterator(); iterator.hasNext(); ) {
+                Object iteratorObj = iterator.next();
+                if (iteratorObj != null) {
+                    LocaleMatchListener listener = (LocaleMatchListener) iteratorObj;
+                    listener.onErrorOccurredForLocaleMatch(error);
+                    iterator.remove();
+                }
+
+            }
+
+            /*while (localeMatchListenerIterator.hasNext()) {
                 Object iteratorObj = localeMatchListenerIterator.next();
                 if (iteratorObj != null) {
                     LocaleMatchListener listener = (LocaleMatchListener) iteratorObj;
                     listener.onErrorOccurredForLocaleMatch(error);
                     localeMatchListenerIterator.remove();
                 }
-            }
+            }*/
         }
     }
 

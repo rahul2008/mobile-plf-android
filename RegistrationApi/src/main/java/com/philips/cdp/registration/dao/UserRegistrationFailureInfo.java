@@ -9,6 +9,8 @@ public class UserRegistrationFailureInfo {
 
 	private String errorDescription;
 
+	private String hsdpErrorDescription;
+
 	private String firstNameErrorMessage;
 
 	private String emailErrorMessage;
@@ -82,5 +84,13 @@ public class UserRegistrationFailureInfo {
 
 	public void setError(CaptureApiError error) {
 		this.error = error;
+	}
+
+	public String getHsdpErrorDescription() {
+		return hsdpErrorDescription;
+	}
+
+	public void setHsdpErrorDescription(String hsdpErrorDescription) {
+		this.hsdpErrorDescription = hsdpErrorDescription;
 	}
 }

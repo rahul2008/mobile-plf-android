@@ -1,7 +1,8 @@
 package com.philips.dhpclient.response;
 
+import com.philips.dhpclient.util.Objects;
+
 import java.util.Map;
-import java.util.Objects;
 
 public final class DhpUserRegistrationResponse extends DhpResponse {
     public final String userId;

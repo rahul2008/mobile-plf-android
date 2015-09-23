@@ -294,6 +294,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 	@Override
 	public void onRegisterSuccess() {
 		RLog.i(RLog.CALLBACK, "CreateAccountFragment : onRegisterSuccess");
+		RegUtility.setTraditionalPassword(mContext,mEtPassword.getPassword());
 		hideSpinner();
 		trackCheckMarketing();
 		trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,

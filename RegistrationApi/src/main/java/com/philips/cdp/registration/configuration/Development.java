@@ -5,24 +5,24 @@ package com.philips.cdp.registration.configuration;
  */
 public class Development {
 
-    private String shared;
-    private String secret;
+    private String sharedKey;
+    private String secretKey;
     private String baseURL;
 
-    public String getShared() {
-        return shared;
+    public String getSharedKey() {
+        return sharedKey;
     }
 
-    public void setShared(String shared) {
-        this.shared = shared;
+    public void setSharedKey(String sharedKey) {
+        this.sharedKey = sharedKey;
     }
 
-    public String getSecret() {
-        return secret;
+    public String getSecretKey() {
+        return secretKey;
     }
 
-    public void setSecret(String secret) {
-        this.secret = secret;
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     public String getBaseURL() {

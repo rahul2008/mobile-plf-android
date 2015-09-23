@@ -46,7 +46,7 @@ public class ConfigurationParser {
 
     private final String HSDP_APPLICATION_NAME = "ApplicationName";
 
-    private final String HSDP_ENVIRONMENT = "Development";
+    private final String HSDP_ENVIRONMENT_EVAL = "Evaluation";
 
     private final String SHARED = "Shared";
 
@@ -165,13 +165,13 @@ public class ConfigurationParser {
             configuration.setApplicationName(hsdpConfiguartion.getString(HSDP_APPLICATION_NAME));
         }
 
-        if (!hsdpConfiguartion.isNull(HSDP_ENVIRONMENT)) {
-            JSONObject hsdpId = hsdpConfiguartion.getJSONObject(HSDP_ENVIRONMENT);
+        if (!hsdpConfiguartion.isNull(HSDP_ENVIRONMENT_EVAL)) {
+            JSONObject hsdpId = hsdpConfiguartion.getJSONObject(HSDP_ENVIRONMENT_EVAL);
             if (!hsdpId.isNull(SHARED)) {
-                developmentId.setShared(hsdpId.getString(SHARED));
+                developmentId.setSharedKey(hsdpId.getString(SHARED));
             }
             if (!hsdpId.isNull(SECRET)) {
-                developmentId.setSecret(hsdpId.getString(SECRET));
+                developmentId.setSecretKey(hsdpId.getString(SECRET));
             }
             if (!hsdpId.isNull(BASE_URL)) {
                 developmentId.setBaseURL(hsdpId.getString(BASE_URL));

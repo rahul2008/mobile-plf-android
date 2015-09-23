@@ -33,6 +33,8 @@ import com.philips.cdp.registration.handlers.TraditionalLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
 import com.philips.cdp.registration.ui.utils.RegConstants;
 
 import org.json.JSONArray;
@@ -86,7 +88,6 @@ public class User {
     private String LOG_TAG = "User Registration";
 
     private UpdateUserRecordHandler mUpdateUserRecordHandler;
-
 
     public User(Context context) {
         mContext = context;
@@ -187,14 +188,14 @@ public class User {
     }
 
     // For Refresh login Session
-    public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler,Context context) {
+    public void refreshLoginSession(RefreshLoginSessionHandler refreshLoginSessionHandler, Context context) {
         CaptureRecord captureRecord = CaptureRecord.loadFromDisk(mContext);
         if (captureRecord == null) {
             return;
         }
         RefreshLoginSession refreshLoginhandler = new RefreshLoginSession(
                 refreshLoginSessionHandler);
-        captureRecord.refreshAccessToken(refreshLoginhandler,context);
+        captureRecord.refreshAccessToken(refreshLoginhandler, context);
     }
 
     // For Resend verification emails
@@ -357,7 +358,7 @@ public class User {
             public void onRefreshLoginSessionFailedWithError(int error) {
                 updateReceiveMarketingEmail.onUpdateReceiveMarketingEmailFailedWithError(0);
             }
-        },mContext);
+        }, mContext);
     }
 
     private void updateMarketingEmailAfterRefreshAccessToken(
@@ -482,5 +483,26 @@ public class User {
         if (Jump.getSignedInUser() != null) {
             CoppaConfiguration.getCoopaConfigurationFlields(Jump.getSignedInUser());
         }
+    }
+
+    public void logoutHsdp(final LogoutHandler logoutHandler) {
+
+        final HsdpUser hsdpUser = new HsdpUser(mContext);
+        hsdpUser.hsdpLogOut(new LogoutHandler() {
+            @Override
+            public void onHsdpLogoutSuccess() {
+                CoppaConfiguration.clearConfiguration();
+                Jump.signOutCaptureUser(mContext);
+                CaptureRecord.deleteFromDisk(mContext);
+                hsdpUser.deleteFromDisk();
+                logoutHandler.onHsdpLogoutSuccess();
+            }
+
+            @Override
+            public void onHsdpLogoutFailure(int responseCode, String message) {
+                logoutHandler.onHsdpLogoutFailure(responseCode, message);
+            }
+        });
+
     }
 }

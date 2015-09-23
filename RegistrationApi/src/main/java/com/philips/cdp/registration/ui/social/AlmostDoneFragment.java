@@ -404,7 +404,6 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
             mEtEmail.showInvalidAlert();
             mEtEmail.showErrPopUp();
         }
-       // mRegError.setError(userRegistrationFailureInfo.getErrorDescription());
         trackActionRegisterError(userRegistrationFailureInfo.getError().code);
     }
 

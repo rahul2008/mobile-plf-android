@@ -5,7 +5,9 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 
 public interface TraditionalLoginHandler {
 
-	public void onLoginSuccess();
+	void onLoginSuccess();
 
-	public void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
+	void onLoginFailedWithError(UserRegistrationFailureInfo userRegistrationFailureInfo);
+
+	void onHsdpLoginFailure(int responseCode, String message);
 }

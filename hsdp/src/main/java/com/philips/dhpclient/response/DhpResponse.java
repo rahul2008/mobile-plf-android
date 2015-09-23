@@ -1,8 +1,10 @@
 package com.philips.dhpclient.response;
 
-import java.util.*;
-
 import com.philips.dhpclient.util.MapUtils;
+import com.philips.dhpclient.util.Objects;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DhpResponse {
     public static DhpResponse SUCCESS;

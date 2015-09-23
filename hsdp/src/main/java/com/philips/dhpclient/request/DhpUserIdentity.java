@@ -1,7 +1,8 @@
 package com.philips.dhpclient.request;
 
+import com.philips.dhpclient.util.Objects;
+
 import java.util.List;
-import java.util.Objects;
 
 public final class DhpUserIdentity {
     public final static class Profile {

@@ -20,6 +20,9 @@ import com.philips.cdp.registration.events.EventHelper;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.events.NetworkStateHelper;
 import com.philips.cdp.registration.events.UserRegistrationHelper;
+import com.philips.cdp.registration.hsdp.handler.LoginHandler;
+import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
+import com.philips.cdp.registration.hsdp.handler.RefreshHandler;
 import com.philips.cdp.registration.listener.UserRegistrationListener;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
@@ -55,9 +58,13 @@ public class RegistrationHelper {
 
     private boolean isCoppaFlow = false;
 
-    private UserRegistrationListener mUserRegistrationListener;
+    private boolean isHsdpFlow;
 
+    private LoginHandler mHsdpLoginHandler;
 
+    private LogoutHandler mHsdpLogoutHandler;
+
+    private RefreshHandler mHsdpRefreshHandler;
 
     private interface RegistrationEnvironment {
 
@@ -337,6 +344,14 @@ public class RegistrationHelper {
 
     public static String getRegistrationApiVersion() {
         return BuildConfig.VERSION_NAME;
+    }
+
+    public boolean isHsdpFlow() {
+        return isHsdpFlow;
+    }
+
+    public void setIsHsdpFlow(boolean isHsdpFlow) {
+        this.isHsdpFlow = isHsdpFlow;
     }
 
 

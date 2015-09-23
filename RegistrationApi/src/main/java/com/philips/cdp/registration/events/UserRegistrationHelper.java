@@ -3,9 +3,9 @@ package com.philips.cdp.registration.events;
 
 import android.app.Activity;
 
-import java.util.ArrayList;
-
 import com.philips.cdp.registration.listener.UserRegistrationListener;
+
+import java.util.ArrayList;
 
 public class UserRegistrationHelper {
 

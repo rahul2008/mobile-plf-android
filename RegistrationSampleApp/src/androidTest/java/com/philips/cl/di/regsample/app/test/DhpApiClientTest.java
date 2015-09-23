@@ -13,10 +13,16 @@ public class DhpApiClientTest extends ActivityInstrumentationTestCase2<Registrat
 
     private DhpAuthenticationManagementClient authenticationManagementClient;
     private final DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration(
-            "https://cph-integration-user-registration-assembly.cloud.pcftest.com/",
+            /*"http://ugrow_user_registration.hsdpcph-consumer.cloud.pcftest.com?",*/
+            "http://ugrowuserregistration.cloud.pcftest.com/",
+            "uGrowApplication",
+            "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
+            "2eaec60a-1a2e-11e5-b60b-1697f925ec7b");
+
+           /*"https://cph-integration-user-registration-assembly.cloud.pcftest.com/",
             "CPHApplication",
             "9b65af93-7ab5-11e4-b31d-005056849f9f",
-            "83068cae-bd6f-11e4-8dfc-aa07a5b093db");
+            "83068cae-bd6f-11e4-8dfc-aa07a5b093db");*/
 
     public DhpApiClientTest() {
         super(RegistrationSampleActivity.class);
@@ -31,6 +37,7 @@ public class DhpApiClientTest extends ActivityInstrumentationTestCase2<Registrat
     }
 
     public void testCLientTest() {
-        assertNotNull(authenticationManagementClient.authenticate("mimesisaugtest1@mailinator.com", "@Password1"));
+        System.out.println("******************** authenticate : "+authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
+        assertNotNull(authenticationManagementClient.authenticate("maqsoodphilips@gmail.com", "mohammed123"));
     }
 }

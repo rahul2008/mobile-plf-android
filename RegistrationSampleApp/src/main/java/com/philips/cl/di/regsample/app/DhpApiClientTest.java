@@ -12,6 +12,10 @@ public class DhpApiClientTest extends ActivityInstrumentationTestCase2<Registrat
 
     private DhpAuthenticationManagementClient authenticationManagementClient;
     private final DhpApiClientConfiguration dhpApiClientConfiguration = new DhpApiClientConfiguration(
+            /*"http://ugrow_user_registration.hsdpcph-consumer.cloud.pcftest.com",
+            "uGrowApplication",
+            "2eaec11e-1a2e-11e5-b60b-1697f925ec7b",
+            "2eaec60a-1a2e-11e5-b60b-1697f925ec7b");*/
             "https://cph-integration-user-registration-assembly.cloud.pcftest.com/",
             "CPHApplication",
             "9b65af93-7ab5-11e4-b31d-005056849f9f",
@@ -30,6 +34,8 @@ public class DhpApiClientTest extends ActivityInstrumentationTestCase2<Registrat
     }
 
     public void testCLientTest() {
+
+        System.out.println("********************* Authen : "+authenticationManagementClient.authenticate("mimesisaugtest1@mailinator.com", "@Password1"));
         assertNotNull(authenticationManagementClient.authenticate("mimesisaugtest1@mailinator.com", "@Password1"));
     }
 }

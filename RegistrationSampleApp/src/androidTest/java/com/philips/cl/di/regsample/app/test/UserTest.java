@@ -1,9 +1,5 @@
 package com.philips.cl.di.regsample.app.test;
 
-import static org.mockito.Mockito.mock;
-
-import org.mockito.Mockito;
-
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.janrain.android.Jump;
@@ -15,6 +11,10 @@ import com.philips.cdp.registration.handlers.SocialProviderLoginHandler;
 import com.philips.cdp.registration.handlers.TraditionalRegistrationHandler;
 import com.philips.cdp.registration.handlers.UpdateUserRecordHandler;
 import com.philips.cl.di.regsample.app.RegistrationSampleActivity;
+
+import org.mockito.Mockito;
+
+import static org.mockito.Mockito.mock;
 
 public class UserTest extends ActivityInstrumentationTestCase2<RegistrationSampleActivity> {
 

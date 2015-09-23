@@ -1,9 +1,8 @@
 package com.philips.dhpclient.response;
 
-import java.util.Map;
-import java.util.Objects;
+import com.philips.dhpclient.util.Objects;
 
-import org.json.JSONObject;
+import java.util.Map;
 
 public final class DhpAuthenticationResponse extends DhpResponse {
     public final String accessToken;

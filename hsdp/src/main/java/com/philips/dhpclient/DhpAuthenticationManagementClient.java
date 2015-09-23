@@ -1,11 +1,11 @@
 package com.philips.dhpclient;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import com.philips.dhpclient.response.DhpAuthenticationResponse;
 import com.philips.dhpclient.response.DhpResponse;
 import com.philips.dhpclient.util.MapUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class DhpAuthenticationManagementClient extends DhpApiClient {
     static class AuthenticationRequestJson {

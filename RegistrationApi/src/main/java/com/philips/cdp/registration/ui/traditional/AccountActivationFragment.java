@@ -24,10 +24,13 @@ import com.philips.cdp.registration.dao.UserRegistrationFailureInfo;
 import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.RefreshUserHandler;
 import com.philips.cdp.registration.handlers.ResendVerificationEmailHandler;
+import com.philips.cdp.registration.hsdp.HsdpUser;
+import com.philips.cdp.registration.hsdp.handler.LoginHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.NetworkUtility;
 import com.philips.cdp.registration.ui.utils.RLog;
+import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class AccountActivationFragment extends RegistrationBaseFragment implements OnClickListener,
         RefreshUserHandler, ResendVerificationEmailHandler, NetworStateListener {
@@ -238,8 +241,6 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     private void updateActivationUIState() {
         hideActivateSpinner();
         mBtnActivate.setEnabled(true);
-        mBtnActivate.setEnabled(true);
-        mBtnResend.setEnabled(true);
         mBtnResend.setEnabled(true);
         if (mUser.getEmailVerificationStatus(mContext)) {
             mBtnResend.setVisibility(View.GONE);
@@ -280,21 +281,41 @@ public class AccountActivationFragment extends RegistrationBaseFragment implemen
     @Override
     public void onRefreshUserSuccess() {
         RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserSuccess");
+        if (mUser.getEmailVerificationStatus(mContext) && RegistrationHelper.getInstance().isHsdpFlow()) {
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            hsdpUser.hsdpLogin(mEmailId, RegUtility.getTraditionalPassword(mContext), new LoginHandler() {
+                @Override
+                public void onHsdpLoginSuccess() {
+                    updateActivationUIState();
+                }
+
+                @Override
+                public void onHsdpLoginFailure(int responseCode, String message) {
+                    mEMailVerifiedError.setError(message);
+                    hideActivateSpinner();
+                    mBtnActivate.setEnabled(true);
+                    mBtnResend.setEnabled(true);
+                }
+            });
+
+        }else {
+            updateActivationUIState();
+        }
+
+    }
+
+    @Override
+    public void onRefreshUserFailed ( int error){
+            RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
         updateActivationUIState();
     }
 
     @Override
-    public void onRefreshUserFailed(int error) {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onRefreshUserFailed");
-        updateActivationUIState();
-    }
-
-    @Override
-    public void onResendVerificationEmailSuccess() {
-        RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
-        updateResendUIState();
-        trackActionStatus(AppTagingConstants.SEND_DATA,
-                AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
+    public void onResendVerificationEmailSuccess () {
+            RLog.i(RLog.CALLBACK, "AccountActivationFragment : onResendVerificationEmailSuccess");
+            updateResendUIState();
+            trackActionStatus(AppTagingConstants.SEND_DATA,
+                    AppTagingConstants.SPECIAL_EVENTS, AppTagingConstants.SUCCESS_RESEND_EMAIL_VERIFICATION);
     }
 
     private void updateResendUIState() {
