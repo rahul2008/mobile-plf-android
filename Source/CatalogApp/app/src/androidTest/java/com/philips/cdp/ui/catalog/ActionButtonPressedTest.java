@@ -69,12 +69,12 @@ public class ActionButtonPressedTest extends ActivityInstrumentationTestCase2<Ma
         matchPressedColor(R.id.miscBtnCircleArrow, com.philips.cdp.ui.catalog.test.R.drawable.circle_right_mdpi,"#983222");
     }
 
-    private void setPressed(int buttonID, boolean state) {
+    private void setPressed(final int buttonID, boolean state) {
         acquire();
         targetActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                targetActivity.findViewById(R.id.miscBtnCircleArrow).setPressed(true);
+                targetActivity.findViewById(buttonID).setPressed(true);
                 release();
             }
         });
