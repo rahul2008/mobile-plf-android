@@ -39,6 +39,7 @@ public class BazaarReviewModel implements Serializable{
     private String mEmail;
     private String mSummary;
     private String mReview;
+    private String mUserId;
 
     /**
 	 * Sets all variables to 0, null, or "null"
@@ -151,33 +152,6 @@ public class BazaarReviewModel implements Serializable{
 		return month + " " + day + ", " + year;
 
 	}
-
-//	/**
-//	 * Downloads the image from the URL stored in the object. This can be set by
-//	 * constructing the object with a json response that has an image associated
-//	 * with it. It also allows for passing a callback function for when the download
-//	 * completes.
-//	 *
-//	 * @param listener the callback function, or null if not needed
-//	 */
-//	public void downloadImage(final OnImageDownloadComplete listener) {
-//		if ("".equals(imageUrl))
-//			return;
-//
-//		Thread t = new Thread(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				ImageDownloader downloader = new ImageDownloader();
-//				imageBitmap = downloader.download(imageUrl);
-//				if(listener != null)
-//					listener.onFinish(null);
-//			}
-//
-//		});
-//		t.start();
-//	}
-
 	/**
 	 * @return the rating
 	 */
@@ -289,7 +263,22 @@ public class BazaarReviewModel implements Serializable{
 		this.reviewText = reviewText;
 	}
 
-	/**
+    /**
+     * @return the mUserId
+     */
+    public String getUserId() {
+        return mUserId;
+    }
+
+    /**
+     * @param userID
+     *            the reviewText to set
+     */
+    public void setUserId(String userID) {
+        mUserId = userID;
+    }
+
+    /**
 	 * @return the imageBitmap
 	 */
 	public Bitmap getImageBitmap() {

@@ -78,20 +78,14 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         mRatingBar = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
         mRatingBar.setNumStars(5);
         mRatingBar.setMax(5);
-        mRatingBar.setStepSize(0.5f);
+        mRatingBar.setStepSize(1f);
         LayerDrawable stars = (LayerDrawable) mRatingBar
-
                 .getProgressDrawable();
-
         stars.getDrawable(2).setColorFilter(Color.parseColor("#528E18"),
-
                 PorterDuff.Mode.SRC_ATOP);
-
         stars.getDrawable(1).setColorFilter(Color.parseColor("#528E18"),
                 PorterDuff.Mode.SRC_ATOP);
-
         stars.getDrawable(0).setColorFilter(Color.parseColor("#CCD9BE"),
-
                 PorterDuff.Mode.SRC_ATOP);
 
     }
@@ -133,10 +127,10 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             Toast.makeText(getActivity(),
                     "You must give a rating between 1 and 5.",
                     Toast.LENGTH_SHORT).show();
-        } else if (mSummaryDescriptionEditText.getText().toString().equals("")) {
+        } else if (mSummaryHeaderEditText.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "You must enter a summary.",
                     Toast.LENGTH_SHORT).show();
-        } else if (mSummaryHeaderEditText.getText().toString().equals("")) {
+        } else if (mSummaryDescriptionEditText.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "You must enter a description.",
                     Toast.LENGTH_SHORT).show();
         } else if (mNicknameEditText.getText().toString().equals("")) {
@@ -146,6 +140,7 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
             Toast.makeText(getActivity(), "You must enter a email.",
                     Toast.LENGTH_SHORT).show();
         } else {
+
             BazaarReviewModel reviewModel = new BazaarReviewModel();
             reviewModel.setRating((float) mRatingBar.getRating());
             reviewModel.setSummary(mSummaryHeaderEditText.getText().toString());

@@ -78,15 +78,13 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         mEmail = (DigitalCareFontTextView) getActivity().findViewById(R.id.your_product_review_email_header_text_value);
         mOkButton.setOnClickListener(this);
 
-//        mRatingBar.setText(bazaarReviewModel.getRating());
+        mRatingBar.setRating((float)mBazaarReviewModel.getRating());
+        mRatingBar.setEnabled(false);
         mReviewSummaryHeader.setText(mBazaarReviewModel.getSummary());
         mReviewDescription.setText(mBazaarReviewModel.getReview());
         mNickName.setText(mBazaarReviewModel.getNickname());
         mEmail.setText(mBazaarReviewModel.getEmail());
-
-//        setRatingBarUI();
     }
-
 
     @Override
     public void setViewParams(Configuration config) {
@@ -112,6 +110,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
     public void onClick(View v) {
 
         String productId = "1000001";
+        mBazaarReviewModel.setUserId("test1");
 
         if (v.getId() == (R.id.your_product_review_preview_send_button))
 
@@ -127,11 +126,17 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
                                             + message
                                             + "\n"
                                             + Log.getStackTraceString(exception));
+                            if(mProgressDialog.isShowing()){
+                                mProgressDialog.dismiss();
+                            }
                         }
 
                         @Override
                         public void onResponse(String url, JSONObject json) {
                             Log.i(TAG, "Response = \n" + json);
+                            if(mProgressDialog.isShowing()){
+                                mProgressDialog.dismiss();
+                            }
 //
 //                            try {
 //                                if (json.getBoolean("HasErrors")) {
