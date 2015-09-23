@@ -87,7 +87,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
         mPaintFill.setStyle(Style.FILL);
         mPaintFill.setColor(a.getColor(R.styleable.CirclePageIndicator_fillColor, defaultFillColor));
         mPaintUnselectedFill.setStyle(Style.FILL);
-        mPaintUnselectedFill.setColor(a.getColor(R.styleable.CirclePageIndicator_unSelectedCircleColor, mPaintFill.getColor()));
+        mPaintUnselectedFill.setColor(mPaintFill.getColor());
         mRadius = a.getDimension(R.styleable.CirclePageIndicator_radius, defaultRadius);
         unSelectedRadius = a.getDimension(R.styleable.CirclePageIndicator_unSelectedRadius, mRadius);
         mSnap = a.getBoolean(R.styleable.CirclePageIndicator_snap, defaultSnap);
@@ -129,16 +129,8 @@ public class CirclePageIndicator extends View implements PageIndicator {
         invalidate();
     }
 
-    public void setUnSelectedCircleColor(int fillColor) {
-        mPaintUnselectedFill.setColor(fillColor);
-        invalidate();
-    }
-
     public int getFillColor() {
         return mPaintFill.getColor();
-    }
-    public int getUnselectedCircleColor() {
-        return mPaintUnselectedFill.getColor();
     }
 
     public void setOrientation(int orientation) {
@@ -271,6 +263,7 @@ public class CirclePageIndicator extends View implements PageIndicator {
             }
 
             // Only paint stroke if a stroke width was non-zero
+            mPaintUnselectedFill.setAlpha((int) 76.5);
             if (pageFillRadius != mRadius) {
                 if (!enableStrokeBackground)
                     canvas.drawCircle(dX, dY, unSelectedRadius, mPaintUnselectedFill);
