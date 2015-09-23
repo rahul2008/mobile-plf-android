@@ -68,6 +68,7 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
         Bundle bundle = getArguments();
         mBazaarReviewModel= (BazaarReviewModel) bundle.getSerializable("productReviewModel");
 
+        mProgressDialog = new ProgressDialog(getActivity());
         mRatingBar = (RatingBar) getActivity().findViewById(R.id.your_product_review_rating_ratingbar);
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_send_button);
         mCancelButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_preview_cancel_button);
@@ -80,8 +81,8 @@ public class ProductReviewPreviewFragment extends DigitalCareBaseFragment {
 //        mRatingBar.setText(bazaarReviewModel.getRating());
         mReviewSummaryHeader.setText(mBazaarReviewModel.getSummary());
         mReviewDescription.setText(mBazaarReviewModel.getReview());
-        mReviewSummaryHeader.setText(mBazaarReviewModel.getNickname());
-        mReviewSummaryHeader.setText(mBazaarReviewModel.getEmail());
+        mNickName.setText(mBazaarReviewModel.getNickname());
+        mEmail.setText(mBazaarReviewModel.getEmail());
 
 //        setRatingBarUI();
     }
