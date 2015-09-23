@@ -57,8 +57,6 @@
         <attr name="android:background"/>
         <!-- Radius of the UnSelected circles. This is also the spacing between circles. -->
         <attr name="unSelectedRadius" format="dimension" />
-        <!-- Color of the filled circle of Unselected Circle that represents the current page. -->
-        <attr name="unSelectedCircleColor" format="color" />
         <!-- enable Stroke background -->
         <attr name="enableStroke" format="boolean" />
 
