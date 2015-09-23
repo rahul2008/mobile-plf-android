@@ -1,6 +1,5 @@
 package com.philips.cdp.digitalcare.rateandreview.fragments;
 
-import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -141,25 +140,23 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
         } else if (mNicknameEditText.getText().toString().equals("")) {
             Toast.makeText(getActivity(), "You must enter a nick name.",
                     Toast.LENGTH_SHORT).show();
+        } else if (mEmailEditText.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "You must enter a email.",
+                    Toast.LENGTH_SHORT).show();
         } else {
-            if (mEmailEditText.getText().toString().equals("")) {
-                Toast.makeText(getActivity(), "You must enter a email.",
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                final BazaarReviewModel reviewModel = new BazaarReviewModel();
-                reviewModel.setRating((float) mRatingBar.getRating());
-                reviewModel.setSummary(mSummaryHeaderEditText.getText().toString());
-                reviewModel.setReview(mSummaryDescriptionEditText.getText().toString());
-                reviewModel.setNickname(mNicknameEditText.getText().toString());
-                reviewModel.setEmail(mEmailEditText.getText().toString());
+            BazaarReviewModel reviewModel = new BazaarReviewModel();
+            reviewModel.setRating((float) mRatingBar.getRating());
+            reviewModel.setSummary(mSummaryHeaderEditText.getText().toString());
+            reviewModel.setReview(mSummaryDescriptionEditText.getText().toString());
+            reviewModel.setNickname(mNicknameEditText.getText().toString());
+            reviewModel.setEmail(mEmailEditText.getText().toString());
 
-                ProductReviewPreviewFragment productReviewPreviewFragment = new ProductReviewPreviewFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("productReviewModel", reviewModel);
+            ProductReviewPreviewFragment productReviewPreviewFragment = new ProductReviewPreviewFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("productReviewModel", reviewModel);
 
-                productReviewPreviewFragment.setArguments(bundle);
-                showFragment(productReviewPreviewFragment);
-            }
+            productReviewPreviewFragment.setArguments(bundle);
+            showFragment(productReviewPreviewFragment);
         }
     }
 }
