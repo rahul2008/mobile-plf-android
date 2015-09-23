@@ -46,101 +46,101 @@ public class BazaarVoiceWrapper {
     private static final int MIN_IMAGE_DIMENSIONS = 600;
 
 
-    public static String photoUrl = "";
-
-    /**
-     * A wrapper for uploadPhoto() that doesn't pass a callback function for
-     * upload completion.
-     *
-     * @param file the file location of the photo
-     */
-    public static void uploadPhoto(File file) {
-        uploadPhoto(file, null);
-    }
-
-    /**
-     * Actually sends the photo upload request -- this is a helper function for uploadPhoto.
-     *
-     * @param params   the params of the request
-     * @param listener an <code>OnImageUploadComplete</code> object
-     */
-    private static void sendPhotoRequest(SubmissionMediaParams params, final OnImageUploadComplete listener) {
-        OnBazaarResponse response = new OnBazaarResponse() {
-
-            @Override
-            public void onException(String message, Throwable exception) {
-                Log.e(TAG,
-                        "Error = " + message + "\n"
-                                + Log.getStackTraceString(exception));
-            }
-
-            @Override
-            public void onResponse(String url, JSONObject response) {
-                Log.i(TAG, "Response = \n" + response);
-                if (listener != null) {
-                    listener.onFinish();
-                }
-                try {
-                    photoUrl = response.getJSONObject("Photo")
-                            .getJSONObject("Sizes").getJSONObject("normal")
-                            .getString("Url");
-                } catch (JSONException exception) {
-                    Log.e(TAG, Log.getStackTraceString(exception));
-                }
-            }
-
-        };
-
-        BazaarRequest submitMedia = new BazaarRequest("apitestcustomer", API_KEY, BazaarEnvironment.staging,
-                API_VERSION);
-        submitMedia.postSubmission(RequestType.PHOTOS, params, response);
-    }
-
-    /**
-     * Creates a request to upload a photo to the Bazaarvoice image store for
-     * use with a review. This function also allows you to pass a callback
-     * function to be called when the upload completes.
-     *
-     * @param file     the file location of the photo
-     * @param listener an <code>OnImageUploadComplete</code> object
-     */
-    public static void uploadPhoto(File file,
-                                   final OnImageUploadComplete listener) {
-        try {
-            SubmissionMediaParams params = new SubmissionMediaParams(MediaParamsContentType.REVIEW);
-            params.setPhoto(file);
-            params.setUserId("test1");
-
-            sendPhotoRequest(params, listener);
-
-        } catch (Exception exception) {
-            Log.e(TAG, Log.getStackTraceString(exception));
-        }
-    }
-
-    /**
-     * Creates a request to upload a photo to the Bazaarvoice image store for
-     * use with a review. This function also allows you to pass a callback
-     * function to be called when the upload completes.
-     *
-     * @param bitmap the bitmap representation of the image to upload
-     */
-    public static void uploadPhoto(Bitmap bitmap, String filenname, final OnImageUploadComplete listener) {
-        try {
-            SubmissionMediaParams params = new SubmissionMediaParams(MediaParamsContentType.REVIEW);
-            if (bitmap.getHeight() < MIN_IMAGE_DIMENSIONS || bitmap.getWidth() < MIN_IMAGE_DIMENSIONS) {
-                float scale = Math.max(MIN_IMAGE_DIMENSIONS / (float) bitmap.getHeight(), MIN_IMAGE_DIMENSIONS / (float) bitmap.getWidth());
-                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * scale), (int) (bitmap.getHeight() * scale), true);
-            }
-
-            params.setPhoto(bitmap, filenname);
-            params.setUserId("test1");
-
-            sendPhotoRequest(params, listener);
-        } catch (Exception exception) {
-            Log.e(TAG, Log.getStackTraceString(exception));
-        }
-    }
+//    public static String photoUrl = "";
+//
+//    /**
+//     * A wrapper for uploadPhoto() that doesn't pass a callback function for
+//     * upload completion.
+//     *
+//     * @param file the file location of the photo
+//     */
+//    public static void uploadPhoto(File file) {
+//        uploadPhoto(file, null);
+//    }
+//
+//    /**
+//     * Actually sends the photo upload request -- this is a helper function for uploadPhoto.
+//     *
+//     * @param params   the params of the request
+//     * @param listener an <code>OnImageUploadComplete</code> object
+//     */
+//    private static void sendPhotoRequest(SubmissionMediaParams params, final OnImageUploadComplete listener) {
+//        OnBazaarResponse response = new OnBazaarResponse() {
+//
+//            @Override
+//            public void onException(String message, Throwable exception) {
+//                Log.e(TAG,
+//                        "Error = " + message + "\n"
+//                                + Log.getStackTraceString(exception));
+//            }
+//
+//            @Override
+//            public void onResponse(String url, JSONObject response) {
+//                Log.i(TAG, "Response = \n" + response);
+//                if (listener != null) {
+//                    listener.onFinish();
+//                }
+//                try {
+//                    photoUrl = response.getJSONObject("Photo")
+//                            .getJSONObject("Sizes").getJSONObject("normal")
+//                            .getString("Url");
+//                } catch (JSONException exception) {
+//                    Log.e(TAG, Log.getStackTraceString(exception));
+//                }
+//            }
+//
+//        };
+//
+//        BazaarRequest submitMedia = new BazaarRequest("apitestcustomer", API_KEY, BazaarEnvironment.staging,
+//                API_VERSION);
+//        submitMedia.postSubmission(RequestType.PHOTOS, params, response);
+//    }
+//
+//    /**
+//     * Creates a request to upload a photo to the Bazaarvoice image store for
+//     * use with a review. This function also allows you to pass a callback
+//     * function to be called when the upload completes.
+//     *
+//     * @param file     the file location of the photo
+//     * @param listener an <code>OnImageUploadComplete</code> object
+//     */
+//    public static void uploadPhoto(File file,
+//                                   final OnImageUploadComplete listener) {
+//        try {
+//            SubmissionMediaParams params = new SubmissionMediaParams(MediaParamsContentType.REVIEW);
+//            params.setPhoto(file);
+//            params.setUserId("test1");
+//
+//            sendPhotoRequest(params, listener);
+//
+//        } catch (Exception exception) {
+//            Log.e(TAG, Log.getStackTraceString(exception));
+//        }
+//    }
+//
+//    /**
+//     * Creates a request to upload a photo to the Bazaarvoice image store for
+//     * use with a review. This function also allows you to pass a callback
+//     * function to be called when the upload completes.
+//     *
+//     * @param bitmap the bitmap representation of the image to upload
+//     */
+//    public static void uploadPhoto(Bitmap bitmap, String filenname, final OnImageUploadComplete listener) {
+//        try {
+//            SubmissionMediaParams params = new SubmissionMediaParams(MediaParamsContentType.REVIEW);
+//            if (bitmap.getHeight() < MIN_IMAGE_DIMENSIONS || bitmap.getWidth() < MIN_IMAGE_DIMENSIONS) {
+//                float scale = Math.max(MIN_IMAGE_DIMENSIONS / (float) bitmap.getHeight(), MIN_IMAGE_DIMENSIONS / (float) bitmap.getWidth());
+//                bitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * scale), (int) (bitmap.getHeight() * scale), true);
+//            }
+//
+//            params.setPhoto(bitmap, filenname);
+//            params.setUserId("test1");
+//
+//            sendPhotoRequest(params, listener);
+//        } catch (Exception exception) {
+//            Log.e(TAG, Log.getStackTraceString(exception));
+//        }
+//    }
 
 
     /**
@@ -189,14 +189,14 @@ public class BazaarVoiceWrapper {
             params.setAction(Action.PREVIEW);
 
         params.setProductId(prodId);
-        params.setRating(review.getRating());
+        params.setRating((int)review.getRating());
         params.setReviewText(review.getReviewText());
         params.setTitle(review.getTitle());
         params.setUserNickname(review.getNickname());
         params.setUserEmail("bv@bv.com");
 
-        if (!photoUrl.equals(""))
-            params.addPhotoUrl(photoUrl);
+//        if (!photoUrl.equals(""))
+//            params.addPhotoUrl(photoUrl);
 
         if (!review.getAuthorId().equals("null"))
             params.setUserId(review.getAuthorId());

@@ -3,12 +3,11 @@ package com.philips.cdp.digitalcare.rateandreview.productreview.model;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.philips.cdp.digitalcare.rateandreview.productreview.ImageDownloader;
-import com.philips.cdp.digitalcare.rateandreview.productreview.OnImageDownloadComplete;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
 
 /**
  * BazaarReviewModel.java <br>
@@ -28,8 +27,8 @@ import org.json.JSONObject;
  *
  * @since : 11 Sep 2015
  */
-public class BazaarReviewModel {
-	private int rating;
+public class BazaarReviewModel implements Serializable{
+	private float rating;
 	private String title;
 	private String authorId;
 	private String userNickname;
@@ -37,8 +36,11 @@ public class BazaarReviewModel {
 	private String reviewText;
 	private String imageUrl;
 	private Bitmap imageBitmap;
+    private String mEmail;
+    private String mSummary;
+    private String mReview;
 
-	/**
+    /**
 	 * Sets all variables to 0, null, or "null"
 	 */
 	public BazaarReviewModel() {
@@ -150,36 +152,36 @@ public class BazaarReviewModel {
 
 	}
 
-	/**
-	 * Downloads the image from the URL stored in the object. This can be set by
-	 * constructing the object with a json response that has an image associated
-	 * with it. It also allows for passing a callback function for when the download
-	 * completes.
-	 * 
-	 * @param listener the callback function, or null if not needed
-	 */
-	public void downloadImage(final OnImageDownloadComplete listener) {
-		if ("".equals(imageUrl))
-			return;
-
-		Thread t = new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				ImageDownloader downloader = new ImageDownloader();
-				imageBitmap = downloader.download(imageUrl);
-				if(listener != null)
-					listener.onFinish(null);
-			}
-
-		});
-		t.start();
-	}
+//	/**
+//	 * Downloads the image from the URL stored in the object. This can be set by
+//	 * constructing the object with a json response that has an image associated
+//	 * with it. It also allows for passing a callback function for when the download
+//	 * completes.
+//	 *
+//	 * @param listener the callback function, or null if not needed
+//	 */
+//	public void downloadImage(final OnImageDownloadComplete listener) {
+//		if ("".equals(imageUrl))
+//			return;
+//
+//		Thread t = new Thread(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				ImageDownloader downloader = new ImageDownloader();
+//				imageBitmap = downloader.download(imageUrl);
+//				if(listener != null)
+//					listener.onFinish(null);
+//			}
+//
+//		});
+//		t.start();
+//	}
 
 	/**
 	 * @return the rating
 	 */
-	public int getRating() {
+	public float getRating() {
 		return rating;
 	}
 
@@ -187,7 +189,7 @@ public class BazaarReviewModel {
 	 * @param rating
 	 *            the rating to set
 	 */
-	public void setRating(int rating) {
+	public void setRating(float rating) {
 		this.rating = rating;
 	}
 
@@ -205,6 +207,42 @@ public class BazaarReviewModel {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+    public String getReview() {
+        return mReview;
+    }
+
+    /**
+     * @param review
+     *            the title to set
+     */
+    public void setReview(String review) {
+        mReview = review;
+    }
+
+    public String getSummary() {
+        return mSummary;
+    }
+
+    /**
+     * @param summary
+     *            the title to set
+     */
+    public void setSummary(String summary) {
+        mSummary = summary;
+    }
+
+    /**
+     * @param email
+     *            the title to set
+     */
+    public void setEmail(String email) {
+        mEmail = email;
+    }
+
+    public String getEmail() {
+        return mEmail;
+    }
 
 	/**
 	 * @return the authorId
