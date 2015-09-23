@@ -1,0 +1,4 @@
+<resources>
+    <!-- Text size -->
+    <dimen name="theme_button_text_size">14sp</dimen>
+</resources>

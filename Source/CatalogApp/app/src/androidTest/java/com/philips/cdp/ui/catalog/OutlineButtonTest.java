@@ -33,10 +33,10 @@ public class OutlineButtonTest extends ActivityInstrumentationTestCase2<MainActi
         testResources = getInstrumentation().getContext().getResources();
     }
 
-    public void testOutlineButtonIsPixelPerfect() {
+  /*  public void testOutlineButtonIsPixelPerfect() {
         onView(withText("Buttons")).perform(click());
         Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.out);
         onView(withId(R.id.theme_button))
                 .check(matches(isImageSimilar(expectedBitmap)));
-    }
+    }*/
 }
