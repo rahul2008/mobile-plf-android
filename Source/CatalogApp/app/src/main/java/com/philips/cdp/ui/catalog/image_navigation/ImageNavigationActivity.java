@@ -7,8 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.philips.cdp.ui.catalog.R;
-import com.philips.cdp.ui.catalog.dot_navigation.DotNavigationTestFragment;
-import com.philips.cdp.ui.catalog.dot_navigation.ViewPagerAdaptor;
 import com.viewpagerindicator.IconPageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
