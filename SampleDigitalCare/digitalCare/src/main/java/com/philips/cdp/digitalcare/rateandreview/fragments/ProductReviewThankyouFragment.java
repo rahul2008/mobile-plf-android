@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -25,7 +25,7 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
 
 
     private static final String TAG = ProductReviewThankyouFragment.class.getSimpleName();
-    private DigitalCareFontButton mOkButton = null;
+    private Button mOkButton = null;
     private LinearLayout mParentLayout = null;
     private LinearLayout.LayoutParams mLayoutParams = null;
 
@@ -57,14 +57,13 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
 
 
     private void setButtonParams(float density) {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
                 .getDimension(R.dimen.support_btn_height) * density));
 
         params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
 
         mOkButton.setLayoutParams(params);
-      //  mRatePhilipsBtn.setLayoutParams(params);
     }
 
     @Override

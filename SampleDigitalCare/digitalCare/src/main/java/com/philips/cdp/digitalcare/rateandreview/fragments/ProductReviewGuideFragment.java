@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
@@ -50,7 +51,8 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
                 .getLayoutParams();
         Configuration config = getResources().getConfiguration();
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.fragment_product_review_ok_button);
-        mFirstGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_first_expandableimage);
+
+     /*   mFirstGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_first_expandableimage);
         mSecondGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_second_expandableimage);
         mThirdGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_third_expandableimage);
         mFourthGuideLineImage = (ImageView) getActivity().findViewById(R.id.productreview_fourth_expandableimage);
@@ -58,11 +60,11 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
         mFirstGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_first_expandableimage_text);
         mSecondGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_second_expandableimage_text);
         mThirdGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_third_expandableimage_text);
-        mFourthGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_fourth_expandableimage_text);
+        mFourthGuideText = (DigitalCareFontTextView) getActivity().findViewById(R.id.productreview_fourth_expandableimage_text);*/
 
         mOkButton.setOnClickListener(this);
 
-        mFirstGuideLineImage.setOnClickListener(this);
+      /*  mFirstGuideLineImage.setOnClickListener(this);
         mSecondGuideLineImage.setOnClickListener(this);
         mThirdGuideLineImage.setOnClickListener(this);
         mFourthGuideLineImage.setOnClickListener(this);
@@ -71,9 +73,11 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
         mFirstGuideText.setOnClickListener(this);
         mSecondGuideText.setOnClickListener(this);
         mThirdGuideText.setOnClickListener(this);
-        mFourthGuideText.setOnClickListener(this);
+        mFourthGuideText.setOnClickListener(this);*/
 
         setViewParams(config);
+        float density = getResources().getDisplayMetrics().density;
+        setButtonParams(density);
     }
 
 
@@ -93,6 +97,16 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         setViewParams(newConfig);
+    }
+
+    private void setButtonParams(float density) {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT, (int) (getActivity().getResources()
+                .getDimension(R.dimen.support_btn_height) * density));
+
+        params.topMargin = (int) getActivity().getResources().getDimension(R.dimen.marginTopButton);
+
+        mOkButton.setLayoutParams(params);
     }
 
     @Override
@@ -115,13 +129,5 @@ public class ProductReviewGuideFragment extends DigitalCareBaseFragment {
 
         if (v.getId() == (R.id.fragment_product_review_ok_button))
             showFragment(new ProductWriteReviewFragment());
-        else if (v.getId() == (R.id.productreview_first_expandableimage))
-            mFirstGuideText.setMaxLines(1);
-        else if (v.getId() == (R.id.productreview_second_expandableimage))
-            mSecondGuideText.setMaxLines(1);
-        else if (v.getId() == (R.id.productreview_third_expandableimage))
-            mThirdGuideText.setMaxLines(1);
-        else if (v.getId() == (R.id.productreview_fourth_expandableimage))
-            mFourthGuideText.setMaxLines(1);
-    }
+         }
 }

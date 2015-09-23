@@ -68,10 +68,10 @@
 
                     <ImageView
                         android:id="@+id/productreview_first_expandableimage"
-                        android:layout_width="47px"
-                        android:layout_height="47px"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/green_ok" />
+                        android:src="@drawable/productreview_green" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_first_expandableimage_text"
@@ -92,10 +92,10 @@
 
                     <ImageView
                         android:id="@+id/productreview_second_expandableimage"
-                        android:layout_width="50px"
-                        android:layout_height="50px"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/red_minus" />
+                        android:src="@drawable/product_review_red" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_second_expandableimage_text"
@@ -116,10 +116,10 @@
 
                     <ImageView
                         android:id="@+id/productreview_third_expandableimage"
-                        android:layout_width="50px"
-                        android:layout_height="50px"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/red_minus" />
+                        android:src="@drawable/product_review_red" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_third_expandableimage_text"
@@ -139,10 +139,10 @@
 
                     <ImageView
                         android:id="@+id/productreview_fourth_expandableimage"
-                        android:layout_width="50px"
-                        android:layout_height="50px"
+                        android:layout_width="30px"
+                        android:layout_height="30px"
                         android:contentDescription="contentDescription"
-                        android:src="@drawable/red_minus" />
+                        android:src="@drawable/product_review_red" />
 
                     <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                         android:id="@+id/productreview_fourth_expandableimage_text"
