@@ -12,11 +12,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.R;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontButton;
 import com.philips.cdp.digitalcare.customview.DigitalCareFontTextView;
 import com.philips.cdp.digitalcare.homefragment.DigitalCareBaseFragment;
+import com.philips.cdp.digitalcare.rateandreview.productreview.model.BazaarReviewModel;
 import com.philips.cdp.digitalcare.util.DigiCareLogger;
 
 /**
@@ -37,14 +39,13 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     private Switch mSwitch = null;
     private EditText mSummaryHeaderEditText, mSummaryDescriptionEditText, mNicknameEditText, mEmailEditText = null;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         DigiCareLogger.d(TAG, "onCreateView");
-        View mView = inflater.inflate(R.layout.fragment_review_write, container,
+        View view = inflater.inflate(R.layout.fragment_review_write, container,
                 false);
-        return mView;
+        return view;
     }
 
     @Override
@@ -112,6 +113,50 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
     public void onClick(View v) {
 
         if (v.getId() == (R.id.your_product_review_send_button))
-            showFragment(new ProductReviewPreviewFragment());
+            submitReview();
+    }
+
+
+    /**
+     * Does some client-side validation before calling the necessary
+     * BazaarFunctions function to submit a review (only previews to facilitate
+     * easier testing). When the response comes in, it launches the next
+     * activity.
+     * <p/>
+     * If the photo has not uploaded yet, we put off submitting and show an
+     * "Uploading Photo..." dialog.
+     */
+    protected void submitReview() {
+        if (mRatingBar.getRating() == 0) {
+            Toast.makeText(getActivity(),
+                    "You must give a rating between 1 and 5.",
+                    Toast.LENGTH_SHORT).show();
+        } else if (mSummaryDescriptionEditText.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "You must enter a summary.",
+                    Toast.LENGTH_SHORT).show();
+        } else if (mSummaryHeaderEditText.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "You must enter a description.",
+                    Toast.LENGTH_SHORT).show();
+        } else if (mNicknameEditText.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "You must enter a nick name.",
+                    Toast.LENGTH_SHORT).show();
+        } else if (mEmailEditText.getText().toString().equals("")) {
+            Toast.makeText(getActivity(), "You must enter a email.",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            BazaarReviewModel reviewModel = new BazaarReviewModel();
+            reviewModel.setRating((float) mRatingBar.getRating());
+            reviewModel.setSummary(mSummaryHeaderEditText.getText().toString());
+            reviewModel.setReview(mSummaryDescriptionEditText.getText().toString());
+            reviewModel.setNickname(mNicknameEditText.getText().toString());
+            reviewModel.setEmail(mEmailEditText.getText().toString());
+
+            ProductReviewPreviewFragment productReviewPreviewFragment = new ProductReviewPreviewFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("productReviewModel", reviewModel);
+
+            productReviewPreviewFragment.setArguments(bundle);
+            showFragment(productReviewPreviewFragment);
+        }
     }
 }
