@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.philips.cdp.ui.catalog.R;
 import com.philips.cdp.ui.catalog.SplashLauncher;
 import com.philips.cdp.ui.catalog.dot_navigation.DotNavigationActivity;
+import com.philips.cdp.ui.catalog.image_navigation.ImageNavigationActivity;
 import com.philips.cdp.ui.catalog.themeutils.ThemeUtils;
 
 public class MainActivity extends CatalogActivity implements AdapterView.OnItemClickListener {
@@ -54,6 +55,9 @@ public class MainActivity extends CatalogActivity implements AdapterView.OnItemC
                 break;
             case 4:
                 startActivity(new Intent(this, DotNavigationActivity.class));
+                break;
+            case 5:
+                startActivity(new Intent(this, ImageNavigationActivity.class));
                 break;
             default:
                 break;

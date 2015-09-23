@@ -2,14 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cdp.ui.catalog" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.Philips.DarkBlue" >
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name" >
@@ -23,17 +22,18 @@
             android:name=".activity.ActionButtonsActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".activity.ThemesActivity"
-                  android:label="@string/app_name"></activity>
-        <activity android:name=".activity.ButtonsActivity"/>
-        <activity android:name=".dot_navigation.DotNavigationActivity"/>
-        <activity android:name=".activity.SplashActivityGradient"/>
-        <activity android:name=".SplashActivityLogoTop"/>
-        <activity android:name=".SplashActivityLogoBottom"/>
-        <activity android:name=".SplashActivityLogoCenterTitleTop"/>
-        <activity android:name=".SplashActivityLogoCenterTitleBottom"/>
-        <activity android:name=".SplashLauncher"/>
-
+        <activity
+            android:name=".activity.ThemesActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".activity.ButtonsActivity" />
+        <activity android:name=".dot_navigation.DotNavigationActivity" />
+        <activity android:name=".activity.SplashActivityGradient" />
+        <activity android:name=".SplashActivityLogoTop" />
+        <activity android:name=".SplashActivityLogoBottom" />
+        <activity android:name=".SplashActivityLogoCenterTitleTop" />
+        <activity android:name=".SplashActivityLogoCenterTitleBottom" />
+        <activity android:name=".SplashLauncher" />
+        <activity android:name=".image_navigation.ImageNavigationActivity"/>
     </application>
 
 </manifest>
