@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.philips.cdp.ui.catalog.activity.ActionButtonsActivity;
+import com.philips.cdp.ui.catalog.activity.ButtonsActivity;
 import com.philips.cdp.ui.catalog.activity.MainActivity;
 
 import java.util.concurrent.Semaphore;
@@ -45,7 +46,7 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Change Theme")).perform(click());
         onView(withText("Blue Theme")).perform(click());
         pressBack();
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
@@ -56,19 +57,19 @@ public class RegularButtonPressedTest extends ActivityInstrumentationTestCase2<M
         onView(withText("Change Theme")).perform(click());
         onView(withText("Orange Theme")).perform(click());
         pressBack();
-        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ActionButtonsActivity.class);
+        Instrumentation.ActivityMonitor monitor = setTargetMonitor(ButtonsActivity.class);
         onView(withText("Buttons")).perform(click());
         setTargetActivity(monitor);
         setPressed(R.id.theme_button, true);
         matchPressedColor(R.id.theme_button,com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_brightorange_pressed_mdpi,"#983222" );
     }
 
-    private void setPressed(int buttonID, boolean state) {
+    private void setPressed(final int buttonID, boolean state) {
         acquire();
         targetActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                targetActivity.findViewById(R.id.miscBtnCircleArrow).setPressed(true);
+                targetActivity.findViewById(buttonID).setPressed(true);
                 release();
             }
         });
