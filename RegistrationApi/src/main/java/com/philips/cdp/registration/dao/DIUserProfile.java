@@ -17,7 +17,29 @@ public class DIUserProfile {
 
     private String janrainUUID;
 
+    private String languageCode;
+    private String countryCode;
+
     private boolean isReceiveMarketingEmail;
+
+
+    public String getLanguageCode() {
+        return languageCode;
+    }
+
+    public void setLanguageCode(String languageCode) {
+        this.languageCode = languageCode;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
+
+
 
     public DIUserProfile() {
     }
