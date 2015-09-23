@@ -33,7 +33,7 @@ public class IsOutlineColorAsExpectedMatcher extends BoundedMatcher<View, View> 
         Bitmap actualBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas actualCanvas = new Canvas(actualBitmap);
         view.draw(actualCanvas);
-        int actualRGB = actualBitmap.getPixel(4,1);
+        int actualRGB = actualBitmap.getPixel(0,3);
 
         String actualcolor = "#"  +
                 Integer.toString(Color.red(actualRGB), 16) +

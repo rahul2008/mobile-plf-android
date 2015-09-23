@@ -16,7 +16,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.philips.cdp.ui.catalog.IsBackgroundColorAsExpectedMatcher.isBackgroundColorSimilar;
 import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
 import static com.philips.cdp.ui.catalog.IsTextColorAsExpectedMatcher.isTextColorSimilar;
-
+import static com.philips.cdp.ui.catalog.IsHeightAsExpectedMatcher.isHeightSimilar;
 /**
  * (C) Koninklijke Philips N.V., 2015.
  * All rights reserved.
@@ -38,9 +38,8 @@ public class RegularButtonTest extends ActivityInstrumentationTestCase2<MainActi
 
     public void testRButtonIsPixelPerfect() {
         onView(withText("Buttons")).perform(click());
-        Bitmap expectedBitmap = BitmapFactory.decodeResource(testResources, com.philips.cdp.ui.catalog.test.R.drawable.regularbtn_darkblue_mdpi);
         onView(withId(R.id.theme_button))
-                .check(matches(isImageSimilar(expectedBitmap)));
+                .check(matches(isHeightSimilar(44)));
     }
 
     public void testDBThemeRButtonColourAsExpected() {

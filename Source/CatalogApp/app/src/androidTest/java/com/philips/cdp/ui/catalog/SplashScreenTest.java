@@ -3,23 +3,15 @@ package com.philips.cdp.ui.catalog;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Paint;
-import android.support.test.espresso.ViewAssertion;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TextView;
 
 import com.philips.cdp.ui.catalog.activity.MainActivity;
-
-import org.hamcrest.Matcher;
-import org.hamcrest.core.IsEqual;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.philips.cdp.ui.catalog.IsPixelAsExpectedMatcher.isImageSimilar;
-import static com.philips.cdp.ui.catalog.IsEqualMatcher.isFontSimilar;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
