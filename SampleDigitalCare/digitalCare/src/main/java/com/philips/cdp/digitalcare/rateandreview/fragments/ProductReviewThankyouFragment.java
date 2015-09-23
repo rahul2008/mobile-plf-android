@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.philips.cdp.digitalcare.R;
@@ -24,8 +24,8 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
 
     private static final String TAG = ProductReviewThankyouFragment.class.getSimpleName();
     private DigitalCareFontButton mOkButton = null;
-    private RatingBar mRatingBar = null;
-
+    private LinearLayout mParentLayout = null;
+    private LinearLayout.LayoutParams mLayoutParams = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,12 +41,32 @@ public class ProductReviewThankyouFragment extends DigitalCareBaseFragment {
         DigiCareLogger.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         mOkButton = (DigitalCareFontButton) getActivity().findViewById(R.id.your_product_review_thankyou_button);
+        mParentLayout = (LinearLayout) getActivity().findViewById(R.id.product_review_thankyou_Parent_container_one);
+        mLayoutParams = (LinearLayout.LayoutParams) mParentLayout
+                .getLayoutParams();
+        Configuration config = getResources().getConfiguration();
+
         mOkButton.setOnClickListener(this);
+
+        setViewParams(config);
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setViewParams(newConfig);
     }
 
 
     @Override
     public void setViewParams(Configuration config) {
+        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+        } else {
+            mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+        }
+        mParentLayout.setLayoutParams(mLayoutParams);
 
     }
 
