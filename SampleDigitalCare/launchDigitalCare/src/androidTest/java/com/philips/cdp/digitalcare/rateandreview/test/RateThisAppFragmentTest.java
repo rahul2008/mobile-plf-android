@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.SmallTest;
 
 import com.philips.cdp.digitalcare.rateandreview.RateThisAppFragment;
 import com.philips.cdp.sampledigitalcareapp.LaunchDigitalCare;
@@ -36,7 +37,7 @@ public class RateThisAppFragmentTest extends
 
     private Fragment startFragment(Fragment fragment) {
         FragmentTransaction mFragmentTransaction = mLauncherActivity.getFragmentManager().beginTransaction();
-      //   mFragmentTransaction.add(android.R.id.conta)
+        //   mFragmentTransaction.add(android.R.id.conta)
         // mFragmentTransaction.add(
         return null;
     }
@@ -53,5 +54,100 @@ public class RateThisAppFragmentTest extends
             validate = true;
         assertTrue(validate);
     }*/
+
+
+    /**
+     * Adding testCases Scenario's,
+     */
+
+    @SmallTest
+    public void testProductImageAvailablity() {
+
+    }
+
+    @SmallTest
+    public void testProductNameAvailability() {
+
+    }
+
+    @SmallTest
+    public void textProductCtnAvailability() {
+
+    }
+
+    @SmallTest
+    public void testProductRatigForOneRating() {
+
+    }
+
+    @SmallTest
+    public void testProductRatigForTwoRating() {
+
+    }
+
+    @SmallTest
+    public void testProductRatigForThreeRating() {
+
+    }
+
+    @SmallTest
+    public void testProductRatigForFourRating() {
+
+    }
+
+    @SmallTest
+    public void testProductRatigForFiveRating() {
+
+    }
+
+    @SmallTest
+    public void testProductRatingReviewHeaderText() {
+
+    }
+
+    @SmallTest
+    public void testProductRatingSummaryTest() {
+
+    }
+
+    @SmallTest
+    public void testProductRatingSummaryTestWithMinimum50Characters() {
+
+    }
+
+    @SmallTest
+    public void testProductRatingSummaryTestWithUrlInText() {
+
+    }
+
+    @SmallTest
+    public void testProductRatingNickName() {
+
+    }
+
+    @SmallTest
+    public void testEmailWithText() {
+
+    }
+
+    @SmallTest
+    public void textEmailWithWildCharactersOne() {
+        //@ Starting at first
+    }
+
+    @SmallTest
+    public void textEmailWithWildCharactersTwo() {
+        //@ adding at end of the Email
+    }
+
+    @SmallTest
+    public void textEmailWithWildCharactersTwo() {
+        //Two @@ characters shouldn't be in email
+    }
+
+    @SmallTest
+    public void textCheckBoxBooleanValue() {
+
+    }
 
 }
