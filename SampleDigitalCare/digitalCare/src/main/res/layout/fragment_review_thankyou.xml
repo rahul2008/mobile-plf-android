@@ -30,7 +30,8 @@
                 <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
                     android:id="@+id/your_productreview_header"
-                    style="@style/your_product_review_thankyou_header">
+                    style="@style/your_product_review_thankyou_header"
+                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Light.otf">
 
                 </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
 
@@ -50,6 +51,7 @@
                 android:id="@+id/your_product_review_thankyou_description"
                 style="@style/your_product_review_thankyou_description"
                 android:layout_below="@+id/your_product_review_thankyou_devider"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf"
                 android:text="Thank you for taking the time to write this review! We will review it and let you knwo once it's online!" />
 
 
