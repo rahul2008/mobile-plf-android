@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@color/activity_background_color"
@@ -30,12 +31,14 @@
                 android:id="@+id/review_write_rate_name"
                 style="@style/write_product_review_Product_Header"
                 android:layout_alignTop="@id/review_write_rate_productimage"
-                android:text="Norelco Shaver 9700 Series 9000 wet and dry electric shaver" />
+                android:text="Norelco Shaver 9700 Series 9000 wet and dry electric shaver"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Bold.otf" />
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
                 android:id="@+id/review_write_rate_variant"
                 style="@style/write_product_review_Product_Variant"
-                android:text="S9721" />
+                android:text="S9721"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </RelativeLayout>
 
 
@@ -45,13 +48,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
                 android:id="@+id/review_write_rate_product_header"
                 style="@style/write_product_review_header_styles"
-                android:text="Please rate this product:">
+                android:text="Please rate this product:"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
             </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
 
@@ -60,8 +64,7 @@
                 style="?android:attr/ratingBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/actionbar_icon_padding_left"
-                android:numStars="5" />
+                android:layout_gravity="center" />
         </LinearLayout>
 
 
@@ -69,45 +72,52 @@
 
             android:id="@+id/review_write_rate_product_header"
             style="@style/write_product_review_header_styles"
-            android:text="Your review:" />
+            android:text="Your review:"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_header_summary"
             style="@style/write_product_review_edittext"
             android:layout_marginTop="10dp"
-            android:hint="Review Summary" />
+            android:hint="Review Summary"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_header_description"
             style="@style/write_product_review_edittext"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
-            android:hint="Write your review here" />
+            android:hint="Write your review here"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
             android:id="@+id/review_write_rate_product_nickname_header"
             style="@style/write_product_review_header_styles"
-            android:text="Pick a nickname:" />
+            android:text="Pick a nickname:"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_nickname_header_value"
             style="@style/write_product_review_edittext"
             android:layout_marginTop="10dp"
-            android:hint="Not your real name" />
+            android:hint="Not your real name"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <com.philips.cdp.digitalcare.customview.DigitalCareFontTextView
 
             android:id="@+id/review_write_rate_product_email_header"
             style="@style/write_product_review_header_styles"
-            android:text="Your eamil" />
+            android:text="Your eamil"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
         <EditText
             android:id="@+id/review_write_rate_product_email_header_value"
             style="@style/write_product_review_edittext"
             android:layout_marginTop="10dp"
-            android:hint="Make sure you have access" />
+            android:hint="Make sure you have access"
+            custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
 
 
         <View
@@ -130,8 +140,10 @@
 
                 android:id="@+id/review_write_rate_product_terms"
                 style="@style/write_product_review_header_styles"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1.0"
-                android:text="I have read and agree to the Terms and Conditions">
+                android:text="I have read and agree to the Terms and Conditions"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf">
 
             </com.philips.cdp.digitalcare.customview.DigitalCareFontTextView>
 
@@ -139,7 +151,9 @@
                 android:id="@+id/review_write_rate_product_terms_switch"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/title_text_size_medium"
-                android:layout_weight="3.0" />
+                android:layout_gravity="center"
+                android:layout_weight="3.0"
+                android:paddingLeft="5dp" />
         </LinearLayout>
 
 
@@ -170,7 +184,8 @@
                     android:layout_marginTop="0dp"
                     android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/cancel"
-                    android:textColor="@color/button_background" />
+                    android:textColor="@color/button_background"
+                    custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
             </RelativeLayout>
 
             <com.philips.cdp.digitalcare.customview.DigitalCareFontButton
@@ -178,7 +193,8 @@
                 style="@style/fontButton"
                 android:layout_marginLeft="@dimen/marginTopButton"
                 android:layout_weight="1"
-                android:text="Preview" />
+                android:text="Preview"
+                custom:digitalcareFontAssetName="digitalcarefonts/CentraleSans-Book.otf" />
         </LinearLayout>
 
 

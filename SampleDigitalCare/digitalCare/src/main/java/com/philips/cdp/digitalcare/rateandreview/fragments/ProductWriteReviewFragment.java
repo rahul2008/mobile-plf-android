@@ -76,7 +76,9 @@ public class ProductWriteReviewFragment extends DigitalCareBaseFragment {
 
     private void setRatingBarUI() {
         mRatingBar = (RatingBar) getActivity().findViewById(R.id.review_write_rate_product_ratingBar);
-
+        mRatingBar.setNumStars(5);
+        mRatingBar.setMax(5);
+        mRatingBar.setStepSize(0.5f);
         LayerDrawable stars = (LayerDrawable) mRatingBar
 
                 .getProgressDrawable();
