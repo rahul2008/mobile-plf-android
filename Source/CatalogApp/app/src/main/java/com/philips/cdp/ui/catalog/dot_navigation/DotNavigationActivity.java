@@ -21,10 +21,10 @@ public class DotNavigationActivity extends CatalogActivity {
 
         adaptor = new ViewPagerAdaptor(getSupportFragmentManager());
 
-        pager = (ViewPager)findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adaptor);
 
-        indicator = (CirclePageIndicator)findViewById(R.id.indicator);
+        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
     }
 
