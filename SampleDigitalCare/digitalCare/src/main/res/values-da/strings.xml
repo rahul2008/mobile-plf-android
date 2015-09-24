@@ -94,4 +94,47 @@
     <string name="gps_disabled">GPS er deaktiveret på din enhed. Vil du aktivere den?</string>
     <string name="servicecenters_not_found">Der er ingen servicecentre i dit land </string>
     <string name="no_data">Data ikke tilgængelig</string>
+
+    <!-- null   da-DK -->
+
+    <!-- null   Danish -->
+    <string name="Guidelines Screen"> null </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> Læs vores retningslinjer, inden vi går i gang: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> Vi vil gerne offentliggøre din anmeldelse, så følg disse retningslinjer: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> Din anmeldelse skal fokusere på produktet. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> Undgå at skrive om kundeservice. Kontakt os i stedet, hvis du har spørgsmål, der kræver øjeblikkelig opmærksomhed. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> Undlad at nævne konkurrenter eller den specifikke pris, du har betalt for produktet. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> Medtag ikke nogen personligt identificerbare oplysninger, f.eks. fulde navne. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> OK, jeg er med! </string>
+    <string name="WiteScreen"> null </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> Skriv en anmeldelse </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> Bedøm dette produkt: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> Din anmeldelse: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> Resumé af anmeldelse </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> Skriv din anmeldelse her </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> Vælg et kaldenavn: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> Ikke dit rigtige navn </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> Din e-mailadresse </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> Sørg for, at du har adgang </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> Jeg har læst og accepterer Vilkår og betingelser </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> Eksempelvisning </string>
+
+    <!-- null   da-DK -->
+
+    <!-- null   Danish -->
+    <string name="Preview Screen"> null </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> Din anmeldelse </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> Er alt korrekt? </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> Bedømmelse: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> Resumé af anmeldelse: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> Anmeldelse </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> Kaldenavn: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> E-mail </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> Indsend min anmeldelse </string>
+    <string name="ThankyouScreen"> null </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> Mange tak! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> Alletiders! Vi har modtaget anmeldelsen! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> Tak, fordi du tog dig tid til at skrive en anmeldelse. Vi gennemgår den og giver dig besked, når den er online! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> Tilbage til support </string>
 </resources>

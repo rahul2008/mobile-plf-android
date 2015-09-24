@@ -96,4 +96,47 @@
     <string name="gps_disabled">您裝置上的 GPS 已停用。是否要啟用？</string>
     <string name="servicecenters_not_found">您所在的國家/地區沒有服務中心 </string>
     <string name="no_data">無資料可供使用</string>
+
+    <!-- null   zh_TW -->
+
+    <!-- null   Traditional Chinese -->
+    <string name="Guidelines Screen"> null </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> 撰寫評論 </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> 開始之前，請閱讀我們的準則： </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> 我們打算刊登您的評論，因此請您務必遵循這些準則： </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> 請將評論的重點放在產品本身。 </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> 避免描寫客服相關內容，如果您需要任何立即協助，請與我們聯絡。 </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> 避免提及競爭對手或是您為產品所支付的特定價格。 </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> 切勿包含任何可辨識個人身分的資訊，例如全名。 </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> 好，知道了！ </string>
+    <string name="WiteScreen"> null </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> 撰寫評論 </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> 請為此產品評分： </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> 您的評論： </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> 評論摘要 </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> 在此處撰寫您的評論 </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> 選擇暱稱： </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> 非真名 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> 您的電子郵件 </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> 確定可存取 </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> 本人已閱讀並同意該條款與條件 </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> 預覽 </string>
+
+    <!-- null   zh_TW -->
+
+    <!-- null   Traditional Chinese -->
+    <string name="Preview Screen"> null </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> 您的評論 </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> 全部正確？ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> 評分： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> 評論摘要： </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> 評論 </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> 暱稱： </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> 電子郵件 </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> 提交我的評論 </string>
+    <string name="ThankyouScreen"> null </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> 感謝您！ </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> 很好！我們收到您的評論！ </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> 感謝您撥冗撰寫此評論。我們將會進行審查並通知您評論上線的刊登日期！ </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> 返回支援 </string>
 </resources>

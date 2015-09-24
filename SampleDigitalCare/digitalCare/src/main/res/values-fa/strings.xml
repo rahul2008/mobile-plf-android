@@ -94,4 +94,48 @@
     <string name="gps_disabled">GPS در دستگاهتان غیرفعال است. فعال شود؟</string>
     <string name="servicecenters_not_found">هیچ مرکز خدماتی در کشور شما وجود ندارد </string>
     <string name="no_data">داده‌ای وجود ندارد</string>
+
+
+    <!-- null   fa -->
+
+    <!-- null   Farsi -->
+    <string name="Guidelines Screen"> null </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> نظر خود را بنویسید </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> قبل از شروع، لطفاً دستورالعمل‌های ما را بخوانید: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> ما می‌خواهیم نظر شما را منتشر کنیم، پس لطفاً این دستورالعمل‌ها را رعایت کنید: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> خواهشمند است نظرتان فقط مربوط به محصول باشد. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> از نوشتن درباره خدمات مشتری خودداری کنید؛ در عوض اگر ضرورتی در عکس‌العمل فوری ما می‌بینید با ما تماس بگیرید. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> از ذکر اسامی شرکت‌های رقیب یا قیمت خاصی که برای محصول پرداخت کرده‌اید خودداری کنید. </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> اطلاعات شخصی مثل نام کامل خود را ارائه ندهید. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> بسیار خب، فهمیدم! </string>
+    <string name="WiteScreen"> null </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> نظر خود را بنویسید </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> لطفاً این محصول را ارزیابی کنید: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> نظر شما: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> خلاصه نظرات </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> نظر خود را اینجا بنویسید </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> یک نام مستعار انتخاب کنید: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> نام واقعی شما نباشد </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> ایمیل شما </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> از دسترسی خود مطمئن شوید </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> من شرایط و ضوابط را خوانده و می‌پذیرم </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> پیش‌نمایش </string>
+
+    <!-- null   fa -->
+
+    <!-- null   Farsi -->
+    <string name="Preview Screen"> null </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> نظر شما </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> همه چیز صحیح است؟ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> رتبه: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> خلاصه نظرات: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> نظر </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> نام مستعار: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> ایمیل </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> نظر من ارسال شود </string>
+    <string name="ThankyouScreen"> null </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> با تشکر! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> بسیار خب! ما نظر شما را دریافت کردیم! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> از این که وقت خود را برای نوشتن این نظر گذاشتید متشکریم. آن را بررسی کرده و وقتی آنلاین بود به شما اطلاع می‌دهیم! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> بازگشت به پشتیبانی </string>
 </resources>

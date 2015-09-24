@@ -96,4 +96,47 @@
     <string name="gps_disabled">إن نظام تحديد الموقع العالمي (GPS) معطّل في جهازك. هل تريد تمكينه؟</string>
     <string name="servicecenters_not_found">ما من مراكز خدمة متوفرة في بلدك </string>
     <string name="no_data">ما من بيانات متوفرة</string>
+
+    <!-- null   ar -->
+
+    <!-- null   Arabic -->
+    <string name="Guidelines Screen"> null </string>
+    <string name="bazzarvoice_productreview_guidline_actionbar_title"> كتابة رأي </string>
+    <string name="bazzarvoice_productreview_guidline_header_text"> قبل البدء، يرجى قراءة الإرشادات التي نقدّمها: </string>
+    <string name="bazzarvoice_productreview_guidline_subheader_text"> نريد أن ننشر رأيك حول المنتج، لذا يرجى اتباع هذه الإرشادات: </string>
+    <string name="bazzarvoice_productreview_guidline_firstguide"> ليكن رأيك متمحورًا حول المنتج. </string>
+    <string name="bazzarvoice_productreview_guidline_secondguide"> تجنب الكتابة عن خدمة العملاء؛ اتصل بنا بدلاً من ذلك/ في حال واجهت مشاكل تتطلب تدخلنا الفوري. </string>
+    <string name="bazzarvoice_productreview_guidline_thirdguide"> لا تأتي على ذكر العلامات التجارية المنافِسة أو السعر المحدد الذي دفعته عند شراء المنتج </string>
+    <string name="bazzarvoice_productreview_guidline_fourthguide"> لا تذكر أي معلومات تعرّف عن هويتك الشخصية، مثل الاسم الكامل. </string>
+    <string name="bazzarvoice_productreview_guidline_okbuttontext"> حسنًا! </string>
+    <string name="WiteScreen"> null </string>
+    <string name="bazzarvoice_productreview_writescreen_actionbar_title"> كتابة رأي </string>
+    <string name="bazzarvoice_productreview_writescreen_ratethisproduct_text"> يرجى تصنيف هذا المنتج: </string>
+    <string name="bazzarvoice_productreview_writescreen_yourreview_text"> رأيك: </string>
+    <string name="bazzarvoice_productreview_writescreen_Summary_hint"> ملخّص عن الرأي </string>
+    <string name="bazzarvoice_productreview_writescreen_descriptionhint"> اكتب رأيك هنا </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_text"> اختر لقبًا: </string>
+    <string name="bazzarvoice_productreview_writescreen_pickname_hint_text"> ليس اسمك الحقيقي </string>
+    <string name="bazzarvoice_productreview_writescreen_email_header_text"> بريدك الإلكتروني </string>
+    <string name="bazzarvoice_productreview_writescreen_email_hint_text"> تأكد من أنك تتمتّع بإمكانية الوصول </string>
+    <string name="bazzarvoice_productreview_writescreen_termsandconditions_text"> لقد قرأت الأحكام والشروط ووافقت عليها </string>
+    <string name="bazzarvoice_productreview_writescreen_previewButtonText"> معاينة </string>
+
+    <!-- null   ar -->
+
+    <!-- null   Arabic -->
+    <string name="Preview Screen"> null </string>
+    <string name="bazzarvoice_productreview_preview_actionbar_title"> رأيك </string>
+    <string name="bazzarvoice_productreview_preview_header_text"> هل كل المعلومات صحيحة؟ </string>
+    <string name="bazzarvoice_productreview_preview_rating_text"> تصنيف: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_text"> ملخّص عن الرأي: </string>
+    <string name="bazzarvoice_productreview_preview_review_summary_review_text"> رأي </string>
+    <string name="bazzarvoice_productreview_preview_nickname_text"> اللقب: </string>
+    <string name="bazzarvoice_productreview_preview_email_text"> البريد الإلكتروني </string>
+    <string name="bazzarvoice_productreview_preview_submitmyreview_text"> إرسال رأيي </string>
+    <string name="ThankyouScreen"> null </string>
+    <string name="bazzarvoice_productreview_thankyou_actionbar_title"> شكراً! </string>
+    <string name="bazzarvoice_productreview_thankyou_headertitle"> شكرًا! لقد تلقينا رأيك! </string>
+    <string name="bazzarvoice_productreview_thankyou_description_title"> نشكرك على تخصيص الوقت لكتابة هذا الرأي. سنراجعه ونردّ عليك فور نشره عبر الإنترنت! </string>
+    <string name="bazzarvoice_productreview_thankyou_button_text"> العودة إلى الدعم </string>
 </resources>
