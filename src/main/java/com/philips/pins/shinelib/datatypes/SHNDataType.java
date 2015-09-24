@@ -23,5 +23,8 @@ public enum SHNDataType {
     BloodPressure,
     BodyComposition,
     Weight,
-    SubjectiveDataMoonshine, ResetSourceMoonshine, FatPercentage
+    SubjectiveDataMoonshine,
+    ResetSourceMoonshine,
+    EventMoonshine,
+    FatPercentage
 }
