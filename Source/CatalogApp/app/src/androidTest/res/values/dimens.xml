@@ -1,4 +1,5 @@
 <resources>
     <!-- Text size -->
     <dimen name="theme_button_text_size">14sp</dimen>
+    <dimen name="input_field_text_size">16sp</dimen>
 </resources>
