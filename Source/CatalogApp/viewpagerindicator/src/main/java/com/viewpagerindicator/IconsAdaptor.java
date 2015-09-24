@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public abstract class IconsAdaptor extends FragmentPagerAdapter implements IconPagerAdapter {
-    protected static final String[] CONTENT = new String[] { "Page 1", "Page 2", "Page 3", "Page 4","Page 5" };
+    protected static final String[] CONTENT = new String[] { "Page 1", "Page 2", "Page 3", "Page 4"};
 
     private int mCount = CONTENT.length;
 
