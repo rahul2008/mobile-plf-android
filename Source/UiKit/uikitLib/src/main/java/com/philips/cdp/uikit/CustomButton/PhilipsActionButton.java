@@ -11,6 +11,8 @@ import android.util.AttributeSet;
 import android.widget.ImageButton;
 
 import com.philips.cdp.uikit.R;
+import com.philips.cdp.uikit.costumviews.AppCompactImageView;
+import com.wnafee.vector.compat.VectorDrawable;
 
 /**
  * (C) Koninklijke Philips N.V., 2015.
@@ -36,7 +38,9 @@ public class PhilipsActionButton extends ImageButton {
         TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.ActionButton, defStyle,
                 R.style.Philips_ActionButton);
-        setImageResource(typedArray.getResourceId(R.styleable.ActionButton_actionButtonImageDrawable, 0));
+
+        int resID = getResID(typedArray);
+        setImageDrawable(VectorDrawable.create(getResources(),resID));
         addStates(getNormalStateDrawable(typedArray, resources), getPressedStateDrawable(typedArray, resources));
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -60,6 +64,11 @@ public class PhilipsActionButton extends ImageButton {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setShadow(float value) {
         setElevation(value);
+    }
+
+    private int getResID(final TypedArray typedArray) {
+        String resPath = typedArray.getString(R.styleable.ActionButton_actionButtonImageDrawable);
+        return AppCompactImageView.getResourceID(resPath.substring(resPath.lastIndexOf("/") + 1, resPath.lastIndexOf(".")), R.drawable.class);
     }
 
     @SuppressWarnings("deprecation")
