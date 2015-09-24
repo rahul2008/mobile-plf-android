@@ -4,11 +4,6 @@ package com.philips.pins.shinelib.datatypes;
  * Created by 310188215 on 13/05/15.
  */
 public class SHNDataActivityTypeMoonshine extends SHNData {
-    @Override
-    public SHNDataType getSHNDataType() {
-        return SHNDataType.ActivityType;
-    }
-
     public enum SHNCM3ActivityType {
         SHNCM3ActivityTypeUnspecified,
         SHNCM3ActivityTypeOther,
@@ -46,5 +41,15 @@ public class SHNDataActivityTypeMoonshine extends SHNData {
 
     public SHNCM3ActivityType getCm3ActivityType() {
         return cm3ActivityType;
+    }
+
+    @Override
+    public SHNDataType getSHNDataType() {
+        return SHNDataType.ActivityType;
+    }
+
+    @Override
+    public String toString() {
+        return "ActivityType Wearable: " + getWearableActivityType().name() + " Manual: " + getManualActivityType().name() + " CM3: " + getCm3ActivityType().name();
     }
 }

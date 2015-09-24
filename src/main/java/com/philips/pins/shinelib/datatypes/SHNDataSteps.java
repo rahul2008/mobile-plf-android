@@ -19,4 +19,9 @@ public class SHNDataSteps extends SHNData {
     public SHNDataType getSHNDataType() {
         return SHNDataType.Steps;
     }
+
+    @Override
+    public String toString() {
+        return "Steps: " + getSteps();
+    }
 }

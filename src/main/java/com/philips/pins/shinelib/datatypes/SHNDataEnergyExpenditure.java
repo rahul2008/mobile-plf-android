@@ -18,4 +18,9 @@ public class SHNDataEnergyExpenditure extends SHNData {
     public SHNDataType getSHNDataType() {
         return SHNDataType.EnergyExpenditure;
     }
+
+    @Override
+    public String toString() {
+        return "Energy Expenditure: " + getEnergyExpenditure();
+    }
 }
