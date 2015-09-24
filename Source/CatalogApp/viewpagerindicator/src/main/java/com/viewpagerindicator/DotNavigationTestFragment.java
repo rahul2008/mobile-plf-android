@@ -1,4 +1,4 @@
-package com.philips.cdp.ui.catalog.dot_navigation;
+package com.viewpagerindicator;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.viewpagerindicator.DotNavigationTestFragment;
+
 class ViewPagerAdaptor extends FragmentPagerAdapter {
     protected static final String[] CONTENT = new String[] { "Page 1", "Page 2", "Page 3", "Page 4", };
 
