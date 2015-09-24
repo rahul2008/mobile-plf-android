@@ -239,11 +239,15 @@ public class MergeSocialToSocialAccountFragment extends RegistrationBaseFragment
 	}
 
 	private void showMergeSpinner() {
+		getView().findViewById(R.id.sv_root_layout).setVisibility(View.INVISIBLE);
+		getView().findViewById(R.id.ll_root_layout).setVisibility(View.VISIBLE);
 		mPbMergeSpinner.setVisibility(View.VISIBLE);
 		mBtnMerge.setEnabled(false);
 	}
 
 	private void hideMergeSpinner() {
+		getView().findViewById(R.id.sv_root_layout).setVisibility(View.VISIBLE);
+		getView().findViewById(R.id.ll_root_layout).setVisibility(View.INVISIBLE);
 		mPbMergeSpinner.setVisibility(View.INVISIBLE);
 		mBtnMerge.setEnabled(true);
 	}

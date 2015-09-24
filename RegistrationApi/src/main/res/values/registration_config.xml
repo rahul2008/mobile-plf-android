@@ -84,4 +84,7 @@
 
     <!-- User configuration end -->
 
+    <!-- Socila merge UI blocker color -->
+    <color name="reg_social_to_social_ui_blocker_bg">@android:color/white</color>
+
 </resources>

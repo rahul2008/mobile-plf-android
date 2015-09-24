@@ -1,14 +1,14 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:reglib="http://reg.lib/schema"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="@color/reg_layout_bg">
 
     <ScrollView
+        android:id="@+id/sv_root_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        android:background="@android:color/transparent">
+        android:background="@android:color/transparent" >
 
         <LinearLayout
             android:id="@+id/ll_reg_root_container"
@@ -74,8 +74,8 @@
                 android:id="@+id/rl_reg_btn_container"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="@dimen/reg_margin_bottom"
+                android:orientation="horizontal"
                 android:paddingLeft="@dimen/reg_layout_margin"
                 android:paddingRight="@dimen/reg_layout_margin">
 
@@ -123,4 +123,21 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_root_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="invisible"
+        android:background="@color/reg_social_to_social_ui_blocker_bg">
+        <ProgressBar
+            android:layout_width="@dimen/reg_btn_height"
+            android:layout_height="@dimen/reg_btn_height"
+            android:layout_gravity="center"
+
+             />
+    </LinearLayout>
+
+
+</RelativeLayout>
