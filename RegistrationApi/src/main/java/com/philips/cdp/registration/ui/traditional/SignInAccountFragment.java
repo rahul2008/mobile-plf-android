@@ -171,6 +171,8 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.btn_reg_sign_in) {
+           /* mEtEmail.setOnUpdateListener(null);
+            mEtPassword.setOnUpdateListener(null);*/
             RLog.d(RLog.ONCLICK, "SignInAccountFragment : SignIn");
             signIn();
         } else if (id == R.id.btn_reg_forgot_password) {
@@ -203,11 +205,11 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mRlSignInBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_welcome_container);
 
         mEtEmail = (XEmail) view.findViewById(R.id.rl_reg_email_field);
-        mEtEmail.setOnClickListener(this);
+        //mEtEmail.setOnClickListener(this);
         mEtEmail.setOnUpdateListener(this);
         mEtEmail.setFocusable(true);
         mEtPassword = (XPassword) view.findViewById(R.id.rl_reg_password_field);
-        mEtPassword.setOnClickListener(this);
+        //mEtPassword.setOnClickListener(this);
         mEtPassword.setOnUpdateListener(this);
         mEtPassword.isValidatePassword(false);
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
@@ -229,9 +231,6 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
     }
 
     private void signIn() {
-        if (mUser != null) {
-            showSignInSpinner();
-        }
         mEtEmail.hideValidAlertError();
         mEtPassword.hideValidAlertError();
         ((RegistrationFragment) getParentFragment()).hideKeyBoard();
@@ -239,6 +238,9 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         mEtPassword.clearFocus();
         mBtnForgot.setEnabled(false);
         mBtnResend.setEnabled(false);
+        if (mUser != null) {
+            showSignInSpinner();
+        }
         mUser.loginUsingTraditional(mEtEmail.getEmailId().toString(), mEtPassword.getPassword()
                 .toString(), this);
     }
@@ -388,6 +390,7 @@ public class SignInAccountFragment extends RegistrationBaseFragment implements O
         if (mEtEmail.isValidEmail() && mEtPassword.isValidPassword()
                 && NetworkUtility.isNetworkAvailable(mContext)
                 && RegistrationHelper.getInstance().isJanrainIntialized()) {
+
             mBtnSignInAccount.setEnabled(true);
             mRegError.hideError();
         } else {

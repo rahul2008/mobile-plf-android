@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cdp.registration.AppTagging.AppTaggingPages;
@@ -29,7 +29,6 @@ import com.philips.cdp.registration.events.NetworStateListener;
 import com.philips.cdp.registration.handlers.UpdateReceiveMarketingEmailHandler;
 import com.philips.cdp.registration.hsdp.HsdpUser;
 import com.philips.cdp.registration.hsdp.handler.LogoutHandler;
-import com.philips.cdp.registration.hsdp.handler.RefreshHandler;
 import com.philips.cdp.registration.settings.RegistrationHelper;
 import com.philips.cdp.registration.ui.customviews.XRegError;
 import com.philips.cdp.registration.ui.utils.FontLoader;
@@ -39,7 +38,7 @@ import com.philips.cdp.registration.ui.utils.RegConstants;
 import com.philips.cdp.registration.ui.utils.RegUtility;
 
 public class WelcomeFragment extends RegistrationBaseFragment implements OnClickListener,
-        UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener, LogoutHandler, RefreshHandler {
+        UpdateReceiveMarketingEmailHandler, OnCheckedChangeListener, NetworStateListener, LogoutHandler {
 
     private TextView mTvWelcome;
 
@@ -47,7 +46,7 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private CheckBox mCbTerms;
 
-    private LinearLayout mLlContinueBtnContainer;
+    private RelativeLayout mLlContinueBtnContainer;
 
     private User mUser;
 
@@ -67,7 +66,9 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     private ProgressBar mPbWelcomeCheck;
 
-  //  private ProgressBar mPbLogout;
+    private ProgressBar mPbLogout;
+
+    private ProgressBar mPbLogoutFromBegin;
 
     private DIUserProfile userProfile;
 
@@ -169,13 +170,14 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     private void init(View view) {
         consumeTouch(view);
         mTvWelcome = (TextView) view.findViewById(R.id.tv_reg_welcome);
-        mLlContinueBtnContainer = (LinearLayout) view.findViewById(R.id.ll_reg_continue_id);
+        mLlContinueBtnContainer = (RelativeLayout) view.findViewById(R.id.rl_reg_continue_id);
         mCbTerms = (CheckBox) view.findViewById(R.id.cb_reg_register_terms);
         FontLoader.getInstance().setTypeface(mCbTerms, "CentraleSans-Light.otf");
         mCbTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbTerms.getPaddingTop(), mCbTerms.getPaddingRight(), mCbTerms.getPaddingBottom());
         mRegError = (XRegError) view.findViewById(R.id.reg_error_msg);
         mPbWelcomeCheck = (ProgressBar) view.findViewById(R.id.pb_reg_welcome_spinner);
-        //mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
+        mPbLogout = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_spinner);
+        mPbLogoutFromBegin = (ProgressBar) view.findViewById(R.id.pb_reg_log_out_from_begin);
         mTvEmailDetails = (TextView) view.findViewById(R.id.tv_reg_email_details_container);
         mTvSignInEmail = (TextView) view.findViewById(R.id.tv_reg_sign_in_using);
         setViewParams(getResources().getConfiguration());
@@ -231,13 +233,17 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
         } else if (id == R.id.btn_reg_continue) {
             if (isfromBegining) {
                 RLog.d(RLog.ONCLICK, "WelcomeFragment : Continue Sign out");
-                handleLogout();
+                if (RegistrationHelper.getInstance().isHsdpFlow()) {
+                    showLogoutFromBeginSpinner();
+                    mUser.logout();
+                    mUser.logoutHsdp(this);
+                } else {
+                    mUser.logout();
+                }
             } else {
                 RLog.d(RLog.ONCLICK, " WelcomeFragment : Continue");
-                if (RegistrationHelper.getInstance().isHsdpFlow()) {
-                    HsdpUser hsdpRefresh = new HsdpUser(mContext);
-                    hsdpRefresh.hsdpRefreshToken(this);
-                }
+                RegistrationHelper.getInstance().getUserRegistrationListener()
+                        .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());
             }
         } else if (id == R.id.btn_resend_consent) {
             resendCoppaMail();
@@ -245,13 +251,19 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
     }
 
     private void handleLogout() {
-        //showLogoutSpinner();
         trackPage(AppTaggingPages.HOME);
         trackActionStatus(AppTagingConstants.SEND_DATA, AppTagingConstants.SPECIAL_EVENTS,
                 AppTagingConstants.SIGN_OUT);
-        if (RegistrationHelper.getInstance().isHsdpFlow()) {
-            mUser.logout();
-            mUser.logoutHsdp(this);
+        if (RegistrationHelper.getInstance().isHsdpFlow())  {
+            HsdpUser hsdpUser = new HsdpUser(mContext);
+            if(null!=hsdpUser.getHsdpUserRecord()){
+                showLogoutSpinner();
+                mUser.logout();
+                mUser.logoutHsdp(this);
+            }else{
+                mUser.logout();
+                getRegistrationFragment().replaceWithHomeFragment();
+            }
         } else {
             mUser.logout();
             getRegistrationFragment().replaceWithHomeFragment();
@@ -348,36 +360,42 @@ public class WelcomeFragment extends RegistrationBaseFragment implements OnClick
 
     @Override
     public void onHsdpLogoutSuccess() {
-        //hideLogoutSpinner();
-        getRegistrationFragment().replaceWithHomeFragment();
+        if (isfromBegining) {
+            hideLogoutFromBeginSpinner();
+            getRegistrationFragment().replaceWithHomeFragment();
+        }else{
+            hideLogoutSpinner();
+            getRegistrationFragment().replaceWithHomeFragment();
+        }
     }
 
     @Override
     public void onHsdpLogoutFailure(int responseCode, final String message) {
-        //hideLogoutSpinner();
-        mRegError.setError(message);
+        if (isfromBegining) {
+            hideLogoutFromBeginSpinner();
+        }else{
+            hideLogoutSpinner();
+            mRegError.setError(message);
+        }
     }
 
-    @Override
-    public void onHsdpRefreshSuccess() {
-        //hideLogoutSpinner();
-        /* RegistrationHelper.getInstance().getUserRegistrationListener()
-        .notifyonUserRegistrationCompleteEventOccurred(getRegistrationFragment().getParentActivity());*/
-    }
-
-    @Override
-    public void onHsdpRefreshFailure(int responseCode, final String message) {
-       // hideLogoutSpinner();
-        mRegError.setError(message);
-    }
-
-   /* private void showLogoutSpinner() {
+    private void showLogoutSpinner() {
         mPbLogout.setVisibility(View.VISIBLE);
-        mBtnContinue.setEnabled(false);
+        mBtnSignOut.setEnabled(false);
     }
 
     private void hideLogoutSpinner() {
         mPbLogout.setVisibility(View.GONE);
+        mBtnSignOut.setEnabled(true);
+    }
+
+    private void showLogoutFromBeginSpinner() {
+        mPbLogoutFromBegin.setVisibility(View.VISIBLE);
+        mBtnContinue.setEnabled(false);
+    }
+
+    private void hideLogoutFromBeginSpinner() {
+        mPbLogoutFromBegin.setVisibility(View.GONE);
         mBtnContinue.setEnabled(true);
-    }*/
+    }
 }

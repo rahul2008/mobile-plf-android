@@ -180,6 +180,7 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	@Override
 	public void onClick(View v) {
+
 		if (v.getId() == R.id.btn_reg_register) {
 			RLog.d(RLog.ONCLICK, "CreateAccountFragment : Register Account");
 			if(RegistrationConfiguration.getInstance().getFlow().isTermsAndConditionsAcceptanceRequired()){
@@ -216,7 +217,6 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 		mCbAcceptTerms.setPadding(RegUtility.getCheckBoxPadding(mContext), mCbAcceptTerms.getPaddingTop(), mCbAcceptTerms.getPaddingRight(), mCbAcceptTerms.getPaddingBottom());
 		mCbAcceptTerms.setOnCheckedChangeListener(this);
 
-
 		mBtnCreateAccount.setOnClickListener(this);
 		mEtName = (XUserName) view.findViewById(R.id.rl_reg_name_field);
 		mEtName.setOnUpdateListener(this);
@@ -239,13 +239,13 @@ public class CreateAccountFragment extends RegistrationBaseFragment implements O
 
 	private void register() {
 		mRegAccptTermsError.setVisibility(View.GONE);
-		showSpinner();
 		mEtName.clearFocus();
 		mEtEmail.clearFocus();
 		mEtPassword.clearFocus();
 		mEtName.hideValidAlertError();
 		mEtEmail.hideValidAlertError();
 		mEtPassword.hideValidAlertError();
+		showSpinner();
 		mUser.registerUserInfoForTraditional(mEtName.getName().toString(), mEtEmail.getEmailId()
 		        .toString(), mEtPassword.getPassword().toString(), true, mCbTerms.isChecked(), this);
 	}

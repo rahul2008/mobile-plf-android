@@ -60,6 +60,11 @@ public class DhpApiClient {
         sign(headers, apiEndpoint, queryParams, httpMethod, bodyString);
 
         URI uri = URI.create(apiBaseUrl + apiEndpoint + queryParams(queryParams));
+
+        System.out.println("Hsdp URI : "+uri.toString());
+        System.out.println("Hsdp httpMethod type : "+httpMethod);
+        System.out.println("hsdp headers headers : " + headers);
+        System.out.println("hsdp headers body : " + body);
         return sendRestRequest(httpMethod, uri, headers, bodyString);
     }
 
@@ -107,7 +112,6 @@ public class DhpApiClient {
             addRequestBody(body, urlConnection);
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
             return readStream(in);
         } finally {
             urlConnection.disconnect();

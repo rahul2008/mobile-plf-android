@@ -13,3 +13,9 @@
 RegistrationSampleApp/gen/
 adobeMobileLibrary/adobeMobileLibrary.iml
 UIRepo.iml
+/hsdp/build
+/hsdp/.idea
+/hsdp/local.properties
+/hsdp/hsdp.iml
+Jump/jump.iml
+*.iml

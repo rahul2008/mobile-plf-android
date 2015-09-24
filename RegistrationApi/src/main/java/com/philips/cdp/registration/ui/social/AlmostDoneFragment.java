@@ -358,10 +358,10 @@ public class AlmostDoneFragment extends RegistrationBaseFragment implements Even
 
     private void register() {
         if (NetworkUtility.isNetworkAvailable(mContext)) {
-            showSpinner();
             mRegAccptTermsError.setVisibility(View.GONE);
             mEtEmail.hideValidAlertError();
             User user = new User(mContext);
+            showSpinner();
             if (isEmailExist) {
                 user.registerUserInfoForSocial(mGivenName, mDisplayName, mFamilyName, mEmail, true,
                         mCbTerms.isChecked(), this, mRegistrationToken);
